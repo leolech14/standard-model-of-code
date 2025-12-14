@@ -11,33 +11,62 @@ Spectrometer is not just a linter. It is a **Particle Accelerator for your Codeb
 We currently detect **22 Fundamental Particles** of software architecture. These are the building blocks of the digital universe.
 
 ```mermaid
-mindmap
-  root((The Standard Model))
-    Domain(Domain Core)
-      Entity
-      ValueObject
-      AggregateRoot
-      DomainService
-      Policy
-      Specification
-      Factory
-    Application(Application Layer)
-      UseCase
-      Service
-      ApplicationService
-      Command
-      Query
-      EventHandler
-    Interface(Interface & Adapters)
-      Controller
-      DTO
-      Mediator
-      Observer
-    Infrastructure(Infrastructure)
-      Repository
-      RepositoryImpl
-      Projection
-      ReadModel
+graph LR
+    %% Palette: Scientific & Professional
+    classDef domain fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#01579b;
+    classDef app fill:#e0f2f1,stroke:#00695c,stroke-width:2px,color:#00695c;
+    classDef interface fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#4a148c;
+    classDef infra fill:#eceff1,stroke:#37474f,stroke-width:2px,color:#37474f;
+    classDef root fill:#263238,stroke:#000,stroke-width:4px,color:#fff;
+
+    Root((STANDARD<br/>MODEL)):::root
+
+    %% Domain Layer
+    subgraph Domain ["Domain Core (The 'Nucleus')"]
+        direction TB
+        Entity:::domain
+        ValueObject:::domain
+        AggregateRoot:::domain
+        DomainService:::domain
+        Policy:::domain
+        Specification:::domain
+        Factory:::domain
+    end
+
+    %% Application Layer
+    subgraph App ["Application (The 'Electrons')"]
+        direction TB
+        UseCase:::app
+        Service:::app
+        AppService[ApplicationService]:::app
+        Command:::app
+        Query:::app
+        EventHandler:::app
+    end
+
+    %% Interface Layer
+    subgraph Interface ["Interface (The 'Fields')"]
+        direction TB
+        Controller:::interface
+        DTO:::interface
+        Mediator:::interface
+        Observer:::interface
+    end
+
+    %% Infrastructure Layer
+    subgraph Infra ["Infrastructure (The 'Gravitons')"]
+        direction TB
+        Repository:::infra
+        RepoImpl[RepositoryImpl]:::infra
+        Projection:::infra
+        ReadModel:::infra
+    end
+
+    %% Connections
+    Root --- Domain
+    Root --- App
+    Root --- Interface
+    Root --- Infra
 ```
 
 We map these particles, measure their "Mass" (Lines of Code), "Charge" (Dependencies), and "Spin" (Complexity), and generate a 3D model of your codebase.
