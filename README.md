@@ -8,7 +8,28 @@ Spectrometer is not just a linter. It is a **Particle Accelerator for your Codeb
 
 ## 🗺️ What We Have Mapped So Far
 
-We currently detect **22 Fundamental Particles** of software architecture. These are the building blocks of the digital universe.
+We currently map the full **Standard Model of Code v13**:
+
+*   **12 Quarks**: The fundamental forces (Data, Logic, Organization, Execution).
+*   **96 Hadrons**: Stable composite particles (e.g., `Repository`, `Service`, `Controller`).
+*   **384 Sub-hadrons**: The granular atomic states, including:
+    *   **342 Possible Particles**: Valid states observed in healthy code.
+    *   **42 Impossible Particles (Antimatter)**: Theoretical constructs that violate the laws of physics (e.g., a `PureFunction` with `SideEffects`). Detection of these signals immediate collapse.
+
+### 🎛️ The 8 Dimensions of Code Physics
+
+Every particle is measured across **8 dimensions**:
+
+| # | Dimension | Values | Question |
+|---|-----------|--------|----------|
+| 1 | **WHAT** | 167 atoms | What is it made of? |
+| 2 | **Layer** | Interface, App, Core, Infra, Tests | Where in the stack? |
+| 3 | **Role** | Orchestrator, Data, Worker | What job does it do? |
+| 4 | **Boundary** | Internal, Input, I/O, Output | How does it connect? |
+| 5 | **State** | Stateful, Stateless | Does it hold memory? |
+| 6 | **Effect** | Read, Write, ReadModify, Pure | What does it touch? |
+| 7 | **Activation** | Event, Time, Direct | How is it triggered? |
+| 8 | **Lifetime** | Transient, Session, Global | How long does it live? |
 
 ```mermaid
 graph TD

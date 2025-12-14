@@ -127,6 +127,19 @@ class LearningEngine:
         self.registry = AtomRegistry()
         self.semantic_generator = SemanticIDGenerator()
         
+        # HOW/WHERE detectors (v14+)
+        try:
+            from core.boundary_detector import BoundaryDetector
+            from core.purity_detector import PurityDetector
+            self.boundary_detector = BoundaryDetector()
+            self.purity_detector = PurityDetector()
+            self.enable_how_where = True
+        except ImportError:
+            print("⚠️  HOW/WHERE detectors not available (missing tools)")
+            self.boundary_detector = None
+            self.purity_detector = None
+            self.enable_how_where = False
+        
         # Track all discoveries across repos
         self.all_discoveries: Dict[str, Dict] = {}
         
@@ -301,6 +314,58 @@ class LearningEngine:
             )
             print(f"  🦙 LLM reclassification: {llm_stats['llm_escalated']} escalated, "
                   f"{llm_stats['llm_succeeded']} improved")
+        
+        # NEW: HOW/WHERE Enrichment
+        if self.enable_how_where:
+            print(f"  🔬 Enriching with HOW/WHERE dimensions...")
+            
+            # Run detectors
+            purity_data = self.purity_detector.analyze(repo_path)
+            boundary_data = self.boundary_detector.analyze(repo_path)
+            
+            # Import enrichment helpers
+            from core.enrichment_helpers import _enrich_with_how, _enrich_with_where
+            
+            # Enrich semantic IDs
+            _enrich_with_how(self, semantic_ids, purity_data)
+            _enrich_with_where(self, semantic_ids, boundary_data)
+            
+            print(f"  ✓ Enriched {len(semantic_ids)} IDs with behavior and context data")
+        
+        # NEW: WHY Enrichment (Intent/Patterns)
+        try:
+            from core.intent_detector import IntentDetector
+            intent_detector = IntentDetector(llm_classifier=self.llm_classifier)
+            intent_data = intent_detector.analyze(semantic_ids)
+            
+            from core.enrichment_helpers import _enrich_with_why
+            _enrich_with_why(self, semantic_ids, intent_data)
+            
+            patterns = intent_data.get("patterns_detected", {})
+            smells = intent_data.get("smells_detected", {})
+            print(f"  🎯 Intent analysis: {sum(patterns.values())} patterns, {sum(smells.values())} smells detected")
+        except Exception as e:
+            print(f"  ⚠️  Intent detection failed: {e}")
+        
+        # NEW: Export to 4D Particle Registry
+        try:
+            from core.particle_registry_4d import ParticleRegistry4D
+            registry_4d = ParticleRegistry4D()
+            count = registry_4d.add_from_semantic_ids(semantic_ids)
+            
+            # Save to output directory
+            output_path = Path(repo_path) / "output" / "particle_registry_4d.json"
+            if not output_path.parent.exists():
+                output_path = Path("output") / "particle_registry_4d.json"
+            
+            registry_4d.save(str(output_path))
+            
+            stats = registry_4d.get_stats()
+            print(f"  📦 4D Registry: {count} particles exported")
+            print(f"     Patterns: {stats['by_pattern']}")
+            print(f"     Smells: {stats['by_smell']}")
+        except Exception as e:
+            print(f"  ⚠️  4D Registry export failed: {e}")
         
         return RepoAnalysis(
             name=Path(repo_path).name,

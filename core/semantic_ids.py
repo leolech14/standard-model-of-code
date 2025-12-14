@@ -101,6 +101,16 @@ class SemanticID:
     # Properties (the "genes")
     properties: Dict[str, Any] = field(default_factory=dict)
     
+    # HOW Dimension (Behavior)
+    is_pure: Optional[bool] = None
+    is_async: Optional[bool] = None
+    is_mutating: Optional[bool] = None
+    has_side_effects: Optional[bool] = None
+    
+    # WHERE Dimension (Context)
+    architectural_layer: Optional[str] = None  # domain/application/infrastructure/presentation
+    crosses_boundary: Optional[bool] = None
+    
     # Hash (for deduplication/change detection)
     content_hash: str = ""
     
