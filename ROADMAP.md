@@ -8,6 +8,8 @@
 
 | Priority | Task | Effort | Impact |
 |----------|------|--------|--------|
+| **P0** | **Atomic Coverage Escalation (LLM)** | 1 week | **100% Awareness** |
+| **P0** | **Atomic Coverage Escalation (LLM)** | Done | **✅ Implemented (Deep Scan)** |
 | **P0** | Layer-Local CONTAINS validation | 2h | Fixes 80% confusion |
 | **P0** | Two-Layer IR (Facts + Interpretation) | 4h | Trustworthy output |
 | **P1** | Scale Dimension (9th D) | 4h | Hierarchical navigation |
@@ -120,10 +122,13 @@ LLM Output (JSON) → yFiles Graph → User Interaction → Back to LLM
 | 6 | 10 Universal Subsystems | ❌ Not implemented | Phase 2 |
 | 7 | Capability Model (Verb × Object × Boundary) | ❌ Freeform | Phase 2 |
 | 8 | Scale Dimension (9th D) | ⚠️ Proposed | Phase 1 |
-| 9 | Leiden Clustering | ❌ Not implemented | **Phase 2 🔥** |
+| 9 | Leiden Clustering | ✅ **Implemented** | Phase 2 🔥 |
 | 10 | GraphRAG | ❌ Not implemented | Phase 3 |
 | 11 | **yFiles Visualization** | ❌ Not implemented | **Phase 3 🔥** |
+| 12 | **Redundancy Detector** | ✅ **Implemented** | Phase 2 |
+| 13 | **Graph Pattern Analyzer** | ✅ **Implemented** | Phase 2 |
 
 ---
 
-*Last updated: 2024-12-14*
+*Last updated: 2025-12-19*
+

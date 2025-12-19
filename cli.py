@@ -109,6 +109,41 @@ def main():
         help="Output directory for audit artifacts"
     )
 
+    # ==========================================
+    # GRAPH Command
+    # ==========================================
+    graph_parser = subparsers.add_parser(
+        "graph",
+        help="Analyze a code graph for patterns, bottlenecks, and optimization opportunities",
+        description="Run network analysis on a graph.json file produced by the analyze command."
+    )
+    graph_parser.add_argument(
+        "graph_path",
+        nargs="?",
+        help="Path to graph.json file"
+    )
+    graph_parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output path for the markdown report"
+    )
+    graph_parser.add_argument(
+        "--top", "-n",
+        type=int,
+        default=20,
+        help="Number of top results to show (default: 20)"
+    )
+    graph_parser.add_argument(
+        "--shortest-path",
+        default=None,
+        help="Find shortest path between two functions (format: 'source:target')"
+    )
+    graph_parser.add_argument(
+        "--bottlenecks",
+        action="store_true",
+        help="Show only bottleneck analysis"
+    )
+
     # Parse
     args = parser.parse_args()
     
@@ -140,6 +175,42 @@ def main():
             
         print(f"🚀 Launching Spectrometer Analysis on: {args.path or 'DEMO'}")
         run_analysis(args)
+    
+    elif args.command == "graph":
+        from core.graph_analyzer import analyze_full, generate_report, load_graph, shortest_path
+        
+        if not args.graph_path:
+            print("❌ Error: graph.json path required")
+            sys.exit(1)
+        
+        graph_path = Path(args.graph_path)
+        if not graph_path.exists():
+            print(f"❌ Error: Graph file not found: {args.graph_path}")
+            sys.exit(1)
+        
+        print(f"🔬 Analyzing graph: {args.graph_path}")
+        
+        if args.shortest_path:
+            # Handle shortest path query
+            parts = args.shortest_path.split(":")
+            if len(parts) != 2:
+                print("❌ Error: shortest-path format should be 'source:target'")
+                sys.exit(1)
+            G = load_graph(graph_path)
+            path = shortest_path(G, parts[0], parts[1])
+            if path:
+                print(f"📍 Shortest path ({len(path)} hops):")
+                for i, node in enumerate(path):
+                    name = node.split("|")[-2] if "|" in node else node[:50]
+                    print(f"   {i+1}. {name}")
+            else:
+                print("❌ No path found between those nodes")
+        else:
+            # Full analysis
+            result = analyze_full(graph_path, top_n=args.top)
+            output_path = args.output or str(graph_path.parent / "GRAPH_ANALYSIS.md")
+            generate_report(result, output_path)
+            print(f"\n✅ Report saved to: {output_path}")
     
     else:
         parser.print_help()

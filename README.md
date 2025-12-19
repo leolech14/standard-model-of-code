@@ -272,6 +272,40 @@ Prove the entire pipeline works end-to-end on your code.
 python3 cli.py audit /path/to/your/repo
 ```
 
+### 4. Graph Analysis (NEW)
+
+Analyze the generated graph for architectural insights:
+
+```bash
+# Full analysis: bottlenecks, PageRank, communities, bridges
+python3 cli.py graph output/analysis/graph.json
+
+# Find shortest path between two functions
+python3 cli.py graph output/analysis/graph.json --shortest-path "handleApi:syncItemConnectionById"
+```
+
+**What it detects:**
+| Algorithm | Purpose |
+|-----------|---------|
+| **Betweenness Centrality** | Find bottleneck functions (God Functions) |
+| **PageRank** | Rank most important/depended-upon nodes |
+| **Leiden Clustering** | Auto-discover natural subsystems |
+| **Bridge Detection** | Find critical coupling edges |
+
+### 5. Redundancy Detection (NEW)
+
+Find duplicate code and over-engineering:
+
+```bash
+python3 core/redundancy_detector.py output/analysis/graph.json --report REDUNDANCY.md
+```
+
+**Detects:**
+- **Semantic Duplicates**: Functions with similar names (e.g., `truncateString` appearing 7 times)
+- **Structural Duplicates**: Functions with identical call patterns
+- **Over-Engineering**: Pass-through wrappers, God functions with 100+ dependencies
+
+
 ---
 
 ## 🏗️ Technical Architecture
@@ -292,7 +326,22 @@ Our "Standard Model" is built on a **Hybrid Static+LLM Pipeline**:
 
 ---
 
-## 📦 Installation
+## �️ Refactoring Toolkit (Experimental)
+
+> **"From Map to Territory."**
+
+We now include an experimental **Surgical Robot** to act on the insights.
+
+*   **Location**: `tools/refactor/`
+*   **Capabilities**:
+    *   **Router Extractor**: Decompose Express `server.js` monoliths into atomic route handlers.
+    *   **Dependency Tracer**: Auto-extract shared logic into `lib/` modules.
+
+[See Refactoring Docs](tools/refactor/README.md)
+
+---
+
+## �📦 Installation
 
 ```bash
 pip install -r requirements.txt
