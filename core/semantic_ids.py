@@ -101,6 +101,9 @@ class SemanticID:
     # Properties (the "genes")
     properties: Dict[str, Any] = field(default_factory=dict)
     
+    # Provenance (The "Evidence")
+    evidence: List[str] = field(default_factory=list)
+
     # HOW Dimension (Behavior)
     is_pure: Optional[bool] = None
     is_async: Optional[bool] = None
@@ -115,46 +118,51 @@ class SemanticID:
     smell: Dict[str, float] = field(default_factory=dict)
     
     # Hash (for deduplication/change detection)
-    content_hash: str = ""
+    id_hash: str = ""
     
     def __post_init__(self):
         """Compute hash if not provided."""
-        if not self.content_hash:
-            self.content_hash = self._compute_hash()
+        if not self.id_hash:
+            self.id_hash = self._compute_hash()
     
     def _compute_hash(self) -> str:
         """Compute a short hash from core properties."""
+        # This is an IDENTITY hash, not content hash
         data = f"{self.continent.value}{self.fundamental.value}{self.module_path}{self.name}"
         return hashlib.md5(data.encode()).hexdigest()[:6]
     
+    @property
+    def stable_id(self) -> str:
+        """
+        Generate the stable, identity-only ID string.
+        (Classification | Location | Name | Hash)
+        """
+        classification = f"{self.continent.value}.{self.fundamental.value}.{self.level.value}"
+        location = f"{self.module_path}|{self.name}"
+        return f"{classification}|{location}|{self.id_hash}"
+
     def to_string(self) -> str:
         """
-        Generate the full semantic ID string.
-        
-        This is the key format that LLMs can parse and understand.
+        Generate the full annotated semantic ID string for LLMs.
+        (Classification | Location | Name | Props | Smells | Hash)
         """
-        # Classification prefix
-        classification = f"{self.continent.value}.{self.fundamental.value}.{self.level.value}"
-        
-        # Path and name
-        location = f"{self.module_path}|{self.name}"
+        base = self.stable_id.rsplit("|", 1)[0] # Strip hash temporarily
         
         # Properties (sorted for consistency)
         props = "|".join(f"{k}:{v}" for k, v in sorted(self.properties.items()))
         
         # Smells (sorted for consistency)
+        smells_str = ""
         if self.smell:
-            smells = "|".join(f"smell:{k}={v:.2f}" for k, v in sorted(self.smell.items()))
-            if props:
-                props = f"{props}|{smells}"
-            else:
-                props = smells
+            smells_str = "|".join(f"smell:{k}={v:.2f}" for k, v in sorted(self.smell.items()))
+            
+        # Combine
+        parts = [base]
+        if props: parts.append(props)
+        if smells_str: parts.append(smells_str)
+        parts.append(self.id_hash)
         
-        # Combine all parts
-        if props:
-            return f"{classification}|{location}|{props}|{self.content_hash}"
-        else:
-            return f"{classification}|{location}|{self.content_hash}"
+        return "|".join(parts)
     
     def __str__(self) -> str:
         return self.to_string()
@@ -186,9 +194,10 @@ class SemanticID:
                 # Parse smell:key=value
                 try:
                     s_content = part[6:] # key=value
-                    k, v = s_content.split("=")
+                    # Limit split to 1 to allow strictly formed keys
+                    k, v = s_content.split("=", 1)
                     smell[k] = float(v)
-                except:
+                except (ValueError, IndexError):
                     pass
             elif ":" in part:
                 k, v = part.split(":", 1)
@@ -202,7 +211,7 @@ class SemanticID:
                 else:
                     properties[k] = v
         
-        content_hash = parts[-1]
+        id_hash = parts[-1]
         
         return cls(
             continent=continent,
@@ -212,7 +221,7 @@ class SemanticID:
             name=name,
             properties=properties,
             smell=smell,
-            content_hash=content_hash,
+            id_hash=id_hash,
         )
     
     def to_llm_context(self) -> str:
@@ -387,7 +396,7 @@ class SemanticIDGenerator:
             continent = Continent.LOGIC
         
         # Build properties
-        properties = {
+        combined_properties = {
             "async": is_async,
             "io": has_io,
             "params": len(func_data.get("parameters", [])),
@@ -396,8 +405,8 @@ class SemanticIDGenerator:
             "confidence": confidence,
         }
         
-        # Remove false booleans for cleaner IDs
-        properties = {k: v for k, v in properties.items() if v}
+        # Remove false booleans/None but PRESERVE ZEROS
+        combined_properties = {k: v for k, v in combined_properties.items() if v is not None and v is not False}
         
         # Module path from file
         module_path = file_path.replace("/", ".").replace(".py", "")
@@ -408,7 +417,8 @@ class SemanticIDGenerator:
             level=level,
             module_path=module_path,
             name=name,
-            properties=properties,
+            properties=combined_properties,
+            evidence=[refined_type] if refined_type else [],
         )
     
     def from_class(self, class_data: Dict, file_path: str, refined_type: Optional[str] = None) -> SemanticID:
@@ -440,7 +450,8 @@ class SemanticIDGenerator:
              level = Level.MOLECULE
              fundamental = Fundamental.AGG
              continent = Continent.ORG
-             properties = {"config": True}
+             # properties handling moved to bottom to avoid overwrite
+
         elif refined_type == "DomainEvent":
              level = Level.MOLECULE
              fundamental = Fundamental.AGG
@@ -482,8 +493,10 @@ class SemanticIDGenerator:
             properties["repo"] = True
         if is_usecase:
             properties["use_case"] = True
-        
-        properties = {k: v for k, v in properties.items() if v}
+        if refined_type in ["Configuration", "BaseSettings"]:
+            properties["config"] = True
+
+        properties = {k: v for k, v in properties.items() if v is not None and v is not False}
         properties["confidence"] = confidence
         
         module_path = file_path.replace("/", ".").replace(".py", "")
@@ -495,6 +508,7 @@ class SemanticIDGenerator:
             module_path=module_path,
             name=name,
             properties=properties,
+            evidence=[refined_type] if refined_type else [],
         )
     
     def from_atom(self, ast_type: str, file_path: str, line: int) -> SemanticID:

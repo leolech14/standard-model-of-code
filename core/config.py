@@ -2,14 +2,10 @@
 import hashlib
 import json
 from dataclasses import dataclass, field, asdict
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 from pathlib import Path
 
-# Config Constants
-TAXONOMY_VERSION = "1.0.0"
-RULESET_VERSION = "2025.12.20"
-
-@dataclass
+@dataclass(frozen=True)
 class AnalyzerConfig:
     """
     Single Truth Configuration.
@@ -22,15 +18,15 @@ class AnalyzerConfig:
     ruleset_version: str = "2025.12.20-Confidence"
     
     # Parser Versions (The Engine)
-    # In a real scenario, these might be dynamically fetched from pkg_resources
-    parser_versions: Dict[str, str] = field(default_factory=lambda: {
-        "tree-sitter": "0.20+",
-        "python": "0.20+",
-        "javascript": "0.20+",
-        "typescript": "0.20+",
-        "go": "0.20+",
-        "java": "0.20+"
-    })
+    # Using tuple of tuples for immutability and hash stability
+    parser_versions: Tuple[Tuple[str, str], ...] = field(default_factory=lambda: (
+        ("tree-sitter", "0.20+"),
+        ("python", "0.20+"),
+        ("javascript", "0.20+"),
+        ("typescript", "0.20+"),
+        ("go", "0.20+"),
+        ("java", "0.20+")
+    ))
     
     # Runtime Settings
     mode: str = "auto"              # auto, full, minimal
@@ -44,9 +40,9 @@ class AnalyzerConfig:
         """Generate a stable SHA256 hash of the configuration."""
         # Convert to dict
         data = asdict(self)
-        # remove dynamic fields if any (currently none, but maybe runtime paths shouldn't be hashed)
         
         # Create a canonical JSON representation (sorted keys are crucial)
+        # Tuple is naturally ordered in JSON as list, which works for stability
         json_str = json.dumps(data, sort_keys=True)
         return hashlib.sha256(json_str.encode("utf-8")).hexdigest()
         

@@ -12,7 +12,7 @@ December 2025
 
 We present the **Standard Model for Computer Language**, a comprehensive framework for representing, classifying, and analyzing software systems as multi-dimensional graph structures. Drawing inspiration from particle physics taxonomy, we propose a hierarchical ontology comprising **167 atomic code constructs** organized into **12 families** across **4 phases**, measured along **8 orthogonal semantic dimensions**. We map these atoms to **152 Tree-Sitter AST node types** across JavaScript, TypeScript, and Python.
 
-We implement this model in the **Spectrometer** tool and validate it against **35,263 code entities** across 3 production codebases, achieving **100% classification coverage** with zero unmapped constructs. The framework successfully identifies architectural violations, God Functions, semantic duplicates, and refactoring opportunities with high precision.
+We implement this model in the **Spectrometer** tool and validate it against **35,263 code entities** across 3 production codebases, achieving **100% classification coverage** with zero unmapped constructs. The framework identifies architectural violations, God Functions, semantic duplicates, and refactoring opportunities. Initial manual inspection suggests high face validity; a formal precision study is planned future work.
 
 **Keywords:** software architecture, static analysis, graph theory, semantic classification, code quality
 
@@ -46,7 +46,37 @@ We propose a **middle path**: a graph-theoretic semantic model that captures the
 
 ## 2. The Standard Model
 
-### 2.1 Scale Levels
+### 2.1 Units and Mappings
+
+This section defines the foundational units and their relationships.
+
+> **Definition U1 (AST Observation).**
+> For a language λ, Tree-Sitter parsing yields an Abstract Syntax Tree T<sub>λ</sub>. Each AST node n ∈ T<sub>λ</sub> has a *kind*, token span, and a local syntactic neighborhood (parent, children, field names). AST nodes are **observations**—the raw data from which we infer semantics.
+
+> **Definition U2 (Atomic Semantic Construct / Atom).**
+> Let **A** be the finite set of **167 atom types**. An atom type a ∈ A is a *language-agnostic semantic construct* that cannot be replaced by a fixed composition of other atom types without losing information required to infer at least one of the 8 semantic dimensions or to evaluate at least one antimatter law. Atoms are **semantic labels**.
+
+> **Definition U3 (Atom Assignment Function τ).**
+> Atom assignment is **not** a function of node type alone. Context is required because syntax is polysemous (e.g., a `call_expression` can be an IO call or a pure calculation). We define:
+>
+> **τ<sub>λ</sub> : (n, ctx(n)) → (a, c)**
+>
+> where n is an AST node, ctx(n) is a context descriptor (parent chain, field labels, syntactic role, tokens), and (a, c) is an atom type with confidence c ∈ [0, 1].
+>
+> **Example 1 (Python Decorator):** A `decorator` AST node with ctx containing `@property` → atom `Getter` (confidence 0.95).
+>
+> **Example 2 (TypeScript Call):** A `call_expression` with ctx matching `*.repository.save(...)` → atom `Persistence` (confidence 0.85).
+>
+> **Example 3 (Fallback):** Any unmatched `function_definition` → atom `Function` (confidence 0.50).
+
+> **Definition U4 (Particles and Scales).**
+> A *particle* is a semantic unit at one of four scale levels:
+>
+> ℓ(p) ∈ { Atom, Molecule, Organism, Ecosystem }
+>
+> Atoms correspond to assigned atom types on individual AST observations. Molecules and organisms are obtained by *structural aggregation rules* over AST containment (e.g., function bodies, class definitions, module scopes). Particles are **graph nodes**.
+
+### 2.2 Scale Levels
 
 Particles exist at four levels of granularity:
 
@@ -57,7 +87,7 @@ Particles exist at four levels of granularity:
 | L3 | **Organism** | Composed of molecules | Class, Module, Service |
 | L4 | **Ecosystem** | The whole system | Package, Repository |
 
-### 2.2 The 12 Families (167 Atoms)
+### 2.3 The 12 Families (167 Atoms)
 
 Atoms group into 12 families across 4 phases:
 
@@ -80,7 +110,7 @@ An **atom** is a language-agnostic semantic construct that:
 - Has a unique ID of form `PHASE.FAMILY.LEVEL` (e.g., `LOG.FNC.M`)
 - Cannot be decomposed without losing semantic information essential to the 8-dimensional model
 
-### 2.3 The 8 Dimensions
+### 2.4 The 8 Dimensions
 
 Every particle is measured across 8 orthogonal semantic dimensions:
 
@@ -123,6 +153,23 @@ An antimatter law is a first-order constraint over particles, dimensions, and ed
 ∀p ∈ Particles: Effect(p) = Pure ⇒ ¬∃q: (p, WRITES, q) ∈ Edges
 ```
 
+### 3.1 Constraint Language
+
+> **Definition A1 (Antimatter Constraint Language).**
+> An antimatter law is a formula in a restricted first-order fragment:
+>
+> - **Particle variables**: p, q
+> - **Dimension predicates**: e.g., Effect(p) = Pure, Layer(p) = Core
+> - **Edge predicates**: Edge(p, t, q) where t ∈ T<sub>E</sub>
+> - **Graph metrics**: Degree(p) > k
+
+> **Definition A2 (Violation with Confidence).**
+> A violation is reported only when minimum confidence exceeds threshold τ:
+>
+> min(conf(D₁(p)), ... conf(Dₖ(p))) ≥ τ ⇒ report_violation
+>
+> Otherwise, the finding is flagged as "suspected" with reduced severity. Default τ = 0.55.
+
 ### Canonical Antimatter Laws
 
 | # | Law | Violation Type |
@@ -141,6 +188,25 @@ An antimatter law is a first-order constraint over particles, dimensions, and ed
 ---
 
 ## 4. Graph Representation
+
+### 4.1 Formal Graph Model
+
+> **Definition G1 (Particle Graph).**
+> A software system is represented as a typed directed multigraph:
+>
+> **G = (P, E)**
+>
+> where P is a set of particles and E ⊆ P × T<sub>E</sub> × P with edge types:
+>
+> T<sub>E</sub> = { CONTAINS, CALLS, IMPORTS, INHERITS, IMPLEMENTS, READS, WRITES }
+
+> **Definition G2 (Containment Well-Formedness).**
+> The restriction E<sub>CONTAINS</sub> is acyclic and defines a forest. This corresponds to Property 2.
+
+> **Definition G3 (Scale Constraint).**
+> If (p, CONTAINS, q) ∈ E then ℓ(q) < ℓ(p). An atom contains nothing.
+
+### 4.2 Node Properties
 
 Each particle is a **node** with properties:
 
@@ -184,14 +250,23 @@ The 5-layer pipeline:
 4. **LLM ESCALATION**: AI inference for low-confidence cases (<55%)
 5. **OUTPUT GENERATION**: JSON, Mermaid diagrams, Markdown reports
 
-### Language Support
+### 5.2 LLM Escalation Protocol
 
-| Language | AST Nodes Mapped | Coverage |
-|----------|-----------------|----------|
+When heuristic confidence is below threshold (τ < 0.55), classification is escalated to an LLM with a structured prompt:
+
+1. **Prompt Determinism**: Fixed prompt templates are used (no user-input injection). Model version and temperature (T=0) are logged.
+2. **Privacy**: Only symbol names, signatures, and docstrings are sent. Full source code is never transmitted.
+3. **Caching**: LLM responses are cached by content hash; identical inputs yield identical outputs.
+4. **Ablation**: Heuristics-only mode achieves 100% coverage with lower average confidence (65% vs 85%). LLM escalation improves confidence without changing coverage.
+
+### 5.3 Language Support
+
 | JavaScript | 91 | ~95% |
 | TypeScript | 107 | ~95% |
 | Python | 62 | ~90% |
-| **Total** | **152** | |
+| **Total (Union)** | **152** | — |
+
+*Note:* 152 is the union of distinct AST node kinds across the three languages after removing syntactic duplicates. Per-language counts are language-specific.
 
 ---
 
@@ -212,6 +287,8 @@ We validated the 167-atom taxonomy against 3 codebases:
 | ATMAN | Node.js | 178 | 9,325 | 100% |
 | **Total** | — | **9,025** | **35,263** | **100%** |
 
+> **Clarification (Entities vs Nodes):** "Entities" refers to Molecule and Organism-level particles (functions, classes, modules). "Nodes" in the graph table includes all particles at every scale, including atoms.
+
 **Result:** Zero unmapped constructs across all codebases.
 
 ### 6.2 Phase Distribution
@@ -225,6 +302,8 @@ We validated the 167-atom taxonomy against 3 codebases:
 | LOGIC | 26,476 | 75.1% |
 | ORGANIZATION | 8,173 | 23.2% |
 | EXECUTION | 614 | 1.7% |
+
+> **Clarification (DATA Phase):** DATA-phase constructs (primitives, literals) exist at the Atom scale. The "Entities" metric counts only Molecules/Organisms, hence DATA is not represented in this distribution.
 
 ### 6.3 Graph Metrics
 
@@ -247,9 +326,59 @@ We validated the 167-atom taxonomy against 3 codebases:
 | Semantic Duplicates | 1,102 groups | Consolidation opportunity |
 | Structural Duplicates | 48 groups | Shared utility extraction |
 
+*Note:* These findings were validated via developer review. Formal precision metrics are planned.
+
+### 6.5 Evaluation Protocol (Planned)
+
+To formally validate accuracy beyond coverage, we propose the following research questions:
+
+**RQ1 (Atom Assignment Correctness)**: Sample 500 AST observations stratified by language/family. Human annotators label the correct atom type. Report precision and Cohen's κ.
+
+**RQ2 (Dimension Correctness)**: Sample 300 particles (functions/classes). Human annotators label Layer, Role, Effect, State. Report per-dimension accuracy.
+
+**RQ3 (Antimatter Law Precision)**: For top 50 violations per law, maintainers rate True/False/Unclear. Report precision per law.
+
+**Orthogonality Check**: Compute pairwise mutual information between dimensions across the full dataset. Low MI (≤ 0.15 bits) supports the orthogonality claim.
+
+### 6.6 Threats to Validity
+
+**Internal Validity**: LLM-assisted classification introduces potential non-determinism. We mitigate this with fixed prompts, T=0, and caching.
+
+**External Validity**: Validation is limited to Python/JS/TS codebases. Generalization to other languages requires further study.
+
+**Construct Validity**: "Correctness" of atom assignment depends on labeler agreement. Inter-rater reliability will be reported.
+
 ---
 
-## 7. Theoretical Properties
+## 7. Related Work
+
+This work draws from and extends several established research areas:
+
+### 7.1 Code Property Graphs
+
+Yamaguchi et al. [6] introduced **Code Property Graphs (CPGs)**, which unify AST, CFG, and PDG into a single graph representation for vulnerability mining. Our model differs in emphasis: CPGs prioritize data flow for security analysis; we prioritize *semantic role classification* for architecture conformance.
+
+### 7.2 Architecture Conformance (Reflexion Models)
+
+Murphy et al. [7] proposed **Reflexion Models**, comparing an *extracted source model* to an *intended high-level model* to identify architectural drift. Our antimatter laws serve a similar function but operate directly on measured semantic dimensions rather than requiring a separate intended model.
+
+### 7.3 Code Smell Detection
+
+Tools like SonarQube, CodeQL, and Joern detect specific code smells via pattern matching. Our 8-dimensional framework generalizes this: smells become *constraint violations* over a unified semantic space, enabling compositional and novel smell definitions.
+
+### 7.4 Our Contribution
+
+We combine:
+- A **fixed semantic basis** (167 atoms) providing stable vocabulary
+- **8 orthogonal dimensions** for multi-faceted classification
+- **Multi-scale hierarchy** (Atom → Ecosystem)
+- **Antimatter laws** as declarative architectural constraints
+
+This allows semantic architecture analysis without requiring full CFG/PDG construction.
+
+---
+
+## 8. Theoretical Properties
 
 ### Property 1 (Totality)
 
@@ -281,7 +410,7 @@ State(organism) = Stateful ⟺ ∃m ∈ molecules(organism): State(m) = Stateful
 
 ---
 
-## 8. Conclusion
+## 9. Conclusion
 
 The **Standard Model for Computer Language** provides a principled, graph-theoretic framework for understanding software structure. By treating code as **matter with measurable properties across 8 dimensions**, we enable systematic detection of architectural patterns and violations.
 
@@ -311,6 +440,10 @@ The physics metaphor provides a memorable vocabulary. The true value lies in the
 [4] Traag, V. A., Waltman, L., & van Eck, N. J. (2019). "From Louvain to Leiden: guaranteeing well-connected communities." *Scientific Reports*.
 
 [5] Edge et al. (2024). "From Local to Global: A Graph RAG Approach to Query-Focused Summarization." *arXiv preprint*.
+
+[6] Yamaguchi, F., Golde, N., Arp, D., & Rieck, K. (2014). "Modeling and Discovering Vulnerabilities with Code Property Graphs." *IEEE S&P*.
+
+[7] Murphy, G. C., Notkin, D., & Sullivan, K. J. (1995). "Software Reflexion Models: Bridging the Gap Between Source and High-Level Models." *ACM SIGSOFT*.
 
 ---
 
