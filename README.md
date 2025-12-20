@@ -133,17 +133,18 @@ By mapping the graph, you can target optimization efforts:
 *   **High Complexity + High Churn**: Refactoring targets ("Hotspots").
 *   **God Classes**: Nodes with excessive `smell:god_class` scores (>70) should be split to reduce cognitive load.
 
-### Example: Spectrometer Self-Audit
-mapped from `output/audit/graph.json`:
+### Example: Project Atman (Financial Sync Engine)
+mapped from `output/atman_current/graph.json`:
 
 ```mermaid
 graph TD
-    CLI["cli.py: LOG.FNC"] -->|Invokes| LE["LearningEngine: EXE.HDL"]
-    LE -->|Configures| AC["AnalyzerConfig: ORG.AGG"]
-    LE -->|Uses| TS["TreeSitterUniversalEngine: EXE.HDL"]
-    LE -->|Uses| GC["GodClassDetectorLite: ORG.AGG"]
-    GC -.->|Produces| GM["GodClassMetrics: ORG.AGG"]
-    style GC stroke:#f00,stroke-width:2px,stroke-dasharray: 5 5
+    SyncWorker["runSyncInBackground: EXE.HDL"] -->|Orchestrates| FetchAccts["fetchAllAccountsForItem: LOG.FNC"]
+    FetchAccts -->|Yields| RawAcct["PluggyAccount: DATA.VAR"]
+    RawAcct -->|Transforms| Mapper["mapPluggyAccountToLocal: LOG.FNC"]
+    Mapper -->|Produces| Entity["AccountEntity: ORG.AGG"]
+    SyncWorker -->|Triggers| FetchTx["fetchAllTransactions: LOG.FNC"]
+    FetchTx -->|Uses| Entity
+    style SyncWorker stroke:#00d2ff,stroke-width:2px
 ```
 
 ---
