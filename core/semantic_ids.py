@@ -111,6 +111,9 @@ class SemanticID:
     architectural_layer: Optional[str] = None  # domain/application/infrastructure/presentation
     crosses_boundary: Optional[bool] = None
     
+    # QUALITY Dimension (Smells)
+    smell: Dict[str, float] = field(default_factory=dict)
+    
     # Hash (for deduplication/change detection)
     content_hash: str = ""
     
@@ -139,6 +142,14 @@ class SemanticID:
         # Properties (sorted for consistency)
         props = "|".join(f"{k}:{v}" for k, v in sorted(self.properties.items()))
         
+        # Smells (sorted for consistency)
+        if self.smell:
+            smells = "|".join(f"smell:{k}={v:.2f}" for k, v in sorted(self.smell.items()))
+            if props:
+                props = f"{props}|{smells}"
+            else:
+                props = smells
+        
         # Combine all parts
         if props:
             return f"{classification}|{location}|{props}|{self.content_hash}"
@@ -166,10 +177,20 @@ class SemanticID:
         module_path = parts[1]
         name = parts[2]
         
-        # Parse properties
+        # Parse properties and smells
         properties = {}
+        smell = {}
+        
         for part in parts[3:-1]:  # Skip last (hash)
-            if ":" in part:
+            if part.startswith("smell:"):
+                # Parse smell:key=value
+                try:
+                    s_content = part[6:] # key=value
+                    k, v = s_content.split("=")
+                    smell[k] = float(v)
+                except:
+                    pass
+            elif ":" in part:
                 k, v = part.split(":", 1)
                 # Try to parse value types
                 if v.lower() == "true":
@@ -190,6 +211,7 @@ class SemanticID:
             module_path=module_path,
             name=name,
             properties=properties,
+            smell=smell,
             content_hash=content_hash,
         )
     
@@ -339,20 +361,26 @@ class SemanticIDGenerator:
         is_handler = any(x in name.lower() for x in ["handle", "execute", "run", "process"])
         is_validator = name.lower().startswith("validate")
         
-        # Override with refined type
+        # Confidence Scoring
+        confidence = 50  # Base confidence for heuristic/structural guess
+        
+        # Override with refined type (High Fidelity)
         if refined_type and refined_type != "Unknown":
+            confidence = 95
             if refined_type == "Validator": is_validator = True
             if refined_type == "Command": is_handler = True
-            # For other refined types, we trust the mapping below
             
         if refined_type == "Configuration":
              level = Level.MOLECULE
-             fundamental = Fundamental.AGG # Configs are usually classes, but function configs exist
+             fundamental = Fundamental.AGG 
              continent = Continent.ORG
         elif is_handler or is_validator:
             level = Level.ORGANELLE
             fundamental = Fundamental.HANDLER
             continent = Continent.EXEC
+            # Boost confidence if name explicitly matches pattern
+            if not refined_type and (is_handler or is_validator):
+                confidence = 70
         else:
             level = Level.MOLECULE
             fundamental = Fundamental.FUNC
@@ -365,6 +393,7 @@ class SemanticIDGenerator:
             "params": len(func_data.get("parameters", [])),
             "calls": len(func_data.get("calls", [])),
             "lines": func_data.get("end_line", 0) - func_data.get("start_line", 0),
+            "confidence": confidence,
         }
         
         # Remove false booleans for cleaner IDs
@@ -396,8 +425,12 @@ class SemanticIDGenerator:
         is_usecase = "UseCase" in name or "execute" in methods
         is_value_object = not is_entity and len(instance_vars) > 0
         
-        # Override with refined type
+        # Confidence Scoring
+        confidence = 50   # Default: Structural guess
+        
+        # Override with refined type (High Fidelity)
         if refined_type and refined_type != "Unknown":
+             confidence = 95
              is_repository = refined_type in ["Repository", "RepositoryImpl"]
              is_usecase = refined_type == "UseCase"
              is_entity = refined_type == "Entity"
@@ -412,18 +445,25 @@ class SemanticIDGenerator:
              level = Level.MOLECULE
              fundamental = Fundamental.AGG
              continent = Continent.LOGIC # Events are data+logic
+        elif refined_type in ["Validator", "Command", "UseCase", "Controller", "Service", "Algorithm"]:
+             level = Level.ORGANELLE
+             fundamental = Fundamental.HANDLER
+             continent = Continent.EXEC
         elif is_repository:
             level = Level.ORGANELLE
             fundamental = Fundamental.HANDLER
             continent = Continent.EXEC
+            if not refined_type: confidence = 70
         elif is_usecase:
             level = Level.ORGANELLE
             fundamental = Fundamental.HANDLER
             continent = Continent.EXEC
+            if not refined_type: confidence = 70
         elif is_entity:
             level = Level.MOLECULE
             fundamental = Fundamental.AGG
             continent = Continent.ORG
+            if not refined_type: confidence = 60 # Field heuristic
         else:
             level = Level.MOLECULE
             fundamental = Fundamental.AGG
@@ -444,6 +484,7 @@ class SemanticIDGenerator:
             properties["use_case"] = True
         
         properties = {k: v for k, v in properties.items() if v}
+        properties["confidence"] = confidence
         
         module_path = file_path.replace("/", ".").replace(".py", "")
         
@@ -475,7 +516,7 @@ class SemanticIDGenerator:
             properties={"line": line},
         )
 
-    def from_particle(self, particle: Dict) -> SemanticID:
+    def from_particle(self, particle: Dict, smells: Dict[str, float] = None) -> SemanticID:
         """Generate semantic ID from a Universal Detector particle."""
         ptype = particle.get("type", "Unknown")
         name = particle.get("name", "")
@@ -541,6 +582,7 @@ class SemanticIDGenerator:
             module_path=module_path,
             name=name,
             properties=properties,
+            smell=smells or {},
         )
 
 

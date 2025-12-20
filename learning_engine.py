@@ -104,6 +104,8 @@ class LearningReport:
     all_discoveries: List[Dict] = field(default_factory=list)
 
 
+from core.config import AnalyzerConfig
+
 class LearningEngine:
     """
     Comprehensive code learning engine.
@@ -116,12 +118,25 @@ class LearningEngine:
     - SemanticIDGenerator (LLM-ready IDs)
     """
     
-    def __init__(self, auto_learn: bool = True, mode: str = "auto", llm_model: str = None):
-        self.mode = mode
-        self.auto_learn = auto_learn
+    def __init__(self, config: Optional[AnalyzerConfig] = None, auto_learn: bool = True, mode: str = "auto", llm_model: str = None):
+        # Backward compatibility: if config is missing, build it from args
+        if config is None:
+            self.config = AnalyzerConfig(
+                mode=mode, 
+                auto_learn=auto_learn, 
+                use_llm=(llm_model is not None),
+                llm_model=llm_model
+            )
+        else:
+            self.config = config
+            
+        self.mode = self.config.mode
+        self.auto_learn = self.config.auto_learn
         self.output_dir = "output/learning"
         self.semantic_matrix = SemanticMatrix()
         self.llm_classifier = None
+        
+        print(f"🔧 Configuration: {self.config}")
 
         # Initialize engines based on mode
         self.registry = AtomRegistry()
@@ -157,12 +172,14 @@ class LearningEngine:
             self.complete_extractor = None
         
         # Initialize LLM classifier if model specified
-        if llm_model:
+        if self.config.use_llm:
             try:
                 from core.llm_classifier import create_ollama_classifier
-                self.llm_classifier = create_ollama_classifier(model=llm_model)
+                # Use model from config
+                model_to_use = self.config.llm_model or "qwen2.5:7b-instruct"
+                self.llm_classifier = create_ollama_classifier(model=model_to_use)
                 if self.llm_classifier.llm_client.is_available():
-                    print(f"🦙 LLM classifier enabled with {llm_model}")
+                    print(f"🦙 LLM classifier enabled with {model_to_use}")
                 else:
                     print(f"⚠️  Ollama not available, LLM classification disabled")
                     self.llm_classifier = None
@@ -291,9 +308,23 @@ class LearningEngine:
         dependencies = comp_results.get("dependencies", {})
         
         # Convert to Semantic IDs
+        # Prepare God Class Smell Map
+        god_classes = comp_results.get("god_classes", [])
+        god_class_map = {} 
+        for gc in god_classes:
+            key = (gc.get('file_path'), gc.get('class_name'))
+            god_class_map[key] = gc.get('antimatter_risk_score', 0)
+
+        # Convert to Semantic IDs
         semantic_ids = []
         for p in particles:
-            sid = self.semantic_generator.from_particle(p)
+            smells = {}
+            # Check for god class smell
+            gc_score = god_class_map.get((p.get('file_path'), p.get('name')))
+            if gc_score:
+                smells['god_class'] = gc_score
+                
+            sid = self.semantic_generator.from_particle(p, smells=smells)
             semantic_ids.append(sid)
         
         # Extract edges from DependencyAnalyzer output (unified IR format)
@@ -1111,6 +1142,9 @@ class LearningEngine:
             "",
             f"**Run ID:** `{report.run_id}`",
             f"**Timestamp:** {report.timestamp}",
+            f"**Config Hash:** `{self.config.config_hash[:8]}`",
+            f"**Taxonomy:** v{self.config.taxonomy_version}",
+            f"**Ruleset:** {self.config.ruleset_version}",
             "",
             "## Metrics",
             "",
@@ -1166,7 +1200,15 @@ def run_analysis(args):
     no_learn = args.no_learn if hasattr(args, 'no_learn') else False
     mode = args.mode if hasattr(args, 'mode') else "auto"
     
-    engine = LearningEngine(auto_learn=not no_learn, mode=mode, llm_model=llm_model)
+    # Build Single Truth Config
+    config = AnalyzerConfig(
+        mode=mode, 
+        auto_learn=not no_learn, 
+        use_llm=(llm_model is not None),
+        llm_model=llm_model
+    )
+    
+    engine = LearningEngine(config=config)
     
     # Determine input source
     single_repo = args.single_repo if hasattr(args, 'single_repo') else None
