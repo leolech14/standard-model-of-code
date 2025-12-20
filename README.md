@@ -136,10 +136,10 @@ By mapping the graph, you can target optimization efforts:
 ### Example Node Map
 ```mermaid
 graph TD
-    A[Controller | EXEC.HDL] -->|Calls| B[Service | EXEC.HDL]
-    B -->|Uses| C[Repository | EXEC.HDL]
-    C -->|Persists| D[Entity | ORG.AGG]
-    style B stroke:#f00,stroke-width:2px,stroke-dasharray: 5 5 (God Class Risk)
+    A["Controller | EXEC.HDL"] -->|Calls| B["Service | EXEC.HDL"]
+    B -->|Uses| C["Repository | EXEC.HDL"]
+    C -->|Persists| D["Entity | ORG.AGG"]
+    style B stroke:#f00,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ---
