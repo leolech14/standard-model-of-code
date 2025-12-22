@@ -46,3 +46,7 @@ validation/100_repo_results/
 validation/benchmarks/repos/
 validation/benchmarks/runs/
 validation/__pycache__/
+spectrometer_output/
+proof_output.json
+*.csv
+**/spectrometer_output/

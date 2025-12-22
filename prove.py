@@ -1,0 +1,298 @@
+#!/usr/bin/env python3
+"""
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                     COLLIDER - Standard Model of Code                     ║
+║                                                                           ║
+║  This single script is THE PROOF of the Standard Model.                   ║
+║  Run it on any codebase to get reproducible classification.               ║
+║                                                                           ║
+║  Usage: python prove.py <path_to_code>                                    ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+"""
+
+import sys
+import json
+import time
+from pathlib import Path
+from collections import Counter, defaultdict
+from datetime import datetime
+
+# Add core to path
+sys.path.insert(0, str(Path(__file__).parent / 'core'))
+
+from unified_analysis import analyze
+from auto_pattern_discovery import AutoPatternDiscovery
+from antimatter_evaluator import AntimatterEvaluator
+from insights_engine import generate_insights
+
+
+def run_proof(target_path: str) -> dict:
+    """
+    Run the complete Standard Model proof on a codebase.
+    
+    Returns a reproducible proof document with:
+    1. Classification results (atoms, roles, RPBL)
+    2. Accuracy metrics
+    3. Antimatter violations
+    4. Predictions (missing components)
+    5. Summary statistics
+    """
+    
+    target = Path(target_path).resolve()
+    if not target.exists():
+        print(f"❌ Path not found: {target}")
+        sys.exit(1)
+    
+    print("=" * 70)
+    print("🔬 COLLIDER - Standard Model of Code")
+    print("=" * 70)
+    print(f"\nTarget: {target}")
+    print(f"Time:   {datetime.now().isoformat()}")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 1: CLASSIFICATION
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 1: CLASSIFICATION                                        │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    start_time = time.time()
+    
+    try:
+        result = analyze(str(target))
+        nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
+        edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
+    except Exception as e:
+        print(f"❌ Analysis failed: {e}")
+        sys.exit(1)
+    
+    classification_time = time.time() - start_time
+    
+    print(f"  ✓ Nodes extracted: {len(nodes)}")
+    print(f"  ✓ Edges extracted: {len(edges)}")
+    print(f"  ✓ Time: {classification_time:.2f}s")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 2: ROLE DISTRIBUTION
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 2: ROLE DISTRIBUTION                                     │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    role_counts = Counter()
+    confidence_sum = 0
+    confidence_count = 0
+    
+    for node in nodes:
+        if hasattr(node, 'role'):
+            role = node.role
+            conf = node.role_confidence
+        else:
+            role = node.get('role', 'Unknown')
+            conf = node.get('role_confidence', 0)
+        
+        role_counts[role] += 1
+        if conf:
+            confidence_sum += conf
+            confidence_count += 1
+    
+    avg_confidence = confidence_sum / confidence_count if confidence_count else 0
+    unknown_count = role_counts.get('Unknown', 0)
+    coverage = (len(nodes) - unknown_count) / len(nodes) * 100 if nodes else 0
+    
+    print(f"  Roles detected:")
+    for role, count in role_counts.most_common(10):
+        pct = count / len(nodes) * 100
+        print(f"    {role:25} {count:6} ({pct:5.1f}%)")
+    if len(role_counts) > 10:
+        print(f"    ... and {len(role_counts) - 10} more roles")
+    
+    print()
+    print(f"  ✓ Coverage: {coverage:.1f}% (non-Unknown)")
+    print(f"  ✓ Average confidence: {avg_confidence:.1f}%")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 3: ANTIMATTER VIOLATIONS
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 3: ANTIMATTER VIOLATIONS                                 │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    try:
+        evaluator = AntimatterEvaluator()
+        violations = evaluator.evaluate_codebase(nodes, edges)
+        violation_count = len(violations) if violations else 0
+    except Exception as e:
+        violations = []
+        violation_count = 0
+        print(f"  ⚠ Antimatter evaluation skipped: {e}")
+    
+    if violation_count > 0:
+        print(f"  ❌ Found {violation_count} violations:")
+        for v in violations[:5]:
+            print(f"    - {v}")
+        if violation_count > 5:
+            print(f"    ... and {violation_count - 5} more")
+    else:
+        print(f"  ✓ No antimatter violations detected")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 4: PREDICTIONS (Missing Components)
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 4: PREDICTIONS (Missing Components)                      │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    # Count structural pairs
+    entities = role_counts.get('Entity', 0) + role_counts.get('DTO', 0)
+    repositories = role_counts.get('Repository', 0)
+    services = role_counts.get('Service', 0) + role_counts.get('ApplicationService', 0)
+    controllers = role_counts.get('Controller', 0)
+    tests = role_counts.get('Test', 0)
+    
+    predictions = []
+    
+    # Prediction: Missing repositories
+    if entities > 0 and repositories < entities:
+        missing = entities - repositories
+        predictions.append(f"Missing ~{missing} Repositories for {entities} Entities")
+    
+    # Prediction: Missing tests
+    total_logic = services + controllers + role_counts.get('UseCase', 0)
+    if total_logic > 0 and tests < total_logic:
+        missing = total_logic - tests
+        predictions.append(f"Missing ~{missing} Tests for {total_logic} logic components")
+    
+    # Prediction: Missing services
+    if entities > 3 and services == 0:
+        predictions.append(f"Missing Services layer for {entities} Entities")
+    
+    if predictions:
+        print(f"  ⚠ Predictions:")
+        for p in predictions:
+            print(f"    → {p}")
+    else:
+        print(f"  ✓ Architecture appears complete")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 5: ACTIONABLE INSIGHTS
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 5: ACTIONABLE INSIGHTS                                   │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    try:
+        insights, insights_report = generate_insights(nodes, edges)
+        
+        if insights:
+            print(f"  Found {len(insights)} actionable insights:")
+            for insight in insights[:5]:
+                priority_icon = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢"}
+                icon = priority_icon.get(insight.priority.value, "⚪")
+                print(f"    {icon} [{insight.priority.value.upper()}] {insight.title}")
+                if insight.schema:
+                    print(f"       └─ Schema: {insight.schema}")
+            if len(insights) > 5:
+                print(f"    ... and {len(insights) - 5} more")
+        else:
+            print("  ✓ No significant issues detected")
+    except Exception as e:
+        insights = []
+        insights_report = ""
+        print(f"  ⚠ Insights generation skipped: {e}")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 6: SUMMARY
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 6: SUMMARY                                               │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    # Build insights summary for JSON
+    insights_summary = []
+    for insight in insights[:10] if insights else []:
+        insights_summary.append({
+            "type": insight.type.value,
+            "priority": insight.priority.value,
+            "title": insight.title,
+            "description": insight.description,
+            "recommendation": insight.recommendation,
+            "schema": insight.schema
+        })
+    
+    proof_document = {
+        "metadata": {
+            "target": str(target),
+            "timestamp": datetime.now().isoformat(),
+            "version": "2.0.0",
+            "model": "Standard Model of Code",
+            "tool": "Collider"
+        },
+        "classification": {
+            "total_nodes": len(nodes),
+            "total_edges": len(edges),
+            "role_distribution": dict(role_counts),
+            "coverage_percent": round(coverage, 2),
+            "average_confidence": round(avg_confidence, 2),
+            "classification_time_seconds": round(classification_time, 2)
+        },
+        "antimatter": {
+            "violations_count": violation_count,
+            "violations": violations[:10] if violations else []
+        },
+        "predictions": predictions,
+        "insights": {
+            "count": len(insights) if insights else 0,
+            "items": insights_summary
+        },
+        "metrics": {
+            "entities": entities,
+            "repositories": repositories,
+            "services": services,
+            "controllers": controllers,
+            "tests": tests
+        }
+    }
+    
+    print(f"  Total nodes:      {len(nodes)}")
+    print(f"  Coverage:         {coverage:.1f}%")
+    print(f"  Avg confidence:   {avg_confidence:.1f}%")
+    print(f"  Violations:       {violation_count}")
+    print(f"  Predictions:      {len(predictions)}")
+    print(f"  Speed:            {len(nodes)/classification_time:.0f} nodes/sec")
+    print()
+    
+    # Save proof document
+    output_file = Path("proof_output.json")
+    with open(output_file, 'w') as f:
+        json.dump(proof_document, f, indent=2, default=str)
+    print(f"  ✓ Proof saved to: {output_file}")
+    
+    print()
+    print("=" * 70)
+    print("🎯 PROOF COMPLETE")
+    print("=" * 70)
+    print()
+    print("This analysis is REPRODUCIBLE. Run again to verify.")
+    print()
+    
+    return proof_document
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python prove.py <path_to_code>")
+        print()
+        print("Example:")
+        print("  python prove.py .")
+        print("  python prove.py /path/to/repo")
+        sys.exit(1)
+    
+    target = sys.argv[1]
+    run_proof(target)

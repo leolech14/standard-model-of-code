@@ -1,6 +1,6 @@
 # 🛡️ PROTECTED COMPONENTS
 
-The following components constitute the **Core Spectrometer System**.
+The following components constitute the **Core Collider System**.
 These files are protected from "Legacy Sprawl" and overengineering.
 
 ## 🧠 The Engine (Primary Pipeline)

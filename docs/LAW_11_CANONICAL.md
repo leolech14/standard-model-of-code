@@ -1,6 +1,6 @@
 # 11 Fundamental Constraints (Canonical v1)
 
-These are the eleven ontological constraints currently used by Spectrometer to derive a “hard impossible” subset (legacy target: 42).
+These are the eleven ontological constraints currently used by Collider to derive a “hard impossible” subset (legacy target: 42).
 
 Important:
 - This is a **v1 constraint set**. The project is expected to grow beyond 11 as we separate **hard impossibilities** from **soft smells** and add architecture-mode-specific constraints (CQRS/DDD/etc.).

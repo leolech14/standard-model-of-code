@@ -12,7 +12,7 @@ December 2025
 
 We present the **Standard Model of Code**, a comprehensive framework for representing, classifying, and analyzing software systems as multi-dimensional graph structures. Drawing inspiration from particle physics taxonomy, we propose a hierarchical ontology comprising **167 atomic code constructs** organized into **12 families** across **4 phases**, measured along **8 orthogonal semantic dimensions**. We map these atoms to **152 Tree-Sitter AST node types** across JavaScript, TypeScript, and Python.
 
-We implement this model in the **Spectrometer** tool and validate it against **35,263 code entities** across 3 production codebases, achieving **100% classification coverage** with zero unmapped constructs. The framework identifies architectural violations, God Functions, semantic duplicates, and refactoring opportunities. Initial manual inspection suggests high face validity; a formal precision study is planned future work.
+We implement this model in the **Collider** tool and validate it against **35,263 code entities** across 3 production codebases, achieving **100% classification coverage** with zero unmapped constructs. The framework identifies architectural violations, God Functions, semantic duplicates, and refactoring opportunities. Initial manual inspection suggests high face validity; a formal precision study is planned future work.
 
 **Keywords:** software architecture, static analysis, graph theory, semantic classification, code quality
 
@@ -40,7 +40,7 @@ We propose a **middle path**: a graph-theoretic semantic model that captures the
 3. A **4-level scale hierarchy** (Atom, Molecule, Organism, Ecosystem)
 4. **152 Tree-Sitter AST node mappings** for language-agnostic extraction
 5. **Empirical validation** on 35,263 code entities with 100% coverage
-6. The **Spectrometer** implementation demonstrating practical application
+6. The **Collider** implementation demonstrating practical application
 
 ---
 
@@ -242,7 +242,7 @@ Node: {
 
 ---
 
-## 5. Implementation: Spectrometer
+## 5. Implementation: Collider
 
 The 5-layer pipeline:
 
@@ -285,7 +285,7 @@ We validated the 167-atom taxonomy against 3 codebases:
 | Codebase | Language | Files | Entities | Coverage |
 |----------|----------|------:|--------:|----------|
 | Poetry | Python | 436 | 1,284 | 100% |
-| Spectrometer | Python+JS | 8,411 | 24,654 | 100% |
+| Collider | Python+JS | 8,411 | 24,654 | 100% |
 | ATMAN | Node.js | 178 | 9,325 | 100% |
 | **Total** | — | **9,025** | **35,263** | **100%** |
 
@@ -316,7 +316,7 @@ We validated the 167-atom taxonomy against 3 codebases:
 | Codebase | Nodes | Edges | E/N Ratio |
 |----------|------:|------:|----------:|
 | Poetry | 3,441 | 7,860 | 2.28 |
-| Spectrometer | 49,471 | 79,494 | 1.61 |
+| Collider | 49,471 | 79,494 | 1.61 |
 | ATMAN | 18,655 | 29,689 | 1.59 |
 
 ### 6.4 Key Findings (ATMAN Case Study)
@@ -459,7 +459,7 @@ The complete 167-atom taxonomy is available at:
 
 **Code & Data Availability**
 
-Spectrometer is open source:  
+Collider is open source:  
 `https://github.com/leolech14/standard-model-of-code`
 
 ---

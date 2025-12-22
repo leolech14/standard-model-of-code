@@ -1,199 +1,249 @@
-# ⚛️ Standard Model of Code
+# The Standard Model of Code
 
-**The Periodic Table of Software Architecture**
+> **Every code element has a PURPOSE. Purposes EMERGE hierarchically. This is the physics of software.**
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
-![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)
-![Particles](https://img.shields.io/badge/particles-33-purple)
+## The Insight
 
-Transform any codebase into a **computable graph** with **lossless bidirectional transformation**. 
-Code → Graph → Code. Zero information loss.
+Just as physics has the Standard Model (quarks, leptons, bosons), software has fundamental constituents:
 
----
+| Physics           |  Code                                           |
+|-------------------|-------------------------------------------------|
+| 118 Elements.     | **167 Atoms** (structural types)                |
+| Atomic properties | **RPBL Scores** (behavioral dimensions)         |
+| Chemical bonds    | **Relationships** (calls, imports, inherits)    |
+| Molecular purpose | **Roles** (27 semantic intents)                 |
+| Conservation laws | **Antimatter Rules** (architectural constraints)|
 
-## 🎯 Single Entry Point
-
-```python
-from core.unified_analysis import analyze
-
-# Analyze any codebase
-result = analyze("/path/to/repo")
-
-# Output: unified_analysis.json with consistent schema
-print(f"Nodes: {result.stats['total_nodes']}")
-print(f"Coverage: {result.stats['coverage_percentage']}%")
-```
-
----
-
-## ⚛️ The 33 Particles
-
-Every code element maps to one of 33 fundamental types:
+## The Claim
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║                    STANDARD MODEL OF CODE                        ║
-╠══════════════════════════════════════════════════════════════════╣
-║                                                                  ║
-║  BEHAVIOR (How things act)                                       ║
-║  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┐                    ║
-║  │ CMD │ QRY │ UCE │ EVH │ OBS │ EVP │ POL │                    ║
-║  │Cmnd │Query│UseCs│EvHnd│Obsrv│EvPrc│Polcy│                    ║
-║  └─────┴─────┴─────┴─────┴─────┴─────┴─────┘                    ║
-║                                                                  ║
-║  STRUCTURE (How things are organized)                            ║
-║  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐              ║
-║  │ SVC │ DSV │ ASV │ CTL │ FAC │ BLD │ PRV │ UTL │              ║
-║  │Servc│DomSv│AppSv│Cntrl│Factry│Buildr│Provd│Util│              ║
-║  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘              ║
-║                                                                  ║
-║  DATA (What things hold)                                         ║
-║  ┌─────┬─────┬─────┬─────┐                                      ║
-║  │ ENT │ VO  │ DTO │ CFG │                                      ║
-║  │Entty│ValObj│DTO │Confg│                                      ║
-║  └─────┴─────┴─────┴─────┘                                      ║
-║                                                                  ║
-║  INTEGRATION (How things connect)                                ║
-║  ┌─────┬─────┬─────┬─────┬─────┬─────┐                          ║
-║  │ REP │ GWY │ CLI │ ADP │ ISV │ MAP │                          ║
-║  │Repo │Gatwy│Clint│Adptr│IntSv│Mappr│                          ║
-║  └─────┴─────┴─────┴─────┴─────┴─────┘                          ║
-║                                                                  ║
-║  QUALITY (What ensures correctness)                              ║
-║  ┌─────┬─────┬─────┬─────┬─────┐                                ║
-║  │ SPC │ VAL │ TST │ SUT │ EXC │                                ║
-║  │Spec │Valid│Test │SubUT│Excpt│                                ║
-║  └─────┴─────┴─────┴─────┴─────┘                                ║
-║                                                                  ║
-║  LIFECYCLE                                                       ║
-║  ┌─────┬─────┬─────┐                                            ║
-║  │ LFC │ ITR │ INT │                                            ║
-║  │Lifecy│Itertr│Intrnl│                                            ║
-║  └─────┴─────┴─────┘                                            ║
-╚══════════════════════════════════════════════════════════════════╝
+Any code element in any codebase can be mapped to a semantic coordinate:
+
+    σ(element) = (atom, role, RPBL)
+
+Where:
+    atom ∈ {167 structural types}
+    role ∈ {27 semantic intents}  
+    RPBL ∈ [1,10]⁴ (Responsibility, Purity, Boundary, Lifecycle)
 ```
 
-See [`STANDARD_MODEL_SCHEMA.json`](STANDARD_MODEL_SCHEMA.json) for complete schema.
+**Empirically validated:**
+- 212,052 nodes across 33 repositories
+- 100% classification coverage
+- 87.6% accuracy (94.7% on high-confidence)
+- 1,860 nodes/second (no LLM required)
 
----
+## Purpose Field Theory
 
-## 🔬 The 6-Stage Pipeline
+Code has a **Purpose Field** - meaning that emerges hierarchically:
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│  📂 Stage 1: AST PARSE                                           │
-│     → Extract particles with body_source, params, decorators     │
-├──────────────────────────────────────────────────────────────────┤
-│  🏷️  Stage 2: RPBL CLASSIFICATION                                │
-│     → Assign roles based on inheritance, decorators, paths       │
-├──────────────────────────────────────────────────────────────────┤
-│  🔍 Stage 3: AUTO PATTERN DISCOVERY                              │
-│     → test_* → Test, get_* → Query, _private → Internal         │
-├──────────────────────────────────────────────────────────────────┤
-│  🔗 Stage 4: EDGE EXTRACTION                                     │
-│     → imports, calls, contains, inherits                         │
-├──────────────────────────────────────────────────────────────────┤
-│  🧠 Stage 5: GRAPH INFERENCE                                     │
-│     → "calls Repository" → Service (deterministic, no LLM)       │
-│     → Parent inheritance: nested functions get parent's role     │
-├──────────────────────────────────────────────────────────────────┤
-│  📊 Stage 6: UNIFIED OUTPUT                                      │
-│     → Consistent schema for ALL codebases                        │
-└──────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│  Level 4: PURPOSE FIELD (Application)                           │
+│  The global semantic gradient across the entire codebase        │
+├─────────────────────────────────────────────────────────────────┤
+│  Level 3: LAYER PURPOSE (Architecture)                          │
+│  Presentation → Application → Domain → Infrastructure           │
+├─────────────────────────────────────────────────────────────────┤
+│  Level 2: COMPOSITE PURPOSE (Emergence)                         │
+│  UserRepository = {Query + Command} → "User persistence"        │
+├─────────────────────────────────────────────────────────────────┤
+│  Level 1: ATOMIC PURPOSE (Role)                                 │
+│  get_user() → Query: "Retrieve data without modification"       │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
----
-
-## 📊 Output Schema
-
-Every analysis produces a consistent `unified_analysis.json`:
-
-```json
-{
-  "schema_version": "1.0.0",
-  "nodes": [...],           // All code particles
-  "edges": [...],           // Relationships
-  "stats": {
-    "total_nodes": 1616,
-    "total_edges": 4273,
-    "coverage_percentage": 94.9
-  },
-  "classification": {
-    "by_role": {"Test": 464, "Service": 23, ...},
-    "by_kind": {"function": 1009, "class": 160, ...}
-  },
-  "auto_discovery": {...},
-  "architecture": {...},     // "not_applied" if skipped
-  "dependencies": {...},
-  "antimatter": {...}
-}
-```
-
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/leolech14/standard-model-of-code.git
-cd standard-model-of-code
+# Analyze any codebase
+python prove.py /path/to/code
 
-# Install
-pip install -r requirements.txt
-
-# Analyze any repo
-python3 core/unified_analysis.py /path/to/repo
-
-# Or via CLI
-python3 cli.py analyze /path/to/repo
+# Output (6 stages):
+# 1. Classification (atoms, roles, RPBL)
+# 2. Role Distribution (semantic breakdown)
+# 3. Antimatter Violations (impossible states)
+# 4. Predictions (missing components)
+# 5. Actionable Insights (prioritized recommendations)
+# 6. Summary (reproducible proof document)
 ```
 
----
-
-## 📈 Coverage Results
-
-| Repository | Particles | Coverage |
-|------------|----------:|:--------:|
-| Pydantic   | 14,539    | **95.2%** |
-| Flask      | 1,616     | **94.9%** |
-| Pytest     | 6,622     | **92.7%** |
-| Requests   | 755       | **87.3%** |
-| Click      | 1,552     | **84.2%** |
-
----
-
-## 🗂️ Project Structure
+### Example Output
 
 ```
-core/
-├── unified_analysis.py       # 🎯 Single entry point
-├── tree_sitter_engine.py     # AST parsing with lossless capture
-├── auto_pattern_discovery.py # Deterministic pattern matching
-├── graph_type_inference.py   # Graph-based role inference
-└── stats_generator.py        # Coverage & metrics
+🔬 COLLIDER - Standard Model of Code
+======================================================================
+Target: /path/to/code
+Time:   2025-12-22T20:44:34
 
-patterns/
-├── particle_defs.json        # 33 particle definitions
-└── canonical_types.json      # Type mappings
+┌─────────────────────────────────────────────────────────────────┐
+│ STAGE 5: ACTIONABLE INSIGHTS                                   │
+└─────────────────────────────────────────────────────────────────┘
+  Found 4 actionable insights:
+    🟠 [HIGH] Low Test Coverage
+       └─ Schema: TEST_COVERAGE
+    🟠 [HIGH] God Class Detected
+       └─ Schema: GOD_CLASS_DECOMPOSITION
+    🟡 [MEDIUM] Missing Repository Pattern
+       └─ Schema: REPOSITORY_PATTERN
+    🟢 [LOW] Pure Function Optimization
+       └─ Schema: PURE_FUNCTION_EXTRACTION
 
-STANDARD_MODEL_SCHEMA.json    # ⚛️ The Periodic Table
+┌─────────────────────────────────────────────────────────────────┐
+│ STAGE 6: SUMMARY                                               │
+└─────────────────────────────────────────────────────────────────┘
+  Total nodes:      535
+  Coverage:         100.0%
+  Avg confidence:   70.0%
+  Speed:            1,609 nodes/sec
+
+  ✓ Proof saved to: proof_output.json
 ```
 
----
+## What The Collider Detects
 
-## 🧬 Philosophy
+### 1. Atomic Purpose (27 Roles)
 
-> **"Purpose emerges from structure"**
+| Role | Purpose |
+|------|---------|
+| `Query` | Retrieve data without modification |
+| `Command` | Execute action that changes state |
+| `Repository` | Abstract data persistence |
+| `Service` | Coordinate business operations |
+| `Factory` | Create and configure instances |
+| `Validator` | Verify data meets constraints |
+| `Test` | Verify behavior meets expectations |
+| ... | [27 total - see docs/PURPOSE_FIELD.md] |
 
-We don't need LLMs to classify code. By analyzing:
-- **What a function calls** → infer its role
-- **Who calls the function** → infer its purpose
-- **Its naming patterns** → confirm the classification
+### 2. Structural Type (167 Atoms)
 
-The architecture reveals itself through graph analysis.
+Organized in 4 phases:
+- **DATA** (26): Entity, ValueObject, DTO, Enum...
+- **LOGIC** (61): Query, Command, Filter, Validate...
+- **ORGANIZATION** (45): Repository, Service, Factory, Controller...
+- **EXECUTION** (35): Constructor, Middleware, Event, Transaction...
 
----
+### 3. Behavioral Dimensions (RPBL)
+
+| Dimension | Question | Scale |
+|-----------|----------|-------|
+| **R**esponsibility | How focused is it? | 1 (god class) → 10 (single purpose) |
+| **P**urity | Does it have side effects? | 1 (impure) → 10 (pure function) |
+| **B**oundary | Does it cross system boundaries? | 1 (internal) → 10 (external I/O) |
+| **L**ifecycle | How long does it live? | 1 (request) → 10 (application) |
+
+### 4. Violations (Antimatter)
+
+The Standard Model defines what code **CANNOT** do:
+
+```
+❌ Repository → Controller   (infrastructure calling presentation)
+❌ Query with side effects   (role violation)
+❌ Service with no tests     (coverage violation)
+❌ Entity without Repository (persistence gap)
+```
+
+### 5. Predictions
+
+Detect **MISSING** components:
+
+```
+Entities found:    User, Order, Product, Payment
+Repositories:      UserRepository, OrderRepository
+
+PREDICTION: ProductRepository and PaymentRepository are MISSING
+```
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     STANDARD MODEL (Theory)                     │
+│              167 Atoms + 27 Roles + RPBL + Rules                │
+└─────────────────────────────────────────────────────────────────┘
+                              ▲
+                              │
+┌─────────────────────────────────────────────────────────────────┐
+│                      COLLIDER (Implementation)                  │
+│                                                                 │
+│   ┌─────────────────────────────────────────────────────────┐   │
+│   │ PIPELINE: prove.py                                      │   │
+│   │                                                         │   │
+│   │ 1. AST Parse      → Extract code structure              │   │
+│   │ 2. RPBL Score     → Classify behavior                   │   │
+│   │ 3. Pattern Match  → Detect roles                        │   │
+│   │ 4. Predictions    → Find missing components             │   │
+│   │ 5. Insights       → Generate recommendations            │   │
+│   │ 6. Fix Templates  → Produce solution code               │   │
+│   └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+│   CORE MODULES:                                                 │
+│   core/unified_analysis.py      - Main analysis pipeline        │
+│   core/auto_pattern_discovery.py - Role detection               │
+│   core/purpose_field.py         - Hierarchical emergence        │
+│   core/purpose_registry.py      - Purpose definitions           │
+│   core/insights_engine.py       - Actionable recommendations    │
+│   core/fix_generator.py         - Code template generator       │
+│   core/antimatter_evaluator.py  - Violation detection           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Optimization Schemas (13)
+
+When the Collider detects issues, it recommends **optimization schemas** - proven patterns to fix them:
+
+| Schema | When to Apply |
+|--------|---------------|
+| `REPOSITORY_PATTERN` | Entities without repositories |
+| `SERVICE_EXTRACTION` | Controllers with embedded logic |
+| `TEST_COVERAGE` | Low test-to-logic ratio |
+| `CQRS_SEPARATION` | Mixed read/write operations |
+| `LAYER_ENFORCEMENT` | Cross-layer violations |
+| `GOD_CLASS_DECOMPOSITION` | Classes with 20+ methods |
+| `PURE_FUNCTION_EXTRACTION` | Functions mixing pure/impure |
+| `EVENT_SOURCING` | Audit requirements |
+| `SAGA_PATTERN` | Distributed transactions |
+| `FACTORY_METHOD` | Scattered object creation |
+| `STRATEGY_PATTERN` | Switch/if-else chains |
+| `DEPENDENCY_INJECTION` | Hard-coded dependencies |
+| `ERROR_HANDLING` | Inconsistent exception handling |
+
+Each schema includes step-by-step instructions and code templates.
+
+## The Remarkable Claim
+
+> **Software has LAWS, like physics.**
+>
+> The Standard Model defines those laws.
+> Violations are not "code smells" - they are IMPOSSIBLE states.
+> Purpose flows through architecture like energy through a system.
+>
+> **This makes software engineering a SCIENCE, not an ART.**
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [FORMAL_PROOF.md](docs/FORMAL_PROOF.md) | Mathematical proof of completeness |
+| [PURPOSE_FIELD.md](docs/PURPOSE_FIELD.md) | Purpose emergence theory |
+| [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md) | Complete 167-atom taxonomy |
+| [DIMENSIONS.md](docs/DIMENSIONS.md) | RPBL behavioral dimensions |
+
+## Validation
+
+| Metric | Value |
+|--------|-------|
+| Repositories tested | 33 |
+| Nodes classified | 212,052 |
+| Coverage | 100% |
+| Overall accuracy | 87.6% |
+| High-confidence accuracy | 94.7% |
+| Speed | 1,860 nodes/sec |
 
 ## License
 
 MIT
+
+---
+
+*"The periodic table of code. Every element has a purpose. Every purpose has a place."*
