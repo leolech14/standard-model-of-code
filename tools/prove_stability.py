@@ -16,6 +16,7 @@ Hypthesis:
 import sys
 import os
 import hashlib
+from pathlib import Path
 from dataclasses import replace
 
 # Add project root to path
@@ -133,14 +134,16 @@ We ran a managed simulation mutating the configuration and analysis logic to ver
 The architecture successfully supports non-breaking evolution. We can upgrade the ruleset, change confidence scoring, and add dimension smells without breaking historical tracking keys.
 """
 
-    with open("PROOF_OF_STABILITY.md", "w") as f:
+    output_path = Path(__file__).resolve().parents[1] / "docs" / "PROOF_OF_STABILITY.md"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w") as f:
         f.write(report_content)
     
     if failures:
         print("\n".join(failures))
         sys.exit(1)
         
-    print("\n  🎉 Proof Generated: PROOF_OF_STABILITY.md")
+    print(f"\n  🎉 Proof Generated: {output_path}")
 
 if __name__ == "__main__":
     run_experiment()

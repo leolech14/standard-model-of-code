@@ -2,7 +2,7 @@
   "name": "dddpy_real_onion_v1",
   "description": "Python DDD + Onion Architecture (domain/usecase/infrastructure/presentation) - used as ground-truth benchmark.",
   "language": "python",
-  "repo_path": "spectrometer_v12_minimal/validation/dddpy_real",
+  "repo_path": "validation/dddpy_real",
   "scored_types": ["Entity", "ValueObject", "Repository", "RepositoryImpl", "UseCase", "Controller", "DTO"],
   "ignore_path_globs": ["**/tests/**", "**/__init__.py", "**/.venv/**", "**/.git/**"],
   "rules": [

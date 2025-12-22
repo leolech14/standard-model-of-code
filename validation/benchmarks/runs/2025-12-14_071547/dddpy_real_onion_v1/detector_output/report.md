@@ -1,7 +1,7 @@
 # Spectrometer Report — dddpy_real
 
 - Generated: 2025-12-14T07:15:47
-- Repo root: `/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/dddpy_real`
+- Repo root: `/Users/lech/PROJECTS_all/PROJECT_elements/validation/dddpy_real`
 
 ## Summary
 - Files analyzed: 65

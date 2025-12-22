@@ -38,8 +38,8 @@ ENV/
 
 # Spectrometer Output
 output/
-# We keep extras/ in the repo as it contains legacy scripts, unless user wants them excluded
-# extras/
+# We keep scripts/legacy/ in the repo as it contains legacy scripts, unless user wants them excluded
+# scripts/legacy/
 
 # Validation Artifacts
 validation/100_repo_results/

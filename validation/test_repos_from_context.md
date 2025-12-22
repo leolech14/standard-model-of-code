@@ -59,14 +59,14 @@ It is meant to help reconstruct which external repositories were considered/test
 - `004-grok-leo-lbldomain-1.md:3379` https://github.com/apache/hadoop.
 
 ## astral-sh/ruff
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:520` https://github.com/astral-sh/ruff
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:528` https://github.com/astral-sh/ruff
+- `validation/dddpy_real/README.ja_JP.md:520` https://github.com/astral-sh/ruff
+- `validation/dddpy_real/README.md:528` https://github.com/astral-sh/ruff
 
 ## astral-sh/uv
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:20` https://github.com/astral-sh/uv
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:26` https://github.com/astral-sh/uv
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:20` https://github.com/astral-sh/uv
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:26` https://github.com/astral-sh/uv
+- `validation/dddpy_real/README.ja_JP.md:20` https://github.com/astral-sh/uv
+- `validation/dddpy_real/README.ja_JP.md:26` https://github.com/astral-sh/uv
+- `validation/dddpy_real/README.md:20` https://github.com/astral-sh/uv
+- `validation/dddpy_real/README.md:26` https://github.com/astral-sh/uv
 
 ## babel/babel
 - `validation_dataset.py:351` https://github.com/babel/babel
@@ -152,21 +152,21 @@ It is meant to help reconstruct which external repositories were considered/test
 - `phase1_test.py:161` https://github.com/iktakahiro/dddpy
 - `rigorous_test_framework.py:67` https://github.com/iktakahiro/dddpy
 - `rigorous_test_framework.py:75` https://github.com/iktakahiro/dddpy
-- `spectrometer_v12_minimal/validation/dddpy_real/.git/config:9` https://github.com/iktakahiro/dddpy
-- `spectrometer_v12_minimal/validation/dddpy_real/.git/logs/HEAD:1` https://github.com/iktakahiro/dddpy
-- `spectrometer_v12_minimal/validation/dddpy_real/.git/logs/refs/heads/main:1` https://github.com/iktakahiro/dddpy
-- `spectrometer_v12_minimal/validation/dddpy_real/.git/logs/refs/remotes/origin/HEAD:1` https://github.com/iktakahiro/dddpy
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml/badge.svg
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml/badge.svg
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml
+- `validation/dddpy_real/.git/config:9` https://github.com/iktakahiro/dddpy
+- `validation/dddpy_real/.git/logs/HEAD:1` https://github.com/iktakahiro/dddpy
+- `validation/dddpy_real/.git/logs/refs/heads/main:1` https://github.com/iktakahiro/dddpy
+- `validation/dddpy_real/.git/logs/refs/remotes/origin/HEAD:1` https://github.com/iktakahiro/dddpy
+- `validation/dddpy_real/README.ja_JP.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml/badge.svg
+- `validation/dddpy_real/README.ja_JP.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml
+- `validation/dddpy_real/README.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml/badge.svg
+- `validation/dddpy_real/README.md:3` https://github.com/iktakahiro/dddpy/actions/workflows/test.yaml
 
 ## iktakahiro/dddpy`
 - `V13-GROK.md:114` https://github.com/iktakahiro/dddpy`.
 
 ## iktakahiro/oniongo
-- `spectrometer_v12_minimal/validation/dddpy_real/README.ja_JP.md:8` https://github.com/iktakahiro/oniongo
-- `spectrometer_v12_minimal/validation/dddpy_real/README.md:8` https://github.com/iktakahiro/oniongo
+- `validation/dddpy_real/README.ja_JP.md:8` https://github.com/iktakahiro/oniongo
+- `validation/dddpy_real/README.md:8` https://github.com/iktakahiro/oniongo
 
 ## jenkinsci/jenkins
 - `validation_dataset.py:174` https://github.com/jenkinsci/jenkins

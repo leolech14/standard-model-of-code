@@ -1,0 +1,787 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://spectrometer.dev/standard-model-of-code/v1.0.0",
+    "title": "Standard Model of Code",
+    "description": "The Periodic Table of Software Architecture - 33 fundamental particle types",
+    "version": "1.0.0",
+    "definitions": {
+        "ParticleCategory": {
+            "description": "High-level grouping of particle types",
+            "type": "string",
+            "enum": [
+                "BEHAVIOR",
+                "STRUCTURE",
+                "DATA",
+                "INTEGRATION",
+                "QUALITY",
+                "LIFECYCLE"
+            ]
+        },
+        "ArchitecturalLayer": {
+            "description": "Clean Architecture / DDD layer",
+            "type": "string",
+            "enum": [
+                "DOMAIN",
+                "APPLICATION",
+                "INFRASTRUCTURE",
+                "PRESENTATION",
+                "CROSS_CUTTING"
+            ]
+        },
+        "ParticleType": {
+            "description": "One of 33 fundamental code particle types",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{2,3}$"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "category": {
+                    "$ref": "#/definitions/ParticleCategory"
+                },
+                "layer": {
+                    "$ref": "#/definitions/ArchitecturalLayer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "examples": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "detection_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "prefixes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "suffixes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "inheritance": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "decorators": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "category",
+                "layer"
+            ]
+        }
+    },
+    "particles": {
+        "_comment": "=== BEHAVIOR PARTICLES (How things act) ===",
+        "CMD": {
+            "id": "CMD",
+            "name": "Command",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Write operation that changes state",
+            "examples": [
+                "save_user()",
+                "delete_order()",
+                "update_profile()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "save_",
+                    "delete_",
+                    "remove_",
+                    "update_",
+                    "add_",
+                    "set_",
+                    "do_",
+                    "run_"
+                ],
+                "suffixes": []
+            }
+        },
+        "QRY": {
+            "id": "QRY",
+            "name": "Query",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Read operation that retrieves data without side effects",
+            "examples": [
+                "get_user()",
+                "find_orders()",
+                "list_products()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "get_",
+                    "find_",
+                    "fetch_",
+                    "list_",
+                    "load_",
+                    "read_"
+                ]
+            }
+        },
+        "UCE": {
+            "id": "UCE",
+            "name": "UseCase",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Orchestrates a complete business workflow",
+            "examples": [
+                "ProcessPaymentUseCase",
+                "RegisterUserUseCase"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "execute_",
+                    "run_"
+                ],
+                "suffixes": [
+                    "_use_case",
+                    "_usecase",
+                    "_handler"
+                ]
+            }
+        },
+        "EVH": {
+            "id": "EVH",
+            "name": "EventHandler",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Responds to events/callbacks",
+            "examples": [
+                "on_user_created()",
+                "handle_payment()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "on_",
+                    "handle_",
+                    "when_"
+                ],
+                "suffixes": [
+                    "_handler",
+                    "_callback",
+                    "_hook"
+                ]
+            }
+        },
+        "OBS": {
+            "id": "OBS",
+            "name": "Observer",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Listens for and reacts to changes",
+            "examples": [
+                "UserCreatedListener",
+                "PaymentObserver"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "_listener",
+                    "_observer",
+                    "_subscriber"
+                ]
+            }
+        },
+        "EVP": {
+            "id": "EVP",
+            "name": "EventProcessor",
+            "category": "BEHAVIOR",
+            "layer": "APPLICATION",
+            "description": "Processes event streams",
+            "examples": [
+                "OrderEventProcessor",
+                "stream_handler()"
+            ]
+        },
+        "POL": {
+            "id": "POL",
+            "name": "Policy",
+            "category": "BEHAVIOR",
+            "layer": "DOMAIN",
+            "description": "Encapsulates business rules/decisions",
+            "examples": [
+                "PricingPolicy",
+                "RetryPolicy"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "_policy",
+                    "_rule",
+                    "_strategy"
+                ]
+            }
+        },
+        "_comment2": "=== STRUCTURE PARTICLES (How things are organized) ===",
+        "SVC": {
+            "id": "SVC",
+            "name": "Service",
+            "category": "STRUCTURE",
+            "layer": "APPLICATION",
+            "description": "Stateless operations with business logic",
+            "examples": [
+                "UserService",
+                "PaymentService"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "_service",
+                    "Service"
+                ]
+            }
+        },
+        "DSV": {
+            "id": "DSV",
+            "name": "DomainService",
+            "category": "STRUCTURE",
+            "layer": "DOMAIN",
+            "description": "Pure domain logic without infrastructure",
+            "examples": [
+                "PricingService",
+                "ShippingCalculator"
+            ]
+        },
+        "ASV": {
+            "id": "ASV",
+            "name": "ApplicationService",
+            "category": "STRUCTURE",
+            "layer": "APPLICATION",
+            "description": "Coordinates domain objects and infrastructure",
+            "examples": [
+                "OrderApplicationService",
+                "UserManager"
+            ]
+        },
+        "CTL": {
+            "id": "CTL",
+            "name": "Controller",
+            "category": "STRUCTURE",
+            "layer": "PRESENTATION",
+            "description": "HTTP/API entry point",
+            "examples": [
+                "UserController",
+                "api_endpoint()"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Controller",
+                    "_controller"
+                ],
+                "decorators": [
+                    "@app.route",
+                    "@router.get"
+                ]
+            }
+        },
+        "FAC": {
+            "id": "FAC",
+            "name": "Factory",
+            "category": "STRUCTURE",
+            "layer": "DOMAIN",
+            "description": "Creates complex objects",
+            "examples": [
+                "UserFactory",
+                "create_order()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "create_",
+                    "build_",
+                    "make_",
+                    "from_"
+                ],
+                "suffixes": [
+                    "Factory",
+                    "_factory"
+                ]
+            }
+        },
+        "BLD": {
+            "id": "BLD",
+            "name": "Builder",
+            "category": "STRUCTURE",
+            "layer": "DOMAIN",
+            "description": "Step-by-step complex object construction",
+            "examples": [
+                "QueryBuilder",
+                "ReportBuilder"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Builder",
+                    "_builder"
+                ]
+            }
+        },
+        "PRV": {
+            "id": "PRV",
+            "name": "Provider",
+            "category": "STRUCTURE",
+            "layer": "INFRASTRUCTURE",
+            "description": "Supplies dependencies/resources",
+            "examples": [
+                "ConfigProvider",
+                "DatabaseProvider"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Provider",
+                    "_provider"
+                ]
+            }
+        },
+        "_comment3": "=== DATA PARTICLES (What things hold) ===",
+        "ENT": {
+            "id": "ENT",
+            "name": "Entity",
+            "category": "DATA",
+            "layer": "DOMAIN",
+            "description": "Domain object with identity",
+            "examples": [
+                "User",
+                "Order",
+                "Product"
+            ],
+            "detection_patterns": {
+                "inheritance": [
+                    "Entity",
+                    "AggregateRoot"
+                ]
+            }
+        },
+        "VO": {
+            "id": "VO",
+            "name": "ValueObject",
+            "category": "DATA",
+            "layer": "DOMAIN",
+            "description": "Immutable value without identity",
+            "examples": [
+                "Money",
+                "Address",
+                "Email"
+            ],
+            "detection_patterns": {
+                "decorators": [
+                    "@dataclass(frozen=True)",
+                    "@immutable"
+                ]
+            }
+        },
+        "DTO": {
+            "id": "DTO",
+            "name": "DTO",
+            "category": "DATA",
+            "layer": "APPLICATION",
+            "description": "Data Transfer Object for layer boundaries",
+            "examples": [
+                "UserDTO",
+                "CreateOrderRequest"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "DTO",
+                    "Request",
+                    "Response",
+                    "Schema"
+                ],
+                "inheritance": [
+                    "BaseModel",
+                    "TypedDict"
+                ]
+            }
+        },
+        "CFG": {
+            "id": "CFG",
+            "name": "Configuration",
+            "category": "DATA",
+            "layer": "CROSS_CUTTING",
+            "description": "Application/module settings",
+            "examples": [
+                "AppConfig",
+                "settings.py"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Config",
+                    "Settings",
+                    "_config",
+                    "_settings"
+                ]
+            }
+        },
+        "_comment4": "=== INTEGRATION PARTICLES (How things connect) ===",
+        "REP": {
+            "id": "REP",
+            "name": "Repository",
+            "category": "INTEGRATION",
+            "layer": "INFRASTRUCTURE",
+            "description": "Data persistence abstraction",
+            "examples": [
+                "UserRepository",
+                "OrderRepo"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Repository",
+                    "Repo",
+                    "_repository"
+                ]
+            }
+        },
+        "GWY": {
+            "id": "GWY",
+            "name": "Gateway",
+            "category": "INTEGRATION",
+            "layer": "INFRASTRUCTURE",
+            "description": "External system interface",
+            "examples": [
+                "PaymentGateway",
+                "EmailGateway"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Gateway",
+                    "_gateway"
+                ]
+            }
+        },
+        "CLI": {
+            "id": "CLI",
+            "name": "Client",
+            "category": "INTEGRATION",
+            "layer": "INFRASTRUCTURE",
+            "description": "External API client",
+            "examples": [
+                "StripeClient",
+                "SlackClient"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Client",
+                    "_client"
+                ]
+            }
+        },
+        "ADP": {
+            "id": "ADP",
+            "name": "Adapter",
+            "category": "INTEGRATION",
+            "layer": "INFRASTRUCTURE",
+            "description": "Converts between interfaces",
+            "examples": [
+                "PayPalAdapter",
+                "LegacyAdapter"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Adapter",
+                    "_adapter"
+                ]
+            }
+        },
+        "ISV": {
+            "id": "ISV",
+            "name": "IntegrationService",
+            "category": "INTEGRATION",
+            "layer": "INFRASTRUCTURE",
+            "description": "Orchestrates external integrations",
+            "examples": [
+                "PaymentIntegration",
+                "SyncService"
+            ]
+        },
+        "MAP": {
+            "id": "MAP",
+            "name": "Mapper",
+            "category": "INTEGRATION",
+            "layer": "APPLICATION",
+            "description": "Transforms data between formats",
+            "examples": [
+                "UserMapper",
+                "to_dict()",
+                "from_json()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "to_",
+                    "from_",
+                    "as_",
+                    "convert_",
+                    "transform_"
+                ],
+                "suffixes": [
+                    "Mapper",
+                    "_mapper",
+                    "_converter"
+                ]
+            }
+        },
+        "_comment5": "=== QUALITY PARTICLES (What ensures correctness) ===",
+        "SPC": {
+            "id": "SPC",
+            "name": "Specification",
+            "category": "QUALITY",
+            "layer": "DOMAIN",
+            "description": "Business rule validation",
+            "examples": [
+                "is_valid()",
+                "can_checkout()",
+                "ActiveUserSpec"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "is_",
+                    "has_",
+                    "can_",
+                    "should_"
+                ]
+            }
+        },
+        "VAL": {
+            "id": "VAL",
+            "name": "Validator",
+            "category": "QUALITY",
+            "layer": "APPLICATION",
+            "description": "Input/data validation",
+            "examples": [
+                "validate_email()",
+                "UserValidator"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "validate_",
+                    "check_"
+                ],
+                "suffixes": [
+                    "Validator",
+                    "_validator"
+                ],
+                "decorators": [
+                    "@validator",
+                    "@field_validator"
+                ]
+            }
+        },
+        "TST": {
+            "id": "TST",
+            "name": "Test",
+            "category": "QUALITY",
+            "layer": "CROSS_CUTTING",
+            "description": "Test function/class",
+            "examples": [
+                "test_user_creation()",
+                "TestUserService"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "test_"
+                ],
+                "suffixes": [
+                    "_test",
+                    "Test"
+                ]
+            }
+        },
+        "SUT": {
+            "id": "SUT",
+            "name": "SubjectUnderTest",
+            "category": "QUALITY",
+            "layer": "CROSS_CUTTING",
+            "description": "Code being tested (inferred from Test calls)",
+            "detection_patterns": {
+                "graph_inference": "called_only_by_tests"
+            }
+        },
+        "EXC": {
+            "id": "EXC",
+            "name": "Exception",
+            "category": "QUALITY",
+            "layer": "CROSS_CUTTING",
+            "description": "Error/exception type",
+            "examples": [
+                "UserNotFoundError",
+                "ValidationException"
+            ],
+            "detection_patterns": {
+                "suffixes": [
+                    "Error",
+                    "Exception"
+                ],
+                "inheritance": [
+                    "Exception",
+                    "BaseException"
+                ]
+            }
+        },
+        "_comment6": "=== LIFECYCLE PARTICLES (How things live/die) ===",
+        "LFC": {
+            "id": "LFC",
+            "name": "Lifecycle",
+            "category": "LIFECYCLE",
+            "layer": "CROSS_CUTTING",
+            "description": "Object creation/destruction",
+            "examples": [
+                "__init__",
+                "__del__",
+                "__enter__",
+                "__exit__"
+            ],
+            "detection_patterns": {
+                "names": [
+                    "__init__",
+                    "__new__",
+                    "__del__",
+                    "__enter__",
+                    "__exit__"
+                ]
+            }
+        },
+        "ITR": {
+            "id": "ITR",
+            "name": "Iterator",
+            "category": "LIFECYCLE",
+            "layer": "CROSS_CUTTING",
+            "description": "Iteration protocol",
+            "examples": [
+                "__iter__",
+                "__next__"
+            ],
+            "detection_patterns": {
+                "names": [
+                    "__iter__",
+                    "__next__"
+                ]
+            }
+        },
+        "_comment7": "=== UTILITY PARTICLES (General purpose) ===",
+        "UTL": {
+            "id": "UTL",
+            "name": "Utility",
+            "category": "STRUCTURE",
+            "layer": "CROSS_CUTTING",
+            "description": "General-purpose helper function",
+            "examples": [
+                "format_date()",
+                "parse_json()",
+                "helpers.py"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "format_",
+                    "parse_",
+                    "render_"
+                ],
+                "suffixes": [
+                    "_helper",
+                    "_util",
+                    "_utils"
+                ]
+            }
+        },
+        "INT": {
+            "id": "INT",
+            "name": "Internal",
+            "category": "STRUCTURE",
+            "layer": "CROSS_CUTTING",
+            "description": "Private/internal implementation detail",
+            "examples": [
+                "_private_method()",
+                "_internal_helper()"
+            ],
+            "detection_patterns": {
+                "prefixes": [
+                    "_"
+                ]
+            }
+        }
+    },
+    "relationships": {
+        "calls": "A invokes B",
+        "imports": "A depends on module B",
+        "contains": "A is parent of B",
+        "inherits": "A extends B",
+        "implements": "A implements interface B",
+        "uses": "A references type B"
+    },
+    "layers": {
+        "DOMAIN": {
+            "description": "Core business logic, no infrastructure dependencies",
+            "allowed_particles": [
+                "ENT",
+                "VO",
+                "DSV",
+                "FAC",
+                "BLD",
+                "SPC",
+                "POL"
+            ]
+        },
+        "APPLICATION": {
+            "description": "Use cases and orchestration",
+            "allowed_particles": [
+                "UCE",
+                "ASV",
+                "SVC",
+                "CMD",
+                "QRY",
+                "EVH",
+                "OBS",
+                "EVP",
+                "MAP",
+                "VAL",
+                "DTO"
+            ]
+        },
+        "INFRASTRUCTURE": {
+            "description": "External world integration",
+            "allowed_particles": [
+                "REP",
+                "GWY",
+                "CLI",
+                "ADP",
+                "ISV",
+                "PRV"
+            ]
+        },
+        "PRESENTATION": {
+            "description": "User interface and API",
+            "allowed_particles": [
+                "CTL"
+            ]
+        },
+        "CROSS_CUTTING": {
+            "description": "Concerns that span all layers",
+            "allowed_particles": [
+                "CFG",
+                "TST",
+                "SUT",
+                "EXC",
+                "LFC",
+                "ITR",
+                "UTL",
+                "INT"
+            ]
+        }
+    }
+}

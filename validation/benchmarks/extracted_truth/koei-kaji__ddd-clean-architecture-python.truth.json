@@ -1,6 +1,6 @@
 {
   "repo": "koei-kaji__ddd-clean-architecture-python",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/koei-kaji__ddd-clean-architecture-python",
+  "repo_path": "validation/benchmarks/repos/koei-kaji__ddd-clean-architecture-python",
   "confidence": 0.6,
   "truth_sources": [
     "type:Repository",

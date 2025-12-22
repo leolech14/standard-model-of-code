@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # ⚠️ DEPRECATED: This 4D registry groups dimensions for convenience.
 # The canonical model is 8D (particle_registry_8d.py).
-# See STANDARD_MODEL_PAPER.md Section 2.3 for authoritative spec.
+# See docs/STANDARD_MODEL_PAPER.md Section 2.3 for authoritative spec.
 """
 4D Particle Registry — Canonical Storage for Multi-Dimensional Code Physics
 
@@ -52,6 +52,7 @@ The 4D Particle format:
 """
 
 import json
+import hashlib
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Any
@@ -137,18 +138,24 @@ class Particle4D:
     @classmethod
     def from_semantic_id(cls, sid) -> 'Particle4D':
         """Create a Particle4D from a SemanticID object."""
-        props = sid.properties
+        props = getattr(sid, "properties", {}) or {}
+        module_path = getattr(sid, "module_path", "") or ""
+        file_path = props.get("file_path") or (module_path.replace(".", "/") + ".py" if module_path else "")
+        semantic_id_str = sid.to_string() if hasattr(sid, "to_string") else str(sid)
+        content_hash = getattr(sid, "content_hash", "")
+        if not content_hash:
+            content_hash = hashlib.md5(semantic_id_str.encode()).hexdigest()[:12]
         
         return cls(
-            id=sid.content_hash,
-            name=sid.name,
-            file=sid.module_path.replace(".", "/") + ".py",
+            id=content_hash,
+            name=getattr(sid, "name", ""),
+            file=file_path,
             line=props.get("line", 0),
             
             what=ParticleWHAT(
-                continent=sid.continent.value if hasattr(sid.continent, 'value') else str(sid.continent),
-                fundamental=sid.fundamental.value if hasattr(sid.fundamental, 'value') else str(sid.fundamental),
-                level=sid.level.value if hasattr(sid.level, 'value') else str(sid.level),
+                continent=sid.continent.value if hasattr(sid.continent, 'value') else str(getattr(sid, "continent", "")),
+                fundamental=sid.fundamental.value if hasattr(sid.fundamental, 'value') else str(getattr(sid, "fundamental", "")),
+                level=sid.level.value if hasattr(sid.level, 'value') else str(getattr(sid, "level", "")),
                 atom_type=props.get("type", ""),
             ),
             
@@ -162,7 +169,7 @@ class Particle4D:
             where=ParticleWHERE(
                 architectural_layer=getattr(sid, 'architectural_layer', "unknown") or "unknown",
                 crosses_boundary=getattr(sid, 'crosses_boundary', False) or False,
-                module_path=sid.module_path,
+                module_path=module_path,
             ),
             
             why=ParticleWHY(
@@ -173,7 +180,7 @@ class Particle4D:
                 smell_severity=props.get("smell_severity", 0.0),
             ),
             
-            semantic_id=sid.to_string(),
+            semantic_id=semantic_id_str,
             confidence=props.get("confidence", 50) / 100.0,
             discovered_at=datetime.now().isoformat(),
         )

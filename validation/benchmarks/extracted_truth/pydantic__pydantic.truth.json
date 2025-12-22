@@ -1,6 +1,6 @@
 {
   "repo": "pydantic__pydantic",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/pydantic__pydantic",
+  "repo_path": "validation/benchmarks/repos/pydantic__pydantic",
   "confidence": 0.4,
   "truth_sources": [
     "inheritance:Enum",

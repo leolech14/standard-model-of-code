@@ -12,7 +12,7 @@ Important constraint: a repo is only “benchmark-grade” if we can point to a 
 
 This workspace already contains an extracted list of repos that were used/mentioned during iterations:
 
-- `spectrometer_v12_minimal/validation/iteration_test_repos.md`
+- `validation/iteration_test_repos.md`
 
 Use that list as the initial candidate pool so we’re not inventing targets.
 
@@ -23,7 +23,7 @@ Use that list as the initial candidate pool so we’re not inventing targets.
 These are ideal because we can maintain accurate, independent ground truth.
 
 - Start with the local fixture already present:
-  - `spectrometer_v12_minimal/validation/dddpy_real` (origin in `iteration_test_repos.md`)
+  - `validation/dddpy_real` (origin in `iteration_test_repos.md`)
 
 Add more Tier A repos by selecting small DDD/Clean reference projects from `iteration_test_repos.md`, cloning them into `benchmarks/repos/`, then writing a `*.bench.json` spec.
 
@@ -53,8 +53,8 @@ Once repos are present locally under `benchmarks/repos/`, run:
 
 ```bash
 python3 tools/scan_repo_truth_sources.py \
-  --repos-dir spectrometer_v12_minimal/validation/benchmarks/repos \
-  --out spectrometer_v12_minimal/validation/benchmarks/runs/truth_sources.json
+  --repos-dir validation/benchmarks/repos \
+  --out validation/benchmarks/runs/truth_sources.json
 ```
 
 Then promote repos that score well on “truth sources” into Tier A/B and write specs for them.

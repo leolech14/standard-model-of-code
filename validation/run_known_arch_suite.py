@@ -36,7 +36,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Run all known-architecture validation specs.")
     parser.add_argument(
         "--folder",
-        default="spectrometer_v12_minimal/validation/known_architectures",
+        default="validation/known_architectures",
         help="Folder containing known-architecture specs (*.json)",
     )
     parser.add_argument("--write-json", action="store_true", help="Write per-spec .report.json files")

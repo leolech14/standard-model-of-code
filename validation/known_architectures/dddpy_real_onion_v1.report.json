@@ -1,7 +1,7 @@
 {
   "spec": {
     "name": "dddpy_real_onion_v1",
-    "repo_path": "spectrometer_v12_minimal/validation/dddpy_real",
+    "repo_path": "validation/dddpy_real",
     "scored_types": [
       "Entity",
       "ValueObject",

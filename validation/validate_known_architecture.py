@@ -127,7 +127,7 @@ def _run_detector(
     *,
     output_dir: Path | None = None,
 ) -> list[dict[str, Any]]:
-    core_dir = repo_root / "spectrometer_v12_minimal" / "core"
+    core_dir = repo_root / "core"
     if not core_dir.exists():
         raise FileNotFoundError(f"Missing core dir: {core_dir}")
 
@@ -295,7 +295,7 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Validate detector output against a known-architecture spec.")
     parser.add_argument(
         "--spec",
-        default="spectrometer_v12_minimal/validation/known_architectures/dddpy_real_onion_v1.json",
+        default="validation/known_architectures/dddpy_real_onion_v1.json",
         help="Path to known-architecture spec JSON",
     )
     parser.add_argument("--write-json", action="store_true", help="Write JSON report next to the spec")

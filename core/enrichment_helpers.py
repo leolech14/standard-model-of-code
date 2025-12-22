@@ -12,8 +12,9 @@ def _enrich_with_how(self, semantic_ids: List, purity_data: Dict):
         semantic_ids: List of SemanticID objects
         purity_data: Result from PurityDetector.analyze()
     """
-    if not purity_data.get("available"):
-        print("  ⚠️  Purity detection unavailable,using heuristics")
+    if purity_data is None or not purity_data.get("available"):
+        print("  ⚠️  Purity detection unavailable, using heuristics")
+        purity_data = {}  # Initialize as empty dict to avoid further errors
     
     purity_map = purity_data.get("purity_map", {})
     issues = purity_data.get("issues", [])
@@ -52,8 +53,9 @@ def _enrich_with_where(self, semantic_ids: List, boundary_data: Dict):
         semantic_ids: List of SemanticID objects
         boundary_data: Result from BoundaryDetector.analyze()
     """
-    if not boundary_data.get("available"):
+    if boundary_data is None or not boundary_data.get("available"):
         print("  ⚠️  Boundary detection unavailable, using path inference")
+        boundary_data = {}
     
     layer_map = boundary_data.get("layer_map", {})
     violations = boundary_data.get("violations", [])

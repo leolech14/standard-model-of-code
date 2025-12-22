@@ -1,9 +1,9 @@
 # 384/42 Consistency Report
 
 - Generated: 2025-12-14T05:41:15
-- Canvas snapshot CSV: `spectrometer_v12_minimal/validation/subhadrons_384_from_canvas.csv`
-- Canonical impossible skeleton: `spectrometer_v12_minimal/IMPOSSIBLE_42_CANONICAL.csv`
-- Canonical laws: `spectrometer_v12_minimal/LAW_11_CANONICAL.json`
+- Canvas snapshot CSV: `subhadrons_384_from_canvas.csv`
+- Canonical impossible skeleton: `../data/IMPOSSIBLE_42_CANONICAL.csv`
+- Canonical laws: `../data/LAW_11_CANONICAL.json`
 
 ## Expected vs Observed
 | metric | expected | observed |
@@ -134,4 +134,3 @@
 - Decide the semantics of `impossible`: strict logical impossibility (42) vs strong architecture smell (additional canvas antimatter).
 - If the target is strict-42: extend the extraction to map each antimatter pattern to a single law (or add new laws), then reclassify the remaining antimatter patterns as smells with severity (not impossible).
 - Once canonicalized: generate `subhadrons_384.csv` and `impossible_42.csv` from a single ruleset and keep them machine-readable next to the detector.
-

@@ -58,6 +58,14 @@ class StatsGenerator:
 
         processing_time = time.time() - start_time
 
+        # Apply auto pattern discovery to reduce unknowns
+        try:
+            from auto_pattern_discovery import apply_auto_discovery
+            all_particles, discovery_report = apply_auto_discovery(all_particles)
+            print(f"  🔬 Auto-discovery: {discovery_report.get('particles_updated', 0)} particles reclassified")
+        except ImportError:
+            discovery_report = {}
+
         # Generate statistics
         self.results['summary'] = self._generate_summary(all_particles, files_analyzed, files_with_particles)
         self.results['detailed_stats'] = self._generate_detailed_stats(
@@ -68,6 +76,7 @@ class StatsGenerator:
         self.results['performance'] = self._calculate_performance(
             files_analyzed, total_lines, total_chars, processing_time
         )
+        self.results['auto_discovery'] = discovery_report
 
         return self.results
 

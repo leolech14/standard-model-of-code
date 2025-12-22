@@ -18,6 +18,7 @@ Usage:
 import sys
 import json
 import argparse
+import time
 from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass, field, asdict
@@ -118,11 +119,10 @@ class LearningEngine:
     - SemanticIDGenerator (LLM-ready IDs)
     """
     
-    def __init__(self, config: Optional[AnalyzerConfig] = None, auto_learn: bool = True, mode: str = "auto", llm_model: str = None):
+    def __init__(self, config: Optional[AnalyzerConfig] = None, auto_learn: bool = True, llm_model: str = None):
         # Backward compatibility: if config is missing, build it from args
         if config is None:
             self.config = AnalyzerConfig(
-                mode=mode, 
                 auto_learn=auto_learn, 
                 use_llm=(llm_model is not None),
                 llm_model=llm_model
@@ -130,7 +130,6 @@ class LearningEngine:
         else:
             self.config = config
             
-        self.mode = self.config.mode
         self.auto_learn = self.config.auto_learn
         self.output_dir = "output/learning"
         self.semantic_matrix = SemanticMatrix()
@@ -138,7 +137,7 @@ class LearningEngine:
         
         print(f"🔧 Configuration: {self.config}")
 
-        # Initialize engines based on mode
+        # Initialize all engines (unified pipeline)
         self.registry = AtomRegistry()
         self.semantic_generator = SemanticIDGenerator()
         
@@ -157,19 +156,16 @@ class LearningEngine:
         
         # Track all discoveries across repos
         self.all_discoveries: Dict[str, Dict] = {}
-        
-        if self.mode != "minimal":
-            self.discovery = DiscoveryEngine()
-            self.graph_extractor = GraphExtractor()
-            self.complete_extractor = CompleteExtractor()
-            self._load_learned_atoms()
-        else:
-            # Minimal primitives
-            from core.universal_detector import UniversalPatternDetector
-            self.universal_detector = UniversalPatternDetector()
-            self.discovery = None
-            self.graph_extractor = None
-            self.complete_extractor = None
+
+        # Base pipeline (always available)
+        from core.universal_detector import UniversalPatternDetector
+        self.universal_detector = UniversalPatternDetector()
+
+        # Full pipeline engines (tree-sitter based) - MANDATORY
+        self.discovery = DiscoveryEngine()
+        self.graph_extractor = GraphExtractor()
+        self.complete_extractor = CompleteExtractor()
+        self._load_learned_atoms()
         
         # Initialize LLM classifier if model specified
         if self.config.use_llm:
@@ -234,182 +230,349 @@ class LearningEngine:
         Analyze a repository (Auto-detect or specific language).
         """
         path = Path(repo_path)
-        print(f"📁 Analyzing: {path} (Mode: {self.mode})")
-        
-        if self.mode == "minimal":
-            return self._analyze_repo_minimal(str(path))
-        
+        print(f"📁 Analyzing: {path}")
+        return self._analyze_repo_unified(str(path), language)
+
+    def _get_sid_confidence(self, sid: SemanticID) -> float:
+        props = getattr(sid, "properties", {}) or {}
+        try:
+            return float(props.get("confidence", 0))
+        except (TypeError, ValueError):
+            return 0.0
+
+    def _merge_semantic_ids(self, base_ids: List[SemanticID], extra_ids: List[SemanticID]) -> List[SemanticID]:
+        """Merge Semantic IDs by module+name, keeping the higher-confidence classification."""
+        merged = list(base_ids)
+        index: Dict[Tuple[str, str], int] = {}
+        for idx, sid in enumerate(merged):
+            key = (sid.module_path, sid.name)
+            if key not in index:
+                index[key] = idx
+
+        for sid in extra_ids:
+            key = (sid.module_path, sid.name)
+            if key not in index:
+                index[key] = len(merged)
+                merged.append(sid)
+                continue
+
+            current = merged[index[key]]
+            current_conf = self._get_sid_confidence(current)
+            new_conf = self._get_sid_confidence(sid)
+
+            if new_conf > current_conf:
+                winner, other = sid, current
+            elif current_conf > new_conf:
+                winner, other = current, sid
+            else:
+                current_props = getattr(current, "properties", {}) or {}
+                new_props = getattr(sid, "properties", {}) or {}
+                winner, other = (sid, current) if len(new_props) > len(current_props) else (current, sid)
+
+            if hasattr(winner, "properties") and hasattr(other, "properties"):
+                for k, v in other.properties.items():
+                    if k not in winner.properties:
+                        winner.properties[k] = v
+                other_conf = other.properties.get("confidence")
+                if other_conf is not None:
+                    winner.properties["confidence"] = max(winner.properties.get("confidence", 0), other_conf)
+
+            if hasattr(winner, "smell") and hasattr(other, "smell"):
+                for k, v in other.smell.items():
+                    if k not in winner.smell or v > winner.smell[k]:
+                        winner.smell[k] = v
+
+            if hasattr(winner, "evidence") and hasattr(other, "evidence"):
+                for item in other.evidence:
+                    if item and item not in winner.evidence:
+                        winner.evidence.append(item)
+
+            merged[index[key]] = winner
+
+        return merged
+
+    def _run_full_enrichment(self, repo_path: str, language: Optional[str], *, strict: bool) -> Dict[str, Any]:
+        """Optional full enrichment stage using tree-sitter extraction."""
+        if not self.discovery or not self.complete_extractor:
+            if strict:
+                raise RuntimeError("Full pipeline requested but tree-sitter components are unavailable.")
+            return {"semantic_ids": [], "call_edges": [], "stats": {}, "new_patterns": []}
+
         from core.language_loader import LanguageLoader
         if language:
             languages = [language]
         else:
             languages = LanguageLoader.get_supported_languages()
-            # Dedupe
             languages = list(set(languages))
-        
-        print(f"🔍 Scan targets: {', '.join(languages)}")
-        
-        # Aggregate results
-        # Aggregate results
+
+        if not languages:
+            if strict:
+                raise RuntimeError("Full pipeline requested but no tree-sitter languages are available.")
+            return {"semantic_ids": [], "call_edges": [], "stats": {}, "new_patterns": []}
+
+        print(f"🔍 Full enrichment targets: {', '.join(languages)}")
+
         total_files = 0
-        all_semantic_ids = []
-        all_edges = []
-        
+        total_classes = 0
+        total_functions = 0
+        all_semantic_ids: List[SemanticID] = []
+        call_edges: List[Tuple[str, str]] = []
+        new_patterns: List[Dict] = []
+
         for lang in languages:
             try:
-                # 1. Discovery (Structure)
-                report = self.discovery.analyze_repo(str(path), language=lang)
+                report = self.discovery.analyze_repo(repo_path, language=lang)
                 if report.files_analyzed == 0 and report.total_nodes == 0:
                     continue
-                    
                 print(f"  ✓ {lang}: {report.total_nodes} nodes")
-                
-                # 2. Complete Extraction
-                codebase = self.complete_extractor.extract(str(path), language=lang)
+                if report.unknown_patterns:
+                    new_patterns.extend(
+                        [{"type": p.ast_type, "count": p.occurrence_count} for p in report.unknown_patterns]
+                    )
+            except Exception as e:
+                print(f"    ⚠️  Discovery error ({lang}): {e}")
+
+            try:
+                codebase = self.complete_extractor.extract(repo_path, language=lang)
                 stats = codebase.get_stats()
-                
-                # 3. Semantic Identification
-                semantic_ids = self.semantic_generator.generate_ids(codebase)
-                all_semantic_ids.extend(semantic_ids)
-                
-                # 4. Edge Extraction
+                total_files += stats.get("files", 0)
+                total_classes += stats.get("classes", 0)
+                total_functions += stats.get("functions", 0)
+
+                all_semantic_ids.extend(self.semantic_generator.generate_ids(codebase))
+
                 for f in codebase.functions.values():
                     for callee in f.calls:
-                        all_edges.append((f.name, callee))
-                
-                total_files += stats["files"]
-
+                        call_edges.append((f.name, callee))
             except Exception as e:
                 print(f"    ⚠️  Extraction error ({lang}): {e}")
-                pass
-        
-        print(f"\n📊 Results:")
-        print(f"   Files: {total_files}")
-        print(f"   Semantic IDs: {len(all_semantic_ids)}")
 
-        analysis = RepoAnalysis(
-            name=path.name,
-            path=str(path),
-            language=language or "mixed",
-            files=total_files,
-            semantic_ids=len(all_semantic_ids),
-            semantic_id_list=all_semantic_ids,
-            edges=all_edges
-        )
-        return analysis
+        return {
+            "semantic_ids": all_semantic_ids,
+            "call_edges": call_edges,
+            "stats": {
+                "files": total_files,
+                "classes": total_classes,
+                "functions": total_functions,
+            },
+            "new_patterns": new_patterns,
+        }
 
-    def _analyze_repo_minimal(self, repo_path: str) -> RepoAnalysis:
-        """Minimal analysis using regex-based Universal Detector."""
-        print(f"  ⚡ Running Minimal Pipeline (Universal Detector)...")
+    def _analyze_repo_unified(self, repo_path: str, language: Optional[str] = None) -> RepoAnalysis:
+        """Unified analysis pipeline with optional full enrichment."""
+        started = time.time()
+        print("  ⚡ Running Unified Pipeline (Universal Detector base)...")
         results = self.universal_detector.analyze_repository(repo_path, output_dir=self.output_dir)
-        
+
         comp_results = results.get("comprehensive_results", {})
         particles = comp_results.get("particles", [])
         dependencies = comp_results.get("dependencies", {})
-        
-        # Convert to Semantic IDs
+
         # Prepare God Class Smell Map
         god_classes = comp_results.get("god_classes", [])
-        god_class_map = {} 
+        god_class_map = {}
         for gc in god_classes:
-            key = (gc.get('file_path'), gc.get('class_name'))
-            god_class_map[key] = gc.get('antimatter_risk_score', 0)
+            key = (gc.get("file_path"), gc.get("class_name"))
+            god_class_map[key] = gc.get("antimatter_risk_score", 0)
 
         # Convert to Semantic IDs
         semantic_ids = []
         for p in particles:
             smells = {}
-            # Check for god class smell
-            gc_score = god_class_map.get((p.get('file_path'), p.get('name')))
+            gc_score = god_class_map.get((p.get("file_path"), p.get("name")))
             if gc_score:
-                smells['god_class'] = gc_score
-                
-            sid = self.semantic_generator.from_particle(p, smells=smells)
-            semantic_ids.append(sid)
-        
+                smells["god_class"] = gc_score
+            semantic_ids.append(self.semantic_generator.from_particle(p, smells=smells))
+
         # Extract edges from DependencyAnalyzer output (unified IR format)
         from core.ir import edges_from_internal_edges_list
         internal_edges_list = dependencies.get("internal_edges", [])
         ir_edges = edges_from_internal_edges_list(internal_edges_list)
-        
-        # Convert to tuple format for backward compat with RepoAnalysis
         edges = [(e.source, e.target) for e in ir_edges]
-        
+
         print(f"  ✓ Found {len(particles)} particles, converted to {len(semantic_ids)} Semantic IDs")
         print(f"  ✓ Found {len(edges)} internal dependency edges")
-        
+
         # LLM Reclassification for low-confidence particles
         if self.llm_classifier is not None:
             semantic_ids, llm_stats = self._llm_reclassify_particles(
                 particles, semantic_ids, repo_path
             )
-            print(f"  🦙 LLM reclassification: {llm_stats['llm_escalated']} escalated, "
-                  f"{llm_stats['llm_succeeded']} improved")
+            print(
+                f"  🦙 LLM reclassification: {llm_stats['llm_escalated']} escalated, "
+                f"{llm_stats['llm_succeeded']} improved"
+            )
+
+        # Full enrichment stage (tree-sitter based) - MANDATORY
+        print("  🌳 Running tree-sitter full enrichment...")
+        full_payload = self._run_full_enrichment(repo_path, language, strict=True)
+        full_stats = full_payload.get("stats", {})
+        call_edges: List[Tuple[str, str]] = full_payload.get("call_edges", [])
+        new_patterns: List[Dict] = full_payload.get("new_patterns", [])
+        full_semantic_ids = full_payload.get("semantic_ids", [])
+        if full_semantic_ids:
+            semantic_ids = self._merge_semantic_ids(semantic_ids, full_semantic_ids)
         
-        # NEW: HOW/WHERE Enrichment
+        # Add new patterns to all_discoveries for auto-learning
+        repo_name = Path(repo_path).name
+        for pattern in new_patterns:
+            ast_type = pattern.get("type", "")
+            if ast_type and ast_type not in self.all_discoveries:
+                self.all_discoveries[ast_type] = {
+                    "ast_type": ast_type,
+                    "name": "".join(word.capitalize() for word in ast_type.replace("_", " ").split()),
+                    "count": pattern.get("count", 1),
+                    "repos": {repo_name},
+                    "continent": "Logic & Flow",
+                    "fundamental": "Expressions",
+                }
+            elif ast_type:
+                self.all_discoveries[ast_type]["count"] += pattern.get("count", 1)
+                self.all_discoveries[ast_type]["repos"].add(repo_name)
+        
+        if new_patterns:
+            print(f"  🧠 Discovered {len(new_patterns)} new patterns for auto-learning")
+
+        # HOW/WHERE Enrichment
         if self.enable_how_where:
-            print(f"  🔬 Enriching with HOW/WHERE dimensions...")
-            
-            # Run detectors
+            print("  🔬 Enriching with HOW/WHERE dimensions...")
             purity_data = self.purity_detector.analyze(repo_path)
             boundary_data = self.boundary_detector.analyze(repo_path)
-            
-            # Import enrichment helpers
+
             from core.enrichment_helpers import _enrich_with_how, _enrich_with_where
-            
-            # Enrich semantic IDs
             _enrich_with_how(self, semantic_ids, purity_data)
             _enrich_with_where(self, semantic_ids, boundary_data)
-            
             print(f"  ✓ Enriched {len(semantic_ids)} IDs with behavior and context data")
-        
-        # NEW: WHY Enrichment (Intent/Patterns)
+
+        # WHY Enrichment (Intent/Patterns)
         try:
             from core.intent_detector import IntentDetector
             intent_detector = IntentDetector(llm_classifier=self.llm_classifier)
             intent_data = intent_detector.analyze(semantic_ids)
-            
+
             from core.enrichment_helpers import _enrich_with_why
             _enrich_with_why(self, semantic_ids, intent_data)
-            
+
             patterns = intent_data.get("patterns_detected", {})
             smells = intent_data.get("smells_detected", {})
-            print(f"  🎯 Intent analysis: {sum(patterns.values())} patterns, {sum(smells.values())} smells detected")
+            print(
+                f"  🎯 Intent analysis: {sum(patterns.values())} patterns, "
+                f"{sum(smells.values())} smells detected"
+            )
         except Exception as e:
             print(f"  ⚠️  Intent detection failed: {e}")
-        
-        # NEW: Export to 4D Particle Registry
+
+        # Best Practices Intelligence Layer (The Judge)
+        try:
+            from core.intelligence import IntelligenceEvaluator, ComplianceScorer
+
+            print("  ⚖️  Running Best Practices Intelligence Layer...")
+            evaluator = IntelligenceEvaluator()
+            scorer = ComplianceScorer()
+
+            violations = evaluator.evaluate_codebase(semantic_ids)
+            score_data = scorer.calculate_score(violations, len(semantic_ids))
+
+            print(f"  🏆 Atomic Compliance Score: {score_data['score']}/100 ({score_data['grade']})")
+            if violations:
+                print(f"     Violations: {len(violations)} (Critical: {score_data['breakdown']['CRITICAL']})")
+
+                from collections import defaultdict
+                violation_map = defaultdict(list)
+                for v in violations:
+                    violation_map[v.particle_id].append(
+                        {
+                            "rule": v.rule_name,
+                            "severity": v.severity,
+                            "message": v.details,
+                            "solution": v.solution,
+                        }
+                    )
+
+                for sid in semantic_ids:
+                    pid = sid.to_string() if hasattr(sid, "to_string") else str(sid)
+                    if pid in violation_map:
+                        if not hasattr(sid, "properties"):
+                            sid.properties = {}
+                        sid.properties["intelligence"] = {
+                            "violations": violation_map[pid]
+                        }
+
+            intelligence_report = {
+                "score": score_data,
+                "violations": [
+                    {
+                        "rule": v.rule_name,
+                        "severity": v.severity,
+                        "file": v.file_path,
+                        "details": v.details,
+                    }
+                    for v in violations
+                ],
+            }
+
+            out_path = Path(repo_path) / "output" / "intelligence_report.json"
+            if not out_path.parent.exists():
+                out_path = Path("output") / "intelligence_report.json"
+
+            with open(out_path, "w") as f:
+                json.dump(intelligence_report, f, indent=2)
+
+        except Exception as e:
+            print(f"  ⚠️  Intelligence Layer failed: {e}")
+
+        # Export to 4D Particle Registry
         try:
             from core.particle_registry_4d import ParticleRegistry4D
             registry_4d = ParticleRegistry4D()
             count = registry_4d.add_from_semantic_ids(semantic_ids)
-            
-            # Save to output directory
+
             output_path = Path(repo_path) / "output" / "particle_registry_4d.json"
             if not output_path.parent.exists():
                 output_path = Path("output") / "particle_registry_4d.json"
-            
+
             registry_4d.save(str(output_path))
-            
+
             stats = registry_4d.get_stats()
             print(f"  📦 4D Registry: {count} particles exported")
             print(f"     Patterns: {stats['by_pattern']}")
             print(f"     Smells: {stats['by_smell']}")
         except Exception as e:
             print(f"  ⚠️  4D Registry export failed: {e}")
-        
+
+        summary = comp_results.get("summary", {})
+        detailed_stats = comp_results.get("detailed_stats", {})
+        coverage_pct = comp_results.get("stats", {}).get("recognition_rate")
+        if coverage_pct is None:
+            coverage_pct = summary.get("recognized_percentage", 0.0)
+
+        analysis_time_ms = int((time.time() - started) * 1000)
+
+        # Trigger auto-learning for discovered patterns
+        if self.auto_learn and self.all_discoveries:
+            learned = self._auto_learn()
+            if learned:
+                print(f"  💾 Auto-learned {len(learned)} new atoms, persisted to registry")
+
         return RepoAnalysis(
             name=Path(repo_path).name,
             path=repo_path,
-            language="mixed",
+            language=language or "mixed",
             files=results.get("summary", {}).get("files_processed", 0),
+            lines=detailed_stats.get("file_analysis", {}).get("total_lines_analyzed", 0),
+            bytes=detailed_stats.get("file_analysis", {}).get("total_characters_analyzed", 0),
             semantic_ids=len(semantic_ids),
             semantic_id_list=semantic_ids,
             edges=edges,
             total_nodes=len(semantic_ids),
             known_atoms=len(semantic_ids),
             unknown_atoms=0,
-            coverage_pct=comp_results.get("stats", {}).get("recognition_rate", 0.0)
+            coverage_pct=float(coverage_pct or 0.0),
+            classes=int(full_stats.get("classes", 0) or 0),
+            functions=int(full_stats.get("functions", 0) or 0),
+            call_edges=len(call_edges),
+            analysis_time_ms=analysis_time_ms,
+            new_patterns=new_patterns,
         )
     
     def _llm_reclassify_particles(
@@ -627,6 +790,7 @@ class LearningEngine:
                         kind="class",  # Default; could be refined
                         file=sid.module_path if hasattr(sid, 'module_path') else "",
                         role=sid.properties.get("type") if hasattr(sid, 'properties') else None,
+                        metadata=sid.properties if hasattr(sid, 'properties') else {},
                     ))
                 
                 # Add edges
@@ -861,6 +1025,10 @@ class LearningEngine:
         summary_md = self._generate_summary_md(report)
         (out / "LEARNING_SUMMARY.md").write_text(summary_md)
         
+        # 6. Auto-Learning Report (structured)
+        auto_learning_md = self._generate_auto_learning_report_md(report)
+        (out / "AUTO_LEARNING_REPORT.md").write_text(auto_learning_md)
+        
         # 6. Generate Full Network Diagram
         network_path = out / "NETWORK_DIAGRAM.mermaid"
         with open(network_path, "w") as f:
@@ -871,7 +1039,7 @@ class LearningEngine:
             node_map = {}
             for sid in self.semantic_matrix.ids:
                 node_map[sid.name] = sid
-                safe_id = sid.content_hash
+                safe_id = sid.id_hash
                 display_name = sid.name.replace('"', '').replace('(', '').replace(')', '')
                 
                 # Fallback for empty names (usually file aggregations)
@@ -906,7 +1074,7 @@ class LearningEngine:
                                  break
                 
                 if caller_node and callee_node_match:
-                    f.write(f"    {caller_node.content_hash} --> {callee_node_match.content_hash}\n")
+                    f.write(f"    {caller_node.id_hash} --> {callee_node_match.id_hash}\n")
                     filtered_edges += 1
         
         print(f"\n💾 Exported to: {out}")
@@ -1176,6 +1344,121 @@ class LearningEngine:
         
         return "\n".join(lines)
 
+    def _generate_auto_learning_report_md(self, report: LearningReport) -> str:
+        """Generate structured auto-learning report for schema building."""
+        from datetime import datetime
+        
+        # Load current registry state
+        registry_path = Path(__file__).parent / "output" / "atom_registry_canon.json"
+        registry_stats = {"total": 0, "by_source": {}}
+        if registry_path.exists():
+            try:
+                registry = json.loads(registry_path.read_text())
+                registry_stats["total"] = len(registry.get("atoms", {}))
+                for atom in registry.get("atoms", {}).values():
+                    src = atom.get("source", "unknown")
+                    registry_stats["by_source"][src] = registry_stats["by_source"].get(src, 0) + 1
+            except:
+                pass
+        
+        # Calculate coverage metrics
+        total_patterns = report.total_known + report.total_unknown
+        coverage_pct = (report.total_known / total_patterns * 100) if total_patterns > 0 else 0
+        
+        lines = [
+            "# 🧬 Auto-Learning Report",
+            "",
+            f"**Generated:** {datetime.now().isoformat()}",
+            f"**Run ID:** `{report.run_id}`",
+            "",
+            "---",
+            "",
+            "## 📊 Registry Status",
+            "",
+            "| Metric | Value |",
+            "|--------|------:|",
+            f"| Total Atoms in Registry | {registry_stats['total']} |",
+        ]
+        
+        for src, count in sorted(registry_stats["by_source"].items()):
+            lines.append(f"| └─ {src} | {count} |")
+        
+        lines.extend([
+            "",
+            "## 🎯 Coverage Analysis",
+            "",
+            "| Metric | Value |",
+            "|--------|------:|",
+            f"| Known Patterns | {report.total_known:,} |",
+            f"| Unknown Patterns | {report.total_unknown:,} |",
+            f"| **Coverage %** | **{coverage_pct:.1f}%** |",
+            "",
+        ])
+        
+        # Discoveries section
+        if report.all_discoveries:
+            lines.extend([
+                "## 🔬 Discovered Patterns",
+                "",
+                f"**Total Discoveries:** {len(report.all_discoveries)}",
+                "",
+                "| # | AST Type | Occurrences | Status |",
+                "|--:|----------|------------:|--------|",
+            ])
+            
+            for i, d in enumerate(report.all_discoveries[:30], 1):
+                status = "✅ Learned" if report.atoms_learned > 0 else "📋 Pending"
+                lines.append(f"| {i} | `{d['ast_type']}` | {d['count']:,} | {status} |")
+            
+            if len(report.all_discoveries) > 30:
+                lines.append(f"| ... | *{len(report.all_discoveries) - 30} more* | | |")
+        else:
+            lines.extend([
+                "## 🔬 Discovered Patterns",
+                "",
+                "✅ **No unknown patterns discovered** - all AST types are covered!",
+            ])
+        
+        # Learning actions section
+        lines.extend([
+            "",
+            "## 💾 Learning Actions",
+            "",
+            f"- Atoms before run: **{report.registry_size_before}**",
+            f"- Atoms after run: **{report.registry_size_after}**",
+            f"- **New atoms learned:** **{report.atoms_learned}**",
+            "",
+        ])
+        
+        # Target progress
+        target_coverage = 95.0
+        progress = min(coverage_pct / target_coverage * 100, 100)
+        progress_bar = "█" * int(progress / 5) + "░" * (20 - int(progress / 5))
+        
+        lines.extend([
+            "## 🎯 Target Progress (95% Coverage)",
+            "",
+            f"```",
+            f"[{progress_bar}] {progress:.1f}%",
+            f"```",
+            "",
+            f"Current: {coverage_pct:.1f}% → Target: {target_coverage}%",
+            "",
+        ])
+        
+        # Per-repo breakdown
+        if report.repos:
+            lines.extend([
+                "## 📁 Per-Repository Coverage",
+                "",
+                "| Repository | Files | Coverage | Semantic IDs |",
+                "|------------|------:|---------:|-------------:|",
+            ])
+            for r in sorted(report.repos, key=lambda x: -x.coverage_pct):
+                cov_icon = "🟢" if r.coverage_pct >= 90 else ("🟡" if r.coverage_pct >= 70 else "🔴")
+                lines.append(f"| {r.name} | {r.files} | {cov_icon} {r.coverage_pct:.1f}% | {r.semantic_ids:,} |")
+        
+        return "\n".join(lines)
 
 # =============================================================================
 # CLI
@@ -1185,10 +1468,8 @@ def run_analysis(args):
     """Run analysis with parsed arguments."""
     from core.system_health import SystemHealth
     
-    # Pre-Flight Checklist
-    # Only hard fail if user explicitly requested full mode
-    exit_on_fail = (args.mode == "full")
-    SystemHealth.print_checklist(mode=args.mode, exit_on_fail=exit_on_fail)
+    # Pre-Flight Checklist (unified mode, graceful degradation)
+    SystemHealth.print_checklist(exit_on_fail=False)
     
     print("=" * 70)
     print("🧠 COMPREHENSIVE LEARNING ENGINE")
@@ -1198,11 +1479,9 @@ def run_analysis(args):
     
     # Handle both argparse Namespace and dict
     no_learn = args.no_learn if hasattr(args, 'no_learn') else False
-    mode = args.mode if hasattr(args, 'mode') else "auto"
     
-    # Build Single Truth Config
+    # Build Single Truth Config (unified mode - no more mode parameter)
     config = AnalyzerConfig(
-        mode=mode, 
         auto_learn=not no_learn, 
         use_llm=(llm_model is not None),
         llm_model=llm_model

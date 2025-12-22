@@ -128,6 +128,9 @@ class Component:
     rpbl: Dict[str, float] = field(default_factory=dict)  # Responsibility, Purity, Boundary, Lifecycle
     risk_score: float = 0.0
     
+    # Flexible metadata (e.g. Intelligence reports)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
     def to_dict(self) -> Dict[str, Any]:
         """Convert to JSON-serializable dict."""
         return asdict(self)

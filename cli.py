@@ -15,7 +15,7 @@ from learning_engine import run_analysis
 def main():
     parser = argparse.ArgumentParser(
         prog="spectrometer",
-        description="🔬 Standard Code Spectrometer - Analyze any codebase structure"
+        description="🔬 Standard Model of Code Spectrometer - Analyze any codebase structure"
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
@@ -35,13 +35,7 @@ def main():
         help="Path to the repository or directory to analyze"
     )
     
-    # Flags (copied from learning_engine.py)
-    analyze_parser.add_argument(
-        "--mode",
-        choices=["auto", "full", "minimal"],
-        default="auto",
-        help="Analysis mode: 'full' (tree-sitter), 'minimal' (regex), 'auto' (default)",
-    )
+    # Flags
     analyze_parser.add_argument(
         "--output",
         default="output/learning",
@@ -97,12 +91,7 @@ def main():
         default=".",
         help="Target repository (defaults to current directory)"
     )
-    audit_parser.add_argument(
-        "--mode",
-        choices=["minimal", "auto"],
-        default="minimal",
-        help="Analysis mode for the audit scan"
-    )
+
     audit_parser.add_argument(
         "--output",
         default="output/audit",
@@ -144,6 +133,24 @@ def main():
         help="Show only bottleneck analysis"
     )
 
+    # ==========================================
+    # VIZ Command
+    # ==========================================
+    viz_parser = subparsers.add_parser(
+        "viz",
+        help="Generate interactive HTML visualization",
+        description="Creates a robust, interactive HTML visualization from a graph.json file."
+    )
+    viz_parser.add_argument(
+        "graph_path",
+        help="Path to graph.json file"
+    )
+    viz_parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output path for the HTML file"
+    )
+
     # Parse
     args = parser.parse_args()
     
@@ -154,7 +161,7 @@ def main():
 
     elif args.command == "audit":
         from core.audit_runner import run_full_audit
-        sys.exit(run_full_audit(target_path=args.path, mode=args.mode, output_dir=args.output))
+        sys.exit(run_full_audit(target_path=args.path, output_dir=args.output))
 
     elif args.command == "analyze":
         if not args.path:
@@ -211,6 +218,22 @@ def main():
             output_path = args.output or str(graph_path.parent / "GRAPH_ANALYSIS.md")
             generate_report(result, output_path)
             print(f"\n✅ Report saved to: {output_path}")
+    
+            print(f"\n✅ Report saved to: {output_path}")
+
+    elif args.command == "viz":
+        from core.viz_generator import VisualizationGenerator
+        
+        graph_path = Path(args.graph_path)
+        output_path = Path(args.output) if args.output else graph_path.parent / "spectrometer_viz.html"
+        
+        generator = VisualizationGenerator()
+        try:
+            saved_path = generator.generate(graph_path, output_path)
+            print(f"✅ Visualization generated: {saved_path}")
+        except Exception as e:
+            print(f"❌ Error generating visualization: {e}")
+            sys.exit(1)
     
     else:
         parser.print_help()

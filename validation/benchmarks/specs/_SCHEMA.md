@@ -4,7 +4,7 @@ These specs define **golden truth** for a repo in a way the suite can score dete
 
 ## File naming
 
-- `*.bench.json` under `spectrometer_v12_minimal/validation/benchmarks/specs/`
+- `*.bench.json` under `validation/benchmarks/specs/`
 
 ## Shape (v1)
 

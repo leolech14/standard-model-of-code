@@ -156,7 +156,6 @@ def _run_detector(repo_root: Path, target_repo_root: Path, *, output_dir: Path) 
     # Try multiple possible locations for core directory
     core_candidates = [
         repo_root / "core",
-        repo_root / "spectrometer_v12_minimal" / "core",
     ]
     core_dir = None
     for candidate in core_candidates:
@@ -357,17 +356,17 @@ def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Run benchmark specs against local repos, in parallel.")
     parser.add_argument(
         "--repos-dir",
-        default="spectrometer_v12_minimal/validation/benchmarks/repos",
+        default="validation/benchmarks/repos",
         help="Folder containing benchmark repos (subfolders).",
     )
     parser.add_argument(
         "--specs-dir",
-        default="spectrometer_v12_minimal/validation/benchmarks/specs",
+        default="validation/benchmarks/specs",
         help="Folder containing *.bench.json specs.",
     )
     parser.add_argument(
         "--out-dir",
-        default="spectrometer_v12_minimal/validation/benchmarks/runs",
+        default="validation/benchmarks/runs",
         help="Folder to write run outputs (per-spec detector outputs + reports).",
     )
     parser.add_argument("--workers", type=int, default=4, help="Parallel workers.")

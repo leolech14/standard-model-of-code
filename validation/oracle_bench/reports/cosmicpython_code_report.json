@@ -1,0 +1,96 @@
+{
+  "repo_id": "cosmicpython_code",
+  "repo_name": "Cosmic Python",
+  "oracle_type": "canonical_paths",
+  "validated_source": "Book: 'Architecture Patterns with Python' by Harry Percival & Bob Gregory (O'Reilly, 2020)",
+  "oracle_summary": {
+    "oracle_source": "canonical_paths:[domain:1 patterns, application:1 patterns, infrastructure:1 patterns, presentation:1 patterns]",
+    "validation_note": "Book: 'Architecture Patterns with Python' by Harry Percival & Bob Gregory (O'Reilly, 2020)",
+    "total_files": 16,
+    "components": [
+      "application",
+      "domain",
+      "infrastructure",
+      "presentation"
+    ],
+    "allowed_deps": 5,
+    "forbidden_deps": 5,
+    "warnings": []
+  },
+  "metrics": {
+    "component_accuracy": {
+      "total_symbols": 159,
+      "matched_symbols": 77,
+      "correct_component": 18,
+      "accuracy": 0.2338,
+      "per_component": {
+        "Infrastructure": {
+          "oracle_count": 21,
+          "predicted_count": 3,
+          "correct_count": 3,
+          "precision": 1.0,
+          "recall": 0.1429,
+          "f1": 0.25
+        },
+        "Core": {
+          "oracle_count": 24,
+          "predicted_count": 6,
+          "correct_count": 5,
+          "precision": 0.8333,
+          "recall": 0.2083,
+          "f1": 0.3333
+        },
+        "Unknown": {
+          "oracle_count": 0,
+          "predicted_count": 40,
+          "correct_count": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "Application": {
+          "oracle_count": 27,
+          "predicted_count": 28,
+          "correct_count": 10,
+          "precision": 0.3571,
+          "recall": 0.3704,
+          "f1": 0.3636
+        },
+        "Interface": {
+          "oracle_count": 5,
+          "predicted_count": 0,
+          "correct_count": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      }
+    },
+    "coverage": {
+      "symbols_with_oracle_label": 77,
+      "symbols_without_oracle_label": 82,
+      "coverage_rate": 0.4843
+    },
+    "confusion_matrix": {
+      "Infrastructure": {
+        "Application": 11,
+        "Infrastructure": 3,
+        "Unknown": 6,
+        "Core": 1
+      },
+      "Application": {
+        "Unknown": 17,
+        "Application": 10
+      },
+      "Interface": {
+        "Unknown": 4,
+        "Application": 1
+      },
+      "Core": {
+        "Core": 5,
+        "Unknown": 13,
+        "Application": 6
+      }
+    }
+  }
+}

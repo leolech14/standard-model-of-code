@@ -1,6 +1,6 @@
 {
   "repo": "pgorecki__python-ddd",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/pgorecki__python-ddd",
+  "repo_path": "validation/benchmarks/repos/pgorecki__python-ddd",
   "confidence": 0.6,
   "truth_sources": [
     "dir:src/api",

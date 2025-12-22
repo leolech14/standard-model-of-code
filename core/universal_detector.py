@@ -35,6 +35,12 @@ class UniversalPatternDetector:
         # Step 1: Parse all files with Tree-sitter
         print("📂 Parsing files with universal engine...")
         analysis_results = self.tree_sitter_engine.analyze_directory(repo_path)
+        depth_summary = getattr(self.tree_sitter_engine, "depth_summary", {})
+        if depth_summary.get("files_measured", 0) > 0:
+            print(
+                f"🧭 Depth metrics: max AST depth {depth_summary.get('max_ast_depth', 0)} "
+                f"across {depth_summary.get('files_measured', 0)} python files"
+            )
 
         # Step 1.5: Extract dependencies (internal/external/stdlib)
         print("🔗 Analyzing dependencies...")
@@ -52,6 +58,8 @@ class UniversalPatternDetector:
         # Step 3: Generate comprehensive statistics
         print("📊 Generating comprehensive statistics...")
         comprehensive_results = self.stats_generator.generate_comprehensive_stats(analysis_results)
+        if depth_summary:
+            comprehensive_results['depth_metrics'] = depth_summary
         comprehensive_results['dependencies'] = dependency_summary
         
         # Step 3.5: God Class Detection

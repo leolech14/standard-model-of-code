@@ -1,0 +1,75 @@
+# Oracle Benchmark Manifest
+# 
+# This file defines the benchmark repositories and their oracle configurations.
+# Each repo must have a pinned commit SHA for reproducibility.
+
+version: 1
+
+# Minimum confidence threshold for Spectrometer predictions to be included
+threshold_confidence: 0.55
+
+repos:
+  # ============================================================================
+  # CANONICAL PATH ORACLES (Book/Reference Implementations)
+  # ============================================================================
+  
+  - id: cosmicpython_code
+    name: "Cosmic Python"
+    description: "Architecture Patterns with Python - official book code"
+    url: https://github.com/cosmicpython/code.git
+    commit: "master"  # TODO: pin to specific SHA after cloning
+    language: python
+    
+    oracle_type: canonical_paths
+    oracle_config:
+      layers:
+        domain:
+          - "src/allocation/domain/**/*.py"
+        application:
+          - "src/allocation/service_layer/**/*.py"
+        infrastructure:
+          - "src/allocation/adapters/**/*.py"
+        presentation:
+          - "src/allocation/entrypoints/**/*.py"
+    
+    mapping_file: mappings/cosmicpython.yaml
+    validated_source: "Book: 'Architecture Patterns with Python' by Harry Percival & Bob Gregory (O'Reilly, 2020)"
+    
+  - id: dddpy_onion
+    name: "dddpy"
+    description: "Python DDD example with FastAPI and Onion Architecture"
+    url: https://github.com/iktakahiro/dddpy.git
+    commit: "master"  # TODO: pin to specific SHA
+    language: python
+    
+    oracle_type: canonical_paths
+    oracle_config:
+      layers:
+        domain:
+          - "dddpy/domain/**/*.py"
+        application:
+          - "dddpy/usecase/**/*.py"
+        infrastructure:
+          - "dddpy/infrastructure/**/*.py"
+        presentation:
+          - "dddpy/presentation/**/*.py"
+    
+    mapping_file: mappings/ddd_onion.yaml
+    validated_source: "README.md with documented Onion Architecture layers and directory structure"
+
+  # ============================================================================
+  # IMPORT LINTER ORACLES (CI-Enforced Contracts)
+  # ============================================================================
+  
+  # - id: import_linter_example
+  #   name: "Clean Architecture with Import Linter"
+  #   url: https://github.com/example/clean-arch.git
+  #   commit: "abc1234"
+  #   language: python
+  #   
+  #   oracle_type: import_linter
+  #   oracle_files:
+  #     - .importlinter
+  #   
+  #   mapping_file: mappings/clean_arch.yaml
+  #   validated_source: "Import Linter contracts enforced in CI"

@@ -16,7 +16,7 @@ echo "🤔 Asking $MODEL to evaluate architecture based on 100% coverage map..."
 echo "   (This analyzes the structural relationships found in the scan)"
 
 PROMPT="You are a Principal Software Architect. 
-I am providing you with a 'Semantic Map' of a codebase, grouped by the 'Standard Model' of Computer Language (Data, Logic, Organization, Execution).
+I am providing you with a 'Semantic Map' of a codebase, grouped by the 'Standard Model' of Code (Data, Logic, Organization, Execution).
 
 Your Task: Perform a Critical Architectural Review.
 

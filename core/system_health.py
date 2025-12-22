@@ -29,7 +29,7 @@ class SystemHealth:
     }
 
     @staticmethod
-    def check_all(mode: str = "full") -> HealthStatus:
+    def check_all() -> HealthStatus:
         checks = []
         warnings = []
         all_passed = True
@@ -44,15 +44,15 @@ class SystemHealth:
             
         # 2. Check Core Bindings
         for pkg, desc in SystemHealth.REQUIRED_PACKAGES.items():
-            is_critical = (mode == "full") and (pkg in ["tree_sitter", "tree_sitter_python"])
+            is_critical = pkg in ["tree_sitter", "tree_sitter_python"]
             
             try:
                 importlib.import_module(pkg)
                 checks.append((f"{desc} ({pkg})", True, "Installed"))
             except ImportError:
                 if not is_critical:
-                    checks.append((f"{desc} ({pkg})", False, "Missing (Optional/Skipped)"))
-                    warnings.append(f"Missing binding: {pkg} (Mode: {mode})")
+                    checks.append((f"{desc} ({pkg})", False, "Missing (Optional)"))
+                    warnings.append(f"Missing optional binding: {pkg}")
                 else:
                     checks.append((f"{desc} ({pkg})", False, "MISSING - CRITICAL"))
                     all_passed = False
@@ -71,12 +71,12 @@ class SystemHealth:
         return HealthStatus(is_healthy=all_passed, checks=checks, warnings=warnings)
 
     @staticmethod
-    def print_checklist(mode: str = "full", exit_on_fail: bool = True):
+    def print_checklist(exit_on_fail: bool = False):
         """Run checks and print ASCII checklist."""
-        print(f"\n🛡️  PRE-FLIGHT SYSTEM CHECK (Mode: {mode})")
+        print(f"\n🛡️  PRE-FLIGHT SYSTEM CHECK")
         print("=" * 60)
         
-        status = SystemHealth.check_all(mode)
+        status = SystemHealth.check_all()
         
         for name, passed, msg in status.checks:
             icon = "✅" if passed else "❌"

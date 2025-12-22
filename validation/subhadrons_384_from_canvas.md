@@ -2,7 +2,7 @@
 
 - Generated: 2025-12-14T05:38:30
 - Source: `THEORY_COMPLETE.canvas`
-- CSV: `spectrometer_v12_minimal/validation/subhadrons_384_from_canvas.csv`
+- CSV: `subhadrons_384_from_canvas.csv`
 
 ## Snapshot
 - Total subhadrons found: 384
@@ -60,4 +60,3 @@
 
 ## Note
 This is a faithful snapshot of what the canvas currently marks as antimatter; it is not asserting that the true canonical impossible set is 42.
-

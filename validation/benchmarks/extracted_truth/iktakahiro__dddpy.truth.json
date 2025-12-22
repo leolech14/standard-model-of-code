@@ -1,6 +1,6 @@
 {
   "repo": "dddpy_real",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/dddpy_real",
+  "repo_path": "validation/dddpy_real",
   "confidence": 0.7,
   "truth_sources": [
     "dir:dddpy/presentation",

@@ -1,6 +1,6 @@
 {
   "repo": "cosmicpython__code",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/cosmicpython__code",
+  "repo_path": "validation/benchmarks/repos/cosmicpython__code",
   "confidence": 0.6,
   "truth_sources": [
     "type:Repository",

@@ -11,10 +11,10 @@ They are used to validate whether Spectrometer can correctly label components (e
 ## Run validation
 
 - Single spec:
-  - `python3 spectrometer_v12_minimal/validation/validate_known_architecture.py --spec spectrometer_v12_minimal/validation/known_architectures/dddpy_real_onion_v1.json --write-json`
+  - `python3 validation/validate_known_architecture.py --spec validation/known_architectures/dddpy_real_onion_v1.json --write-json`
 
 - All specs in this folder:
-  - `python3 spectrometer_v12_minimal/validation/run_known_arch_suite.py --write-json`
+  - `python3 validation/run_known_arch_suite.py --write-json`
 
 ## Spec format (v1)
 

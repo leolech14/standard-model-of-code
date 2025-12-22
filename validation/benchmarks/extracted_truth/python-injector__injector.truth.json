@@ -1,6 +1,6 @@
 {
   "repo": "python-injector__injector",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/python-injector__injector",
+  "repo_path": "validation/benchmarks/repos/python-injector__injector",
   "confidence": 0.6,
   "truth_sources": [
     "doc:README.md",

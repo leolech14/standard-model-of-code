@@ -12,10 +12,10 @@ This is the intended closed loop:
 ## 1) Run suite
 
 ```bash
-python3 spectrometer_v12_minimal/validation/run_benchmark_suite.py \
-  --repos-dir spectrometer_v12_minimal/validation/benchmarks/repos \
-  --specs-dir spectrometer_v12_minimal/validation/benchmarks/specs \
-  --out-dir spectrometer_v12_minimal/validation/benchmarks/runs \
+python3 validation/run_benchmark_suite.py \
+  --repos-dir validation/benchmarks/repos \
+  --specs-dir validation/benchmarks/specs \
+  --out-dir validation/benchmarks/runs \
   --workers 6
 ```
 
@@ -32,8 +32,8 @@ Outputs:
 
 ```bash
 python3 tools/scan_repo_truth_sources.py \
-  --repos-dir spectrometer_v12_minimal/validation/benchmarks/repos \
-  --out spectrometer_v12_minimal/validation/benchmarks/runs/truth_sources.json
+  --repos-dir validation/benchmarks/repos \
+  --out validation/benchmarks/runs/truth_sources.json
 ```
 
 3) Create a `*.bench.json` spec under `benchmarks/specs/`:

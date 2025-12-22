@@ -1,6 +1,6 @@
 {
   "repo": "tiangolo__sqlmodel",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/tiangolo__sqlmodel",
+  "repo_path": "validation/benchmarks/repos/tiangolo__sqlmodel",
   "confidence": 0.4,
   "truth_sources": [
     "doc:README.md",

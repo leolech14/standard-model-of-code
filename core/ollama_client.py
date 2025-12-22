@@ -19,8 +19,9 @@ class OllamaConfig:
     model: str = "qwen2.5:7b-instruct"  # Best for structured JSON output
     base_url: str = "http://localhost:11434"
     timeout: int = 120  # seconds
-    temperature: float = 0.1  # Low temp for deterministic classification
+    temperature: float = 0.0  # T=0 for deterministic classification (per paper §5.2)
     max_tokens: int = 2048
+    cache_dir: str = ".llm_cache"  # Response caching directory
 
 
 class OllamaClient:
@@ -51,6 +52,11 @@ class OllamaClient:
             # curl not available, try with requests
             pass
     
+    def _get_cache_key(self, prompt: str) -> str:
+        """Generate cache key from prompt content hash."""
+        import hashlib
+        return hashlib.sha256(prompt.encode()).hexdigest()[:16]
+    
     def classify(self, system_prompt: str, user_prompt: str) -> str:
         """
         Call Ollama to classify a component.
@@ -59,9 +65,20 @@ class OllamaClient:
         than the HTTP API when multiple instances may be running.
         
         Returns the raw JSON string response.
+        Implements caching per paper §5.2: "LLM responses are cached by content hash."
         """
+        from pathlib import Path
+        
         # Combine prompts for the CLI
         full_prompt = f"{system_prompt}\n\n{user_prompt}\n\nRespond with valid JSON only."
+        
+        # Check cache first
+        cache_key = self._get_cache_key(full_prompt)
+        cache_dir = Path(self.config.cache_dir)
+        cache_path = cache_dir / f"{cache_key}.json"
+        
+        if cache_path.exists():
+            return cache_path.read_text()
         
         try:
             result = subprocess.run(
@@ -79,12 +96,16 @@ class OllamaClient:
             # Extract JSON from response (sometimes wrapped in markdown)
             json_match = re.search(r'```json\s*(.*?)\s*```', content, re.DOTALL)
             if json_match:
-                return json_match.group(1)
+                content = json_match.group(1)
+            else:
+                # Try to find raw JSON object (possibly nested)
+                json_match = re.search(r'\{.*\}', content, re.DOTALL)
+                if json_match:
+                    content = json_match.group(0)
             
-            # Try to find raw JSON object (possibly nested)
-            json_match = re.search(r'\{.*\}', content, re.DOTALL)
-            if json_match:
-                return json_match.group(0)
+            # Cache the response
+            cache_dir.mkdir(exist_ok=True)
+            cache_path.write_text(content)
             
             return content
             

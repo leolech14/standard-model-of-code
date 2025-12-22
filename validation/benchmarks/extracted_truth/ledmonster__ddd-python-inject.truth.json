@@ -1,6 +1,6 @@
 {
   "repo": "ledmonster__ddd-python-inject",
-  "repo_path": "/Users/lech/PROJECTS_all/PROJECT_elements/spectrometer_v12_minimal/validation/benchmarks/repos/ledmonster__ddd-python-inject",
+  "repo_path": "validation/benchmarks/repos/ledmonster__ddd-python-inject",
   "confidence": 0.6,
   "truth_sources": [
     "type:Repository",

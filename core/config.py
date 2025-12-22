@@ -29,7 +29,6 @@ class AnalyzerConfig:
     ))
     
     # Runtime Settings
-    mode: str = "auto"              # auto, full, minimal
     use_llm: bool = False           # Whether to use LLM for unknown resolution
     llm_model: Optional[str] = None # Model name if use_llm is True
     strict_mode: bool = False       # If True, fail on ambiguity

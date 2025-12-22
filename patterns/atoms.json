@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "1.0.0",
-  "description": "Standard Model for Computer Language - 167 Atom Ontology",
+  "description": "Standard Model of Code - 167 Atom Ontology",
   "total_atoms": 167,
   "phases": {
     "DATA": {

@@ -49,13 +49,13 @@ def _print_health(results):
     return all_passed
 
 
-def run_full_audit(target_path: str = ".", mode: str = "minimal", output_dir: str = "output/audit") -> int:
+def run_full_audit(target_path: str = ".", output_dir: str = "output/audit") -> int:
     """Run health checks and a quick analysis to validate the toolchain."""
     repo_path = Path(target_path).resolve()
     print("\n🧾 SPECTROMETER FULL AUDIT")
     print("=" * 60)
     print(f"Target: {repo_path}")
-    print(f"Mode: {mode} | Output: {output_dir}")
+    print(f"Output: {output_dir}")
 
     if not repo_path.exists():
         print(f"❌ Target path not found: {repo_path}")
@@ -64,10 +64,9 @@ def run_full_audit(target_path: str = ".", mode: str = "minimal", output_dir: st
     health_results = NewmanSuite().run_all()
     health_ok = _print_health(health_results)
 
-    print("\n🧠 RUNNING MINIMAL ANALYSIS")
+    print("\n🧠 RUNNING ANALYSIS")
     audit_args = SimpleNamespace(
         path=str(repo_path),
-        mode=mode,
         output=output_dir,
         language=None,
         workers=2,

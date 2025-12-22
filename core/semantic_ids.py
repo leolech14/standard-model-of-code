@@ -27,6 +27,7 @@ This creates a SELF-ORGANIZING MATRIX where:
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple, Any
 from enum import Enum
+from pathlib import Path
 import hashlib
 import re
 
@@ -569,12 +570,15 @@ class SemanticIDGenerator:
             level = Level.MOLECULE
             
         module_path = file_path.replace("/", ".").replace(".py", "")
-        if "spectrometer_v12_minimal" in module_path:
-             # Clean up path slightly for internal repos
-             try:
-                 idx = module_path.index("spectrometer_v12_minimal")
-                 module_path = module_path[idx+len("spectrometer_v12_minimal")+1:]
-             except: pass
+        repo_marker = Path(__file__).resolve().parents[1].name
+        for marker in (repo_marker, "spectrometer_v12_minimal", "standard-code-spectrometer"):
+            if marker in module_path:
+                try:
+                    idx = module_path.index(marker)
+                    module_path = module_path[idx + len(marker) + 1 :]
+                except ValueError:
+                    pass
+                break
         if module_path.startswith("."): module_path = module_path[1:]
         
         properties = {
