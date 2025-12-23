@@ -27,7 +27,10 @@ from insights_engine import generate_insights
 from purpose_field import detect_purpose_field, Layer
 from execution_flow import detect_execution_flow
 from performance_predictor import predict_performance
-
+from purpose_field import detect_purpose_field, Layer
+from execution_flow import detect_execution_flow
+from performance_predictor import predict_performance
+from data_management import CodebaseState
 
 def run_proof(target_path: str) -> dict:
     """
@@ -76,6 +79,11 @@ def run_proof(target_path: str) -> dict:
     print(f"  ✓ Edges extracted: {len(edges)}")
     print(f"  ✓ Time: {classification_time:.2f}s")
     print()
+
+    # INITIALIZE STATE
+    state = CodebaseState(str(target))
+    state.load_initial_graph(nodes, edges)
+    print(f"  ✓ State initialized with {len(nodes)} nodes")
     
     # ═══════════════════════════════════════════════════════════════════════
     # STAGE 2: ROLE DISTRIBUTION
@@ -410,52 +418,43 @@ def run_proof(target_path: str) -> dict:
     print("└─────────────────────────────────────────────────────────────────┘")
 
     try:
-        # 1. ENRICH NODES
-        enriched_particles = []
-        node_lookup = {n['id']: n for n in nodes if isinstance(n, dict)}
+
+        # 1. ENRICH NODES VIA STATE
         
-        # Helper to safely get node ID
-        def get_id(n):
-            return n.id if hasattr(n, 'id') else n.get('id')
+        # Enriched Purpose
+        if purpose_field:
+            for node in purpose_field.nodes.values():
+                 layer_val = node.layer.value if hasattr(node.layer, 'value') else str(node.layer)
+                 state.enrich_node(node.id, "purpose", 
+                                  layer=layer_val, 
+                                  composite_purpose=node.composite_purpose)
 
-        # Create map of semantic data
-        purpose_map = {n.id: n for n in purpose_field.nodes.values()} if purpose_field else {}
-        flow_orphans = set(exec_flow.orphans) if exec_flow else set()
-        hotspot_scores = {n.id: n.hotspot_score for n in perf_profile.nodes.values()} if perf_profile else {}
+        # Enrich Flow
+        if exec_flow:
+            for orphan_id in exec_flow.orphans:
+                state.enrich_node(orphan_id, "flow", is_orphan=True)
 
-        for node in nodes:
-            # Handle object vs dict
-            if hasattr(node, '__dict__'):
-                p = dict(vars(node))
-            else:
-                p = dict(node)
-                
-            nid = p.get('id')
+        # Enrich Performance
+        if perf_profile:
+            for nid, pnode in perf_profile.nodes.items():
+                is_hotspot = pnode.hotspot_score > 50
+                state.enrich_node(nid, "performance", 
+                                 hotspot_score=pnode.hotspot_score,
+                                 is_hotspot=is_hotspot)
+        
+        # Final Polish (Labels, defaults)
+        for nid, node in state.nodes.items():
+            if 'layer' not in node:
+                state.enrich_node(nid, "default", layer="unknown")
             
-            # Merge Purpose Layer
-            if nid in purpose_map:
-                pn = purpose_map[nid]
-                p['layer'] = pn.layer.value if hasattr(pn.layer, 'value') else str(pn.layer)
-                p['composite_purpose'] = pn.composite_purpose
-            elif not p.get('layer'):
-                p['layer'] = 'unknown'
-
-            # Merge Execution Flow
-            p['is_orphan'] = nid in flow_orphans
-            
-            # Merge Performance
-            p['hotspot_score'] = hotspot_scores.get(nid, 0)
-            p['is_hotspot'] = p['hotspot_score'] > 50
-
-            # UI Label
-            p['label'] = p.get('name', '').split('.')[-1]
-            
-            enriched_particles.append(p)
+            label = node.get('name', '').split('.')[-1]
+            state.enrich_node(nid, "ui", label=label)
 
         # 2. GENERATE JSON PAYLOAD
+        export_data = state.export()
         viz_data = {
-            "particles": enriched_particles,
-            "connections": edges if isinstance(edges, list) else [dict(e) for e in edges],
+            "particles": export_data['nodes'],
+            "connections": export_data['edges'],
             "metadata": {
                 "generated_at": datetime.now().isoformat(),
                 "stats": proof_document['classification']

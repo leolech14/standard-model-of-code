@@ -60,71 +60,64 @@ class VisualizationGenerator:
         return output_path
 
     def _process_graph(self, graph_data: Dict[str, Any]):
-        """Convert Spectrometer graph format to Vis.js format."""
-        components = graph_data.get("components", {})
+        """
+        Convert Spectrometer graph format (UnifiedAnalysisOutput) to Vis.js format.
+        Now expects 'nodes' list from CodebaseState export.
+        """
+        nodes = graph_data.get("nodes", [])
         edges = graph_data.get("edges", [])
+        
+        # Legacy fallback: 'components' dict
+        if not nodes and "components" in graph_data:
+            components = graph_data["components"]
+            if isinstance(components, dict):
+                nodes = list(components.values())
+            elif isinstance(components, list):
+                nodes = components
 
         # 1. Particles (Nodes)
         particles = []
         valid_ids = set()
         
-        # Handle both dict (newer) and list (older) formats if necessary, 
-        # but current spec says components is a dict.
-        iterable_components = components.items() if isinstance(components, dict) else []
-
-        for cid, comp in iterable_components:
-            # Determine Layer/Role
-            layer = comp.get("layer")
-            role = comp.get("role")
-
-            # Heuristic fallbacks if missing
-            if not layer:
-                id_str = str(comp.get("id", ""))
-                if id_str.startswith("LOG"): layer = "Core"
-                elif id_str.startswith("DAT"): layer = "Data"
-                elif id_str.startswith("EXE"): layer = "App"
-                elif id_str.startswith("UI"): layer = "Interface"
-                else: layer = "App" # Default
+        for node in nodes:
+            # Flexible ID/Name handling
+            nid = node.get("id")
+            if not nid: continue
             
-            if not role:
-                role = "Worker"
-
-            # Assign random positions for static rendering (physics disabled)
-            import random
-            x_pos = random.randint(-2000, 2000)
-            y_pos = random.randint(-2000, 2000)
-
+            # Use pre-calculated attributes from CodebaseState
+            layer = node.get("layer", "App")
+            role = node.get("role", "Worker")
+            
+            # Normalize layer case if needed
+            if hasattr(layer, "capitalize"):
+                layer = layer.capitalize()
+                
             particles.append({
-                "id": cid,
-                "label": comp.get("name", cid[:20]),
+                "id": nid,
+                "label": node.get("name", nid[:20]),
                 "layer": layer,
                 "role": role,
-                # Source code metadata for code mirror feature
-                "file": comp.get("file", ""),
-                "startLine": comp.get("start_line", 0),
-                "endLine": comp.get("end_line", 0),
-                "loc": (comp.get("end_line", 0) - comp.get("start_line", 0)) + 1,
-                "tokens": ((comp.get("end_line", 0) - comp.get("start_line", 0)) + 1) * 7, # Heuristic
-                "signature": comp.get("signature", ""),
-                "docstring": (comp.get("docstring", "") or "")[:200],  # Truncate long docstrings
-                "kind": comp.get("kind", "unknown"),
-                # Additional metadata
-                "boundary": comp.get("boundary", "Internal"),
-                "state": "Stateless",
-                "activation": "Direct",
-                "lifetime": "Transient",
-                # Intelligence Data
-                "intelligence": comp.get("metadata", {}).get("intelligence", None)
+                "file": node.get("file_path", node.get("file", "")),
+                "startLine": node.get("start_line", 0),
+                "endLine": node.get("end_line", 0),
+                # Visual attributes
+                "complexity": node.get("complexity", 1),
+                "kind": node.get("kind", "class"),
+                # Pass through enrichment data
+                "is_hotspot": node.get("is_hotspot", False),
+                "is_orphan": node.get("is_orphan", False),
+                "description": node.get("docstring", "")[:200],
+                "intelligence": node.get("metadata", {}).get("intelligence", None)
             })
-            valid_ids.add(cid)
+            valid_ids.add(nid)
 
         # 2. Connections (Edges)
         connection_list = []
         name_to_id = {p["label"]: p["id"] for p in particles}
 
         for e in edges:
-            src = e.get("source")
-            dst = e.get("target")
+            src = e.get("source") or e.get("from")
+            dst = e.get("target") or e.get("to")
             
             # Resolve IDs
             final_src = src if src in valid_ids else name_to_id.get(src)
@@ -134,7 +127,7 @@ class VisualizationGenerator:
                 connection_list.append({
                     "from": final_src,
                     "to": final_dst,
-                    "type": e.get("edge_type", "CALLS").upper()
+                    "type": (e.get("edge_type") or e.get("type", "CALLS")).upper()
                 })
 
         return particles, connection_list

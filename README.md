@@ -53,21 +53,9 @@ Code has a **Purpose Field** - meaning that emerges hierarchically:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Quick Start
-
-```bash
-# Analyze any codebase
-# Analyze any codebase
-python tools/prove.py /path/to/code
-
-# Output (6 stages):
-# 1. Classification (atoms, roles, RPBL)
-# 2. Role Distribution (semantic breakdown)
-# 3. Antimatter Violations (impossible states)
-# 4. Predictions (missing components)
 # 5. Actionable Insights (prioritized recommendations)
 # 6. Summary (reproducible proof document)
-## 🚀 Quick Start
+
 
 **Installation:**
 ```bash
