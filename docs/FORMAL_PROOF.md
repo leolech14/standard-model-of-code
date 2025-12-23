@@ -619,3 +619,47 @@ For details, see [MECHANIZED_PROOFS.md](MECHANIZED_PROOFS.md).
 ---
 
 **∎ End of Proof**
+
+---
+
+## 🎯 Validation Roadmap
+
+> *Merged from ROADMAP_TO_PROOF.md*
+
+### Proof Claims
+
+| Claim | Current Evidence | Required Evidence |
+|-------|-----------------|-------------------|
+| **Complete** | ✅ 100% coverage on 33 repos | Done |
+| **Accurate** | 93% on 18-repo ground truth | ≥95% target |
+| **Universal** | Python focus | 6+ languages |
+| **Useful** | Not measured | LLM A/B test |
+
+### Validation Phases
+
+**Phase 1: Accuracy Proof**
+- 500+ human-labeled code elements
+- Precision/recall per role
+- Target: ≥85% overall, ≥95% high-confidence
+
+**Phase 2: Universality Proof**
+- 6 languages: Java, TypeScript, Go, Rust, Ruby, PHP
+- 3 repos per language
+- Target: 100% coverage each
+
+**Phase 3: LLM Utility Proof**
+- A/B experiment: raw code vs SMC-annotated
+- 20 tasks × 2 conditions
+- Target: ≥20% improvement, p<0.05
+
+### Definition of Done
+
+- [ ] Accuracy ≥ 85% overall, ≥ 95% high-confidence
+- [ ] Coverage = 100% on 6 languages
+- [ ] LLM Boost ≥ 20% improvement, p < 0.05
+- [ ] Reproducible - All scripts/data in repo
+- [ ] Peer Review - 2+ external reviewers approve
+
+### The Claim (Draft)
+
+> Any code element in any Turing-complete language can be mapped to a semantic coordinate (α, ρ, v⃗) with 95% accuracy in constant time, and LLMs with this mapping outperform LLMs without it by 25%.

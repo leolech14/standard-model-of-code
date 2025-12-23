@@ -224,3 +224,47 @@ output = state.export()  # Unified schema
 > **Atoms** → **Roles** → **Layers** → **Laws** → **Purpose**
 
 This is not arbitrary. It is the **only valid order** that avoids undefined dependencies.
+
+---
+
+## 📦 The 12 Fundamental Families (Quarks)
+
+> *Merged from COMPREHENSIVE_THEORY.md*
+
+Atoms group into 12 families based on their nature:
+
+| Family | Phase | Purpose | Count |
+|--------|-------|---------|-------|
+| Bits | Data | Binary flags/masks | 2 |
+| Bytes | Data | Raw byte arrays | 3 |
+| Primitives | Data | Basic values (int, string, bool) | 8 |
+| Variables | Data | Named storage | 5 |
+| Expressions | Logic | Value-producing combinations | 8 |
+| Statements | Logic | Actions (return, assert) | 10 |
+| Control | Logic | Flow (if, while, for) | 10 |
+| Functions | Logic | Callable units | 10 |
+| Aggregates | Organization | Composite structures (class, DTO) | 6 |
+| Modules | Organization | Organizational units | 4 |
+| Files | Organization | File-level entities | 1 |
+| Executables | Execution | Runtime entry points | 9+ |
+
+**Total Atoms:** 167 (v14)
+
+---
+
+## 🏢 The 10 Universal Subsystems
+
+Most repositories cluster into ~10 meta-components (subsystems):
+
+| # | Subsystem | What It Contains | Purpose |
+|---|-----------|------------------|---------|
+| 1 | **Ingress** | Routers, controllers, middleware | Receive requests |
+| 2 | **Egress** | External clients, webhooks | Call external systems |
+| 3 | **Domain Core** | Entities, rules, use-cases | Business logic |
+| 4 | **Persistence** | ORM, repositories, migrations | Store data |
+| 5 | **Async Processing** | Queues, workers, schedulers | Background work |
+| 6 | **Presentation** | UI components, view models | Display data |
+| 7 | **Security** | AuthN/AuthZ, policies | Protect system |
+| 8 | **Observability** | Logging, metrics, tracing | Monitor health |
+| 9 | **Configuration** | Config loading, env vars | Configure behavior |
+| 10 | **Delivery** | CI/CD pipelines, IaC | Ship code |
