@@ -227,28 +227,32 @@ This is not arbitrary. It is the **only valid order** that avoids undefined depe
 
 ---
 
-## 📦 The 12 Fundamental Families (Quarks)
+## 📦 The 16 Fundamental Families
 
-> *Merged from COMPREHENSIVE_THEORY.md*
+> *Updated from code - actual count is 16, not 12*
 
-Atoms group into 12 families based on their nature:
+Atoms group into 16 families across 4 phases:
 
-| Family | Phase | Purpose | Count |
-|--------|-------|---------|-------|
-| Bits | Data | Binary flags/masks | 2 |
-| Bytes | Data | Raw byte arrays | 3 |
-| Primitives | Data | Basic values (int, string, bool) | 8 |
-| Variables | Data | Named storage | 5 |
-| Expressions | Logic | Value-producing combinations | 8 |
-| Statements | Logic | Actions (return, assert) | 10 |
-| Control | Logic | Flow (if, while, for) | 10 |
-| Functions | Logic | Callable units | 10 |
-| Aggregates | Organization | Composite structures (class, DTO) | 6 |
-| Modules | Organization | Organizational units | 4 |
-| Files | Organization | File-level entities | 1 |
-| Executables | Execution | Runtime entry points | 9+ |
+| Family | Phase | Purpose |
+|--------|-------|---------|
+| Bits | Data | Binary flags/masks |
+| Bytes | Data | Raw byte arrays |
+| Primitives | Data | Basic values (int, string, bool) |
+| Variables | Data | Named storage |
+| Expressions | Logic | Value-producing combinations |
+| Statements | Logic | Actions (return, assert) |
+| Control | Logic | Flow (if, while, for) |
+| Functions | Logic | Callable units |
+| Aggregates | Organization | Composite structures (class, DTO) |
+| Modules | Organization | Organizational units |
+| Files | Organization | File-level entities |
+| Handlers | Execution | Request/event handlers |
+| Initializers | Execution | Startup/bootstrap code |
+| Probes | Execution | Logging/monitoring |
+| Services | Execution | Background services |
+| Workers | Execution | Async/background workers |
 
-**Total Atoms:** 167 (v14)
+**Total Atoms:** 167 across 16 families in 4 phases
 
 ---
 
