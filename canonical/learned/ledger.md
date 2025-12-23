@@ -128,3 +128,24 @@ When adding new patterns, ALWAYS report:
 - State: `*Selector` → Query, `*Store` → Repository, `*Slice` → Module
 - Vue: `*Composable` → Utility, `*Directive` → Decorator
 
+
+## 2025-12-23 15:51 - Go Language Patterns
+
+**Source**: golang/go repo analysis (89,279 nodes, 61,325 low-conf)
+
+### New Prefixes
+- `tes*` → Test (11,204 occurrences)
+- `new*` → Factory (Go's NewXxx pattern)
+- `ini*` → Lifecycle (init functions)
+- `run*` → Command
+- `benchmark*`, `example*`, `fuzz*` → Test
+
+### New Suffixes  
+- `*Error`, `*rror` → Exception (573 occurrences)
+- `*Type` → DTO (391 occurrences)
+- `*Handler` → EventHandler
+- `*Option(s)`, `*Opts`, `*Config` → Configuration (Go functional options)
+- `*Writer`, `*Reader`, `*Scanner` → Repository/Query
+- `*Builder` → Factory
+- `*Walker`, `*Visitor` → Iterator/Observer
+

@@ -379,6 +379,42 @@
     "unmount": {
       "role": "Lifecycle",
       "confidence": 85
+    },
+    "tes": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "new": {
+      "role": "Factory",
+      "confidence": 85
+    },
+    "ini": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "lib": {
+      "role": "Utility",
+      "confidence": 75
+    },
+    "must": {
+      "role": "Validator",
+      "confidence": 85
+    },
+    "run": {
+      "role": "Command",
+      "confidence": 80
+    },
+    "benchmark": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "example": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "fuzz": {
+      "role": "Test",
+      "confidence": 90
     }
   },
   "suffix_patterns": {
@@ -652,6 +688,46 @@
     },
     "Plugin": {
       "role": "Provider",
+      "confidence": 85
+    },
+    "rror": {
+      "role": "Exception",
+      "confidence": 85
+    },
+    "Type": {
+      "role": "DTO",
+      "confidence": 80
+    },
+    "Func": {
+      "role": "Utility",
+      "confidence": 80
+    },
+    "Option": {
+      "role": "Configuration",
+      "confidence": 85
+    },
+    "Opts": {
+      "role": "Configuration",
+      "confidence": 85
+    },
+    "Writer": {
+      "role": "Repository",
+      "confidence": 85
+    },
+    "Reader": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "Scanner": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "Walker": {
+      "role": "Iterator",
+      "confidence": 85
+    },
+    "Visitor": {
+      "role": "Observer",
       "confidence": 85
     }
   },
