@@ -27,9 +27,12 @@ Legacy documents moved to [archive/](archive/) for reference.
 ---
 
 ## Canonical Constants
-| Constant | Value |
-|:---|---:|
-| Atoms | 167 |
-| Roles | 27 |
-| Patterns | 156 |
-| Accuracy | 93% |
+
+| Constant | Value | Source |
+|:---|---:|:---|
+| Atoms | 167 | Fixed (theory) |
+| Families | 16 | Fixed (theory) |
+| Dimensions | 8 | Fixed (theory) |
+| Roles | 27 | Fixed (theory) |
+| Patterns | *dynamic* | See `LEARNING_LEDGER.md` |
+
