@@ -25,6 +25,7 @@ from auto_pattern_discovery import AutoPatternDiscovery
 from antimatter_evaluator import AntimatterEvaluator
 from insights_engine import generate_insights
 from purpose_field import detect_purpose_field, Layer
+from execution_flow import detect_execution_flow
 
 
 def run_proof(target_path: str) -> dict:
@@ -255,10 +256,41 @@ def run_proof(target_path: str) -> dict:
     print()
     
     # ═══════════════════════════════════════════════════════════════════════
-    # STAGE 7: SUMMARY
+    # STAGE 7: EXECUTION FLOW
     # ═══════════════════════════════════════════════════════════════════════
     print("┌─────────────────────────────────────────────────────────────────┐")
-    print("│ STAGE 7: SUMMARY                                               │")
+    print("│ STAGE 7: EXECUTION FLOW                                        │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    try:
+        exec_flow = detect_execution_flow(nodes, edges, purpose_field)
+        flow_summary = exec_flow.summary()
+        
+        print(f"  Entry points:     {flow_summary['entry_points']}")
+        print(f"  Reachable nodes:  {flow_summary['reachable_nodes']}")
+        print(f"  Orphans:          {flow_summary['orphan_count']}")
+        print(f"  Dead code:        {flow_summary['dead_code_percent']:.1f}%")
+        print(f"  Causality chains: {flow_summary['chains_count']}")
+        
+        if exec_flow.orphans:
+            print(f"\n  ⚠ Orphan functions (unreachable):")
+            for orphan in exec_flow.orphans[:5]:
+                print(f"    - {orphan}")
+            if len(exec_flow.orphans) > 5:
+                print(f"    ... and {len(exec_flow.orphans) - 5} more")
+        else:
+            print("\n  ✓ No dead code detected")
+    except Exception as e:
+        exec_flow = None
+        flow_summary = {}
+        print(f"  ⚠ Execution flow analysis skipped: {e}")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 8: SUMMARY
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 8: SUMMARY                                               │")
     print("└─────────────────────────────────────────────────────────────────┘")
     
     # Build insights summary for JSON
@@ -277,10 +309,10 @@ def run_proof(target_path: str) -> dict:
         "metadata": {
             "target": str(target),
             "timestamp": datetime.now().isoformat(),
-            "version": "2.1.0",
+            "version": "2.2.0",
             "model": "Standard Model of Code",
             "tool": "Collider",
-            "pipeline_stages": 7
+            "pipeline_stages": 8
         },
         "classification": {
             "total_nodes": len(nodes),
@@ -304,6 +336,14 @@ def run_proof(target_path: str) -> dict:
             "layer_purposes": field_summary.get('layer_purposes', {}),
             "violations_count": len(pf_violations) if pf_violations else 0,
             "violations": pf_violations[:5] if pf_violations else []
+        },
+        "execution_flow": {
+            "entry_points": flow_summary.get('entry_points', 0) if flow_summary else 0,
+            "reachable_nodes": flow_summary.get('reachable_nodes', 0) if flow_summary else 0,
+            "orphan_count": flow_summary.get('orphan_count', 0) if flow_summary else 0,
+            "dead_code_percent": flow_summary.get('dead_code_percent', 0) if flow_summary else 0,
+            "chains_count": flow_summary.get('chains_count', 0) if flow_summary else 0,
+            "orphans": exec_flow.orphans[:10] if exec_flow and exec_flow.orphans else []
         },
         "metrics": {
             "entities": entities,
