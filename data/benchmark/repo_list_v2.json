@@ -1,0 +1,478 @@
+{
+  "web": [
+    {
+      "name": "fastapi/fastapi",
+      "url": "https://github.com/fastapi/fastapi.git",
+      "stars": 93340
+    },
+    {
+      "name": "fastapi/typer",
+      "url": "https://github.com/fastapi/typer.git",
+      "stars": 18524
+    },
+    {
+      "name": "fastapi/sqlmodel",
+      "url": "https://github.com/fastapi/sqlmodel.git",
+      "stars": 17376
+    },
+    {
+      "name": "tadata-org/fastapi_mcp",
+      "url": "https://github.com/tadata-org/fastapi_mcp.git",
+      "stars": 11282
+    },
+    {
+      "name": "fastapi-users/fastapi-users",
+      "url": "https://github.com/fastapi-users/fastapi-users.git",
+      "stars": 5876
+    },
+    {
+      "name": "remsky/Kokoro-FastAPI",
+      "url": "https://github.com/remsky/Kokoro-FastAPI.git",
+      "stars": 4138
+    },
+    {
+      "name": "JoshuaC215/agent-service-toolkit",
+      "url": "https://github.com/JoshuaC215/agent-service-toolkit.git",
+      "stars": 3940
+    },
+    {
+      "name": "fastapi-admin/fastapi-admin",
+      "url": "https://github.com/fastapi-admin/fastapi-admin.git",
+      "stars": 3651
+    },
+    {
+      "name": "PeterH0323/Streamer-Sales",
+      "url": "https://github.com/PeterH0323/Streamer-Sales.git",
+      "stars": 3593
+    },
+    {
+      "name": "zhinianboke/xianyu-auto-reply",
+      "url": "https://github.com/zhinianboke/xianyu-auto-reply.git",
+      "stars": 3516
+    },
+    {
+      "name": "nsidnev/fastapi-realworld-example-app",
+      "url": "https://github.com/nsidnev/fastapi-realworld-example-app.git",
+      "stars": 3048
+    },
+    {
+      "name": "tiangolo/uvicorn-gunicorn-fastapi-docker",
+      "url": "https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker.git",
+      "stars": 2902
+    },
+    {
+      "name": "xerrors/Yuxi-Know",
+      "url": "https://github.com/xerrors/Yuxi-Know.git",
+      "stars": 2741
+    }
+  ],
+  "cli": [
+    {
+      "name": "hacksider/Deep-Live-Cam",
+      "url": "https://github.com/hacksider/Deep-Live-Cam.git",
+      "stars": 76393
+    },
+    {
+      "name": "harry0703/MoneyPrinterTurbo",
+      "url": "https://github.com/harry0703/MoneyPrinterTurbo.git",
+      "stars": 48450
+    },
+    {
+      "name": "s0md3v/roop",
+      "url": "https://github.com/s0md3v/roop.git",
+      "stars": 30428
+    },
+    {
+      "name": "pallets/click",
+      "url": "https://github.com/pallets/click.git",
+      "stars": 17074
+    },
+    {
+      "name": "Huanshere/VideoLingo",
+      "url": "https://github.com/Huanshere/VideoLingo.git",
+      "stars": 15478
+    },
+    {
+      "name": "mail-in-a-box/mailinabox",
+      "url": "https://github.com/mail-in-a-box/mailinabox.git",
+      "stars": 15093
+    },
+    {
+      "name": "taojy123/KeymouseGo",
+      "url": "https://github.com/taojy123/KeymouseGo.git",
+      "stars": 9451
+    },
+    {
+      "name": "linyqh/NarratoAI",
+      "url": "https://github.com/linyqh/NarratoAI.git",
+      "stars": 7552
+    },
+    {
+      "name": "ddean2009/MoneyPrinterPlus",
+      "url": "https://github.com/ddean2009/MoneyPrinterPlus.git",
+      "stars": 5499
+    },
+    {
+      "name": "Textualize/trogon",
+      "url": "https://github.com/Textualize/trogon.git",
+      "stars": 2777
+    },
+    {
+      "name": "ErlichLiu/DeepClaude",
+      "url": "https://github.com/ErlichLiu/DeepClaude.git",
+      "stars": 2771
+    },
+    {
+      "name": "Lissy93/portainer-templates",
+      "url": "https://github.com/Lissy93/portainer-templates.git",
+      "stars": 2742
+    },
+    {
+      "name": "junyanz/interactive-deep-colorization",
+      "url": "https://github.com/junyanz/interactive-deep-colorization.git",
+      "stars": 2702
+    }
+  ],
+  "datascience": [
+    {
+      "name": "pandas-dev/pandas",
+      "url": "https://github.com/pandas-dev/pandas.git",
+      "stars": 47380
+    },
+    {
+      "name": "donnemartin/data-science-ipython-notebooks",
+      "url": "https://github.com/donnemartin/data-science-ipython-notebooks.git",
+      "stars": 28764
+    },
+    {
+      "name": "sinaptik-ai/pandas-ai",
+      "url": "https://github.com/sinaptik-ai/pandas-ai.git",
+      "stars": 22883
+    },
+    {
+      "name": "ydataai/ydata-profiling",
+      "url": "https://github.com/ydataai/ydata-profiling.git",
+      "stars": 13312
+    },
+    {
+      "name": "modin-project/modin",
+      "url": "https://github.com/modin-project/modin.git",
+      "stars": 10340
+    },
+    {
+      "name": "lux-org/lux",
+      "url": "https://github.com/lux-org/lux.git",
+      "stars": 5362
+    },
+    {
+      "name": "StructuredLabs/preswald",
+      "url": "https://github.com/StructuredLabs/preswald.git",
+      "stars": 4306
+    },
+    {
+      "name": "aws/aws-sdk-pandas",
+      "url": "https://github.com/aws/aws-sdk-pandas.git",
+      "stars": 4091
+    },
+    {
+      "name": "nalepae/pandarallel",
+      "url": "https://github.com/nalepae/pandarallel.git",
+      "stars": 3801
+    },
+    {
+      "name": "databricks/koalas",
+      "url": "https://github.com/databricks/koalas.git",
+      "stars": 3368
+    },
+    {
+      "name": "adamerose/PandasGUI",
+      "url": "https://github.com/adamerose/PandasGUI.git",
+      "stars": 3261
+    },
+    {
+      "name": "blaze/blaze",
+      "url": "https://github.com/blaze/blaze.git",
+      "stars": 3198
+    },
+    {
+      "name": "pydata/pandas-datareader",
+      "url": "https://github.com/pydata/pandas-datareader.git",
+      "stars": 3135
+    }
+  ],
+  "ml": [
+    {
+      "name": "pytorch/pytorch",
+      "url": "https://github.com/pytorch/pytorch.git",
+      "stars": 96090
+    },
+    {
+      "name": "fighting41love/funNLP",
+      "url": "https://github.com/fighting41love/funNLP.git",
+      "stars": 78010
+    },
+    {
+      "name": "ultralytics/yolov5",
+      "url": "https://github.com/ultralytics/yolov5.git",
+      "stars": 56442
+    },
+    {
+      "name": "apachecn/ailearning",
+      "url": "https://github.com/apachecn/ailearning.git",
+      "stars": 41883
+    },
+    {
+      "name": "huggingface/pytorch-image-models",
+      "url": "https://github.com/huggingface/pytorch-image-models.git",
+      "stars": 36057
+    },
+    {
+      "name": "huggingface/diffusers",
+      "url": "https://github.com/huggingface/diffusers.git",
+      "stars": 32171
+    },
+    {
+      "name": "yunjey/pytorch-tutorial",
+      "url": "https://github.com/yunjey/pytorch-tutorial.git",
+      "stars": 32047
+    },
+    {
+      "name": "tinygrad/tinygrad",
+      "url": "https://github.com/tinygrad/tinygrad.git",
+      "stars": 30916
+    },
+    {
+      "name": "Lightning-AI/pytorch-lightning",
+      "url": "https://github.com/Lightning-AI/pytorch-lightning.git",
+      "stars": 30609
+    },
+    {
+      "name": "junyanz/pytorch-CycleGAN-and-pix2pix",
+      "url": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git",
+      "stars": 24818
+    },
+    {
+      "name": "lucidrains/vit-pytorch",
+      "url": "https://github.com/lucidrains/vit-pytorch.git",
+      "stars": 24711
+    },
+    {
+      "name": "pytorch/examples",
+      "url": "https://github.com/pytorch/examples.git",
+      "stars": 23628
+    },
+    {
+      "name": "pyg-team/pytorch_geometric",
+      "url": "https://github.com/pyg-team/pytorch_geometric.git",
+      "stars": 23289
+    }
+  ],
+  "infra": [
+    {
+      "name": "docker/docker-py",
+      "url": "https://github.com/docker/docker-py.git",
+      "stars": 7142
+    },
+    {
+      "name": "Kaggle/docker-python",
+      "url": "https://github.com/Kaggle/docker-python.git",
+      "stars": 2657
+    }
+  ],
+  "testing": [
+    {
+      "name": "pytest-dev/pytest",
+      "url": "https://github.com/pytest-dev/pytest.git",
+      "stars": 13391
+    },
+    {
+      "name": "pytest-dev/pytest-testinfra",
+      "url": "https://github.com/pytest-dev/pytest-testinfra.git",
+      "stars": 2453
+    },
+    {
+      "name": "pytest-dev/pytest-mock",
+      "url": "https://github.com/pytest-dev/pytest-mock.git",
+      "stars": 2002
+    },
+    {
+      "name": "pytest-dev/pytest-cov",
+      "url": "https://github.com/pytest-dev/pytest-cov.git",
+      "stars": 1982
+    },
+    {
+      "name": "pytest-dev/pytest-xdist",
+      "url": "https://github.com/pytest-dev/pytest-xdist.git",
+      "stars": 1756
+    },
+    {
+      "name": "pytest-dev/pytest-asyncio",
+      "url": "https://github.com/pytest-dev/pytest-asyncio.git",
+      "stars": 1597
+    },
+    {
+      "name": "pytest-dev/pluggy",
+      "url": "https://github.com/pytest-dev/pluggy.git",
+      "stars": 1549
+    },
+    {
+      "name": "pytest-dev/pytest-django",
+      "url": "https://github.com/pytest-dev/pytest-django.git",
+      "stars": 1501
+    },
+    {
+      "name": "Teemu/pytest-sugar",
+      "url": "https://github.com/Teemu/pytest-sugar.git",
+      "stars": 1500
+    },
+    {
+      "name": "pytest-dev/pytest-bdd",
+      "url": "https://github.com/pytest-dev/pytest-bdd.git",
+      "stars": 1417
+    },
+    {
+      "name": "ionelmc/pytest-benchmark",
+      "url": "https://github.com/ionelmc/pytest-benchmark.git",
+      "stars": 1401
+    },
+    {
+      "name": "taverntesting/tavern",
+      "url": "https://github.com/taverntesting/tavern.git",
+      "stars": 1123
+    }
+  ],
+  "utils": [
+    {
+      "name": "psf/requests",
+      "url": "https://github.com/psf/requests.git",
+      "stars": 53595
+    },
+    {
+      "name": "wistbean/learn_python3_spider",
+      "url": "https://github.com/wistbean/learn_python3_spider.git",
+      "stars": 21075
+    },
+    {
+      "name": "psf/requests-html",
+      "url": "https://github.com/psf/requests-html.git",
+      "stars": 13875
+    },
+    {
+      "name": "postmanlabs/httpbin",
+      "url": "https://github.com/postmanlabs/httpbin.git",
+      "stars": 13422
+    },
+    {
+      "name": "qodo-ai/pr-agent",
+      "url": "https://github.com/qodo-ai/pr-agent.git",
+      "stars": 9677
+    },
+    {
+      "name": "django-commons/django-debug-toolbar",
+      "url": "https://github.com/django-commons/django-debug-toolbar.git",
+      "stars": 8334
+    },
+    {
+      "name": "SirVer/ultisnips",
+      "url": "https://github.com/SirVer/ultisnips.git",
+      "stars": 7665
+    },
+    {
+      "name": "buildbot/buildbot",
+      "url": "https://github.com/buildbot/buildbot.git",
+      "stars": 5405
+    },
+    {
+      "name": "SpiderClub/weibospider",
+      "url": "https://github.com/SpiderClub/weibospider.git",
+      "stars": 4813
+    },
+    {
+      "name": "spyoungtech/grequests",
+      "url": "https://github.com/spyoungtech/grequests.git",
+      "stars": 4579
+    },
+    {
+      "name": "getsentry/responses",
+      "url": "https://github.com/getsentry/responses.git",
+      "stars": 4311
+    },
+    {
+      "name": "oauthlib/oauthlib",
+      "url": "https://github.com/oauthlib/oauthlib.git",
+      "stars": 2949
+    },
+    {
+      "name": "CharlesPikachu/DecryptLogin",
+      "url": "https://github.com/CharlesPikachu/DecryptLogin.git",
+      "stars": 2869
+    }
+  ],
+  "domain": [
+    {
+      "name": "django/django",
+      "url": "https://github.com/django/django.git",
+      "stars": 86237
+    },
+    {
+      "name": "encode/django-rest-framework",
+      "url": "https://github.com/encode/django-rest-framework.git",
+      "stars": 29759
+    },
+    {
+      "name": "wagtail/wagtail",
+      "url": "https://github.com/wagtail/wagtail.git",
+      "stars": 19948
+    },
+    {
+      "name": "suitenumerique/docs",
+      "url": "https://github.com/suitenumerique/docs.git",
+      "stars": 15126
+    },
+    {
+      "name": "cookiecutter/cookiecutter-django",
+      "url": "https://github.com/cookiecutter/cookiecutter-django.git",
+      "stars": 13338
+    },
+    {
+      "name": "wsvincent/awesome-django",
+      "url": "https://github.com/wsvincent/awesome-django.git",
+      "stars": 10870
+    },
+    {
+      "name": "django-cms/django-cms",
+      "url": "https://github.com/django-cms/django-cms.git",
+      "stars": 10607
+    },
+    {
+      "name": "pennersr/django-allauth",
+      "url": "https://github.com/pennersr/django-allauth.git",
+      "stars": 10254
+    },
+    {
+      "name": "healthchecks/healthchecks",
+      "url": "https://github.com/healthchecks/healthchecks.git",
+      "stars": 9702
+    },
+    {
+      "name": "vitalik/django-ninja",
+      "url": "https://github.com/vitalik/django-ninja.git",
+      "stars": 8805
+    },
+    {
+      "name": "django-commons/django-debug-toolbar",
+      "url": "https://github.com/django-commons/django-debug-toolbar.git",
+      "stars": 8334
+    },
+    {
+      "name": "liangliangyy/DjangoBlog",
+      "url": "https://github.com/liangliangyy/DjangoBlog.git",
+      "stars": 7268
+    },
+    {
+      "name": "django-extensions/django-extensions",
+      "url": "https://github.com/django-extensions/django-extensions.git",
+      "stars": 6785
+    }
+  ]
+}

@@ -64,7 +64,8 @@ class AtomClassifier:
         self.atoms_by_subtype['adapter'] = self.atoms_by_subtype.get('adapter', 'ORG.SVC.M')
         self.atoms_by_subtype['observer'] = self.atoms_by_subtype.get('eventhandler', 'EXE.HDL.O')
         self.atoms_by_subtype['specification']
-        self.atoms_by_subtype['query'] = self.atoms_by_subtype.get('query', 'LOG.FNC.M')  # LEARNED = self.atoms_by_subtype.get('policy', 'LOG.FNC.M')
+        self.atoms_by_subtype['query']
+        self.atoms_by_subtype['entity'] = 'ORG.AGG.M'  # LEARNED: Entity data classes = self.atoms_by_subtype.get('query', 'LOG.FNC.M')  # LEARNED = self.atoms_by_subtype.get('policy', 'LOG.FNC.M')
         
         # Compile semantic patterns
         self.semantic_patterns = []

@@ -73,3 +73,23 @@ When adding new patterns, ALWAYS report:
 4. **Confidence** (percentage)
 5. **Before/After** (count delta)
 
+
+
+### Session 2025-12-23 (Late Night) - CRITICAL PREFIX FIX
+
+**BREAKTHROUGH:** Prefix patterns were in repository but NEVER checked in classification!
+
+| Fix | Type | Impact |
+|:---|:---|---:|
+| Added PREFIX pattern matching to `classify_by_name` | Code | **+26.7%** on Tier 1 |
+| Added `login` → Command | Prefix | +1 pattern |
+| Added `query` atom alias | Alias | +1 alias |
+
+**Before/After on Tier 1 FastAPI Samples:**
+- Before: 43.3% (13/30)
+- After: **70.0% (21/30)**
+
+**Inventory Update:**
+- Prefix Patterns: 57 → 58 (+1: login)
+- Atom Aliases: 4 → 5 (+1: query)
+- **TOTAL: 154 items**
