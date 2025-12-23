@@ -20,6 +20,7 @@ class Layer(Enum):
     APPLICATION = "application"      # Use cases, orchestration
     DOMAIN = "domain"               # Business rules, entities
     INFRASTRUCTURE = "infrastructure"  # Technical details, persistence
+    TESTING = "testing"             # Test code, fixtures, assertions
     UNKNOWN = "unknown"
 
 
@@ -96,28 +97,50 @@ class PurposeFieldDetector:
         frozenset(["Controller", "Validator"]): "APILayer",
     }
     
-    # Layer detection based on composite purpose
+    # Layer detection based on purpose (role)
+    # Covers all 27 roles from the Standard Model
     PURPOSE_TO_LAYER = {
+        # PRESENTATION - User interface, display, I/O
         "Controller": Layer.PRESENTATION,
         "APILayer": Layer.PRESENTATION,
         "View": Layer.PRESENTATION,
+        "CLI": Layer.PRESENTATION,
         
+        # APPLICATION - Use cases, orchestration, coordination
         "ApplicationService": Layer.APPLICATION,
         "UseCase": Layer.APPLICATION,
         "Orchestrator": Layer.APPLICATION,
+        "Command": Layer.APPLICATION,  # Commands are application-level actions
+        "Query": Layer.APPLICATION,    # Queries are application-level requests
+        "EventHandler": Layer.APPLICATION,
         
+        # DOMAIN - Business rules, entities, logic
         "Service": Layer.DOMAIN,
+        "DomainService": Layer.DOMAIN,
         "Entity": Layer.DOMAIN,
         "ValueObject": Layer.DOMAIN,
-        "DomainService": Layer.DOMAIN,
         "Policy": Layer.DOMAIN,
         "Specification": Layer.DOMAIN,
+        "DTO": Layer.DOMAIN,           # Data transfer objects carry domain data
+        "Validator": Layer.DOMAIN,     # Validation is business logic
+        "Factory": Layer.DOMAIN,       # Object creation follows domain rules
+        "Observer": Layer.DOMAIN,      # Event observation is domain behavior
+        "Mapper": Layer.DOMAIN,        # Mapping follows domain transformations
         
+        # INFRASTRUCTURE - Technical concerns, persistence, external systems
         "Repository": Layer.INFRASTRUCTURE,
         "DataAccess": Layer.INFRASTRUCTURE,
         "Gateway": Layer.INFRASTRUCTURE,
         "Adapter": Layer.INFRASTRUCTURE,
         "Configuration": Layer.INFRASTRUCTURE,
+        "Utility": Layer.INFRASTRUCTURE,   # Utilities are technical helpers
+        "Internal": Layer.INFRASTRUCTURE,  # Internal implementation details
+        "Exception": Layer.INFRASTRUCTURE, # Exception handling is infrastructure
+        "Lifecycle": Layer.INFRASTRUCTURE, # Lifecycle management is technical
+        
+        # TESTING - Test code layer
+        "Test": Layer.TESTING,
+        "Fixture": Layer.TESTING,
     }
     
     # Layer purpose descriptions
@@ -126,6 +149,7 @@ class PurposeFieldDetector:
         Layer.APPLICATION: "Orchestrate use cases and coordinate domain",
         Layer.DOMAIN: "Express and enforce business rules",
         Layer.INFRASTRUCTURE: "Handle technical concerns and external systems",
+        Layer.TESTING: "Verify behavior and validate expectations",
         Layer.UNKNOWN: "Purpose not yet determined"
     }
     
