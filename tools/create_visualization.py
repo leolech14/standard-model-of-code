@@ -265,9 +265,18 @@ def inject_into_template(template_path: str, particles: list, connections: list,
     
     # Inject metadata (add after particles/connections)
     metadata_injection = f"const vizMetadata = {metadata_json};"
+    
+    # Add helper function for safe layer color lookup
+    helper_js = """
+        // Safe layer color lookup with fallback
+        function getLayerColor(layer) {
+            return layerColors[layer] || layerColors['unknown'] || { bg: '#6b7280', border: '#4b5563', icon: '❓' };
+        }
+    """
+    
     html = html.replace(
         "/* <!-- DATA_INJECTION_END --> */",
-        f"/* <!-- DATA_INJECTION_END --> */\n        {metadata_injection}"
+        f"/* <!-- DATA_INJECTION_END --> */\n        {metadata_injection}\n        {helper_js}"
     )
     
     # Update title
@@ -275,6 +284,20 @@ def inject_into_template(template_path: str, particles: list, connections: list,
     html = html.replace(
         "<title>🔬 Spectrometer Pro - Code Architecture Visualizer</title>",
         f"<title>🔬 Spectrometer Pro - {target_name}</title>"
+    )
+    
+    # Patch initGraph to use safe layer color lookup
+    html = html.replace(
+        "layerColors[p.layer].bg",
+        "getLayerColor(p.layer).bg"
+    )
+    html = html.replace(
+        "layerColors[p.layer].border",
+        "getLayerColor(p.layer).border"
+    )
+    html = html.replace(
+        "layerColors[node.layer].bg",
+        "getLayerColor(node.layer).bg"
     )
     
     return html
