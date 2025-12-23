@@ -59,6 +59,12 @@ class AtomClassifier:
                     
                     self.atoms_by_subtype[subtype.lower()] = atom_id
         
+        # Add common aliases
+        self.atoms_by_subtype['configuration'] = self.atoms_by_subtype.get('configvalue', 'ORG.CFG.O')
+        self.atoms_by_subtype['adapter'] = self.atoms_by_subtype.get('adapter', 'ORG.SVC.M')
+        self.atoms_by_subtype['observer'] = self.atoms_by_subtype.get('eventhandler', 'EXE.HDL.O')
+        self.atoms_by_subtype['specification'] = self.atoms_by_subtype.get('policy', 'LOG.FNC.M')
+        
         # Compile semantic patterns
         self.semantic_patterns = []
         for pattern in self.taxonomy.get("semantic_patterns", {}).get("patterns", []):

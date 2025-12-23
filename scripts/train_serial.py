@@ -228,7 +228,10 @@ ROLE_MAP = {
     'Validator': 'Utility',
     'EventHandler': 'Utility',
     'Builder': 'Factory',
-    'TestModule': 'Test',
+    'TestDouble': 'Test',
+    'Observer': 'EventHandler', 
+    'Specification': 'Service', # DDD Specifications are Domain Services/Policy
+    'Configuration': 'Configuration',
 }
 
 def normalize_role(subtype):

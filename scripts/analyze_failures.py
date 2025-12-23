@@ -37,6 +37,9 @@ ROLE_MAP = {
     'Builder': 'Factory',
     'TestModule': 'Test',
     'TestDouble': 'Test',
+    'Observer': 'EventHandler',
+    'Specification': 'Service',
+    'Configuration': 'Configuration',
 }
 
 def normalize(subtype):
