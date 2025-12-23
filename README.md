@@ -1,267 +1,388 @@
-# The Standard Model of Code
+# Collider: The Standard Model of Code
 
-> **Every code element has a PURPOSE. Purposes EMERGE hierarchically. This is the physics of software.**
+> **Analyze any codebase. Get a complete semantic map. Detect violations. Predict missing components.**
 
-## The Insight
+Collider turns source code into **structured knowledge** by mapping every element to a universal schema. Think of it as "running a physics experiment" on your codebase.
 
-Just as physics has the Standard Model (quarks, leptons, bosons), software has fundamental constituents:
+---
 
-| Physics           |  Code                                           |
-|-------------------|-------------------------------------------------|
-| 118 Elements.     | **167 Atoms** (structural types)                |
-| Atomic properties | **RPBL Scores** (behavioral dimensions)         |
-| Chemical bonds    | **Relationships** (calls, imports, inherits)    |
-| Molecular purpose | **Roles** (27 semantic intents)                 |
-| Conservation laws | **Antimatter Rules** (architectural constraints)|
+## 💡 The Core Idea
 
-## The Claim
+**Software has physics.**
 
-```
-Any code element in any codebase can be mapped to a semantic coordinate:
+Just like matter is made of atoms, code is made of **167 fundamental building blocks** (Atoms). These atoms combine to form **Roles** (like Repository, Entity, Service), which organize into **Layers** (Domain, Infrastructure, Application).
 
-    σ(element) = (atom, role, RPBL)
+When you run Collider, it:
+1. **Parses** your code into atoms
+2. **Classifies** them into roles
+3. **Maps** architectural layers
+4. **Detects** violations of design laws
+5. **Predicts** missing components
+6. **Generates** an interactive visualization
 
-Where:
-    atom ∈ {167 structural types}
-    role ∈ {27 semantic intents}  
-    RPBL ∈ [1,10]⁴ (Responsibility, Purity, Boundary, Lifecycle)
-```
+**The result?** A complete, navigable map of what your code *is*, what it *does*, and where it *violates* best practices.
 
-**Empirically validated:**
-- 212,052 nodes across 33 repositories
-- 100% classification coverage
-- 87.6% accuracy (94.7% on high-confidence)
-- 1,860 nodes/second (no LLM required)
+---
 
-## Purpose Field Theory
+## 🎯 Why Use Collider?
 
-Code has a **Purpose Field** - meaning that emerges hierarchically:
+### For Code Audits
+- **100% coverage**: Every file, class, and function is classified
+- **Instant architecture diagram**: See the system from 30,000 feet
+- **Violation detection**: Find "impossible states" (e.g., Domain depending on Infrastructure)
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Level 4: PURPOSE FIELD (Application)                           │
-│  The global semantic gradient across the entire codebase        │
-├─────────────────────────────────────────────────────────────────┤
-│  Level 3: LAYER PURPOSE (Architecture)                          │
-│  Presentation → Application → Domain → Infrastructure           │
-├─────────────────────────────────────────────────────────────────┤
-│  Level 2: COMPOSITE PURPOSE (Emergence)                         │
-│  UserRepository = {Query + Command} → "User persistence"        │
-├─────────────────────────────────────────────────────────────────┤
-│  Level 1: ATOMIC PURPOSE (Role)                                 │
-│  get_user() → Query: "Retrieve data without modification"       │
-└─────────────────────────────────────────────────────────────────┘
-```
+### For Understanding Legacy Code
+- **Semantic search**: Find all "Repositories" or "Controllers" instantly
+- **Dead code detection**: Identify unreachable functions
+- **Dependency analysis**: Trace execution flows
 
-# 5. Actionable Insights (prioritized recommendations)
-# 6. Summary (reproducible proof document)
+### For Refactoring
+- **Gap analysis**: "You have 20 Entities but only 2 Repositories—predict the missing 18"
+- **Actionable insights**: Get specific recommendations (e.g., "Apply Repository Pattern here")
+- **Performance hotspots**: Identify computational bottlenecks
 
+---
 
-**Installation:**
+## 🚀 Quick Start
+
+### Installation
 ```bash
+git clone https://github.com/leolech14/standard-model-of-code.git
+cd standard-model-of-code
 pip install .
 ```
 
-**Run Analysis (Full Stream):**
+### Run Analysis
 ```bash
-collider analyze /path/to/code
+collider analyze /path/to/your/code
 ```
-This generates:
-- `spectrometer_output/unified_analysis.json` (Data)
-- `spectrometer_report.html` (Visualization)
 
-**Other Commands:**
+**Output:**
+- `proof_output.json` — Complete analysis data
+- `collider_report.html` — Interactive visualization (open in browser)
+
+### View Results
 ```bash
-collider audit           # Run system health check
-collider viz graph.json  # Regenerate visualization from JSON
+open collider_report.html
 ```
 
-## Visualization
+You'll see an **interactive graph** where:
+- **Nodes** = classes, functions, modules (colored by layer, sized by complexity)
+- **Edges** = calls, imports, inheritance (colored by type)
+- **Filters** = Show only "Repositories" or "Domain" layer
 
-The **Collider Visualization** provides an interactive 3D/2D visualization of your codebase's Purpose Field.
+---
 
-1. Generate analysis:
-   ```bash
-   collider analyze /path/to/code
-   ```
-2. Open `collider_report.html` (or `collider_viz.html`) in your browser.
-   - Works fully offline (bundled assets).
-   - Visualize relationships, layers, and hotpots.
+## 📐 The Schema (What You Get)
 
+Every codebase is reduced to a **graph**: `(Nodes, Edges, Metadata)`
 
-### Example Output
+### Node Fields
 
-```
-🔬 COLLIDER - Standard Model of Code
-======================================================================
-Target: /path/to/code
-Time:   2025-12-22T20:44:34
-
-┌─────────────────────────────────────────────────────────────────┐
-│ STAGE 5: ACTIONABLE INSIGHTS                                   │
-└─────────────────────────────────────────────────────────────────┘
-  Found 4 actionable insights:
-    🟠 [HIGH] Low Test Coverage
-       └─ Schema: TEST_COVERAGE
-    🟠 [HIGH] God Class Detected
-       └─ Schema: GOD_CLASS_DECOMPOSITION
-    🟡 [MEDIUM] Missing Repository Pattern
-       └─ Schema: REPOSITORY_PATTERN
-    🟢 [LOW] Pure Function Optimization
-       └─ Schema: PURE_FUNCTION_EXTRACTION
-
-┌─────────────────────────────────────────────────────────────────┐
-│ STAGE 6: SUMMARY                                               │
-└─────────────────────────────────────────────────────────────────┘
-  Total nodes:      535
-  Coverage:         100.0%
-  Avg confidence:   70.0%
-  Speed:            1,609 nodes/sec
-
-  ✓ Proof saved to: proof_output.json
+#### Required (Always Present)
+```json
+{
+  "id": "user.py:UserRepository",
+  "name": "UserRepository",
+  "kind": "class"
+}
 ```
 
-## What The Collider Detects
-
-### 1. Atomic Purpose (27 Roles)
-
-| Role | Purpose |
-|------|---------|
-| `Query` | Retrieve data without modification |
-| `Command` | Execute action that changes state |
-| `Repository` | Abstract data persistence |
-| `Service` | Coordinate business operations |
-| `Factory` | Create and configure instances |
-| `Validator` | Verify data meets constraints |
-| `Test` | Verify behavior meets expectations |
-| ... | [27 total - see docs/PURPOSE_FIELD.md] |
-
-### 2. Structural Type (167 Atoms)
-
-Organized in 4 phases:
-- **DATA** (26): Entity, ValueObject, DTO, Enum...
-- **LOGIC** (61): Query, Command, Filter, Validate...
-- **ORGANIZATION** (45): Repository, Service, Factory, Controller...
-- **EXECUTION** (35): Constructor, Middleware, Event, Transaction...
-
-### 3. Behavioral Dimensions (RPBL)
-
-| Dimension | Question | Scale |
-|-----------|----------|-------|
-| **R**esponsibility | How focused is it? | 1 (god class) → 10 (single purpose) |
-| **P**urity | Does it have side effects? | 1 (impure) → 10 (pure function) |
-| **B**oundary | Does it cross system boundaries? | 1 (internal) → 10 (external I/O) |
-| **L**ifecycle | How long does it live? | 1 (request) → 10 (application) |
-
-### 4. Violations (Antimatter)
-
-The Standard Model defines what code **CANNOT** do:
-
-```
-❌ Repository → Controller   (infrastructure calling presentation)
-❌ Query with side effects   (role violation)
-❌ Service with no tests     (coverage violation)
-❌ Entity without Repository (persistence gap)
+#### Classification (Added by Analysis)
+```json
+{
+  "role": "Repository",
+  "role_confidence": 0.95,
+  "layer": "Infrastructure"
+}
 ```
 
-### 5. Predictions
-
-Detect **MISSING** components:
-
-```
-Entities found:    User, Order, Product, Payment
-Repositories:      UserRepository, OrderRepository
-
-PREDICTION: ProductRepository and PaymentRepository are MISSING
-```
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     STANDARD MODEL (Theory)                     │
-│              167 Atoms + 27 Roles + RPBL + Rules                │
-└─────────────────────────────────────────────────────────────────┘
-                              ▲
-                              │
-┌─────────────────────────────────────────────────────────────────┐
-│                      COLLIDER (Implementation)                  │
-│                                                                 │
-│   ┌─────────────────────────────────────────────────────────┐   │
-│   │ PIPELINE: tools/prove.py                                │   │
-│   │                                                         │   │
-│   │ 1. AST Parse      → Extract code structure              │   │
-│   │ 2. RPBL Score     → Classify behavior                   │   │
-│   │ 3. Pattern Match  → Detect roles                        │   │
-│   │ 4. Predictions    → Find missing components             │   │
-│   │ 5. Insights       → Generate recommendations            │   │
-│   │ 6. Fix Templates  → Produce solution code               │   │
-│   └─────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│   CORE MODULES:                                                 │
-│   core/unified_analysis.py      - Main analysis pipeline        │
-│   core/auto_pattern_discovery.py - Role detection               │
-│   core/purpose_field.py         - Hierarchical emergence        │
-│   core/purpose_registry.py      - Purpose definitions           │
-│   core/insights_engine.py       - Actionable recommendations    │
-│   core/fix_generator.py         - Code template generator       │
-│   core/antimatter_evaluator.py  - Violation detection           │
-└─────────────────────────────────────────────────────────────────┘
+#### Enrichment (Optional)
+```json
+{
+  "is_orphan": false,
+  "is_hotspot": true,
+  "complexity": 12,
+  "docstring": "Handles user persistence..."
+}
 ```
 
-## Optimization Schemas (13)
+**All fields:** See [CANONICAL_SCHEMA.md](docs/CANONICAL_SCHEMA.md)
 
-When the Collider detects issues, it recommends **optimization schemas** - proven patterns to fix them:
+### Edge Fields
+```json
+{
+  "source": "UserService",
+  "target": "UserRepository",
+  "edge_type": "CALLS"
+}
+```
 
-| Schema | When to Apply |
-|--------|---------------|
-| `REPOSITORY_PATTERN` | Entities without repositories |
-| `SERVICE_EXTRACTION` | Controllers with embedded logic |
-| `TEST_COVERAGE` | Low test-to-logic ratio |
-| `CQRS_SEPARATION` | Mixed read/write operations |
-| `LAYER_ENFORCEMENT` | Cross-layer violations |
-| `GOD_CLASS_DECOMPOSITION` | Classes with 20+ methods |
-| `PURE_FUNCTION_EXTRACTION` | Functions mixing pure/impure |
-| `EVENT_SOURCING` | Audit requirements |
-| `SAGA_PATTERN` | Distributed transactions |
-| `FACTORY_METHOD` | Scattered object creation |
-| `STRATEGY_PATTERN` | Switch/if-else chains |
-| `DEPENDENCY_INJECTION` | Hard-coded dependencies |
-| `ERROR_HANDLING` | Inconsistent exception handling |
+**Edge types:** `CALLS`, `IMPORTS`, `INHERITS`, `IMPLEMENTS`, `CONTAINS`
 
-Each schema includes step-by-step instructions and code templates.
+---
 
-## The Remarkable Claim
+## ⚙️ The Pipeline (How It Works)
 
-> **Software has LAWS, like physics.**
->
-> The Standard Model defines those laws.
-> Violations are not "code smells" - they are IMPOSSIBLE states.
-> Purpose flows through architecture like energy through a system.
->
-> **This makes software engineering a SCIENCE, not an ART.**
+Collider runs **10 stages** in strict order (reordering breaks analysis):
 
-## Documentation
+```
+Stage 1: Classification   → Extract atoms (167 types)
+Stage 2: Role Distribution → Detect semantic roles (Repository, Entity, etc.)
+Stage 3: Antimatter        → Check for violations (cross-layer imports, etc.)
+Stage 4: Predictions       → Predict missing components (symmetry)
+Stage 5: Insights          → Generate actionable recommendations
+Stage 6: Purpose Field     → Map architectural layers
+Stage 7: Execution Flow    → Trace code paths, find dead code
+Stage 8: Performance       → Identify hotspots
+Stage 9: Summary           → Aggregate metrics
+Stage 10: Visualization    → Generate interactive HTML
+```
+
+**Why this order?** Each stage depends on the output of previous stages. See [THEORY_MAP.md](docs/THEORY_MAP.md) for proof of dependencies.
+
+---
+
+## 📊 Interpreting the Output
+
+### 1. The JSON Report (`proof_output.json`)
+
+**Key sections:**
+
+#### `classification`
+```json
+{
+  "total_nodes": 245,
+  "role_distribution": {
+    "Repository": 8,
+    "Entity": 12,
+    "Service": 5,
+    "Controller": 3
+  },
+  "coverage_percent": 98.5,
+  "average_confidence": 87.3
+}
+```
+→ **Read:** "245 code elements classified with 98.5% coverage, avg confidence 87%"
+
+#### `antimatter.violations`
+```json
+[
+  {
+    "law": "NO_CROSS_LAYER_IMPORT",
+    "particle": "User",
+    "message": "Domain Entity imports Infrastructure"
+  }
+]
+```
+→ **Read:** "Found a violation: User (Domain) depends on Infrastructure layer"
+
+#### `predictions`
+```json
+[
+  "Missing ~6 Repositories for 12 Entities",
+  "Missing ~8 Tests for 5 Services"
+]
+```
+→ **Read:** "You should have 6 more Repositories and 8 more Tests based on symmetry"
+
+#### `insights`
+```json
+{
+  "count": 4,
+  "items": [
+    {
+      "priority": "high",
+      "title": "God Class Detected",
+      "recommendation": "Apply Single Responsibility Principle"
+    }
+  ]
+}
+```
+→ **Read:** "4 actionable insights, starting with 'God Class' (high priority)"
+
+---
+
+### 2. The Visualization (`collider_report.html`)
+
+**Features:**
+- **Force-directed graph**: Nodes repel, edges attract (organic layout)
+- **Color coding**: Layers have distinct colors (Domain=green, Infrastructure=blue)
+- **Interactive**: Click nodes for details, drag to reposition, zoom/pan
+- **Filters**: Show/hide by role, layer, or complexity
+
+**Example:**
+- Large red nodes = High complexity
+- Orange border = Hotspot (performance-critical)
+- Isolated nodes = Orphans (dead code)
+
+---
+
+## 🧬 What Collider Detects
+
+### 1. The 167 Atoms
+Every code element maps to one of 167 structural types, organized in 4 phases:
+
+- **DATA** (26): `Entity`, `ValueObject`, `DTO`, `Enum`
+- **LOGIC** (61): `Query`, `Command`, `Validator`, `Mapper`
+- **ORGANIZATION** (45): `Repository`, `Service`, `Factory`
+- **EXECUTION** (35): `Handler`, `Middleware`, `CronJob`
+
+**Full list:** [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md)
+
+---
+
+### 2. The 27 Canonical Roles
+Atoms group into semantic roles that describe *what it does*:
+
+| Role | Purpose | Example |
+|------|---------|---------|
+| `Repository` | Data persistence abstraction | `UserRepository` |
+| `Entity` | Domain object with identity | `User`, `Order` |
+| `Service` | Business logic coordinator | `UserService` |
+| `Controller` | HTTP request handler | `UserController` |
+| `Query` | Read-only data retrieval | `GetUserById` |
+| `Command` | State-changing operation | `CreateUser` |
+
+**See all 27:** [PURPOSE_FIELD.md](docs/PURPOSE_FIELD.md)
+
+---
+
+### 3. Architectural Layers
+Roles belong to architectural layers:
+
+| Layer | Responsibility | Example Roles |
+|-------|----------------|---------------|
+| **Domain** | Business rules, entities | Entity, ValueObject, DomainService |
+| **Application** | Use cases, workflows | Service, UseCase, ApplicationService |
+| **Infrastructure** | External I/O | Repository, Gateway, APIClient |
+| **Presentation** | UI, controllers | Controller, ViewModel, Presenter |
+
+---
+
+### 4. Antimatter Violations
+The "Laws of Code Physics" define **impossible states**:
+
+```
+❌ Domain Entity imports Infrastructure (layer violation)
+❌ Query has side effects (role violation)
+❌ Repository has no interface (abstraction violation)
+❌ Service has no tests (coverage violation)
+```
+
+When detected, Collider flags them with severity (CRITICAL, HIGH, MEDIUM, LOW).
+
+---
+
+### 5. Predictions (Symmetry)
+If the system has patterns, Collider predicts missing components:
+
+**Example:**
+```
+Found: User, Order, Product (3 Entities)
+Found: UserRepository, OrderRepository (2 Repositories)
+
+PREDICTION: ProductRepository is MISSING
+→ Recommendation: Create ProductRepository to maintain symmetry
+```
+
+---
+
+## 📚 Advanced Documentation
 
 | Document | Description |
 |----------|-------------|
-| [FORMAL_PROOF.md](docs/FORMAL_PROOF.md) | Mathematical proof of completeness |
+| [THEORY_MAP.md](docs/THEORY_MAP.md) | How theories mount on each other (dependency proof) |
+| [CANONICAL_SCHEMA.md](docs/CANONICAL_SCHEMA.md) | Complete field reference |
+| [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md) | All 167 atoms |
 | [PURPOSE_FIELD.md](docs/PURPOSE_FIELD.md) | Purpose emergence theory |
-| [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md) | Complete 167-atom taxonomy |
-| [DIMENSIONS.md](docs/DIMENSIONS.md) | RPBL behavioral dimensions |
+| [FORMAL_PROOF.md](docs/FORMAL_PROOF.md) | Mathematical completeness proof |
 
-## Validation
+---
+
+## 🔬 Empirical Validation
 
 | Metric | Value |
 |--------|-------|
 | Repositories tested | 33 |
 | Nodes classified | 212,052 |
 | Coverage | 100% |
-| Overall accuracy | 87.6% |
-| High-confidence accuracy | 94.7% |
+| Accuracy (overall) | 87.6% |
+| Accuracy (high-confidence) | 94.7% |
 | Speed | 1,860 nodes/sec |
 
-## License
+**The claim:** Any code element can be mapped to semantic coordinates without LLMs.
+**The proof:** 212k elements across 33 repos with 100% coverage.
+
+---
+
+## 🛠️ CLI Reference
+
+### `collider analyze`
+Run full analysis pipeline (10 stages)
+```bash
+collider analyze /path/to/code
+```
+
+### `collider audit`
+Health check (verifies system integrity)
+```bash
+collider audit
+```
+
+### `collider viz`
+Regenerate visualization from existing JSON
+```bash
+collider viz proof_output.json
+```
+
+---
+
+## 🎓 The Philosophical Claim
+
+> **Software has LAWS, like physics.**
+
+- **Conservation of Symmetry**: If you have Entities, you need Repositories
+- **Layer Separation**: Domain cannot depend on Infrastructure
+- **Role Purity**: A Query cannot have side effects
+
+Violations are not "code smells"—they are **IMPOSSIBLE STATES**.
+
+Purpose flows through architecture like energy through a system.
+
+**This makes software engineering a SCIENCE, not an ART.**
+
+---
+
+## 📖 Example Workflow
+
+```bash
+# 1. Analyze a codebase
+cd my-project
+collider analyze .
+
+# 2. Review the output
+cat proof_output.json | jq '.insights'
+
+# 3. Open visualization
+open collider_report.html
+
+# 4. Filter to "Repositories"
+# (in browser: use the UI filter dropdown)
+
+# 5. Find violations
+cat proof_output.json | jq '.antimatter.violations'
+```
+
+---
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon)
+
+---
+
+## 📄 License
 
 MIT
 
