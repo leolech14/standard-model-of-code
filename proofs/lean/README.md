@@ -11,6 +11,7 @@ This directory contains **machine-verified proofs** of key theorems from the Sta
 | **3.3** RPBL Boundedness | `StandardModel/Boundedness.lean` | ✓ Verified |
 | **3.4** Total Space Boundedness | `StandardModel/Boundedness.lean` | ✓ Verified |
 | **3.5** Minimality | `StandardModel/Minimality.lean` | ✓ Verified |
+| **3.7** Pipeline DAG | `StandardModel/Pipeline.lean` | ✓ Verified |
 | **3.8** Schema Minimality | `StandardModel/Schema.lean` | ✓ Verified |
 
 ---
