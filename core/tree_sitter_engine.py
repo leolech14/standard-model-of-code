@@ -436,27 +436,29 @@ class TreeSitterUniversalEngine:
                 confidence = 75.0
 
         # =============================================================================
-        # TIER 2.5: LEARNED PATTERNS FROM patterns.json (80-95% confidence)
+        # TIER 2.5: LEARNED PATTERNS FROM patterns.json (OVERRIDE MODE)
+        # Now checks ALL symbols and can OVERRIDE lower-confidence classifications
         # =============================================================================
-        if particle_type is None and self.pattern_repo is not None:
+        if self.pattern_repo is not None:
             short_name = name.split(".")[-1] if "." in name else name
             
-            # Try prefix patterns first
+            # Try prefix patterns
             prefix_result = self.pattern_repo.classify_by_prefix(short_name)
             if prefix_result and prefix_result[0] != "Unknown":
-                particle_type = prefix_result[0]
-                confidence = float(prefix_result[1])
+                pattern_conf = float(prefix_result[1])
+                # Override if: no type yet OR pattern has higher confidence
+                if particle_type is None or pattern_conf > confidence:
+                    particle_type = prefix_result[0]
+                    confidence = pattern_conf
             
-            # Try suffix patterns (may override or confirm)
+            # Try suffix patterns (may override further)
             suffix_result = self.pattern_repo.classify_by_suffix(short_name)
             if suffix_result and suffix_result[0] != "Unknown":
-                if particle_type is None:
+                pattern_conf = float(suffix_result[1])
+                # Override if suffix has higher confidence than current
+                if particle_type is None or pattern_conf > confidence:
                     particle_type = suffix_result[0]
-                    confidence = float(suffix_result[1])
-                elif suffix_result[1] > confidence:
-                    # Suffix has higher confidence, use it
-                    particle_type = suffix_result[0]
-                    confidence = float(suffix_result[1])
+                    confidence = pattern_conf
 
         # =============================================================================
         # TIER 3: NAMING CONVENTIONS (70-80% confidence)
