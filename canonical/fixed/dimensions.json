@@ -1,0 +1,83 @@
+{
+    "schema_version": "1.0.0",
+    "description": "The 8 orthogonal semantic dimensions of the Standard Model",
+    "dimensions": [
+        {
+            "id": 1,
+            "name": "WHAT",
+            "question": "What is this made of?",
+            "domain": "167 atom types",
+            "source": "atoms.json"
+        },
+        {
+            "id": 2,
+            "name": "Layer",
+            "question": "Where does this live?",
+            "domain": [
+                "Interface",
+                "Application",
+                "Core",
+                "Infrastructure",
+                "Test"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Role",
+            "question": "What is its purpose?",
+            "domain": "27 canonical roles",
+            "source": "roles.json"
+        },
+        {
+            "id": 4,
+            "name": "Boundary",
+            "question": "Does it cross boundaries?",
+            "domain": [
+                "Internal",
+                "Input",
+                "I/O",
+                "Output"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "State",
+            "question": "Does it maintain state?",
+            "domain": [
+                "Stateful",
+                "Stateless"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Effect",
+            "question": "Does it have side effects?",
+            "domain": [
+                "Pure",
+                "Read",
+                "Write",
+                "ReadModify"
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Activation",
+            "question": "How is it triggered?",
+            "domain": [
+                "Direct",
+                "Event",
+                "Time"
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Lifetime",
+            "question": "How long does it exist?",
+            "domain": [
+                "Transient",
+                "Session",
+                "Global"
+            ]
+        }
+    ]
+}

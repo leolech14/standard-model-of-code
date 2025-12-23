@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "description": "The 27 canonical roles (WHY dimension)",
+  "count": 27,
+  "roles": {
+    "Query": {
+      "purpose": "Retrieve data without modification"
+    },
+    "Command": {
+      "purpose": "Execute an action that changes state"
+    },
+    "Repository": {
+      "purpose": "Abstract data persistence operations"
+    },
+    "Entity": {
+      "purpose": "Represent a domain object with identity"
+    },
+    "Service": {
+      "purpose": "Coordinate business operations across entities"
+    },
+    "Factory": {
+      "purpose": "Create and configure new instances"
+    },
+    "Builder": {
+      "purpose": "Construct complex objects step by step"
+    },
+    "Validator": {
+      "purpose": "Verify data meets constraints"
+    },
+    "Transformer": {
+      "purpose": "Convert data from one representation to another"
+    },
+    "Adapter": {
+      "purpose": "Convert between incompatible interfaces"
+    },
+    "Decorator": {
+      "purpose": "Add behavior dynamically to objects"
+    },
+    "Strategy": {
+      "purpose": "Encapsulate interchangeable algorithms"
+    },
+    "Controller": {
+      "purpose": "Handle external requests and delegate to application"
+    },
+    "Presenter": {
+      "purpose": "Format data for display"
+    },
+    "View": {
+      "purpose": "Render user interface components"
+    },
+    "Configuration": {
+      "purpose": "Define system parameters and settings"
+    },
+    "Constant": {
+      "purpose": "Store immutable values used across codebase"
+    },
+    "Test": {
+      "purpose": "Verify behavior meets expectations"
+    },
+    "Mock": {
+      "purpose": "Simulate dependencies for testing"
+    },
+    "Fixture": {
+      "purpose": "Provide test data and setup"
+    },
+    "EventHandler": {
+      "purpose": "React to domain events"
+    },
+    "Observer": {
+      "purpose": "Watch for changes and respond"
+    },
+    "Migration": {
+      "purpose": "Manage schema and data evolution"
+    },
+    "Singleton": {
+      "purpose": "Ensure single instance exists globally"
+    },
+    "Guard": {
+      "purpose": "Control access and enforce authorization"
+    },
+    "Utility": {
+      "purpose": "Provide stateless helper operations"
+    },
+    "Middleware": {
+      "purpose": "Intercept and process requests/responses"
+    }
+  }
+}

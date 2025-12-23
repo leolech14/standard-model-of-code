@@ -2,10 +2,12 @@
 Pattern Repository
 
 Centralized storage for all role detection patterns.
-Single source of truth for pattern definitions across the codebase.
+Loads patterns from canonical/learned/patterns.json - the ONLY place to edit patterns.
 """
 from typing import Dict, List, Tuple, Set
 from dataclasses import dataclass, field
+from pathlib import Path
+import json
 
 
 @dataclass 
@@ -19,42 +21,113 @@ class RolePattern:
     description: str = ""
 
 
+# Path to canonical patterns file
+CANONICAL_PATTERNS_PATH = Path(__file__).parent.parent.parent / "canonical" / "learned" / "patterns.json"
+
+
 class PatternRepository:
     """
     Repository for all role detection patterns.
     
-    Centralizes patterns that were previously scattered across:
-    - auto_pattern_discovery.py
-    - parser/symbol_classifier.py
-    - tree_sitter_engine.py
+    LOADS FROM: canonical/learned/patterns.json
+    EDIT PATTERNS THERE, not in this code.
     """
     
     def __init__(self):
         self._prefix_patterns: Dict[str, Tuple[str, float]] = {}
         self._suffix_patterns: Dict[str, Tuple[str, float]] = {}
-        # New: Path patterns for context-aware classification
-        self._path_patterns: Dict[str, Tuple[str, float]] = {
-            '/test': ('Test', 95),
-            '/tests': ('Test', 95),
-            '/spec': ('Test', 90),
-            '/scenarios': ('Test', 90),
-            '/repository': ('Repository', 90),
-            '/service': ('Service', 90),
-            '/controller': ('Controller', 90),
-            '/model': ('Entity', 85),
-            '/entity': ('Entity', 85),
-            '/util': ('Utility', 80),
-            '/helper': ('Utility', 80),
-        }
+        self._path_patterns: Dict[str, Tuple[str, float]] = {}
         self._dunder_patterns: Dict[str, Tuple[str, float]] = {}
         self._decorator_patterns: Dict[str, str] = {}
         self._inheritance_patterns: Dict[str, str] = {}
         
-        self._load_default_patterns()
+        # Try to load from canonical file first
+        if CANONICAL_PATTERNS_PATH.exists():
+            self._load_from_canonical()
+        else:
+            self._load_default_patterns()
     
-    def _load_default_patterns(self):
-        """Load all default patterns."""
+    def _load_from_canonical(self):
+        """Load patterns from canonical/learned/patterns.json."""
+        with open(CANONICAL_PATTERNS_PATH) as f:
+            data = json.load(f)
         
+        # Load prefix patterns
+        for pattern, info in data.get("prefix_patterns", {}).items():
+            role = info.get("role", "Unknown")
+            confidence = info.get("confidence", 75)
+            self._prefix_patterns[pattern] = (role, confidence)
+        
+        # Load suffix patterns
+        for pattern, info in data.get("suffix_patterns", {}).items():
+            role = info.get("role", "Unknown")
+            confidence = info.get("confidence", 75)
+            self._suffix_patterns[pattern] = (role, confidence)
+        
+        # Load path patterns
+        for pattern, info in data.get("path_patterns", {}).items():
+            role = info.get("role", "Unknown")
+            confidence = info.get("confidence", 75)
+            self._path_patterns[pattern] = (role, confidence)
+        
+        # Still need to load dunder/decorator/inheritance from defaults
+        self._load_dunder_patterns()
+        self._load_decorator_patterns()
+        self._load_inheritance_patterns()
+    
+    def _load_dunder_patterns(self):
+        """Load Python dunder method patterns."""
+        self._dunder_patterns = {
+            '__init__': ('Lifecycle', 95),
+            '__new__': ('Factory', 95),
+            '__del__': ('Lifecycle', 95),
+            '__str__': ('Utility', 90),
+            '__repr__': ('Utility', 90),
+            '__eq__': ('Specification', 90),
+            '__hash__': ('Utility', 90),
+            '__len__': ('Query', 90),
+            '__iter__': ('Iterator', 90),
+            '__next__': ('Iterator', 90),
+            '__getitem__': ('Query', 90),
+            '__setitem__': ('Command', 90),
+            '__call__': ('Command', 90),
+            '__enter__': ('Lifecycle', 90),
+            '__exit__': ('Lifecycle', 90),
+        }
+    
+    def _load_decorator_patterns(self):
+        """Load decorator patterns."""
+        self._decorator_patterns = {
+            'staticmethod': 'Utility',
+            'classmethod': 'Factory',
+            'property': 'Query',
+            'abstractmethod': 'Specification',
+            'pytest.fixture': 'Fixture',
+            'fixture': 'Fixture',
+            'get': 'Controller',
+            'post': 'Controller',
+            'put': 'Controller',
+            'delete': 'Controller',
+            'route': 'Controller',
+            'test': 'Test',
+        }
+    
+    def _load_inheritance_patterns(self):
+        """Load DDD inheritance patterns."""
+        self._inheritance_patterns = {
+            'Entity': 'Entity',
+            'BaseEntity': 'Entity',
+            'ValueObject': 'ValueObject',
+            'AggregateRoot': 'AggregateRoot',
+            'Repository': 'Repository',
+            'BaseRepository': 'Repository',
+            'Command': 'Command',
+            'Query': 'Query',
+            'BaseSettings': 'Configuration',
+        }
+
+    def _load_default_patterns(self):
+        """Load all default patterns (fallback if JSON not found)."""
         # Prefix patterns (function names)
         self._prefix_patterns = {
             # Test patterns
