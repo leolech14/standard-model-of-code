@@ -93,3 +93,22 @@ When adding new patterns, ALWAYS report:
 - Prefix Patterns: 57 → 58 (+1: login)
 - Atom Aliases: 4 → 5 (+1: query)
 - **TOTAL: 154 items**
+
+## 2025-12-23 11:36 - freeCodeCamp Investigation
+
+**Source**: Platinum wave investigation of freeCodeCamp/freeCodeCamp (1728 nodes, 62.3% conf)
+
+### New Prefixes
+- `create*` → Factory (85%)
+- `is*`, `has*`, `should*`, `can*` → Specification (80%)
+- `build*` → Factory (85%)
+- `on*` → EventHandler (85%)
+- `Step*`, `Block*` → DTO (85%)
+- `Module*` → Provider (85%)
+- `Super*` → Service (80%)
+
+### New Suffixes
+- `*Route` → Controller (90%)
+- `*Location` → DTO (85%)
+- `*Order` → DTO (80%)
+

@@ -263,6 +263,46 @@
     "wait_for_": {
       "role": "Utility",
       "confidence": 80
+    },
+    "create": {
+      "role": "Factory",
+      "confidence": 85
+    },
+    "is": {
+      "role": "Specification",
+      "confidence": 80
+    },
+    "has": {
+      "role": "Specification",
+      "confidence": 80
+    },
+    "can": {
+      "role": "Specification",
+      "confidence": 80
+    },
+    "build": {
+      "role": "Factory",
+      "confidence": 85
+    },
+    "on": {
+      "role": "EventHandler",
+      "confidence": 85
+    },
+    "Step": {
+      "role": "DTO",
+      "confidence": 85
+    },
+    "Block": {
+      "role": "DTO",
+      "confidence": 85
+    },
+    "Module": {
+      "role": "Provider",
+      "confidence": 85
+    },
+    "Super": {
+      "role": "Service",
+      "confidence": 80
     }
   },
   "suffix_patterns": {
@@ -465,6 +505,18 @@
     "_model": {
       "role": "Entity",
       "confidence": 85
+    },
+    "Route": {
+      "role": "Controller",
+      "confidence": 90
+    },
+    "Location": {
+      "role": "DTO",
+      "confidence": 85
+    },
+    "Order": {
+      "role": "DTO",
+      "confidence": 80
     }
   },
   "path_patterns": {
