@@ -131,12 +131,57 @@ Particle(
 
 ---
 
-## Canonical Constants
+## Fixed vs Learnable Constants
 
-| Constant | Value | Source |
-|----------|-------|--------|
-| Atoms | 167 | `patterns/atoms.json` |
-| Families | 16 | Grouped by phase |
-| Phases | 4 | DATA, LOGIC, ORGANIZATION, EXECUTION |
-| Dimensions | 8 | This document |
-| Roles | 27 | `core/purpose_registry.py` |
+> **Critical Distinction:** Some constants are **axiomatic and fixed**, others **grow with learning**.
+
+### 🔒 FIXED LAYER (Axiomatic - Never Changes)
+
+These are the immutable foundations of the Standard Model:
+
+| Constant | Value | Source | Rationale |
+|----------|-------|--------|-----------|
+| **Dimensions** | 8 | Theory | Orthogonal semantic axes |
+| **Phases** | 4 | Theory | DATA, LOGIC, ORGANIZATION, EXECUTION |
+| **Families** | 16 | Theory | 4 per phase |
+| **Atoms** | 167 | Theory | Exhaustive AST coverage |
+
+**Why fixed?** These define the *coordinate system*. Changing them would break all existing classifications.
+
+---
+
+### 📈 LEARNABLE LAYER (Grows with Feedback)
+
+These evolve as the system learns from new codebases:
+
+| Constant | Source | Growth Mechanism |
+|----------|--------|------------------|
+| **Patterns** | `pattern_repository.py` | User corrections, new repos |
+| **Prefix patterns** | Dynamic | `test_`, `handle_`, `create_` |
+| **Suffix patterns** | Dynamic | `Service`, `Repository`, `Handler` |
+| **Path patterns** | Dynamic | `tests/`, `api/`, `domain/` |
+
+> **Note:** Pattern counts are computed at runtime. Use `pattern_repository.get_*()` for current values.
+
+**Why learnable?** These are *heuristics* that improve detection. New patterns can be added without breaking the theory.
+
+---
+
+### The Relationship
+
+```
+FIXED LAYER (Theory)
+├── 8 Dimensions (semantic axes)
+├── 167 Atoms (what it is)
+└── 27 Roles (why it exists)
+         ↓
+    DETECTED BY
+         ↓
+LEARNABLE LAYER (Heuristics)
+├── 112+ Patterns (how to recognize)
+├── Confidence scores (how sure)
+└── Evidence trails (why we think so)
+```
+
+> **Rule:** Fixed constants are defined in `patterns/atoms.json`. Learnable patterns are in `core/registry/pattern_repository.py`.
+
