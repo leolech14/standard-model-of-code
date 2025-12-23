@@ -907,16 +907,16 @@
       "language": "Go",
       "description": "The Go programming language",
       "status": "tested",
-      "tested_at": "2025-12-23T15:33:12.876704",
+      "tested_at": "2025-12-23T16:13:18.843545",
       "coverage": 100.0,
       "avg_confidence": 62.52,
-      "nodes": 89279,
+      "nodes": 89283,
       "edges": 169,
       "violations": 0,
-      "time_ms": 105603,
+      "time_ms": 112989,
       "notes": null,
       "tier": "platinum",
-      "low_conf_count": 86570
+      "low_conf_count": 86568
     },
     {
       "rank": 49,

@@ -127,6 +127,92 @@ INFERENCE_RULES = [
 ]
 
 
+# ===== STRUCTURAL INFERENCE RULES =====
+# These rules work based on node properties WITHOUT needing known neighbors
+
+def infer_from_structure(node: Dict) -> Tuple[str, float, str]:
+    """
+    Infer type from node's own structural properties.
+    Works even when no neighbors have known types.
+    Returns (type, confidence, rule_name) or None.
+    """
+    name = node.get('name', '').split('.')[-1].lower()
+    return_type = node.get('return_type', '').lower()
+    params = node.get('params', [])
+    docstring = node.get('docstring', '').lower()
+    kind = node.get('kind', node.get('symbol_kind', ''))
+    decorators = node.get('decorators', [])
+    base_classes = node.get('base_classes', [])
+    
+    # Skip if already high confidence
+    current_conf = node.get('role_confidence', 0)
+    if current_conf >= 85:
+        return None
+    
+    # -------------------------------------------------------------------------
+    # STRUCTURAL RULE 1: Return type indicates Factory/Builder
+    # -------------------------------------------------------------------------
+    if return_type:
+        # Returns a new object instance → Factory
+        if any(x in return_type for x in ['new', 'create', 'make', 'build']):
+            return ('Factory', 82.0, 'return_type_factory')
+        # Returns a bool → likely Specification/Validator
+        if return_type in ('bool', 'boolean'):
+            return ('Specification', 78.0, 'return_type_bool')
+        # Returns an error → Exception-related
+        if 'error' in return_type or 'err' in return_type:
+            return ('Exception', 78.0, 'return_type_error')
+    
+    # -------------------------------------------------------------------------
+    # STRUCTURAL RULE 2: Parameter patterns
+    # -------------------------------------------------------------------------
+    if params:
+        param_names = [p.get('name', '').lower() for p in params]
+        param_types = [p.get('type', '').lower() for p in params]
+        
+        # Takes context as first param → often a Command/Query handler
+        if param_names and param_names[0] in ('ctx', 'context', 'c'):
+            return ('Command', 75.0, 'context_first_param')
+        
+        # Takes request/response → Controller/Handler
+        if any(p in param_names for p in ['request', 'req', 'response', 'resp', 'w', 'r']):
+            return ('Controller', 78.0, 'http_params')
+        
+        # Takes reader/writer → IO utility
+        if any('reader' in p or 'writer' in p for p in param_types):
+            return ('Utility', 75.0, 'io_params')
+    
+    # -------------------------------------------------------------------------
+    # STRUCTURAL RULE 3: Docstring patterns
+    # -------------------------------------------------------------------------
+    if docstring:
+        if any(x in docstring for x in ['test', 'verify', 'assert']):
+            return ('Test', 82.0, 'docstring_test')
+        if any(x in docstring for x in ['create', 'build', 'construct', 'generate']):
+            return ('Factory', 78.0, 'docstring_factory')
+        if any(x in docstring for x in ['validate', 'check', 'ensure']):
+            return ('Validator', 78.0, 'docstring_validator')
+        if any(x in docstring for x in ['parse', 'decode', 'unmarshal']):
+            return ('Query', 78.0, 'docstring_parser')
+        if any(x in docstring for x in ['write', 'save', 'store', 'persist']):
+            return ('Command', 78.0, 'docstring_persist')
+    
+    # -------------------------------------------------------------------------
+    # STRUCTURAL RULE 4: High complexity → likely Service
+    # -------------------------------------------------------------------------
+    complexity = node.get('complexity', 0)
+    if complexity > 20:
+        return ('Service', 72.0, 'high_complexity')
+    
+    # -------------------------------------------------------------------------
+    # STRUCTURAL RULE 5: Zero out-degree leaf → likely DTO/ValueObject
+    # -------------------------------------------------------------------------
+    if kind == 'class' and node.get('out_degree', 0) == 0:
+        return ('DTO', 72.0, 'leaf_class')
+    
+    return None
+
+
 class GraphTypeInference:
     """
     Infer unknown node types from graph structure.
@@ -279,6 +365,27 @@ def apply_graph_inference(nodes: List[Dict], edges: List[Dict]) -> Tuple[List[Di
     """
     engine = GraphTypeInference()
     nodes, report = engine.infer_all(nodes, edges)
+    
+    # =========================================================================
+    # STRUCTURAL INFERENCE - runs on ALL nodes, can boost low-confidence
+    # =========================================================================
+    structural_boosted = 0
+    for node in nodes:
+        result = infer_from_structure(node)
+        if result:
+            inferred_type, confidence, rule = result
+            current_conf = node.get('role_confidence', 0)
+            
+            # Apply if: Unknown role OR structural confidence is higher
+            if node.get('role') == 'Unknown' or confidence > current_conf:
+                node['role'] = inferred_type
+                node['type'] = inferred_type
+                node['role_confidence'] = confidence
+                node['discovery_method'] = f'structural:{rule}'
+                structural_boosted += 1
+    
+    report['structural_boosted'] = structural_boosted
+    report['total_inferred'] = report.get('total_inferred', 0) + structural_boosted
     
     # =========================================================================
     # PARENT-ROLE INHERITANCE
