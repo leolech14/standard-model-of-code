@@ -1,21 +1,22 @@
-#!/usr/bin/env python3
 """
-🚀 SPECTROMETER UNIFIED CLI
-Refactored entry point for all spectrometer tools.
+🚀 COLLIDER UNIFIED CLI
+Refactored entry point for all standard model tools.
 """
 import sys
 import argparse
 from pathlib import Path
 
-# Add core to path if needed (though running from root usually works)
-sys.path.append(str(Path(__file__).parent))
+# Add root to path to ensure modules are found
+root_dir = Path(__file__).resolve().parent
+sys.path.append(str(root_dir))
 
-from learning_engine import run_analysis
+# Import the robust prove engine
+from tools.prove import run_proof
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="spectrometer",
-        description="🔬 Standard Model of Code Spectrometer - Analyze any codebase structure"
+        prog="collider",
+        description="🔬 Collider - Standard Model of Code - Analyze any codebase structure"
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
@@ -165,23 +166,18 @@ def main():
 
     elif args.command == "analyze":
         if not args.path:
-            # Fallback to demo mode if no path provided, similar to learning_engine defaults
-            # passing empty path to run_analysis which handles logic
-            args.single_repo = None
-            args.repos_dir = None
-        else:
-            path_obj = Path(args.path)
-            if not path_obj.exists():
-                print(f"❌ Error: Path not found: {args.path}")
-                sys.exit(1)
-            
-            # Simple heuristic: treat as single repo by default works best for now
-            # The run_analysis logic will handle it.
-            args.single_repo = args.path
-            args.repos_dir = None
-            
-        print(f"🚀 Launching Spectrometer Analysis on: {args.path or 'DEMO'}")
-        run_analysis(args)
+            print("❌ Error: path argument is required for analyze command")
+            print("Usage: collider analyze <path_to_code>")
+            sys.exit(1)
+
+        print(f"🚀 Launching Collider Analysis on: {args.path}")
+        try:
+            run_proof(args.path)
+            # The run_proof function generates the spectrometer_report.html
+            print("\n✅ Analysis complete. Visualization report generated.")
+        except Exception as e:
+            print(f"❌ Analysis failed: {e}")
+            sys.exit(1)
     
     elif args.command == "graph":
         from core.graph_analyzer import analyze_full, generate_report, load_graph, shortest_path

@@ -34,7 +34,7 @@ echo "🚀 Starting DEEP SCAN on $REPO_PATH..."
 echo "   (This may take some time as it asks the LLM about every unknown component)"
 
 # 4. Run Learning Engine with LLM Enabled
-python3 learning_engine.py \
+python3 tools/learning_engine.py \
     --single-repo "$REPO_PATH" \
     --llm \
     --llm-model "$MODEL" \

@@ -74,10 +74,10 @@ def load_unified_analysis(target_path: str) -> dict:
 
 
 def build_particles(proof: dict, unified: dict) -> list:
-    """Build particle list with all 4 semantic layers"""
+    """Build particle list with ALL metadata from unified_analysis.json"""
     particles = []
     
-    # Get layer data
+    # Get layer data from proof
     purpose_layers = proof.get("purpose_field", {}).get("layers", {})
     exec_flow = proof.get("execution_flow", {})
     performance = proof.get("performance", {})
@@ -85,7 +85,6 @@ def build_particles(proof: dict, unified: dict) -> list:
     # Get hotspots and orphans for quick lookup
     hotspots = set(performance.get("hotspots", []))
     orphans = set(exec_flow.get("orphans", []))
-    entry_count = exec_flow.get("entry_points", 0)
     
     # Track seen IDs to avoid duplicates
     seen_ids = set()
@@ -98,7 +97,7 @@ def build_particles(proof: dict, unified: dict) -> list:
         if node_id in seen_ids:
             continue
         seen_ids.add(node_id)
-        node_id = node.get("id") or node.get("name", "")
+        
         name = node.get("name", node_id)
         role = node.get("role", "Unknown")
         layer = node.get("layer", "unknown")
@@ -111,72 +110,169 @@ def build_particles(proof: dict, unified: dict) -> list:
         # Get layer color info
         layer_info = LAYER_COLORS.get(layer, LAYER_COLORS["unknown"])
         
-        # Execution flow properties
-        is_entry = node.get("in_degree", 0) == 0
-        is_orphan = node_id in orphans
+        # Node kind
+        kind = node.get("kind", "function")
+        
+        # Classification confidence and discovery method
+        role_confidence = node.get("role_confidence", 50.0)
+        discovery_method = node.get("discovery_method", "auto_pattern")
+        
+        # Location info
+        file_path = node.get("file_path", "")
+        start_line = node.get("start_line", 0)
+        end_line = node.get("end_line", 0)
+        
+        # Type information
+        params = node.get("params", [])
+        return_type = node.get("return_type", "")
+        base_classes = node.get("base_classes", [])
+        decorators = node.get("decorators", [])
+        
+        # Code content
+        docstring = node.get("docstring", "")
+        signature = node.get("signature", "")
+        body_source = node.get("body_source", "")
+        
+        # Metrics
+        complexity = node.get("complexity", 0)
+        lines_of_code = node.get("lines_of_code", 1)
         in_degree = node.get("in_degree", 0)
         out_degree = node.get("out_degree", 0)
         
-        # Performance properties
+        # Execution flow properties
+        is_entry = in_degree == 0
+        is_orphan = node_id in orphans
+        is_hotspot = name in hotspots or node_id in hotspots
+        
+        # Performance estimate
         time_type = "τ_compute"  # Default
-        estimated_cost = node.get("lines_of_code", 1) * node.get("complexity", 1)
-        is_hotspot = node_id in hotspots
+        estimated_cost = max(lines_of_code, 1) * max(complexity, 1)
         
         # Get role icon
         role_icon = ROLE_ICONS.get(role, "⚡")
         
+        # Discovery method icon
+        discovery_icons = {
+            "pattern": "🎯",
+            "auto_pattern": "🔍", 
+            "llm": "🤖"
+        }
+        discovery_icon = discovery_icons.get(discovery_method, "🔍")
+        
         particles.append({
+            # === Core Identity ===
             "id": node_id,
-            "label": name[:30],  # Truncate long names
+            "label": name[:40],  # Truncate long names
+            "name": name,
+            "kind": kind,
             
-            # Layer 1: Node Mapping
+            # === Classification (Layer 1: Node Mapping) ===
             "role": role,
             "role_icon": role_icon,
+            "role_confidence": role_confidence,
+            "discovery_method": discovery_method,
+            "discovery_icon": discovery_icon,
             
-            # Layer 2: Purpose Field
+            # === Architecture (Layer 2: Purpose Field) ===
             "layer": layer,
             "layer_icon": layer_info["icon"],
             "layer_color": layer_info["bg"],
             
-            # Layer 3: Execution Flow
-            "is_entry_point": is_entry,
-            "is_orphan": is_orphan,
+            # === Location ===
+            "file_path": file_path,
+            "start_line": start_line,
+            "end_line": end_line,
+            
+            # === Type Information ===
+            "params": params,
+            "return_type": return_type,
+            "base_classes": base_classes,
+            "decorators": decorators,
+            
+            # === Code Content ===
+            "docstring": docstring,
+            "signature": signature,
+            "body_source": body_source,
+            
+            # === Metrics ===
+            "complexity": complexity,
+            "lines_of_code": lines_of_code,
             "in_degree": in_degree,
             "out_degree": out_degree,
             
-            # Layer 4: Performance
+            # === Execution Flow (Layer 3) ===
+            "is_entry_point": is_entry,
+            "is_orphan": is_orphan,
+            
+            # === Performance (Layer 4) ===
             "time_type": time_type,
             "estimated_cost": estimated_cost,
             "is_hotspot": is_hotspot,
             
-            # Legacy fields for template compatibility
-            "boundary": "Internal",
-            "state": "Stateless",
-            "activation": "Direct",
-            "lifetime": "Transient",
-            "effect": "Pure" if role in ["DTO", "Entity", "ValueObject"] else "Side-Effect",
+            # === Legacy/Computed ===
+            "boundary": "External" if len(decorators) > 0 and any("route" in d.lower() or "api" in d.lower() for d in decorators) else "Internal",
+            "state": "Stateful" if kind == "class" else "Stateless",
+            "activation": "Deferred" if any("fixture" in d.lower() or "lazy" in d.lower() for d in decorators) else "Direct",
+            "lifetime": "Singleton" if kind == "class" else "Transient",
+            "effect": "Pure" if role in ["DTO", "Entity", "ValueObject", "Query"] else "Side-Effect",
         })
     
     return particles
 
 
+
+
 def build_connections(unified: dict) -> list:
-    """Build connection list from edges"""
+    """Build connection list with ALL edge metadata from unified_analysis.json"""
     connections = []
     
     for edge in unified.get("edges", []):
         source = edge.get("source", edge.get("from", ""))
         target = edge.get("target", edge.get("to", ""))
-        edge_type = edge.get("type", edge.get("edge_type", "CALLS"))
+        edge_type = edge.get("edge_type", edge.get("type", "calls"))
         
-        if source and target:
-            connections.append({
-                "from": source,
-                "to": target,
-                "type": edge_type.upper() if edge_type else "CALLS"
-            })
+        if not source or not target:
+            continue
+            
+        # Normalize edge type
+        edge_type_normalized = edge_type.lower() if edge_type else "calls"
+        
+        # Edge styling based on type
+        edge_styles = {
+            "contains": {"color": "#666666", "dashes": False, "arrows": False},
+            "calls": {"color": "#00d4ff", "dashes": False, "arrows": True},
+            "imports": {"color": "#a855f7", "dashes": True, "arrows": True},
+            "inherits": {"color": "#ec4899", "dashes": False, "arrows": True},
+            "uses": {"color": "#22c55e", "dashes": True, "arrows": True},
+        }
+        style = edge_styles.get(edge_type_normalized, edge_styles["calls"])
+        
+        connections.append({
+            # === Core Identity ===
+            "from": source,
+            "to": target,
+            "type": edge_type_normalized.upper(),
+            
+            # === Weight & Confidence ===
+            "weight": edge.get("weight", 1.0),
+            "confidence": edge.get("confidence", 1.0),
+            
+            # === Location ===
+            "file_path": edge.get("file_path", ""),
+            "line": edge.get("line", 0),
+            
+            # === Visual Style ===
+            "color": style["color"],
+            "dashes": style["dashes"],
+            "arrows": style["arrows"],
+            
+            # === Metadata ===
+            "metadata": edge.get("metadata", {})
+        })
     
     return connections
+
+
 
 
 def build_metadata(proof: dict) -> dict:
@@ -279,25 +375,21 @@ def inject_into_template(template_path: str, particles: list, connections: list,
         f"/* <!-- DATA_INJECTION_END --> */\n        {metadata_injection}\n        {helper_js}"
     )
     
-    # Update title
-    target_name = Path(metadata.get("target", "")).name or "Analysis"
+    # Update title - use proper Collider branding
     html = html.replace(
         "<title>🔬 Spectrometer Pro - Code Architecture Visualizer</title>",
-        f"<title>🔬 Spectrometer Pro - {target_name}</title>"
+        "<title>⚛️ Collider Particle Map - Standard Model of Code</title>"
     )
     
-    # Patch initGraph to use safe layer color lookup
+    # Patch ALL layerColors[] lookups to use safe getLayerColor()
+    # This includes showNodeDetails which crashes without this fix
     html = html.replace(
-        "layerColors[p.layer].bg",
-        "getLayerColor(p.layer).bg"
+        "layerColors[p.layer]",
+        "getLayerColor(p.layer)"
     )
     html = html.replace(
-        "layerColors[p.layer].border",
-        "getLayerColor(p.layer).border"
-    )
-    html = html.replace(
-        "layerColors[node.layer].bg",
-        "getLayerColor(node.layer).bg"
+        "layerColors[node.layer]",
+        "getLayerColor(node.layer)"
     )
     
     return html

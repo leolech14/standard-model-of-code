@@ -18,7 +18,7 @@ from collections import Counter, defaultdict
 from datetime import datetime
 
 # Add core to path
-sys.path.insert(0, str(Path(__file__).parent / 'core'))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'core'))
 
 from unified_analysis import analyze
 from auto_pattern_discovery import AutoPatternDiscovery
@@ -401,8 +401,109 @@ def run_proof(target_path: str) -> dict:
     print(f"  Predictions:      {len(predictions)}")
     print(f"  Speed:            {len(nodes)/classification_time:.0f} nodes/sec")
     print()
-    
-    # Save proof document
+
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 10: VISUALIZATION GENERATION (FULL STREAM)
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 10: VISUALIZATION GENERATION                             │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+
+    try:
+        # 1. ENRICH NODES
+        enriched_particles = []
+        node_lookup = {n['id']: n for n in nodes if isinstance(n, dict)}
+        
+        # Helper to safely get node ID
+        def get_id(n):
+            return n.id if hasattr(n, 'id') else n.get('id')
+
+        # Create map of semantic data
+        purpose_map = {n.id: n for n in purpose_field.nodes.values()} if purpose_field else {}
+        flow_orphans = set(exec_flow.orphans) if exec_flow else set()
+        hotspot_scores = {n.id: n.hotspot_score for n in perf_profile.nodes.values()} if perf_profile else {}
+
+        for node in nodes:
+            # Handle object vs dict
+            if hasattr(node, '__dict__'):
+                p = dict(vars(node))
+            else:
+                p = dict(node)
+                
+            nid = p.get('id')
+            
+            # Merge Purpose Layer
+            if nid in purpose_map:
+                pn = purpose_map[nid]
+                p['layer'] = pn.layer.value if hasattr(pn.layer, 'value') else str(pn.layer)
+                p['composite_purpose'] = pn.composite_purpose
+            elif not p.get('layer'):
+                p['layer'] = 'unknown'
+
+            # Merge Execution Flow
+            p['is_orphan'] = nid in flow_orphans
+            
+            # Merge Performance
+            p['hotspot_score'] = hotspot_scores.get(nid, 0)
+            p['is_hotspot'] = p['hotspot_score'] > 50
+
+            # UI Label
+            p['label'] = p.get('name', '').split('.')[-1]
+            
+            enriched_particles.append(p)
+
+        # 2. GENERATE JSON PAYLOAD
+        viz_data = {
+            "particles": enriched_particles,
+            "connections": edges if isinstance(edges, list) else [dict(e) for e in edges],
+            "metadata": {
+                "generated_at": datetime.now().isoformat(),
+                "stats": proof_document['classification']
+            }
+        }
+
+        # 3. INJECT INTO TEMPLATE
+        # Locate template (try local dir, then root)
+        repo_root = Path(__file__).resolve().parent.parent
+        template_path = repo_root / "spectrometer_viz.html"
+        
+        if not template_path.exists():
+            print(f"  ⚠ Template not found at {template_path}")
+        else:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                html_content = f.read()
+            
+            # Construct injection block
+            injection_block = f"""
+    const particles = {json.dumps(viz_data['particles'])};
+    const connections = {json.dumps(viz_data['connections'])};
+    const vizMetadata = {json.dumps(viz_data['metadata'])};
+            """
+            
+            # Replace marker
+            start_marker = "/* <!-- DATA_INJECTION_START --> */"
+            end_marker = "/* <!-- DATA_INJECTION_END --> */"
+            
+            if start_marker in html_content and end_marker in html_content:
+                # Use simple string replacement to avoid regex issues with JSON data
+                parts_before = html_content.split(start_marker)[0]
+                parts_after = html_content.split(end_marker)[1]
+                new_content = parts_before + start_marker + injection_block + end_marker + parts_after
+                
+                report_path = Path("spectrometer_report.html")
+                with open(report_path, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                    
+                print(f"  ✓ Report generated: {report_path.resolve()}")
+            else:
+                print("  ⚠ Injection markers not found in template")
+
+    except Exception as e:
+        print(f"  ⚠ Visualization generation failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+    print()
     output_file = Path("proof_output.json")
     with open(output_file, 'w') as f:
         json.dump(proof_document, f, indent=2, default=str)

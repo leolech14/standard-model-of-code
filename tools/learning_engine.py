@@ -27,7 +27,7 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Add core to path
-sys.path.insert(0, str(Path(__file__).parent / "core"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'core'))
 
 from atom_registry import AtomRegistry
 from discovery_engine import DiscoveryEngine

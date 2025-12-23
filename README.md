@@ -57,7 +57,8 @@ Code has a **Purpose Field** - meaning that emerges hierarchically:
 
 ```bash
 # Analyze any codebase
-python prove.py /path/to/code
+# Analyze any codebase
+python tools/prove.py /path/to/code
 
 # Output (6 stages):
 # 1. Classification (atoms, roles, RPBL)
@@ -66,7 +67,39 @@ python prove.py /path/to/code
 # 4. Predictions (missing components)
 # 5. Actionable Insights (prioritized recommendations)
 # 6. Summary (reproducible proof document)
+## 🚀 Quick Start
+
+**Installation:**
+```bash
+pip install .
 ```
+
+**Run Analysis (Full Stream):**
+```bash
+collider analyze /path/to/code
+```
+This generates:
+- `spectrometer_output/unified_analysis.json` (Data)
+- `spectrometer_report.html` (Visualization)
+
+**Other Commands:**
+```bash
+collider audit           # Run system health check
+collider viz graph.json  # Regenerate visualization from JSON
+```
+
+## Visualization
+
+The **Spectrometer** provides an interactive 3D/2D visualization of your codebase's Purpose Field.
+
+1. Generate analysis:
+   ```bash
+   python tools/prove.py /path/to/code
+   ```
+2. Open `spectrometer_viz.html` in your browser.
+   - Works fully offline (bundled assets).
+   - Visualize relationships, layers, and hotpots.
+
 
 ### Example Output
 
@@ -167,7 +200,7 @@ PREDICTION: ProductRepository and PaymentRepository are MISSING
 │                      COLLIDER (Implementation)                  │
 │                                                                 │
 │   ┌─────────────────────────────────────────────────────────┐   │
-│   │ PIPELINE: prove.py                                      │   │
+│   │ PIPELINE: tools/prove.py                                │   │
 │   │                                                         │   │
 │   │ 1. AST Parse      → Extract code structure              │   │
 │   │ 2. RPBL Score     → Classify behavior                   │   │
