@@ -74,7 +74,7 @@ Added by Role Theory analysis.
 | Field | Type | Description | Values |
 |-------|------|-------------|--------|
 | `role` | `string` | Canonical role | `"Repository"`, `"Entity"`, `"Service"`, `"Controller"`, etc. |
-| `role_confidence` | `float` | Confidence score (0-1) | `0.95` = 95% confident |
+| `role_confidence` | `float` | Confidence score (0-100) | `95.0` = 95% confident |
 | `discovery_method` | `string` | How role was detected | `"pattern"`, `"inheritance"`, `"path"`, `"llm"`, `"none"` |
 
 ---
@@ -244,7 +244,7 @@ Catch-all for custom/experimental data.
 | Field | Type | Description |
 |-------|------|-------------|
 | `weight` | `float` | Edge strength (e.g., call frequency) |
-| `confidence` | `float` | Detection confidence (0-1) |
+| `confidence` | `float` | Detection confidence (0-100) |
 | `file_path` | `string` | Where the relationship was declared |
 | `line` | `int` | Line number of the reference |
 
@@ -339,8 +339,8 @@ Catch-all for custom/experimental data.
 1. **Node ID Uniqueness**: No two nodes can have the same `id`.
 2. **Edge Referential Integrity**: `source` and `target` must exist in `nodes`.
 3. **Layer Constraint**: `layer` must be one of: `Domain`, `Infrastructure`, `Application`, `Presentation`, `Unknown`.
-4. **Role Constraint**: `role` should be a canonical role from the 27-role taxonomy (or `Unknown`).
-5. **Confidence Range**: `role_confidence` and `confidence` must be in `[0, 1]`.
+4. **Role Constraint**: `role` should be a canonical role from the 33-role taxonomy (or `Unknown`).
+5. **Confidence Range**: `role_confidence` and `confidence` must be in `[0, 100]`.
 
 ---
 

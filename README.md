@@ -1,7 +1,7 @@
 # Collider: The Standard Model of Code
-
+ 
 > **Analyze any codebase. Get a complete semantic map. Detect violations. Predict missing components.**
-
+ 
 Collider turns source code into **structured knowledge** by mapping every element to a universal schema. Think of it as "running a physics experiment" on your codebase.
 
 ---
@@ -10,7 +10,7 @@ Collider turns source code into **structured knowledge** by mapping every elemen
 
 **Software has physics.**
 
-Just like matter is made of atoms, code is made of **167 fundamental building blocks** (Atoms). These atoms combine to form **Roles** (like Repository, Entity, Service), which organize into **Layers** (Domain, Infrastructure, Application).
+Just like matter is made of atoms, code is made of **167 fundamental building blocks** (Atoms), which map to **33 Canonical Roles** (like Repository, Entity, Service), which organize into **Layers** (Domain, Infrastructure, Application).
 
 When you run Collider, it:
 1. **Parses** your code into atoms

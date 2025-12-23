@@ -19,13 +19,13 @@ YOU ARE NOT:
 
 YOU ARE:
 - An architectural pattern recognizer
-- A role classifier (27 semantic categories)
+- A role classifier (33 semantic categories)
 - Context-aware (uses repo README, file structure)
 ```
 
 ---
 
-## The 27-Role Taxonomy (What to Teach)
+## The 33-Role Taxonomy (What to Teach)
 
 ### 1. Data Access Roles
 ```

@@ -203,7 +203,7 @@ Purpose is **conserved** through the call graph:
 
 ### Stage 1: Detect Atomic Purpose (DONE ✅)
 - Pattern matching on names → roles
-- 27 roles detected with 87.6% accuracy
+- 33 roles detected with >90% accuracy
 
 ### Stage 2: Infer Composite Purpose
 ```python

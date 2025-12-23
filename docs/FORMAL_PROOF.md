@@ -295,6 +295,7 @@ This is a finite number. Any code element maps to one of at most 45 million sema
 
 1. **Define dependency graph** $G = (V, E)$ where:
    - $V = \{S_1, S_2, ..., S_{10}\}$ (pipeline stages)
+   - Let $A = \{a_1, a_2, ..., a_{33}\}$ be the set of fundamental atoms.
    - $E = \{(S_i, S_j) : S_i \prec S_j\}$ (dependencies)
 
 2. **Explicit dependencies:**

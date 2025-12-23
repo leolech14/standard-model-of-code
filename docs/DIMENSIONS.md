@@ -46,7 +46,7 @@ Every particle of code exists in **8 orthogonal semantic dimensions** (see §2.4
 ## DIMENSION 3: Role (Functional Purpose)
 
 **Question:** What is the developer's intent?  
-**Values:** 27 canonical roles (Repository, Factory, Service, Controller, etc.)
+**Values:** 33 canonical roles (Repository, Factory, Service, Controller, etc.)
 
 **Detection:** Name patterns, decorators, structural heuristics.
 

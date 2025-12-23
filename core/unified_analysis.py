@@ -195,8 +195,15 @@ def create_unified_output(
     
     # Populate nodes (normalize to schema)
     for node in nodes:
+        # Resolve ID: Use existing or generate formatted ID
+        node_id = node.get("id")
+        if not node_id:
+            file = node.get("file_path", node.get("file", "unknown"))
+            name = node.get("name", "unknown")
+            node_id = f"{file}:{name}"
+
         unified_node = {
-            "id": node.get("id", ""),
+            "id": node_id,
             "name": node.get("name", ""),
             "kind": node.get("symbol_kind", node.get("kind", "unknown")),
             "file_path": node.get("file_path", node.get("file", "")),

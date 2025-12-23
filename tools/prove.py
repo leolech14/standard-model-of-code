@@ -21,7 +21,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'core'))
 
 from unified_analysis import analyze
-from auto_pattern_discovery import AutoPatternDiscovery
+
 from antimatter_evaluator import AntimatterEvaluator
 from insights_engine import generate_insights
 from purpose_field import detect_purpose_field, Layer

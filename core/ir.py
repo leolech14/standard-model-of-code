@@ -51,6 +51,19 @@ class Graph:
     def add_edge(self, edge: Edge):
         self.edges.append(edge)
 
+    def to_json(self) -> str:
+        """Export graph to JSON string."""
+        import json
+        from dataclasses import asdict
+        
+        # Helper to handle Enum serialization
+        def default_serializer(obj):
+            if isinstance(obj, Enum):
+                return obj.value
+            return str(obj)
+
+        return json.dumps(asdict(self), default=default_serializer)
+
 def edges_from_internal_edges_list(internal_edges: List[Dict]) -> List[Edge]:
     """
     Convert the `internal_edges` summary from DependencyAnalyzer to Edge IR.

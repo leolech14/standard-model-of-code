@@ -25,7 +25,7 @@ This document defines the **official terminology** for all concepts in the Stand
 | **Code element** | `particle` | node, component, element, symbol | Any discrete unit of code (function, class, module) |
 | **Collection of elements** | `particles` | nodes, components | Plural of particle |
 | **Syntactic type** | `atom` | ast_type, kind | The 167-atom taxonomy classification |
-| **Semantic role** | `role` | purpose, intent | The 27-role classification (Query, Command, etc.) |
+| **Semantic role** | `role` | purpose, intent | The 33-role classification (Query, Command, etc.) |
 | **Code container** | `codebase` | repository, project | The analyzed code |
 
 ---

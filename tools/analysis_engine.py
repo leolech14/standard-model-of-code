@@ -167,21 +167,9 @@ class AnalysisEngine:
         self.complete_extractor = CompleteExtractor()
         self._load_learned_atoms()
         
-        # Initialize LLM classifier if model specified
         if self.config.use_llm:
-            try:
-                from core.llm_classifier import create_ollama_classifier
-                # Use model from config
-                model_to_use = self.config.llm_model or "qwen2.5:7b-instruct"
-                self.llm_classifier = create_ollama_classifier(model=model_to_use)
-                if self.llm_classifier.llm_client.is_available():
-                    print(f"🦙 LLM classifier enabled with {model_to_use}")
-                else:
-                    print(f"⚠️  Ollama not available, LLM classification disabled")
-                    self.llm_classifier = None
-            except Exception as e:
-                print(f"⚠️  LLM classifier init failed: {e}")
-                self.llm_classifier = None
+            print("⚠️  LLM features have been deprecated in favor of deterministic analysis.")
+            self.llm_classifier = None
     
     def _load_learned_atoms(self):
         """Load atoms from the enhanced registry (including discovered atoms)."""
@@ -393,15 +381,8 @@ class AnalysisEngine:
         print(f"  ✓ Found {len(particles)} particles, converted to {len(semantic_ids)} Semantic IDs")
         print(f"  ✓ Found {len(edges)} internal dependency edges")
 
-        # LLM Reclassification for low-confidence particles
-        if self.llm_classifier is not None:
-            semantic_ids, llm_stats = self._llm_reclassify_particles(
-                particles, semantic_ids, repo_path
-            )
-            print(
-                f"  🦙 LLM reclassification: {llm_stats['llm_escalated']} escalated, "
-                f"{llm_stats['llm_succeeded']} improved"
-            )
+        # LLM Reclassification disabled (Pivot to Deterministic)
+
 
         # Full enrichment stage (tree-sitter based) - MANDATORY
         print("  🌳 Running tree-sitter full enrichment...")
@@ -444,101 +425,14 @@ class AnalysisEngine:
             _enrich_with_where(self, semantic_ids, boundary_data)
             print(f"  ✓ Enriched {len(semantic_ids)} IDs with behavior and context data")
 
-        # WHY Enrichment (Intent/Patterns)
-        try:
-            from core.intent_detector import IntentDetector
-            intent_detector = IntentDetector(llm_classifier=self.llm_classifier)
-            intent_data = intent_detector.analyze(semantic_ids)
+        # Intent Enrichment disabled (Pivot to Deterministic)
 
-            from core.enrichment_helpers import _enrich_with_why
-            _enrich_with_why(self, semantic_ids, intent_data)
 
-            patterns = intent_data.get("patterns_detected", {})
-            smells = intent_data.get("smells_detected", {})
-            print(
-                f"  🎯 Intent analysis: {sum(patterns.values())} patterns, "
-                f"{sum(smells.values())} smells detected"
-            )
-        except Exception as e:
-            print(f"  ⚠️  Intent detection failed: {e}")
+        # Intelligence Layer disabled (Pivot to Deterministic)
 
-        # Best Practices Intelligence Layer (The Judge)
-        try:
-            from core.intelligence import IntelligenceEvaluator, ComplianceScorer
 
-            print("  ⚖️  Running Best Practices Intelligence Layer...")
-            evaluator = IntelligenceEvaluator()
-            scorer = ComplianceScorer()
+        # 4D Registry export disabled (Pivot to Standard Model Schema)
 
-            violations = evaluator.evaluate_codebase(semantic_ids)
-            score_data = scorer.calculate_score(violations, len(semantic_ids))
-
-            print(f"  🏆 Atomic Compliance Score: {score_data['score']}/100 ({score_data['grade']})")
-            if violations:
-                print(f"     Violations: {len(violations)} (Critical: {score_data['breakdown']['CRITICAL']})")
-
-                from collections import defaultdict
-                violation_map = defaultdict(list)
-                for v in violations:
-                    violation_map[v.particle_id].append(
-                        {
-                            "rule": v.rule_name,
-                            "severity": v.severity,
-                            "message": v.details,
-                            "solution": v.solution,
-                        }
-                    )
-
-                for sid in semantic_ids:
-                    pid = sid.to_string() if hasattr(sid, "to_string") else str(sid)
-                    if pid in violation_map:
-                        if not hasattr(sid, "properties"):
-                            sid.properties = {}
-                        sid.properties["intelligence"] = {
-                            "violations": violation_map[pid]
-                        }
-
-            intelligence_report = {
-                "score": score_data,
-                "violations": [
-                    {
-                        "rule": v.rule_name,
-                        "severity": v.severity,
-                        "file": v.file_path,
-                        "details": v.details,
-                    }
-                    for v in violations
-                ],
-            }
-
-            out_path = Path(repo_path) / "output" / "intelligence_report.json"
-            if not out_path.parent.exists():
-                out_path = Path("output") / "intelligence_report.json"
-
-            with open(out_path, "w") as f:
-                json.dump(intelligence_report, f, indent=2)
-
-        except Exception as e:
-            print(f"  ⚠️  Intelligence Layer failed: {e}")
-
-        # Export to 4D Particle Registry
-        try:
-            from core.particle_registry_4d import ParticleRegistry4D
-            registry_4d = ParticleRegistry4D()
-            count = registry_4d.add_from_semantic_ids(semantic_ids)
-
-            output_path = Path(repo_path) / "output" / "particle_registry_4d.json"
-            if not output_path.parent.exists():
-                output_path = Path("output") / "particle_registry_4d.json"
-
-            registry_4d.save(str(output_path))
-
-            stats = registry_4d.get_stats()
-            print(f"  📦 4D Registry: {count} particles exported")
-            print(f"     Patterns: {stats['by_pattern']}")
-            print(f"     Smells: {stats['by_smell']}")
-        except Exception as e:
-            print(f"  ⚠️  4D Registry export failed: {e}")
 
         summary = comp_results.get("summary", {})
         detailed_stats = comp_results.get("detailed_stats", {})
@@ -575,170 +469,13 @@ class AnalysisEngine:
             new_patterns=new_patterns,
         )
     
-    def _llm_reclassify_particles(
-        self, 
-        particles: List[Dict], 
-        semantic_ids: List, 
-        repo_path: str
-    ) -> Tuple[List, Dict]:
-        """
-        Reclassify low-confidence particles using section-based LLM classification.
-        
-        For large repos:
-        1. First maps the full structure
-        2. Groups particles by directory/section
-        3. Sends batched context per section (more efficient, better context)
-        
-        Returns:
-            Updated semantic_ids list and LLM stats dict
-        """
-        from core.llm_classifier import ComponentCard
-        from collections import defaultdict
-        
-        escalation_threshold = 0.55
-        file_cache = {}
-        
-        # Phase 1: Group particles by directory section
-        sections = defaultdict(list)
-        for i, (particle, sid) in enumerate(zip(particles, semantic_ids)):
-            file_path = particle.get("file_path", "")
-            # Group by parent directory (section)
-            section = str(Path(file_path).parent) if file_path else "unknown"
-            sections[section].append((i, particle, sid))
-        
-        # Phase 2: Build structure summary for LLM context
-        structure_summary = self._build_structure_summary(particles, semantic_ids)
-        
-        # Phase 3: Process each section
-        updated_ids = list(semantic_ids)  # Copy to avoid mutation issues
-        
-        for section_path, section_items in sections.items():
-            # Filter to low-confidence items in this section
-            low_conf_items = [
-                (i, p, sid) for i, p, sid in section_items
-                if sid.properties.get("confidence", 50) / 100.0 < escalation_threshold
-                or sid.properties.get("type", "Unknown") == "Unknown"
-            ]
-            
-            if not low_conf_items:
-                continue
-            
-            # Limit batch size for LLM context window
-            batch_size = 5
-            for batch_start in range(0, len(low_conf_items), batch_size):
-                batch = low_conf_items[batch_start:batch_start + batch_size]
-                
-                # Build section context
-                section_context = self._build_section_context(
-                    batch, section_path, structure_summary, file_cache
-                )
-                
-                # Classify batch
-                for idx, particle, sid in batch:
-                    try:
-                        file_path = particle.get("file_path", "")
-                        start_line = particle.get("line", 1)
-                        name = particle.get("name", "")
-                        
-                        # Get code excerpt
-                        code_excerpt = self._get_code_excerpt(file_path, start_line, file_cache)
-                        
-                        card = ComponentCard(
-                            node_id=sid.to_string() if hasattr(sid, 'to_string') else str(idx),
-                            file_path=file_path,
-                            name=name,
-                            kind=particle.get("category", "class"),
-                            start_line=start_line,
-                            end_line=start_line + code_excerpt.count("\n"),
-                            code_excerpt=code_excerpt[:2000],
-                            signature=name,
-                            docstring=section_context,  # Pass structure as context
-                            decorators=[],
-                            base_classes=[],
-                            imports=[],
-                            heuristic_role=sid.properties.get("type", "Unknown"),
-                            heuristic_confidence=sid.properties.get("confidence", 50) / 100.0,
-                            heuristic_evidence=[],
-                            folder_layer=self._infer_layer_from_path(file_path),
-                        )
-                        
-                        result = self.llm_classifier.classify(card)
-                        
-                        if result.role != "Unknown" and result.confidence > card.heuristic_confidence:
-                            sid.properties["type"] = result.role
-                            sid.properties["confidence"] = int(result.confidence * 100)
-                            sid.properties["llm_classified"] = True
-                            sid.properties["llm_reasoning"] = result.reasoning[:200]
-                        
-                        updated_ids[idx] = sid
-                        
-                    except Exception as e:
-                        pass
-        
-        return updated_ids, self.llm_classifier.get_stats()
+    # _llm_reclassify_particles removed
+    # _build_structure_summary removed
+
     
-    def _build_structure_summary(self, particles: List[Dict], semantic_ids: List) -> str:
-        """Build a high-level structure summary for LLM context."""
-        from collections import defaultdict
-        
-        by_layer = defaultdict(list)
-        for p, sid in zip(particles, semantic_ids):
-            file_path = p.get("file_path", "")
-            layer = self._infer_layer_from_path(file_path)
-            role = sid.properties.get("type", "Unknown")
-            name = p.get("name", "?")
-            by_layer[layer].append(f"{name} ({role})")
-        
-        lines = ["REPOSITORY STRUCTURE:"]
-        for layer in ["domain", "application", "infrastructure", "presentation", "unknown"]:
-            if by_layer[layer]:
-                lines.append(f"\n{layer.upper()} LAYER ({len(by_layer[layer])} components):")
-                for item in by_layer[layer][:10]:  # Limit per layer
-                    lines.append(f"  - {item}")
-                if len(by_layer[layer]) > 10:
-                    lines.append(f"  ... and {len(by_layer[layer]) - 10} more")
-        
-        return "\n".join(lines)
-    
-    def _build_section_context(
-        self, 
-        batch: List[Tuple], 
-        section_path: str,
-        structure_summary: str,
-        file_cache: Dict
-    ) -> str:
-        """Build context for a section batch."""
-        lines = [structure_summary, "", f"CURRENT SECTION: {section_path}", ""]
-        lines.append("Components in this section:")
-        for idx, particle, sid in batch:
-            name = particle.get("name", "?")
-            role = sid.properties.get("type", "Unknown")
-            conf = sid.properties.get("confidence", 50)
-            lines.append(f"  - {name}: {role} ({conf}% confidence)")
-        return "\n".join(lines)
-    
-    def _get_code_excerpt(self, file_path: str, start_line: int, file_cache: Dict) -> str:
-        """Extract code excerpt from file."""
-        if file_path not in file_cache:
-            try:
-                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                    file_cache[file_path] = f.read()
-            except:
-                file_cache[file_path] = ""
-        
-        full_content = file_cache[file_path]
-        lines = full_content.split('\n')
-        
-        if start_line > 0 and start_line <= len(lines):
-            end_line = min(start_line + 50, len(lines))
-            for j in range(start_line, min(start_line + 100, len(lines))):
-                if j < len(lines):
-                    line = lines[j]
-                    if j > start_line and (line.startswith('class ') or line.startswith('def ')):
-                        end_line = j
-                        break
-            return '\n'.join(lines[start_line-1:end_line])
-        return full_content[:2000]
+    # _build_section_context removed
+    # _get_code_excerpt removed
+
     
     def _infer_layer_from_path(self, file_path: str) -> str:
         """Infer architectural layer from file path."""
@@ -1472,7 +1209,7 @@ def run_analysis(args):
     SystemHealth.print_checklist(exit_on_fail=False)
     
     print("=" * 70)
-    print("🧠 COMPREHENSIVE LEARNING ENGINE")
+    print("🧠 STANDARD MODEL ANALYZER")
     print("=" * 70)
     
     llm_model = args.llm_model if hasattr(args, 'llm') and args.llm else None
@@ -1487,7 +1224,7 @@ def run_analysis(args):
         llm_model=llm_model
     )
     
-    engine = LearningEngine(config=config)
+    engine = AnalysisEngine(config=config)
     
     # Determine input source
     single_repo = args.single_repo if hasattr(args, 'single_repo') else None

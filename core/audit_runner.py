@@ -15,12 +15,12 @@ if str(ROOT_DIR) not in sys.path:
 
 from core.newman_suite import NewmanSuite
 try:
-    from tools.learning_engine import run_analysis
+    from tools.analysis_engine import run_analysis
 except ImportError:
     # Fallback if tools package not yet installed
     import sys
     sys.path.append(str(ROOT_DIR / "tools"))
-    from learning_engine import run_analysis
+    from analysis_engine import run_analysis
 
 
 def _print_health(results):

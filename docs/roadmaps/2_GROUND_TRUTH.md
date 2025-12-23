@@ -42,7 +42,7 @@ python scripts/sample_for_annotation.py --n 2000 --stratify language
 **Tasks:**
 - [ ] Define clear rules for each dimension:
   - Atom: "What syntactic type?" (167 options)
-  - Role: "What semantic purpose?" (27 options)
+  - Role: "What semantic purpose?" (33 options)
   - RPBL: "Rate 1-10 on 4 scales"
 - [ ] Provide examples (10 fully annotated cases)
 - [ ] Edge case resolution (e.g., ambiguous names)
