@@ -75,4 +75,9 @@ def run_benchmark(limit=5):
     print(f"TOTAL: {len(results)} repos, {total_atoms} atoms, {total_new_patterns} new patterns found.")
 
 if __name__ == "__main__":
-    run_benchmark()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--limit", type=int, default=5, help="Number of repositories to analyze")
+    args = parser.parse_args()
+    
+    run_benchmark(limit=args.limit)
