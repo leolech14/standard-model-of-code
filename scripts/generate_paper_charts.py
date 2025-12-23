@@ -76,7 +76,7 @@ def create_taxonomy_chart():
     ax.set_xticks(x)
     ax.set_xticklabels(phases, fontsize=12, fontweight='bold')
     ax.set_ylabel('Number of Atom Types', fontsize=12)
-    ax.set_title('Standard Model: 167 Atoms Across 4 Phases × 12 Families', 
+    ax.set_title('Standard Model: 167 Atoms Across 4 Phases × 16 Families', 
                 fontsize=14, fontweight='bold', pad=20)
     
     ax.set_ylim(0, 75)
