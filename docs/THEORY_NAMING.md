@@ -235,4 +235,54 @@
 
 ---
 
+## 14. Borrowed Terminology (Industry Standard → Our Mapping)
+
+**What developers already know** (no need to teach):
+
+| Industry Term | Our Term | Status | Notes |
+|---------------|----------|--------|-------|
+| **God Class** | Massive Particle | BORROWED | We use both interchangeably |
+| **Code Smell** | Antimatter Signature | BORROWED | Industry term widely used |
+| **Technical Debt** | Accumulated Antimatter | BORROWED | Metaphor for violations |
+| **Dependency** | Interaction | BORROWED | Graph theory term |
+| **Call Graph** | Interaction Network | BORROWED | Standard term |
+| **AST** | Abstract Syntax Tree | BORROWED | Compiler term |
+| **Refactoring** | Antimatter Remediation | BORROWED | Industry standard |
+| **Coupling** | Entanglement (high B score) | BORROWED | SE metric |
+| **Cohesion** | Focus (low R score) | BORROWED | SE metric |
+| **Single Responsibility** | Low R score | BORROWED | SOLID principle |
+| **Separation of Concerns** | Layer Discipline | BORROWED | Architecture principle |
+| **Cyclomatic Complexity** | Part of R score | BORROWED | Metric |
+| **Side Effect** | Impurity (low P score) | BORROWED | FP term |
+| **Pure Function** | High P score | BORROWED | FP term |
+| **Immutable** | Stateless (high P) | BORROWED | FP term |
+
+**What's NEW** (people need to learn):
+
+| Our Concept | Definition | Why New |
+|-------------|------------|---------|
+| **Particle** | Code element | Physics metaphor |
+| **Atom** | Syntactic type (167 types) | Our taxonomy |
+| **Role** | Semantic purpose (27 types) | Our taxonomy |
+| **RPBL** | 4D behavior scores | Our metric |
+| **Semantic Space (Σ)** | 4D classification space | Our theory |
+| **Antimatter** | Architectural violations | Physics metaphor |
+| **Massive Particle** | God Class | Physics naming |
+| **Layer Breach** | Upward dependency violation | Our concept |
+| **Feedback Loop** | Circular dependency | Physics naming |
+| **Collision** | Analysis run | Physics metaphor |
+| **Interaction** | Dependency (general) | Physics term |
+
+**Hybrid Terms** (borrowed + extended):
+
+| Term | Industry Meaning | Our Extension |
+|------|------------------|---------------|
+| **Layer** | Architecture tier | + strict rules (no upward deps) |
+| **Violation** | Code issue | → Antimatter (specific types) |
+| **Metric** | Code measurement | → RPBL (4D scores) |
+| **Classification** | Categorization | → 4D semantic space |
+
+---
+
 **This is the eternal theoretical core. Implementation may change, theory endures.**
+
