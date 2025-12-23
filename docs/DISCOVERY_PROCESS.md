@@ -48,6 +48,23 @@ We refactored the system to implement this 4-Tier strategies (without LLMs) and 
 *   **Accuracy:** >99%.
 *   **Speed:** 100x faster than LLM approach.
 
-## 6. Conclusion
+## 6. Historical Notes
+
+### The 152 AST Node Mapping (Deprecated)
+
+During the early research phase, we mapped **152 Tree-Sitter AST node types** across JavaScript, TypeScript, and Python. This was a one-time analysis to understand the syntactic landscape:
+
+| Language | Node Types |
+|----------|------------|
+| Python | 85 |
+| JavaScript | 103 |
+| TypeScript | 118 |
+| **Union (deduplicated)** | **152** |
+
+> **Note:** This number (152) is **historical context only**. The current implementation dynamically extracts whatever AST nodes Tree-Sitter provides, rather than mapping to a fixed list. The 152 was useful for initial taxonomy design but is not enforced in the running system.
+
+---
+
+## 7. Conclusion
 We proved that **Software Engineering has Physics**.
 Codebases naturally evolve into structured topologies because "chaos" is unmaintainable. The Standard Model simply maps this natural structure. We do not need to "invent" a map; we just need to "read" the territory using the correct instruments (Structure > Syntax).

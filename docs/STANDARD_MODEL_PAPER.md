@@ -268,7 +268,7 @@ When heuristic confidence is below threshold (τ < 0.55), classification is esca
 | Python | 62 | ~90% |
 | **Total (Union)** | **152** | — |
 
-*Note:* 152 is the union of distinct AST node kinds across the three languages after removing syntactic duplicates. Per-language counts are language-specific.
+*Note:* 152 is the union of distinct AST node kinds across the three languages after removing syntactic duplicates. **This count is a historical snapshot from initial research (December 2025).** The current implementation dynamically extracts whatever AST nodes Tree-Sitter provides, rather than mapping to a fixed list. See `docs/DISCOVERY_PROCESS.md` for details.
 
 ---
 
