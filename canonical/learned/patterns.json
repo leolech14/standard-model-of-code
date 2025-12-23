@@ -303,6 +303,82 @@
     "Super": {
       "role": "Service",
       "confidence": 80
+    },
+    "use": {
+      "role": "Hook",
+      "confidence": 90
+    },
+    "with": {
+      "role": "Decorator",
+      "confidence": 85
+    },
+    "render": {
+      "role": "View",
+      "confidence": 85
+    },
+    "setup": {
+      "role": "Lifecycle",
+      "confidence": 90
+    },
+    "onMounted": {
+      "role": "Lifecycle",
+      "confidence": 90
+    },
+    "onUnmounted": {
+      "role": "Lifecycle",
+      "confidence": 90
+    },
+    "onUpdated": {
+      "role": "Lifecycle",
+      "confidence": 90
+    },
+    "watch": {
+      "role": "Observer",
+      "confidence": 85
+    },
+    "computed": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "fetch": {
+      "role": "Query",
+      "confidence": 80
+    },
+    "dispatch": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "emit": {
+      "role": "DomainEvent",
+      "confidence": 85
+    },
+    "subscribe": {
+      "role": "Observer",
+      "confidence": 85
+    },
+    "unsubscribe": {
+      "role": "Observer",
+      "confidence": 85
+    },
+    "register": {
+      "role": "Command",
+      "confidence": 80
+    },
+    "init": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "destroy": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "mount": {
+      "role": "Lifecycle",
+      "confidence": 85
+    },
+    "unmount": {
+      "role": "Lifecycle",
+      "confidence": 85
     }
   },
   "suffix_patterns": {
@@ -517,6 +593,66 @@
     "Order": {
       "role": "DTO",
       "confidence": 80
+    },
+    "Component": {
+      "role": "View",
+      "confidence": 90
+    },
+    "Container": {
+      "role": "Controller",
+      "confidence": 85
+    },
+    "Consumer": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "Context": {
+      "role": "Configuration",
+      "confidence": 85
+    },
+    "Reducer": {
+      "role": "Command",
+      "confidence": 90
+    },
+    "Action": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "Selector": {
+      "role": "Query",
+      "confidence": 90
+    },
+    "Slice": {
+      "role": "Module",
+      "confidence": 85
+    },
+    "Store": {
+      "role": "Repository",
+      "confidence": 90
+    },
+    "Thunk": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "Saga": {
+      "role": "EventHandler",
+      "confidence": 90
+    },
+    "Epic": {
+      "role": "EventHandler",
+      "confidence": 90
+    },
+    "Composable": {
+      "role": "Utility",
+      "confidence": 85
+    },
+    "Directive": {
+      "role": "Decorator",
+      "confidence": 90
+    },
+    "Plugin": {
+      "role": "Provider",
+      "confidence": 85
     }
   },
   "path_patterns": {

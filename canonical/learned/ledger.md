@@ -112,3 +112,19 @@ When adding new patterns, ALWAYS report:
 - `*Location` → DTO (85%)
 - `*Order` → DTO (80%)
 
+
+## 2025-12-23 12:11 - JS/TS Framework Patterns
+
+**Source**: Benchmark analysis showing TypeScript/JavaScript repos at 62% avg confidence
+
+### New Prefixes (19)
+- React: `use*` → Hook, `with*` → Decorator, `render*` → View
+- Vue: `setup*`, `onMounted*`, `onUpdated*`, `onUnmounted*` → Lifecycle
+- General: `dispatch*` → Command, `emit*` → DomainEvent, `subscribe*` → Observer
+
+### New Suffixes (15)
+- React: `*Component` → View, `*Container` → Controller, `*Provider` → Provider
+- Redux: `*Reducer`, `*Action`, `*Thunk`, `*Saga` → Command/EventHandler
+- State: `*Selector` → Query, `*Store` → Repository, `*Slice` → Module
+- Vue: `*Composable` → Utility, `*Directive` → Decorator
+
