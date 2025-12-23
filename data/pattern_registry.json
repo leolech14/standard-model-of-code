@@ -1,0 +1,452 @@
+{
+  "prefix_patterns": {
+    "get_": {
+      "role": "Query",
+      "confidence": 95
+    },
+    "create_": {
+      "role": "Factory",
+      "confidence": 95
+    },
+    "test_": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "make_": {
+      "role": "Factory",
+      "confidence": 90
+    },
+    "convert_": {
+      "role": "Transformer",
+      "confidence": 90
+    },
+    "transform_": {
+      "role": "Transformer",
+      "confidence": 90
+    },
+    "test": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "should": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "fetch_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "find_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "load_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "read_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "search_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "query_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "list_": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "set_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "update_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "delete_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "remove_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "add_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "save_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "insert_": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "build_": {
+      "role": "Factory",
+      "confidence": 85
+    },
+    "is_": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "has_": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "can_": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "should_": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "validate_": {
+      "role": "Validator",
+      "confidence": 85
+    },
+    "check_": {
+      "role": "Validator",
+      "confidence": 85
+    },
+    "handle_": {
+      "role": "EventHandler",
+      "confidence": 85
+    },
+    "on_": {
+      "role": "EventHandler",
+      "confidence": 85
+    },
+    "_should_": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "to_": {
+      "role": "Transformer",
+      "confidence": 85
+    },
+    "Test": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "describe": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "it": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "beforeEach": {
+      "role": "Fixture",
+      "confidence": 85
+    },
+    "afterEach": {
+      "role": "Fixture",
+      "confidence": 85
+    },
+    "given": {
+      "role": "Test",
+      "confidence": 80
+    },
+    "when": {
+      "role": "Test",
+      "confidence": 80
+    },
+    "then": {
+      "role": "Test",
+      "confidence": 80
+    },
+    "do_": {
+      "role": "Command",
+      "confidence": 80
+    },
+    "run_": {
+      "role": "Command",
+      "confidence": 80
+    },
+    "from_": {
+      "role": "Factory",
+      "confidence": 80
+    },
+    "watch_": {
+      "role": "Observer",
+      "confidence": 80
+    },
+    "as_": {
+      "role": "Transformer",
+      "confidence": 80
+    },
+    "parse_": {
+      "role": "Utility",
+      "confidence": 80
+    },
+    "format_": {
+      "role": "Utility",
+      "confidence": 80
+    },
+    "init_": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "setup_": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "teardown_": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "cleanup_": {
+      "role": "Lifecycle",
+      "confidence": 80
+    },
+    "Benchmark": {
+      "role": "Test",
+      "confidence": 80
+    },
+    "Example": {
+      "role": "Test",
+      "confidence": 75
+    },
+    "_": {
+      "role": "Internal",
+      "confidence": 70
+    },
+    "execute_": {
+      "role": "Service",
+      "confidence": 60
+    },
+    "process_": {
+      "role": "Service",
+      "confidence": 60
+    }
+  },
+  "suffix_patterns": {
+    "Mocker": {
+      "role": "TestDouble",
+      "confidence": 95
+    },
+    "Service": {
+      "role": "Service",
+      "confidence": 90
+    },
+    "Repository": {
+      "role": "Repository",
+      "confidence": 90
+    },
+    "Controller": {
+      "role": "Controller",
+      "confidence": 90
+    },
+    "Configuration": {
+      "role": "Configuration",
+      "confidence": 90
+    },
+    "Handler": {
+      "role": "EventHandler",
+      "confidence": 85
+    },
+    "Listener": {
+      "role": "EventHandler",
+      "confidence": 85
+    },
+    "Factory": {
+      "role": "Factory",
+      "confidence": 85
+    },
+    "Builder": {
+      "role": "Builder",
+      "confidence": 85
+    },
+    "Provider": {
+      "role": "Provider",
+      "confidence": 85
+    },
+    "Mixin": {
+      "role": "Adapter",
+      "confidence": 85
+    },
+    "Mapper": {
+      "role": "Mapper",
+      "confidence": 85
+    },
+    "DTO": {
+      "role": "DTO",
+      "confidence": 85
+    },
+    "Entity": {
+      "role": "Entity",
+      "confidence": 85
+    },
+    "Validator": {
+      "role": "Validator",
+      "confidence": 85
+    },
+    "Specification": {
+      "role": "Specification",
+      "confidence": 85
+    },
+    "Command": {
+      "role": "Command",
+      "confidence": 85
+    },
+    "Query": {
+      "role": "Query",
+      "confidence": 85
+    },
+    "Event": {
+      "role": "DomainEvent",
+      "confidence": 85
+    },
+    "Policy": {
+      "role": "Policy",
+      "confidence": 85
+    },
+    "Adapter": {
+      "role": "Adapter",
+      "confidence": 85
+    },
+    "Gateway": {
+      "role": "Gateway",
+      "confidence": 85
+    },
+    "Client": {
+      "role": "Client",
+      "confidence": 85
+    },
+    "Test": {
+      "role": "Test",
+      "confidence": 85
+    },
+    "Exception": {
+      "role": "Exception",
+      "confidence": 85
+    },
+    "Config": {
+      "role": "Configuration",
+      "confidence": 80
+    },
+    "Mock": {
+      "role": "Fixture",
+      "confidence": 80
+    },
+    "Stub": {
+      "role": "Fixture",
+      "confidence": 80
+    },
+    "Fake": {
+      "role": "Fixture",
+      "confidence": 80
+    },
+    "Specifier": {
+      "role": "Specification",
+      "confidence": 80
+    },
+    "Converter": {
+      "role": "Mapper",
+      "confidence": 80
+    },
+    "Transformer": {
+      "role": "Mapper",
+      "confidence": 80
+    },
+    "Serializer": {
+      "role": "Mapper",
+      "confidence": 80
+    },
+    "Impl": {
+      "role": "RepositoryImpl",
+      "confidence": 80
+    },
+    "Settings": {
+      "role": "Configuration",
+      "confidence": 80
+    },
+    "Error": {
+      "role": "Exception",
+      "confidence": 80
+    },
+    "Middleware": {
+      "role": "Service",
+      "confidence": 80
+    },
+    "Options": {
+      "role": "Configuration",
+      "confidence": 75
+    },
+    "Helper": {
+      "role": "Utility",
+      "confidence": 75
+    },
+    "Utils": {
+      "role": "Utility",
+      "confidence": 75
+    },
+    "Util": {
+      "role": "Utility",
+      "confidence": 75
+    },
+    "Manager": {
+      "role": "Service",
+      "confidence": 75
+    },
+    "Processor": {
+      "role": "Service",
+      "confidence": 75
+    }
+  },
+  "path_patterns": {
+    "/test": {
+      "role": "Test",
+      "confidence": 95
+    },
+    "/tests": {
+      "role": "Test",
+      "confidence": 95
+    },
+    "/spec": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "/scenarios": {
+      "role": "Test",
+      "confidence": 90
+    },
+    "/repository": {
+      "role": "Repository",
+      "confidence": 90
+    },
+    "/service": {
+      "role": "Service",
+      "confidence": 90
+    },
+    "/controller": {
+      "role": "Controller",
+      "confidence": 90
+    },
+    "/model": {
+      "role": "Entity",
+      "confidence": 85
+    },
+    "/entity": {
+      "role": "Entity",
+      "confidence": 85
+    },
+    "/util": {
+      "role": "Utility",
+      "confidence": 80
+    },
+    "/helper": {
+      "role": "Utility",
+      "confidence": 80
+    }
+  }
+}
