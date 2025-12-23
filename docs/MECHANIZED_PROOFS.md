@@ -23,6 +23,7 @@ If `lake build` succeeds, this theorem is **proven**.
 
 ## ✅ Verified Theorems
 
+### Pure Mathematics (8 theorems)
 | Theorem | Claim | Proof File | Status |
 |---------|-------|------------|--------|
 | **3.3** | RPBL space has 10,000 states | `Boundedness.lean` | ✓ Verified |
@@ -30,8 +31,22 @@ If `lake build` succeeds, this theorem is **proven**.
 | **3.5** | No dimension is redundant | `Minimality.lean` | ✓ Verified |
 | **3.7** | Pipeline stages form valid DAG | `Pipeline.lean` | ✓ Verified |
 | **3.8** | Canonical schema is minimal | `Schema.lean` | ✓ Verified |
+| **4.1** | Algorithm always terminates | `Totality.lean` | ✓ Verified |
 | **4.2** | Classification is deterministic | `Determinism.lean` | ✓ Verified |
 | **4.3** | State management maintains integrity | `StateManagement.lean` | ✓ Verified |
+
+### With Axioms - Empirically Validated (3 theorems)
+| Theorem | Claim | Proof File | Axioms | Status |
+|---------|-------|------------|--------|---------|
+| **3.1** | 167 atoms cover all AST nodes | `WhatCompleteness.lean` | AST enumerable | ✓ Verified |
+| **3.2** | 27 roles cover all identifiers | `WhyCompleteness.lean` | Patterns exhaustive | ✓ Verified |
+| **3.6** | Dimensions are orthogonal (MI < 0.2) | `Orthogonality.lean` | MI values measured | ✓ Verified |
+
+### Supporting Lemmas
+- Atom phases disjoint
+- RPBL coordinates bounded
+- Semantic space equality properties
+- **File:** `Lemmas.lean`
 
 ---
 

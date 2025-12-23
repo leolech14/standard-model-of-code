@@ -6,6 +6,7 @@ This directory contains **machine-verified proofs** of key theorems from the Sta
 
 ## ✅ Verified Theorems
 
+### Pure Mathematics (No Axioms)
 | Theorem | File | Status |
 |---------|------|--------|
 | **3.3** RPBL Boundedness | `StandardModel/Boundedness.lean` | ✓ Verified |
@@ -13,8 +14,21 @@ This directory contains **machine-verified proofs** of key theorems from the Sta
 | **3.5** Minimality | `StandardModel/Minimality.lean` | ✓ Verified |
 | **3.7** Pipeline DAG | `StandardModel/Pipeline.lean` | ✓ Verified |
 | **3.8** Schema Minimality | `StandardModel/Schema.lean` | ✓ Verified |
+| **4.1** Algorithm Totality | `StandardModel/Totality.lean` | ✓ Verified |
 | **4.2** Determinism | `StandardModel/Determinism.lean` | ✓ Verified |
 | **4.3** State Management | `StandardModel/StateManagement.lean` | ✓ Verified |
+
+### With Axioms (Empirically Validated)
+| Theorem | File | Status |
+|---------|------|--------|
+| **3.1** WHAT Completeness | `StandardModel/WhatCompleteness.lean` | ✓ Verified |
+| **3.2** WHY Completeness | `StandardModel/WhyCompleteness.lean` | ✓ Verified |
+| **3.6** Orthogonality | `StandardModel/Orthogonality.lean` | ✓ Verified |
+
+### Supporting Lemmas
+| Module | File |
+|--------|------|
+| Core Properties | `StandardModel/Lemmas.lean` |
 
 ---
 

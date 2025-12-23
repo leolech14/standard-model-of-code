@@ -562,6 +562,8 @@ Selected theorems have been **machine-verified** using Lean 4, a proof assistant
 
 ### Verified Theorems
 
+**Pure Mathematics (8 theorems):**
+
 | Theorem | Lean File | Status |
 |---------|-----------|--------|
 | **3.3** RPBL Boundedness | `proofs/lean/StandardModel/Boundedness.lean` | ✓ Verified |
@@ -569,8 +571,17 @@ Selected theorems have been **machine-verified** using Lean 4, a proof assistant
 | **3.5** Minimality | `proofs/lean/StandardModel/Minimality.lean` | ✓ Verified |
 | **3.7** Pipeline DAG | `proofs/lean/StandardModel/Pipeline.lean` | ✓ Verified |
 | **3.8** Schema Minimality | `proofs/lean/StandardModel/Schema.lean` | ✓ Verified |
+| **4.1** Totality | `proofs/lean/StandardModel/Totality.lean` | ✓ Verified |
 | **4.2** Determinism | `proofs/lean/StandardModel/Determinism.lean` | ✓ Verified |
 | **4.3** State Management | `proofs/lean/StandardModel/StateManagement.lean` | ✓ Verified |
+
+**With Axioms - Empirically Validated (3 theorems):**
+
+| Theorem | Lean File | Status |
+|---------|-----------|--------|
+| **3.1** WHAT Completeness | `proofs/lean/StandardModel/WhatCompleteness.lean` | ✓ Verified (axioms) |
+| **3.2** WHY Completeness | `proofs/lean/StandardModel/WhyCompleteness.lean` | ✓ Verified (axioms) |
+| **3.6** Orthogonality | `proofs/lean/StandardModel/Orthogonality.lean` | ✓ Verified (axioms) |
 
 ### How to Verify
 
