@@ -152,6 +152,31 @@ def main():
         help="Output path for the HTML file"
     )
 
+    # ==========================================
+    # FIX Command (Consolidated from FixGenerator)
+    # ==========================================
+    fix_parser = subparsers.add_parser(
+        "fix",
+        help="Generate fix code for optimization schemas",
+        description="Generates scaffolding code for architectural patterns (Repositories, Services, etc.)."
+    )
+    fix_parser.add_argument(
+        "--schema", "-s",
+        required=True,
+        choices=["REPOSITORY_PATTERN", "TEST_COVERAGE", "SERVICE_EXTRACTION", "CQRS_SEPARATION", "GOD_CLASS_DECOMPOSITION"],
+        help="Optimization schema to generate code for"
+    )
+    fix_parser.add_argument(
+        "--entity", "-e",
+        default="Entity",
+        help="Name of the entity/component (e.g. 'User')"
+    )
+    fix_parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output file path (prints to stdout if not specified)"
+    )
+
     # Parse
     args = parser.parse_args()
     
@@ -172,7 +197,13 @@ def main():
 
         print(f"🚀 Launching Collider Analysis on: {args.path}")
         try:
-            run_proof(args.path)
+            run_proof(
+                args.path, 
+                llm=args.llm, 
+                llm_model=args.llm_model,
+                language=args.language,
+                no_learn=args.no_learn
+            )
             # The run_proof function generates the spectrometer_report.html
             print("\n✅ Analysis complete. Visualization report generated.")
         except Exception as e:
@@ -229,6 +260,36 @@ def main():
             print(f"✅ Visualization generated: {saved_path}")
         except Exception as e:
             print(f"❌ Error generating visualization: {e}")
+            sys.exit(1)
+
+    elif args.command == "fix":
+        from core.fix_generator import FixGenerator
+        
+        generator = FixGenerator("python") # Default to python for now
+        
+        # Context building
+        context = {
+            "entity": args.entity.lower(),
+            "Entity": args.entity.capitalize(),
+            "component": args.entity,
+            "Component": args.entity.capitalize(),
+            "class": args.entity,
+            "Class": args.entity.capitalize()
+        }
+        
+        template = generator.generate_fix(args.schema, context)
+        
+        if template:
+            if args.output:
+                out_path = Path(args.output)
+                with open(out_path, 'w') as f:
+                    f.write(template.code)
+                print(f"✅ Generated {args.schema} implementation at {out_path}")
+            else:
+                print(f"# {template.filename}")
+                print(template.code)
+        else:
+            print(f"❌ Could not generate fix for schema: {args.schema}")
             sys.exit(1)
     
     else:

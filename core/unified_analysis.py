@@ -356,6 +356,42 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     auto_discovery = comprehensive.get('auto_discovery', {})
     
     # =========================================================================
+    # STAGE 3.5: LLM ENRICHMENT (Optional)
+    # =========================================================================
+    if options.get('llm'):
+        print("\n🤖 Stage 3.5: LLM Enrichment...")
+        try:
+            from llm_classifier import LLMClassifier
+            model_name = options.get('llm_model', 'qwen2.5:7b-instruct')
+            print(f"   → Using model: {model_name}")
+            
+            enricher = LLMClassifier(model_name=model_name)
+            
+            # Identify candidates for enrichment (Unknowns or Low Confidence)
+            candidates = [p for p in particles if p.get('type') == 'Unknown' or p.get('confidence', 0) < 0.5]
+            print(f"   → Refining {len(candidates)} low-confidence particles...")
+            
+            refined_count = 0
+            for p in candidates:
+                # Basic context construction
+                context = f"Name: {p.get('name')}\nFile: {p.get('file_path')}\nBody: {p.get('body_source', '')[:200]}"
+                
+                new_role, confidence = enricher.classify_with_llm(context)
+                
+                if new_role and new_role != "Unknown":
+                    p['type'] = new_role
+                    p['confidence'] = confidence
+                    p['discovery_method'] = 'llm'
+                    refined_count += 1
+            
+            print(f"   → {refined_count} particles refined by LLM")
+            
+        except ImportError:
+            print("   ⚠️  LLM Classifier not found or dependencies missing")
+        except Exception as e:
+            print(f"   ⚠️  LLM Enrichment failed: {e}")
+            
+    # =========================================================================
     # STAGE 4: EDGE EXTRACTION → Call Graph
     # =========================================================================
     print("\n🔗 Stage 4: Edge Extraction...")

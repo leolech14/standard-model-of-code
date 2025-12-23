@@ -73,6 +73,81 @@ You'll see an **interactive graph** where:
 
 ---
 
+## ⚡ What Makes This Different?
+
+### 🧠 Self-Learning System
+
+**Collider gets smarter over time.**
+
+Every analysis generates feedback. When classification errors are detected, the system automatically:
+1. Learns patterns from failures
+2. Updates its knowledge base permanently
+3. Applies improvements to all future runs
+
+**Real example:** After analyzing Pydantic, accuracy jumped from 48.6% → 93.7% (+45.1%) in one iteration by learning that path context (`/tests/`) is more reliable than naming patterns.
+
+→ Check [`docs/LEARNING_LEDGER.md`](docs/LEARNING_LEDGER.md) for the complete history
+
+### 💾 Information Maintenance Guarantee
+
+**No data is lost during transformation.**
+
+Every node preserves:
+- Complete source code (`body_source` field)
+- Full type system (params, returns, decorators)
+- Documentation and metrics
+- Exact location (file + line numbers)
+- All relationships (calls, imports, inheritance)
+
+**Why this matters:** You can reconstruct the original codebase from the graph, enabling semantic diff, LLM-based refactoring, and architectural analysis without losing implementation details.
+
+→ See [`docs/CANONICAL_SCHEMA.md`](docs/CANONICAL_SCHEMA.md) for technical specification
+
+---
+
+## 🗺️ Roadmap: Bidirectional Transformations
+
+Collider's Information Maintenance Guarantee enables powerful future capabilities:
+
+```mermaid
+graph TB
+    subgraph "Current: Analysis & Preservation"
+        CODE1[["Source Code<br/>(Repository)"]] -->|"collider analyze"| ANALYZE["🔬 Collider<br/>Parser + Classifier"]
+        ANALYZE -->|"Extract + Classify"| GRAPH1[("🗺️ Architectural Graph<br/>Nodes + Edges + Metadata")]
+    end
+    
+    subgraph "Future: Reconstruction"
+        GRAPH1 -.->|"collider generate<br/>(Theoretical)"| GENERATE["🔨 Code Generator<br/>Template Engine"]
+        GENERATE -.-> CODE2[["Reconstructed Code<br/>(Semantically Equivalent)"]]
+    end
+    
+    subgraph "Extended: Prompt-to-Code"
+        PROMPT[["💬 Natural Language<br/>Architecture Spec"]] -.->|"collider create<br/>(Future)"| LLM["🤖 LLM + Graph Builder"]
+        LLM -.-> GRAPH2[("🗺️ Architectural Graph<br/>Generated from Spec")]
+        GRAPH2 -.-> GENERATE2["🔨 Code Generator"]
+        GENERATE2 -.-> CODE3[["Generated Code<br/>(Full Implementation)"]]
+    end
+    
+    classDef current fill:#4ade80,stroke:#16a34a,stroke-width:3px,color:#000
+    classDef future fill:#fbbf24,stroke:#d97706,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    classDef graph fill:#60a5fa,stroke:#2563eb,stroke-width:3px,color:#000
+    
+    class CODE1,ANALYZE current
+    class GRAPH1,GRAPH2 graph
+    class CODE2,CODE3,GENERATE,GENERATE2,LLM,PROMPT future
+```
+
+**Legend:**
+- **Green (Solid)** = ✅ Implemented (82.4% mean accuracy)
+- **Yellow (Dashed)** = ⏳ Future (possible due to lossless schema)
+
+**Why this matters:** Because every node preserves complete source code and metadata, the graph can serve as:
+- Input to LLMs for semantic refactoring
+- Foundation for architecture-first development
+- Bidirectional bridge between design and implementation
+
+---
+
 ## 📐 The Schema (What You Get)
 
 Every codebase is reduced to a **graph**: `(Nodes, Edges, Metadata)`

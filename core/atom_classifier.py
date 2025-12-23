@@ -90,8 +90,11 @@ class AtomClassifier:
              for pattern, (role, confidence) in path_patterns.items():
                  # Check if path contains the pattern (e.g. "tests/")
                  if pattern in file_path:
-                     # Map role to Atom ID
-                     atom_id = self.atoms_by_subtype.get(role.lower())
+                     # Map role to Atom ID (with alias for Test -> testdouble)
+                     key = role.lower()
+                     if key == 'test': 
+                         key = 'testdouble'  # Alias: generic Test -> TestDouble atom
+                     atom_id = self.atoms_by_subtype.get(key)
                      if atom_id:
                          return AtomClassification(
                              phase=self.atoms_by_id[atom_id][0],

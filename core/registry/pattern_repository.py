@@ -66,7 +66,7 @@ class PatternRepository:
             'then': ('Test', 80),
             
             # Query patterns
-            'get_': ('Query', 85),
+            'get_': ('Query', 95), # LEARNED: Boosted from 85
             'fetch_': ('Query', 85),
             'find_': ('Query', 85),
             'load_': ('Query', 85),
@@ -83,16 +83,15 @@ class PatternRepository:
             'add_': ('Command', 85),
             'save_': ('Command', 85),
             'insert_': ('Command', 85),
-            'create_': ('Factory', 85),
+            'create_': ('Factory', 95),  # LEARNED: Boosted from 85
             'do_': ('Command', 80),
             'run_': ('Command', 80),
-            'execute_': ('Service', 60),  # Reduced from 85 (was UseCase/Service)
-            'process_': ('Service', 60),  # Reduced from 80
-
+            'execute_': ('Service', 60),  
+            'process_': ('Service', 60),  
             
             # Factory patterns
             'build_': ('Factory', 85),
-            'make_': ('Factory', 85),
+            'make_': ('Factory', 90),     # LEARNED
             'from_': ('Factory', 80),
             
             # Specification patterns
@@ -108,10 +107,10 @@ class PatternRepository:
             'on_': ('EventHandler', 85),
             
             # Mapper patterns
-            'convert_': ('Mapper', 80),
-            'transform_': ('Mapper', 80),
-            'to_': ('Mapper', 80),
-            'as_': ('Mapper', 75),
+            'convert_': ('Transformer', 90), # LEARNED (was Mapper)
+            'transform_': ('Transformer', 90), # LEARNED
+            'to_': ('Transformer', 85),
+            'as_': ('Transformer', 80),
             'parse_': ('Utility', 80),
             'format_': ('Utility', 80),
             

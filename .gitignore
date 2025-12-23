@@ -50,3 +50,4 @@ spectrometer_output/
 proof_output.json
 *.csv
 **/spectrometer_output/
+archive/

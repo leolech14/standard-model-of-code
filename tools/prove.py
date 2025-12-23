@@ -32,7 +32,7 @@ from execution_flow import detect_execution_flow
 from performance_predictor import predict_performance
 from data_management import CodebaseState
 
-def run_proof(target_path: str) -> dict:
+def run_proof(target_path: str, **kwargs) -> dict:
     """
     Run the complete Standard Model proof on a codebase.
     
@@ -66,7 +66,7 @@ def run_proof(target_path: str) -> dict:
     start_time = time.time()
     
     try:
-        result = analyze(str(target))
+        result = analyze(str(target), **kwargs)
         nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
         edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
     except Exception as e:
