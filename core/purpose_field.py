@@ -169,7 +169,7 @@ class PurposeFieldDetector:
     
     def _create_nodes(self, analysis_nodes: list):
         """Create PurposeNodes from analysis output"""
-        for node in analysis_nodes:
+        for i, node in enumerate(analysis_nodes):
             # Handle both dict and object
             if hasattr(node, 'id'):
                 node_id = node.id
@@ -178,11 +178,15 @@ class PurposeFieldDetector:
                 role = node.role
                 conf = node.role_confidence
             else:
-                node_id = node.get('id', node.get('name', 'unknown'))
+                node_id = node.get('id', '')
                 name = node.get('name', 'unknown')
                 kind = node.get('kind', 'function')
                 role = node.get('role', 'Unknown')
                 conf = node.get('role_confidence', 0.0)
+            
+            # Use name as ID if ID is empty (common issue)
+            if not node_id:
+                node_id = name or f"node_{i}"
             
             self.nodes[node_id] = PurposeNode(
                 id=node_id,
