@@ -24,6 +24,7 @@ from unified_analysis import analyze
 from auto_pattern_discovery import AutoPatternDiscovery
 from antimatter_evaluator import AntimatterEvaluator
 from insights_engine import generate_insights
+from purpose_field import detect_purpose_field, Layer
 
 
 def run_proof(target_path: str) -> dict:
@@ -123,8 +124,19 @@ def run_proof(target_path: str) -> dict:
     
     try:
         evaluator = AntimatterEvaluator()
-        violations = evaluator.evaluate_codebase(nodes, edges)
-        violation_count = len(violations) if violations else 0
+        # Convert nodes to dict format if they're objects
+        particles = []
+        for node in nodes:
+            if hasattr(node, '__dict__'):
+                particles.append(vars(node))
+            elif hasattr(node, 'to_dict'):
+                particles.append(node.to_dict())
+            else:
+                particles.append(node)
+        
+        result = evaluator.evaluate(particles)
+        violations = result.violations
+        violation_count = len(violations)
     except Exception as e:
         violations = []
         violation_count = 0
@@ -133,7 +145,7 @@ def run_proof(target_path: str) -> dict:
     if violation_count > 0:
         print(f"  ❌ Found {violation_count} violations:")
         for v in violations[:5]:
-            print(f"    - {v}")
+            print(f"    - [{v.severity.upper()}] {v.law_name}: {v.particle_name}")
         if violation_count > 5:
             print(f"    ... and {violation_count - 5} more")
     else:
@@ -208,10 +220,45 @@ def run_proof(target_path: str) -> dict:
     print()
     
     # ═══════════════════════════════════════════════════════════════════════
-    # STAGE 6: SUMMARY
+    # STAGE 6: PURPOSE FIELD
     # ═══════════════════════════════════════════════════════════════════════
     print("┌─────────────────────────────────────────────────────────────────┐")
-    print("│ STAGE 6: SUMMARY                                               │")
+    print("│ STAGE 6: PURPOSE FIELD                                         │")
+    print("└─────────────────────────────────────────────────────────────────┘")
+    
+    try:
+        purpose_field = detect_purpose_field(nodes, edges)
+        field_summary = purpose_field.summary()
+        
+        # Show layer distribution
+        print("  Layer distribution:")
+        for layer, count in field_summary.get('layers', {}).items():
+            if layer != 'unknown':
+                pct = count / len(nodes) * 100 if nodes else 0
+                print(f"    {layer.capitalize():20} {count:5} ({pct:5.1f}%)")
+        
+        # Show purpose flow violations
+        pf_violations = purpose_field.violations
+        if pf_violations:
+            print(f"\n  ⚠ Purpose flow violations: {len(pf_violations)}")
+            for v in pf_violations[:3]:
+                print(f"    - {v}")
+            if len(pf_violations) > 3:
+                print(f"    ... and {len(pf_violations) - 3} more")
+        else:
+            print("\n  ✓ No purpose flow violations")
+    except Exception as e:
+        purpose_field = None
+        field_summary = {}
+        pf_violations = []
+        print(f"  ⚠ Purpose field detection skipped: {e}")
+    print()
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # STAGE 7: SUMMARY
+    # ═══════════════════════════════════════════════════════════════════════
+    print("┌─────────────────────────────────────────────────────────────────┐")
+    print("│ STAGE 7: SUMMARY                                               │")
     print("└─────────────────────────────────────────────────────────────────┘")
     
     # Build insights summary for JSON
@@ -230,9 +277,10 @@ def run_proof(target_path: str) -> dict:
         "metadata": {
             "target": str(target),
             "timestamp": datetime.now().isoformat(),
-            "version": "2.0.0",
+            "version": "2.1.0",
             "model": "Standard Model of Code",
-            "tool": "Collider"
+            "tool": "Collider",
+            "pipeline_stages": 7
         },
         "classification": {
             "total_nodes": len(nodes),
@@ -244,12 +292,18 @@ def run_proof(target_path: str) -> dict:
         },
         "antimatter": {
             "violations_count": violation_count,
-            "violations": violations[:10] if violations else []
+            "violations": [{"law": v.law_name, "particle": v.particle_name} for v in violations[:10]] if violations else []
         },
         "predictions": predictions,
         "insights": {
             "count": len(insights) if insights else 0,
             "items": insights_summary
+        },
+        "purpose_field": {
+            "layers": field_summary.get('layers', {}),
+            "layer_purposes": field_summary.get('layer_purposes', {}),
+            "violations_count": len(pf_violations) if pf_violations else 0,
+            "violations": pf_violations[:5] if pf_violations else []
         },
         "metrics": {
             "entities": entities,

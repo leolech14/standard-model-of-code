@@ -394,9 +394,77 @@ class InsightsEngine:
     
     def _check_layer_violations(self, nodes: list, edges: list):
         """Detect layer violations from edges"""
-        # This would need layer information on nodes
-        # For now, placeholder for future implementation
-        pass
+        # Layer order (higher = deeper in architecture)
+        ROLE_TO_LAYER = {
+            'Controller': 'presentation',
+            'View': 'presentation',
+            
+            'ApplicationService': 'application',
+            'UseCase': 'application',
+            'Service': 'application',
+            
+            'Entity': 'domain',
+            'ValueObject': 'domain',
+            'DomainService': 'domain',
+            'Policy': 'domain',
+            'Specification': 'domain',
+            
+            'Repository': 'infrastructure',
+            'RepositoryImpl': 'infrastructure',
+            'Gateway': 'infrastructure',
+            'Adapter': 'infrastructure',
+            'Configuration': 'infrastructure',
+        }
+        
+        LAYER_ORDER = {
+            'presentation': 0,
+            'application': 1,
+            'domain': 2,
+            'infrastructure': 3,
+        }
+        
+        # Build node lookup
+        node_lookup = {}
+        for node in nodes:
+            name = node.get('name', getattr(node, 'name', ''))
+            role = node.get('role', getattr(node, 'role', 'Unknown'))
+            node_lookup[name] = role
+        
+        violations = []
+        for edge in edges:
+            # Handle dict or tuple edges
+            if isinstance(edge, dict):
+                source = edge.get('source', edge.get('from', ''))
+                target = edge.get('target', edge.get('to', ''))
+            elif isinstance(edge, (list, tuple)) and len(edge) >= 2:
+                source, target = edge[0], edge[1]
+            else:
+                continue
+            
+            source_role = node_lookup.get(source, 'Unknown')
+            target_role = node_lookup.get(target, 'Unknown')
+            
+            source_layer = ROLE_TO_LAYER.get(source_role, 'unknown')
+            target_layer = ROLE_TO_LAYER.get(target_role, 'unknown')
+            
+            source_order = LAYER_ORDER.get(source_layer, 99)
+            target_order = LAYER_ORDER.get(target_layer, 99)
+            
+            # Violation: deeper layer calling shallower layer
+            if source_order > target_order and source_layer != 'unknown' and target_layer != 'unknown':
+                violations.append(f"{source} ({source_layer}) → {target} ({target_layer})")
+        
+        if len(violations) > 5:
+            self.insights.append(Insight(
+                type=InsightType.ARCHITECTURE,
+                priority=Priority.HIGH,
+                title="Layer Boundary Violations",
+                description=f"Found {len(violations)} cross-layer violations (infrastructure calling presentation).",
+                affected_components=violations[:5],
+                recommendation="Enforce layer boundaries - dependencies should point inward",
+                effort_estimate="medium",
+                schema="LAYER_ENFORCEMENT"
+            ))
     
     def get_report(self) -> str:
         """Generate human-readable report"""

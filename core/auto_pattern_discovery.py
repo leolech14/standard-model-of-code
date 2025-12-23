@@ -80,6 +80,53 @@ class AutoPatternDiscovery:
         '_mixin': 'Utility',
         '_test': 'Test',
         '_spec': 'Specification',
+        # Java conventions (camelCase)
+        'Service': 'Service',
+        'Repository': 'Repository',
+        'Controller': 'Controller',
+        'Handler': 'EventHandler',
+        'Factory': 'Factory',
+        'Builder': 'Builder',
+        'Mapper': 'Mapper',
+        'Validator': 'Validator',
+        'Provider': 'Provider',
+        'Client': 'Client',
+        'Impl': 'RepositoryImpl',
+        # Go conventions
+        'Handler': 'EventHandler',
+        'Middleware': 'Service',
+    }
+    
+    # Java/TypeScript prefix patterns (for polyglot support)
+    JAVA_TS_PREFIX_ROLES = {
+        # Java test patterns
+        'test': 'Test',       # testUserLogin
+        'should': 'Test',     # shouldReturnUser
+        'given': 'Test',      # givenValidInput
+        'when': 'Test',       # whenUserLogsIn
+        'then': 'Test',       # thenReturnSuccess
+        # TypeScript/Jest patterns  
+        'describe': 'Test',   # describe('UserService')
+        'it': 'Test',         # it('should work')
+        'expect': 'Validator',
+        'beforeEach': 'Fixture',
+        'afterEach': 'Fixture',
+        'beforeAll': 'Fixture',
+        'afterAll': 'Fixture',
+        # Go patterns
+        'Test': 'Test',       # TestUserLogin
+        'Benchmark': 'Test',  # BenchmarkSort
+        'Example': 'Test',    # ExampleSort
+        # Angular/NestJS
+        'ng': 'Service',      # ngOnInit
+        '@Injectable': 'Service',
+        '@Component': 'Controller',
+        '@Pipe': 'Mapper',
+        '@Directive': 'Service',
+        '@Service': 'Service',
+        '@Repository': 'Repository',
+        '@Controller': 'Controller',
+        '@Test': 'Test',
     }
     
     # Dunder methods
@@ -151,8 +198,19 @@ class AutoPatternDiscovery:
             if short_lower.startswith(prefix):
                 self.discovered_patterns[f'prefix:{prefix}'] += 1
                 return (role, 85.0)
-
         
+        # 2.5 Check Java/TypeScript/Go patterns (camelCase prefixes)
+        for prefix, role in self.JAVA_TS_PREFIX_ROLES.items():
+            # Check exact match for short names
+            if short == prefix or short_lower == prefix.lower():
+                self.discovered_patterns[f'java_ts:{prefix}'] += 1
+                return (role, 85.0)
+            # Check camelCase prefix (e.g., testUserLogin, shouldReturnUser)
+            if short.startswith(prefix) and len(short) > len(prefix):
+                next_char = short[len(prefix)]
+                if next_char.isupper() or next_char == '_':
+                    self.discovered_patterns[f'java_ts:{prefix}'] += 1
+                    return (role, 80.0)        
         # 3. Check suffix patterns
         for suffix, role in self.SUFFIX_ROLES.items():
             if short_lower.endswith(suffix):
