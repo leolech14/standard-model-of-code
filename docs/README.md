@@ -1,25 +1,35 @@
-# Docs Index
+# Standard Model Documentation
 
-## Start Here
-- Standard Model Paper: `STANDARD_MODEL_PAPER.md`
-- Atom Reference (167 atoms): `ATOMS_REFERENCE.md`
-- Comprehensive Theory: `COMPREHENSIVE_THEORY.md`
-- Roadmap: `ROADMAP.md`
+> **12 Essential Documents** - Consolidated from 42 files on 2025-12-23
 
-## Audits and Evidence
-- Audit requests and evidence: `AUDIT_REQUEST.md`, `AUDIT_REQUEST_V4.md`, `AUDIT_EVIDENCE.md`
+## Core Theory
+- [CANONICAL_SCHEMA.md](CANONICAL_SCHEMA.md) - The core data schema
+- [ATOMS_REFERENCE.md](ATOMS_REFERENCE.md) - 167 atom taxonomy
+- [THEORY_MAP.md](THEORY_MAP.md) - Theoretical foundation
+- [FIRST_PRINCIPLES.md](FIRST_PRINCIPLES.md) - Core principles
 
-## Reference and Specs
-- Dimensions: `DIMENSIONS.md`
-- Laws (human-readable): `LAW_11_CANONICAL.md`
-- Impossibles (human-readable): `IMPOSSIBLE_42_CANONICAL.md`
-- Output schema: `../data/OUTPUT_SCHEMA.json`
+## Technical Reference  
+- [NAMING_SCHEMA.md](NAMING_SCHEMA.md) - ID and naming conventions
+- [DIMENSIONS.md](DIMENSIONS.md) - 8D semantic dimensions
+- [PURPOSE_FIELD.md](PURPOSE_FIELD.md) - Purpose layer documentation
+- [LLM_INSTRUCTIONS.md](LLM_INSTRUCTIONS.md) - LLM prompting guide
 
-## Reports
-- Matter report: `MATTER_REPORT.md`
-- Truth assessment: `TRUTH_ASSESSMENT.md`
-- Stability proof: `PROOF_OF_STABILITY.md`
+## Publications
+- [STANDARD_MODEL_PAPER.md](STANDARD_MODEL_PAPER.md) - The paper
+- [FORMAL_PROOF.md](FORMAL_PROOF.md) - Proof sketch
 
-## Assets
-- Paper charts: `paper_charts/`
-- PDF reference: `1424_Code_Graph_Model_CGM_A_Gr.pdf`
+## Change Tracking
+- [LEARNING_LEDGER.md](LEARNING_LEDGER.md) - Pattern additions log
+
+## Archive
+Legacy documents moved to [archive/](archive/) for reference.
+
+---
+
+## Canonical Constants
+| Constant | Value |
+|:---|---:|
+| Atoms | 167 |
+| Roles | 27 |
+| Patterns | 156 |
+| Accuracy | 93% |
