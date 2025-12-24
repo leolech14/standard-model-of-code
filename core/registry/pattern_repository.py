@@ -425,19 +425,50 @@ class PatternRepository:
         return roles
     
     def classify_by_prefix(self, name: str) -> Tuple[str, float]:
-        """Classify a name by prefix patterns."""
-        name_lower = name.lower()
+        """Classify a name by prefix patterns.
+        
+        Uses camelCase/snake_case boundary detection to avoid false positives.
+        E.g., 'use' should match 'useEffect' but NOT 'UserService'.
+        """
         short_name = name.split('.')[-1] if '.' in name else name
         short_lower = short_name.lower()
         
-        for prefix, (role, conf) in self._prefix_patterns.items():
-            # Check lowercase prefix match
-            if short_lower.startswith(prefix.lower()):
+        # Sort patterns by length (longest first) to match most specific
+        sorted_patterns = sorted(self._prefix_patterns.items(), 
+                                  key=lambda x: len(x[0]), reverse=True)
+        
+        for prefix, (role, conf) in sorted_patterns:
+            prefix_lower = prefix.lower()
+            prefix_len = len(prefix)
+            
+            # Check if name starts with prefix (case-insensitive)
+            if not short_lower.startswith(prefix_lower):
+                continue
+            
+            # If exact match, it's valid
+            if len(short_name) == prefix_len:
                 return (role, conf)
-            # Check camelCase prefix (e.g., testUserLogin)
-            if short_name.startswith(prefix) and len(short_name) > len(prefix):
-                next_char = short_name[len(prefix)]
-                if next_char.isupper() or next_char == '_':
+            
+            # Get the character after the prefix
+            next_char = short_name[prefix_len]
+            
+            # Check for valid word boundary:
+            # 1. snake_case: prefix ends with _ (e.g., 'get_' matches 'get_user')
+            # 2. camelCase: next char is uppercase (e.g., 'use' matches 'useEffect')
+            # 3. Underscore separator (e.g., 'test' matches 'test_user')
+            
+            if prefix.endswith('_'):
+                # snake_case patterns like 'get_' - just need prefix match
+                return (role, conf)
+            elif next_char.isupper():
+                # camelCase: 'useEffect' matches 'use' + 'E'
+                # But 'UserService' should NOT match 'use' because 'u' != 'U'
+                # Check case-sensitive prefix match for camelCase
+                if short_name.startswith(prefix):
+                    return (role, conf)
+            elif next_char == '_':
+                # 'test_user' matches 'test' + '_'
+                if short_name[:prefix_len].lower() == prefix_lower:
                     return (role, conf - 5)  # Slightly lower confidence
         
         return ('Unknown', 0)

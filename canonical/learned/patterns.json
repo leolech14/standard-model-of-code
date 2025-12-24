@@ -342,7 +342,8 @@
     },
     "fetch": {
       "role": "Query",
-      "confidence": 80
+      "confidence": 0.82,
+      "source": "js-data"
     },
     "dispatch": {
       "role": "Command",
@@ -460,6 +461,16 @@
       "role": "EventHandler",
       "confidence": 0.82,
       "source": "js-events"
+    },
+    "get": {
+      "role": "Query",
+      "confidence": 0.8,
+      "source": "accessor"
+    },
+    "set": {
+      "role": "Mutator",
+      "confidence": 0.8,
+      "source": "accessor"
     }
   },
   "suffix_patterns": {
@@ -500,8 +511,9 @@
       "confidence": 85
     },
     "Provider": {
-      "role": "Provider",
-      "confidence": 85
+      "role": "Container",
+      "confidence": 0.85,
+      "source": "react-context"
     },
     "Mixin": {
       "role": "Adapter",
@@ -608,8 +620,9 @@
       "confidence": 80
     },
     "Middleware": {
-      "role": "Service",
-      "confidence": 80
+      "role": "Interceptor",
+      "confidence": 0.88,
+      "source": "go-http"
     },
     "Options": {
       "role": "Configuration",
@@ -688,8 +701,9 @@
       "confidence": 85
     },
     "Context": {
-      "role": "Configuration",
-      "confidence": 85
+      "role": "Container",
+      "confidence": 0.82,
+      "source": "react-context"
     },
     "Reducer": {
       "role": "Command",
