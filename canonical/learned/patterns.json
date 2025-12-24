@@ -471,6 +471,96 @@
       "role": "Mutator",
       "confidence": 0.8,
       "source": "accessor"
+    },
+    "onNext": {
+      "role": "EventHandler",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "onError": {
+      "role": "EventHandler",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "onComplete": {
+      "role": "EventHandler",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "onSuccess": {
+      "role": "EventHandler",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "onSubscribe": {
+      "role": "EventHandler",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "checkNotNull": {
+      "role": "Validator",
+      "confidence": 88,
+      "source": "guava"
+    },
+    "checkArgument": {
+      "role": "Validator",
+      "confidence": 88,
+      "source": "guava"
+    },
+    "checkState": {
+      "role": "Validator",
+      "confidence": 88,
+      "source": "guava"
+    },
+    "checkElement": {
+      "role": "Validator",
+      "confidence": 85,
+      "source": "guava"
+    },
+    "static": {
+      "role": "Factory",
+      "confidence": 75,
+      "source": "express"
+    },
+    "json": {
+      "role": "Transformer",
+      "confidence": 75,
+      "source": "express"
+    },
+    "map": {
+      "role": "Transformer",
+      "confidence": 80,
+      "source": "functional"
+    },
+    "filter": {
+      "role": "Transformer",
+      "confidence": 80,
+      "source": "functional"
+    },
+    "flatMap": {
+      "role": "Transformer",
+      "confidence": 80,
+      "source": "functional"
+    },
+    "reduce": {
+      "role": "Transformer",
+      "confidence": 80,
+      "source": "functional"
+    },
+    "collect": {
+      "role": "Transformer",
+      "confidence": 80,
+      "source": "functional"
+    },
+    "forEach": {
+      "role": "Command",
+      "confidence": 78,
+      "source": "functional"
+    },
+    "Default": {
+      "role": "Factory",
+      "confidence": 80,
+      "source": "go-idiom"
     }
   },
   "suffix_patterns": {
@@ -843,6 +933,116 @@
       "role": "UIComponent",
       "confidence": 0.8,
       "source": "ui-component"
+    },
+    "Observable": {
+      "role": "Stream",
+      "confidence": 90,
+      "source": "rxjava"
+    },
+    "Flowable": {
+      "role": "Stream",
+      "confidence": 90,
+      "source": "rxjava"
+    },
+    "Single": {
+      "role": "Stream",
+      "confidence": 88,
+      "source": "rxjava"
+    },
+    "Completable": {
+      "role": "Stream",
+      "confidence": 88,
+      "source": "rxjava"
+    },
+    "Maybe": {
+      "role": "Stream",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "Subject": {
+      "role": "Stream",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "Publisher": {
+      "role": "Stream",
+      "confidence": 85,
+      "source": "reactive"
+    },
+    "Subscriber": {
+      "role": "Observer",
+      "confidence": 88,
+      "source": "rxjava"
+    },
+    "Observer": {
+      "role": "Observer",
+      "confidence": 90,
+      "source": "rxjava"
+    },
+    "Disposable": {
+      "role": "Resource",
+      "confidence": 85,
+      "source": "rxjava"
+    },
+    "Router": {
+      "role": "Router",
+      "confidence": 88,
+      "source": "express"
+    },
+    "Engine": {
+      "role": "Factory",
+      "confidence": 82,
+      "source": "framework"
+    },
+    "ImmutableList": {
+      "role": "ValueObject",
+      "confidence": 92,
+      "source": "guava"
+    },
+    "ImmutableMap": {
+      "role": "ValueObject",
+      "confidence": 92,
+      "source": "guava"
+    },
+    "ImmutableSet": {
+      "role": "ValueObject",
+      "confidence": 92,
+      "source": "guava"
+    },
+    "Preconditions": {
+      "role": "Validator",
+      "confidence": 90,
+      "source": "guava"
+    },
+    "Parser": {
+      "role": "Transformer",
+      "confidence": 85,
+      "source": "utility"
+    },
+    "Matcher": {
+      "role": "Specification",
+      "confidence": 82,
+      "source": "utility"
+    },
+    "Splitter": {
+      "role": "Utility",
+      "confidence": 80,
+      "source": "utility"
+    },
+    "Joiner": {
+      "role": "Utility",
+      "confidence": 80,
+      "source": "utility"
+    },
+    "Group": {
+      "role": "Container",
+      "confidence": 78,
+      "source": "go-router"
+    },
+    "Operator": {
+      "role": "Transformer",
+      "confidence": 82,
+      "source": "rxjava"
     }
   },
   "path_patterns": {
