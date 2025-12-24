@@ -149,3 +149,11 @@ When adding new patterns, ALWAYS report:
 - `*Builder` → Factory
 - `*Walker`, `*Visitor` → Iterator/Observer
 
+
+## 2025-12-23 - Go/JS Pattern Boost
+- Added 9 prefix patterns
+- Added 11 suffix patterns
+- Target: Go (10.7% gap), JS/TS (10.4% gap)
+- New Go patterns: Handle*, Serve*, With*, *Middleware, *Option, *Cmd
+- New JS patterns: use* (hooks), *Page, *Layout, *Provider, *Context, on*, handle*
+- Expected improvement: ~76,000 nodes gain 8%+ confidence

@@ -415,6 +415,51 @@
     "fuzz": {
       "role": "Test",
       "confidence": 90
+    },
+    "Handle": {
+      "role": "EventHandler",
+      "confidence": 0.82,
+      "source": "go-http"
+    },
+    "Serve": {
+      "role": "EventHandler",
+      "confidence": 0.82,
+      "source": "go-http"
+    },
+    "Do": {
+      "role": "CommandHandler",
+      "confidence": 0.78,
+      "source": "go-idiom"
+    },
+    "Run": {
+      "role": "CommandHandler",
+      "confidence": 0.8,
+      "source": "go-idiom"
+    },
+    "Execute": {
+      "role": "CommandHandler",
+      "confidence": 0.82,
+      "source": "go-idiom"
+    },
+    "With": {
+      "role": "Configuration",
+      "confidence": 0.85,
+      "source": "go-options"
+    },
+    "Must": {
+      "role": "Validator",
+      "confidence": 0.8,
+      "source": "go-idiom"
+    },
+    "load": {
+      "role": "DataLoader",
+      "confidence": 0.8,
+      "source": "js-data"
+    },
+    "handle": {
+      "role": "EventHandler",
+      "confidence": 0.82,
+      "source": "js-events"
     }
   },
   "suffix_patterns": {
@@ -729,6 +774,61 @@
     "Visitor": {
       "role": "Observer",
       "confidence": 85
+    },
+    "Cmd": {
+      "role": "CommandHandler",
+      "confidence": 0.82,
+      "source": "go-cobra"
+    },
+    "Server": {
+      "role": "Server",
+      "confidence": 0.85,
+      "source": "go-http"
+    },
+    "Cache": {
+      "role": "Cache",
+      "confidence": 0.85,
+      "source": "go-data"
+    },
+    "Page": {
+      "role": "Entry",
+      "confidence": 0.85,
+      "source": "nextjs"
+    },
+    "Layout": {
+      "role": "Template",
+      "confidence": 0.85,
+      "source": "nextjs"
+    },
+    "Modal": {
+      "role": "Dialog",
+      "confidence": 0.82,
+      "source": "ui-component"
+    },
+    "Form": {
+      "role": "Form",
+      "confidence": 0.82,
+      "source": "ui-component"
+    },
+    "Button": {
+      "role": "UIComponent",
+      "confidence": 0.8,
+      "source": "ui-component"
+    },
+    "Input": {
+      "role": "UIComponent",
+      "confidence": 0.8,
+      "source": "ui-component"
+    },
+    "Card": {
+      "role": "UIComponent",
+      "confidence": 0.8,
+      "source": "ui-component"
+    },
+    "List": {
+      "role": "UIComponent",
+      "confidence": 0.8,
+      "source": "ui-component"
     }
   },
   "path_patterns": {
