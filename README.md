@@ -1,4 +1,4 @@
-# Collider: The Standard Model of Code
+# Collider: The Standard Model of Code Particles
 
 > **Analyze any codebase. Get a complete semantic map. Detect violations. Predict missing components.**
 
