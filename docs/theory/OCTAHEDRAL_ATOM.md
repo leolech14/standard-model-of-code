@@ -68,6 +68,11 @@
 
 Every instance of a code construct is an **octahedron at a specific level** carrying 8 pieces of metadata.
 
+> **⚠️ QUANTUM FRONTIER (L-3):**
+> Levels L-1 to L-3 (Bit, Electron, Qubit) represent the physical/quantum foundations.
+> An integrated theory of quantum computing is the **immediate next step** but is not yet formalized.
+> When ready, L-3 will bridge classical bits and quantum qubits.
+
 ---
 
 ## The Shape of Each Atom
