@@ -355,6 +355,11 @@ L0  TOKEN       Position         Characters       Lexer            Symbol
 
 ---
 
+<!-- @SECTION: part_2_relationships -->
+<!-- @ORDER: 2.0 -->
+<!-- @DEPENDS_ON: ontology -->
+<!-- @PROVIDES: edge_types, structural_edges, semantic_edges -->
+
 # PART II: THE RELATIONSHIPS (Edges of Knowledge)
 
 ---
@@ -454,6 +459,11 @@ Every edge has these measurable properties:
 
 ---
 
+<!-- @SECTION: part_3_taxonomy -->
+<!-- @ORDER: 3.0 -->
+<!-- @DEPENDS_ON: part_2_relationships -->
+<!-- @PROVIDES: classification_sources, confidence_levels, patterns -->
+
 # PART III: THE TAXONOMY (Classification System)
 
 ---
@@ -529,6 +539,11 @@ How we determine what something IS:
 | `infrastructure/`, `adapters/` | Infrastructure | 85% | `infrastructure/db.py` |
 
 ---
+
+<!-- @SECTION: part_4_structure -->
+<!-- @ORDER: 4.0 -->
+<!-- @DEPENDS_ON: part_3_taxonomy -->
+<!-- @PROVIDES: er_diagram, matrix_representation -->
 
 # PART IV: THE COMPLETE STRUCTURE
 
@@ -729,6 +744,13 @@ How each major concept relates to every other:
 
 > **This is the current working model (v2.0). The model is OPEN: extension is expected and governed.**
 
+<!-- @END_SECTION: part_4_structure -->
+
+<!-- @SECTION: part_5_cosmology -->
+<!-- @ORDER: 5.0 -->
+<!-- @DEPENDS_ON: part_4_structure -->
+<!-- @PROVIDES: manifold, holon, purpose_field -->
+
 # PART V: THE COSMOLOGY (Global Topology)
 
 ---
@@ -772,6 +794,13 @@ $$ \text{Software} = \sum_{Levels} \left( \text{Structure}_{Fractal} \times \tex
 *   **Meaning:** The 8-Dimensional Manifold (Semantics).
 *   **Purpose:** The Panpsychic Vector Field (Intent).
 
+<!-- @END_SECTION: part_5_cosmology -->
+
+<!-- @SECTION: part_6_natural_law -->
+<!-- @ORDER: 6.0 -->
+<!-- @DEPENDS_ON: part_5_cosmology -->
+<!-- @PROVIDES: pancomputationalism, constructal_law -->
+
 # PART VI: THE NATURAL LAW (Pancomputationalism)
 
 ---
@@ -804,6 +833,13 @@ It follows **Adrian Bejan's Constructal Law** (1996):
 *   **Metabolism:** The Runtime Environment.
 
 **Conclusion:** The Standard Model of Code is not a metaphor. It is a description of the **Computational Nature of Reality**.
+
+<!-- @END_SECTION: part_6_natural_law -->
+
+<!-- @SECTION: part_7_future -->
+<!-- @ORDER: 7.0 -->
+<!-- @DEPENDS_ON: part_6_natural_law -->
+<!-- @PROVIDES: impulse_paradigm, junk_code_hypothesis -->
 
 # PART VII: THE FUTURE (Code as Intent)
 
@@ -866,6 +902,13 @@ If the meta-principle is true, then every domain may reveal patterns in every ot
 **This is NOT a claim. It is a question.**
 
 ---
+
+<!-- @END_SECTION: part_7_future -->
+
+<!-- @SECTION: part_8_atlas -->
+<!-- @ORDER: 8.0 -->
+<!-- @DEPENDS_ON: part_7_future -->
+<!-- @PROVIDES: unified_theory, visualizations -->
 
 # PART VIII: THE ATLAS OF THE COSMOS (Visualization)
 
@@ -1827,6 +1870,13 @@ graph TD
 ---
 
 
+<!-- @END_SECTION: part_8_atlas -->
+
+<!-- @SECTION: part_9_lineage -->
+<!-- @ORDER: 9.0 -->
+<!-- @DEPENDS_ON: part_8_atlas -->
+<!-- @PROVIDES: intellectual_inheritance, sources -->
+
 # PART IX: THE LINEAGE (Intellectual Inheritance)
 
 ---
@@ -1991,6 +2041,13 @@ EPISTEMIC ← Critical Rationalism (Popper, 1934)
 
 ---
 
+<!-- @END_SECTION: part_9_lineage -->
+
+<!-- @SECTION: part_10_concept_atlas -->
+<!-- @ORDER: 10.0 -->
+<!-- @DEPENDS_ON: part_9_lineage -->
+<!-- @PROVIDES: 47_concepts, glossary -->
+
 # PART X: THE CONCEPT ATLAS (Prerequisites)
 
 ---
@@ -2118,6 +2175,13 @@ PHASE 5: STANDARD CODE (After all above)
 ---
 
 > *"We stand on the shoulders of giants. This is our acknowledgment and our map of what we've inherited."*
+
+<!-- @END_SECTION: part_10_concept_atlas -->
+
+<!-- @SECTION: part_11_validation -->
+<!-- @ORDER: 11.0 -->
+<!-- @DEPENDS_ON: part_10_concept_atlas -->
+<!-- @PROVIDES: empirical_evidence, coverage_stats -->
 
 # PART XI: THE VALIDATION (Empirical Evidence)
 
@@ -2272,6 +2336,13 @@ When new constructs appear:
 
 
 ---
+
+<!-- @END_SECTION: part_11_validation -->
+
+<!-- @SECTION: part_12_octahedral_atom -->
+<!-- @ORDER: 12.0 -->
+<!-- @DEPENDS_ON: part_11_validation -->
+<!-- @PROVIDES: octahedron_geometry, 8_dimensions -->
 
 # PART XII: THE OCTAHEDRAL ATOM
 
