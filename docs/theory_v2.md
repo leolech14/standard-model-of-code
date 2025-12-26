@@ -1258,6 +1258,303 @@ flowchart TB
 
 ---
 
+<!-- @SECTION: concept_atlas -->
+<!-- @TOPIC: prerequisites -->
+<!-- @ORDER: 14.0 -->
+<!-- @DEPENDS_ON: atlas -->
+<!-- @PROVIDES: 47_concepts, learning_path, glossary -->
+
+# PART XIV: THE CONCEPT ATLAS (Prerequisites)
+
+> *"To understand the duality, you must first understand what a particle is and what a wave is."*
+
+Standard Code is a synthesis. This section maps the **47 concepts** needed to understand it.
+
+---
+
+<!-- @SECTION: concept_inventory -->
+<!-- @ORDER: 14.1 -->
+<!-- @DEPENDS_ON: concept_atlas -->
+<!-- @PROVIDES: concept_count -->
+
+## 14.1 Concept Inventory (47 Concepts)
+
+| Category | Count | Examples |
+|----------|-------|----------|
+| **Foundational** | 10 | Abstraction, Hierarchy, Graph, Recursion, Fractal |
+| **Philosophical** | 6 | Ontology, Epistemology, Semiotics |
+| **Scientific** | 7 | Entropy, Information, State, Transformation |
+| **Software Engineering** | 9 | AST, Call Graph, Function, Class, Module |
+| **DDD/Architecture** | 8 | Entity, Aggregate, Repository, Boundary |
+| **Standard Code** | 7 | Plane, Level, Lens, Dimension, Atom, Role, Particle |
+
+<!-- @END_SECTION: concept_inventory -->
+
+---
+
+<!-- @SECTION: spatial_relationships -->
+<!-- @ORDER: 14.2 -->
+<!-- @DEPENDS_ON: concept_inventory -->
+<!-- @PROVIDES: parallel, contains, above_below -->
+
+## 14.2 Spatial Relationships
+
+### PARALLEL (∥) - Side by Side
+
+```
+┌─────────────────────────────────────────────────────────┐
+│   ╔════════════╗  ╔════════════╗  ╔════════════╗       │
+│   ║  PHYSICAL  ║∥ ║  VIRTUAL   ║∥ ║  SEMANTIC  ║       │
+│   ╚════════════╝  ╚════════════╝  ╚════════════╝       │
+│                                                         │
+│   ╔════╗ ╔════╗ ╔════╗ ╔════╗ ╔════╗ ╔════╗ ╔════╗ ╔════╗│
+│   ║ D1 ║∥║ D2 ║∥║ D3 ║∥║ D4 ║∥║ D5 ║∥║ D6 ║∥║ D7 ║∥║ D8 ║│
+│   ╚════╝ ╚════╝ ╚════╝ ╚════╝ ╚════╝ ╚════╝ ╚════╝ ╚════╝│
+└─────────────────────────────────────────────────────────┘
+```
+
+### CONTAINS (⊂) - Nested
+
+```
+L12 UNIVERSE
+ └── L7 SYSTEM
+      └── L6 PACKAGE
+           └── L5 FILE
+                └── L4 CONTAINER
+                     └── L3 NODE ★
+                          └── L2 BLOCK
+                               └── L1 STMT
+                                    └── L0 TOKEN
+```
+
+### ABOVE/BELOW (↑↓) - Abstraction Scales
+
+```
+META-LEVEL      ← Epistemics, Lineage, Validation
+     ↑
+THEORY-LEVEL    ← Planes, Levels, Lenses, Dimensions
+     ↑  
+DOMAIN-LEVEL    ← DDD, GoF, Clean Architecture
+     ↑
+FOUNDATIONAL    ← Abstraction, Hierarchy, Graph
+```
+
+<!-- @END_SECTION: spatial_relationships -->
+
+---
+
+<!-- @SECTION: learning_path -->
+<!-- @ORDER: 14.3 -->
+<!-- @DEPENDS_ON: spatial_relationships -->
+<!-- @PROVIDES: phases_of_learning -->
+
+## 14.3 Learning Path
+
+```
+PHASE 1: FOUNDATIONS (No prerequisites)
+  └── Abstraction, Hierarchy, Graph, Recursion
+
+PHASE 2: STRUCTURES (After Phase 1)
+  └── Tree, Taxonomy, AST, Fractal
+
+PHASE 3: PHILOSOPHY (Any time)
+  └── Semiotics, Ontology, Epistemology
+
+PHASE 4: SOFTWARE DOMAIN (After 1-2)
+  └── DDD, Clean Architecture, GoF
+
+PHASE 5: STANDARD CODE (After all above)
+  └── Planes, Levels, Lenses, Dimensions, Atoms, Roles, Particle
+```
+
+<!-- @END_SECTION: learning_path -->
+
+---
+
+<!-- @SECTION: essential_glossary -->
+<!-- @ORDER: 14.4 -->
+<!-- @DEPENDS_ON: learning_path -->
+<!-- @PROVIDES: definitions -->
+
+## 14.4 Essential Glossary
+
+| Concept | One-Line Definition |
+|---------|---------------------|
+| Abstraction | Hiding complexity behind simpler interface |
+| Aggregate | Consistency boundary around related entities |
+| AST | Tree representation of source code syntax |
+| Atom | One of 200 structural classification types |
+| Boundary | Where a system meets the outside |
+| Call Graph | Graph of which functions invoke which |
+| Dimension | One of 8 orthogonal classification axes |
+| Edge | Connection between nodes in a graph |
+| Entity | Object with identity that persists over time |
+| Epistemology | Study of knowledge and belief |
+| Fractal | Pattern that repeats at every scale |
+| Graph | Nodes connected by edges |
+| Hierarchy | Levels of containment or abstraction |
+| Lens | One of 8 perspectives for viewing code |
+| Level | One of 16 scales in the hierarchy |
+| Map vs Territory | Representation ≠ reality |
+| Node | Point in a graph |
+| Ontology | Study of what exists |
+| Particle | Node + Atom + Confidence |
+| Plane | One of 3 modes of existence |
+| Recursion | Self-reference, part contains whole |
+| Repository | Pattern for data persistence |
+| Role | One of 33 semantic purposes |
+| Semiotics | Study of signs and symbols |
+| State | Current configuration of a system |
+| Taxonomy | Classification hierarchy |
+| Transformation | Change from one state to another |
+
+<!-- @END_SECTION: essential_glossary -->
+<!-- @END_SECTION: concept_atlas -->
+
+---
+
+<!-- @SECTION: cosmology -->
+<!-- @TOPIC: global_topology -->
+<!-- @ORDER: 15.0 -->
+<!-- @DEPENDS_ON: concept_atlas -->
+<!-- @PROVIDES: manifold, holon, purpose_field -->
+<!-- @SOURCES: Riemann1854, Koestler1967, Wolfram2002 -->
+
+# PART XV: THE COSMOLOGY (Global Topology)
+
+The Standard Model is not a flat map. It is a high-dimensional structure.
+
+---
+
+<!-- @SECTION: the_manifold -->
+<!-- @ORDER: 15.1 -->
+<!-- @DEPENDS_ON: cosmology -->
+<!-- @PROVIDES: 8d_manifold -->
+
+## 15.1 The 8-Dimensional Manifold
+
+Every point in code analysis is defined by:
+
+$$ \mathcal{M} \cong \text{Atom} \times \text{Layer} \times \text{Role} \times \text{Boundary} \times \text{State} \times \text{Effect} \times \text{Lifecycle} \times \text{Trust} $$
+
+- **Metric Space:** Distance defines "Semantic Similarity"
+- **Curvature:** High-complexity code warps the space (God Classes attract dependencies)
+
+<!-- @END_SECTION: the_manifold -->
+
+---
+
+<!-- @SECTION: the_holon_cosmology -->
+<!-- @ORDER: 15.2 -->
+<!-- @DEPENDS_ON: the_manifold -->
+<!-- @PROVIDES: holon_definition -->
+
+## 15.2 The Holon
+
+A **Holon** is a self-contained structure that is simultaneously:
+- A **Whole** (containing lower levels)
+- A **Part** (contained by higher levels)
+
+Properties:
+- **Autonomy:** Has its own Purpose Field
+- **Coherence:** Maintains internal structure against entropy
+- **Openness:** Interacts via defined Interfaces ("Wormholes")
+
+<!-- @END_SECTION: the_holon_cosmology -->
+
+---
+
+<!-- @SECTION: grand_formula -->
+<!-- @ORDER: 15.3 -->
+<!-- @DEPENDS_ON: the_holon_cosmology -->
+<!-- @PROVIDES: unification_formula -->
+
+## 15.3 The Grand Unification Formula
+
+$$ \text{Software} = \sum_{Levels} \left( \text{Structure}_{Fractal} \times \text{Meaning}_{8D} \right)^{\text{Purpose}} $$
+
+- **Structure:** The Recursive IPO Fractal (Physics)
+- **Meaning:** The 8-Dimensional Manifold (Semantics)
+- **Purpose:** The Panpsychic Vector Field (Intent)
+
+<!-- @END_SECTION: grand_formula -->
+<!-- @END_SECTION: cosmology -->
+
+---
+
+<!-- @SECTION: natural_law -->
+<!-- @TOPIC: pancomputationalism -->
+<!-- @ORDER: 16.0 -->
+<!-- @DEPENDS_ON: cosmology -->
+<!-- @PROVIDES: constructal_law, biological_isomorphism -->
+<!-- @SOURCES: Zuse1969, Wolfram2002, Bejan1996 -->
+
+# PART XVI: THE NATURAL LAW (Pancomputationalism)
+
+The L3 Node (Function) is not just a software construct. It is a fundamental unit of **Natural Law**.
+
+---
+
+<!-- @SECTION: pancomputationalism -->
+<!-- @ORDER: 16.1 -->
+<!-- @DEPENDS_ON: natural_law -->
+<!-- @PROVIDES: universe_as_computer -->
+
+## 16.1 Universal Pancomputationalism
+
+The Universe itself is a computer (*Zuse, Fredkin, Wolfram*):
+
+- **Matter** is Data (State)
+- **Physics** is Software (Functions)
+- **Time** is the Execution Cycle (Recursion)
+
+When we write a **Function**, we harness reality's fundamental mechanism: **The Transformation of State**.
+
+<!-- @END_SECTION: pancomputationalism -->
+
+---
+
+<!-- @SECTION: constructal_law -->
+<!-- @ORDER: 16.2 -->
+<!-- @DEPENDS_ON: pancomputationalism -->
+<!-- @PROVIDES: flow_evolution -->
+
+## 16.2 The Constructal Law
+
+Why does code evolve into trees and hierarchies?
+
+> *"For a finite-size flow system to persist in time, it must evolve to provide easier access to the imposed currents that flow through it."*
+> — Adrian Bejan (1996)
+
+- **The Current:** Data (Information Flow)
+- **The Channel:** The Function Call Graph
+- **The Evolution:** Spaghetti → Modular (Low Resistance)
+
+<!-- @END_SECTION: constructal_law -->
+
+---
+
+<!-- @SECTION: biological_isomorphism -->
+<!-- @ORDER: 16.3 -->
+<!-- @DEPENDS_ON: constructal_law -->
+<!-- @PROVIDES: dna_code_parallel -->
+
+## 16.3 The Biological Isomorphism
+
+| Biology | Code |
+|---------|------|
+| DNA | Source Code (L5) |
+| Ribosome | Compiler |
+| Protein | Executable Function (L3) |
+| Metabolism | Runtime Environment |
+
+> The Standard Model is not a metaphor. It is a description of the **Computational Nature of Reality**.
+
+<!-- @END_SECTION: biological_isomorphism -->
+<!-- @END_SECTION: natural_law -->
+
+---
+
 > *"The map grows to match the territory. We are always running behind."*
 > 
 > *"Somos cartógrafos humildes. O mapa cresce com o território. Sempre haverá mais território."*
