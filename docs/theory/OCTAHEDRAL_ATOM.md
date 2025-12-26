@@ -59,10 +59,12 @@
 | L5 | Section | Class/region |
 | L4 | Block | Function body |
 | **L3** | **Node** | **Statement/expression** ← atom level |
-| L2 | Token | Identifier/literal |
-| L1 | Character | Single char |
-| L0 | Bit-sequence | Binary word |
-| **L-3** | **Bit / Qubit** | **Classical or quantum bit** ← foundational |
+| L2 | Phrase | Expression fragment |
+| L1 | Word | Keyword/operator |
+| **L0** | **Token** | **Identifier/literal** |
+| L-1 | Character | Single char/symbol |
+| L-2 | Byte | 8 bits |
+| **L-3** | **Bit / Qubit** | **Foundational unit** |
 
 Every instance of a code construct is an **octahedron at a specific level** carrying 8 pieces of metadata.
 
