@@ -1,10 +1,76 @@
 # THE OCTAHEDRAL ATOM
 
-> *Every code atom is an octahedron. Its 8 faces are its 8 dimensions.*
+> *Each of the 200 atoms is an octahedron. Its 8 faces are its 8 dimensions.*
 
 ---
 
-## The Shape of an Atom
+## The Relationship
+
+| Concept | Count | Meaning |
+|---------|-------|---------|
+| **Atom Types** | 200 | Possible values for the WHAT dimension |
+| **Roles** | 33 | Possible values for the ROLE dimension |
+| **Levels** | 16 | Abstraction Levels (L-3 to L12) |
+| **Dimensions** | 8 | The 8 faces of each atom |
+
+---
+
+## The Complete Model
+
+```
+                    16 ABSTRACTION LEVELS (L-3 to L12)
+                           ↑
+                           │
+    L12 (Universe) ────────┼──────── ◆ (octahedron at this level)
+    L11 (Ecosystem)        │
+    L10 (System)           │         Each level contains
+    L9 (Application)       │         octahedral atoms with
+    ...                    │         8 faces of metadata
+    L3 (Node) ─────────────┼──────── ◆ ← most common analysis level
+    ...                    │
+    L-3 (Bit)              │
+                           ↓
+```
+
+**The 8 Faces (Horizontal):**
+
+```
+200 ATOM TYPES   → Face 1 (WHAT)
+5 LAYERS         → Face 2 (LAYER: Interface/App/Core/Infra/Test)
+33 ROLES         → Face 3 (ROLE)
+4 BOUNDARIES     → Face 4 (BOUNDARY: Internal/Input/I-O/Output)
+2 STATES         → Face 5 (STATE: Stateful/Stateless)
+4 EFFECTS        → Face 6 (EFFECT: Pure/Read/Write/ReadModify)
+3 LIFECYCLES     → Face 7 (LIFECYCLE: Create/Use/Destroy)
+0-100%           → Face 8 (TRUST)
+```
+
+**The 16 Abstraction Levels:**
+
+| Level | Name | Example |
+|-------|------|---------|
+| L12 | Universe | All code everywhere |
+| L11 | Ecosystem | npm, PyPI |
+| L10 | System | Distributed system |
+| L9 | Application | Single app |
+| L8 | Subsystem | Bounded context |
+| L7 | Package | Module/library |
+| L6 | File | Source file |
+| L5 | Section | Class/region |
+| L4 | Block | Function body |
+| **L3** | **Node** | **Statement/expression** ← atom level |
+| L2 | Token | Identifier/literal |
+| L1 | Character | Single char |
+| L0 | Bit-sequence | Binary |
+| L-1 | Bit | Single bit |
+| L-2 | Electron | Logical gate |
+| L-3 | Qubit | Quantum state |
+
+Every instance of a code construct is an **octahedron at a specific level** carrying 8 pieces of metadata.
+
+---
+
+## The Shape of Each Atom
 
 ```
            ◢ STATE ◣
