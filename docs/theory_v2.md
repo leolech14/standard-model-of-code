@@ -38,6 +38,14 @@ reference_counts:
 
 ---
 
+<!-- @SECTION: humble_beginning -->
+<!-- @TOPIC: epistemic_stance -->
+<!-- @ORDER: 1.0 -->
+<!-- @DEPENDS_ON: none -->
+<!-- @PROVIDES: epistemic_humility, map_not_territory -->
+<!-- @VERSION: 3.0.0 -->
+<!-- @STATUS: stable -->
+
 # PART I: THE HUMBLE BEGINNING
 
 > **"We know that we don't know."**
@@ -46,6 +54,12 @@ This is the first truth of this work. Everything that follows is a **map**, not 
 
 ---
 
+<!-- @SECTION: what_this_is_not -->
+<!-- @TOPIC: negative_definition -->
+<!-- @ORDER: 1.1 -->
+<!-- @DEPENDS_ON: humble_beginning -->
+<!-- @PROVIDES: boundaries -->
+
 ## 1.1 What This Document Is NOT
 
 - NOT a "theory of everything" for code
@@ -53,7 +67,15 @@ This is the first truth of this work. Everything that follows is a **map**, not 
 - NOT proof that these categories are all that exist
 - NOT a claim of ultimate truth
 
+<!-- @END_SECTION: what_this_is_not -->
+
 ---
+
+<!-- @SECTION: what_this_is -->
+<!-- @TOPIC: positive_definition -->
+<!-- @ORDER: 1.2 -->
+<!-- @DEPENDS_ON: what_this_is_not -->
+<!-- @PROVIDES: purpose, versioned_model -->
 
 ## 1.2 What This Document IS
 
@@ -62,7 +84,15 @@ This is the first truth of this work. Everything that follows is a **map**, not 
 - An open framework designed to evolve with evidence
 - A tool for understanding, not a dogma
 
+<!-- @END_SECTION: what_this_is -->
+
 ---
+
+<!-- @SECTION: operating_principles -->
+<!-- @TOPIC: principles -->
+<!-- @ORDER: 1.3 -->
+<!-- @DEPENDS_ON: what_this_is -->
+<!-- @PROVIDES: open_world, unknown_first_class, provisional_certainty, humble_science -->
 
 ## 1.3 Operating Principles
 
@@ -73,7 +103,16 @@ This is the first truth of this work. Everything that follows is a **map**, not 
 | **Provisional Certainty** | We crystallize knowledge because usefulness requires it, but we never claim completeness. |
 | **Humble Science** | Every "postulate" is a hypothesis with validation obligations, not a proven theorem. |
 
+<!-- @END_SECTION: operating_principles -->
+<!-- @END_SECTION: humble_beginning -->
+
 ---
+
+<!-- @SECTION: problem_of_software -->
+<!-- @TOPIC: motivation -->
+<!-- @ORDER: 2.0 -->
+<!-- @DEPENDS_ON: operating_principles -->
+<!-- @PROVIDES: problem_statement, fragmented_knowledge -->
 
 # PART II: THE PROBLEM OF SOFTWARE
 
