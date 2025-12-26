@@ -50,7 +50,7 @@ reference_counts:
 
 > **"We know that we don't know."**
 
-This is the first truth of this work. Everything that follows is a **map**, not the territory. We are cartographers, not prophets. The territory exists independent of our drawings. Our purpose is to create a usable legend that improves navigation, prediction, and reasoning about software.
+This is the foundational premise of this work. Everything that follows is a **map**, not the territory. We are cartographers, not prophets. The territory exists independent of our drawings. Our purpose is to create a usable legend that improves navigation, prediction, and reasoning about software.
 
 ---
 
