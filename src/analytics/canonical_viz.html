@@ -1151,9 +1151,11 @@
         const nodeIndex = {};
         nodeIds.forEach((id, i) => nodeIndex[id] = i);
 
-        // Build adjacency list
+        // Build adjacency list (skip containment edges - they're hierarchical, not dependencies)
         const adj = nodeIds.map(() => []);
         cy.edges().forEach(e => {
+            const edgeType = (e.data('type') || '').toUpperCase();
+            if (edgeType === 'CONTAINS') return; // Skip containment
             const srcIdx = nodeIndex[e.source().id()];
             const tgtIdx = nodeIndex[e.target().id()];
             if (srcIdx !== undefined && tgtIdx !== undefined) {

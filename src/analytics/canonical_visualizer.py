@@ -336,8 +336,12 @@ class CanonicalVisualizer:
         self.pillars.reachability = round((largest / n) * 100, 1)
 
         # === PILLAR 3: Knot Theory (Cycles) ===
+        # Only consider non-containment edges for cycles
+        # (contains is hierarchical, not a dependency)
         adj_directed = defaultdict(list)
         for conn in connections:
+            if conn.get("type", "").upper() == "CONTAINS":
+                continue  # Skip containment edges
             src, tgt = conn.get("from"), conn.get("to")
             if src in particle_ids and tgt in particle_ids:
                 adj_directed[src].append(tgt)
