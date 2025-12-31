@@ -20,13 +20,23 @@ import sys
 from pathlib import Path
 
 # Re-export everything from the new package for backward compatibility
-from proof import (
-    ProofPipeline,
-    run_proof,
-    ProofDocument,
-    ProofDocumentBuilder,
-    StageResult,
-)
+# Use try/except to support both relative and absolute imports
+try:
+    from .proof import (
+        ProofPipeline,
+        run_proof,
+        ProofDocument,
+        ProofDocumentBuilder,
+        StageResult,
+    )
+except ImportError:
+    from proof import (
+        ProofPipeline,
+        run_proof,
+        ProofDocument,
+        ProofDocumentBuilder,
+        StageResult,
+    )
 
 __all__ = [
     'ProofPipeline',
