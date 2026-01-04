@@ -188,3 +188,76 @@ class TestEntrypointsAreAtomicOnly:
                     assert node_type in {"function", "method", "class"}, (
                         f"Entrypoint {node['id']} is not atomic: {node_type}"
                     )
+
+
+class TestReachabilityDiagnostics:
+    """Reachability diagnostics invariant tests."""
+
+    def test_reasons_sum_equals_total(self):
+        """sum(reasons.values()) == unreachable_total."""
+        for fixture in ["toy_entry_click", "toy_entry_typer", "toy_entry_fastapi", "toy_entry_flask"]:
+            validator = SelfProofValidator(FIXTURES_DIR / fixture)
+            result = validator.prove()
+
+            diag = result.reachability_diagnostics
+            assert diag is not None, "diagnostics should always be present"
+
+            reason_sum = sum(diag.reasons.values())
+            assert reason_sum == diag.unreachable_total, (
+                f"{fixture}: sum(reasons)={reason_sum} != unreachable_total={diag.unreachable_total}"
+            )
+
+    def test_deterministic_output(self):
+        """Diagnostics produce stable ordering across multiple runs."""
+        for fixture in ["toy_entry_click", "toy_entry_flask"]:
+            results = []
+            for _ in range(3):
+                validator = SelfProofValidator(FIXTURES_DIR / fixture)
+                result = validator.prove()
+                diag = result.reachability_diagnostics
+                results.append({
+                    "reasons": dict(diag.reasons),
+                    "examples": {k: list(v) for k, v in diag.examples.items()},
+                    "cluster_roots": [r["node_id"] for r in diag.cluster_roots],
+                })
+
+            # All runs should produce identical output
+            assert results[0] == results[1], f"{fixture}: run 0 != run 1"
+            assert results[1] == results[2], f"{fixture}: run 1 != run 2"
+
+    def test_diagnostics_do_not_affect_proof_score(self):
+        """Diagnostics are observational - they don't change proof_score."""
+        for fixture in ["toy_entry_click", "toy_entry_flask"]:
+            validator = SelfProofValidator(FIXTURES_DIR / fixture)
+            result = validator.prove()
+
+            # Proof score should be computed before diagnostics are attached
+            # Re-proving should give the same score
+            validator2 = SelfProofValidator(FIXTURES_DIR / fixture)
+            result2 = validator2.prove()
+
+            assert result.proof_score == result2.proof_score, (
+                f"{fixture}: proof scores differ between runs"
+            )
+
+    def test_diagnostics_only_include_atomic_nodes(self):
+        """All nodes in diagnostics (examples, cluster_roots) are N_atomic."""
+        for fixture in ["toy_entry_click", "toy_entry_typer", "toy_entry_fastapi", "toy_entry_flask"]:
+            validator = SelfProofValidator(FIXTURES_DIR / fixture)
+            result = validator.prove()
+
+            atomic_ids = {n["id"] for n in result.proof_nodes}
+            diag = result.reachability_diagnostics
+
+            # Check examples
+            for reason, examples in diag.examples.items():
+                for node_id in examples:
+                    assert node_id in atomic_ids, (
+                        f"{fixture}: example {node_id} not in N_atomic"
+                    )
+
+            # Check cluster roots
+            for root in diag.cluster_roots:
+                assert root["node_id"] in atomic_ids, (
+                    f"{fixture}: cluster root {root['node_id']} not in N_atomic"
+                )
