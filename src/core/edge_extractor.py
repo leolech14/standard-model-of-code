@@ -16,7 +16,89 @@ Edge Types:
 
 import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Set
+
+
+FILE_NODE_SUFFIX = "__file__"
+
+
+def _normalize_file_path(file_path: str) -> str:
+    """Normalize file path to a resolved absolute string."""
+    if not file_path:
+        return ""
+    try:
+        return str(Path(file_path).resolve())
+    except Exception:
+        return file_path
+
+
+def module_name_from_path(file_path: str) -> str:
+    """Derive a module name from a file path."""
+    path = Path(file_path)
+    if path.stem == "__init__":
+        return path.parent.name or path.stem
+    return path.stem
+
+
+def file_node_name(file_path: str, existing_ids: Optional[Set[str]] = None) -> str:
+    """Compute a unique file-node name derived from the file path."""
+    normalized = _normalize_file_path(file_path)
+    base = module_name_from_path(normalized)
+    if not existing_ids:
+        return base
+
+    candidate = _make_node_id(normalized, base)
+    if candidate not in existing_ids:
+        return base
+
+    candidate_name = f"{base}.{FILE_NODE_SUFFIX}"
+    candidate_id = _make_node_id(normalized, candidate_name)
+    if candidate_id not in existing_ids:
+        return candidate_name
+
+    index = 2
+    while True:
+        candidate_name = f"{base}.{FILE_NODE_SUFFIX}{index}"
+        candidate_id = _make_node_id(normalized, candidate_name)
+        if candidate_id not in existing_ids:
+            return candidate_name
+        index += 1
+
+
+def file_node_id(file_path: str, existing_ids: Optional[Set[str]] = None) -> str:
+    """Build a canonical file-node id for a file path."""
+    normalized = _normalize_file_path(file_path)
+    name = file_node_name(normalized, existing_ids)
+    return _make_node_id(normalized, name)
+
+
+def _make_node_id(file_path: str, name: str) -> str:
+    """Create a node ID in the canonical format: {full_path}:{name}"""
+    return f"{file_path}:{name}"
+
+
+def _get_particle_id(particle: Dict) -> str:
+    """Get the canonical ID for a particle."""
+    file_path = particle.get('file_path', '')
+    name = particle.get('name', '')
+    # Check if particle already has a full ID
+    if particle.get('id'):
+        return particle['id']
+    return _make_node_id(file_path, name)
+
+
+def _collect_file_node_ids(particles: List[Dict]) -> Dict[str, str]:
+    """Collect file-node ids keyed by normalized file path."""
+    mapping: Dict[str, str] = {}
+    for particle in particles:
+        metadata = particle.get("metadata") or {}
+        if not metadata.get("file_node"):
+            continue
+        file_path = particle.get("file_path", "")
+        if not file_path:
+            continue
+        mapping[_normalize_file_path(file_path)] = _get_particle_id(particle)
+    return mapping
 
 
 def extract_call_edges(particles: List[Dict], results: List[Dict]) -> List[Dict]:
