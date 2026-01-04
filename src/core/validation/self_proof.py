@@ -20,6 +20,22 @@ from collections import defaultdict
 
 
 @dataclass
+class ReachabilityDiagnostics:
+    """Diagnostics explaining why nodes are unreachable."""
+
+    unreachable_total: int = 0
+
+    # Reason counts
+    reasons: Dict[str, int] = field(default_factory=dict)
+
+    # Examples per reason (up to 5 each)
+    examples: Dict[str, List[str]] = field(default_factory=dict)
+
+    # Unreachable cluster roots (for targeted fixes)
+    cluster_roots: List[Dict] = field(default_factory=list)
+
+
+@dataclass
 class ProofResult:
     """Result of self-proof validation."""
 
@@ -39,6 +55,9 @@ class ProofResult:
     proof_nodes: List[Dict] = field(default_factory=list)
     entrypoints: List[str] = field(default_factory=list)
     unreachable: List[str] = field(default_factory=list)
+
+    # Reachability diagnostics
+    reachability_diagnostics: Optional[ReachabilityDiagnostics] = None
 
     # Diagnostics
     errors: List[str] = field(default_factory=list)
@@ -115,7 +134,12 @@ class SelfProofValidator:
         unreachable = set(self.atomic_nodes.keys()) - reachable
         result.unreachable = list(unreachable)
 
-        # Stage 6: Compute metrics
+        # Stage 6: Compute reachability diagnostics
+        result.reachability_diagnostics = self._compute_reachability_diagnostics(
+            reachable, unreachable
+        )
+
+        # Stage 7: Compute metrics
         result.registry_accuracy = self._compute_registry_accuracy(fs_components)
         result.connection_coverage = self._compute_connection_coverage()
         result.edge_accuracy = 1.0  # All edges are verified by construction
@@ -478,3 +502,143 @@ class SelfProofValidator:
                 connected.add(edge["target"])
 
         return len(connected) / len(self.atomic_nodes)
+
+    def _compute_reachability_diagnostics(
+        self, reachable: Set[str], unreachable: Set[str]
+    ) -> ReachabilityDiagnostics:
+        """
+        Compute diagnostics explaining why nodes are unreachable.
+
+        Reasons:
+        - no_entrypoints: entrypoint set is empty
+        - isolated: in_degree=0 and out_degree=0 in proof graph
+        - disconnected_from_entries: in a different component than entries
+        - no_incoming_from_reachable: cluster has no bridge from reachable set
+        """
+        diag = ReachabilityDiagnostics(unreachable_total=len(unreachable))
+
+        if not unreachable:
+            return diag
+
+        # Build adjacency lists for proof graph
+        out_adj: Dict[str, Set[str]] = defaultdict(set)
+        in_adj: Dict[str, Set[str]] = defaultdict(set)
+        for edge in self.edges:
+            if edge.get("resolution") == "resolved_internal":
+                out_adj[edge["source"]].add(edge["target"])
+                in_adj[edge["target"]].add(edge["source"])
+
+        # Classify each unreachable node
+        reasons: Dict[str, int] = defaultdict(int)
+        examples: Dict[str, List[str]] = defaultdict(list)
+
+        for node_id in sorted(unreachable):  # sorted for determinism
+            reason = self._classify_unreachable_reason(
+                node_id, reachable, out_adj, in_adj
+            )
+            reasons[reason] += 1
+            if len(examples[reason]) < 5:  # Keep up to 5 examples per reason
+                examples[reason].append(node_id)
+
+        diag.reasons = dict(reasons)
+        diag.examples = dict(examples)
+
+        # Compute cluster roots (unreachable nodes with no incoming from other unreachable)
+        diag.cluster_roots = self._compute_cluster_roots(
+            unreachable, reachable, in_adj, out_adj
+        )
+
+        return diag
+
+    def _classify_unreachable_reason(
+        self,
+        node_id: str,
+        reachable: Set[str],
+        out_adj: Dict[str, Set[str]],
+        in_adj: Dict[str, Set[str]],
+    ) -> str:
+        """Classify why a single node is unreachable."""
+        # Check if no entrypoints exist
+        if not self.entrypoints:
+            return "no_entrypoints"
+
+        in_degree = len(in_adj.get(node_id, set()))
+        out_degree = len(out_adj.get(node_id, set()))
+
+        # Isolated: no edges at all in proof graph
+        if in_degree == 0 and out_degree == 0:
+            return "isolated"
+
+        # Check if any incoming edges are from reachable nodes
+        incoming = in_adj.get(node_id, set())
+        has_reachable_incoming = any(src in reachable for src in incoming)
+
+        if has_reachable_incoming:
+            # This shouldn't happen if reachability is computed correctly
+            return "reachability_error"
+
+        # Check if incoming edges exist but all from unreachable nodes
+        if incoming:
+            return "no_incoming_from_reachable"
+
+        # Has outgoing but no incoming
+        return "disconnected_from_entries"
+
+    def _compute_cluster_roots(
+        self,
+        unreachable: Set[str],
+        reachable: Set[str],
+        in_adj: Dict[str, Set[str]],
+        out_adj: Dict[str, Set[str]],
+    ) -> List[Dict]:
+        """
+        Find cluster roots: unreachable nodes that could become reachable
+        with minimal fixes (e.g., adding an entrypoint or edge).
+
+        A cluster root is an unreachable node where:
+        - It has no incoming edges from other unreachable nodes, OR
+        - It's a "root" of a strongly connected unreachable subgraph
+        """
+        roots = []
+
+        # Find nodes with no incoming from other unreachable nodes
+        for node_id in unreachable:
+            incoming = in_adj.get(node_id, set())
+            incoming_from_unreachable = incoming & unreachable
+
+            if not incoming_from_unreachable:
+                # This is a cluster root
+                # Count how many unreachable nodes are reachable from it
+                cluster_size = self._count_downstream_unreachable(
+                    node_id, unreachable, out_adj
+                )
+                roots.append({
+                    "node_id": node_id,
+                    "cluster_size": cluster_size,
+                    "reason": "no_unreachable_incoming",
+                })
+
+        # Sort by cluster size (largest first) and take top 10
+        roots.sort(key=lambda x: x["cluster_size"], reverse=True)
+        return roots[:10]
+
+    def _count_downstream_unreachable(
+        self, start: str, unreachable: Set[str], out_adj: Dict[str, Set[str]]
+    ) -> int:
+        """Count unreachable nodes reachable from start via proof edges."""
+        visited = set()
+        queue = [start]
+
+        while queue:
+            current = queue.pop(0)
+            if current in visited:
+                continue
+            if current not in unreachable:
+                continue
+            visited.add(current)
+
+            for target in out_adj.get(current, set()):
+                if target not in visited and target in unreachable:
+                    queue.append(target)
+
+        return len(visited)
