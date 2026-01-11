@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 SPECTROMETER V12 - Statistics Generator
+🔬 COLLIDER - Statistics Generator
 Comprehensive statistics and output generation
 ============================================
 """
@@ -20,7 +20,7 @@ class StatsGenerator:
         self.results = {
             'metadata': {
                 'generated_at': datetime.now().isoformat(),
-                'spectrometer_version': 'V12.1',
+                'collider_version': '2.3.0',
                 'mode': 'comprehensive_analysis'
             },
             'summary': {},
@@ -223,7 +223,7 @@ class StatsGenerator:
     def _write_human_readable_stats(self, file):
         """Write human-readable statistics"""
         file.write("="*100 + "\n")
-        file.write("🚀 SPECTROMETER V12 - COMPREHENSIVE ANALYSIS RESULTS\n")
+        file.write("🔬 COLLIDER - COMPREHENSIVE ANALYSIS RESULTS\n")
         file.write("="*100 + "\n\n")
 
         # Summary
