@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnifiedAnalysisOutput",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "edge_type", "resolution"],
+        "properties": {
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "edge_type": {"type": "string"},
+          "resolution": {
+            "type": "string",
+            "enum": ["resolved_internal", "external", "unresolved", "unknown"]
+          },
+          "confidence": {"type": "number"}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

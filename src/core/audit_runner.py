@@ -73,11 +73,14 @@ def run_full_audit(target_path: str = ".", output_dir: str = "output/audit") -> 
 
     analysis_ok = True
     try:
-        run_proof(str(repo_path), output_dir=output_dir)
+        from core.full_analysis import run_full_analysis
+        run_full_analysis(str(repo_path), output_dir=output_dir)
     except SystemExit as e:
         analysis_ok = (e.code == 0)
     except Exception as exc:  # noqa: BLE001
         analysis_ok = False
+        import traceback
+        traceback.print_exc()
         print(f"❌ Analysis failed: {exc}")
 
     print("\n" + "=" * 60)

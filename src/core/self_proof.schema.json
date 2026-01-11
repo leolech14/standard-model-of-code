@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SelfProofOutput",
+  "type": "object",
+  "required": ["proof_nodes", "proof_edges", "proof_metrics"],
+  "properties": {
+    "proof_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "file_path"],
+        "additionalProperties": true
+      }
+    },
+    "proof_edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "edge_type", "resolution"],
+        "properties": {
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "edge_type": {"const": "calls"},
+          "resolution": {"const": "resolved_internal"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "proof_metrics": {
+      "type": "object",
+      "required": [
+        "calls_total",
+        "calls_resolved_internal",
+        "calls_external",
+        "calls_unresolved",
+        "definitions"
+      ],
+      "properties": {
+        "calls_total": {"type": "integer", "minimum": 0},
+        "calls_resolved_internal": {"type": "integer", "minimum": 0},
+        "calls_external": {"type": "integer", "minimum": 0},
+        "calls_unresolved": {"type": "integer", "minimum": 0},
+        "definitions": {
+          "type": "object",
+          "required": ["edge_set", "resolution", "entrypoint_policy"],
+          "properties": {
+            "edge_set": {"const": "calls"},
+            "resolution": {"const": "resolved_internal"},
+            "entrypoint_policy": {"const": "rule-based only"}
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

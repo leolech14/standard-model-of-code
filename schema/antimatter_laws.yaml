@@ -1,0 +1,196 @@
+# Antimatter Laws - Architectural Anti-Patterns
+#
+# These laws define violations of foundational theories that indicate
+# poor software architecture. Violations are detected during Collider analysis.
+#
+# Source theories:
+#   - Dijkstra's Abstraction Layers (THE Multiprogramming System, 1968)
+#   - Clean Architecture (Robert C. Martin, 2012)
+#   - Koestler's Holons (Ghost in the Machine, 1967)
+#   - Domain-Driven Design (Eric Evans, 2003)
+#
+# Version: 1.0.0
+
+---
+
+# =============================================================================
+# Layer Violation Laws (Dijkstra + Clean Architecture)
+# =============================================================================
+
+AM001:
+  name: LayerSkipViolation
+  description: >
+    Direct dependency from a higher layer to a non-adjacent lower layer,
+    bypassing intermediate abstractions. Each layer should only depend
+    on the layer directly below it.
+  source_theories:
+    - Dijkstra Abstraction Layers
+    - Clean Architecture
+  severity: ERROR
+  detection:
+    condition: "layer_distance(source, target) > 1"
+    where: "edge.type in ['imports', 'calls', 'uses']"
+  examples:
+    - description: "Controller directly calling Repository (skipping Service)"
+      bad: "src/controllers/user.py → src/repositories/user.py"
+      good: "src/controllers/user.py → src/services/user.py → src/repositories/user.py"
+    - description: "Interface layer directly accessing Infrastructure"
+      bad: "api/routes.py → db/connection.py"
+      good: "api/routes.py → services/data.py → db/connection.py"
+  remediation: >
+    Add an intermediate layer entity. If direct access is truly needed,
+    create a facade or adapter at the appropriate layer.
+
+---
+
+AM002:
+  name: ReverseLayerDependency
+  description: >
+    Lower layer depending on higher layer, violating the dependency rule.
+    Dependencies should point inward (toward core), never outward.
+  source_theories:
+    - Clean Architecture
+    - Onion Architecture
+  severity: ERROR
+  detection:
+    condition: "layer_value(source) < layer_value(target)"
+    where: "edge.type in ['imports', 'calls']"
+    layer_values:
+      Infrastructure: 0
+      Core: 1
+      Application: 2
+      Interface: 3
+  examples:
+    - description: "Core domain importing Controller"
+      bad: "from src.controllers.user import UserController"
+    - description: "Repository importing Service"
+      bad: "from src.services.order import OrderService"
+  remediation: >
+    Invert the dependency using dependency injection or an interface.
+    The lower layer should define an interface that the higher layer implements.
+
+---
+
+# =============================================================================
+# Holon Pathology Laws (Koestler)
+# =============================================================================
+
+AM003:
+  name: GodClass
+  description: >
+    A class with too many responsibilities, exhibiting pathological autonomy.
+    In Koestler's terms: a holon with excessive self-assertive tendency,
+    becoming cancerous to the system.
+  source_theories:
+    - Koestler Holons
+    - Single Responsibility Principle
+  severity: WARNING
+  detection:
+    any_of:
+      - "methods_count > 20"
+      - "afferent_coupling > 10"
+      - "lines_of_code > 500"
+      - "dependencies_count > 15"
+  metrics:
+    pathological_threshold: 0.7  # tension > 0.7 toward autonomy
+  examples:
+    - description: "UserManager doing auth, profiles, notifications, billing"
+      indicators:
+        - "42 methods"
+        - "12 different responsibilities"
+        - "800 lines of code"
+  remediation: >
+    Split into smaller, focused classes with single responsibilities.
+    Extract behaviors into separate services or modules.
+
+---
+
+AM004:
+  name: AnemicModel
+  description: >
+    An entity with only getters/setters and no behavior, showing
+    pathological subservience. In Koestler's terms: a holon with
+    excessive integrative tendency, losing its identity.
+  source_theories:
+    - Koestler Holons
+    - Domain-Driven Design (Anemic Domain Model anti-pattern)
+  severity: WARNING
+  detection:
+    all_of:
+      - "is_entity: true"
+      - "has_only_accessors: true"
+      - "business_methods_count == 0"
+  metrics:
+    pathological_threshold: 0.3  # tension < 0.3 toward integration
+  examples:
+    - description: "User entity with only getters and setters"
+      bad: |
+        class User:
+            def get_name(self): return self._name
+            def set_name(self, v): self._name = v
+            # No business logic
+      good: |
+        class User:
+            def change_email(self, new_email):
+                self._validate_email(new_email)
+                self._email = new_email
+                self._domain_events.append(EmailChanged(new_email))
+  remediation: >
+    Move behavior into the entity. Domain entities should encapsulate
+    both data and the business rules that govern that data.
+
+---
+
+# =============================================================================
+# DDD Boundary Laws (Evans)
+# =============================================================================
+
+AM005:
+  name: BoundedContextViolation
+  description: >
+    Cross-boundary dependency without explicit interface or anti-corruption layer.
+    Bounded contexts should communicate through well-defined contracts,
+    not reach into each other's internals.
+  source_theories:
+    - Domain-Driven Design
+    - Microservices Architecture
+  severity: ERROR
+  detection:
+    condition: "bounded_context(source) != bounded_context(target)"
+    where: "edge.type == 'imports'"
+    unless: "target.is_published_interface"
+  examples:
+    - description: "Order service reaching into User internals"
+      bad: "from user.internal.password_hasher import hash"
+      good: "from user.api import UserService"
+    - description: "Direct database access across contexts"
+      bad: "SELECT * FROM users WHERE..."
+      good: "user_service.get_user(user_id)"
+  remediation: >
+    Create explicit interfaces at context boundaries.
+    Use anti-corruption layers to translate between contexts.
+    Consider event-driven communication for loose coupling.
+
+---
+
+# =============================================================================
+# Additional Laws (Future)
+# =============================================================================
+
+# AM006:
+#   name: CircularDependency
+#   description: Circular import/dependency chain
+#   source_theories: [Clean Architecture]
+#   severity: ERROR
+
+# AM007:
+#   name: LeakyAbstraction
+#   description: Implementation details exposed through interface
+#   source_theories: [Dijkstra, Law of Leaky Abstractions]
+#   severity: WARNING
+
+# AM008:
+#   name: ViolatedInvariant
+#   description: Business invariant not enforced at entity level
+#   source_theories: [DDD]
+#   severity: ERROR

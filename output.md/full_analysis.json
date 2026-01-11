@@ -1,0 +1,449 @@
+{
+  "meta": {
+    "target": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core",
+    "timestamp": "2026-01-11T13:46:33",
+    "analysis_time_ms": 567,
+    "version": "2.0.0",
+    "deterministic": true
+  },
+  "counts": {
+    "nodes": 626,
+    "edges": 2288,
+    "files": 57,
+    "entry_points": 66,
+    "orphans": 57,
+    "cycles": 5
+  },
+  "coverage": {
+    "type_coverage": 100.0,
+    "layer_coverage": 100.0,
+    "rpbl_coverage": 100.0,
+    "dead_code_percent": 9.15
+  },
+  "distributions": {
+    "types": {
+      "Internal": 156,
+      "DTO": 110,
+      "Query": 69,
+      "Module": 57,
+      "Factory": 52,
+      "Utility": 51,
+      "Constructor": 33,
+      "DomainService": 31,
+      "Test": 14,
+      "Specification": 12,
+      "Command": 11,
+      "EntryPoint": 10,
+      "Validator": 9,
+      "Transformer": 8,
+      "Mapper": 2
+    },
+    "layers": {
+      "presentation": 62,
+      "cross_cutting": 293,
+      "domain": 158,
+      "infrastructure": 40,
+      "application": 62,
+      "testing": 11
+    },
+    "atoms": {
+      "ORG.AGG.M": 110,
+      "LOG.FNC.M": 459,
+      "ORG.MOD.O": 57
+    }
+  },
+  "rpbl_profile": {
+    "responsibility": 3.6,
+    "purity": 7.0,
+    "boundary": 4.1,
+    "lifecycle": 3.4
+  },
+  "purpose_field": {
+    "total_nodes": 623,
+    "layers": {
+      "unknown": 157,
+      "infrastructure": 221,
+      "domain": 153,
+      "application": 80,
+      "testing": 12
+    },
+    "purposes": {
+      "Internal": 155,
+      "DTO": 110,
+      "Query": 69,
+      "Module": 57,
+      "Factory": 52,
+      "Utility": 51,
+      "Constructor": 33,
+      "DomainService": 29,
+      "Test": 14,
+      "Specification": 12
+    },
+    "violations": 631,
+    "layer_purposes": {
+      "presentation": "Display data and handle user interaction",
+      "application": "Orchestrate use cases and coordinate domain",
+      "domain": "Express and enforce business rules",
+      "infrastructure": "Handle technical concerns and external systems",
+      "testing": "Verify behavior and validate expectations",
+      "unknown": "Purpose not yet determined"
+    }
+  },
+  "execution_flow": {
+    "total_nodes": 623,
+    "entry_points": 66,
+    "reachable_nodes": 574,
+    "orphan_count": 57,
+    "dead_code_percent": 9.15,
+    "chains_count": 50,
+    "integration_errors": 252,
+    "layer_distribution": {
+      "unknown": 157,
+      "infrastructure": 221,
+      "domain": 153,
+      "application": 80,
+      "testing": 12
+    },
+    "orphans_by_layer": {
+      "infrastructure": 4,
+      "domain": 2,
+      "unknown": 51
+    }
+  },
+  "markov": {
+    "total_transitions": 419,
+    "avg_fanout": 3.279236276849642,
+    "high_entropy_nodes": [
+      {
+        "node": "SelfProofValidator",
+        "fanout": 20,
+        "max_prob": 0.05
+      },
+      {
+        "node": "PatternRepository",
+        "fanout": 19,
+        "max_prob": 0.05263157894736842
+      },
+      {
+        "node": "run_full_analysis",
+        "fanout": 18,
+        "max_prob": 0.3870967741935484
+      },
+      {
+        "node": "analyze",
+        "fanout": 17,
+        "max_prob": 0.6862745098039216
+      },
+      {
+        "node": "PythonASTParser",
+        "fanout": 15,
+        "max_prob": 0.06666666666666667
+      },
+      {
+        "node": "CompleteExtractor",
+        "fanout": 13,
+        "max_prob": 0.07692307692307693
+      },
+      {
+        "node": "PythonASTExtractor._extract_recursive",
+        "fanout": 13,
+        "max_prob": 0.15789473684210525
+      },
+      {
+        "node": "TreeSitterUniversalEngine",
+        "fanout": 12,
+        "max_prob": 0.08333333333333333
+      },
+      {
+        "node": "AtomExtractor",
+        "fanout": 12,
+        "max_prob": 0.21428571428571427
+      },
+      {
+        "node": "TypeRegistry",
+        "fanout": 12,
+        "max_prob": 0.08333333333333333
+      }
+    ],
+    "matrix_sample": {
+      "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/topology_reasoning.py:topology_reasoning": {
+        "statistics": 0.3333333333333333,
+        "typing": 0.3333333333333333,
+        "collections": 0.3333333333333333
+      },
+      "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/standard_model_enricher.py:standard_model_enricher": {
+        "json": 0.3333333333333333,
+        "pathlib": 0.3333333333333333,
+        "typing": 0.3333333333333333
+      },
+      "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/tree_sitter_engine.py:tree_sitter_engine": {
+        "os": 0.1111111111111111,
+        "ast": 0.1111111111111111,
+        "json": 0.1111111111111111,
+        "re": 0.1111111111111111,
+        "subprocess": 0.1111111111111111,
+        "sys": 0.1111111111111111,
+        "collections": 0.1111111111111111,
+        "pathlib": 0.1111111111111111,
+        "typing": 0.1111111111111111
+      },
+      "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:config": {
+        "hashlib": 0.2,
+        "json": 0.2,
+        "dataclasses": 0.2,
+        "typing": 0.2,
+        "pathlib": 0.2
+      },
+      "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/ollama_client.py:ollama_client": {
+        "json": 0.2,
+        "re": 0.2,
+        "subprocess": 0.2,
+        "typing": 0.2,
+        "dataclasses": 0.2
+      }
+    }
+  },
+  "knots": {
+    "cycles_detected": 5,
+    "bidirectional_edges": 12,
+    "knot_score": 10,
+    "sample_cycles": [
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/parser/python_parser.py:Visitor",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/parser/python_parser.py:Visitor.visit_ClassDef"
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:AnalyzerConfig",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:AnalyzerConfig.__str__"
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/semantic_ids.py:SemanticID",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/semantic_ids.py:SemanticID.__repr__"
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/language_loader.py:LanguageLoader",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/language_loader.py:LanguageLoader.get_supported_languages",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/language_loader.py:LanguageLoader.load_all"
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/language_loader.py:LanguageLoader",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/language_loader.py:LanguageLoader.get_supported_languages"
+      ]
+    ],
+    "sample_tangles": [
+      {
+        "a": "AnalyzerConfig",
+        "b": "AnalyzerConfig.__str__"
+      },
+      {
+        "a": "SemanticID",
+        "b": "SemanticID.__repr__"
+      },
+      {
+        "a": "LanguageLoader",
+        "b": "LanguageLoader.get_supported_languages"
+      },
+      {
+        "a": "LanguageLoader",
+        "b": "LanguageLoader.load_all"
+      },
+      {
+        "a": "Visitor",
+        "b": "Visitor.visit_ClassDef"
+      },
+      {
+        "a": "AnalyzerConfig.__str__",
+        "b": "AnalyzerConfig"
+      },
+      {
+        "a": "analyze",
+        "b": "detect_purpose_field"
+      },
+      {
+        "a": "detect_purpose_field",
+        "b": "analyze"
+      },
+      {
+        "a": "SemanticID.__repr__",
+        "b": "SemanticID"
+      },
+      {
+        "a": "LanguageLoader.load_all",
+        "b": "LanguageLoader"
+      }
+    ]
+  },
+  "data_flow": {
+    "flow_by_type": {
+      "Module": {
+        "in": 12,
+        "out": 254
+      },
+      "DTO": {
+        "in": 365,
+        "out": 381
+      },
+      "Utility": {
+        "in": 801,
+        "out": 173
+      },
+      "Internal": {
+        "in": 415,
+        "out": 507
+      },
+      "Constructor": {
+        "in": 34,
+        "out": 71
+      },
+      "Query": {
+        "in": 112,
+        "out": 179
+      },
+      "EntryPoint": {
+        "in": 19,
+        "out": 93
+      },
+      "Factory": {
+        "in": 94,
+        "out": 369
+      },
+      "Command": {
+        "in": 22,
+        "out": 17
+      },
+      "Validator": {
+        "in": 11,
+        "out": 57
+      },
+      "Specification": {
+        "in": 22,
+        "out": 27
+      },
+      "Transformer": {
+        "in": 12,
+        "out": 1
+      },
+      "DomainService": {
+        "in": 63,
+        "out": 91
+      },
+      "Mapper": {
+        "in": 6,
+        "out": 0
+      },
+      "Test": {
+        "in": 41,
+        "out": 65
+      },
+      "Exception": {
+        "in": 2,
+        "out": 3
+      }
+    },
+    "data_sources": [
+      {
+        "type": "Factory",
+        "ratio": 3.9,
+        "out": 369
+      },
+      {
+        "type": "Module",
+        "ratio": 21.2,
+        "out": 254
+      },
+      {
+        "type": "EntryPoint",
+        "ratio": 4.9,
+        "out": 93
+      },
+      {
+        "type": "Constructor",
+        "ratio": 2.1,
+        "out": 71
+      },
+      {
+        "type": "Validator",
+        "ratio": 5.2,
+        "out": 57
+      }
+    ],
+    "data_sinks": [
+      {
+        "type": "Utility",
+        "ratio": 0.2,
+        "in": 801
+      },
+      {
+        "type": "Transformer",
+        "ratio": 0.1,
+        "in": 12
+      }
+    ],
+    "total_flow_edges": 2288
+  },
+  "performance": {},
+  "top_hubs": [
+    {
+      "name": "SchemaRepository.get",
+      "in_degree": 677
+    },
+    {
+      "name": "AtomRegistry._add",
+      "in_degree": 78
+    },
+    {
+      "name": "typing",
+      "in_degree": 51
+    },
+    {
+      "name": "SemanticMatrix.add",
+      "in_degree": 43
+    },
+    {
+      "name": "Continent",
+      "in_degree": 38
+    },
+    {
+      "name": "Level",
+      "in_degree": 37
+    },
+    {
+      "name": "Fundamental",
+      "in_degree": 34
+    },
+    {
+      "name": "dataclasses",
+      "in_degree": 33
+    },
+    {
+      "name": "pathlib",
+      "in_degree": 29
+    },
+    {
+      "name": "json",
+      "in_degree": 26
+    }
+  ],
+  "orphans_list": [
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:AnalyzerConfig",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:AnalyzerConfig.config_hash",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/topology_reasoning.py:topology_reasoning",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/enrichment_helpers.py:enrichment_helpers",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/standard_model_enricher.py:standard_model_enricher",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/config.py:config",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/ollama_client.py:ollama_client",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/god_class_detector_lite.py:god_class_detector_lite",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/unified_analysis.py:unified_analysis",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/atom_extractor.py:atom_extractor",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py:edge_extractor",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/stats_generator.py:stats_generator",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/purpose_field.py:purpose_field",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/atom_registry.py:atom_registry",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/purpose_registry.py:purpose_registry",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/brain_download.py:brain_download",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/dependency_analyzer.py:dependency_analyzer",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/universal_detector.py:universal_detector",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/roadmap_evaluator.py:roadmap_evaluator",
+    "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/atom_classifier.py:atom_classifier"
+  ]
+}

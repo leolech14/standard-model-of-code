@@ -72,3 +72,12 @@ audio/*.sh
 # Large generated files
 *.mp3
 !audio/WHAT_IS_A_FUNCTION_COMPLETE.mp3
+
+# Large untracked directories (moved during cleanup 2026-01-07)
+.data/
+.archive/
+.research/
+
+# Keep schema and docs tracked
+!schema/
+!docs/

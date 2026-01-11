@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field, asdict
-from edge_extractor import file_node_id
+from edge_extractor import file_node_id, resolve_edges, extract_call_edges
 
 
 @dataclass
@@ -206,15 +206,23 @@ def create_unified_output(
             name = node.get("name", "unknown")
             node_id = f"{file}:{name}"
 
+        # Normalize role/type - these are used interchangeably
+        role_value = node.get("type") or node.get("role") or "Unknown"
+        kind_value = node.get("symbol_kind") or node.get("kind") or "unknown"
+        layer_value = node.get("layer") or node.get("purpose_layer")
+        
         unified_node = {
             "id": node_id,
             "name": node.get("name", ""),
-            "kind": node.get("symbol_kind", node.get("kind", "unknown")),
+            "kind": kind_value,
+            "symbol_kind": kind_value,  # Alias for consistent access
             "file_path": node.get("file_path", node.get("file", "")),
             "start_line": node.get("line", node.get("start_line", 0)),
             "end_line": node.get("end_line", node.get("line", 0)),
-            "role": node.get("type", node.get("role", "Unknown")),
+            "type": role_value,  # Synced with role for consistency
+            "role": role_value,
             "role_confidence": node.get("confidence", node.get("role_confidence", 0.0)),
+            "confidence": node.get("confidence", node.get("role_confidence", 0.0)),  # Alias
             "discovery_method": node.get("discovery_method", "pattern"),
             "params": node.get("params", []),
             "return_type": node.get("return_type", ""),
@@ -227,9 +235,10 @@ def create_unified_output(
             "lines_of_code": (node.get("end_line", 0) - node.get("line", 0)) or 0,
             "in_degree": node.get("in_degree", 0),
             "out_degree": node.get("out_degree", 0),
-            "layer": node.get("layer"),
-            "out_degree": node.get("out_degree", 0),
-            "layer": node.get("layer"),
+            "layer": layer_value,
+            # Standard Model Theory fields
+            "rpbl": node.get("rpbl", {}),
+            "atom": node.get("atom", ""),
             "dimensions": node.get("dimensions", {}),
             "metadata": node.get("metadata", {}),
         }
@@ -241,6 +250,7 @@ def create_unified_output(
             "source": edge.get("source", ""),
             "target": edge.get("target", ""),
             "edge_type": edge.get("edge_type", "unknown"),
+            "resolution": edge.get("resolution"),
             "weight": edge.get("weight", 1.0),
             "confidence": edge.get("confidence", 1.0),
             "file_path": edge.get("file", ""),
@@ -286,7 +296,16 @@ def create_unified_output(
         "by_layer": {},  # TODO: populate from layer analysis
         "by_confidence": confidence_dist,
     }
-    
+
+    # Import resolution stats
+    import_edges = [e for e in output.edges if e.get("edge_type") == "imports"]
+    if import_edges:
+        import_resolution_stats = {}
+        for edge in import_edges:
+            resolution = edge.get("resolution", "unknown")
+            import_resolution_stats[resolution] = import_resolution_stats.get(resolution, 0) + 1
+        output.stats["import_resolution"] = import_resolution_stats
+
     # Auto-discovery report
     if auto_discovery_report:
         output.auto_discovery = {
@@ -414,9 +433,26 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     # STAGE 4: EDGE EXTRACTION → Call Graph
     # =========================================================================
     print("\n🔗 Stage 4: Edge Extraction...")
-    edges = extract_call_edges(particles, results)
+    edges = extract_call_edges(particles, results, target_path=str(target))
     print(f"   → {len(edges)} edges extracted")
-    
+
+    # Resolve edges against known nodes
+    if edges:
+        node_ids = {p.get('id', '') for p in particles if p.get('id')}
+        file_node_ids = {
+            p.get('file_path', ''): p.get('id', '')
+            for p in particles
+            if p.get('kind') == 'module' and p.get('file_path')
+        }
+        edges = resolve_edges(
+            edges,
+            node_ids=node_ids,
+            target_root=str(target),
+            file_node_ids=file_node_ids,
+        )
+        resolved_count = sum(1 for e in edges if e.get('resolution') == 'resolved_internal')
+        print(f"   → {resolved_count}/{len(edges)} edges resolved internally")
+
     # =========================================================================
     # STAGE 5: GRAPH INFERENCE → Infer unknowns from structure
     # =========================================================================
@@ -432,6 +468,61 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
             print(f"   ⚠️  Graph inference not available: {e}")
     else:
         print("   ⚠️  No edges - skipping graph inference")
+    
+    # =========================================================================
+    # STAGE 5.5: PURPOSE FIELD → Assign layers to particles
+    # =========================================================================
+    try:
+        from purpose_field import detect_purpose_field
+        purpose_field = detect_purpose_field(particles, edges)
+        
+        # Build multiple lookup indices for matching
+        particle_by_id = {p.get('id'): p for p in particles if p.get('id')}
+        particle_by_name = {p.get('name'): p for p in particles if p.get('name')}
+        
+        # Assign layers using multiple matching strategies
+        for pf_node in purpose_field.nodes.values():
+            layer_val = pf_node.layer.value if hasattr(pf_node.layer, 'value') else str(pf_node.layer)
+            
+            # Skip unknown layers to avoid overwriting with garbage
+            if layer_val == 'unknown':
+                continue
+            
+            # Strategy 1: Match by exact ID
+            if pf_node.id in particle_by_id:
+                particle_by_id[pf_node.id]['layer'] = layer_val
+            # Strategy 2: Match by name
+            elif pf_node.name in particle_by_name:
+                particle_by_name[pf_node.name]['layer'] = layer_val
+            # Strategy 3: Match by name in ID (file_path:name format)
+            else:
+                for p_id, particle in particle_by_id.items():
+                    if p_id.endswith(f":{pf_node.name}") or pf_node.name == particle.get('name'):
+                        particle['layer'] = layer_val
+                        break
+        
+        layer_count = sum(1 for p in particles if p.get('layer') and p.get('layer') != 'unknown')
+        print(f"   → {layer_count} particles assigned layers")
+    except Exception as e:
+        print(f"   ⚠️  Purpose field detection skipped: {e}")
+    
+    # =========================================================================
+    # STAGE 5.6: STANDARD MODEL ENRICHMENT → Apply full theory
+    # =========================================================================
+    print("\n🧬 Stage 5.6: Standard Model Enrichment...")
+    try:
+        from standard_model_enricher import enrich_with_standard_model
+        particles = enrich_with_standard_model(particles)
+        
+        # Count enriched particles
+        with_rpbl = sum(1 for p in particles if p.get('rpbl'))
+        with_atom = sum(1 for p in particles if p.get('atom'))
+        print(f"   → {with_rpbl} particles with RPBL scores")
+        print(f"   → {with_atom} particles with Atom IDs")
+    except ImportError as e:
+        print(f"   ⚠️  Standard Model enrichment not available: {e}")
+    except Exception as e:
+        print(f"   ⚠️  Standard Model enrichment failed: {e}")
     
     # =========================================================================
     # STAGE 6: OUTPUT → Unified Schema
@@ -554,87 +645,6 @@ def _emit_file_nodes(particles: List[Dict], results: List[Dict]) -> tuple:
         particles = particles + file_nodes
 
     return particles, len(file_nodes)
-def extract_call_edges(particles: List[Dict], results: List[Dict]) -> List[Dict]:
-    """
-    Extract call relationships from particles and raw imports.
-    Creates edges: {source, target, edge_type, file_path, line}
-    """
-    edges = []
-    
-    # Build particle lookup by name
-    particle_by_name = {}
-    for p in particles:
-        name = p.get('name', '')
-        if name:
-            particle_by_name[name] = p
-            # Also register short name
-            short = name.split('.')[-1] if '.' in name else name
-            if short not in particle_by_name:
-                particle_by_name[short] = p
-    
-    # Extract imports from each file
-    for result in results:
-        file_path = result.get('file_path', '')
-        raw_imports = result.get('raw_imports', [])
-        
-        # Get file's particles
-        file_particles = [p for p in particles if p.get('file_path') == file_path]
-        
-        for imp in raw_imports:
-            # Create import edge - ensure target is always a string
-            source_module = Path(file_path).stem if file_path else 'unknown'
-            
-            if isinstance(imp, dict):
-                target_module = imp.get('module', '')
-                if isinstance(target_module, dict):
-                    target_module = target_module.get('name', str(target_module))
-                line = imp.get('line', 0)
-            else:
-                target_module = str(imp)
-                line = 0
-            
-            if target_module:  # Only add if we have a valid target
-                edges.append({
-                    'source': source_module,
-                    'target': str(target_module),  # Ensure string
-                    'edge_type': 'imports',
-                    'file_path': file_path,
-                    'line': line,
-                    'confidence': 1.0,
-                })
-    
-    # Extract containment edges (parent-child)
-    for p in particles:
-        parent = p.get('parent', '')
-        if parent:
-            edges.append({
-                'source': parent,
-                'target': p.get('name', ''),
-                'edge_type': 'contains',
-                'file_path': p.get('file_path', ''),
-                'line': p.get('line', 0),
-                'confidence': 1.0,
-            })
-    
-    # Extract call edges from body_source (heuristic)
-    for p in particles:
-        body = p.get('body_source', '')
-        if body:
-            # Look for function calls in body
-            import re
-            calls = re.findall(r'(?:self\.)?(\w+)\s*\(', body)
-            for call in calls:
-                if call in particle_by_name and call != p.get('name', '').split('.')[-1]:
-                    edges.append({
-                        'source': p.get('name', ''),
-                        'target': call,
-                        'edge_type': 'calls',
-                        'file_path': p.get('file_path', ''),
-                        'line': p.get('line', 0),
-                        'confidence': 0.7,  # Heuristic detection
-                    })
-    
-    return edges
 
 
 if __name__ == '__main__':
