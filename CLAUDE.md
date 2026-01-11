@@ -4,18 +4,45 @@
 
 ---
 
-## 🏛️ Two Pillars
+## 🌌 The Big Picture
 
-| Pillar | Location | Purpose |
-|--------|----------|---------|
-| **📚 THEORY** | `docs/`, `schema/` | The model (atoms, dimensions, layers) |
-| **🔧 TOOL** | `src/core/`, `cli.py` | The implementation (Collider) |
+**PROJECT_elements** is the effort to find the **basic constituents of computer programs**.
+
+It relies on a **theoretical model** — a map — that aims to consolidate, in a **topological continuum**, all basic components of the software engineering space.
+
+This is an **open model**: not in the sense of being freely available, but in the sense that it is **always growing and reframing its assumptions**.
+
+### The Codespace
+
+We call this hyper-complex, high-dimensional space the **codespace** — where all software artifacts exist and relate.
+
+### Canonical Order (Most → Least Fundamental)
+
+| Level | Concept | Status |
+|-------|---------|--------|
+| **0** | **Three Parallel Layers** (Physical, Virtual, Semantic) | 🟢 Always Green |
+| **1** | **16-Level Scale** (Bit → Universe) | Backbone |
+| **2** | Atoms, Dimensions, Roles | Active |
+| **3** | Patterns, Violations, Predictions | Active |
 
 ---
 
-## What Is This?
+## The Dichotomy
 
-**Collider** is a code analysis tool that generates `output.md` - a structured report optimized for LLM consumption.
+| | Theory | Practice |
+|---|--------|----------|
+| **Name** | Standard Model of Code | Collider |
+| **Purpose** | The map | The tool that uses the map |
+| **Question** | *What are the atoms of software?* | *How do we detect them?* |
+| **Location** | `docs/`, `schema/` | `src/core/`, `cli.py` |
+
+This is the most distinctive aspect: **theory and application live together, informing each other**.
+
+---
+
+## What Is Collider?
+
+**Collider** is the implementation that applies this theory to real codebases. It generates `output.md` — a structured report optimized for LLM consumption.
 
 ## The One Command
 
