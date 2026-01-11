@@ -81,3 +81,6 @@ audio/*.sh
 # Keep schema and docs tracked
 !schema/
 !docs/
+
+# Generated output directory
+output.md/
