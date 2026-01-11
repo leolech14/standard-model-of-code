@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🔬 SPECTROMETER - Unified Analysis Entry Point
+🔬 COLLIDER - Unified Analysis Entry Point
 
 Single activation entry point for complete codebase analysis.
 Produces consistent output schema for ALL repos, even with partial data.
@@ -87,7 +87,7 @@ class UnifiedAnalysisOutput:
     
     # === METADATA ===
     schema_version: str = "2.0.0"
-    spectrometer_version: str = "V2.0.0"
+    collider_version: str = "2.3.0"
     generated_at: str = ""
     analysis_time_ms: int = 0
     
@@ -323,7 +323,7 @@ def create_unified_output(
 
 def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnalysisOutput:
     """
-    🎯 SINGLE ENTRY POINT for all Spectrometer analysis.
+    🎯 SINGLE ENTRY POINT for all Collider analysis.
     
     PIPELINE ORDER:
     1. AST Parse → Raw particles
@@ -348,7 +348,7 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     start_time = time.time()
     target = Path(target_path).resolve()
     
-    print(f"🔬 SPECTROMETER UNIFIED ANALYSIS")
+    print(f"🔬 COLLIDER UNIFIED ANALYSIS")
     print(f"   Target: {target}")
     print(f"=" * 60)
     
@@ -564,7 +564,7 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     if output_dir:
         out_path = Path(output_dir)
     else:
-        out_path = target / "spectrometer_output" if target.is_dir() else target.parent / "spectrometer_output"
+        out_path = target / "collider_output" if target.is_dir() else target.parent / "collider_output"
     
     out_path.mkdir(parents=True, exist_ok=True)
     output_file = out_path / "unified_analysis.json"

@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Spectrometer Analysis Output",
+    "title": "Collider Analysis Output",
     "description": "Complete manifest of all outputs from repository analysis",
     "version": "1.0.0",
     "output_directory": "{output}/{repo_name}_{timestamp}/",

@@ -213,7 +213,7 @@ class ReportGenerator:
         top_external = ", ".join([f"{d['package']}({d['count']})" for d in external[:15] if d.get("package")])
 
         lines: list[str] = []
-        lines.append(f"# Spectrometer Report — {repo_root.name}")
+        lines.append(f"# Collider Report — {repo_root.name}")
         lines.append("")
         lines.append(f"- Generated: {datetime.now().isoformat(timespec='seconds')}")
         lines.append(f"- Repo root: `{repo_root}`")

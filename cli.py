@@ -239,7 +239,7 @@ def main():
                 no_learn=args.no_learn,
                 output_dir=args.output
             )
-            # The run_proof function generates the spectrometer_report.html
+            # The run_proof function generates the collider_report.html
             print("\n✅ Analysis complete. Visualization report generated.")
         except Exception as e:
             print(f"❌ Analysis failed: {e}")
