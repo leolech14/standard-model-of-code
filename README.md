@@ -6,7 +6,74 @@ Collider turns source code into **structured knowledge** by mapping every elemen
 
 ---
 
+## 🤖 FOR AI: The Missing Semantic Layer
+
+> **"CODE IS NOT TEXT. CODE IS ARCHITECTURE."**
+
+**The Problem**: When codebases reach medium size, AI loses coherent understanding. LLMs see code as tokens to predict, not architecture to reason about.
+
+**The Solution**: The Standard Model provides a **semantic scaffold** that gives AI:
+- Structural understanding at every scale (16 levels from Bit to Universe)
+- 8-dimensional classification of every code entity
+- Graph relationships, not just file contents  
+- Architectural reasoning, not text prediction
+
+**The Vision**: With this model, AI thinks about your application as an **engineer/architect**, not as a **writer/typist**.
+
+| AI Without Standard Model | AI With Standard Model |
+|---------------------------|------------------------|
+| Sees tokens | Sees structure |
+| Predicts next text | Understands purpose |
+| Loses context at scale | Maintains coherent graph |
+| "Writer's view" | "Architect's view" |
+
+---
+
+## 🧠 The Intelligence Suite (NEW)
+
+Collider includes a **4-Lens Intelligence System** that transforms raw metrics into actionable insights:
+
+### The Four Lenses
+
+| Lens | Question | Output |
+|------|----------|--------|
+| **Mirror** (Topology) | "What shape am I?" | `STAR_HUB`, `MESH`, `ISLANDS` |
+| **Translator** (Semantics) | "What domain do I speak?" | `Finance`, `DevTools`, `Ops` |
+| **Possibility** (Strategy) | "What could I become?" | Architectural potentials |
+| **Win** (Prescription) | "What do I unlock?" | Step-by-step recipes |
+
+### Quick Start
+
+```bash
+# Full analysis with all lenses
+./collider full /path/to/repo --output /tmp/analysis
+
+# View the report
+cat /tmp/analysis/output.md
+```
+
+### Sample Output
+
+```markdown
+## VISUAL REASONING (The 'Shape')
+**Overall Shape**: `STAR_HUB`
+Dominated by central hub 'SchemaRepository.get' (Star Topology).
+
+## DOMAIN CONTEXT (Business Meaning)
+**Inferred Domain**: `Finance/FinTech`
+
+## ACTIONABLE IMPROVEMENTS
+### 1. [CRITICAL] Untangle Dependency Cycles
+**Target**: `Modules`
+**Prescription**:
+1. Apply Dependency Inversion Principle
+2. Extract shared interfaces to a neutral package
+```
+
+---
+
 ## 💡 The Core Idea
+
 
 **Standardized consistency at scale.**
 

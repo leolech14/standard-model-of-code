@@ -1,0 +1,125 @@
+{
+    "version": "1.0.0",
+    "atoms": {
+        "DAT.BYT.A": {
+            "id": "DAT.BYT.A",
+            "name": "Byte",
+            "layer": "Physical",
+            "description": "Raw data, binary, encoding, primitive storage"
+        },
+        "DAT.PRM.A": {
+            "id": "DAT.PRM.A",
+            "name": "Primitive",
+            "layer": "Data",
+            "description": "Basic types (int, string, bool), standard literals"
+        },
+        "DAT.VAR.A": {
+            "id": "DAT.VAR.A",
+            "name": "Variable",
+            "layer": "Data",
+            "description": "Named memory location, assignment, references"
+        },
+        "LOG.EXP.A": {
+            "id": "LOG.EXP.A",
+            "name": "Expression",
+            "layer": "Logic",
+            "description": "Computation producing a value (math, logic, calls)"
+        },
+        "LOG.STM.A": {
+            "id": "LOG.STM.A",
+            "name": "Statement",
+            "layer": "Logic",
+            "description": "Unit of execution (assignment, return, break)"
+        },
+        "LOG.CTL.A": {
+            "id": "LOG.CTL.A",
+            "name": "Control",
+            "layer": "Logic",
+            "description": "Flow control (if, loop, switch, try/catch)"
+        },
+        "LOG.FNC.M": {
+            "id": "LOG.FNC.M",
+            "name": "Function",
+            "layer": "Logic",
+            "description": "Callable logic unit, methods, lambdas"
+        },
+        "ORG.MOD.O": {
+            "id": "ORG.MOD.O",
+            "name": "Module",
+            "layer": "Organization",
+            "description": "File, namespace, package, export boundary"
+        },
+        "ORG.AGG.M": {
+            "id": "ORG.AGG.M",
+            "name": "Aggregate",
+            "layer": "Organization",
+            "description": "Class, struct, interface, data container"
+        },
+        "ORG.SVC.M": {
+            "id": "ORG.SVC.M",
+            "name": "Service",
+            "layer": "Organization",
+            "description": "Long-lived component, dependency injection target"
+        },
+        "EXE.INI.O": {
+            "id": "EXE.INI.O",
+            "name": "Initializer",
+            "layer": "Execution",
+            "description": "Startup logic, constructors, config loading"
+        },
+        "EXE.HDL.O": {
+            "id": "EXE.HDL.O",
+            "name": "Handler",
+            "layer": "Execution",
+            "description": "Event handler, API endpoint, signal receiver"
+        },
+        "SYS.CFG.O": {
+            "id": "SYS.CFG.O",
+            "name": "Config",
+            "layer": "System",
+            "description": "Environment vars, settings, feature flags"
+        },
+        "SYS.DEP.O": {
+            "id": "SYS.DEP.O",
+            "name": "Dependency",
+            "layer": "System",
+            "description": "External library, imported package, sidecar"
+        }
+    },
+    "mappings": {
+        "java": {
+            "class_declaration": "ORG.AGG.M",
+            "method_declaration": "LOG.FNC.M",
+            "variable_declarator": "DAT.VAR.A",
+            "if_statement": "LOG.CTL.A",
+            "for_statement": "LOG.CTL.A",
+            "import_declaration": "ORG.MOD.O"
+        },
+        "python": {
+            "class_definition": "ORG.AGG.M",
+            "function_definition": "LOG.FNC.M",
+            "assignment": "DAT.VAR.A",
+            "if_statement": "LOG.CTL.A",
+            "for_statement": "LOG.CTL.A",
+            "import_statement": "ORG.MOD.O",
+            "import_from_statement": "ORG.MOD.O"
+        },
+        "typescript": {
+            "class_declaration": "ORG.AGG.M",
+            "function_declaration": "LOG.FNC.M",
+            "variable_declaration": "DAT.VAR.A",
+            "if_statement": "LOG.CTL.A",
+            "for_statement": "LOG.CTL.A",
+            "import_statement": "ORG.MOD.O",
+            "interface_declaration": "ORG.AGG.M"
+        },
+        "go": {
+            "type_declaration": "ORG.AGG.M",
+            "function_declaration": "LOG.FNC.M",
+            "short_var_declaration": "DAT.VAR.A",
+            "if_statement": "LOG.CTL.A",
+            "for_statement": "LOG.CTL.A",
+            "import_declaration": "ORG.MOD.O"
+        }
+    }
+}

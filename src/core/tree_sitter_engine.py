@@ -251,23 +251,42 @@ class TreeSitterUniversalEngine:
                 })
         return touchpoints
 
-    def _extract_raw_imports(self, content: str, language: str) -> List[str]:
-        """Extract raw import statements."""
-        imports = []
-        if language == 'python':
+    def _extract_raw_imports(self, content: str, language: str) -> List[Any]:
+        """Extract raw import statements using multi-language extractor."""
+        # Try to import factory (lazy import to avoid circular dep issues)
+        try:
+            from core.parser.import_extractor import extract_imports
+            from dataclasses import asdict
+        except ImportError:
             try:
-                tree = ast.parse(content)
-                for node in ast.walk(tree):
-                    if isinstance(node, ast.Import):
-                        for n in node.names:
-                            imports.append(n.name)
-                    elif isinstance(node, ast.ImportFrom):
-                        module = node.module or ''
-                        for n in node.names:
-                            imports.append(f"{module}.{n.name}")
-            except:
-                pass
-        return imports
+                from parser.import_extractor import extract_imports
+                from dataclasses import asdict
+            except ImportError:
+                # Fallback to python-only manual extraction if module not found
+                imports = []
+                if language == 'python':
+                    try:
+                        tree = ast.parse(content)
+                        for node in ast.walk(tree):
+                            if isinstance(node, ast.Import):
+                                for n in node.names:
+                                    imports.append(n.name)
+                            elif isinstance(node, ast.ImportFrom):
+                                module = node.module or ''
+                                for n in node.names:
+                                    imports.append(f"{module}.{n.name}")
+                    except:
+                        pass
+                return imports
+
+        # Use the robust extractor
+        try:
+            extracted = extract_imports(content, language)
+            # Convert dataclasses to dicts for serialization/compatibility
+            return [asdict(imp) for imp in extracted]
+        except Exception as e:
+            # Fallback for errors
+            return []
 
     def _fallback_analysis(self, file_path: str) -> Dict[str, Any]:
         """Minimal fallback for unsupported files."""

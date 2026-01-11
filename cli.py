@@ -100,6 +100,29 @@ def main():
     )
 
     # ==========================================
+    # FULL Command - Complete Analysis
+    # ==========================================
+    full_parser = subparsers.add_parser(
+        "full",
+        help="Run complete deterministic analysis with all theoretical frameworks",
+        description="Single command for Markov chains, knot detection, data flow, and complete Standard Model."
+    )
+    full_parser.add_argument(
+        "path",
+        help="Path to the repository to analyze"
+    )
+    full_parser.add_argument(
+        "--output",
+        default=None,
+        help="Output directory for results"
+    )
+    full_parser.add_argument(
+        "--roadmap",
+        default=None,
+        help="Architectural roadmap to evaluate against (e.g. 'internal_tool')"
+    )
+
+    # ==========================================
     # GRAPH Command
     # ==========================================
     graph_parser = subparsers.add_parser(
@@ -188,6 +211,17 @@ def main():
     elif args.command == "audit":
         from core.audit_runner import run_full_audit
         sys.exit(run_full_audit(target_path=args.path, output_dir=args.output))
+
+    elif args.command == "full":
+        from core.full_analysis import run_full_analysis
+        try:
+            options = {"roadmap": args.roadmap} if args.roadmap else {}
+            run_full_analysis(args.path, args.output, options=options)
+        except Exception as e:
+            print(f"❌ Full analysis failed: {e}")
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
 
     elif args.command == "analyze":
         if not args.path:

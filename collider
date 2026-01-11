@@ -1,0 +1,8 @@
+#!/bin/bash
+# Collider CLI Wrapper
+# Usage: collider analyze /path/to/project
+
+COLLIDER_HOME="/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code"
+
+cd "$COLLIDER_HOME"
+PYTHONPATH="$COLLIDER_HOME:$COLLIDER_HOME/src:$PYTHONPATH" python3 cli.py "$@"

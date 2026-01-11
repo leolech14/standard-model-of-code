@@ -310,6 +310,16 @@ def extract_decorator_edges(particles: List[Dict]) -> List[Dict]:
 
 
 def deduplicate_edges(edges: List[Dict]) -> List[Dict]:
+    """Remove duplicate edges based on source, target, and type."""
+    seen = set()
+    unique = []
+    for edge in edges:
+        key = (edge.get("source"), edge.get("target"), edge.get("type"))
+        if key not in seen:
+            seen.add(key)
+            unique.append(edge)
+    return unique
+
 
 def _is_canonical_id(target: str) -> bool:
     """Check if target looks like a canonical ID (path:name format)."""
