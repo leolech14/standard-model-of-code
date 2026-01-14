@@ -124,7 +124,7 @@ class TreeSitterUniversalEngine:
 
         # Parse (simplified for minimal version)
         depth_metrics: Dict[str, Any] = {}
-        if language in {'javascript', 'javascript_react', 'typescript', 'rust'}:  # JS/TS/JSX/TSX/Rust
+        if language in {'javascript', 'javascript_react', 'typescript', 'rust', 'go'}:  # JS/TS/JSX/TSX/Rust/Go
              try:
                  # print(f"DEBUG: Attempting tree-sitter for {file_path}")
                  particles = self._extract_particles_tree_sitter(content, language, file_path)
@@ -221,20 +221,33 @@ class TreeSitterUniversalEngine:
     def _extract_particles_tree_sitter(self, content: str, language: str, file_path: str) -> List[Dict]:
         """Extract particles using Tree-sitter for JS/TS/JSX/TSX."""
         import tree_sitter
-        import tree_sitter_javascript
-        import tree_sitter_typescript
         import tree_sitter_python
-        import tree_sitter_rust
+        import tree_sitter_go
+
+        # Optional imports - may not be installed
+        try:
+            import tree_sitter_javascript
+            import tree_sitter_typescript
+            import tree_sitter_rust
+            has_js_ts_rust = True
+        except ImportError:
+            has_js_ts_rust = False
 
         # Map extensions to (language_object, parser_name)
         ts_supported_languages = {
             ".py": (tree_sitter_python.language(), "python"),
-            ".js": (tree_sitter_javascript.language(), "javascript"),
-            ".jsx": (tree_sitter_javascript.language(), "javascript"),
-            ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
-            ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
-            ".rs": (tree_sitter_rust.language(), "rust"),
+            ".go": (tree_sitter_go.language(), "go"),
         }
+
+        # Add JS/TS/Rust if available
+        if has_js_ts_rust:
+            ts_supported_languages.update({
+                ".js": (tree_sitter_javascript.language(), "javascript"),
+                ".jsx": (tree_sitter_javascript.language(), "javascript"),
+                ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
+                ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
+                ".rs": (tree_sitter_rust.language(), "rust"),
+            })
 
         ext = Path(file_path).suffix
         lang_obj, parser_name = ts_supported_languages.get(ext, (None, None))
@@ -260,6 +273,15 @@ class TreeSitterUniversalEngine:
             (trait_item name: (type_identifier) @trait.name) @trait
             (impl_item) @impl
             (enum_item name: (type_identifier) @enum.name) @enum
+            """
+        elif parser_name == "go":
+            # Go-specific query for functions, methods, structs, interfaces
+            query_scm = """
+            (function_declaration name: (identifier) @func.name) @func
+            (method_declaration name: (field_identifier) @method.name) @method
+            (type_declaration (type_spec name: (type_identifier) @struct.name type: (struct_type))) @struct
+            (type_declaration (type_spec name: (type_identifier) @interface.name type: (interface_type))) @interface
+            (func_literal) @func
             """
         else:
             # JS/TS/JSX/TSX query for React components + hooks
@@ -323,13 +345,53 @@ class TreeSitterUniversalEngine:
                 p_name = 'Unknown'
                 symbol_kind = 'function'
 
-                # Handle Rust-specific node types
+                # Handle Rust/Go-specific node types
                 if tag == 'struct':
                     p_type = 'Struct'
                     symbol_kind = 'struct'
+                    # Go structs: type_declaration wraps type_spec with name
+                    if node.type == 'type_declaration':
+                        # Find the type_spec child which has the name
+                        for child in node.children:
+                            if child.type == 'type_spec':
+                                name_node = child.child_by_field_name('name')
+                                if name_node:
+                                    p_name = name_node.text.decode('utf8')
+                                break
+                    else:
+                        # Rust struct_item
+                        name_node = node.child_by_field_name('name')
+                        if name_node:
+                            p_name = name_node.text.decode('utf8')
+                elif tag == 'interface':
+                    # Go interface
+                    p_type = 'Interface'
+                    symbol_kind = 'interface'
+                    if node.type == 'type_declaration':
+                        for child in node.children:
+                            if child.type == 'type_spec':
+                                name_node = child.child_by_field_name('name')
+                                if name_node:
+                                    p_name = name_node.text.decode('utf8')
+                                break
+                elif tag == 'method':
+                    # Go method (has receiver)
+                    p_type = 'Method'
+                    symbol_kind = 'method'
                     name_node = node.child_by_field_name('name')
                     if name_node:
                         p_name = name_node.text.decode('utf8')
+                    # Try to get receiver type for full name
+                    receiver_node = node.child_by_field_name('receiver')
+                    if receiver_node:
+                        # Extract receiver type (e.g., (s *Server) -> Server)
+                        for child in receiver_node.children:
+                            if child.type == 'parameter_declaration':
+                                type_child = child.child_by_field_name('type')
+                                if type_child:
+                                    receiver_type = type_child.text.decode('utf8').lstrip('*')
+                                    p_name = f"{receiver_type}.{p_name}"
+                                break
                 elif tag == 'trait':
                     p_type = 'Trait'
                     symbol_kind = 'trait'
@@ -368,12 +430,15 @@ class TreeSitterUniversalEngine:
                         name_node = node.child_by_field_name('name')
                         if name_node:
                             p_name = name_node.text.decode('utf8')
-                    elif node.type in ('arrow_function', 'function_expression', 'function'):
+                    elif node.type in ('arrow_function', 'function_expression', 'function', 'func_literal'):
                         # For arrow/function expressions inside variable_declarator
                         if node.parent and node.parent.type == 'variable_declarator':
                             name_node = node.parent.child_by_field_name('name')
                             if name_node:
                                 p_name = name_node.text.decode('utf8')
+                        elif node.type == 'func_literal':
+                             # Go anonymous function (e.g. go func() {})
+                             p_name = 'Anonymous'
                 else:
                     continue
 
