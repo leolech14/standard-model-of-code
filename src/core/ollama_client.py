@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🦙 OLLAMA CLIENT — Local LLM Integration for Spectrometer
+🦙 OLLAMA CLIENT — Local LLM Integration for Collider
 
 This module provides the Ollama adapter for the LLM Classifier.
 It enables evidence-anchored component classification using local models.

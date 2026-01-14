@@ -1,6 +1,6 @@
 """
-🔬 NEWMAN HEALTH SUITE
-Individual probes to validate Spectrometer pipeline components.
+🔬 NEWMAN SUITE — Collider Health Check System
+Individual probes to validate Collider pipeline components.
 """
 import sys
 import os
