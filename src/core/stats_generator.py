@@ -201,12 +201,74 @@ class StatsGenerator:
 
     def _sync_dimensions_after_heuristics(self, particles: List[Dict]) -> List[Dict]:
         """
-        Sync D3_ROLE and D4_BOUNDARY after apply_heuristics changes particle types.
+        Sync D3_ROLE, D4_BOUNDARY, and D2_LAYER after apply_heuristics changes particle types.
 
         CRITICAL FIX: When classify_extracted_symbol() runs initially, types are often
         "Unknown", so D3_ROLE becomes "Unknown". Later, apply_heuristics() changes
         the type (e.g., to "DTO"), but dimensions weren't updated. This method fixes that.
+
+        D2_LAYER FIX: Improve layer detection using role-based inference to fix over-
+        classification to "Core" (was 92.3%). Clean Architecture rings map to roles.
         """
+        # Role to Layer mapping (Clean Architecture Rings)
+        ROLE_TO_LAYER = {
+            # Core/Domain - True domain objects
+            'Entity': 'Core',
+            'ValueObject': 'Core',
+            'AggregateRoot': 'Core',
+            'Model': 'Core',
+            'DomainEvent': 'Core',
+            'Specification': 'Core',
+
+            # Application - Business logic orchestration
+            'Service': 'Application',
+            'UseCase': 'Application',
+            'Command': 'Application',
+            'Query': 'Application',
+            'Handler': 'Application',
+            'Utility': 'Application',
+            'Factory': 'Application',
+            'Builder': 'Application',
+            'Validator': 'Application',
+            'Analyzer': 'Application',
+            'Policy': 'Application',
+
+            # Interface - Entry points and presentation
+            'Controller': 'Interface',
+            'Presenter': 'Interface',
+            'View': 'Interface',
+            'Router': 'Interface',
+            'Dispatcher': 'Interface',
+            'EntryPoint': 'Interface',
+
+            # Infrastructure - External I/O and integrations
+            'Repository': 'Infrastructure',
+            'Gateway': 'Infrastructure',
+            'Adapter': 'Infrastructure',
+            'Client': 'Infrastructure',
+            'Cache': 'Infrastructure',
+            'Logger': 'Infrastructure',
+            'Tracker': 'Infrastructure',
+            'Monitor': 'Infrastructure',
+            'Parser': 'Infrastructure',
+            'Serializer': 'Infrastructure',
+            'Transformer': 'Infrastructure',
+            'Encoder': 'Infrastructure',
+            'Decoder': 'Infrastructure',
+            'Extractor': 'Infrastructure',
+            'Resolver': 'Infrastructure',
+            'Generator': 'Infrastructure',
+            'Iterator': 'Infrastructure',
+
+            # Test - Test code
+            'Test': 'Test',
+
+            # DTO spans layers but defaults to Application (data transfer)
+            'DTO': 'Application',
+            'Constructor': 'Application',
+            'Internal': 'Core',
+        }
+
         for particle in particles:
             dims = particle.get('dimensions', {})
             if not dims:
@@ -218,16 +280,26 @@ class StatsGenerator:
             if dims.get('D3_ROLE') == 'Unknown' and new_type != 'Unknown':
                 dims['D3_ROLE'] = new_type
 
-                # Also recalculate D4_BOUNDARY based on new role
-                if new_type in ["Controller", "Handler", "Listener", "Subscriber", "Consumer"]:
-                    dims['D4_BOUNDARY'] = "Input"
-                elif new_type in ["Publisher", "Producer", "Notifier"]:
-                    dims['D4_BOUNDARY'] = "Output"
-                elif new_type in ["Repository", "Gateway", "Client", "Adapter"]:
-                    dims['D4_BOUNDARY'] = "I-O"
-                # Keep existing D4_BOUNDARY for other types (it may have been set by layer)
+            # Recalculate D4_BOUNDARY based on role
+            role = dims.get('D3_ROLE', 'Unknown')
+            if role in ["Controller", "Handler", "Listener", "Subscriber", "Consumer"]:
+                dims['D4_BOUNDARY'] = "Input"
+            elif role in ["Publisher", "Producer", "Notifier"]:
+                dims['D4_BOUNDARY'] = "Output"
+            elif role in ["Repository", "Gateway", "Client", "Adapter"]:
+                dims['D4_BOUNDARY'] = "I-O"
+            # Keep existing D4_BOUNDARY for other types
 
-                particle['dimensions'] = dims
+            # D2_LAYER: Role-based inference to fix "Core" over-classification
+            current_layer = dims.get('D2_LAYER', 'Unknown')
+            inferred_layer = ROLE_TO_LAYER.get(role)
+
+            # Only override if current is Core/Unknown AND we have a role-based inference
+            # This preserves accurate path-based assignments (e.g., /test/ → Test)
+            if inferred_layer and current_layer in ['Core', 'Unknown']:
+                dims['D2_LAYER'] = inferred_layer
+
+            particle['dimensions'] = dims
 
         return particles
 
