@@ -28,19 +28,29 @@ except ImportError:
     except ImportError:
         def get_pattern_repository(): return None
 
+try:
+    from core.atom_registry import AtomRegistry
+except ImportError:
+    try:
+        from atom_registry import AtomRegistry
+    except ImportError:
+        AtomRegistry = None  # type: ignore
+
 
 class UniversalClassifier:
     """Classifies code particles based on patterns, paths, and naming conventions."""
 
     def __init__(self):
         self.pattern_repo = get_pattern_repository()
+        # V3: Initialize AtomRegistry for T2 ecosystem detection
+        self.atom_registry = AtomRegistry() if AtomRegistry else None
         # V2: Initialize simplified Atom map (hardcoded for speed, could load from atoms.json)
         self.atom_map = {
             "class": "ORG.AGG.M", # Default Aggregate
             "function": "LOG.FNC.M", # Default Function
             "method": "LOG.FNC.M", # Method
             "variable": "DAT.VAR.A", # Variable
-            "interface": "ORG.AGG.M", 
+            "interface": "ORG.AGG.M",
             "enum": "DAT.PRM.A",
         }
 
@@ -503,14 +513,35 @@ class UniversalClassifier:
         body = particle.get("body_source", "") or ""
 
         # =====================================================================
-        # D1_WHAT: Atom Type
+        # D1_WHAT: Atom Type (T0/T1 base + T2 ecosystem detection)
         # =====================================================================
+        # Start with base atom type
         if role == "Test":
             dims["D1_WHAT"] = "QUALITY.TST.A"
         elif role in ["DTO", "ValueObject"]:
             dims["D1_WHAT"] = "ORG.AGG.M"
         else:
             dims["D1_WHAT"] = self.atom_map.get(kind, "Unknown")
+
+        # T2 Ecosystem Detection: Override with specific T2 atom if detected
+        if self.atom_registry:
+            file_path_orig = particle.get("file_path", "")
+
+            # Read file content for ecosystem detection (imports are at file level)
+            file_content = ""
+            try:
+                with open(file_path_orig, 'r', encoding='utf-8', errors='ignore') as f:
+                    file_content = f.read()
+            except Exception:
+                file_content = body  # Fallback to body if can't read file
+
+            ecosystem = self.atom_registry.detect_ecosystem(file_path_orig, content=file_content)
+            if ecosystem:
+                # Detect specific T2 atom from function name and body
+                t2_atom = self.atom_registry.detect_t2_atom(ecosystem, body, particle.get("name", ""))
+                if t2_atom:
+                    dims["D1_WHAT"] = t2_atom
+                    dims["D1_ECOSYSTEM"] = ecosystem  # Track ecosystem for analysis
 
         # =====================================================================
         # D2_LAYER: Clean Architecture Layer
