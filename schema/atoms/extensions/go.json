@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Extension Pack: Go",
+  "version": "4.0.0",
+  "tier": 2,
+  "pack_id": "go",
+  "description": "Go-specific atoms for systems and cloud-native programming",
+  "coverage": {
+    "ecosystem": "Systems programming with Go",
+    "marginal_value": 0.10,
+    "cumulative_with_core_arch": 0.95
+  },
+  "atoms": [
+    {"id": "EXT.GO.001", "name": "Goroutine", "description": "Concurrent goroutine spawn (go func())"},
+    {"id": "EXT.GO.002", "name": "Channel", "description": "Channel type declaration or usage"},
+    {"id": "EXT.GO.003", "name": "ChannelSend", "description": "Channel send operation (ch <- val)"},
+    {"id": "EXT.GO.004", "name": "ChannelReceive", "description": "Channel receive operation (<-ch)"},
+    {"id": "EXT.GO.005", "name": "Select", "description": "Channel select statement for multiplexing"},
+    {"id": "EXT.GO.006", "name": "Defer", "description": "Deferred function call (cleanup pattern)"},
+    {"id": "EXT.GO.007", "name": "ErrorReturn", "description": "Multiple return with error (val, err pattern)"},
+    {"id": "EXT.GO.008", "name": "ErrorWrap", "description": "Error wrapping (fmt.Errorf with %w)"},
+    {"id": "EXT.GO.009", "name": "ErrorCheck", "description": "Error check pattern (if err != nil)"},
+    {"id": "EXT.GO.010", "name": "Interface", "description": "Interface type definition"},
+    {"id": "EXT.GO.011", "name": "InterfaceEmbed", "description": "Interface embedding/composition"},
+    {"id": "EXT.GO.012", "name": "StructEmbed", "description": "Struct embedding (composition over inheritance)"},
+    {"id": "EXT.GO.013", "name": "PointerReceiver", "description": "Method with pointer receiver (*T)"},
+    {"id": "EXT.GO.014", "name": "ValueReceiver", "description": "Method with value receiver (T)"},
+    {"id": "EXT.GO.015", "name": "Init", "description": "Package init function"},
+    {"id": "EXT.GO.016", "name": "Context", "description": "Context propagation (context.Context)"},
+    {"id": "EXT.GO.017", "name": "WaitGroup", "description": "Synchronization via sync.WaitGroup"},
+    {"id": "EXT.GO.018", "name": "Mutex", "description": "Mutual exclusion via sync.Mutex"},
+    {"id": "EXT.GO.019", "name": "RWMutex", "description": "Read-write lock via sync.RWMutex"},
+    {"id": "EXT.GO.020", "name": "Once", "description": "Single execution via sync.Once"}
+  ],
+  "total_atoms": 20
+}

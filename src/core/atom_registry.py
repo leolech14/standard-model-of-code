@@ -478,6 +478,7 @@ class AtomRegistry:
                 "imports": ["std", "tokio", "serde", "actix", "async-std"],  # Common crates
                 "file_patterns": [".rs"],
                 "code_patterns": {
+
                     # Struct - data aggregate (detected by symbol_kind or code)
                     "EXT.RUST.001": ["struct"],
                     # Trait - interface definition
@@ -498,6 +499,53 @@ class AtomRegistry:
                     "EXT.RUST.009": ["Box<", "Rc<", "Arc<", "RefCell<"],
                     # Enum - algebraic data type
                     "EXT.RUST.010": ["enum"],
+                }
+            },
+            "go": {
+                "imports": [],  # Go uses package paths, checked via code patterns
+                "file_patterns": [".go"],
+                "code_patterns": {
+                    # NOTE: Pattern matching uses ALL() - so use single distinctive keywords
+                    # Goroutine spawn (distinctive: "go func" or just "go ")
+                    "EXT.GO.001": ["go "],  # Matches "go func()" and "go worker()"
+                    # Channel declaration
+                    "EXT.GO.002": ["chan "],
+                    # Channel send
+                    "EXT.GO.003": ["<-"],
+                    # Channel receive - same as send, context determines
+                    "EXT.GO.004": ["<-"],
+                    # Select statement
+                    "EXT.GO.005": ["select {"],
+                    # Defer statement
+                    "EXT.GO.006": ["defer "],
+                    # Error return pattern
+                    "EXT.GO.007": ["error)"],
+                    # Error wrapping
+                    "EXT.GO.008": ["%w"],
+                    # Error check
+                    "EXT.GO.009": ["err != nil"],
+                    # Interface definition
+                    "EXT.GO.010": ["interface {"],
+                    # Interface embedding (harder to detect - use same pattern)
+                    "EXT.GO.011": ["interface {"],
+                    # Struct embedding
+                    "EXT.GO.012": ["struct {"],
+                    # Pointer receiver
+                    "EXT.GO.013": ["*"],
+                    # Value receiver (func ( receiver) - hard to distinguish)
+                    "EXT.GO.014": ["func ("],
+                    # Init function
+                    "EXT.GO.015": ["func init()"],
+                    # Context propagation
+                    "EXT.GO.016": ["context."],
+                    # WaitGroup
+                    "EXT.GO.017": ["sync.WaitGroup"],
+                    # Mutex
+                    "EXT.GO.018": ["sync.Mutex"],
+                    # RWMutex
+                    "EXT.GO.019": ["sync.RWMutex"],
+                    # Once
+                    "EXT.GO.020": ["sync.Once"],
                 }
             }
         }
@@ -535,7 +583,7 @@ class AtomRegistry:
             file_exts = patterns.get("file_patterns", [])
             if any(file_path_lower.endswith(ext) for ext in file_exts):
                 # Only return for non-Python ecosystems by extension
-                if ecosystem in ["react", "rust", "kubernetes"]:
+                if ecosystem in ["react", "rust", "kubernetes", "go"]:
                     return ecosystem
 
             # Check explicit imports list
