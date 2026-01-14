@@ -63,6 +63,10 @@ class StatsGenerator:
             from core.heuristic_classifier import apply_heuristics
             all_particles, discovery_report = apply_heuristics(all_particles)
             print(f"  🔬 Auto-discovery: {discovery_report.get('particles_updated', 0)} particles reclassified")
+
+            # CRITICAL FIX: Sync dimensions after type changes
+            # D3_ROLE and D4_BOUNDARY depend on particle["type"], which apply_heuristics may have changed
+            all_particles = self._sync_dimensions_after_heuristics(all_particles)
         except ImportError:
             discovery_report = {}
 
@@ -194,6 +198,38 @@ class StatsGenerator:
                 'avg_time_per_file': 0,
                 'success_rate': 0
             }
+
+    def _sync_dimensions_after_heuristics(self, particles: List[Dict]) -> List[Dict]:
+        """
+        Sync D3_ROLE and D4_BOUNDARY after apply_heuristics changes particle types.
+
+        CRITICAL FIX: When classify_extracted_symbol() runs initially, types are often
+        "Unknown", so D3_ROLE becomes "Unknown". Later, apply_heuristics() changes
+        the type (e.g., to "DTO"), but dimensions weren't updated. This method fixes that.
+        """
+        for particle in particles:
+            dims = particle.get('dimensions', {})
+            if not dims:
+                continue
+
+            new_type = particle.get('type', 'Unknown')
+
+            # Update D3_ROLE if it was Unknown but type is now known
+            if dims.get('D3_ROLE') == 'Unknown' and new_type != 'Unknown':
+                dims['D3_ROLE'] = new_type
+
+                # Also recalculate D4_BOUNDARY based on new role
+                if new_type in ["Controller", "Handler", "Listener", "Subscriber", "Consumer"]:
+                    dims['D4_BOUNDARY'] = "Input"
+                elif new_type in ["Publisher", "Producer", "Notifier"]:
+                    dims['D4_BOUNDARY'] = "Output"
+                elif new_type in ["Repository", "Gateway", "Client", "Adapter"]:
+                    dims['D4_BOUNDARY'] = "I-O"
+                # Keep existing D4_BOUNDARY for other types (it may have been set by layer)
+
+                particle['dimensions'] = dims
+
+        return particles
 
     def save_results(self, output_dir: Path):
         """Save results to multiple output formats"""
