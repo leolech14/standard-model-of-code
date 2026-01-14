@@ -571,7 +571,7 @@ class SemanticIDGenerator:
             
         module_path = file_path.replace("/", ".").replace(".py", "")
         repo_marker = Path(__file__).resolve().parents[1].name
-        for marker in (repo_marker, "spectrometer_v12_minimal", "standard-code-spectrometer"):
+        for marker in (repo_marker, "collider_v12_minimal", "standard-code-collider"):
             if marker in module_path:
                 try:
                     idx = module_path.index(marker)

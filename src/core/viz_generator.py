@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 class VisualizationGenerator:
     """
-    Generates interactive HTML visualizations for Spectrometer graphs.
+    Generates interactive HTML visualizations for Collider graphs.
     """
 
     def __init__(self, template_path: str = "demos/collider_viz.html"):
@@ -17,9 +17,10 @@ class VisualizationGenerator:
             # Fallback to looking in source root if not found
             self.template_path = Path(__file__).parent.parent / "collider_viz.html"
 
-    def generate(self, graph_path: str | Path, output_path: str | Path):
+    def generate(self, graph_path: str | Path, output_path: str | Path, mode: str = "legacy"):
         """
         Generate HTML visualization from a graph.json file.
+        mode: "legacy" (2D single file) or "3d" (MermaidFlow directory)
         """
         graph_path = Path(graph_path)
         output_path = Path(output_path)
@@ -31,6 +32,10 @@ class VisualizationGenerator:
         with open(graph_path, 'r') as f:
             graph_data = json.load(f)
 
+        if mode == "3d":
+            return self._generate_3d(graph_data, output_path)
+
+        # Legacy 2D Generation
         # Process Data
         particles, connections = self._process_graph(graph_data)
         
@@ -59,9 +64,118 @@ class VisualizationGenerator:
         logger.info(f"Visualization saved to {output_path}")
         return output_path
 
+    def _generate_3d(self, graph_data: Dict[str, Any], output_path: Path):
+        """Generate 3D visualization by copying MermaidFlow and injecting data."""
+        import shutil
+        
+        # Source directory (standard-model-of-code/src/viz/mermaidflow)
+        source_dir = Path(__file__).parent.parent / "viz" / "mermaidflow"
+        if not source_dir.exists():
+            raise FileNotFoundError(f"MermaidFlow source not found at {source_dir}")
+
+        # If output_path is a file (e.g. .html), treat is as the index file inside a directory
+        if output_path.suffix == '.html':
+            target_dir = output_path.parent / "collider_3d_viz"
+            final_index = target_dir / "index.html"
+        else:
+            target_dir = output_path
+            final_index = target_dir / "index.html"
+            
+        if target_dir.exists():
+            shutil.rmtree(target_dir)
+        
+        # Copy entire MermaidFlow application
+        shutil.copytree(source_dir, target_dir)
+        
+        # Create data.js for injection
+        data_js_path = target_dir / "src" / "data.js"
+        
+        # We inject the raw graph data directly - the JS Application adapter will handle parsing
+        with open(data_js_path, 'w') as f:
+            f.write(f"window.colliderData = {json.dumps(graph_data)};")
+            
+        # Update index.html to load data.js and auto-initialize
+        index_path = target_dir / "index.html"
+        with open(index_path, 'r') as f:
+            html = f.read()
+            
+        # Add script tag before main.js
+        injection = '<script src="src/data.js"></script>\n    <script type="module" src="src/main.js"></script>'
+        html = html.replace('<script type="module" src="src/main.js"></script>', injection)
+        
+        # Add auto-load call to body
+        load_call = """
+    <script>
+        // Check for file:// protocol restrictions
+        if (window.location.protocol === 'file:') {
+            const loading = document.getElementById('loading');
+            loading.innerHTML = `
+                <div style="background: rgba(255,50,50,0.2); border: 1px solid #ff5555; padding: 20px; border-radius: 10px; max-width: 500px; margin: 0 auto;">
+                    <h3 style="color: #ff5555; margin-bottom: 10px;">⚠️ Browser Security Restriction</h3>
+                    <p style="text-align: left; margin-bottom: 15px;">Modern browsers block 3D applications from running directly from a file.</p>
+                    <p style="text-align: left; font-weight: bold;">Please run the startup script instead:</p>
+                    <pre style="background: #000; padding: 10px; text-align: left; border-radius: 5px; margin-top: 10px;">
+cd collider_visualizer
+./start.sh</pre>
+                </div>
+            `;
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                if (window.app && window.colliderData) {
+                    window.app.loadFromCollider(window.colliderData);
+                }
+            }, 1000); // Wait for app init
+        };
+    </script>
+</body>"""
+        html = html.replace('</body>', load_call)
+        
+        with open(index_path, 'w') as f:
+            f.write(html)
+            
+        # Create helper scripts for local server (bypassing CORS/file:// issues)
+        server_script = target_dir / "start_server.py"
+        with open(server_script, 'w') as f:
+            f.write("""#!/usr/bin/env python3
+import http.server
+import socketserver
+import webbrowser
+import os
+import sys
+
+PORT = 8000
+Handler = http.server.SimpleHTTPRequestHandler
+
+# Change to script directory
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+try:
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"Serving at http://localhost:{PORT}")
+        print("Opening browser...")
+        webbrowser.open(f"http://localhost:{PORT}")
+        httpd.serve_forever()
+except OSError:
+    print(f"Port {PORT} is in use. Try: python3 -m http.server 8080")
+""")
+        server_script.chmod(0o755)
+
+        shell_script = target_dir / "start.sh"
+        with open(shell_script, 'w') as f:
+            f.write("""#!/bin/bash
+cd "$(dirname "$0")"
+python3 start_server.py
+""")
+        shell_script.chmod(0o755)
+
+        logger.info(f"3D Visualization generated at {target_dir}")
+        return final_index
+
     def _process_graph(self, graph_data: Dict[str, Any]):
         """
-        Convert Spectrometer graph format (UnifiedAnalysisOutput) to Vis.js format.
+        Convert Collider graph format (UnifiedAnalysisOutput) to Vis.js format.
         Now expects 'nodes' list from CodebaseState export.
         """
         nodes = graph_data.get("nodes", [])
