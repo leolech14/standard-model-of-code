@@ -436,10 +436,29 @@ class AtomRegistry:
                 "imports": ["kubernetes", "k8s"],
                 "file_patterns": [".yaml", ".yml"],
                 "code_patterns": {
-                    "EXT.K8S.001": ["kind: Pod", "apiVersion:"],  # Pod
-                    "EXT.K8S.002": ["kind: Deployment"],  # Deployment
-                    "EXT.K8S.003": ["kind: Service"],  # Service
-                    "EXT.K8S.004": ["kind: ConfigMap"],  # ConfigMap
+                    # Core resources
+                    "EXT.K8S.001": ["kind: Pod"],
+                    "EXT.K8S.002": ["kind: Deployment"],
+                    "EXT.K8S.003": ["kind: Service"],
+                    "EXT.K8S.004": ["kind: ConfigMap"],
+                    "EXT.K8S.005": ["kind: Secret"],
+                    "EXT.K8S.006": ["kind: Ingress"],
+                    # Workloads
+                    "EXT.K8S.007": ["kind: StatefulSet"],
+                    "EXT.K8S.008": ["kind: DaemonSet"],
+                    "EXT.K8S.009": ["kind: Job"],
+                    "EXT.K8S.010": ["kind: CronJob"],
+                    # Storage
+                    "EXT.K8S.011": ["kind: PersistentVolume"],
+                    "EXT.K8S.012": ["kind: PersistentVolumeClaim"],
+                    # RBAC
+                    "EXT.K8S.013": ["kind: Role"],
+                    "EXT.K8S.014": ["kind: ClusterRole"],
+                    "EXT.K8S.015": ["kind: ServiceAccount"],
+                    # Networking
+                    "EXT.K8S.016": ["kind: NetworkPolicy"],
+                    # Custom Resources
+                    "EXT.K8S.020": ["kind: CustomResourceDefinition"],
                 }
             },
             "functional": {

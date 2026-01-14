@@ -63,7 +63,9 @@ class TreeSitterUniversalEngine:
             '.kt': 'kotlin',
             '.cs': 'c_sharp',
             '.rb': 'ruby',
-            '.php': 'php'
+            '.php': 'php',
+            '.yaml': 'yaml',
+            '.yml': 'yaml',
         }
 
         # Load universal patterns
@@ -136,6 +138,13 @@ class TreeSitterUniversalEngine:
             particles, depth_metrics = self.python_extractor.extract_particles_ast(
                 content, file_path, include_depth_metrics=True
             )
+        elif language == 'yaml':
+            # Use specialized K8s manifest extraction
+            try:
+                particles = self._extract_particles_yaml(content, file_path)
+            except Exception as e:
+                print(f"DEBUG: YAML extraction failed: {e}")
+                particles = []
         else:
             particles = self._extract_particles(content, language, file_path)
             
@@ -154,6 +163,60 @@ class TreeSitterUniversalEngine:
         if depth_metrics:
             result['depth_metrics'] = depth_metrics
         return result
+
+    def _extract_particles_yaml(self, content: str, file_path: str) -> List[Dict]:
+        """Extract particles from YAML files, specialized for Kubernetes manifests.
+        
+        Parses YAML to find Kubernetes resource definitions (Deployment, Service, Pod, etc.)
+        and creates particles for each resource.
+        """
+        import re
+        particles = []
+        
+        # Split multi-document YAML (separated by ---)
+        documents = re.split(r'^---\s*$', content, flags=re.MULTILINE)
+        
+        for doc_idx, doc in enumerate(documents):
+            if not doc.strip():
+                continue
+            
+            # Extract kind
+            kind_match = re.search(r'^kind:\s*(\w+)', doc, re.MULTILINE)
+            if not kind_match:
+                continue
+            kind = kind_match.group(1)
+            
+            # Extract metadata.name
+            name_match = re.search(r'^\s+name:\s*([^\s\n]+)', doc, re.MULTILINE)
+            name = name_match.group(1) if name_match else f"{kind}_{doc_idx}"
+            
+            # Extract apiVersion
+            api_match = re.search(r'^apiVersion:\s*([^\s\n]+)', doc, re.MULTILINE)
+            api_version = api_match.group(1) if api_match else "v1"
+            
+            # Find line number of this document
+            doc_start = content.find(doc)
+            line_num = content[:doc_start].count('\n') + 1 if doc_start > 0 else 1
+            
+            # Create particle for this K8s resource
+            particle = self.classifier.classify_extracted_symbol(
+                name=name,
+                symbol_kind='k8s_resource',
+                file_path=file_path,
+                line_num=line_num,
+                end_line=line_num + doc.count('\n'),
+                evidence=f"kind: {kind}",
+                body_source=doc[:500],  # Truncate for large manifests
+            )
+            
+            # Add K8s-specific metadata
+            particle.setdefault('metadata', {})['k8s_kind'] = kind
+            particle['metadata']['api_version'] = api_version
+            particle['tags'] = ['yaml', 'kubernetes', kind.lower()]
+            
+            particles.append(particle)
+        
+        return particles
 
     def _extract_particles_tree_sitter(self, content: str, language: str, file_path: str) -> List[Dict]:
         """Extract particles using Tree-sitter for JS/TS/JSX/TSX."""
