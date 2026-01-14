@@ -540,6 +540,9 @@ class UniversalClassifier:
             ecosystem = self.atom_registry.detect_ecosystem(file_path_orig, content=file_content)
             # print(f"DEBUG: T2 check for {particle.get('name')} in {file_path_orig}: ecosystem={ecosystem}")
             if ecosystem:
+                # Always propagate file-level ecosystem to particle
+                dims["D1_ECOSYSTEM"] = ecosystem
+                
                 # Build detection context: body + signature/evidence + base classes (for class detection)
                 detection_context = body
                 # Use signature or evidence field (evidence contains the definition line, e.g., "class Net(nn.Module):")
@@ -554,7 +557,7 @@ class UniversalClassifier:
                 t2_atom = self.atom_registry.detect_t2_atom(ecosystem, detection_context, particle.get("name", ""))
                 if t2_atom:
                     dims["D1_WHAT"] = t2_atom
-                    dims["D1_ECOSYSTEM"] = ecosystem  # Track ecosystem for analysis
+
 
         # =====================================================================
         # D2_LAYER: Clean Architecture Layer
