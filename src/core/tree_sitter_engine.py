@@ -156,108 +156,136 @@ class TreeSitterUniversalEngine:
         return result
 
     def _extract_particles_tree_sitter(self, content: str, language: str, file_path: str) -> List[Dict]:
-        """Extract particles using Tree-sitter."""
+        """Extract particles using Tree-sitter for JS/TS/JSX/TSX."""
+        import tree_sitter
+        import tree_sitter_javascript
+        import tree_sitter_typescript
+        import tree_sitter_python
+
+        # Map extensions to (language_object, parser_name)
+        ts_supported_languages = {
+            ".py": (tree_sitter_python.language(), "python"),
+            ".js": (tree_sitter_javascript.language(), "javascript"),
+            ".jsx": (tree_sitter_javascript.language(), "javascript"),
+            ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
+            ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
+        }
+
+        ext = Path(file_path).suffix
+        lang_obj, parser_name = ts_supported_languages.get(ext, (None, None))
+
+        if not lang_obj:
+            raise ValueError(f"Tree-sitter parsing not supported for extension: {ext}")
+
+        parser = tree_sitter.Parser()
+        ts_lang = tree_sitter.Language(lang_obj)
+        parser.language = ts_lang
+
+        tree = parser.parse(bytes(content, "utf8"))
+        root_node = tree.root_node
+
+        particles = []
+
+        # Query for functions and classes - works for JS/TS/JSX/TSX
+        # Updated to capture React T2 patterns (Function/Class Components + Hooks)
+        query_scm = """
+        (function_declaration name: (identifier) @func.name) @func
+        (#match? @func.name "^[A-Z]")
+        
+        (variable_declarator
+          name: (identifier) @func.name
+          value: (arrow_function) @func
+        )
+        (#match? @func.name "^[A-Z]")
+        
+        (variable_declarator
+          name: (identifier) @func.name
+          value: (function_expression) @func
+        )
+        (#match? @func.name "^[A-Z]")
+        
+        (class_declaration name: (identifier) @class.name) @class
+        (#match? @class.name "^[A-Z]")
+        
+        ; Hook calls
+        (call_expression
+          function: (identifier) @hook.name
+          (#match? @hook.name "^use[A-Z]")
+        ) @hook_call
+        """
+        
         try:
-             import tree_sitter
-             import tree_sitter_javascript
-             
-             JS_LANG = tree_sitter.Language(tree_sitter_javascript.language())
-             parser = tree_sitter.Parser()
-             parser.language = JS_LANG
-             
-             tree = parser.parse(bytes(content, "utf8"))
-             root_node = tree.root_node
-             
-             particles = []
-             
-             # Query for functions, classes, variables (arrow funcs)
-             query_scm = """
-             (function_declaration) @func
-             (class_declaration) @class
-             (variable_declarator 
-                 value: (arrow_function)
-             ) @arrow
-             (call_expression
-                 function: (identifier) @hook
-                 (#match? @hook "^use[A-Z]")
-             ) @hook_call
-             """
-             
-             query = tree_sitter.Query(JS_LANG, query_scm)
-             cursor = tree_sitter.QueryCursor(query)
-             captures = cursor.captures(root_node)
-             
-             # captures is dict { name: [nodes] }
-             for tag, nodes in captures.items():
-                 for node in nodes:
-                     start_line = node.start_point[0] + 1
-                 
-                 p_type = None
-                 p_name = "unknown"
-                 
-                 if tag == 'func':
-                     p_type = 'Function'
-                     # Function name node
-                     name_node = node.child_by_field_name('name')
-                     if name_node:
-                         p_name = content[name_node.start_byte:name_node.end_byte]
-                         
-                 elif tag == 'class':
-                     p_type = 'Class'
-                     name_node = node.child_by_field_name('name')
-                     if name_node:
-                         p_name = content[name_node.start_byte:name_node.end_byte]
-                         
-                 elif tag == 'arrow':
-                     p_type = 'Function'
-                     # Parent of variable_declarator is variable_declaration?
-                     # variable_declarator has name field
-                     name_node = node.child_by_field_name('name')
-                     if name_node:
-                         p_name = content[name_node.start_byte:name_node.end_byte]
-                         
-                 elif tag == 'hook_call':
-                     # Hook usage is not a particle definition, but maybe we want to track it?
-                     # Actually, standard model atoms use hook *usage* as evidence of T2?
-                     # For now, let's skip hook usage as "particle" unless we define a "Hook" type?
-                     # Let's map it to 'Function' or 'Feature'
-                     p_type = 'Feature' # Or specific hook type
-                     p_name = content[node.start_byte:node.end_byte] # Full call? No, just name
-                     # The node is the call_expression. The capture 'hook' is identifier.
-                     # We caputured call_expression as @hook_call
-                     # Let's verify structure.
-                     pass 
-                     
-                 if p_type and p_name:
-                      # Capture full node source for T2 pattern matching
-                      node_source = content[node.start_byte:node.end_byte]
-                      end_line = node.end_point[0] + 1
-
-                      # Get the signature (first line of the function/class)
-                      first_line = node_source.split('\n')[0] if node_source else ""
-
-                      # Map to symbol_kind
-                      symbol_kind = 'function' if p_type == 'Function' else 'class'
-
-                      # Use classifier to get proper dimensions (including T2 detection)
-                      particle = self.classifier.classify_extracted_symbol(
-                          name=p_name,
-                          symbol_kind=symbol_kind,
-                          file_path=file_path,
-                          line_num=start_line,
-                          end_line=end_line,
-                          evidence=first_line,
-                          body_source=node_source,
-                      )
-                      particle['tags'] = ['tree-sitter', language]
-                      particles.append(particle)
-                      
-             return particles
-             
-        except ImportError:
-            raise Exception("Tree-sitter not installed")
+            query = tree_sitter.Query(tree_sitter.Language(lang_obj), query_scm)
         except Exception as e:
-            raise e
+            # Fallback for languages that might error on the complex query
+            print(f"DEBUG: Complex query failed ({e}), using simple query")
+            query_scm = """
+            (function_declaration) @func
+            (class_declaration) @class
+            """
+            query = tree_sitter.Query(tree_sitter.Language(lang_obj), query_scm)
+
+        cursor = tree_sitter.QueryCursor(query)
+        captures = cursor.captures(root_node)
+
+        particles = []
+        seen_nodes = set()  # Avoid duplicates
+
+        # Capture outputs a dict: { capture_name: [nodes] }
+        for tag, nodes in captures.items():
+            for node in nodes:
+                # Skip already processed nodes
+                if id(node) in seen_nodes:
+                    continue
+
+                p_type = 'Function'
+                p_name = 'Unknown'
+                symbol_kind = 'function'
+
+                if tag == 'class':
+                    p_type = 'Class'
+                    symbol_kind = 'class'
+                    name_node = node.child_by_field_name('name')
+                    if name_node:
+                        p_name = name_node.text.decode('utf8')
+                elif tag == 'func':
+                    if node.type == 'function_declaration':
+                        name_node = node.child_by_field_name('name')
+                        if name_node:
+                            p_name = name_node.text.decode('utf8')
+                    elif node.type in ('arrow_function', 'function_expression', 'function'):
+                        # For arrow/function expressions inside variable_declarator
+                        if node.parent and node.parent.type == 'variable_declarator':
+                            name_node = node.parent.child_by_field_name('name')
+                            if name_node:
+                                p_name = name_node.text.decode('utf8')
+                else:
+                    continue
+
+                # Skip if no valid name
+                if p_name == 'Unknown':
+                    continue
+
+                seen_nodes.add(id(node))
+                start_line = node.start_point[0] + 1
+                end_line = node.end_point[0] + 1
+                node_source = node.text.decode('utf8')
+                first_line = node_source.split('\n')[0] if node_source else ""
+
+                # Use classifier for dimension derivation (including T2 detection)
+                particle = self.classifier.classify_extracted_symbol(
+                    name=p_name,
+                    symbol_kind=symbol_kind,
+                    file_path=file_path,
+                    line_num=start_line,
+                    end_line=end_line,
+                    evidence=first_line,
+                    body_source=node_source,
+                )
+                particle['tags'] = ['tree-sitter', parser_name]
+                particles.append(particle)
+
+        return particles
         
     def analyze_directory(self, dir_path: str, extensions: List[str] = None) -> List[Dict[str, Any]]:
         """Analyze all supported files in a directory."""
