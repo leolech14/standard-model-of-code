@@ -5,17 +5,168 @@ Single command for complete deterministic analysis with all theoretical framewor
 
 Usage:
     ./collider full <path> [--output <dir>]
-    
+
 Outputs:
-    - unified_analysis.json (complete graph with all enrichments)
-    - full_analysis.json (comprehensive metrics and diagnostics)
+    - output_llm-oriented_<project>_<timestamp>.json (LLM knowledge bundle)
+    - output_human-readable_<project>_<timestamp>.html (human report + graph)
 """
 import json
 import sys
 import time
 from pathlib import Path
 from collections import Counter, defaultdict
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
+
+
+# =============================================================================
+# FILE-CENTRIC VIEW: Bridges atom-centric analysis with file-based navigation
+# =============================================================================
+
+def build_file_index(nodes: List[Dict], edges: List[Dict], target_path: str = "") -> Dict[str, Any]:
+    """
+    Build a file-centric index of atoms for hybrid navigation.
+
+    This bridges the atom-centric paradigm (Collider's core insight) with
+    traditional file-based navigation that developers expect.
+
+    Returns:
+        {
+            "file_path": {
+                "atoms": [atom_indices...],
+                "atom_names": ["name1", "name2"...],
+                "line_range": [start, end],
+                "atom_count": N,
+                "imports": [...],
+                "internal_edges": N,  # edges within this file
+                "external_edges": N,  # edges to other files
+                "purpose": "inferred purpose"
+            }
+        }
+    """
+    files_index: Dict[str, Dict[str, Any]] = {}
+
+    # Group nodes by file
+    for idx, node in enumerate(nodes):
+        file_path = node.get("file_path", "")
+        if not file_path:
+            continue
+
+        if file_path not in files_index:
+            files_index[file_path] = {
+                "atoms": [],
+                "atom_names": [],
+                "atom_types": [],
+                "line_range": [float('inf'), 0],
+                "atom_count": 0,
+                "classes": [],
+                "functions": [],
+                "imports": [],
+                "internal_edges": 0,
+                "external_edges": 0,
+                "purpose": ""
+            }
+
+        entry = files_index[file_path]
+        entry["atoms"].append(idx)
+        entry["atom_names"].append(node.get("name", ""))
+        entry["atom_types"].append(node.get("type", "Unknown"))
+        entry["atom_count"] += 1
+
+        # Track line range
+        line = node.get("line", 0)
+        end_line = node.get("end_line", line)
+        if line > 0:
+            entry["line_range"][0] = min(entry["line_range"][0], line)
+            entry["line_range"][1] = max(entry["line_range"][1], end_line)
+
+        # Categorize by symbol kind
+        kind = node.get("symbol_kind", "")
+        name = node.get("name", "")
+        if kind == "class":
+            entry["classes"].append(name)
+        elif kind in ("function", "method"):
+            entry["functions"].append(name)
+
+    # Compute edges (internal vs external)
+    node_to_file = {idx: nodes[idx].get("file_path", "") for idx in range(len(nodes))}
+    node_name_to_file = {n.get("name", ""): n.get("file_path", "") for n in nodes}
+
+    for edge in edges:
+        source = edge.get("source", "")
+        target = edge.get("target", "")
+
+        source_file = node_name_to_file.get(source, "")
+        target_file = node_name_to_file.get(target, "")
+
+        if source_file and source_file in files_index:
+            if source_file == target_file:
+                files_index[source_file]["internal_edges"] += 1
+            else:
+                files_index[source_file]["external_edges"] += 1
+
+    # Infer file purpose from dominant atom types
+    for file_path, entry in files_index.items():
+        types = Counter(entry["atom_types"])
+        dominant = types.most_common(1)
+        if dominant:
+            dom_type, count = dominant[0]
+            if dom_type != "Unknown":
+                entry["purpose"] = f"{dom_type}-dominant ({count}/{entry['atom_count']})"
+            else:
+                # Infer from file name
+                fname = Path(file_path).stem.lower()
+                if "test" in fname:
+                    entry["purpose"] = "Test module"
+                elif "util" in fname or "helper" in fname:
+                    entry["purpose"] = "Utility module"
+                elif "model" in fname or "entity" in fname:
+                    entry["purpose"] = "Domain model"
+                elif "service" in fname:
+                    entry["purpose"] = "Service layer"
+                elif "controller" in fname or "handler" in fname:
+                    entry["purpose"] = "Interface layer"
+                else:
+                    entry["purpose"] = "General module"
+
+        # Fix line_range if no lines found
+        if entry["line_range"][0] == float('inf'):
+            entry["line_range"] = [0, 0]
+
+        # Clean up atom_types (don't need in output, was for computation)
+        del entry["atom_types"]
+
+    return files_index
+
+
+def build_file_boundaries(files_index: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Build file boundary data for visualization.
+
+    Returns a list of boundary objects that can be used to draw
+    visual separators between files in the atom graph.
+    """
+    boundaries = []
+
+    for file_path, data in files_index.items():
+        if data["atom_count"] == 0:
+            continue
+
+        boundaries.append({
+            "file": file_path,
+            "file_name": Path(file_path).name,
+            "atom_indices": data["atoms"],
+            "atom_count": data["atom_count"],
+            "line_range": data["line_range"],
+            "classes": data["classes"],
+            "functions": data["functions"][:10],  # Limit for viz
+            "cohesion": data["internal_edges"] / max(1, data["internal_edges"] + data["external_edges"]),
+            "purpose": data["purpose"]
+        })
+
+    # Sort by file path for consistent ordering
+    boundaries.sort(key=lambda b: b["file"])
+
+    return boundaries
 
 
 def _calculate_theory_completeness(nodes: List[Dict]) -> Dict[str, Any]:
@@ -265,24 +416,23 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     from roadmap_evaluator import RoadmapEvaluator
     from topology_reasoning import TopologyClassifier
     from semantic_cortex import ConceptExtractor
-    # NOTE: standard_output_generator removed - consolidated into HTML viz
-    
-    # Import Visualization Engine (Dynamic Import to handle relative paths)
-    import importlib.util
-    try:
-        viz_path = Path(__file__).parent.parent.parent / "tools" / "visualize_graph.py"
-        spec = importlib.util.spec_from_file_location("visualize_graph", viz_path)
-        visualize_graph = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(visualize_graph)
-    except Exception as e:
-        print(f"⚠️ Visualization module load warning: {e}")
-        visualize_graph = None
+    # NOTE: standard_output_generator removed - consolidated into unified outputs
     
     # Stage 1: Base analysis
     print("\n🔬 Stage 1: Base Analysis...")
-    result = analyze(str(target), output_dir=output_dir)
+    analysis_options = dict(options)
+    analysis_options.pop("roadmap", None)
+    result = analyze(str(target), output_dir=output_dir, write_output=False, **analysis_options)
     nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
     edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
+    unified_stats = getattr(result, 'stats', {}) if hasattr(result, 'stats') else result.get('stats', {})
+    unified_classification = getattr(result, 'classification', {}) if hasattr(result, 'classification') else result.get('classification', {})
+    unified_auto_discovery = getattr(result, 'auto_discovery', {}) if hasattr(result, 'auto_discovery') else result.get('auto_discovery', {})
+    unified_dependencies = getattr(result, 'dependencies', {}) if hasattr(result, 'dependencies') else result.get('dependencies', {})
+    unified_architecture = getattr(result, 'architecture', {}) if hasattr(result, 'architecture') else result.get('architecture', {})
+    unified_llm_enrichment = getattr(result, 'llm_enrichment', {}) if hasattr(result, 'llm_enrichment') else result.get('llm_enrichment', {})
+    unified_warnings = getattr(result, 'warnings', []) if hasattr(result, 'warnings') else result.get('warnings', [])
+    unified_recommendations = getattr(result, 'recommendations', []) if hasattr(result, 'recommendations') else result.get('recommendations', [])
     print(f"   → {len(nodes)} nodes, {len(edges)} edges")
     
     # Stage 2: Standard Model enrichment
@@ -290,6 +440,16 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     nodes = enrich_with_standard_model(nodes)
     rpbl_count = sum(1 for n in nodes if n.get('rpbl'))
     print(f"   → {rpbl_count} nodes with RPBL scores")
+
+    # Stage 2.5: Ecosystem discovery (hybrid T2 approach)
+    print("\n🧭 Stage 2.5: Ecosystem Discovery...")
+    try:
+        from discovery_engine import discover_ecosystem_unknowns
+        ecosystem_discovery = discover_ecosystem_unknowns(nodes)
+        print(f"   → {ecosystem_discovery.get('total_unknowns', 0)} unknown ecosystem patterns")
+    except Exception as e:
+        ecosystem_discovery = {}
+        print(f"   ⚠️ Ecosystem discovery skipped: {e}")
     
     # Stage 3: Purpose Field
     print("\n🎯 Stage 3: Purpose Field...")
@@ -340,6 +500,20 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     
     # Ring distribution (Clean Architecture)
     rings = Counter(n.get('ring', 'unknown') for n in nodes)
+
+    # Edge breakdown + KPIs
+    edge_types = Counter(e.get('edge_type', 'unknown') for e in edges)
+    total_edges = len(edges)
+    unresolved_edges = sum(1 for e in edges if e.get('resolution') == 'unresolved')
+    resolved_edges = total_edges - unresolved_edges
+    edge_resolution_percent = (resolved_edges / total_edges * 100) if total_edges else 0.0
+    call_edges = edge_types.get('calls', 0)
+    import_edges = edge_types.get('imports', 0)
+    call_ratio_percent = (call_edges / total_edges * 100) if total_edges else 0.0
+    orphan_count = len(exec_flow.orphans)
+    orphan_percent = (orphan_count / len(nodes) * 100) if nodes else 0.0
+    reachability_percent = max(0.0, 100.0 - exec_flow.dead_code_percent)
+    graph_density = (total_edges / (len(nodes) * (len(nodes) - 1))) if len(nodes) > 1 else 0.0
     
     # RPBL averages
     rpbl_sums = {'responsibility': 0, 'purity': 0, 'boundary': 0, 'lifecycle': 0}
@@ -368,19 +542,49 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'orphans': len(exec_flow.orphans),
             'cycles': knots['cycles_detected']
         },
+        'stats': unified_stats,
         'coverage': {
             'type_coverage': 100.0,
             'ring_coverage': (len(nodes) - rings.get('unknown', 0)) / len(nodes) * 100 if nodes else 0,
             'rpbl_coverage': rpbl_count / len(nodes) * 100 if nodes else 0,
             'dead_code_percent': exec_flow.dead_code_percent
         },
+        'classification': unified_classification,
+        'auto_discovery': unified_auto_discovery,
+        'ecosystem_discovery': ecosystem_discovery,
+        'dependencies': unified_dependencies,
+        'architecture': unified_architecture,
+        'llm_enrichment': unified_llm_enrichment,
+        'warnings': unified_warnings,
+        'recommendations': unified_recommendations,
         'theory_completeness': _calculate_theory_completeness(nodes),
         'distributions': {
             'types': dict(types.most_common(15)),
             'rings': dict(rings),
             'atoms': dict(Counter(n.get('atom', '') for n in nodes))
         },
+        'edge_types': dict(edge_types),
         'rpbl_profile': rpbl_avgs,
+        'kpis': {
+            'nodes_total': len(nodes),
+            'edges_total': total_edges,
+            'edge_resolution_percent': round(edge_resolution_percent, 1),
+            'resolved_edges': resolved_edges,
+            'unresolved_edges': unresolved_edges,
+            'call_edges': call_edges,
+            'import_edges': import_edges,
+            'call_ratio_percent': round(call_ratio_percent, 1),
+            'reachability_percent': round(reachability_percent, 1),
+            'dead_code_percent': round(exec_flow.dead_code_percent, 1),
+            'orphan_count': orphan_count,
+            'orphan_percent': round(orphan_percent, 1),
+            'knot_score': knots.get('knot_score', 0),
+            'cycles_detected': knots.get('cycles_detected', 0),
+            'avg_fanout': round(markov.get('avg_fanout', 0.0), 2),
+            'graph_density': round(graph_density, 4),
+            'top_hub_count': 0,
+            'topology_shape': 'UNKNOWN'
+        },
         'purpose_field': purpose_field.summary(),
         'execution_flow': dict(exec_flow.summary(), **{
             'entry_points': exec_flow.entry_points,
@@ -401,7 +605,22 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     for node_id, deg in in_deg.most_common(10):
         name = node_id.split(':')[-1] if ':' in node_id else node_id.split('/')[-1]
         full_output['top_hubs'].append({'name': name, 'in_degree': deg})
-    
+    full_output['kpis']['top_hub_count'] = len(full_output['top_hubs'])
+
+    # ==========================================================================
+    # FILE-CENTRIC VIEW: Hybrid atom/file navigation
+    # ==========================================================================
+    print("\n📁 Building file index...")
+    files_index = build_file_index(nodes, edges, str(target))
+    file_boundaries = build_file_boundaries(files_index)
+
+    full_output['files'] = files_index
+    full_output['file_boundaries'] = file_boundaries
+    full_output['counts']['files_with_atoms'] = len(files_index)
+
+    print(f"   → {len(files_index)} files indexed")
+    print(f"   → {sum(f['atom_count'] for f in file_boundaries)} atoms mapped to files")
+
     # Save output
     if output_dir:
         out_path = Path(output_dir)
@@ -410,7 +629,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     
     out_path.mkdir(parents=True, exist_ok=True)
 
-    # NOTE: Removed full_analysis.json write - unified_analysis.json is the single source of truth
+    # NOTE: The LLM-oriented output JSON is the single source of truth for analysis results.
 
     # Stage 9: Roadmap Evaluation
     print("\n🛣️  Stage 9: Roadmap Evaluation...")
@@ -440,6 +659,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         topo = TopologyClassifier()
         topology_result = topo.classify(nodes, edges)
         full_output['topology'] = topology_result
+        full_output['kpis']['topology_shape'] = topology_result.get('shape', 'UNKNOWN')
         print(f"   → Visual Shape: {topology_result['shape']}")
         print(f"   → Description: {topology_result['description']}")
     except Exception as e:
@@ -458,8 +678,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # ==========================================================================
     # OUTPUT CONSOLIDATION: 2 files only
-    # 1. unified_analysis.json - Structured data (single source of truth)
-    # 2. collider_report.html  - Visual report (embeds Brain Download)
+    # 1. output_llm-oriented_<project>_<timestamp>.json - Structured knowledge bundle
+    # 2. output_human-readable_<project>_<timestamp>.html - Visual report (embeds Brain Download)
     # ==========================================================================
 
     # Generate Brain Download content (for embedding in HTML)
@@ -470,26 +690,24 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     # Stage 12: Write consolidated outputs
     print("\n📦 Stage 12: Generating Consolidated Outputs...")
 
-    # Output 1: unified_analysis.json (SINGLE DATA SOURCE)
-    unified_json = out_path / "unified_analysis.json"
-    with open(unified_json, 'w') as f:
-        json.dump(full_output, f, indent=2, default=str)
-    print(f"   → Data: {unified_json}")
-
-    # Output 2: collider_report.html (SINGLE VISUAL REPORT)
-    viz_file = out_path / "collider_report.html"
+    unified_json = None
+    viz_file = None
     try:
-        if visualize_graph:
-            visualize_graph.generate_html(str(unified_json), str(viz_file))
-            print(f"   → Visual: {viz_file}")
+        from src.core.output_generator import generate_outputs
+        outputs = generate_outputs(full_output, out_path, target_name=target.name)
+        unified_json = outputs["llm"]
+        viz_file = outputs["html"]
+        print(f"   → Data: {unified_json}")
+        print(f"   → Visual: {viz_file}")
     except Exception as e:
-        print(f"   ⚠️ Visualization generation failed: {e}")
+        print(f"   ⚠️ Output generation failed: {e}")
 
     print("\n" + "=" * 60)
     print("✅ FULL ANALYSIS COMPLETE")
     print(f"   Time: {total_time:.1f}s")
-    print(f"   Data:   {unified_json}")
-    if visualize_graph:
+    if unified_json:
+        print(f"   Data:   {unified_json}")
+    if viz_file:
         print(f"   Visual: {viz_file}")
     print("=" * 60)
     

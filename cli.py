@@ -4,14 +4,15 @@ Refactored entry point for all standard model tools.
 """
 import sys
 import argparse
+import re
+import tempfile
+from datetime import datetime
 from pathlib import Path
 
 # Add root to path to ensure modules are found
 root_dir = Path(__file__).resolve().parent
 sys.path.append(str(root_dir))
 
-# Import the robust prove engine
-from tools.prove import run_proof
 
 def main():
     parser = argparse.ArgumentParser(
@@ -24,9 +25,9 @@ def main():
     # ANALYZE Command
     # ==========================================
     analyze_parser = subparsers.add_parser(
-        "analyze", 
-        help="Analyze a repository or directory of repositories",
-        description="Run the Comprehensive Learning Engine on a target codebase."
+        "analyze",
+        help="Analyze a repository and emit the canonical output bundle",
+        description="Runs the canonical full analysis and produces both LLM-oriented JSON and human-readable HTML."
     )
     
     # Positional path argument
@@ -39,8 +40,8 @@ def main():
     # Flags
     analyze_parser.add_argument(
         "--output",
-        default="output/learning",
-        help="Output directory for results",
+        default=None,
+        help="Output directory for results (defaults to <repo>/collider_output)",
     )
     analyze_parser.add_argument(
         "--language", 
@@ -67,6 +68,24 @@ def main():
         "--llm-model",
         default="qwen2.5:7b-instruct",
         help="Ollama model to use"
+    )
+
+    # ==========================================
+    # DOCTOR Command - Contract Validation
+    # ==========================================
+    doctor_parser = subparsers.add_parser(
+        "doctor",
+        help="Run pipeline + output contract validation",
+        description="Runs analysis, normalizes outputs, and validates canonical output contract."
+    )
+    doctor_parser.add_argument(
+        "path",
+        help="Path to the repository or directory to analyze"
+    )
+    doctor_parser.add_argument(
+        "--output",
+        default=None,
+        help="Optional output directory for doctor artifacts"
     )
 
     # ==========================================
@@ -174,6 +193,12 @@ def main():
         default=None,
         help="Output path for the HTML file"
     )
+    viz_parser.add_argument(
+        "--3d",
+        dest="use_3d",
+        action="store_true",
+        help="Use new 3D visualization (MermaidFlow)"
+    )
 
     # ==========================================
     # FIX Command (Consolidated from FixGenerator)
@@ -200,20 +225,116 @@ def main():
         help="Output file path (prints to stdout if not specified)"
     )
 
+    # ==========================================
+    # DISCOVER Command - Self-Learning Taxonomy
+    # ==========================================
+    discover_parser = subparsers.add_parser(
+        "discover",
+        help="Run discovery engine to find unknown patterns (T3)",
+        description="Analyze a codebase using T0/T1/T2 cascade, document unknown patterns as T3 discoveries."
+    )
+    discover_parser.add_argument(
+        "path",
+        help="Path to the repository to analyze"
+    )
+    discover_parser.add_argument(
+        "--language",
+        default=None,
+        help="Analyze only specific language (python, go, typescript, etc.)"
+    )
+    discover_parser.add_argument(
+        "--output", "-o",
+        default="output/discoveries.json",
+        help="Output path for discovered patterns JSON"
+    )
+    discover_parser.add_argument(
+        "--load",
+        default=None,
+        help="Load previous discoveries to merge with new ones"
+    )
+
+    # ==========================================
+    # EVAL Command - Comprehensive Evaluation
+    # ==========================================
+    eval_parser = subparsers.add_parser(
+        "eval",
+        help="Run comprehensive evaluation of the analysis pipeline",
+        description="Test Python, Go, JS extraction and classification with clear PASS/FAIL metrics."
+    )
+    eval_parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Run full benchmark (200 files per language)"
+    )
+    eval_parser.add_argument(
+        "--save",
+        metavar="NAME",
+        help="Save results with given name (e.g., 'baseline')"
+    )
+    eval_parser.add_argument(
+        "--compare",
+        metavar="NAME",
+        help="Compare current results to saved baseline"
+    )
+
     # Parse
     args = parser.parse_args()
     
-    if args.command == "health":
-        from core.newman_runner import run_health_check
+    if args.command == "discover":
+        from src.core.discovery_engine import DiscoveryEngine
+        # Path already imported globally at top of file
+
+        print(f"🔬 Discovery Engine — Hybrid T0/T1/T2 + T3 Discovery")
+        print("=" * 60)
+
+        engine = DiscoveryEngine()
+
+        # Load previous discoveries if specified
+        if args.load and Path(args.load).exists():
+            print(f"   Loading previous discoveries from: {args.load}")
+            engine.load_discoveries(args.load)
+            print(f"   Loaded {len(engine.discovered_registry)} existing patterns")
+
+        print(f"\n   Analyzing: {args.path}")
+        if args.language:
+            print(f"   Language: {args.language}")
+
+        report = engine.analyze_repo(args.path, language=args.language)
+        print(engine.generate_report())
+
+        # Export discoveries
+        output_path = Path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        engine.export_discoveries(str(output_path))
+        print(f"\n   Discoveries exported to: {output_path}")
+
+        # Show taxonomy candidates
+        candidates = engine.get_taxonomy_candidates(min_occurrences=10, min_confidence=0.5)
+        if candidates:
+            print(f"\n   {len(candidates)} patterns ready for taxonomy promotion")
+
+        sys.exit(0)
+
+    elif args.command == "eval":
+        from scripts.evaluate import run_evaluation, save_result, compare_results
+        result = run_evaluation(full=args.full)
+        if args.save:
+            save_result(result, args.save)
+        if args.compare:
+            compare_results(result, args.compare)
+        sys.exit(0 if result.overall_status == "PASS" else 1)
+
+    elif args.command == "health":
+        from src.core.newman_runner import run_health_check
         sys.exit(run_health_check(exit_on_fail=True))
     
 
     elif args.command == "audit":
-        from core.audit_runner import run_full_audit
+        from src.core.audit_runner import run_full_audit
         sys.exit(run_full_audit(target_path=args.path, output_dir=args.output))
 
     elif args.command == "full":
-        from core.full_analysis import run_full_analysis
+        from src.core.full_analysis import run_full_analysis
         try:
             options = {"roadmap": args.roadmap} if args.roadmap else {}
             run_full_analysis(args.path, args.output, options=options)
@@ -231,22 +352,60 @@ def main():
 
         print(f"🚀 Launching Collider Analysis on: {args.path}")
         try:
-            run_proof(
-                args.path, 
-                llm=args.llm, 
-                llm_model=args.llm_model,
-                language=args.language,
-                no_learn=args.no_learn,
-                output_dir=args.output
-            )
-            # The run_proof function generates the collider_report.html
-            print("\n✅ Analysis complete. Visualization report generated.")
+            from src.core.full_analysis import run_full_analysis
+
+            options = {}
+            if args.llm:
+                options["llm"] = True
+                options["llm_model"] = args.llm_model
+            if args.language:
+                options["language"] = args.language
+            if args.no_learn:
+                options["no_learn"] = True
+            if args.workers:
+                options["workers"] = args.workers
+
+            if args.no_learn or args.workers:
+                print("⚠️  Note: --no-learn/--workers are accepted but not used by the full pipeline yet.")
+
+            run_full_analysis(args.path, args.output, options=options)
+            print("\n✅ Analysis complete. Consolidated outputs generated.")
         except Exception as e:
             print(f"❌ Analysis failed: {e}")
             sys.exit(1)
+
+    elif args.command == "doctor":
+        from src.core.full_analysis import run_full_analysis
+        from src.core.normalize_output import normalize_output, validate_contract
+
+        output_dir = args.output or tempfile.mkdtemp(prefix="collider_doctor_")
+        print(f"🩺 Doctor running on: {args.path}")
+        print(f"   Output: {output_dir}")
+
+        try:
+            result = run_full_analysis(args.path, output_dir, options={})
+        except Exception as e:
+            print(f"❌ Doctor failed during analysis: {e}")
+            sys.exit(1)
+
+        normalized = normalize_output(result)
+        errors, warnings = validate_contract(normalized)
+
+        if warnings:
+            print("⚠️  Warnings:")
+            for msg in warnings:
+                print(f"   - {msg}")
+
+        if errors:
+            print("❌ Contract validation failed:")
+            for msg in errors:
+                print(f"   - {msg}")
+            sys.exit(1)
+
+        print("✅ Doctor PASS: output contract verified.")
     
     elif args.command == "graph":
-        from core.graph_analyzer import analyze_full, generate_report, load_graph, shortest_path
+        from src.core.graph_analyzer import analyze_full, generate_report, load_graph, shortest_path
         
         if not args.graph_path:
             print("❌ Error: graph.json path required")
@@ -280,25 +439,31 @@ def main():
             output_path = args.output or str(graph_path.parent / "GRAPH_ANALYSIS.md")
             generate_report(result, output_path)
             print(f"\n✅ Report saved to: {output_path}")
-    
-            print(f"\n✅ Report saved to: {output_path}")
 
     elif args.command == "viz":
-        from core.viz_generator import VisualizationGenerator
-        
         graph_path = Path(args.graph_path)
-        output_path = Path(args.output) if args.output else graph_path.parent / "collider_viz.html"
-        
-        generator = VisualizationGenerator()
+        if args.output:
+            output_path = Path(args.output)
+        else:
+            stem = re.sub(r"[^A-Za-z0-9]+", "-", graph_path.stem.lower()).strip("-") or "graph"
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_path = graph_path.parent / f"output_human-readable_{stem}_{ts}.html"
+
         try:
-            saved_path = generator.generate(graph_path, output_path)
+            if args.use_3d:
+                from src.core.viz_generator import VisualizationGenerator
+                generator = VisualizationGenerator()
+                saved_path = generator.generate(graph_path, output_path, mode="3d")
+            else:
+                from src.core.output_generator import write_html_report
+                saved_path = write_html_report(graph_path, output_path.parent, filename=output_path.name)
             print(f"✅ Visualization generated: {saved_path}")
         except Exception as e:
             print(f"❌ Error generating visualization: {e}")
             sys.exit(1)
 
     elif args.command == "fix":
-        from core.fix_generator import FixGenerator
+        from src.core.fix_generator import FixGenerator
         
         generator = FixGenerator("python") # Default to python for now
         
