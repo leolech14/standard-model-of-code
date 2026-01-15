@@ -20,6 +20,10 @@ import re
 from pathlib import Path
 
 from unified_analysis import UnifiedNode, UnifiedEdge, UnifiedAnalysisOutput
+try:
+    from normalize_output import is_confidence_key
+except ImportError:
+    from src.core.normalize_output import is_confidence_key
 
 
 # =============================================================================
@@ -54,14 +58,15 @@ def validate_node(node: Dict[str, Any]) -> Tuple[List[str], List[str]]:
 
     # Confidence range (canonical: 0.0-1.0)
     for key, value in node.items():
-        if key == "confidence" or key.endswith("_confidence"):
-            try:
-                numeric = float(value)
-            except (TypeError, ValueError):
-                errors.append(f"{key} not numeric: {value}")
-                continue
-            if not 0.0 <= numeric <= 1.0:
-                errors.append(f"{key} out of range (0.0-1.0): {value}")
+        if not is_confidence_key(key):
+            continue
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            errors.append(f"{key} not numeric: {value}")
+            continue
+        if not 0.0 <= numeric <= 1.0:
+            errors.append(f"{key} out of range (0.0-1.0): {value}")
 
     atom = node.get('atom')
     if atom and isinstance(atom, str) and not ATOM_PATTERN.match(atom):
@@ -85,14 +90,15 @@ def validate_edge(edge: Dict[str, Any], node_ids: Set[str]) -> Tuple[List[str], 
     # Target may be external - don't error
 
     for key, value in edge.items():
-        if key == "confidence" or key.endswith("_confidence"):
-            try:
-                numeric = float(value)
-            except (TypeError, ValueError):
-                errors.append(f"Edge {key} not numeric: {value}")
-                continue
-            if not 0.0 <= numeric <= 1.0:
-                errors.append(f"Edge {key} out of range 0.0-1.0: {value}")
+        if not is_confidence_key(key):
+            continue
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            errors.append(f"Edge {key} not numeric: {value}")
+            continue
+        if not 0.0 <= numeric <= 1.0:
+            errors.append(f"Edge {key} out of range 0.0-1.0: {value}")
 
     return errors, warnings
 

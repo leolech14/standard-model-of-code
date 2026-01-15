@@ -38,7 +38,7 @@ def normalize_meta(data: Dict[str, Any]) -> Dict[str, Any]:
     return meta
 
 
-def _is_confidence_key(key: str) -> bool:
+def is_confidence_key(key: str) -> bool:
     lower = key.lower()
     if lower.endswith("_raw"):
         return False
@@ -53,7 +53,7 @@ def normalize_confidence_fields(obj: Dict[str, Any]) -> None:
         return
 
     for key, value in list(obj.items()):
-        if not _is_confidence_key(key):
+        if not is_confidence_key(key):
             continue
         try:
             numeric = float(value)
@@ -201,7 +201,7 @@ def validate_contract(data: Dict[str, Any]) -> Tuple[List[str], List[str]]:
 
     def check_confidence_fields(obj: Dict[str, Any], label: str) -> None:
         for key, value in obj.items():
-            if not _is_confidence_key(key):
+            if not is_confidence_key(key):
                 continue
             try:
                 numeric = float(value)
