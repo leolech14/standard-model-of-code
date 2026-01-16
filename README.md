@@ -410,6 +410,7 @@ Roles belong to architectural layers:
 | [MECHANIZED_PROOFS.md](docs/MECHANIZED_PROOFS.md) | Machine-verified theorems (Lean 4) |
 | [DISCOVERY_PROCESS.md](docs/DISCOVERY_PROCESS.md) | The narrative of how we mapped code structure |
 | [THE_PIVOT.md](docs/THE_PIVOT.md) | Formal record of the shift from AI to Deterministic Analysis |
+| [ORIENTATION_FILES.md](docs/ORIENTATION_FILES.md) | Export context files for AI agents and sharing |
 
 ---
 

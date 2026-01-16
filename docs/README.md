@@ -24,6 +24,9 @@
 ## Archive
 Legacy documents moved to [archive/](archive/) for reference.
 
+## Distribution / Context Export
+- [ORIENTATION_FILES.md](ORIENTATION_FILES.md) - Export context files for AI agents and sharing
+
 ---
 
 ## Canonical Constants

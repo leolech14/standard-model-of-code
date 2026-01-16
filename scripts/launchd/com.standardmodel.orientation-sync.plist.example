@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.standardmodel.orientation-sync</string>
+
+    <key>Comment</key>
+    <string>Auto-sync orientation files on login (watch mode)</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- UPDATE THIS PATH if your repo is in a different location -->
+        <string>/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/scripts/sync-orientation-files.sh</string>
+        <string>--watch</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/orientation-sync.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/orientation-sync.err</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+    </dict>
+</dict>
+</plist>
+<!--
+INSTALLATION:
+
+1. Copy this file to ~/Library/LaunchAgents/ (remove .example suffix):
+   cp scripts/launchd/com.standardmodel.orientation-sync.plist.example \
+      ~/Library/LaunchAgents/com.standardmodel.orientation-sync.plist
+
+2. Edit the plist if your repo path differs from:
+   /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/
+
+3. Load the agent:
+   launchctl load ~/Library/LaunchAgents/com.standardmodel.orientation-sync.plist
+
+4. Verify it's running:
+   launchctl list | grep orientation
+
+5. Check logs:
+   tail -f /tmp/orientation-sync.log
+
+6. To stop:
+   launchctl unload ~/Library/LaunchAgents/com.standardmodel.orientation-sync.plist
+
+REQUIRES: fswatch (brew install fswatch)
+-->
