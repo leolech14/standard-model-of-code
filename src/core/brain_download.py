@@ -82,9 +82,13 @@ def generate_brain_download(full_analysis: Dict) -> str:
     
     # Layers
     lines.append("**Layers**:")
-    for l, c in dist['layers'].items():
-        pct = c / counts['nodes'] * 100
-        lines.append(f"- {l}: {c} ({pct:.0f}%)")
+    layers = dist.get('layers', {})
+    if layers:
+        for l, c in layers.items():
+            pct = c / counts['nodes'] * 100 if counts.get('nodes') else 0
+            lines.append(f"- {l}: {c} ({pct:.0f}%)")
+    else:
+        lines.append("- No layer data available")
     lines.append("")
     
     # =========================================================================
