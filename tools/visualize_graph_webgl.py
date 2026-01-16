@@ -621,6 +621,77 @@ def generate_webgl_html(json_source, output_path):
             line-height: 1.5;
         }}
 
+        /* NODE HOVER PANEL - Quick info on hover */
+        .hover-panel {{
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 280px;
+            max-height: 300px;
+            overflow: auto;
+            display: none;
+            z-index: 20;
+            /* Dance animation: smooth repositioning */
+            transition: left 150ms ease-out, top 150ms ease-out;
+            will-change: left, top;
+        }}
+        .hover-panel.visible {{ display: block; }}
+        .hover-panel-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }}
+        .hover-panel-name {{
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }}
+        .hover-panel-kind {{
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            background: rgba(255,153,0,0.3);
+            color: #ffcc80;
+            text-transform: uppercase;
+        }}
+        .hover-panel-row {{
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 4px;
+            color: #aaa;
+        }}
+        .hover-panel-row .label {{
+            color: #888;
+            min-width: 70px;
+        }}
+        .hover-panel-row .value {{
+            color: #fff;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }}
+        .hover-panel-row .value.highlight {{
+            color: #4ade80;
+        }}
+        .hover-panel-file {{
+            font-size: 10px;
+            color: #666;
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            word-break: break-all;
+        }}
+
         /* FILE HOVER PANEL - Smart Text Placement */
         .file-panel {{
             position: fixed;
@@ -773,6 +844,35 @@ def generate_webgl_html(json_source, output_path):
         <div class="hud-panel report-panel" id="report-panel">
             <h1>Collider Report</h1>
             <div class="report-content" id="report-content"></div>
+        </div>
+
+        <!-- NODE HOVER PANEL: Quick info when hovering a node -->
+        <div class="hud-panel hover-panel" id="hover-panel">
+            <div class="hover-panel-header">
+                <span class="hover-panel-name" id="hover-name">Node Name</span>
+                <span class="hover-panel-kind" id="hover-kind">function</span>
+            </div>
+            <div class="hover-panel-row">
+                <span class="label">Atom</span>
+                <span class="value" id="hover-atom">--</span>
+            </div>
+            <div class="hover-panel-row">
+                <span class="label">Family</span>
+                <span class="value highlight" id="hover-family">--</span>
+            </div>
+            <div class="hover-panel-row">
+                <span class="label">Ring</span>
+                <span class="value" id="hover-ring">--</span>
+            </div>
+            <div class="hover-panel-row">
+                <span class="label">Tier</span>
+                <span class="value" id="hover-tier">--</span>
+            </div>
+            <div class="hover-panel-row">
+                <span class="label">Role</span>
+                <span class="value" id="hover-role">--</span>
+            </div>
+            <div class="hover-panel-file" id="hover-file">file_path</div>
         </div>
 
         <!-- FILE INFO PANEL: Shows on node hover -->
@@ -1000,12 +1100,17 @@ def generate_webgl_html(json_source, output_path):
             MARGIN: 16,
             // Panels by priority (higher = more important, won't be moved)
             fixed: ['top-left-header', 'stats-panel', 'metrics-panel', 'bottom-dock', 'report-panel', 'side-dock'],
-            dynamic: ['file-panel'],
+            // Dynamic panels in priority order (hover-panel > file-panel)
+            dynamic: ['hover-panel', 'file-panel'],
 
             // Throttle state
             _rafPending: false,
             _lastReflow: 0,
             REFLOW_THROTTLE_MS: 50,
+
+            // Mouse position for hover-panel placement
+            _mouseX: 0,
+            _mouseY: 0,
 
             // Get viewport rectangle
             getViewport() {{
@@ -1127,6 +1232,28 @@ def generate_webgl_html(json_source, output_path):
                 return candidates;
             }},
 
+            // Generate candidate positions for hover panel (4 quadrants around mouse cursor)
+            getHoverPanelCandidates(mouseX, mouseY, panelWidth, panelHeight) {{
+                const vp = this.getViewport();
+                const offset = 16;  // Offset from cursor
+
+                // Candidates: TR, BR, BL, TL around cursor position
+                const candidates = [
+                    {{ left: mouseX + offset, top: mouseY - panelHeight - offset }},        // Top-right of cursor
+                    {{ left: mouseX + offset, top: mouseY + offset }},                       // Bottom-right of cursor
+                    {{ left: mouseX - panelWidth - offset, top: mouseY + offset }},         // Bottom-left of cursor
+                    {{ left: mouseX - panelWidth - offset, top: mouseY - panelHeight - offset }}  // Top-left of cursor
+                ];
+
+                return candidates;
+            }},
+
+            // Update mouse position (called on mousemove)
+            updateMousePosition(x, y) {{
+                this._mouseX = x;
+                this._mouseY = y;
+            }},
+
             // Place a panel at the best position (least overlap)
             placePanel(panelEl, candidates, occupiedRects) {{
                 if (!panelEl) return null;
@@ -1187,14 +1314,44 @@ def generate_webgl_html(json_source, output_path):
 
                 const occupiedRects = this.getOccupiedRects();
 
-                // Place file panel
+                // Place hover panel first (higher priority)
+                const hoverPanel = document.getElementById('hover-panel');
+                let hoverPanelRect = null;
+                if (hoverPanel && hoverPanel.classList.contains('visible')) {{
+                    const hoverWidth = hoverPanel.offsetWidth || 280;
+                    const hoverHeight = hoverPanel.offsetHeight || 200;
+                    const candidates = this.getHoverPanelCandidates(
+                        this._mouseX, this._mouseY, hoverWidth, hoverHeight
+                    );
+                    const pos = this.placePanel(hoverPanel, candidates, occupiedRects);
+                    if (pos) {{
+                        hoverPanel.style.left = pos.left + 'px';
+                        hoverPanel.style.top = pos.top + 'px';
+                        hoverPanel.style.right = 'auto';
+                        // Track hover panel rect for file panel to avoid
+                        hoverPanelRect = {{
+                            left: pos.left,
+                            top: pos.top,
+                            right: pos.left + hoverWidth,
+                            bottom: pos.top + hoverHeight
+                        }};
+                    }}
+                }}
+
+                // Build occupied rects for file panel (includes hover panel if visible)
+                const filePanelOccupied = [...occupiedRects];
+                if (hoverPanelRect) {{
+                    filePanelOccupied.push(hoverPanelRect);
+                }}
+
+                // Place file panel (lower priority, avoids hover panel too)
                 const filePanel = document.getElementById('file-panel');
                 if (filePanel && filePanel.classList.contains('visible')) {{
                     const candidates = this.getFilePanelCandidates(
                         filePanel.offsetWidth || 400,
                         filePanel.offsetHeight || 350
                     );
-                    const pos = this.placePanel(filePanel, candidates, occupiedRects);
+                    const pos = this.placePanel(filePanel, candidates, filePanelOccupied);
                     if (pos) {{
                         filePanel.style.left = pos.left + 'px';
                         filePanel.style.top = pos.top + 'px';
@@ -1207,6 +1364,11 @@ def generate_webgl_html(json_source, output_path):
             init() {{
                 // Window resize
                 window.addEventListener('resize', () => this.reflow());
+
+                // Track mouse position for hover-panel placement
+                window.addEventListener('mousemove', (e) => {{
+                    this.updateMousePosition(e.clientX, e.clientY);
+                }}, {{ passive: true }});
 
                 // Sidebar state changes (lock toggle is handled separately)
                 const sideDock = document.getElementById('side-dock');
@@ -1466,6 +1628,32 @@ def generate_webgl_html(json_source, output_path):
             const mockNodeWithFamily = {{ atom_family: 'LOG', atom: 'ORG.AGG.M' }};
             const familyResult = getNodeAtomFamily(mockNodeWithFamily);
             test('node-atom-family-prefers-field', familyResult === 'LOG');  // Should use atom_family, not infer ORG
+
+            // Test 1f: Hover panel tests
+            test('hover-panel-exists', document.getElementById('hover-panel') !== null);
+
+            // Test hover panel uses canonical fields
+            const mockCanonicalNode = {{
+                name: 'TestNode',
+                atom_family: 'LOG',
+                ring: 'PRESENTATION',
+                tier: 'T2',
+                atom: 'ORG.AGG.M',
+                kind: 'function',
+                role: 'Utility'
+            }};
+            // Simulate updateHoverPanel with mock node
+            if (typeof updateHoverPanel === 'function') {{
+                updateHoverPanel(mockCanonicalNode);
+                const hoverFamily = document.getElementById('hover-family')?.textContent;
+                const hoverRing = document.getElementById('hover-ring')?.textContent;
+                const hoverTier = document.getElementById('hover-tier')?.textContent;
+                // Verify canonical fields are used (LOG not ORG, PRESENTATION, T2)
+                test('hover-panel-uses-canonical-fields',
+                    hoverFamily === 'LOG' && hoverRing === 'PRESENTATION' && hoverTier === 'T2');
+                // Clean up: hide panel
+                updateHoverPanel(null);
+            }}
 
             // Test 2: Metrics panel populated
             test('metric-edge-resolution', document.getElementById('metric-edge-resolution')?.textContent !== '--');
@@ -3443,8 +3631,53 @@ def generate_webgl_html(json_source, output_path):
             return `hsl(${{adjustedHue}}, ${{saturation}}%, ${{adjustedLightness}}%)`;
         }}
 
+        // Track last hovered node to avoid unnecessary re-renders
+        let _lastHoveredNodeId = null;
+
+        function updateHoverPanel(node) {{
+            const hoverPanel = document.getElementById('hover-panel');
+            if (!hoverPanel) return;
+
+            if (!node) {{
+                // Mouse left node - hide panel after delay
+                setTimeout(() => {{
+                    if (_lastHoveredNodeId === null) {{
+                        hoverPanel.classList.remove('visible');
+                    }}
+                }}, 200);
+                _lastHoveredNodeId = null;
+                return;
+            }}
+
+            // Only update if node changed (performance)
+            const nodeId = node.id || node.name || '';
+            if (nodeId === _lastHoveredNodeId) return;
+            _lastHoveredNodeId = nodeId;
+
+            // Update hover panel content with canonical taxonomy fields
+            document.getElementById('hover-name').textContent = node.name || node.id || 'Unknown';
+            document.getElementById('hover-kind').textContent = node.kind || node.symbol_kind || 'node';
+            document.getElementById('hover-atom').textContent = node.atom || '--';
+            document.getElementById('hover-family').textContent = getNodeAtomFamily(node);
+            document.getElementById('hover-ring').textContent = getNodeRing(node);
+            document.getElementById('hover-tier').textContent = getNodeTier(node);
+            document.getElementById('hover-role').textContent = node.role || '--';
+
+            // Show file path (truncated if long)
+            const filePath = node.file_path || node.file || '';
+            const shortPath = filePath.length > 50 ? '...' + filePath.slice(-47) : filePath;
+            document.getElementById('hover-file').textContent = shortPath || '--';
+
+            // Show panel and trigger smart placement
+            hoverPanel.classList.add('visible');
+            HudLayoutManager.reflow();
+        }}
+
         function handleNodeHover(node, data) {{
             const filePanel = document.getElementById('file-panel');
+
+            // Always update hover panel (separate from file panel)
+            updateHoverPanel(node);
 
             if (!VIS_FILTERS.metadata.showFilePanel) {{
                 filePanel.classList.remove('visible');
