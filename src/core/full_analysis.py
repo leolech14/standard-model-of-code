@@ -60,6 +60,15 @@ def _open_file(path: Path) -> bool:
     return True
 
 
+def _manual_open_command(path: Path) -> str:
+    """Return a manual open command for the current OS."""
+    if sys.platform == "darwin":
+        return f'open "{path}"'
+    if os.name == "nt":
+        return f'start \"\" \"{path}\"'
+    return f'xdg-open "{path}"'
+
+
 def build_file_index(nodes: List[Dict], edges: List[Dict], target_path: str = "") -> Dict[str, Any]:
     """
     Build a file-centric index of atoms for hybrid navigation.
@@ -754,6 +763,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         latest_html = _find_latest_html(out_path)
         if latest_html:
             print(f"   Open:   {latest_html}")
+            print(f"   Manual: {_manual_open_command(latest_html)}")
             if not _open_file(latest_html):
                 print("   ⚠️  Open failed (see system logs for details).")
         else:
