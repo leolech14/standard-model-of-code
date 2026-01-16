@@ -1447,6 +1447,26 @@ def generate_webgl_html(json_source, output_path):
                 document.body.removeChild(mockPanel);
             }}
 
+            // Test 1e: Canonical taxonomy field tests
+            // Test that node.tier is preferred over atom prefix inference
+            const mockNodeWithTier = {{ tier: 'T2', atom: 'CORE.001', ring: 'DOMAIN' }};
+            const tierResult = getNodeTier(mockNodeWithTier);
+            test('node-tier-prefers-field', tierResult === 'T2');  // Should use tier field, not infer T0 from CORE.
+
+            // Test that node.ring is used when present
+            const mockNodeWithRing = {{ ring: 'PRESENTATION', layer: 'APPLICATION' }};
+            const ringResult = getNodeRing(mockNodeWithRing);
+            test('node-ring-prefers-field', ringResult === 'PRESENTATION');  // Should use ring, not layer
+
+            // Test tier aliases work (CORE → T0, EXT → T2)
+            test('tier-alias-core-to-t0', normalizeTier('CORE') === 'T0');
+            test('tier-alias-ext-to-t2', normalizeTier('EXT') === 'T2');
+
+            // Test atom_family extraction
+            const mockNodeWithFamily = {{ atom_family: 'LOG', atom: 'ORG.AGG.M' }};
+            const familyResult = getNodeAtomFamily(mockNodeWithFamily);
+            test('node-atom-family-prefers-field', familyResult === 'LOG');  // Should use atom_family, not infer ORG
+
             // Test 2: Metrics panel populated
             test('metric-edge-resolution', document.getElementById('metric-edge-resolution')?.textContent !== '--');
             test('metric-call-ratio', document.getElementById('metric-call-ratio')?.textContent !== '--');
@@ -1486,12 +1506,56 @@ def generate_webgl_html(json_source, output_path):
             return results;
         }}
         
-        function getNodeTier(atomId) {{
-            if (!atomId) return 'UNKNOWN';
-            if (atomId.startsWith('CORE.')) return 'CORE';
-            if (atomId.startsWith('ARCH.')) return 'ARCH';
-            if (atomId.startsWith('EXT.DISCOVERED')) return 'DISCOVERED';
-            if (atomId.startsWith('EXT.')) return 'EXT';
+        // Tier aliases: legacy names → canonical T0/T1/T2
+        const TIER_ALIASES = {{
+            'CORE': 'T0', 'T0': 'T0',
+            'ARCH': 'T1', 'T1': 'T1',
+            'EXT': 'T2', 'T2': 'T2',
+            'DISCOVERED': 'T2',  // EXT.DISCOVERED → T2
+            'UNKNOWN': 'UNKNOWN'
+        }};
+
+        function normalizeTier(tier) {{
+            if (!tier) return 'UNKNOWN';
+            const upper = String(tier).toUpperCase();
+            return TIER_ALIASES[upper] || upper;
+        }}
+
+        // Prefer canonical node.tier field; fallback to atom prefix inference
+        function getNodeTier(node) {{
+            // If node is a string (backward compat: called with atomId), infer from prefix
+            if (typeof node === 'string') {{
+                const atomId = node;
+                if (!atomId) return 'UNKNOWN';
+                if (atomId.startsWith('CORE.')) return 'T0';
+                if (atomId.startsWith('ARCH.')) return 'T1';
+                if (atomId.startsWith('EXT.')) return 'T2';
+                return 'UNKNOWN';
+            }}
+            // Prefer canonical field
+            if (node.tier) {{
+                return normalizeTier(node.tier);
+            }}
+            // Fallback: infer from atom prefix
+            const atomId = String(node.atom || '');
+            if (atomId.startsWith('CORE.')) return 'T0';
+            if (atomId.startsWith('ARCH.')) return 'T1';
+            if (atomId.startsWith('EXT.')) return 'T2';
+            return 'UNKNOWN';
+        }}
+
+        // Get atom family from canonical field or infer from atom prefix
+        function getNodeAtomFamily(node) {{
+            // Prefer canonical field
+            if (node.atom_family) {{
+                return String(node.atom_family).toUpperCase();
+            }}
+            // Fallback: infer from atom (e.g., "LOG.FNC.M" → "LOG")
+            const atomId = String(node.atom || '');
+            const dotIdx = atomId.indexOf('.');
+            if (dotIdx > 0) {{
+                return atomId.substring(0, dotIdx).toUpperCase();
+            }}
             return 'UNKNOWN';
         }}
 
@@ -1514,15 +1578,30 @@ def generate_webgl_html(json_source, output_path):
 
             if (NODE_COLOR_MODE === 'ring') {{
                 const ring = getNodeRing(node);
-                const ringColor = NODE_COLOR_CONFIG.ring?.[ring] || NODE_COLOR_CONFIG.ring?.UNKNOWN;
+                const ringColor = NODE_COLOR_CONFIG.ring?.[ring];
                 if (ringColor) {{
-                    return normalizeColorInput(ringColor || NODE_COLOR_CONFIG.unknown || '#666666', '#666666');
+                    return normalizeColorInput(ringColor, '#666666');
+                }}
+                // Fallback: if ring is UNKNOWN or unmapped, use atom_family palette
+                if (ring === 'UNKNOWN' || !NODE_COLOR_CONFIG.ring?.[ring]) {{
+                    const atomFamily = getNodeAtomFamily(node);
+                    // Atom family color palette (LOG=blue, DAT=green, ORG=purple, EXE=red, EXT=orange)
+                    const ATOM_FAMILY_COLORS = {{
+                        'LOG': '#4a9eff',   // Blue - logic/functions
+                        'DAT': '#4ade80',   // Green - data/DTOs
+                        'ORG': '#a78bfa',   // Purple - organizational
+                        'EXE': '#f87171',   // Red - execution/entry
+                        'EXT': '#fb923c',   // Orange - external/extensions
+                        'UNKNOWN': '#666666'
+                    }};
+                    return ATOM_FAMILY_COLORS[atomFamily] || ATOM_FAMILY_COLORS.UNKNOWN;
                 }}
                 const hue = hashToUnit(ring) * 360;
                 return oklchColor(60, 0.12, hue);
             }}
 
-            const tier = getNodeTier(String(node.atom || ''));
+            // Tier color mode (default)
+            const tier = getNodeTier(node);
             const tierColor = NODE_COLOR_CONFIG.tier?.[tier] || NODE_COLOR_CONFIG.tier?.UNKNOWN;
             return normalizeColorInput(tierColor || NODE_COLOR_CONFIG.unknown || '#666666', '#666666');
         }}
@@ -1566,7 +1645,7 @@ def generate_webgl_html(json_source, output_path):
             }}
 
             if (tierFilter.size > 0) {{
-                visibleNodes = visibleNodes.filter(n => tierFilter.has(getNodeTier(String(n.atom || ''))));
+                visibleNodes = visibleNodes.filter(n => tierFilter.has(getNodeTier(n)));
             }}
 
             if (ringFilter.size > 0) {{
@@ -1956,13 +2035,19 @@ def generate_webgl_html(json_source, output_path):
                 if (!Array.isArray(value)) return [];
                 return value.map(item => String(item).toUpperCase());
             }};
+            // Normalize tier list with aliases (CORE→T0, ARCH→T1, EXT→T2)
+            const normalizeTierList = (value) => {{
+                if (!Array.isArray(value)) return [];
+                return value.map(item => normalizeTier(item));
+            }};
             const match = raw.match || {{}};
             return {{
                 id: id.toUpperCase(),
                 label: String(raw.label || raw.id || id).toUpperCase(),
                 match: {{
-                    atom_prefixes: normalizeList(match.atom_prefixes),
-                    tiers: normalizeList(match.tiers),
+                    atom_families: normalizeList(match.atom_families),  // NEW: canonical atom family
+                    atom_prefixes: normalizeList(match.atom_prefixes),  // backward compat
+                    tiers: normalizeTierList(match.tiers),  // applies aliases
                     rings: normalizeList(match.rings),
                     roles: normalizeList(match.roles)
                 }},
@@ -1992,20 +2077,32 @@ def generate_webgl_html(json_source, output_path):
         function datamapMatches(node, config) {{
             const match = config.match || {{}};
             const atomId = String(node.atom || '');
-            const tier = getNodeTier(atomId);
+            const atomFamily = getNodeAtomFamily(node);  // canonical or inferred
+            const tier = getNodeTier(node);  // canonical or inferred (with aliases)
             const ring = getNodeRing(node);
             const role = String(node.role || 'Unknown').toUpperCase();
 
-            if (Array.isArray(match.atom_prefixes) && match.atom_prefixes.length) {{
-                const ok = match.atom_prefixes.some(prefix => atomId.startsWith(prefix));
-                if (!ok) return false;
+            // NEW: atom_families matching (canonical field)
+            if (Array.isArray(match.atom_families) && match.atom_families.length) {{
+                if (!match.atom_families.includes(atomFamily)) return false;
             }}
+
+            // Backward compat: atom_prefixes matches atom_family OR atom prefix
+            if (Array.isArray(match.atom_prefixes) && match.atom_prefixes.length) {{
+                const matchesFamily = match.atom_prefixes.includes(atomFamily);
+                const matchesPrefix = match.atom_prefixes.some(prefix => atomId.startsWith(prefix));
+                if (!matchesFamily && !matchesPrefix) return false;
+            }}
+
+            // Tier matching (aliases already normalized in config)
             if (Array.isArray(match.tiers) && match.tiers.length) {{
                 if (!match.tiers.includes(tier)) return false;
             }}
+
             if (Array.isArray(match.rings) && match.rings.length) {{
                 if (!match.rings.includes(ring)) return false;
             }}
+
             if (Array.isArray(match.roles) && match.roles.length) {{
                 if (!match.roles.includes(role)) return false;
             }}
@@ -2463,7 +2560,7 @@ def generate_webgl_html(json_source, output_path):
                 }};
             }}
 
-            const tierCounts = collectCounts(data.nodes, n => getNodeTier(String(n.atom || '')));
+            const tierCounts = collectCounts(data.nodes, n => getNodeTier(n));
             const ringCounts = collectCounts(data.nodes, n => getNodeRing(n));
             const roleCounts = collectCounts(data.nodes, n => String(n.role || 'Unknown'));
             const edgeCounts = collectCounts(data.links, l => String(l.edge_type || l.type || 'default'));
