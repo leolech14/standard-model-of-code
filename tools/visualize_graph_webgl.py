@@ -1237,13 +1237,26 @@ def generate_webgl_html(json_source, output_path):
                 const vp = this.getViewport();
                 const offset = 16;  // Offset from cursor
 
+                // Account for sidebar when it's open
+                const sidebarOpen = this.isSidebarOpen();
+                const sidebarRect = sidebarOpen ? this.getSidebarRect() : null;
+                const minLeft = sidebarRect ? sidebarRect.right + offset : vp.left;
+
                 // Candidates: TR, BR, BL, TL around cursor position
-                const candidates = [
+                let candidates = [
                     {{ left: mouseX + offset, top: mouseY - panelHeight - offset }},        // Top-right of cursor
                     {{ left: mouseX + offset, top: mouseY + offset }},                       // Bottom-right of cursor
                     {{ left: mouseX - panelWidth - offset, top: mouseY + offset }},         // Bottom-left of cursor
                     {{ left: mouseX - panelWidth - offset, top: mouseY - panelHeight - offset }}  // Top-left of cursor
                 ];
+
+                // Ensure candidates clear the sidebar
+                if (sidebarRect) {{
+                    candidates = candidates.map(c => ({{
+                        left: Math.max(c.left, minLeft),
+                        top: c.top
+                    }}));
+                }}
 
                 return candidates;
             }},
