@@ -76,7 +76,8 @@ def _is_atomic_node(comp: dict) -> bool:
     """Check if a component is atomic (function/method/class)."""
     if _is_container_node(comp):
         return False
-    t = (comp.get("type") or comp.get("kind") or "").lower()
+    # Prefer 'kind' over 'type' since 'type' is often 'Unknown'
+    t = (comp.get("kind") or comp.get("type") or "").lower()
     return t in {"function", "method", "class", "functiondef", "asyncfunctiondef", "classdef"}
 
 
