@@ -18,9 +18,25 @@
         "$value": "oklch(16% 0.02 250)",
         "$description": "Elevated panels, modals"
       },
+      "sunken": {
+        "$value": "oklch(5% 0.02 250)",
+        "$description": "Sunken/inset areas"
+      },
       "overlay": {
         "$value": "oklch(5% 0.01 250 / 0.9)",
         "$description": "Overlay backdrop"
+      },
+      "overlay-light": {
+        "$value": "oklch(0% 0 0 / 0.4)",
+        "$description": "Light overlay"
+      },
+      "overlay-medium": {
+        "$value": "oklch(0% 0 0 / 0.5)",
+        "$description": "Medium overlay"
+      },
+      "shadow-soft": {
+        "$value": "rgba(0, 0, 0, 0.3)",
+        "$description": "Soft shadow color"
       },
       "hover": {
         "$value": "oklch(100% 0 0 / 0.05)",
@@ -29,6 +45,26 @@
       "active": {
         "$value": "oklch(100% 0 0 / 0.1)",
         "$description": "Active/pressed state"
+      },
+      "highlight": {
+        "$value": "oklch(100% 0 0 / 0.2)",
+        "$description": "Highlighted state"
+      },
+      "panel-dark": {
+        "$value": "rgba(5, 8, 12, 0.9)",
+        "$description": "Dark panel background"
+      },
+      "panel-blue": {
+        "$value": "rgba(20, 30, 45, 0.95)",
+        "$description": "Blue-tinted panel"
+      },
+      "panel-accent": {
+        "$value": "rgba(30, 50, 80, 0.85)",
+        "$description": "Accent-tinted panel"
+      },
+      "tooltip": {
+        "$value": "rgba(180, 210, 255, 0.95)",
+        "$description": "Tooltip background"
       }
     },
 
@@ -40,6 +76,14 @@
       "subtle": {
         "$value": "oklch(100% 0 0 / 0.04)",
         "$description": "Subtle dividers"
+      },
+      "faint": {
+        "$value": "oklch(100% 0 0 / 0.03)",
+        "$description": "Faint dividers"
+      },
+      "muted": {
+        "$value": "oklch(100% 0 0 / 0.06)",
+        "$description": "Muted borders"
       },
       "strong": {
         "$value": "oklch(100% 0 0 / 0.15)",
@@ -56,6 +100,14 @@
         "$value": "oklch(100% 0 0)",
         "$description": "Primary text - white"
       },
+      "bright": {
+        "$value": "oklch(100% 0 0 / 0.85)",
+        "$description": "Bright text"
+      },
+      "high": {
+        "$value": "oklch(100% 0 0 / 0.75)",
+        "$description": "High contrast text"
+      },
       "secondary": {
         "$value": "oklch(100% 0 0 / 0.7)",
         "$description": "Secondary text"
@@ -71,6 +123,10 @@
       "disabled": {
         "$value": "oklch(100% 0 0 / 0.25)",
         "$description": "Disabled text"
+      },
+      "inverse": {
+        "$value": "oklch(10% 0 0)",
+        "$description": "Inverse text - dark on light"
       }
     },
 
@@ -79,6 +135,10 @@
         "$value": "oklch(75% 0.15 200)",
         "$description": "Primary accent - cyan"
       },
+      "primary-bright": {
+        "$value": "#00d4ff",
+        "$description": "Bright cyan accent"
+      },
       "primary-dim": {
         "$value": "oklch(55% 0.10 200)",
         "$description": "Dimmed accent"
@@ -86,26 +146,178 @@
       "primary-bg": {
         "$value": "oklch(75% 0.15 200 / 0.15)",
         "$description": "Accent background tint"
+      },
+      "primary-bg-medium": {
+        "$value": "rgba(0, 212, 255, 0.5)",
+        "$description": "Medium accent background"
+      },
+      "primary-bg-subtle": {
+        "$value": "rgba(0, 212, 255, 0.15)",
+        "$description": "Subtle accent background"
+      },
+      "primary-glow": {
+        "$value": "rgba(77, 212, 255, 0.2)",
+        "$description": "Accent glow"
+      },
+      "secondary": {
+        "$value": "rgba(80, 140, 200, 0.5)",
+        "$description": "Secondary accent"
+      },
+      "secondary-dim": {
+        "$value": "rgba(80, 140, 200, 0.25)",
+        "$description": "Dimmed secondary accent"
+      },
+      "secondary-bg": {
+        "$value": "rgba(80, 140, 200, 0.4)",
+        "$description": "Secondary accent background"
+      },
+      "teal": {
+        "$value": "#33ccbb",
+        "$description": "Teal accent"
+      },
+      "purple": {
+        "$value": "#7c3aed",
+        "$description": "Purple accent"
+      },
+      "purple-light": {
+        "$value": "#b39dff",
+        "$description": "Light purple accent"
       }
     },
 
     "status": {
       "success": {
-        "$value": "oklch(70% 0.18 145)",
+        "$value": "#22c55e",
         "$description": "Success/positive - green"
       },
+      "success-bright": {
+        "$value": "#4ade80",
+        "$description": "Bright success"
+      },
+      "success-light": {
+        "$value": "#6ee7b7",
+        "$description": "Light success"
+      },
+      "success-dark": {
+        "$value": "#16a34a",
+        "$description": "Dark success"
+      },
+      "success-dim": {
+        "$value": "#10b981",
+        "$description": "Dimmed success"
+      },
       "warning": {
-        "$value": "oklch(75% 0.18 85)",
+        "$value": "#f59e0b",
         "$description": "Warning/caution - yellow"
       },
+      "warning-bright": {
+        "$value": "#eab308",
+        "$description": "Bright warning"
+      },
+      "warning-dark": {
+        "$value": "#ca8a04",
+        "$description": "Dark warning"
+      },
+      "warning-orange": {
+        "$value": "#ffb464",
+        "$description": "Orange warning"
+      },
       "error": {
-        "$value": "oklch(65% 0.22 25)",
+        "$value": "#ef4444",
         "$description": "Error/critical - red"
+      },
+      "error-bright": {
+        "$value": "#ff6b6b",
+        "$description": "Bright error"
+      },
+      "error-light": {
+        "$value": "#fca5a5",
+        "$description": "Light error"
+      },
+      "error-dark": {
+        "$value": "#dc2626",
+        "$description": "Dark error"
+      },
+      "error-glow": {
+        "$value": "rgba(255, 100, 100, 0.3)",
+        "$description": "Error glow"
       },
       "info": {
         "$value": "oklch(70% 0.15 240)",
         "$description": "Info - blue"
+      },
+      "info-light": {
+        "$value": "#88ccff",
+        "$description": "Light info"
       }
+    },
+
+    "data": {
+      "blue-light": {
+        "$value": "#e8f0ff",
+        "$description": "Light blue data background"
+      },
+      "blue-muted": {
+        "$value": "#c8d8f0",
+        "$description": "Muted blue data"
+      },
+      "cyan-bright": {
+        "$value": "#6fe8ff",
+        "$description": "Bright cyan data"
+      },
+      "green-bright": {
+        "$value": "#00ff88",
+        "$description": "Bright green data"
+      }
+    },
+
+    "neutral": {
+      "black": {
+        "$value": "#000000",
+        "$description": "Pure black"
+      },
+      "near-black": {
+        "$value": "#111111",
+        "$description": "Near black"
+      },
+      "gray-dark": {
+        "$value": "#888888",
+        "$description": "Dark gray"
+      },
+      "white": {
+        "$value": "#ffffff",
+        "$description": "Pure white"
+      }
+    },
+
+    "gradient": {
+      "$description": "Base colors for gradients",
+      "blue-start": { "$value": "rgba(60, 100, 180, 0.3)" },
+      "blue-end": { "$value": "rgba(80, 140, 200, 0.3)" },
+      "blue-bright": { "$value": "rgba(100, 160, 220, 0.5)" },
+      "blue-dim": { "$value": "rgba(40, 80, 150, 0.3)" },
+      "cyan-start": { "$value": "rgba(0, 180, 220, 0.15)" },
+      "cyan-end": { "$value": "rgba(79, 195, 247, 0.15)" },
+      "warm-start": { "$value": "rgba(120, 50, 30, 0.4)" },
+      "warm-end": { "$value": "rgba(100, 60, 40, 0.3)" },
+      "cool-start": { "$value": "rgba(30, 50, 70, 0.4)" },
+      "cool-end": { "$value": "rgba(40, 70, 80, 0.3)" },
+      "purple-start": { "$value": "rgba(70, 50, 90, 0.4)" },
+      "purple-end": { "$value": "rgba(90, 60, 80, 0.3)" },
+      "green-start": { "$value": "rgba(30, 60, 30, 0.4)" },
+      "green-end": { "$value": "rgba(40, 70, 40, 0.3)" },
+      "dark-panel": { "$value": "rgba(15, 25, 45, 0.98)" },
+      "dark-panel-end": { "$value": "rgba(8, 16, 32, 0.98)" }
+    },
+
+    "viz": {
+      "$description": "Visualization-specific colors",
+      "tooltip-bg": { "$value": "rgba(180, 210, 255, 0.9)" },
+      "tooltip-text": { "$value": "rgba(20, 30, 45, 0.95)" },
+      "node-glow": { "$value": "rgba(100, 180, 255, 0.5)" },
+      "edge-glow": { "$value": "rgba(77, 212, 255, 0.3)" },
+      "selection": { "$value": "rgba(0, 212, 255, 0.4)" },
+      "highlight": { "$value": "rgba(255, 200, 100, 0.9)" }
     }
   },
 
