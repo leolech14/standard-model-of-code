@@ -81,3 +81,30 @@ def test_normalize_output_idempotent():
     once = normalize_output(data)
     twice = normalize_output(once)
     assert once == twice
+
+
+def test_normalize_output_file_paths_consistent():
+    target_path = "/tmp/project"
+    data = _sample_output(target_path)
+
+    # Simulate mixed absolute/relative inputs.
+    data["nodes"][0]["file_path"] = "app/main.py"
+    data["nodes"][1]["file_path"] = "app/utils.py"
+    data["file_boundaries"] = [
+        {"file": f"{target_path}/app/main.py", "file_name": "main.py", "atom_count": 1},
+        {"file": f"{target_path}/app/utils.py", "file_name": "utils.py", "atom_count": 1},
+    ]
+    data["files"] = {
+        f"{target_path}/app/main.py": {"atom_names": ["Main.run"]},
+        f"{target_path}/app/utils.py": {"atom_names": ["Helper"]},
+    }
+
+    normalized = normalize_output(data)
+    boundary_files = {b.get("file") for b in normalized.get("file_boundaries", [])}
+    assert boundary_files == {"app/main.py", "app/utils.py"}
+
+    files_index = normalized.get("files", {})
+    assert "app/main.py" in files_index
+    assert "app/utils.py" in files_index
+    assert f"{target_path}/app/main.py" not in files_index
+    assert f"{target_path}/app/utils.py" not in files_index

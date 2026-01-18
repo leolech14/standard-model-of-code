@@ -343,8 +343,8 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     """
     from tree_sitter_engine import TreeSitterUniversalEngine
     from stats_generator import StatsGenerator
-    from particle_classifier import ParticleClassifier
-    
+    # from particle_classifier import ParticleClassifier  # QUARANTINED
+
     start_time = time.time()
     target = Path(target_path).resolve()
     
@@ -369,14 +369,14 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     # =========================================================================
     # STAGE 2: RPBL CLASSIFICATION
     # =========================================================================
-    print("\n🏷️  Stage 2: RPBL Classification...")
-    classifier = ParticleClassifier()
+    print("\n🏷️  Stage 2: RPBL Classification... [SKIPPED - QUARANTINED]")
+    # classifier = ParticleClassifier()
     
-    for result in results:
-        classified = []
-        for particle in result.get('particles', []):
-            classified.append(classifier.classify_particle(particle))
-        result['particles'] = classified
+    # for result in results:
+    #     classified = []
+    #     for particle in result.get('particles', []):
+    #         classified.append(classifier.classify_particle(particle))
+    #     result['particles'] = classified
     
     # =========================================================================
     # STAGE 3: AUTO PATTERN DISCOVERY

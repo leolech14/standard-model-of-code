@@ -145,14 +145,19 @@ Phase 4 (auditability + determinism)
 
 ---
 
-## Phase 5 — Dimensions + lenses enrichment
+## Phase 5 — Dimensions + attributes enrichment
 
 **Goal:** Turn the graph into an analysis machine.
 
 ### Deliverables
 1. **Dimensions D1–D8 for N_atomic**
-2. **Lenses R1–R8**
+2. **Attributes A1–A8** (formerly "Lenses")
 3. **Evidence model** (confidence + evidence per field)
+4. **Terminology standardization**
+   - **Attributes** = inherent properties of each atom (schema/data model)
+   - **Lenses** = analytical perspectives for examining code (process/methodology)
+   - Update THEORY.md, schema files, and code to use consistent terminology:
+     > "Every atom has 8 **attributes**. We examine them through 8 **lenses**."
 
 ### Metrics
 - Enrichment coverage: `% atomic nodes with D-fields`
@@ -212,7 +217,7 @@ Phase 4 (auditability + determinism)
 | PR4 | Call resolver upgrades | self/cls/import aliasing + fixtures |
 | PR5 | Proof traceability | Witness paths + determinism hash |
 | PR6 | Derived graphs | File-level aggregation (non-proof) |
-| PR7 | Dimensions/Lenses | Enrichment passes + evidence model |
+| PR7 | Dimensions/Attributes | Enrichment passes + evidence model + terminology |
 | PR8 | Pillars stabilization | Issue detectors |
 
 ---
@@ -230,4 +235,4 @@ Reachability: 29.3% ← This is the forcing function
 
 ---
 
-*Last updated: 2026-01-04*
+*Last updated: 2026-01-16*

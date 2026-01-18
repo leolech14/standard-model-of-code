@@ -48,6 +48,7 @@ If you want the orientation folder to reflect only committed changes, commit fir
 | `docs/roadmaps/*.md` | `C1_*.md, C2_*.md, C3_*.md` | Roadmap documents |
 
 **Default destination:** `~/Downloads/orientation-files/`
+**Internal mirror:** `.agent/orientation/` (git-ignored, always synced)
 
 ---
 

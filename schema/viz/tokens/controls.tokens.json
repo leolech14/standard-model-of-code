@@ -2,396 +2,1135 @@
   "$schema": "controls-tokens",
   "$purpose": "UI control bindings - USER EDITABLE - Single source of truth for all UI",
   "$version": "2.0.0",
-
   "command-bar": {
     "$description": "Bottom arc command bar with panel triggers",
-    "visible": {"$value": true},
-    "position": {"$value": "bottom-center", "$options": ["bottom-center", "bottom-left", "bottom-right"]},
-    "buttons": {
-      "view":     {"$value": true, "$icon": "eye",     "$panel": "panel-view",     "$shortcut": "v"},
-      "filter":   {"$value": true, "$icon": "funnel",  "$panel": "panel-filter",   "$shortcut": "f"},
-      "style":    {"$value": true, "$icon": "palette", "$panel": "panel-style",    "$shortcut": "s"},
-      "oklch":    {"$value": true, "$icon": "globe",   "$panel": "oklch-picker",   "$shortcut": "c"},
-      "files":    {"$value": true, "$icon": "file",    "$action": "toggle-files",  "$shortcut": "1"},
-      "flow":     {"$value": true, "$icon": "flow",    "$action": "toggle-flow",   "$shortcut": "2"},
-      "3d":       {"$value": true, "$icon": "cube",    "$action": "toggle-3d",     "$shortcut": "d"},
-      "settings": {"$value": true, "$icon": "gear",    "$panel": "panel-settings", "$shortcut": ","}
+    "visible": {
+      "$value": true
     },
-    "order": {"$value": ["view", "filter", "style", "oklch", "---", "files", "flow", "3d", "---", "settings"]}
+    "position": {
+      "$value": "bottom-center",
+      "$options": [
+        "bottom-center",
+        "bottom-left",
+        "bottom-right"
+      ]
+    },
+    "buttons": {
+      "view": {
+        "$value": true,
+        "$icon": "eye",
+        "$panel": "panel-view",
+        "$shortcut": "v"
+      },
+      "filter": {
+        "$value": true,
+        "$icon": "funnel",
+        "$panel": "panel-filter",
+        "$shortcut": "f"
+      },
+      "style": {
+        "$value": true,
+        "$icon": "palette",
+        "$panel": "panel-style",
+        "$shortcut": "s"
+      },
+      "oklch": {
+        "$value": true,
+        "$icon": "globe",
+        "$panel": "oklch-picker",
+        "$shortcut": "c"
+      },
+      "files": {
+        "$value": true,
+        "$icon": "file",
+        "$action": "toggle-files",
+        "$shortcut": "1"
+      },
+      "flow": {
+        "$value": true,
+        "$icon": "flow",
+        "$action": "toggle-flow",
+        "$shortcut": "2"
+      },
+      "3d": {
+        "$value": true,
+        "$icon": "cube",
+        "$action": "toggle-3d",
+        "$shortcut": "d"
+      },
+      "settings": {
+        "$value": true,
+        "$icon": "gear",
+        "$panel": "panel-settings",
+        "$shortcut": ","
+      }
+    },
+    "order": {
+      "$value": [
+        "view",
+        "filter",
+        "style",
+        "oklch",
+        "---",
+        "files",
+        "flow",
+        "3d",
+        "---",
+        "settings"
+      ]
+    }
   },
-
   "floating-panels": {
     "$description": "Semi-lunar panels triggered by command bar",
-    "layout": {"$value": "stack", "$options": ["stack", "arc-right", "arc-left"]},
-    "animation-duration": {"$value": 200, "$unit": "ms"},
-
+    "layout": {
+      "$value": "stack",
+      "$options": [
+        "stack",
+        "arc-right",
+        "arc-left"
+      ]
+    },
+    "animation-duration": {
+      "$value": 200,
+      "$unit": "ms"
+    },
     "view": {
-      "title": {"$value": "View"},
-      "default-open": {"$value": false},
+      "title": {
+        "$value": "View"
+      },
+      "default-open": {
+        "$value": false
+      },
       "sections": {
-        "dimensions": {"$value": true, "$default": "3D"},
-        "camera": {"$value": true},
-        "zoom": {"$value": true},
-        "panel-layout": {"$value": true}
+        "dimensions": {
+          "$value": true,
+          "$default": "3D"
+        },
+        "camera": {
+          "$value": true
+        },
+        "zoom": {
+          "$value": true
+        },
+        "panel-layout": {
+          "$value": true
+        }
       }
     },
-
     "filter": {
-      "title": {"$value": "Filters"},
-      "default-open": {"$value": false},
+      "title": {
+        "$value": "Filters"
+      },
+      "default-open": {
+        "$value": false
+      },
       "sections": {
-        "tiers": {"$value": true},
-        "rings": {"$value": true},
-        "edge-types": {"$value": true},
-        "density": {"$value": true}
+        "tiers": {
+          "$value": true
+        },
+        "rings": {
+          "$value": true
+        },
+        "edge-types": {
+          "$value": true
+        },
+        "density": {
+          "$value": true
+        }
       }
     },
-
     "style": {
-      "title": {"$value": "Style"},
-      "default-open": {"$value": false},
+      "title": {
+        "$value": "Style"
+      },
+      "default-open": {
+        "$value": false
+      },
       "sections": {
-        "node-color": {"$value": true, "$options": ["tier", "ring", "family", "file"]},
-        "edge-color": {"$value": true, "$options": ["type", "weight", "confidence"]},
-        "node-size": {"$value": true},
-        "edge-opacity": {"$value": true},
-        "starfield": {"$value": true}
+        "node-color": {
+          "$value": true,
+          "$options": [
+            "tier",
+            "ring",
+            "family",
+            "file"
+          ]
+        },
+        "edge-color": {
+          "$value": true,
+          "$options": [
+            "type",
+            "weight",
+            "confidence"
+          ]
+        },
+        "node-size": {
+          "$value": true
+        },
+        "edge-opacity": {
+          "$value": true
+        },
+        "starfield": {
+          "$value": true
+        }
       }
     },
-
     "settings": {
-      "title": {"$value": "Settings"},
-      "default-open": {"$value": false},
+      "title": {
+        "$value": "Settings"
+      },
+      "default-open": {
+        "$value": false
+      },
       "sections": {
-        "ui-distance": {"$value": true},
-        "oval-guide": {"$value": true},
-        "freeze-layout": {"$value": true},
-        "link-distance": {"$value": true},
-        "high-quality": {"$value": true}
+        "ui-distance": {
+          "$value": true
+        },
+        "oval-guide": {
+          "$value": true
+        },
+        "freeze-layout": {
+          "$value": true
+        },
+        "link-distance": {
+          "$value": true
+        },
+        "high-quality": {
+          "$value": true
+        }
       }
     }
   },
-
   "side-dock": {
     "$description": "Always-open compact sidebar on right",
-    "visible": {"$value": true},
-    "position": {"$value": "right", "$options": ["right", "left"]},
-    "width": {"$value": 220},
-    "always-open": {"$value": true},
-
+    "visible": {
+      "$value": true
+    },
+    "position": {
+      "$value": "right",
+      "$options": [
+        "right",
+        "left"
+      ]
+    },
+    "width": {
+      "$value": 220
+    },
+    "always-open": {
+      "$value": true
+    },
     "sections": {
-      "topology": {
+      "topo": {
         "$value": true,
         "order": 1,
         "collapsed": false,
-        "minimap": {"$value": true},
-        "tiers": {"$value": true},
-        "families": {"$value": true},
-        "rings": {"$value": true},
-        "edges": {"$value": true}
+        "sections": {
+          "minimap": {
+            "$value": true
+          },
+          "tiers": {
+            "$value": true
+          },
+          "families": {
+            "$value": true
+          },
+          "rings": {
+            "$value": true
+          },
+          "edges": {
+            "$value": true
+          }
+        }
       },
-      "presets": {
+      "minimap": {
         "$value": true,
         "order": 2,
         "collapsed": false
       },
-      "color-schemes": {
+      "presets": {
         "$value": true,
         "order": 3,
         "collapsed": false
       },
-      "layout": {
+      "schemes": {
         "$value": true,
         "order": 4,
-        "collapsed": true
+        "collapsed": false
       },
-      "view": {
+      "layouts": {
         "$value": true,
         "order": 5,
         "collapsed": true
       },
-      "groups": {
+      "datamaps": {
         "$value": true,
         "order": 6,
         "collapsed": true
       },
-      "data": {
+      "info": {
         "$value": true,
         "order": 7,
         "collapsed": true
       }
     }
   },
-
   "bottom-dock": {
     "$description": "Minimal bottom dock for quick controls",
-    "visible": {"$value": true},
+    "visible": {
+      "$value": true
+    },
     "controls": {
-      "datamap-controls": {"$value": true},
-      "create-group": {"$value": true},
-      "files": {"$value": true},
-      "flow": {"$value": true},
-      "edge-mode": {"$value": true},
-      "report": {"$value": true},
-      "stars": {"$value": true},
-      "reset-layout": {"$value": true},
-      "hints": {"$value": true},
-      "dimensions": {"$value": true}
+      "datamap-controls": {
+        "$value": true
+      },
+      "create-group": {
+        "$value": true
+      },
+      "files": {
+        "$value": true
+      },
+      "flow": {
+        "$value": true
+      },
+      "edge-mode": {
+        "$value": true
+      },
+      "report": {
+        "$value": true
+      },
+      "stars": {
+        "$value": true
+      },
+      "reset-layout": {
+        "$value": true
+      },
+      "hints": {
+        "$value": true
+      },
+      "dimensions": {
+        "$value": true
+      }
     },
     "file-sub-modes": {
-      "color":   {"$value": true, "$mode": "color",   "$description": "Color atoms by file"},
-      "hulls":   {"$value": true, "$mode": "hulls",   "$description": "Draw boundary hulls"},
-      "cluster": {"$value": true, "$mode": "cluster", "$description": "Force cluster by file"},
-      "map":     {"$value": true, "$mode": "map",     "$description": "Show file nodes"},
-      "spheres": {"$value": true, "$mode": "spheres", "$description": "Show containment spheres"},
-      "pop":     {"$value": true, "$mode": "pop",     "$description": "Release particles into chaos!"}
+      "color": {
+        "$value": true,
+        "$mode": "color",
+        "$description": "Color atoms by file"
+      },
+      "hulls": {
+        "$value": true,
+        "$mode": "hulls",
+        "$description": "Draw boundary hulls"
+      },
+      "cluster": {
+        "$value": true,
+        "$mode": "cluster",
+        "$description": "Force cluster by file"
+      },
+      "map": {
+        "$value": true,
+        "$mode": "map",
+        "$description": "Show file nodes"
+      },
+      "spheres": {
+        "$value": true,
+        "$mode": "spheres",
+        "$description": "Show containment spheres"
+      },
+      "pop": {
+        "$value": true,
+        "$mode": "pop",
+        "$description": "Release particles into chaos!"
+      }
     }
   },
-
   "presets": {
     "$description": "Quick visualization mode presets",
     "items": {
-      "tier":   {"$value": true, "icon": "◐", "title": "Core → Architecture → External", "color-by": "tier"},
-      "family": {"$value": true, "icon": "⬡", "title": "LOG, DAT, ORG, EXE, EXT", "color-by": "family"},
-      "layer":  {"$value": true, "icon": "☰", "title": "Physical → Virtual → Semantic", "color-by": "layer"},
-      "ring":   {"$value": true, "icon": "◎", "title": "Domain architecture layers", "color-by": "ring"},
-      "file":   {"$value": true, "icon": "📄", "title": "Each file gets unique hue", "color-by": "file"},
-      "flow":   {"$value": true, "icon": "↝", "title": "Markov chain flow visualization", "mode": "flow"}
+      "tier": {
+        "$value": true,
+        "icon": "◐",
+        "title": "Core → Architecture → External",
+        "color-by": "tier"
+      },
+      "family": {
+        "$value": true,
+        "icon": "⬡",
+        "title": "LOG, DAT, ORG, EXE, EXT",
+        "color-by": "family"
+      },
+      "layer": {
+        "$value": true,
+        "icon": "☰",
+        "title": "Physical → Virtual → Semantic",
+        "color-by": "layer"
+      },
+      "ring": {
+        "$value": true,
+        "icon": "◎",
+        "title": "Domain architecture layers",
+        "color-by": "ring"
+      },
+      "file": {
+        "$value": true,
+        "icon": "📄",
+        "title": "Each file gets unique hue",
+        "color-by": "file"
+      },
+      "flow": {
+        "$value": true,
+        "icon": "↝",
+        "title": "Markov chain flow visualization",
+        "mode": "flow"
+      }
     },
-    "default": {"$value": "tier"}
+    "default": {
+      "$value": "tier"
+    }
   },
-
   "color-schemes": {
     "$description": "OKLCH color scheme presets",
     "items": {
-      "thermal":  {"$value": true, "name": "THERMAL",  "tooltip": "Heat signature - activity glows hot"},
-      "spectrum": {"$value": true, "name": "SPECTRUM", "tooltip": "Full rainbow - structure as color"},
-      "neon":     {"$value": true, "name": "NEON",     "tooltip": "Cyberpunk - electric on void"},
-      "ocean":    {"$value": true, "name": "OCEAN",    "tooltip": "Deep sea - cool depths"},
-      "plasma":   {"$value": true, "name": "PLASMA",   "tooltip": "Energy field - purple/pink glow"},
-      "matrix":   {"$value": true, "name": "MATRIX",   "tooltip": "Phosphor green terminal"},
-      "infrared": {"$value": true, "name": "INFRARED", "tooltip": "Night vision - heat on black"},
-      "aurora":   {"$value": true, "name": "AURORA",   "tooltip": "Northern lights shimmer"}
+      "thermal": {
+        "$value": true,
+        "name": "THERMAL",
+        "tooltip": "Heat signature - activity glows hot"
+      },
+      "spectrum": {
+        "$value": true,
+        "name": "SPECTRUM",
+        "tooltip": "Full rainbow - structure as color"
+      },
+      "neon": {
+        "$value": true,
+        "name": "NEON",
+        "tooltip": "Cyberpunk - electric on void"
+      },
+      "ocean": {
+        "$value": true,
+        "name": "OCEAN",
+        "tooltip": "Deep sea - cool depths"
+      },
+      "plasma": {
+        "$value": true,
+        "name": "PLASMA",
+        "tooltip": "Energy field - purple/pink glow"
+      },
+      "matrix": {
+        "$value": true,
+        "name": "MATRIX",
+        "tooltip": "Phosphor green terminal"
+      },
+      "infrared": {
+        "$value": true,
+        "name": "INFRARED",
+        "tooltip": "Night vision - heat on black"
+      },
+      "aurora": {
+        "$value": true,
+        "name": "AURORA",
+        "tooltip": "Northern lights shimmer"
+      }
     },
-    "default": {"$value": null, "$description": "null = use standard tier colors"}
+    "default": {
+      "$value": null,
+      "$description": "null = use standard tier colors"
+    }
   },
-
   "layouts": {
     "$description": "Graph layout algorithm presets",
     "items": {
-      "force":    {"$value": true, "icon": "🌀", "title": "Physics-based clustering"},
-      "orbital":  {"$value": true, "icon": "🪐", "title": "Planetary orbit bands"},
-      "radial":   {"$value": true, "icon": "🎯", "title": "Concentric tier rings"},
-      "spiral":   {"$value": true, "icon": "🧬", "title": "DNA helix spiral"},
-      "sphere":   {"$value": true, "icon": "🌍", "title": "Spherical shell distribution"},
-      "torus":    {"$value": true, "icon": "🍩", "title": "Donut ring arrangement"},
-      "grid":     {"$value": true, "icon": "📐", "title": "Structured 3D grid"},
-      "cylinder": {"$value": true, "icon": "🗼", "title": "Cylindrical layers"},
-      "tree":     {"$value": true, "icon": "🌳", "title": "Hierarchical tree structure"},
-      "flock":    {"$value": true, "icon": "🐦", "title": "Organic flocking behavior"},
-      "galaxy":   {"$value": true, "icon": "🌌", "title": "Spiral galaxy with arms"}
+      "force": {
+        "$value": true,
+        "icon": "🌀",
+        "title": "Physics-based clustering"
+      },
+      "orbital": {
+        "$value": true,
+        "icon": "🪐",
+        "title": "Planetary orbit bands"
+      },
+      "radial": {
+        "$value": true,
+        "icon": "🎯",
+        "title": "Concentric tier rings"
+      },
+      "spiral": {
+        "$value": true,
+        "icon": "🧬",
+        "title": "DNA helix spiral"
+      },
+      "sphere": {
+        "$value": true,
+        "icon": "🌍",
+        "title": "Spherical shell distribution"
+      },
+      "torus": {
+        "$value": true,
+        "icon": "🍩",
+        "title": "Donut ring arrangement"
+      },
+      "grid": {
+        "$value": true,
+        "icon": "📐",
+        "title": "Structured 3D grid"
+      },
+      "cylinder": {
+        "$value": true,
+        "icon": "🗼",
+        "title": "Cylindrical layers"
+      },
+      "tree": {
+        "$value": true,
+        "icon": "🌳",
+        "title": "Hierarchical tree structure"
+      },
+      "flock": {
+        "$value": true,
+        "icon": "🐦",
+        "title": "Organic flocking behavior"
+      },
+      "galaxy": {
+        "$value": true,
+        "icon": "🌌",
+        "title": "Spiral galaxy with arms"
+      }
     },
-    "default": {"$value": "force"}
+    "default": {
+      "$value": "force"
+    }
   },
-
   "oklch-picker": {
     "$description": "Embedded OKLCH color picker",
-    "visible": {"$value": false, "$description": "Hidden by default, shown on click"},
-    "position": {"$value": "bottom-left"},
+    "visible": {
+      "$value": false,
+      "$description": "Hidden by default, shown on click"
+    },
+    "position": {
+      "$value": "bottom-left"
+    },
     "defaults": {
-      "lightness": {"$value": 70, "$min": 0, "$max": 100},
-      "chroma": {"$value": 0.15, "$min": 0, "$max": 0.4},
-      "hue": {"$value": 220, "$min": 0, "$max": 360},
-      "alpha": {"$value": 100, "$min": 0, "$max": 100}
+      "lightness": {
+        "$value": 70,
+        "$min": 0,
+        "$max": 100
+      },
+      "chroma": {
+        "$value": 0.15,
+        "$min": 0,
+        "$max": 0.4
+      },
+      "hue": {
+        "$value": 220,
+        "$min": 0,
+        "$max": 360
+      },
+      "alpha": {
+        "$value": 100,
+        "$min": 0,
+        "$max": 100
+      }
     }
   },
-
   "topo-tooltip": {
     "$description": "Semantic tooltip for Standard Model elements",
-    "visible": {"$value": true},
-    "delay-show": {"$value": 300, "$unit": "ms"},
-    "delay-hide": {"$value": 100, "$unit": "ms"},
-    "show-theory": {"$value": true},
-    "show-examples": {"$value": true}
-  },
-
-  "keyboard-shortcuts": {
-    "$description": "Keyboard navigation and control shortcuts",
-    "enabled": {"$value": true},
-    "bindings": {
-      "toggle-3d": {"$value": "d", "$description": "Toggle 2D/3D mode"},
-      "toggle-files": {"$value": "1", "$description": "Toggle file mode"},
-      "toggle-flow": {"$value": "2", "$description": "Toggle flow mode"},
-      "open-view": {"$value": "v", "$description": "Open view panel"},
-      "open-filter": {"$value": "f", "$description": "Open filter panel"},
-      "open-style": {"$value": "s", "$description": "Open style panel"},
-      "open-settings": {"$value": ",", "$description": "Open settings panel"},
-      "open-oklch": {"$value": "c", "$description": "Open OKLCH picker"},
-      "reset-view": {"$value": "r", "$description": "Reset camera position"},
-      "escape": {"$value": "Escape", "$description": "Close panels, clear selection"},
-      "select-all": {"$value": "a", "$description": "Select all visible nodes"},
-      "clear-selection": {"$value": "Escape", "$description": "Clear current selection"},
-      "zoom-in": {"$value": "+", "$description": "Zoom in"},
-      "zoom-out": {"$value": "-", "$description": "Zoom out"},
-      "toggle-labels": {"$value": "l", "$description": "Toggle node labels"},
-      "toggle-stars": {"$value": "b", "$description": "Toggle starfield background"}
+    "visible": {
+      "$value": true
+    },
+    "delay-show": {
+      "$value": 300,
+      "$unit": "ms"
+    },
+    "delay-hide": {
+      "$value": 100,
+      "$unit": "ms"
+    },
+    "show-theory": {
+      "$value": true
+    },
+    "show-examples": {
+      "$value": true
     }
   },
-
+  "keyboard-shortcuts": {
+    "$description": "Keyboard navigation and control shortcuts",
+    "enabled": {
+      "$value": true
+    },
+    "bindings": {
+      "toggle-3d": {
+        "$value": "d",
+        "$description": "Toggle 2D/3D mode"
+      },
+      "toggle-files": {
+        "$value": "1",
+        "$description": "Toggle file mode"
+      },
+      "toggle-flow": {
+        "$value": "2",
+        "$description": "Toggle flow mode"
+      },
+      "open-view": {
+        "$value": "v",
+        "$description": "Open view panel"
+      },
+      "open-filter": {
+        "$value": "f",
+        "$description": "Open filter panel"
+      },
+      "open-style": {
+        "$value": "s",
+        "$description": "Open style panel"
+      },
+      "open-settings": {
+        "$value": ",",
+        "$description": "Open settings panel"
+      },
+      "open-oklch": {
+        "$value": "c",
+        "$description": "Open OKLCH picker"
+      },
+      "reset-view": {
+        "$value": "r",
+        "$description": "Reset camera position"
+      },
+      "escape": {
+        "$value": "Escape",
+        "$description": "Close panels, clear selection"
+      },
+      "select-all": {
+        "$value": "a",
+        "$description": "Select all visible nodes"
+      },
+      "clear-selection": {
+        "$value": "Escape",
+        "$description": "Clear current selection"
+      },
+      "zoom-in": {
+        "$value": "+",
+        "$description": "Zoom in"
+      },
+      "zoom-out": {
+        "$value": "-",
+        "$description": "Zoom out"
+      },
+      "toggle-labels": {
+        "$value": "l",
+        "$description": "Toggle node labels"
+      },
+      "toggle-stars": {
+        "$value": "b",
+        "$description": "Toggle starfield background"
+      }
+    }
+  },
   "mouse-controls": {
     "$description": "Mouse interaction bindings",
-    "rotate": {"$value": "right-drag", "$options": ["left-drag", "right-drag", "middle-drag"]},
-    "pan": {"$value": "space+left-drag", "$options": ["right-drag", "space+left-drag", "middle-drag"]},
-    "select": {"$value": "left-drag", "$description": "Marquee selection"},
-    "zoom": {"$value": "scroll"},
-    "click-node": {"$value": "left-click", "$action": "select"},
-    "double-click-node": {"$value": "double-left-click", "$action": "zoom-to"}
+    "rotate": {
+      "$value": "right-drag",
+      "$options": [
+        "left-drag",
+        "right-drag",
+        "middle-drag"
+      ]
+    },
+    "pan": {
+      "$value": "space+left-drag",
+      "$options": [
+        "right-drag",
+        "space+left-drag",
+        "middle-drag"
+      ]
+    },
+    "select": {
+      "$value": "left-drag",
+      "$description": "Marquee selection"
+    },
+    "zoom": {
+      "$value": "scroll"
+    },
+    "click-node": {
+      "$value": "left-click",
+      "$action": "select"
+    },
+    "double-click-node": {
+      "$value": "double-left-click",
+      "$action": "zoom-to"
+    }
   },
-
   "interactions": {
     "$description": "Interaction behavior settings",
     "hover": {
-      "show-label": {"$value": true},
-      "show-panel": {"$value": true},
-      "highlight": {"$value": true},
-      "delay-hide-ms": {"$value": 300}
+      "show-label": {
+        "$value": true
+      },
+      "show-panel": {
+        "$value": true
+      },
+      "highlight": {
+        "$value": true
+      },
+      "delay-hide-ms": {
+        "$value": 300
+      }
     },
     "click": {
-      "select": {"$value": true},
-      "zoom-to": {"$value": false},
-      "show-details": {"$value": true}
+      "select": {
+        "$value": true
+      },
+      "zoom-to": {
+        "$value": false
+      },
+      "show-details": {
+        "$value": true
+      }
     },
     "selection": {
-      "multi-select": {"$value": true},
-      "additive-key": {"$value": "Shift", "$options": ["Shift", "Ctrl", "Meta"]},
-      "marquee-enabled": {"$value": true}
+      "multi-select": {
+        "$value": true
+      },
+      "additive-key": {
+        "$value": "Shift",
+        "$options": [
+          "Shift",
+          "Ctrl",
+          "Meta"
+        ]
+      },
+      "marquee-enabled": {
+        "$value": true
+      }
     }
   },
-
   "datamaps": {
     "$description": "Filter presets for quick data slicing",
     "$value": [
-      {"id": "LOG", "label": "LOG", "match": {"atom_families": ["LOG"]}},
-      {"id": "DAT", "label": "DAT", "match": {"atom_families": ["DAT"]}},
-      {"id": "ORG", "label": "ORG", "match": {"atom_families": ["ORG"]}},
-      {"id": "EXE", "label": "EXE", "match": {"atom_families": ["EXE"]}},
-      {"id": "EXTERNAL", "label": "EXTERNAL", "match": {"atom_families": ["EXT"]}},
-      {"id": "T0", "label": "T0", "match": {"tiers": ["T0"]}},
-      {"id": "T1", "label": "T1", "match": {"tiers": ["T1"]}},
-      {"id": "T2", "label": "T2", "match": {"tiers": ["T2"]}},
-      {"id": "UNKNOWN", "label": "UNKNOWN", "match": {"tiers": ["UNKNOWN"]}},
-      {"id": "DOMAIN", "label": "DOMAIN", "match": {"rings": ["DOMAIN"]}},
-      {"id": "APPLICATION", "label": "APPLICATION", "match": {"rings": ["APPLICATION"]}},
-      {"id": "PRESENTATION", "label": "PRESENTATION", "match": {"rings": ["PRESENTATION"]}},
-      {"id": "INTERFACE", "label": "INTERFACE", "match": {"rings": ["INTERFACE"]}},
-      {"id": "INFRASTRUCTURE", "label": "INFRASTRUCTURE", "match": {"rings": ["INFRASTRUCTURE"]}},
-      {"id": "CROSS_CUTTING", "label": "CROSS_CUTTING", "match": {"rings": ["CROSS_CUTTING"]}},
-      {"id": "TEST", "label": "TEST", "match": {"rings": ["TEST"]}}
+      {
+        "id": "LOG",
+        "label": "LOG",
+        "match": {
+          "atom_families": [
+            "LOG"
+          ]
+        }
+      },
+      {
+        "id": "DAT",
+        "label": "DAT",
+        "match": {
+          "atom_families": [
+            "DAT"
+          ]
+        }
+      },
+      {
+        "id": "ORG",
+        "label": "ORG",
+        "match": {
+          "atom_families": [
+            "ORG"
+          ]
+        }
+      },
+      {
+        "id": "EXE",
+        "label": "EXE",
+        "match": {
+          "atom_families": [
+            "EXE"
+          ]
+        }
+      },
+      {
+        "id": "EXTERNAL",
+        "label": "EXTERNAL",
+        "match": {
+          "atom_families": [
+            "EXT"
+          ]
+        }
+      },
+      {
+        "id": "T0",
+        "label": "T0",
+        "match": {
+          "tiers": [
+            "T0"
+          ]
+        }
+      },
+      {
+        "id": "T1",
+        "label": "T1",
+        "match": {
+          "tiers": [
+            "T1"
+          ]
+        }
+      },
+      {
+        "id": "T2",
+        "label": "T2",
+        "match": {
+          "tiers": [
+            "T2"
+          ]
+        }
+      },
+      {
+        "id": "UNKNOWN",
+        "label": "UNKNOWN",
+        "match": {
+          "tiers": [
+            "UNKNOWN"
+          ]
+        }
+      },
+      {
+        "id": "DOMAIN",
+        "label": "DOMAIN",
+        "match": {
+          "rings": [
+            "DOMAIN"
+          ]
+        }
+      },
+      {
+        "id": "APPLICATION",
+        "label": "APPLICATION",
+        "match": {
+          "rings": [
+            "APPLICATION"
+          ]
+        }
+      },
+      {
+        "id": "PRESENTATION",
+        "label": "PRESENTATION",
+        "match": {
+          "rings": [
+            "PRESENTATION"
+          ]
+        }
+      },
+      {
+        "id": "INTERFACE",
+        "label": "INTERFACE",
+        "match": {
+          "rings": [
+            "INTERFACE"
+          ]
+        }
+      },
+      {
+        "id": "INFRASTRUCTURE",
+        "label": "INFRASTRUCTURE",
+        "match": {
+          "rings": [
+            "INFRASTRUCTURE"
+          ]
+        }
+      },
+      {
+        "id": "CROSS_CUTTING",
+        "label": "CROSS_CUTTING",
+        "match": {
+          "rings": [
+            "CROSS_CUTTING"
+          ]
+        }
+      },
+      {
+        "id": "TEST",
+        "label": "TEST",
+        "match": {
+          "rings": [
+            "TEST"
+          ]
+        }
+      }
     ]
   },
-
   "sliders": {
     "$description": "Adjustable parameters exposed as sliders",
     "density": {
-      "label": {"$value": "DENSITY"},
-      "min": {"$value": 0},
-      "max": {"$value": 100},
-      "step": {"$value": 1},
-      "default": {"$value": 100},
-      "unit": {"$value": "%"}
+      "label": {
+        "$value": "DENSITY"
+      },
+      "min": {
+        "$value": 0
+      },
+      "max": {
+        "$value": 100
+      },
+      "step": {
+        "$value": 1
+      },
+      "default": {
+        "$value": 100
+      },
+      "unit": {
+        "$value": "%"
+      }
     },
     "node-size": {
-      "label": {"$value": "NODE SIZE"},
-      "min": {"$value": 0.2},
-      "max": {"$value": 3},
-      "step": {"$value": 0.1},
-      "default": {"$value": 1},
-      "unit": {"$value": "x"}
+      "label": {
+        "$value": "NODE SIZE"
+      },
+      "min": {
+        "$value": 0.2
+      },
+      "max": {
+        "$value": 3
+      },
+      "step": {
+        "$value": 0.1
+      },
+      "default": {
+        "$value": 1
+      },
+      "unit": {
+        "$value": "x"
+      }
     },
     "edge-opacity": {
-      "label": {"$value": "EDGE OPACITY"},
-      "min": {"$value": 0},
-      "max": {"$value": 100},
-      "step": {"$value": 1},
-      "default": {"$value": 60},
-      "unit": {"$value": "%"}
+      "label": {
+        "$value": "EDGE OPACITY"
+      },
+      "min": {
+        "$value": 0
+      },
+      "max": {
+        "$value": 100
+      },
+      "step": {
+        "$value": 1
+      },
+      "default": {
+        "$value": 60
+      },
+      "unit": {
+        "$value": "%"
+      }
     },
     "zoom": {
-      "label": {"$value": "ZOOM"},
-      "min": {"$value": 10},
-      "max": {"$value": 300},
-      "step": {"$value": 1},
-      "default": {"$value": 100},
-      "unit": {"$value": "%"}
+      "label": {
+        "$value": "ZOOM"
+      },
+      "min": {
+        "$value": 10
+      },
+      "max": {
+        "$value": 300
+      },
+      "step": {
+        "$value": 1
+      },
+      "default": {
+        "$value": 100
+      },
+      "unit": {
+        "$value": "%"
+      }
     },
     "link-distance": {
-      "label": {"$value": "LINK DISTANCE"},
-      "min": {"$value": 10},
-      "max": {"$value": 100},
-      "step": {"$value": 1},
-      "default": {"$value": 30}
+      "label": {
+        "$value": "LINK DISTANCE"
+      },
+      "min": {
+        "$value": 10
+      },
+      "max": {
+        "$value": 100
+      },
+      "step": {
+        "$value": 1
+      },
+      "default": {
+        "$value": 30
+      }
     },
     "ui-margin": {
-      "label": {"$value": "UI DISTANCE"},
-      "min": {"$value": 5},
-      "max": {"$value": 30},
-      "step": {"$value": 1},
-      "default": {"$value": 15},
-      "unit": {"$value": "%"}
+      "label": {
+        "$value": "UI DISTANCE"
+      },
+      "min": {
+        "$value": 5
+      },
+      "max": {
+        "$value": 30
+      },
+      "step": {
+        "$value": 1
+      },
+      "default": {
+        "$value": 15
+      },
+      "unit": {
+        "$value": "%"
+      }
     }
   },
-
   "panels": {
     "$description": "Information panels (metrics, report, file-info)",
     "metrics": {
-      "visible": {"$value": true},
-      "position": {"$value": "top-right"},
-      "fields": ["edge-resolution", "call-ratio", "reachability", "dead-code", "knot-score", "topology", "orphans", "top-hubs"]
+      "visible": {
+        "$value": true
+      },
+      "position": {
+        "$value": "top-right"
+      },
+      "fields": [
+        "edge-resolution",
+        "call-ratio",
+        "reachability",
+        "dead-code",
+        "knot-score",
+        "topology",
+        "orphans",
+        "top-hubs"
+      ]
     },
     "report": {
-      "visible": {"$value": false},
-      "position": {"$value": "top-right"},
-      "width": {"$value": 420}
+      "visible": {
+        "$value": false
+      },
+      "position": {
+        "$value": "top-right"
+      },
+      "width": {
+        "$value": 420
+      }
     },
     "hover": {
-      "visible": {"$value": true},
-      "position": {"$value": "bottom-left"},
-      "delay-hide": {"$value": 300, "$unit": "ms"},
-      "fields": ["name", "kind", "atom", "family", "ring", "tier", "role", "file"]
+      "visible": {
+        "$value": true
+      },
+      "position": {
+        "$value": "bottom-left"
+      },
+      "delay-hide": {
+        "$value": 300,
+        "$unit": "ms"
+      },
+      "fields": [
+        "name",
+        "kind",
+        "atom",
+        "family",
+        "ring",
+        "tier",
+        "role",
+        "file"
+      ]
     },
     "selection": {
-      "visible": {"$value": true},
-      "position": {"$value": "bottom-left"},
-      "max-items": {"$value": 10}
+      "visible": {
+        "$value": true
+      },
+      "position": {
+        "$value": "bottom-left"
+      },
+      "max-items": {
+        "$value": 10
+      }
     },
     "file-info": {
-      "visible": {"$value": true},
-      "position": {"$value": "bottom-left"},
-      "show-on": {"$value": "hover", "$options": ["hover", "click", "always"]},
-      "fields": ["file-name", "cohesion", "purpose", "atom-count", "classes", "functions", "code-preview"]
+      "visible": {
+        "$value": true
+      },
+      "position": {
+        "$value": "bottom-left"
+      },
+      "show-on": {
+        "$value": "hover",
+        "$options": [
+          "hover",
+          "click",
+          "always"
+        ]
+      },
+      "fields": [
+        "file-name",
+        "cohesion",
+        "purpose",
+        "atom-count",
+        "classes",
+        "functions",
+        "code-preview"
+      ]
     }
   },
-
   "filters": {
     "$description": "Default filter states",
-    "tiers": {"$value": ["T0", "T1", "T2", "UNKNOWN"]},
-    "rings": {"$value": ["DOMAIN", "APPLICATION", "PRESENTATION", "INTERFACE", "INFRASTRUCTURE", "CROSS_CUTTING", "TEST"]},
-    "families": {"$value": ["LOG", "DAT", "ORG", "EXE", "EXT"]},
-    "edges": {"$value": ["calls", "contains", "uses", "imports", "inherits"]},
+    "tiers": {
+      "$value": [
+        "T0",
+        "T1",
+        "T2",
+        "UNKNOWN"
+      ]
+    },
+    "rings": {
+      "$value": [
+        "DOMAIN",
+        "APPLICATION",
+        "PRESENTATION",
+        "INTERFACE",
+        "INFRASTRUCTURE",
+        "CROSS_CUTTING",
+        "TEST"
+      ]
+    },
+    "families": {
+      "$value": [
+        "LOG",
+        "DAT",
+        "ORG",
+        "EXE",
+        "EXT"
+      ]
+    },
+    "edges": {
+      "$value": [
+        "calls",
+        "contains",
+        "uses",
+        "imports",
+        "inherits"
+      ]
+    },
     "metadata": {
-      "show-labels": {"$value": true},
-      "show-edges": {"$value": true}
+      "show-labels": {
+        "$value": true
+      },
+      "show-edges": {
+        "$value": true
+      }
     }
   },
-
   "defaults": {
     "$description": "Default application state on load",
-    "dimensions": {"$value": "3D"},
-    "color-mode": {"$value": "tier"},
-    "edge-mode": {"$value": "gradient-file"},
-    "layout": {"$value": "force"},
-    "stars": {"$value": true},
-    "freeze-on-load": {"$value": true},
-    "auto-rotate": {"$value": false}
+    "dimensions": {
+      "$value": "3D"
+    },
+    "color-mode": {
+      "$value": "tier"
+    },
+    "edge-mode": {
+      "$value": "gradient-file"
+    },
+    "layout": {
+      "$value": "force"
+    },
+    "stars": {
+      "$value": true
+    },
+    "freeze-on-load": {
+      "$value": true
+    },
+    "auto-rotate": {
+      "$value": false
+    }
   }
 }

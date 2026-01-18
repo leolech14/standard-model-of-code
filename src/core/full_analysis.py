@@ -283,18 +283,20 @@ def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:
     """
     Compute Markov transition matrix from call graph.
     P(A → B) = calls from A to B / total calls from A
+
+    Also enriches edges with markov_weight for visualization.
     """
     # Build adjacency counts
     out_counts = defaultdict(lambda: defaultdict(int))
     out_totals = defaultdict(int)
-    
+
     for edge in edges:
         source = edge.get('source', '')
         target = edge.get('target', '')
         if source and target:
             out_counts[source][target] += 1
             out_totals[source] += 1
-    
+
     # Compute probabilities
     transitions = {}
     for source, targets in out_counts.items():
@@ -303,7 +305,18 @@ def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:
             target: count / total
             for target, count in targets.items()
         }
-    
+
+    # IMPORTANT: Enrich edges with markov_weight for flow visualization
+    edges_with_weight = 0
+    for edge in edges:
+        source = edge.get('source', '')
+        target = edge.get('target', '')
+        if source in transitions and target in transitions[source]:
+            edge['markov_weight'] = transitions[source][target]
+            edges_with_weight += 1
+        else:
+            edge['markov_weight'] = 0.0
+
     # Summary stats
     high_entropy_nodes = []
     for source, probs in transitions.items():
@@ -313,12 +326,13 @@ def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:
                 'fanout': len(probs),
                 'max_prob': max(probs.values()) if probs else 0
             })
-    
+
     return {
         'total_transitions': len(transitions),
+        'edges_with_weight': edges_with_weight,
         'avg_fanout': sum(len(t) for t in transitions.values()) / len(transitions) if transitions else 0,
         'high_entropy_nodes': sorted(high_entropy_nodes, key=lambda x: -x['fanout'])[:10],
-        'matrix_sample': {k: v for k, v in list(transitions.items())[:5]}  # Sample
+        'transitions': transitions  # Full transitions for frontend
     }
 
 
@@ -521,6 +535,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print("\n📊 Stage 5: Markov Transition Matrix...")
     markov = compute_markov_matrix(nodes, edges)
     print(f"   → {markov['total_transitions']} nodes with transitions")
+    print(f"   → {markov['edges_with_weight']} edges with markov_weight")
     print(f"   → {markov['avg_fanout']:.1f} avg fanout")
     
     # Stage 6: Knot Detection

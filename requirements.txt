@@ -1,6 +1,23 @@
+# Core Analysis
 tree-sitter>=0.20.0
 tree-sitter-python>=0.20.0
+tree-sitter-javascript>=0.20.0
+tree-sitter-typescript>=0.20.0
 tree-sitter-go>=0.20.0
+tree-sitter-rust>=0.20.0
+tree-sitter-java>=0.20.0
 networkx>=3.0
-matplotlib
-numpy
+numpy>=1.24.0
+
+# Visualization (optional, for matplotlib fallback)
+matplotlib>=3.7.0
+
+# Development Tools
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=23.0.0
+isort>=5.12.0
+mypy>=1.0.0
+
+# Optional: Template rendering
+jinja2>=3.1.0

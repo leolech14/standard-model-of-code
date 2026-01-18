@@ -186,6 +186,21 @@ def _candidate_roots(target: str) -> List[PurePath]:
     return deduped
 
 
+def _normalize_path_value(path_value: Any, roots: List[PurePath]) -> Optional[str]:
+    if not path_value or not roots:
+        return None
+    try:
+        path = PurePath(str(path_value))
+    except (TypeError, ValueError):
+        return None
+    for root in roots:
+        try:
+            return str(path.relative_to(root))
+        except ValueError:
+            continue
+    return None
+
+
 def normalize_file_paths(nodes: Iterable[Dict[str, Any]], target: str) -> None:
     """Make node.file_path relative to meta.target when possible."""
     roots = _candidate_roots(target)
@@ -196,18 +211,45 @@ def normalize_file_paths(nodes: Iterable[Dict[str, Any]], target: str) -> None:
         file_path = node.get("file_path")
         if not file_path:
             continue
-        try:
-            path = PurePath(str(file_path))
-        except (TypeError, ValueError):
-            continue
+        rel = _normalize_path_value(file_path, roots)
+        if rel:
+            node["file_path"] = rel
 
-        for root in roots:
-            try:
-                rel = path.relative_to(root)
-            except ValueError:
-                continue
-            node["file_path"] = str(rel)
-            break
+
+def normalize_file_boundaries(boundaries: Any, target: str) -> None:
+    """Make boundary.file relative to meta.target when possible."""
+    if not isinstance(boundaries, list):
+        return
+    roots = _candidate_roots(target)
+    if not roots:
+        return
+    for boundary in boundaries:
+        if not isinstance(boundary, dict):
+            continue
+        file_path = boundary.get("file")
+        rel = _normalize_path_value(file_path, roots)
+        if rel:
+            boundary["file"] = rel
+
+
+def normalize_files_index(files_index: Any, target: str) -> None:
+    """Normalize keys in files index to be relative to meta.target when possible."""
+    if not isinstance(files_index, dict):
+        return
+    roots = _candidate_roots(target)
+    if not roots:
+        return
+    normalized: Dict[str, Any] = {}
+    for file_path, entry in files_index.items():
+        rel = _normalize_path_value(file_path, roots)
+        key = rel or file_path
+        if key in normalized and key != file_path:
+            normalized[file_path] = entry
+            continue
+        normalized[key] = entry
+    if normalized != files_index:
+        files_index.clear()
+        files_index.update(normalized)
 
 
 def canonicalize_ids(
@@ -263,6 +305,8 @@ def normalize_output(data: Dict[str, Any]) -> Dict[str, Any]:
     edges = list(_iter_edges(data))
 
     normalize_file_paths(nodes, str(meta.get("target") or ""))
+    normalize_file_boundaries(data.get("file_boundaries"), str(meta.get("target") or ""))
+    normalize_files_index(data.get("files"), str(meta.get("target") or ""))
 
     for node in nodes:
         if isinstance(node, dict):

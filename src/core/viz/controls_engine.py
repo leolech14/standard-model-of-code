@@ -8,7 +8,7 @@ DUAL SYSTEM:
     TOKENS (controls.tokens.json)  →  ENGINE (this)  →  UI CONFIG
 """
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .token_resolver import get_resolver
 
@@ -242,6 +242,7 @@ class ControlsEngine:
         return {
             "tiers": self.resolver.controls("filters.tiers", []),
             "rings": self.resolver.controls("filters.rings", []),
+            "families": self.resolver.controls("filters.families", []),
             "edges": self.resolver.controls("filters.edges", []),
             "metadata": {
                 "showLabels": self.resolver.controls("filters.metadata.show-labels", True),
@@ -251,19 +252,137 @@ class ControlsEngine:
             }
         }
 
-    def to_js_config(self) -> Dict[str, Any]:
+    def _normalize_ring(self, value: Any) -> Optional[str]:
+        if value is None:
+            return None
+        ring = str(value).strip().upper()
+        if not ring:
+            return None
+        aliases = {
+            "TEST": "TESTING"
+        }
+        return aliases.get(ring, ring)
+
+    def _normalize_list(self, values: Any, normalizer=None) -> List[str]:
+        if not isinstance(values, list):
+            return []
+        normalized: List[str] = []
+        for item in values:
+            if item is None:
+                continue
+            if normalizer:
+                norm = normalizer(item)
+            else:
+                norm = str(item).strip().upper()
+            if not norm:
+                continue
+            normalized.append(norm)
+        return normalized
+
+    def sanitize_filter_defaults(
+        self,
+        filters: Dict[str, Any],
+        available_rings: Optional[List[str]] = None,
+        available_families: Optional[List[str]] = None,
+        strict: bool = False
+    ) -> Dict[str, Any]:
+        if not isinstance(filters, dict):
+            return filters
+
+        rings_raw = filters.get("rings", [])
+        families_raw = filters.get("families", [])
+
+        ring_defaults = self._normalize_list(rings_raw, self._normalize_ring)
+        family_defaults = self._normalize_list(families_raw)
+        ring_defaults_initial = list(ring_defaults)
+        family_defaults_initial = list(family_defaults)
+
+        available_rings_set = set(self._normalize_list(available_rings, self._normalize_ring)) if available_rings else None
+        available_families_set = set(self._normalize_list(available_families)) if available_families else None
+
+        if available_rings_set is not None and ring_defaults:
+            matched_rings = [r for r in ring_defaults if r in available_rings_set]
+            invalid_rings = [r for r in ring_defaults if r not in available_rings_set]
+            if matched_rings:
+                ring_defaults = matched_rings
+                if invalid_rings:
+                    msg = (
+                        "[Controls] ring defaults include invalid values; removed."
+                        f" invalid={invalid_rings} available_rings={sorted(available_rings_set)}"
+                    )
+                    if strict:
+                        raise ValueError(msg)
+                    print(msg)
+            else:
+                matched_families = []
+                if available_families_set is not None:
+                    matched_families = [r for r in ring_defaults if r in available_families_set]
+                if matched_families and not family_defaults:
+                    family_defaults = matched_families
+                    ring_defaults = []
+                    print("[Controls] ring defaults match families; applying as family defaults.")
+                else:
+                    ring_defaults = []
+                msg = (
+                    "[Controls] ring defaults invalid; cleared."
+                    f" defaults={ring_defaults_initial} available_rings={sorted(available_rings_set)}"
+                )
+                if strict:
+                    raise ValueError(msg)
+                print(msg)
+
+        if available_families_set is not None and family_defaults:
+            matched_families = [f for f in family_defaults if f in available_families_set]
+            invalid_families = [f for f in family_defaults if f not in available_families_set]
+            if matched_families:
+                family_defaults = matched_families
+                if invalid_families:
+                    msg = (
+                        "[Controls] family defaults include invalid values; removed."
+                        f" invalid={invalid_families} available_families={sorted(available_families_set)}"
+                    )
+                    if strict:
+                        raise ValueError(msg)
+                    print(msg)
+            else:
+                msg = (
+                    "[Controls] family defaults invalid; cleared."
+                    f" defaults={family_defaults_initial} available_families={sorted(available_families_set)}"
+                )
+                if strict:
+                    raise ValueError(msg)
+                print(msg)
+                family_defaults = []
+
+        filters["rings"] = ring_defaults
+        filters["families"] = family_defaults
+        return filters
+
+    def to_js_config(
+        self,
+        available_rings: Optional[List[str]] = None,
+        available_families: Optional[List[str]] = None,
+        strict: bool = False
+    ) -> Dict[str, Any]:
         """
         Export complete controls config for JavaScript consumption.
 
         This is injected into the HTML template.
         """
+        filters = self.get_filters_config()
+        filters = self.sanitize_filter_defaults(
+            filters,
+            available_rings=available_rings,
+            available_families=available_families,
+            strict=strict
+        )
         return {
             "panels": self.get_panels_config(),
             "buttons": self.get_buttons_config(),
             "sliders": self.get_sliders_config(),
             "interactions": self.get_interactions_config(),
             "sidebar": self.get_sidebar_config(),
-            "filters": self.get_filters_config(),
+            "filters": filters,
             "datamaps": self.get_datamaps_config()
         }
 

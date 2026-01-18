@@ -255,6 +255,31 @@ class AppearanceEngine:
             }
         }
 
+    def get_animation_config(self) -> Dict[str, Any]:
+        """Get animation configuration for Physics/Party Mode."""
+        return {
+            "hue": {
+                "speed": self.resolver.appearance("animation.hue.speed", 0.0008),
+                "damping": self.resolver.appearance("animation.hue.damping", 0.9995),
+                "rotation": self.resolver.appearance("animation.hue.rotation", 0.8)
+            },
+            "chroma": {
+                "damping": self.resolver.appearance("animation.chroma.damping", 0.998),
+                "gravity": self.resolver.appearance("animation.chroma.gravity", 0.0004),
+                "center": self.resolver.appearance("animation.chroma.center", 0.32),
+                "amplitude": self.resolver.appearance("animation.chroma.amplitude", 0.08)
+            },
+            "lightness": {
+                "speed": self.resolver.appearance("animation.lightness.speed", 0.02),
+                "center": self.resolver.appearance("animation.lightness.center", 82),
+                "amplitude": self.resolver.appearance("animation.lightness.amplitude", 10)
+            },
+            "ripple": {
+                "speed": self.resolver.appearance("animation.ripple.speed", 0.035),
+                "scale": self.resolver.appearance("animation.ripple.scale", 200)
+            }
+        }
+
     def get_boundary_config(self) -> Dict[str, Any]:
         """Get file boundary appearance configuration."""
         return {

@@ -81,8 +81,8 @@ class TreeSitterUniversalEngine:
         self.python_extractor = PythonASTExtractor(self.classifier)
 
         self._ts_symbol_extractor = (Path(__file__).parent.parent / "tools" / "ts_symbol_extractor.cjs").resolve()
-        self.python_depth_margin = 50
-        self.python_recursion_hard_cap = 10000
+        self.python_depth_margin = int(os.environ.get("COLLIDER_DEPTH_MARGIN", "50"))
+        self.python_recursion_hard_cap = int(os.environ.get("COLLIDER_RECURSION_LIMIT", "10000"))
         self.depth_summary: Dict[str, Any] = {}
 
     def _tokenize_identifier(self, name: str) -> List[str]:

@@ -86,6 +86,25 @@ This is the most distinctive aspect: **theory and application live together, inf
 
 ---
 
+## Critical Rules
+
+### HTML Visualization Testing
+
+**ALWAYS run the full pipeline when testing HTML output.**
+
+```bash
+./collider full . --output .collider
+```
+
+Old outputs are **stale** and will show phantom bugs. The HTML is generated from:
+- `src/core/viz/assets/template.html`
+- `src/core/viz/assets/styles.css`
+- `src/core/viz/assets/app.js`
+
+If you modify any of these, **regenerate** - never inspect old `.html` files.
+
+---
+
 ## Development
 
 ```bash
@@ -95,7 +114,7 @@ pip install -e .
 # Run tests
 pytest tests/
 
-# Self-check
+# Self-check (ALWAYS use this when debugging HTML)
 ./collider full src/core --output /tmp/self_check
 ```
 

@@ -1,12 +1,14 @@
 {
   "$schema": "design-tokens",
   "$purpose": "Visual appearance variables - THE REMOTE CONTROL",
-
   "render": {
     "$description": "Core rendering parameters",
     "dimensions": {
       "$value": 3,
-      "$options": [2, 3],
+      "$options": [
+        2,
+        3
+      ],
       "$description": "Default 2D or 3D mode"
     },
     "node-resolution": {
@@ -17,7 +19,6 @@
       "$value": true
     }
   },
-
   "color": {
     "atom": {
       "t0-core": {
@@ -147,23 +148,49 @@
         }
       },
       "weight": {
-        "hue-min": { "$value": 210 },
-        "hue-max": { "$value": 50 },
-        "chroma": { "$value": 0.10 },
-        "saturation": { "$value": 40 },
-        "lightness": { "$value": 38 }
+        "hue-min": {
+          "$value": 210
+        },
+        "hue-max": {
+          "$value": 50
+        },
+        "chroma": {
+          "$value": 0.10
+        },
+        "saturation": {
+          "$value": 40
+        },
+        "lightness": {
+          "$value": 38
+        }
       },
       "confidence": {
-        "hue-min": { "$value": 20 },
-        "hue-max": { "$value": 120 },
-        "chroma": { "$value": 0.10 },
-        "saturation": { "$value": 40 },
-        "lightness": { "$value": 40 }
+        "hue-min": {
+          "$value": 20
+        },
+        "hue-max": {
+          "$value": 120
+        },
+        "chroma": {
+          "$value": 0.10
+        },
+        "saturation": {
+          "$value": 40
+        },
+        "lightness": {
+          "$value": 40
+        }
       },
       "width": {
-        "base": { "$value": 0.6 },
-        "weight-scale": { "$value": 2.0 },
-        "confidence-scale": { "$value": 1.5 }
+        "base": {
+          "$value": 0.6
+        },
+        "weight-scale": {
+          "$value": 2.0
+        },
+        "confidence-scale": {
+          "$value": 1.5
+        }
       },
       "dim": {
         "interfile-factor": {
@@ -204,7 +231,6 @@
       "$description": "UI accent color"
     }
   },
-
   "size": {
     "atom": {
       "base": {
@@ -245,7 +271,6 @@
       }
     }
   },
-
   "opacity": {
     "edge": {
       "$value": 0.08,
@@ -264,7 +289,6 @@
       "$description": "Starfield opacity"
     }
   },
-
   "stars": {
     "$description": "Cosmic background starfield",
     "enabled": {
@@ -283,12 +307,15 @@
       "$description": "Star point size"
     }
   },
-
   "file-color": {
     "$description": "File-based node coloring (golden angle distribution)",
     "strategy": {
       "$value": "golden-angle",
-      "$options": ["golden-angle", "sequential", "hash"]
+      "$options": [
+        "golden-angle",
+        "sequential",
+        "hash"
+      ]
     },
     "angle": {
       "$value": 137.5,
@@ -307,7 +334,6 @@
       "$description": "Base lightness for file colors"
     }
   },
-
   "flow-mode": {
     "$description": "Markov chain flow visualization",
     "highlight-color": {
@@ -340,7 +366,114 @@
       }
     }
   },
-
+  "physics": {
+    "forces": {
+      "charge": {
+        "strength": {
+          "$value": -120,
+          "$description": "Repulsion strength"
+        },
+        "distanceMax": {
+          "$value": 500
+        },
+        "distanceMin": {
+          "$value": 1
+        }
+      },
+      "link": {
+        "distance": {
+          "$value": 50,
+          "$description": "Link length"
+        },
+        "strength": {
+          "$value": 0.3,
+          "$description": "Link stiffness"
+        }
+      },
+      "center": {
+        "strength": {
+          "$value": 0.05,
+          "$description": "Gravity to center"
+        }
+      },
+      "collision": {
+        "radius": {
+          "$value": 5,
+          "$description": "Node collision radius"
+        }
+      }
+    },
+    "simulation": {
+      "alphaMin": {
+        "$value": 0.001
+      },
+      "alphaDecay": {
+        "$value": 0.0228
+      },
+      "velocityDecay": {
+        "$value": 0.4
+      },
+      "cooldownTicks": {
+        "$value": 200
+      }
+    }
+  },
+  "animation": {
+    "$description": "Physics-based animation parameters (The 'Soul' of the graph)",
+    "hue": {
+      "speed": {
+        "$value": 0.0008,
+        "$description": "Rainbow cycling speed (gravity)"
+      },
+      "damping": {
+        "$value": 0.9995,
+        "$description": "Very low damping for perpetual motion"
+      },
+      "rotation": {
+        "$value": 0.8,
+        "$description": "Base rotation speed"
+      }
+    },
+    "chroma": {
+      "damping": {
+        "$value": 0.998
+      },
+      "gravity": {
+        "$value": 0.0004
+      },
+      "center": {
+        "$value": 0.32,
+        "$description": "High saturation center"
+      },
+      "amplitude": {
+        "$value": 0.08,
+        "$description": "Vibrance variation"
+      }
+    },
+    "lightness": {
+      "speed": {
+        "$value": 0.02
+      },
+      "center": {
+        "$value": 82,
+        "$description": "Bright center (66% brighter)"
+      },
+      "amplitude": {
+        "$value": 10,
+        "$description": "Pulse amplitude"
+      }
+    },
+    "ripple": {
+      "$description": "Selection ripple effect",
+      "speed": {
+        "$value": 0.035
+      },
+      "scale": {
+        "$value": 200,
+        "$description": "Spatial wavelength"
+      }
+    }
+  },
   "bloom": {
     "$description": "Post-processing glow effect",
     "enabled": {

@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Dict, List, Any
 
 from tree_sitter_engine import TreeSitterUniversalEngine
-from particle_classifier import ParticleClassifier
+# from particle_classifier import ParticleClassifier  # QUARANTINED: Moved to archive/zombie_code/
 from stats_generator import StatsGenerator
-from dependency_analyzer import DependencyAnalyzer
+# from dependency_analyzer import DependencyAnalyzer  # QUARANTINED: Moved to archive/zombie_code/
 from report_generator import ReportGenerator
 from god_class_detector_lite import GodClassDetectorLite
 
@@ -22,9 +22,9 @@ class UniversalPatternDetector:
 
     def __init__(self):
         self.tree_sitter_engine = TreeSitterUniversalEngine()
-        self.particle_classifier = ParticleClassifier()
+        # self.particle_classifier = ParticleClassifier()  # QUARANTINED
         self.stats_generator = StatsGenerator()
-        self.dependency_analyzer = DependencyAnalyzer()
+        # self.dependency_analyzer = DependencyAnalyzer()  # QUARANTINED
         self.report_generator = ReportGenerator()
         self.god_class_detector = GodClassDetectorLite()
 
@@ -43,16 +43,17 @@ class UniversalPatternDetector:
             )
 
         # Step 1.5: Extract dependencies (internal/external/stdlib)
-        print("🔗 Analyzing dependencies...")
-        dependency_summary = self.dependency_analyzer.analyze_repository(repo_path, analysis_results)
+        print("🔗 Analyzing dependencies... [SKIPPED - QUARANTINED]")
+        dependency_summary = {} # self.dependency_analyzer.analyze_repository(repo_path, analysis_results)
 
         # Step 2: Classify particles with RPBL scores
-        print("🔬 Classifying particles with RPBL scores...")
+        print("🔬 Classifying particles with RPBL scores... [SKIPPED - QUARANTINED]")
         for result in analysis_results:
             classified_particles = []
             for particle in result.get('particles', []):
-                classified = self.particle_classifier.classify_particle(particle)
-                classified_particles.append(classified)
+                # classified = self.particle_classifier.classify_particle(particle)
+                # classified_particles.append(classified)
+                classified_particles.append(particle) # Passthrough
             result['particles'] = classified_particles
 
         # Step 3: Generate comprehensive statistics

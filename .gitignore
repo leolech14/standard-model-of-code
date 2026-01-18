@@ -91,3 +91,5 @@ audio/*.sh
 
 # Generated output directory
 output.md/
+.collider/
+*.backup
