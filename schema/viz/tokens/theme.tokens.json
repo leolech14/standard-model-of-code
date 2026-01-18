@@ -1,0 +1,185 @@
+{
+  "$schema": "design-tokens",
+  "$purpose": "UI chrome theming - backgrounds, borders, text, typography, shadows",
+
+  "color": {
+    "$description": "Semantic color palette for UI chrome",
+
+    "bg": {
+      "base": {
+        "$value": "oklch(8% 0.02 250)",
+        "$description": "App background - near black"
+      },
+      "surface": {
+        "$value": "oklch(12% 0.02 250)",
+        "$description": "Panel backgrounds"
+      },
+      "elevated": {
+        "$value": "oklch(16% 0.02 250)",
+        "$description": "Elevated panels, modals"
+      },
+      "overlay": {
+        "$value": "oklch(5% 0.01 250 / 0.9)",
+        "$description": "Overlay backdrop"
+      },
+      "hover": {
+        "$value": "oklch(100% 0 0 / 0.05)",
+        "$description": "Hover state overlay"
+      },
+      "active": {
+        "$value": "oklch(100% 0 0 / 0.1)",
+        "$description": "Active/pressed state"
+      }
+    },
+
+    "border": {
+      "default": {
+        "$value": "oklch(100% 0 0 / 0.08)",
+        "$description": "Default border"
+      },
+      "subtle": {
+        "$value": "oklch(100% 0 0 / 0.04)",
+        "$description": "Subtle dividers"
+      },
+      "strong": {
+        "$value": "oklch(100% 0 0 / 0.15)",
+        "$description": "Emphasized borders"
+      },
+      "focus": {
+        "$value": "oklch(70% 0.15 200)",
+        "$description": "Focus ring - cyan accent"
+      }
+    },
+
+    "text": {
+      "primary": {
+        "$value": "oklch(100% 0 0)",
+        "$description": "Primary text - white"
+      },
+      "secondary": {
+        "$value": "oklch(100% 0 0 / 0.7)",
+        "$description": "Secondary text"
+      },
+      "tertiary": {
+        "$value": "oklch(100% 0 0 / 0.5)",
+        "$description": "Tertiary/hint text"
+      },
+      "muted": {
+        "$value": "oklch(100% 0 0 / 0.4)",
+        "$description": "Muted text"
+      },
+      "disabled": {
+        "$value": "oklch(100% 0 0 / 0.25)",
+        "$description": "Disabled text"
+      }
+    },
+
+    "accent": {
+      "primary": {
+        "$value": "oklch(75% 0.15 200)",
+        "$description": "Primary accent - cyan"
+      },
+      "primary-dim": {
+        "$value": "oklch(55% 0.10 200)",
+        "$description": "Dimmed accent"
+      },
+      "primary-bg": {
+        "$value": "oklch(75% 0.15 200 / 0.15)",
+        "$description": "Accent background tint"
+      }
+    },
+
+    "status": {
+      "success": {
+        "$value": "oklch(70% 0.18 145)",
+        "$description": "Success/positive - green"
+      },
+      "warning": {
+        "$value": "oklch(75% 0.18 85)",
+        "$description": "Warning/caution - yellow"
+      },
+      "error": {
+        "$value": "oklch(65% 0.22 25)",
+        "$description": "Error/critical - red"
+      },
+      "info": {
+        "$value": "oklch(70% 0.15 240)",
+        "$description": "Info - blue"
+      }
+    }
+  },
+
+  "typography": {
+    "$description": "Font definitions",
+
+    "family": {
+      "sans": {
+        "$value": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "$description": "UI font"
+      },
+      "mono": {
+        "$value": "'JetBrains Mono', 'SF Mono', Monaco, Consolas, monospace",
+        "$description": "Code/data font"
+      }
+    },
+
+    "size": {
+      "2xs": { "$value": "7px", "$description": "Micro labels" },
+      "xs": { "$value": "9px", "$description": "Small labels" },
+      "sm": { "$value": "10px", "$description": "Secondary text" },
+      "base": { "$value": "11px", "$description": "Body text" },
+      "md": { "$value": "13px", "$description": "Emphasized text" },
+      "lg": { "$value": "14px", "$description": "Headings" },
+      "xl": { "$value": "16px", "$description": "Large headings" },
+      "2xl": { "$value": "18px", "$description": "Panel titles" }
+    },
+
+    "weight": {
+      "normal": { "$value": "400" },
+      "medium": { "$value": "500" },
+      "semibold": { "$value": "600" },
+      "bold": { "$value": "700" }
+    },
+
+    "line-height": {
+      "tight": { "$value": "1.2" },
+      "normal": { "$value": "1.4" },
+      "relaxed": { "$value": "1.6" }
+    }
+  },
+
+  "shadow": {
+    "$description": "Box shadows for elevation",
+
+    "none": { "$value": "none" },
+    "sm": {
+      "$value": "0 2px 8px oklch(0% 0 0 / 0.3)",
+      "$description": "Subtle shadow"
+    },
+    "md": {
+      "$value": "0 4px 16px oklch(0% 0 0 / 0.5)",
+      "$description": "Medium shadow"
+    },
+    "lg": {
+      "$value": "0 8px 32px oklch(0% 0 0 / 0.6)",
+      "$description": "Large shadow"
+    },
+    "glow-accent": {
+      "$value": "0 0 10px oklch(70% 0.15 200 / 0.3)",
+      "$description": "Cyan glow"
+    },
+    "glow-error": {
+      "$value": "0 0 10px oklch(65% 0.22 25 / 0.3)",
+      "$description": "Red glow"
+    }
+  },
+
+  "opacity": {
+    "$description": "Opacity scale for states",
+    "disabled": { "$value": "0.4" },
+    "dim": { "$value": "0.6" },
+    "muted": { "$value": "0.7" },
+    "subtle": { "$value": "0.85" },
+    "full": { "$value": "1" }
+  }
+}

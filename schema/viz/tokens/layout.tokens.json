@@ -1,0 +1,106 @@
+{
+  "$schema": "design-tokens",
+  "$purpose": "Layout tokens - spacing, z-index, transitions, radius",
+
+  "spacing": {
+    "$description": "Spacing scale (padding, margin, gap)",
+    "0": { "$value": "0" },
+    "px": { "$value": "1px" },
+    "0.5": { "$value": "2px" },
+    "1": { "$value": "3px" },
+    "1.5": { "$value": "4px" },
+    "2": { "$value": "5px" },
+    "2.5": { "$value": "6px" },
+    "3": { "$value": "8px" },
+    "4": { "$value": "10px" },
+    "5": { "$value": "12px" },
+    "6": { "$value": "14px" },
+    "7": { "$value": "16px" },
+    "8": { "$value": "20px" },
+    "10": { "$value": "24px" },
+    "12": { "$value": "32px" }
+  },
+
+  "radius": {
+    "$description": "Border radius scale",
+    "none": { "$value": "0" },
+    "sm": { "$value": "3px" },
+    "md": { "$value": "6px" },
+    "lg": { "$value": "8px" },
+    "xl": { "$value": "10px" },
+    "2xl": { "$value": "12px" },
+    "full": { "$value": "50%" }
+  },
+
+  "z-index": {
+    "$description": "Z-index layers for stacking",
+    "base": { "$value": "0" },
+    "docked": { "$value": "10" },
+    "sticky": { "$value": "20" },
+    "panel": { "$value": "100" },
+    "dropdown": { "$value": "200" },
+    "overlay": { "$value": "1000" },
+    "modal": { "$value": "9999" },
+    "toast": { "$value": "10000" }
+  },
+
+  "duration": {
+    "$description": "Animation durations",
+    "instant": { "$value": "0ms" },
+    "fast": { "$value": "100ms" },
+    "normal": { "$value": "150ms" },
+    "slow": { "$value": "200ms" },
+    "slower": { "$value": "300ms" },
+    "lazy": { "$value": "600ms" }
+  },
+
+  "easing": {
+    "$description": "Easing functions",
+    "linear": { "$value": "linear" },
+    "ease": { "$value": "ease" },
+    "ease-in": { "$value": "cubic-bezier(0.4, 0, 1, 1)" },
+    "ease-out": { "$value": "cubic-bezier(0, 0, 0.2, 1)" },
+    "ease-in-out": { "$value": "cubic-bezier(0.4, 0, 0.2, 1)" }
+  },
+
+  "transition": {
+    "$description": "Pre-composed transitions",
+    "none": { "$value": "none" },
+    "default": { "$value": "all 150ms ease" },
+    "fast": { "$value": "all 100ms ease" },
+    "slow": { "$value": "all 200ms ease" },
+    "colors": { "$value": "background 150ms ease, border-color 150ms ease, color 150ms ease" },
+    "transform": { "$value": "transform 200ms ease" },
+    "opacity": { "$value": "opacity 150ms ease" },
+    "position": { "$value": "left 150ms ease-out, top 150ms ease-out" }
+  },
+
+  "breakpoint": {
+    "$description": "Responsive breakpoints",
+    "sm": { "$value": "640px" },
+    "md": { "$value": "768px" },
+    "lg": { "$value": "1024px" },
+    "xl": { "$value": "1280px" },
+    "2xl": { "$value": "1536px" }
+  },
+
+  "size": {
+    "$description": "Fixed sizes for components",
+    "panel-width": {
+      "sm": { "$value": "200px" },
+      "md": { "$value": "280px" },
+      "lg": { "$value": "360px" }
+    },
+    "button-height": {
+      "sm": { "$value": "24px" },
+      "md": { "$value": "32px" },
+      "lg": { "$value": "40px" }
+    },
+    "icon": {
+      "xs": { "$value": "12px" },
+      "sm": { "$value": "14px" },
+      "md": { "$value": "16px" },
+      "lg": { "$value": "20px" }
+    }
+  }
+}
