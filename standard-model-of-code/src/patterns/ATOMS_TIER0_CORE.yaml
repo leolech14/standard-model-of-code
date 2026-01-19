@@ -1,0 +1,211 @@
+---
+atoms:
+  - id: C1_IntLiteral
+    symbol: Int
+    name: Integer Literal
+    default_dimensions: [value]
+
+  - id: C1_FloatLiteral
+    symbol: Float
+    name: Floating-Point Literal
+    default_dimensions: [value]
+
+  - id: C1_StringLiteral
+    symbol: Str
+    name: String Literal
+    default_dimensions: [value]
+
+  - id: C1_BooleanLiteral
+    symbol: Bool
+    name: Boolean Literal
+    default_dimensions: [value]
+
+  - id: C1_NoneLiteral
+    symbol: None
+    name: None Literal
+    default_dimensions: []
+
+  - id: C1_ListLiteral
+    symbol: List
+    name: List Literal
+    default_dimensions: [elements]
+
+  - id: C1_TupleLiteral
+    symbol: Tuple
+    name: Tuple Literal
+    default_dimensions: [elements]
+
+  - id: C1_DictLiteral
+    symbol: Dict
+    name: Dictionary Literal
+    default_dimensions: [keys, values]
+
+  - id: C1_SetLiteral
+    symbol: Set
+    name: Set Literal
+    default_dimensions: [elements]
+
+  - id: C1_Identifier
+    symbol: Id
+    name: Identifier
+    default_dimensions: [name, scope]
+
+  - id: C1_AttributeAccess
+    symbol: Attr
+    name: Attribute Access
+    default_dimensions: [base, attribute]
+
+  - id: C1_SubscriptAccess
+    symbol: Subscript
+    name: Subscript Access
+    default_dimensions: [base, index]
+
+  - id: C1_FunctionCall
+    symbol: Call
+    name: Function Call
+    default_dimensions: [function, arguments]
+
+  - id: C1_MethodCall
+    symbol: MethodCall
+    name: Method Call
+    default_dimensions: [base, method, arguments]
+
+  - id: C1_BinaryOp
+    symbol: BinOp
+    name: Binary Operation
+    default_dimensions: [left, operator, right]
+
+  - id: C1_UnaryOp
+    symbol: UnOp
+    name: Unary Operation
+    default_dimensions: [operator, operand]
+
+  - id: C1_Comparison
+    symbol: Compare
+    name: Comparison
+    default_dimensions: [left, operator, right]
+
+  - id: C1_Assignment
+    symbol: Assign
+    name: Assignment
+    default_dimensions: [target, value]
+
+  - id: C1_AugmentedAssignment
+    symbol: AugAssign
+    name: Augmented Assignment
+    default_dimensions: [target, operator, value]
+
+  - id: C1_IfStatement
+    symbol: If
+    name: If Statement
+    default_dimensions: [condition, body, orelse]
+
+  - id: C1_ForLoop
+    symbol: For
+    name: For Loop
+    default_dimensions: [target, iterable, body, orelse]
+
+  - id: C1_WhileLoop
+    symbol: While
+    name: While Loop
+    default_dimensions: [condition, body, orelse]
+
+  - id: C1_TryExcept
+    symbol: Try
+    name: Try Except Block
+    default_dimensions: [body, handlers, finalbody]
+
+  - id: C1_FunctionDef
+    symbol: FnDef
+    name: Function Definition
+    default_dimensions: [name, arguments, body]
+
+  - id: C1_ClassDef
+    symbol: ClassDef
+    name: Class Definition
+    default_dimensions: [name, bases, body]
+
+  - id: C1_ReturnStatement
+    symbol: Return
+    name: Return Statement
+    default_dimensions: [value]
+
+  - id: C1_YieldStatement
+    symbol: Yield
+    name: Yield Statement
+    default_dimensions: [value]
+
+  - id: C1_RaiseStatement
+    symbol: Raise
+    name: Raise Statement
+    default_dimensions: [exception, cause]
+
+  - id: C1_ImportStatement
+    symbol: Import
+    name: Import Statement
+    default_dimensions: [module, names]
+
+  - id: C1_ImportFromStatement
+    symbol: ImportFrom
+    name: Import From Statement
+    default_dimensions: [module, names, level]
+
+  - id: C1_WithStatement
+    symbol: With
+    name: With Statement
+    default_dimensions: [items, body]
+
+  - id: C1_AssertStatement
+    symbol: Assert
+    name: Assert Statement
+    default_dimensions: [test, msg]
+
+  - id: C1_BreakStatement
+    symbol: Break
+    name: Break Statement
+    default_dimensions: []
+
+  - id: C1_ContinueStatement
+    symbol: Continue
+    name: Continue Statement
+    default_dimensions: []
+
+  - id: C1_PassStatement
+    symbol: Pass
+    name: Pass Statement
+    default_dimensions: []
+
+  - id: C1_DeleteStatement
+    symbol: Delete
+    name: Delete Statement
+    default_dimensions: [targets]
+
+  - id: C1_AwaitExpression
+    symbol: Await
+    name: Await Expression
+    default_dimensions: [value]
+
+  - id: C1_AsyncFunctionDef
+    symbol: AsyncFnDef
+    name: Async Function Definition
+    default_dimensions: [name, arguments, body]
+
+  - id: C1_AsyncForLoop
+    symbol: AsyncFor
+    name: Async For Loop
+    default_dimensions: [target, iterable, body, orelse]
+
+  - id: C1_AsyncWithStatement
+    symbol: AsyncWith
+    name: Async With Statement
+    default_dimensions: [items, body]
+
+  - id: C1_MatchStatement
+    symbol: Match
+    name: Match Statement
+    default_dimensions: [subject, cases]
+
+  - id: C1_CaseStatement
+    symbol: Case
+    name: Case Statement
+    default_dimensions: [pattern, guard, body]

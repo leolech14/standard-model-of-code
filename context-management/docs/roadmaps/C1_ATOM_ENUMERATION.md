@@ -1,6 +1,12 @@
-# Component C1: Full Atom Enumeration Roadmap
-
-> **Goal**: Complete enumeration of all ~200 atoms organized into the periodic table structure
+# Component C1: Full Atom Enumeration## 1.3 Current Status (as of Jan 2026)
+- **Source of Truth**: `standard-model-of-code/src/patterns/ATOMS_UNIVERSAL_INDEX.yaml`
+- **Tiers**:
+  - **Tier 0 (Core)**: `ATOMS_TIER0_CORE.yaml` (Complete)
+  - **Tier 1 (StdLib)**: `ATOMS_TIER1_STDLIB.yaml` (Generated)
+  - **Tier 2 (Ecosystem)**: `ATOMS_TIER2_ECOSYSTEM.yaml` (Generated)
+- **Deprecated**: `particle_defs.json` (Moved to Legacy Archive).
+- **Tooling**: `universal_classifier.py` reads the Universal Index.
+ structure
 > **Priority**: ★★★★★ Critical Path
 > **Estimated Duration**: Week 1-2
 

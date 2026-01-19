@@ -1,0 +1,31 @@
+---
+project: Standard Model of Code
+version: 1.0.0
+generated: 2026-01-19
+description: Master index of all defined Atoms across 3 Tiers.
+
+tiers:
+  - tier: 0
+    name: Core Syntax
+    description: Universal language constructs (If, Loop, Function).
+    file: ATOMS_TIER0_CORE.yaml
+    status: verified
+    count: 43
+
+  - tier: 1
+    name: Standard Library
+    description: Built-in runtime capabilities (IO, Net, Math).
+    file: ATOMS_TIER1_STDLIB.yaml
+    status: generated
+    count: 24
+
+  - tier: 2
+    name: Ecosystems
+    description: High-level framework patterns (React, Pandas, Cloud).
+    file: ATOMS_TIER2_ECOSYSTEM.yaml
+    status: generated
+    count: 17
+
+total_coverage:
+  phases: [DATA, LOGIC, ORGANIZATION, EXECUTION]
+  families: [IO, NET, ASYNC, DATA, MATH, SYS, UI, WEB, DATA_ENG, ML, CLOUD]
