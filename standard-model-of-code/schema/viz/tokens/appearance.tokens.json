@@ -489,5 +489,52 @@
     "threshold": {
       "$value": 0.2
     }
+  },
+  "layout-presets": {
+    "$description": "Motion speeds for layout presets",
+    "orbital": {
+      "speed": {
+        "$value": 0.002
+      }
+    },
+    "spiral": {
+      "speed": {
+        "$value": 0.003
+      }
+    },
+    "sphere": {
+      "speed": {
+        "$value": 0.001
+      }
+    },
+    "torus": {
+      "speed": {
+        "$value": 0.002
+      }
+    },
+    "cylinder": {
+      "speed": {
+        "$value": 0.0015
+      }
+    },
+    "galaxy": {
+      "speed": {
+        "$value": 0.001
+      }
+    },
+    "flock": {
+      "separation": {
+        "$value": 25
+      },
+      "alignment": {
+        "$value": 0.05
+      },
+      "cohesion": {
+        "$value": 0.01
+      },
+      "maxSpeed": {
+        "$value": 2
+      }
+    }
   }
 }

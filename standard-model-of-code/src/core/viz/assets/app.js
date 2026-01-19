@@ -4296,6 +4296,9 @@ let CURRENT_LAYOUT = 'force';
 let LAYOUT_ANIMATION_ID = null;
 let LAYOUT_TIME = 0;
 
+// LAYOUT_PRESETS: Motion speeds defined here, tokens at appearance.tokens.json:layout-presets
+// TODO: Load speeds from appearanceConfig.layout_presets at runtime
+
 const LAYOUT_PRESETS = {
     'force': { name: 'FORCE', icon: '🌀', description: 'Physics-based clustering', motion: 'settle', cooldown: 300, warmupTicks: 40, getPosition: null },
     'orbital': {
@@ -7802,14 +7805,22 @@ let originalLinkWidths = new Map();
 let highEntropyNodes = new Set();
 // FLOW_CONFIG is set in initGraph() from THE REMOTE CONTROL tokens
 
+// Get flow preset colors from theme tokens (T006)
+// Supports both token-based and hardcoded fallback values
+function getFlowPresetColor(presetName, property, fallback) {
+    const schemes = THEME_CONFIG.colors.schemes || {};
+    const scheme = schemes[presetName.toLowerCase()] || {};
+    return scheme[property] || fallback;
+}
+
 // Flow Mode Presets - cycle through by clicking FLOW button repeatedly
 const FLOW_PRESETS = [
     {
         name: 'EMBER',
-        highlightColor: '#ff8c00',
-        particleColor: '#ffaa00',
-        dimColor: '#331100',
-        edgeColor: '#ff6600',
+        highlightColor: getFlowPresetColor('EMBER', 'highlightColor', '#ff8c00'),
+        particleColor: getFlowPresetColor('EMBER', 'particleColor', '#ffaa00'),
+        dimColor: getFlowPresetColor('EMBER', 'dimColor', '#331100'),
+        edgeColor: getFlowPresetColor('EMBER', 'edgeColor', '#ff6600'),
         particleCount: 3,
         particleWidth: 2.5,
         particleSpeed: 0.008,
@@ -7820,10 +7831,10 @@ const FLOW_PRESETS = [
     },
     {
         name: 'OCEAN',
-        highlightColor: '#00d4ff',
-        particleColor: '#4df0ff',
-        dimColor: '#001122',
-        edgeColor: '#0088cc',
+        highlightColor: getFlowPresetColor('OCEAN', 'highlightColor', '#00d4ff'),
+        particleColor: getFlowPresetColor('OCEAN', 'particleColor', '#4df0ff'),
+        dimColor: getFlowPresetColor('OCEAN', 'dimColor', '#001122'),
+        edgeColor: getFlowPresetColor('OCEAN', 'edgeColor', '#0088cc'),
         particleCount: 4,
         particleWidth: 2.0,
         particleSpeed: 0.006,
@@ -7834,10 +7845,10 @@ const FLOW_PRESETS = [
     },
     {
         name: 'PLASMA',
-        highlightColor: '#ff00ff',
-        particleColor: '#ff66ff',
-        dimColor: '#110011',
-        edgeColor: '#cc00cc',
+        highlightColor: getFlowPresetColor('PLASMA', 'highlightColor', '#ff00ff'),
+        particleColor: getFlowPresetColor('PLASMA', 'particleColor', '#ff66ff'),
+        dimColor: getFlowPresetColor('PLASMA', 'dimColor', '#110011'),
+        edgeColor: getFlowPresetColor('PLASMA', 'edgeColor', '#cc00cc'),
         particleCount: 5,
         particleWidth: 3.0,
         particleSpeed: 0.012,
@@ -7848,10 +7859,10 @@ const FLOW_PRESETS = [
     },
     {
         name: 'MATRIX',
-        highlightColor: '#00ff00',
-        particleColor: '#88ff88',
-        dimColor: '#001100',
-        edgeColor: '#00cc00',
+        highlightColor: getFlowPresetColor('MATRIX', 'highlightColor', '#00ff00'),
+        particleColor: getFlowPresetColor('MATRIX', 'particleColor', '#88ff88'),
+        dimColor: getFlowPresetColor('MATRIX', 'dimColor', '#001100'),
+        edgeColor: getFlowPresetColor('MATRIX', 'edgeColor', '#00cc00'),
         particleCount: 6,
         particleWidth: 1.5,
         particleSpeed: 0.015,
@@ -7862,10 +7873,10 @@ const FLOW_PRESETS = [
     },
     {
         name: 'PULSE',
-        highlightColor: '#ff4444',
-        particleColor: '#ff8888',
-        dimColor: '#110000',
-        edgeColor: '#cc2222',
+        highlightColor: getFlowPresetColor('PULSE', 'highlightColor', '#ff4444'),
+        particleColor: getFlowPresetColor('PULSE', 'particleColor', '#ff8888'),
+        dimColor: getFlowPresetColor('PULSE', 'dimColor', '#110000'),
+        edgeColor: getFlowPresetColor('PULSE', 'edgeColor', '#cc2222'),
         particleCount: 2,
         particleWidth: 4.0,
         particleSpeed: 0.004,
@@ -7876,10 +7887,10 @@ const FLOW_PRESETS = [
     },
     {
         name: 'AURORA',
-        highlightColor: '#33ccbb',
-        particleColor: '#66ffee',
-        dimColor: '#002222',
-        edgeColor: '#22aa99',
+        highlightColor: getFlowPresetColor('AURORA', 'highlightColor', '#33ccbb'),
+        particleColor: getFlowPresetColor('AURORA', 'particleColor', '#66ffee'),
+        dimColor: getFlowPresetColor('AURORA', 'dimColor', '#002222'),
+        edgeColor: getFlowPresetColor('AURORA', 'edgeColor', '#22aa99'),
         particleCount: 4,
         particleWidth: 2.2,
         particleSpeed: 0.007,
