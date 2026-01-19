@@ -31,22 +31,52 @@ Examples:
 
     # Restore specific path from archive
     ./tools/archive/archive.py restore archive_20260118_135934 standard-model-of-code/output/audit
+
+IMPORTANT: This script requires the .tools_venv virtual environment.
+If you get import errors, the script will auto-restart with the correct venv.
 """
 
+import sys
+import os
+from pathlib import Path
+
+# --- Auto-detect and use correct venv ---
+SCRIPT_DIR = Path(__file__).parent.resolve()
+PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
+TOOLS_VENV = PROJECT_ROOT / ".tools_venv"
+VENV_PYTHON = TOOLS_VENV / "bin" / "python"
+
+def _in_correct_venv():
+    """Check if we're running from .tools_venv"""
+    return TOOLS_VENV.as_posix() in sys.prefix
+
+if not _in_correct_venv():
+    if VENV_PYTHON.exists():
+        # Re-execute with correct venv
+        os.execv(str(VENV_PYTHON), [str(VENV_PYTHON)] + sys.argv)
+    else:
+        print("=" * 60)
+        print("ERROR: Required virtual environment not found!")
+        print("=" * 60)
+        print(f"Expected: {TOOLS_VENV}")
+        print()
+        print("To fix, run from PROJECT_elements root:")
+        print("  python -m venv .tools_venv")
+        print("  source .tools_venv/bin/activate")
+        print("  pip install pyyaml")
+        print("=" * 60)
+        sys.exit(1)
+
+# --- Now safe to import deps (we're in correct venv) ---
 import fnmatch
 import json
-import os
 import shutil
 import subprocess
-import sys
 from datetime import datetime
-from pathlib import Path
 
 import yaml
 
-# Module paths
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
+# Module paths (SCRIPT_DIR and PROJECT_ROOT already defined above)
 CONFIG_FILE = SCRIPT_DIR / "config.yaml"
 MANIFESTS_DIR = SCRIPT_DIR / "manifests"
 
