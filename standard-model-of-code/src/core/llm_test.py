@@ -179,5 +179,5 @@ if __name__ == "__main__":
     # Save results
     output_path = Path(graph_path).parent / "llm_test_results.json"
     with open(output_path, 'w') as f:
-        json.dump(stats, f, indent=2)
+        json.dump(stats, f, indent=2, sort_keys=True)
     print(f"\n💾 Results saved to: {output_path}")

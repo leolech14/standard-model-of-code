@@ -310,7 +310,7 @@ class StatsGenerator:
         # Save JSON
         json_file = output_dir / 'results.json'
         with open(json_file, 'w') as f:
-            json.dump(self.results, f, indent=2)
+            json.dump(self.results, f, indent=2, sort_keys=True)
 
         # Save human-readable stats
         stats_file = output_dir / 'stats.txt'

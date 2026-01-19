@@ -174,7 +174,7 @@ class UnifiedAnalysisOutput:
     def save(self, output_path: str):
         """Save to JSON file."""
         with open(output_path, 'w') as f:
-            json.dump(self.to_dict(), f, indent=2, default=str)
+            json.dump(self.to_dict(), f, indent=2, default=str, sort_keys=True)
 
 
 def create_unified_output(

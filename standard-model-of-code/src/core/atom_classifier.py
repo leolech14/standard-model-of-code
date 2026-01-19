@@ -313,7 +313,7 @@ def reclassify_semantic_ids(input_path: str, output_path: str = None):
     
     if output_path:
         with open(output_path, "w", encoding="utf-8") as f:
-            json.dump(output, f, indent=2)
+            json.dump(output, f, indent=2, sort_keys=True)
         print(f"📝 Saved to {output_path}")
     
     return output

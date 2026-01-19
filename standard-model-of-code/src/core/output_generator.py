@@ -66,7 +66,7 @@ def write_llm_output(
 
     output_path = output_dir / filename
     with open(output_path, "w") as f:
-        json.dump(data, f, indent=2, default=str)
+        json.dump(data, f, indent=2, default=str, sort_keys=True)
     return output_path
 
 

@@ -736,7 +736,7 @@ class AtomRegistry:
         }
 
         with open(path, 'w') as f:
-            json.dump(data, f, indent=2)
+            json.dump(data, f, indent=2, sort_keys=True)
     
     def print_summary(self):
         """Print a summary of the registry."""
