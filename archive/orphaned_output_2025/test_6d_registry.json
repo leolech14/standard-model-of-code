@@ -1,0 +1,972 @@
+{
+  "schema": "6D_GROUPED",
+  "dimensions": [
+    "what",
+    "how",
+    "where",
+    "why",
+    "when",
+    "how_long"
+  ],
+  "particle_count": 28,
+  "particles": [
+    {
+      "id": "p000",
+      "name": "RouteHandler",
+      "file": "src/interface/routehandler.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "RouteHandler"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "interface",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "orchestrator",
+        "pattern": "RouteHandler",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p001",
+      "name": "Presenter",
+      "file": "src/interface/presenter.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Presenter"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "interface",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "Presenter",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p002",
+      "name": "InputValidator",
+      "file": "src/interface/inputvalidator.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "InputValidator"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "interface",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "InputValidator",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p003",
+      "name": "UIWrapper",
+      "file": "src/interface/uiwrapper.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "UIWrapper"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "interface",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "UIWrapper",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p004",
+      "name": "UseCase",
+      "file": "src/app/usecase.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "UseCase"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "app",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "orchestrator",
+        "pattern": "UseCase",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p005",
+      "name": "ProcessManager",
+      "file": "src/app/processmanager.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "ProcessManager"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "app",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "orchestrator",
+        "pattern": "ProcessManager",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p006",
+      "name": "AppPolicy",
+      "file": "src/app/apppolicy.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "AppPolicy"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "app",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "AppPolicy",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p007",
+      "name": "AppMapper",
+      "file": "src/app/appmapper.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "AppMapper"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "app",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "AppMapper",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p008",
+      "name": "BusinessEntity",
+      "file": "src/core/businessentity.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "BusinessEntity"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "core",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "BusinessEntity",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p009",
+      "name": "ValueObject",
+      "file": "src/core/valueobject.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "ValueObject"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "core",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "ValueObject",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p010",
+      "name": "CoreService",
+      "file": "src/core/coreservice.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "CoreService"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "core",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "CoreService",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p011",
+      "name": "BusinessRule",
+      "file": "src/core/businessrule.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "BusinessRule"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "core",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "BusinessRule",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p012",
+      "name": "DomainEvent",
+      "file": "src/core/domainevent.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "DomainEvent"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "core",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "DomainEvent",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p013",
+      "name": "Repository",
+      "file": "src/infra/repository.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Repository"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "read_modify",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "io"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "Repository",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p014",
+      "name": "QueryObject",
+      "file": "src/infra/queryobject.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "QueryObject"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "read",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "QueryObject",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p015",
+      "name": "APIClient",
+      "file": "src/infra/apiclient.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "APIClient"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "read_modify",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "output"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "APIClient",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p016",
+      "name": "MsgProducer",
+      "file": "src/infra/msgproducer.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "MsgProducer"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "output"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "MsgProducer",
+        "smells": []
+      },
+      "when": {
+        "activation": "event"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p017",
+      "name": "MsgConsumer",
+      "file": "src/infra/msgconsumer.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "MsgConsumer"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "input"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "MsgConsumer",
+        "smells": []
+      },
+      "when": {
+        "activation": "event"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p018",
+      "name": "BackgroundJob",
+      "file": "src/infra/backgroundjob.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "BackgroundJob"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "BackgroundJob",
+        "smells": []
+      },
+      "when": {
+        "activation": "time"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p019",
+      "name": "Cache",
+      "file": "src/infra/cache.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Cache"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "Cache",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "session"
+      }
+    },
+    {
+      "id": "p020",
+      "name": "ConfigLoader",
+      "file": "src/infra/configloader.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "ConfigLoader"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "ConfigLoader",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "global"
+      }
+    },
+    {
+      "id": "p021",
+      "name": "FeatureFlag",
+      "file": "src/infra/featureflag.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "FeatureFlag"
+      },
+      "how": {
+        "state": "stateful",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "FeatureFlag",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p022",
+      "name": "Logger",
+      "file": "src/infra/logger.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Logger"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "write",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "Logger",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "global"
+      }
+    },
+    {
+      "id": "p023",
+      "name": "Metrics",
+      "file": "src/infra/metrics.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Metrics"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "write",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "worker",
+        "pattern": "Metrics",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p024",
+      "name": "Serializer",
+      "file": "src/infra/serializer.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Serializer"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "pure",
+        "is_async": false
+      },
+      "where": {
+        "layer": "infra",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "Serializer",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p025",
+      "name": "TestCase",
+      "file": "src/tests/testcase.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "TestCase"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "tests",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "orchestrator",
+        "pattern": "TestCase",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p026",
+      "name": "Fixture",
+      "file": "src/tests/fixture.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "Fixture"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "tests",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "data",
+        "pattern": "Fixture",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    },
+    {
+      "id": "p027",
+      "name": "TestRunner",
+      "file": "src/tests/testrunner.py",
+      "line": 0,
+      "what": {
+        "continent": "Organization",
+        "family": "Aggregates",
+        "atom": "TestRunner"
+      },
+      "how": {
+        "state": "stateless",
+        "effect": "unknown",
+        "is_async": false
+      },
+      "where": {
+        "layer": "tests",
+        "boundary": "internal"
+      },
+      "why": {
+        "role": "orchestrator",
+        "pattern": "TestRunner",
+        "smells": []
+      },
+      "when": {
+        "activation": "direct"
+      },
+      "how_long": {
+        "lifetime": "transient"
+      }
+    }
+  ],
+  "stats": {
+    "what": {
+      "by_continent": {
+        "Organization": 28
+      },
+      "by_family": {
+        "Aggregates": 28
+      }
+    },
+    "how": {
+      "by_state": {
+        "stateless": 27,
+        "stateful": 1
+      },
+      "by_effect": {
+        "unknown": 22,
+        "read_modify": 2,
+        "read": 1,
+        "write": 2,
+        "pure": 1
+      }
+    },
+    "where": {
+      "by_layer": {
+        "interface": 4,
+        "app": 4,
+        "core": 5,
+        "infra": 12,
+        "tests": 3
+      },
+      "by_boundary": {
+        "internal": 24,
+        "io": 1,
+        "output": 2,
+        "input": 1
+      }
+    },
+    "why": {
+      "by_role": {
+        "orchestrator": 5,
+        "data": 13,
+        "worker": 10
+      },
+      "by_pattern": {
+        "RouteHandler": 1,
+        "Presenter": 1,
+        "InputValidator": 1,
+        "UIWrapper": 1,
+        "UseCase": 1,
+        "ProcessManager": 1,
+        "AppPolicy": 1,
+        "AppMapper": 1,
+        "BusinessEntity": 1,
+        "ValueObject": 1,
+        "CoreService": 1,
+        "BusinessRule": 1,
+        "DomainEvent": 1,
+        "Repository": 1,
+        "QueryObject": 1,
+        "APIClient": 1,
+        "MsgProducer": 1,
+        "MsgConsumer": 1,
+        "BackgroundJob": 1,
+        "Cache": 1,
+        "ConfigLoader": 1,
+        "FeatureFlag": 1,
+        "Logger": 1,
+        "Metrics": 1,
+        "Serializer": 1,
+        "TestCase": 1,
+        "Fixture": 1,
+        "TestRunner": 1
+      },
+      "total_smells": 0
+    },
+    "when": {
+      "by_activation": {
+        "direct": 25,
+        "event": 2,
+        "time": 1
+      }
+    },
+    "how_long": {
+      "by_lifetime": {
+        "transient": 25,
+        "session": 1,
+        "global": 2
+      }
+    }
+  }
+}

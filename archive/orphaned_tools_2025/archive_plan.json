@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "archive_root": "ARCHIVE",
+  "archive_subdir_mode": "date",
+  "protected_paths": [
+    "ARCHIVE",
+    ".obsidian",
+    "ASSET_MANIFEST.md",
+    "README.md",
+    "CODEX.md",
+    "requirements.txt",
+    "Dockerfile",
+    "docker-compose.yml",
+    "dashboard_web",
+    "MermaidFlow",
+    "spectrometer_api_rest.py",
+    "spectrometer_v9_raw_haiku.py",
+    "spectrometer-os_-standard-model-v5",
+    "STANDARD_MODEL_OF_CODE_HONEST_GUIDE.md",
+    "STANDARD-MODEL.md",
+    "HADRONS_96_FULL.md",
+    "HADRONS_96_MERMAID.md",
+    "HADRONS_MERMAID_DIAGRAM.md",
+    "HADRONS_96_MERMAID.png",
+    "1440_csv.csv",
+    "THEORY_COMPLETE.canvas",
+    "tools"
+  ],
+  "rules": [
+    {
+      "name": "node_modules",
+      "kind": "path",
+      "paths": ["chrome-mcp/node_modules"]
+    },
+    {
+      "name": "python_virtualenvs",
+      "kind": "path",
+      "paths": ["spectrometer-env", "venv_ts", "venv_treesitter"]
+    },
+    {
+      "name": "python_cache_dirs",
+      "kind": "dir_name",
+      "names": ["__pycache__", ".pytest_cache"],
+      "skip_within_paths": ["ARCHIVE", "chrome-mcp/node_modules", "spectrometer-env", "venv_ts", "venv_treesitter"]
+    },
+    {
+      "name": "macos_ds_store",
+      "kind": "glob",
+      "include": ["**/.DS_Store"],
+      "exclude": [],
+      "skip_within_paths": ["ARCHIVE", "chrome-mcp/node_modules", "spectrometer-env", "venv_ts", "venv_treesitter"]
+    },
+    {
+      "name": "compiled_python",
+      "kind": "glob",
+      "include": ["**/*.pyc"],
+      "exclude": [],
+      "skip_within_paths": ["ARCHIVE", "chrome-mcp/node_modules", "spectrometer-env", "venv_ts", "venv_treesitter"]
+    },
+    {
+      "name": "generated_outputs",
+      "kind": "path",
+      "paths": [
+        "spectrometer_v12_minimal/output",
+        "spectrometer_v12_minimal/validation/validation_output",
+        "spectrometer_v12_minimal/validation/benchmarks/runs"
+      ]
+    },
+    {
+      "name": "large_media_root_png",
+      "kind": "glob",
+      "include": ["*.png"],
+      "exclude": ["HADRONS_96_MERMAID.png"]
+    },
+    {
+      "name": "snapshots_zip",
+      "kind": "glob",
+      "include": ["*.zip"],
+      "exclude": []
+    },
+    {
+      "name": "transcripts_and_threads",
+      "kind": "glob",
+      "include": ["000*.md", "00*-grok*.md", "2025-*.txt"],
+      "exclude": []
+    },
+    {
+      "name": "theory_canvas_variants",
+      "kind": "glob",
+      "include": ["THEORY_COMPLETE*.canvas", "*.canvas.bak"],
+      "exclude": ["THEORY_COMPLETE.canvas", "THEORY_COMPLETE_ORGANIZED_v2.canvas"]
+    },
+    {
+      "name": "experimental_python_scripts",
+      "kind": "glob",
+      "include": [
+        "spectrometer_v*_*.py",
+        "parser_*.py",
+        "haiku_omega_*.py",
+        "haiku_*.py",
+        "*validator*.py",
+        "*_framework*.py",
+        "batch_*",
+        "analyze_*.py",
+        "check_*.py",
+        "generate_*_nodes.py",
+        "inject_*.py",
+        "create_organized_canvas.py",
+        "compact_canvas_layout.py",
+        "organize_canvas.py",
+        "rearrange_canvas.py",
+        "verify_and_fix_canvas.py"
+      ],
+      "exclude": ["spectrometer_api_rest.py", "spectrometer_v9_raw_haiku.py"]
+    }
+  ]
+}

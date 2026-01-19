@@ -1,0 +1,337 @@
+{
+  "metadata": {
+    "missing_hadrons": 45,
+    "coverage": 52.3,
+    "timestamp": "2025-12-03"
+  },
+  "gap_analysis": {
+    "missing_hadrons": [
+      "StaticField",
+      "EnumValue",
+      "Parameter",
+      "ParityBit",
+      "LoopWhile",
+      "LoopFor",
+      "ApplicationPort",
+      "BitFlag",
+      "WorkerEntry",
+      "FeatureModule",
+      "StringLiteral",
+      "ImpureFunction",
+      "MagicBytes",
+      "GraphQLResolver",
+      "DomainPort",
+      "ByteArray",
+      "MigrationFile",
+      "GuardClause",
+      "LambdaEntry",
+      "AggregateRoot",
+      "TestFile",
+      "PaddingBytes",
+      "Closure",
+      "Integer",
+      "InstanceField",
+      "ReadModel",
+      "SignBit",
+      "WebSocketHandler",
+      "TryCatch",
+      "SagaStep",
+      "SourceFile",
+      "IfBranch",
+      "SwitchCase",
+      "BoundedContext",
+      "GlobalVar",
+      "ExpressionStmt",
+      "MainEntry",
+      "Boolean",
+      "ArithmeticExpr",
+      "Float",
+      "BitMask",
+      "LiteralExpr",
+      "InfrastructureAdapter",
+      "CallExpr",
+      "Projection"
+    ],
+    "missing_count": 45,
+    "coverage_percentage": 52.3,
+    "categorized_gaps": {
+      "syntax_level": {
+        "description": "Elementos de baixo n\u00edvel (sintaxe)",
+        "hadrons": [
+          "ParityBit",
+          "BitFlag",
+          "MagicBytes",
+          "ByteArray",
+          "PaddingBytes",
+          "SignBit",
+          "BitMask"
+        ],
+        "impact": "low",
+        "reason": "Provavelmente existem mas n\u00e3o foram detectados pelas heur\u00edsticas"
+      },
+      "rare_patterns": {
+        "description": "Padr\u00f5es raros ou espec\u00edficos de dom\u00ednio",
+        "hadrons": [
+          "WebSocketHandler"
+        ],
+        "impact": "medium",
+        "reason": "Aparecem apenas em contextos espec\u00edficos"
+      },
+      "framework_specific": {
+        "description": "Espec\u00edficos de frameworks ou tecnologias",
+        "hadrons": [
+          "GraphQLResolver",
+          "LambdaEntry"
+        ],
+        "impact": "medium",
+        "reason": "Dependem de frameworks espec\u00edficos"
+      },
+      "obselete_or_theoretical": {
+        "description": "Te\u00f3ricos ou obsoletos",
+        "hadrons": [],
+        "impact": "low",
+        "reason": "Podem n\u00e3o ser mais relevantes"
+      },
+      "detection_issue": {
+        "description": "Problema de detec\u00e7\u00e3o",
+        "hadrons": [
+          "StaticField",
+          "EnumValue",
+          "Parameter",
+          "LoopWhile",
+          "LoopFor",
+          "ApplicationPort",
+          "WorkerEntry",
+          "FeatureModule",
+          "StringLiteral",
+          "ImpureFunction",
+          "DomainPort",
+          "MigrationFile",
+          "GuardClause",
+          "AggregateRoot",
+          "TestFile",
+          "Closure",
+          "Integer",
+          "InstanceField",
+          "ReadModel",
+          "TryCatch",
+          "SagaStep",
+          "SourceFile",
+          "IfBranch",
+          "SwitchCase",
+          "BoundedContext",
+          "GlobalVar",
+          "ExpressionStmt",
+          "MainEntry",
+          "Boolean",
+          "ArithmeticExpr",
+          "Float",
+          "LiteralExpr",
+          "InfrastructureAdapter",
+          "CallExpr",
+          "Projection"
+        ],
+        "impact": "high",
+        "reason": "Provavelmente existem mas o parser n\u00e3o encontrou"
+      }
+    },
+    "gap_patterns": {
+      "common_across_all": [],
+      "category_specific": {
+        "infrastructure": [
+          "DTO"
+        ],
+        "gaming": [],
+        "web_framework": [],
+        "system": [
+          "DTO"
+        ],
+        "data_science": [],
+        "database": [],
+        "machine_learning": [],
+        "frontend": [
+          "AggregateRoot",
+          "RepositoryImpl"
+        ],
+        "compiler": [
+          "APIHandler"
+        ]
+      },
+      "language_specific": {}
+    },
+    "proposed_adjustments": [
+      {
+        "type": "merge",
+        "description": "Fundir h\u00e1drons de n\u00edvel sint\u00e1tico",
+        "reason": "Elementos como BitFlag, BitMask, ParityBit s\u00e3o muito espec\u00edficos",
+        "proposal": {
+          "new_hadron": "BitOperation",
+          "merge_from": [
+            "BitFlag",
+            "BitMask",
+            "ParityBit",
+            "SignBit"
+          ],
+          "form": "tetrahedron+binary_ops"
+        }
+      },
+      {
+        "type": "merge",
+        "description": "Consolidar handlers de sistema",
+        "reason": "WebSocketHandler, QueueWorker, etc s\u00e3o espec\u00edficos demais",
+        "proposal": {
+          "new_hadron": "SystemEventHandler",
+          "merge_from": [
+            "WebSocketHandler",
+            "QueueWorker",
+            "MessageConsumer"
+          ],
+          "form": "icosahedron+system"
+        }
+      },
+      {
+        "type": "add_generic",
+        "description": "Adicionar h\u00e1drons gen\u00e9ricos para cobrir gaps",
+        "reason": "Faltam padr\u00f5es b\u00e1sicos comuns",
+        "proposal": [
+          {
+            "name": "FieldAccess",
+            "continent": "DATA_FOUNDATIONS",
+            "fundamental": "EXPRESSIONS",
+            "form": "cone+field",
+            "description": "Acesso a campos/atributos"
+          },
+          {
+            "name": "ImportStatement",
+            "continent": "ORGANIZATION",
+            "fundamental": "MODULES",
+            "form": "dodecahedron+import",
+            "description": "Declara\u00e7\u00f5es de import/export"
+          },
+          {
+            "name": "ErrorHandling",
+            "continent": "LOGIC_FLOW",
+            "fundamental": "CONTROL_STRUCTURES",
+            "form": "torus+error",
+            "description": "Qualquer forma de tratamento de erro"
+          }
+        ]
+      },
+      {
+        "type": "improve_detection",
+        "description": "Melhorar detec\u00e7\u00e3o de padr\u00f5es existentes",
+        "reason": "Muitos h\u00e1drons existem mas n\u00e3o foram detectados",
+        "proposal": [
+          {
+            "hadron": "TryCatch",
+            "improvement": "Detectar try/except, try/catch em qualquer linguagem",
+            "patterns": [
+              "try\\s*{",
+              "except\\s+",
+              "catch\\s*\\("
+            ]
+          },
+          {
+            "hadron": "InstanceField",
+            "improvement": "Detectar self.attr, this.attr",
+            "patterns": [
+              "self\\.\\w+",
+              "this\\.\\w+"
+            ]
+          },
+          {
+            "hadron": "StaticField",
+            "improvement": "Detectar acesso a classe/static",
+            "patterns": [
+              "ClassName\\.\\w+",
+              "static\\s+\\w+"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "remove",
+        "description": "Remover h\u00e1drons te\u00f3ricos ou obsoletos",
+        "reason": "N\u00e3o aparecem no c\u00f3digo real",
+        "proposal": {
+          "remove": [
+            "PanicRecover",
+            "ChaosMonkey",
+            "SelfHealingProbe"
+          ],
+          "justification": "S\u00e3o conceitos te\u00f3ricos, n\u00e3o padr\u00f5es de c\u00f3digo"
+        }
+      }
+    ],
+    "priority_actions": [
+      {
+        "priority": "HIGH",
+        "action": "Fix detection heuristics",
+        "target": [
+          "StaticField",
+          "EnumValue",
+          "Parameter",
+          "LoopWhile",
+          "LoopFor",
+          "ApplicationPort",
+          "WorkerEntry",
+          "FeatureModule",
+          "StringLiteral",
+          "ImpureFunction",
+          "DomainPort",
+          "MigrationFile",
+          "GuardClause",
+          "AggregateRoot",
+          "TestFile",
+          "Closure",
+          "Integer",
+          "InstanceField",
+          "ReadModel",
+          "TryCatch",
+          "SagaStep",
+          "SourceFile",
+          "IfBranch",
+          "SwitchCase",
+          "BoundedContext",
+          "GlobalVar",
+          "ExpressionStmt",
+          "MainEntry",
+          "Boolean",
+          "ArithmeticExpr",
+          "Float",
+          "LiteralExpr",
+          "InfrastructureAdapter",
+          "CallExpr",
+          "Projection"
+        ],
+        "impact": "Immediato na cobertura",
+        "effort": "Baixo - s\u00f3 ajustar regex/patterns"
+      },
+      {
+        "priority": "MEDIUM",
+        "action": "Merge similar hadrons",
+        "target": [
+          "BitFlag",
+          "BitMask",
+          "WebSocketHandler",
+          "QueueWorker"
+        ],
+        "impact": "Reduz complexidade sem perder informa\u00e7\u00e3o",
+        "effort": "Baixo"
+      },
+      {
+        "priority": "LOW",
+        "action": "Remove obsolete hadrons",
+        "target": [],
+        "impact": "Limpeza da taxonomia",
+        "effort": "M\u00ednimo"
+      }
+    ]
+  },
+  "adjusted_taxonomy": {
+    "original_count": 65,
+    "adjusted_count": 65,
+    "reduction": 0,
+    "catalog": {
+      "ByteArray": {
+        "continent": 

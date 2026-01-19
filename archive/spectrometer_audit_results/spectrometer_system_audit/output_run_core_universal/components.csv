@@ -1,0 +1,57 @@
+component_id,type,symbol_kind,name,rel_file,line,confidence,evidence,purpose,internal_deps,external_deps,stdlib_deps
+5873da2c3110,Unknown,class,TreeSitterUniversalEngine,tree_sitter_engine.py,15,30.0,class TreeSitterUniversalEngine:,Unknown particle type,0,0,6
+65dd0ce8a2d3,Unknown,class,Edge,graph_extractor.py,23,30.0,class Edge:,Unknown particle type,0,1,6
+15aa75170b08,Unknown,class,Node,graph_extractor.py,34,30.0,class Node:,Unknown particle type,0,1,6
+4b292bd3aa69,Unknown,class,CodeGraph,graph_extractor.py,48,30.0,class CodeGraph:,Unknown particle type,0,1,6
+fb3591adbd67,Unknown,class,GraphExtractor,graph_extractor.py,88,30.0,class GraphExtractor:,Unknown particle type,0,1,6
+2c5d7241838d,Unknown,class,GodClassMetrics,god_class_detector_lite.py,18,30.0,class GodClassMetrics:,Unknown particle type,0,0,8
+358dda5acf56,Unknown,class,GodClassDetectorLite,god_class_detector_lite.py,44,30.0,class GodClassDetectorLite:,Unknown particle type,0,0,8
+981df32a41e0,Unknown,class,HadronLevel,atom_extractor.py,19,30.0,class HadronLevel(Enum):,Unknown particle type,0,6,5
+4a68c1379305,Unknown,class,Hadron,atom_extractor.py,27,30.0,class Hadron:,Unknown particle type,0,6,5
+6589bc29a08a,Unknown,class,AtomExtractor,atom_extractor.py,188,30.0,class AtomExtractor:,Unknown particle type,0,6,5
+fb1f823a0cf5,Repository,class,UserRepository,atom_extractor.py,565,75.0,class UserRepository:,Data access layer for aggregate persistence,0,6,5
+1eceeaca9e70,Unknown,class,Email,atom_extractor.py,575,30.0,class Email:,Unknown particle type,0,6,5
+b8ce8536bbb7,Specification,function,validate_email,atom_extractor.py,584,50.0,def validate_email(email: str) -> bool:,Encapsulated business rule that can be combined,0,6,5
+8eecdd37a9ef,Unknown,function,fetch_user,atom_extractor.py,589,30.0,async def fetch_user(user_id: str):,Unknown particle type,0,6,5
+114996311be8,Unknown,function,calculate_total,atom_extractor.py,593,30.0,def calculate_total(items: list) -> float:,Unknown particle type,0,6,5
+85b1065bb9e7,Unknown,class,StatsGenerator,stats_generator.py,16,30.0,class StatsGenerator:,Unknown particle type,0,0,7
+bcc154f18505,Unknown,class,AtomDefinition,atom_registry.py,21,30.0,class AtomDefinition:,Unknown particle type,0,0,5
+2e09c553d85b,Unknown,class,AtomRegistry,atom_registry.py,38,30.0,class AtomRegistry:,Unknown particle type,0,0,5
+49e9d4b239e9,Unknown,class,ResolvedDependency,dependency_analyzer.py,12,30.0,class ResolvedDependency:,Unknown particle type,0,0,6
+dfe6084437ed,Unknown,function,_posix,dependency_analyzer.py,21,30.0,def _posix(path: Path) -> str:,Unknown particle type,0,0,6
+39aa4537aa28,Unknown,function,_try_rel,dependency_analyzer.py,25,30.0,"def _try_rel(repo_root: Path, file_path: Path) -> str:",Unknown particle type,0,0,6
+065cd6513724,Unknown,function,_python_stdlib_roots,dependency_analyzer.py,32,30.0,def _python_stdlib_roots() -> set[str]:,Unknown particle type,0,0,6
+834b89721c9f,Unknown,function,_python_candidate_roots,dependency_analyzer.py,115,30.0,def _python_candidate_roots(repo_root: Path) -> list[Path]:,Unknown particle type,0,0,6
+88cff584ca6e,Unknown,function,_python_module_from_rel,dependency_analyzer.py,124,30.0,def _python_module_from_rel(rel: Path) -> str:,Unknown particle type,0,0,6
+2f69c46a25fd,Unknown,function,_build_python_module_index,dependency_analyzer.py,133,30.0,"def _build_python_module_index(repo_root: Path, file_paths: Iterable[Path]) -> tuple[dict[str, str],",Unknown particle type,0,0,6
+0d1d48873042,Unknown,function,_python_resolve_relative,dependency_analyzer.py,160,30.0,def _python_resolve_relative(,Unknown particle type,0,0,6
+840e80e04e2c,Unknown,function,_npm_package_name,dependency_analyzer.py,190,30.0,def _npm_package_name(spec: str) -> str:,Unknown particle type,0,0,6
+3df0d33c9465,Unknown,function,_resolve_js_relative,dependency_analyzer.py,197,30.0,"def _resolve_js_relative(repo_root: Path, src_file: Path, spec: str) -> str | None:",Unknown particle type,0,0,6
+b56b8e45fc68,Unknown,class,DependencyAnalyzer,dependency_analyzer.py,219,30.0,class DependencyAnalyzer:,Unknown particle type,0,0,6
+7be05c3ccb2b,Unknown,class,UniversalPatternDetector,universal_detector.py,19,30.0,class UniversalPatternDetector:,Unknown particle type,5,0,3
+4216b91e2e2b,Unknown,class,Continent,semantic_ids.py,38,30.0,class Continent(Enum):,Unknown particle type,0,0,8
+75ebaf8be35a,Unknown,class,Fundamental,semantic_ids.py,46,30.0,class Fundamental(Enum):,Unknown particle type,0,0,8
+79ee8537bfe3,Unknown,class,Level,semantic_ids.py,68,30.0,class Level(Enum):,Unknown particle type,0,0,8
+716f336b26ab,Unknown,class,SemanticID,semantic_ids.py,80,30.0,class SemanticID:,Unknown particle type,0,0,8
+1d7eba098b10,Unknown,class,SemanticIDGenerator,semantic_ids.py,232,30.0,class SemanticIDGenerator:,Unknown particle type,0,0,8
+649d7a0aa929,Unknown,class,SemanticMatrix,semantic_ids.py,411,30.0,class SemanticMatrix:,Unknown particle type,0,0,8
+55f9bc564bf1,Unknown,class,GodClassMetrics,god_class_detector.py,21,30.0,class GodClassMetrics:,Unknown particle type,0,3,8
+006e7e25a302,Unknown,class,GodClassDetector,god_class_detector.py,47,30.0,class GodClassDetector:,Unknown particle type,0,3,8
+e820459179b7,Unknown,class,LanguageLoader,language_loader.py,12,30.0,class LanguageLoader:,Unknown particle type,0,1,3
+282c61224dbd,Unknown,function,_posix,report_generator.py,12,30.0,def _posix(path: Path) -> str:,Unknown particle type,0,0,7
+978663725fb8,Unknown,function,_safe_rel,report_generator.py,16,30.0,"def _safe_rel(repo_root: Path, file_path: str) -> str:",Unknown particle type,0,0,7
+852e0b63e93e,Unknown,function,_stable_id,report_generator.py,29,30.0,def _stable_id(*parts: str) -> str:,Unknown particle type,0,0,7
+cd17acfaa8c3,Unknown,function,_group_key,report_generator.py,37,30.0,def _group_key(rel_file: str) -> str:,Unknown particle type,0,0,7
+3553c24bef6a,Unknown,function,_mermaid_id,report_generator.py,51,30.0,def _mermaid_id(group: str) -> str:,Unknown particle type,0,0,7
+08da6225fd3c,Unknown,class,ComponentRow,report_generator.py,59,30.0,class ComponentRow:,Unknown particle type,0,0,7
+4ad1c6837e14,Unknown,class,ReportGenerator,report_generator.py,74,30.0,class ReportGenerator:,Unknown particle type,0,0,7
+80d75fe2e58f,Unknown,class,HealthStatus,system_health.py,14,30.0,class HealthStatus:,Unknown particle type,0,0,6
+23d71387e622,Unknown,class,SystemHealth,system_health.py,19,30.0,class SystemHealth:,Unknown particle type,0,0,6
+ede63b48bcb0,Unknown,class,FunctionBody,complete_extractor.py,21,30.0,class FunctionBody:,Unknown particle type,0,1,5
+2ba4735d6f19,Unknown,class,ClassBody,complete_extractor.py,56,30.0,class ClassBody:,Unknown particle type,0,1,5
+11426fe146b4,Unknown,class,CompleteCodebase,complete_extractor.py,82,30.0,class CompleteCodebase:,Unknown particle type,0,1,5
+936425e7c401,Unknown,class,CompleteExtractor,complete_extractor.py,114,30.0,class CompleteExtractor:,Unknown particle type,0,1,5
+e5e07cbf3664,Unknown,class,UnknownAtom,discovery_engine.py,30,30.0,class UnknownAtom:,Unknown particle type,0,3,9
+ea98eb9c8124,Unknown,class,DiscoveryReport,discovery_engine.py,104,30.0,class DiscoveryReport:,Unknown particle type,0,3,9
+ccbbb4ae1da9,Unknown,class,DiscoveryEngine,discovery_engine.py,119,30.0,class DiscoveryEngine:,Unknown particle type,0,3,9
+b474fc5ec5e7,Unknown,class,ParticleClassifier,particle_classifier.py,12,30.0,class ParticleClassifier:,Unknown particle type,0,0,3

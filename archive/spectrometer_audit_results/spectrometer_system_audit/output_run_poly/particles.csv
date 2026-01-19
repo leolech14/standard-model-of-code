@@ -1,0 +1,10 @@
+type,name,file_path,line,confidence,responsibility,purity,boundary,lifecycle,rpbl_score,evidence
+Unknown,GodClassPython,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/god_class_example.py,16,30.0,5,5,5,5,5.0,class GodClassPython:
+Unknown,GodClassExample,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,13,30.0,5,5,5,5,5.0,public class GodClassExample {
+Unknown,Customer,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,348,30.0,5,5,5,5,5.0,private class Customer {
+Unknown,Order,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,358,30.0,5,5,5,5,5.0,private class Order {
+Unknown,Item,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,369,30.0,5,5,5,5,5.0,private class Item {
+Unknown,NetworkClient,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,375,30.0,5,5,5,5,5.0,private class NetworkClient {
+Unknown,FileLogger,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,381,30.0,5,5,5,5,5.0,private class FileLogger {
+Service,EmailService,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,385,75.0,7,4,6,5,5.5,private class EmailService {
+Unknown,Validator,/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java,390,30.0,5,5,5,5,5.0,private class Validator {

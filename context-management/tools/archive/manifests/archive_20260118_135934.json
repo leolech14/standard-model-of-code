@@ -1,0 +1,49 @@
+{
+  "archive_id": "archive_20260118_135934",
+  "created": "2026-01-18T13:59:34",
+  "bucket": "gs://elements-archive-2026",
+  "account": "leonardolech3@gmail.com",
+  "total_size": 3664028308,
+  "total_files": 656,
+  "items": [
+    {
+      "path": "standard-model-of-code/output/audit",
+      "size": 2684354560,
+      "is_dir": true,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/standard-model-of-code/output/audit"
+    },
+    {
+      "path": "standard-model-of-code/.collider",
+      "size": 198180864,
+      "is_dir": true,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/standard-model-of-code/.collider"
+    },
+    {
+      "path": "standard-model-of-code/collider_output",
+      "size": 46137344,
+      "is_dir": true,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/standard-model-of-code/collider_output"
+    },
+    {
+      "path": "standard-model-of-code/.archive/audio",
+      "size": 419430400,
+      "is_dir": true,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/standard-model-of-code/.archive/audio"
+    },
+    {
+      "path": "archive/images",
+      "size": 127926272,
+      "is_dir": true,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/archive/images"
+    },
+    {
+      "path": "archive/spectrometer_system_audit.zip",
+      "size": 196083200,
+      "is_dir": false,
+      "gcs_path": "gs://elements-archive-2026/archive_20260118_135934/archive/spectrometer_system_audit.zip"
+    }
+  ],
+  "errors": null,
+  "local_deleted": true,
+  "note": "Retroactively created manifest for initial offload"
+}

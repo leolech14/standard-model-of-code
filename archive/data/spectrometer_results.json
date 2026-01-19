@@ -1,0 +1,307 @@
+{
+  "repository_path": "/tmp/multilang_test",
+  "statistics": {
+    "files_processed": 3,
+    "elements_found": 19,
+    "quarks_distribution": {
+      "AGGREGATES": 5,
+      "CONTROL": 4,
+      "FUNCTIONS": 9,
+      "MODULES": 1
+    },
+    "hadrons_distribution": {
+      "AGGREGATES::Unclassified": 4,
+      "IfBranch": 4,
+      "Service": 1,
+      "PureFunction": 9,
+      "ImportStatement": 1
+    },
+    "coverage": 13.157894736842104
+  },
+  "elements": [
+    {
+      "name": "User",
+      "type": "class",
+      "file_path": "/tmp/multilang_test/user_service.js",
+      "line_start": 3,
+      "line_end": 3,
+      "content": "class User {",
+      "quark": "AGGREGATES",
+      "hadron": "AGGREGATES::Unclassified",
+      "confidence": 50.0,
+      "metadata": {},
+      "quark_color": "#44FF44",
+      "quark_shape": "sphere"
+    },
+    {
+      "name": "UserRepository",
+      "type": "class",
+      "file_path": "/tmp/multilang_test/user_service.js",
+      "line_start": 12,
+      "line_end": 12,
+      "content": "class UserRepository {",
+      "quark": "AGGREGATES",
+      "hadron": "AGGREGATES::Unclassified",
+      "confidence": 50.0,
+      "metadata": {},
+      "quark_color": "#44FF44",
+      "quark_shape": "sphere"
+    },
+    {
+      "name": "if (!user.id) {",
+      "type": "if",
+      "file_path": "/tmp/multilang_test/user_service.js",
+      "line_start": 19,
+      "line_end": 19,
+      "content": "if (!user.id) {",
+      "quark": "CONTROL",
+      "hadron": "IfBranch",
+      "confidence": 95,
+      "metadata": {},
+      "quark_color": "#FF0088",
+      "quark_shape": "torus"
+    },
+    {
+      "name": "UserCommandHandler",
+      "type": "class",
+      "file_path": "/tmp/multilang_test/user_service.js",
+      "line_start": 35,
+      "line_end": 35,
+      "content": "class UserCommandHandler {",
+      "quark": "AGGREGATES",
+      "hadron": "AGGREGATES::Unclassified",
+      "confidence": 50.0,
+      "metadata": {},
+      "quark_color": "#44FF44",
+      "quark_shape": "sphere"
+    },
+    {
+      "name": "if (!name || !email) {",
+      "type": "if",
+      "file_path": "/tmp/multilang_test/user_service.js",
+      "line_start": 41,
+      "line_end": 41,
+      "content": "if (!name || !email) {",
+      "quark": "CONTROL",
+      "hadron": "IfBranch",
+      "confidence": 95,
+      "metadata": {},
+      "quark_color": "#FF0088",
+      "quark_shape": "torus"
+    },
+    {
+      "name": "UserService",
+      "type": "class",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 3,
+      "line_end": 3,
+      "content": "public class UserService {",
+      "quark": "AGGREGATES",
+      "hadron": "Service",
+      "confidence": 70.0,
+      "metadata": {},
+      "quark_color": "#44FF44",
+      "quark_shape": "sphere"
+    },
+    {
+      "name": "createUser",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 7,
+      "line_end": 7,
+      "content": "public User createUser(String name, String email) {",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "if (name == null || email == n",
+      "type": "if",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 8,
+      "line_end": 8,
+      "content": "if (name == null || email == null) {",
+      "quark": "CONTROL",
+      "hadron": "IfBranch",
+      "confidence": 95,
+      "metadata": {},
+      "quark_color": "#FF0088",
+      "quark_shape": "torus"
+    },
+    {
+      "name": "IllegalArgumentException",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 9,
+      "line_end": 9,
+      "content": "throw new IllegalArgumentException(\"Name and email required\");",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "User",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 11,
+      "line_end": 11,
+      "content": "User user = new User(nextId++, name, email);",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "User",
+      "type": "class",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 25,
+      "line_end": 25,
+      "content": "class User {",
+      "quark": "AGGREGATES",
+      "hadron": "AGGREGATES::Unclassified",
+      "confidence": 50.0,
+      "metadata": {},
+      "quark_color": "#44FF44",
+      "quark_shape": "sphere"
+    },
+    {
+      "name": "User",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 30,
+      "line_end": 30,
+      "content": "public User(int id, String name, String email) {",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "getId",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 36,
+      "line_end": 36,
+      "content": "public int getId() { return id; }",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "getName",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 37,
+      "line_end": 37,
+      "content": "public String getName() { return name; }",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "getEmail",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/UserService.java",
+      "line_start": 38,
+      "line_end": 38,
+      "content": "public String getEmail() { return email; }",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "import (",
+      "type": "import",
+      "file_path": "/tmp/multilang_test/user.go",
+      "line_start": 3,
+      "line_end": 3,
+      "content": "import (",
+      "quark": "MODULES",
+      "hadron": "ImportStatement",
+      "confidence": 95,
+      "metadata": {},
+      "quark_color": "#FFFF00",
+      "quark_shape": "dodecahedron"
+    },
+    {
+      "name": "NewUserRepository",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/user.go",
+      "line_start": 19,
+      "line_end": 19,
+      "content": "func NewUserRepository() *UserRepository {",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    },
+    {
+      "name": "if user.ID == 0 {",
+      "type": "if",
+      "file_path": "/tmp/multilang_test/user.go",
+      "line_start": 27,
+      "line_end": 27,
+      "content": "if user.ID == 0 {",
+      "quark": "CONTROL",
+      "hadron": "IfBranch",
+      "confidence": 95,
+      "metadata": {},
+      "quark_color": "#FF0088",
+      "quark_shape": "torus"
+    },
+    {
+      "name": "main",
+      "type": "function",
+      "file_path": "/tmp/multilang_test/user.go",
+      "line_start": 40,
+      "line_end": 40,
+      "content": "func main() {",
+      "quark": "FUNCTIONS",
+      "hadron": "PureFunction",
+      "confidence": 95,
+      "metadata": {
+        "is_async": false
+      },
+      "quark_color": "#8844FF",
+      "quark_shape": "octahedron"
+    }
+  ]
+}

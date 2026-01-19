@@ -1,0 +1,38 @@
+analysis_sets:
+  brain:
+    description: "The Context & Intelligence Layer (Tools, Docs, Registry)"
+    patterns:
+      - "context-management/**"
+      - "README.md"
+
+  brain_core:
+    description: "Essential AI & Config Tools (Fits in 1M context)"
+    patterns:
+      - "context-management/tools/ai/**"
+      - "context-management/config/**"
+      - "context-management/docs/AI_OPERATING_MANUAL.md"
+      - "README.md"
+  
+  body:
+    description: "The Standard Model of Code (Source Implementation)"
+    patterns:
+      - "standard-model-of-code/src/**"
+      - "standard-model-of-code/README.md"
+
+  theory:
+    description: "Pure Theoretical Framework & Architecture"
+    patterns:
+      - "standard-model-of-code/docs/**"
+      - "context-management/docs/theory/**"
+      - "context-management/docs/project_map.md"
+
+  legacy:
+    description: "Archived and Deprecated Assets"
+    patterns:
+      - "archive/**"
+      - "standard-model-of-code/_archive/**"
+
+  complete:
+    description: "Full Repository (Excluding heavy binaries/node_modules)"
+    patterns:
+      - "*"

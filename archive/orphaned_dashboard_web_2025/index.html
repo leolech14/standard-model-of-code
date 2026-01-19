@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectrometer Dashboard - Standard Model do Código</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-dark: #1f2937;
+            --bg-light: #f3f4f6;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo .version {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: var(--bg-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .results-section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .table tr:hover {
+            background: var(--bg-light);
+        }
+
+        .hadron-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .hadron-api {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .hadron-service {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .hadron-entity {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .hadron-test {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .hadron-unclassified {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .confidence-bar {
+            width: 100px;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .progress-section {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-section.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--bg-light);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .spinner {
+            border: 3px solid var(--bg-light);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: var(--danger);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .quarks-legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .quark-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .quark-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span style="font-size: 2rem;">⚛️</span>
+                <div>
+                    <h1>Spectrometer Dashboard</h1>
+                    <span class="version">v9.0 RAW + HAIKU + VALENCE</span>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="checkAPIHealth()">
+                🔄 Ver Status da API
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Métricas Principais -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">
+                    <span>📊</span>
+                    <span>Score V9</span>
+                </div>
+                <div class="metric-value" id="score-value">-</div>
+                <div class="metric-label">Precisão geral do analisador</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>⚛️</span>
+                    <span>Quarks Detectados</span>
+                </div>
+                <div class="metric-value" id="quarks-value">-</div>
+                <div class="metric-label">Elementos fundamentais extraídos</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>🔮</span>
+                    <span>HAIKU Classificações</span>
+                </div>
+                <div class="metric-value" id="haiku-value">-</div>
+                <div class="metric-label">Sub-hádrons semânticos</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>🎯</span>
+                    <span>Confiança Média</span>
+                </div>
+                <div class="metric-value" id="confidence-value">-</div>
+                <div class="metric-label">Precisão das classificações</div>
+            </div>
+        </div>
+
+        <!-- Upload de Arquivo -->
+        <div class="upload-section">
+            <h2 style="margin-bottom: 1rem;">📤 Analisar Código</h2>
+            <div class="upload-area" id="uploadArea" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div class="upload-icon">📁</div>
+                <p style="font-size: 1.25rem; margin-bottom: 0.5rem;">Arraste um arquivo aqui</p>
+                <p style="color: var(--text-light);">ou</p>
+                <input type="file" id="fileInput" style="display: none;" accept=".py,.js,.ts,.java,.go,.rs">
+                <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                    Selecionar Arquivo
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-light);">
+                    Suportado: Python, JavaScript, TypeScript, Java, Go, Rust
+                </p>
+            </div>
+        </div>
+
+        <!-- Progresso da Análise -->
+        <div class="progress-section" id="progressSection">
+            <h3 style="text-align: center; margin-bottom: 1rem;">Analisando Código...</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p style="text-align: center; color: var(--text-light);" id="progressText">Preparando análise...</p>
+            <div class="spinner" style="margin-top: 1rem;"></div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2>📊 Resultados da Análise</h2>
+                <div class="score-badge" id="resultsScore">Score: -/100</div>
+            </div>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <!-- Tabela de Elementos -->
+            <table class="table" id="elementsTable">
+                <thead>
+                    <tr>
+                        <th>Linha</th>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Hádron</th>
+                        <th>HAIKU</th>
+                        <th>Confiança</th>
+                    </tr>
+                </thead>
+                <tbody id="elementsBody">
+                    <!-- Preenchido dinamicamente -->
+                </tbody>
+            </table>
+
+            <!-- Legenda de Quarks -->
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">⚛️ Quarks Fundamentais</h3>
+                <div class="quarks-legend">
+                    <div class="quark-item">
+                        <div class="quark-color" style="background: #00FFFF;"></div>
+                        <span>BITS</span>
+                    </div>
+                    <div class="quark-item">
+                        <div class="quark-color" style="background: #8844FF;"></div>
+                        <span>FUNCTIONS</span>
+                    </div>
+                    <div class="quark-item">
+                        <div class="quark-color" style="background: #44FF44;"></div>
+                        <span>AGGREGATES</span>
+                    </div>
+                    <div class="quark-item">
+                        <div class="quark-color" style="background: #8888FF;"></div>
+                        <span>MODULES</span>
+                    </div>
+                    <div class="quark-item">
+                        <div class="quark-color" style="background: #FF00FF;"></div>
+                        <span>VARIABLES</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+        let currentRequestId = null;
+
+        // Event Listeners
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+        // API Health Check
+        async function checkAPIHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+
+                if (data.status === 'healthy') {
+                    alert(`✅ API está saudável!\n\nEngine: ${data.engine}\nJobs ativos: ${data.active_jobs}`);
+                } else {
+                    alert('⚠️ API pode ter problemas');
+                }
+            } catch (error) {
+                alert('❌ Não foi possível conectar à API\n\nCertifique-se que o servidor está rodando em localhost:8000');
+            }
+        }
+
+        // File Upload Handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('uploadArea').classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('uploadArea').classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('uploadArea').classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                uploadFile(files[0]);
+            }
+        }
+
+        // Upload and Analysis
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Detectar linguagem
+            const extension = file.name.split('.').pop().toLowerCase();
+            const languageMap = {
+                'py': 'python',
+                'js': 'javascript',
+                'ts': 'typescript',
+                'java': 'java',
+                'go': 'go',
+                'rs': 'rust'
+            };
+
+            // Mostrar progress
+            showProgress();
+
+            try {
+                // Iniciar análise
+                const response = await fetch(`${API_BASE}/analyze/upload?language=${languageMap[extension] || ''}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                currentRequestId = result.request_id;
+
+                // Poll para resultados
+                pollResults(currentRequestId);
+
+            } catch (error) {
+                showError('Erro ao fazer upload: ' + error.message);
+                hideProgress();
+            }
+        }
+
+        // Poll para status e resultados
+        async function pollResults(requestId) {
+            try {
+                const statusResponse = await fetch(`${API_BASE}/status/${requestId}`);
+                const status = await statusResponse.json();
+
+                // Update progress
+                updateProgress(status.progress || 0, status.current_file);
+
+                if (status.status === 'completed') {
+                    // Buscar resultados completos
+                    const resultsResponse = await fetch(`${API_BASE}/result/${requestId}`);
+                    const results = await resultsResponse.json();
+
+                    displayResults(results);
+                    hideProgress();
+                } else if (status.status === 'failed') {
+                    showError('Análise falhou: ' + status.error);
+                    hideProgress();
+                } else {
+                    // Continuar polling
+                    setTimeout(() => pollResults(requestId), 1000);
+                }
+            } catch (error) {
+                showError('Erro ao buscar status: ' + error.message);
+                hideProgress();
+            }
+        }
+
+        // UI Functions
+        function showProgress() {
+            document.getElementById('progressSection').classList.add('active');
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function hideProgress() {
+            document.getElementById('progressSection').classList.remove('active');
+        }
+
+        function updateProgress(percent, currentFile) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent =
+                currentFile ? `Analisando: ${currentFile} (${percent.toFixed(1)}%)` : `${percent.toFixed(1)}%`;
+        }
+
+        function displayResults(results) {
+            document.getElementById('resultsSection').classList.add('active');
+
+            // Atualizar métricas
+            document.getElementById('score-value').textContent =
+                results.metrics?.v9_score ? results.metrics.v9_score.toFixed(1) : '-';
+            document.getElementById('quarks-value').textContent =
+                results.metrics?.raw_quarks_extracted || '-';
+            document.getElementById('haiku-value').textContent =
+                results.metrics?.haiku_classifications || '-';
+            document.getElementById('confidence-value').textContent =
+                results.metrics?.average_confidence ?
+                    (results.metrics.average_confidence * 100).toFixed(1) + '%' : '-';
+
+            document.getElementById('resultsScore').textContent =
+                `Score: ${results.metrics?.v9_score ? results.metrics.v9_score.toFixed(1) : '-'}/100`;
+
+            // Preencher tabela
+            const tbody = document.getElementById('elementsBody');
+            tbody.innerHTML = '';
+
+            if (results.elements && results.elements.length > 0) {
+                results.elements.forEach(element => {
+                    const row = tbody.insertRow();
+
+                    row.innerHTML = `
+                        <td>${element.line}</td>
+                        <td><code>${element.name}</code></td>
+                        <td>${element.type}</td>
+                        <td><span class="hadron-badge hadron-${getHadronClass(element.hadron)}">${element.hadron}</span></td>
+                        <td>${element.haiku || '-'}</td>
+                        <td>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: ${element.confidence * 100}%"></div>
+                            </div>
+                            <small>${(element.confidence * 100).toFixed(1)}%</small>
+                        </td>
+                    `;
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-light);">Nenhum elemento detectado</td></tr>';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('resultsSection').classList.add('active');
+        }
+
+        function getHadronClass(hadron) {
+            const classes = {
+                'APIHandler': 'api',
+                'Service': 'service',
+                'Entity': 'entity',
+                'TestFunction': 'test',
+                'Unclassified': 'unclassified'
+            };
+            return classes[hadron] || 'unclassified';
+        }
+
+        // Check health on load
+        window.addEventListener('load', () => {
+            setTimeout(checkAPIHealth, 1000);
+        });
+    </script>
+</body>
+</html>

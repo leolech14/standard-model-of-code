@@ -1,0 +1,110 @@
+# 96 Hadrons – Coverage vs Canonical
+
+The repo’s RPBL truth table (`1440_csv.csv`) contains **all 96** hadron subtypes.
+
+## Notes
+- Name mismatch: `ABTestRouter` (CSV) corresponds to `A/B Test Router` in `HADRONS_96_FULL.md`.
+- Continent mismatch: `LocalVar` is `Foundations` in the CSV but `Data Foundations` in `HADRONS_96_FULL.md`.
+
+## Hadrons present in `1440_csv.csv` (continent / fundamental)
+- ABTestRouter — Execution / Executables
+- APIHandler — Execution / Executables
+- Actor — Execution / Executables
+- AggregateRoot — Organization / Aggregates
+- ApplicationPort — Organization / Modules
+- ArithmeticExpr — Logic & Flow / Expressions
+- Assignment — Logic & Flow / Statements
+- AsyncFunction — Logic & Flow / Functions
+- BackgroundThread — Execution / Executables
+- BitFlag — Data Foundations / Bits
+- BitMask — Data Foundations / Bits
+- Boolean — Data Foundations / Primitives
+- BoundedContext — Organization / Modules
+- ByteArray — Data Foundations / Bytes
+- CLIEntry — Execution / Executables
+- CacheWarmer — Execution / Executables
+- CallExpr — Logic & Flow / Expressions
+- CanaryDeployTrigger — Execution / Executables
+- ChaosMonkey — Execution / Executables
+- CircuitBreakerInit — Execution / Executables
+- Closure — Logic & Flow / Functions
+- CommandHandler — Logic & Flow / Functions
+- ConfigFile — Organization / Files
+- ConfigLoader — Execution / Executables
+- ContainerEntry — Execution / Executables
+- Coroutine — Execution / Executables
+- CronJob — Execution / Executables
+- DTO — Organization / Aggregates
+- DependencyInjectionContainer — Execution / Executables
+- DomainPort — Organization / Modules
+- Entity — Organization / Aggregates
+- EnumValue — Data Foundations / Primitives
+- EventHandler — Logic & Flow / Functions
+- ExpressionStmt — Logic & Flow / Statements
+- Factory — Organization / Aggregates
+- FeatureFlagCheck — Execution / Executables
+- FeatureModule — Organization / Modules
+- Fiber — Execution / Executables
+- Float — Data Foundations / Primitives
+- Generator — Logic & Flow / Functions
+- GlobalVar — Foundations / Variables
+- GracefulShutdown — Execution / Executables
+- GraphQLResolver — Execution / Executables
+- GuardClause — Logic & Flow / Control Structures
+- HealthCheck — Execution / Executables
+- IfBranch — Logic & Flow / Control Structures
+- ImpureFunction — Logic & Flow / Functions
+- InfrastructureAdapter — Organization / Modules
+- InstanceField — Foundations / Variables
+- Integer — Data Foundations / Primitives
+- KubernetesJob — Execution / Executables
+- LambdaEntry — Execution / Executables
+- LiteralExpr — Logic & Flow / Expressions
+- LocalVar — Foundations / Variables
+- LoggerInit — Execution / Executables
+- LoopFor — Logic & Flow / Control Structures
+- LoopWhile — Logic & Flow / Control Structures
+- MagicBytes — Data Foundations / Bytes
+- MainEntry — Execution / Executables
+- Mapper — Logic & Flow / Functions
+- MessageConsumer — Execution / Executables
+- MetricsExporter — Execution / Executables
+- Middleware — Logic & Flow / Functions
+- MigrationFile — Organization / Files
+- MigrationRunner — Execution / Executables
+- PaddingBytes — Data Foundations / Bytes
+- PanicRecover — Execution / Executables
+- Parameter — Foundations / Variables
+- ParityBit — Data Foundations / Bits
+- PluginLoader — Execution / Executables
+- Projection — Organization / Aggregates
+- PureFunction — Logic & Flow / Functions
+- QueryHandler — Logic & Flow / Functions
+- QueueWorker — Execution / Executables
+- RateLimiter — Execution / Executables
+- ReadModel — Organization / Aggregates
+- Reducer — Logic & Flow / Functions
+- ReturnStmt — Logic & Flow / Statements
+- SagaStep — Logic & Flow / Functions
+- SeedData — Execution / Executables
+- SelfHealingProbe — Execution / Executables
+- ServerlessColdStart — Execution / Executables
+- ServiceWorker — Execution / Executables
+- SignBit — Data Foundations / Bits
+- SourceFile — Organization / Files
+- StaticField — Foundations / Variables
+- StringLiteral — Data Foundations / Primitives
+- SwitchCase — Logic & Flow / Control Structures
+- TestFile — Organization / Files
+- TracerProvider — Execution / Executables
+- TryCatch — Logic & Flow / Control Structures
+- Validator — Logic & Flow / Functions
+- ValueObject — Organization / Aggregates
+- WebSocketHandler — Execution / Executables
+- WebWorker — Execution / Executables
+- WorkerEntry — Execution / Executables
+
+## Sources
+- Canonical 96-row table: `HADRONS_96_FULL.md`
+- Grid data: `1440_csv.csv`
+

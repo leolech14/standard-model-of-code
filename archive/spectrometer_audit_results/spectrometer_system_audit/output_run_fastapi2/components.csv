@@ -1,0 +1,262 @@
+component_id,type,symbol_kind,name,rel_file,line,confidence,evidence,purpose,internal_deps,external_deps,stdlib_deps
+6e23232dbefb,Unknown,class,ParamTypes,params.py,19,30.0,class ParamTypes(Enum):,Unknown particle type,1,3,4
+0072df12826b,Unknown,class,Param,params.py,26,30.0,class Param(FieldInfo):  # type: ignore[misc],Unknown particle type,1,3,4
+b8df011f805b,Unknown,class,Path,params.py,144,30.0,class Path(Param):  # type: ignore[misc],Unknown particle type,1,3,4
+4fdc0c911211,Query,class,Query,params.py,230,50.0,class Query(Param):  # type: ignore[misc],Immutable request for system information,1,3,4
+4bb110a48e41,Unknown,class,Header,params.py,314,30.0,class Header(Param):  # type: ignore[misc],Unknown particle type,1,3,4
+c35346229f43,Unknown,class,Cookie,params.py,400,30.0,class Cookie(Param):  # type: ignore[misc],Unknown particle type,1,3,4
+708b78484f0e,Unknown,class,Body,params.py,484,30.0,class Body(FieldInfo):  # type: ignore[misc],Unknown particle type,1,3,4
+d893f9cd6437,Unknown,class,Form,params.py,605,30.0,class Form(Body):  # type: ignore[misc],Unknown particle type,1,3,4
+32201252d875,Unknown,class,File,params.py,689,30.0,class File(Form):  # type: ignore[misc],Unknown particle type,1,3,4
+72ff78ce81b1,Unknown,class,Depends,params.py,774,30.0,class Depends:,Unknown particle type,1,3,4
+c08a289abe94,Unknown,class,Security,params.py,781,30.0,class Security(Depends):,Unknown particle type,1,3,4
+f7e952b7376e,DTO,class,UJSONResponse,responses.py,23,50.0,class UJSONResponse(JSONResponse):,Data transfer object / schema (no business behavior),0,9,1
+90955722b0a1,DTO,class,ORJSONResponse,responses.py,36,50.0,class ORJSONResponse(JSONResponse):,Data transfer object / schema (no business behavior),0,9,1
+7fe1fa6a2169,EventHandler,function,http_exception_handler,exception_handlers.py,11,50.0,"async def http_exception_handler(request: Request, exc: HTTPException) -> Response:",Handles domain events and executes side effects,0,8,0
+715c31adac33,EventHandler,function,request_validation_exception_handler,exception_handlers.py,20,50.0,async def request_validation_exception_handler(,Handles domain events and executes side effects,0,8,0
+141db9575d2f,EventHandler,function,websocket_request_validation_exception_handler,exception_handlers.py,29,50.0,async def websocket_request_validation_exception_handler(,Handles domain events and executes side effects,0,8,0
+b27094596d17,Controller,class,FastAPI,applications.py,52,50.0,class FastAPI(Starlette):,Handles user input and coordinates application flow,0,24,2
+49e94fad757c,Unknown,function,contextmanager_in_threadpool,concurrency.py,16,30.0,async def contextmanager_in_threadpool(,Unknown particle type,0,5,2
+668da7c28c98,Unknown,class,BackgroundTasks,background.py,10,30.0,class BackgroundTasks(StarletteBackgroundTasks):,Unknown particle type,0,3,1
+f80141b3733d,Unknown,function,isoformat,encoders.py,33,30.0,"def isoformat(o: Union[datetime.date, datetime.time]) -> str:",Unknown particle type,1,8,11
+ae712229078a,Unknown,function,decimal_encoder,encoders.py,39,30.0,"def decimal_encoder(dec_value: Decimal) -> Union[int, float]:",Unknown particle type,1,8,11
+6f6e51961d6c,Unknown,function,generate_encoders_by_class_tuples,encoders.py,100,30.0,def generate_encoders_by_class_tuples(,Unknown particle type,1,8,11
+d894bdc6d4fa,Unknown,function,jsonable_encoder,encoders.py,114,30.0,def jsonable_encoder(,Unknown particle type,1,8,11
+85ed28a64ff2,Unknown,function,main,cli.py,8,30.0,def main() -> None:,Unknown particle type,0,1,0
+4662f4ed2254,Unknown,function,is_body_allowed_for_status_code,utils.py,44,30.0,"def is_body_allowed_for_status_code(status_code: Union[int, str, None]) -> bool:",Unknown particle type,3,9,5
+f4a0c15b0177,Unknown,function,get_path_param_names,utils.py,61,30.0,def get_path_param_names(path: str) -> Set[str]:,Unknown particle type,3,9,5
+3adbb94ae5fe,Factory,function,create_model_field,utils.py,76,50.0,def create_model_field(,Encapsulates complex object creation logic,3,9,5
+7f6827893a4e,Factory,function,create_cloned_field,utils.py,141,50.0,def create_cloned_field(,Encapsulates complex object creation logic,3,9,5
+e4687bdac8ab,Unknown,function,generate_operation_id_for_path,utils.py,204,30.0,def generate_operation_id_for_path(,Unknown particle type,3,9,5
+cc4d0613f780,Unknown,function,generate_unique_id,utils.py,219,30.0,"def generate_unique_id(route: ""APIRoute"") -> str:",Unknown particle type,3,9,5
+15223dd41c8a,Unknown,function,deep_dict_update,utils.py,227,30.0,"def deep_dict_update(main_dict: Dict[Any, Any], update_dict: Dict[Any, Any]) -> None:",Unknown particle type,3,9,5
+fa5d25aaf181,Unknown,function,get_value_or_default,utils.py,245,30.0,def get_value_or_default(,Unknown particle type,3,9,5
+71b91ab82949,Unknown,function,request_response,routing.py,85,30.0,def request_response(,Unknown particle type,0,23,8
+eddbca3f3b8f,Unknown,function,websocket_session,routing.py,127,30.0,def websocket_session(,Unknown particle type,0,23,8
+a303680ac305,Unknown,function,_prepare_response_content,routing.py,151,30.0,def _prepare_response_content(,Unknown particle type,0,23,8
+1b7dcc0dcaff,Unknown,function,_merge_lifespan_context,routing.py,199,30.0,def _merge_lifespan_context(,Unknown particle type,0,23,8
+2b7a2549cc44,Unknown,function,_extract_endpoint_context,routing.py,220,30.0,def _extract_endpoint_context(func: Any) -> EndpointContext:,Unknown particle type,0,23,8
+9445da69175e,Unknown,function,serialize_response,routing.py,243,30.0,async def serialize_response(,Unknown particle type,0,23,8
+9822ff0b3dea,UseCase,function,run_endpoint_function,routing.py,308,50.0,async def run_endpoint_function(,Application-specific business operation with single purpose,0,23,8
+143e1197acc5,EventHandler,function,get_request_handler,routing.py,321,50.0,def get_request_handler(,Handles domain events and executes side effects,0,23,8
+2b1034efed06,Unknown,function,get_websocket_app,routing.py,481,30.0,def get_websocket_app(,Unknown particle type,0,23,8
+acfcbfbb7596,Controller,class,APIWebSocketRoute,routing.py,518,50.0,class APIWebSocketRoute(routing.WebSocketRoute):,Handles user input and coordinates application flow,0,23,8
+49ce24f4a081,Controller,class,APIRoute,routing.py,560,50.0,class APIRoute(routing.Route):,Handles user input and coordinates application flow,0,23,8
+fb1df16416a6,Controller,class,APIRouter,routing.py,729,50.0,class APIRouter(routing.Router):,Handles user input and coordinates application flow,0,23,8
+5400c9e7c452,Unknown,class,Param,temp_pydantic_v1_params.py,14,30.0,class Param(FieldInfo):  # type: ignore[misc],Unknown particle type,2,3,2
+5480fe791144,Unknown,class,Path,temp_pydantic_v1_params.py,115,30.0,class Path(Param):  # type: ignore[misc],Unknown particle type,2,3,2
+a7bba164ab59,Query,class,Query,temp_pydantic_v1_params.py,201,50.0,class Query(Param):  # type: ignore[misc],Immutable request for system information,2,3,2
+37ef06f14869,Unknown,class,Header,temp_pydantic_v1_params.py,285,30.0,class Header(Param):  # type: ignore[misc],Unknown particle type,2,3,2
+cd08b98bcbd7,Unknown,class,Cookie,temp_pydantic_v1_params.py,371,30.0,class Cookie(Param):  # type: ignore[misc],Unknown particle type,2,3,2
+3d928bc449bf,Unknown,class,Body,temp_pydantic_v1_params.py,455,30.0,class Body(FieldInfo):  # type: ignore[misc],Unknown particle type,2,3,2
+b3647b92426d,Unknown,class,Form,temp_pydantic_v1_params.py,559,30.0,class Form(Body):  # type: ignore[misc],Unknown particle type,2,3,2
+4f13a013be53,Unknown,class,File,temp_pydantic_v1_params.py,643,30.0,class File(Form):  # type: ignore[misc],Unknown particle type,2,3,2
+bd5373a5323f,Unknown,class,EndpointContext,exceptions.py,10,30.0,"class EndpointContext(TypedDict, total=False):",Unknown particle type,0,5,1
+c07727ea0cc6,Unknown,class,HTTPException,exceptions.py,17,30.0,class HTTPException(StarletteHTTPException):,Unknown particle type,0,5,1
+697add87bf48,Unknown,class,WebSocketException,exceptions.py,76,30.0,class WebSocketException(StarletteWebSocketException):,Unknown particle type,0,5,1
+4e4bb759188e,Controller,class,FastAPIError,exceptions.py,151,50.0,class FastAPIError(RuntimeError):,Handles user input and coordinates application flow,0,5,1
+a4b794426bdb,Unknown,class,DependencyScopeError,exceptions.py,157,30.0,class DependencyScopeError(FastAPIError):,Unknown particle type,0,5,1
+9be81c74125f,Unknown,class,ValidationException,exceptions.py,164,30.0,class ValidationException(Exception):,Unknown particle type,0,5,1
+e714a761cbb2,DTO,class,RequestValidationError,exceptions.py,202,50.0,class RequestValidationError(ValidationException):,Data transfer object / schema (no business behavior),0,5,1
+ca52edc3221d,DTO,class,WebSocketRequestValidationError,exceptions.py,214,50.0,class WebSocketRequestValidationError(ValidationException):,Data transfer object / schema (no business behavior),0,5,1
+06bc234e0e4f,DTO,class,ResponseValidationError,exceptions.py,224,50.0,class ResponseValidationError(ValidationException):,Data transfer object / schema (no business behavior),0,5,1
+b3663ff85df8,Unknown,function,Path,param_functions.py,12,30.0,def Path(  # noqa: N802,Unknown particle type,0,5,1
+a958857fa5a8,Unknown,function,Query,param_functions.py,340,30.0,def Query(  # noqa: N802,Unknown particle type,0,5,1
+d22aff84da0f,Unknown,function,Header,param_functions.py,644,30.0,def Header(  # noqa: N802,Unknown particle type,0,5,1
+365944e374b4,Unknown,function,Cookie,param_functions.py,960,30.0,def Cookie(  # noqa: N802,Unknown particle type,0,5,1
+25c7c2758510,Unknown,function,Body,param_functions.py,1264,30.0,def Body(  # noqa: N802,Unknown particle type,0,5,1
+a1c3e7a0034c,Unknown,function,Form,param_functions.py,1593,30.0,def Form(  # noqa: N802,Unknown particle type,0,5,1
+7296d8f9bf35,Unknown,function,File,param_functions.py,1907,30.0,def File(  # noqa: N802,Unknown particle type,0,5,1
+472d46736d77,Unknown,function,Depends,param_functions.py,2221,30.0,def Depends(  # noqa: N802,Unknown particle type,0,5,1
+f74c1760818d,Unknown,function,Security,param_functions.py,2301,30.0,def Security(  # noqa: N802,Unknown particle type,0,5,1
+d2f636aebfe9,Unknown,class,UploadFile,datastructures.py,29,30.0,class UploadFile(StarletteUploadFile):,Unknown particle type,1,10,1
+724e9b70abbd,Unknown,class,DefaultPlaceholder,datastructures.py,176,30.0,class DefaultPlaceholder:,Unknown particle type,1,10,1
+3879cce6da1e,Unknown,function,Default,datastructures.py,197,30.0,def Default(value: DefaultType) -> DefaultType:,Unknown particle type,1,10,1
+b75a76243913,Unknown,class,AsyncExitStackMiddleware,middleware/asyncexitstack.py,8,30.0,class AsyncExitStackMiddleware:,Unknown particle type,0,1,1
+3a68c7a87e74,Unknown,class,OpenIdConnect,security/open_id_connect_url.py,12,30.0,class OpenIdConnect(SecurityBase):,Unknown particle type,0,7,1
+764c9be52bff,DTO,class,OAuth2PasswordRequestForm,security/oauth2.py,17,50.0,class OAuth2PasswordRequestForm:,Data transfer object / schema (no business behavior),0,10,1
+48b64351aafc,DTO,class,OAuth2PasswordRequestFormStrict,security/oauth2.py,153,50.0,class OAuth2PasswordRequestFormStrict(OAuth2PasswordRequestForm):,Data transfer object / schema (no business behavior),0,10,1
+889d1ac899fa,Unknown,class,OAuth2,security/oauth2.py,309,30.0,class OAuth2(SecurityBase):,Unknown particle type,0,10,1
+c4a9d957b2fe,Unknown,class,OAuth2PasswordBearer,security/oauth2.py,412,30.0,class OAuth2PasswordBearer(OAuth2):,Unknown particle type,0,10,1
+3a238405cec4,Unknown,class,OAuth2AuthorizationCodeBearer,security/oauth2.py,520,30.0,class OAuth2AuthorizationCodeBearer(OAuth2):,Unknown particle type,0,10,1
+22ee1a1424d7,Unknown,class,SecurityScopes,security/oauth2.py,626,30.0,class SecurityScopes:,Unknown particle type,0,10,1
+1982ad0d5ffa,Controller,class,APIKeyBase,security/api_key.py,12,50.0,class APIKeyBase(SecurityBase):,Handles user input and coordinates application flow,0,7,1
+4c71d2d9e606,Controller,class,APIKeyQuery,security/api_key.py,54,50.0,class APIKeyQuery(APIKeyBase):,Handles user input and coordinates application flow,0,7,1
+b97f6d15a974,Controller,class,APIKeyHeader,security/api_key.py,146,50.0,class APIKeyHeader(APIKeyBase):,Handles user input and coordinates application flow,0,7,1
+a817949556a9,Controller,class,APIKeyCookie,security/api_key.py,234,50.0,class APIKeyCookie(APIKeyBase):,Handles user input and coordinates application flow,0,7,1
+18379e5076dd,Unknown,function,get_authorization_scheme_param,security/utils.py,4,30.0,def get_authorization_scheme_param(,Unknown particle type,0,0,1
+b8ed4a70cdfb,DTO,class,HTTPBasicCredentials,security/http.py,17,50.0,class HTTPBasicCredentials(BaseModel):,Data transfer object / schema (no business behavior),0,10,3
+acc3e752b23f,DTO,class,HTTPAuthorizationCredentials,security/http.py,30,50.0,class HTTPAuthorizationCredentials(BaseModel):,Data transfer object / schema (no business behavior),0,10,3
+ca389753300f,Unknown,class,HTTPBase,security/http.py,70,30.0,class HTTPBase(SecurityBase):,Unknown particle type,0,10,3
+70df456cdcc6,Unknown,class,HTTPBasic,security/http.py,108,30.0,class HTTPBasic(HTTPBase):,Unknown particle type,0,10,3
+720190f7e114,Unknown,class,HTTPBearer,security/http.py,225,30.0,class HTTPBearer(HTTPBase):,Unknown particle type,0,10,3
+dd5faf30077a,Unknown,class,HTTPDigest,security/http.py,324,30.0,class HTTPDigest(HTTPBase):,Unknown particle type,0,10,3
+c857f3a0969e,Unknown,class,SecurityBase,security/base.py,4,30.0,class SecurityBase:,Unknown particle type,0,1,0
+fd5317d3ff93,Unknown,function,_unwrapped_call,dependencies/models.py,18,30.0,"def _unwrapped_call(call: Optional[Callable[..., Any]]) -> Any:",Unknown particle type,0,4,7
+b35b6b083d5b,Unknown,function,_impartial,dependencies/models.py,25,30.0,"def _impartial(func: Callable[..., Any]) -> Callable[..., Any]:",Unknown particle type,0,4,7
+09892f5ef831,Unknown,class,Dependant,dependencies/models.py,32,30.0,class Dependant:,Unknown particle type,0,4,7
+ad610d429fce,Unknown,function,ensure_multipart_is_installed,dependencies/utils.py,97,30.0,def ensure_multipart_is_installed() -> None:,Unknown particle type,0,26,7
+a2397c6f06b1,Unknown,function,get_parameterless_sub_dependant,dependencies/utils.py,124,30.0,"def get_parameterless_sub_dependant(*, depends: params.Depends, path: str) -> Dependant:",Unknown particle type,0,26,7
+06e8c5d895a5,Unknown,function,get_flat_dependant,dependencies/utils.py,139,30.0,def get_flat_dependant(,Unknown particle type,0,26,7
+22354cffef7e,Unknown,function,_get_flat_fields_from_params,dependencies/utils.py,193,30.0,def _get_flat_fields_from_params(fields: List[ModelField]) -> List[ModelField]:,Unknown particle type,0,26,7
+c2c20025608a,Unknown,function,get_flat_params,dependencies/utils.py,203,30.0,def get_flat_params(dependant: Dependant) -> List[ModelField]:,Unknown particle type,0,26,7
+f0bc27167384,Unknown,function,_get_signature,dependencies/utils.py,212,30.0,"def _get_signature(call: Callable[..., Any]) -> inspect.Signature:",Unknown particle type,0,26,7
+48bca06a186e,Unknown,function,get_typed_signature,dependencies/utils.py,225,30.0,"def get_typed_signature(call: Callable[..., Any]) -> inspect.Signature:",Unknown particle type,0,26,7
+53818f5028fc,Unknown,function,get_typed_annotation,dependencies/utils.py,242,30.0,"def get_typed_annotation(annotation: Any, globalns: Dict[str, Any]) -> Any:",Unknown particle type,0,26,7
+a5d7d8145994,Unknown,function,get_typed_return_annotation,dependencies/utils.py,251,30.0,"def get_typed_return_annotation(call: Callable[..., Any]) -> Any:",Unknown particle type,0,26,7
+cbd323bb4408,Unknown,function,get_dependant,dependencies/utils.py,263,30.0,def get_dependant(,Unknown particle type,0,26,7
+47babfb98b8f,Unknown,function,add_non_field_param_to_dependency,dependencies/utils.py,340,30.0,def add_non_field_param_to_dependency(,Unknown particle type,0,26,7
+a0dc7c6fa039,Unknown,class,ParamDetails,dependencies/utils.py,365,30.0,class ParamDetails:,Unknown particle type,0,26,7
+aa24dd3fa0b5,Unknown,function,analyze_param,dependencies/utils.py,371,30.0,def analyze_param(,Unknown particle type,0,26,7
+bd87c3c90d4c,Unknown,function,add_param_to_fields,dependencies/utils.py,558,30.0,"def add_param_to_fields(*, field: ModelField, dependant: Dependant) -> None:",Unknown particle type,0,26,7
+bb5e0479b3ce,Unknown,function,_solve_generator,dependencies/utils.py,574,30.0,async def _solve_generator(,Unknown particle type,0,26,7
+37ab06dbdf73,Unknown,class,SolvedDependency,dependencies/utils.py,586,30.0,class SolvedDependency:,Unknown particle type,0,26,7
+6ba3db480022,Unknown,function,solve_dependencies,dependencies/utils.py,594,30.0,async def solve_dependencies(,Unknown particle type,0,26,7
+ad25246f41c7,Specification,function,_validate_value_with_model_field,dependencies/utils.py,734,75.0,def _validate_value_with_model_field(,Encapsulated business rule that can be combined,0,26,7
+0ea70a244f03,Unknown,function,_get_multidict_value,dependencies/utils.py,752,30.0,def _get_multidict_value(,Unknown particle type,0,26,7
+e3d8843115e0,Unknown,function,request_params_to_args,dependencies/utils.py,776,30.0,def request_params_to_args(,Unknown particle type,0,26,7
+9c191b67796c,Unknown,function,is_union_of_base_models,dependencies/utils.py,859,30.0,def is_union_of_base_models(field_type: Any) -> bool:,Unknown particle type,0,26,7
+d465b220d587,Unknown,function,_should_embed_body_fields,dependencies/utils.py,878,30.0,def _should_embed_body_fields(fields: List[ModelField]) -> bool:,Unknown particle type,0,26,7
+2feacb07fa42,Unknown,function,_extract_form_body,dependencies/utils.py,902,30.0,async def _extract_form_body(,Unknown particle type,0,26,7
+a2dde074ec99,Unknown,function,request_body_to_args,dependencies/utils.py,949,30.0,async def request_body_to_args(,Unknown particle type,0,26,7
+27d1fa2a11bd,Unknown,function,get_body_field,dependencies/utils.py,999,30.0,def get_body_field(,Unknown particle type,0,26,7
+c6f4554ea7f6,Unknown,function,get_validation_alias,dependencies/utils.py,1065,30.0,def get_validation_alias(field: ModelField) -> str:,Unknown particle type,0,26,7
+5bab11540a57,DTO,class,BaseModelWithConfig,openapi/models.py,58,50.0,class BaseModelWithConfig(BaseModel):,Data transfer object / schema (no business behavior),0,7,2
+990b6d6293ea,DTO,class,Contact,openapi/models.py,68,50.0,class Contact(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+236385641bf6,DTO,class,License,openapi/models.py,74,50.0,class License(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+f7f52e332fcc,DTO,class,Info,openapi/models.py,80,50.0,class Info(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+15ea8986b719,DTO,class,ServerVariable,openapi/models.py,90,50.0,class ServerVariable(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+9320da18507b,DTO,class,Server,openapi/models.py,96,50.0,class Server(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+c8f4a804fb34,DTO,class,Reference,openapi/models.py,102,50.0,class Reference(BaseModel):,Data transfer object / schema (no business behavior),0,7,2
+131501c959ec,DTO,class,Discriminator,openapi/models.py,106,50.0,class Discriminator(BaseModel):,Data transfer object / schema (no business behavior),0,7,2
+f538706b7071,DTO,class,XML,openapi/models.py,111,50.0,class XML(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+c83551bedbdb,DTO,class,ExternalDocumentation,openapi/models.py,119,50.0,class ExternalDocumentation(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+0396a52a11ac,DTO,class,Schema,openapi/models.py,130,50.0,class Schema(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+8f6ecb73724e,Unknown,class,Example,openapi/models.py,222,30.0,"class Example(TypedDict, total=False):",Unknown particle type,0,7,2
+9b00f1ddbaed,Unknown,class,ParameterInType,openapi/models.py,237,30.0,class ParameterInType(Enum):,Unknown particle type,0,7,2
+990645e54851,DTO,class,Encoding,openapi/models.py,244,50.0,class Encoding(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+ae15ef401530,DTO,class,MediaType,openapi/models.py,252,50.0,class MediaType(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+4f3d5a345ce1,DTO,class,ParameterBase,openapi/models.py,259,50.0,class ParameterBase(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+28a27621c39b,Unknown,class,Parameter,openapi/models.py,274,30.0,class Parameter(ParameterBase):,Unknown particle type,0,7,2
+fe50fe94087f,Unknown,class,Header,openapi/models.py,279,30.0,class Header(ParameterBase):,Unknown particle type,0,7,2
+4a77df39473b,DTO,class,RequestBody,openapi/models.py,283,50.0,class RequestBody(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+ea509501b614,DTO,class,Link,openapi/models.py,289,50.0,class Link(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+f9cd64ebe4cc,DTO,class,Response,openapi/models.py,298,50.0,class Response(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+863fc1894b3e,DTO,class,Operation,openapi/models.py,305,50.0,class Operation(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+bde3c84ff359,DTO,class,PathItem,openapi/models.py,321,50.0,class PathItem(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+7ce0f82f6ec7,Unknown,class,SecuritySchemeType,openapi/models.py,337,30.0,class SecuritySchemeType(Enum):,Unknown particle type,0,7,2
+f2f075307ce2,DTO,class,SecurityBase,openapi/models.py,344,50.0,class SecurityBase(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+e13f4474ddce,Controller,class,APIKeyIn,openapi/models.py,349,50.0,class APIKeyIn(Enum):,Handles user input and coordinates application flow,0,7,2
+4bc8ff0c03d7,Controller,class,APIKey,openapi/models.py,355,50.0,class APIKey(SecurityBase):,Handles user input and coordinates application flow,0,7,2
+f44a5b3b822a,Unknown,class,HTTPBase,openapi/models.py,361,30.0,class HTTPBase(SecurityBase):,Unknown particle type,0,7,2
+7ee766e4c6d0,Unknown,class,HTTPBearer,openapi/models.py,366,30.0,class HTTPBearer(HTTPBase):,Unknown particle type,0,7,2
+75226ac5e2f2,DTO,class,OAuthFlow,openapi/models.py,371,50.0,class OAuthFlow(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+a95c830b597b,Unknown,class,OAuthFlowImplicit,openapi/models.py,376,30.0,class OAuthFlowImplicit(OAuthFlow):,Unknown particle type,0,7,2
+06245dd03e31,Unknown,class,OAuthFlowPassword,openapi/models.py,380,30.0,class OAuthFlowPassword(OAuthFlow):,Unknown particle type,0,7,2
+21cd990302f0,Unknown,class,OAuthFlowClientCredentials,openapi/models.py,384,30.0,class OAuthFlowClientCredentials(OAuthFlow):,Unknown particle type,0,7,2
+77302be3a629,Unknown,class,OAuthFlowAuthorizationCode,openapi/models.py,388,30.0,class OAuthFlowAuthorizationCode(OAuthFlow):,Unknown particle type,0,7,2
+28649b2a0ccb,DTO,class,OAuthFlows,openapi/models.py,393,50.0,class OAuthFlows(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+a67bb2e36191,Unknown,class,OAuth2,openapi/models.py,400,30.0,class OAuth2(SecurityBase):,Unknown particle type,0,7,2
+42dedfeec8fe,Unknown,class,OpenIdConnect,openapi/models.py,405,30.0,class OpenIdConnect(SecurityBase):,Unknown particle type,0,7,2
+64bde9272fda,DTO,class,Components,openapi/models.py,415,50.0,class Components(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+a32626123817,DTO,class,Tag,openapi/models.py,429,50.0,class Tag(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+e893c0a2e531,DTO,class,OpenAPI,openapi/models.py,435,50.0,class OpenAPI(BaseModelWithConfig):,Data transfer object / schema (no business behavior),0,7,2
+f28da0185205,Unknown,function,get_swagger_ui_html,openapi/docs.py,27,30.0,def get_swagger_ui_html(,Unknown particle type,0,4,2
+faab39e4976a,Unknown,function,get_redoc_html,openapi/docs.py,162,30.0,def get_redoc_html(,Unknown particle type,0,4,2
+daadf6f33878,Unknown,function,get_swagger_ui_oauth2_redirect_html,openapi/docs.py,257,30.0,def get_swagger_ui_oauth2_redirect_html() -> HTMLResponse:,Unknown particle type,0,4,2
+47de19a92d46,Unknown,function,get_openapi_security_definitions,openapi/utils.py,79,30.0,def get_openapi_security_definitions(,Unknown particle type,1,16,4
+904ff99b095a,Unknown,function,_get_openapi_operation_parameters,openapi/utils.py,105,30.0,def _get_openapi_operation_parameters(,Unknown particle type,1,16,4
+6f012a284c06,Unknown,function,get_openapi_operation_request_body,openapi/utils.py,178,30.0,def get_openapi_operation_request_body(,Unknown particle type,1,16,4
+3effeafd2641,Unknown,function,generate_operation_id,openapi/utils.py,213,30.0,def generate_operation_id(,Unknown particle type,1,16,4
+f5700e7e6a6b,Unknown,function,generate_operation_summary,openapi/utils.py,228,30.0,"def generate_operation_summary(*, route: routing.APIRoute, method: str) -> str:",Unknown particle type,1,16,4
+cf5805bda108,Unknown,function,get_openapi_operation_metadata,openapi/utils.py,234,30.0,def get_openapi_operation_metadata(,Unknown particle type,1,16,4
+59d14da7f7b2,Unknown,function,get_openapi_path,openapi/utils.py,260,30.0,def get_openapi_path(,Unknown particle type,1,16,4
+5ec39d691e29,Unknown,function,get_fields_from_routes,openapi/utils.py,446,30.0,def get_fields_from_routes(,Unknown particle type,1,16,4
+df89051b36a5,Unknown,function,get_openapi,openapi/utils.py,477,30.0,def get_openapi(,Unknown particle type,1,16,4
+dca2ea1d2b93,DTO,class,GenerateJsonSchema,_compat/v1.py,149,50.0,class GenerateJsonSchema:,Data transfer object / schema (no business behavior),0,56,4
+d5bcded0563f,DTO,class,PydanticSchemaGenerationError,_compat/v1.py,153,50.0,class PydanticSchemaGenerationError(Exception):,Data transfer object / schema (no business behavior),0,56,4
+071eaa609a8e,Unknown,function,with_info_plain_validator_function,_compat/v1.py,160,30.0,def with_info_plain_validator_function(,Unknown particle type,0,56,4
+cd0b2e1b16d1,Unknown,function,get_model_definitions,_compat/v1.py,170,30.0,def get_model_definitions(,Unknown particle type,0,56,4
+804529343c56,Unknown,function,is_pv1_scalar_field,_compat/v1.py,189,30.0,def is_pv1_scalar_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+2f4b9faf26f9,Unknown,function,is_pv1_scalar_sequence_field,_compat/v1.py,208,30.0,def is_pv1_scalar_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+4cb489d802a1,Unknown,function,_model_rebuild,_compat/v1.py,222,30.0,def _model_rebuild(model: Type[BaseModel]) -> None:,Unknown particle type,0,56,4
+8e2e9a5b8295,Unknown,function,_model_dump,_compat/v1.py,226,30.0,def _model_dump(,Unknown particle type,0,56,4
+63ef2bfbae30,Unknown,function,_get_model_config,_compat/v1.py,232,30.0,def _get_model_config(model: BaseModel) -> Any:,Unknown particle type,0,56,4
+c777a8305079,Unknown,function,get_schema_from_model_field,_compat/v1.py,236,30.0,def get_schema_from_model_field(,Unknown particle type,0,56,4
+e6d691eb7660,Unknown,function,get_definitions,_compat/v1.py,255,30.0,def get_definitions(,Unknown particle type,0,56,4
+f2348d67bbaf,Unknown,function,is_scalar_field,_compat/v1.py,268,30.0,def is_scalar_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+9a952e85925c,Unknown,function,is_sequence_field,_compat/v1.py,272,30.0,def is_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+441563dccb6a,Unknown,function,is_scalar_sequence_field,_compat/v1.py,276,30.0,def is_scalar_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+d390a91d2d24,Unknown,function,is_bytes_field,_compat/v1.py,280,30.0,def is_bytes_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+bc98ce87adf6,Unknown,function,is_bytes_sequence_field,_compat/v1.py,284,30.0,def is_bytes_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,56,4
+f93d605e85fd,Unknown,function,copy_field_info,_compat/v1.py,288,30.0,"def copy_field_info(*, field_info: FieldInfo, annotation: Any) -> FieldInfo:",Unknown particle type,0,56,4
+f5ad99dbebd2,Unknown,function,serialize_sequence_value,_compat/v1.py,292,30.0,"def serialize_sequence_value(*, field: ModelField, value: Any) -> Sequence[Any]:",Unknown particle type,0,56,4
+56e339608e7b,Unknown,function,get_missing_field_error,_compat/v1.py,296,30.0,"def get_missing_field_error(loc: Tuple[str, ...]) -> Dict[str, Any]:",Unknown particle type,0,56,4
+d1d4f248a1b6,Factory,function,create_body_model,_compat/v1.py,302,50.0,def create_body_model(,Encapsulates complex object creation logic,0,56,4
+eba4853a5a6f,Unknown,function,get_model_fields,_compat/v1.py,311,30.0,def get_model_fields(model: Type[BaseModel]) -> List[ModelField]:,Unknown particle type,0,56,4
+54f550d0df7a,Unknown,function,_normalize_errors,_compat/may_v1.py,100,30.0,"def _normalize_errors(errors: Sequence[Any]) -> List[Dict[str, Any]]:",Unknown particle type,20,1,2
+c30f069bc1c8,Unknown,function,_regenerate_error_with_loc,_compat/may_v1.py,115,30.0,def _regenerate_error_with_loc(,Unknown particle type,20,1,2
+64021e25cac4,Unknown,function,lenient_issubclass,_compat/shared.py,66,30.0,def lenient_issubclass(,Unknown particle type,0,6,6
+8df42b2db4fc,Unknown,function,_annotation_is_sequence,_compat/shared.py,77,30.0,"def _annotation_is_sequence(annotation: Union[Type[Any], None]) -> bool:",Unknown particle type,0,6,6
+cc765324fa96,Unknown,function,field_annotation_is_sequence,_compat/shared.py,83,30.0,"def field_annotation_is_sequence(annotation: Union[Type[Any], None]) -> bool:",Unknown particle type,0,6,6
+f45444afeeca,Unknown,function,value_is_sequence,_compat/shared.py,95,30.0,def value_is_sequence(value: Any) -> bool:,Unknown particle type,0,6,6
+684a8c223895,Unknown,function,_annotation_is_complex,_compat/shared.py,99,30.0,"def _annotation_is_complex(annotation: Union[Type[Any], None]) -> bool:",Unknown particle type,0,6,6
+d04bfaf54aac,Unknown,function,field_annotation_is_complex,_compat/shared.py,109,30.0,"def field_annotation_is_complex(annotation: Union[Type[Any], None]) -> bool:",Unknown particle type,0,6,6
+c576fc363196,Unknown,function,field_annotation_is_scalar,_compat/shared.py,125,30.0,def field_annotation_is_scalar(annotation: Any) -> bool:,Unknown particle type,0,6,6
+e169745b6b64,Unknown,function,field_annotation_is_scalar_sequence,_compat/shared.py,130,30.0,"def field_annotation_is_scalar_sequence(annotation: Union[Type[Any], None]) -> bool:",Unknown particle type,0,6,6
+77c252fcfbee,Unknown,function,is_bytes_or_nonable_bytes_annotation,_compat/shared.py,147,30.0,def is_bytes_or_nonable_bytes_annotation(annotation: Any) -> bool:,Unknown particle type,0,6,6
+c35dbebee707,Unknown,function,is_uploadfile_or_nonable_uploadfile_annotation,_compat/shared.py,158,30.0,def is_uploadfile_or_nonable_uploadfile_annotation(annotation: Any) -> bool:,Unknown particle type,0,6,6
+b80086eaa8c3,Unknown,function,is_bytes_sequence_annotation,_compat/shared.py,169,30.0,def is_bytes_sequence_annotation(annotation: Any) -> bool:,Unknown particle type,0,6,6
+21974fe7278f,Unknown,function,is_uploadfile_sequence_annotation,_compat/shared.py,184,30.0,def is_uploadfile_sequence_annotation(annotation: Any) -> bool:,Unknown particle type,0,6,6
+589e73f6a7f8,Unknown,function,annotation_is_pydantic_v1,_compat/shared.py,199,30.0,def annotation_is_pydantic_v1(annotation: Any) -> bool:,Unknown particle type,0,6,6
+c10a39c5c6aa,Entity,class,ModelField,_compat/model_field.py,14,50.0,class ModelField(Protocol):,Core domain object with identity and lifecycle management,0,3,1
+c16fb8594ce0,Unknown,function,get_cached_model_fields,_compat/main.py,53,30.0,def get_cached_model_fields(model: Type[BaseModel]) -> List[ModelField]:,Unknown particle type,44,21,3
+0589a9530da4,Unknown,function,_is_undefined,_compat/main.py,64,30.0,def _is_undefined(value: object) -> bool:,Unknown particle type,44,21,3
+4c5079dc68ab,Unknown,function,_get_model_config,_compat/main.py,74,30.0,def _get_model_config(model: BaseModel) -> Any:,Unknown particle type,44,21,3
+79101bfbb5c5,Unknown,function,_model_dump,_compat/main.py,85,30.0,def _model_dump(,Unknown particle type,44,21,3
+cd3a52474476,Unknown,function,_is_error_wrapper,_compat/main.py,98,30.0,def _is_error_wrapper(exc: Exception) -> bool:,Unknown particle type,44,21,3
+dd1048b4b6bf,Unknown,function,copy_field_info,_compat/main.py,108,30.0,"def copy_field_info(*, field_info: FieldInfo, annotation: Any) -> FieldInfo:",Unknown particle type,44,21,3
+719262461489,Factory,function,create_body_model,_compat/main.py,120,50.0,def create_body_model(,Encapsulates complex object creation logic,44,21,3
+862177377af4,Unknown,function,get_annotation_from_field_info,_compat/main.py,134,30.0,def get_annotation_from_field_info(,Unknown particle type,44,21,3
+8056ba04e004,Unknown,function,is_bytes_field,_compat/main.py,152,30.0,def is_bytes_field(field: ModelField) -> bool:,Unknown particle type,44,21,3
+3571baa0460f,Unknown,function,is_bytes_sequence_field,_compat/main.py,164,30.0,def is_bytes_sequence_field(field: ModelField) -> bool:,Unknown particle type,44,21,3
+6e33b26f34f4,Unknown,function,is_scalar_field,_compat/main.py,176,30.0,def is_scalar_field(field: ModelField) -> bool:,Unknown particle type,44,21,3
+b2f9de9686c7,Unknown,function,is_scalar_sequence_field,_compat/main.py,188,30.0,def is_scalar_sequence_field(field: ModelField) -> bool:,Unknown particle type,44,21,3
+339d6d51456e,Unknown,function,is_sequence_field,_compat/main.py,200,30.0,def is_sequence_field(field: ModelField) -> bool:,Unknown particle type,44,21,3
+84020bde0c00,Unknown,function,serialize_sequence_value,_compat/main.py,212,30.0,"def serialize_sequence_value(*, field: ModelField, value: Any) -> Sequence[Any]:",Unknown particle type,44,21,3
+7862b458ef9e,Unknown,function,_model_rebuild,_compat/main.py,224,30.0,def _model_rebuild(model: Type[BaseModel]) -> None:,Unknown particle type,44,21,3
+0e072bbdffb4,Unknown,function,get_compat_model_name_map,_compat/main.py,235,30.0,def get_compat_model_name_map(fields: List[ModelField]) -> ModelNameMap:,Unknown particle type,44,21,3
+e5b2ad6053c8,Unknown,function,get_definitions,_compat/main.py,267,30.0,def get_definitions(,Unknown particle type,44,21,3
+6e0e354165a1,Unknown,function,get_schema_from_model_field,_compat/main.py,314,30.0,def get_schema_from_model_field(,Unknown particle type,44,21,3
+1faf48f84c36,Unknown,function,_is_model_field,_compat/main.py,345,30.0,def _is_model_field(value: Any) -> bool:,Unknown particle type,44,21,3
+6934c5a014c2,Unknown,function,_is_model_class,_compat/main.py,355,30.0,def _is_model_class(value: Any) -> bool:,Unknown particle type,44,21,3
+f7c46ef284ef,Unknown,function,asdict,_compat/v2.py,80,30.0,"def asdict(field_info: FieldInfo) -> Dict[str, Any]:",Unknown particle type,0,21,6
+24fddac058de,Unknown,class,BaseConfig,_compat/v2.py,93,30.0,class BaseConfig:,Unknown particle type,0,21,6
+f7717b08925c,Unknown,class,ErrorWrapper,_compat/v2.py,97,30.0,class ErrorWrapper(Exception):,Unknown particle type,0,21,6
+bd05384fa117,Entity,class,ModelField,_compat/v2.py,102,50.0,class ModelField:,Core domain object with identity and lifecycle management,0,21,6
+da58a881bdfe,Unknown,function,get_annotation_from_field_info,_compat/v2.py,217,30.0,def get_annotation_from_field_info(,Unknown particle type,0,21,6
+d7ad32feac7f,Unknown,function,_model_rebuild,_compat/v2.py,223,30.0,def _model_rebuild(model: Type[BaseModel]) -> None:,Unknown particle type,0,21,6
+0a07e11eea98,Unknown,function,_model_dump,_compat/v2.py,227,30.0,def _model_dump(,Unknown particle type,0,21,6
+5f9ed476ec6b,Unknown,function,_get_model_config,_compat/v2.py,233,30.0,def _get_model_config(model: BaseModel) -> Any:,Unknown particle type,0,21,6
+a8674420922c,Unknown,function,_has_computed_fields,_compat/v2.py,237,30.0,def _has_computed_fields(field: ModelField) -> bool:,Unknown particle type,0,21,6
+02042f521084,Unknown,function,get_schema_from_model_field,_compat/v2.py,244,30.0,def get_schema_from_model_field(,Unknown particle type,0,21,6
+858123c2b254,Unknown,function,get_definitions,_compat/v2.py,275,30.0,def get_definitions(,Unknown particle type,0,21,6
+14beccdf0421,Unknown,function,_replace_refs,_compat/v2.py,339,30.0,def _replace_refs(,Unknown particle type,0,21,6
+e22a8c7ec4ad,Unknown,function,_remap_definitions_and_field_mappings,_compat/v2.py,375,30.0,def _remap_definitions_and_field_mappings(,Unknown particle type,0,21,6
+7260137d8bd4,Unknown,function,is_scalar_field,_compat/v2.py,421,30.0,def is_scalar_field(field: ModelField) -> bool:,Unknown particle type,0,21,6
+d200a3713986,Unknown,function,is_sequence_field,_compat/v2.py,429,30.0,def is_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,21,6
+8508aac62e2b,Unknown,function,is_scalar_sequence_field,_compat/v2.py,433,30.0,def is_scalar_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,21,6
+9126843513ee,Unknown,function,is_bytes_field,_compat/v2.py,437,30.0,def is_bytes_field(field: ModelField) -> bool:,Unknown particle type,0,21,6
+561c70871fed,Unknown,function,is_bytes_sequence_field,_compat/v2.py,441,30.0,def is_bytes_sequence_field(field: ModelField) -> bool:,Unknown particle type,0,21,6
+38dcd8a4db12,Unknown,function,copy_field_info,_compat/v2.py,445,30.0,"def copy_field_info(*, field_info: FieldInfo, annotation: Any) -> FieldInfo:",Unknown particle type,0,21,6
+6fcec61c7e2a,Unknown,function,serialize_sequence_value,_compat/v2.py,454,30.0,"def serialize_sequence_value(*, field: ModelField, value: Any) -> Sequence[Any]:",Unknown particle type,0,21,6
+6729ba8009af,Unknown,function,get_missing_field_error,_compat/v2.py,467,30.0,"def get_missing_field_error(loc: Tuple[str, ...]) -> Dict[str, Any]:",Unknown particle type,0,21,6
+e96a4d902520,Factory,function,create_body_model,_compat/v2.py,475,50.0,def create_body_model(,Encapsulates complex object creation logic,0,21,6
+05ec6fa138a2,Unknown,function,get_model_fields,_compat/v2.py,483,30.0,def get_model_fields(model: Type[BaseModel]) -> List[ModelField]:,Unknown particle type,0,21,6
+88949a85c938,Unknown,function,normalize_name,_compat/v2.py,508,30.0,def normalize_name(name: str) -> str:,Unknown particle type,0,21,6
+6c837bc0b197,Unknown,function,get_model_name_map,_compat/v2.py,512,30.0,"def get_model_name_map(unique_models: TypeModelSet) -> Dict[TypeModelOrEnum, str]:",Unknown particle type,0,21,6
+637f7ab8566b,Unknown,function,get_flat_models_from_model,_compat/v2.py,530,30.0,def get_flat_models_from_model(,Unknown particle type,0,21,6
+2a3c5798c67c,Unknown,function,get_flat_models_from_annotation,_compat/v2.py,539,30.0,def get_flat_models_from_annotation(,Unknown particle type,0,21,6
+1ea0e055163e,Unknown,function,get_flat_models_from_field,_compat/v2.py,554,30.0,def get_flat_models_from_field(,Unknown particle type,0,21,6
+d58f75028eeb,Unknown,function,get_flat_models_from_fields,_compat/v2.py,570,30.0,def get_flat_models_from_fields(,Unknown particle type,0,21,6
+c079affc34fc,Unknown,function,get_long_model_name,_compat/v2.py,578,30.0,def get_long_model_name(model: TypeModelOrEnum) -> str:,Unknown particle type,0,21,6

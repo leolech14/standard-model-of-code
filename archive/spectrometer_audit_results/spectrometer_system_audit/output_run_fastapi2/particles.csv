@@ -1,0 +1,262 @@
+type,name,file_path,line,confidence,responsibility,purity,boundary,lifecycle,rpbl_score,evidence
+Unknown,ParamTypes,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,19,30.0,5,5,5,5,5.0,class ParamTypes(Enum):
+Unknown,Param,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,26,30.0,5,5,5,5,5.0,class Param(FieldInfo):  # type: ignore[misc]
+Unknown,Path,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,144,30.0,5,5,5,5,5.0,class Path(Param):  # type: ignore[misc]
+Query,Query,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,230,50.0,3,9,3,2,4.25,class Query(Param):  # type: ignore[misc]
+Unknown,Header,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,314,30.0,5,5,5,5,5.0,class Header(Param):  # type: ignore[misc]
+Unknown,Cookie,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,400,30.0,5,5,5,5,5.0,class Cookie(Param):  # type: ignore[misc]
+Unknown,Body,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,484,30.0,5,5,5,5,5.0,class Body(FieldInfo):  # type: ignore[misc]
+Unknown,Form,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,605,30.0,5,5,5,5,5.0,class Form(Body):  # type: ignore[misc]
+Unknown,File,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,689,30.0,5,5,5,5,5.0,class File(Form):  # type: ignore[misc]
+Unknown,Depends,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,774,30.0,5,5,5,5,5.0,class Depends:
+Unknown,Security,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/params.py,781,30.0,5,5,5,5,5.0,class Security(Depends):
+DTO,UJSONResponse,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/responses.py,23,50.0,4,8,8,3,5.75,class UJSONResponse(JSONResponse):
+DTO,ORJSONResponse,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/responses.py,36,50.0,4,8,8,3,5.75,class ORJSONResponse(JSONResponse):
+EventHandler,http_exception_handler,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exception_handlers.py,11,50.0,6,4,6,5,5.25,"async def http_exception_handler(request: Request,"
+EventHandler,request_validation_exception_handler,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exception_handlers.py,20,50.0,6,4,6,5,5.25,async def request_validation_exception_handler(
+EventHandler,websocket_request_validation_exception_handler,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exception_handlers.py,29,50.0,6,4,6,5,5.25,async def websocket_request_validation_exception_h
+Controller,FastAPI,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/applications.py,52,50.0,6,2,9,4,5.25,class FastAPI(Starlette):
+Unknown,contextmanager_in_threadpool,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/concurrency.py,16,30.0,5,5,5,5,5.0,async def contextmanager_in_threadpool(
+Unknown,BackgroundTasks,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/background.py,10,30.0,5,5,5,5,5.0,class BackgroundTasks(StarletteBackgroundTasks):
+Unknown,isoformat,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/encoders.py,33,30.0,5,5,5,5,5.0,"def isoformat(o: Union[datetime.date, datetime.tim"
+Unknown,decimal_encoder,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/encoders.py,39,30.0,5,5,5,5,5.0,def decimal_encoder(dec_value: Decimal) -> Union[i
+Unknown,generate_encoders_by_class_tuples,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/encoders.py,100,30.0,5,5,5,5,5.0,def generate_encoders_by_class_tuples(
+Unknown,jsonable_encoder,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/encoders.py,114,30.0,5,5,5,5,5.0,def jsonable_encoder(
+Unknown,main,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/cli.py,8,30.0,5,5,5,5,5.0,def main() -> None:
+Unknown,is_body_allowed_for_status_code,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,44,30.0,5,5,5,5,5.0,def is_body_allowed_for_status_code(status_code: U
+Unknown,get_path_param_names,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,61,30.0,5,5,5,5,5.0,def get_path_param_names(path: str) -> Set[str]:
+Factory,create_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,76,50.0,5,6,4,3,4.5,def create_model_field(
+Factory,create_cloned_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,141,50.0,5,6,4,3,4.5,def create_cloned_field(
+Unknown,generate_operation_id_for_path,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,204,30.0,5,5,5,5,5.0,def generate_operation_id_for_path(
+Unknown,generate_unique_id,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,219,30.0,5,5,5,5,5.0,"def generate_unique_id(route: ""APIRoute"") -> str:"
+Unknown,deep_dict_update,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,227,30.0,5,5,5,5,5.0,"def deep_dict_update(main_dict: Dict[Any, Any], up"
+Unknown,get_value_or_default,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/utils.py,245,30.0,5,5,5,5,5.0,def get_value_or_default(
+Unknown,request_response,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,85,30.0,5,5,5,5,5.0,def request_response(
+Unknown,websocket_session,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,127,30.0,5,5,5,5,5.0,def websocket_session(
+Unknown,_prepare_response_content,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,151,30.0,5,5,5,5,5.0,def _prepare_response_content(
+Unknown,_merge_lifespan_context,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,199,30.0,5,5,5,5,5.0,def _merge_lifespan_context(
+Unknown,_extract_endpoint_context,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,220,30.0,5,5,5,5,5.0,def _extract_endpoint_context(func: Any) -> Endpoi
+Unknown,serialize_response,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,243,30.0,5,5,5,5,5.0,async def serialize_response(
+UseCase,run_endpoint_function,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,308,50.0,6,5,7,4,5.5,async def run_endpoint_function(
+EventHandler,get_request_handler,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,321,50.0,6,4,6,5,5.25,def get_request_handler(
+Unknown,get_websocket_app,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,481,30.0,5,5,5,5,5.0,def get_websocket_app(
+Controller,APIWebSocketRoute,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,518,50.0,6,2,9,4,5.25,class APIWebSocketRoute(routing.WebSocketRoute):
+Controller,APIRoute,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,560,50.0,6,2,9,4,5.25,class APIRoute(routing.Route):
+Controller,APIRouter,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/routing.py,729,50.0,6,2,9,4,5.25,class APIRouter(routing.Router):
+Unknown,Param,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,14,30.0,5,5,5,5,5.0,class Param(FieldInfo):  # type: ignore[misc]
+Unknown,Path,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,115,30.0,5,5,5,5,5.0,class Path(Param):  # type: ignore[misc]
+Query,Query,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,201,50.0,3,9,3,2,4.25,class Query(Param):  # type: ignore[misc]
+Unknown,Header,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,285,30.0,5,5,5,5,5.0,class Header(Param):  # type: ignore[misc]
+Unknown,Cookie,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,371,30.0,5,5,5,5,5.0,class Cookie(Param):  # type: ignore[misc]
+Unknown,Body,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,455,30.0,5,5,5,5,5.0,class Body(FieldInfo):  # type: ignore[misc]
+Unknown,Form,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,559,30.0,5,5,5,5,5.0,class Form(Body):  # type: ignore[misc]
+Unknown,File,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/temp_pydantic_v1_params.py,643,30.0,5,5,5,5,5.0,class File(Form):  # type: ignore[misc]
+Unknown,EndpointContext,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,10,30.0,5,5,5,5,5.0,"class EndpointContext(TypedDict, total=False):"
+Unknown,HTTPException,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,17,30.0,5,5,5,5,5.0,class HTTPException(StarletteHTTPException):
+Unknown,WebSocketException,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,76,30.0,5,5,5,5,5.0,class WebSocketException(StarletteWebSocketExcepti
+Controller,FastAPIError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,151,50.0,6,2,9,4,5.25,class FastAPIError(RuntimeError):
+Unknown,DependencyScopeError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,157,30.0,5,5,5,5,5.0,class DependencyScopeError(FastAPIError):
+Unknown,ValidationException,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,164,30.0,5,5,5,5,5.0,class ValidationException(Exception):
+DTO,RequestValidationError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,202,50.0,4,8,8,3,5.75,class RequestValidationError(ValidationException):
+DTO,WebSocketRequestValidationError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,214,50.0,4,8,8,3,5.75,class WebSocketRequestValidationError(ValidationEx
+DTO,ResponseValidationError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/exceptions.py,224,50.0,4,8,8,3,5.75,class ResponseValidationError(ValidationException)
+Unknown,Path,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,12,30.0,5,5,5,5,5.0,def Path(  # noqa: N802
+Unknown,Query,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,340,30.0,5,5,5,5,5.0,def Query(  # noqa: N802
+Unknown,Header,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,644,30.0,5,5,5,5,5.0,def Header(  # noqa: N802
+Unknown,Cookie,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,960,30.0,5,5,5,5,5.0,def Cookie(  # noqa: N802
+Unknown,Body,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,1264,30.0,5,5,5,5,5.0,def Body(  # noqa: N802
+Unknown,Form,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,1593,30.0,5,5,5,5,5.0,def Form(  # noqa: N802
+Unknown,File,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,1907,30.0,5,5,5,5,5.0,def File(  # noqa: N802
+Unknown,Depends,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,2221,30.0,5,5,5,5,5.0,def Depends(  # noqa: N802
+Unknown,Security,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/param_functions.py,2301,30.0,5,5,5,5,5.0,def Security(  # noqa: N802
+Unknown,UploadFile,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/datastructures.py,29,30.0,5,5,5,5,5.0,class UploadFile(StarletteUploadFile):
+Unknown,DefaultPlaceholder,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/datastructures.py,176,30.0,5,5,5,5,5.0,class DefaultPlaceholder:
+Unknown,Default,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/datastructures.py,197,30.0,5,5,5,5,5.0,def Default(value: DefaultType) -> DefaultType:
+Unknown,AsyncExitStackMiddleware,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/middleware/asyncexitstack.py,8,30.0,5,5,5,5,5.0,class AsyncExitStackMiddleware:
+Unknown,OpenIdConnect,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/open_id_connect_url.py,12,30.0,5,5,5,5,5.0,class OpenIdConnect(SecurityBase):
+DTO,OAuth2PasswordRequestForm,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,17,50.0,4,8,8,3,5.75,class OAuth2PasswordRequestForm:
+DTO,OAuth2PasswordRequestFormStrict,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,153,50.0,4,8,8,3,5.75,class OAuth2PasswordRequestFormStrict(OAuth2Passwo
+Unknown,OAuth2,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,309,30.0,5,5,5,5,5.0,class OAuth2(SecurityBase):
+Unknown,OAuth2PasswordBearer,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,412,30.0,5,5,5,5,5.0,class OAuth2PasswordBearer(OAuth2):
+Unknown,OAuth2AuthorizationCodeBearer,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,520,30.0,5,5,5,5,5.0,class OAuth2AuthorizationCodeBearer(OAuth2):
+Unknown,SecurityScopes,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/oauth2.py,626,30.0,5,5,5,5,5.0,class SecurityScopes:
+Controller,APIKeyBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/api_key.py,12,50.0,6,2,9,4,5.25,class APIKeyBase(SecurityBase):
+Controller,APIKeyQuery,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/api_key.py,54,50.0,6,2,9,4,5.25,class APIKeyQuery(APIKeyBase):
+Controller,APIKeyHeader,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/api_key.py,146,50.0,6,2,9,4,5.25,class APIKeyHeader(APIKeyBase):
+Controller,APIKeyCookie,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/api_key.py,234,50.0,6,2,9,4,5.25,class APIKeyCookie(APIKeyBase):
+Unknown,get_authorization_scheme_param,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/utils.py,4,30.0,5,5,5,5,5.0,def get_authorization_scheme_param(
+DTO,HTTPBasicCredentials,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,17,50.0,4,8,8,3,5.75,class HTTPBasicCredentials(BaseModel):
+DTO,HTTPAuthorizationCredentials,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,30,50.0,4,8,8,3,5.75,class HTTPAuthorizationCredentials(BaseModel):
+Unknown,HTTPBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,70,30.0,5,5,5,5,5.0,class HTTPBase(SecurityBase):
+Unknown,HTTPBasic,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,108,30.0,5,5,5,5,5.0,class HTTPBasic(HTTPBase):
+Unknown,HTTPBearer,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,225,30.0,5,5,5,5,5.0,class HTTPBearer(HTTPBase):
+Unknown,HTTPDigest,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/http.py,324,30.0,5,5,5,5,5.0,class HTTPDigest(HTTPBase):
+Unknown,SecurityBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/security/base.py,4,30.0,5,5,5,5,5.0,class SecurityBase:
+Unknown,_unwrapped_call,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/models.py,18,30.0,5,5,5,5,5.0,"def _unwrapped_call(call: Optional[Callable[..., A"
+Unknown,_impartial,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/models.py,25,30.0,5,5,5,5,5.0,"def _impartial(func: Callable[..., Any]) -> Callab"
+Unknown,Dependant,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/models.py,32,30.0,5,5,5,5,5.0,class Dependant:
+Unknown,ensure_multipart_is_installed,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,97,30.0,5,5,5,5,5.0,def ensure_multipart_is_installed() -> None:
+Unknown,get_parameterless_sub_dependant,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,124,30.0,5,5,5,5,5.0,"def get_parameterless_sub_dependant(*, depends: pa"
+Unknown,get_flat_dependant,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,139,30.0,5,5,5,5,5.0,def get_flat_dependant(
+Unknown,_get_flat_fields_from_params,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,193,30.0,5,5,5,5,5.0,def _get_flat_fields_from_params(fields: List[Mode
+Unknown,get_flat_params,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,203,30.0,5,5,5,5,5.0,def get_flat_params(dependant: Dependant) -> List[
+Unknown,_get_signature,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,212,30.0,5,5,5,5,5.0,"def _get_signature(call: Callable[..., Any]) -> in"
+Unknown,get_typed_signature,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,225,30.0,5,5,5,5,5.0,"def get_typed_signature(call: Callable[..., Any]) "
+Unknown,get_typed_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,242,30.0,5,5,5,5,5.0,"def get_typed_annotation(annotation: Any, globalns"
+Unknown,get_typed_return_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,251,30.0,5,5,5,5,5.0,def get_typed_return_annotation(call: Callable[...
+Unknown,get_dependant,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,263,30.0,5,5,5,5,5.0,def get_dependant(
+Unknown,add_non_field_param_to_dependency,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,340,30.0,5,5,5,5,5.0,def add_non_field_param_to_dependency(
+Unknown,ParamDetails,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,365,30.0,5,5,5,5,5.0,class ParamDetails:
+Unknown,analyze_param,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,371,30.0,5,5,5,5,5.0,def analyze_param(
+Unknown,add_param_to_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,558,30.0,5,5,5,5,5.0,"def add_param_to_fields(*, field: ModelField, depe"
+Unknown,_solve_generator,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,574,30.0,5,5,5,5,5.0,async def _solve_generator(
+Unknown,SolvedDependency,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,586,30.0,5,5,5,5,5.0,class SolvedDependency:
+Unknown,solve_dependencies,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,594,30.0,5,5,5,5,5.0,async def solve_dependencies(
+Specification,_validate_value_with_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,734,75.0,4,8,3,7,5.5,def _validate_value_with_model_field(
+Unknown,_get_multidict_value,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,752,30.0,5,5,5,5,5.0,def _get_multidict_value(
+Unknown,request_params_to_args,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,776,30.0,5,5,5,5,5.0,def request_params_to_args(
+Unknown,is_union_of_base_models,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,859,30.0,5,5,5,5,5.0,def is_union_of_base_models(field_type: Any) -> bo
+Unknown,_should_embed_body_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,878,30.0,5,5,5,5,5.0,def _should_embed_body_fields(fields: List[ModelFi
+Unknown,_extract_form_body,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,902,30.0,5,5,5,5,5.0,async def _extract_form_body(
+Unknown,request_body_to_args,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,949,30.0,5,5,5,5,5.0,async def request_body_to_args(
+Unknown,get_body_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,999,30.0,5,5,5,5,5.0,def get_body_field(
+Unknown,get_validation_alias,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/dependencies/utils.py,1065,30.0,5,5,5,5,5.0,def get_validation_alias(field: ModelField) -> str
+DTO,BaseModelWithConfig,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,58,50.0,4,8,8,3,5.75,class BaseModelWithConfig(BaseModel):
+DTO,Contact,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,68,50.0,4,8,8,3,5.75,class Contact(BaseModelWithConfig):
+DTO,License,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,74,50.0,4,8,8,3,5.75,class License(BaseModelWithConfig):
+DTO,Info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,80,50.0,4,8,8,3,5.75,class Info(BaseModelWithConfig):
+DTO,ServerVariable,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,90,50.0,4,8,8,3,5.75,class ServerVariable(BaseModelWithConfig):
+DTO,Server,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,96,50.0,4,8,8,3,5.75,class Server(BaseModelWithConfig):
+DTO,Reference,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,102,50.0,4,8,8,3,5.75,class Reference(BaseModel):
+DTO,Discriminator,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,106,50.0,4,8,8,3,5.75,class Discriminator(BaseModel):
+DTO,XML,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,111,50.0,4,8,8,3,5.75,class XML(BaseModelWithConfig):
+DTO,ExternalDocumentation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,119,50.0,4,8,8,3,5.75,class ExternalDocumentation(BaseModelWithConfig):
+DTO,Schema,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,130,50.0,4,8,8,3,5.75,class Schema(BaseModelWithConfig):
+Unknown,Example,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,222,30.0,5,5,5,5,5.0,"class Example(TypedDict, total=False):"
+Unknown,ParameterInType,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,237,30.0,5,5,5,5,5.0,class ParameterInType(Enum):
+DTO,Encoding,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,244,50.0,4,8,8,3,5.75,class Encoding(BaseModelWithConfig):
+DTO,MediaType,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,252,50.0,4,8,8,3,5.75,class MediaType(BaseModelWithConfig):
+DTO,ParameterBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,259,50.0,4,8,8,3,5.75,class ParameterBase(BaseModelWithConfig):
+Unknown,Parameter,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,274,30.0,5,5,5,5,5.0,class Parameter(ParameterBase):
+Unknown,Header,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,279,30.0,5,5,5,5,5.0,class Header(ParameterBase):
+DTO,RequestBody,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,283,50.0,4,8,8,3,5.75,class RequestBody(BaseModelWithConfig):
+DTO,Link,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,289,50.0,4,8,8,3,5.75,class Link(BaseModelWithConfig):
+DTO,Response,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,298,50.0,4,8,8,3,5.75,class Response(BaseModelWithConfig):
+DTO,Operation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,305,50.0,4,8,8,3,5.75,class Operation(BaseModelWithConfig):
+DTO,PathItem,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,321,50.0,4,8,8,3,5.75,class PathItem(BaseModelWithConfig):
+Unknown,SecuritySchemeType,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,337,30.0,5,5,5,5,5.0,class SecuritySchemeType(Enum):
+DTO,SecurityBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,344,50.0,4,8,8,3,5.75,class SecurityBase(BaseModelWithConfig):
+Controller,APIKeyIn,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,349,50.0,6,2,9,4,5.25,class APIKeyIn(Enum):
+Controller,APIKey,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,355,50.0,6,2,9,4,5.25,class APIKey(SecurityBase):
+Unknown,HTTPBase,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,361,30.0,5,5,5,5,5.0,class HTTPBase(SecurityBase):
+Unknown,HTTPBearer,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,366,30.0,5,5,5,5,5.0,class HTTPBearer(HTTPBase):
+DTO,OAuthFlow,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,371,50.0,4,8,8,3,5.75,class OAuthFlow(BaseModelWithConfig):
+Unknown,OAuthFlowImplicit,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,376,30.0,5,5,5,5,5.0,class OAuthFlowImplicit(OAuthFlow):
+Unknown,OAuthFlowPassword,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,380,30.0,5,5,5,5,5.0,class OAuthFlowPassword(OAuthFlow):
+Unknown,OAuthFlowClientCredentials,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,384,30.0,5,5,5,5,5.0,class OAuthFlowClientCredentials(OAuthFlow):
+Unknown,OAuthFlowAuthorizationCode,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,388,30.0,5,5,5,5,5.0,class OAuthFlowAuthorizationCode(OAuthFlow):
+DTO,OAuthFlows,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,393,50.0,4,8,8,3,5.75,class OAuthFlows(BaseModelWithConfig):
+Unknown,OAuth2,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,400,30.0,5,5,5,5,5.0,class OAuth2(SecurityBase):
+Unknown,OpenIdConnect,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,405,30.0,5,5,5,5,5.0,class OpenIdConnect(SecurityBase):
+DTO,Components,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,415,50.0,4,8,8,3,5.75,class Components(BaseModelWithConfig):
+DTO,Tag,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,429,50.0,4,8,8,3,5.75,class Tag(BaseModelWithConfig):
+DTO,OpenAPI,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/models.py,435,50.0,4,8,8,3,5.75,class OpenAPI(BaseModelWithConfig):
+Unknown,get_swagger_ui_html,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/docs.py,27,30.0,5,5,5,5,5.0,def get_swagger_ui_html(
+Unknown,get_redoc_html,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/docs.py,162,30.0,5,5,5,5,5.0,def get_redoc_html(
+Unknown,get_swagger_ui_oauth2_redirect_html,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/docs.py,257,30.0,5,5,5,5,5.0,def get_swagger_ui_oauth2_redirect_html() -> HTMLR
+Unknown,get_openapi_security_definitions,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,79,30.0,5,5,5,5,5.0,def get_openapi_security_definitions(
+Unknown,_get_openapi_operation_parameters,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,105,30.0,5,5,5,5,5.0,def _get_openapi_operation_parameters(
+Unknown,get_openapi_operation_request_body,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,178,30.0,5,5,5,5,5.0,def get_openapi_operation_request_body(
+Unknown,generate_operation_id,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,213,30.0,5,5,5,5,5.0,def generate_operation_id(
+Unknown,generate_operation_summary,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,228,30.0,5,5,5,5,5.0,"def generate_operation_summary(*, route: routing.A"
+Unknown,get_openapi_operation_metadata,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,234,30.0,5,5,5,5,5.0,def get_openapi_operation_metadata(
+Unknown,get_openapi_path,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,260,30.0,5,5,5,5,5.0,def get_openapi_path(
+Unknown,get_fields_from_routes,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,446,30.0,5,5,5,5,5.0,def get_fields_from_routes(
+Unknown,get_openapi,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/openapi/utils.py,477,30.0,5,5,5,5,5.0,def get_openapi(
+DTO,GenerateJsonSchema,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,149,50.0,4,8,8,3,5.75,class GenerateJsonSchema:
+DTO,PydanticSchemaGenerationError,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,153,50.0,4,8,8,3,5.75,class PydanticSchemaGenerationError(Exception):
+Unknown,with_info_plain_validator_function,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,160,30.0,5,5,5,5,5.0,def with_info_plain_validator_function(
+Unknown,get_model_definitions,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,170,30.0,5,5,5,5,5.0,def get_model_definitions(
+Unknown,is_pv1_scalar_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,189,30.0,5,5,5,5,5.0,def is_pv1_scalar_field(field: ModelField) -> bool
+Unknown,is_pv1_scalar_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,208,30.0,5,5,5,5,5.0,def is_pv1_scalar_sequence_field(field: ModelField
+Unknown,_model_rebuild,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,222,30.0,5,5,5,5,5.0,def _model_rebuild(model: Type[BaseModel]) -> None
+Unknown,_model_dump,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,226,30.0,5,5,5,5,5.0,def _model_dump(
+Unknown,_get_model_config,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,232,30.0,5,5,5,5,5.0,def _get_model_config(model: BaseModel) -> Any:
+Unknown,get_schema_from_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,236,30.0,5,5,5,5,5.0,def get_schema_from_model_field(
+Unknown,get_definitions,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,255,30.0,5,5,5,5,5.0,def get_definitions(
+Unknown,is_scalar_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,268,30.0,5,5,5,5,5.0,def is_scalar_field(field: ModelField) -> bool:
+Unknown,is_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,272,30.0,5,5,5,5,5.0,def is_sequence_field(field: ModelField) -> bool:
+Unknown,is_scalar_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,276,30.0,5,5,5,5,5.0,def is_scalar_sequence_field(field: ModelField) ->
+Unknown,is_bytes_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,280,30.0,5,5,5,5,5.0,def is_bytes_field(field: ModelField) -> bool:
+Unknown,is_bytes_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,284,30.0,5,5,5,5,5.0,def is_bytes_sequence_field(field: ModelField) -> 
+Unknown,copy_field_info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,288,30.0,5,5,5,5,5.0,"def copy_field_info(*, field_info: FieldInfo, anno"
+Unknown,serialize_sequence_value,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,292,30.0,5,5,5,5,5.0,"def serialize_sequence_value(*, field: ModelField,"
+Unknown,get_missing_field_error,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,296,30.0,5,5,5,5,5.0,"def get_missing_field_error(loc: Tuple[str, ...]) "
+Factory,create_body_model,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,302,50.0,5,6,4,3,4.5,def create_body_model(
+Unknown,get_model_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v1.py,311,30.0,5,5,5,5,5.0,def get_model_fields(model: Type[BaseModel]) -> Li
+Unknown,_normalize_errors,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/may_v1.py,100,30.0,5,5,5,5,5.0,def _normalize_errors(errors: Sequence[Any]) -> Li
+Unknown,_regenerate_error_with_loc,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/may_v1.py,115,30.0,5,5,5,5,5.0,def _regenerate_error_with_loc(
+Unknown,lenient_issubclass,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,66,30.0,5,5,5,5,5.0,def lenient_issubclass(
+Unknown,_annotation_is_sequence,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,77,30.0,5,5,5,5,5.0,def _annotation_is_sequence(annotation: Union[Type
+Unknown,field_annotation_is_sequence,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,83,30.0,5,5,5,5,5.0,def field_annotation_is_sequence(annotation: Union
+Unknown,value_is_sequence,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,95,30.0,5,5,5,5,5.0,def value_is_sequence(value: Any) -> bool:
+Unknown,_annotation_is_complex,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,99,30.0,5,5,5,5,5.0,def _annotation_is_complex(annotation: Union[Type[
+Unknown,field_annotation_is_complex,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,109,30.0,5,5,5,5,5.0,def field_annotation_is_complex(annotation: Union[
+Unknown,field_annotation_is_scalar,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,125,30.0,5,5,5,5,5.0,def field_annotation_is_scalar(annotation: Any) ->
+Unknown,field_annotation_is_scalar_sequence,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,130,30.0,5,5,5,5,5.0,def field_annotation_is_scalar_sequence(annotation
+Unknown,is_bytes_or_nonable_bytes_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,147,30.0,5,5,5,5,5.0,def is_bytes_or_nonable_bytes_annotation(annotatio
+Unknown,is_uploadfile_or_nonable_uploadfile_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,158,30.0,5,5,5,5,5.0,def is_uploadfile_or_nonable_uploadfile_annotation
+Unknown,is_bytes_sequence_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,169,30.0,5,5,5,5,5.0,def is_bytes_sequence_annotation(annotation: Any) 
+Unknown,is_uploadfile_sequence_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,184,30.0,5,5,5,5,5.0,def is_uploadfile_sequence_annotation(annotation: 
+Unknown,annotation_is_pydantic_v1,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/shared.py,199,30.0,5,5,5,5,5.0,def annotation_is_pydantic_v1(annotation: Any) -> 
+Entity,ModelField,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/model_field.py,14,50.0,9,3,8,9,7.25,class ModelField(Protocol):
+Unknown,get_cached_model_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,53,30.0,5,5,5,5,5.0,def get_cached_model_fields(model: Type[BaseModel]
+Unknown,_is_undefined,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,64,30.0,5,5,5,5,5.0,def _is_undefined(value: object) -> bool:
+Unknown,_get_model_config,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,74,30.0,5,5,5,5,5.0,def _get_model_config(model: BaseModel) -> Any:
+Unknown,_model_dump,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,85,30.0,5,5,5,5,5.0,def _model_dump(
+Unknown,_is_error_wrapper,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,98,30.0,5,5,5,5,5.0,def _is_error_wrapper(exc: Exception) -> bool:
+Unknown,copy_field_info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,108,30.0,5,5,5,5,5.0,"def copy_field_info(*, field_info: FieldInfo, anno"
+Factory,create_body_model,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,120,50.0,5,6,4,3,4.5,def create_body_model(
+Unknown,get_annotation_from_field_info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,134,30.0,5,5,5,5,5.0,def get_annotation_from_field_info(
+Unknown,is_bytes_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,152,30.0,5,5,5,5,5.0,def is_bytes_field(field: ModelField) -> bool:
+Unknown,is_bytes_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,164,30.0,5,5,5,5,5.0,def is_bytes_sequence_field(field: ModelField) -> 
+Unknown,is_scalar_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,176,30.0,5,5,5,5,5.0,def is_scalar_field(field: ModelField) -> bool:
+Unknown,is_scalar_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,188,30.0,5,5,5,5,5.0,def is_scalar_sequence_field(field: ModelField) ->
+Unknown,is_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,200,30.0,5,5,5,5,5.0,def is_sequence_field(field: ModelField) -> bool:
+Unknown,serialize_sequence_value,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,212,30.0,5,5,5,5,5.0,"def serialize_sequence_value(*, field: ModelField,"
+Unknown,_model_rebuild,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,224,30.0,5,5,5,5,5.0,def _model_rebuild(model: Type[BaseModel]) -> None
+Unknown,get_compat_model_name_map,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,235,30.0,5,5,5,5,5.0,def get_compat_model_name_map(fields: List[ModelFi
+Unknown,get_definitions,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,267,30.0,5,5,5,5,5.0,def get_definitions(
+Unknown,get_schema_from_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,314,30.0,5,5,5,5,5.0,def get_schema_from_model_field(
+Unknown,_is_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,345,30.0,5,5,5,5,5.0,def _is_model_field(value: Any) -> bool:
+Unknown,_is_model_class,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/main.py,355,30.0,5,5,5,5,5.0,def _is_model_class(value: Any) -> bool:
+Unknown,asdict,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,80,30.0,5,5,5,5,5.0,"def asdict(field_info: FieldInfo) -> Dict[str, Any"
+Unknown,BaseConfig,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,93,30.0,5,5,5,5,5.0,class BaseConfig:
+Unknown,ErrorWrapper,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,97,30.0,5,5,5,5,5.0,class ErrorWrapper(Exception):
+Entity,ModelField,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,102,50.0,9,3,8,9,7.25,class ModelField:
+Unknown,get_annotation_from_field_info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,217,30.0,5,5,5,5,5.0,def get_annotation_from_field_info(
+Unknown,_model_rebuild,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,223,30.0,5,5,5,5,5.0,def _model_rebuild(model: Type[BaseModel]) -> None
+Unknown,_model_dump,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,227,30.0,5,5,5,5,5.0,def _model_dump(
+Unknown,_get_model_config,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,233,30.0,5,5,5,5,5.0,def _get_model_config(model: BaseModel) -> Any:
+Unknown,_has_computed_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,237,30.0,5,5,5,5,5.0,def _has_computed_fields(field: ModelField) -> boo
+Unknown,get_schema_from_model_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,244,30.0,5,5,5,5,5.0,def get_schema_from_model_field(
+Unknown,get_definitions,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,275,30.0,5,5,5,5,5.0,def get_definitions(
+Unknown,_replace_refs,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,339,30.0,5,5,5,5,5.0,def _replace_refs(
+Unknown,_remap_definitions_and_field_mappings,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,375,30.0,5,5,5,5,5.0,def _remap_definitions_and_field_mappings(
+Unknown,is_scalar_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,421,30.0,5,5,5,5,5.0,def is_scalar_field(field: ModelField) -> bool:
+Unknown,is_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,429,30.0,5,5,5,5,5.0,def is_sequence_field(field: ModelField) -> bool:
+Unknown,is_scalar_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,433,30.0,5,5,5,5,5.0,def is_scalar_sequence_field(field: ModelField) ->
+Unknown,is_bytes_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,437,30.0,5,5,5,5,5.0,def is_bytes_field(field: ModelField) -> bool:
+Unknown,is_bytes_sequence_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,441,30.0,5,5,5,5,5.0,def is_bytes_sequence_field(field: ModelField) -> 
+Unknown,copy_field_info,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,445,30.0,5,5,5,5,5.0,"def copy_field_info(*, field_info: FieldInfo, anno"
+Unknown,serialize_sequence_value,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,454,30.0,5,5,5,5,5.0,"def serialize_sequence_value(*, field: ModelField,"
+Unknown,get_missing_field_error,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,467,30.0,5,5,5,5,5.0,"def get_missing_field_error(loc: Tuple[str, ...]) "
+Factory,create_body_model,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,475,50.0,5,6,4,3,4.5,def create_body_model(
+Unknown,get_model_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,483,30.0,5,5,5,5,5.0,def get_model_fields(model: Type[BaseModel]) -> Li
+Unknown,normalize_name,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,508,30.0,5,5,5,5,5.0,def normalize_name(name: str) -> str:
+Unknown,get_model_name_map,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,512,30.0,5,5,5,5,5.0,def get_model_name_map(unique_models: TypeModelSet
+Unknown,get_flat_models_from_model,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,530,30.0,5,5,5,5,5.0,def get_flat_models_from_model(
+Unknown,get_flat_models_from_annotation,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,539,30.0,5,5,5,5,5.0,def get_flat_models_from_annotation(
+Unknown,get_flat_models_from_field,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,554,30.0,5,5,5,5,5.0,def get_flat_models_from_field(
+Unknown,get_flat_models_from_fields,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,570,30.0,5,5,5,5,5.0,def get_flat_models_from_fields(
+Unknown,get_long_model_name,/mnt/data/spectrometer_system_audit/validation/test_repos/fastapi/_compat/v2.py,578,30.0,5,5,5,5,5.0,def get_long_model_name(model: TypeModelOrEnum) ->

@@ -1,0 +1,1117 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-14T14:38:57.026897",
+    "spectrometer_version": "V12.1",
+    "mode": "comprehensive_analysis"
+  },
+  "summary": {
+    "total_particles_found": 56,
+    "files_analyzed": 17,
+    "files_with_particles": 16,
+    "coverage_percentage": 94.11764705882352,
+    "unique_particle_types": 3,
+    "top_particle_types": [
+      [
+        "Unknown",
+        54
+      ],
+      [
+        "Repository",
+        1
+      ],
+      [
+        "Specification",
+        1
+      ]
+    ],
+    "unknown_particles": 54,
+    "recognized_particles": 2,
+    "recognized_percentage": 3.571428571428571,
+    "average_confidence": 31.160714285714285,
+    "average_rpbl_score": 5.044642857142857,
+    "high_confidence_particles": 0,
+    "medium_confidence_particles": 1
+  },
+  "detailed_stats": {
+    "file_analysis": {
+      "total_files_processed": 17,
+      "files_with_particles": 16,
+      "files_without_particles": 1,
+      "file_coverage_percentage": 94.11764705882352,
+      "average_file_size": 14913.882352941177,
+      "total_lines_analyzed": 6247,
+      "total_characters_analyzed": 253536
+    },
+    "particle_analysis": {
+      "total_particles_detected": 56,
+      "unique_particle_types": 3,
+      "particle_type_distribution": {
+        "Unknown": {
+          "count": 54,
+          "total_confidence": 1620.0,
+          "total_rpbl": 270.0,
+          "responsibility_sum": 270,
+          "purity_sum": 270,
+          "boundary_sum": 270,
+          "lifecycle_sum": 270,
+          "average_confidence": 30.0,
+          "average_rpbl": 5.0,
+          "average_responsibility": 5.0,
+          "average_purity": 5.0,
+          "average_boundary": 5.0,
+          "average_lifecycle": 5.0
+        },
+        "Repository": {
+          "count": 1,
+          "total_confidence": 75.0,
+          "total_rpbl": 7.0,
+          "responsibility_sum": 8,
+          "purity_sum": 6,
+          "boundary_sum": 7,
+          "lifecycle_sum": 7,
+          "average_confidence": 75.0,
+          "average_rpbl": 7.0,
+          "average_responsibility": 8.0,
+          "average_purity": 6.0,
+          "average_boundary": 7.0,
+          "average_lifecycle": 7.0
+        },
+        "Specification": {
+          "count": 1,
+          "total_confidence": 50.0,
+          "total_rpbl": 5.5,
+          "responsibility_sum": 4,
+          "purity_sum": 8,
+          "boundary_sum": 3,
+          "lifecycle_sum": 7,
+          "average_confidence": 50.0,
+          "average_rpbl": 5.5,
+          "average_responsibility": 4.0,
+          "average_purity": 8.0,
+          "average_boundary": 3.0,
+          "average_lifecycle": 7.0
+        }
+      },
+      "particles_per_file": 3.2941176470588234,
+      "max_particles_in_file": 11
+    },
+    "touchpoint_analysis": {
+      "total_touchpoints_detected": 349,
+      "unique_touchpoint_types": 6,
+      "touchpoint_distribution": {
+        "identity": 166,
+        "data_access": 62,
+        "state": 50,
+        "validation": 45,
+        "immutability": 16,
+        "coordination": 10
+      }
+    },
+    "language_analysis": {
+      "languages_detected": [
+        "python"
+      ],
+      "number_of_languages": 1
+    },
+    "processing_time_seconds": 3.743171691894531e-05
+  },
+  "particles": [
+    {
+      "type": "Unknown",
+      "name": "TreeSitterUniversalEngine",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/tree_sitter_engine.py",
+      "line": 15,
+      "confidence": 30.0,
+      "evidence": "class TreeSitterUniversalEngine:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Edge",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/graph_extractor.py",
+      "line": 23,
+      "confidence": 30.0,
+      "evidence": "class Edge:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Node",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/graph_extractor.py",
+      "line": 34,
+      "confidence": 30.0,
+      "evidence": "class Node:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "CodeGraph",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/graph_extractor.py",
+      "line": 48,
+      "confidence": 30.0,
+      "evidence": "class CodeGraph:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GraphExtractor",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/graph_extractor.py",
+      "line": 88,
+      "confidence": 30.0,
+      "evidence": "class GraphExtractor:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GodClassMetrics",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/god_class_detector_lite.py",
+      "line": 18,
+      "confidence": 30.0,
+      "evidence": "class GodClassMetrics:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GodClassDetectorLite",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/god_class_detector_lite.py",
+      "line": 44,
+      "confidence": 30.0,
+      "evidence": "class GodClassDetectorLite:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "HadronLevel",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 19,
+      "confidence": 30.0,
+      "evidence": "class HadronLevel(Enum):",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Hadron",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 27,
+      "confidence": 30.0,
+      "evidence": "class Hadron:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "AtomExtractor",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 188,
+      "confidence": 30.0,
+      "evidence": "class AtomExtractor:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Repository",
+      "name": "UserRepository",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 565,
+      "confidence": 75.0,
+      "evidence": "class UserRepository:",
+      "responsibility": 8,
+      "purity": 6,
+      "boundary": 7,
+      "lifecycle": 7,
+      "rpbl_score": 7.0,
+      "description": "Data access layer for aggregate persistence"
+    },
+    {
+      "type": "Unknown",
+      "name": "Email",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 575,
+      "confidence": 30.0,
+      "evidence": "class Email:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Specification",
+      "name": "validate_email",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 584,
+      "confidence": 50.0,
+      "evidence": "def validate_email(email: str) -> bool:",
+      "responsibility": 4,
+      "purity": 8,
+      "boundary": 3,
+      "lifecycle": 7,
+      "rpbl_score": 5.5,
+      "description": "Encapsulated business rule that can be combined"
+    },
+    {
+      "type": "Unknown",
+      "name": "fetch_user",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 589,
+      "confidence": 30.0,
+      "evidence": "async def fetch_user(user_id: str):",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "calculate_total",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_extractor.py",
+      "line": 593,
+      "confidence": 30.0,
+      "evidence": "def calculate_total(items: list) -> float:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "StatsGenerator",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/stats_generator.py",
+      "line": 16,
+      "confidence": 30.0,
+      "evidence": "class StatsGenerator:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "AtomDefinition",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_registry.py",
+      "line": 21,
+      "confidence": 30.0,
+      "evidence": "class AtomDefinition:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "AtomRegistry",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/atom_registry.py",
+      "line": 38,
+      "confidence": 30.0,
+      "evidence": "class AtomRegistry:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "ResolvedDependency",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 12,
+      "confidence": 30.0,
+      "evidence": "class ResolvedDependency:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_posix",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 21,
+      "confidence": 30.0,
+      "evidence": "def _posix(path: Path) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_try_rel",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 25,
+      "confidence": 30.0,
+      "evidence": "def _try_rel(repo_root: Path, file_path: Path) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_python_stdlib_roots",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 32,
+      "confidence": 30.0,
+      "evidence": "def _python_stdlib_roots() -> set[str]:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_python_candidate_roots",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 115,
+      "confidence": 30.0,
+      "evidence": "def _python_candidate_roots(repo_root: Path) -> list[Path]:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_python_module_from_rel",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 124,
+      "confidence": 30.0,
+      "evidence": "def _python_module_from_rel(rel: Path) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_build_python_module_index",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 133,
+      "confidence": 30.0,
+      "evidence": "def _build_python_module_index(repo_root: Path, file_paths: Iterable[Path]) -> tuple[dict[str, str],",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_python_resolve_relative",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 160,
+      "confidence": 30.0,
+      "evidence": "def _python_resolve_relative(",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_npm_package_name",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 190,
+      "confidence": 30.0,
+      "evidence": "def _npm_package_name(spec: str) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_resolve_js_relative",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 197,
+      "confidence": 30.0,
+      "evidence": "def _resolve_js_relative(repo_root: Path, src_file: Path, spec: str) -> str | None:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "DependencyAnalyzer",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py",
+      "line": 219,
+      "confidence": 30.0,
+      "evidence": "class DependencyAnalyzer:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "UniversalPatternDetector",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/universal_detector.py",
+      "line": 19,
+      "confidence": 30.0,
+      "evidence": "class UniversalPatternDetector:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Continent",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 38,
+      "confidence": 30.0,
+      "evidence": "class Continent(Enum):",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Fundamental",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 46,
+      "confidence": 30.0,
+      "evidence": "class Fundamental(Enum):",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Level",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 68,
+      "confidence": 30.0,
+      "evidence": "class Level(Enum):",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "SemanticID",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 80,
+      "confidence": 30.0,
+      "evidence": "class SemanticID:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "SemanticIDGenerator",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 232,
+      "confidence": 30.0,
+      "evidence": "class SemanticIDGenerator:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "SemanticMatrix",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/semantic_ids.py",
+      "line": 411,
+      "confidence": 30.0,
+      "evidence": "class SemanticMatrix:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GodClassMetrics",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/god_class_detector.py",
+      "line": 21,
+      "confidence": 30.0,
+      "evidence": "class GodClassMetrics:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GodClassDetector",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/god_class_detector.py",
+      "line": 47,
+      "confidence": 30.0,
+      "evidence": "class GodClassDetector:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "LanguageLoader",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/language_loader.py",
+      "line": 12,
+      "confidence": 30.0,
+      "evidence": "class LanguageLoader:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_posix",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 12,
+      "confidence": 30.0,
+      "evidence": "def _posix(path: Path) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_safe_rel",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 16,
+      "confidence": 30.0,
+      "evidence": "def _safe_rel(repo_root: Path, file_path: str) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_stable_id",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 29,
+      "confidence": 30.0,
+      "evidence": "def _stable_id(*parts: str) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_group_key",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 37,
+      "confidence": 30.0,
+      "evidence": "def _group_key(rel_file: str) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "_mermaid_id",
+      "symbol_kind": "function",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 51,
+      "confidence": 30.0,
+      "evidence": "def _mermaid_id(group: str) -> str:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "ComponentRow",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 59,
+      "confidence": 30.0,
+      "evidence": "class ComponentRow:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "ReportGenerator",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/report_generator.py",
+      "line": 74,
+      "confidence": 30.0,
+      "evidence": "class ReportGenerator:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "HealthStatus",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/system_health.py",
+      "line": 14,
+      "confidence": 30.0,
+      "evidence": "class HealthStatus:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "SystemHealth",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/system_health.py",
+      "line": 19,
+      "confidence": 30.0,
+      "evidence": "class SystemHealth:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "FunctionBody",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/complete_extractor.py",
+      "line": 21,
+      "confidence": 30.0,
+      "evidence": "class FunctionBody:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "ClassBody",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/complete_extractor.py",
+      "line": 56,
+      "confidence": 30.0,
+      "evidence": "class ClassBody:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "CompleteCodebase",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/complete_extractor.py",
+      "line": 82,
+      "confidence": 30.0,
+      "evidence": "class CompleteCodebase:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "CompleteExtractor",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/complete_extractor.py",
+      "line": 114,
+      "confidence": 30.0,
+      "evidence": "class CompleteExtractor:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "UnknownAtom",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/discovery_engine.py",
+      "line": 30,
+      "confidence": 30.0,
+      "evidence": "class UnknownAtom:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "DiscoveryReport",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/discovery_engine.py",
+      "line": 104,
+      "confidence": 30.0,
+      "evidence": "class DiscoveryReport:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "DiscoveryEngine",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/discovery_engine.py",
+      "line": 119,
+      "confidence": 30.0,
+      "evidence": "class DiscoveryEngine:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "ParticleClassifier",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/core/particle_classifier.py",
+      "line": 12,
+      "confidence": 30.0,
+      "evidence": "class ParticleClassifier:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    }
+  ],
+  "performance": {
+    "files_per_second": 454160.3057324841,
+    "lines_per_second": 166890554.70063695,
+    "characters_per_second": 6773293369.070064,
+    "avg_time_per_file": 2.20186570111443e-06,
+    "success_rate": 100.0
+  },
+  "dependencies": {
+    "external_packages": [
+      {
+        "package": "core",
+        "count": 5
+      },
+      {
+        "package": "tree_sitter",
+        "count": 2
+      },
+      {
+        "package": "tree_sitter_python",
+        "count": 1
+      },
+      {
+        "package": "tree_sitter_typescript",
+        "count": 1
+      },
+      {
+        "package": "tree_sitter_javascript",
+        "count": 1
+      },
+      {
+        "package": "tree_sitter_go",
+        "count": 1
+      },
+      {
+        "package": "tree_sitter_java",
+        "count": 1
+      },
+      {
+        "package": "matplotlib",
+        "count": 1
+      },
+      {
+        "package": "mpl_toolkits",
+        "count": 1
+      },
+      {
+        "package": "numpy",
+        "count": 1
+      }
+    ],
+    "stdlib_packages": [
+      {
+        "package": "typing",
+        "count": 16
+      },
+      {
+        "package": "pathlib",
+        "count": 15
+      },
+      {
+        "package": "dataclasses",
+        "count": 12
+      },
+      {
+        "package": "json",
+        "count": 11
+      },
+      {
+        "package": "collections",
+        "count": 6
+      },
+      {
+        "package": "os",
+        "count": 4
+      },
+      {
+        "package": "re",
+        "count": 4
+      },
+      {
+        "package": "sys",
+        "count": 4
+      },
+      {
+        "package": "datetime",
+        "count": 4
+      },
+      {
+        "package": "hashlib",
+        "count": 4
+      },
+      {
+        "package": "__future__",
+        "count": 3
+      },
+      {
+        "package": "math",
+        "count": 2
+      },
+      {
+        "package": "enum",
+        "count": 2
+      },
+      {
+        "package": "csv",
+        "count": 2
+      },
+      {
+        "package": "importlib",
+        "count": 2
+      },
+      {
+        "package": "ast",
+        "count": 1
+      },
+      {
+        "package": "time",
+        "count": 1
+      },
+      {
+        "package": "pkgutil",
+        "count": 1
+      },
+      {
+        "package": "platform",
+        "count": 1
+      }
+    ],
+    "internal_edges": [
+      {
+        "from": "universal_detector.py",
+        "to": "tree_sitter_engine.py",
+        "count": 1
+      },
+      {
+        "from": "universal_detector.py",
+        "to": "particle_classifier.py",
+        "count": 1
+      },
+      {
+        "from": "universal_detector.py",
+        "to": "stats_generator.py",
+        "count": 1
+      },
+      {
+        "from": "universal_detector.py",
+        "to": "dependency_analyzer.py",
+        "count": 1
+      },
+      {
+        "from": "universal_detector.py",
+        "to": "report_generator.py",
+        "count": 1
+      }
+    ],
+    "unknown_dependency_count": 0
+  }
+}

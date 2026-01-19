@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chrome": {
+      "command": "node",
+      "args": ["/Users/lech/PROJECTS_all/PROJECT_elements/chrome-mcp/dist/index.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

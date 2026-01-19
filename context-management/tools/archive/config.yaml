@@ -1,0 +1,45 @@
+# Archive Module Configuration
+# Edit this file to customize archive behavior
+
+gcloud:
+  bucket: gs://elements-archive-2026
+  account: leonardolech3@gmail.com
+  storage_class: ARCHIVE  # ARCHIVE = cheapest ($0.0012/GB/month)
+
+mirror:
+  bucket: gs://elements-archive-2026
+  prefix: repository_mirror
+
+# Paths to archive (relative to project root)
+# Directories are uploaded recursively
+# Files are uploaded individually
+offload_paths:
+  # Large analysis outputs
+  - standard-model-of-code/output/audit
+  - standard-model-of-code/.collider
+  - standard-model-of-code/collider_output
+
+  # Media files
+  - standard-model-of-code/.archive/audio
+  - archive/images
+
+  # Large archives
+  - archive/spectrometer_system_audit.zip
+
+# Paths to exclude (glob patterns)
+exclude_patterns:
+  - "*.DS_Store"
+  - "__pycache__"
+  - "*.pyc"
+  - ".git"
+
+# Options
+options:
+  # Create manifest after each upload
+  create_manifest: true
+
+  # Verify uploads before deleting local
+  verify_before_delete: true
+
+  # Minimum file size to offload (bytes), 0 = all files
+  min_file_size: 0

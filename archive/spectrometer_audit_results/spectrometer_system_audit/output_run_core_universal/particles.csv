@@ -1,0 +1,57 @@
+type,name,file_path,line,confidence,responsibility,purity,boundary,lifecycle,rpbl_score,evidence
+Unknown,TreeSitterUniversalEngine,/mnt/data/spectrometer_system_audit/core/tree_sitter_engine.py,15,30.0,5,5,5,5,5.0,class TreeSitterUniversalEngine:
+Unknown,Edge,/mnt/data/spectrometer_system_audit/core/graph_extractor.py,23,30.0,5,5,5,5,5.0,class Edge:
+Unknown,Node,/mnt/data/spectrometer_system_audit/core/graph_extractor.py,34,30.0,5,5,5,5,5.0,class Node:
+Unknown,CodeGraph,/mnt/data/spectrometer_system_audit/core/graph_extractor.py,48,30.0,5,5,5,5,5.0,class CodeGraph:
+Unknown,GraphExtractor,/mnt/data/spectrometer_system_audit/core/graph_extractor.py,88,30.0,5,5,5,5,5.0,class GraphExtractor:
+Unknown,GodClassMetrics,/mnt/data/spectrometer_system_audit/core/god_class_detector_lite.py,18,30.0,5,5,5,5,5.0,class GodClassMetrics:
+Unknown,GodClassDetectorLite,/mnt/data/spectrometer_system_audit/core/god_class_detector_lite.py,44,30.0,5,5,5,5,5.0,class GodClassDetectorLite:
+Unknown,HadronLevel,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,19,30.0,5,5,5,5,5.0,class HadronLevel(Enum):
+Unknown,Hadron,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,27,30.0,5,5,5,5,5.0,class Hadron:
+Unknown,AtomExtractor,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,188,30.0,5,5,5,5,5.0,class AtomExtractor:
+Repository,UserRepository,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,565,75.0,8,6,7,7,7.0,class UserRepository:
+Unknown,Email,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,575,30.0,5,5,5,5,5.0,class Email:
+Specification,validate_email,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,584,50.0,4,8,3,7,5.5,def validate_email(email: str) -> bool:
+Unknown,fetch_user,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,589,30.0,5,5,5,5,5.0,async def fetch_user(user_id: str):
+Unknown,calculate_total,/mnt/data/spectrometer_system_audit/core/atom_extractor.py,593,30.0,5,5,5,5,5.0,def calculate_total(items: list) -> float:
+Unknown,StatsGenerator,/mnt/data/spectrometer_system_audit/core/stats_generator.py,16,30.0,5,5,5,5,5.0,class StatsGenerator:
+Unknown,AtomDefinition,/mnt/data/spectrometer_system_audit/core/atom_registry.py,21,30.0,5,5,5,5,5.0,class AtomDefinition:
+Unknown,AtomRegistry,/mnt/data/spectrometer_system_audit/core/atom_registry.py,38,30.0,5,5,5,5,5.0,class AtomRegistry:
+Unknown,ResolvedDependency,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,12,30.0,5,5,5,5,5.0,class ResolvedDependency:
+Unknown,_posix,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,21,30.0,5,5,5,5,5.0,def _posix(path: Path) -> str:
+Unknown,_try_rel,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,25,30.0,5,5,5,5,5.0,"def _try_rel(repo_root: Path, file_path: Path) -> "
+Unknown,_python_stdlib_roots,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,32,30.0,5,5,5,5,5.0,def _python_stdlib_roots() -> set[str]:
+Unknown,_python_candidate_roots,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,115,30.0,5,5,5,5,5.0,def _python_candidate_roots(repo_root: Path) -> li
+Unknown,_python_module_from_rel,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,124,30.0,5,5,5,5,5.0,def _python_module_from_rel(rel: Path) -> str:
+Unknown,_build_python_module_index,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,133,30.0,5,5,5,5,5.0,"def _build_python_module_index(repo_root: Path, fi"
+Unknown,_python_resolve_relative,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,160,30.0,5,5,5,5,5.0,def _python_resolve_relative(
+Unknown,_npm_package_name,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,190,30.0,5,5,5,5,5.0,def _npm_package_name(spec: str) -> str:
+Unknown,_resolve_js_relative,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,197,30.0,5,5,5,5,5.0,"def _resolve_js_relative(repo_root: Path, src_file"
+Unknown,DependencyAnalyzer,/mnt/data/spectrometer_system_audit/core/dependency_analyzer.py,219,30.0,5,5,5,5,5.0,class DependencyAnalyzer:
+Unknown,UniversalPatternDetector,/mnt/data/spectrometer_system_audit/core/universal_detector.py,19,30.0,5,5,5,5,5.0,class UniversalPatternDetector:
+Unknown,Continent,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,38,30.0,5,5,5,5,5.0,class Continent(Enum):
+Unknown,Fundamental,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,46,30.0,5,5,5,5,5.0,class Fundamental(Enum):
+Unknown,Level,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,68,30.0,5,5,5,5,5.0,class Level(Enum):
+Unknown,SemanticID,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,80,30.0,5,5,5,5,5.0,class SemanticID:
+Unknown,SemanticIDGenerator,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,232,30.0,5,5,5,5,5.0,class SemanticIDGenerator:
+Unknown,SemanticMatrix,/mnt/data/spectrometer_system_audit/core/semantic_ids.py,411,30.0,5,5,5,5,5.0,class SemanticMatrix:
+Unknown,GodClassMetrics,/mnt/data/spectrometer_system_audit/core/god_class_detector.py,21,30.0,5,5,5,5,5.0,class GodClassMetrics:
+Unknown,GodClassDetector,/mnt/data/spectrometer_system_audit/core/god_class_detector.py,47,30.0,5,5,5,5,5.0,class GodClassDetector:
+Unknown,LanguageLoader,/mnt/data/spectrometer_system_audit/core/language_loader.py,12,30.0,5,5,5,5,5.0,class LanguageLoader:
+Unknown,_posix,/mnt/data/spectrometer_system_audit/core/report_generator.py,12,30.0,5,5,5,5,5.0,def _posix(path: Path) -> str:
+Unknown,_safe_rel,/mnt/data/spectrometer_system_audit/core/report_generator.py,16,30.0,5,5,5,5,5.0,"def _safe_rel(repo_root: Path, file_path: str) -> "
+Unknown,_stable_id,/mnt/data/spectrometer_system_audit/core/report_generator.py,29,30.0,5,5,5,5,5.0,def _stable_id(*parts: str) -> str:
+Unknown,_group_key,/mnt/data/spectrometer_system_audit/core/report_generator.py,37,30.0,5,5,5,5,5.0,def _group_key(rel_file: str) -> str:
+Unknown,_mermaid_id,/mnt/data/spectrometer_system_audit/core/report_generator.py,51,30.0,5,5,5,5,5.0,def _mermaid_id(group: str) -> str:
+Unknown,ComponentRow,/mnt/data/spectrometer_system_audit/core/report_generator.py,59,30.0,5,5,5,5,5.0,class ComponentRow:
+Unknown,ReportGenerator,/mnt/data/spectrometer_system_audit/core/report_generator.py,74,30.0,5,5,5,5,5.0,class ReportGenerator:
+Unknown,HealthStatus,/mnt/data/spectrometer_system_audit/core/system_health.py,14,30.0,5,5,5,5,5.0,class HealthStatus:
+Unknown,SystemHealth,/mnt/data/spectrometer_system_audit/core/system_health.py,19,30.0,5,5,5,5,5.0,class SystemHealth:
+Unknown,FunctionBody,/mnt/data/spectrometer_system_audit/core/complete_extractor.py,21,30.0,5,5,5,5,5.0,class FunctionBody:
+Unknown,ClassBody,/mnt/data/spectrometer_system_audit/core/complete_extractor.py,56,30.0,5,5,5,5,5.0,class ClassBody:
+Unknown,CompleteCodebase,/mnt/data/spectrometer_system_audit/core/complete_extractor.py,82,30.0,5,5,5,5,5.0,class CompleteCodebase:
+Unknown,CompleteExtractor,/mnt/data/spectrometer_system_audit/core/complete_extractor.py,114,30.0,5,5,5,5,5.0,class CompleteExtractor:
+Unknown,UnknownAtom,/mnt/data/spectrometer_system_audit/core/discovery_engine.py,30,30.0,5,5,5,5,5.0,class UnknownAtom:
+Unknown,DiscoveryReport,/mnt/data/spectrometer_system_audit/core/discovery_engine.py,104,30.0,5,5,5,5,5.0,class DiscoveryReport:
+Unknown,DiscoveryEngine,/mnt/data/spectrometer_system_audit/core/discovery_engine.py,119,30.0,5,5,5,5,5.0,class DiscoveryEngine:
+Unknown,ParticleClassifier,/mnt/data/spectrometer_system_audit/core/particle_classifier.py,12,30.0,5,5,5,5,5.0,class ParticleClassifier:

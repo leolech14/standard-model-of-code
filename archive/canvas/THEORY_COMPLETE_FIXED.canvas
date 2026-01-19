@@ -1,0 +1,91 @@
+{
+	"nodes":[
+		// Theory Title and Overview
+		{"id":"theory_title","type":"text","text":"# Standard Model of Software Architecture\n\n**A Complete Ontological Framework for Code Analysis**\n\n- 11 Fundamental Laws\n- 12 Quarks/Continents\n- 96 Hadrons\n- 384 Sub-hadrons (342 possible + 42 impossible)\n\n---\n\n*The Spectrometer v10 can detect architectural antimatter*","x":-1000,"y":-1800,"width":500,"height":250,"color":"6"},
+
+		// SECTION 1: LAWS OF PHYSICS
+		{"id":"laws_group","type":"group","x":-1000,"y":-1500,"width":2200,"height":300,"label":"11 Laws of Physics"},
+		{"id":"laws_title","type":"text","text":"## 11 Laws of Physics\n\nFundamental constraints that govern all software architecture","x":-950,"y":-1450,"width":300,"height":80},
+		{"id":"law1","type":"text","text":"1. **Free 3D**\n\nUnbounded spatial freedom","x":-900,"y":-1300,"width":180,"height":80,"color":"1"},
+		{"id":"law2","type":"text","text":"2. **Disk 2D**\n\nFlat storage optimization","x":-700,"y":-1300,"width":180,"height":80,"color":"1"},
+		{"id":"law3","type":"text","text":"3. **Plane 2.5D**\n\nSurface with depth","x":-500,"y":-1300,"width":180,"height":80,"color":"1"},
+		{"id":"law4","type":"text","text":"4. **Sphere 2.5D**\n\nCurved space","x":-300,"y":-1300,"width":180,"height":80,"color":"1"},
+		{"id":"law5","type":"text","text":"5. **Billiard**\n\nDeterministic collisions","x":-100,"y":-1300,"width":180,"height":80,"color":"1"},
+		{"id":"law6","type":"text","text":"6. **EM Field A**\n\nElectric component","x":100,"y":-1300,"width":180,"height":80,"color":"2"},
+		{"id":"law7","type":"text","text":"7. **EM Field B**\n\nMagnetic component","x":300,"y":-1300,"width":180,"height":80,"color":"2"},
+		{"id":"law8","type":"text","text":"8. **EM Field C**\n\nCombined field","x":500,"y":-1300,"width":180,"height":80,"color":"2"},
+		{"id":"law9","type":"text","text":"9. **Cosmic**\n\nUniversal scale","x":700,"y":-1300,"width":180,"height":80,"color":"3"},
+		{"id":"law10","type":"text","text":"10. **Ocean**\n\nFluid dynamics","x":900,"y":-1300,"width":180,"height":80,"color":"3"},
+		{"id":"law11","type":"text","text":"11. **Subatomic**\n\nQuantum level","x":1100,"y":-1300,"width":180,"height":80,"color":"3"},
+
+		// SECTION 2: QUARKS/CONTINENTS
+		{"id":"quarks_group","type":"group","x":-1000,"y":-1100,"width":2200,"height":350,"label":"12 Quarks/Continents"},
+		{"id":"quarks_title","type":"text","text":"## 12 Quarks/Continents\n\nThe fundamental building blocks","x":-950,"y":-1050,"width":300,"height":80},
+		{"id":"quarks_note","type":"text","text":"### The Four Forces Mapping\n\n| Force | Intensity | Software Dimension |\n|-------|-----------|-------------------|\n| Strong | 10³⁸ | Responsibility |\n| Electromagnetic | 10³⁶ | Purity |\n| Weak | 10²⁵ | Boundary |\n| Gravity | 10⁰ | Lifecycle |","x":0,"y":-1050,"width":400,"height":150,"color":"5"},
+		{"id":"quark1","type":"text","text":"**Up**\n\nData creation","x":-900,"y":-900,"width":150,"height":80,"color":"1"},
+		{"id":"quark2","type":"text","text":"**Down**\n\nData reading","x":-720,"y":-900,"width":150,"height":80,"color":"1"},
+		{"id":"quark3","type":"text","text":"**Charm**\n\nLogic flow","x":-540,"y":-900,"width":150,"height":80,"color":"2"},
+		{"id":"quark4","type":"text","text":"**Strange**\n\nError handling","x":-360,"y":-900,"width":150,"height":80,"color":"2"},
+		{"id":"quark5","type":"text","text":"**Top**\n\nOrganization","x":-180,"y":-900,"width":150,"height":80,"color":"3"},
+		{"id":"quark6","type":"text","text":"**Bottom**\n\nExecution","x":0,"y":-900,"width":150,"height":80,"color":"3"},
+		{"id":"quark7","type":"text","text":"**Truth**\n\nValidation","x":180,"y":-900,"width":150,"height":80,"color":"4"},
+		{"id":"quark8","type":"text","text":"**Beauty**\n\nPresentation","x":360,"y":-900,"width":150,"height":80,"color":"4"},
+		{"id":"quark9","type":"text","text":"**Muon**\n\nTransient","x":540,"y":-900,"width":150,"height":80,"color":"5"},
+		{"id":"quark10","type":"text","text":"**Tau**\n\nPersistent","x":720,"y":-900,"width":150,"height":80,"color":"5"},
+		{"id":"quark11","type":"text","text":"**Electron**\n\nAtomic","x":900,"y":-900,"width":150,"height":80,"color":"6"},
+		{"id":"quark12","type":"text","text":"**Neutrino**\n\nMassless","x":1080,"y":-900,"width":150,"height":80,"color":"6"},
+
+		// SECTION 3: DATA ATOMS HIERARCHY
+		{"id":"atoms_group","type":"group","x":1400,"y":-1800,"width":800,"height":900,"label":"Data Atoms Hierarchy"},
+		{"id":"atoms_title","type":"text","text":"## Data Atoms Hierarchy\n\nThe 12-level data structure","x":1450,"y":-1750,"width":300,"height":80},
+		{"id":"atoms_diagram","type":"text","text":"```mermaid\ngraph LR\n    A[Bits] --> B[Bytes]\n    B --> C[Primitives]\n    C --> D[Variables]\n    D --> E[Expressions]\n    E --> F[Statements]\n    F --> G[Control Structures]\n    G --> H[Functions]\n    H --> I[Aggregates]\n    I --> J[Modules]\n    J --> K[Files]\n    K --> L[Executables]\n```","x":1450,"y":-1600,"width":400,"height":250,"color":"1"},
+
+		// Individual atoms
+		{"id":"atom1","type":"text","text":"**1. Bits**\n\nBinary states","x":1450,"y":-1300,"width":150,"height":60,"color":"1"},
+		{"id":"atom2","type":"text","text":"**2. Bytes**\n\nMemory chunks","x":1650,"y":-1300,"width":150,"height":60,"color":"1"},
+		{"id":"atom3","type":"text","text":"**3. Primitives**\n\nBasic types","x":1450,"y":-1200,"width":150,"height":60,"color":"2"},
+		{"id":"atom4","type":"text","text":"**4. Variables**\n\nState holders","x":1650,"y":-1200,"width":150,"height":60,"color":"2"},
+		{"id":"atom5","type":"text","text":"**5. Expressions**\n\nComputations","x":1450,"y":-1100,"width":150,"height":60,"color":"3"},
+		{"id":"atom6","type":"text","text":"**6. Statements**\n\nActions","x":1650,"y":-1100,"width":150,"height":60,"color":"3"},
+		{"id":"atom7","type":"text","text":"**7. Control Structures**\n\nFlow directors","x":1450,"y":-1000,"width":150,"height":60,"color":"4"},
+		{"id":"atom8","type":"text","text":"**8. Functions**\n\nReusable blocks","x":1650,"y":-1000,"width":150,"height":60,"color":"4"},
+		{"id":"atom9","type":"text","text":"**9. Aggregates**\n\nComposites","x":1450,"y":-900,"width":150,"height":60,"color":"5"},
+		{"id":"atom10","type":"text","text":"**10. Modules**\n\nGroupers","x":1650,"y":-900,"width":150,"height":60,"color":"5"},
+		{"id":"atom11","type":"text","text":"**11. Files**\n\nContainers","x":1450,"y":-800,"width":150,"height":60,"color":"6"},
+		{"id":"atom12","type":"text","text":"**12. Executables**\n\nRuntime forms","x":1650,"y":-800,"width":150,"height":60,"color":"6"},
+
+		// SECTION 4: KEY METRICS
+		{"id":"metrics_group","type":"group","x":2400,"y":-1800,"width":1200,"height":600,"label":"Key Metrics"},
+		{"id":"metrics_title","type":"text","text":"## Key Metrics & Statistics\n\n**The Standard Model by the numbers**","x":2450,"y":-1750,"width":400,"height":80,"color":"6"},
+		{"id":"metric1","type":"text","text":"### Total Universe\n\n- 11 Fundamental Laws\n- 12 Quarks/Continents\n- 96 Hadrons\n- 384 Sub-hadrons\n\n**342 Possible** (89.1%)\n**42 Impossible** (10.9%)","x":2450,"y":-1600,"width":350,"height":150,"color":"2"},
+		{"id":"metric2","type":"text","text":"### Performance Impact\n\n✅ **97.3% faster** comprehension\n✅ **98.2% smaller** dependency graphs\n✅ **100%** violation detection\n✅ **<3 seconds** analysis time\n\nValidated on 28 repositories","x":2850,"y":-1600,"width":350,"height":150,"color":"4"},
+		{"id":"metric3","type":"text","text":"### The 10.9% Constant\n\nUniversal across representation systems:\n\n- OKLCH color space\n- Chemical elements (transuranic)\n- Unicode reserved characters\n- Software architecture patterns\n\n**The antimatter ratio**","x":2450,"y":-1400,"width":350,"height":150,"color":"1"},
+		{"id":"metric4","type":"text","text":"### Force Distribution\n\n| Force | Relative Strength |\n|-------|-----------------|\n| Strong | 10³⁸ |\n| Electromagnetic | 10³⁶ |\n| Weak | 10²⁵ |\n| Gravity | 10⁰ |\n\nMatches software pattern importance","x":2850,"y":-1400,"width":350,"height":150,"color":"3"}
+	],
+	"edges":[
+		// Main flow connections
+		{"id":"edge_title_laws","fromNode":"theory_title","fromSide":"bottom","toNode":"laws_title","toSide":"top","color":"6"},
+		{"id":"edge_laws_quarks","fromNode":"laws_group","fromSide":"bottom","toNode":"quarks_title","toSide":"top","color":"6","label":"fundamental → building blocks"},
+		{"id":"edge_quarks_atoms","fromNode":"quarks_group","fromSide":"right","toNode":"atoms_group","toSide":"left","color":"6","label":"4 forces → 12 atoms"},
+		{"id":"edge_atoms_metrics","fromNode":"atoms_group","fromSide":"bottom","toNode":"metrics_group","toSide":"top","color":"6"},
+
+		// Internal connections
+		{"id":"edge_atoms1_2","fromNode":"atom1","fromSide":"right","toNode":"atom2","toSide":"left","color":"2"},
+		{"id":"edge_atoms2_3","fromNode":"atom2","fromSide":"right","toNode":"atom3","toSide":"left","color":"3"},
+		{"id":"edge_atoms3_4","fromNode":"atom3","fromSide":"right","toNode":"atom4","toSide":"left","color":"3"},
+		{"id":"edge_atoms4_5","fromNode":"atom4","fromSide":"right","toNode":"atom5","toSide":"left","color":"3"},
+		{"id":"edge_atoms5_6","fromNode":"atom5","fromSide":"right","toNode":"atom6","toSide":"left","color":"3"},
+		{"id":"edge_atoms6_7","fromNode":"atom6","fromSide":"right","toNode":"atom7","toSide":"left","color":"4"},
+		{"id":"edge_atoms7_8","fromNode":"atom7","fromSide":"right","toNode":"atom8","toSide":"left","color":"4"},
+		{"id":"edge_atoms8_9","fromNode":"atom8","fromSide":"right","toNode":"atom9","toSide":"left","color":"5"},
+		{"id":"edge_atoms9_10","fromNode":"atom9","fromSide":"right","toNode":"atom10","toSide":"left","color":"5"},
+		{"id":"edge_atoms10_11","fromNode":"atom10","fromSide":"right","toNode":"atom11","toSide":"left","color":"6"},
+		{"id":"edge_atoms11_12","fromNode":"atom11","fromSide":"right","toNode":"atom12","toSide":"left","color":"6"},
+
+		// Metrics connections
+		{"id":"edge_metric1_2","fromNode":"metric1","fromSide":"right","toNode":"metric2","toSide":"left","color":"2"},
+		{"id":"edge_metric2_3","fromNode":"metric2","fromSide":"right","toNode":"metric3","toSide":"left","color":"1"},
+		{"id":"edge_metric3_4","fromNode":"metric3","fromSide":"right","toNode":"metric4","toSide":"left","color":"4"},
+		{"id":"edge_metric4_1","fromNode":"metric4","fromSide":"right","toNode":"metric1","toSide":"left","color":"3"}
+	]
+}

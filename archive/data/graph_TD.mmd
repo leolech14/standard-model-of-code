@@ -1,0 +1,102 @@
+graph TD
+    %% Fundamental Quarks
+    subgraph "12 FUNDAMENTAL QUARKS"
+        Q1[Entity<br/>Domain Object<br/>Has Identity]
+        Q2[Aggregate<br/>Consistency Boundary<br/>Root Entity]
+        Q3[ValueObject<br/>Immutable Value<br/>No Identity]
+        Q4[Service<br/>Stateless Logic<br/>Business Rules]
+        Q5[Repository<br/>Collection Access<br/>Persistence]
+        Q6[Factory<br/>Object Creation<br/>Complex Logic]
+        Q7[Specification<br/>Business Rule<br/>Predicate]
+        Q8[Event<br/>Domain Event<br/>Something Happened]
+        Q9[ReadModel<br/>Query Result<br/>Optimized for Read]
+        Q10[WriteModel<br/>Command Target<br/>Optimized for Write]
+        Q11[Projector<br/>Event→ReadModel<br/>Synchronization]
+        Q12[Application<br/>Use Case<br/>Orchestration]
+    end
+
+    %% Hadron Superclusters
+    subgraph "4 HADRON SUPERCLUSTERS"
+        B[BOSONS<br/>Force Carriers<br/>4 types]
+        M[MESONS<br/>Quark Pairs<br/>96 combinations]
+        BARYONS1[BARYONS<br/>Triple Quarks<br/>220 combos]
+        HYPERS[HYPERS<br/>Beyond 3-5 Quarks<br/>126 exotic]
+    end
+
+    %% Bosons (Force Carriers)
+    subgraph "BOSONS - FORCE CARRIERS"
+        B1[GuageBoson<br/>CRUD Operations<br/>Create/Read/Update/Delete]
+        B2[HiggsBoson<br/>Data/Value<br/>State Information]
+        B3[PhotonBoson<br/>Event/Message<br/>Communication]
+        B4[GluonBoson<br/>Dependency<br/>Binding Force]
+    end
+
+    %% Selected Examples of Key Hadrons
+    subgraph "EXAMPLE MESONS (Quark Pairs)"
+        %% Entity Pair
+        M1[EntityAggregate<br/>Entity+Aggregate<br/>Domain Object Root]
+
+        %% ValueObject Combinations
+        M2[ValueObjectService<br/>Value+Service<br/>Domain Logic]
+        M3[ValueObjectSpecification<br/>Value+Spec<br/>Validated Value]
+
+        %% Repository Patterns
+        M4[EntityRepository<br/>Entity+Repository<br/>Persistence]
+        M5[AggregateRepository<br/>Agg+Repository<br/>Collection]
+
+        %% Event Patterns
+        M6[DomainEvent<br/>Event+Specification<br/>Rule Trigger]
+        M7[EntityEvent<br/>Entity+Event<br/>State Change]
+    end
+
+    subgraph "EXAMPLE BARYONS (Triple Quarks)"
+        %% Classic DDD Patterns
+        BA1[EntityValueSpecification<br/>Entity+Value+Spec<br/>Validated Entity]
+        BA2[ServiceRepositorySpecification<br/>Service+Repo+Spec<br/>Filtered Access]
+
+        %% Event Patterns
+        BA3[EntityEventProjector<br/>Entity+Event+Projector<br/>Sync to Read]
+        BA4[AggregateEventFactory<br/>Agg+Event+Factory<br/>Event Creation]
+
+        %% Complex Patterns
+        BA5[ServiceRepositoryApplication<br/>Service+Repo+App<br/>Use Case]
+    end
+
+    subgraph "HYPER HADRONS (4+ Quarks)"
+        H1[ApplicationLayer<br/>App+Entity+Service+Repo<br/>Complete Use Case]
+        H2[EventSourcedAggregate<br/>Agg+Event+Projector+Spec<br/>Event Sourcing]
+        H3[Microservice<br/>App+Service+Repo+Event<br/>Bounded Context]
+        H4[FullCQRSSystem<br/>Read+Write+Projector+Spec<br/>CQRS Pattern]
+        H5[HexagonalArch<br/>App+Service+Event+Factory<br/>Ports & Adapters]
+    end
+
+    %% Force Interactions
+    subgraph "FORCE INTERACTIONS"
+        F1[Create-Force<br/>Generates New<br/>Birth Operation]
+        F2[Read-Force<br/>Queries State<br/>Information Flow]
+        F3[Update-Force<br/>Modifies State<br/>Transformation]
+        F4[Delete-Force<br/>Removes<br/>Termination]
+    end
+
+    %% Connections
+    Q1 --> M1
+    Q2 --> M1
+    Q3 --> M2
+    Q4 --> M2
+    Q5 --> M4
+    Q1 --> M4
+
+    Q1 --> BA1
+    Q3 --> BA1
+    Q7 --> BA1
+
+    Q12 --> H1
+    Q1 --> H1
+    Q4 --> H1
+    Q5 --> H1
+
+    %% Force connections
+    B1 -.-> F1
+    B1 -.-> F2
+    B1 -.-> F3
+    B1 -.-> F4

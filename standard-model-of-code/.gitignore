@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Env
+venv/
+.venv/
+env/
+env/
+ENV/
+.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Spectrometer Output
+output/
+# We keep scripts/legacy/ in the repo as it contains legacy scripts, unless user wants them excluded
+# scripts/legacy/
+
+# Validation Artifacts
+validation/100_repo_results/
+validation/benchmarks/repos/
+validation/benchmarks/repos_v2/
+validation/benchmarks/repos_tier1/
+validation/benchmarks/runs/
+validation/pilot_repos/
+validation/dddpy_real/
+validation/__pycache__/
+github_analysis/
+spectrometer_output/
+proof_output.json
+*.csv
+**/spectrometer_output/
+archive/
+
+# Generated Reports (root level)
+collider_report.html
+collider_viz.html
+spectrometer_report.html
+
+# Generated experiment and Blender outputs
+blender/output/
+experiments/outputs/
+
+# Audio - exclude large files and segments, keep only complete versions
+audio/**/
+audio/*-44k.mp3
+audio/*.py
+audio/*.sh
+!audio/WHAT_IS_A_FUNCTION_COMPLETE.mp3
+
+# Large generated files
+*.mp3
+!audio/WHAT_IS_A_FUNCTION_COMPLETE.mp3
+
+# Large untracked directories (moved during cleanup 2026-01-07)
+.data/
+.archive/
+.research/
+
+# Keep schema and docs tracked
+!schema/
+!docs/
+
+# Internal orientation files (auto-synced)
+.agent/orientation/
+
+# Generated output directory
+output.md/
+.collider/
+*.backup

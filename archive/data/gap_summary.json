@@ -1,0 +1,39 @@
+{
+  "current_status": {
+    "hadrons_found": 34,
+    "coverage": 52.3,
+    "confidence": 0.66
+  },
+  "top_missing": [
+    "InstanceField",
+    "WebSocketHandler",
+    "ArithmeticExpr",
+    "TestFile",
+    "MagicBytes",
+    "StaticField",
+    "PaddingBytes",
+    "TryCatch",
+    "SourceFile",
+    "GuardClause",
+    "MainEntry",
+    "InfrastructureAdapter",
+    "Boolean",
+    "AggregateRoot",
+    "GraphQLResolver"
+  ],
+  "key_insights": [
+    "Detection problem, not taxonomy problem",
+    "Need multi-language support",
+    "Missing common syntax patterns"
+  ],
+  "priority_fixes": [
+    "Improve TryCatch detection",
+    "Add InstanceField/StaticField patterns",
+    "Support Java/Go/TypeScript"
+  ],
+  "projected_improvement": {
+    "taxonomy_size": 85,
+    "estimated_coverage": 75,
+    "estimated_confidence": 80
+  }
+}

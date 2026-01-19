@@ -1,0 +1,1038 @@
+{
+  "experiment_metadata": {
+    "sample_size": 25,
+    "total_analysis_time": 44.88,
+    "timestamp": "2025-12-03 20:50:09"
+  },
+  "global_statistics": {
+    "total_files_analyzed": 5020,
+    "total_elements_classified": 2152,
+    "unique_hadrons_found": 34,
+    "hadron_coverage": 52.3,
+    "average_confidence": 0.66,
+    "average_coverage": 5.5,
+    "most_common_hadrons": [
+      [
+        "Assignment",
+        394
+      ],
+      [
+        "LocalVar",
+        392
+      ],
+      [
+        "PureFunction",
+        369
+      ],
+      [
+        "ReturnStmt",
+        319
+      ],
+      [
+        "ValueObject",
+        274
+      ],
+      [
+        "EventHandler",
+        54
+      ],
+      [
+        "Entity",
+        40
+      ],
+      [
+        "Module",
+        40
+      ],
+      [
+        "Component",
+        29
+      ],
+      [
+        "Factory",
+        28
+      ]
+    ],
+    "least_common_hadrons": [
+      [
+        "Controller",
+        1
+      ],
+      [
+        "Middleware",
+        1
+      ],
+      [
+        "Decoder",
+        1
+      ],
+      [
+        "DependencyInjectionContainer",
+        2
+      ],
+      [
+        "ConfigLoader",
+        3
+      ],
+      [
+        "Driver",
+        3
+      ],
+      [
+        "Filter",
+        3
+      ],
+      [
+        "AsyncFunction",
+        4
+      ],
+      [
+        "Renderer",
+        5
+      ],
+      [
+        "Encoder",
+        5
+      ]
+    ],
+    "missing_hadrons": [
+      "InstanceField",
+      "WebSocketHandler",
+      "ArithmeticExpr",
+      "TestFile",
+      "MagicBytes",
+      "StaticField",
+      "PaddingBytes",
+      "TryCatch",
+      "SourceFile",
+      "GuardClause",
+      "MainEntry",
+      "InfrastructureAdapter",
+      "Boolean",
+      "AggregateRoot",
+      "GraphQLResolver",
+      "SagaStep",
+      "ExpressionStmt",
+      "ParityBit",
+      "LiteralExpr",
+      "MigrationFile",
+      "Float",
+      "BoundedContext",
+      "LoopWhile",
+      "IfBranch",
+      "FeatureModule",
+      "GlobalVar",
+      "SignBit",
+      "SwitchCase",
+      "EnumValue",
+      "ApplicationPort",
+      "Projection",
+      "CallExpr",
+      "StringLiteral",
+      "BitMask",
+      "ImpureFunction",
+      "LambdaEntry",
+      "ByteArray",
+      "LoopFor",
+      "Integer",
+      "Parameter",
+      "BitFlag",
+      "DomainPort",
+      "Closure",
+      "ReadModel",
+      "WorkerEntry"
+    ],
+    "hadrons_by_continent": {
+      "DATA_FOUNDATIONS": 392,
+      "LOGIC_FLOW": 1213,
+      "ORGANIZATION": 366,
+      "EXECUTION": 25
+    },
+    "confidence_distribution": {
+      "excellent": 0,
+      "good": 2,
+      "fair": 6,
+      "poor": 17
+    }
+  },
+  "repository_results": [
+    {
+      "repository": "Kubernetes",
+      "url": "https://github.com/kubernetes/kubernetes",
+      "category": "infrastructure",
+      "files_analyzed": 347,
+      "analysis_time_seconds": 1.38,
+      "total_elements": 138,
+      "hadrons_found": 9,
+      "coverage": 9.4,
+      "avg_confidence": 0.67,
+      "statistics": {
+        "by_hadron": {
+          "APIHandler": 4,
+          "EventHandler": 2,
+          "Controller": 1,
+          "ConfigFile": 3,
+          "PureFunction": 5,
+          "ValueObject": 32,
+          "LocalVar": 18,
+          "Assignment": 32,
+          "ReturnStmt": 41
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 18,
+          "LOGIC_FLOW": 80,
+          "ORGANIZATION": 35,
+          "EXECUTION": 4
+        },
+        "confidence_distribution": {
+          "high": 82,
+          "medium": 41,
+          "low": 13
+        },
+        "missing_hadrons": [
+          "QueryHandler",
+          "DTO"
+        ]
+      }
+    },
+    {
+      "repository": "Docker",
+      "url": "https://github.com/docker/docker",
+      "category": "infrastructure",
+      "files_analyzed": 396,
+      "analysis_time_seconds": 1.23,
+      "total_elements": 81,
+      "hadrons_found": 6,
+      "coverage": 6.2,
+      "avg_confidence": 0.51,
+      "statistics": {
+        "by_hadron": {
+          "APIHandler": 3,
+          "ConfigLoader": 3,
+          "PureFunction": 25,
+          "LocalVar": 14,
+          "Assignment": 27,
+          "ReturnStmt": 9
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 14,
+          "LOGIC_FLOW": 61,
+          "ORGANIZATION": 0,
+          "EXECUTION": 3
+        },
+        "confidence_distribution": {
+          "high": 48,
+          "medium": 24,
+          "low": 8
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Ansible",
+      "url": "https://github.com/ansible/ansible",
+      "category": "infrastructure",
+      "files_analyzed": 191,
+      "analysis_time_seconds": 1.57,
+      "total_elements": 82,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.64,
+      "statistics": {
+        "by_hadron": {
+          "EventHandler": 11,
+          "ConfigFile": 2,
+          "LocalVar": 46,
+          "ReturnStmt": 23
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 46,
+          "LOGIC_FLOW": 34,
+          "ORGANIZATION": 2,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 49,
+          "medium": 24,
+          "low": 8
+        },
+        "missing_hadrons": [
+          "DTO"
+        ]
+      }
+    },
+    {
+      "repository": "Godot",
+      "url": "https://github.com/godotengine/godot",
+      "category": "gaming",
+      "files_analyzed": 132,
+      "analysis_time_seconds": 1.53,
+      "total_elements": 133,
+      "hadrons_found": 8,
+      "coverage": 8.3,
+      "avg_confidence": 0.52,
+      "statistics": {
+        "by_hadron": {
+          "Entity": 2,
+          "Component": 2,
+          "EventHandler": 1,
+          "PureFunction": 21,
+          "ValueObject": 20,
+          "LocalVar": 31,
+          "Assignment": 23,
+          "ReturnStmt": 33
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 31,
+          "LOGIC_FLOW": 78,
+          "ORGANIZATION": 22,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 79,
+          "medium": 39,
+          "low": 13
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "category": "gaming",
+      "files_analyzed": 146,
+      "analysis_time_seconds": 1.51,
+      "total_elements": 41,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.76,
+      "statistics": {
+        "by_hadron": {
+          "Entity": 10,
+          "PureFunction": 8,
+          "Renderer": 5,
+          "ReturnStmt": 18
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 26,
+          "ORGANIZATION": 10,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 24,
+          "medium": 12,
+          "low": 4
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Django",
+      "url": "https://github.com/django/django",
+      "category": "web_framework",
+      "files_analyzed": 103,
+      "analysis_time_seconds": 1.62,
+      "total_elements": 148,
+      "hadrons_found": 8,
+      "coverage": 8.3,
+      "avg_confidence": 0.83,
+      "statistics": {
+        "by_hadron": {
+          "Validator": 6,
+          "Entity": 14,
+          "Service": 14,
+          "QueryHandler": 18,
+          "PureFunction": 43,
+          "LocalVar": 22,
+          "Assignment": 19,
+          "ReturnStmt": 12
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 22,
+          "LOGIC_FLOW": 98,
+          "ORGANIZATION": 14,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 88,
+          "medium": 44,
+          "low": 14
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Flask",
+      "url": "https://github.com/pallets/flask",
+      "category": "web_framework",
+      "files_analyzed": 103,
+      "analysis_time_seconds": 0.38,
+      "total_elements": 65,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.75,
+      "statistics": {
+        "by_hadron": {
+          "APIHandler": 4,
+          "Factory": 3,
+          "PureFunction": 35,
+          "Assignment": 3,
+          "ReturnStmt": 20
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 58,
+          "ORGANIZATION": 3,
+          "EXECUTION": 4
+        },
+        "confidence_distribution": {
+          "high": 39,
+          "medium": 19,
+          "low": 6
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "FastAPI",
+      "url": "https://github.com/fastapi/fastapi",
+      "category": "web_framework",
+      "files_analyzed": 183,
+      "analysis_time_seconds": 0.72,
+      "total_elements": 124,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.76,
+      "statistics": {
+        "by_hadron": {
+          "Middleware": 1,
+          "DependencyInjectionContainer": 2,
+          "ValueObject": 39,
+          "LocalVar": 41,
+          "Assignment": 41
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 41,
+          "LOGIC_FLOW": 42,
+          "ORGANIZATION": 39,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 74,
+          "medium": 37,
+          "low": 12
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Linux Kernel",
+      "url": "https://github.com/torvalds/linux",
+      "category": "system",
+      "files_analyzed": 135,
+      "analysis_time_seconds": 3.59,
+      "total_elements": 71,
+      "hadrons_found": 6,
+      "coverage": 6.2,
+      "avg_confidence": 0.68,
+      "statistics": {
+        "by_hadron": {
+          "Module": 5,
+          "Driver": 3,
+          "EventHandler": 4,
+          "CLIEntry": 5,
+          "LocalVar": 31,
+          "Assignment": 23
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 31,
+          "LOGIC_FLOW": 27,
+          "ORGANIZATION": 0,
+          "EXECUTION": 5
+        },
+        "confidence_distribution": {
+          "high": 42,
+          "medium": 21,
+          "low": 7
+        },
+        "missing_hadrons": [
+          "DTO",
+          "ValueObject"
+        ]
+      }
+    },
+    {
+      "repository": "FFmpeg",
+      "url": "https://github.com/FFmpeg/FFmpeg",
+      "category": "system",
+      "files_analyzed": 159,
+      "analysis_time_seconds": 3.93,
+      "total_elements": 75,
+      "hadrons_found": 6,
+      "coverage": 6.2,
+      "avg_confidence": 0.5,
+      "statistics": {
+        "by_hadron": {
+          "Filter": 3,
+          "Encoder": 5,
+          "Decoder": 1,
+          "ValueObject": 5,
+          "Assignment": 27,
+          "ReturnStmt": 34
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 61,
+          "ORGANIZATION": 5,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 45,
+          "medium": 22,
+          "low": 7
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "OpenSSL",
+      "url": "https://github.com/openssl/openssl",
+      "category": "system",
+      "files_analyzed": 166,
+      "analysis_time_seconds": 0.94,
+      "total_elements": 78,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.75,
+      "statistics": {
+        "by_hadron": {
+          "Module": 11,
+          "CryptographicFunction": 15,
+          "ValueObject": 33,
+          "LocalVar": 19
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 19,
+          "LOGIC_FLOW": 0,
+          "ORGANIZATION": 33,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 46,
+          "medium": 23,
+          "low": 7
+        },
+        "missing_hadrons": [
+          "DTO"
+        ]
+      }
+    },
+    {
+      "repository": "NumPy",
+      "url": "https://github.com/numpy/numpy",
+      "category": "data_science",
+      "files_analyzed": 127,
+      "analysis_time_seconds": 1.47,
+      "total_elements": 95,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.61,
+      "statistics": {
+        "by_hadron": {
+          "PureFunction": 4,
+          "ArrayItem": 16,
+          "ValueObject": 44,
+          "ReturnStmt": 31
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 35,
+          "ORGANIZATION": 44,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 57,
+          "medium": 28,
+          "low": 9
+        },
+        "missing_hadrons": [
+          "EventHandler"
+        ]
+      }
+    },
+    {
+      "repository": "Pandas",
+      "url": "https://github.com/pandas-dev/pandas",
+      "category": "data_science",
+      "files_analyzed": 106,
+      "analysis_time_seconds": 0.61,
+      "total_elements": 43,
+      "hadrons_found": 3,
+      "coverage": 3.1,
+      "avg_confidence": 0.73,
+      "statistics": {
+        "by_hadron": {
+          "ValueObject": 13,
+          "Reducer": 5,
+          "PureFunction": 25
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 30,
+          "ORGANIZATION": 13,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 25,
+          "medium": 12,
+          "low": 4
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "PostgreSQL",
+      "url": "https://github.com/postgres/postgres",
+      "category": "database",
+      "files_analyzed": 122,
+      "analysis_time_seconds": 3.62,
+      "total_elements": 68,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.65,
+      "statistics": {
+        "by_hadron": {
+          "Module": 5,
+          "ConfigFile": 1,
+          "PureFunction": 32,
+          "LocalVar": 12,
+          "Assignment": 18
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 12,
+          "LOGIC_FLOW": 50,
+          "ORGANIZATION": 1,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 40,
+          "medium": 20,
+          "low": 6
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Redis",
+      "url": "https://github.com/redis/redis",
+      "category": "database",
+      "files_analyzed": 156,
+      "analysis_time_seconds": 1.7,
+      "total_elements": 82,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.8,
+      "statistics": {
+        "by_hadron": {
+          "CommandHandler": 16,
+          "EventHandler": 16,
+          "Module": 13,
+          "LocalVar": 6,
+          "ReturnStmt": 31
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 6,
+          "LOGIC_FLOW": 63,
+          "ORGANIZATION": 0,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 49,
+          "medium": 24,
+          "low": 8
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "MongoDB",
+      "url": "https://github.com/mongodb/mongo",
+      "category": "database",
+      "files_analyzed": 426,
+      "analysis_time_seconds": 2.66,
+      "total_elements": 33,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.59,
+      "statistics": {
+        "by_hadron": {
+          "Module": 3,
+          "CLIEntry": 2,
+          "PureFunction": 14,
+          "Assignment": 11,
+          "ReturnStmt": 3
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 28,
+          "ORGANIZATION": 0,
+          "EXECUTION": 2
+        },
+        "confidence_distribution": {
+          "high": 19,
+          "medium": 9,
+          "low": 3
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "Scikit-learn",
+      "url": "https://github.com/scikit-learn/scikit-learn",
+      "category": "machine_learning",
+      "files_analyzed": 196,
+      "analysis_time_seconds": 1.61,
+      "total_elements": 71,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.6,
+      "statistics": {
+        "by_hadron": {
+          "Entity": 14,
+          "PureFunction": 39,
+          "Factory": 14,
+          "Assignment": 4
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 43,
+          "ORGANIZATION": 28,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 42,
+          "medium": 21,
+          "low": 7
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "TensorFlow",
+      "url": "https://github.com/tensorflow/tensorflow",
+      "category": "machine_learning",
+      "files_analyzed": 121,
+      "analysis_time_seconds": 1.14,
+      "total_elements": 82,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.65,
+      "statistics": {
+        "by_hadron": {
+          "Factory": 11,
+          "AsyncFunction": 4,
+          "PureFunction": 21,
+          "Assignment": 42,
+          "ReturnStmt": 4
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 71,
+          "ORGANIZATION": 11,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 49,
+          "medium": 24,
+          "low": 8
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "PyTorch",
+      "url": "https://github.com/pytorch/pytorch",
+      "category": "machine_learning",
+      "files_analyzed": 187,
+      "analysis_time_seconds": 0.75,
+      "total_elements": 122,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.67,
+      "statistics": {
+        "by_hadron": {
+          "PureFunction": 27,
+          "Reducer": 7,
+          "ValueObject": 40,
+          "LocalVar": 33,
+          "Assignment": 15
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 33,
+          "LOGIC_FLOW": 49,
+          "ORGANIZATION": 40,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 73,
+          "medium": 36,
+          "low": 12
+        },
+        "missing_hadrons": []
+      }
+    },
+    {
+      "repository": "React",
+      "url": "https://github.com/facebook/react",
+      "category": "frontend",
+      "files_analyzed": 132,
+      "analysis_time_seconds": 0.71,
+      "total_elements": 75,
+      "hadrons_found": 4,
+      "coverage": 4.2,
+      "avg_confidence": 0.76,
+      "statistics": {
+        "by_hadron": {
+          "Component": 19,
+          "PureFunction": 4,
+          "EventHandler": 20,
+          "LocalVar": 32
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 32,
+          "LOGIC_FLOW": 24,
+          "ORGANIZATION": 0,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 45,
+          "medium": 22,
+          "low": 7
+        },
+        "missing_hadrons": [
+          "AggregateRoot"
+        ]
+      }
+    },
+    {
+      "repository": "Vue.js",
+      "url": "https://github.com/vuejs/vue",
+      "category": "frontend",
+      "files_analyzed": 174,
+      "analysis_time_seconds": 1.15,
+      "total_elements": 59,
+      "hadrons_found": 2,
+      "coverage": 2.1,
+      "avg_confidence": 0.66,
+      "statistics": {
+        "by_hadron": {
+          "Mapper": 11,
+          "ValueObject": 48
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 0,
+          "LOGIC_FLOW": 11,
+          "ORGANIZATION": 48,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 35,
+          "medium": 17,
+          "low": 5
+        },
+        "missing_hadrons": [
+          "RepositoryImpl"
+        ]
+      }
+    },
+    {
+      "repository": "Angular",
+      "url": "https://github.com/angular/angular",
+      "category": "frontend",
+      "files_analyzed": 179,
+      "analysis_time_seconds": 1.21,
+      "total_elements": 102,
+      "hadrons_found": 6,
+      "coverage": 6.2,
+      "avg_confidence": 0.65,
+      "statistics": {
+        "by_hadron": {
+          "Component": 8,
+          "Service": 11,
+          "DTO": 18,
+          "LocalVar": 50,
+          "Assignment": 5,
+          "ReturnStmt": 10
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 50,
+          "LOGIC_FLOW": 15,
+          "ORGANIZATION": 18,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 61,
+          "medium": 30,
+          "low": 10
+        },
+        "missing_hadrons": [
+          "RepositoryImpl",
+          "AggregateRoot"
+        ]
+      }
+    },
+    {
+      "repository": "Rust",
+      "url": "https://github.com/rust-lang/rust",
+      "category": "compiler",
+      "files_analyzed": 367,
+      "analysis_time_seconds": 2.37,
+      "total_elements": 81,
+      "hadrons_found": 6,
+      "coverage": 6.2,
+      "avg_confidence": 0.61,
+      "statistics": {
+        "by_hadron": {
+          "Module": 1,
+          "CLIEntry": 5,
+          "Parser": 5,
+          "LocalVar": 23,
+          "Assignment": 33,
+          "ReturnStmt": 14
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 23,
+          "LOGIC_FLOW": 47,
+          "ORGANIZATION": 0,
+          "EXECUTION": 5
+        },
+        "confidence_distribution": {
+          "high": 48,
+          "medium": 24,
+          "low": 8
+        },
+        "missing_hadrons": [
+          "APIHandler"
+        ]
+      }
+    },
+    {
+      "repository": "Go",
+      "url": "https://github.com/golang/go",
+      "category": "compiler",
+      "files_analyzed": 440,
+      "analysis_time_seconds": 3.54,
+      "total_elements": 138,
+      "hadrons_found": 8,
+      "coverage": 8.3,
+      "avg_confidence": 0.59,
+      "statistics": {
+        "by_hadron": {
+          "Module": 2,
+          "CLIEntry": 2,
+          "Parser": 2,
+          "Generator": 4,
+          "PureFunction": 41,
+          "LocalVar": 2,
+          "Assignment": 49,
+          "ReturnStmt": 36
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 2,
+          "LOGIC_FLOW": 130,
+          "ORGANIZATION": 0,
+          "EXECUTION": 2
+        },
+        "confidence_distribution": {
+          "high": 82,
+          "medium": 41,
+          "low": 13
+        },
+        "missing_hadrons": [
+          "APIHandler",
+          "Middleware"
+        ]
+      }
+    },
+    {
+      "repository": "TypeScript",
+      "url": "https://github.com/microsoft/TypeScript",
+      "category": "compiler",
+      "files_analyzed": 226,
+      "analysis_time_seconds": 3.84,
+      "total_elements": 65,
+      "hadrons_found": 5,
+      "coverage": 5.2,
+      "avg_confidence": 0.64,
+      "statistics": {
+        "by_hadron": {
+          "Parser": 1,
+          "Generator": 5,
+          "PureFunction": 25,
+          "LocalVar": 12,
+          "Assignment": 22
+        },
+        "by_category": {
+          "DATA_FOUNDATIONS": 12,
+          "LOGIC_FLOW": 52,
+          "ORGANIZATION": 0,
+          "EXECUTION": 0
+        },
+        "confidence_distribution": {
+          "high": 39,
+          "medium": 19,
+          "low": 6
+        },
+        "missing_hadrons": [
+          "APIHandler"
+        ]
+      }
+    }
+  ],
+  "systematic_gaps": [],
+  "recommendations": [
+    {
+      "type": "coverage",
+      "priority": "high",
+      "title": "Baixa cobertura de h\u00e1drons",
+      "description": "A cobertura atual de 52.3% est\u00e1 abaixo do ideal (75%).",
+      "actions": [
+        "Revisar padr\u00f5es n\u00e3o detectados",
+        "Adicionar novos h\u00e1drons para padr\u00f5es espec\u00edficos",
+        "Melhorar heur\u00edsticas de classifica\u00e7\u00e3o"
+      ]
+    },
+    {
+      "type": "confidence",
+      "priority": "high",
+      "title": "Baixa confian\u00e7a na classifica\u00e7\u00e3o",
+      "description": "A confian\u00e7a m\u00e9dia de 66.0% precisa ser melhorada.",
+      "actions": [
+        "Refinar regras de detec\u00e7\u00e3o",
+        "Adicionar mais sinais contextuais",
+        "Implementar LLM para casos amb\u00edguos"
+      ]
+    },
+    {
+      "type": "granularity",
+      "priority": "low",
+      "title": "Poss\u00edvel necessidade de mais granularidade",
+      "description": "'Assignment' aparece 394 vezes - considere subdividir.",
+      "actions": [
+        "Analisar se o h\u00e1dron \u00e9 muito gen\u00e9rico",
+        "Criar subtipos mais espec\u00edficos",
+        "Verificar se h\u00e1 padr\u00f5es misturados"
+      ]
+    }
+  ],
+  "validation_status": {
+    "status": "FAIR",
+    "color": "\ud83d\udfe0",
+    "overall_score": 57.1,
+    "coverage_score": 52.3,
+    "confidence_score": 66.0,
+    "completeness_score": 53.1,
+    "recommendation": "REVIEW_NEEDED"
+  }
+}
