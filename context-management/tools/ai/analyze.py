@@ -7,29 +7,61 @@ Features:
 - Reads directly from GCS Mirror (no local download).
 - Cost-aware: Estimates tokens before running.
 - Flexible: Supports file patterns, directory filtering.
-- Models: Gemini 1.5 Pro (Deep Reasoning) or Gemini 2.0 Flash (Fast/Cheap).
+- Models: Gemini 2.5 Pro (Deep Reasoning) or Gemini 2.0 Flash (Fast/Cheap).
 
 Usage:
   python tools/ai/analyze.py "Explain the architecture of the archive tool"
   python tools/ai/analyze.py --dir tools/archive "How does file discovery work?"
   python tools/ai/analyze.py --files "README.md,implementation_plan.md" "Summarize status"
+
+IMPORTANT: This script requires the .tools_venv virtual environment.
+If you get import errors, the script will auto-restart with the correct venv.
 """
 
-import argparse
 import sys
+import os
+from pathlib import Path
+
+# --- Auto-detect and use correct venv ---
+SCRIPT_DIR = Path(__file__).parent.resolve()
+PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
+TOOLS_VENV = PROJECT_ROOT / ".tools_venv"
+VENV_PYTHON = TOOLS_VENV / "bin" / "python"
+
+def _in_correct_venv():
+    """Check if we're running from .tools_venv"""
+    return TOOLS_VENV.as_posix() in sys.prefix
+
+if not _in_correct_venv():
+    if VENV_PYTHON.exists():
+        # Re-execute with correct venv
+        os.execv(str(VENV_PYTHON), [str(VENV_PYTHON)] + sys.argv)
+    else:
+        print("=" * 60)
+        print("ERROR: Required virtual environment not found!")
+        print("=" * 60)
+        print(f"Expected: {TOOLS_VENV}")
+        print()
+        print("To fix, run from PROJECT_elements root:")
+        print("  python -m venv .tools_venv")
+        print("  source .tools_venv/bin/activate")
+        print("  pip install google-genai pyyaml")
+        print("=" * 60)
+        sys.exit(1)
+
+# --- Now safe to import deps (we're in correct venv) ---
+import argparse
 import yaml
 import fnmatch
 import time
 import random
-from pathlib import Path
 from google import genai
 from google.genai.types import Part
 import subprocess
 import json
 
 # --- Config & Setup ---
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
+# Note: SCRIPT_DIR and PROJECT_ROOT already defined above for venv detection
 CONFIG_PATH = PROJECT_ROOT / "context-management/tools/archive/config.yaml"
 SETS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/analysis_sets.yaml"
 
