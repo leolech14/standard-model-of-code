@@ -8,9 +8,11 @@ Minimal, maximum output, works across 160+ languages
 import os
 import ast
 import json
+import logging
 import re
 import subprocess
 import sys
+import threading
 from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
@@ -37,6 +39,40 @@ except ImportError:
         sys.path.append(str(Path(__file__).parent))
         from classification.universal_classifier import UniversalClassifier
         from parser.python_extractor import PythonASTExtractor
+
+
+class ParseTimeout(Exception):
+    """Raised when parsing exceeds time limit."""
+    pass
+
+
+def parse_with_timeout(parser, source_bytes: bytes, timeout_seconds: int = 30):
+    """Parse source with timeout protection.
+
+    Uses threading for cross-platform compatibility (no signal.SIGALRM).
+    """
+    result = [None]
+    exception = [None]
+
+    def target():
+        try:
+            result[0] = parser.parse(source_bytes)
+        except Exception as e:
+            exception[0] = e
+
+    thread = threading.Thread(target=target)
+    thread.start()
+    thread.join(timeout=timeout_seconds)
+
+    if thread.is_alive():
+        # Thread still running - timeout occurred
+        # Note: Cannot forcefully kill thread in Python
+        raise ParseTimeout(f"Parse timed out after {timeout_seconds}s")
+
+    if exception[0]:
+        raise exception[0]
+
+    return result[0]
 
 
 class TreeSitterUniversalEngine:
@@ -259,7 +295,12 @@ class TreeSitterUniversalEngine:
         ts_lang = tree_sitter.Language(lang_obj)
         parser.language = ts_lang
 
-        tree = parser.parse(bytes(content, "utf8"))
+        try:
+            tree = parse_with_timeout(parser, bytes(content, "utf8"), timeout_seconds=30)
+        except ParseTimeout as e:
+            logging.warning(f"Parse timeout for {file_path}: {e}")
+            return []  # Return empty particles for this file
+
         root_node = tree.root_node
 
         particles = []
