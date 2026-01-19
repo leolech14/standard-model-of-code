@@ -121,22 +121,25 @@
           "inverse": { "$value": "#000000" }
         },
         "accent": {
-          "primary": { "$value": "#00ffff" },
-          "primary-bright": { "$value": "#00ffff" },
-          "primary-dim": { "$value": "#00cccc" },
-          "primary-bg": { "$value": "rgba(0, 255, 255, 0.2)" },
-          "primary-bg-medium": { "$value": "rgba(0, 255, 255, 0.4)" },
-          "primary-bg-subtle": { "$value": "rgba(0, 255, 255, 0.15)" },
-          "primary-glow": { "$value": "rgba(0, 255, 255, 0.3)" }
+          "primary": { "$value": "#38bdf8" },
+          "primary-bright": { "$value": "#7dd3fc" },
+          "primary-bg": { "$value": "#082f49" }
         },
         "status": {
-          "success": { "$value": "#00ff00" },
-          "success-bright": { "$value": "#00ff00" },
-          "warning": { "$value": "#ffff00" },
-          "warning-bright": { "$value": "#ffff00" },
-          "error": { "$value": "#ff0000" },
-          "error-bright": { "$value": "#ff0000" },
-          "info": { "$value": "#00ffff" }
+          "success": { "$value": "#22c55e" },
+          "success-bg": { "$value": "#052e16" },
+          "warning": { "$value": "#facc15" },
+          "warning-bg": { "$value": "#422006" },
+          "error": { "$value": "#f87171" },
+          "error-bg": { "$value": "#450a0a" },
+          "info": { "$value": "#38bdf8" },
+          "info-bg": { "$value": "#082f49" }
+        },
+        "data": {
+          "blue": { "$value": "#60a5fa" },
+          "green": { "$value": "#4ade80" },
+          "yellow": { "$value": "#facc15" },
+          "red": { "$value": "#f87171" }
         },
         "viz": {
           "tooltip-bg": { "$value": "#ffff00" },
