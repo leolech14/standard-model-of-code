@@ -447,58 +447,7 @@
       "dimOpacity": { "$value": 0.04 }
     }
   },
-  "physics": {
-    "forces": {
-      "charge": {
-        "strength": {
-          "$value": -120,
-          "$description": "Repulsion strength"
-        },
-        "distanceMax": {
-          "$value": 500
-        },
-        "distanceMin": {
-          "$value": 1
-        }
-      },
-      "link": {
-        "distance": {
-          "$value": 50,
-          "$description": "Link length"
-        },
-        "strength": {
-          "$value": 0.3,
-          "$description": "Link stiffness"
-        }
-      },
-      "center": {
-        "strength": {
-          "$value": 0.05,
-          "$description": "Gravity to center"
-        }
-      },
-      "collision": {
-        "radius": {
-          "$value": 5,
-          "$description": "Node collision radius"
-        }
-      }
-    },
-    "simulation": {
-      "alphaMin": {
-        "$value": 0.001
-      },
-      "alphaDecay": {
-        "$value": 0.0228
-      },
-      "velocityDecay": {
-        "$value": 0.4
-      },
-      "cooldownTicks": {
-        "$value": 200
-      }
-    }
-  },
+
   "animation": {
     "$description": "Physics-based animation parameters (The 'Soul' of the graph)",
     "hue": {

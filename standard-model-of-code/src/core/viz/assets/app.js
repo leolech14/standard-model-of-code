@@ -78,6 +78,103 @@ let BLOOM_PASS = null;
 let BLOOM_STRENGTH = 0;
 let EDGE_MODE = 'gradient-file';  // DEFAULT: Show file regions with gradients!
 let EDGE_DEFAULT_OPACITY = null;  // Initialized from appearance.tokens at runtime (token value: 0.08)
+
+// ═══════════════════════════════════════════════════════════════════════
+// REAL-TIME PERFORMANCE MONITOR - Actual frame delivery diagnostics
+// ═══════════════════════════════════════════════════════════════════════
+const PERF_MONITOR = {
+    enabled: true,
+    fps: 0,
+    frameTime: 0,
+    lastFrameTime: 0,
+    frameTimes: [],
+    maxFrames: 60,
+    renderCalls: 0,
+    droppedFrames: 0,
+    lastSecond: 0,
+    framesThisSecond: 0,
+    hudElement: null,
+
+    init() {
+        if (!this.enabled) return;
+        // Create HUD element
+        this.hudElement = document.createElement('div');
+        this.hudElement.id = 'perf-hud';
+        this.hudElement.style.cssText = `
+            position: fixed; top: 10px; right: 10px; z-index: 99999;
+            background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace;
+            font-size: 11px; padding: 8px 12px; border-radius: 4px;
+            border: 1px solid #333; min-width: 140px; pointer-events: none;
+        `;
+        document.body.appendChild(this.hudElement);
+        this.startMonitoring();
+    },
+
+    startMonitoring() {
+        const monitor = () => {
+            const now = performance.now();
+
+            // Calculate frame time
+            if (this.lastFrameTime > 0) {
+                this.frameTime = now - this.lastFrameTime;
+                this.frameTimes.push(this.frameTime);
+                if (this.frameTimes.length > this.maxFrames) this.frameTimes.shift();
+
+                // Detect dropped frames (>50ms = <20fps)
+                if (this.frameTime > 50) this.droppedFrames++;
+            }
+            this.lastFrameTime = now;
+
+            // Calculate FPS every second
+            const second = Math.floor(now / 1000);
+            if (second !== this.lastSecond) {
+                this.fps = this.framesThisSecond;
+                this.framesThisSecond = 0;
+                this.lastSecond = second;
+            }
+            this.framesThisSecond++;
+
+            // Update HUD
+            this.updateHUD();
+            requestAnimationFrame(monitor);
+        };
+        requestAnimationFrame(monitor);
+    },
+
+    updateHUD() {
+        if (!this.hudElement) return;
+        const avgFrameTime = this.frameTimes.length > 0
+            ? (this.frameTimes.reduce((a, b) => a + b, 0) / this.frameTimes.length).toFixed(1)
+            : '0.0';
+
+        // Color code FPS
+        let fpsColor = '#0f0';  // Green = good
+        if (this.fps < 30) fpsColor = '#ff0';  // Yellow = warning
+        if (this.fps < 15) fpsColor = '#f00';  // Red = bad
+
+        // Animation state
+        const animating = LAYOUT_ANIMATION_ID ? '▶ ANIMATING' : '■ IDLE';
+        const animColor = LAYOUT_ANIMATION_ID ? '#0ff' : '#666';
+
+        this.hudElement.innerHTML = `
+            <div style="color:${fpsColor};font-size:14px;font-weight:bold">${this.fps} FPS</div>
+            <div>Frame: ${avgFrameTime}ms</div>
+            <div>Dropped: <span style="color:${this.droppedFrames > 10 ? '#f00' : '#0f0'}">${this.droppedFrames}</span></div>
+            <div style="color:${animColor}">${animating}</div>
+            <div style="font-size:9px;color:#666;margin-top:4px">Pattern: ${CURRENT_STAGGER_PATTERN || 'none'}</div>
+        `;
+    },
+
+    // Call this to log a resistance point
+    logResistance(location, duration) {
+        if (duration > 16) {
+            console.warn(`[PERF RESISTANCE] ${location}: ${duration.toFixed(1)}ms (>${Math.floor(duration / 16.67)} frames)`);
+        }
+    }
+};
+
+// Initialize after DOM ready
+document.addEventListener('DOMContentLoaded', () => setTimeout(() => PERF_MONITOR.init(), 100));
 let DEFAULT_LINK_DISTANCE = null;
 
 // =================================================================
@@ -1736,6 +1833,17 @@ function renderAllLegends() {
     console.log('[Legend] All sections rendered');
 }
 
+// Debounce wrapper to prevent DOM thrashing during rapid updates
+let _legendDebounceTimer = null;
+const _originalRenderAllLegends = renderAllLegends;
+renderAllLegends = function () {
+    if (_legendDebounceTimer) clearTimeout(_legendDebounceTimer);
+    _legendDebounceTimer = setTimeout(() => {
+        _originalRenderAllLegends();
+        _legendDebounceTimer = null;
+    }, 100); // 100ms debounce
+};
+
 // =====================================================================
 // HUD LAYOUT MANAGER: Smart Text Placement with Collision Avoidance
 // =====================================================================
@@ -2330,6 +2438,7 @@ function initGraph(data) {
     // =================================================================
     const physicsConfig = data.physics || {};
     const appearanceConfig = data.appearance || {};
+    window.APPEARANCE_CONFIG = appearanceConfig;
 
     // =================================================================
     // THEME CONFIG: Load theme configuration for runtime switching
@@ -2435,6 +2544,18 @@ function initGraph(data) {
 
     // Initial Filter: show full graph
     const filtered = filterGraph(data, CURRENT_DENSITY, ACTIVE_DATAMAPS, VIS_FILTERS);
+
+    // ═══════════════════════════════════════════════════════════════════
+    // DATA PREP FOR ANIMATIONS: Assign file indices for wave patterns
+    // ═══════════════════════════════════════════════════════════════════
+    const fileMap = new Map();
+    let nextFileIdx = 0;
+    filtered.nodes.forEach(node => {
+        // Extract filename from ID (assuming file path is in ID or explicit file prop)
+        const file = node.file || (node.id.includes('/') ? node.id.split(':')[0] : 'unknown');
+        if (!fileMap.has(file)) fileMap.set(file, nextFileIdx++);
+        node.file_idx = fileMap.get(file);
+    });
 
     const div = document.getElementById('3d-graph');
 
@@ -2586,6 +2707,56 @@ function initGraph(data) {
             .onNodeHover(node => handleNodeHover(node, data))
             .onNodeClick((node, event) => handleNodeClick(node, event))
             .onBackgroundClick(() => maybeClearSelection())
+            // ═══════════════════════════════════════════════════════════════════
+            // GROUP DRAG: Move all selected nodes together, maintaining offsets
+            // Note: onNodeDragStart doesn't exist - detect start via flag
+            // ═══════════════════════════════════════════════════════════════════
+            .onNodeDrag((node, translate) => {
+                // Only handle group drag if multiple nodes selected and this node is selected
+                if (SELECTED_NODE_IDS.size > 1 && SELECTED_NODE_IDS.has(node.id)) {
+                    // First drag frame: store relative offsets
+                    if (!window._groupDragActive) {
+                        window._groupDragActive = true;
+                        window._groupDragOffsets = new Map();
+                        const nodes = Graph.graphData().nodes;
+                        nodes.forEach(n => {
+                            if (SELECTED_NODE_IDS.has(n.id) && n.id !== node.id) {
+                                window._groupDragOffsets.set(n.id, {
+                                    dx: (n.x || 0) - (node.x || 0),
+                                    dy: (n.y || 0) - (node.y || 0),
+                                    dz: (n.z || 0) - (node.z || 0)
+                                });
+                            }
+                        });
+                    }
+                    // Move all other selected nodes with their offsets
+                    if (window._groupDragOffsets) {
+                        const nodes = Graph.graphData().nodes;
+                        nodes.forEach(n => {
+                            const offset = window._groupDragOffsets.get(n.id);
+                            if (offset) {
+                                n.fx = node.x + offset.dx;
+                                n.fy = node.y + offset.dy;
+                                n.fz = node.z + offset.dz;
+                            }
+                        });
+                    }
+                }
+            })
+            .onNodeDragEnd(node => {
+                // Clear group drag state
+                window._groupDragActive = false;
+                window._groupDragOffsets = null;
+                // Fix all selected nodes at their final positions
+                if (SELECTED_NODE_IDS.size > 0) {
+                    const nodes = Graph.graphData().nodes;
+                    nodes.forEach(n => {
+                        if (SELECTED_NODE_IDS.has(n.id)) {
+                            n.fx = n.x; n.fy = n.y; n.fz = n.z;
+                        }
+                    });
+                }
+            })
             .onEngineStop(() => {
                 // Physics-dependent operations (run after simulation stabilizes)
                 drawFileBoundaries(data);
@@ -3805,7 +3976,7 @@ function refreshGraph() {
 
     // Zero-node protection for VIS_FILTERS (tier/ring/family/role)
     const hasActiveFilters = VIS_FILTERS.tiers.size > 0 || VIS_FILTERS.rings.size > 0 ||
-                             VIS_FILTERS.families.size > 0 || VIS_FILTERS.roles.size > 0;
+        VIS_FILTERS.families.size > 0 || VIS_FILTERS.roles.size > 0;
     if (subset.nodes.length === 0 && hasActiveFilters) {
         showToast('No nodes match current filters. Clearing filters.');
         clearAllFilters();
@@ -4063,34 +4234,45 @@ const LEVEL_ZONES = {
     'PHYSICAL': { levels: ['L-1', 'L-2', 'L-3'], opacity: 0.4, blur: true }
 };
 
-const TOPO_COLORS = {
-    // Tiers: Map to operational zones (T0=Semantic, T1=Architectural, T2=External)
-    tiers: {
-        'T0': { h: 200, s: 80, l: 55 },  // Cyan-blue (core/semantic)
-        'T1': { h: 280, s: 70, l: 50 },  // Purple (architecture)
-        'T2': { h: 35, s: 85, l: 50 },   // Orange (external/ecosystem)
-        'UNKNOWN': { h: 0, s: 0, l: 40 } // Gray
-    },
-    // Atom families: Semantic domains - each has a distinct angular position
-    families: {
-        'LOG': { h: 180, s: 70, l: 45, angle: 0 },      // Teal (logic/control) - 0°
-        'DAT': { h: 45, s: 80, l: 50, angle: 72 },      // Gold (data) - 72°
-        'ORG': { h: 270, s: 60, l: 50, angle: 144 },    // Violet (organization) - 144°
-        'EXE': { h: 120, s: 60, l: 45, angle: 216 },    // Green (execution) - 216°
-        'EXT': { h: 15, s: 75, l: 50, angle: 288 },     // Orange-red (external) - 288°
-        'UNKNOWN': { h: 0, s: 0, l: 35, angle: 0 }      // Gray
-    },
-    // Rings: Concentric semantic layers
-    rings: {
-        'KERNEL': { h: 200, s: 90, l: 60 },
-        'CORE': { h: 220, s: 75, l: 55 },
-        'SERVICE': { h: 260, s: 65, l: 50 },
-        'ADAPTER': { h: 300, s: 60, l: 50 },
-        'INTERFACE': { h: 340, s: 55, l: 50 },
-        'EXTERNAL': { h: 20, s: 70, l: 50 },
-        'UNKNOWN': { h: 0, s: 0, l: 40 }
+// ═══════════════════════════════════════════════════════════════════════
+// COLOR RESOLUTION - Single Source of Truth via APPEARANCE_CONFIG
+// ═══════════════════════════════════════════════════════════════════════
+
+function getTopoColor(category, key) {
+    if (!APPEARANCE_CONFIG || !APPEARANCE_CONFIG.color) return { l: 50, c: 0, h: 0 };
+
+    let tokenKey = key;
+    let section = 'atom-family'; // Default
+
+    // Map legacy/UI keys to Token keys
+    if (category === 'tiers') {
+        section = 'atom'; // Use atom colors for tiers
+        if (key === 'T0') tokenKey = 't0-core';
+        else if (key === 'T1') tokenKey = 't1-arch';
+        else if (key === 'T2') tokenKey = 't2-eco';
+        else if (key === 'UNKNOWN') tokenKey = 'unknown';
+    } else if (category === 'rings') {
+        section = 'ring';
+        // Map legacy ring names if necessary
+        if (key === 'KERNEL') tokenKey = 'DOMAIN';
+        if (key === 'CORE') tokenKey = 'APPLICATION';
+        if (key === 'SERVICE') tokenKey = 'PRESENTATION';
+        if (key === 'ADAPTER') tokenKey = 'INTERFACE';
+    } else if (category === 'families') {
+        section = 'atom-family';
     }
-};
+
+    // Lookup token
+    const tokenStr = APPEARANCE_CONFIG.color[section]?.[tokenKey] || APPEARANCE_CONFIG.color[section]?.['UNKNOWN'];
+
+    // Parse OKLCH
+    const parsed = parseOklchString(tokenStr);
+    if (!parsed) return { l: 50, c: 0, h: 0 }; // Fallback gray
+
+    // Normalize to internal l,c,h format (lowercase)
+    return { l: parsed.L * 100, c: parsed.C, h: parsed.H };
+}
+
 
 // ═══════════════════════════════════════════════════════════════════════
 // VISUALIZATION PRESETS - Different ways to see the topology
@@ -4402,6 +4584,45 @@ function groupNodesByTier(nodes) {
     return groups;
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+// STAGGERED ANIMATION SYSTEM - Wave-based node transitions
+// Moves nodes in natural patterns for better performance and aesthetics
+// ═══════════════════════════════════════════════════════════════════════
+
+const STAGGER_PATTERNS = {
+    // Radial ripple: center nodes move first, ripples outward
+    radial: (node, startPos, targetPos) => {
+        const dist = Math.sqrt(startPos.x ** 2 + startPos.y ** 2 + startPos.z ** 2);
+        return Math.min(1, dist / 500);  // Normalize to 0-1 based on distance from origin
+    },
+    // Tier cascade: T0 first, then T1, then T2
+    tier: (node) => {
+        const tier = node.tier ?? 2;
+        return tier / 2;  // T0=0, T1=0.5, T2=1
+    },
+    // Distance-based: nodes with shortest travel distance move first
+    distance: (node, startPos, targetPos) => {
+        const dx = targetPos.x - startPos.x, dy = targetPos.y - startPos.y, dz = targetPos.z - startPos.z;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return Math.min(1, dist / 400);  // Shorter distances = earlier start
+    },
+    // File grouping: nodes in same file move together in waves
+    file: (node) => {
+        const fileIdx = node.file_idx ?? 0;
+        return (fileIdx % 8) / 8;  // Group by file, 8 wave groups
+    },
+    // Spiral: animate in a spiral pattern from center
+    spiral: (node, startPos) => {
+        const angle = Math.atan2(startPos.y, startPos.x);
+        const dist = Math.sqrt(startPos.x ** 2 + startPos.y ** 2);
+        return ((angle + Math.PI) / (2 * Math.PI) + dist / 1000) % 1;
+    },
+    // Random stagger: natural organic feel
+    random: () => Math.random() * 0.6  // 0-0.6 random delay
+};
+
+let CURRENT_STAGGER_PATTERN = 'tier';  // Default pattern
+
 function applyLayoutPreset(presetKey, animate = true) {
     const preset = LAYOUT_PRESETS[presetKey]; if (!preset) return;
     CURRENT_LAYOUT = presetKey;
@@ -4415,7 +4636,64 @@ function applyLayoutPreset(presetKey, animate = true) {
     if (preset.getPosition) {
         const startPos = nodes.map(n => ({ x: n.x || 0, y: n.y || 0, z: n.z || 0 }));
         const targetPos = nodes.map((n, i) => preset.getPosition(n, i, total, 0, tierGroups));
-        if (animate) {
+
+        if (animate && total > 100) {
+            // STAGGERED ANIMATION for large graphs (>100 nodes)
+            const baseDuration = 1200;  // Base animation duration
+            const staggerSpread = 800;  // How much to spread the stagger (ms)
+            const startTime = Date.now();
+
+            // PERFORMANCE: Hide edges during animation (2759 edges = huge GPU load)
+            Graph.linkOpacity(0);
+            console.log('[Perf] Edges hidden for animation');
+
+            // Calculate delay for each node based on pattern
+            const pattern = STAGGER_PATTERNS[CURRENT_STAGGER_PATTERN] || STAGGER_PATTERNS.tier;
+            const delays = nodes.map((n, i) => pattern(n, startPos[i], targetPos[i]) * staggerSpread);
+
+            let frameCount = 0, nodesMoving = 0;
+
+            function animateStaggered() {
+                const elapsed = Date.now() - startTime;
+                nodesMoving = 0;
+
+                nodes.forEach((n, i) => {
+                    const nodeStart = delays[i];
+                    const nodeElapsed = elapsed - nodeStart;
+
+                    if (nodeElapsed <= 0) {
+                        // Not started yet - stay at start position
+                        n.fx = startPos[i].x; n.fy = startPos[i].y; n.fz = startPos[i].z;
+                    } else if (nodeElapsed >= baseDuration) {
+                        // Finished - lock at target position
+                        n.fx = targetPos[i].x; n.fy = targetPos[i].y; n.fz = targetPos[i].z;
+                    } else {
+                        // Animating - smooth easing
+                        const progress = nodeElapsed / baseDuration;
+                        const eased = progress * progress * (3 - 2 * progress);  // Smoothstep
+                        n.fx = startPos[i].x + (targetPos[i].x - startPos[i].x) * eased;
+                        n.fy = startPos[i].y + (targetPos[i].y - startPos[i].y) * eased;
+                        n.fz = startPos[i].z + (targetPos[i].z - startPos[i].z) * eased;
+                        nodesMoving++;
+                    }
+                });
+
+                Graph.refresh();
+                frameCount++;
+
+                const totalDuration = baseDuration + staggerSpread;
+                if (elapsed < totalDuration) {
+                    LAYOUT_ANIMATION_ID = requestAnimationFrame(animateStaggered);
+                } else {
+                    // PERFORMANCE: Restore edges after animation
+                    applyEdgeMode();  // Restores proper edge opacity
+                    console.log(`[Perf] Staggered transition (${CURRENT_STAGGER_PATTERN}): ${frameCount} frames, ${total} nodes - edges restored`);
+                    if (preset.motion === 'rotate' || preset.motion === 'orbit') startLayoutMotion(presetKey);
+                }
+            }
+            LAYOUT_ANIMATION_ID = requestAnimationFrame(animateStaggered);
+        } else if (animate) {
+            // SIMPLE ANIMATION for small graphs (<100 nodes)
             const duration = 1500, startTime = Date.now();
             function animateTransition() {
                 const progress = Math.min(1, (Date.now() - startTime) / duration);
@@ -4426,7 +4704,7 @@ function applyLayoutPreset(presetKey, animate = true) {
                     n.fz = startPos[i].z + (targetPos[i].z - startPos[i].z) * eased;
                 });
                 Graph.refresh();
-                if (progress < 1) requestAnimationFrame(animateTransition);
+                if (progress < 1) LAYOUT_ANIMATION_ID = requestAnimationFrame(animateTransition);
                 else if (preset.motion === 'rotate' || preset.motion === 'orbit') startLayoutMotion(presetKey);
             }
             animateTransition();
@@ -4440,20 +4718,51 @@ function applyLayoutPreset(presetKey, animate = true) {
     Graph.cooldownTicks(preset.cooldown); showModeToast(`${preset.icon} ${preset.name} layout`);
 }
 
+// Cycle through stagger patterns (can be bound to a key)
+function cycleStaggerPattern() {
+    const patterns = Object.keys(STAGGER_PATTERNS);
+    const currentIdx = patterns.indexOf(CURRENT_STAGGER_PATTERN);
+    CURRENT_STAGGER_PATTERN = patterns[(currentIdx + 1) % patterns.length];
+    showModeToast(`Wave pattern: ${CURRENT_STAGGER_PATTERN.toUpperCase()}`);
+    console.log(`[Animation] Stagger pattern: ${CURRENT_STAGGER_PATTERN}`);
+}
+
 function startLayoutMotion(presetKey) {
     const preset = LAYOUT_PRESETS[presetKey]; if (!preset || !preset.getPosition) return;
     const nodes = Graph?.graphData()?.nodes || [], total = nodes.length;
     const tierGroups = groupNodesByTier(nodes), speed = preset.rotateSpeed || preset.orbitSpeed || 0.002;
+    let frameCount = 0, totalPosTime = 0, totalRefreshTime = 0;
     function animate() {
         LAYOUT_TIME += speed;
+
+        const posStart = performance.now();
         nodes.forEach((n, i) => { const pos = preset.getPosition(n, i, total, LAYOUT_TIME, tierGroups); n.fx = pos.x; n.fy = pos.y; n.fz = pos.z; });
-        Graph.refresh(); LAYOUT_ANIMATION_ID = requestAnimationFrame(animate);
+        totalPosTime += performance.now() - posStart;
+
+        const refreshStart = performance.now();
+        Graph.refresh();
+        totalRefreshTime += performance.now() - refreshStart;
+
+        frameCount++;
+        if (frameCount % 60 === 0) {
+            console.log(`[Perf] Motion (${frameCount} frames): avg pos=${(totalPosTime / frameCount).toFixed(2)}ms, avg refresh=${(totalRefreshTime / frameCount).toFixed(2)}ms`);
+        }
+        LAYOUT_ANIMATION_ID = requestAnimationFrame(animate);
     }
     LAYOUT_ANIMATION_ID = requestAnimationFrame(animate);
 }
 
 function startFlockSimulation(params) {
     const nodes = Graph?.graphData()?.nodes || [];
+
+    // Performance guard: Flock simulation is O(n²) - disable for large graphs
+    const FLOCK_MAX_NODES = 500;
+    if (nodes.length > FLOCK_MAX_NODES) {
+        console.warn(`[Performance] Flock disabled: ${nodes.length} nodes exceeds ${FLOCK_MAX_NODES} limit`);
+        showModeToast('⚠️ Flock disabled (too many nodes)');
+        return;
+    }
+
     const { separation, alignment, cohesion, maxSpeed } = params;
     nodes.forEach(n => { n._vx = (Math.random() - 0.5) * 2; n._vy = (Math.random() - 0.5) * 2; n._vz = (Math.random() - 0.5) * 2; });
     function flockStep() {
@@ -4498,17 +4807,7 @@ const TOPO_MINIMAP = {
     hoveredMesh: null
 };
 
-function hslToHex(h, s, l) {
-    s /= 100;
-    l /= 100;
-    const a = s * Math.min(l, 1 - l);
-    const f = n => {
-        const k = (n + h / 30) % 12;
-        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * color).toString(16).padStart(2, '0');
-    };
-    return parseInt(f(0) + f(8) + f(4), 16);
-}
+
 
 function initTopoMinimap(data) {
     const container = document.getElementById('topo-minimap');
@@ -4713,21 +5012,7 @@ function buildTopoGeometry(data) {
         };
     }
 
-    // HSL to RGB (analytical)
-    function hslToRgb(h, s, l) {
-        s /= 100; l /= 100;
-        const c = (1 - Math.abs(2 * l - 1)) * s;
-        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
-        const m = l - c / 2;
-        let r, g, b;
-        if (h < 60) { r = c; g = x; b = 0; }
-        else if (h < 120) { r = x; g = c; b = 0; }
-        else if (h < 180) { r = 0; g = c; b = x; }
-        else if (h < 240) { r = 0; g = x; b = c; }
-        else if (h < 300) { r = x; g = 0; b = c; }
-        else { r = c; g = 0; b = x; }
-        return [r + m, g + m, b + m];
-    }
+
 
     // ═══════════════════════════════════════════════════════════════
     // BUILD CONTINUOUS MESH with vertex colors
@@ -4780,29 +5065,37 @@ function buildTopoGeometry(data) {
             normals.push(norm.x, norm.y, norm.z);
 
             // === SMOOTH COLOR FIELD ===
-            const famColor0 = TOPO_COLORS.families[families[famIdx]] || { h: 180, s: 50, l: 50 };
-            const famColor1 = TOPO_COLORS.families[families[famNext]] || famColor0;
+            // === SMOOTH COLOR FIELD ===
+            const famColor0 = getTopoColor('families', families[famIdx]);
+            const famColor1 = getTopoColor('families', families[famNext]);
 
-            // Hermite interpolation for family colors
+            // Hermite interpolation for family colors (OKLCH)
             const famH_h = famColor0.h * (1 - famBlend) + famColor1.h * famBlend;
-            const famH_s = famColor0.s * (1 - famBlend) + famColor1.s * famBlend;
+            const famH_c = famColor0.c * (1 - famBlend) + famColor1.c * famBlend;
             const famH_l = famColor0.l * (1 - famBlend) + famColor1.l * famBlend;
 
-            // Hermite interpolation for layer colors
-            const layH_h = layerCurr.color.h * (1 - tierBlend) + layerNext.color.h * tierBlend;
-            const layH_s = layerCurr.color.s * (1 - tierBlend) + layerNext.color.s * tierBlend;
-            const layH_l = layerCurr.color.l * (1 - tierBlend) + layerNext.color.l * tierBlend;
+            // Hermite interpolation for layer colors (using internal OKLCH values if possible, else converting layer.color HSL??
+            // Wait, LAYERS[x].color is still HSL? Check definition. 
+            // Assuming we must adapt: getTopoColor('tiers', tierIdx)
+            const tierColorCurr = getTopoColor('tiers', tiers[tierIdx]);
+            const tierColorNext = getTopoColor('tiers', tiers[Math.min(tierIdx + 1, 2)]);
+
+            const layH_h = tierColorCurr.h * (1 - tierBlend) + tierColorNext.h * tierBlend;
+            const layH_c = tierColorCurr.c * (1 - tierBlend) + tierColorNext.c * tierBlend;
+            const layH_l = tierColorCurr.l * (1 - tierBlend) + tierColorNext.l * tierBlend;
 
             // Blend: 55% family, 45% layer
             const density = getDensity(u, v);
             const finalH = famH_h * 0.55 + layH_h * 0.45;
-            const finalS = (famH_s * 0.55 + layH_s * 0.45) * (0.75 + density * 0.25);
-            const finalL = Math.min(78, (famH_l * 0.5 + layH_l * 0.5) + density * 12);
+            const finalC = (famH_c * 0.55 + layH_c * 0.45) * (0.75 + density * 0.25);
+            // Boost lightness slightly for density
+            const finalL = Math.min(99, (famH_l * 0.5 + layH_l * 0.5) + density * 12);
 
             // Subtle iridescence (view-angle dependent hue shift)
             const iridescence = 6 * Math.sin(u * 2 + v * Math.PI);
 
-            const [r, g, b] = hslToRgb(finalH + iridescence, finalS, finalL);
+            // Convert OKLCH to sRGB (L is 0-100 so div 100)
+            const [r, g, b] = oklchToSrgb(finalL / 100, finalC, finalH + iridescence);
             colors.push(r, g, b);
         }
     }
@@ -4978,9 +5271,9 @@ function buildTopoGeometry(data) {
 
         const curve = new THREE.CatmullRomCurve3(points);
         const tubeGeom = new THREE.TubeGeometry(curve, 50, 0.006, 6, false);
-        const famColor = TOPO_COLORS.families[family] || { h: 180, s: 50, l: 60 };
+        const famColor = getTopoColor('families', family);
         const tubeMat = new THREE.MeshBasicMaterial({
-            color: hslToHex(famColor.h, famColor.s * 0.6, Math.min(75, famColor.l + 20)),
+            color: oklchColor(famColor.l + 10, famColor.c, famColor.h),
             transparent: true,
             opacity: 0.4
         });
@@ -5105,13 +5398,13 @@ function buildTopoGeometry(data) {
         const hubAngle = (famIdx / families.length) * Math.PI * 2 + hubIdx * 0.3;
         const hubRadius = 0.7 + tierIdx * 0.35;
 
-        const hubColor = TOPO_COLORS.families[family] || TOPO_COLORS.families['UNKNOWN'];
+        const hubColor = getTopoColor('families', family);
 
         // Create the hub "star"
         const starGeom = new THREE.SphereGeometry(0.08, 16, 16);
         const starMat = new THREE.MeshPhongMaterial({
-            color: hslToHex(hubColor.h, hubColor.s, hubColor.l + 15),
-            emissive: hslToHex(hubColor.h, hubColor.s * 0.6, hubColor.l * 0.4),
+            color: oklchColor(hubColor.l + 15, hubColor.c, hubColor.h),
+            emissive: oklchColor(hubColor.l * 0.4, hubColor.c * 0.6, hubColor.h),
             emissiveIntensity: 0.6,
             transparent: true,
             opacity: 0.9
@@ -5144,11 +5437,11 @@ function buildTopoGeometry(data) {
         satellites.forEach((sat, satIdx) => {
             const satTier = getNodeTier(sat);
             const satFamily = getNodeAtomFamily(sat);
-            const satColor = TOPO_COLORS.families[satFamily] || TOPO_COLORS.families['UNKNOWN'];
+            const satColor = getTopoColor('families', satFamily);
 
             const particleGeom = new THREE.SphereGeometry(0.03, 8, 8);
             const particleMat = new THREE.MeshBasicMaterial({
-                color: hslToHex(satColor.h, satColor.s, satColor.l),
+                color: oklchColor(satColor.l, satColor.c, satColor.h),
                 transparent: true,
                 opacity: 0.8
             });
@@ -5186,11 +5479,11 @@ function buildTopoGeometry(data) {
         const family = getNodeAtomFamily(node);
         const tierIdx = tiers.indexOf(tier);
         const famIdx = families.indexOf(family);
-        const color = TOPO_COLORS.families[family] || TOPO_COLORS.families['UNKNOWN'];
+        const color = getTopoColor('families', family);
 
         const particleGeom = new THREE.SphereGeometry(0.025, 6, 6);
         const particleMat = new THREE.MeshBasicMaterial({
-            color: hslToHex(color.h, color.s, color.l),
+            color: oklchColor(color.l, color.c, color.h),
             transparent: true,
             opacity: 0.6
         });
@@ -5239,7 +5532,7 @@ function buildTopoLegends(data) {
     if (tierContainer) {
         tierContainer.innerHTML = '';
         tierCounts.forEach(([tier, count]) => {
-            const color = TOPO_COLORS.tiers[tier] || TOPO_COLORS.tiers['UNKNOWN'];
+            const color = getTopoColor('tiers', tier);
             const item = createTopoLegendItem(tier, count, color, 'tier');
             tierContainer.appendChild(item);
         });
@@ -5250,7 +5543,7 @@ function buildTopoLegends(data) {
     if (famContainer) {
         famContainer.innerHTML = '';
         familyCounts.forEach(([family, count]) => {
-            const color = TOPO_COLORS.families[family] || TOPO_COLORS.families['UNKNOWN'];
+            const color = getTopoColor('families', family);
             const item = createTopoLegendItem(family, count, color, 'family');
             famContainer.appendChild(item);
         });
@@ -5261,7 +5554,7 @@ function buildTopoLegends(data) {
     if (ringContainer) {
         ringContainer.innerHTML = '';
         ringCounts.forEach(([ring, count]) => {
-            const color = TOPO_COLORS.rings[ring] || TOPO_COLORS.rings['UNKNOWN'];
+            const color = getTopoColor('rings', ring);
             const item = createTopoLegendItem(ring, count, color, 'ring');
             ringContainer.appendChild(item);
         });
@@ -5290,7 +5583,7 @@ function createTopoLegendItem(label, count, color, filterType) {
 
     const swatch = document.createElement('div');
     swatch.className = 'topo-legend-swatch';
-    swatch.style.backgroundColor = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+    swatch.style.backgroundColor = `oklch(${color.l}% ${color.c} ${color.h})`;
 
     const text = document.createElement('span');
     text.textContent = `${label} (${count})`;
@@ -6416,7 +6709,8 @@ function buildAppearanceSliders(containerId, sliderConfigs) {
         const valueDisplay = document.createElement('span');
         valueDisplay.className = 'slider-value';
         valueDisplay.id = def.id + '-value';
-        valueDisplay.textContent = def.value.toFixed(def.step < 1 ? 2 : 0);
+        const safeValue = def.value ?? def.min ?? 0;  // Fallback to min or 0 if value is null
+        valueDisplay.textContent = safeValue.toFixed(def.step < 1 ? 2 : 0);
         header.appendChild(label);
         header.appendChild(valueDisplay);
 
@@ -6428,7 +6722,7 @@ function buildAppearanceSliders(containerId, sliderConfigs) {
         input.min = def.min;
         input.max = def.max;
         input.step = def.step;
-        input.value = def.value;
+        input.value = safeValue;
         input.oninput = () => {
             const val = parseFloat(input.value);
             valueDisplay.textContent = val.toFixed(def.step < 1 ? 2 : 0);
@@ -6448,6 +6742,161 @@ function buildAppearanceSliders(containerId, sliderConfigs) {
 
         container.appendChild(wrapper);
     });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// PHYSICS CONTROLS - Real-time force simulation adjustment
+// ═══════════════════════════════════════════════════════════════════════
+const PHYSICS_STATE = {
+    charge: -120,
+    linkDistance: 50,
+    centerStrength: 0.05,
+    velocityDecay: 0.4
+};
+
+const PHYSICS_PRESETS = {
+    default: { charge: -120, linkDistance: 50, centerStrength: 0.05, velocityDecay: 0.4, label: 'DEFAULT' },
+    tight: { charge: -80, linkDistance: 30, centerStrength: 0.1, velocityDecay: 0.5, label: 'TIGHT' },
+    loose: { charge: -200, linkDistance: 80, centerStrength: 0.02, velocityDecay: 0.3, label: 'LOOSE' },
+    explosive: { charge: -400, linkDistance: 120, centerStrength: 0.01, velocityDecay: 0.2, label: 'EXPLOSIVE' }
+};
+
+function applyPhysicsState() {
+    if (!Graph) return;
+    try {
+        Graph.d3Force('charge')?.strength(PHYSICS_STATE.charge);
+        Graph.d3Force('link')?.distance(PHYSICS_STATE.linkDistance);
+        Graph.d3Force('center')?.strength(PHYSICS_STATE.centerStrength);
+        Graph.d3VelocityDecay?.(PHYSICS_STATE.velocityDecay);
+        Graph.d3ReheatSimulation();
+    } catch (e) {
+        console.warn('[Physics] Could not apply:', e.message);
+    }
+}
+
+function applyPhysicsPreset(presetName) {
+    const preset = PHYSICS_PRESETS[presetName];
+    if (!preset) return;
+    Object.assign(PHYSICS_STATE, {
+        charge: preset.charge,
+        linkDistance: preset.linkDistance,
+        centerStrength: preset.centerStrength,
+        velocityDecay: preset.velocityDecay
+    });
+    applyPhysicsState();
+    updatePhysicsSliders();
+    showModeToast(`Physics: ${preset.label}`);
+}
+
+function updatePhysicsSliders() {
+    const sliders = {
+        'physics-charge': PHYSICS_STATE.charge,
+        'physics-link-distance': PHYSICS_STATE.linkDistance,
+        'physics-center': PHYSICS_STATE.centerStrength,
+        'physics-damping': PHYSICS_STATE.velocityDecay
+    };
+    for (const [id, value] of Object.entries(sliders)) {
+        const input = document.getElementById(id);
+        const display = document.getElementById(id + '-value');
+        if (input) input.value = value;
+        if (display) display.textContent = typeof value === 'number' && value % 1 !== 0 ? value.toFixed(2) : value;
+    }
+}
+
+function buildPhysicsControls(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Preset buttons
+    const presetRow = document.createElement('div');
+    presetRow.className = 'physics-presets';
+    presetRow.style.cssText = 'display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;';
+    Object.entries(PHYSICS_PRESETS).forEach(([key, preset]) => {
+        const btn = document.createElement('button');
+        btn.className = 'preset-btn physics-preset-btn';
+        btn.textContent = preset.label;
+        btn.style.cssText = 'font-size:9px;padding:2px 6px;';
+        btn.onclick = () => applyPhysicsPreset(key);
+        presetRow.appendChild(btn);
+    });
+    container.appendChild(presetRow);
+
+    // Sliders
+    const sliderDefs = [
+        {
+            id: 'physics-charge',
+            label: 'REPULSION',
+            min: -500,
+            max: 50,
+            step: 10,
+            value: PHYSICS_STATE.charge,
+            onChange: (val) => { PHYSICS_STATE.charge = val; applyPhysicsState(); }
+        },
+        {
+            id: 'physics-link-distance',
+            label: 'LINK DIST',
+            min: 10,
+            max: 200,
+            step: 5,
+            value: PHYSICS_STATE.linkDistance,
+            onChange: (val) => { PHYSICS_STATE.linkDistance = val; applyPhysicsState(); }
+        },
+        {
+            id: 'physics-center',
+            label: 'CENTER PULL',
+            min: 0,
+            max: 0.3,
+            step: 0.01,
+            value: PHYSICS_STATE.centerStrength,
+            onChange: (val) => { PHYSICS_STATE.centerStrength = val; applyPhysicsState(); }
+        },
+        {
+            id: 'physics-damping',
+            label: 'DAMPING',
+            min: 0,
+            max: 1,
+            step: 0.05,
+            value: PHYSICS_STATE.velocityDecay,
+            onChange: (val) => { PHYSICS_STATE.velocityDecay = val; applyPhysicsState(); }
+        }
+    ];
+
+    sliderDefs.forEach(def => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'slider-row';
+
+        const header = document.createElement('div');
+        header.className = 'slider-header';
+        const label = document.createElement('span');
+        label.className = 'slider-label';
+        label.textContent = def.label;
+        const valueDisplay = document.createElement('span');
+        valueDisplay.className = 'slider-value';
+        valueDisplay.id = def.id + '-value';
+        valueDisplay.textContent = def.step < 1 ? def.value.toFixed(2) : def.value;
+        header.appendChild(label);
+        header.appendChild(valueDisplay);
+
+        const input = document.createElement('input');
+        input.type = 'range';
+        input.className = 'slider-input';
+        input.id = def.id;
+        input.min = def.min;
+        input.max = def.max;
+        input.step = def.step;
+        input.value = def.value;
+        input.oninput = () => {
+            const val = parseFloat(input.value);
+            valueDisplay.textContent = def.step < 1 ? val.toFixed(2) : val;
+            def.onChange(val);
+        };
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(input);
+        container.appendChild(wrapper);
+    });
+
+    console.log('[Physics] Controls initialized');
 }
 
 function updateBackgroundBrightness() {
@@ -6678,6 +7127,7 @@ buildExclusiveOptions('filter-edge-mode', [
 ], EDGE_MODE, setEdgeMode);
 buildMetadataControls('filter-metadata', VIS_FILTERS.metadata);
 buildAppearanceSliders('appearance-sliders', {}); // controlsConfig removed - sliders built dynamically
+buildPhysicsControls('physics-sliders');  // Physics/forces controls
 
 applyMetadataVisibility();
 updateBackgroundBrightness();
@@ -7253,7 +7703,7 @@ const GRADIENT_PALETTES = {
 };
 
 // Build file hue map for consistent coloring
-let FILE_HUE_MAP = new Map();
+var FILE_HUE_MAP = new Map();  // Use var to avoid TDZ issues during initialization
 function buildFileHueMap() {
     if (!DM) return;  // ALL DATA FROM DM
     const files = DM.getFileBoundaries();
@@ -7816,7 +8266,8 @@ function getFlowPresetColor(presetName, property, fallback) {
 // Get flow preset value from appearance tokens (T008)
 // Retrieves any flow preset parameter from APPEARANCE_CONFIG.flow-presets
 function getFlowPresetValue(presetName, property, fallback) {
-    const presets = (APPEARANCE_CONFIG && APPEARANCE_CONFIG['flow-presets']) || {};
+    // Use typeof to safely check - accessing undeclared variable throws ReferenceError
+    const presets = (typeof APPEARANCE_CONFIG !== 'undefined' && APPEARANCE_CONFIG && APPEARANCE_CONFIG['flow-presets']) || {};
     const preset = presets[presetName.toLowerCase()] || {};
     const value = preset[property];
     return (value !== undefined && value !== null) ? value : fallback;
@@ -8703,6 +9154,13 @@ function initSelectionModal() {
         }
         if (e.key === 'Escape') {
             hideSelectionModal();
+        }
+        // Wave Pattern Cycling
+        if (e.key === 'w' || e.key === 'W') {
+            const activeEl = document.activeElement;
+            if (!activeEl || (activeEl.tagName !== 'INPUT' && activeEl.tagName !== 'TEXTAREA')) {
+                cycleStaggerPattern();
+            }
         }
     });
 }
@@ -10441,157 +10899,7 @@ function clearFileCohesion() {
     Graph.d3ReheatSimulation();
 }
 
-// ════════════════════════════════════════════════════════════════════════
-// OKLCH COLOR PICKER - Embedded (self-contained)
-// ════════════════════════════════════════════════════════════════════════
-const oklchState = { l: 70, c: 0.15, h: 220, a: 100 };
 
-function oklchToRgb(l, c, h) {
-    // Convert OKLCH to sRGB (simplified)
-    const L = l / 100;
-    const hr = h * Math.PI / 180;
-    const a = c * Math.cos(hr);
-    const b = c * Math.sin(hr);
-    // Oklab to LMS
-    const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
-    const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
-    const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
-    const lms = [l_ * l_ * l_, m_ * m_ * m_, s_ * s_ * s_];
-    // LMS to XYZ
-    const x = 1.2270138511 * lms[0] - 0.5577999807 * lms[1] + 0.281256149 * lms[2];
-    const y = -0.0405801784 * lms[0] + 1.1122568696 * lms[1] - 0.0716766787 * lms[2];
-    const z = -0.0763812845 * lms[0] - 0.4214819784 * lms[1] + 1.5861632204 * lms[2];
-    // XYZ to linear RGB
-    let rl = 3.2409699419 * x - 1.5373831776 * y - 0.4986107603 * z;
-    let gl = -0.9692436363 * x + 1.8759675015 * y + 0.0415550574 * z;
-    let bl = 0.0556300797 * x - 0.2039769589 * y + 1.0569715142 * z;
-    // Linear to sRGB
-    const toSrgb = v => v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(Math.abs(v), 1 / 2.4) - 0.055;
-    return {
-        r: Math.round(Math.max(0, Math.min(1, toSrgb(rl))) * 255),
-        g: Math.round(Math.max(0, Math.min(1, toSrgb(gl))) * 255),
-        b: Math.round(Math.max(0, Math.min(1, toSrgb(bl))) * 255),
-        inGamut: rl >= -0.001 && rl <= 1.001 && gl >= -0.001 && gl <= 1.001 && bl >= -0.001 && bl <= 1.001
-    };
-}
-
-function updateOklchPicker() {
-    const { l, c, h, a } = oklchState;
-    const rgb = oklchToRgb(l, c, h);
-    const hex = '#' + [rgb.r, rgb.g, rgb.b].map(v => v.toString(16).padStart(2, '0')).join('');
-
-    // Update swatch
-    const swatch = document.getElementById('oklch-swatch');
-    if (swatch) swatch.style.background = `oklch(${l}% ${c} ${h} / ${a}%)`;
-
-    // Update CSS output
-    const cssInput = document.getElementById('oklch-css');
-    if (cssInput) cssInput.value = a < 100
-        ? `oklch(${l}% ${c.toFixed(3)} ${h} / ${a}%)`
-        : `oklch(${l}% ${c.toFixed(3)} ${h})`;
-
-    // Update value displays
-    const lVal = document.getElementById('oklch-l-val');
-    const cVal = document.getElementById('oklch-c-val');
-    const hVal = document.getElementById('oklch-h-val');
-    const aVal = document.getElementById('oklch-a-val');
-    if (lVal) lVal.textContent = l + '%';
-    if (cVal) cVal.textContent = c.toFixed(3);
-    if (hVal) hVal.textContent = h + '°';
-    if (aVal) aVal.textContent = a + '%';
-
-    // Update gamut info
-    const gamutInfo = document.getElementById('oklch-gamut');
-    if (gamutInfo) {
-        if (rgb.inGamut) {
-            gamutInfo.textContent = 'sRGB ✓';
-            gamutInfo.classList.remove('out-of-gamut');
-        } else {
-            gamutInfo.textContent = 'Outside sRGB (P3/Rec2020)';
-            gamutInfo.classList.add('out-of-gamut');
-        }
-    }
-
-    // Update hue gradient background
-    const cSlider = document.getElementById('oklch-c');
-    if (cSlider) cSlider.style.background = `linear-gradient(90deg, #888, oklch(${l}% 0.4 ${h}))`;
-    const aSlider = document.getElementById('oklch-a');
-    if (aSlider) aSlider.style.background = `linear-gradient(90deg, transparent, oklch(${l}% ${c} ${h}))`;
-
-    // Draw 2D canvas (L vs H at current C)
-    drawOklch2D();
-}
-
-function drawOklch2D() {
-    const canvas = document.getElementById('oklch-canvas-2d');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width = canvas.clientWidth * 2;
-    const h = canvas.height = canvas.clientHeight * 2;
-    const c = oklchState.c;
-
-    for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-            const hue = (x / w) * 360;
-            const lightness = 100 - (y / h) * 100;
-            const rgb = oklchToRgb(lightness, c, hue);
-            ctx.fillStyle = rgb.inGamut
-                ? `rgb(${rgb.r},${rgb.g},${rgb.b})`
-                : `rgba(${rgb.r},${rgb.g},${rgb.b},0.3)`;
-            ctx.fillRect(x, y, 1, 1);
-        }
-    }
-
-    // Draw current position marker
-    const markerX = (oklchState.h / 360) * w;
-    const markerY = ((100 - oklchState.l) / 100) * h;
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(markerX, markerY, 8, 0, Math.PI * 2);
-    ctx.stroke();
-}
-
-function initOklchPicker() {
-    ['l', 'c', 'h', 'a'].forEach(key => {
-        const slider = document.getElementById('oklch-' + key);
-        if (slider) {
-            slider.value = oklchState[key];
-            slider.oninput = function () {
-                oklchState[key] = parseFloat(this.value);
-                updateOklchPicker();
-            };
-        }
-    });
-
-    // Canvas click to pick color
-    const canvas = document.getElementById('oklch-canvas-2d');
-    if (canvas) {
-        canvas.onclick = function (e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            oklchState.h = Math.round((x / rect.width) * 360);
-            oklchState.l = Math.round(100 - (y / rect.height) * 100);
-            document.getElementById('oklch-h').value = oklchState.h;
-            document.getElementById('oklch-l').value = oklchState.l;
-            updateOklchPicker();
-        };
-    }
-
-    updateOklchPicker();
-}
-
-function toggleOklchPicker() {
-    const picker = document.getElementById('oklch-picker');
-    const isVisible = picker.classList.toggle('visible');
-    const btn = document.getElementById('cmd-oklch');
-    if (btn) btn.classList.toggle('active', isVisible);
-    if (isVisible && !picker.dataset.init) {
-        picker.dataset.init = 'true';
-        initOklchPicker();
-    }
-}
 
 // ════════════════════════════════════════════════════════════════════════
 // SURFACE PARITY HANDLERS - Architectural Enforcements
@@ -10608,7 +10916,7 @@ function handleCmdView() { togglePanelView(); }
 function handleCmdFilter() { togglePanelFilter(); }
 function handleCmdStyle() { togglePanelStyle(); }
 function handleCmdSettings() { togglePanelSettings(); }
-function handleCmdOklch() { toggleOklchPicker(); }
+
 
 // Action Handlers
 function handleCmdFiles() {
