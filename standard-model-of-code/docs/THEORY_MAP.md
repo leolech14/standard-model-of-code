@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Theory Map**
+
+---
+
 # The Standard Model Map: Theory & Pipeline
 
 > **"How do we mount things on one another so that it makes sense?"**

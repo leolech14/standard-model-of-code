@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Canonical Schema**
+
+---
+
 # Canonical Schema: The Standard Code Model
 
 > **"From knowing this schema, we understand the system."**

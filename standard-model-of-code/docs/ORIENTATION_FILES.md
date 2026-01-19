@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Orientation Files**
+
+---
+
 # Orientation Files System
 
 > Export key context files for AI agents and external sharing.

@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Mechanized Proofs**
+
+---
+
 # Mechanized Proofs (Lean 4)
 
 This directory contains **machine-verified proofs** of key theorems from the Standard Code Model.

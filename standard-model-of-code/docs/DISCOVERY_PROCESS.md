@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Discovery Process**
+
+---
+
 # The Discovery Process: How We Mapped the Physics of Code
 > *A precise account of the initial phase and the empirical derivation of the Standard Model Schema.*
 

@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Purpose Field**
+
+---
+
 # Purpose Field Theory
 
 ## The Hierarchical Emergence of Purpose in Code

@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **The Pivot**
+
+---
+
 # The Pivot: From "Artificial Intelligence" to "Code Physics"
 
 ## 📅 December 23, 2025: The 100% Coverage Breakthrough

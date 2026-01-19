@@ -1,3 +1,7 @@
+[Home](../README.md) > [Docs](./README.md) > **Formal Proof**
+
+---
+
 # A Formal Proof of Completeness for the Standard Code Model
 
 **Version 1.0** | December 2025
