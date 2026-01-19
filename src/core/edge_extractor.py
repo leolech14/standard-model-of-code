@@ -176,6 +176,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                     'source': source_id,
                     'target': str(target_module),  # External module - keep as module name
                     'edge_type': 'imports',
+                    'family': 'Dependency',
                     'file_path': file_path,
                     'line': line,
                     'confidence': 1.0,
@@ -192,6 +193,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                 'source': source_id,
                 'target': target_id,
                 'edge_type': 'contains',
+                'family': 'Structural',
                 'file_path': file_path,
                 'line': p.get('line', 0),
                 'confidence': 1.0,
@@ -212,6 +214,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                     'source': source_id,
                     'target': target_id,
                     'edge_type': 'inherits',
+                    'family': 'Inheritance',
                     'file_path': p.get('file_path', ''),
                     'line': p.get('line', 0),
                     'confidence': 1.0,
@@ -242,6 +245,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                         'source': caller_id,
                         'target': target_id,
                         'edge_type': 'calls',
+                        'family': 'Dependency',
                         'file_path': p.get('file_path', ''),
                         'line': p.get('line', 0),
                         'confidence': 0.7,  # Heuristic detection
@@ -261,6 +265,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                         'source': caller_id,
                         'target': target_id,
                         'edge_type': 'uses',
+                        'family': 'Dependency',
                         'file_path': p.get('file_path', ''),
                         'line': p.get('line', 0),
                         'confidence': 0.8,  # Attribute access detection
@@ -301,6 +306,7 @@ def extract_decorator_edges(particles: List[Dict]) -> List[Dict]:
                     'source': dec_name,
                     'target': p.get('name', ''),
                     'edge_type': 'decorates',
+                    'family': 'Semantic',
                     'file_path': p.get('file_path', ''),
                     'line': p.get('line', 0),
                     'confidence': 1.0,

@@ -209,7 +209,8 @@ def create_unified_output(
         # Normalize role/type - these are used interchangeably
         role_value = node.get("type") or node.get("role") or "Unknown"
         kind_value = node.get("symbol_kind") or node.get("kind") or "unknown"
-        layer_value = node.get("layer") or node.get("purpose_layer")
+        layer_value = node.get("layer") or node.get("purpose_layer") or node.get("dimensions", {}).get("D2_LAYER")
+        effect_value = node.get("dimensions", {}).get("D6_EFFECT", "Unknown")
         
         unified_node = {
             "id": node_id,
@@ -236,6 +237,7 @@ def create_unified_output(
             "in_degree": node.get("in_degree", 0),
             "out_degree": node.get("out_degree", 0),
             "layer": layer_value,
+            "effect": effect_value,
             # Standard Model Theory fields
             "rpbl": node.get("rpbl", {}),
             "atom": node.get("atom", ""),
@@ -250,6 +252,7 @@ def create_unified_output(
             "source": edge.get("source", ""),
             "target": edge.get("target", ""),
             "edge_type": edge.get("edge_type", "unknown"),
+            "family": edge.get("family", "Dependency"),
             "resolution": edge.get("resolution"),
             "weight": edge.get("weight", 1.0),
             "confidence": edge.get("confidence", 1.0),
