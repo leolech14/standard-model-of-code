@@ -452,6 +452,85 @@ def compute_data_flow(nodes: List[Dict], edges: List[Dict]) -> Dict:
     }
 
 
+def _generate_ai_insights(full_output: Dict, output_dir: Path, options: Dict) -> Optional[Dict]:
+    """Generate AI insights using Vertex AI Gemini.
+
+    This calls the context-management analyze.py tool with --mode insights.
+    Returns the parsed JSON insights or None on failure.
+    """
+    import subprocess
+    import tempfile
+
+    # Find the analyze.py script (relative to project structure)
+    project_root = Path(__file__).parent.parent.parent.parent  # standard-model-of-code -> PROJECT_elements
+    analyze_script = project_root / "context-management" / "tools" / "ai" / "analyze.py"
+
+    if not analyze_script.exists():
+        print(f"   ⚠️ AI analyze script not found: {analyze_script}")
+        return None
+
+    # Write full_output to a temp file for the insights generator
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        json.dump(full_output, f)
+        temp_input = f.name
+
+    try:
+        model = options.get('ai_insights_model', 'gemini-2.0-flash-001')
+
+        # Run the insights generator
+        cmd = [
+            sys.executable,
+            str(analyze_script),
+            "--mode", "insights",
+            "--collider-json", temp_input,
+            "--model", model,
+            "--yes"  # Skip confirmation
+        ]
+
+        # Capture output to parse JSON result
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+
+        if result.returncode != 0:
+            print(f"   ⚠️ AI insights command failed: {result.stderr[:200] if result.stderr else 'Unknown error'}")
+            return None
+
+        # The analyze.py script writes to ai_insights.json in the same dir as input
+        insights_file = Path(temp_input).parent / "ai_insights.json"
+        if not insights_file.exists():
+            # Try the default output location
+            insights_file = output_dir / "ai_insights.json"
+
+        if insights_file.exists():
+            with open(insights_file, 'r') as f:
+                return json.load(f)
+
+        # Try to parse from stdout if script printed JSON
+        try:
+            # Look for JSON in output (between first { and last })
+            stdout = result.stdout
+            json_start = stdout.find('{')
+            json_end = stdout.rfind('}')
+            if json_start >= 0 and json_end > json_start:
+                return json.loads(stdout[json_start:json_end+1])
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+        return None
+
+    except subprocess.TimeoutExpired:
+        print("   ⚠️ AI insights generation timed out")
+        return None
+    except Exception as e:
+        print(f"   ⚠️ AI insights generation error: {e}")
+        return None
+    finally:
+        # Clean up temp file
+        try:
+            Path(temp_input).unlink()
+        except Exception:
+            pass
+
+
 def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:
     """Run complete analysis with all theoretical frameworks."""
     
@@ -751,6 +830,19 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     from brain_download import generate_brain_download
     brain_content = generate_brain_download(full_output)
     full_output['brain_download'] = brain_content  # Embed in JSON for HTML access
+
+    # Stage 11b: AI Insights (optional - requires Vertex AI)
+    if options.get('ai_insights'):
+        print("\n✨ Stage 11b: AI Insights Generation (Vertex AI)...")
+        try:
+            ai_insights = _generate_ai_insights(full_output, out_path, options)
+            if ai_insights:
+                full_output['ai_insights'] = ai_insights
+                print("   → AI insights generated successfully")
+            else:
+                print("   ⚠️ AI insights generation returned no results")
+        except Exception as e:
+            print(f"   ⚠️ AI insights generation failed: {e}")
 
     # Stage 12: Write consolidated outputs
     print("\n📦 Stage 12: Generating Consolidated Outputs...")

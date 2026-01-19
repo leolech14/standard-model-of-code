@@ -168,6 +168,16 @@ def main():
         default=None,
         help="Architectural roadmap to evaluate against (e.g. 'internal_tool')"
     )
+    full_parser.add_argument(
+        "--ai-insights",
+        action="store_true",
+        help="Generate AI insights using Vertex AI Gemini (requires gcloud auth)"
+    )
+    full_parser.add_argument(
+        "--ai-insights-model",
+        default="gemini-2.0-flash-001",
+        help="Gemini model for insights generation (default: gemini-2.0-flash-001)"
+    )
 
     # ==========================================
     # GRAPH Command
@@ -367,6 +377,9 @@ def main():
             options = {"roadmap": args.roadmap} if args.roadmap else {}
             if args.open_latest is not None:
                 options["open_latest"] = args.open_latest
+            if getattr(args, 'ai_insights', False):
+                options["ai_insights"] = True
+                options["ai_insights_model"] = getattr(args, 'ai_insights_model', 'gemini-2.0-flash-001')
             run_full_analysis(args.path, args.output, options=options)
         except Exception as e:
             print(f"❌ Full analysis failed: {e}")
