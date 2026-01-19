@@ -284,43 +284,37 @@ const SELECTION_SIZE_MULT = 2.2;    // Make selected nodes BIGGER
 
 // OKLCH PENDULUM COLOR OSCILLATOR - FULL RAINBOW EDITION
 const PENDULUM = {
-    // Pendulum 1: Controls HUE (FULL RAINBOW - dramatic cycling!)
     hue: {
-        angle: Math.random() * Math.PI * 2,  // Random start
+        angle: Math.random() * Math.PI * 2,
         velocity: 0,
-        damping: 0.9995,      // Very low damping for perpetual motion
-        gravity: 0.0008,     // Stronger gravity = faster oscillations
+        damping: null,        // Set from appearance.tokens
+        gravity: null,        // Set from appearance.tokens
         length: 1.0,
-        rotationSpeed: 0.8   // Base rotation speed
+        rotationSpeed: null   // Set from appearance.tokens
     },
-    // Pendulum 2: Controls CHROMA (DRAMATIC VIBRANCE!)
     chroma: {
         angle: Math.random() * Math.PI * 2,
         velocity: 0,
-        damping: 0.998,
-        gravity: 0.0004,
+        damping: null,
+        gravity: null,
         length: 1.0,
-        center: 0.32,        // High saturation center
-        amplitude: 0.08      // Vibrance variation
+        center: null,
+        amplitude: null
     },
-    // Lightness for SELECTED nodes (SUBTLE RIPPLE)
     lightness: {
         phase: 0,
-        speed: 0.02,
-        center: 82,          // Bright center
-        amplitude: 10        // Pulse amplitude
+        speed: null,
+        center: null,
+        amplitude: null
     },
-    // Ripple effect
     ripple: {
-        speed: 0.035,
-        scale: 200
+        speed: null,
+        scale: null
     },
-    // Current hue (continuous rotation)
     currentHue: Math.random() * 360,
     lastTime: 0,
     running: false
 };
-
 // =====================================================================
 // HOVER & SELECTION STATE (declared early to avoid TDZ errors)
 // =====================================================================
@@ -2380,6 +2374,29 @@ function initGraph(data) {
     const renderConfig = appearanceConfig.render || {};
     const highlightConfig = appearanceConfig.highlight || {};
     FLOW_CONFIG = appearanceConfig.flow_mode || {};
+
+    // Merge animation tokens into PENDULUM (T004)
+    const animationConfig = appearanceConfig.animation || {};
+    if (animationConfig.hue) {
+        PENDULUM.hue.damping = animationConfig.hue.damping ?? 0.9995;
+        PENDULUM.hue.gravity = animationConfig.hue.speed ?? 0.0008;
+        PENDULUM.hue.rotationSpeed = animationConfig.hue.rotation ?? 0.8;
+    }
+    if (animationConfig.chroma) {
+        PENDULUM.chroma.damping = animationConfig.chroma.damping ?? 0.998;
+        PENDULUM.chroma.gravity = animationConfig.chroma.gravity ?? 0.0004;
+        PENDULUM.chroma.center = animationConfig.chroma.center ?? 0.32;
+        PENDULUM.chroma.amplitude = animationConfig.chroma.amplitude ?? 0.08;
+    }
+    if (animationConfig.lightness) {
+        PENDULUM.lightness.speed = animationConfig.lightness.speed ?? 0.02;
+        PENDULUM.lightness.center = animationConfig.lightness.center ?? 82;
+        PENDULUM.lightness.amplitude = animationConfig.lightness.amplitude ?? 10;
+    }
+    if (animationConfig.ripple) {
+        PENDULUM.ripple.speed = animationConfig.ripple.speed ?? 0.035;
+        PENDULUM.ripple.scale = animationConfig.ripple.scale ?? 200;
+    }
     const edgeModes = appearanceConfig.edge_modes || {};
     EDGE_MODE_CONFIG = {
         resolution: edgeModes.resolution || { internal: '#4dd4ff', external: '#ff6b6b', unresolved: '#9aa0a6', unknown: '#666666' },
