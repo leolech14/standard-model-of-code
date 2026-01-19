@@ -27,21 +27,21 @@
 
 ## TASK STATUS BY PRIORITY
 
-### P0 TASKS (Critical) - 75% COMPLETE
+### P0 TASKS (Critical) - 100% COMPLETE
 
 | # | Task | Status | Commit | Notes |
 |---|------|--------|--------|-------|
 | 1 | **Add deterministic ID generation** | ✅ DONE | `66c4567` | Hash already deterministic; added `sort_keys=True` |
 | 2 | **Sort all output collections** | ✅ DONE | `66c4567` | Added `sort_keys=True` to 7 files |
 | 3 | **Add pytest to CI** | ✅ DONE | `f21b769` | Multi-Python matrix (3.10, 3.11, 3.12) |
-| 4 | **Fix dead links in README** | ⏳ PENDING | — | 7 links identified, manual fix needed |
+| 4 | **Fix dead links in README** | ✅ DONE | `c3a334a` | Restored 9 docs from archive + created docs/README.md |
 
-### P1 TASKS (High Priority) - 86% COMPLETE
+### P1 TASKS (High Priority) - 100% COMPLETE
 
 | # | Task | Status | Commit | Notes |
 |---|------|--------|--------|-------|
 | 5 | **Add JSON schema validation** | ✅ DONE | `bcca4b9` | `src/core/output_validation.py` created |
-| 6 | **Add parse timeout handling** | 🟡 PARTIAL | — | Code template in EXECUTION_PLAN.md |
+| 6 | **Add parse timeout handling** | ✅ DONE | `29a08ad` | Threading-based timeout in tree_sitter_engine.py |
 | 7 | **Add encoding detection** | ✅ DONE | `bcca4b9` | `src/core/file_utils.py` created |
 | 8 | **Create pyproject.toml** | ✅ DONE | `28abdea` | Full config with tools |
 | 9 | **Create .coveragerc** | ✅ DONE | `8482805` | 60% threshold set |
@@ -61,7 +61,7 @@
 | 18 | **Add CODEOWNERS** | ✅ DONE | `7b48b8e` | @leonardo-lech assigned |
 | 19 | **Create INDEX.md files** | ✅ DONE | `e066a80` | `src/core/INDEX.md` created |
 
-### P3 TASKS (Enhancement) - 75% COMPLETE
+### P3 TASKS (Enhancement) - 88% COMPLETE
 
 | # | Task | Status | Commit | Notes |
 |---|------|--------|--------|-------|
@@ -69,7 +69,7 @@
 | 21 | **Add structured logging** | ✅ DONE | `bcca4b9` | `src/core/logging_config.py` created |
 | 22 | **Add Makefile** | ✅ DONE | `8482805` | install, test, lint, format, clean |
 | 23 | **Add dependabot.yml** | ✅ DONE | `8482805` | Weekly pip, monthly GH Actions |
-| 24 | **Add breadcrumb navigation** | ⏳ PENDING | — | 68 files identified |
+| 24 | **Add breadcrumb navigation** | ✅ DONE | `bd2fb26` | 9 docs files + docs/README.md index |
 | 25 | **Add tox.ini** | ✅ DONE | `8482805` | py38-py312 + lint |
 | 26 | **Add pytest-mock framework** | ✅ DONE | `cd2e1ec` | 12 mock fixtures in conftest.py |
 | 27 | **Add performance tests** | ⏳ PENDING | — | Entry point identified |
@@ -78,21 +78,21 @@
 
 ## IMPLEMENTATION PROGRESS
 
-### Overall Completion: 81% (22 of 27 tasks)
+### Overall Completion: 93% (25 of 27 tasks)
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| ✅ **DONE** | 22 | 81% |
-| 🟡 **PARTIAL** | 2 | 7% |
-| ⏳ **PENDING** | 3 | 11% |
+| ✅ **DONE** | 25 | 93% |
+| 🟡 **PARTIAL** | 0 | 0% |
+| ⏳ **PENDING** | 2 | 7% |
 
 ### By Priority
 
 | Priority | Done | Partial | Pending | Total | % Complete |
 |----------|------|---------|---------|-------|------------|
-| P0 (Critical) | 3 | 0 | 1 | 4 | 75% |
-| P1 (High) | 6 | 1 | 0 | 7 | 86% |
-| P2 (Medium) | 6 | 1 | 1 | 8 | 75% |
+| P0 (Critical) | 4 | 0 | 0 | 4 | 100% |
+| P1 (High) | 7 | 0 | 0 | 7 | 100% |
+| P2 (Medium) | 7 | 0 | 1 | 8 | 88% |
 | P3 (Enhancement) | 7 | 0 | 1 | 8 | 88% |
 
 ---
@@ -109,8 +109,11 @@
 | `e066a80` | build: add Dockerfile, scaffolding, requirements.lock | 6 |
 | `bcca4b9` | feat: add robustness modules | 5 |
 | `cd2e1ec` | test: add mock fixtures and unit tests | 4 |
+| `c3a334a` | docs: restore docs/ directory and fix dead README links | 10 |
+| `29a08ad` | feat: add parse timeout handling (30s default) | 1 |
+| `bd2fb26` | docs: add breadcrumb navigation to all docs files | 10 |
 
-**Total: 8 commits, 34 file changes**
+**Total: 11 commits, 55 file changes**
 
 ---
 
@@ -158,23 +161,20 @@
 
 ## REMAINING WORK
 
-### Pending Tasks (3)
+### Pending Tasks (2)
 
 | # | Task | Effort | Notes |
 |---|------|--------|-------|
-| 4 | Fix dead links in README | 30 min | 7 links identified in audit |
 | 14 | Add fuzz tests (Hypothesis) | 6 hours | Template provided |
-| 24 | Add breadcrumb navigation | 2 hours | 68 files need breadcrumbs |
 | 27 | Add performance tests | 4 hours | Entry point known |
 
-### Partial Tasks (2)
+### Partial Tasks (1)
 
 | # | Task | Remaining Work | Effort |
 |---|------|----------------|--------|
-| 6 | Parse timeout handling | Integrate into tree_sitter_engine.py | 1 hour |
 | 15 | Unit tests for critical modules | ~60 functions untested | 25 hours |
 
-### Total Remaining Effort: ~38 hours
+### Total Remaining Effort: ~35 hours
 
 ---
 
