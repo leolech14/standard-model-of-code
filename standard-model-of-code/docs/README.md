@@ -28,6 +28,13 @@
 | [THE_PIVOT](./THE_PIVOT.md) | Shift from AI to deterministic |
 | [ORIENTATION_FILES](./ORIENTATION_FILES.md) | Export context for AI agents |
 
+## Architecture & Roadmap
+
+| Document | Description |
+|----------|-------------|
+| [ARCHITECTURE](./ARCHITECTURE.md) | Two-layer architecture, bidirectionality vision |
+| [GAPS_ANALYSIS](./reports/GAPS_ANALYSIS_2026-01-19.md) | Current gaps and implementation roadmap |
+
 ---
 
 ## Quick Links

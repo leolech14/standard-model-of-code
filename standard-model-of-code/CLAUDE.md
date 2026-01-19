@@ -4,7 +4,7 @@
 
 ---
 
-## 🌌 The Big Picture
+## The Big Picture
 
 **PROJECT_elements** is the effort to find the **basic constituents of computer programs**.
 
@@ -20,7 +20,7 @@ We call this hyper-complex, high-dimensional space the **codespace** — where a
 
 | Level | Concept | Status |
 |-------|---------|--------|
-| **0** | **Three Parallel Layers** (Physical, Virtual, Semantic) | 🟢 Always Green |
+| **0** | **Three Parallel Layers** (Physical, Virtual, Semantic) | Always Green |
 | **1** | **16-Level Scale** (Bit → Universe) | Backbone |
 | **2** | Atoms, Dimensions, Roles | Active |
 | **3** | Patterns, Violations, Predictions | Active |
@@ -40,9 +40,61 @@ This is the most distinctive aspect: **theory and application live together, inf
 
 ---
 
+## Two-Layer Architecture
+
+> **The deterministic layer IS the intelligence. The LLM layer is optional enrichment.**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  LAYER 1: DETERMINISTIC CORE (The Intelligence)            │
+│  ───────────────────────────────────────────────            │
+│  • God Class Detection    • RPBL Scoring                   │
+│  • Coupling Analysis      • Topology Classification        │
+│  • Shortest Paths         • Markov Chains                  │
+│  • Dead Code Detection    • Knot Detection                 │
+│                                                             │
+│  STATUS: FULLY IMPLEMENTED - This is the core value        │
+├─────────────────────────────────────────────────────────────┤
+│  LAYER 2: LLM ENRICHMENT (Optional)                        │
+│  ───────────────────────────────────────────────            │
+│  • Pattern narratives     • Risk explanations              │
+│  • Refactoring prose      • Natural language summaries     │
+│                                                             │
+│  STATUS: IMPLEMENTED (--ai-insights flag)                  │
+│  NOTE: Tool is fully functional WITHOUT this layer         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## The Bidirectionality Vision
+
+### Current: Analysis Only (Code → Graph)
+```
+Codebase  ══════▶  Collider  ══════▶  Codespace (graph)
+```
+
+### Target: Full Bidirectionality
+```
+Codebase  ◀══════▶  Collider  ◀══════▶  Codespace (graph)
+                                              │
+                                         MANIPULATE
+                                         (move, merge,
+                                          extract, rewire)
+```
+
+**The vision:** Manipulate the graph, then deterministically reconstruct the codebase.
+
+**Status:** Synthesis layer NOT YET IMPLEMENTED. See `docs/ARCHITECTURE.md`.
+
+---
+
 ## What Is Collider?
 
-**Collider** is the implementation that applies this theory to real codebases. It generates `output.md` — a structured report optimized for LLM consumption.
+**Collider** is the implementation that applies this theory to real codebases. It generates:
+- `unified_analysis.json` — Structured data (nodes, edges, metrics)
+- `collider_report.html` — Interactive 3D visualization
+- `output.md` — The "Brain Download" (markdown report)
 
 ## The One Command
 
@@ -50,12 +102,15 @@ This is the most distinctive aspect: **theory and application live together, inf
 ./collider full <path> [--output <dir>]
 ```
 
+**With AI Insights:**
+```bash
+./collider full <path> --ai-insights
+```
+
 **Example:**
 ```bash
 ./collider full /path/to/repo --output /tmp/analysis
 ```
-
-**Output:** `<output_dir>/output.md` - The "Brain Download"
 
 ---
 
@@ -66,10 +121,29 @@ This is the most distinctive aspect: **theory and application live together, inf
 | **IDENTITY** | Node count, edge count, dead code % |
 | **CHARACTER (RPBL)** | 4-dimensional profile (Responsibility, Purity, Boundary, Lifecycle) |
 | **ARCHITECTURE** | Type distribution, layer breakdown |
-| **HEALTH STATUS** | Traffic-light indicators (✅⚠️❌) |
+| **HEALTH STATUS** | Traffic-light indicators |
 | **ACTIONABLE IMPROVEMENTS** | Prescriptive recipes with steps |
 | **VISUAL REASONING** | Topology shape (Star, Mesh, Islands) |
 | **DOMAIN CONTEXT** | Inferred business domain |
+| **AI INSIGHTS** | Pattern detection, refactoring suggestions (if --ai-insights) |
+
+---
+
+## Node Body Storage
+
+Nodes store their source code for potential reconstruction:
+
+```json
+{
+  "id": "UserService.validate",
+  "file_path": "src/services/user.py",
+  "start_line": 45,
+  "end_line": 67,
+  "body_source": "def validate(self, data):\n    ..."
+}
+```
+
+**Current coverage:** ~36% of nodes have `body_source`
 
 ---
 
@@ -78,11 +152,12 @@ This is the most distinctive aspect: **theory and application live together, inf
 | File | Purpose |
 |------|---------|
 | `cli.py` | CLI entry point |
-| `src/core/full_analysis.py` | Main pipeline orchestrator |
+| `src/core/full_analysis.py` | Main pipeline orchestrator (12 stages) |
 | `src/core/brain_download.py` | Generates `output.md` |
-| `src/core/metaphor_primer.md` | LLM persona instructions |
 | `src/core/topology_reasoning.py` | Shape classification |
-| `src/core/semantic_cortex.py` | Domain inference |
+| `tools/visualize_graph_webgl.py` | HTML visualization generator |
+| `docs/ARCHITECTURE.md` | Full architecture documentation |
+| `docs/reports/GAPS_ANALYSIS_*.md` | Current gaps and roadmap |
 
 ---
 
@@ -103,6 +178,14 @@ Old outputs are **stale** and will show phantom bugs. The HTML is generated from
 
 If you modify any of these, **regenerate** - never inspect old `.html` files.
 
+### LLM Layer Understanding
+
+The LLM (when enabled with `--ai-insights`) reasons about **Collider's output**, not the source code:
+- It sees: node counts, metrics, topology shape, hub names
+- It does NOT see: actual source code, function implementations
+
+This is **meta-analysis** — AI analyzing an analysis.
+
 ---
 
 ## Development
@@ -116,6 +199,9 @@ pytest tests/
 
 # Self-check (ALWAYS use this when debugging HTML)
 ./collider full src/core --output /tmp/self_check
+
+# With AI insights (requires gcloud auth)
+./collider full src/core --output /tmp/self_check --ai-insights
 ```
 
 ---
@@ -125,3 +211,7 @@ pytest tests/
 > "Collider is the architecture that allows us to see architecture."
 
 The tool transforms invisible code structure into visible, actionable knowledge.
+
+> "The deterministic layer is the intelligence. AI is amplification, not the source."
+
+The Standard Model provides algorithmic, reproducible analysis. LLMs help explain it in natural language.
