@@ -75,19 +75,19 @@ This registry tracks documentation improvements optimized for **AI consumption**
 | Attribute | Value |
 |-----------|-------|
 | **Assumption** | Current GLOSSARY defines generic terms AI already knows |
-| **Confidence** | 70% |
-| **Validation** | ⚠️ NEEDS VALIDATION |
-| **Evidence** | Based on local analysis showing definitions like "Atom - The fundamental unit of code structure" |
-| **Proposed Test** | Query Gemini with GLOSSARY.md content specifically |
+| **Confidence** | 90% |
+| **Validation** | ✅ VALIDATED by Gemini 2.5 Pro |
+| **Evidence** | `[docs/GLOSSARY.md:L12-L16]` defines "Atom", "Codespace", "Collider". `[docs/UNIFIED_THEORY.md:PART XIV]` contains "Essential Glossary" defining terms like "Abstraction", "Graph", "Hierarchy", "Node", "Recursion" which are foundational to AI training data. |
+| **Source** | Gemini 2.5 Pro forensic analysis (2026-01-19) |
 
 ### A8: Theory Files Have >30% Overlap
 | Attribute | Value |
 |-----------|-------|
 | **Assumption** | THEORY_MAP, FORMAL_PROOF, MECHANIZED_PROOFS duplicate content |
-| **Confidence** | 75% |
-| **Validation** | ⚠️ NEEDS VALIDATION |
-| **Evidence** | Local analysis found Theorem 3.4 duplicated verbatim; 4-tier hierarchy explained in multiple files |
-| **Proposed Test** | Query Gemini with all three files for overlap analysis |
+| **Confidence** | 95% |
+| **Validation** | ✅ VALIDATED by Gemini 2.5 Pro |
+| **Evidence** | `[docs/THEORY_MAP.md:L30-L80]` describes "4-Tier Stack". `[docs/FORMAL_PROOF.md:Theorem 3.7]` proves same concept formally. `[docs/MECHANIZED_PROOFS.md:Verified Theorems]` and `[docs/FORMAL_PROOF.md:Theorems]` list exact same theorem set (3.3, 3.4, 3.5). Role count inconsistency: 33 in `[docs/UNIFIED_THEORY.md:L250]` vs 27 in `[docs/FORMAL_PROOF.md:Def 1.3]`. |
+| **Source** | Gemini 2.5 Pro forensic analysis (2026-01-19) | |
 
 ### A9: No Single Command Reference
 | Attribute | Value |
@@ -151,12 +151,12 @@ This registry tracks documentation improvements optimized for **AI consumption**
 | Attribute | Value |
 |-----------|-------|
 | **Priority** | P2 |
-| **Confidence** | 75% |
-| **Based On** | A4 (Redundancy wastes context), A8 (Overlap) |
-| **Status** | BLOCKED - needs validation |
+| **Confidence** | 95% |
+| **Based On** | A4 (Redundancy wastes context), A8 (Overlap) - VALIDATED |
+| **Status** | TODO (unblocked) |
 | **Files** | `docs/THEORY_MAP.md`, `docs/FORMAL_PROOF.md`, `docs/MECHANIZED_PROOFS.md` |
 | **Action** | Either merge or add clear differentiation at top of each |
-| **Blocker** | Need Gemini analysis of all three files to confirm overlap % |
+| **Validated Finding** | Gemini confirmed: same theorems (3.3, 3.4, 3.5) in multiple files, 4-Tier Stack repeated, role count inconsistent (33 vs 27) |
 | **Success Criteria** | No content appears in more than one file |
 | **Estimated Tokens Saved** | ~500-1000 |
 
@@ -224,22 +224,22 @@ This registry tracks documentation improvements optimized for **AI consumption**
 | Attribute | Value |
 |-----------|-------|
 | **Priority** | P1 |
-| **Confidence** | 95% |
+| **Confidence** | 100% |
 | **Based On** | Mirror sync failed, blocking Gemini analysis |
-| **Status** | TODO |
+| **Status** | ✅ COMPLETE |
 | **File** | `context-management/tools/archive/config.yaml` |
 | **Action** | Exclude .tools_venv, fix file path encoding issues |
 | **Success Criteria** | `archive.py mirror` completes without errors |
-| **Blocker For** | T-DOC-004 (theory dedup validation) |
+| **Resolution** | Mirror sync completed 2026-01-19: 775 local → 779 remote files, 26 theory files available for Gemini analysis |
 
 ---
 
 ## 4. DEPENDENCY GRAPH
 
 ```
-T-DOC-010 (Fix Mirror)
+T-DOC-010 (Fix Mirror) ✅ COMPLETE
     │
-    └──▶ T-DOC-004 (Dedupe Theory) [BLOCKED]
+    └──▶ T-DOC-004 (Dedupe Theory) [UNBLOCKED - ready]
 
 T-DOC-001 (GLOSSARY) ──▶ standalone
 T-DOC-002 (FOR AI sections) ──▶ standalone
@@ -269,11 +269,11 @@ T-DOC-009 (Remove redundancy) ──▶ depends on T-DOC-004
 
 | Confidence Level | Count | Tasks |
 |------------------|-------|-------|
-| **95%** | 2 | T-DOC-002, T-DOC-010 |
+| **100%** | 1 | T-DOC-010 ✅ COMPLETE |
+| **95%** | 2 | T-DOC-002, T-DOC-004 |
 | **90%** | 3 | T-DOC-001, T-DOC-005, T-DOC-006 |
 | **85%** | 2 | T-DOC-003, T-DOC-008 |
 | **80%** | 2 | T-DOC-007, T-DOC-009 |
-| **75%** | 1 | T-DOC-004 (needs validation) |
 
 ---
 
@@ -299,6 +299,52 @@ For each task:
 1. **Before:** Count tokens, measure structure ratio
 2. **After:** Re-count, verify improvement
 3. **Test:** Query Gemini with modified doc, compare response quality
+
+---
+
+## 9. CONFIDENCE METHODOLOGY
+
+### What Confidence Means
+
+| Level | For Assumptions | For Tasks |
+|-------|-----------------|-----------|
+| **99-100%** | Verified by 2nd intentional read + AI forensic analysis with line citations | Aligns with all repo principles + code verified + AI alignment check |
+| **90-98%** | AI validated with quotes but no line-level verification | Aligns with documented principles, grep-verified |
+| **80-89%** | Local analysis only, awaiting external validation | Based on assumption, not yet code-verified |
+| **70-79%** | Hypothesis based on pattern observation | Derived from unvalidated assumption |
+| **<70%** | Speculation requiring validation | Should not be acted upon |
+
+### Verification Layers
+
+```
+Layer 1: Code Read     → Did you read the actual file?
+Layer 2: Grep Verify   → Did you search to confirm pattern exists?
+Layer 3: AI Analysis   → Did external AI (Gemini) validate with citations?
+Layer 4: Alignment     → Does this match repo principles (CLAUDE.md)?
+```
+
+### Validation Run: 2026-01-19
+
+**Command Used:**
+```bash
+python context-management/tools/ai/analyze.py \
+  --set theory --mode forensic --model gemini-2.5-pro --yes \
+  "Validate assumptions A1-A8 with line citations"
+```
+
+**Results:**
+| Assumption | Gemini Verdict | Confidence | Key Citation |
+|------------|----------------|------------|--------------|
+| A1 | VALIDATED | 95% | `[docs/THEORY_MAP.md:L15-L27]` Mermaid diagrams |
+| A2 | VALIDATED | 95% | `[CLAUDE.md]` "The One Command" vs `[docs/UNIFIED_THEORY.md]` theory |
+| A3 | VALIDATED | 90% | `[docs/UNIFIED_THEORY.md:L133]` "Mandelbrot of Code" flagged |
+| A4 | VALIDATED | 95% | 4 Phases repeated in 3 files with citations |
+| A5 | VALIDATED | 95% | `[docs/FOUNDATIONAL_THEORIES.md:L420-L450]` "FOR AI" section |
+| A6 | VALIDATED | 95% | `[docs/ARCHITECTURE.md:L196-L203]` File Reference table |
+| A7 | VALIDATED | 90% | `[docs/UNIFIED_THEORY.md:PART XIV]` defines "Graph", "Node" |
+| A8 | VALIDATED | 95% | Same theorems (3.3-3.5) in FORMAL_PROOF and MECHANIZED_PROOFS |
+
+**Token Cost:** 121,316 input, 2,000 output (~$0.15)
 
 ---
 
