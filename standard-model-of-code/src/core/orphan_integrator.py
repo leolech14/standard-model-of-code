@@ -23,6 +23,15 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple
 from pathlib import Path
 
+# Import graph utilities for reachability analysis
+try:
+    from graph_analyzer import shortest_path, load_graph
+    GRAPH_ANALYZER_AVAILABLE = True
+except ImportError:
+    GRAPH_ANALYZER_AVAILABLE = False
+    shortest_path = None
+    load_graph = None
+
 
 @dataclass
 class OrphanAnalysis:
@@ -37,6 +46,8 @@ class OrphanAnalysis:
     suggested_callers: List[str] = field(default_factory=list)
     integration_code: Optional[str] = None
     confidence: float = 0.0
+    reachability_path: List[str] = field(default_factory=list)  # Path from nearest entry point
+    is_nested_function: bool = False  # True if this is a nested/inner function (likely false positive)
 
 
 class OrphanIntegrator:
@@ -148,6 +159,9 @@ class OrphanIntegrator:
         if name.endswith('__file__') or node.get('kind') == 'module':
             return None
         
+        # Detect nested functions (e.g., decorator.wrapper) - these are usually false positives
+        is_nested = '.' in name and not name.startswith('__')
+        
         # Infer purpose
         purpose, category = self._infer_purpose(name, docstring, body)
         
@@ -171,7 +185,9 @@ class OrphanIntegrator:
             category=category,
             suggested_callers=suggested_callers[:3],  # Top 3
             integration_code=integration_code,
-            confidence=confidence,
+            confidence=confidence if not is_nested else 0.0,  # Zero confidence for nested
+            reachability_path=[],  # Will be populated if graph available
+            is_nested_function=is_nested,
         )
     
     def _infer_purpose(self, name: str, docstring: str, body: str) -> Tuple[str, str]:
