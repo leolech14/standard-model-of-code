@@ -19,6 +19,14 @@ from typing import Dict, List, Tuple, Set, Optional
 from collections import defaultdict
 from dataclasses import dataclass
 
+try:
+    from core.registry.role_registry import get_role_registry
+except ImportError:
+    try:
+        from registry.role_registry import get_role_registry
+    except ImportError:
+        def get_role_registry(): return None
+
 
 @dataclass
 class InferenceRule:
@@ -45,27 +53,30 @@ class InferenceRule:
 
 INFERENCE_RULES = [
     # If only Tests call you → you're the Subject Under Test (canonical: Internal)
+    # Note: "Test" is non-canonical, normalized to "Asserter"
     InferenceRule(
         name="called_only_by_tests",
         inferred_type="Internal",  # Was SubjectUnderTest
         confidence=85.0,
-        caller_types={"Test"},
+        caller_types={"Asserter"},  # Canonical for Test
     ),
-    
-    # If you call Repository/RepositoryImpl → you're a Service
+
+    # If you call Repository → you're a Service
+    # Note: RepositoryImpl is normalized to Repository
     InferenceRule(
         name="calls_repository",
         inferred_type="Service",
         confidence=90.0,
-        callee_types={"Repository", "RepositoryImpl"},
+        callee_types={"Repository"},  # Canonical only
     ),
-    
-    # If you call external Client/Gateway → you're an Integration Service (canonical: Service)
+
+    # If you call external services → you're an Integration Service (canonical: Service)
+    # Note: Client/Gateway/Adapter are normalized to Service/Transformer
     InferenceRule(
         name="calls_external",
         inferred_type="Service",  # Was IntegrationService
         confidence=85.0,
-        callee_types={"Client", "Gateway", "Adapter"},
+        callee_types={"Service", "Transformer"},  # Canonical equivalents
     ),
 
     # If Controller calls you → you're a UseCase or Service (canonical: Service)
@@ -73,18 +84,19 @@ INFERENCE_RULES = [
         name="called_by_controller",
         inferred_type="Service",  # Was UseCase
         confidence=80.0,
-        caller_types={"Controller"},
+        caller_types={"Controller"},  # Already canonical
     ),
-    
+
     # If Service calls you and you don't call anything → you're a Query
+    # Note: DomainService/ApplicationService are normalized to Service
     InferenceRule(
         name="leaf_called_by_service",
         inferred_type="Query",
         confidence=75.0,
-        caller_types={"Service", "DomainService", "ApplicationService"},
+        caller_types={"Service"},  # Canonical only
         max_out_degree=0,
     ),
-    
+
     # If you have many callers (high in-degree) → you're a shared Utility
     InferenceRule(
         name="high_in_degree_utility",
@@ -92,37 +104,40 @@ INFERENCE_RULES = [
         confidence=70.0,
         min_in_degree=10,
     ),
-    
+
     # If you call Factory → you're likely a Service doing object creation
     InferenceRule(
         name="calls_factory",
         inferred_type="Service",
         confidence=75.0,
-        callee_types={"Factory", "Builder"},
+        callee_types={"Factory", "Builder"},  # Both canonical
     ),
-    
-    # If you call Validator/Specification → you're doing validation logic
+
+    # If you call Validator → you're doing validation logic
+    # Note: Specification is normalized to Validator
     InferenceRule(
         name="calls_validator",
         inferred_type="Service",
         confidence=75.0,
-        callee_types={"Validator", "Specification"},
+        callee_types={"Validator"},  # Canonical only
     ),
-    
-    # If EventHandler calls you → you're likely handling an event response (canonical: Handler)
+
+    # If Handler calls you → you're likely handling an event response
+    # Note: EventHandler/Observer are normalized to Handler/Listener
     InferenceRule(
         name="called_by_event_handler",
         inferred_type="Handler",  # Was EventProcessor
         confidence=75.0,
-        caller_types={"EventHandler", "Observer"},
+        caller_types={"Handler", "Listener"},  # Canonical equivalents
     ),
-    
-    # If you call only Mappers → you're likely a data transformer
+
+    # If you call Mappers/Transformers → you're likely a data transformer
+    # Note: Converter is normalized to Transformer
     InferenceRule(
         name="calls_mappers",
         inferred_type="Mapper",
         confidence=70.0,
-        callee_types={"Mapper", "Converter"},
+        callee_types={"Mapper", "Transformer"},  # Canonical only
     ),
 ]
 
@@ -218,10 +233,11 @@ class GraphTypeInference:
     Infer unknown node types from graph structure.
     Deterministic, no LLM required.
     """
-    
+
     def __init__(self):
         self.rules = INFERENCE_RULES
         self.inference_log: List[Dict] = []
+        self.role_registry = get_role_registry()
     
     def build_graph_index(self, nodes: List[Dict], edges: List[Dict]) -> Dict:
         """Build index structures for efficient graph traversal."""
@@ -254,15 +270,18 @@ class GraphTypeInference:
             'out_degree': out_degree,
         }
     
-    def get_neighbor_types(self, node_id: str, neighbors: Set[str], 
+    def get_neighbor_types(self, node_id: str, neighbors: Set[str],
                            node_by_id: Dict) -> Set[str]:
-        """Get the types/roles of neighboring nodes."""
+        """Get the types/roles of neighboring nodes (normalized to canonical)."""
         types = set()
         for neighbor_id in neighbors:
             neighbor = node_by_id.get(neighbor_id)
             if neighbor:
                 role = neighbor.get('role', neighbor.get('type', 'Unknown'))
                 if role and role != 'Unknown':
+                    # Normalize to canonical role for consistent matching
+                    if self.role_registry:
+                        role = self.role_registry.normalize(role)
                     types.add(role)
         return types
     
