@@ -615,6 +615,18 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Ecosystem discovery skipped: {e}")
 
+    # Stage 2.7: Octahedral Dimension Classification (D4, D5, D7)
+    print("\n📐 Stage 2.7: Octahedral Dimension Classification...")
+    with StageTimer(perf_manager, "Stage 2.7: Dimension Classification") as timer:
+        try:
+            from dimension_classifier import classify_all_dimensions
+            dim_count = classify_all_dimensions(nodes)
+            timer.set_output(nodes_classified=dim_count)
+            print(f"   → {dim_count} nodes with full 8-dimension coordinates")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Dimension classification skipped: {e}")
+
     # Stage 3: Purpose Field
     print("\n🎯 Stage 3: Purpose Field...")
     with StageTimer(perf_manager, "Stage 3: Purpose Field") as timer:
