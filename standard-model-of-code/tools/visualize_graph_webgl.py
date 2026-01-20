@@ -344,6 +344,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "data_flow": data.get("data_flow", {}),
         "markov": data.get("markov", {}),
         "knots": data.get("knots", {}),
+        "analytics": data.get("analytics", {}),
 
         # Health & recommendations
         "warnings": data.get("warnings", []),
@@ -494,6 +495,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
     # Foundation modules first (no dependencies), then dependent modules
     MODULE_ORDER = [
         "performance.js",                   # Performance subsystem (existing)
+        "modules/utils.js",                 # Pure utility functions (zero deps)
         "modules/core.js",                  # Constants & utilities
         "modules/node-accessors.js",        # Node property functions
         "modules/color-engine.js",          # OKLCH color system
@@ -506,6 +508,8 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/sidebar.js",               # Sidebar controls
         "modules/edge-system.js",           # Edge coloring & modes
         "modules/file-viz.js",              # File visualization modes
+        "modules/tooltips.js",              # Tooltip & toast notifications
+        "modules/theme.js",                 # Theme management (needs toast)
         "modules/control-bar.js",           # Visual mapping command bar
         "modules/main.js",                  # Entry point + wiring
     ]

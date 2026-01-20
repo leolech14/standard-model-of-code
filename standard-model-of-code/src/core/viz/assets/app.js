@@ -51,6 +51,8 @@ function decompressPayload(payload) {
 
 let FULL_GRAPH = null;
 let Graph = null;
+let DM = null;  // DataManager instance - initialized in initGraph()
+let Legend = null;  // LegendManager instance - initialized in initGraph()
 let CURRENT_DENSITY = 1; // Default: show all nodes
 let ACTIVE_DATAMAPS = new Set();
 let DATAMAP_CONFIGS = [];
@@ -62,11 +64,8 @@ let DATASET_KEY = 'default';
 let GROUPS_STORAGE_KEY = 'collider_groups_default';
 let GROUPS = [];
 let ACTIVE_GROUP_ID = null;
-let MARQUEE_ACTIVE = false;
-let MARQUEE_START = null;
-let MARQUEE_ADDITIVE = false;
+// MARQUEE_ACTIVE, MARQUEE_START, MARQUEE_ADDITIVE, LAST_MARQUEE_END_TS - provided by selection.js module
 let SELECTION_BOX = null;
-let LAST_MARQUEE_END_TS = 0;
 const SELECTION_HALO_GEOMETRY = new THREE.SphereGeometry(1, 12, 12);
 const GROUP_HALO_GEOMETRY = new THREE.SphereGeometry(1, 12, 12);
 let SPACE_PRESSED = false;
@@ -76,7 +75,7 @@ let STARFIELD = null;
 let STARFIELD_OPACITY = 0;
 let BLOOM_PASS = null;
 let BLOOM_STRENGTH = 0;
-let EDGE_MODE = 'gradient-file';  // DEFAULT: Show file regions with gradients!
+// EDGE_MODE - provided by edge-system.js module
 let EDGE_DEFAULT_OPACITY = null;  // Initialized from appearance.tokens at runtime (token value: 0.08)
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -211,15 +210,7 @@ let EDGE_MODE_CONFIG = {
 };
 // Edge type colors - populated from theme.tokens.json:501-512 at runtime
 let EDGE_COLOR_CONFIG = {};
-let FILE_COLOR_CONFIG = {
-    strategy: 'golden-angle',
-    angle: 137.5,
-    chroma: null,
-    saturation: 70,
-    lightness: 50
-};
-let EDGE_RANGES = { weight: { min: 1, max: 1 }, confidence: { min: 1, max: 1 } };
-let NODE_FILE_INDEX = new Map();
+// FILE_COLOR_CONFIG, EDGE_RANGES, NODE_FILE_INDEX - provided by modules (file-viz.js, edge-system.js)
 let NODE_COLOR_CONFIG = { tier: {}, ring: {}, unknown: '#666666' };
 
 // Console logging colors - populated from theme config
@@ -245,12 +236,9 @@ let NODE_POSITION_CACHE = new Map();
 let LAYOUT_FROZEN = false;  // When true, don't reheat simulation
 let HINTS_ENABLED = true;   // Show mode toasts
 
-let FILE_GRAPH = null;
+// FILE_GRAPH, FILE_NODE_IDS, EXPANDED_FILES, FILE_EXPAND_MODE - provided by file-viz.js module
 let LAST_FILTER_SUMMARY = null;
-let FILE_NODE_IDS = new Map();
 let FILE_NODE_POSITIONS = new Map();
-let EXPANDED_FILES = new Set();
-let FILE_EXPAND_MODE = 'inline'; // inline | detach
 let NODE_COLOR_MODE = 'tier';
 let COLOR_TWEAKS = {
     hueShift: 0,
@@ -280,7 +268,15 @@ let SIDEBAR_STATE = {
 };
 let APPEARANCE_STATE = {
     nodeScale: 1,
+    nodeOpacity: 1,
+    labelSize: 1,
+    showLabels: true,
+    highlightSelected: true,
     edgeOpacity: null,
+    edgeWidth: 1,
+    edgeCurvature: 0,
+    showArrows: false,
+    gradientEdges: true,
     boundaryFill: null,
     boundaryWire: null,
     backgroundBase: null,
@@ -300,9 +296,7 @@ let APPEARANCE_STATE = {
 // =====================================================================
 // FILE BOUNDARY & SELECTION STATE (declared early to avoid TDZ errors)
 // =====================================================================
-let fileBoundaryMeshes = [];
-let fileMode = false;
-let fileVizMode = 'color'; // 'color' | 'hulls' | 'cluster'
+// fileBoundaryMeshes, fileMode, fileVizMode - provided by file-viz.js module
 let originalNodeColors = new Map();
 let clusterForceActive = false;
 let hullRedrawTimer = null;
@@ -380,461 +374,6 @@ class RuntimeRegistry {
 const REGISTRY = new RuntimeRegistry();
 window.REGISTRY = REGISTRY;
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SIDEBAR MANAGER - Facade for coordinating sidebar controls with existing globals
-// Created: 2026-01-19 as part of sidebar refactor (S002)
-// Pattern: FACADE - coordinates VIS_FILTERS, APPEARANCE_STATE without replacing them
-// Note: Named SidebarManager to avoid conflict with legacy UIManager at line ~4110
-// ═══════════════════════════════════════════════════════════════════════════
-class SidebarManager {
-    constructor() {
-        this._refreshTimer = null;
-        this._bound = false;
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Initialization - call after DOM is ready
-    // ─────────────────────────────────────────────────────────────────────────
-    init() {
-        if (this._bound) return;
-        this._bound = true;
-
-        this._bindSectionHeaders();
-        this._bindColorPresets();
-        this._bindLayoutPresets();
-        this._bindPhysicsControls();
-        this._bindAppearanceControls();
-        this._bindActionButtons();
-
-        console.log('[UIManager] Initialized - facade pattern active');
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Section collapse/expand
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindSectionHeaders() {
-        document.querySelectorAll('.section-header[data-section]').forEach(header => {
-            header.addEventListener('click', () => {
-                const sectionId = header.dataset.section;
-                const content = document.getElementById(`section-${sectionId}`);
-                if (!content) return;
-
-                const isCollapsed = header.classList.toggle('collapsed');
-                content.classList.toggle('collapsed', isCollapsed);
-            });
-        });
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Color presets (TIER, FAMILY, LAYER, RING, FILE, FLOW)
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindColorPresets() {
-        const container = document.getElementById('section-color');
-        if (!container) return;
-
-        container.querySelectorAll('.btn[data-preset]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const preset = btn.dataset.preset;
-                this.setColorMode(preset);
-
-                // Update active state
-                container.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-    }
-
-    setColorMode(mode) {
-        APPEARANCE_STATE.colorMode = mode;
-        APPEARANCE_STATE.currentPreset = mode;
-
-        // Call existing function if available
-        if (typeof setNodeColorMode === 'function') {
-            setNodeColorMode(mode);
-        }
-
-        // Handle flow mode specially
-        if (mode === 'flow') {
-            if (!flowMode && typeof toggleFlowMode === 'function') toggleFlowMode();
-        } else if (flowMode && typeof disableFlowMode === 'function') {
-            disableFlowMode();
-        }
-
-        // Refresh gradient edges
-        if (typeof window.refreshGradientEdgeColors === 'function') {
-            window.refreshGradientEdgeColors();
-        }
-
-        // Re-render legends
-        if (typeof renderAllLegends === 'function') {
-            renderAllLegends();
-        }
-
-        console.log('[UIManager] Color mode:', mode);
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Layout presets (FORCE, RADIAL, ORBITAL, SPHERE, GRID, SPIRAL)
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindLayoutPresets() {
-        const container = document.getElementById('section-layout');
-        if (!container) return;
-
-        container.querySelectorAll('.btn[data-layout]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const layout = btn.dataset.layout;
-                this.setLayout(layout);
-
-                // Update active state
-                container.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-    }
-
-    setLayout(layout) {
-        if (typeof applyLayoutPreset === 'function') {
-            applyLayoutPreset(layout, true);
-        }
-        console.log('[UIManager] Layout:', layout);
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Physics controls (sliders + presets)
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindPhysicsControls() {
-        // Charge (repulsion)
-        this._bindSlider('physics-charge', (val) => {
-            if (Graph) Graph.d3Force('charge').strength(val);
-            if (Graph) Graph.d3ReheatSimulation();
-        });
-
-        // Link distance
-        this._bindSlider('physics-link', (val) => {
-            if (Graph) Graph.d3Force('link').distance(val);
-            if (Graph) Graph.d3ReheatSimulation();
-        });
-
-        // Center pull
-        this._bindSlider('physics-center', (val) => {
-            if (Graph) {
-                const center = Graph.d3Force('center');
-                if (center && center.strength) center.strength(val);
-            }
-            if (Graph) Graph.d3ReheatSimulation();
-        });
-
-        // Damping (velocity decay)
-        this._bindSlider('physics-damping', (val) => {
-            if (Graph) Graph.d3VelocityDecay(val);
-            if (Graph) Graph.d3ReheatSimulation();
-        });
-
-        // Physics presets
-        const container = document.getElementById('section-physics');
-        if (container) {
-            container.querySelectorAll('.btn[data-physics]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const preset = btn.dataset.physics;
-                    this.setPhysicsPreset(preset);
-                });
-            });
-        }
-    }
-
-    setPhysicsPreset(preset) {
-        const presets = {
-            default: { charge: -120, link: 50, center: 0.05, damping: 0.4 },
-            tight: { charge: -80, link: 30, center: 0.1, damping: 0.5 },
-            loose: { charge: -200, link: 80, center: 0.02, damping: 0.3 },
-            explosive: { charge: -400, link: 120, center: 0.01, damping: 0.2 }
-        };
-
-        const p = presets[preset];
-        if (!p) return;
-
-        // Update sliders
-        this._setSliderValue('physics-charge', p.charge);
-        this._setSliderValue('physics-link', p.link);
-        this._setSliderValue('physics-center', p.center);
-        this._setSliderValue('physics-damping', p.damping);
-
-        // Apply to graph
-        if (Graph) {
-            Graph.d3Force('charge').strength(p.charge);
-            Graph.d3Force('link').distance(p.link);
-            const center = Graph.d3Force('center');
-            if (center && center.strength) center.strength(p.center);
-            Graph.d3VelocityDecay(p.damping);
-            Graph.d3ReheatSimulation();
-        }
-
-        console.log('[UIManager] Physics preset:', preset);
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Appearance controls (sliders + toggles)
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindAppearanceControls() {
-        // Node size
-        this._bindSlider('node-size', (val) => {
-            APPEARANCE_STATE.nodeScale = val;
-            if (Graph) Graph.nodeVal(n => (n.val || 1) * val);
-        });
-
-        // Edge opacity
-        this._bindSlider('edge-opacity', (val) => {
-            APPEARANCE_STATE.edgeOpacity = val;
-            if (typeof applyEdgeMode === 'function') applyEdgeMode();
-        });
-
-        // Label size
-        this._bindSlider('label-size', (val) => {
-            // Labels are typically rendered at a fixed scale, this affects visibility
-            if (Graph) Graph.nodeLabel(n => val > 0.3 ? n.name : null);
-        });
-
-        // Toggles
-        this._bindToggle('toggle-labels', (active) => {
-            VIS_FILTERS.metadata.showLabels = active;
-            if (Graph) Graph.nodeLabel(n => active ? n.name : null);
-        });
-
-        this._bindToggle('toggle-stars', (active) => {
-            // Toggle starfield visibility
-            const scene = Graph?.scene();
-            if (scene) {
-                scene.children.forEach(child => {
-                    if (child.type === 'Points' && child.geometry?.attributes?.position?.count > 1000) {
-                        child.visible = active;
-                    }
-                });
-            }
-        });
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Action buttons
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindActionButtons() {
-        // Reset view
-        const resetBtn = document.getElementById('btn-reset');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                if (Graph) {
-                    Graph.cameraPosition({ x: 0, y: 0, z: 500 }, { x: 0, y: 0, z: 0 }, 1000);
-                }
-            });
-        }
-
-        // Screenshot
-        const screenshotBtn = document.getElementById('btn-screenshot');
-        if (screenshotBtn) {
-            screenshotBtn.addEventListener('click', () => {
-                if (typeof takeScreenshot === 'function') takeScreenshot();
-                else if (Graph) {
-                    const link = document.createElement('a');
-                    link.download = 'collider-screenshot.png';
-                    link.href = Graph.renderer().domElement.toDataURL('image/png');
-                    link.click();
-                }
-            });
-        }
-
-        // Toggle 2D
-        const toggle2dBtn = document.getElementById('btn-2d');
-        if (toggle2dBtn) {
-            toggle2dBtn.addEventListener('click', () => {
-                if (typeof toggle2DMode === 'function') toggle2DMode();
-            });
-        }
-
-        // Freeze simulation
-        const freezeBtn = document.getElementById('btn-freeze');
-        if (freezeBtn) {
-            freezeBtn.addEventListener('click', () => {
-                if (typeof toggleFreeze === 'function') {
-                    toggleFreeze();
-                } else if (Graph) {
-                    // Simple freeze toggle
-                    const alpha = Graph.d3AlphaTarget();
-                    Graph.d3AlphaTarget(alpha === 0 ? 0.3 : 0);
-                    freezeBtn.classList.toggle('active', alpha !== 0);
-                }
-            });
-        }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Filter chips - populated dynamically based on data
-    // ─────────────────────────────────────────────────────────────────────────
-    populateFilterChips(data) {
-        // Tiers
-        const tiers = [...new Set(data.nodes.map(n => n.tier).filter(Boolean))].sort();
-        this._populateChipGroup('filter-tiers', tiers, 'tiers');
-
-        // Rings
-        const rings = [...new Set(data.nodes.map(n => n.ring).filter(Boolean))].sort();
-        this._populateChipGroup('filter-rings', rings, 'rings');
-
-        // Edge types
-        const edgeTypes = [...new Set(data.links?.map(e => e.type).filter(Boolean) || [])].sort();
-        this._populateChipGroup('filter-edges', edgeTypes, 'edges');
-    }
-
-    _populateChipGroup(containerId, items, filterKey) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        container.innerHTML = '';
-        items.forEach(item => {
-            const chip = document.createElement('div');
-            chip.className = 'chip';
-            chip.textContent = item;
-            chip.addEventListener('click', () => {
-                const isActive = chip.classList.toggle('active');
-                this.setFilter(filterKey, item, !isActive); // active = filtered OUT
-
-                // Schedule debounced refresh
-                this._scheduleRefresh();
-            });
-            container.appendChild(chip);
-        });
-    }
-
-    setFilter(dimension, value, visible) {
-        const set = VIS_FILTERS[dimension];
-        if (!set) return;
-
-        if (visible) {
-            set.delete(value); // Remove from filter = show
-        } else {
-            set.add(value);    // Add to filter = hide
-        }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Hover panel updates
-    // ─────────────────────────────────────────────────────────────────────────
-    showHoverPanel(node) {
-        const panel = document.getElementById('hover-panel');
-        if (!panel || !node) return;
-
-        document.getElementById('hover-name').textContent = node.name || '--';
-        document.getElementById('hover-kind').textContent = node.kind || node.type || 'unknown';
-        document.getElementById('hover-atom').textContent = node.atom || '--';
-        document.getElementById('hover-family').textContent = node.family || node.atom?.split('.')[0] || '--';
-        document.getElementById('hover-ring').textContent = node.ring || '--';
-        document.getElementById('hover-tier').textContent = node.tier || '--';
-        document.getElementById('hover-role').textContent = node.role || '--';
-        document.getElementById('hover-file').textContent = node.file_path || node.file || '';
-
-        panel.classList.add('visible');
-    }
-
-    hideHoverPanel() {
-        const panel = document.getElementById('hover-panel');
-        if (panel) panel.classList.remove('visible');
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Selection panel updates
-    // ─────────────────────────────────────────────────────────────────────────
-    updateSelectionPanel(selectedNodes) {
-        const panel = document.getElementById('selection-panel');
-        const title = document.getElementById('selection-title');
-        const list = document.getElementById('selection-list');
-        const clearBtn = document.getElementById('selection-clear');
-
-        if (!panel || !list) return;
-
-        if (selectedNodes.length === 0) {
-            panel.classList.remove('visible');
-            return;
-        }
-
-        title.textContent = `SELECTED (${selectedNodes.length})`;
-        list.innerHTML = selectedNodes.slice(0, 20).map(n =>
-            `<div class="selection-item">${n.name || n.id}</div>`
-        ).join('');
-
-        if (selectedNodes.length > 20) {
-            list.innerHTML += `<div class="selection-item" style="opacity:0.5">...and ${selectedNodes.length - 20} more</div>`;
-        }
-
-        panel.classList.add('visible');
-
-        // Bind clear button
-        if (clearBtn) {
-            clearBtn.onclick = () => {
-                if (typeof clearSelection === 'function') clearSelection();
-                panel.classList.remove('visible');
-            };
-        }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Stats updates
-    // ─────────────────────────────────────────────────────────────────────────
-    updateStats(nodes, edges, entropy) {
-        const nodeEl = document.getElementById('stat-nodes');
-        const edgeEl = document.getElementById('stat-edges');
-        const entropyEl = document.getElementById('stat-entropy');
-
-        if (nodeEl) nodeEl.textContent = nodes?.toLocaleString() || '0';
-        if (edgeEl) edgeEl.textContent = edges?.toLocaleString() || '0';
-        if (entropyEl) entropyEl.textContent = entropy?.toFixed(2) || '--';
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Helper: Bind slider with value display
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindSlider(id, callback) {
-        const slider = document.getElementById(id);
-        const valueEl = document.getElementById(`${id}-val`);
-        if (!slider) return;
-
-        slider.addEventListener('input', () => {
-            const val = parseFloat(slider.value);
-            if (valueEl) valueEl.textContent = val;
-            callback(val);
-        });
-    }
-
-    _setSliderValue(id, value) {
-        const slider = document.getElementById(id);
-        const valueEl = document.getElementById(`${id}-val`);
-        if (slider) slider.value = value;
-        if (valueEl) valueEl.textContent = value;
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Helper: Bind toggle
-    // ─────────────────────────────────────────────────────────────────────────
-    _bindToggle(id, callback) {
-        const toggle = document.getElementById(id);
-        if (!toggle) return;
-
-        toggle.addEventListener('click', () => {
-            const isActive = toggle.classList.toggle('active');
-            callback(isActive);
-        });
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // Debounced refresh - prevents multiple rapid refreshGraph() calls
-    // ─────────────────────────────────────────────────────────────────────────
-    _scheduleRefresh() {
-        clearTimeout(this._refreshTimer);
-        this._refreshTimer = setTimeout(() => {
-            if (typeof refreshGraph === 'function') refreshGraph();
-        }, 16); // ~1 frame
-    }
-}
-
-// Create global instance
-const SIDEBAR = new SidebarManager();
-window.SIDEBAR = SIDEBAR;
 
 // =================================================================
 // GLOBAL CONSTANTS (Hoisted for safety)
@@ -880,26 +419,7 @@ const PENDULUM = {
 let _lastHoveredNodeId = null;
 const selectionOriginals = new Map();
 
-// Amplification function using power law: f(x) = x^(1/γ) for γ values
-// Maps normalized [0,1] input to amplified [0,1] output
-function amplify(value, gamma = APPEARANCE_STATE.amplifier) {
-    if (gamma === 1) return value;
-    // Clamp to valid range
-    const v = Math.max(0, Math.min(1, value));
-    // Power law: v^(1/γ) - when γ>1, small diffs become larger
-    // Using 1/γ so that higher slider = more amplification
-    return Math.pow(v, 1 / gamma);
-}
-
-// Contrast amplification: expands values away from midpoint
-function amplifyContrast(value, strength = APPEARANCE_STATE.amplifier) {
-    if (strength === 1) return value;
-    const v = Math.max(0, Math.min(1, value));
-    // S-curve using tanh for smooth contrast expansion
-    const centered = (v - 0.5) * 2;  // [-1, 1]
-    const amplified = Math.tanh(centered * strength) / Math.tanh(strength);
-    return (amplified + 1) / 2;  // Back to [0, 1]
-}
+// amplify, amplifyContrast - provided by core.js module
 
 // =====================================================================
 // DATA MANAGER: Minimal runtime checks for deterministic self-test/parity
@@ -1166,795 +686,13 @@ const ColorOrchestrator = {
 // Global alias for convenience
 const Color = ColorOrchestrator;
 
-// =====================================================================
-// LEGEND MANAGER: Counts + Visibility + Extraction
-// ALL COLORS come from ColorOrchestrator - no duplicates
-// =====================================================================
-class LegendManager {
-    constructor() {
-        // Dimension metadata (NO COLORS - those live in ColorOrchestrator)
-        this.dimensions = {
-            tier: {
-                name: 'TIERS',
-                icon: '◐',
-                extract: (node) => typeof getNodeTier === 'function' ? getNodeTier(node) : 'UNKNOWN'
-            },
-            family: {
-                name: 'FAMILIES',
-                icon: '⬡',
-                extract: (node) => typeof getNodeAtomFamily === 'function' ? getNodeAtomFamily(node) : 'UNKNOWN'
-            },
-            ring: {
-                name: 'RINGS',
-                icon: '◎',
-                extract: (node) => typeof getNodeRing === 'function' ? getNodeRing(node) : 'UNKNOWN'
-            },
-            layer: {
-                name: 'LAYERS',
-                icon: '☰',
-                extract: (node) => (node.layer || node.dimensions?.D2_LAYER || 'Unknown').toUpperCase()
-            },
-            effect: {
-                name: 'EFFECTS',
-                icon: '⚡',
-                extract: (node) => (node.effect || node.dimensions?.D6_EFFECT || 'Unknown')
-            },
-            edgeType: {
-                name: 'EDGE TYPES',
-                icon: '→',
-                extract: (link) => (link.edge_type || link.type || 'unknown').toLowerCase()
-            },
-            edgeFamily: {
-                name: 'EDGE FAMILIES',
-                icon: '⇢',
-                extract: (link) => (link.family || 'Dependency')
-            }
-        };
 
-        this.counts = {};      // Computed counts per dimension
-        this._subscribers = [];
-    }
-
-    init(nodes, links) {
-        this._computeCounts(nodes, links);
-        return this;
-    }
-
-    _computeCounts(nodes, links) {
-        this.counts = {};
-
-        // Node dimensions
-        ['tier', 'family', 'ring', 'layer'].forEach(dim => {
-            const extract = this.dimensions[dim]?.extract;
-            if (!extract) return;
-            this.counts[dim] = {};
-            (nodes || []).forEach(node => {
-                const cat = extract(node);
-                this.counts[dim][cat] = (this.counts[dim][cat] || 0) + 1;
-            });
-        });
-
-        // Edge dimension
-        const edgeExtract = this.dimensions.edgeType?.extract;
-        if (edgeExtract) {
-            this.counts.edgeType = {};
-            (links || []).forEach(link => {
-                const cat = edgeExtract(link);
-                this.counts.edgeType[cat] = (this.counts.edgeType[cat] || 0) + 1;
-            });
-        }
-
-        console.log('[Legend] Counts:', this.counts);
-    }
-
-    // Get legend data - COLORS FROM ColorOrchestrator
-    getLegendData(dimension) {
-        const counts = this.counts[dimension] || {};
-
-        return Object.keys(counts)
-            .filter(cat => counts[cat] > 0)
-            .sort((a, b) => (counts[b] || 0) - (counts[a] || 0))
-            .map(cat => ({
-                id: cat,
-                label: Color.getLabel(dimension, cat),  // FROM ColorOrchestrator
-                color: Color.get(dimension, cat),       // FROM ColorOrchestrator (with transforms!)
-                count: counts[cat] || 0,
-                dimension: dimension
-            }));
-    }
-
-    // Get color - DELEGATES to ColorOrchestrator
-    getColor(dimension, category) {
-        return Color.get(dimension, category);
-    }
-
-    subscribe(callback) {
-        this._subscribers.push(callback);
-        return () => { this._subscribers = this._subscribers.filter(cb => cb !== callback); };
-    }
-
-    _notifySubscribers(event, data) {
-        this._subscribers.forEach(cb => cb(event, data));
-    }
-}
-
-// Global legend manager instance
-let Legend = null;
-
-// ═══════════════════════════════════════════════════════════════════════════
-// DATAMANAGER: Single Gate for ALL Data Access
-// ═══════════════════════════════════════════════════════════════════════════
-// This is THE source of truth. All data flows through here.
-// NO direct access to FULL_GRAPH or Graph.graphData() - use DM instead.
-// ═══════════════════════════════════════════════════════════════════════════
-class DataManager {
-    constructor() {
-        // ═══════════════════════════════════════════════════════════════
-        // RAW DATA (immutable after init)
-        // ═══════════════════════════════════════════════════════════════
-        this.raw = {
-            nodes: [],
-            links: [],
-            fileBoundaries: [],
-            markov: {},
-            kpis: {},
-            meta: {}
-        };
-
-        // ═══════════════════════════════════════════════════════════════
-        // ANALYTICS DATA (all 30+ Collider sections)
-        // ═══════════════════════════════════════════════════════════════
-        this.analytics = {
-            // Structural metrics
-            counts: {},
-            stats: {},
-            coverage: {},
-            performance: {},
-
-            // Classification & discovery
-            classification: {},
-            auto_discovery: {},
-            ecosystem_discovery: {},
-
-            // Architecture & dependencies
-            dependencies: {},
-            architecture: {},
-            topology: {},
-
-            // Flow analysis
-            execution_flow: {},
-            data_flow: {},
-            knots: {},
-
-            // Health & recommendations
-            warnings: [],
-            recommendations: [],
-            theory_completeness: {},
-
-            // Distributions
-            distributions: {},
-            edge_types: {},
-
-            // RPBL profile (Responsibility, Purity, Boundary, Lifecycle)
-            rpbl_profile: {},
-            purpose_field: {},
-
-            // Special nodes
-            top_hubs: [],
-            orphans_list: [],
-
-            // Files
-            files: [],
-
-            // Semantic analysis
-            semantics: {},
-            llm_enrichment: {},
-
-            // Brain download (the full report)
-            brain_download: {},
-
-            // Raw Config & Physics (for token-driven features)
-            physics: {},
-            config: {}
-        };
-
-        // ═══════════════════════════════════════════════════════════════
-        // INDEXES (O(1) lookups - built once)
-        // ═══════════════════════════════════════════════════════════════
-        this.index = {
-            nodeById: new Map(),           // id → node
-            nodesByTier: new Map(),        // tier → [nodes]
-            nodesByFamily: new Map(),      // family → [nodes]
-            nodesByRing: new Map(),        // ring → [nodes]
-            nodesByLayer: new Map(),       // layer (D2_LAYER) → [nodes]
-            nodesByEffect: new Map(),      // effect (D6_EFFECT) → [nodes]
-            nodesByFile: new Map(),        // fileIdx → [nodes]
-            edgesBySource: new Map(),      // nodeId → [edges from]
-            edgesByTarget: new Map(),      // nodeId → [edges to]
-            edgeByKey: new Map(),          // "src|tgt" → edge
-            fileByIndex: new Map(),        // idx → fileBoundary
-            markovBySource: new Map()      // nodeId → sorted edges by weight
-        };
-
-        // ═══════════════════════════════════════════════════════════════
-        // CACHED AGGREGATIONS (computed once, invalidated on filter)
-        // ═══════════════════════════════════════════════════════════════
-        this.cache = {
-            tierCounts: null,
-            familyCounts: null,
-            ringCounts: null,
-            edgeTypeCounts: null,
-            edgeRanges: null
-        };
-
-        // ═══════════════════════════════════════════════════════════════
-        // CURRENT STATE (filtered view)
-        // ═══════════════════════════════════════════════════════════════
-        this.filtered = {
-            nodes: [],
-            links: []
-        };
-
-        // Legend manager
-        this.legend = new LegendManager();
-
-        // ═══════════════════════════════════════════════════════════════
-        // COLOR SYSTEM: Single gate for all color access
-        // ═══════════════════════════════════════════════════════════════
-        this.color = ColorOrchestrator;  // Reference to ColorOrchestrator
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // INITIALIZATION
-    // ═══════════════════════════════════════════════════════════════════
-    init(data) {
-        // Store raw data
-        this.raw.nodes = Array.isArray(data?.nodes) ? data.nodes : [];
-        this.raw.links = Array.isArray(data?.links) ? data.links : [];
-        this.raw.fileBoundaries = Array.isArray(data?.file_boundaries) ? data.file_boundaries : [];
-        this.raw.markov = data?.markov || {};
-        this.raw.kpis = data?.kpis || {};
-        this.raw.meta = data?.meta || {};
-        this.raw.physics = data?.physics || {};
-        this.raw.config = data?.config || {};
-
-        // Build all indexes
-        this._buildAllIndexes();
-
-        // Initialize legend
-        this.legend.init(this.raw.nodes, this.raw.links);
-        Legend = this.legend;
-
-        console.log('%c[DM] Initialized', 'color: #4ade80; font-weight: bold',
-            `${this.raw.nodes.length} nodes, ${this.raw.links.length} edges, ${this.raw.fileBoundaries.length} files`);
-
-        return this;
-    }
-
-    _buildAllIndexes() {
-        this._buildNodeIndex();
-        this._buildSemanticIndexes();
-        this._buildEdgeIndexes();
-        this._buildFileIndex();
-        this._buildMarkovIndex();
-        this._invalidateCache();
-    }
-
-    _buildNodeIndex() {
-        this.index.nodeById.clear();
-        for (const node of this.raw.nodes) {
-            if (node?.id) {
-                this.index.nodeById.set(node.id, node);
-            }
-        }
-    }
-
-    _buildSemanticIndexes() {
-        this.index.nodesByTier.clear();
-        this.index.nodesByFamily.clear();
-        this.index.nodesByRing.clear();
-        this.index.nodesByLayer.clear();
-        this.index.nodesByEffect.clear();
-        this.index.nodesByFile.clear();
-
-        for (const node of this.raw.nodes) {
-            if (!node) continue;
-
-            // Tier index
-            const tier = this._getNodeTier(node);
-            if (!this.index.nodesByTier.has(tier)) {
-                this.index.nodesByTier.set(tier, []);
-            }
-            this.index.nodesByTier.get(tier).push(node);
-
-            // Family index
-            const family = this._getNodeFamily(node);
-            if (!this.index.nodesByFamily.has(family)) {
-                this.index.nodesByFamily.set(family, []);
-            }
-            this.index.nodesByFamily.get(family).push(node);
-
-            // Ring index
-            const ring = this._getNodeRing(node);
-            if (!this.index.nodesByRing.has(ring)) {
-                this.index.nodesByRing.set(ring, []);
-            }
-            this.index.nodesByRing.get(ring).push(node);
-
-            // Layer index (D2_LAYER)
-            const layer = this._getNodeLayer(node);
-            if (!this.index.nodesByLayer.has(layer)) {
-                this.index.nodesByLayer.set(layer, []);
-            }
-            this.index.nodesByLayer.get(layer).push(node);
-
-            // Effect index (D6_EFFECT)
-            const effect = this._getNodeEffect(node);
-            if (!this.index.nodesByEffect.has(effect)) {
-                this.index.nodesByEffect.set(effect, []);
-            }
-            this.index.nodesByEffect.get(effect).push(node);
-
-            // File index
-            const fileIdx = node.fileIdx ?? -1;
-            if (fileIdx >= 0) {
-                if (!this.index.nodesByFile.has(fileIdx)) {
-                    this.index.nodesByFile.set(fileIdx, []);
-                }
-                this.index.nodesByFile.get(fileIdx).push(node);
-            }
-        }
-    }
-
-    _buildEdgeIndexes() {
-        this.index.edgesBySource.clear();
-        this.index.edgesByTarget.clear();
-        this.index.edgeByKey.clear();
-
-        for (const link of this.raw.links) {
-            const srcId = this._endpointId(link, 'source');
-            const tgtId = this._endpointId(link, 'target');
-
-            if (srcId) {
-                if (!this.index.edgesBySource.has(srcId)) {
-                    this.index.edgesBySource.set(srcId, []);
-                }
-                this.index.edgesBySource.get(srcId).push(link);
-            }
-
-            if (tgtId) {
-                if (!this.index.edgesByTarget.has(tgtId)) {
-                    this.index.edgesByTarget.set(tgtId, []);
-                }
-                this.index.edgesByTarget.get(tgtId).push(link);
-            }
-
-            if (srcId && tgtId) {
-                this.index.edgeByKey.set(`${srcId}|${tgtId}`, link);
-            }
-        }
-    }
-
-    _buildFileIndex() {
-        this.index.fileByIndex.clear();
-        for (let i = 0; i < this.raw.fileBoundaries.length; i++) {
-            this.index.fileByIndex.set(i, this.raw.fileBoundaries[i]);
-        }
-    }
-
-    _buildMarkovIndex() {
-        this.index.markovBySource.clear();
-        // Group edges by source and sort by markov weight
-        for (const link of this.raw.links) {
-            const srcId = this._endpointId(link, 'source');
-            const mw = link.markov_weight || 0;
-            if (srcId && mw > 0) {
-                if (!this.index.markovBySource.has(srcId)) {
-                    this.index.markovBySource.set(srcId, []);
-                }
-                this.index.markovBySource.get(srcId).push(link);
-            }
-        }
-        // Sort each list by markov weight descending
-        for (const [srcId, edges] of this.index.markovBySource) {
-            edges.sort((a, b) => (b.markov_weight || 0) - (a.markov_weight || 0));
-        }
-    }
-
-    _invalidateCache() {
-        this.cache.tierCounts = null;
-        this.cache.familyCounts = null;
-        this.cache.ringCounts = null;
-        this.cache.edgeTypeCounts = null;
-        this.cache.edgeRanges = null;
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // HELPER FUNCTIONS (internal)
-    // ═══════════════════════════════════════════════════════════════════
-    _endpointId(link, side) {
-        if (!link) return '';
-        let value = link[side];
-        if (value && typeof value === 'object') value = value.id;
-        return (value === undefined || value === null) ? '' : String(value).trim();
-    }
-
-    _getNodeTier(node) {
-        if (!node) return 'UNKNOWN';
-        if (node.tier) return node.tier;
-        if (node.layer === 'foundation') return 'T0';
-        if (node.layer === 'domain') return 'T1';
-        if (node.layer === 'application') return 'T2';
-        return 'UNKNOWN';
-    }
-
-    _getNodeFamily(node) {
-        if (!node) return 'EXT';
-        const family = (node.atom_family || node.family || 'EXT').toUpperCase();
-        return ['LOG', 'DAT', 'ORG', 'EXE', 'EXT'].includes(family) ? family : 'EXT';
-    }
-
-    _getNodeRing(node) {
-        if (!node) return 'UNKNOWN';
-        const ring = (node.ring || node.layer || 'UNKNOWN').toUpperCase();
-        return ring;
-    }
-
-    _getNodeLayer(node) {
-        if (!node) return 'Unknown';
-        return node.layer || node.dimensions?.D2_LAYER || 'Unknown';
-    }
-
-    _getNodeEffect(node) {
-        if (!node) return 'Unknown';
-        return node.effect || node.dimensions?.D6_EFFECT || 'Unknown';
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // RAW DATA ACCESSORS (replaces FULL_GRAPH.*)
-    // ═══════════════════════════════════════════════════════════════════
-    getNodes() {
-        return this.raw.nodes;
-    }
-
-    getLinks() {
-        return this.raw.links;
-    }
-
-    getFileBoundaries() {
-        return this.raw.fileBoundaries;
-    }
-
-    getMarkov() {
-        return this.raw.markov;
-    }
-
-    getKpis() {
-        return this.raw.kpis;
-    }
-
-    getMeta() {
-        return this.raw.meta;
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // INDEXED LOOKUPS (O(1))
-    // ═══════════════════════════════════════════════════════════════════
-    getNode(id) {
-        return this.index.nodeById.get(id) || null;
-    }
-
-    getNodesByTier(tier) {
-        return this.index.nodesByTier.get(tier) || [];
-    }
-
-    getNodesByFamily(family) {
-        return this.index.nodesByFamily.get(family) || [];
-    }
-
-    getNodesByRing(ring) {
-        return this.index.nodesByRing.get(ring) || [];
-    }
-
-    getNodesByFile(fileIdx) {
-        return this.index.nodesByFile.get(fileIdx) || [];
-    }
-
-    getEdgesFrom(nodeId) {
-        return this.index.edgesBySource.get(nodeId) || [];
-    }
-
-    getEdgesTo(nodeId) {
-        return this.index.edgesByTarget.get(nodeId) || [];
-    }
-
-    getEdgeBetween(srcId, tgtId) {
-        return this.index.edgeByKey.get(`${srcId}|${tgtId}`) || null;
-    }
-
-    getFile(idx) {
-        return this.index.fileByIndex.get(idx) || null;
-    }
-
-    getTopMarkovEdges(nodeId, k = 5) {
-        const edges = this.index.markovBySource.get(nodeId) || [];
-        return edges.slice(0, k);
-    }
-
-    isHighEntropyNode(nodeId) {
-        const highEntropy = this.raw.markov?.high_entropy_nodes || [];
-        return highEntropy.some(h => h.node === nodeId);
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // FILTERED DATA (replaces Graph.graphData())
-    // ═══════════════════════════════════════════════════════════════════
-    setFiltered(nodes, links) {
-        this.filtered.nodes = nodes || [];
-        this.filtered.links = links || [];
-    }
-
-    getVisibleNodes() {
-        // Return filtered if set, otherwise return from Graph
-        if (this.filtered.nodes.length > 0) {
-            return this.filtered.nodes;
-        }
-        // Fallback to Graph.graphData() during transition
-        return (Graph && Graph.graphData) ? (Graph.graphData().nodes || []) : [];
-    }
-
-    getVisibleLinks() {
-        if (this.filtered.links.length > 0) {
-            return this.filtered.links;
-        }
-        return (Graph && Graph.graphData) ? (Graph.graphData().links || []) : [];
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // AGGREGATIONS (cached)
-    // ═══════════════════════════════════════════════════════════════════
-    getTierCounts() {
-        if (!this.cache.tierCounts) {
-            this.cache.tierCounts = new Map();
-            for (const [tier, nodes] of this.index.nodesByTier) {
-                this.cache.tierCounts.set(tier, nodes.length);
-            }
-        }
-        return this.cache.tierCounts;
-    }
-
-    getFamilyCounts() {
-        if (!this.cache.familyCounts) {
-            this.cache.familyCounts = new Map();
-            for (const [family, nodes] of this.index.nodesByFamily) {
-                this.cache.familyCounts.set(family, nodes.length);
-            }
-        }
-        return this.cache.familyCounts;
-    }
-
-    getRingCounts() {
-        if (!this.cache.ringCounts) {
-            this.cache.ringCounts = new Map();
-            for (const [ring, nodes] of this.index.nodesByRing) {
-                this.cache.ringCounts.set(ring, nodes.length);
-            }
-        }
-        return this.cache.ringCounts;
-    }
-
-    getEdgeTypeCounts() {
-        if (!this.cache.edgeTypeCounts) {
-            this.cache.edgeTypeCounts = new Map();
-            for (const link of this.raw.links) {
-                const type = link.edge_type || link.type || 'unknown';
-                this.cache.edgeTypeCounts.set(type, (this.cache.edgeTypeCounts.get(type) || 0) + 1);
-            }
-        }
-        return this.cache.edgeTypeCounts;
-    }
-
-    getLayerCounts() {
-        if (!this.cache.layerCounts) {
-            this.cache.layerCounts = new Map();
-            for (const [layer, nodes] of this.index.nodesByLayer) {
-                this.cache.layerCounts.set(layer, nodes.length);
-            }
-        }
-        return this.cache.layerCounts;
-    }
-
-    getEffectCounts() {
-        if (!this.cache.effectCounts) {
-            this.cache.effectCounts = new Map();
-            for (const [effect, nodes] of this.index.nodesByEffect) {
-                this.cache.effectCounts.set(effect, nodes.length);
-            }
-        }
-        return this.cache.effectCounts;
-    }
-
-    getEdgeFamilyCounts() {
-        if (!this.cache.edgeFamilyCounts) {
-            this.cache.edgeFamilyCounts = new Map();
-            for (const link of this.raw.links) {
-                const family = link.family || 'Dependency';
-                this.cache.edgeFamilyCounts.set(family, (this.cache.edgeFamilyCounts.get(family) || 0) + 1);
-            }
-        }
-        return this.cache.edgeFamilyCounts;
-    }
-
-    getEdgeRanges() {
-        if (!this.cache.edgeRanges) {
-            let minW = Infinity, maxW = -Infinity;
-            let minC = Infinity, maxC = -Infinity;
-            for (const link of this.raw.links) {
-                const w = link.weight ?? 1;
-                const c = link.confidence ?? 1;
-                if (w < minW) minW = w;
-                if (w > maxW) maxW = w;
-                if (c < minC) minC = c;
-                if (c > maxC) maxC = c;
-            }
-            this.cache.edgeRanges = {
-                weight: { min: minW === Infinity ? 0 : minW, max: maxW === -Infinity ? 1 : maxW },
-                confidence: { min: minC === Infinity ? 0 : minC, max: maxC === -Infinity ? 1 : maxC }
-            };
-        }
-        return this.cache.edgeRanges;
-    }
-
-    // ═══════════════════════════════════════════════════════════════════
-    // SELF-TEST
-    // ═══════════════════════════════════════════════════════════════════
-    selfTest() {
-        const errors = [];
-        const warnings = [];
-        const seenIds = new Set();
-
-        for (const node of this.raw.nodes) {
-            if (!node?.id) {
-                errors.push('Node missing id');
-                continue;
-            }
-            if (seenIds.has(node.id)) {
-                errors.push(`Duplicate node id: ${node.id}`);
-                continue;
-            }
-            seenIds.add(node.id);
-        }
-
-        for (const link of this.raw.links) {
-            const srcId = this._endpointId(link, 'source');
-            const tgtId = this._endpointId(link, 'target');
-            if (srcId && !this.index.nodeById.has(srcId)) {
-                warnings.push(`Edge source not in graph: ${srcId}`);
-            }
-            if (tgtId && !this.index.nodeById.has(tgtId)) {
-                warnings.push(`Edge target not in graph: ${tgtId}`);
-            }
-        }
-
-        // Index integrity checks
-        const indexChecks = [
-            ['nodeById', this.index.nodeById.size, this.raw.nodes.length],
-            ['nodesByTier total', [...this.index.nodesByTier.values()].flat().length, this.raw.nodes.length],
-            ['edgesBySource total', [...this.index.edgesBySource.values()].flat().length, this.raw.links.length],
-        ];
-
-        for (const [name, actual, expected] of indexChecks) {
-            if (actual !== expected) {
-                warnings.push(`Index ${name}: ${actual} vs expected ${expected}`);
-            }
-        }
-
-        const status = errors.length === 0 ? '✅ PASS' : '❌ FAIL';
-        console.log(`%c[DM] Self-Test: ${status}`, errors.length === 0 ? 'color: #4ade80; font-weight: bold' : 'color: #f87171; font-weight: bold');
-        console.log(`  Raw: ${this.raw.nodes.length} nodes, ${this.raw.links.length} edges, ${this.raw.fileBoundaries.length} files`);
-        console.log(`  Indexes: nodeById=${this.index.nodeById.size}, tiers=${this.index.nodesByTier.size}, families=${this.index.nodesByFamily.size}`);
-        console.log(`  Edges: bySource=${this.index.edgesBySource.size}, byTarget=${this.index.edgesByTarget.size}, markov=${this.index.markovBySource.size}`);
-
-        if (errors.length > 0) console.error('[DM] Errors:', errors);
-        if (warnings.length > 0) {
-            console.warn('[DM] Warnings:', warnings.slice(0, 5));
-            if (warnings.length > 5) console.warn(`  ... and ${warnings.length - 5} more`);
-        }
-
-        return { errors, warnings, pass: errors.length === 0 };
-    }
-}
-
-function runDmParity(dm, data) {
-    if (!dm) return;
-    const checks = [];
-    const rawNodes = Array.isArray(data?.nodes) ? data.nodes.length : 0;
-    const rawEdges = Array.isArray(data?.links) ? data.links.length : 0;
-    const dmNodes = dm.raw.nodes.length;
-    const dmEdges = dm.raw.links.length;
-
-    checks.push({ name: 'Node count', dm: dmNodes, old: rawNodes, pass: dmNodes === rawNodes });
-    checks.push({ name: 'Edge count', dm: dmEdges, old: rawEdges, pass: dmEdges === rawEdges });
-    checks.push({ name: 'Node index size', dm: dm.index.nodeById.size, old: rawNodes, pass: dm.index.nodeById.size === rawNodes });
-
-    const rawMarkovEdges = (Array.isArray(data?.links) ? data.links : [])
-        .filter(l => (l?.markov_weight || 0) > 0).length;
-    const dmMarkovEdges = (Array.isArray(dm.raw.links) ? dm.raw.links : [])
-        .filter(l => (l?.markov_weight || 0) > 0).length;
-    checks.push({ name: 'Markov edges', dm: dmMarkovEdges, old: rawMarkovEdges, pass: dmMarkovEdges === rawMarkovEdges });
-
-    const allPass = checks.every(c => c.pass);
-    const style = allPass ? 'color: #4ade80; font-weight: bold' : 'color: #f87171; font-weight: bold';
-    console.log(`%c[DM Parity] ${allPass ? '✅ ALL PASS' : '❌ MISMATCH'}`, style);
-    checks.forEach(c => {
-        const icon = c.pass ? '✓' : '✗';
-        console.log(`  ${icon} ${c.name}: DM=${c.dm}, Raw=${c.old}`);
-    });
-}
-
-let DM = null;
 
 // =====================================================================
 // FLOATING PANEL CONTROL SYSTEM
 // =====================================================================
-let _activePanelId = null;
-
-function openPanel(panelId) {
-    const panel = document.getElementById('panel-' + panelId);
-    const btn = document.getElementById('cmd-' + panelId);
-
-    // Close any already-open panel
-    if (_activePanelId && _activePanelId !== panelId) {
-        closePanel(_activePanelId);
-    }
-
-    if (panel) {
-        panel.classList.add('visible');
-        // Short delay for transform animation
-        setTimeout(() => { panel.style.opacity = '1'; }, 10);
-    }
-    if (btn) btn.classList.add('active');
-    _activePanelId = panelId;
-
-    // UI_ACTIVE: "Quiet the universe" - dim graph when panel opens
-    document.body.classList.add('ui-active');
-
-    // Also dim starfield via JS (CSS filter doesn't reach WebGL)
-    if (typeof STARFIELD !== 'undefined' && STARFIELD && STARFIELD.material) {
-        STARFIELD.material.opacity = STARFIELD_OPACITY * 0.3;
-    }
-}
-
-function closePanel(panelId) {
-    const panel = document.getElementById('panel-' + panelId);
-    const btn = document.getElementById('cmd-' + panelId);
-    if (panel) {
-        panel.classList.remove('visible');
-    }
-    if (btn) btn.classList.remove('active');
-    if (_activePanelId === panelId) _activePanelId = null;
-
-    // UI_ACTIVE: Restore universe when all panels closed
-    if (!_activePanelId) {
-        document.body.classList.remove('ui-active');
-
-        // Restore starfield opacity
-        if (typeof STARFIELD !== 'undefined' && STARFIELD && STARFIELD.material) {
-            const starsBtn = document.getElementById('btn-stars');
-            const starsVisible = starsBtn && starsBtn.classList.contains('active');
-            STARFIELD.material.opacity = starsVisible ? STARFIELD_OPACITY : 0;
-        }
-    }
-}
-
-function togglePanel(panelId) {
-    const panel = document.getElementById('panel-' + panelId);
-    if (panel && panel.classList.contains('visible')) {
-        closePanel(panelId);
-    } else {
-        openPanel(panelId);
-    }
-}
+// openPanel, closePanel, togglePanel - MOVED TO modules/panels.js
+// (backward compat shims in panels.js)
 
 // Wire up command bar and panel controls
 function initCommandBar() {
@@ -3548,83 +2286,8 @@ function runSelfTest(data) {
     return results;
 }
 
-// Tier aliases: legacy names → canonical T0/T1/T2
-const TIER_ALIASES = {
-    'CORE': 'T0', 'T0': 'T0',
-    'ARCH': 'T1', 'T1': 'T1',
-    'EXT': 'T2', 'T2': 'T2',
-    'DISCOVERED': 'T2',  // EXT.DISCOVERED → T2
-    'UNKNOWN': 'UNKNOWN'
-};
-
-function normalizeTier(tier) {
-    if (!tier) return 'UNKNOWN';
-    const upper = String(tier).toUpperCase();
-    return TIER_ALIASES[upper] || upper;
-}
-
-// Prefer canonical node.tier field; fallback to atom prefix inference
-function getNodeTier(node) {
-    // If node is a string (backward compat: called with atomId), infer from prefix
-    if (typeof node === 'string') {
-        const atomId = node;
-        if (!atomId) return 'UNKNOWN';
-        if (atomId.startsWith('CORE.')) return 'T0';
-        if (atomId.startsWith('ARCH.')) return 'T1';
-        if (atomId.startsWith('EXT.')) return 'T2';
-        return 'UNKNOWN';
-    }
-    // Prefer canonical field
-    if (node.tier) {
-        return normalizeTier(node.tier);
-    }
-    // Fallback: infer from atom prefix
-    const atomId = String(node.atom || '');
-    if (atomId.startsWith('CORE.')) return 'T0';
-    if (atomId.startsWith('ARCH.')) return 'T1';
-    if (atomId.startsWith('EXT.')) return 'T2';
-    return 'UNKNOWN';
-}
-
-// Get atom family from canonical field or infer from atom prefix
-function getNodeAtomFamily(node) {
-    // Prefer canonical field
-    if (node.atom_family) {
-        return String(node.atom_family).toUpperCase();
-    }
-    // Fallback: infer from atom (e.g., "LOG.FNC.M" → "LOG")
-    const atomId = String(node.atom || '');
-    const dotIdx = atomId.indexOf('.');
-    if (dotIdx > 0) {
-        return atomId.substring(0, dotIdx).toUpperCase();
-    }
-    return 'UNKNOWN';
-}
-
-function normalizeRingValue(value) {
-    if (value === null || value === undefined) return null;
-    const ring = String(value).trim().toUpperCase();
-    if (!ring) return null;
-    const aliases = {
-        TEST: 'TESTING'
-    };
-    return aliases[ring] || ring;
-}
-
-function getNodeRing(node) {
-    const ring = node.ring || node.layer || 'UNKNOWN';
-    return normalizeRingValue(ring) || 'UNKNOWN';
-}
-
-function getNodeLayer(node) {
-    if (!node) return 'Unknown';
-    return node.layer || node.dimensions?.D2_LAYER || 'Unknown';
-}
-
-function getNodeEffect(node) {
-    if (!node) return 'Unknown';
-    return node.effect || node.dimensions?.D6_EFFECT || 'Unknown';
-}
+// TIER_ALIASES, normalizeTier, getNodeTier, getNodeAtomFamily, normalizeRingValue,
+// getNodeRing, getNodeLayer, getNodeEffect - provided by node-accessors.js module
 
 function getNodeColorByMode(node) {
     // ═══════════════════════════════════════════════════════════════════
@@ -3646,25 +2309,93 @@ function getNodeColorByMode(node) {
         return getFileColor(fileIdx, totalFiles, fileLabel);
     }
 
-    if (NODE_COLOR_MODE === 'family') {
-        const atomFamily = getNodeAtomFamily(node);
-        return Color.get('family', atomFamily);  // FROM ColorOrchestrator
-    }
+    // =========================================================================
+    // 33-DIMENSION COLOR SWITCH (The Mega-Switch)
+    // =========================================================================
 
-    if (NODE_COLOR_MODE === 'ring') {
-        const ring = getNodeRing(node);
-        return Color.get('ring', ring);  // FROM ColorOrchestrator
-    }
+    // 1. ARCHITECTURE
+    if (NODE_COLOR_MODE === 'tier') return Color.get('tier', getNodeTier(node));
+    if (NODE_COLOR_MODE === 'layer') return Color.get('layer', (node.layer || node.dimensions?.D2_LAYER || 'UNKNOWN').toUpperCase());
+    if (NODE_COLOR_MODE === 'subsystem') return Color.get('subsystem', getSubsystem(node));
+    if (NODE_COLOR_MODE === 'boundary_score') return Color.getInterval('boundary_score', normalize(node.rpbl?.boundary ?? 1, 9));
+    if (NODE_COLOR_MODE === 'phase') return Color.get('phase', getPhase(node));
 
-    if (NODE_COLOR_MODE === 'layer') {
-        const layer = (node.layer || 'VIRTUAL').toUpperCase();
-        return Color.get('layer', layer);  // FROM ColorOrchestrator
-    }
+    // 2. TAXONOMY
+    if (NODE_COLOR_MODE === 'atom') return Color.get('atom', (node.kind || node.type || 'unknown').toLowerCase());
+    if (NODE_COLOR_MODE === 'family') return Color.get('family', getNodeAtomFamily(node));
+    if (NODE_COLOR_MODE === 'role') return Color.get('roleCategory', node.role_cat || 'Unknown'); // Fallback to cat if role specific missing
+    if (NODE_COLOR_MODE === 'roleCategory') return Color.get('roleCategory', node.role_cat || getRoleCategory(node));
+    if (NODE_COLOR_MODE === 'fileType') return Color.get('fileType', getFileType(node));
 
-    // Tier color mode (default)
-    const tier = getNodeTier(node);
-    return Color.get('tier', tier);  // FROM ColorOrchestrator
+    // 3. METRICS
+    if (NODE_COLOR_MODE === 'complexity') return Color.getInterval('complexity', normalize(node.complexity || 0, 20));
+    if (NODE_COLOR_MODE === 'loc') return Color.getInterval('loc', normalize(node.lines_of_code || 0, 500));
+    if (NODE_COLOR_MODE === 'fan_in') return Color.getInterval('fan_in', normalize(node.in_degree || 0, 20));
+    if (NODE_COLOR_MODE === 'fan_out') return Color.getInterval('fan_out', normalize(node.out_degree || 0, 20));
+    if (NODE_COLOR_MODE === 'trust') return Color.getInterval('trust', node.trust || node.confidence || 0);
+
+    // 4. RPBL DNA
+    if (NODE_COLOR_MODE === 'responsibility') return Color.getInterval('responsibility', normalize(node.rpbl?.responsibility ?? 1, 9));
+    if (NODE_COLOR_MODE === 'purity') return Color.getInterval('purity', normalize(node.rpbl?.purity ?? 1, 9));
+    if (NODE_COLOR_MODE === 'lifecycle_score') return Color.getInterval('lifecycle_score', normalize(node.rpbl?.lifecycle ?? 1, 9));
+    if (NODE_COLOR_MODE === 'state') return Color.get('state', (node.dimensions?.D5_STATE === 'Stateful') ? 'Stateful' : 'Stateless');
+    if (NODE_COLOR_MODE === 'visibility') return Color.get('visibility', node.dimensions?.D4_BOUNDARY === 'External' ? 'Public' : 'Private');
+
+    // 5. TOPOLOGY
+    if (NODE_COLOR_MODE === 'centrality') return Color.getInterval('centrality', node.centrality || 0);
+    if (NODE_COLOR_MODE === 'rank') return Color.getInterval('centrality', node.pagerank || 0); // Reuse centrality color
+    if (NODE_COLOR_MODE === 'ring') return Color.get('ring', getNodeRing(node));
+
+    // 6. EVOLUTION (Placeholders / Simulated)
+    if (NODE_COLOR_MODE === 'churn') return Color.getInterval('churn', Math.random() * 0.5); // Simulated
+    if (NODE_COLOR_MODE === 'age') return Color.getInterval('churn', 0.2); // Placeholder
+
+    // DEFAULT FALLBACK
+    return Color.get('tier', getNodeTier(node));
 }
+
+// =========================================================================
+// DATA ENRICHMENT HELPERS
+// =========================================================================
+
+function getSubsystem(node) {
+    if (!node.file_path) return 'Unknown';
+    // Naive directory mapping
+    if (node.file_path.includes('/api/')) return 'Ingress';
+    if (node.file_path.includes('/db/') || node.file_path.includes('repository')) return 'Persistence';
+    if (node.file_path.includes('/core/') || node.file_path.includes('domain')) return 'Domain';
+    if (node.file_path.includes('/ui/') || node.file_path.includes('frontend')) return 'Presentation';
+    if (node.file_path.includes('config')) return 'Config';
+    return 'Domain'; // Default
+}
+
+function getPhase(node) {
+    // Attempt MIPO mapping from kind/role
+    const kind = (node.kind || '').toLowerCase();
+    if (kind.includes('data') || kind.includes('entity') || kind.includes('schema')) return 'DATA';
+    if (kind.includes('function') || kind.includes('logic')) return 'LOGIC';
+    if (kind.includes('module') || kind.includes('package')) return 'ORGANIZATION';
+    if (kind.includes('script') || kind.includes('main')) return 'EXECUTION';
+    return 'LOGIC';
+}
+
+function getFileType(node) {
+    const p = node.file_path || node.id || '';
+    const ext = p.split('.').pop().toLowerCase();
+    return ext || 'unknown';
+}
+
+function getRoleCategory(node) {
+    // Infer if missing
+    const r = (node.role || '').toLowerCase();
+    if (r.includes('service') || r.includes('manager')) return 'Orchestration';
+    if (r.includes('repo') || r.includes('store')) return 'Storage';
+    if (r.includes('controller') || r.includes('handler')) return 'Ingress';
+    if (r.includes('util') || r.includes('helper')) return 'Utility';
+    return 'Unknown';
+}
+
+// normalize - MOVED TO modules/utils.js
 
 function applyNodeColors(nodes) {
     const fileBoundaries = DM ? DM.getFileBoundaries() : [];  // ALL DATA FROM DM
@@ -3880,25 +2611,7 @@ function resetLayout() {
 // ====================================================================
 let _toastTimeout = null;
 
-function showModeToast(message) {
-    if (!HINTS_ENABLED) return;
-
-    let toast = document.getElementById('mode-toast');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'mode-toast';
-        toast.className = 'mode-toast';
-        document.body.appendChild(toast);
-    }
-
-    toast.textContent = message;
-    toast.classList.add('visible');
-
-    if (_toastTimeout) clearTimeout(_toastTimeout);
-    _toastTimeout = setTimeout(() => {
-        toast.classList.remove('visible');
-    }, 1200);
-}
+// showModeToast - MOVED TO modules/tooltips.js
 
 function getLinkEndpointId(link, side) {
     const endpoint = link?.[side];
@@ -3920,17 +2633,7 @@ function getFileTarget(fileIdx, totalFiles, radius, zSpacing) {
     };
 }
 
-function stableOffset(node, salt, radius) {
-    const angle = stableSeed(node, `${salt}:angle`) * Math.PI * 2;
-    const spread = 0.3 + stableSeed(node, `${salt}:radius`) * 0.7;
-    const zJitter = (stableSeed(node, `${salt}:z`) - 0.5) * radius * 0.6;
-    const dist = radius * spread;
-    return {
-        x: Math.cos(angle) * dist,
-        y: Math.sin(angle) * dist,
-        z: zJitter
-    };
-}
+// stableOffset - MOVED TO modules/utils.js
 
 function buildFileGraph(data) {
     // ALL DATA FROM DM (data param kept for backward compatibility)
@@ -4095,12 +2798,264 @@ function setupControls(data) {
     // Initialize Selection Detail Modal
     initSelectionModal();
 
+    // Initialize Node & Edge Config Controls (PRIME SECTIONS)
+    setupConfigControls();
+
     // Render color-coded legends with counts
     renderAllLegends();
 
     // Flow mode button (attached here for proper DOM timing)
     const btnFlow = document.getElementById('btn-flow');
     if (btnFlow) btnFlow.onclick = () => toggleFlowMode();
+}
+
+/**
+ * =================================================================
+ * setupConfigControls: Initialize NODE CONFIG and EDGE CONFIG panels
+ * =================================================================
+ * These are the "prime position" controls at the top of the sidebar
+ */
+function setupConfigControls() {
+    // Helper: Bind slider with value display
+    const bindSlider = (id, valueId, onChange, decimals = 1) => {
+        const slider = document.getElementById(id);
+        const valueEl = document.getElementById(valueId);
+        if (!slider) return;
+        slider.addEventListener('input', () => {
+            const val = parseFloat(slider.value);
+            if (valueEl) valueEl.textContent = decimals === 0 ? val.toString() : val.toFixed(decimals);
+            onChange(val);
+        });
+    };
+
+    // Helper: Bind toggle switch
+    const bindToggle = (id, initialState, onChange) => {
+        const toggle = document.getElementById(id);
+        if (!toggle) return;
+        if (initialState) toggle.classList.add('active');
+        else toggle.classList.remove('active');
+        toggle.addEventListener('click', () => {
+            const isActive = toggle.classList.toggle('active');
+            onChange(isActive);
+        });
+    };
+
+    // Helper: Bind button group (radio-like selection)
+    const bindButtonGroup = (container, dataAttr, onChange) => {
+        const buttons = container.querySelectorAll(`[${dataAttr}]`);
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                onChange(btn.getAttribute(dataAttr));
+            });
+        });
+    };
+
+    // ═══════════════════════════════════════════════════════════════════
+    // NODE CONFIG
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Size Mode Selector
+    const nodeCfg = document.getElementById('section-node-config');
+    if (nodeCfg) {
+        bindButtonGroup(nodeCfg, 'data-size-mode', (mode) => {
+            APPEARANCE_STATE.sizeMode = mode;
+            applyNodeSizeMode(mode);
+            console.log('[CONFIG] Size mode:', mode);
+        });
+    }
+
+    // Node Base Size
+    bindSlider('cfg-node-size', 'cfg-node-size-val', (val) => {
+        APPEARANCE_STATE.nodeScale = val;
+        applyNodeSizeMode(APPEARANCE_STATE.sizeMode || 'uniform');
+    });
+
+    // Node Opacity
+    bindSlider('cfg-node-opacity', 'cfg-node-opacity-val', (val) => {
+        APPEARANCE_STATE.nodeOpacity = val;
+        if (Graph) Graph.nodeOpacity(val);
+    });
+
+    // Node Resolution (sphere segments)
+    bindSlider('cfg-node-res', 'cfg-node-res-val', (val) => {
+        APPEARANCE_STATE.nodeResolution = Math.round(val);
+        if (Graph) Graph.nodeResolution(Math.round(val));
+    }, 0);
+
+    // Label Size
+    bindSlider('cfg-label-size', 'cfg-label-size-val', (val) => {
+        APPEARANCE_STATE.labelSize = val;
+        if (Graph && APPEARANCE_STATE.showLabels) {
+            Graph.nodeLabel(node => val > 0.2 ? (node.name || node.id) : null);
+        }
+    });
+
+    // Show Labels Toggle
+    bindToggle('cfg-toggle-labels', APPEARANCE_STATE.showLabels, (active) => {
+        APPEARANCE_STATE.showLabels = active;
+        if (Graph) Graph.nodeLabel(node => active ? (node.name || node.id) : null);
+    });
+
+    // Highlight Selected Toggle
+    bindToggle('cfg-toggle-highlight', APPEARANCE_STATE.highlightSelected, (active) => {
+        APPEARANCE_STATE.highlightSelected = active;
+        if (typeof updateSelectionVisuals === 'function') updateSelectionVisuals();
+    });
+
+    // Pulse Animation Toggle
+    bindToggle('cfg-toggle-pulse', false, (active) => {
+        APPEARANCE_STATE.pulseAnimation = active;
+        console.log('[CONFIG] Pulse animation:', active ? 'ON' : 'OFF');
+    });
+
+    // 3D Depth Shading Toggle
+    bindToggle('cfg-toggle-depth', true, (active) => {
+        APPEARANCE_STATE.depthShading = active;
+        console.log('[CONFIG] Depth shading:', active ? 'ON' : 'OFF');
+    });
+
+    // ═══════════════════════════════════════════════════════════════════
+    // EDGE CONFIG - Enhanced with better visibility and flow animation
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Edge Style Selector
+    const edgeCfg = document.getElementById('section-edge-config');
+    if (edgeCfg) {
+        bindButtonGroup(edgeCfg, 'data-edge-style', (style) => {
+            APPEARANCE_STATE.edgeStyle = style;
+            applyEdgeStyle(style);
+            console.log('[CONFIG] Edge style:', style);
+        });
+    }
+
+    // Edge Opacity - ENHANCED: Higher default for visibility
+    bindSlider('cfg-edge-opacity', 'cfg-edge-opacity-val', (val) => {
+        APPEARANCE_STATE.edgeOpacity = val;
+        if (Graph) Graph.linkOpacity(val);
+    });
+
+    // Edge Width - ENHANCED: Thicker default
+    bindSlider('cfg-edge-width', 'cfg-edge-width-val', (val) => {
+        APPEARANCE_STATE.edgeWidth = val;
+        if (Graph) Graph.linkWidth(link => Math.max(0.5, (link.width || 1) * val));
+    });
+
+    // Edge Curvature
+    bindSlider('cfg-edge-curve', 'cfg-edge-curve-val', (val) => {
+        APPEARANCE_STATE.edgeCurvature = val;
+        if (Graph) Graph.linkCurvature(val);
+    });
+
+    // Particle Speed - For FLOW visualization
+    bindSlider('cfg-particle-speed', 'cfg-particle-speed-val', (val) => {
+        APPEARANCE_STATE.particleSpeed = val;
+        if (Graph) Graph.linkDirectionalParticleSpeed(val);
+    }, 3);
+
+    // Particle Density - For FLOW visualization
+    bindSlider('cfg-particle-count', 'cfg-particle-count-val', (val) => {
+        APPEARANCE_STATE.particleCount = Math.round(val);
+        if (Graph) Graph.linkDirectionalParticles(Math.round(val));
+    }, 0);
+
+    // Show Arrows Toggle
+    bindToggle('cfg-toggle-arrows', APPEARANCE_STATE.showArrows, (active) => {
+        APPEARANCE_STATE.showArrows = active;
+        if (Graph) {
+            Graph.linkDirectionalArrowLength(active ? 6 : 0);
+            Graph.linkDirectionalArrowRelPos(0.9);
+        }
+    });
+
+    // Gradient Colors Toggle
+    bindToggle('cfg-toggle-gradient', APPEARANCE_STATE.gradientEdges, (active) => {
+        APPEARANCE_STATE.gradientEdges = active;
+        if (typeof applyEdgeMode === 'function') applyEdgeMode();
+    });
+
+    // Highlight Edges on Hover Toggle
+    bindToggle('cfg-toggle-edge-hover', true, (active) => {
+        APPEARANCE_STATE.edgeHoverHighlight = active;
+    });
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Section Collapse Handlers
+    // ═══════════════════════════════════════════════════════════════════
+    document.querySelectorAll('.section-header[data-section]').forEach(header => {
+        header.addEventListener('click', () => {
+            const sectionId = header.dataset.section;
+            const content = document.getElementById(`section-${sectionId}`);
+            if (!content) return;
+            const isCollapsed = header.classList.toggle('collapsed');
+            content.classList.toggle('collapsed', isCollapsed);
+        });
+    });
+
+    console.log('[CONFIG] Node & Edge config controls initialized');
+}
+
+/**
+ * Apply node size mode - determines how node sizes are calculated
+ */
+function applyNodeSizeMode(mode) {
+    if (!Graph) return;
+    const scale = APPEARANCE_STATE.nodeScale || 1;
+    switch (mode) {
+        case 'uniform':
+            Graph.nodeVal(() => 1 * scale);
+            break;
+        case 'degree':
+            Graph.nodeVal(n => Math.max(1, ((n.in_degree || 0) + (n.out_degree || 0)) * 0.5) * scale);
+            break;
+        case 'fanout':
+            Graph.nodeVal(n => (n.val || n.fanout || 1) * scale);
+            break;
+        case 'complexity':
+            Graph.nodeVal(n => Math.max(1, (n.complexity || n.loc || 10) * 0.05) * scale);
+            break;
+        default:
+            Graph.nodeVal(n => (n.val || 1) * scale);
+    }
+}
+
+/**
+ * Apply edge style - controls edge rendering mode
+ */
+function applyEdgeStyle(style) {
+    if (!Graph) return;
+    const opacity = APPEARANCE_STATE.edgeOpacity || 0.4;
+    const speed = APPEARANCE_STATE.particleSpeed || 0.01;
+    const count = APPEARANCE_STATE.particleCount || 0;
+
+    switch (style) {
+        case 'solid':
+            Graph.linkLineDash(null);
+            Graph.linkOpacity(opacity);
+            Graph.linkDirectionalParticles(count);
+            break;
+        case 'dashed':
+            Graph.linkLineDash([4, 4]);
+            Graph.linkOpacity(opacity);
+            Graph.linkDirectionalParticles(count);
+            break;
+        case 'particle':
+            // Particle mode: dim lines, bright particles for flow effect
+            Graph.linkLineDash(null);
+            Graph.linkOpacity(Math.max(0.1, opacity * 0.3));
+            Graph.linkDirectionalParticles(Math.max(4, count));
+            Graph.linkDirectionalParticleSpeed(speed);
+            Graph.linkDirectionalParticleWidth(3);
+            Graph.linkDirectionalParticleColor(link => {
+                // Use source node color for particles
+                if (link.source && typeof link.source === 'object') {
+                    return link.source.__threeObj?.material?.color?.getStyle() || '#00d4ff';
+                }
+                return '#00d4ff';
+            });
+            break;
+    }
 }
 
 /**
@@ -4648,51 +3603,10 @@ const SMC_THEORY = {
     }
 };
 
-// Tooltip state
+// Tooltip state - shared with modules/tooltips.js
 const TOOLTIP_STATE = { visible: false, currentKey: null, element: null, hideTimeout: null };
 
-function initTooltips() {
-    TOOLTIP_STATE.element = document.getElementById('topo-tooltip');
-}
-
-function showTopoTooltip(category, key, x, y) {
-    if (!TOOLTIP_STATE.element) initTooltips();
-    if (!TOOLTIP_STATE.element) return;
-    const content = SMC_THEORY[category]?.[key];
-    if (!content) return;
-    clearTimeout(TOOLTIP_STATE.hideTimeout);
-    document.getElementById('tooltip-icon').textContent = content.icon || '';
-    document.getElementById('tooltip-title').textContent = content.title || key;
-    document.getElementById('tooltip-subtitle').textContent = content.subtitle || '';
-    document.getElementById('tooltip-body').textContent = content.body || '';
-    document.getElementById('tooltip-theory').textContent = content.theory || '';
-    const examplesEl = document.getElementById('tooltip-examples');
-    examplesEl.innerHTML = (content.examples || []).map(ex => `<span class="topo-tooltip-example">${ex}</span>`).join('');
-    const tooltip = TOOLTIP_STATE.element;
-    let left = x + 15, top = y + 15;
-    if (left + 280 > window.innerWidth) left = x - 295;
-    if (top + 200 > window.innerHeight) top = y - 215;
-    if (left < 0) left = 15;
-    if (top < 0) top = 15;
-    tooltip.style.left = left + 'px';
-    tooltip.style.top = top + 'px';
-    tooltip.classList.add('visible');
-    TOOLTIP_STATE.visible = true;
-    TOOLTIP_STATE.currentKey = `${category}:${key}`;
-}
-
-function hideTopoTooltip(immediate = false) {
-    if (!TOOLTIP_STATE.element) return;
-    if (immediate) {
-        TOOLTIP_STATE.element.classList.remove('visible');
-        TOOLTIP_STATE.visible = false;
-    } else {
-        TOOLTIP_STATE.hideTimeout = setTimeout(() => {
-            TOOLTIP_STATE.element.classList.remove('visible');
-            TOOLTIP_STATE.visible = false;
-        }, 150);
-    }
-}
+// initTooltips, showTopoTooltip, hideTopoTooltip - MOVED TO modules/tooltips.js
 
 // ZONES define which levels belong to which visual band
 const LEVEL_ZONES = {
@@ -5372,14 +4286,7 @@ function collectCounts(items, keyFn) {
     return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
 }
 
-function resolveDefaults(defaults, available) {
-    if (!Array.isArray(defaults) || defaults.length === 0) {
-        return available;
-    }
-    const availableSet = new Set(available);
-    const intersection = defaults.filter(value => availableSet.has(value));
-    return intersection.length ? intersection : available;
-}
+// resolveDefaults - MOVED TO modules/utils.js
 
 function buildCheckboxRow(container, id, label, count, checked, onChange) {
     const row = document.createElement('div');
@@ -6300,7 +5207,10 @@ buildExclusiveOptions('filter-node-color', [
     { label: 'RING', value: 'ring' },
     { label: 'FAMILY', value: 'family' },
     { label: 'LAYER', value: 'layer' },
-    { label: 'FILE', value: 'file' }
+    { label: 'FILE', value: 'file' },
+    { label: 'ATOM', value: 'atom' },
+    { label: 'COMPLEXITY', value: 'complexity' },
+    { label: 'CHURN', value: 'churn' }
 ], NODE_COLOR_MODE, setNodeColorMode);
 buildExclusiveOptions('filter-edge-mode', [
     { label: 'GRAD-FILE', value: 'gradient-file' },
@@ -6470,12 +5380,7 @@ function setupAIInsights(data) {
 }
 
 // Helper function for HTML escaping (if not already defined)
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+// escapeHtml - MOVED TO modules/utils.js
 
 function setupMetrics(data) {
     const kpis = (data && data.kpis) ? data.kpis : {};
@@ -6608,16 +5513,7 @@ function updateHudStats(data) {
     }
 }
 
-function showToast(message) {
-    const toast = document.getElementById('hud-toast');
-    if (!toast) return;
-    toast.textContent = message;
-    toast.classList.add('visible');
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => {
-        toast.classList.remove('visible');
-    }, 2200);
-}
+// showToast - MOVED TO modules/tooltips.js
 
 function updateDatamapControls() {
     if (!DM) return;  // ALL DATA FROM DM
@@ -6676,20 +5572,7 @@ function setupDimensionToggle() {
     button.onclick = () => toggleDimensions();
 }
 
-function stableSeed(node, salt) {
-    const id = String(node.id || node.name || '');
-    const combined = `${id}|${salt}`;
-    let hash = 0;
-    for (let i = 0; i < combined.length; i++) {
-        hash = ((hash << 5) - hash + combined.charCodeAt(i)) | 0;
-    }
-    return ((hash >>> 0) % 1000) / 1000;
-}
-
-function stableZ(node) {
-    const normalized = stableSeed(node, 'z');
-    return (normalized - 0.5) * 60;
-}
+// stableSeed, stableZ - MOVED TO modules/utils.js
 
 function animateDimensionChange(target3d, done) {
     const nodes = (Graph && Graph.graphData().nodes) ? Graph.graphData().nodes : [];
@@ -6889,17 +5772,7 @@ const GRADIENT_PALETTES = {
     }
 };
 
-// Build file hue map for consistent coloring
-var FILE_HUE_MAP = new Map();  // Use var to avoid TDZ issues during initialization
-function buildFileHueMap() {
-    if (!DM) return;  // ALL DATA FROM DM
-    const files = DM.getFileBoundaries();
-    const goldenAngle = 137.508;  // Golden angle for good distribution
-    files.forEach((file, idx) => {
-        const hue = (idx * goldenAngle) % 360;
-        FILE_HUE_MAP.set(idx, hue);
-    });
-}
+// FILE_HUE_MAP, buildFileHueMap - provided by edge-system.js module
 
 // Get node tier value (0=T0, 1=T1, 2=T2)
 function getNodeTierValue(node) {
@@ -6935,220 +5808,13 @@ function getSemanticSimilarity(srcNode, tgtNode) {
     return score;
 }
 
-// Interpolate between two HSL colors
-function interpolateHSL(hsl1, hsl2, t) {
-    t = clamp01(t);
-    // Handle hue interpolation (shortest path on color wheel)
-    let h1 = hsl1.h, h2 = hsl2.h;
-    let dh = h2 - h1;
-    if (Math.abs(dh) > 180) {
-        if (dh > 0) h1 += 360;
-        else h2 += 360;
-    }
-    const h = (h1 + (h2 - h1) * t) % 360;
-    const s = hsl1.s + (hsl2.s - hsl1.s) * t;
-    const l = hsl1.l + (hsl2.l - hsl1.l) * t;
-    return hslColor(h, s, l);
-}
+// interpolateColor, applyColorTweaks, oklchToSrgb, oklchColor - MOVED TO modules/color-engine.js
+// Use COLOR.interpolate() and COLOR.get() instead
 
-// Create gradient color for edge based on source and target
-function getGradientEdgeColor(link, mode) {
-    const srcNode = typeof link.source === 'object' ? link.source :
-        (Graph?.graphData()?.nodes?.find(n => n.id === link.source));
-    const tgtNode = typeof link.target === 'object' ? link.target :
-        (Graph?.graphData()?.nodes?.find(n => n.id === link.target));
-
-    if (mode === 'gradient-tier') {
-        // Color by tier transition: T0(blue) → T1(purple) → T2(orange)
-        const srcTier = getNodeTierValue(srcNode);
-        const tgtTier = getNodeTierValue(tgtNode);
-        const avgTier = (srcTier + tgtTier) / 2;
-
-        // Blend based on tier flow direction
-        const palette = GRADIENT_PALETTES.tier;
-        let color;
-        if (avgTier < 0.5) {
-            color = interpolateHSL(palette.T0, palette.T1, avgTier * 2);
-        } else if (avgTier < 1.5) {
-            color = interpolateHSL(palette.T0, palette.T1, (avgTier - 0.5));
-        } else {
-            color = interpolateHSL(palette.T1, palette.T2, (avgTier - 1) / 2);
-        }
-
-        // Highlight tier transitions (edges crossing tiers)
-        if (srcTier !== tgtTier) {
-            // Make cross-tier edges brighter/more saturated
-            return hslColor(
-                parseInt(color.slice(4)),
-                75,  // Higher saturation
-                55   // Brighter
-            );
-        }
-        return color;
-    }
-
-    if (mode === 'gradient-file') {
-        // Color by file - each file gets unique hue
-        const srcFile = srcNode?.fileIdx ?? -1;
-        const tgtFile = tgtNode?.fileIdx ?? -1;
-        const palette = GRADIENT_PALETTES.file;
-
-        if (srcFile === tgtFile && srcFile >= 0) {
-            // Same file: use file's hue
-            const hue = FILE_HUE_MAP.get(srcFile) ?? (srcFile * 37 % 360);
-            return hslColor(hue, palette.saturation, palette.lightness);
-        } else {
-            // Cross-file: blend hues or use distinct "boundary" color
-            const srcHue = FILE_HUE_MAP.get(srcFile) ?? 0;
-            const tgtHue = FILE_HUE_MAP.get(tgtFile) ?? 180;
-            // Use midpoint hue with reduced saturation (shows boundary)
-            let midHue = (srcHue + tgtHue) / 2;
-            if (Math.abs(srcHue - tgtHue) > 180) {
-                midHue = (midHue + 180) % 360;
-            }
-            return hslColor(midHue, palette.saturation * 0.6, palette.lightness * 1.1);
-        }
-    }
-
-    if (mode === 'gradient-flow') {
-        // Color by markov weight (probability flow)
-        const mw = link.markov_weight ?? link.weight ?? 0;
-        const palette = GRADIENT_PALETTES.flow;
-
-        if (mw < 0.3) {
-            return interpolateHSL(palette.cold, palette.warm, mw / 0.3);
-        } else if (mw < 0.7) {
-            return interpolateHSL(palette.warm, palette.hot, (mw - 0.3) / 0.4);
-        } else {
-            // Very hot - extra bright
-            return hslColor(palette.hot.h, palette.hot.s + 10, palette.hot.l + 10);
-        }
-    }
-
-    if (mode === 'gradient-depth') {
-        // Color by call depth (position in graph)
-        const srcDepth = getNodeDepth(srcNode);
-        const tgtDepth = getNodeDepth(tgtNode);
-        const avgDepth = (srcDepth + tgtDepth) / 2;
-        const palette = GRADIENT_PALETTES.depth;
-
-        if (avgDepth < 0.33) {
-            return interpolateHSL(palette.shallow, palette.mid, avgDepth * 3);
-        } else if (avgDepth < 0.66) {
-            return interpolateHSL(palette.mid, palette.deep, (avgDepth - 0.33) * 3);
-        } else {
-            return hslColor(palette.deep.h, palette.deep.s, palette.deep.l - 10);
-        }
-    }
-
-    if (mode === 'gradient-semantic') {
-        // Color by semantic similarity
-        const similarity = getSemanticSimilarity(srcNode, tgtNode);
-        const palette = GRADIENT_PALETTES.semantic;
-
-        if (similarity > 0.7) {
-            return interpolateHSL(palette.related, palette.similar, (similarity - 0.7) / 0.3);
-        } else if (similarity > 0.3) {
-            return interpolateHSL(palette.different, palette.related, (similarity - 0.3) / 0.4);
-        } else {
-            return hslColor(palette.different.h, palette.different.s + 10, palette.different.l);
-        }
-    }
-
-    // Fallback
-    return '#444444';
-}
-
-function clamp01(value) {
-    return Math.max(0, Math.min(1, value));
-}
-
-function clampValue(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-}
-
-function hslColor(hue, saturation, lightness) {
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-}
-
-function parseOklchString(value) {
-    if (typeof value !== 'string') return null;
-    const match = value.trim().match(/^oklch\(\s*([\d.]+)%\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/i);
-    if (!match) return null;
-    return {
-        L: parseFloat(match[1]),
-        C: parseFloat(match[2]),
-        H: parseFloat(match[3]),
-        A: match[4] !== undefined ? parseFloat(match[4]) : 1
-    };
-}
-
-function applyColorTweaks(lightness, chroma, hue, alpha = 1) {
-    const L = clampValue(lightness + (COLOR_TWEAKS.lightnessShift || 0), 0, 100);
-    const C = clampValue(chroma * (COLOR_TWEAKS.chromaScale || 1), 0, 0.4);
-    const H = (hue + (COLOR_TWEAKS.hueShift || 0) + 360) % 360;
-    return [L, C, H, alpha];
-}
-
-function oklchToSrgb(L, C, H) {
-    const hRad = (H * Math.PI) / 180;
-    const a = C * Math.cos(hRad);
-    const b = C * Math.sin(hRad);
-
-    const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
-    const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
-    const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
-
-    const l = l_ ** 3;
-    const m = m_ ** 3;
-    const s = s_ ** 3;
-
-    let r = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
-    let g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
-    let bChan = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s;
-
-    const linearToSrgb = (channel) => {
-        if (channel <= 0.0031308) {
-            return 12.92 * channel;
-        }
-        return 1.055 * Math.pow(channel, 1 / 2.4) - 0.055;
-    };
-
-    r = linearToSrgb(r);
-    g = linearToSrgb(g);
-    bChan = linearToSrgb(bChan);
-
-    if (![r, g, bChan].every(Number.isFinite)) {
-        return [0.5, 0.5, 0.5];
-    }
-
-    return [
-        Math.min(1, Math.max(0, r)),
-        Math.min(1, Math.max(0, g)),
-        Math.min(1, Math.max(0, bChan))
-    ];
-}
-
-function oklchColor(lightness, chroma, hue, alpha = 1) {
-    const rawL = (typeof lightness === 'number') ? lightness : 50;
-    const rawC = (typeof chroma === 'number') ? chroma : 0.1;
-    const rawH = (typeof hue === 'number') ? hue : 0;
-    const [LAdj, CAdj, HAdj, alphaAdj] = applyColorTweaks(rawL, rawC, rawH, alpha);
-    const L = LAdj / 100;
-    const C = CAdj;
-    const H = HAdj;
-    const [r, g, b] = oklchToSrgb(L, C, H);
-    const rByte = Math.round(r * 255);
-    const gByte = Math.round(g * 255);
-    const bByte = Math.round(b * 255);
-    if (![rByte, gByte, bByte].every(Number.isFinite)) {
-        return 'rgb(128, 128, 128)';
-    }
-    if (alphaAdj < 1) {
-        return `rgba(${rByte}, ${gByte}, ${bByte}, ${alphaAdj})`;
-    }
-    return `rgb(${rByte}, ${gByte}, ${bByte})`;
-}
+// getGradientEdgeColor - MOVED TO modules/edge-system.js
+// clamp01, clampValue - MOVED TO modules/utils.js
+// hslColor REMOVED - Using OKLCH Native via Color.interpolate
+// parseOklchString - MOVED TO modules/utils.js
 
 function normalizeColorInput(color, fallback = 'rgb(128, 128, 128)') {
     if (color === null || color === undefined) {
@@ -7236,132 +5902,9 @@ function getLinkFileIdx(link, side) {
     return -1;
 }
 
-function normalizeMetric(value, range) {
-    // If range is degenerate (all same values), return based on absolute value:
-    // - For 0-1 metrics like confidence: return the value itself
-    // - This prevents "all low" coloring when all edges have same high confidence
-    if (!range || range.max <= range.min) {
-        return clamp01(value);
-    }
-    return clamp01((value - range.min) / (range.max - range.min));
-}
-
-function getEdgeColor(link) {
-    // ═══════════════════════════════════════════════════════════════════
-    // ALL EDGE COLORS NOW COME FROM ColorOrchestrator (aliased as Color)
-    // This ensures legend colors match visualization colors exactly
-    // OKLCH transforms are applied automatically
-    // ═══════════════════════════════════════════════════════════════════
-
-    // NEW GRADIENT MODES (default!)
-    if (EDGE_MODE.startsWith('gradient-')) {
-        return getGradientEdgeColor(link, EDGE_MODE);
-    }
-
-    const edgeKey = String(link.edge_type || link.type || 'unknown').toLowerCase();
-
-    if (EDGE_MODE === 'type') {
-        return Color.get('edgeType', edgeKey);  // FROM ColorOrchestrator
-    }
-
-    if (EDGE_MODE === 'weight') {
-        const weight = typeof link.weight === 'number' ? link.weight : 1;
-        const t = normalizeMetric(weight, EDGE_RANGES.weight);
-        return Color.getInterval('weight', t);  // FROM ColorOrchestrator intervals
-    }
-
-    if (EDGE_MODE === 'confidence') {
-        const confidence = typeof link.confidence === 'number' ? link.confidence : 1;
-        const t = normalizeMetric(confidence, EDGE_RANGES.confidence);
-        return Color.getInterval('confidence', t);  // FROM ColorOrchestrator intervals
-    }
-
-    if (EDGE_MODE === 'mono') {
-        return Color.get('edgeType', 'unknown');  // Neutral from ColorOrchestrator
-    }
-
-    // Default: type-based coloring
-    return Color.get('edgeType', edgeKey);  // FROM ColorOrchestrator
-}
-
-function getEdgeWidth(link) {
-    // ═══════════════════════════════════════════════════════════════════
-    // EDGE WIDTH: Constrained to narrow range for visual coherence
-    // Min: 0.6px, Max: 2.2px - prevents chaotic thin/thick variance
-    // ═══════════════════════════════════════════════════════════════════
-    const MIN_WIDTH = 0.6;
-    const MAX_WIDTH = 2.2;
-    const BASE_WIDTH = 1.0;
-
-    // For most modes, return uniform width for visual consistency
-    if (EDGE_MODE !== 'weight' && EDGE_MODE !== 'confidence') {
-        return BASE_WIDTH;
-    }
-
-    // Weight/confidence modes: subtle variation within tight bounds
-    let t = 0.5;  // Default middle
-    if (EDGE_MODE === 'weight') {
-        const weight = typeof link.weight === 'number' ? link.weight : 1;
-        t = normalizeMetric(weight, EDGE_RANGES.weight);
-    } else if (EDGE_MODE === 'confidence') {
-        const confidence = typeof link.confidence === 'number' ? link.confidence : 1;
-        t = normalizeMetric(confidence, EDGE_RANGES.confidence);
-    }
-
-    // Linear interpolation within tight bounds (no amplifier blowup)
-    return MIN_WIDTH + (t * (MAX_WIDTH - MIN_WIDTH));
-}
-
-function applyEdgeMode() {
-    updateEdgeRanges();
-    refreshNodeFileIndex();
-    buildFileHueMap();  // Build hue map for gradient-file mode
-    if (Graph) {
-        Graph.linkColor(link => toColorNumber(getEdgeColor(link), 0x222222));
-        Graph.linkOpacity(link => {
-            const overrideOpacity = (typeof APPEARANCE_STATE.edgeOpacity === 'number')
-                ? APPEARANCE_STATE.edgeOpacity
-                : null;
-            const baseOpacity = (overrideOpacity !== null)
-                ? overrideOpacity
-                : (link.opacity ?? EDGE_DEFAULT_OPACITY);
-            if (fileMode && GRAPH_MODE === 'atoms') {
-                const srcIdx = getLinkFileIdx(link, 'source');
-                const tgtIdx = getLinkFileIdx(link, 'target');
-                if (srcIdx >= 0 && tgtIdx >= 0 && srcIdx !== tgtIdx) {
-                    const dimFactor = EDGE_MODE_CONFIG.dim?.interfile_factor ?? 0.25;
-                    return baseOpacity * dimFactor;
-                }
-            }
-            return baseOpacity;
-        });
-        if (!flowMode) {
-            Graph.linkWidth(link => getEdgeWidth(link));
-        }
-    }
-}
-
-function cycleEdgeMode() {
-    const currentIndex = EDGE_MODE_ORDER.indexOf(EDGE_MODE);
-    const nextIndex = (currentIndex + 1) % EDGE_MODE_ORDER.length;
-    setEdgeMode(EDGE_MODE_ORDER[nextIndex]);
-}
-
-function setEdgeMode(mode) {
-    if (!EDGE_MODE_ORDER.includes(mode)) return;
-    EDGE_MODE = mode;
-    const button = document.getElementById('btn-edge-mode');
-    if (button) {
-        button.textContent = EDGE_MODE_LABELS[EDGE_MODE] || 'EDGE';
-    }
-    applyEdgeMode();
-    // Update legend to reflect edge mode colors
-    if (typeof renderAllLegends === 'function') {
-        renderAllLegends();
-    }
-    // Show mode toast hint
-    showModeToast(EDGE_MODE_HINTS[mode] || `Edge mode: ${mode}`);
-}
+// normalizeMetric - MOVED TO modules/utils.js
+// getEdgeColor, getEdgeWidth, applyEdgeMode, cycleEdgeMode, setEdgeMode - MOVED TO modules/edge-system.js
+// (backward compat shims in edge-system.js)
 
 // Datamap toggles are wired in buildDatamapControls().
 document.getElementById('btn-report').onclick = () => {
@@ -7807,15 +6350,7 @@ function applyDatamap(prefix) {
 // ====================================================================
 // NOTE: fileBoundaryMeshes, fileMode, fileVizMode, etc. declared at top of file
 
-function hashToUnit(value) {
-    const str = String(value || '');
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash |= 0;
-    }
-    return (hash >>> 0) / 0xffffffff;
-}
+// hashToUnit - MOVED TO modules/utils.js
 
 function getFileHue(fileIdx, totalFiles, fileName) {
     const strategy = FILE_COLOR_CONFIG.strategy || 'golden-angle';
@@ -7895,17 +6430,7 @@ function updateHoverPanel(node) {
     if (placeholder) placeholder.style.display = 'none';
 }
 
-function buildDatasetKey(data) {
-    const meta = (data && data.meta) ? data.meta : {};
-    const target = meta.target || meta.project || 'dataset';
-    const version = meta.version || '';
-    const nodeCount = Array.isArray(data?.nodes) ? data.nodes.length : 0;
-    const edgeCount = Array.isArray(data?.links)
-        ? data.links.length
-        : (Array.isArray(data?.edges) ? data.edges.length : 0);
-    const raw = `${target}|${nodeCount}|${edgeCount}|${version}`;
-    return raw.replace(/[^a-zA-Z0-9_.-]/g, '_').slice(0, 180);
-}
+// buildDatasetKey - MOVED TO modules/utils.js
 
 function loadGroups() {
     GROUPS = [];
@@ -8060,31 +6585,8 @@ function setSelection(ids, additive = false) {
     updateGroupButtonState();
 }
 
-function toggleSelection(node) {
-    if (!node || !node.id) return;
-    if (SELECTED_NODE_IDS.has(node.id)) {
-        SELECTED_NODE_IDS.delete(node.id);
-    } else {
-        SELECTED_NODE_IDS.add(node.id);
-    }
-    updateSelectionPanel();
-    updateSelectionVisuals();
-    updateGroupButtonState();
-}
-
-function clearSelection() {
-    SELECTED_NODE_IDS.clear();
-    updateSelectionPanel();
-    updateSelectionVisuals();
-    updateGroupButtonState();
-}
-
-function maybeClearSelection() {
-    const now = Date.now();
-    if (MARQUEE_ACTIVE) return;
-    if (now - LAST_MARQUEE_END_TS < 250) return;
-    clearSelection();
-}
+// toggleSelection, clearSelection, maybeClearSelection - MOVED TO modules/selection.js
+// Use SELECT.toggle(), SELECT.clear(), SELECT.maybeClear()
 
 function formatCountList(items, limit = 4) {
     return items.slice(0, limit).map(([key, count]) => `${key} ${count}`).join(' · ') || '--';
@@ -8430,40 +6932,7 @@ if (typeof graph !== 'undefined' && graph.appearance && graph.appearance.animati
 // Store original colors for dimming non-selected nodes
 // NOTE: originalColorsForDim declared at top of file
 
-// OKLCH to sRGB conversion (simplified, clamped)
-function oklchToHex(L, C, H) {
-    // Convert OKLCH to OKLab
-    const hRad = H * Math.PI / 180;
-    const a = C * Math.cos(hRad);
-    const b = C * Math.sin(hRad);
-
-    // OKLab to linear sRGB (approximate)
-    const l_ = L / 100 + 0.3963377774 * a + 0.2158037573 * b;
-    const m_ = L / 100 - 0.1055613458 * a - 0.0638541728 * b;
-    const s_ = L / 100 - 0.0894841775 * a - 1.2914855480 * b;
-
-    const l = l_ * l_ * l_;
-    const m = m_ * m_ * m_;
-    const s = s_ * s_ * s_;
-
-    // Linear sRGB
-    let rLin = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
-    let gLin = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
-    let bLin = -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s;
-
-    // Gamma correction & clamp
-    const gamma = x => x <= 0 ? 0 : x >= 1 ? 1 : x < 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
-    let rOut = Math.round(gamma(rLin) * 255);
-    let gOut = Math.round(gamma(gLin) * 255);
-    let bOut = Math.round(gamma(bLin) * 255);
-
-    // Clamp to valid range
-    rOut = Math.max(0, Math.min(255, rOut));
-    gOut = Math.max(0, Math.min(255, gOut));
-    bOut = Math.max(0, Math.min(255, bOut));
-
-    return '#' + [rOut, gOut, bOut].map(x => x.toString(16).padStart(2, '0')).join('');
-}
+// oklchToHex - MOVED TO modules/color-engine.js (use COLOR.get() instead)
 
 function updatePendulums(dt) {
     const p1 = PENDULUM.hue;
@@ -8700,20 +7169,7 @@ function updateSelectionBox(rect) {
     SELECTION_BOX.style.height = `${rect.height}px`;
 }
 
-function getBoxRect(start, end) {
-    const left = Math.min(start.x, end.x);
-    const top = Math.min(start.y, end.y);
-    const width = Math.abs(start.x - end.x);
-    const height = Math.abs(start.y - end.y);
-    return {
-        left,
-        top,
-        width,
-        height,
-        right: left + width,
-        bottom: top + height
-    };
-}
+// getBoxRect - MOVED TO modules/utils.js
 
 function getNodeScreenPosition(node) {
     if (!Graph || !Graph.camera || !node) return null;
@@ -8946,17 +7402,7 @@ function computeCentroid(points) {
     return centroid.divideScalar(Math.max(1, points.length));
 }
 
-function quantile(values, q) {
-    if (!values.length) return 0;
-    const sorted = values.slice().sort((a, b) => a - b);
-    const pos = (sorted.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    if (sorted[base + 1] !== undefined) {
-        return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-    }
-    return sorted[base];
-}
+// quantile - MOVED TO modules/utils.js
 
 function drawFileBoundaries(data) {
     // ALL DATA FROM DM - the rendering pipeline
@@ -10107,17 +8553,8 @@ function clearFileCohesion() {
 // SURFACE PARITY HANDLERS - Architectural Enforcements
 // ════════════════════════════════════════════════════════════════════════
 
-// Panel Handlers
-function togglePanelView() { togglePanel('view'); }
-function togglePanelFilter() { togglePanel('filter'); }
-function togglePanelStyle() { togglePanel('style'); }
-function togglePanelSettings() { togglePanel('settings'); }
-
-// Command Bar Handlers
-function handleCmdView() { togglePanelView(); }
-function handleCmdFilter() { togglePanelFilter(); }
-function handleCmdStyle() { togglePanelStyle(); }
-function handleCmdSettings() { togglePanelSettings(); }
+// Panel Handlers - use togglePanel('view') etc. or PANELS.toggle('view')
+// togglePanelView/Filter/Style/Settings - simplified via modules/panels.js
 
 
 // Action Handlers
@@ -10368,100 +8805,8 @@ if (document.readyState === 'loading') {
 window.PanelManager = PanelManager;
 
 // =================================================================
-// THEME SWITCHING: Runtime theme management
-// =================================================================
-
-/**
- * Set the active theme by name.
- * Updates document data-theme attribute and stores preference.
- * @param {string} themeName - Theme name: 'dark', 'light', or 'high-contrast'
- */
-function setTheme(themeName) {
-    if (!THEME_CONFIG.available.includes(themeName)) {
-        console.warn(`[Theme] Unknown theme: ${themeName}. Available: ${THEME_CONFIG.available.join(', ')}`);
-        return;
-    }
-
-    // Update document attribute for CSS variable switching
-    document.documentElement.setAttribute('data-theme', themeName);
-
-    // Update global state
-    THEME_CONFIG.current = themeName;
-
-    // Store preference in localStorage
-    try {
-        localStorage.setItem('collider-theme', themeName);
-    } catch (e) {
-        console.warn('[Theme] Could not save preference:', e);
-    }
-
-    // Update canvas background if WebGL renderer is active
-    if (Graph && Graph.scene && Graph.scene()) {
-        const scene = Graph.scene();
-        if (scene.background) {
-            const bgColor = getComputedStyle(document.documentElement)
-                .getPropertyValue('--color-viz-canvas-bg')?.trim() || VIZ_COLORS.canvasBg;
-            scene.background = new THREE.Color(bgColor);
-        }
-    }
-
-    // Update theme toggle buttons
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === themeName);
-    });
-
-    console.log(`%c[Theme] Switched to: ${themeName}`, `color: ${CONSOLE_COLORS.success}; font-weight: bold`);
-    showToast(`Theme: ${themeName}`);
-}
-
-/**
- * Get the current theme name.
- * @returns {string} Current theme name
- */
-function getTheme() {
-    return THEME_CONFIG.current;
-}
-
-/**
- * Get list of available themes.
- * @returns {string[]} Array of theme names
- */
-function getAvailableThemes() {
-    return THEME_CONFIG.available;
-}
-
-/**
- * Cycle to the next theme in the list.
- */
-function cycleTheme() {
-    const current = THEME_CONFIG.current;
-    const themes = THEME_CONFIG.available;
-    const currentIndex = themes.indexOf(current);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    setTheme(themes[nextIndex]);
-}
-
-/**
- * Initialize theme from saved preference or system preference.
- */
-function initTheme() {
-    // Check for saved preference
-    let savedTheme = null;
-    try {
-        savedTheme = localStorage.getItem('collider-theme');
-    } catch (e) {
-        // Ignore storage errors
-    }
-
-    // Use saved preference if valid
-    if (savedTheme && THEME_CONFIG.available.includes(savedTheme)) {
-        setTheme(savedTheme);
-        return;
-    }
-
-    // Fall back to default theme
-    setTheme(THEME_CONFIG.default);
-}
+// THEME SWITCHING - MOVED TO modules/theme.js
+// setTheme, getTheme, getAvailableThemes, cycleTheme, initTheme
 
 // Initialize theme on DOM ready
 if (document.readyState === 'loading') {
