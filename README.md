@@ -30,5 +30,5 @@ See `CLAUDE.md` for lookup tables and commands.
 
 ## Documentation
 
-- Theory: `standard-model-of-code/docs/THEORY.md`
-- Tool: `standard-model-of-code/docs/TOOL.md`
+- Theory: `standard-model-of-code/docs/MODEL.md`
+- Tool: `standard-model-of-code/docs/COLLIDER.md`

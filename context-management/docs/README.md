@@ -1,41 +1,39 @@
-# Standard Model Documentation
+# Context Management Documentation
 
-> **12 Essential Documents** - Consolidated from 42 files on 2025-12-23
+> AI tools, cloud mirror, and operational docs for PROJECT_elements.
 
-## Core Theory
-- [CANONICAL_SCHEMA.md](CANONICAL_SCHEMA.md) - The core data schema
-- [ATOMS_REFERENCE.md](ATOMS_REFERENCE.md) - 167 atom taxonomy
-- [THEORY_MAP.md](THEORY_MAP.md) - Theoretical foundation
-- [FIRST_PRINCIPLES.md](FIRST_PRINCIPLES.md) - Core principles
+## For Theory & Tool Docs
 
-## Technical Reference  
-- [NAMING_SCHEMA.md](NAMING_SCHEMA.md) - ID and naming conventions
-- [DIMENSIONS.md](DIMENSIONS.md) - 8D semantic dimensions
-- [PURPOSE_FIELD.md](PURPOSE_FIELD.md) - Purpose layer documentation
-- [LLM_INSTRUCTIONS.md](LLM_INSTRUCTIONS.md) - LLM prompting guide
+See the canonical sources in **standard-model-of-code/**:
 
-## Publications
-- [STANDARD_MODEL_PAPER.md](STANDARD_MODEL_PAPER.md) - The paper
-- [FORMAL_PROOF.md](FORMAL_PROOF.md) - Proof sketch
+| Document | Path | Contents |
+|----------|------|----------|
+| Theory | `../standard-model-of-code/docs/MODEL.md` | Atoms, roles, schema, proofs |
+| Tool | `../standard-model-of-code/docs/COLLIDER.md` | Commands, pipeline, troubleshooting |
 
-## Change Tracking
-- [LEARNING_LEDGER.md](LEARNING_LEDGER.md) - Pattern additions log
+## This Directory
 
-## Archive
-Legacy documents moved to [archive/](archive/) for reference.
+| Document | Purpose |
+|----------|---------|
+| [AI_OPERATING_MANUAL.md](AI_OPERATING_MANUAL.md) | How AI agents should operate |
+| [TOOL.md](TOOL.md) | AI analysis tool (analyze.py) |
+| [ORIENTATION_FILES.md](ORIENTATION_FILES.md) | Export context files for sharing |
+| [theory/THEORY.md](theory/THEORY.md) | Extended theory reference |
 
-## Distribution / Context Export
-- [ORIENTATION_FILES.md](ORIENTATION_FILES.md) - Export context files for AI agents and sharing
+## Operational Docs
 
----
+| Document | Purpose |
+|----------|---------|
+| [COLLIDER_ARCHITECTURE.md](COLLIDER_ARCHITECTURE.md) | System architecture |
+| [STORAGE_ARCHITECTURE.md](STORAGE_ARCHITECTURE.md) | Data storage design |
+| [ASSET_INVENTORY.md](ASSET_INVENTORY.md) | Asset tracking |
 
 ## Canonical Constants
 
 | Constant | Value | Source |
 |:---|---:|:---|
-| Atoms | 167 | Fixed (theory) |
-| Families | 16 | Fixed (theory) |
-| Dimensions | 8 | Fixed (theory) |
-| Roles | 27 | Fixed (theory) |
-| Patterns | *dynamic* | See `LEARNING_LEDGER.md` |
+| Atoms | 167 (94 implemented) | Theory |
+| Roles | 29 (implemented) | Theory |
+| Dimensions | 8 | Theory |
+| Pipeline | 12 stages | Tool |
 

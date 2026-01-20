@@ -10,12 +10,12 @@ This project has two sides. Pick your path:
 
 | Pillar | Purpose | Start Here |
 |--------|---------|------------|
-| **📚 THEORY** | Understand the model | [`docs/THEORY_MAP.md`](docs/THEORY_MAP.md) |
-| **🔧 TOOL** | Use or develop Collider | [`CLAUDE.md`](CLAUDE.md) |
+| **📚 THEORY** | Understand the model | [`docs/MODEL.md`](docs/MODEL.md) |
+| **🔧 TOOL** | Use or develop Collider | [`docs/COLLIDER.md`](docs/COLLIDER.md) |
 
 ### Theory (The "Why")
 The **Standard Model of Code** is a theoretical framework that treats code like physics:
-- **Atoms**: 167 structural types (Entity, Repository, Service...)
+- **Atoms**: 167 structural types (94 implemented), e.g., Entity, Repository, Service
 - **Dimensions**: 8-dimensional classification (RPBL + 4 more)
 - **Layers**: Architectural strata (Domain, Infrastructure, Application...)
 
@@ -199,7 +199,7 @@ We initially built an AI learning engine but discovered that it was unnecessary 
 
 **Real example:** We achieved 100% coverage on large repos like `pytorch` not by "learning" new names, but by discovering that 80% of "unknown" code lives in semantically structured directories (like `/tests/` or `/utils/`).
 
-→ Read about this discovery: [`docs/THE_PIVOT.md`](docs/THE_PIVOT.md)
+→ Read about this discovery in [`docs/MODEL.md`](docs/MODEL.md) (History section)
 
 ### 💾 Information Maintenance Guarantee
 **No data is lost during transformation.**
@@ -213,7 +213,7 @@ Every node preserves:
 
 **Why this matters:** You can reconstruct the original codebase from the graph, enabling semantic diff, LLM-based refactoring, and architectural analysis without losing implementation details.
 
-→ See [`docs/CANONICAL_SCHEMA.md`](docs/CANONICAL_SCHEMA.md) for technical specification
+→ See [`docs/MODEL.md`](docs/MODEL.md) for technical specification
 
 ---
 
@@ -298,7 +298,7 @@ Every codebase is reduced to a **graph**: `(Nodes, Edges, Metadata)`
 }
 ```
 
-**All fields:** See [CANONICAL_SCHEMA.md](docs/CANONICAL_SCHEMA.md)
+**All fields:** See [MODEL.md](docs/MODEL.md)
 
 ### Edge Fields
 ```json
@@ -318,7 +318,7 @@ Every codebase is reduced to a **graph**: `(Nodes, Edges, Metadata)`
 Collider runs **10 stages** in strict order (reordering breaks analysis):
 
 ```
-Stage 1: Classification   → Extract atoms (167 types)
+Stage 1: Classification   → Extract atoms (94 implemented)
 Stage 2: Role Distribution → Detect semantic roles (Repository, Entity, etc.)
 Stage 3: Antimatter        → Check for violations (cross-layer imports, etc.)
 Stage 4: Predictions       → Predict missing components (symmetry)
@@ -330,7 +330,7 @@ Stage 9: Summary           → Aggregate metrics
 Stage 10: Visualization    → Generate interactive HTML
 ```
 
-**Why this order?** Each stage depends on the output of previous stages. See [THEORY_MAP.md](docs/THEORY_MAP.md) for proof of dependencies.
+**Why this order?** Each stage depends on the output of previous stages. See [COLLIDER.md](docs/COLLIDER.md) for pipeline details.
 
 ---
 
@@ -359,14 +359,14 @@ From "God Classes" to "Orphaned Code," Collider scans for patterns that indicate
 ## 🧬 What Collider Detects
 
 ### 1. The Atomic Schema
-Our schema maps every code element to one of **167 structural types**, a number arrived at through empirical saturation testing:
+Our schema maps every code element to one of **167 theoretical structural types** (94 currently implemented):
 
 - **DATA** (26): `Entity`, `ValueObject`, `DTO`, `Enum`
 - **LOGIC** (61): `Query`, `Command`, `Validator`, `Mapper`
 - **ORGANIZATION** (45): `Repository`, `Service`, `Factory`
 - **EXECUTION** (35): `Handler`, `Middleware`, `CronJob`
 
-**Full list:** [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md)
+**Full list:** See [MODEL.md](docs/MODEL.md)
 
 ---
 
@@ -382,7 +382,7 @@ Atoms group into semantic roles that describe *what it does*:
 | `Query` | Read-only data retrieval | `GetUserById` |
 | `Command` | State-changing operation | `CreateUser` |
 
-**See all 33:** [PURPOSE_FIELD.md](docs/PURPOSE_FIELD.md)
+**See all roles:** [MODEL.md](docs/MODEL.md)
 
 ---
 
@@ -398,19 +398,13 @@ Roles belong to architectural layers:
 
 ---
 
-## 📚 Advanced Documentation
+## 📚 Documentation
 
 | Document | Description |
 |----------|-------------|
-| [THEORY_MAP.md](docs/THEORY_MAP.md) | How theories mount on each other (dependency proof) |
-| [CANONICAL_SCHEMA.md](docs/CANONICAL_SCHEMA.md) | Complete field reference |
-| [ATOMS_REFERENCE.md](docs/ATOMS_REFERENCE.md) | All 167 atoms |
-| [PURPOSE_FIELD.md](docs/PURPOSE_FIELD.md) | Purpose emergence theory |
-| [FORMAL_PROOF.md](docs/FORMAL_PROOF.md) | Formal structure definition |
-| [MECHANIZED_PROOFS.md](docs/MECHANIZED_PROOFS.md) | Machine-verified theorems (Lean 4) |
-| [DISCOVERY_PROCESS.md](docs/DISCOVERY_PROCESS.md) | The narrative of how we mapped code structure |
-| [THE_PIVOT.md](docs/THE_PIVOT.md) | Formal record of the shift from AI to Deterministic Analysis |
-| [ORIENTATION_FILES.md](docs/ORIENTATION_FILES.md) | Export context files for AI agents and sharing |
+| [MODEL.md](docs/MODEL.md) | Theory: atoms, roles, schema, proofs, history |
+| [COLLIDER.md](docs/COLLIDER.md) | Practice: commands, pipeline, troubleshooting |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup and guidelines |
 
 ---
 
@@ -444,7 +438,7 @@ We discovered a 4-Tier Classification Strategy that proves **Structure > Syntax*
 
 **The Result:** We didn't need to learn new names because the **Context** provided the definition. The Standard Model holds true because `Structure + Behavior > Syntax`.
 
-→ **Deep Dive:** Read the full story in [`docs/DISCOVERY_PROCESS.md`](docs/DISCOVERY_PROCESS.md) and the formal record in [`docs/THE_PIVOT.md`](docs/THE_PIVOT.md).
+→ **Deep Dive:** Read the full story in [`docs/MODEL.md`](docs/MODEL.md) (History section).
 
 ---
 
