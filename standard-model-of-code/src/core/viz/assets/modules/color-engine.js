@@ -742,11 +742,21 @@ function get(dimension, category) {
  * @returns {string} Hex color string
  */
 function getInterval(intervalName, value) {
+    const v = Math.max(0, Math.min(1, value));
+
+    // =========================================================================
+    // SCHEME OVERRIDE: If an active scheme is selected, use it for ALL intervals
+    // This makes the 33 named schemes (viridis, plasma, thermal, etc.) work
+    // =========================================================================
+    if (_activeScheme && schemePaths[_activeScheme]) {
+        return getSchemeColor(_activeScheme, v);
+    }
+
+    // Fall back to hardcoded interval if no scheme active
     const interval = intervals[intervalName];
     if (!interval) return _toHex({ h: 0, c: 0.02, l: 0.40 });
 
     const stops = interval.stops;
-    const v = Math.max(0, Math.min(1, value));
 
     // Find surrounding stops
     let lower = stops[0];
@@ -927,6 +937,14 @@ function getSchemeColor(schemeName, t) {
  * @param {string} schemeName - Name of the scheme
  */
 function applyScheme(schemeName) {
+    // Allow null/undefined to clear the active scheme
+    if (!schemeName) {
+        _activeScheme = null;
+        _notifySubscribers('scheme-change', { scheme: null, definition: null });
+        console.log('[COLOR] Cleared active scheme, using default intervals');
+        return;
+    }
+
     const scheme = schemePaths[schemeName];
     if (!scheme) {
         console.warn('[COLOR] Unknown scheme:', schemeName);

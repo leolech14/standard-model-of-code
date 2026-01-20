@@ -263,7 +263,15 @@ window.SIDEBAR = (function () {
             });
         });
 
+        // Clear button
+        const clearBtn = document.createElement('button');
+        clearBtn.textContent = 'Clear';
+        clearBtn.title = 'Remove scheme, use default colors';
+        clearBtn.style.cssText = 'margin-left: 8px; padding: 4px 8px; font-size: 9px; background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.3); color: var(--text); border-radius: 4px; cursor: pointer;';
+        clearBtn.addEventListener('click', clearColorScheme);
+
         searchContainer.appendChild(searchInput);
+        searchContainer.appendChild(clearBtn);
         container.appendChild(searchContainer);
 
         // Render Categories
@@ -318,6 +326,8 @@ window.SIDEBAR = (function () {
 
     /**
      * Apply a named color scheme
+     * Schemes work with interval-based color modes (complexity, loc, fan_in, etc.)
+     * Automatically switches to complexity mode if in a categorical mode
      */
     function applyColorScheme(schemeName) {
         if (typeof COLOR !== 'undefined' && COLOR.applyScheme) {
@@ -329,19 +339,55 @@ window.SIDEBAR = (function () {
             localStorage.setItem('collider_scheme', schemeName);
         } catch (e) { /* ignore */ }
 
-        // Trigger graph refresh if needed
+        // Schemes only affect interval-based modes, not categorical modes
+        // If in a categorical mode (tier, family, atom, etc.), switch to complexity
+        const categoricalModes = ['tier', 'family', 'atom', 'ring', 'layer', 'role', 'roleCategory', 'subsystem', 'phase', 'fileType', 'file', 'state', 'visibility'];
+        if (categoricalModes.includes(window.NODE_COLOR_MODE)) {
+            console.log('[SIDEBAR] Switching to complexity mode for scheme visibility');
+            window.NODE_COLOR_MODE = 'complexity';
+            // Update UI button states
+            document.querySelectorAll('.color-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.mode === 'complexity');
+            });
+        }
+
+        // Trigger graph refresh
         if (typeof Graph !== 'undefined' && Graph) {
-            // Refresh node colors using the scheme
             if (typeof refreshNodeColors === 'function') {
                 refreshNodeColors();
             }
-            // Refresh edge colors
-            if (typeof window !== 'undefined' && typeof window.refreshGradientEdgeColors === 'function') {
+            if (typeof window.refreshGradientEdgeColors === 'function') {
                 window.refreshGradientEdgeColors();
             }
         }
 
         console.log('[SIDEBAR] Applied scheme:', schemeName);
+    }
+
+    /**
+     * Clear active scheme, return to default interval colors
+     */
+    function clearColorScheme() {
+        if (typeof COLOR !== 'undefined' && COLOR.applyScheme) {
+            // Setting null clears the active scheme
+            COLOR.applyScheme(null);
+        }
+
+        try {
+            localStorage.removeItem('collider_scheme');
+        } catch (e) { /* ignore */ }
+
+        // Clear UI active states
+        document.querySelectorAll('.scheme-btn').forEach(b => b.classList.remove('active'));
+
+        // Refresh graph
+        if (typeof Graph !== 'undefined' && Graph) {
+            if (typeof refreshNodeColors === 'function') {
+                refreshNodeColors();
+            }
+        }
+
+        console.log('[SIDEBAR] Cleared color scheme');
     }
 
     /**
@@ -1201,6 +1247,7 @@ window.SIDEBAR = (function () {
 
         // Color Schemes (33 named gradients)
         applyColorScheme,
+        clearColorScheme,
         renderSchemeNavigator,
         initSchemeNavigator,
         SCHEME_CONFIG,
