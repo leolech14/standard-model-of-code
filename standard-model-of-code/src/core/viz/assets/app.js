@@ -174,7 +174,13 @@ const PERF_MONITOR = {
 };
 
 // Initialize after DOM ready
-document.addEventListener('DOMContentLoaded', () => setTimeout(() => PERF_MONITOR.init(), 100));
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => PERF_MONITOR.init(), 100);
+    // Initialize SidebarManager facade for sidebar controls
+    if (typeof SIDEBAR !== 'undefined' && SIDEBAR.init) {
+        SIDEBAR.init();
+    }
+});
 let DEFAULT_LINK_DISTANCE = null;
 
 // =================================================================
@@ -373,6 +379,462 @@ class RuntimeRegistry {
 }
 const REGISTRY = new RuntimeRegistry();
 window.REGISTRY = REGISTRY;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SIDEBAR MANAGER - Facade for coordinating sidebar controls with existing globals
+// Created: 2026-01-19 as part of sidebar refactor (S002)
+// Pattern: FACADE - coordinates VIS_FILTERS, APPEARANCE_STATE without replacing them
+// Note: Named SidebarManager to avoid conflict with legacy UIManager at line ~4110
+// ═══════════════════════════════════════════════════════════════════════════
+class SidebarManager {
+    constructor() {
+        this._refreshTimer = null;
+        this._bound = false;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Initialization - call after DOM is ready
+    // ─────────────────────────────────────────────────────────────────────────
+    init() {
+        if (this._bound) return;
+        this._bound = true;
+
+        this._bindSectionHeaders();
+        this._bindColorPresets();
+        this._bindLayoutPresets();
+        this._bindPhysicsControls();
+        this._bindAppearanceControls();
+        this._bindActionButtons();
+
+        console.log('[UIManager] Initialized - facade pattern active');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Section collapse/expand
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindSectionHeaders() {
+        document.querySelectorAll('.section-header[data-section]').forEach(header => {
+            header.addEventListener('click', () => {
+                const sectionId = header.dataset.section;
+                const content = document.getElementById(`section-${sectionId}`);
+                if (!content) return;
+
+                const isCollapsed = header.classList.toggle('collapsed');
+                content.classList.toggle('collapsed', isCollapsed);
+            });
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Color presets (TIER, FAMILY, LAYER, RING, FILE, FLOW)
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindColorPresets() {
+        const container = document.getElementById('section-color');
+        if (!container) return;
+
+        container.querySelectorAll('.btn[data-preset]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const preset = btn.dataset.preset;
+                this.setColorMode(preset);
+
+                // Update active state
+                container.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    }
+
+    setColorMode(mode) {
+        APPEARANCE_STATE.colorMode = mode;
+        APPEARANCE_STATE.currentPreset = mode;
+
+        // Call existing function if available
+        if (typeof setNodeColorMode === 'function') {
+            setNodeColorMode(mode);
+        }
+
+        // Handle flow mode specially
+        if (mode === 'flow') {
+            if (!flowMode && typeof toggleFlowMode === 'function') toggleFlowMode();
+        } else if (flowMode && typeof disableFlowMode === 'function') {
+            disableFlowMode();
+        }
+
+        // Refresh gradient edges
+        if (typeof window.refreshGradientEdgeColors === 'function') {
+            window.refreshGradientEdgeColors();
+        }
+
+        // Re-render legends
+        if (typeof renderAllLegends === 'function') {
+            renderAllLegends();
+        }
+
+        console.log('[UIManager] Color mode:', mode);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Layout presets (FORCE, RADIAL, ORBITAL, SPHERE, GRID, SPIRAL)
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindLayoutPresets() {
+        const container = document.getElementById('section-layout');
+        if (!container) return;
+
+        container.querySelectorAll('.btn[data-layout]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const layout = btn.dataset.layout;
+                this.setLayout(layout);
+
+                // Update active state
+                container.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    }
+
+    setLayout(layout) {
+        if (typeof applyLayoutPreset === 'function') {
+            applyLayoutPreset(layout, true);
+        }
+        console.log('[UIManager] Layout:', layout);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Physics controls (sliders + presets)
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindPhysicsControls() {
+        // Charge (repulsion)
+        this._bindSlider('physics-charge', (val) => {
+            if (Graph) Graph.d3Force('charge').strength(val);
+            if (Graph) Graph.d3ReheatSimulation();
+        });
+
+        // Link distance
+        this._bindSlider('physics-link', (val) => {
+            if (Graph) Graph.d3Force('link').distance(val);
+            if (Graph) Graph.d3ReheatSimulation();
+        });
+
+        // Center pull
+        this._bindSlider('physics-center', (val) => {
+            if (Graph) {
+                const center = Graph.d3Force('center');
+                if (center && center.strength) center.strength(val);
+            }
+            if (Graph) Graph.d3ReheatSimulation();
+        });
+
+        // Damping (velocity decay)
+        this._bindSlider('physics-damping', (val) => {
+            if (Graph) Graph.d3VelocityDecay(val);
+            if (Graph) Graph.d3ReheatSimulation();
+        });
+
+        // Physics presets
+        const container = document.getElementById('section-physics');
+        if (container) {
+            container.querySelectorAll('.btn[data-physics]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const preset = btn.dataset.physics;
+                    this.setPhysicsPreset(preset);
+                });
+            });
+        }
+    }
+
+    setPhysicsPreset(preset) {
+        const presets = {
+            default: { charge: -120, link: 50, center: 0.05, damping: 0.4 },
+            tight: { charge: -80, link: 30, center: 0.1, damping: 0.5 },
+            loose: { charge: -200, link: 80, center: 0.02, damping: 0.3 },
+            explosive: { charge: -400, link: 120, center: 0.01, damping: 0.2 }
+        };
+
+        const p = presets[preset];
+        if (!p) return;
+
+        // Update sliders
+        this._setSliderValue('physics-charge', p.charge);
+        this._setSliderValue('physics-link', p.link);
+        this._setSliderValue('physics-center', p.center);
+        this._setSliderValue('physics-damping', p.damping);
+
+        // Apply to graph
+        if (Graph) {
+            Graph.d3Force('charge').strength(p.charge);
+            Graph.d3Force('link').distance(p.link);
+            const center = Graph.d3Force('center');
+            if (center && center.strength) center.strength(p.center);
+            Graph.d3VelocityDecay(p.damping);
+            Graph.d3ReheatSimulation();
+        }
+
+        console.log('[UIManager] Physics preset:', preset);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Appearance controls (sliders + toggles)
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindAppearanceControls() {
+        // Node size
+        this._bindSlider('node-size', (val) => {
+            APPEARANCE_STATE.nodeScale = val;
+            if (Graph) Graph.nodeVal(n => (n.val || 1) * val);
+        });
+
+        // Edge opacity
+        this._bindSlider('edge-opacity', (val) => {
+            APPEARANCE_STATE.edgeOpacity = val;
+            if (typeof applyEdgeMode === 'function') applyEdgeMode();
+        });
+
+        // Label size
+        this._bindSlider('label-size', (val) => {
+            // Labels are typically rendered at a fixed scale, this affects visibility
+            if (Graph) Graph.nodeLabel(n => val > 0.3 ? n.name : null);
+        });
+
+        // Toggles
+        this._bindToggle('toggle-labels', (active) => {
+            VIS_FILTERS.metadata.showLabels = active;
+            if (Graph) Graph.nodeLabel(n => active ? n.name : null);
+        });
+
+        this._bindToggle('toggle-stars', (active) => {
+            // Toggle starfield visibility
+            const scene = Graph?.scene();
+            if (scene) {
+                scene.children.forEach(child => {
+                    if (child.type === 'Points' && child.geometry?.attributes?.position?.count > 1000) {
+                        child.visible = active;
+                    }
+                });
+            }
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Action buttons
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindActionButtons() {
+        // Reset view
+        const resetBtn = document.getElementById('btn-reset');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                if (Graph) {
+                    Graph.cameraPosition({ x: 0, y: 0, z: 500 }, { x: 0, y: 0, z: 0 }, 1000);
+                }
+            });
+        }
+
+        // Screenshot
+        const screenshotBtn = document.getElementById('btn-screenshot');
+        if (screenshotBtn) {
+            screenshotBtn.addEventListener('click', () => {
+                if (typeof takeScreenshot === 'function') takeScreenshot();
+                else if (Graph) {
+                    const link = document.createElement('a');
+                    link.download = 'collider-screenshot.png';
+                    link.href = Graph.renderer().domElement.toDataURL('image/png');
+                    link.click();
+                }
+            });
+        }
+
+        // Toggle 2D
+        const toggle2dBtn = document.getElementById('btn-2d');
+        if (toggle2dBtn) {
+            toggle2dBtn.addEventListener('click', () => {
+                if (typeof toggle2DMode === 'function') toggle2DMode();
+            });
+        }
+
+        // Freeze simulation
+        const freezeBtn = document.getElementById('btn-freeze');
+        if (freezeBtn) {
+            freezeBtn.addEventListener('click', () => {
+                if (typeof toggleFreeze === 'function') {
+                    toggleFreeze();
+                } else if (Graph) {
+                    // Simple freeze toggle
+                    const alpha = Graph.d3AlphaTarget();
+                    Graph.d3AlphaTarget(alpha === 0 ? 0.3 : 0);
+                    freezeBtn.classList.toggle('active', alpha !== 0);
+                }
+            });
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Filter chips - populated dynamically based on data
+    // ─────────────────────────────────────────────────────────────────────────
+    populateFilterChips(data) {
+        // Tiers
+        const tiers = [...new Set(data.nodes.map(n => n.tier).filter(Boolean))].sort();
+        this._populateChipGroup('filter-tiers', tiers, 'tiers');
+
+        // Rings
+        const rings = [...new Set(data.nodes.map(n => n.ring).filter(Boolean))].sort();
+        this._populateChipGroup('filter-rings', rings, 'rings');
+
+        // Edge types
+        const edgeTypes = [...new Set(data.links?.map(e => e.type).filter(Boolean) || [])].sort();
+        this._populateChipGroup('filter-edges', edgeTypes, 'edges');
+    }
+
+    _populateChipGroup(containerId, items, filterKey) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+        items.forEach(item => {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.textContent = item;
+            chip.addEventListener('click', () => {
+                const isActive = chip.classList.toggle('active');
+                this.setFilter(filterKey, item, !isActive); // active = filtered OUT
+
+                // Schedule debounced refresh
+                this._scheduleRefresh();
+            });
+            container.appendChild(chip);
+        });
+    }
+
+    setFilter(dimension, value, visible) {
+        const set = VIS_FILTERS[dimension];
+        if (!set) return;
+
+        if (visible) {
+            set.delete(value); // Remove from filter = show
+        } else {
+            set.add(value);    // Add to filter = hide
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Hover panel updates
+    // ─────────────────────────────────────────────────────────────────────────
+    showHoverPanel(node) {
+        const panel = document.getElementById('hover-panel');
+        if (!panel || !node) return;
+
+        document.getElementById('hover-name').textContent = node.name || '--';
+        document.getElementById('hover-kind').textContent = node.kind || node.type || 'unknown';
+        document.getElementById('hover-atom').textContent = node.atom || '--';
+        document.getElementById('hover-family').textContent = node.family || node.atom?.split('.')[0] || '--';
+        document.getElementById('hover-ring').textContent = node.ring || '--';
+        document.getElementById('hover-tier').textContent = node.tier || '--';
+        document.getElementById('hover-role').textContent = node.role || '--';
+        document.getElementById('hover-file').textContent = node.file_path || node.file || '';
+
+        panel.classList.add('visible');
+    }
+
+    hideHoverPanel() {
+        const panel = document.getElementById('hover-panel');
+        if (panel) panel.classList.remove('visible');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Selection panel updates
+    // ─────────────────────────────────────────────────────────────────────────
+    updateSelectionPanel(selectedNodes) {
+        const panel = document.getElementById('selection-panel');
+        const title = document.getElementById('selection-title');
+        const list = document.getElementById('selection-list');
+        const clearBtn = document.getElementById('selection-clear');
+
+        if (!panel || !list) return;
+
+        if (selectedNodes.length === 0) {
+            panel.classList.remove('visible');
+            return;
+        }
+
+        title.textContent = `SELECTED (${selectedNodes.length})`;
+        list.innerHTML = selectedNodes.slice(0, 20).map(n =>
+            `<div class="selection-item">${n.name || n.id}</div>`
+        ).join('');
+
+        if (selectedNodes.length > 20) {
+            list.innerHTML += `<div class="selection-item" style="opacity:0.5">...and ${selectedNodes.length - 20} more</div>`;
+        }
+
+        panel.classList.add('visible');
+
+        // Bind clear button
+        if (clearBtn) {
+            clearBtn.onclick = () => {
+                if (typeof clearSelection === 'function') clearSelection();
+                panel.classList.remove('visible');
+            };
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Stats updates
+    // ─────────────────────────────────────────────────────────────────────────
+    updateStats(nodes, edges, entropy) {
+        const nodeEl = document.getElementById('stat-nodes');
+        const edgeEl = document.getElementById('stat-edges');
+        const entropyEl = document.getElementById('stat-entropy');
+
+        if (nodeEl) nodeEl.textContent = nodes?.toLocaleString() || '0';
+        if (edgeEl) edgeEl.textContent = edges?.toLocaleString() || '0';
+        if (entropyEl) entropyEl.textContent = entropy?.toFixed(2) || '--';
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Helper: Bind slider with value display
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindSlider(id, callback) {
+        const slider = document.getElementById(id);
+        const valueEl = document.getElementById(`${id}-val`);
+        if (!slider) return;
+
+        slider.addEventListener('input', () => {
+            const val = parseFloat(slider.value);
+            if (valueEl) valueEl.textContent = val;
+            callback(val);
+        });
+    }
+
+    _setSliderValue(id, value) {
+        const slider = document.getElementById(id);
+        const valueEl = document.getElementById(`${id}-val`);
+        if (slider) slider.value = value;
+        if (valueEl) valueEl.textContent = value;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Helper: Bind toggle
+    // ─────────────────────────────────────────────────────────────────────────
+    _bindToggle(id, callback) {
+        const toggle = document.getElementById(id);
+        if (!toggle) return;
+
+        toggle.addEventListener('click', () => {
+            const isActive = toggle.classList.toggle('active');
+            callback(isActive);
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Debounced refresh - prevents multiple rapid refreshGraph() calls
+    // ─────────────────────────────────────────────────────────────────────────
+    _scheduleRefresh() {
+        clearTimeout(this._refreshTimer);
+        this._refreshTimer = setTimeout(() => {
+            if (typeof refreshGraph === 'function') refreshGraph();
+        }, 16); // ~1 frame
+    }
+}
+
+// Create global instance
+const SIDEBAR = new SidebarManager();
+window.SIDEBAR = SIDEBAR;
 
 // =================================================================
 // GLOBAL CONSTANTS (Hoisted for safety)
@@ -2432,6 +2894,13 @@ function initGraph(data) {
     // HUD STATS: Populate header and stats panel with graph data
     // =================================================================
     updateHudStats(data);
+
+    // =================================================================
+    // SIDEBAR: Populate filter chips from loaded data
+    // =================================================================
+    if (typeof SIDEBAR !== 'undefined' && SIDEBAR.populateFilterChips) {
+        SIDEBAR.populateFilterChips(data);
+    }
 
     // =================================================================
     // TOKEN-DRIVEN CONFIG: Extract from payload
@@ -4792,868 +5261,71 @@ function startFlockSimulation(params) {
     LAYOUT_ANIMATION_ID = requestAnimationFrame(flockStep);
 }
 
-const TOPO_MINIMAP = {
-    scene: null,
-    camera: null,
-    renderer: null,
-    meshes: [],
-    tierRings: {},
-    familySegments: {},
-    animationId: null,
-    container: null,
-    canvas: null,
-    data: null,
-    rotation: 0,
-    hoveredMesh: null
-};
-
-
-
-function initTopoMinimap(data) {
-    const container = document.getElementById('topo-minimap');
-    const canvas = document.getElementById('topo-canvas');
-    if (!container || !canvas) return;
-
-    TOPO_MINIMAP.container = container;
-    TOPO_MINIMAP.canvas = canvas;
-    TOPO_MINIMAP.data = data;
-
-    // Create Three.js scene
-    const width = container.clientWidth || 200;
-    const height = container.clientHeight || 180;
-
-    TOPO_MINIMAP.scene = new THREE.Scene();
-    TOPO_MINIMAP.camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
-    TOPO_MINIMAP.camera.position.set(0, 3.5, 4);
-    TOPO_MINIMAP.camera.lookAt(0, 0, 0);
-
-    TOPO_MINIMAP.renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true,
-        alpha: true
-    });
-    TOPO_MINIMAP.renderer.setSize(width, height);
-    TOPO_MINIMAP.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    TOPO_MINIMAP.renderer.setClearColor(0x000000, 0);
-
-    // Add subtle ambient light
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-    TOPO_MINIMAP.scene.add(ambient);
-
-    // Add directional light for depth
-    const directional = new THREE.DirectionalLight(0xffffff, 0.6);
-    directional.position.set(2, 4, 3);
-    TOPO_MINIMAP.scene.add(directional);
-
-    // Build the topology visualization
-    buildTopoGeometry(data);
-
-    // Build the interactive legends
-    buildTopoLegends(data);
-
-    // Start animation
-    animateTopoMinimap();
-
-    // Add mouse interaction
-    canvas.addEventListener('mousemove', onTopoMouseMove);
-    canvas.addEventListener('click', onTopoClick);
-    canvas.addEventListener('mouseout', onTopoMouseOut);
-}
-
-function buildTopoGeometry(data) {
-    if (!data || !data.nodes) return;
-
-    // ═══════════════════════════════════════════════════════════════
-    // ANALYTICAL GEOMETRY - Calculus-based smooth parametric surface
-    // Using partial derivatives for exact normals, Hermite interpolation
-    // for seamless color gradients, and integral-based curvature
-    // ═══════════════════════════════════════════════════════════════
-
-    const tiers = ['T0', 'T1', 'T2'];
-    const families = ['LOG', 'DAT', 'ORG', 'EXE', 'EXT'];
-
-    // Layer definitions with smooth transition zones
-    const LAYERS = [
-        { name: 'PHYSICAL', color: { h: 220, s: 75, l: 35 } },
-        { name: 'VIRTUAL', color: { h: 175, s: 65, l: 45 } },
-        { name: 'SEMANTIC', color: { h: 210, s: 30, l: 88 } }
-    ];
-
-    // Count nodes by tier and family
-    const tierFamilyCounts = new Map();
-    tiers.forEach(t => {
-        tierFamilyCounts.set(t, new Map());
-        families.forEach(f => tierFamilyCounts.get(t).set(f, 0));
-    });
-
-    data.nodes.forEach(node => {
-        const tier = getNodeTier(node);
-        const family = getNodeAtomFamily(node);
-        if (tierFamilyCounts.has(tier)) {
-            const familyMap = tierFamilyCounts.get(tier);
-            if (familyMap.has(family)) {
-                familyMap.set(family, familyMap.get(family) + 1);
-            }
-        }
-    });
-
-    let maxCount = 1;
-    tierFamilyCounts.forEach(fm => fm.forEach(c => { if (c > maxCount) maxCount = c; }));
-
-    TOPO_MINIMAP.meshes = [];
-
-    // ═══════════════════════════════════════════════════════════════
-    // PARAMETRIC SURFACE S(u,v) - Hyperboloid of revolution
-    // S(u,v) = (r(v)·cos(u), h(v), r(v)·sin(u))
-    // where u ∈ [0, 2π], v ∈ [0, 1]
-    // ═══════════════════════════════════════════════════════════════
-
-    // Profile function r(v) - Hyperboloid with smooth organic variation
-    // r(v) = a·cosh(k·(v - 0.5)) + density_modulation
-    const a = 0.42;   // Minimum radius at waist
-    const k = 1.8;    // Curvature parameter
-
-    // Height function h(v) - Maps v to vertical position
-    // h(v) = H·(v - 0.5) where H = total height
-    const H = 3.0;
-
-    // Density field D(u,v) - Smooth 2D scalar field from node counts
-    // Uses bicubic interpolation for C² continuity
-    function getDensity(u, v) {
-        const famIdx = (u / (Math.PI * 2)) * families.length;
-        const tierIdx = v * 3;
-
-        // Bicubic kernel for smooth interpolation
-        function cubic(t) {
-            const at = Math.abs(t);
-            if (at < 1) return (1.5 * at - 2.5) * at * at + 1;
-            if (at < 2) return ((-0.5 * at + 2.5) * at - 4) * at + 2;
-            return 0;
-        }
-
-        let sum = 0, weight = 0;
-        for (let ti = 0; ti < 3; ti++) {
-            for (let fi = 0; fi < families.length; fi++) {
-                const count = tierFamilyCounts.get(tiers[ti])?.get(families[fi]) || 0;
-                const wv = cubic(tierIdx - ti - 0.5);
-                const wu = cubic(famIdx - fi - 0.5);
-                const w = wv * wu;
-                sum += count * w;
-                weight += w;
-            }
-        }
-        return weight > 0 ? sum / weight / maxCount : 0;
-    }
-
-    // Parametric surface with analytical derivatives
-    function surface(u, v) {
-        const density = getDensity(u, v);
-        const densityMod = 1 + density * 0.18;
-
-        // r(v) = a·cosh(k·(v - 0.5)) with density modulation
-        const vCentered = v - 0.5;
-        const coshVal = Math.cosh(k * vCentered);
-        const r = (a * coshVal + 0.35) * densityMod;
-
-        // h(v) = H·(v - 0.5)
-        const h = H * vCentered;
-
-        // S(u,v) = (r·cos(u), h, r·sin(u))
-        return {
-            x: r * Math.cos(u),
-            y: h,
-            z: r * Math.sin(u)
-        };
-    }
-
-    // Partial derivatives for exact normals (∂S/∂u × ∂S/∂v)
-    function surfaceNormal(u, v) {
-        const eps = 0.001;
-
-        // Central differences for partial derivatives
-        const Su0 = surface(u - eps, v);
-        const Su1 = surface(u + eps, v);
-        const Sv0 = surface(u, v - eps);
-        const Sv1 = surface(u, v + eps);
-
-        // ∂S/∂u
-        const dSdu = {
-            x: (Su1.x - Su0.x) / (2 * eps),
-            y: (Su1.y - Su0.y) / (2 * eps),
-            z: (Su1.z - Su0.z) / (2 * eps)
-        };
-
-        // ∂S/∂v
-        const dSdv = {
-            x: (Sv1.x - Sv0.x) / (2 * eps),
-            y: (Sv1.y - Sv0.y) / (2 * eps),
-            z: (Sv1.z - Sv0.z) / (2 * eps)
-        };
-
-        // Cross product: ∂S/∂u × ∂S/∂v
-        const nx = dSdu.y * dSdv.z - dSdu.z * dSdv.y;
-        const ny = dSdu.z * dSdv.x - dSdu.x * dSdv.z;
-        const nz = dSdu.x * dSdv.y - dSdu.y * dSdv.x;
-
-        // Normalize
-        const len = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
-        return { x: nx / len, y: ny / len, z: nz / len };
-    }
-
-    // Hermite basis functions for C¹ continuous color interpolation
-    function hermite(t) {
-        const t2 = t * t;
-        const t3 = t2 * t;
-        return {
-            h00: 2 * t3 - 3 * t2 + 1,      // Position at p0
-            h10: t3 - 2 * t2 + t,        // Tangent at p0
-            h01: -2 * t3 + 3 * t2,         // Position at p1
-            h11: t3 - t2               // Tangent at p1
-        };
-    }
-
-
-
-    // ═══════════════════════════════════════════════════════════════
-    // BUILD CONTINUOUS MESH with vertex colors
-    // ═══════════════════════════════════════════════════════════════
-
-    const uSegments = 96;   // Radial resolution (seamless wrap)
-    const vSegments = 64;   // Vertical resolution
-
-    const positions = [];
-    const normals = [];
-    const colors = [];
-    const indices = [];
-
-    for (let vi = 0; vi <= vSegments; vi++) {
-        const v = vi / vSegments;
-
-        // Tier blending (smooth transitions at 0.33 and 0.66)
-        let tierIdx, tierBlend;
-        if (v < 0.33) {
-            tierIdx = 0;
-            tierBlend = hermite(v / 0.33).h01;  // Fade into tier 1
-        } else if (v < 0.66) {
-            tierIdx = 1;
-            tierBlend = hermite((v - 0.33) / 0.33).h01;  // Fade into tier 2
-        } else {
-            tierIdx = 2;
-            tierBlend = 0;
-        }
-
-        const layerCurr = LAYERS[tierIdx];
-        const layerNext = LAYERS[Math.min(tierIdx + 1, 2)];
-
-        for (let ui = 0; ui <= uSegments; ui++) {
-            const u = (ui / uSegments) * Math.PI * 2;
-
-            // Family blending (smooth around the circle)
-            const famFloat = (ui / uSegments) * families.length;
-            const famIdx = Math.floor(famFloat) % families.length;
-            const famNext = (famIdx + 1) % families.length;
-            const famT = famFloat - Math.floor(famFloat);
-            const famH = hermite(famT);
-            const famBlend = famH.h01;  // Smooth transition
-
-            // Surface position
-            const pos = surface(u, v);
-            positions.push(pos.x, pos.y, pos.z);
-
-            // Analytical normal
-            const norm = surfaceNormal(u, v);
-            normals.push(norm.x, norm.y, norm.z);
-
-            // === SMOOTH COLOR FIELD ===
-            // === SMOOTH COLOR FIELD ===
-            const famColor0 = getTopoColor('families', families[famIdx]);
-            const famColor1 = getTopoColor('families', families[famNext]);
-
-            // Hermite interpolation for family colors (OKLCH)
-            const famH_h = famColor0.h * (1 - famBlend) + famColor1.h * famBlend;
-            const famH_c = famColor0.c * (1 - famBlend) + famColor1.c * famBlend;
-            const famH_l = famColor0.l * (1 - famBlend) + famColor1.l * famBlend;
-
-            // Hermite interpolation for layer colors (using internal OKLCH values if possible, else converting layer.color HSL??
-            // Wait, LAYERS[x].color is still HSL? Check definition. 
-            // Assuming we must adapt: getTopoColor('tiers', tierIdx)
-            const tierColorCurr = getTopoColor('tiers', tiers[tierIdx]);
-            const tierColorNext = getTopoColor('tiers', tiers[Math.min(tierIdx + 1, 2)]);
-
-            const layH_h = tierColorCurr.h * (1 - tierBlend) + tierColorNext.h * tierBlend;
-            const layH_c = tierColorCurr.c * (1 - tierBlend) + tierColorNext.c * tierBlend;
-            const layH_l = tierColorCurr.l * (1 - tierBlend) + tierColorNext.l * tierBlend;
-
-            // Blend: 55% family, 45% layer
-            const density = getDensity(u, v);
-            const finalH = famH_h * 0.55 + layH_h * 0.45;
-            const finalC = (famH_c * 0.55 + layH_c * 0.45) * (0.75 + density * 0.25);
-            // Boost lightness slightly for density
-            const finalL = Math.min(99, (famH_l * 0.5 + layH_l * 0.5) + density * 12);
-
-            // Subtle iridescence (view-angle dependent hue shift)
-            const iridescence = 6 * Math.sin(u * 2 + v * Math.PI);
-
-            // Convert OKLCH to sRGB (L is 0-100 so div 100)
-            const [r, g, b] = oklchToSrgb(finalL / 100, finalC, finalH + iridescence);
-            colors.push(r, g, b);
-        }
-    }
-
-    // Build triangle indices (seamless wrap)
-    for (let vi = 0; vi < vSegments; vi++) {
-        for (let ui = 0; ui < uSegments; ui++) {
-            const a = vi * (uSegments + 1) + ui;
-            const b = a + 1;
-            const c = a + (uSegments + 1);
-            const d = c + 1;
-
-            indices.push(a, c, b);
-            indices.push(b, c, d);
-        }
-    }
-
-    const shellGeom = new THREE.BufferGeometry();
-    shellGeom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    shellGeom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
-    shellGeom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    shellGeom.setIndex(indices);
-
-    // ═══════════════════════════════════════════════════════════════
-    // CHAOS → COSMOLOGY GRADIENT SHADER
-    // Bottom (chaos) = deep blue OKLCH(0.2, 0.1, 200)
-    // Top (cosmology) = warm orange OKLCH(0.6, 0.15, 30)
-    // ═══════════════════════════════════════════════════════════════
-
-    const chaosCosmosVertexShader = `
-                varying vec3 vNormal;
-                varying vec3 vPosition;
-                varying vec3 vColor;
-                varying vec2 vUv;
-
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    vPosition = position;
-                    vColor = color;
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `;
-
-    const chaosCosmosFragmentShader = `
-                uniform float uTime;
-                uniform vec3 uChaosColor;      // Deep blue (bottom)
-                uniform vec3 uCosmosColor;     // Warm orange (top)
-                uniform float uGradientMix;    // How much gradient vs vertex color
-
-                varying vec3 vNormal;
-                varying vec3 vPosition;
-                varying vec3 vColor;
-                varying vec2 vUv;
-
-                // Simple noise for organic feel
-                float hash(vec2 p) {
-                    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-                }
-
-                float noise(vec2 p) {
-                    vec2 i = floor(p);
-                    vec2 f = fract(p);
-                    f = f * f * (3.0 - 2.0 * f);
-                    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-                               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
-                }
-
-                void main() {
-                    // Normalize Y position to 0-1 range (cone goes from -1.5 to 1.5)
-                    float gradientT = (vPosition.y + 1.5) / 3.0;
-                    gradientT = clamp(gradientT, 0.0, 1.0);
-
-                    // Smooth step for better gradient transition
-                    float smoothT = gradientT * gradientT * (3.0 - 2.0 * gradientT);
-
-                    // Add subtle animated noise to the gradient
-                    float n = noise(vPosition.xz * 3.0 + uTime * 0.15) * 0.08;
-                    smoothT = clamp(smoothT + n, 0.0, 1.0);
-
-                    // Chaos → Cosmos gradient
-                    vec3 gradientColor = mix(uChaosColor, uCosmosColor, smoothT);
-
-                    // Blend gradient with vertex colors
-                    vec3 finalColor = mix(gradientColor, vColor, uGradientMix);
-
-                    // Add subtle rim lighting
-                    vec3 viewDir = normalize(cameraPosition - vPosition);
-                    float rim = 1.0 - max(0.0, dot(viewDir, vNormal));
-                    rim = pow(rim, 3.0) * 0.35;
-                    finalColor += vec3(rim * 0.4, rim * 0.6, rim * 1.0);
-
-                    // Pulsing glow at tier boundaries
-                    float tierGlow = 0.0;
-                    float y = vPosition.y;
-                    tierGlow += exp(-pow((y - (-0.5)) * 8.0, 2.0)) * 0.15;  // T0/T1 boundary
-                    tierGlow += exp(-pow((y - 0.5) * 8.0, 2.0)) * 0.15;     // T1/T2 boundary
-                    tierGlow *= 0.5 + 0.5 * sin(uTime * 2.0);
-                    finalColor += vec3(0.3, 0.6, 1.0) * tierGlow;
-
-                    // Basic lighting
-                    vec3 lightDir = normalize(vec3(2.0, 4.0, 3.0));
-                    float diff = max(0.0, dot(vNormal, lightDir)) * 0.6 + 0.4;
-                    finalColor *= diff;
-
-                    gl_FragColor = vec4(finalColor, 0.92);
-                }
-            `;
-
-    // OKLCH-inspired colors (converted to linear RGB for Three.js)
-    // Chaos (bottom): OKLCH(0.25, 0.12, 240) ≈ deep cosmic blue
-    // Cosmos (top): OKLCH(0.65, 0.16, 45) ≈ warm stellar orange
-    const chaosColor = new THREE.Color(0.05, 0.08, 0.25);   // Deep blue
-    const cosmosColor = new THREE.Color(0.85, 0.55, 0.25);  // Warm orange
-
-    const shellMat = new THREE.ShaderMaterial({
-        uniforms: {
-            uTime: { value: 0 },
-            uChaosColor: { value: chaosColor },
-            uCosmosColor: { value: cosmosColor },
-            uGradientMix: { value: 0.45 },  // 45% vertex colors, 55% gradient
-            cameraPosition: { value: TOPO_MINIMAP.camera.position }
-        },
-        vertexShader: chaosCosmosVertexShader,
-        fragmentShader: chaosCosmosFragmentShader,
-        vertexColors: true,
-        transparent: true,
-        side: THREE.DoubleSide
-    });
-
-    // Store reference for animation updates
-    TOPO_MINIMAP.shellMaterial = shellMat;
-
-    const shellMesh = new THREE.Mesh(shellGeom, shellMat);
-    shellMesh.userData = { type: 'shell', interactive: true };
-    TOPO_MINIMAP.scene.add(shellMesh);
-    TOPO_MINIMAP.meshes.push(shellMesh);
-
-    // ═══════════════════════════════════════════════════════════════
-    // TIER BOUNDARY RINGS - Smooth torus rings at tier transitions
-    // ═══════════════════════════════════════════════════════════════
-
-    [0.33, 0.66].forEach((v, i) => {
-        const pos = surface(0, v);
-        const r = Math.sqrt(pos.x * pos.x + pos.z * pos.z) + 0.015;
-
-        const ringGeom = new THREE.TorusGeometry(r, 0.012, 12, 72);
-        const ringMat = new THREE.MeshBasicMaterial({
-            color: i === 0 ? 0x44aaff : 0x88ddff,
-            transparent: true,
-            opacity: 0.5
-        });
-        const ring = new THREE.Mesh(ringGeom, ringMat);
-        ring.rotation.x = Math.PI / 2;
-        ring.position.y = pos.y;
-        ring.userData = { type: 'tier-boundary', tier: i };
-        TOPO_MINIMAP.scene.add(ring);
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // FAMILY MERIDIANS - Geodesic curves along the surface
-    // ═══════════════════════════════════════════════════════════════
-
-    families.forEach((family, famIdx) => {
-        const u = (famIdx / families.length) * Math.PI * 2;
-        const points = [];
-
-        for (let j = 0; j <= 60; j++) {
-            const v = j / 60;
-            const pos = surface(u, v);
-            points.push(new THREE.Vector3(pos.x * 1.005, pos.y, pos.z * 1.005));
-        }
-
-        const curve = new THREE.CatmullRomCurve3(points);
-        const tubeGeom = new THREE.TubeGeometry(curve, 50, 0.006, 6, false);
-        const famColor = getTopoColor('families', family);
-        const tubeMat = new THREE.MeshBasicMaterial({
-            color: oklchColor(famColor.l + 10, famColor.c, famColor.h),
-            transparent: true,
-            opacity: 0.4
-        });
-        const tube = new THREE.Mesh(tubeGeom, tubeMat);
-        tube.userData = { type: 'meridian', family: family };
-        TOPO_MINIMAP.scene.add(tube);
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // CENTRAL AXIS - Vertical data highway through the core
-    // ═══════════════════════════════════════════════════════════════
-
-    // Single central vertical axis line
-    const axisPoints = [];
-    for (let j = 0; j <= 40; j++) {
-        const t = j / 40;
-        const y = (t - 0.5) * 3.2;  // Slightly longer than the shape
-        axisPoints.push(new THREE.Vector3(0, y, 0));
-    }
-    const axisCurve = new THREE.CatmullRomCurve3(axisPoints);
-    const axisGeom = new THREE.TubeGeometry(axisCurve, 20, 0.025, 8, false);
-    const axisMat = new THREE.MeshBasicMaterial({
-        color: 0x00ffff,
-        transparent: true,
-        opacity: 0.6
-    });
-    const axisTube = new THREE.Mesh(axisGeom, axisMat);
-    axisTube.userData = { type: 'elevator', subtype: 'central-axis' };
-    TOPO_MINIMAP.scene.add(axisTube);
-
-    // ═══════════════════════════════════════════════════════════════
-    // HORIZONTAL TIER RINGS - 3 parallel rings orthogonal to axis
-    // These cut the toroidal shape at T0, T1, T2 boundaries
-    // ═══════════════════════════════════════════════════════════════
-
-    const tierYPositions = [-1.0, 0, 1.0];  // Bottom (T0), Middle (T1), Top (T2)
-    const tierColors = [0x4488cc, 0x33ccbb, 0xe8f0ff];  // Physical, Virtual, Semantic colors
-
-    tierYPositions.forEach((yPos, tierIdx) => {
-        // Calculate radius at this Y position on the hyperboloid
-        const vCentered = (yPos / 3.0) + 0.5;  // Map to 0-1 range
-        const coshVal = Math.cosh(1.8 * (vCentered - 0.5));
-        const baseR = (0.42 * coshVal + 0.35) * 1.02;  // Slightly outside surface
-
-        // Create ring with multiple segments for smooth appearance
-        const ringGeom = new THREE.TorusGeometry(baseR, 0.018, 8, 64);
-        const ringMat = new THREE.MeshBasicMaterial({
-            color: tierColors[tierIdx],
-            transparent: true,
-            opacity: 0.55
-        });
-        const ring = new THREE.Mesh(ringGeom, ringMat);
-        ring.rotation.x = Math.PI / 2;  // Lay flat (orthogonal to Y axis)
-        ring.position.y = yPos;
-        ring.userData = { type: 'tier-ring', tier: tierIdx };
-        TOPO_MINIMAP.scene.add(ring);
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // SINGULARITY CORE - The nexus point
-    // ═══════════════════════════════════════════════════════════════
-
-    const coreGeom = new THREE.SphereGeometry(0.15, 32, 32);
-    const coreMat = new THREE.MeshPhongMaterial({
-        color: 0x00ffff,
-        emissive: 0x00aaff,
-        emissiveIntensity: 0.8,
-        transparent: true,
-        opacity: 0.9
-    });
-    const coreMesh = new THREE.Mesh(coreGeom, coreMat);
-    coreMesh.userData = { type: 'core' };
-    TOPO_MINIMAP.scene.add(coreMesh);
-
-    // Add glow ring around core
-    const ringGeom = new THREE.TorusGeometry(0.25, 0.03, 8, 32);
-    const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x00ffff,
-        transparent: true,
-        opacity: 0.5
-    });
-    const ringMesh = new THREE.Mesh(ringGeom, ringMat);
-    ringMesh.rotation.x = Math.PI / 2;
-    ringMesh.userData = { type: 'glow' };
-    TOPO_MINIMAP.scene.add(ringMesh);
-
-    // ═══════════════════════════════════════════════════════════════
-    // ORBITAL PARTICLE SYSTEM - Micro Solar Systems
-    // Nodes orbit at different levels like planets around stars
-    // ═══════════════════════════════════════════════════════════════
-
-    TOPO_MINIMAP.particles = [];
-    TOPO_MINIMAP.solarSystems = [];
-
-    // Create orbital particles based on actual node distribution
-    const maxParticles = Math.min(data.nodes.length, 80);  // Limit for performance
-    const sampleRate = Math.max(1, Math.floor(data.nodes.length / maxParticles));
-
-    // Identify hub nodes (high in-degree) for micro solar systems
-    const inDegree = new Map();
-    (data.links || []).forEach(link => {
-        const targetId = link.target?.id || link.target;
-        inDegree.set(targetId, (inDegree.get(targetId) || 0) + 1);
-    });
-
-    // Sort nodes by in-degree to find hubs
-    const sortedByDegree = [...data.nodes].sort((a, b) =>
-        (inDegree.get(b.id) || 0) - (inDegree.get(a.id) || 0)
-    );
-    const hubNodes = sortedByDegree.slice(0, 5);  // Top 5 hubs become "stars"
-    const hubIds = new Set(hubNodes.map(n => n.id));
-
-    // Create micro solar systems for each hub
-    hubNodes.forEach((hub, hubIdx) => {
-        const tier = getNodeTier(hub);
-        const family = getNodeAtomFamily(hub);
-        const tierIdx = tiers.indexOf(tier);
-        const famIdx = families.indexOf(family);
-
-        // Hub position in the hyperboloid
-        const hubY = (tierIdx - 1) * 1.0;  // -1, 0, 1 for T0, T1, T2
-        const hubAngle = (famIdx / families.length) * Math.PI * 2 + hubIdx * 0.3;
-        const hubRadius = 0.7 + tierIdx * 0.35;
-
-        const hubColor = getTopoColor('families', family);
-
-        // Create the hub "star"
-        const starGeom = new THREE.SphereGeometry(0.08, 16, 16);
-        const starMat = new THREE.MeshPhongMaterial({
-            color: oklchColor(hubColor.l + 15, hubColor.c, hubColor.h),
-            emissive: oklchColor(hubColor.l * 0.4, hubColor.c * 0.6, hubColor.h),
-            emissiveIntensity: 0.6,
-            transparent: true,
-            opacity: 0.9
-        });
-        const starMesh = new THREE.Mesh(starGeom, starMat);
-        starMesh.userData = {
-            type: 'hub-star',
-            nodeId: hub.id,
-            tier: tier,
-            family: family,
-            baseAngle: hubAngle,
-            baseRadius: hubRadius,
-            baseY: hubY,
-            orbitSpeed: 0.3 + Math.random() * 0.2
-        };
-        TOPO_MINIMAP.scene.add(starMesh);
-        TOPO_MINIMAP.solarSystems.push(starMesh);
-
-        // Find satellite nodes (nodes that call this hub)
-        const satellites = data.nodes.filter(n => {
-            if (n.id === hub.id) return false;
-            return (data.links || []).some(l => {
-                const src = l.source?.id || l.source;
-                const tgt = l.target?.id || l.target;
-                return src === n.id && tgt === hub.id;
-            });
-        }).slice(0, 6);  // Max 6 satellites per hub
-
-        // Create satellite particles orbiting the hub
-        satellites.forEach((sat, satIdx) => {
-            const satTier = getNodeTier(sat);
-            const satFamily = getNodeAtomFamily(sat);
-            const satColor = getTopoColor('families', satFamily);
-
-            const particleGeom = new THREE.SphereGeometry(0.03, 8, 8);
-            const particleMat = new THREE.MeshBasicMaterial({
-                color: oklchColor(satColor.l, satColor.c, satColor.h),
-                transparent: true,
-                opacity: 0.8
-            });
-            const particle = new THREE.Mesh(particleGeom, particleMat);
-
-            // Orbital parameters
-            const orbitRadius = 0.12 + satIdx * 0.04;
-            const orbitSpeed = 1.5 - satIdx * 0.15;  // Inner orbits faster
-            const orbitTilt = (satIdx % 3) * 0.3;    // Different orbital planes
-            const startAngle = (satIdx / satellites.length) * Math.PI * 2;
-
-            particle.userData = {
-                type: 'satellite',
-                parentHub: starMesh,
-                orbitRadius: orbitRadius,
-                orbitSpeed: orbitSpeed,
-                orbitTilt: orbitTilt,
-                orbitAngle: startAngle,
-                nodeId: sat.id
-            };
-
-            TOPO_MINIMAP.scene.add(particle);
-            TOPO_MINIMAP.particles.push(particle);
-        });
-    });
-
-    // Create free-floating particles for non-hub nodes
-    let particleCount = 0;
-    data.nodes.forEach((node, idx) => {
-        if (hubIds.has(node.id)) return;
-        if (idx % sampleRate !== 0) return;
-        if (particleCount >= maxParticles - hubNodes.length * 6) return;
-
-        const tier = getNodeTier(node);
-        const family = getNodeAtomFamily(node);
-        const tierIdx = tiers.indexOf(tier);
-        const famIdx = families.indexOf(family);
-        const color = getTopoColor('families', family);
-
-        const particleGeom = new THREE.SphereGeometry(0.025, 6, 6);
-        const particleMat = new THREE.MeshBasicMaterial({
-            color: oklchColor(color.l, color.c, color.h),
-            transparent: true,
-            opacity: 0.6
-        });
-        const particle = new THREE.Mesh(particleGeom, particleMat);
-
-        // Orbital parameters based on tier and family
-        const baseRadius = 0.5 + tierIdx * 0.5 + Math.random() * 0.2;
-        const baseY = (tierIdx - 1) * 0.8 + (Math.random() - 0.5) * 0.4;
-        const baseAngle = (famIdx / families.length) * Math.PI * 2 + Math.random() * 0.5;
-        const orbitSpeed = 0.2 + Math.random() * 0.3;
-        const orbitTilt = (famIdx % 3) * 0.2 + Math.random() * 0.1;
-
-        particle.userData = {
-            type: 'free-particle',
-            baseRadius: baseRadius,
-            baseY: baseY,
-            baseAngle: baseAngle,
-            orbitSpeed: orbitSpeed,
-            orbitTilt: orbitTilt,
-            orbitAngle: Math.random() * Math.PI * 2,
-            tier: tier,
-            family: family,
-            nodeId: node.id
-        };
-
-        TOPO_MINIMAP.scene.add(particle);
-        TOPO_MINIMAP.particles.push(particle);
-        particleCount++;
-    });
-
-    // Store layers for animation
-    TOPO_MINIMAP.layers = LAYERS;
-}
-
-function buildTopoLegends(data) {
-    if (!data || !data.nodes) return;
-
-    // Count by category
-    const tierCounts = collectCounts(data.nodes, n => getNodeTier(n));
-    const familyCounts = collectCounts(data.nodes, n => getNodeAtomFamily(n));
-    const ringCounts = collectCounts(data.nodes, n => getNodeRing(n));
-    const edgeCounts = collectCounts(data.links || [], l => String(l.edge_type || l.type || 'default'));
-
-    // Build tier legend
-    const tierContainer = document.getElementById('topo-tiers');
-    if (tierContainer) {
-        tierContainer.innerHTML = '';
-        tierCounts.forEach(([tier, count]) => {
-            const color = getTopoColor('tiers', tier);
-            const item = createTopoLegendItem(tier, count, color, 'tier');
-            tierContainer.appendChild(item);
-        });
-    }
-
-    // Build family legend
-    const famContainer = document.getElementById('topo-families');
-    if (famContainer) {
-        famContainer.innerHTML = '';
-        familyCounts.forEach(([family, count]) => {
-            const color = getTopoColor('families', family);
-            const item = createTopoLegendItem(family, count, color, 'family');
-            famContainer.appendChild(item);
-        });
-    }
-
-    // Build ring legend
-    const ringContainer = document.getElementById('topo-rings');
-    if (ringContainer) {
-        ringContainer.innerHTML = '';
-        ringCounts.forEach(([ring, count]) => {
-            const color = getTopoColor('rings', ring);
-            const item = createTopoLegendItem(ring, count, color, 'ring');
-            ringContainer.appendChild(item);
-        });
-    }
-
-    // Build edge filter chips
-    const edgeContainer = document.getElementById('topo-edges');
-    if (edgeContainer) {
-        edgeContainer.innerHTML = '';
-        edgeCounts.forEach(([edgeType, count]) => {
-            const chip = document.createElement('div');
-            chip.className = 'topo-edge-chip active';
-            chip.dataset.value = edgeType;
-            chip.textContent = `${edgeType} (${count})`;
-            chip.onclick = () => toggleEdgeFilter(edgeType, chip);
-            edgeContainer.appendChild(chip);
-        });
-    }
-}
-
-function createTopoLegendItem(label, count, color, filterType) {
-    const item = document.createElement('div');
-    item.className = 'topo-legend-item';
-    item.dataset.value = label;
-    item.dataset.filterType = filterType;
-
-    const swatch = document.createElement('div');
-    swatch.className = 'topo-legend-swatch';
-    swatch.style.backgroundColor = `oklch(${color.l}% ${color.c} ${color.h})`;
-
-    const text = document.createElement('span');
-    text.textContent = `${label} (${count})`;
-
-    item.appendChild(swatch);
-    item.appendChild(text);
-
-    item.onclick = () => toggleTopoFilter(filterType, label, item);
-
-    // Add semantic tooltip on hover
-    const category = filterType === 'tier' ? 'tiers' : filterType === 'family' ? 'families' : null;
-    if (category && SMC_THEORY[category]?.[label]) {
-        item.addEventListener('mouseenter', (e) => {
-            showTopoTooltip(category, label, e.clientX, e.clientY);
-        });
-        item.addEventListener('mouseleave', () => hideTopoTooltip());
-        item.addEventListener('mousemove', (e) => {
-            if (TOOLTIP_STATE.visible) {
-                const tooltip = TOOLTIP_STATE.element;
-                let left = e.clientX + 15, top = e.clientY + 15;
-                if (left + 280 > window.innerWidth) left = e.clientX - 295;
-                if (top + 200 > window.innerHeight) top = e.clientY - 215;
-                tooltip.style.left = left + 'px';
-                tooltip.style.top = top + 'px';
-            }
-        });
-    }
-
-    return item;
-}
-
-function toggleTopoFilter(filterType, value, element) {
-    let filterSet;
-    switch (filterType) {
-        case 'tier': filterSet = VIS_FILTERS.tiers; break;
-        case 'family': filterSet = VIS_FILTERS.families || new Set(); break;
-        case 'ring': filterSet = VIS_FILTERS.rings; break;
-        default: return;
-    }
-
-    // Initialize families filter if needed
-    if (filterType === 'family' && !VIS_FILTERS.families) {
-        VIS_FILTERS.families = new Set(['LOG', 'DAT', 'ORG', 'EXE', 'EXT', 'UNKNOWN']);
-    }
-
-    if (filterSet.has(value)) {
-        filterSet.delete(value);
-        element.classList.add('filtered');
-    } else {
-        filterSet.add(value);
-        element.classList.remove('filtered');
-    }
-
-    // Update minimap visuals
-    updateTopoMinimapFilters();
-
-    // Refresh main graph
-    refreshGraph();
-}
-
-function toggleEdgeFilter(edgeType, element) {
-    if (VIS_FILTERS.edges.has(edgeType)) {
-        VIS_FILTERS.edges.delete(edgeType);
-        element.classList.remove('active');
-    } else {
-        VIS_FILTERS.edges.add(edgeType);
-        element.classList.add('active');
-    }
-    refreshGraph();
-}
+
+
+
+
+
+
+
+
+
+
+// Count nodes by tier and family
+
+
+
+
+
+
+
+// Hermite basis functions for C¹ continuous color interpolation
+
+
+
+
+// ═══════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+// OKLCH-inspired colors (converted to linear RGB for Three.js)
+// Chaos (bottom): OKLCH(0.25, 0.12, 240) ≈ deep cosmic blue
+
+
+
+
+// ═══════════════════════════════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Clear all dimension filters (tier, ring, family, role, file, edge)
@@ -5676,10 +5348,7 @@ function clearAllFilters() {
     // Update chip UI
     document.querySelectorAll('.filter-chip.active').forEach(el => el.classList.remove('active'));
 
-    // Update minimap if present
-    if (typeof updateTopoMinimapFilters === 'function') {
-        updateTopoMinimapFilters();
-    }
+
 
     console.log('[Filters] All filters cleared');
 }
@@ -5687,501 +5356,11 @@ function clearAllFilters() {
 // Expose for UI buttons
 window.clearAllFilters = clearAllFilters;
 
-// ═══════════════════════════════════════════════════════════════════════
-// DISSOLUTION PARTICLE SYSTEM - Particles disperse when layers toggle
-// ═══════════════════════════════════════════════════════════════════════
 
-const DISSOLUTION_PARTICLES = {
-    pool: [],
-    active: [],
-    maxParticles: 50,
-    geometry: null,
-    material: null
-};
 
-function initDissolutionParticles() {
-    if (!TOPO_MINIMAP.scene) return;
 
-    // Create particle geometry once
-    DISSOLUTION_PARTICLES.geometry = new THREE.SphereGeometry(0.015, 6, 6);
-    DISSOLUTION_PARTICLES.material = new THREE.MeshBasicMaterial({
-        color: 0x88ccff,
-        transparent: true,
-        opacity: 0.8
-    });
 
-    // Pre-create particle pool
-    for (let i = 0; i < DISSOLUTION_PARTICLES.maxParticles; i++) {
-        const particle = new THREE.Mesh(
-            DISSOLUTION_PARTICLES.geometry,
-            DISSOLUTION_PARTICLES.material.clone()
-        );
-        particle.visible = false;
-        particle.userData = { type: 'dissolution', velocity: new THREE.Vector3(), life: 0, maxLife: 1 };
-        TOPO_MINIMAP.scene.add(particle);
-        DISSOLUTION_PARTICLES.pool.push(particle);
-    }
-}
 
-function spawnDissolutionParticles(position, color, count = 8, disperse = true) {
-    if (DISSOLUTION_PARTICLES.pool.length === 0) initDissolutionParticles();
-
-    for (let i = 0; i < count && DISSOLUTION_PARTICLES.pool.length > 0; i++) {
-        const particle = DISSOLUTION_PARTICLES.pool.pop();
-        if (!particle) continue;
-
-        particle.visible = true;
-        particle.position.copy(position);
-
-        // Random velocity for dispersion
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI;
-        const speed = disperse ? (0.02 + Math.random() * 0.03) : 0;
-
-        particle.userData.velocity.set(
-            Math.sin(phi) * Math.cos(theta) * speed,
-            Math.cos(phi) * speed + (disperse ? 0.01 : -0.01),
-            Math.sin(phi) * Math.sin(theta) * speed
-        );
-        particle.userData.life = disperse ? 1.0 : 0;
-        particle.userData.maxLife = 0.8 + Math.random() * 0.4;
-        particle.userData.targetPos = disperse ? null : position.clone();
-        particle.userData.startPos = particle.position.clone();
-        particle.userData.disperse = disperse;
-
-        // Set particle color based on source
-        if (particle.material && color) {
-            particle.material.color.setHSL(color.h / 360, color.s / 100, color.l / 100);
-        }
-
-        DISSOLUTION_PARTICLES.active.push(particle);
-    }
-}
-
-function updateDissolutionParticles(deltaTime = 0.016) {
-    const toRemove = [];
-
-    DISSOLUTION_PARTICLES.active.forEach((particle, idx) => {
-        const ud = particle.userData;
-
-        if (ud.disperse) {
-            // Dispersing: fade out and move away
-            ud.life -= deltaTime / ud.maxLife;
-
-            particle.position.add(ud.velocity);
-            ud.velocity.y -= 0.0003; // Gravity
-            ud.velocity.multiplyScalar(0.98); // Drag
-
-            if (particle.material) {
-                particle.material.opacity = Math.max(0, ud.life * 0.8);
-            }
-            particle.scale.setScalar(ud.life * 0.8 + 0.2);
-
-            if (ud.life <= 0) toRemove.push(idx);
-        } else {
-            // Converging: fade in and move toward target
-            ud.life += deltaTime / ud.maxLife;
-
-            if (ud.targetPos) {
-                const t = Math.min(1, ud.life);
-                const eased = t * t * (3 - 2 * t); // Smooth step
-                particle.position.lerpVectors(ud.startPos, ud.targetPos, eased);
-            }
-
-            if (particle.material) {
-                particle.material.opacity = Math.min(0.8, ud.life * 0.8);
-            }
-            particle.scale.setScalar(0.2 + ud.life * 0.8);
-
-            if (ud.life >= 1) toRemove.push(idx);
-        }
-    });
-
-    // Return particles to pool
-    toRemove.reverse().forEach(idx => {
-        const particle = DISSOLUTION_PARTICLES.active.splice(idx, 1)[0];
-        particle.visible = false;
-        DISSOLUTION_PARTICLES.pool.push(particle);
-    });
-}
-
-function updateTopoMinimapFilters() {
-    if (!TOPO_MINIMAP.meshes) return;
-
-    TOPO_MINIMAP.meshes.forEach(mesh => {
-        if (mesh.userData.type !== 'cell') return;
-
-        const tier = mesh.userData.tier;
-        const family = mesh.userData.family;
-
-        const tierActive = VIS_FILTERS.tiers.has(tier);
-        const familyActive = !VIS_FILTERS.families || VIS_FILTERS.families.has(family);
-
-        const isActive = tierActive && familyActive;
-        const wasActive = mesh.userData.wasActive !== undefined ? mesh.userData.wasActive : true;
-
-        // Spawn dissolution particles on state change
-        if (wasActive !== isActive) {
-            const color = TOPO_COLORS.families[family] || { h: 200, s: 70, l: 55 };
-            spawnDissolutionParticles(mesh.position, color, 6, wasActive); // disperse if was active
-        }
-
-        mesh.userData.wasActive = isActive;
-
-        // Update material opacity
-        if (mesh.material) {
-            mesh.material.opacity = isActive ? 0.9 : 0.15;
-            mesh.material.emissiveIntensity = isActive ? 0.4 : 0.1;
-        }
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// MUSICAL HARMONIC RATIOS - Orbital periods encode relationships
-// Like clockwork: related nodes have harmonically related periods
-// ═══════════════════════════════════════════════════════════════════════
-const HARMONIC_RATIOS = {
-    // Musical intervals as orbit period multipliers
-    unison: 1,        // Same frequency
-    octave: 2,        // 2:1 ratio
-    fifth: 1.5,       // 3:2 ratio (perfect fifth)
-    fourth: 1.333,    // 4:3 ratio (perfect fourth)
-    majorThird: 1.25, // 5:4 ratio
-    minorThird: 1.2,  // 6:5 ratio
-    // Tier-based base periods (T0 fastest, T2 slowest)
-    tierPeriods: { T0: 1.0, T1: 1.5, T2: 2.0 },
-    // Family-based phase offsets (creates visual "chords")
-    familyPhases: { LOG: 0, DAT: Math.PI / 3, ORG: 2 * Math.PI / 3, EXE: Math.PI, EXT: 4 * Math.PI / 3 }
-};
-
-function animateTopoMinimap() {
-    if (!TOPO_MINIMAP.renderer || !TOPO_MINIMAP.scene || !TOPO_MINIMAP.camera) return;
-
-    TOPO_MINIMAP.rotation += 0.004;
-    const time = Date.now() * 0.001;
-
-    // Update chaos→cosmology shader time uniform
-    if (TOPO_MINIMAP.shellMaterial && TOPO_MINIMAP.shellMaterial.uniforms) {
-        TOPO_MINIMAP.shellMaterial.uniforms.uTime.value = time;
-    }
-
-    // Rotate the entire scene (cells follow hyperboloid)
-    TOPO_MINIMAP.meshes.forEach(mesh => {
-        mesh.rotation.y = TOPO_MINIMAP.rotation;
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // CLOCKWORK ORBITAL PHYSICS - Particles orbit with harmonic periods
-    // ═══════════════════════════════════════════════════════════════
-
-    // Animate hub stars (they orbit the core slowly)
-    if (TOPO_MINIMAP.solarSystems) {
-        TOPO_MINIMAP.solarSystems.forEach(star => {
-            const ud = star.userData;
-            if (ud.type !== 'hub-star') return;
-
-            // Hub stars orbit the hyperboloid structure
-            const tierPeriod = HARMONIC_RATIOS.tierPeriods[ud.tier] || 1.5;
-            const familyPhase = HARMONIC_RATIOS.familyPhases[ud.family] || 0;
-            const orbitAngle = ud.baseAngle + time * ud.orbitSpeed / tierPeriod + familyPhase;
-
-            // ═══ TIER-BASED IMPORTANCE PULSING ═══
-            // T2 (architecture) pulses stronger than T0 (foundation)
-            const tierImportance = { T0: 0.4, T1: 0.6, T2: 0.9 }[ud.tier] || 0.5;
-            const importancePulse = Math.sin(time * (2 + tierImportance * 2)) * tierImportance * 0.3;
-
-            // Position with importance-based breathing
-            const y = ud.baseY;
-            const r = ud.baseRadius + Math.sin(time * 0.5) * 0.05 + importancePulse * 0.02;
-
-            star.position.set(
-                Math.cos(orbitAngle) * r,
-                y + Math.sin(time * tierPeriod) * 0.08,
-                Math.sin(orbitAngle) * r
-            );
-
-            // ═══ IMPORTANCE GLOW + SCALE PULSE ═══
-            const beat = Math.abs(Math.sin(orbitAngle * 2));
-            const scalePulse = 1 + Math.sin(time * 3 + familyPhase) * 0.15 * tierImportance;
-            star.scale.set(scalePulse, scalePulse, scalePulse);
-
-            if (star.material) {
-                const baseGlow = 0.3 + tierImportance * 0.4;
-                star.material.emissiveIntensity = baseGlow + beat * 0.3 + importancePulse * 0.2;
-            }
-        });
-    }
-
-    // Animate satellite particles (orbit their parent hubs)
-    if (TOPO_MINIMAP.particles) {
-        TOPO_MINIMAP.particles.forEach(particle => {
-            const ud = particle.userData;
-
-            if (ud.type === 'satellite' && ud.parentHub) {
-                // Satellite orbits around its parent hub star
-                const hubPos = ud.parentHub.position;
-                ud.orbitAngle += ud.orbitSpeed * 0.02;  // Kepler: inner = faster
-
-                // Tilted orbital plane
-                const x = Math.cos(ud.orbitAngle) * ud.orbitRadius;
-                const z = Math.sin(ud.orbitAngle) * ud.orbitRadius;
-                const tiltedY = Math.sin(ud.orbitAngle) * Math.sin(ud.orbitTilt) * ud.orbitRadius * 0.5;
-
-                particle.position.set(
-                    hubPos.x + x,
-                    hubPos.y + tiltedY,
-                    hubPos.z + z
-                );
-
-                // Brightness pulses when aligned (conjunction)
-                const conjunction = Math.abs(Math.cos(ud.orbitAngle));
-                if (particle.material) {
-                    particle.material.opacity = 0.5 + conjunction * 0.4;
-                }
-            }
-
-            if (ud.type === 'free-particle') {
-                // Free particles orbit the core with harmonic periods
-                const tierPeriod = HARMONIC_RATIOS.tierPeriods[ud.tier] || 1.5;
-                const familyPhase = HARMONIC_RATIOS.familyPhases[ud.family] || 0;
-
-                ud.orbitAngle += ud.orbitSpeed * 0.015 / tierPeriod;
-
-                // Orbital position with tilt
-                const angle = ud.baseAngle + ud.orbitAngle + familyPhase;
-                const r = ud.baseRadius + Math.sin(time * 0.3 + familyPhase) * 0.08;
-                const y = ud.baseY + Math.sin(angle * 2) * Math.sin(ud.orbitTilt) * 0.15;
-
-                particle.position.set(
-                    Math.cos(angle) * r,
-                    y,
-                    Math.sin(angle) * r
-                );
-
-                // Harmonic resonance glow (brighten when multiple orbits align)
-                const resonance = Math.abs(Math.sin(time * tierPeriod + familyPhase));
-                if (particle.material) {
-                    particle.material.opacity = 0.4 + resonance * 0.3;
-                }
-            }
-        });
-    }
-
-    // Animate scene elements (core, glow, elevators)
-    TOPO_MINIMAP.scene.children.forEach(child => {
-        if (!child.userData) return;
-
-        if (child.userData.type === 'core') {
-            // Pulsing core - "heartbeat" of the system
-            const pulse = 1 + Math.sin(time * 3) * 0.15;
-            child.scale.set(pulse, pulse, pulse);
-            if (child.material) {
-                // Core pulses brighter when orbital "chords" align
-                const chordResonance = Math.abs(Math.sin(time) * Math.sin(time * 1.5) * Math.sin(time * 2));
-                child.material.emissiveIntensity = 0.5 + chordResonance * 0.5;
-            }
-        }
-
-        if (child.userData.type === 'glow') {
-            // Rotating glow ring
-            child.rotation.z = time * 0.5;
-            const ringPulse = 1 + Math.sin(time * 2.5) * 0.1;
-            child.scale.set(ringPulse, ringPulse, 1);
-        }
-
-        if (child.userData.type === 'elevator') {
-            // Central axis - pulsing data flow
-            if (child.userData.subtype === 'central-axis' && child.material) {
-                const pulse = 0.4 + Math.abs(Math.sin(time * 2)) * 0.35;
-                child.material.opacity = pulse;
-            }
-        }
-
-        // ═══ HORIZONTAL TIER RINGS ═══
-        if (child.userData.type === 'tier-ring') {
-            const tierIdx = child.userData.tier;
-            const tierPhase = tierIdx * Math.PI * 0.667;
-            const ringPulse = 1 + Math.sin(time * 2 + tierPhase) * 0.08;
-            child.scale.set(ringPulse, ringPulse, 1);
-            if (child.material) {
-                child.material.opacity = 0.4 + tierIdx * 0.1 + Math.abs(Math.sin(time * 1.5 + tierPhase)) * 0.2;
-            }
-        }
-
-        // ═══ TIER BOUNDARY RING PULSING ═══
-        if (child.userData.type === 'tier-boundary') {
-            const tierIdx = child.userData.tier;
-            // T0/T1 boundary pulses differently than T1/T2
-            const tierImportance = tierIdx === 0 ? 0.6 : 0.85;
-            const ringPulse = 1 + Math.sin(time * (2.5 + tierIdx) + tierIdx * Math.PI) * 0.12 * tierImportance;
-            child.scale.set(ringPulse, ringPulse, 1);
-
-            if (child.material) {
-                // Glow intensity varies with tier importance
-                const baseOpacity = 0.35 + tierImportance * 0.25;
-                const glowPulse = Math.sin(time * 2 + tierIdx * 1.5) * 0.2;
-                child.material.opacity = baseOpacity + Math.abs(glowPulse);
-            }
-        }
-    });
-
-    // Subtle camera bob for depth perception
-    const bobY = Math.sin(time * 0.3) * 0.1;
-    TOPO_MINIMAP.camera.position.y = 3.5 + bobY;
-    TOPO_MINIMAP.camera.lookAt(0, 0, 0);
-
-    // Update dissolution particles
-    updateDissolutionParticles(0.016);
-
-    TOPO_MINIMAP.renderer.render(TOPO_MINIMAP.scene, TOPO_MINIMAP.camera);
-    TOPO_MINIMAP.animationId = requestAnimationFrame(animateTopoMinimap);
-}
-
-function onTopoMouseMove(event) {
-    if (!TOPO_MINIMAP.renderer) return;
-
-    const rect = TOPO_MINIMAP.canvas.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(new THREE.Vector2(x, y), TOPO_MINIMAP.camera);
-
-    // Include hub stars, particles, and all scene objects for intersection
-    const allObjects = [...TOPO_MINIMAP.meshes, ...(TOPO_MINIMAP.solarSystems || []), ...(TOPO_MINIMAP.particles || [])];
-    const intersects = raycaster.intersectObjects(allObjects.filter(Boolean));
-
-    // Reset previous hover
-    if (TOPO_MINIMAP.hoveredMesh && TOPO_MINIMAP.hoveredMesh.material) {
-        TOPO_MINIMAP.hoveredMesh.material.emissiveIntensity =
-            TOPO_MINIMAP.hoveredMesh.userData.baseEmissive || 0.3;
-    }
-
-    if (intersects.length > 0) {
-        const mesh = intersects[0].object;
-        const ud = mesh.userData;
-
-        // Highlight hovered mesh
-        if (mesh.material && mesh.material.emissiveIntensity !== undefined) {
-            ud.baseEmissive = ud.baseEmissive || mesh.material.emissiveIntensity;
-            mesh.material.emissiveIntensity = 0.8;
-        }
-        TOPO_MINIMAP.hoveredMesh = mesh;
-        TOPO_MINIMAP.canvas.style.cursor = 'pointer';
-
-        // Show semantic tooltip based on element type
-        if (ud.type === 'cell') {
-            const { tier, family } = ud;
-            if (family && SMC_THEORY.families[family]) {
-                showTopoTooltip('families', family, event.clientX, event.clientY);
-            } else if (tier && SMC_THEORY.tiers[tier]) {
-                showTopoTooltip('tiers', tier, event.clientX, event.clientY);
-            }
-        } else if (ud.type === 'shell') {
-            const point = intersects[0].point;
-            if (point.y < -0.3) showTopoTooltip('tiers', 'T0', event.clientX, event.clientY);
-            else if (point.y < 0.3) showTopoTooltip('tiers', 'T1', event.clientX, event.clientY);
-            else showTopoTooltip('tiers', 'T2', event.clientX, event.clientY);
-        } else if (ud.type === 'hub-star') {
-            showTopoTooltip('special', 'hub-star', event.clientX, event.clientY);
-        } else if (ud.type === 'core') {
-            showTopoTooltip('special', 'core', event.clientX, event.clientY);
-        } else if (ud.type === 'elevator') {
-            showTopoTooltip('special', 'elevator', event.clientX, event.clientY);
-        } else if (ud.type === 'tier-boundary') {
-            showTopoTooltip('tiers', ud.tier === 0 ? 'T1' : 'T2', event.clientX, event.clientY);
-        } else if (ud.type === 'tier-ring') {
-            showTopoTooltip('tiers', ['T0', 'T1', 'T2'][ud.tier] || 'T1', event.clientX, event.clientY);
-        } else if (ud.type === 'meridian' && ud.family) {
-            showTopoTooltip('families', ud.family, event.clientX, event.clientY);
-        }
-    } else {
-        TOPO_MINIMAP.hoveredMesh = null;
-        TOPO_MINIMAP.canvas.style.cursor = 'default';
-        hideTopoTooltip();
-    }
-}
-
-function onTopoMouseOut(event) { hideTopoTooltip(true); }
-
-// ═══════════════════════════════════════════════════════════════════════
-// EXPAND-ON-CLICK - Toggle fullscreen minimap view
-// ═══════════════════════════════════════════════════════════════════════
-function toggleMinimapExpand(event) {
-    // Don't expand if clicking on interactive elements
-    if (event.target.tagName === 'CANVAS') {
-        const container = document.getElementById('topo-minimap');
-        if (!container) return;
-
-        const isExpanded = container.classList.toggle('expanded');
-
-        // Resize renderer for better quality when expanded
-        if (TOPO_MINIMAP.renderer && TOPO_MINIMAP.camera) {
-            setTimeout(() => {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                TOPO_MINIMAP.renderer.setSize(width, height);
-                TOPO_MINIMAP.camera.aspect = width / height;
-                TOPO_MINIMAP.camera.updateProjectionMatrix();
-            }, 50); // Wait for CSS transition to start
-        }
-
-        // Update hint
-        const hint = container.querySelector('.topo-expand-hint');
-        if (hint) hint.textContent = isExpanded ? 'Click to collapse' : 'Click to expand';
-
-        // Escape key to close
-        if (isExpanded) {
-            const closeOnEscape = (e) => {
-                if (e.key === 'Escape') {
-                    container.classList.remove('expanded');
-                    resizeMinimapRenderer();
-                    document.removeEventListener('keydown', closeOnEscape);
-                }
-            };
-            document.addEventListener('keydown', closeOnEscape);
-        }
-    }
-}
-
-function resizeMinimapRenderer() {
-    const container = document.getElementById('topo-minimap');
-    if (!container || !TOPO_MINIMAP.renderer || !TOPO_MINIMAP.camera) return;
-    setTimeout(() => {
-        const width = container.clientWidth;
-        const height = container.clientHeight;
-        TOPO_MINIMAP.renderer.setSize(width, height);
-        TOPO_MINIMAP.camera.aspect = width / height;
-        TOPO_MINIMAP.camera.updateProjectionMatrix();
-    }, 400); // Wait for CSS transition to complete
-}
-
-function onTopoClick(event) {
-    if (!TOPO_MINIMAP.renderer) return;
-
-    const rect = TOPO_MINIMAP.canvas.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(new THREE.Vector2(x, y), TOPO_MINIMAP.camera);
-
-    const intersects = raycaster.intersectObjects(TOPO_MINIMAP.meshes);
-
-    if (intersects.length > 0) {
-        const mesh = intersects[0].object;
-        if (mesh.userData.type === 'cell') {
-            const { tier, family } = mesh.userData;
-
-            // Toggle this specific cell's tier and family in filters
-            // For now, just show what was clicked
-            showToast(`Clicked: ${tier} / ${family}`, 2000);
-
-            // Filter to show only this tier+family
-            // (Could implement solo/isolate mode here)
-        }
-    }
-}
 
 function collectCounts(items, keyFn) {
     const counts = new Map();
@@ -6911,12 +6090,18 @@ function applyMetadataVisibility() {
     const reportPanel = document.getElementById('report-panel');
     const reportButton = document.getElementById('btn-report');
     const filePanel = document.getElementById('file-panel');
+
+    // Guard: elements may not exist in minimal template
+    if (!reportPanel && !reportButton) return;
+
     if (!VIS_FILTERS.metadata.showReportPanel) {
-        reportPanel.style.display = 'none';
-        reportButton.classList.remove('active');
-        reportButton.style.display = 'none';
+        if (reportPanel) reportPanel.style.display = 'none';
+        if (reportButton) {
+            reportButton.classList.remove('active');
+            reportButton.style.display = 'none';
+        }
     } else {
-        reportButton.style.display = 'inline-flex';
+        if (reportButton) reportButton.style.display = 'inline-flex';
     }
     if (!VIS_FILTERS.metadata.showFilePanel && filePanel) {
         filePanel.classList.remove('visible');
@@ -7168,6 +6353,8 @@ function setupCollapsibleSections() {
 function setupReport(data) {
     const panel = document.getElementById('report-panel');
     const content = document.getElementById('report-content');
+    // Guard: elements may not exist in minimal template
+    if (!content) return;
     const report = (data && data.brain_download) ? data.brain_download : '';
     content.textContent = report || 'No report available.';
 }
@@ -8204,7 +7391,8 @@ if (btnInsights) {
 const STARS_STORAGE_KEY = 'collider_stars_visible';
 
 function setStarsVisible(visible) {
-    const btn = document.getElementById('btn-stars');
+    // Support both old btn-stars and new toggle-stars
+    const btn = document.getElementById('btn-stars') || document.getElementById('toggle-stars');
     if (btn) btn.classList.toggle('active', visible);
     if (STARFIELD) {
         STARFIELD.visible = visible;
@@ -8215,20 +7403,23 @@ function setStarsVisible(visible) {
     } catch (e) { /* localStorage unavailable */ }
 }
 
-// Initialize from localStorage (default: visible)
+// Initialize from localStorage (default: OFF)
 try {
     const stored = localStorage.getItem(STARS_STORAGE_KEY);
-    if (stored === '0') {
-        // Defer to after STARFIELD is initialized
+    if (stored !== '1') {
+        // Default to off - defer to after STARFIELD is initialized
         setTimeout(() => setStarsVisible(false), 100);
     }
 } catch (e) { /* localStorage unavailable */ }
 
-document.getElementById('btn-stars').onclick = () => {
-    const btn = document.getElementById('btn-stars');
-    const isActive = btn.classList.contains('active');
-    setStarsVisible(!isActive);
-};
+// Support both old btn-stars and new toggle-stars
+const starsToggle = document.getElementById('btn-stars') || document.getElementById('toggle-stars');
+if (starsToggle) {
+    starsToggle.onclick = () => {
+        const isActive = starsToggle.classList.contains('active');
+        setStarsVisible(!isActive);
+    };
+}
 
 // Reset Layout button - explicitly re-run physics
 document.getElementById('btn-reset-layout').onclick = () => {
@@ -8659,6 +7850,7 @@ function getFileColor(fileIdx, totalFiles, fileName, lightnessOverride = null) {
 
 function updateHoverPanel(node) {
     const hoverPanel = document.getElementById('hover-panel');
+    const placeholder = document.getElementById('hover-placeholder');
     if (!hoverPanel) return;
 
     if (!node) {
@@ -8666,6 +7858,7 @@ function updateHoverPanel(node) {
         setTimeout(() => {
             if (_lastHoveredNodeId === null) {
                 hoverPanel.classList.remove('visible');
+                if (placeholder) placeholder.style.display = 'block';
             }
         }, 200);
         _lastHoveredNodeId = null;
@@ -8677,23 +7870,29 @@ function updateHoverPanel(node) {
     if (nodeId === _lastHoveredNodeId) return;
     _lastHoveredNodeId = nodeId;
 
+    // Helper for null-safe element updates
+    const setEl = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+
     // Update hover panel content with canonical taxonomy fields
-    document.getElementById('hover-name').textContent = node.name || node.id || 'Unknown';
-    document.getElementById('hover-kind').textContent = node.kind || node.symbol_kind || 'node';
-    document.getElementById('hover-atom').textContent = node.atom || '--';
-    document.getElementById('hover-family').textContent = getNodeAtomFamily(node);
-    document.getElementById('hover-ring').textContent = getNodeRing(node);
-    document.getElementById('hover-tier').textContent = getNodeTier(node);
-    document.getElementById('hover-role').textContent = node.role || '--';
+    setEl('hover-name', node.name || node.id || 'Unknown');
+    setEl('hover-kind', node.kind || node.symbol_kind || 'node');
+    setEl('hover-atom', node.atom || '--');
+    setEl('hover-family', getNodeAtomFamily(node));
+    setEl('hover-ring', getNodeRing(node));
+    setEl('hover-tier', getNodeTier(node));
+    setEl('hover-role', node.role || '--');
 
     // Show file path (truncated if long)
     const filePath = node.file_path || node.file || '';
     const shortPath = filePath.length > 50 ? '...' + filePath.slice(-47) : filePath;
-    document.getElementById('hover-file').textContent = shortPath || '--';
+    setEl('hover-file', shortPath || '--');
 
-    // Show panel and trigger smart placement
+    // Show panel and hide placeholder
     hoverPanel.classList.add('visible');
-    HudLayoutManager.reflow();
+    if (placeholder) placeholder.style.display = 'none';
 }
 
 function buildDatasetKey(data) {
@@ -9622,6 +8821,9 @@ function handleNodeHover(node, data) {
     // Always update hover panel (separate from file panel)
     updateHoverPanel(node);
 
+    // Guard: file-panel may not exist in minimal template
+    if (!filePanel) return;
+
     if (!VIS_FILTERS.metadata.showFilePanel) {
         filePanel.classList.remove('visible');
         return;
@@ -9645,22 +8847,22 @@ function handleNodeHover(node, data) {
 
     const fileInfo = boundaries[fileIdx];
 
-    // Update panel content
-    document.getElementById('file-name').textContent = fileInfo.file_name || 'unknown';
-    document.getElementById('file-cohesion').textContent =
-        `Cohesion: ${(fileInfo.cohesion * 100).toFixed(0)}%`;
-    document.getElementById('file-purpose').textContent = fileInfo.purpose || '--';
-    document.getElementById('file-atom-count').textContent = fileInfo.atom_count || 0;
-    document.getElementById('file-lines').textContent =
-        fileInfo.line_range ? `${fileInfo.line_range[0]}-${fileInfo.line_range[1]}` : '--';
-    document.getElementById('file-classes').textContent =
-        (fileInfo.classes || []).join(', ') || 'none';
-    document.getElementById('file-functions').textContent =
-        'Functions: ' + ((fileInfo.functions || []).slice(0, 8).join(', ') || 'none');
+    // Update panel content (with null checks for minimal template)
+    const setEl = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+    setEl('file-name', fileInfo.file_name || 'unknown');
+    setEl('file-cohesion', `Cohesion: ${(fileInfo.cohesion * 100).toFixed(0)}%`);
+    setEl('file-purpose', fileInfo.purpose || '--');
+    setEl('file-atom-count', fileInfo.atom_count || 0);
+    setEl('file-lines', fileInfo.line_range ? `${fileInfo.line_range[0]}-${fileInfo.line_range[1]}` : '--');
+    setEl('file-classes', (fileInfo.classes || []).join(', ') || 'none');
+    setEl('file-functions', 'Functions: ' + ((fileInfo.functions || []).slice(0, 8).join(', ') || 'none'));
 
     // Show code preview from node body
     const code = node.body || '// no source available';
-    document.getElementById('file-code').textContent = code;
+    setEl('file-code', code);
 
     // Show panel and trigger smart placement
     filePanel.classList.add('visible');

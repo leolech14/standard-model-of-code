@@ -6,6 +6,10 @@ COLLIDER EDGE EXTRACTOR
 Extracts relationships (edges) between code elements.
 Creates a call graph from particles and import data.
 
+Polyglot Support:
+Uses EdgeExtractionStrategy to handle language-specific call/usage extraction
+from source bodies.
+
 Edge Types:
 - imports: Module imports another module
 - contains: Class contains method, module contains class
@@ -17,6 +21,7 @@ Edge Types:
 import re
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+from abc import ABC, abstractmethod
 
 
 # Standard library module names (common ones for quick classification)
@@ -114,6 +119,229 @@ def _collect_file_node_ids(particles: List[Dict]) -> Dict[str, str]:
     return mapping
 
 
+# =============================================================================
+# STRATEGY PATTERN FOR BODY ANALYSIS
+# =============================================================================
+
+class EdgeExtractionStrategy(ABC):
+    """Abstract base class for language-specific edge extraction from source bodies."""
+    
+    @abstractmethod
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        """
+        Extract 'calls' and 'uses' edges from a single particle's body_source.
+        """
+        pass
+
+
+class PythonEdgeStrategy(EdgeExtractionStrategy):
+    """Extraction logic for Python (regex-based heuristics)."""
+    
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        edges = []
+        body = particle.get('body_source', '')
+        if not body:
+            return edges
+            
+        caller_id = _get_particle_id(particle)
+        caller_name = particle.get('name', '')
+        caller_short = caller_name.split('.')[-1] if '.' in caller_name else caller_name
+        
+        # Look for function calls: func() or self.method()
+        calls = re.findall(r'(?:self\.)?(\w+)\s*\(', body)
+        
+        for call in calls:
+            # Skip self-calls and common built-ins
+            if call == caller_short:
+                continue
+            if call in ('print', 'len', 'str', 'int', 'float', 'list', 'dict', 'set', 'tuple',
+                       'range', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'isinstance',
+                       'hasattr', 'getattr', 'setattr', 'open', 'super', 'type', 'id'):
+                continue
+
+            if call in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[call])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.7,  # Heuristic detection
+                })
+
+        # Look for attribute access (e.g., Enum.MEMBER, Class.method)
+        # Pattern: CapitalizedName.something (likely class/enum access)
+        attr_accesses = re.findall(r'\b([A-Z][a-zA-Z0-9_]*)\.[a-zA-Z_]\w*', body)
+        for accessed in attr_accesses:
+            if accessed == caller_short:
+                continue
+            if accessed in ('Path', 'Dict', 'List', 'Optional', 'Union', 'Any', 'Type', 'Set', 'Tuple'):
+                continue  # Skip typing imports
+            if accessed in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[accessed])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'uses',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.8,  # Attribute access detection
+                })
+                
+        return edges
+
+
+class JavascriptEdgeStrategy(EdgeExtractionStrategy):
+    """Extraction logic for JavaScript/TypeScript."""
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        edges = []
+        body = particle.get('body_source', '')
+        if not body:
+            return edges
+
+        caller_id = _get_particle_id(particle)
+        caller_name = particle.get('name', '')
+
+        # JS Calls: func(), obj.method(), this.method()
+        # Heuristic: word followed by (
+        calls = re.findall(r'(?:this\.|[\w]+\.)?(\w+)\s*\(', body)
+
+        for call in calls:
+            if call in ('console', 'log', 'alert', 'push', 'pop', 'map', 'filter', 'forEach', 
+                       'reduce', 'length', 'toString', 'parseInt', 'parseFloat', 'require'):
+                continue
+            
+            if call in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[call])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.7,
+                })
+        
+        # New instantiation
+        news = re.findall(r'new\s+(\w+)\s*\(', body)
+        for cls in news:
+             if cls in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[cls])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls', # Constructor call
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.9,
+                })
+
+        return edges
+
+
+class TypeScriptEdgeStrategy(JavascriptEdgeStrategy):
+    """Extraction logic for TypeScript (inherits JS + type usages)."""
+    # JS regex covers most calls. Could add type annotation extraction if needed.
+    pass
+
+
+class GoEdgeStrategy(EdgeExtractionStrategy):
+    """Extraction logic for Go."""
+    
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        edges = []
+        body = particle.get('body_source', '')
+        if not body:
+            return edges
+            
+        caller_id = _get_particle_id(particle)
+
+        # Go calls: Pkg.Func(), func()
+        # Extract Word.Word( or Word(
+        calls = re.findall(r'(?:[\w]+\.)?(\w+)\s*\(', body)
+        
+        for call in calls:
+            if call in ('println', 'fmt', 'len', 'append', 'make', 'new', 'panic', 'copy'):
+                continue
+            
+            if call in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[call])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.7,
+                })
+        return edges
+
+
+class RustEdgeStrategy(EdgeExtractionStrategy):
+    """Extraction logic for Rust."""
+    
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        edges = []
+        body = particle.get('body_source', '')
+        if not body:
+            return edges
+            
+        caller_id = _get_particle_id(particle)
+
+        # Rust calls: func(), module::func(), struct.method()
+        # Regex for word followed by (
+        calls = re.findall(r'(?:[\w:]+\.|[\w:]+::)?(\w+)\s*\(', body)
+
+        for call in calls:
+            if call in ('println', 'vec', 'Some', 'None', 'Ok', 'Err', 'unwrap', 'clone', 'to_string'):
+                continue
+            
+            if call in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[call])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.7,
+                })
+        return edges
+
+
+class DefaultEdgeStrategy(EdgeExtractionStrategy):
+    """Fallback strategy for unknown languages (no body analysis)."""
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        return []
+
+
+def get_strategy_for_file(file_path: str) -> EdgeExtractionStrategy:
+    """Factory to get the correct strategy based on file extension."""
+    if file_path.endswith('.py'):
+        return PythonEdgeStrategy()
+    if file_path.endswith('.js') or file_path.endswith('.jsx'):
+        return JavascriptEdgeStrategy()
+    if file_path.endswith('.ts') or file_path.endswith('.tsx'):
+        return TypeScriptEdgeStrategy()
+    if file_path.endswith('.go'):
+        return GoEdgeStrategy()
+    if file_path.endswith('.rs'):
+        return RustEdgeStrategy()
+    return DefaultEdgeStrategy()
+
+
+# =============================================================================
+# MAIN ORCHESTRATOR
+# =============================================================================
+
 def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: Optional[str] = None) -> List[Dict]:
     """
     Extract call relationships from particles and raw imports.
@@ -149,7 +377,9 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
 
     file_node_ids = _collect_file_node_ids(particles)
 
-    # Extract imports from each file
+    # -------------------------------------------------------------------------
+    # 1. IMPORTS
+    # -------------------------------------------------------------------------
     for result in results:
         file_path = result.get('file_path', '')
         raw_imports = result.get('raw_imports', [])
@@ -182,8 +412,11 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                     'confidence': 1.0,
                 })
 
-    # Extract containment edges (parent-child)
+    # -------------------------------------------------------------------------
+    # 2. CONTAINMENT & INHERITANCE (Structure)
+    # -------------------------------------------------------------------------
     for p in particles:
+        # Containment
         parent = p.get('parent', '')
         if parent:
             file_path = p.get('file_path', '')
@@ -199,8 +432,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                 'confidence': 1.0,
             })
 
-    # Extract inheritance edges
-    for p in particles:
+        # Inheritance
         base_classes = p.get('base_classes', [])
         for base in base_classes:
             if base and base not in ('object', 'ABC', 'Protocol'):
@@ -220,56 +452,16 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                     'confidence': 1.0,
                 })
 
-    # Extract call edges from body_source (heuristic)
+    # -------------------------------------------------------------------------
+    # 3. CALLS & USES (Body Analysis via Strategy)
+    # -------------------------------------------------------------------------
     for p in particles:
-        body = p.get('body_source', '')
-        if body:
-            # Look for function calls in body
-            calls = re.findall(r'(?:self\.)?(\w+)\s*\(', body)
-            caller_id = _get_particle_id(p)
-            caller_name = p.get('name', '')
-            caller_short = caller_name.split('.')[-1] if '.' in caller_name else caller_name
-
-            for call in calls:
-                # Skip self-calls and common built-ins
-                if call == caller_short:
-                    continue
-                if call in ('print', 'len', 'str', 'int', 'float', 'list', 'dict', 'set', 'tuple',
-                           'range', 'enumerate', 'zip', 'map', 'filter', 'sorted', 'isinstance',
-                           'hasattr', 'getattr', 'setattr', 'open', 'super', 'type', 'id'):
-                    continue
-
-                if call in particle_by_name:
-                    target_id = _get_particle_id(particle_by_name[call])
-                    edges.append({
-                        'source': caller_id,
-                        'target': target_id,
-                        'edge_type': 'calls',
-                        'family': 'Dependency',
-                        'file_path': p.get('file_path', ''),
-                        'line': p.get('line', 0),
-                        'confidence': 0.7,  # Heuristic detection
-                    })
-
-            # Look for attribute access (e.g., Enum.MEMBER, Class.method)
-            # Pattern: CapitalizedName.something (likely class/enum access)
-            attr_accesses = re.findall(r'\b([A-Z][a-zA-Z0-9_]*)\.[a-zA-Z_]\w*', body)
-            for accessed in attr_accesses:
-                if accessed == caller_short:
-                    continue
-                if accessed in ('Path', 'Dict', 'List', 'Optional', 'Union', 'Any', 'Type', 'Set', 'Tuple'):
-                    continue  # Skip typing imports
-                if accessed in particle_by_name:
-                    target_id = _get_particle_id(particle_by_name[accessed])
-                    edges.append({
-                        'source': caller_id,
-                        'target': target_id,
-                        'edge_type': 'uses',
-                        'family': 'Dependency',
-                        'file_path': p.get('file_path', ''),
-                        'line': p.get('line', 0),
-                        'confidence': 0.8,  # Attribute access detection
-                    })
+        file_path = p.get('file_path', '')
+        strategy = get_strategy_for_file(file_path)
+        
+        # Use strategy to extract body-level edges
+        body_edges = strategy.extract_edges(p, particle_by_name)
+        edges.extend(body_edges)
 
     node_ids = {
         _get_particle_id(p)
@@ -358,20 +550,6 @@ def _build_file_to_node_ids(node_ids: Set[str]) -> Dict[str, List[str]]:
         mapping.setdefault(path, []).append(node_id)
     for key in mapping:
         mapping[key].sort()
-    return mapping
-
-
-def _collect_file_node_ids(particles: List[Dict]) -> Dict[str, str]:
-    """Collect file-node ids keyed by normalized file path."""
-    mapping: Dict[str, str] = {}
-    for particle in particles:
-        metadata = particle.get("metadata") or {}
-        if not metadata.get("file_node"):
-            continue
-        file_path = particle.get("file_path", "")
-        if not file_path:
-            continue
-        mapping[_normalize_file_path(file_path)] = _get_particle_id(particle)
     return mapping
 
 
@@ -683,20 +861,3 @@ def get_import_resolution_diagnostics(edges: List[Dict]) -> Tuple[Dict[str, int]
     ][:20]
 
     return counts, top_roots
-    """
-    Remove duplicate edges, keeping highest confidence.
-
-    Args:
-        edges: List of edge dictionaries
-
-    Returns:
-        Deduplicated list of edges
-    """
-    seen = {}
-
-    for edge in edges:
-        key = (edge['source'], edge['target'], edge['edge_type'])
-        if key not in seen or edge.get('confidence', 0) > seen[key].get('confidence', 0):
-            seen[key] = edge
-
-    return list(seen.values())
