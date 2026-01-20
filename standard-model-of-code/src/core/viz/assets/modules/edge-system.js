@@ -141,40 +141,8 @@ const EDGE = (function() {
     }
 
     // =========================================================================
-    // NODE HELPERS
+    // NODE HELPERS (use canonical versions from node-helpers.js via window.*)
     // =========================================================================
-
-    function getNodeTierValue(node) {
-        if (!node) return 1;
-        const tier = typeof NODE !== 'undefined' ? NODE.getTier(node) : (node.tier || 'T1');
-        if (tier === 'T0') return 0;
-        if (tier === 'T1') return 1;
-        if (tier === 'T2') return 2;
-        return 1;
-    }
-
-    function getNodeDepth(node) {
-        // Use y-position as proxy for depth (force layout tends to layer)
-        if (node && typeof node.y === 'number') {
-            return Math.abs(node.y) / 500;  // Normalize
-        }
-        return 0.5;
-    }
-
-    function getSemanticSimilarity(srcNode, tgtNode) {
-        if (!srcNode || !tgtNode) return 0.5;
-        let score = 0;
-        // Same type = high similarity
-        if (srcNode.type === tgtNode.type) score += 0.4;
-        // Same file = high similarity
-        if (srcNode.fileIdx === tgtNode.fileIdx) score += 0.3;
-        // Same tier = moderate similarity
-        const getTier = typeof NODE !== 'undefined' ? NODE.getTier : (n => n.tier || 'T1');
-        if (getTier(srcNode) === getTier(tgtNode)) score += 0.2;
-        // Same ring/layer
-        if (srcNode.ring === tgtNode.ring) score += 0.1;
-        return score;
-    }
 
     function getLinkFileIdx(link, side) {
         const endpoint = link?.[side];
@@ -257,8 +225,8 @@ const EDGE = (function() {
             (typeof Graph !== 'undefined' ? Graph?.graphData()?.nodes?.find(n => n.id === link.target) : null);
 
         if (mode === 'gradient-tier') {
-            const srcTier = getNodeTierValue(srcNode);
-            const tgtTier = getNodeTierValue(tgtNode);
+            const srcTier = window.getNodeTierValue(srcNode);
+            const tgtTier = window.getNodeTierValue(tgtNode);
             const avgTier = (srcTier + tgtTier) / 2;
 
             const palette = PALETTES.tier;
@@ -315,8 +283,8 @@ const EDGE = (function() {
         }
 
         if (mode === 'gradient-depth') {
-            const srcDepth = getNodeDepth(srcNode);
-            const tgtDepth = getNodeDepth(tgtNode);
+            const srcDepth = window.getNodeDepth(srcNode);
+            const tgtDepth = window.getNodeDepth(tgtNode);
             const avgDepth = (srcDepth + tgtDepth) / 2;
             const palette = PALETTES.depth;
 
@@ -330,7 +298,7 @@ const EDGE = (function() {
         }
 
         if (mode === 'gradient-semantic') {
-            const similarity = getSemanticSimilarity(srcNode, tgtNode);
+            const similarity = window.getSemanticSimilarity(srcNode, tgtNode);
             const palette = PALETTES.semantic;
 
             if (similarity > 0.7) {

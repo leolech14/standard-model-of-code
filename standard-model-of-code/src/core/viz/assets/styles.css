@@ -778,35 +778,60 @@ body {
             gap: 4px;
         }
 
+        /* Scheme button: swatch row + label */
         .scheme-btn {
-            display: inline-block;
-            padding: 4px 8px;
-            min-width: 60px;
-            height: 24px;
-            border: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            padding: 4px 6px;
+            min-width: 70px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition-default);
-            font-size: 9px;
-            font-weight: var(--typography-weight-semibold);
-            text-transform: capitalize;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-            /* Background is set dynamically via JS with gradient */
         }
 
         .scheme-btn:hover {
-            border-color: rgba(255,255,255,0.4);
-            transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.04);
         }
 
         .scheme-btn.active {
-            border-color: rgba(255,255,255,0.7);
-            box-shadow: 0 0 12px rgba(255,255,255,0.25),
-                        inset 0 0 4px rgba(255,255,255,0.15);
-            transform: scale(1.02);
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.08);
         }
+
+        /* Container for 5 color swatches */
+        .scheme-swatches {
+            display: flex;
+            gap: 1px;
+            width: 100%;
+        }
+
+        /* Individual color swatch */
+        .scheme-swatch {
+            flex: 1;
+            height: 10px;
+            border-radius: 1px;
+        }
+
+        /* First and last swatches get rounded corners */
+        .scheme-swatch:first-child { border-radius: 2px 0 0 2px; }
+        .scheme-swatch:last-child { border-radius: 0 2px 2px 0; }
+
+        /* Scheme name label */
+        .scheme-label {
+            font-size: 8px;
+            font-weight: var(--typography-weight-medium);
+            color: var(--color-text-muted);
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+        }
+
+        .scheme-btn:hover .scheme-label { color: var(--color-text-secondary); }
+        .scheme-btn.active .scheme-label { color: var(--color-text-primary); }
 
         /* Section for schemes in sidebar */
         #section-schemes {

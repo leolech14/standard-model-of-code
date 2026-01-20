@@ -66,14 +66,6 @@ const COLOR = (function () {
             // Unknown
             'unknown': { h: 0, c: 0.04, l: 0.50, label: 'Unknown', semantic: 'neutral' }
         },
-        family: {
-            'LOG': { h: 220, c: 0.24, l: 0.65, label: 'Logic', semantic: 'computation' },
-            'DAT': { h: 142, c: 0.22, l: 0.68, label: 'Data', semantic: 'storage' },
-            'ORG': { h: 280, c: 0.24, l: 0.62, label: 'Organization', semantic: 'structure' },
-            'EXE': { h: 15, c: 0.26, l: 0.62, label: 'Execution', semantic: 'action' },
-            'EXT': { h: 35, c: 0.22, l: 0.65, label: 'External', semantic: 'boundary' },
-            'UNKNOWN': { h: 0, c: 0.04, l: 0.50, label: 'Unknown', semantic: 'neutral' }
-        },
         roleCategory: {
             'Query': { h: 190, c: 0.20, l: 0.65, label: 'Query', semantic: 'read' },         // Cyan
             'Command': { h: 25, c: 0.24, l: 0.60, label: 'Command', semantic: 'write' },     // Orange/Red
@@ -637,6 +629,202 @@ const COLOR = (function () {
                 { value: 0.75, h: 0, c: 0.20, l: 0.50 },   // Aging red
                 { value: 1.0, h: 280, c: 0.10, l: 0.35 }   // Death purple
             ]
+        },
+
+        // =====================================================================
+        // PART C: OKLCH GEOMETRY GENERATORS (Function-based paths)
+        // These use mathematical functions instead of discrete stops.
+        // Each has a `generator` function: (t) => { h, c, l }
+        // =====================================================================
+
+        // === LOOPS (Full 360° hue cycles) ===
+        'rainbow-loop': {
+            name: 'Rainbow Loop',
+            semantic: 'Full hue circle at constant L/C',
+            generator: (t) => ({
+                h: t * 360,           // Full hue rotation
+                c: 0.20,              // Constant chroma
+                l: 0.65               // Constant lightness
+            })
+        },
+        'rainbow-bright': {
+            name: 'Rainbow Bright',
+            semantic: 'Vivid rainbow with high chroma',
+            generator: (t) => ({
+                h: t * 360,
+                c: 0.28,              // High chroma for vivid colors
+                l: 0.70
+            })
+        },
+        'rainbow-dark': {
+            name: 'Rainbow Dark',
+            semantic: 'Subdued rainbow for dark themes',
+            generator: (t) => ({
+                h: t * 360,
+                c: 0.18,
+                l: 0.45               // Lower lightness
+            })
+        },
+
+        // === ARCS (Partial hue sweeps) ===
+        'arc-warm': {
+            name: 'Warm Arc',
+            semantic: 'Red→Yellow→Orange (warm sector)',
+            generator: (t) => ({
+                h: 0 + t * 60,        // 0° to 60° (red to yellow)
+                c: 0.24,
+                l: 0.55 + t * 0.15    // Slight lightness increase
+            })
+        },
+        'arc-cool': {
+            name: 'Cool Arc',
+            semantic: 'Cyan→Blue→Purple (cool sector)',
+            generator: (t) => ({
+                h: 180 + t * 100,     // 180° to 280° (cyan to purple)
+                c: 0.22,
+                l: 0.50 + t * 0.15
+            })
+        },
+        'arc-nature': {
+            name: 'Nature Arc',
+            semantic: 'Green→Teal→Cyan (nature)',
+            generator: (t) => ({
+                h: 120 + t * 60,      // 120° to 180° (green to cyan)
+                c: 0.20,
+                l: 0.60 + t * 0.10
+            })
+        },
+
+        // === SPIRALS (Hue + varying L or C) ===
+        'spiral-up': {
+            name: 'Spiral Up',
+            semantic: 'Hue rotates as lightness increases',
+            generator: (t) => ({
+                h: t * 270,           // 3/4 hue rotation
+                c: 0.18,
+                l: 0.30 + t * 0.55    // Dark to light
+            })
+        },
+        'spiral-down': {
+            name: 'Spiral Down',
+            semantic: 'Hue rotates as lightness decreases',
+            generator: (t) => ({
+                h: t * 270,
+                c: 0.20,
+                l: 0.85 - t * 0.55    // Light to dark
+            })
+        },
+        'spiral-chroma': {
+            name: 'Spiral Chroma',
+            semantic: 'Hue rotates as saturation increases',
+            generator: (t) => ({
+                h: t * 360,
+                c: 0.06 + t * 0.22,   // Gray to vivid
+                l: 0.60
+            })
+        },
+
+        // === SINUSOIDAL (Wave patterns) ===
+        'wave-lightness': {
+            name: 'Wave Lightness',
+            semantic: 'Sinusoidal lightness oscillation',
+            generator: (t) => ({
+                h: t * 180,           // Half hue rotation
+                c: 0.20,
+                l: 0.50 + Math.sin(t * Math.PI * 2) * 0.20  // Wave between 0.30 and 0.70
+            })
+        },
+        'wave-chroma': {
+            name: 'Wave Chroma',
+            semantic: 'Sinusoidal saturation oscillation',
+            generator: (t) => ({
+                h: t * 180,
+                c: 0.15 + Math.sin(t * Math.PI * 2) * 0.12, // Wave between 0.03 and 0.27
+                l: 0.60
+            })
+        },
+        'pulse': {
+            name: 'Pulse',
+            semantic: 'Both L and C oscillate together',
+            generator: (t) => {
+                const wave = Math.sin(t * Math.PI * 3); // 1.5 full waves
+                return {
+                    h: t * 120,       // Partial hue sweep
+                    c: 0.15 + wave * 0.10,
+                    l: 0.55 + wave * 0.15
+                };
+            }
+        },
+
+        // === LINEAR RAMPS (Simple mathematical paths) ===
+        'ramp-hue': {
+            name: 'Hue Ramp',
+            semantic: 'Pure hue change, constant L/C',
+            generator: (t) => ({
+                h: 220 + t * 140,     // Blue to pink (220° to 360°)
+                c: 0.22,
+                l: 0.60
+            })
+        },
+        'ramp-lightness': {
+            name: 'Lightness Ramp',
+            semantic: 'Dark to light, constant H/C',
+            generator: (t) => ({
+                h: 220,               // Fixed blue
+                c: 0.18,
+                l: 0.25 + t * 0.60    // 0.25 to 0.85
+            })
+        },
+        'ramp-chroma': {
+            name: 'Chroma Ramp',
+            semantic: 'Gray to vivid, constant H/L',
+            generator: (t) => ({
+                h: 280,               // Fixed purple
+                c: 0.02 + t * 0.26,   // 0.02 to 0.28
+                l: 0.60
+            })
+        },
+
+        // === SPECIAL GEOMETRIC PATHS ===
+        'helix': {
+            name: 'Helix',
+            semantic: 'Full 3D path through OKLCH cylinder',
+            generator: (t) => ({
+                h: t * 540,           // 1.5 hue rotations
+                c: 0.10 + t * 0.15,   // Increasing chroma
+                l: 0.30 + t * 0.50    // Rising lightness
+            })
+        },
+        'convergent': {
+            name: 'Convergent',
+            semantic: 'Colors converge toward gray',
+            generator: (t) => ({
+                h: t * 180,           // Half rotation
+                c: 0.26 * (1 - t),    // Chroma decreases to 0
+                l: 0.55
+            })
+        },
+        'divergent': {
+            name: 'Divergent',
+            semantic: 'Colors diverge from gray',
+            generator: (t) => ({
+                h: 180 + t * 180,     // Second half of hue wheel
+                c: 0.26 * t,          // Chroma increases from 0
+                l: 0.55
+            })
+        },
+        'bicone': {
+            name: 'Bicone',
+            semantic: 'Center peak, edges dark (HSL-like)',
+            generator: (t) => {
+                // Lightness peaks at center, dark at edges
+                const l = t < 0.5 ? 0.30 + t * 0.70 : 0.65 - (t - 0.5) * 0.70;
+                return {
+                    h: t * 360,
+                    c: 0.20,
+                    l: Math.max(0.30, l)
+                };
+            }
         }
     };
 
@@ -895,6 +1083,10 @@ function getScheme(schemeName) {
 
 /**
  * Get color at position t (0-1) along a scheme path
+ * Supports both:
+ *   - stops: Array of discrete points (interpolated)
+ *   - generator: Function (t) => { h, c, l } (direct mathematical path)
+ *
  * @param {string} schemeName - Name of the scheme
  * @param {number} t - Position along path (0-1)
  * @returns {string} Hex color string
@@ -903,8 +1095,17 @@ function getSchemeColor(schemeName, t) {
     const scheme = schemePaths[schemeName];
     if (!scheme) return _toHex({ h: 0, c: 0.02, l: 0.40 });
 
-    const stops = scheme.stops;
     const v = Math.max(0, Math.min(1, t));
+
+    // GENERATOR MODE: Mathematical function (OKLCH geometry)
+    if (scheme.generator && typeof scheme.generator === 'function') {
+        const oklch = scheme.generator(v);
+        return _applyTransform(oklch);
+    }
+
+    // STOPS MODE: Discrete points with interpolation
+    const stops = scheme.stops;
+    if (!stops || stops.length === 0) return _toHex({ h: 0, c: 0.02, l: 0.40 });
 
     // Find surrounding stops
     let lower = stops[0];

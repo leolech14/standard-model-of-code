@@ -17,17 +17,59 @@ window.NODE_HELPERS = (function() {
     // NODE COLOR BY MODE
     // ═══════════════════════════════════════════════════════════════════════
 
+    // =========================================================================
+    // MODE_ACCESSORS: Declarative map replacing the mega-switch
+    // Each mode maps to a function: (node, Color) => colorString
+    // =========================================================================
+
+    const MODE_ACCESSORS = {
+        // 1. ARCHITECTURE
+        tier:           (n, C) => C.get('tier', window.getNodeTier(n)),
+        layer:          (n, C) => C.get('layer', (n.layer || n.dimensions?.D2_LAYER || 'UNKNOWN').toUpperCase()),
+        subsystem:      (n, C) => C.get('subsystem', getSubsystem(n)),
+        boundary_score: (n, C) => C.getInterval('boundary_score', window.normalize(n.rpbl?.boundary ?? 1, 9)),
+        phase:          (n, C) => C.get('phase', getPhase(n)),
+
+        // 2. TAXONOMY
+        atom:           (n, C) => C.get('atom', (n.kind || n.type || 'unknown').toLowerCase()),
+        family:         (n, C) => C.get('family', window.getNodeAtomFamily(n)),
+        role:           (n, C) => C.get('roleCategory', n.role_cat || 'Unknown'),
+        roleCategory:   (n, C) => C.get('roleCategory', n.role_cat || getRoleCategory(n)),
+        fileType:       (n, C) => C.get('fileType', getFileType(n)),
+
+        // 3. METRICS
+        complexity:     (n, C) => C.getInterval('complexity', window.normalize(n.complexity || 0, 20)),
+        loc:            (n, C) => C.getInterval('loc', window.normalize(n.lines_of_code || 0, 500)),
+        fan_in:         (n, C) => C.getInterval('fan_in', window.normalize(n.in_degree || 0, 20)),
+        fan_out:        (n, C) => C.getInterval('fan_out', window.normalize(n.out_degree || 0, 20)),
+        trust:          (n, C) => C.getInterval('trust', n.trust || n.confidence || 0),
+
+        // 4. RPBL DNA
+        responsibility: (n, C) => C.getInterval('responsibility', window.normalize(n.rpbl?.responsibility ?? 1, 9)),
+        purity:         (n, C) => C.getInterval('purity', window.normalize(n.rpbl?.purity ?? 1, 9)),
+        lifecycle_score:(n, C) => C.getInterval('lifecycle_score', window.normalize(n.rpbl?.lifecycle ?? 1, 9)),
+        state:          (n, C) => C.get('state', (n.dimensions?.D5_STATE === 'Stateful') ? 'Stateful' : 'Stateless'),
+        visibility:     (n, C) => C.get('visibility', n.dimensions?.D4_BOUNDARY === 'External' ? 'Public' : 'Private'),
+
+        // 5. TOPOLOGY
+        centrality:     (n, C) => C.getInterval('centrality', n.centrality || 0),
+        rank:           (n, C) => C.getInterval('centrality', n.pagerank || 0),
+        ring:           (n, C) => C.get('ring', window.getNodeRing(n)),
+
+        // 6. EVOLUTION (Placeholders)
+        churn:          (n, C) => C.getInterval('churn', Math.random() * 0.5),
+        age:            (n, C) => C.getInterval('churn', 0.2)
+    };
+
     function getNodeColorByMode(node) {
-        // All colors come from ColorOrchestrator (aliased as Color)
         const Color = window.Color;
         const NODE_COLOR_MODE = window.NODE_COLOR_MODE;
         const DM = window.DM;
 
+        // Special case: file coloring needs extra context
         if (NODE_COLOR_MODE === 'file') {
             const fileIdx = node.fileIdx ?? -1;
-            if (fileIdx < 0) {
-                return Color.get('tier', 'UNKNOWN');
-            }
+            if (fileIdx < 0) return Color.get('tier', 'UNKNOWN');
             const fileBoundaries = DM ? DM.getFileBoundaries() : [];
             const totalFiles = fileBoundaries.length;
             const fileInfo = fileBoundaries[fileIdx] || {};
@@ -35,48 +77,11 @@ window.NODE_HELPERS = (function() {
             return window.getFileColor(fileIdx, totalFiles, fileLabel);
         }
 
-        // =========================================================================
-        // 33-DIMENSION COLOR SWITCH (The Mega-Switch)
-        // =========================================================================
+        // Use MODE_ACCESSORS map - O(1) lookup instead of if-chain
+        const accessor = MODE_ACCESSORS[NODE_COLOR_MODE];
+        if (accessor) return accessor(node, Color);
 
-        // 1. ARCHITECTURE
-        if (NODE_COLOR_MODE === 'tier') return Color.get('tier', window.getNodeTier(node));
-        if (NODE_COLOR_MODE === 'layer') return Color.get('layer', (node.layer || node.dimensions?.D2_LAYER || 'UNKNOWN').toUpperCase());
-        if (NODE_COLOR_MODE === 'subsystem') return Color.get('subsystem', getSubsystem(node));
-        if (NODE_COLOR_MODE === 'boundary_score') return Color.getInterval('boundary_score', window.normalize(node.rpbl?.boundary ?? 1, 9));
-        if (NODE_COLOR_MODE === 'phase') return Color.get('phase', getPhase(node));
-
-        // 2. TAXONOMY
-        if (NODE_COLOR_MODE === 'atom') return Color.get('atom', (node.kind || node.type || 'unknown').toLowerCase());
-        if (NODE_COLOR_MODE === 'family') return Color.get('family', window.getNodeAtomFamily(node));
-        if (NODE_COLOR_MODE === 'role') return Color.get('roleCategory', node.role_cat || 'Unknown');
-        if (NODE_COLOR_MODE === 'roleCategory') return Color.get('roleCategory', node.role_cat || getRoleCategory(node));
-        if (NODE_COLOR_MODE === 'fileType') return Color.get('fileType', getFileType(node));
-
-        // 3. METRICS
-        if (NODE_COLOR_MODE === 'complexity') return Color.getInterval('complexity', window.normalize(node.complexity || 0, 20));
-        if (NODE_COLOR_MODE === 'loc') return Color.getInterval('loc', window.normalize(node.lines_of_code || 0, 500));
-        if (NODE_COLOR_MODE === 'fan_in') return Color.getInterval('fan_in', window.normalize(node.in_degree || 0, 20));
-        if (NODE_COLOR_MODE === 'fan_out') return Color.getInterval('fan_out', window.normalize(node.out_degree || 0, 20));
-        if (NODE_COLOR_MODE === 'trust') return Color.getInterval('trust', node.trust || node.confidence || 0);
-
-        // 4. RPBL DNA
-        if (NODE_COLOR_MODE === 'responsibility') return Color.getInterval('responsibility', window.normalize(node.rpbl?.responsibility ?? 1, 9));
-        if (NODE_COLOR_MODE === 'purity') return Color.getInterval('purity', window.normalize(node.rpbl?.purity ?? 1, 9));
-        if (NODE_COLOR_MODE === 'lifecycle_score') return Color.getInterval('lifecycle_score', window.normalize(node.rpbl?.lifecycle ?? 1, 9));
-        if (NODE_COLOR_MODE === 'state') return Color.get('state', (node.dimensions?.D5_STATE === 'Stateful') ? 'Stateful' : 'Stateless');
-        if (NODE_COLOR_MODE === 'visibility') return Color.get('visibility', node.dimensions?.D4_BOUNDARY === 'External' ? 'Public' : 'Private');
-
-        // 5. TOPOLOGY
-        if (NODE_COLOR_MODE === 'centrality') return Color.getInterval('centrality', node.centrality || 0);
-        if (NODE_COLOR_MODE === 'rank') return Color.getInterval('centrality', node.pagerank || 0);
-        if (NODE_COLOR_MODE === 'ring') return Color.get('ring', window.getNodeRing(node));
-
-        // 6. EVOLUTION (Placeholders / Simulated)
-        if (NODE_COLOR_MODE === 'churn') return Color.getInterval('churn', Math.random() * 0.5);
-        if (NODE_COLOR_MODE === 'age') return Color.getInterval('churn', 0.2);
-
-        // DEFAULT FALLBACK
+        // Default fallback
         return Color.get('tier', window.getNodeTier(node));
     }
 
