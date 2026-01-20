@@ -1,78 +1,52 @@
-# Documentation Index
+# Documentation
 
-[Home](../README.md) > **Docs**
+## The Two Documents
 
----
-
-## Quick Start
-
-| New Here? | Start With |
-|-----------|------------|
-| **5 min overview** | [QUICKSTART](./QUICKSTART.md) |
-| **Key terms** | [GLOSSARY](./GLOSSARY.md) |
-| **Agent instructions** | [CLAUDE.md](../CLAUDE.md) |
+| Document | Concern | Contents |
+|----------|---------|----------|
+| [MODEL.md](MODEL.md) | **THEORY** | What the Standard Model is, why it works, how it's proven |
+| [COLLIDER.md](COLLIDER.md) | **PRACTICE** | How to use the tool, commands, troubleshooting |
 
 ---
 
-## Theory Foundation
+## Quick Navigation
 
-| Document | Description |
-|----------|-------------|
-| [THEORY_MAP](./THEORY_MAP.md) | Dependency hierarchy of theories |
-| [FORMAL_PROOF](./FORMAL_PROOF.md) | Formal mathematical definitions |
-| [MECHANIZED_PROOFS](./MECHANIZED_PROOFS.md) | Lean 4 verified theorems |
+### MODEL.md (Theory)
 
-## Schema & Classification
+| Section | Question Answered |
+|---------|-------------------|
+| 1. Foundations | What are the bedrock axioms? |
+| 2. Classification | How are atoms and roles defined? |
+| 3. Schema | What's the data structure? |
+| 4. Purpose Field | How does purpose flow through code? |
+| 5. Proofs | Why is this mathematically sound? |
+| 6. History | How did we discover this? |
 
-| Document | Description |
-|----------|-------------|
-| [ATOMS_REFERENCE](./ATOMS_REFERENCE.md) | Atom ontology (`schema/atom.schema.json`) - 4 phases, 16 families |
-| [CANONICAL_SCHEMA](./CANONICAL_SCHEMA.md) | Complete field reference |
-| [PURPOSE_FIELD](./PURPOSE_FIELD.md) | Purpose emergence theory (`src/core/purpose_field.py`) |
+### COLLIDER.md (Practice)
 
-## Process & History
-
-| Document | Description |
-|----------|-------------|
-| [DISCOVERY_PROCESS](./DISCOVERY_PROCESS.md) | How we mapped code structure |
-| [THE_PIVOT](./THE_PIVOT.md) | Shift from AI to deterministic |
-| [ORIENTATION_FILES](./ORIENTATION_FILES.md) | Export context for AI agents |
-
-## Architecture & Implementation
-
-| Document | Description |
-|----------|-------------|
-| [ARCHITECTURE](./ARCHITECTURE.md) | Two-layer architecture, bidirectionality vision |
+| Section | Question Answered |
+|---------|-------------------|
+| 1. Commands | What commands can I run? |
+| 2. Output | What files are generated? |
+| 3. Pipeline | What are the 12 stages? |
+| 4. Architecture | How is the tool structured? |
+| 5. Source Files | Where is the code? |
+| 6. Lookup Tables | Where is X in the JSON/code? |
+| 7. Development | How do I set up and test? |
+| 8. Troubleshooting | How do I fix errors? |
 
 ---
 
-## Specifications
+## For AI Agents
 
-> See [specs/](./specs/README.md) for all specifications.
-
-| Spec | Description |
-|------|-------------|
-| [AI_INTERFACE_SPEC](./specs/AI_INTERFACE_SPEC.md) | The Communication Grip Layer (AI-facing interface) |
+See [../CLAUDE.md](../CLAUDE.md) for quick lookup tables.
 
 ---
 
-## Reports
+## Subdirectories
 
-> See [reports/](./reports/README.md) for all reports.
-
-| Report | Description |
-|--------|-------------|
-| [GAPS_ANALYSIS](./reports/GAPS_ANALYSIS_2026-01-19.md) | Current gaps and implementation roadmap |
-| [DOCS_IMPROVEMENT](./reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md) | AI-optimized docs tasks with confidence scores |
-| [TOKEN_SYSTEM_AUDIT](./reports/DESIGN_TOKEN_SYSTEM_AUDIT.md) | Design token system analysis |
-| [TOKEN_VERIFICATION](./reports/TOKEN_SYSTEM_VERIFICATION_PROTOCOL.md) | Token verification protocol |
-| [TOKEN_REGISTRY](./reports/TOKEN_SYSTEM_TASK_REGISTRY.md) | Token system task tracking |
-
----
-
-## Quick Links
-
-- [Main README](../README.md) - Project overview
-- [CLAUDE.md](../CLAUDE.md) - Agent instructions
-- [CONTRIBUTING](../CONTRIBUTING.md) - How to contribute
-- [Schema](../schema/README.md) - Schema definitions
+| Path | Contents |
+|------|----------|
+| `registry/` | Project history, timeline |
+| `reports/` | Gap analysis, audits |
+| `specs/` | Interface specifications |
