@@ -71,8 +71,7 @@ const GROUP_HALO_GEOMETRY = new THREE.SphereGeometry(1, 12, 12);
 let SPACE_PRESSED = false;
 let IS_3D = true;
 let DIMENSION_TRANSITION = false;
-let STARFIELD = null;
-let STARFIELD_OPACITY = 0;
+// STARFIELD REMOVED - nodes ARE the stars, no need for confusing background dots
 let BLOOM_PASS = null;
 let BLOOM_STRENGTH = 0;
 // EDGE_MODE - provided by edge-system.js module
@@ -229,7 +228,7 @@ let VIZ_COLORS = {
     groupHalo: '#88d0ff'
 };
 let FLOW_CONFIG = {};  // Flow mode settings from THE REMOTE CONTROL
-let GRAPH_MODE = 'atoms'; // atoms | files | hybrid
+window.GRAPH_MODE = 'atoms'; // atoms | files | hybrid - on window for FILE_VIZ access
 
 // Layout stability: cache node positions to prevent re-randomization on toggles
 let NODE_POSITION_CACHE = new Map();
@@ -955,83 +954,7 @@ function populateFilterChips() {
     buildChipGroup('chips-edges', edgeCounts, VIS_FILTERS.edges, refreshGraph);
 }
 
-// =====================================================================
-// LEGEND RENDERER: Color-coded hierarchical legend using LegendManager
-// =====================================================================
-function renderLegendSection(containerId, dimension, stateSet, onUpdate) {
-    const container = document.getElementById(containerId);
-    if (!container || !Legend) return;
-
-    container.innerHTML = '';
-
-    const legendData = Legend.getLegendData(dimension);
-    if (!legendData || legendData.length === 0) return;
-
-    // Build legend items
-    legendData.forEach(item => {
-        const el = document.createElement('div');
-        el.className = 'topo-legend-item' + (stateSet && !stateSet.has(item.id) ? ' filtered' : '');
-        el.dataset.category = item.id;
-        el.dataset.dimension = dimension;
-
-        // Color swatch
-        const swatch = document.createElement('span');
-        swatch.className = 'topo-legend-swatch';
-        swatch.style.backgroundColor = item.color;
-
-        // Label with count
-        const label = document.createElement('span');
-        label.className = 'topo-legend-label';
-        label.textContent = item.id;
-
-        const count = document.createElement('span');
-        count.className = 'topo-legend-count';
-        count.textContent = `(${item.count})`;
-
-        el.appendChild(swatch);
-        el.appendChild(label);
-        el.appendChild(count);
-
-        // Click to toggle filter
-        if (stateSet) {
-            el.addEventListener('click', () => {
-                if (stateSet.has(item.id)) {
-                    stateSet.delete(item.id);
-                    el.classList.add('filtered');
-                } else {
-                    stateSet.add(item.id);
-                    el.classList.remove('filtered');
-                }
-                if (onUpdate) onUpdate();
-            });
-        }
-
-        container.appendChild(el);
-    });
-
-    console.log(`[Legend] Rendered ${dimension}: ${legendData.length} items`);
-}
-
-// Render all legend sections
-function renderAllLegends() {
-    if (!Legend) {
-        console.warn('[Legend] LegendManager not initialized');
-        return;
-    }
-
-    // Render node legends
-    renderLegendSection('topo-tiers', 'tier', VIS_FILTERS.tiers, refreshGraph);
-    renderLegendSection('topo-families', 'family', VIS_FILTERS.families, refreshGraph);
-    renderLegendSection('topo-rings', 'ring', VIS_FILTERS.rings, refreshGraph);
-    renderLegendSection('topo-layers', 'layer', VIS_FILTERS.layers, refreshGraph);
-    renderLegendSection('topo-effects', 'effect', VIS_FILTERS.effects, refreshGraph);
-
-    // Render edge legends
-    renderLegendSection('topo-edges', 'edgeType', VIS_FILTERS.edges, refreshGraph);
-    renderLegendSection('topo-edge-families', 'edgeFamily', VIS_FILTERS.edgeFamilies, refreshGraph);
-
-    console.log('[Legend] All sections rendered');
-}
+// renderLegendSection, renderAllLegends - MOVED TO modules/legend-manager.js
 
 // Debounce wrapper to prevent DOM thrashing during rapid updates
 let _legendDebounceTimer = null;
@@ -1448,7 +1371,7 @@ worker.onmessage = function (e) {
         FILE_GRAPH = null;
         FILE_NODE_POSITIONS = new Map();
         EXPANDED_FILES.clear();
-        GRAPH_MODE = 'atoms';
+        window.GRAPH_MODE = 'atoms';
         document.getElementById('loader-status').innerText = "INITIALIZING VISUALIZATION...";
         initGraph(FULL_GRAPH);
     }
@@ -1641,6 +1564,13 @@ function initGraph(data) {
     }
 
     // =================================================================
+    // SIDEBAR: Apply deferred view mode (files mode if saved in localStorage)
+    // =================================================================
+    if (typeof SIDEBAR !== 'undefined' && SIDEBAR.applyDeferredViewMode) {
+        SIDEBAR.applyDeferredViewMode();
+    }
+
+    // =================================================================
     // TOKEN-DRIVEN CONFIG: Extract from payload
     // =================================================================
     const physicsConfig = data.physics || {};
@@ -1684,7 +1614,7 @@ function initGraph(data) {
     }
     const simulation = physicsConfig.simulation || {};
     const background = appearanceConfig.background || {};
-    const stars = background.stars || {};
+    // const stars = background.stars || {};  // REMOVED - starfield feature deleted
     const bloom = background.bloom || {};
     // NEW: Render, highlight, flow_mode from THE REMOTE CONTROL
     const renderConfig = appearanceConfig.render || {};
@@ -2063,29 +1993,10 @@ function initGraph(data) {
     }
 
     // =================================================================
-    // TOKEN-DRIVEN: Starfield (Cosmic Background)
+    // STARFIELD REMOVED - Nodes ARE the stars
+    // Rationale: Adding background dots creates visual confusion with actual data nodes.
+    // The cosmos metaphor works better when the data itself forms the starfield.
     // =================================================================
-    const scene = Graph.scene();
-    const starsGeometry = new THREE.BufferGeometry();
-    const starsCount = stars.count || 2000;
-    const starsSpread = stars.spread || 5000;
-    const posArray = new Float32Array(starsCount * 3);
-
-    for (let i = 0; i < starsCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * starsSpread;
-    }
-
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const starsMaterial = new THREE.PointsMaterial({
-        size: stars.size || 2,
-        color: 0xffffff,
-        transparent: true,
-        opacity: stars.opacity || 0.8,
-    });
-    const starMesh = new THREE.Points(starsGeometry, starsMaterial);
-    scene.add(starMesh);
-    STARFIELD = starMesh;
-    STARFIELD_OPACITY = starsMaterial.opacity;
 
     // =================================================================
     // TOKEN-DRIVEN: Bloom Post-Processing (DISABLED - UMD build compatibility)
@@ -2145,7 +2056,7 @@ function runSelfTest(data) {
     test('side-dock-exists', !!sideDock);
     test('topo-minimap-exists', !!document.getElementById('dock-minimap'));
     test('preset-grid-exists', !!document.getElementById('dock-presets'));
-    test('color-scheme-grid-exists', !!document.getElementById('dock-schemes'));
+    test('section-schemes-exists', !!document.getElementById('section-schemes'));
 
     // OKLCH picker
     test('oklch-picker-exists', !!document.getElementById('oklch-picker'));
@@ -2160,11 +2071,10 @@ function runSelfTest(data) {
     test('btn-flow-exists', !!document.getElementById('btn-flow'));
     test('btn-edge-mode-exists', !!document.getElementById('btn-edge-mode'));
     test('btn-report-exists', !!document.getElementById('btn-report'));
-    test('btn-stars-exists', !!document.getElementById('btn-stars'));
+    // test('btn-stars-exists', ...);  // REMOVED - starfield feature deleted
     test('btn-dimensions-exists', !!document.getElementById('btn-dimensions'));
 
-    // Graph state
-    test('starfield-initialized', !!STARFIELD);
+    // Graph state - STARFIELD test removed
 
     // Test 1b: Side dock content visibility
     const sideContent = document.getElementById('side-content');
@@ -2289,132 +2199,8 @@ function runSelfTest(data) {
 // TIER_ALIASES, normalizeTier, getNodeTier, getNodeAtomFamily, normalizeRingValue,
 // getNodeRing, getNodeLayer, getNodeEffect - provided by node-accessors.js module
 
-function getNodeColorByMode(node) {
-    // ═══════════════════════════════════════════════════════════════════
-    // ALL COLORS NOW COME FROM ColorOrchestrator (aliased as Color)
-    // This ensures legend colors match visualization colors exactly
-    // OKLCH transforms are applied automatically
-    // ═══════════════════════════════════════════════════════════════════
-
-    if (NODE_COLOR_MODE === 'file') {
-        const fileIdx = node.fileIdx ?? -1;
-        if (fileIdx < 0) {
-            return Color.get('tier', 'UNKNOWN');  // Use ColorOrchestrator
-        }
-        // ALL DATA FROM DM
-        const fileBoundaries = DM ? DM.getFileBoundaries() : [];
-        const totalFiles = fileBoundaries.length;
-        const fileInfo = fileBoundaries[fileIdx] || {};
-        const fileLabel = fileInfo.file || fileInfo.file_name || fileIdx;
-        return getFileColor(fileIdx, totalFiles, fileLabel);
-    }
-
-    // =========================================================================
-    // 33-DIMENSION COLOR SWITCH (The Mega-Switch)
-    // =========================================================================
-
-    // 1. ARCHITECTURE
-    if (NODE_COLOR_MODE === 'tier') return Color.get('tier', getNodeTier(node));
-    if (NODE_COLOR_MODE === 'layer') return Color.get('layer', (node.layer || node.dimensions?.D2_LAYER || 'UNKNOWN').toUpperCase());
-    if (NODE_COLOR_MODE === 'subsystem') return Color.get('subsystem', getSubsystem(node));
-    if (NODE_COLOR_MODE === 'boundary_score') return Color.getInterval('boundary_score', normalize(node.rpbl?.boundary ?? 1, 9));
-    if (NODE_COLOR_MODE === 'phase') return Color.get('phase', getPhase(node));
-
-    // 2. TAXONOMY
-    if (NODE_COLOR_MODE === 'atom') return Color.get('atom', (node.kind || node.type || 'unknown').toLowerCase());
-    if (NODE_COLOR_MODE === 'family') return Color.get('family', getNodeAtomFamily(node));
-    if (NODE_COLOR_MODE === 'role') return Color.get('roleCategory', node.role_cat || 'Unknown'); // Fallback to cat if role specific missing
-    if (NODE_COLOR_MODE === 'roleCategory') return Color.get('roleCategory', node.role_cat || getRoleCategory(node));
-    if (NODE_COLOR_MODE === 'fileType') return Color.get('fileType', getFileType(node));
-
-    // 3. METRICS
-    if (NODE_COLOR_MODE === 'complexity') return Color.getInterval('complexity', normalize(node.complexity || 0, 20));
-    if (NODE_COLOR_MODE === 'loc') return Color.getInterval('loc', normalize(node.lines_of_code || 0, 500));
-    if (NODE_COLOR_MODE === 'fan_in') return Color.getInterval('fan_in', normalize(node.in_degree || 0, 20));
-    if (NODE_COLOR_MODE === 'fan_out') return Color.getInterval('fan_out', normalize(node.out_degree || 0, 20));
-    if (NODE_COLOR_MODE === 'trust') return Color.getInterval('trust', node.trust || node.confidence || 0);
-
-    // 4. RPBL DNA
-    if (NODE_COLOR_MODE === 'responsibility') return Color.getInterval('responsibility', normalize(node.rpbl?.responsibility ?? 1, 9));
-    if (NODE_COLOR_MODE === 'purity') return Color.getInterval('purity', normalize(node.rpbl?.purity ?? 1, 9));
-    if (NODE_COLOR_MODE === 'lifecycle_score') return Color.getInterval('lifecycle_score', normalize(node.rpbl?.lifecycle ?? 1, 9));
-    if (NODE_COLOR_MODE === 'state') return Color.get('state', (node.dimensions?.D5_STATE === 'Stateful') ? 'Stateful' : 'Stateless');
-    if (NODE_COLOR_MODE === 'visibility') return Color.get('visibility', node.dimensions?.D4_BOUNDARY === 'External' ? 'Public' : 'Private');
-
-    // 5. TOPOLOGY
-    if (NODE_COLOR_MODE === 'centrality') return Color.getInterval('centrality', node.centrality || 0);
-    if (NODE_COLOR_MODE === 'rank') return Color.getInterval('centrality', node.pagerank || 0); // Reuse centrality color
-    if (NODE_COLOR_MODE === 'ring') return Color.get('ring', getNodeRing(node));
-
-    // 6. EVOLUTION (Placeholders / Simulated)
-    if (NODE_COLOR_MODE === 'churn') return Color.getInterval('churn', Math.random() * 0.5); // Simulated
-    if (NODE_COLOR_MODE === 'age') return Color.getInterval('churn', 0.2); // Placeholder
-
-    // DEFAULT FALLBACK
-    return Color.get('tier', getNodeTier(node));
-}
-
-// =========================================================================
-// DATA ENRICHMENT HELPERS
-// =========================================================================
-
-function getSubsystem(node) {
-    if (!node.file_path) return 'Unknown';
-    // Naive directory mapping
-    if (node.file_path.includes('/api/')) return 'Ingress';
-    if (node.file_path.includes('/db/') || node.file_path.includes('repository')) return 'Persistence';
-    if (node.file_path.includes('/core/') || node.file_path.includes('domain')) return 'Domain';
-    if (node.file_path.includes('/ui/') || node.file_path.includes('frontend')) return 'Presentation';
-    if (node.file_path.includes('config')) return 'Config';
-    return 'Domain'; // Default
-}
-
-function getPhase(node) {
-    // Attempt MIPO mapping from kind/role
-    const kind = (node.kind || '').toLowerCase();
-    if (kind.includes('data') || kind.includes('entity') || kind.includes('schema')) return 'DATA';
-    if (kind.includes('function') || kind.includes('logic')) return 'LOGIC';
-    if (kind.includes('module') || kind.includes('package')) return 'ORGANIZATION';
-    if (kind.includes('script') || kind.includes('main')) return 'EXECUTION';
-    return 'LOGIC';
-}
-
-function getFileType(node) {
-    const p = node.file_path || node.id || '';
-    const ext = p.split('.').pop().toLowerCase();
-    return ext || 'unknown';
-}
-
-function getRoleCategory(node) {
-    // Infer if missing
-    const r = (node.role || '').toLowerCase();
-    if (r.includes('service') || r.includes('manager')) return 'Orchestration';
-    if (r.includes('repo') || r.includes('store')) return 'Storage';
-    if (r.includes('controller') || r.includes('handler')) return 'Ingress';
-    if (r.includes('util') || r.includes('helper')) return 'Utility';
-    return 'Unknown';
-}
-
+// getNodeColorByMode, getSubsystem, getPhase, getFileType, getRoleCategory, applyNodeColors - MOVED TO modules/node-helpers.js
 // normalize - MOVED TO modules/utils.js
-
-function applyNodeColors(nodes) {
-    const fileBoundaries = DM ? DM.getFileBoundaries() : [];  // ALL DATA FROM DM
-    nodes.forEach(node => {
-        if (node && node.isFileNode) {
-            if (!node.color) {
-                const totalFiles = fileBoundaries.length;
-                const fileInfo = fileBoundaries[node.fileIdx] || {};
-                const fileLabel = fileInfo.file || fileInfo.file_name || node.fileIdx;
-                node.color = getFileColor(node.fileIdx, totalFiles, fileLabel);
-            }
-            return;
-        }
-        if (fileMode) {
-            return;
-        }
-        node.color = getNodeColorByMode(node);
-    });
-}
 
 function filterGraph(data, minVal, datamapSet, filters) {
     // ALL DATA FROM DM - the processing pipeline
@@ -2534,105 +2320,9 @@ function filterGraph(data, minVal, datamapSet, filters) {
 }
 
 // ====================================================================
-// LAYOUT STABILITY: Preserve node positions across graph updates
-// ====================================================================
-function saveNodePositions() {
-    if (!Graph) return;
-    const nodes = Graph.graphData().nodes || [];
-    nodes.forEach(node => {
-        if (node.x !== undefined && node.y !== undefined) {
-            NODE_POSITION_CACHE.set(node.id, {
-                x: node.x, y: node.y, z: node.z || 0,
-                vx: node.vx || 0, vy: node.vy || 0, vz: node.vz || 0,
-                fx: node.fx, fy: node.fy, fz: node.fz
-            });
-        }
-    });
-}
-
-function restoreNodePositions(nodes) {
-    nodes.forEach(node => {
-        const cached = NODE_POSITION_CACHE.get(node.id);
-        if (cached) {
-            node.x = cached.x;
-            node.y = cached.y;
-            node.z = cached.z;
-            node.vx = cached.vx;
-            node.vy = cached.vy;
-            node.vz = cached.vz;
-            // Pin nodes in place when layout is frozen
-            if (LAYOUT_FROZEN) {
-                node.fx = cached.x;
-                node.fy = cached.y;
-                node.fz = cached.z;
-            }
-        }
-    });
-}
-
-function freezeLayout() {
-    LAYOUT_FROZEN = true;
-    if (!Graph) return;
-    const nodes = Graph.graphData().nodes || [];
-    nodes.forEach(node => {
-        if (node.x !== undefined) {
-            node.fx = node.x;
-            node.fy = node.y;
-            node.fz = node.z;
-        }
-    });
-    Graph.cooldownTicks(0);  // Stop simulation immediately
-}
-
-function unfreezeLayout() {
-    LAYOUT_FROZEN = false;
-    if (!Graph) return;
-    const nodes = Graph.graphData().nodes || [];
-    nodes.forEach(node => {
-        node.fx = undefined;
-        node.fy = undefined;
-        node.fz = undefined;
-    });
-}
-
-function resetLayout() {
-    // Clear position cache and reheat simulation
-    NODE_POSITION_CACHE.clear();
-    unfreezeLayout();
-    if (Graph) {
-        Graph.cooldownTicks(200);  // Allow simulation to run
-        Graph.d3ReheatSimulation();
-    }
-    showModeToast('Layout reset - physics running');
-}
-
-// ====================================================================
-// MODE TOASTS: Brief hints when changing modes
-// ====================================================================
-let _toastTimeout = null;
-
+// LAYOUT STABILITY: saveNodePositions, restoreNodePositions, freezeLayout, unfreezeLayout, resetLayout - MOVED TO modules/layout-helpers.js
 // showModeToast - MOVED TO modules/tooltips.js
-
-function getLinkEndpointId(link, side) {
-    const endpoint = link?.[side];
-    if (endpoint && typeof endpoint === 'object') {
-        return endpoint.id || endpoint;
-    }
-    return endpoint;
-}
-
-function getFileTarget(fileIdx, totalFiles, radius, zSpacing) {
-    if (totalFiles <= 0) {
-        return { x: 0, y: 0, z: 0 };
-    }
-    const angle = (fileIdx / totalFiles) * Math.PI * 2;
-    return {
-        x: Math.cos(angle) * radius,
-        y: Math.sin(angle) * radius,
-        z: IS_3D ? (fileIdx - totalFiles / 2) * zSpacing : 0
-    };
-}
-
+// getLinkEndpointId, getFileTarget - MOVED TO modules/layout-helpers.js
 // stableOffset - MOVED TO modules/utils.js
 
 function buildFileGraph(data) {
@@ -2996,29 +2686,7 @@ function setupConfigControls() {
     console.log('[CONFIG] Node & Edge config controls initialized');
 }
 
-/**
- * Apply node size mode - determines how node sizes are calculated
- */
-function applyNodeSizeMode(mode) {
-    if (!Graph) return;
-    const scale = APPEARANCE_STATE.nodeScale || 1;
-    switch (mode) {
-        case 'uniform':
-            Graph.nodeVal(() => 1 * scale);
-            break;
-        case 'degree':
-            Graph.nodeVal(n => Math.max(1, ((n.in_degree || 0) + (n.out_degree || 0)) * 0.5) * scale);
-            break;
-        case 'fanout':
-            Graph.nodeVal(n => (n.val || n.fanout || 1) * scale);
-            break;
-        case 'complexity':
-            Graph.nodeVal(n => Math.max(1, (n.complexity || n.loc || 10) * 0.05) * scale);
-            break;
-        default:
-            Graph.nodeVal(n => (n.val || 1) * scale);
-    }
-}
+// applyNodeSizeMode - MOVED TO modules/node-helpers.js
 
 /**
  * Apply edge style - controls edge rendering mode
@@ -3114,14 +2782,8 @@ const UIManager = {
             Graph.zoomToFit(1000);
         };
 
-        // Stars Toggle
-        const btnStars = document.getElementById('btn-stars');
-        if (btnStars) btnStars.onclick = () => {
-            if (typeof toggleStarfield === 'function') {
-                toggleStarfield();
-                btnStars.classList.toggle('active');
-            }
-        };
+        // Stars Toggle - REMOVED (starfield feature deleted)
+        // Rationale: nodes ARE the stars - background dots cause visual confusion
 
         // Dimensions Toggle (2D/3D - stub for now)
         const btnDim = document.getElementById('btn-dimensions');
@@ -3618,43 +3280,7 @@ const LEVEL_ZONES = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════
-// COLOR RESOLUTION - Single Source of Truth via APPEARANCE_CONFIG
-// ═══════════════════════════════════════════════════════════════════════
-
-function getTopoColor(category, key) {
-    if (!APPEARANCE_CONFIG || !APPEARANCE_CONFIG.color) return { l: 50, c: 0, h: 0 };
-
-    let tokenKey = key;
-    let section = 'atom-family'; // Default
-
-    // Map legacy/UI keys to Token keys
-    if (category === 'tiers') {
-        section = 'atom'; // Use atom colors for tiers
-        if (key === 'T0') tokenKey = 't0-core';
-        else if (key === 'T1') tokenKey = 't1-arch';
-        else if (key === 'T2') tokenKey = 't2-eco';
-        else if (key === 'UNKNOWN') tokenKey = 'unknown';
-    } else if (category === 'rings') {
-        section = 'ring';
-        // Map legacy ring names if necessary
-        if (key === 'KERNEL') tokenKey = 'DOMAIN';
-        if (key === 'CORE') tokenKey = 'APPLICATION';
-        if (key === 'SERVICE') tokenKey = 'PRESENTATION';
-        if (key === 'ADAPTER') tokenKey = 'INTERFACE';
-    } else if (category === 'families') {
-        section = 'atom-family';
-    }
-
-    // Lookup token
-    const tokenStr = APPEARANCE_CONFIG.color[section]?.[tokenKey] || APPEARANCE_CONFIG.color[section]?.['UNKNOWN'];
-
-    // Parse OKLCH
-    const parsed = parseOklchString(tokenStr);
-    if (!parsed) return { l: 50, c: 0, h: 0 }; // Fallback gray
-
-    // Normalize to internal l,c,h format (lowercase)
-    return { l: parsed.L * 100, c: parsed.C, h: parsed.H };
-}
+// getTopoColor - MOVED TO modules/color-helpers.js
 
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -3709,474 +3335,18 @@ const VIS_PRESETS = {
         colorBy: 'depth',
         sizeBy: 'fanout',
         edgeBy: 'type'
-    },
-
-    // ═══════════════════════════════════════════════════════════════
-    // OKLCH COLOR SCHEMES - BOLD & DRAMATIC
-    // Each scheme creates a distinct, unmistakable visual transformation
-    // ═══════════════════════════════════════════════════════════════
-
-    'thermal': {
-        name: 'THERMAL',
-        description: 'Heat signature - activity glows hot',
-        colorBy: 'family',
-        sizeBy: 'entropy',
-        edgeBy: 'weight',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.70, range: 0.3 },
-            C: { base: 0.25, boost: 2.2 },    // HIGH saturation
-            H: { shift: -60, compress: 0.6 }, // STRONG red shift
-            edgeL: 0.55, edgeC: 0.20, bgL: 0.02
-        },
-        amplifier: 4.0,
-        lightness: 8
-    },
-
-    'spectrum': {
-        name: 'SPECTRUM',
-        description: 'Full rainbow - structure as color',
-        colorBy: 'file',
-        sizeBy: 'fanout',
-        edgeBy: 'gradient-file',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.75, range: 0.15 },
-            C: { base: 0.30, boost: 2.5 },    // MAXIMUM chroma
-            H: { shift: 0, compress: 1.0 },
-            edgeL: 0.65, edgeC: 0.25, bgL: 0.01
-        },
-        amplifier: 3.0,
-        lightness: 12
-    },
-
-    'neon': {
-        name: 'NEON',
-        description: 'Cyberpunk - electric on void',
-        colorBy: 'family',
-        sizeBy: 'fanout',
-        edgeBy: 'gradient-tier',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.82, range: 0.2 },    // VERY bright
-            C: { base: 0.35, boost: 2.8 },    // EXTREME chroma
-            H: { shift: 180, compress: 0.8 }, // Cyan/magenta
-            edgeL: 0.75, edgeC: 0.30, bgL: 0.0
-        },
-        amplifier: 5.0,
-        lightness: 18
-    },
-
-    'ocean': {
-        name: 'OCEAN',
-        description: 'Deep sea - cool depths',
-        colorBy: 'ring',
-        sizeBy: 'uniform',
-        edgeBy: 'gradient-file',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.55, range: 0.25 },
-            C: { base: 0.22, boost: 1.8 },
-            H: { shift: 200, compress: 0.4 }, // STRONG blue shift
-            edgeL: 0.50, edgeC: 0.18, bgL: 0.02
-        },
-        amplifier: 2.5,
-        lightness: -5
-    },
-
-    'plasma': {
-        name: 'PLASMA',
-        description: 'Energy field - purple/pink plasma',
-        colorBy: 'tier',
-        sizeBy: 'entropy',
-        edgeBy: 'gradient-flow',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.72, range: 0.22 },
-            C: { base: 0.28, boost: 2.4 },    // HIGH saturation
-            H: { shift: 280, compress: 0.5 }, // STRONG purple shift
-            edgeL: 0.62, edgeC: 0.24, bgL: 0.01
-        },
-        amplifier: 4.5,
-        lightness: 10
-    },
-
-    'matrix': {
-        name: 'MATRIX',
-        description: 'Hacker - phosphor green glow',
-        colorBy: 'tier',
-        sizeBy: 'fanout',
-        edgeBy: 'type',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.68, range: 0.3 },
-            C: { base: 0.26, boost: 2.2 },
-            H: { shift: 130, compress: 0.3 }, // STRONG green shift
-            edgeL: 0.55, edgeC: 0.22, bgL: 0.0
-        },
-        amplifier: 4.0,
-        lightness: 5
-    },
-
-    'infrared': {
-        name: 'INFRARED',
-        description: 'Night vision - heat on black',
-        colorBy: 'file',
-        sizeBy: 'entropy',
-        edgeBy: 'weight',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.60, range: 0.35 },
-            C: { base: 0.24, boost: 2.0 },
-            H: { shift: -90, compress: 0.4 }, // Red/orange/yellow
-            edgeL: 0.50, edgeC: 0.20, bgL: 0.0
-        },
-        amplifier: 5.0,
-        lightness: -2
-    },
-
-    'aurora': {
-        name: 'AURORA',
-        description: 'Northern lights - ethereal shimmer',
-        colorBy: 'ring',
-        sizeBy: 'fanout',
-        edgeBy: 'gradient-tier',
-        isColorScheme: true,
-        oklch: {
-            L: { base: 0.75, range: 0.18 },
-            C: { base: 0.28, boost: 2.3 },
-            H: { shift: 150, compress: 0.7 }, // Green → cyan → purple
-            edgeL: 0.65, edgeC: 0.24, bgL: 0.01
-        },
-        amplifier: 3.5,
-        lightness: 12
     }
+    // NOTE: Color schemes (viridis, plasma, thermal, etc.) are now in color-engine.js schemePaths
+    // Access via COLOR.listSchemes(), COLOR.applyScheme(), COLOR.getSchemeColor()
 };
 
 // ═══════════════════════════════════════════════════════════════════════
-// LAYOUT PRESETS - Geometric arrangements of nodes in 3D space
+// LAYOUT PRESETS - MOVED TO modules/animation.js
 // ═══════════════════════════════════════════════════════════════════════
-
-let CURRENT_LAYOUT = 'force';
-let LAYOUT_ANIMATION_ID = null;
-let LAYOUT_TIME = 0;
-
-// LAYOUT_PRESETS: Motion speeds defined here, tokens at appearance.tokens.json:layout-presets
-// TODO: Load speeds from appearanceConfig.layout_presets at runtime
-
-const LAYOUT_PRESETS = {
-    'force': { name: 'FORCE', icon: '🌀', description: 'Physics-based clustering', motion: 'settle', cooldown: 300, warmupTicks: 40, getPosition: null },
-    'orbital': {
-        name: 'ORBITAL', icon: '🪐', description: 'Planetary orbit bands', motion: 'orbit', cooldown: Infinity, orbitSpeed: 0.002,
-        getPosition: (node, idx, total, time) => {
-            const tier = getNodeTier(node), family = getNodeAtomFamily(node);
-            const r = { T0: 80, T1: 160, T2: 280, UNKNOWN: 200 }[tier] || 200;
-            const fOff = { LOG: 0, DAT: 1, ORG: 2, EXE: 3, EXT: 4, UNKNOWN: 2.5 }[family] || 0;
-            const angle = (fOff / 5) * Math.PI * 2 + (idx / Math.max(1, total)) * Math.PI * 0.3 + (time || 0) * (0.5 + r * 0.001);
-            const wobble = Math.sin(idx * 0.7 + (time || 0) * 2) * 15;
-            return { x: Math.cos(angle) * (r + wobble), y: Math.sin(idx * 0.3) * 40 + (tier === 'T0' ? -50 : tier === 'T2' ? 50 : 0), z: Math.sin(angle) * (r + wobble) };
-        }
-    },
-    'radial': {
-        name: 'RADIAL', icon: '🎯', description: 'Concentric tier rings', motion: 'static', cooldown: 0,
-        getPosition: (node, idx, total, time, tierGroups) => {
-            const tier = getNodeTier(node), r = { T0: 60, T1: 150, T2: 280, UNKNOWN: 220 }[tier] || 180;
-            const tierNodes = tierGroups?.[tier] || [], tierIdx = tierNodes.indexOf(node), tierTotal = tierNodes.length || 1;
-            const angle = (tierIdx / tierTotal) * Math.PI * 2;
-            return { x: Math.cos(angle) * r, y: 0, z: Math.sin(angle) * r };
-        }
-    },
-    'spiral': {
-        name: 'SPIRAL', icon: '🧬', description: 'DNA-like helix', motion: 'rotate', cooldown: Infinity, rotateSpeed: 0.003,
-        getPosition: (node, idx, total, time) => {
-            const t = idx / Math.max(1, total), angle = t * Math.PI * 2 * 4 + (time || 0), r = 100 + t * 150;
-            return { x: Math.cos(angle) * r, y: (t - 0.5) * 400, z: Math.sin(angle) * r };
-        }
-    },
-    'sphere': {
-        name: 'SPHERE', icon: '🌍', description: 'Globe surface', motion: 'rotate', cooldown: Infinity, rotateSpeed: 0.001,
-        getPosition: (node, idx, total, time) => {
-            const tier = getNodeTier(node), family = getNodeAtomFamily(node);
-            const latBase = { T0: 0.8, T1: 0.5, T2: 0.2, UNKNOWN: 0.5 }[tier] || 0.5;
-            const lat = (latBase + (idx % 10) * 0.02) * Math.PI;
-            const lonBase = { LOG: 0, DAT: 72, ORG: 144, EXE: 216, EXT: 288, UNKNOWN: 180 }[family] || 0;
-            const lon = ((lonBase + idx * 3) % 360) * Math.PI / 180 + (time || 0), r = 200;
-            return { x: Math.sin(lat) * Math.cos(lon) * r, y: Math.cos(lat) * r, z: Math.sin(lat) * Math.sin(lon) * r };
-        }
-    },
-    'torus': {
-        name: 'TORUS', icon: '🍩', description: 'Donut surface', motion: 'rotate', cooldown: Infinity, rotateSpeed: 0.002,
-        getPosition: (node, idx, total, time) => {
-            const tier = getNodeTier(node), family = getNodeAtomFamily(node), majorR = 180, minorR = 70;
-            const famAngle = { LOG: 0, DAT: 72, ORG: 144, EXE: 216, EXT: 288, UNKNOWN: 0 }[family] || 0;
-            const u = (famAngle * Math.PI / 180) + (idx * 0.05) + (time || 0);
-            const tierV = { T0: 0.25, T1: 0.5, T2: 0.75, UNKNOWN: 0.5 }[tier] || 0.5;
-            const v = tierV * Math.PI * 2 + Math.sin(idx * 0.2) * 0.3;
-            return { x: (majorR + minorR * Math.cos(v)) * Math.cos(u), y: minorR * Math.sin(v), z: (majorR + minorR * Math.cos(v)) * Math.sin(u) };
-        }
-    },
-    'grid': {
-        name: 'GRID', icon: '📊', description: '3D lattice', motion: 'static', cooldown: 0,
-        getPosition: (node, idx, total) => {
-            const tier = getNodeTier(node), family = getNodeAtomFamily(node);
-            const tierX = { T0: -150, T1: 0, T2: 150, UNKNOWN: 0 }[tier] || 0;
-            const famZ = { LOG: -120, DAT: -60, ORG: 0, EXE: 60, EXT: 120, UNKNOWN: 0 }[family] || 0;
-            const row = Math.floor(idx / 15), col = idx % 15;
-            return { x: tierX + (col - 7) * 20, y: row * 25 - 100, z: famZ + Math.sin(idx * 0.5) * 20 };
-        }
-    },
-    'cylinder': {
-        name: 'CYLINDER', icon: '🗼', description: 'Vertical tube', motion: 'rotate', cooldown: Infinity, rotateSpeed: 0.0015,
-        getPosition: (node, idx, total, time) => {
-            const tier = getNodeTier(node), family = getNodeAtomFamily(node);
-            const famAngle = { LOG: 0, DAT: 72, ORG: 144, EXE: 216, EXT: 288, UNKNOWN: 0 }[family] || 0;
-            const angle = (famAngle * Math.PI / 180) + (idx * 0.1) + (time || 0);
-            const tierY = { T0: -120, T1: 0, T2: 120, UNKNOWN: 0 }[tier] || 0;
-            return { x: Math.cos(angle) * 150, y: tierY + Math.sin(idx * 0.3) * 30, z: Math.sin(angle) * 150 };
-        }
-    },
-    'tree': {
-        name: 'TREE', icon: '🌲', description: 'Hierarchical tree', motion: 'static', cooldown: 0,
-        getPosition: (node, idx, total, time, tierGroups) => {
-            const tier = getNodeTier(node), tierY = { T0: 150, T1: 0, T2: -150, UNKNOWN: 0 }[tier] || 0;
-            const tierNodes = tierGroups?.[tier] || [], tierIdx = tierNodes.indexOf(node), tierTotal = tierNodes.length || 1;
-            const spread = 300 * (1 + (tier === 'T2' ? 0.5 : tier === 'T1' ? 0.2 : 0));
-            return { x: ((tierIdx / tierTotal) - 0.5) * spread, y: tierY, z: Math.sin(tierIdx * 0.7) * 50 };
-        }
-    },
-    'flock': {
-        name: 'FLOCK', icon: '🐦', description: 'Swarming birds', motion: 'flock', cooldown: Infinity,
-        flockParams: { separation: 25, alignment: 0.05, cohesion: 0.01, maxSpeed: 2 }, getPosition: null
-    },
-    'galaxy': {
-        name: 'GALAXY', icon: '🌌', description: 'Spiral arms', motion: 'rotate', cooldown: Infinity, rotateSpeed: 0.001,
-        getPosition: (node, idx, total, time) => {
-            const family = getNodeAtomFamily(node), tier = getNodeTier(node);
-            const armOff = { LOG: 0, DAT: 1, ORG: 2, EXE: 3, EXT: 4, UNKNOWN: 2.5 }[family] || 0;
-            const baseAngle = (armOff / 5) * Math.PI * 2, dist = 50 + (idx / total) * 250;
-            const spiralAngle = baseAngle + dist * 0.015 + (time || 0);
-            const tierY = { T0: -30, T1: 0, T2: 30, UNKNOWN: 0 }[tier] || 0;
-            return { x: Math.cos(spiralAngle) * dist, y: tierY + Math.sin(idx * 0.5) * 20, z: Math.sin(spiralAngle) * dist };
-        }
-    }
-};
-
-function groupNodesByTier(nodes) {
-    const groups = { T0: [], T1: [], T2: [], UNKNOWN: [] };
-    nodes.forEach(n => { const tier = getNodeTier(n); (groups[tier] || groups.UNKNOWN).push(n); });
-    return groups;
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// STAGGERED ANIMATION SYSTEM - Wave-based node transitions
-// Moves nodes in natural patterns for better performance and aesthetics
-// ═══════════════════════════════════════════════════════════════════════
-
-const STAGGER_PATTERNS = {
-    // Radial ripple: center nodes move first, ripples outward
-    radial: (node, startPos, targetPos) => {
-        const dist = Math.sqrt(startPos.x ** 2 + startPos.y ** 2 + startPos.z ** 2);
-        return Math.min(1, dist / 500);  // Normalize to 0-1 based on distance from origin
-    },
-    // Tier cascade: T0 first, then T1, then T2
-    tier: (node) => {
-        const tier = node.tier ?? 2;
-        return tier / 2;  // T0=0, T1=0.5, T2=1
-    },
-    // Distance-based: nodes with shortest travel distance move first
-    distance: (node, startPos, targetPos) => {
-        const dx = targetPos.x - startPos.x, dy = targetPos.y - startPos.y, dz = targetPos.z - startPos.z;
-        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        return Math.min(1, dist / 400);  // Shorter distances = earlier start
-    },
-    // File grouping: nodes in same file move together in waves
-    file: (node) => {
-        const fileIdx = node.file_idx ?? 0;
-        return (fileIdx % 8) / 8;  // Group by file, 8 wave groups
-    },
-    // Spiral: animate in a spiral pattern from center
-    spiral: (node, startPos) => {
-        const angle = Math.atan2(startPos.y, startPos.x);
-        const dist = Math.sqrt(startPos.x ** 2 + startPos.y ** 2);
-        return ((angle + Math.PI) / (2 * Math.PI) + dist / 1000) % 1;
-    },
-    // Random stagger: natural organic feel
-    random: () => Math.random() * 0.6  // 0-0.6 random delay
-};
-
-let CURRENT_STAGGER_PATTERN = 'tier';  // Default pattern
-
-function applyLayoutPreset(presetKey, animate = true) {
-    const preset = LAYOUT_PRESETS[presetKey]; if (!preset) return;
-    CURRENT_LAYOUT = presetKey;
-    const nodes = Graph?.graphData()?.nodes || [], total = nodes.length, tierGroups = groupNodesByTier(nodes);
-    if (LAYOUT_ANIMATION_ID) { cancelAnimationFrame(LAYOUT_ANIMATION_ID); LAYOUT_ANIMATION_ID = null; }
-    if (presetKey === 'force') {
-        nodes.forEach(n => { n.fx = undefined; n.fy = undefined; n.fz = undefined; });
-        Graph.cooldownTicks(preset.cooldown); Graph.d3ReheatSimulation();
-        showModeToast('🌀 FORCE layout'); return;
-    }
-    if (preset.getPosition) {
-        const startPos = nodes.map(n => ({ x: n.x || 0, y: n.y || 0, z: n.z || 0 }));
-        const targetPos = nodes.map((n, i) => preset.getPosition(n, i, total, 0, tierGroups));
-
-        if (animate && total > 100) {
-            // STAGGERED ANIMATION for large graphs (>100 nodes)
-            const baseDuration = 1200;  // Base animation duration
-            const staggerSpread = 800;  // How much to spread the stagger (ms)
-            const startTime = Date.now();
-
-            // PERFORMANCE: Hide edges during animation (2759 edges = huge GPU load)
-            Graph.linkOpacity(0);
-            console.log('[Perf] Edges hidden for animation');
-
-            // Calculate delay for each node based on pattern
-            const pattern = STAGGER_PATTERNS[CURRENT_STAGGER_PATTERN] || STAGGER_PATTERNS.tier;
-            const delays = nodes.map((n, i) => pattern(n, startPos[i], targetPos[i]) * staggerSpread);
-
-            let frameCount = 0, nodesMoving = 0;
-
-            function animateStaggered() {
-                const elapsed = Date.now() - startTime;
-                nodesMoving = 0;
-
-                nodes.forEach((n, i) => {
-                    const nodeStart = delays[i];
-                    const nodeElapsed = elapsed - nodeStart;
-
-                    if (nodeElapsed <= 0) {
-                        // Not started yet - stay at start position
-                        n.fx = startPos[i].x; n.fy = startPos[i].y; n.fz = startPos[i].z;
-                    } else if (nodeElapsed >= baseDuration) {
-                        // Finished - lock at target position
-                        n.fx = targetPos[i].x; n.fy = targetPos[i].y; n.fz = targetPos[i].z;
-                    } else {
-                        // Animating - smooth easing
-                        const progress = nodeElapsed / baseDuration;
-                        const eased = progress * progress * (3 - 2 * progress);  // Smoothstep
-                        n.fx = startPos[i].x + (targetPos[i].x - startPos[i].x) * eased;
-                        n.fy = startPos[i].y + (targetPos[i].y - startPos[i].y) * eased;
-                        n.fz = startPos[i].z + (targetPos[i].z - startPos[i].z) * eased;
-                        nodesMoving++;
-                    }
-                });
-
-                Graph.refresh();
-                frameCount++;
-
-                const totalDuration = baseDuration + staggerSpread;
-                if (elapsed < totalDuration) {
-                    LAYOUT_ANIMATION_ID = requestAnimationFrame(animateStaggered);
-                } else {
-                    // PERFORMANCE: Restore edges after animation
-                    applyEdgeMode();  // Restores proper edge opacity
-                    console.log(`[Perf] Staggered transition (${CURRENT_STAGGER_PATTERN}): ${frameCount} frames, ${total} nodes - edges restored`);
-                    if (preset.motion === 'rotate' || preset.motion === 'orbit') startLayoutMotion(presetKey);
-                }
-            }
-            LAYOUT_ANIMATION_ID = requestAnimationFrame(animateStaggered);
-        } else if (animate) {
-            // SIMPLE ANIMATION for small graphs (<100 nodes)
-            const duration = 1500, startTime = Date.now();
-            function animateTransition() {
-                const progress = Math.min(1, (Date.now() - startTime) / duration);
-                const eased = progress * progress * (3 - 2 * progress);
-                nodes.forEach((n, i) => {
-                    n.fx = startPos[i].x + (targetPos[i].x - startPos[i].x) * eased;
-                    n.fy = startPos[i].y + (targetPos[i].y - startPos[i].y) * eased;
-                    n.fz = startPos[i].z + (targetPos[i].z - startPos[i].z) * eased;
-                });
-                Graph.refresh();
-                if (progress < 1) LAYOUT_ANIMATION_ID = requestAnimationFrame(animateTransition);
-                else if (preset.motion === 'rotate' || preset.motion === 'orbit') startLayoutMotion(presetKey);
-            }
-            animateTransition();
-        } else {
-            nodes.forEach((n, i) => { const p = targetPos[i]; n.fx = p.x; n.fy = p.y; n.fz = p.z; });
-            Graph.refresh();
-            if (preset.motion === 'rotate' || preset.motion === 'orbit') startLayoutMotion(presetKey);
-        }
-    }
-    if (preset.motion === 'flock') startFlockSimulation(preset.flockParams);
-    Graph.cooldownTicks(preset.cooldown); showModeToast(`${preset.icon} ${preset.name} layout`);
-}
-
-// Cycle through stagger patterns (can be bound to a key)
-function cycleStaggerPattern() {
-    const patterns = Object.keys(STAGGER_PATTERNS);
-    const currentIdx = patterns.indexOf(CURRENT_STAGGER_PATTERN);
-    CURRENT_STAGGER_PATTERN = patterns[(currentIdx + 1) % patterns.length];
-    showModeToast(`Wave pattern: ${CURRENT_STAGGER_PATTERN.toUpperCase()}`);
-    console.log(`[Animation] Stagger pattern: ${CURRENT_STAGGER_PATTERN}`);
-}
-
-function startLayoutMotion(presetKey) {
-    const preset = LAYOUT_PRESETS[presetKey]; if (!preset || !preset.getPosition) return;
-    const nodes = Graph?.graphData()?.nodes || [], total = nodes.length;
-    const tierGroups = groupNodesByTier(nodes), speed = preset.rotateSpeed || preset.orbitSpeed || 0.002;
-    let frameCount = 0, totalPosTime = 0, totalRefreshTime = 0;
-    function animate() {
-        LAYOUT_TIME += speed;
-
-        const posStart = performance.now();
-        nodes.forEach((n, i) => { const pos = preset.getPosition(n, i, total, LAYOUT_TIME, tierGroups); n.fx = pos.x; n.fy = pos.y; n.fz = pos.z; });
-        totalPosTime += performance.now() - posStart;
-
-        const refreshStart = performance.now();
-        Graph.refresh();
-        totalRefreshTime += performance.now() - refreshStart;
-
-        frameCount++;
-        if (frameCount % 60 === 0) {
-            console.log(`[Perf] Motion (${frameCount} frames): avg pos=${(totalPosTime / frameCount).toFixed(2)}ms, avg refresh=${(totalRefreshTime / frameCount).toFixed(2)}ms`);
-        }
-        LAYOUT_ANIMATION_ID = requestAnimationFrame(animate);
-    }
-    LAYOUT_ANIMATION_ID = requestAnimationFrame(animate);
-}
-
-function startFlockSimulation(params) {
-    const nodes = Graph?.graphData()?.nodes || [];
-
-    // Performance guard: Flock simulation is O(n²) - disable for large graphs
-    const FLOCK_MAX_NODES = 500;
-    if (nodes.length > FLOCK_MAX_NODES) {
-        console.warn(`[Performance] Flock disabled: ${nodes.length} nodes exceeds ${FLOCK_MAX_NODES} limit`);
-        showModeToast('⚠️ Flock disabled (too many nodes)');
-        return;
-    }
-
-    const { separation, alignment, cohesion, maxSpeed } = params;
-    nodes.forEach(n => { n._vx = (Math.random() - 0.5) * 2; n._vy = (Math.random() - 0.5) * 2; n._vz = (Math.random() - 0.5) * 2; });
-    function flockStep() {
-        nodes.forEach(n => {
-            let sepX = 0, sepY = 0, sepZ = 0, sepCount = 0, alignX = 0, alignY = 0, alignZ = 0, alignCount = 0;
-            let cohX = 0, cohY = 0, cohZ = 0, cohCount = 0; const myFamily = getNodeAtomFamily(n);
-            nodes.forEach(other => {
-                if (other === n) return;
-                const dx = (other.x || 0) - (n.x || 0), dy = (other.y || 0) - (n.y || 0), dz = (other.z || 0) - (n.z || 0);
-                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz) || 0.001;
-                if (dist < separation * 2) { sepX -= dx / dist; sepY -= dy / dist; sepZ -= dz / dist; sepCount++; }
-                if (getNodeAtomFamily(other) === myFamily && dist < 150) {
-                    alignX += other._vx || 0; alignY += other._vy || 0; alignZ += other._vz || 0; alignCount++;
-                    cohX += other.x || 0; cohY += other.y || 0; cohZ += other.z || 0; cohCount++;
-                }
-            });
-            if (sepCount > 0) { n._vx += (sepX / sepCount) * separation * 0.05; n._vy += (sepY / sepCount) * separation * 0.05; n._vz += (sepZ / sepCount) * separation * 0.05; }
-            if (alignCount > 0) { n._vx += ((alignX / alignCount) - n._vx) * alignment; n._vy += ((alignY / alignCount) - n._vy) * alignment; n._vz += ((alignZ / alignCount) - n._vz) * alignment; }
-            if (cohCount > 0) { n._vx += (cohX / cohCount - (n.x || 0)) * cohesion; n._vy += (cohY / cohCount - (n.y || 0)) * cohesion; n._vz += (cohZ / cohCount - (n.z || 0)) * cohesion; }
-            n._vx -= (n.x || 0) * 0.0005; n._vy -= (n.y || 0) * 0.0005; n._vz -= (n.z || 0) * 0.0005;
-            const speed = Math.sqrt(n._vx * n._vx + n._vy * n._vy + n._vz * n._vz);
-            if (speed > maxSpeed) { n._vx = (n._vx / speed) * maxSpeed; n._vy = (n._vy / speed) * maxSpeed; n._vz = (n._vz / speed) * maxSpeed; }
-            n.fx = (n.x || 0) + n._vx; n.fy = (n.y || 0) + n._vy; n.fz = (n.z || 0) + n._vz;
-        });
-        Graph.refresh(); LAYOUT_ANIMATION_ID = requestAnimationFrame(flockStep);
-    }
-    LAYOUT_ANIMATION_ID = requestAnimationFrame(flockStep);
-}
-
-
-
+// LAYOUT_PRESETS, STAGGER_PATTERNS, CURRENT_LAYOUT, LAYOUT_ANIMATION_ID,
+// LAYOUT_TIME, CURRENT_STAGGER_PATTERN, applyLayoutPreset, cycleStaggerPattern,
+// startLayoutMotion, startFlockSimulation, groupNodesByTier
+// All now provided by ANIM module with O(n) spatial hashing (fixes ARCH-002)
 
 
 
@@ -4241,34 +3411,7 @@ function startFlockSimulation(params) {
 
 
 
-/**
- * Clear all dimension filters (tier, ring, family, role, file, edge)
- * Used for zero-node recovery and manual reset
- */
-function clearAllFilters() {
-    VIS_FILTERS.tiers.clear();
-    VIS_FILTERS.rings.clear();
-    VIS_FILTERS.families.clear();
-    VIS_FILTERS.roles.clear();
-    VIS_FILTERS.files.clear();
-    VIS_FILTERS.edges.clear();
-    VIS_FILTERS.layers.clear();
-    VIS_FILTERS.effects.clear();
-    VIS_FILTERS.edgeFamilies.clear();
-
-    // Update legend UI
-    document.querySelectorAll('.topo-legend-item.filtered').forEach(el => el.classList.remove('filtered'));
-
-    // Update chip UI
-    document.querySelectorAll('.filter-chip.active').forEach(el => el.classList.remove('active'));
-
-
-
-    console.log('[Filters] All filters cleared');
-}
-
-// Expose for UI buttons
-window.clearAllFilters = clearAllFilters;
+// clearAllFilters - MOVED TO modules/visibility.js
 
 
 
@@ -4276,213 +3419,10 @@ window.clearAllFilters = clearAllFilters;
 
 
 
-function collectCounts(items, keyFn) {
-    const counts = new Map();
-    items.forEach(item => {
-        const key = keyFn(item);
-        if (!key) return;
-        counts.set(key, (counts.get(key) || 0) + 1);
-    });
-    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
-}
-
+// collectCounts, buildCheckboxRow, buildFilterGroup - MOVED TO modules/ui-builders.js
 // resolveDefaults - MOVED TO modules/utils.js
-
-function buildCheckboxRow(container, id, label, count, checked, onChange) {
-    const row = document.createElement('div');
-    row.className = 'filter-item';
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.id = id;
-    input.checked = checked;
-    input.onchange = () => onChange(input.checked);
-    const text = document.createElement('label');
-    text.setAttribute('for', id);
-    text.textContent = label;
-    const countEl = document.createElement('span');
-    countEl.className = 'filter-count';
-    countEl.textContent = (typeof count === 'number') ? String(count) : '';
-    row.appendChild(input);
-    row.appendChild(text);
-    if (countEl.textContent) {
-        row.appendChild(countEl);
-    }
-    container.appendChild(row);
-    return input;
-}
-
-function buildFilterGroup(containerId, items, stateSet, onUpdate) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    const allId = `${containerId}-all`;
-    let allCheckbox = null;
-
-    allCheckbox = buildCheckboxRow(container, allId, 'ALL', null, true, (checked) => {
-        stateSet.clear();
-        if (checked) {
-            items.forEach(([value]) => stateSet.add(value));
-        }
-        container.querySelectorAll('input[type="checkbox"]').forEach(box => {
-            if (box.id !== allId) box.checked = checked;
-        });
-        onUpdate();
-    });
-
-    items.forEach(([value, count], index) => {
-        const id = `${containerId}-${index}`;
-        const checked = stateSet.has(value);
-        buildCheckboxRow(container, id, value, count, checked, (isChecked) => {
-            if (isChecked) {
-                stateSet.add(value);
-            } else {
-                stateSet.delete(value);
-            }
-            const allChecked = items.every(([v]) => stateSet.has(v));
-            allCheckbox.checked = allChecked;
-            onUpdate();
-        });
-    });
-}
-
-function normalizeDatamapConfig(raw) {
-    if (!raw || typeof raw !== 'object') return null;
-    const id = String(raw.id || raw.key || raw.label || '').trim();
-    if (!id) return null;
-    const normalizeList = (value) => {
-        if (!Array.isArray(value)) return [];
-        return value.map(item => String(item).toUpperCase());
-    };
-    // Normalize tier list with aliases (CORE→T0, ARCH→T1, EXT→T2)
-    const normalizeTierList = (value) => {
-        if (!Array.isArray(value)) return [];
-        return value.map(item => normalizeTier(item));
-    };
-    const match = raw.match || {};
-    return {
-        id: id.toUpperCase(),
-        label: String(raw.label || raw.id || id).toUpperCase(),
-        match: {
-            atom_families: normalizeList(match.atom_families),  // NEW: canonical atom family
-            atom_prefixes: normalizeList(match.atom_prefixes),  // backward compat
-            tiers: normalizeTierList(match.tiers),  // applies aliases
-            rings: normalizeList(match.rings),
-            roles: normalizeList(match.roles)
-        },
-        default: Boolean(raw.default)
-    };
-}
-
-function resolveDatamapConfigs(controlsConfig) {
-    const fromTokens = Array.isArray(controlsConfig.datamaps) ? controlsConfig.datamaps : [];
-    const normalized = fromTokens
-        .map(normalizeDatamapConfig)
-        .filter(Boolean);
-    if (normalized.length) return normalized;
-
-    const fallback = controlsConfig.buttons?.datamaps || {};
-    return Object.entries(fallback).map(([label, config]) => {
-        const prefix = config.filter || null;
-        return normalizeDatamapConfig({
-            id: label.toUpperCase(),
-            label: label.toUpperCase(),
-            match: prefix ? { atom_prefixes: [prefix] } : {},
-            default: false
-        });
-    }).filter(Boolean);
-}
-
-function datamapMatches(node, config) {
-    const match = config.match || {};
-    const atomId = String(node.atom || '');
-    const atomFamily = getNodeAtomFamily(node);  // canonical or inferred
-    const tier = getNodeTier(node);  // canonical or inferred (with aliases)
-    const ring = getNodeRing(node);
-    const role = String(node.role || 'Unknown').toUpperCase();
-
-    // NEW: atom_families matching (canonical field)
-    if (Array.isArray(match.atom_families) && match.atom_families.length) {
-        if (!match.atom_families.includes(atomFamily)) return false;
-    }
-
-    // Backward compat: atom_prefixes matches atom_family OR atom prefix
-    if (Array.isArray(match.atom_prefixes) && match.atom_prefixes.length) {
-        const matchesFamily = match.atom_prefixes.includes(atomFamily);
-        const matchesPrefix = match.atom_prefixes.some(prefix => atomId.startsWith(prefix));
-        if (!matchesFamily && !matchesPrefix) return false;
-    }
-
-    // Tier matching (aliases already normalized in config)
-    if (Array.isArray(match.tiers) && match.tiers.length) {
-        if (!match.tiers.includes(tier)) return false;
-    }
-
-    if (Array.isArray(match.rings) && match.rings.length) {
-        if (!match.rings.includes(ring)) return false;
-    }
-
-    if (Array.isArray(match.roles) && match.roles.length) {
-        if (!match.roles.includes(role)) return false;
-    }
-    return true;
-}
-
-function buildDatamapToggle(container, id, label, checked, count, onChange) {
-    const wrapper = document.createElement('label');
-    wrapper.className = 'datamap-toggle';
-    wrapper.setAttribute('data-id', id);
-
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.checked = checked;
-    input.onchange = () => onChange(input.checked);
-
-    const text = document.createElement('span');
-    text.textContent = label;
-
-    const countEl = document.createElement('span');
-    countEl.className = 'datamap-count';
-    countEl.textContent = (typeof count === 'number') ? String(count) : '';
-
-    wrapper.appendChild(input);
-    wrapper.appendChild(text);
-    wrapper.appendChild(countEl);
-    container.appendChild(wrapper);
-
-    return { wrapper, input, count: countEl };
-}
-
-// Deprecated buildDatamapControls - replaced by UIManager
-
-function buildExclusiveOptions(containerId, options, activeValue, onSelect) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    const inputs = [];
-    options.forEach((option, index) => {
-        const id = `${containerId}-${index}`;
-        const input = buildCheckboxRow(
-            container,
-            id,
-            option.label,
-            null,
-            option.value === activeValue,
-            (checked) => {
-                if (!checked) {
-                    input.checked = true;
-                    return;
-                }
-                inputs.forEach(other => {
-                    if (other !== input) other.checked = false;
-                });
-                onSelect(option.value);
-            }
-        );
-        inputs.push(input);
-    });
-}
+// normalizeDatamapConfig, resolveDatamapConfigs, datamapMatches - MOVED TO modules/datamap.js
+// buildDatamapToggle, buildExclusiveOptions - MOVED TO modules/ui-builders.js
 
 function buildMetadataControls(containerId, metadata) {
     const container = document.getElementById(containerId);
@@ -4847,173 +3787,9 @@ const PHYSICS_PRESETS = {
     explosive: { charge: -400, linkDistance: 120, centerStrength: 0.01, velocityDecay: 0.2, label: 'EXPLOSIVE' }
 };
 
-function applyPhysicsState() {
-    if (!Graph) return;
-    try {
-        Graph.d3Force('charge')?.strength(PHYSICS_STATE.charge);
-        Graph.d3Force('link')?.distance(PHYSICS_STATE.linkDistance);
-        Graph.d3Force('center')?.strength(PHYSICS_STATE.centerStrength);
-        Graph.d3VelocityDecay?.(PHYSICS_STATE.velocityDecay);
-        Graph.d3ReheatSimulation();
-    } catch (e) {
-        console.warn('[Physics] Could not apply:', e.message);
-    }
-}
+// applyPhysicsState, applyPhysicsPreset, updatePhysicsSliders, buildPhysicsControls - MOVED TO modules/physics.js
 
-function applyPhysicsPreset(presetName) {
-    const preset = PHYSICS_PRESETS[presetName];
-    if (!preset) return;
-    Object.assign(PHYSICS_STATE, {
-        charge: preset.charge,
-        linkDistance: preset.linkDistance,
-        centerStrength: preset.centerStrength,
-        velocityDecay: preset.velocityDecay
-    });
-    applyPhysicsState();
-    updatePhysicsSliders();
-    showModeToast(`Physics: ${preset.label}`);
-}
-
-function updatePhysicsSliders() {
-    const sliders = {
-        'physics-charge': PHYSICS_STATE.charge,
-        'physics-link-distance': PHYSICS_STATE.linkDistance,
-        'physics-center': PHYSICS_STATE.centerStrength,
-        'physics-damping': PHYSICS_STATE.velocityDecay
-    };
-    for (const [id, value] of Object.entries(sliders)) {
-        const input = document.getElementById(id);
-        const display = document.getElementById(id + '-value');
-        if (input) input.value = value;
-        if (display) display.textContent = typeof value === 'number' && value % 1 !== 0 ? value.toFixed(2) : value;
-    }
-}
-
-function buildPhysicsControls(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // Preset buttons
-    const presetRow = document.createElement('div');
-    presetRow.className = 'physics-presets';
-    presetRow.style.cssText = 'display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;';
-    Object.entries(PHYSICS_PRESETS).forEach(([key, preset]) => {
-        const btn = document.createElement('button');
-        btn.className = 'preset-btn physics-preset-btn';
-        btn.textContent = preset.label;
-        btn.style.cssText = 'font-size:9px;padding:2px 6px;';
-        btn.onclick = () => applyPhysicsPreset(key);
-        presetRow.appendChild(btn);
-    });
-    container.appendChild(presetRow);
-
-    // Sliders
-    const sliderDefs = [
-        {
-            id: 'physics-charge',
-            label: 'REPULSION',
-            min: -500,
-            max: 50,
-            step: 10,
-            value: PHYSICS_STATE.charge,
-            onChange: (val) => { PHYSICS_STATE.charge = val; applyPhysicsState(); }
-        },
-        {
-            id: 'physics-link-distance',
-            label: 'LINK DIST',
-            min: 10,
-            max: 200,
-            step: 5,
-            value: PHYSICS_STATE.linkDistance,
-            onChange: (val) => { PHYSICS_STATE.linkDistance = val; applyPhysicsState(); }
-        },
-        {
-            id: 'physics-center',
-            label: 'CENTER PULL',
-            min: 0,
-            max: 0.3,
-            step: 0.01,
-            value: PHYSICS_STATE.centerStrength,
-            onChange: (val) => { PHYSICS_STATE.centerStrength = val; applyPhysicsState(); }
-        },
-        {
-            id: 'physics-damping',
-            label: 'DAMPING',
-            min: 0,
-            max: 1,
-            step: 0.05,
-            value: PHYSICS_STATE.velocityDecay,
-            onChange: (val) => { PHYSICS_STATE.velocityDecay = val; applyPhysicsState(); }
-        }
-    ];
-
-    sliderDefs.forEach(def => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'slider-row';
-
-        const header = document.createElement('div');
-        header.className = 'slider-header';
-        const label = document.createElement('span');
-        label.className = 'slider-label';
-        label.textContent = def.label;
-        const valueDisplay = document.createElement('span');
-        valueDisplay.className = 'slider-value';
-        valueDisplay.id = def.id + '-value';
-        valueDisplay.textContent = def.step < 1 ? def.value.toFixed(2) : def.value;
-        header.appendChild(label);
-        header.appendChild(valueDisplay);
-
-        const input = document.createElement('input');
-        input.type = 'range';
-        input.className = 'slider-input';
-        input.id = def.id;
-        input.min = def.min;
-        input.max = def.max;
-        input.step = def.step;
-        input.value = def.value;
-        input.oninput = () => {
-            const val = parseFloat(input.value);
-            valueDisplay.textContent = def.step < 1 ? val.toFixed(2) : val;
-            def.onChange(val);
-        };
-
-        wrapper.appendChild(header);
-        wrapper.appendChild(input);
-        container.appendChild(wrapper);
-    });
-
-    console.log('[Physics] Controls initialized');
-}
-
-function updateBackgroundBrightness() {
-    if (!Graph || !APPEARANCE_STATE.backgroundBase) return;
-    const baseColor = new THREE.Color(APPEARANCE_STATE.backgroundBase);
-    const brightness = APPEARANCE_STATE.backgroundBrightness ?? 1;
-    const adjusted = baseColor.clone().multiplyScalar(brightness);
-    Graph.backgroundColor(`#${adjusted.getHexString()}`);
-}
-
-function applyMetadataVisibility() {
-    const reportPanel = document.getElementById('report-panel');
-    const reportButton = document.getElementById('btn-report');
-    const filePanel = document.getElementById('file-panel');
-
-    // Guard: elements may not exist in minimal template
-    if (!reportPanel && !reportButton) return;
-
-    if (!VIS_FILTERS.metadata.showReportPanel) {
-        if (reportPanel) reportPanel.style.display = 'none';
-        if (reportButton) {
-            reportButton.classList.remove('active');
-            reportButton.style.display = 'none';
-        }
-    } else {
-        if (reportButton) reportButton.style.display = 'inline-flex';
-    }
-    if (!VIS_FILTERS.metadata.showFilePanel && filePanel) {
-        filePanel.classList.remove('visible');
-    }
-}
+// updateBackgroundBrightness, applyMetadataVisibility - MOVED TO modules/visibility.js
 
 // Deprecated setupSidebar - replaced by UIManager
 // Deprecated buildDatamapControls - replaced by UIManager
@@ -5033,8 +3809,8 @@ if (presetBtnGrid) {
 
             // Update active states
             presetBtnGrid.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-            const colorSchemeGridEl = document.getElementById('dock-schemes');
-            if (colorSchemeGridEl) colorSchemeGridEl.querySelectorAll('.color-scheme-btn').forEach(b => b.classList.remove('active'));
+            // Also clear scheme buttons when switching presets
+            document.querySelectorAll('.scheme-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             APPEARANCE_STATE.currentPreset = presetKey;
@@ -5071,110 +3847,9 @@ if (presetBtnGrid) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// OKLCH COLOR SCHEME BUTTONS - L, C, H move together coherently
+// NOTE: Color scheme buttons are now handled by sidebar.js via SIDEBAR.initSchemeNavigator()
+// The 33 named schemes (viridis, plasma, thermal, etc.) are defined in color-engine.js schemePaths
 // ═══════════════════════════════════════════════════════════════
-const colorSchemeGrid = document.getElementById('dock-schemes');
-if (colorSchemeGrid) {
-    colorSchemeGrid.querySelectorAll('.color-scheme-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const presetKey = btn.dataset.preset;
-            const preset = VIS_PRESETS[presetKey];
-            if (!preset || !preset.isColorScheme) return;
-
-            // Update active states
-            colorSchemeGrid.querySelectorAll('.color-scheme-btn').forEach(b => b.classList.remove('active'));
-            if (presetGrid) presetGrid.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            APPEARANCE_STATE.currentPreset = presetKey;
-            APPEARANCE_STATE.colorMode = preset.colorBy;
-
-            // Clear dimension filters to ensure consistent node count across schemes
-            // This prevents stale tier/ring/family filters from affecting the new view
-            VIS_FILTERS.tiers.clear();
-            VIS_FILTERS.rings.clear();
-            VIS_FILTERS.families.clear();
-            VIS_FILTERS.roles.clear();
-            VIS_FILTERS.files.clear();
-            VIS_FILTERS.edges.clear();
-            VIS_FILTERS.layers.clear();
-            VIS_FILTERS.effects.clear();
-            VIS_FILTERS.edgeFamilies.clear();
-            // Update UI to reflect cleared filters
-            document.querySelectorAll('.topo-legend-item.filtered').forEach(el => el.classList.remove('filtered'));
-            document.querySelectorAll('.filter-chip.active').forEach(el => el.classList.remove('active'));
-            console.log('[Preset] Cleared dimension filters for clean preset switch');
-
-            // Apply node color mode
-            setNodeColorMode(preset.colorBy === 'layer' ? 'tier' : preset.colorBy);
-
-            // Apply edge mode
-            const edgeModes = { 'type': 'gradient-tier', 'weight': 'weight', 'resolution': 'gradient-file' };
-            EDGE_MODE = edgeModes[preset.edgeBy] || preset.edgeBy || 'gradient-tier';
-
-            // OKLCH transforms - BOLD application
-            if (preset.oklch) {
-                const oklch = preset.oklch;
-                const hue = document.getElementById('hue-shift');
-                const chroma = document.getElementById('chroma-scale');
-                const light = document.getElementById('light-shift');
-                const bg = document.getElementById('background-brightness');
-
-                // Apply hue shift
-                if (oklch.H && hue) {
-                    hue.value = oklch.H.shift || 0;
-                    hue.dispatchEvent(new Event('input'));
-                }
-                // Apply chroma boost (use full value for dramatic effect)
-                if (oklch.C && chroma) {
-                    chroma.value = oklch.C.boost || 1;
-                    chroma.dispatchEvent(new Event('input'));
-                }
-                // Apply lightness from preset
-                if (light) {
-                    const lightVal = preset.lightness !== undefined ? preset.lightness : 0;
-                    light.value = lightVal;
-                    light.dispatchEvent(new Event('input'));
-                }
-                // Apply background darkness
-                if (oklch.bgL !== undefined && bg) {
-                    bg.value = Math.min(1, oklch.bgL * 12);
-                    bg.dispatchEvent(new Event('input'));
-                }
-            }
-
-            // Apply amplifier (higher = more contrast)
-            if (preset.amplifier) {
-                const amp = document.getElementById('amplifier');
-                if (amp) {
-                    amp.value = preset.amplifier;
-                    amp.dispatchEvent(new Event('input'));
-                }
-            }
-
-            applyEdgeMode();
-
-            // Refresh gradient edges to pick up new node colors
-            if (typeof window.refreshGradientEdgeColors === 'function') {
-                window.refreshGradientEdgeColors();
-            }
-
-            // Re-render legends with updated colors from ColorOrchestrator
-            if (typeof renderAllLegends === 'function') {
-                renderAllLegends();
-            }
-
-            // Handle flow mode
-            if (preset.edgeBy === 'weight' || preset.edgeBy === 'gradient-flow') {
-                if (!flowMode && typeof toggleFlowMode === 'function') toggleFlowMode();
-            } else if (flowMode && typeof disableFlowMode === 'function') {
-                disableFlowMode();
-            }
-
-            console.log('[OKLCH] Applied:', preset.name, '| Color.transform:', Color.transform);
-        });
-    });
-}
 
 // ═══════════════════════════════════════════════════════════════
 // LAYOUT BUTTONS - Graph layout presets with perpetual motion
@@ -5228,480 +3903,20 @@ applyMetadataVisibility();
 updateBackgroundBrightness();
 refreshGraph();
 
-function setupCollapsibleSections() {
-    // Standard sidebar sections
-    const titles = document.querySelectorAll('.side-title.collapsible');
-    titles.forEach(title => {
-        title.onclick = () => {
-            const targetId = title.dataset.target;
-            const content = document.getElementById(targetId);
-            const icon = title.querySelector('.collapse-icon');
-            if (content) {
-                const isCollapsed = content.classList.toggle('collapsed');
-                title.classList.toggle('collapsed', isCollapsed);
-                if (icon) icon.textContent = isCollapsed ? '▶' : '▼';
-            }
-        };
-    });
+// setupCollapsibleSections - MOVED TO modules/visibility.js
 
-    // Topology section collapsibles (GEOMETRY panel)
-    const topoTitles = document.querySelectorAll('.topo-section-title.collapsible');
-    topoTitles.forEach(title => {
-        title.onclick = () => {
-            const targetId = title.dataset.target;
-            const content = document.getElementById(targetId);
-            const icon = title.querySelector('.collapse-icon');
-            if (content) {
-                const isCollapsed = content.classList.toggle('collapsed');
-                title.classList.toggle('expanded', !isCollapsed);
-                if (icon) icon.textContent = isCollapsed ? '▶' : '▼';
-            }
-        };
-    });
-}
+// setupReport, setupAIInsights, setupMetrics - MOVED TO modules/report.js
 
-function setupReport(data) {
-    const panel = document.getElementById('report-panel');
-    const content = document.getElementById('report-content');
-    // Guard: elements may not exist in minimal template
-    if (!content) return;
-    const report = (data && data.brain_download) ? data.brain_download : '';
-    content.textContent = report || 'No report available.';
-}
-
-function setupAIInsights(data) {
-    const panel = document.getElementById('insights-panel');
-    const content = document.getElementById('insights-content');
-    const btn = document.getElementById('btn-insights');
-
-    const insights = (data && data.ai_insights) ? data.ai_insights : null;
-
-    if (!insights) {
-        // Hide the button if no insights available
-        if (btn) btn.style.display = 'none';
-        return;
-    }
-
-    // Show the button
-    if (btn) btn.style.display = 'inline-flex';
-
-    // Render insights
-    let html = '';
-
-    // Executive Summary
-    if (insights.executive_summary) {
-        html += `<div class="insights-section">
-            <div class="insights-section-title">Executive Summary</div>
-            <div class="insights-summary">${escapeHtml(insights.executive_summary)}</div>
-        </div>`;
-    }
-
-    // Patterns Detected
-    if (insights.patterns_detected && insights.patterns_detected.length > 0) {
-        html += `<div class="insights-section">
-            <div class="insights-section-title">Patterns Detected</div>`;
-        for (const pattern of insights.patterns_detected) {
-            const confidencePercent = Math.round((pattern.confidence || 0) * 100);
-            html += `<div class="insights-pattern">
-                <div class="insights-pattern-header">
-                    <span class="insights-pattern-name">${escapeHtml(pattern.pattern_name || 'Unknown')}</span>
-                    <span class="insights-pattern-type ${pattern.pattern_type || ''}">${escapeHtml(pattern.pattern_type || '')}</span>
-                </div>
-                <div class="insights-confidence">
-                    <div class="insights-confidence-bar">
-                        <div class="insights-confidence-fill" style="width: ${confidencePercent}%"></div>
-                    </div>
-                    <span>${confidencePercent}%</span>
-                </div>
-                ${pattern.evidence ? `<div class="insights-pattern-evidence">${escapeHtml(pattern.evidence)}</div>` : ''}
-                ${pattern.recommendation ? `<div class="insights-pattern-evidence" style="color: var(--color-accent-secondary);">💡 ${escapeHtml(pattern.recommendation)}</div>` : ''}
-            </div>`;
-        }
-        html += '</div>';
-    }
-
-    // Refactoring Opportunities
-    if (insights.refactoring_opportunities && insights.refactoring_opportunities.length > 0) {
-        html += `<div class="insights-section">
-            <div class="insights-section-title">Refactoring Opportunities</div>`;
-        for (const refactor of insights.refactoring_opportunities) {
-            html += `<div class="insights-refactor">
-                <div class="insights-refactor-title">
-                    ${escapeHtml(refactor.title || 'Untitled')}
-                    <span class="insights-refactor-priority ${refactor.priority || 'LOW'}">${refactor.priority || 'LOW'}</span>
-                </div>
-                ${refactor.description ? `<div class="insights-refactor-desc">${escapeHtml(refactor.description)}</div>` : ''}
-                ${refactor.affected_files && refactor.affected_files.length > 0 ?
-                    `<div class="insights-refactor-desc" style="margin-top: 4px; color: var(--color-text-muted);">Files: ${refactor.affected_files.slice(0, 3).map(f => escapeHtml(f)).join(', ')}${refactor.affected_files.length > 3 ? '...' : ''}</div>` : ''}
-            </div>`;
-        }
-        html += '</div>';
-    }
-
-    // Topology Analysis
-    if (insights.topology_analysis) {
-        const topo = insights.topology_analysis;
-        html += `<div class="insights-section">
-            <div class="insights-section-title">Topology Analysis</div>
-            ${topo.shape_interpretation ? `<div class="insights-summary">${escapeHtml(topo.shape_interpretation)}</div>` : ''}
-            ${topo.health_assessment ? `<div class="insights-pattern-evidence">🏥 Health: ${escapeHtml(topo.health_assessment)}</div>` : ''}
-            ${topo.coupling_analysis ? `<div class="insights-pattern-evidence">🔗 Coupling: ${escapeHtml(topo.coupling_analysis)}</div>` : ''}
-        </div>`;
-    }
-
-    // Risk Areas
-    if (insights.risk_areas && insights.risk_areas.length > 0) {
-        html += `<div class="insights-section">
-            <div class="insights-section-title">Risk Areas</div>`;
-        for (const risk of insights.risk_areas) {
-            html += `<div class="insights-risk">
-                <span class="insights-risk-level ${risk.risk_level || 'LOW'}">${risk.risk_level || 'LOW'}</span>
-                <div class="insights-risk-content">
-                    <div class="insights-risk-area">${escapeHtml(risk.area || 'Unknown')}</div>
-                    ${risk.description ? `<div class="insights-risk-desc">${escapeHtml(risk.description)}</div>` : ''}
-                    ${risk.mitigation ? `<div class="insights-risk-desc" style="color: var(--color-accent-secondary); margin-top: 4px;">💡 ${escapeHtml(risk.mitigation)}</div>` : ''}
-                </div>
-            </div>`;
-        }
-        html += '</div>';
-    }
-
-    // Meta information
-    if (insights.meta) {
-        const meta = insights.meta;
-        html += `<div class="insights-meta">
-            Generated: ${meta.generated_at ? new Date(meta.generated_at).toLocaleString() : 'Unknown'}
-            | Model: ${escapeHtml(meta.model || 'Unknown')}
-            ${meta.confidence ? ` | Confidence: ${Math.round(meta.confidence * 100)}%` : ''}
-        </div>`;
-    }
-
-    content.innerHTML = html || '<div class="insights-placeholder">No insights data available.</div>';
-}
-
-// Helper function for HTML escaping (if not already defined)
 // escapeHtml - MOVED TO modules/utils.js
 
-function setupMetrics(data) {
-    const kpis = (data && data.kpis) ? data.kpis : {};
-    const setText = (id, value) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.textContent = value;
-    };
-    const asNumber = (val) => {
-        const num = Number(val);
-        return Number.isFinite(num) ? num : null;
-    };
-    const formatPercent = (val) => {
-        const num = asNumber(val);
-        return num === null ? '--' : `${num.toFixed(1)}%`;
-    };
-    const formatCount = (val) => {
-        const num = asNumber(val);
-        return num === null ? '--' : `${Math.round(num)}`;
-    };
-    const formatScore = (val) => {
-        const num = asNumber(val);
-        return num === null ? '--' : `${num.toFixed(1)}/10`;
-    };
-
-    setText('metric-edge-resolution', formatPercent(kpis.edge_resolution_percent));
-    setText('metric-call-ratio', formatPercent(kpis.call_ratio_percent));
-    setText('metric-reachability', formatPercent(kpis.reachability_percent));
-    setText('metric-dead-code', formatPercent(kpis.dead_code_percent));
-    setText('metric-knot-score', formatScore(kpis.knot_score));
-    setText('metric-topology', kpis.topology_shape || 'UNKNOWN');
-    setText('metric-orphans', formatCount(kpis.orphan_count));
-    setText('metric-top-hubs', formatCount(kpis.top_hub_count));
-
-    // Set health indicators (traffic light bars)
-    const setHealth = (id, level) => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.classList.remove('good', 'medium', 'bad', 'neutral');
-            el.classList.add(level);
-        }
-    };
-
-    // Edge Resolution: >90% good, 70-90% medium, <70% bad
-    const edgeRes = asNumber(kpis.edge_resolution_percent);
-    setHealth('health-edge-resolution', edgeRes === null ? 'neutral' : edgeRes >= 90 ? 'good' : edgeRes >= 70 ? 'medium' : 'bad');
-
-    // Call Ratio: >60% good, 40-60% medium, <40% bad
-    const callRatio = asNumber(kpis.call_ratio_percent);
-    setHealth('health-call-ratio', callRatio === null ? 'neutral' : callRatio >= 60 ? 'good' : callRatio >= 40 ? 'medium' : 'bad');
-
-    // Reachability: >90% good, 70-90% medium, <70% bad
-    const reach = asNumber(kpis.reachability_percent);
-    setHealth('health-reachability', reach === null ? 'neutral' : reach >= 90 ? 'good' : reach >= 70 ? 'medium' : 'bad');
-
-    // Dead Code: <5% good, 5-15% medium, >15% bad (INVERTED - lower is better)
-    const dead = asNumber(kpis.dead_code_percent);
-    setHealth('health-dead-code', dead === null ? 'neutral' : dead <= 5 ? 'good' : dead <= 15 ? 'medium' : 'bad');
-
-    // Knot Score: <3 good, 3-6 medium, >6 bad (INVERTED - lower is better)
-    const knot = asNumber(kpis.knot_score);
-    setHealth('health-knot-score', knot === null ? 'neutral' : knot <= 3 ? 'good' : knot <= 6 ? 'medium' : 'bad');
-
-    // Topology: neutral (informational only)
-    setHealth('health-topology', 'neutral');
-
-    // Orphans: <10 good, 10-50 medium, >50 bad (INVERTED - lower is better)
-    const orphans = asNumber(kpis.orphan_count);
-    setHealth('health-orphans', orphans === null ? 'neutral' : orphans <= 10 ? 'good' : orphans <= 50 ? 'medium' : 'bad');
-
-    // Top Hubs: neutral (informational only)
-    setHealth('health-top-hubs', 'neutral');
-}
-
-function setupHudFade() {
-    const idleDelay = 2200;
-    let timer = null;
-    const activate = () => {
-        document.body.classList.remove('hud-quiet');
-        if (timer) {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(() => {
-            document.body.classList.add('hud-quiet');
-        }, idleDelay);
-    };
-    ['mousemove', 'mousedown', 'keydown', 'touchstart'].forEach((evt) => {
-        window.addEventListener(evt, activate, { passive: true });
-    });
-    activate();
-}
-
-// =================================================================
-// HUD STATS: Update all header and stats panel elements
-// =================================================================
-function updateHudStats(data) {
-    if (!data) return;
-
-    // Stats panel: NODES, EDGES, ENTROPY
-    const nodeCount = (data.nodes || []).length;
-    const edgeCount = (data.links || []).length;
-
-    const statNodes = document.getElementById('stat-nodes');
-    const statEdges = document.getElementById('stat-edges');
-    const statEntropy = document.getElementById('stat-entropy');
-
-    if (statNodes) statNodes.textContent = nodeCount.toLocaleString();
-    if (statEdges) statEdges.textContent = edgeCount.toLocaleString();
-    if (statEntropy) {
-        const entropy = data.meta?.entropy ?? data.entropy ?? '--';
-        statEntropy.textContent = typeof entropy === 'number' ? entropy.toFixed(2) : entropy;
-    }
-
-    // Header panel: target name and timestamp
-    const targetName = document.getElementById('target-name');
-    const timestamp = document.getElementById('timestamp');
-
-    if (targetName) {
-        const target = data.meta?.target || data.target || 'Unknown';
-        // Show just the last part of the path
-        const shortTarget = target.split('/').pop() || target;
-        targetName.textContent = shortTarget;
-    }
-
-    if (timestamp) {
-        const ts = data.meta?.timestamp || data.timestamp || '';
-        // Format: 2024-01-15T10:30:00 -> 2024-01-15 10:30
-        const formatted = ts.replace('T', ' ').substring(0, 16);
-        timestamp.textContent = formatted || 'Live';
-    }
-}
+// setupHudFade, updateHudStats - MOVED TO modules/hud.js
 
 // showToast - MOVED TO modules/tooltips.js
+// updateDatamapControls - MOVED TO modules/datamap.js
 
-function updateDatamapControls() {
-    if (!DM) return;  // ALL DATA FROM DM
-    const datamapEnabled = GRAPH_MODE === 'atoms';
-    const base = filterGraph(null, CURRENT_DENSITY, new Set(), VIS_FILTERS);  // DM used internally
-    const nodes = base.nodes || [];
-    const totalCount = nodes.length;
-
-    const allUI = DATAMAP_UI.get('__ALL__');
-    if (allUI) {
-        allUI.input.checked = ACTIVE_DATAMAPS.size === 0;
-        if (allUI.count) {
-            allUI.count.textContent = datamapEnabled ? String(totalCount) : '--';
-        }
-        allUI.input.disabled = !datamapEnabled;
-        allUI.wrapper.classList.toggle('disabled', !datamapEnabled);
-        allUI.wrapper.classList.toggle('active', datamapEnabled && ACTIVE_DATAMAPS.size === 0);
-    }
-
-    DATAMAP_CONFIGS.forEach((config) => {
-        const count = nodes.reduce((acc, node) => acc + (datamapMatches(node, config) ? 1 : 0), 0);
-        const ui = DATAMAP_UI.get(config.id);
-        if (!ui) return;
-        if (ui.count) {
-            ui.count.textContent = datamapEnabled ? String(count) : '--';
-        }
-        ui.input.disabled = !datamapEnabled || count === 0;
-        ui.wrapper.classList.toggle('disabled', !datamapEnabled || count === 0);
-        ui.input.checked = ACTIVE_DATAMAPS.has(config.id);
-        ui.wrapper.classList.toggle('active', datamapEnabled && ACTIVE_DATAMAPS.has(config.id));
-    });
-}
-
-// Callable function for direct invocation (no proxy click needed)
-function toggleDimensions() {
-    if (DIMENSION_TRANSITION) return;
-    DIMENSION_TRANSITION = true;
-    const target3d = !IS_3D;
-    const button = document.getElementById('btn-dimensions');
-    animateDimensionChange(target3d, () => {
-        IS_3D = target3d;
-        DIMENSION_TRANSITION = false;
-        if (button) button.textContent = IS_3D ? '2D' : '3D';
-        if (fileMode && GRAPH_MODE === 'atoms') {
-            applyFileVizMode();
-        }
-    });
-}
-
-function setupDimensionToggle() {
-    const button = document.getElementById('btn-dimensions');
-    const updateLabel = () => {
-        button.textContent = IS_3D ? '2D' : '3D';
-    };
-    updateLabel();
-    button.onclick = () => toggleDimensions();
-}
+// toggleDimensions, setupDimensionToggle, animateDimensionChange - MOVED TO modules/dimension.js
 
 // stableSeed, stableZ - MOVED TO modules/utils.js
-
-function animateDimensionChange(target3d, done) {
-    const nodes = (Graph && Graph.graphData().nodes) ? Graph.graphData().nodes : [];
-    const startTime = performance.now();
-    const duration = 3000;
-    const delayMin = 0;
-    const delayMax = 2000;
-    const lockPositionsAfterTransition = true;
-    const easeInOutSine = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
-    const starStart = STARFIELD ? STARFIELD.material.opacity : 0;
-    const starTarget = target3d ? STARFIELD_OPACITY : 0;
-    const bloomStart = BLOOM_PASS ? BLOOM_PASS.strength : 0;
-    const bloomTarget = BLOOM_PASS ? (target3d ? BLOOM_STRENGTH : 0) : 0;
-    const previousVelocityDecay = (Graph && Graph.d3VelocityDecay) ? Graph.d3VelocityDecay() : null;
-    const previousAlphaTarget = (Graph && Graph.d3AlphaTarget) ? Graph.d3AlphaTarget() : null;
-    const previousCooldownTicks = (Graph && Graph.cooldownTicks) ? Graph.cooldownTicks() : null;
-    const previousCooldownTime = (Graph && Graph.cooldownTime) ? Graph.cooldownTime() : null;
-    if (Graph && Graph.cooldownTicks) {
-        Graph.cooldownTicks(Infinity);
-    }
-    if (Graph && Graph.cooldownTime) {
-        Graph.cooldownTime(Infinity);
-    }
-    if (Graph && Graph.d3VelocityDecay) {
-        Graph.d3VelocityDecay(1);
-    }
-    if (Graph && Graph.d3AlphaTarget) {
-        Graph.d3AlphaTarget(0);
-    }
-    if (Graph && Graph.d3ReheatSimulation) {
-        Graph.d3ReheatSimulation();
-    }
-
-    nodes.forEach((node) => {
-        node.__xStart = node.x || 0;
-        node.__yStart = node.y || 0;
-        node.__zStart = node.z || 0;
-        node.__delay = delayMin + (stableSeed(node, 'delay') * (delayMax - delayMin));
-        node.fx = node.__xStart;
-        node.fy = node.__yStart;
-        node.vx = 0;
-        node.vy = 0;
-        node.vz = 0;
-        if (target3d) {
-            if (node.__z3d === undefined || node.__z3d === null) {
-                node.__z3d = node.__zStart || stableZ(node);
-            }
-        } else {
-            node.__z3d = node.__zStart;
-        }
-    });
-
-    const maxDistance = nodes.reduce((acc, node) => Math.max(acc, Math.abs(node.__zStart || 0)), 1);
-
-    Graph.numDimensions(3);
-
-    const animate = (now) => {
-        const elapsed = now - startTime;
-        const t = Math.min(1, elapsed / duration);
-        const eased = easeInOutSine(t);
-
-        nodes.forEach((node) => {
-            const startZ = node.__zStart || 0;
-            const targetZ = target3d ? (node.__z3d || 0) : 0;
-            const delay = node.__delay || 0;
-            const localDuration = Math.max(600, duration - delay);
-            const localElapsed = Math.max(0, elapsed - delay);
-            const localT = Math.min(1, localElapsed / localDuration);
-            const localEase = easeInOutSine(localT);
-            const distanceRatio = maxDistance > 0 ? Math.abs(startZ) / maxDistance : 0;
-            const distanceCurve = 0.6 + (1 - distanceRatio) * 0.6;
-            const progress = Math.pow(localEase, distanceCurve);
-            const nextZ = startZ + (targetZ - startZ) * progress;
-            node.z = nextZ;
-            node.fz = nextZ;
-            node.vz = 0;
-        });
-
-        if (STARFIELD) {
-            const nextOpacity = starStart + (starTarget - starStart) * eased;
-            STARFIELD.material.opacity = nextOpacity;
-            STARFIELD.visible = nextOpacity > 0.02;
-        }
-        if (BLOOM_PASS) {
-            BLOOM_PASS.strength = bloomStart + (bloomTarget - bloomStart) * eased;
-        }
-
-        if (t < 1) {
-            requestAnimationFrame(animate);
-        } else {
-            nodes.forEach((node) => {
-                delete node.fz;
-                delete node.__zStart;
-                delete node.__xStart;
-                delete node.__yStart;
-                delete node.__delay;
-                if (!target3d) {
-                    node.z = 0;
-                    node.fz = 0;
-                } else if (lockPositionsAfterTransition) {
-                    node.z = node.__z3d || node.z || 0;
-                    node.fz = node.z;
-                } else {
-                    delete node.fx;
-                    delete node.fy;
-                }
-            });
-            Graph.numDimensions(target3d ? 3 : 2);
-            if (!target3d && STARFIELD) {
-                STARFIELD.visible = false;
-            }
-            if (Graph && Graph.d3VelocityDecay && previousVelocityDecay !== null) {
-                Graph.d3VelocityDecay(previousVelocityDecay);
-            }
-            if (Graph && Graph.d3AlphaTarget && previousAlphaTarget !== null) {
-                Graph.d3AlphaTarget(previousAlphaTarget);
-            }
-            if (Graph && Graph.cooldownTicks && previousCooldownTicks !== null) {
-                Graph.cooldownTicks(previousCooldownTicks);
-            }
-            if (Graph && Graph.cooldownTime && previousCooldownTime !== null) {
-                Graph.cooldownTime(previousCooldownTime);
-            }
-            if (done) done();
-        }
-    };
-
-    requestAnimationFrame(animate);
-}
 
 // ====================================================================
 // EDGE VISUALIZATION MODES - GRADIENT & DATA-DRIVEN SYSTEM
@@ -5775,38 +3990,7 @@ const GRADIENT_PALETTES = {
 // FILE_HUE_MAP, buildFileHueMap - provided by edge-system.js module
 
 // Get node tier value (0=T0, 1=T1, 2=T2)
-function getNodeTierValue(node) {
-    if (!node) return 1;
-    const tier = getNodeTier(node);
-    if (tier === 'T0') return 0;
-    if (tier === 'T1') return 1;
-    if (tier === 'T2') return 2;
-    return 1;
-}
-
-// Get node depth (distance from entry points)
-function getNodeDepth(node) {
-    // Use y-position as proxy for depth (force layout tends to layer)
-    if (node && typeof node.y === 'number') {
-        return Math.abs(node.y) / 500;  // Normalize
-    }
-    return 0.5;
-}
-
-// Get semantic similarity between two nodes
-function getSemanticSimilarity(srcNode, tgtNode) {
-    if (!srcNode || !tgtNode) return 0.5;
-    let score = 0;
-    // Same type = high similarity
-    if (srcNode.type === tgtNode.type) score += 0.4;
-    // Same file = high similarity
-    if (srcNode.fileIdx === tgtNode.fileIdx) score += 0.3;
-    // Same tier = moderate similarity
-    if (getNodeTier(srcNode) === getNodeTier(tgtNode)) score += 0.2;
-    // Same ring/layer
-    if (srcNode.ring === tgtNode.ring) score += 0.1;
-    return score;
-}
+// getNodeTierValue, getNodeDepth, getSemanticSimilarity - MOVED TO modules/node-helpers.js
 
 // interpolateColor, applyColorTweaks, oklchToSrgb, oklchColor - MOVED TO modules/color-engine.js
 // Use COLOR.interpolate() and COLOR.get() instead
@@ -5815,45 +3999,7 @@ function getSemanticSimilarity(srcNode, tgtNode) {
 // clamp01, clampValue - MOVED TO modules/utils.js
 // hslColor REMOVED - Using OKLCH Native via Color.interpolate
 // parseOklchString - MOVED TO modules/utils.js
-
-function normalizeColorInput(color, fallback = 'rgb(128, 128, 128)') {
-    if (color === null || color === undefined) {
-        return fallback;
-    }
-    if (typeof color !== 'string') {
-        return color;
-    }
-    const parsed = parseOklchString(color);
-    if (parsed) {
-        return oklchColor(parsed.L, parsed.C, parsed.H, parsed.A);
-    }
-    return color;
-}
-
-function toColorNumber(color, fallback = '#777777') {
-    // Returns CSS hex string (polished-compatible) instead of JS hex int
-    if (typeof color === 'number') {
-        // Convert JS hex int to CSS hex string
-        return '#' + color.toString(16).padStart(6, '0');
-    }
-    if (typeof color !== 'string') {
-        return fallback;
-    }
-    const normalized = normalizeColorInput(color);
-    if (typeof normalized === 'string') {
-        color = normalized;
-    }
-    if (color.startsWith('#') || color.startsWith('rgb') || color.startsWith('hsl')) {
-        return color;  // Already valid CSS color
-    }
-    try {
-        // Convert any valid color to CSS hex string
-        const hex = new THREE.Color(color).getHex();
-        return '#' + hex.toString(16).padStart(6, '0');
-    } catch (err) {
-        return fallback;
-    }
-}
+// normalizeColorInput, toColorNumber - MOVED TO modules/color-helpers.js
 
 function updateEdgeRanges() {
     const links = (Graph && Graph.graphData().links) ? Graph.graphData().links : [];
@@ -5928,41 +4074,8 @@ if (btnInsights) {
     };
 }
 
-// ====================================================================
-// STARFIELD TOGGLE: Show/hide background stars (with localStorage)
-// ====================================================================
-const STARS_STORAGE_KEY = 'collider_stars_visible';
-
-function setStarsVisible(visible) {
-    // Support both old btn-stars and new toggle-stars
-    const btn = document.getElementById('btn-stars') || document.getElementById('toggle-stars');
-    if (btn) btn.classList.toggle('active', visible);
-    if (STARFIELD) {
-        STARFIELD.visible = visible;
-        STARFIELD.material.opacity = visible ? STARFIELD_OPACITY : 0;
-    }
-    try {
-        localStorage.setItem(STARS_STORAGE_KEY, visible ? '1' : '0');
-    } catch (e) { /* localStorage unavailable */ }
-}
-
-// Initialize from localStorage (default: OFF)
-try {
-    const stored = localStorage.getItem(STARS_STORAGE_KEY);
-    if (stored !== '1') {
-        // Default to off - defer to after STARFIELD is initialized
-        setTimeout(() => setStarsVisible(false), 100);
-    }
-} catch (e) { /* localStorage unavailable */ }
-
-// Support both old btn-stars and new toggle-stars
-const starsToggle = document.getElementById('btn-stars') || document.getElementById('toggle-stars');
-if (starsToggle) {
-    starsToggle.onclick = () => {
-        const isActive = starsToggle.classList.contains('active');
-        setStarsVisible(!isActive);
-    };
-}
+// setStarsVisible, STARS_STORAGE_KEY, stars toggle binding - MOVED TO modules/stars.js
+// Call STARS.init() to initialize (done in modules/main.js)
 
 // Reset Layout button - explicitly re-run physics
 document.getElementById('btn-reset-layout').onclick = () => {
@@ -5989,361 +4102,13 @@ let originalLinkWidths = new Map();
 let highEntropyNodes = new Set();
 // FLOW_CONFIG is set in initGraph() from THE REMOTE CONTROL tokens
 
-// Get flow preset colors from theme tokens (T006)
-// Supports both token-based and hardcoded fallback values
-function getFlowPresetColor(presetName, property, fallback) {
-    const schemes = THEME_CONFIG.colors.schemes || {};
-    const scheme = schemes[presetName.toLowerCase()] || {};
-    return scheme[property] || fallback;
-}
+// getFlowPresetColor, getFlowPresetValue - MOVED TO modules/flow.js
 
-// Get flow preset value from appearance tokens (T008)
-// Retrieves any flow preset parameter from APPEARANCE_CONFIG.flow-presets
-function getFlowPresetValue(presetName, property, fallback) {
-    // Use typeof to safely check - accessing undeclared variable throws ReferenceError
-    const presets = (typeof APPEARANCE_CONFIG !== 'undefined' && APPEARANCE_CONFIG && APPEARANCE_CONFIG['flow-presets']) || {};
-    const preset = presets[presetName.toLowerCase()] || {};
-    const value = preset[property];
-    return (value !== undefined && value !== null) ? value : fallback;
-}
+// FLOW_PRESETS, currentFlowPreset - MOVED TO modules/flow.js
 
-// Flow Mode Presets - cycle through by clicking FLOW button repeatedly
-// T008: All values now sourced from appearance.tokens.json flow-presets section
-const FLOW_PRESETS = [
-    {
-        name: 'EMBER',
-        highlightColor: getFlowPresetColor('EMBER', 'highlightColor', getFlowPresetValue('ember', 'highlightColor', '#ff8c00')),
-        particleColor: getFlowPresetColor('EMBER', 'particleColor', getFlowPresetValue('ember', 'particleColor', '#ffaa00')),
-        dimColor: getFlowPresetColor('EMBER', 'dimColor', getFlowPresetValue('ember', 'dimColor', '#331100')),
-        edgeColor: getFlowPresetColor('EMBER', 'edgeColor', getFlowPresetValue('ember', 'edgeColor', '#ff6600')),
-        particleCount: getFlowPresetValue('ember', 'particleCount', 3),
-        particleWidth: getFlowPresetValue('ember', 'particleWidth', 2.5),
-        particleSpeed: getFlowPresetValue('ember', 'particleSpeed', 0.008),
-        edgeWidthScale: getFlowPresetValue('ember', 'edgeWidthScale', 3.0),
-        sizeMultiplier: getFlowPresetValue('ember', 'sizeMultiplier', 1.8),
-        edgeOpacityMin: getFlowPresetValue('ember', 'edgeOpacityMin', 0.3),
-        dimOpacity: getFlowPresetValue('ember', 'dimOpacity', 0.05)
-    },
-    {
-        name: 'OCEAN',
-        highlightColor: getFlowPresetColor('OCEAN', 'highlightColor', getFlowPresetValue('ocean', 'highlightColor', '#00d4ff')),
-        particleColor: getFlowPresetColor('OCEAN', 'particleColor', getFlowPresetValue('ocean', 'particleColor', '#4df0ff')),
-        dimColor: getFlowPresetColor('OCEAN', 'dimColor', getFlowPresetValue('ocean', 'dimColor', '#001122')),
-        edgeColor: getFlowPresetColor('OCEAN', 'edgeColor', getFlowPresetValue('ocean', 'edgeColor', '#0088cc')),
-        particleCount: getFlowPresetValue('ocean', 'particleCount', 4),
-        particleWidth: getFlowPresetValue('ocean', 'particleWidth', 2.0),
-        particleSpeed: getFlowPresetValue('ocean', 'particleSpeed', 0.006),
-        edgeWidthScale: getFlowPresetValue('ocean', 'edgeWidthScale', 2.5),
-        sizeMultiplier: getFlowPresetValue('ocean', 'sizeMultiplier', 1.6),
-        edgeOpacityMin: getFlowPresetValue('ocean', 'edgeOpacityMin', 0.25),
-        dimOpacity: getFlowPresetValue('ocean', 'dimOpacity', 0.03)
-    },
-    {
-        name: 'PLASMA',
-        highlightColor: getFlowPresetColor('PLASMA', 'highlightColor', getFlowPresetValue('plasma', 'highlightColor', '#ff00ff')),
-        particleColor: getFlowPresetColor('PLASMA', 'particleColor', getFlowPresetValue('plasma', 'particleColor', '#ff66ff')),
-        dimColor: getFlowPresetColor('PLASMA', 'dimColor', getFlowPresetValue('plasma', 'dimColor', '#110011')),
-        edgeColor: getFlowPresetColor('PLASMA', 'edgeColor', getFlowPresetValue('plasma', 'edgeColor', '#cc00cc')),
-        particleCount: getFlowPresetValue('plasma', 'particleCount', 5),
-        particleWidth: getFlowPresetValue('plasma', 'particleWidth', 3.0),
-        particleSpeed: getFlowPresetValue('plasma', 'particleSpeed', 0.012),
-        edgeWidthScale: getFlowPresetValue('plasma', 'edgeWidthScale', 4.0),
-        sizeMultiplier: getFlowPresetValue('plasma', 'sizeMultiplier', 2.0),
-        edgeOpacityMin: getFlowPresetValue('plasma', 'edgeOpacityMin', 0.35),
-        dimOpacity: getFlowPresetValue('plasma', 'dimOpacity', 0.04)
-    },
-    {
-        name: 'MATRIX',
-        highlightColor: getFlowPresetColor('MATRIX', 'highlightColor', getFlowPresetValue('matrix', 'highlightColor', '#00ff00')),
-        particleColor: getFlowPresetColor('MATRIX', 'particleColor', getFlowPresetValue('matrix', 'particleColor', '#88ff88')),
-        dimColor: getFlowPresetColor('MATRIX', 'dimColor', getFlowPresetValue('matrix', 'dimColor', '#001100')),
-        edgeColor: getFlowPresetColor('MATRIX', 'edgeColor', getFlowPresetValue('matrix', 'edgeColor', '#00cc00')),
-        particleCount: getFlowPresetValue('matrix', 'particleCount', 6),
-        particleWidth: getFlowPresetValue('matrix', 'particleWidth', 1.5),
-        particleSpeed: getFlowPresetValue('matrix', 'particleSpeed', 0.015),
-        edgeWidthScale: getFlowPresetValue('matrix', 'edgeWidthScale', 2.0),
-        sizeMultiplier: getFlowPresetValue('matrix', 'sizeMultiplier', 1.4),
-        edgeOpacityMin: getFlowPresetValue('matrix', 'edgeOpacityMin', 0.2),
-        dimOpacity: getFlowPresetValue('matrix', 'dimOpacity', 0.02)
-    },
-    {
-        name: 'PULSE',
-        highlightColor: getFlowPresetColor('PULSE', 'highlightColor', getFlowPresetValue('pulse', 'highlightColor', '#ff4444')),
-        particleColor: getFlowPresetColor('PULSE', 'particleColor', getFlowPresetValue('pulse', 'particleColor', '#ff8888')),
-        dimColor: getFlowPresetColor('PULSE', 'dimColor', getFlowPresetValue('pulse', 'dimColor', '#110000')),
-        edgeColor: getFlowPresetColor('PULSE', 'edgeColor', getFlowPresetValue('pulse', 'edgeColor', '#cc2222')),
-        particleCount: getFlowPresetValue('pulse', 'particleCount', 2),
-        particleWidth: getFlowPresetValue('pulse', 'particleWidth', 4.0),
-        particleSpeed: getFlowPresetValue('pulse', 'particleSpeed', 0.004),
-        edgeWidthScale: getFlowPresetValue('pulse', 'edgeWidthScale', 5.0),
-        sizeMultiplier: getFlowPresetValue('pulse', 'sizeMultiplier', 2.2),
-        edgeOpacityMin: getFlowPresetValue('pulse', 'edgeOpacityMin', 0.4),
-        dimOpacity: getFlowPresetValue('pulse', 'dimOpacity', 0.06)
-    },
-    {
-        name: 'AURORA',
-        highlightColor: getFlowPresetColor('AURORA', 'highlightColor', getFlowPresetValue('aurora', 'highlightColor', '#33ccbb')),
-        particleColor: getFlowPresetColor('AURORA', 'particleColor', getFlowPresetValue('aurora', 'particleColor', '#66ffee')),
-        dimColor: getFlowPresetColor('AURORA', 'dimColor', getFlowPresetValue('aurora', 'dimColor', '#002222')),
-        edgeColor: getFlowPresetColor('AURORA', 'edgeColor', getFlowPresetValue('aurora', 'edgeColor', '#22aa99')),
-        particleCount: getFlowPresetValue('aurora', 'particleCount', 4),
-        particleWidth: getFlowPresetValue('aurora', 'particleWidth', 2.2),
-        particleSpeed: getFlowPresetValue('aurora', 'particleSpeed', 0.007),
-        edgeWidthScale: getFlowPresetValue('aurora', 'edgeWidthScale', 3.5),
-        sizeMultiplier: getFlowPresetValue('aurora', 'sizeMultiplier', 1.7),
-        edgeOpacityMin: getFlowPresetValue('aurora', 'edgeOpacityMin', 0.28),
-        dimOpacity: getFlowPresetValue('aurora', 'dimOpacity', 0.04)
-    }
-];
-let currentFlowPreset = 0;
+// toggleFlowMode, disableFlowMode, applyFlowVisualization, clearFlowVisualization - MOVED TO modules/flow.js
 
-// Callable function for direct invocation (no proxy click needed)
-function toggleFlowMode() {
-    // If already in flow mode, cycle to next preset
-    if (flowMode) {
-        currentFlowPreset = (currentFlowPreset + 1) % FLOW_PRESETS.length;
-        const preset = FLOW_PRESETS[currentFlowPreset];
-        console.log(`[Flow] Cycling to preset: ${preset.name}`);
-        applyFlowVisualization();
-        showModeToast(`FLOW: ${preset.name}`);
-        return;
-    }
-
-    flowMode = true;
-    currentFlowPreset = 0;
-    console.log('[Flow] Toggled to:', flowMode);
-
-    // Sync BOTH potential buttons (Dock vs CommandBar)
-    const btnDock = document.getElementById('btn-flow');
-    if (btnDock) btnDock.classList.toggle('active', flowMode);
-
-    const btnCmd = document.getElementById('cmd-flow2');
-    if (btnCmd) btnCmd.classList.toggle('active', flowMode);
-
-    // Show/hide flow legend
-    const legend = document.getElementById('flow-legend');
-    if (legend) legend.classList.toggle('visible', flowMode);
-
-    // EXCLUSIVE MODE: Clear other visual noise
-    clearAllFileModes();
-    // Ensure standard file/hull buttons are off
-    document.querySelectorAll('.file-mode-btn').forEach(b => b.classList.remove('active'));
-
-    applyFlowVisualization();
-    const preset = FLOW_PRESETS[currentFlowPreset];
-    showModeToast(`FLOW: ${preset.name}`);
-}
-
-// Turn off flow mode completely
-function disableFlowMode() {
-    if (!flowMode) return;
-    flowMode = false;
-    currentFlowPreset = 0;
-
-    const btnDock = document.getElementById('btn-flow');
-    if (btnDock) btnDock.classList.remove('active');
-
-    const btnCmd = document.getElementById('cmd-flow2');
-    if (btnCmd) btnCmd.classList.remove('active');
-
-    const legend = document.getElementById('flow-legend');
-    if (legend) legend.classList.remove('visible');
-
-    clearFlowVisualization();
-    showModeToast('Flow mode off');
-}
-
-// NOTE: btn-flow onclick moved to setupControls() for proper DOM timing
-
-function applyFlowVisualization() {
-    // Guard: Ensure Graph is ready
-    if (!Graph || !DM) {
-        console.warn('[Flow] Graph or DM not ready');
-        return;
-    }
-
-    // Get current preset settings
-    const preset = FLOW_PRESETS[currentFlowPreset];
-    const markov = DM ? DM.getMarkov() : {};  // ALL DATA FROM DM
-    const highEntropy = markov.high_entropy_nodes || [];
-
-    // Use preset values (fallback to FLOW_CONFIG for topK/minWeight if not in preset)
-    const flowCfg = FLOW_CONFIG || {};
-    const highlightColor = preset.highlightColor;
-    const particleColor = preset.particleColor;
-    const sizeMult = preset.sizeMultiplier;
-    const edgeScale = preset.edgeWidthScale;
-    const particleCount = preset.particleCount;
-    const particleWidth = preset.particleWidth;
-    const particleSpeed = preset.particleSpeed;
-    const edgeOpacityMin = preset.edgeOpacityMin;
-    const dimOpacity = preset.dimOpacity;
-    const topK = flowCfg.topKEdges || 3;  // Show only top K outgoing edges per node
-    const minWeight = flowCfg.minWeight || 0.01;
-
-    // Build set of high entropy node names
-    highEntropyNodes.clear();
-    highEntropy.forEach(n => highEntropyNodes.add(n.node));
-
-    const graphNodes = Graph.graphData().nodes;
-    const graphLinks = Graph.graphData().links;
-
-    // THRESHOLDING: Build a map of top-K outgoing edges per source node
-    const edgesBySource = new Map();
-    graphLinks.forEach(link => {
-        const srcId = typeof link.source === 'object' ? link.source.id : link.source;
-        if (!edgesBySource.has(srcId)) {
-            edgesBySource.set(srcId, []);
-        }
-        edgesBySource.get(srcId).push(link);
-    });
-
-    // For each source, keep only top-K by markov_weight (transition probability)
-    const visibleEdges = new Set();
-    edgesBySource.forEach((edges, srcId) => {
-        const sorted = edges
-            .filter(e => (e.markov_weight || 0) >= minWeight)
-            .sort((a, b) => (b.markov_weight || 0) - (a.markov_weight || 0))
-            .slice(0, topK);
-        sorted.forEach(e => visibleEdges.add(e));
-    });
-
-    // Store original colors and sizes, then apply flow coloring
-    graphNodes.forEach(node => {
-        if (!originalNodeColors.has(node.id)) {
-            originalNodeColors.set(node.id, node.color);
-        }
-        // Restore original size first (in case switching presets)
-        if (node._originalVal) {
-            node.val = node._originalVal;
-        } else {
-            node._originalVal = node.val || 1;
-        }
-        // High entropy nodes highlighted (decision points)
-        if (highEntropyNodes.has(node.name)) {
-            node.color = highlightColor;
-            node.val = node._originalVal * sizeMult;
-        }
-    });
-
-    // Update link widths based on markov_weight (with amplification)
-    const maxMarkov = Math.max(0.001, ...graphLinks.map(l => l.markov_weight || 0));
-
-    Graph.linkWidth(link => {
-        if (!visibleEdges.has(link)) return 0.1;  // Dim non-top edges
-        const mw = link.markov_weight || 0;
-        const normalized = mw / maxMarkov;
-        const amplified = amplify(normalized);
-        return 0.5 + amplified * edgeScale * 2;
-    });
-
-    // Update link opacity to emphasize important edges
-    Graph.linkOpacity(link => {
-        if (!visibleEdges.has(link)) return dimOpacity;
-        const mw = link.markov_weight || 0;
-        const normalized = mw / maxMarkov;
-        const amplified = amplify(normalized);
-        return edgeOpacityMin + amplified * (1.0 - edgeOpacityMin);
-    });
-
-    // Add directional particles only on visible edges
-    Graph.linkDirectionalParticles(link => {
-        if (!visibleEdges.has(link)) return 0;
-        return particleCount;
-    });
-    Graph.linkDirectionalParticleWidth(particleWidth);
-    Graph.linkDirectionalParticleSpeed(particleSpeed);
-    Graph.linkDirectionalParticleColor(() => particleColor);
-
-    // Update node coloring
-    Graph.nodeColor(n => toColorNumber(n.color, '#888888'));
-
-    updateSelectionVisuals();
-
-    // Debug: count edges with markov weights
-    const edgesWithMarkov = graphLinks.filter(l => l.markov_weight > 0).length;
-    console.log(`[Flow] Preset: ${preset.name} | ${highEntropyNodes.size} high entropy nodes, ${visibleEdges.size} visible edges (top-${topK}), ${edgesWithMarkov}/${graphLinks.length} edges with markov`);
-}
-
-function clearFlowVisualization() {
-    // Guard: Ensure Graph is ready
-    if (!Graph) return;
-
-    const graphNodes = Graph.graphData().nodes;
-
-    // Restore original node colors and sizes
-    graphNodes.forEach(node => {
-        if (originalNodeColors.has(node.id)) {
-            node.color = originalNodeColors.get(node.id);
-        }
-        // Restore original size from saved value
-        if (node._originalVal) {
-            node.val = node._originalVal;
-            delete node._originalVal;
-        }
-    });
-
-    // Reset link widths
-    Graph.linkWidth(1);
-
-    // Reset link opacity
-    Graph.linkOpacity(0.6);
-
-    // Remove directional particles
-    Graph.linkDirectionalParticles(0);
-
-    // Update coloring
-    Graph.nodeColor(n => toColorNumber(n.color, '#888888'));
-
-    highEntropyNodes.clear();
-    applyEdgeMode();
-    updateSelectionVisuals();
-}
-
-function setDatamap(prefix) {
-    const nextSet = new Set(ACTIVE_DATAMAPS);
-    if (!prefix) {
-        nextSet.clear();
-    } else if (nextSet.has(prefix)) {
-        nextSet.delete(prefix);
-    } else {
-        nextSet.add(prefix);
-    }
-
-    if (!DM) {  // ALL DATA FROM DM
-        ACTIVE_DATAMAPS = nextSet;
-        updateDatamapControls();
-        return;
-    }
-
-    const subset = filterGraph(null, CURRENT_DENSITY, nextSet, VIS_FILTERS);  // DM used internally
-    if (!subset.nodes.length) {
-        showToast('No nodes for that datamap selection.');
-        updateDatamapControls();
-        return;
-    }
-
-    ACTIVE_DATAMAPS = nextSet;
-    updateDatamapControls();
-    refreshGraph();
-}
-
-function setNodeColorMode(mode) {
-    NODE_COLOR_MODE = mode;
-    // Update legend to reflect current color mode
-    if (typeof renderAllLegends === 'function') {
-        renderAllLegends();
-    }
-    refreshGraph();
-    // Refresh gradient edges to reflect new node colors
-    if (typeof window.refreshGradientEdgeColors === 'function') {
-        window.refreshGradientEdgeColors();
-    }
-}
-
-function applyDatamap(prefix) {
-    setDatamap(prefix);
-}
+// setDatamap, setNodeColorMode, applyDatamap - MOVED TO modules/datamap.js
 
 // ====================================================================
 // FILE BOUNDARIES & HOVER SYSTEM
@@ -6351,221 +4116,11 @@ function applyDatamap(prefix) {
 // NOTE: fileBoundaryMeshes, fileMode, fileVizMode, etc. declared at top of file
 
 // hashToUnit - MOVED TO modules/utils.js
-
-function getFileHue(fileIdx, totalFiles, fileName) {
-    const strategy = FILE_COLOR_CONFIG.strategy || 'golden-angle';
-    if (strategy === 'sequential') {
-        const denom = Math.max(1, totalFiles);
-        return (fileIdx / denom) * 360;
-    }
-    if (strategy === 'hash') {
-        const seed = fileName || String(fileIdx);
-        return hashToUnit(seed) * 360;
-    }
-    const angle = FILE_COLOR_CONFIG.angle ?? 137.5;
-    return (fileIdx * angle) % 360;
-}
-
-function getFileColor(fileIdx, totalFiles, fileName, lightnessOverride = null) {
-    const saturation = FILE_COLOR_CONFIG.saturation ?? 70;
-    const lightness = (lightnessOverride !== null)
-        ? lightnessOverride
-        : (FILE_COLOR_CONFIG.lightness ?? 50);
-    const hue = getFileHue(fileIdx, totalFiles, fileName);
-    if (typeof FILE_COLOR_CONFIG.chroma === 'number') {
-        return oklchColor(lightness, FILE_COLOR_CONFIG.chroma, hue);
-    }
-    const adjustedHue = hue + (COLOR_TWEAKS.hueShift || 0);
-    const adjustedLightness = clampValue(lightness + (COLOR_TWEAKS.lightnessShift || 0), 0, 100);
-    return `hsl(${adjustedHue}, ${saturation}%, ${adjustedLightness}%)`;
-}
-
-// Track last hovered node to avoid unnecessary re-renders
-// (variable declared early at top of file to avoid TDZ)
-
-function updateHoverPanel(node) {
-    const hoverPanel = document.getElementById('hover-panel');
-    const placeholder = document.getElementById('hover-placeholder');
-    if (!hoverPanel) return;
-
-    if (!node) {
-        // Mouse left node - hide panel after delay
-        setTimeout(() => {
-            if (_lastHoveredNodeId === null) {
-                hoverPanel.classList.remove('visible');
-                if (placeholder) placeholder.style.display = 'block';
-            }
-        }, 200);
-        _lastHoveredNodeId = null;
-        return;
-    }
-
-    // Only update if node changed (performance)
-    const nodeId = node.id || node.name || '';
-    if (nodeId === _lastHoveredNodeId) return;
-    _lastHoveredNodeId = nodeId;
-
-    // Helper for null-safe element updates
-    const setEl = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = val;
-    };
-
-    // Update hover panel content with canonical taxonomy fields
-    setEl('hover-name', node.name || node.id || 'Unknown');
-    setEl('hover-kind', node.kind || node.symbol_kind || 'node');
-    setEl('hover-atom', node.atom || '--');
-    setEl('hover-family', getNodeAtomFamily(node));
-    setEl('hover-ring', getNodeRing(node));
-    setEl('hover-tier', getNodeTier(node));
-    setEl('hover-role', node.role || '--');
-
-    // Show file path (truncated if long)
-    const filePath = node.file_path || node.file || '';
-    const shortPath = filePath.length > 50 ? '...' + filePath.slice(-47) : filePath;
-    setEl('hover-file', shortPath || '--');
-
-    // Show panel and hide placeholder
-    hoverPanel.classList.add('visible');
-    if (placeholder) placeholder.style.display = 'none';
-}
-
+// getFileHue, getFileColor - MOVED TO modules/color-helpers.js
+// updateHoverPanel, handleNodeHover, handleNodeClick - MOVED TO modules/hover.js
 // buildDatasetKey - MOVED TO modules/utils.js
-
-function loadGroups() {
-    GROUPS = [];
-    try {
-        const stored = localStorage.getItem(GROUPS_STORAGE_KEY);
-        if (stored) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed)) {
-                GROUPS = parsed;
-            }
-        }
-    } catch (e) {
-        // localStorage unavailable
-    }
-    GROUPS = GROUPS.filter(group => group && group.id && Array.isArray(group.node_ids));
-    GROUPS.forEach(group => {
-        if (group.visible === undefined) group.visible = true;
-    });
-}
-
-function saveGroups() {
-    try {
-        localStorage.setItem(GROUPS_STORAGE_KEY, JSON.stringify(GROUPS));
-    } catch (e) {
-        // localStorage unavailable
-    }
-}
-
-function getNextGroupColor() {
-    const hue = (GROUPS.length * 137.5) % 360;
-    return hslColor(hue, 65, 55);
-}
-
-function getGroupById(groupId) {
-    return GROUPS.find(group => group.id === groupId) || null;
-}
-
-function getPrimaryGroupForNode(nodeId) {
-    const visibleGroups = GROUPS.filter(group =>
-        group.visible !== false && Array.isArray(group.node_ids) && group.node_ids.includes(nodeId)
-    );
-    if (!visibleGroups.length) return null;
-    if (ACTIVE_GROUP_ID) {
-        const active = visibleGroups.find(group => group.id === ACTIVE_GROUP_ID);
-        if (active) return active;
-    }
-    return visibleGroups[0];
-}
-
-function renderGroupList() {
-    const container = document.getElementById('group-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (!GROUPS.length) {
-        const empty = document.createElement('div');
-        empty.style.fontSize = '9px';
-        empty.style.color = 'rgba(255,255,255,0.4)';
-        empty.textContent = 'No groups yet';
-        container.appendChild(empty);
-        return;
-    }
-
-    GROUPS.forEach(group => {
-        const row = document.createElement('div');
-        row.className = 'group-item';
-        row.classList.toggle('active', group.id === ACTIVE_GROUP_ID);
-
-        const dot = document.createElement('span');
-        dot.className = 'group-color';
-        dot.style.background = group.color || '#6fe8ff';
-
-        const name = document.createElement('span');
-        name.className = 'group-name';
-        name.textContent = group.name || 'Group';
-
-        const count = document.createElement('span');
-        count.className = 'group-count';
-        count.textContent = String((group.node_ids || []).length);
-
-        const toggle = document.createElement('input');
-        toggle.type = 'checkbox';
-        toggle.className = 'group-toggle';
-        toggle.checked = group.visible !== false;
-        toggle.onchange = (e) => {
-            e.stopPropagation();
-            group.visible = toggle.checked;
-            saveGroups();
-            updateSelectionVisuals();
-            renderGroupList();
-        };
-
-        row.onclick = (e) => {
-            if (e.target === toggle) return;
-            ACTIVE_GROUP_ID = group.id;
-            renderGroupList();
-            setSelection(group.node_ids || []);
-            updateSelectionVisuals();
-        };
-
-        row.appendChild(dot);
-        row.appendChild(name);
-        row.appendChild(count);
-        row.appendChild(toggle);
-        container.appendChild(row);
-    });
-}
-
-function updateGroupButtonState() {
-    const btn = document.getElementById('btn-create-group');
-    if (!btn) return;
-    const hasSelection = SELECTED_NODE_IDS.size > 0;
-    btn.classList.toggle('disabled', !hasSelection);
-    btn.disabled = !hasSelection;
-}
-
-function createGroupFromSelection() {
-    if (SELECTED_NODE_IDS.size === 0) return;
-    const nodeIds = Array.from(SELECTED_NODE_IDS);
-    const groupId = `group_${Date.now().toString(36)}`;
-    const groupName = `Group ${GROUPS.length + 1}`;
-    const groupColor = getNextGroupColor();
-    GROUPS.push({
-        id: groupId,
-        name: groupName,
-        color: groupColor,
-        node_ids: nodeIds,
-        visible: true
-    });
-    ACTIVE_GROUP_ID = groupId;
-    saveGroups();
-    renderGroupList();
-    updateSelectionVisuals();
-    showToast(`Created ${groupName} (${nodeIds.length})`);
-}
+// loadGroups, saveGroups, getNextGroupColor, getGroupById, getPrimaryGroupForNode - MOVED TO modules/groups.js
+// renderGroupList, updateGroupButtonState, createGroupFromSelection - MOVED TO modules/groups.js
 
 function getSelectedNodes() {
     if (!Graph || !Graph.graphData) return [];
@@ -7001,15 +4556,7 @@ function getNodeSpatialPhase(node) {
     return (ripplePhase + angularOffset + 1) % 1;
 }
 
-// Dim a color by reducing its lightness (for non-selected nodes)
-function dimColor(hexColor, factor = 0.33) {
-    // Simple approach: reduce RGB values
-    const hex = hexColor.replace('#', '');
-    const r = Math.round(parseInt(hex.substr(0, 2), 16) * (1 - factor));
-    const g = Math.round(parseInt(hex.substr(2, 2), 16) * (1 - factor));
-    const b = Math.round(parseInt(hex.substr(4, 2), 16) * (1 - factor));
-    return '#' + [r, g, b].map(x => Math.max(0, Math.min(255, x)).toString(16).padStart(2, '0')).join('');
-}
+// dimColor - MOVED TO modules/color-helpers.js
 
 function animateSelectionColors(timestamp) {
     if (!PENDULUM.running) return;
@@ -7353,55 +4900,11 @@ function toggleFileExpand(fileIdx) {
         EXPANDED_FILES.add(fileIdx);
         showToast(`Expanded ${fileLabel}`);
     }
-    GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
+    window.GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
     refreshGraph();
 }
 
-function sampleFileNodes(nodes, maxPoints) {
-    if (nodes.length <= maxPoints) return nodes;
-    const step = Math.ceil(nodes.length / maxPoints);
-    return nodes.filter((_, idx) => idx % step === 0);
-}
-
-function buildHull2D(points) {
-    if (points.length < 3) return null;
-    const unique = new Map();
-    points.forEach(p => {
-        const key = `${p.x.toFixed(4)},${p.y.toFixed(4)}`;
-        if (!unique.has(key)) unique.set(key, p);
-    });
-    const pts = Array.from(unique.values()).sort((a, b) => {
-        if (a.x === b.x) return a.y - b.y;
-        return a.x - b.x;
-    });
-    if (pts.length < 3) return null;
-    const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
-    const lower = [];
-    for (const p of pts) {
-        while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
-            lower.pop();
-        }
-        lower.push(p);
-    }
-    const upper = [];
-    for (let i = pts.length - 1; i >= 0; i--) {
-        const p = pts[i];
-        while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
-            upper.pop();
-        }
-        upper.push(p);
-    }
-    upper.pop();
-    lower.pop();
-    return lower.concat(upper);
-}
-
-function computeCentroid(points) {
-    const centroid = new THREE.Vector3();
-    points.forEach(p => centroid.add(p));
-    return centroid.divideScalar(Math.max(1, points.length));
-}
-
+// sampleFileNodes, buildHull2D, computeCentroid - MOVED TO modules/spatial.js
 // quantile - MOVED TO modules/utils.js
 
 function drawFileBoundaries(data) {
@@ -7711,89 +5214,7 @@ const FILE_CONTAINMENT = {
     isAnimating: false
 };
 
-// ═══════════════════════════════════════════════════════════════════════
-// SPATIAL HASHING - O(n) collision detection instead of O(n²)
-// ═══════════════════════════════════════════════════════════════════════
-
-function buildSpatialGrid(nodes, cellSize) {
-    const grid = new Map();
-
-    nodes.forEach(node => {
-        if (!node || !Number.isFinite(node.x)) return;
-        const cellX = Math.floor(node.x / cellSize);
-        const cellY = Math.floor(node.y / cellSize);
-        const cellZ = IS_3D ? Math.floor((node.z || 0) / cellSize) : 0;
-        const key = `${cellX},${cellY},${cellZ}`;
-
-        if (!grid.has(key)) grid.set(key, []);
-        grid.get(key).push(node);
-    });
-
-    FILE_CONTAINMENT.spatialGrid = grid;
-    return grid;
-}
-
-function getNeighborCells(cellX, cellY, cellZ) {
-    const neighbors = [];
-    for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-            for (let dz = IS_3D ? -1 : 0; dz <= (IS_3D ? 1 : 0); dz++) {
-                neighbors.push(`${cellX + dx},${cellY + dy},${cellZ + dz}`);
-            }
-        }
-    }
-    return neighbors;
-}
-
-// Soft collision - push particles apart smoothly
-function applySoftCollisions(nodes, cellSize, repulsionStrength = 0.5) {
-    if (!FILE_CONTAINMENT.collisionEnabled) return;
-
-    const grid = buildSpatialGrid(nodes, cellSize);
-    const minDist = 8;  // Minimum distance between particles
-    const minDistSq = minDist * minDist;
-
-    nodes.forEach(node => {
-        if (!node || !Number.isFinite(node.x)) return;
-        if (!node.__physics) {
-            node.__physics = { vx: 0, vy: 0, vz: 0 };
-        }
-
-        const cellX = Math.floor(node.x / cellSize);
-        const cellY = Math.floor(node.y / cellSize);
-        const cellZ = IS_3D ? Math.floor((node.z || 0) / cellSize) : 0;
-        const neighborKeys = getNeighborCells(cellX, cellY, cellZ);
-
-        neighborKeys.forEach(key => {
-            const cellNodes = grid.get(key);
-            if (!cellNodes) return;
-
-            cellNodes.forEach(other => {
-                if (other === node) return;
-
-                const dx = node.x - other.x;
-                const dy = node.y - other.y;
-                const dz = IS_3D ? ((node.z || 0) - (other.z || 0)) : 0;
-                const distSq = dx * dx + dy * dy + dz * dz;
-
-                if (distSq < minDistSq && distSq > 0.001) {
-                    const dist = Math.sqrt(distSq);
-                    const overlap = minDist - dist;
-                    const force = (overlap / minDist) * repulsionStrength;
-
-                    // Push apart
-                    const nx = dx / dist;
-                    const ny = dy / dist;
-                    const nz = IS_3D ? dz / dist : 0;
-
-                    node.__physics.vx += nx * force;
-                    node.__physics.vy += ny * force;
-                    if (IS_3D) node.__physics.vz += nz * force;
-                }
-            });
-        });
-    });
-}
+// SPATIAL HASHING: buildSpatialGrid, getNeighborCells, applySoftCollisions - MOVED TO modules/spatial.js
 
 // Build directory tree from file paths
 function buildDirectoryTree(fileBoundaries) {
@@ -8172,7 +5593,7 @@ function setFileModeState(enabled) {
         modeControls.classList.remove('visible');
         expandControls.classList.remove('visible');
         EXPANDED_FILES.clear();
-        GRAPH_MODE = 'atoms';
+        window.GRAPH_MODE = 'atoms';
         HudLayoutManager.reflow();
         clearAllFileModes();
         applyEdgeMode();
@@ -8244,25 +5665,28 @@ document.getElementById('btn-expand-detach').onclick = () => {
 };
 
 function updateExpandButtons() {
-    document.getElementById('btn-expand-inline').classList.toggle('active', FILE_EXPAND_MODE === 'inline');
-    document.getElementById('btn-expand-detach').classList.toggle('active', FILE_EXPAND_MODE === 'detach');
+    const inlineBtn = document.getElementById('btn-expand-inline');
+    const detachBtn = document.getElementById('btn-expand-detach');
+    if (inlineBtn) inlineBtn.classList.toggle('active', FILE_EXPAND_MODE === 'inline');
+    if (detachBtn) detachBtn.classList.toggle('active', FILE_EXPAND_MODE === 'detach');
 }
 
 function setFileVizMode(mode) {
     fileVizMode = mode;
     // Update button states
     document.querySelectorAll('.file-mode-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-file-' + mode).classList.add('active');
+    const modeBtn = document.getElementById('btn-file-' + mode);
+    if (modeBtn) modeBtn.classList.add('active');
     const expandControls = document.getElementById('file-expand-controls');
-    expandControls.classList.toggle('visible', fileVizMode === 'map');
+    if (expandControls) expandControls.classList.toggle('visible', fileVizMode === 'map');
     if (fileVizMode === 'map') {
         updateExpandButtons();
     }
     if (fileVizMode === 'map') {
-        GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
+        window.GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
     } else {
         EXPANDED_FILES.clear();
-        GRAPH_MODE = 'atoms';
+        window.GRAPH_MODE = 'atoms';
     }
     if (!fileMode) {
         setFileModeState(true);
@@ -8308,7 +5732,7 @@ function applyFileVizMode() {
     }
     else if (fileVizMode === 'map') {
         // File map uses file nodes + optional expansion
-        GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
+        window.GRAPH_MODE = (EXPANDED_FILES.size > 0) ? 'hybrid' : 'files';
         refreshGraph();
         showToast('File map active. Click a file node to expand.');
     }
@@ -8370,6 +5794,9 @@ function clearFileBoundaries() {
     fileBoundaryMeshes = [];
 }
 
+// Moved here to avoid temporal dead zone issue
+let fileCohesionActive = false;
+
 function clearAllFileModes() {
     clearFileBoundaries();
     // Reset file cohesion force if active
@@ -8418,136 +5845,7 @@ function clearAllFileModes() {
     }
 }
 
-function applyClusterForce(data) {
-    // ALL DATA FROM DM - the physics pipeline
-    const clusterConfig = data?.physics?.cluster || {};
-    const modeStrength =
-        (typeof clusterConfig.modes?.strong === 'number') ? clusterConfig.modes.strong : null;
-    const sliderStrength =
-        (typeof APPEARANCE_STATE.clusterStrength === 'number') ? APPEARANCE_STATE.clusterStrength : null;
-    const clusterStrength =
-        (typeof sliderStrength === 'number')
-            ? sliderStrength
-            : ((typeof modeStrength === 'number')
-                ? modeStrength
-                : ((typeof clusterConfig.strength === 'number') ? clusterConfig.strength : 0.3));
-    const clusterRadius =
-        (typeof clusterConfig.radius === 'number') ? clusterConfig.radius : 150;
-    const clusterZSpacing =
-        (typeof clusterConfig.zSpacing === 'number') ? clusterConfig.zSpacing : 30;
-    const linkDistance =
-        (typeof clusterConfig.linkDistance === 'number')
-            ? clusterConfig.linkDistance
-            : (data?.physics?.forces?.link?.distance || 50);
-
-    const graphNodes = DM ? DM.getVisibleNodes() : (Graph?.graphData()?.nodes || []);
-    const boundaries = DM ? DM.getFileBoundaries() : (data?.file_boundaries || []);
-    const numFiles = boundaries.length;
-
-    // FIXED TARGET POSITIONS: Arrange files in a circular pattern
-    // This creates CLEAR visual separation instead of clustering around mixed centroids
-    const radius = clusterRadius;  // Separation radius
-    const fileTargets = {};
-
-    for (let i = 0; i < numFiles; i++) {
-        fileTargets[i] = getFileTarget(i, numFiles, radius, clusterZSpacing);
-    }
-
-    // Reduce link distance to keep intra-file nodes tighter
-    Graph.d3Force('link').distance(linkDistance);
-
-    // Apply strong clustering force toward fixed targets
-    Graph.d3Force('cluster', (alpha) => {
-        const k = alpha * clusterStrength;
-        graphNodes.forEach(node => {
-            const target = fileTargets[node.fileIdx];
-            if (target) {
-                node.vx = (node.vx || 0) + (target.x - node.x) * k;
-                node.vy = (node.vy || 0) + (target.y - node.y) * k;
-                if (IS_3D) {
-                    node.vz = (node.vz || 0) + (target.z - node.z) * k;
-                }
-            }
-        });
-    });
-
-    clusterForceActive = true;
-    Graph.d3ReheatSimulation();
-
-    // Also draw hulls after clustering settles
-    scheduleHullRedraw(1500);
-}
-
-// ════════════════════════════════════════════════════════════════════════
-// FILE COHESION FORCE - TOKEN-DRIVEN precise file separation
-// ════════════════════════════════════════════════════════════════════════
-let fileCohesionActive = false;
-
-function applyFileCohesion(data) {
-    if (fileCohesionActive) return;
-
-    // TOKEN-DRIVEN: config from payload, APPEARANCE_STATE override, then defaults
-    const config = data?.physics?.fileCohesion || {};
-    const strength = (typeof APPEARANCE_STATE.fileCohesionStrength === 'number')
-        ? APPEARANCE_STATE.fileCohesionStrength
-        : (config.strength ?? 0.15);
-    const linkMult = config.interFileLinkMultiplier ?? 2.5;
-    const minDist = config.minDistance ?? 20;
-
-    const nodes = DM ? DM.getVisibleNodes() : (Graph?.graphData()?.nodes || []);
-    if (!nodes.length) return;
-
-    // Pre-compute file groups
-    const groups = new Map();
-    nodes.forEach(n => {
-        const f = n.fileIdx ?? -1;
-        if (f >= 0) (groups.get(f) || groups.set(f, []).get(f)).push(n);
-    });
-
-    // Intra-file centroid attraction
-    Graph.d3Force('fileCohesion', (alpha) => {
-        const k = strength * alpha;
-        groups.forEach(g => {
-            if (g.length < 2) return;
-            let cx = 0, cy = 0, cz = 0;
-            g.forEach(n => { cx += n.x || 0; cy += n.y || 0; cz += n.z || 0; });
-            cx /= g.length; cy /= g.length; cz /= g.length;
-            g.forEach(n => {
-                const dx = cx - (n.x || 0), dy = cy - (n.y || 0), dz = cz - (n.z || 0);
-                const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
-                if (d > minDist) {
-                    const f = k * Math.min(1, d / 100);
-                    n.vx = (n.vx || 0) + dx * f;
-                    n.vy = (n.vy || 0) + dy * f;
-                    if (IS_3D) n.vz = (n.vz || 0) + dz * f;
-                }
-            });
-        });
-    });
-
-    // Inter-file links stretched
-    const base = DEFAULT_LINK_DISTANCE || 50;
-    Graph.d3Force('link').distance(link => {
-        const s = typeof link.source === 'object' ? link.source : nodes.find(n => n.id === link.source);
-        const t = typeof link.target === 'object' ? link.target : nodes.find(n => n.id === link.target);
-        if (!s || !t) return base;
-        const sf = s.fileIdx ?? -1, tf = t.fileIdx ?? -1;
-        return (sf >= 0 && tf >= 0 && sf !== tf) ? base * linkMult : base;
-    });
-
-    fileCohesionActive = true;
-    Graph.d3ReheatSimulation();
-}
-
-function clearFileCohesion() {
-    if (!fileCohesionActive) return;
-    Graph.d3Force('fileCohesion', null);
-    if (DEFAULT_LINK_DISTANCE !== null) Graph.d3Force('link').distance(DEFAULT_LINK_DISTANCE);
-    fileCohesionActive = false;
-    Graph.d3ReheatSimulation();
-}
-
-
+// applyClusterForce, applyFileCohesion, clearFileCohesion - MOVED TO modules/file-viz.js
 
 // ════════════════════════════════════════════════════════════════════════
 // SURFACE PARITY HANDLERS - Architectural Enforcements
@@ -8634,7 +5932,7 @@ const PanelManager = {
 
     startDrag(e, panelId) {
         // Don't drag if clicking on interactive elements
-        if (e.target.closest('input, button, select, .collapsible-content, .preset-btn, .layout-btn, .color-scheme-btn')) {
+        if (e.target.closest('input, button, select, .collapsible-content, .preset-btn, .layout-btn, .scheme-btn')) {
             return;
         }
 

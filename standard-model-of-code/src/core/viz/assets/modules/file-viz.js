@@ -388,6 +388,17 @@ const FILE_VIZ = (function() {
         const nodes = dm?.getNodes ? dm.getNodes() : [];
         const links = dm?.getLinks ? dm.getLinks() : [];
 
+        // Get current atom positions from Graph for centroid calculation
+        const currentGraphNodes = (typeof Graph !== 'undefined' && Graph)
+            ? (Graph.graphData()?.nodes || [])
+            : [];
+        const atomPositions = new Map();
+        currentGraphNodes.forEach(n => {
+            if (n && n.id && Number.isFinite(n.x) && Number.isFinite(n.y)) {
+                atomPositions.set(n.id, { x: n.x, y: n.y, z: n.z || 0 });
+            }
+        });
+
         const totalFiles = boundaries.length;
         const fileNodes = [];
         _fileNodeIds.clear();
@@ -400,18 +411,50 @@ const FILE_VIZ = (function() {
             }
         });
 
-        // Create file nodes
+        // Build file -> atoms mapping for centroid calculation
+        const fileAtoms = new Map(); // fileIdx -> [atom positions]
+        nodes.forEach(n => {
+            if (n && n.id && n.fileIdx !== undefined && n.fileIdx >= 0) {
+                const pos = atomPositions.get(n.id);
+                if (pos) {
+                    if (!fileAtoms.has(n.fileIdx)) fileAtoms.set(n.fileIdx, []);
+                    fileAtoms.get(n.fileIdx).push(pos);
+                }
+            }
+        });
+
+        // Create file nodes with centroid positions
         boundaries.forEach((boundary, idx) => {
             const label = boundary.file_name || boundary.file || `file-${idx}`;
             const atomCount = boundary.atom_count || 1;
             const nodeId = `file:${idx}`;
             _fileNodeIds.set(idx, nodeId);
 
+            // Calculate centroid from atom positions (SMOOTH TRANSITION)
+            const atoms = fileAtoms.get(idx) || [];
+            let cx = 0, cy = 0, cz = 0;
+            if (atoms.length > 0) {
+                atoms.forEach(p => { cx += p.x; cy += p.y; cz += p.z; });
+                cx /= atoms.length;
+                cy /= atoms.length;
+                cz /= atoms.length;
+            } else {
+                // Fallback: radial layout for files with no positioned atoms
+                const angle = (idx / totalFiles) * Math.PI * 2;
+                const radius = 200;
+                cx = Math.cos(angle) * radius;
+                cy = Math.sin(angle) * radius;
+                cz = (Math.random() - 0.5) * 50;
+            }
+
             fileNodes.push({
                 id: nodeId,
                 name: label,
                 fileIdx: idx,
                 isFileNode: true,
+                // POSITION: Initialize at centroid of atoms for smooth transition
+                x: cx, y: cy, z: cz,
+                fx: undefined, fy: undefined, fz: undefined, // Allow physics to relax
                 val: Math.max(2, Math.sqrt(atomCount) * 1.5), // Size by atom count
                 color: getColor(idx, totalFiles, label),
                 file_path: boundary.file || '',
@@ -836,6 +879,164 @@ const FILE_VIZ = (function() {
     }
 
     // =========================================================================
+    // FILE CLUSTERING FORCES - D3 force manipulation for file grouping
+    // =========================================================================
+
+    let _clusterForceActive = false;
+    let _fileCohesionActive = false;
+
+    /**
+     * Apply cluster force to group nodes by file
+     * Creates fixed target positions arranged in a circular pattern
+     */
+    function applyClusterForce(data) {
+        const Graph = window.Graph;
+        const DM = window.DM;
+        const APPEARANCE_STATE = window.APPEARANCE_STATE;
+        const IS_3D = window.IS_3D;
+
+        const clusterConfig = data?.physics?.cluster || {};
+        const modeStrength = (typeof clusterConfig.modes?.strong === 'number') ? clusterConfig.modes.strong : null;
+        const sliderStrength = (typeof APPEARANCE_STATE?.clusterStrength === 'number') ? APPEARANCE_STATE.clusterStrength : null;
+        const clusterStrength = (typeof sliderStrength === 'number')
+            ? sliderStrength
+            : ((typeof modeStrength === 'number')
+                ? modeStrength
+                : ((typeof clusterConfig.strength === 'number') ? clusterConfig.strength : 0.3));
+        const clusterRadius = (typeof clusterConfig.radius === 'number') ? clusterConfig.radius : 150;
+        const clusterZSpacing = (typeof clusterConfig.zSpacing === 'number') ? clusterConfig.zSpacing : 30;
+        const linkDistance = (typeof clusterConfig.linkDistance === 'number')
+            ? clusterConfig.linkDistance
+            : (data?.physics?.forces?.link?.distance || 50);
+
+        const graphNodes = DM ? DM.getVisibleNodes() : (Graph?.graphData()?.nodes || []);
+        const boundaries = DM ? DM.getFileBoundaries() : (data?.file_boundaries || []);
+        const numFiles = boundaries.length;
+
+        // Fixed target positions: arrange files in circular pattern
+        const fileTargets = {};
+        for (let i = 0; i < numFiles; i++) {
+            fileTargets[i] = getFileTarget(i, numFiles, clusterRadius, clusterZSpacing);
+        }
+
+        // Reduce link distance to keep intra-file nodes tighter
+        Graph.d3Force('link').distance(linkDistance);
+
+        // Apply strong clustering force toward fixed targets
+        Graph.d3Force('cluster', (alpha) => {
+            const k = alpha * clusterStrength;
+            graphNodes.forEach(node => {
+                const target = fileTargets[node.fileIdx];
+                if (target) {
+                    node.vx = (node.vx || 0) + (target.x - node.x) * k;
+                    node.vy = (node.vy || 0) + (target.y - node.y) * k;
+                    if (IS_3D) {
+                        node.vz = (node.vz || 0) + (target.z - node.z) * k;
+                    }
+                }
+            });
+        });
+
+        _clusterForceActive = true;
+        Graph.d3ReheatSimulation();
+        scheduleHullRedraw(1500);
+    }
+
+    /**
+     * Apply file cohesion force - nodes in same file attract each other
+     * Also stretches inter-file links for better separation
+     */
+    function applyFileCohesion(data) {
+        if (_fileCohesionActive) return;
+
+        const Graph = window.Graph;
+        const DM = window.DM;
+        const APPEARANCE_STATE = window.APPEARANCE_STATE;
+        const IS_3D = window.IS_3D;
+        const DEFAULT_LINK_DISTANCE = window.DEFAULT_LINK_DISTANCE || 50;
+
+        const config = data?.physics?.fileCohesion || {};
+        const strength = (typeof APPEARANCE_STATE?.fileCohesionStrength === 'number')
+            ? APPEARANCE_STATE.fileCohesionStrength
+            : (config.strength ?? 0.15);
+        const linkMult = config.interFileLinkMultiplier ?? 2.5;
+        const minDist = config.minDistance ?? 20;
+
+        const nodes = DM ? DM.getVisibleNodes() : (Graph?.graphData()?.nodes || []);
+        if (!nodes.length) return;
+
+        // Pre-compute file groups
+        const groups = new Map();
+        nodes.forEach(n => {
+            const f = n.fileIdx ?? -1;
+            if (f >= 0) (groups.get(f) || groups.set(f, []).get(f)).push(n);
+        });
+
+        // Intra-file centroid attraction
+        Graph.d3Force('fileCohesion', (alpha) => {
+            const k = strength * alpha;
+            groups.forEach(g => {
+                if (g.length < 2) return;
+                let cx = 0, cy = 0, cz = 0;
+                g.forEach(n => { cx += n.x || 0; cy += n.y || 0; cz += n.z || 0; });
+                cx /= g.length; cy /= g.length; cz /= g.length;
+                g.forEach(n => {
+                    const dx = cx - (n.x || 0), dy = cy - (n.y || 0), dz = cz - (n.z || 0);
+                    const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+                    if (d > minDist) {
+                        const f = k * Math.min(1, d / 100);
+                        n.vx = (n.vx || 0) + dx * f;
+                        n.vy = (n.vy || 0) + dy * f;
+                        if (IS_3D) n.vz = (n.vz || 0) + dz * f;
+                    }
+                });
+            });
+        });
+
+        // Inter-file links stretched
+        const base = DEFAULT_LINK_DISTANCE;
+        Graph.d3Force('link').distance(link => {
+            const s = typeof link.source === 'object' ? link.source : nodes.find(n => n.id === link.source);
+            const t = typeof link.target === 'object' ? link.target : nodes.find(n => n.id === link.target);
+            if (!s || !t) return base;
+            const sf = s.fileIdx ?? -1, tf = t.fileIdx ?? -1;
+            return (sf >= 0 && tf >= 0 && sf !== tf) ? base * linkMult : base;
+        });
+
+        _fileCohesionActive = true;
+        Graph.d3ReheatSimulation();
+    }
+
+    /**
+     * Clear file cohesion force
+     */
+    function clearFileCohesion() {
+        if (!_fileCohesionActive) return;
+
+        const Graph = window.Graph;
+        const DEFAULT_LINK_DISTANCE = window.DEFAULT_LINK_DISTANCE;
+
+        Graph.d3Force('fileCohesion', null);
+        if (DEFAULT_LINK_DISTANCE !== null) {
+            Graph.d3Force('link').distance(DEFAULT_LINK_DISTANCE);
+        }
+        _fileCohesionActive = false;
+        Graph.d3ReheatSimulation();
+    }
+
+    /**
+     * Clear cluster force
+     */
+    function clearClusterForce() {
+        if (!_clusterForceActive) return;
+
+        const Graph = window.Graph;
+        Graph.d3Force('cluster', null);
+        _clusterForceActive = false;
+        Graph.d3ReheatSimulation();
+    }
+
+    // =========================================================================
     // CONFIGURATION
     // =========================================================================
 
@@ -895,6 +1096,14 @@ const FILE_VIZ = (function() {
         clearBoundaries,
         clearAllModes,
         scheduleHullRedraw,
+
+        // File Clustering Forces
+        applyClusterForce,
+        clearClusterForce,
+        applyFileCohesion,
+        clearFileCohesion,
+        get clusterForceActive() { return _clusterForceActive; },
+        get fileCohesionActive() { return _fileCohesionActive; },
 
         // Configuration
         setConfig,
@@ -992,3 +1201,25 @@ function restoreNodePositions(nodes) {
 function getFileTarget(fileIdx, totalFiles, radius, zSpread) {
     return FILE_VIZ.getFileTarget(fileIdx, totalFiles, radius, zSpread);
 }
+
+// File clustering force shims
+function applyClusterForce(data) {
+    FILE_VIZ.applyClusterForce(data);
+}
+function clearClusterForce() {
+    FILE_VIZ.clearClusterForce();
+}
+function applyFileCohesion(data) {
+    FILE_VIZ.applyFileCohesion(data);
+}
+function clearFileCohesion() {
+    FILE_VIZ.clearFileCohesion();
+}
+Object.defineProperty(window, 'clusterForceActive', {
+    get: () => FILE_VIZ.clusterForceActive,
+    configurable: true
+});
+Object.defineProperty(window, 'fileCohesionActive', {
+    get: () => FILE_VIZ.fileCohesionActive,
+    configurable: true
+});
