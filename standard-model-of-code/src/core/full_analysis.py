@@ -19,6 +19,8 @@ from pathlib import Path
 from collections import Counter, defaultdict
 from typing import Dict, List, Any, Optional
 
+from src.core.file_enricher import FileEnricher
+
 
 
 # =============================================================================
@@ -713,6 +715,25 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Graph analytics skipped: {e}")
 
+    # Stage 6.6: Statistical Metrics (Entropy, Complexity, Halstead)
+    print("\n📊 Stage 6.6: Statistical Metrics...")
+    with StageTimer(perf_manager, "Stage 6.6: Statistical Metrics") as timer:
+        try:
+            from analytics_engine import compute_all_metrics
+            statistical_metrics = compute_all_metrics(nodes)
+            timer.set_output(
+                avg_cyclomatic=statistical_metrics['complexity']['avg'],
+                total_volume=statistical_metrics['halstead']['total_volume'],
+                estimated_bugs=statistical_metrics['halstead']['estimated_bugs']
+            )
+            print(f"   → Avg cyclomatic: {statistical_metrics['complexity']['avg']}")
+            print(f"   → High complexity nodes: {statistical_metrics['complexity']['high_complexity_count']}")
+            print(f"   → Est. bugs: {statistical_metrics['halstead']['estimated_bugs']}")
+        except Exception as e:
+            statistical_metrics = {}
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Statistical metrics skipped: {e}")
+
     # Stage 7: Data Flow
     print("\n🌊 Stage 7: Data Flow Analysis...")
     with StageTimer(perf_manager, "Stage 7: Data Flow Analysis") as timer:
@@ -867,6 +888,15 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "File Index Building") as timer:
         files_index = build_file_index(nodes, edges, str(target))
         file_boundaries = build_file_boundaries(files_index)
+
+        # Enrich file boundaries with comprehensive metadata
+        try:
+            enricher = FileEnricher(root_path=str(target), enable_git=False)
+            file_boundaries = enricher.enrich_boundaries(file_boundaries)
+            print(f"   → File metadata enriched for {len(file_boundaries)} files")
+        except Exception as e:
+            print(f"   ⚠️ File enrichment failed: {e}")
+
         full_output['files'] = files_index
         full_output['file_boundaries'] = file_boundaries
         full_output['counts']['files_with_atoms'] = len(files_index)
