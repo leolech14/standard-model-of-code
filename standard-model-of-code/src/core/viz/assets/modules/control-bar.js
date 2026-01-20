@@ -263,23 +263,30 @@ const CONTROL_BAR = (function() {
 
         const style = document.createElement('style');
         style.id = 'control-bar-styles';
+        /* DE-GLAMORIZED: Muted, discreet colors - UI should be invisible */
+        /* FLOATING MAPPER: Centered, compact, ChatGPT-style input bar */
         style.textContent = `
             .control-bar {
                 position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
+                bottom: 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 900px;
+                width: calc(100% - 48px);
                 z-index: 9999;
-                background: linear-gradient(180deg, rgba(20, 25, 35, 0.95) 0%, rgba(15, 18, 25, 0.98) 100%);
-                backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(100, 150, 255, 0.2);
-                box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
-                transition: transform 0.3s ease;
+                background: linear-gradient(180deg, rgba(28, 30, 35, 0.95) 0%, rgba(22, 24, 28, 0.98) 100%);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(100, 105, 115, 0.15);
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+                transition: transform 0.3s ease, opacity 0.3s ease;
                 font-family: 'SF Mono', 'Consolas', monospace;
             }
 
             .control-bar.collapsed {
-                transform: translateY(calc(100% - 32px));
+                transform: translateX(-50%) translateY(calc(100% + 24px));
+                opacity: 0;
+                pointer-events: none;
             }
 
             .control-bar-inner {
@@ -301,7 +308,7 @@ const CONTROL_BAR = (function() {
             .control-section label {
                 font-size: 9px;
                 font-weight: 600;
-                color: rgba(150, 180, 255, 0.6);
+                color: rgba(140, 145, 155, 0.6);
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
@@ -313,14 +320,14 @@ const CONTROL_BAR = (function() {
 
             .arrow {
                 font-size: 20px;
-                color: rgba(100, 200, 255, 0.7);
+                color: rgba(130, 140, 155, 0.5);
             }
 
             .cb-select {
-                background: rgba(30, 40, 60, 0.8);
-                border: 1px solid rgba(100, 150, 255, 0.3);
+                background: rgba(35, 38, 45, 0.85);
+                border: 1px solid rgba(100, 105, 115, 0.2);
                 border-radius: 6px;
-                color: #e0e8ff;
+                color: #c8ccd5;
                 padding: 8px 12px;
                 font-size: 13px;
                 font-family: inherit;
@@ -330,14 +337,14 @@ const CONTROL_BAR = (function() {
             }
 
             .cb-select:hover {
-                border-color: rgba(100, 180, 255, 0.5);
-                background: rgba(40, 50, 70, 0.9);
+                border-color: rgba(120, 125, 135, 0.35);
+                background: rgba(45, 48, 55, 0.9);
             }
 
             .cb-select:focus {
                 outline: none;
-                border-color: rgba(100, 200, 255, 0.7);
-                box-shadow: 0 0 10px rgba(100, 180, 255, 0.3);
+                border-color: rgba(130, 135, 145, 0.45);
+                box-shadow: none;
             }
 
             .cb-select-small {
@@ -345,10 +352,10 @@ const CONTROL_BAR = (function() {
             }
 
             .cb-btn {
-                background: rgba(60, 80, 120, 0.6);
-                border: 1px solid rgba(100, 150, 255, 0.3);
+                background: rgba(50, 55, 65, 0.6);
+                border: 1px solid rgba(100, 105, 115, 0.2);
                 border-radius: 6px;
-                color: #c0d0ff;
+                color: #b0b5c0;
                 padding: 8px 16px;
                 font-size: 12px;
                 font-weight: 600;
@@ -360,18 +367,18 @@ const CONTROL_BAR = (function() {
             }
 
             .cb-btn:hover {
-                background: rgba(80, 100, 150, 0.8);
-                border-color: rgba(100, 180, 255, 0.5);
+                background: rgba(65, 70, 80, 0.75);
+                border-color: rgba(120, 125, 135, 0.3);
             }
 
             .cb-btn-primary {
-                background: linear-gradient(135deg, rgba(60, 120, 200, 0.8) 0%, rgba(80, 100, 180, 0.8) 100%);
-                border-color: rgba(100, 180, 255, 0.5);
+                background: linear-gradient(135deg, rgba(60, 65, 75, 0.8) 0%, rgba(55, 60, 70, 0.8) 100%);
+                border-color: rgba(120, 125, 135, 0.3);
             }
 
             .cb-btn-primary:hover {
-                background: linear-gradient(135deg, rgba(80, 140, 220, 0.9) 0%, rgba(100, 120, 200, 0.9) 100%);
-                box-shadow: 0 0 15px rgba(100, 180, 255, 0.4);
+                background: linear-gradient(135deg, rgba(70, 75, 85, 0.9) 0%, rgba(65, 70, 80, 0.9) 100%);
+                box-shadow: none;
             }
 
             .cb-btn-small {
@@ -383,12 +390,12 @@ const CONTROL_BAR = (function() {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                background: rgba(100, 150, 255, 0.3);
+                background: rgba(100, 105, 115, 0.2);
                 border-radius: 10px;
                 padding: 2px 8px;
                 font-size: 11px;
                 font-weight: 600;
-                color: #a0c0ff;
+                color: #a0a5b0;
                 min-width: 20px;
             }
 
@@ -419,19 +426,19 @@ const CONTROL_BAR = (function() {
                 display: inline-flex;
                 align-items: center;
                 gap: 6px;
-                background: rgba(40, 50, 70, 0.8);
-                border: 1px solid rgba(100, 150, 255, 0.3);
+                background: rgba(40, 45, 55, 0.8);
+                border: 1px solid rgba(100, 105, 115, 0.2);
                 border-radius: 14px;
                 padding: 4px 10px;
                 font-size: 11px;
-                color: #c0d0ff;
+                color: #b0b5c0;
                 cursor: pointer;
                 transition: all 0.2s;
             }
 
             .group-chip:hover {
-                background: rgba(60, 70, 100, 0.9);
-                border-color: rgba(100, 180, 255, 0.5);
+                background: rgba(55, 60, 70, 0.85);
+                border-color: rgba(120, 125, 135, 0.3);
             }
 
             .group-chip .group-color {
@@ -442,35 +449,46 @@ const CONTROL_BAR = (function() {
 
             .group-chip .group-count {
                 font-weight: 600;
-                color: #80a0ff;
+                color: #909598;
             }
 
             .group-chip .group-remove {
-                color: rgba(255, 100, 100, 0.6);
+                color: rgba(180, 100, 100, 0.5);
                 font-weight: bold;
                 margin-left: 4px;
             }
 
             .group-chip .group-remove:hover {
-                color: rgba(255, 100, 100, 1);
+                color: rgba(180, 100, 100, 0.8);
             }
 
             .cb-toggle {
                 position: absolute;
-                top: -24px;
-                right: 20px;
-                background: rgba(30, 40, 60, 0.95);
-                border: 1px solid rgba(100, 150, 255, 0.3);
-                border-bottom: none;
-                border-radius: 8px 8px 0 0;
+                top: -28px;
+                right: 16px;
+                background: rgba(35, 38, 45, 0.95);
+                border: 1px solid rgba(100, 105, 115, 0.2);
+                border-radius: 8px;
                 padding: 4px 12px;
-                color: #80a0ff;
+                color: #909598;
                 cursor: pointer;
                 font-size: 12px;
             }
 
             .cb-toggle:hover {
-                background: rgba(40, 50, 70, 0.95);
+                background: rgba(45, 48, 55, 0.95);
+            }
+
+            /* When collapsed, show a floating pill button at bottom center */
+            .control-bar.collapsed .cb-toggle {
+                position: fixed;
+                bottom: 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                top: auto;
+                right: auto;
+                border-radius: 20px;
+                padding: 8px 16px;
             }
 
             .control-bar.collapsed .cb-toggle .chevron {
@@ -487,7 +505,7 @@ const CONTROL_BAR = (function() {
                 display: flex;
                 gap: 12px;
                 font-size: 11px;
-                color: rgba(150, 180, 255, 0.7);
+                color: rgba(140, 145, 155, 0.6);
             }
 
             .cb-stat {
@@ -496,7 +514,7 @@ const CONTROL_BAR = (function() {
             }
 
             .cb-stat-value {
-                color: #80c0ff;
+                color: #a0a5b0;
                 font-weight: 600;
             }
         `;

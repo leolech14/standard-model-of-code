@@ -42,6 +42,10 @@ window.SIDEBAR = (function () {
         _bindPhysicsControls();
         _bindAppearanceControls();
         _bindActionButtons();
+        initSchemeNavigator();
+        initViewModeToggle();
+        initSectionResize();   // Enable vertical section resizing
+        initSidebarResize();   // Enable horizontal sidebar resizing
 
         console.log('[SIDEBAR] Initialized');
     }
@@ -130,6 +134,28 @@ window.SIDEBAR = (function () {
         }
     ];
 
+    // =========================================================================
+    // SCHEME NAVIGATOR: 33 Named Color Schemes
+    // =========================================================================
+
+    const SCHEME_CONFIG = [
+        // PART A: Famous Scientific (15)
+        { category: 'Sequential', schemes: ['viridis', 'plasma', 'magma', 'inferno', 'cividis', 'turbo', 'mako', 'rocket'] },
+        { category: 'Diverging', schemes: ['coolwarm', 'spectral'] },
+        { category: 'Thematic', schemes: ['thermal', 'nightvision', 'ocean', 'terrain', 'electric'] },
+
+        // PART B: Role-Semantic (18 key roles)
+        { category: 'Access', schemes: ['query', 'finder'] },
+        { category: 'Mutation', schemes: ['command', 'creator', 'destroyer'] },
+        { category: 'Construction', schemes: ['factory'] },
+        { category: 'Storage', schemes: ['repository', 'cache'] },
+        { category: 'Control', schemes: ['service', 'orchestrator'] },
+        { category: 'Validation', schemes: ['validator', 'guard'] },
+        { category: 'Transform', schemes: ['transformer', 'parser'] },
+        { category: 'Events', schemes: ['handler', 'emitter'] },
+        { category: 'Support', schemes: ['utility', 'lifecycle'] }
+    ];
+
     function _bindColorPresets() {
         // Init Smart Sidebar
         const container = document.getElementById('section-color');
@@ -205,6 +231,299 @@ window.SIDEBAR = (function () {
             catDiv.appendChild(grid);
             container.appendChild(catDiv);
         });
+    }
+
+    // =========================================================================
+    // SCHEME NAVIGATOR RENDERER
+    // =========================================================================
+
+    function renderSchemeNavigator(container) {
+        if (!container) return;
+        container.innerHTML = '';
+
+        // Search bar
+        const searchContainer = document.createElement('div');
+        searchContainer.style.cssText = 'padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border);';
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.placeholder = 'Filter Schemes...';
+        searchInput.style.cssText = 'width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 4px 8px; color: var(--text); border-radius: 4px; font-size: 10px;';
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.scheme-category').forEach(cat => {
+                let hasMatch = false;
+                cat.querySelectorAll('.scheme-btn').forEach(btn => {
+                    const match = btn.dataset.scheme.toLowerCase().includes(term) ||
+                                  (btn.title && btn.title.toLowerCase().includes(term));
+                    btn.style.display = match ? 'inline-block' : 'none';
+                    if (match) hasMatch = true;
+                });
+                cat.style.display = hasMatch ? 'block' : 'none';
+            });
+        });
+
+        searchContainer.appendChild(searchInput);
+        container.appendChild(searchContainer);
+
+        // Render Categories
+        SCHEME_CONFIG.forEach(section => {
+            const catDiv = document.createElement('div');
+            catDiv.className = 'scheme-category';
+            catDiv.style.marginBottom = '12px';
+
+            const catTitle = document.createElement('div');
+            catTitle.textContent = section.category;
+            catTitle.style.cssText = 'font-size: 9px; opacity: 0.5; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;';
+            catDiv.appendChild(catTitle);
+
+            const grid = document.createElement('div');
+            grid.className = 'scheme-grid';
+            grid.style.cssText = 'display: flex; flex-wrap: wrap; gap: 4px;';
+
+            section.schemes.forEach(schemeName => {
+                const btn = document.createElement('button');
+                btn.className = 'scheme-btn';
+                btn.dataset.scheme = schemeName;
+
+                // Get scheme info from COLOR engine
+                let info = { name: schemeName, semantic: '' };
+                if (typeof COLOR !== 'undefined' && COLOR.getSchemeInfo) {
+                    info = COLOR.getSchemeInfo(schemeName);
+                }
+
+                btn.textContent = info.name;
+                btn.title = info.semantic;
+
+                // Apply gradient preview background
+                if (typeof COLOR !== 'undefined' && COLOR.getSchemeGradientCSS) {
+                    const gradient = COLOR.getSchemeGradientCSS(schemeName);
+                    btn.style.background = gradient;
+                }
+
+                btn.addEventListener('click', () => {
+                    applyColorScheme(schemeName);
+                    // Update UI active state
+                    document.querySelectorAll('.scheme-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+
+                grid.appendChild(btn);
+            });
+
+            catDiv.appendChild(grid);
+            container.appendChild(catDiv);
+        });
+    }
+
+    /**
+     * Apply a named color scheme
+     */
+    function applyColorScheme(schemeName) {
+        if (typeof COLOR !== 'undefined' && COLOR.applyScheme) {
+            COLOR.applyScheme(schemeName);
+        }
+
+        // Save preference
+        try {
+            localStorage.setItem('collider_scheme', schemeName);
+        } catch (e) { /* ignore */ }
+
+        // Trigger graph refresh if needed
+        if (typeof Graph !== 'undefined' && Graph) {
+            // Refresh node colors using the scheme
+            if (typeof refreshNodeColors === 'function') {
+                refreshNodeColors();
+            }
+            // Refresh edge colors
+            if (typeof window !== 'undefined' && typeof window.refreshGradientEdgeColors === 'function') {
+                window.refreshGradientEdgeColors();
+            }
+        }
+
+        console.log('[SIDEBAR] Applied scheme:', schemeName);
+    }
+
+    /**
+     * Initialize scheme navigator in sidebar
+     */
+    function initSchemeNavigator() {
+        const container = document.getElementById('section-schemes');
+        if (container) {
+            renderSchemeNavigator(container);
+        }
+
+        // Setup collapsible header for schemes panel
+        const collapsibleHeaders = document.querySelectorAll('.info-panel-header.collapsible');
+        collapsibleHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const targetId = header.dataset.target;
+                const content = document.getElementById(targetId);
+                if (content) {
+                    const isCollapsed = content.classList.toggle('collapsed');
+                    header.classList.toggle('collapsed', isCollapsed);
+                }
+            });
+        });
+
+        // Setup color mode buttons (for right sidebar)
+        const colorBtns = document.querySelectorAll('.color-panel .color-btn');
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const preset = btn.dataset.preset;
+                if (!preset) return;
+
+                // Update active state
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Apply color mode
+                setColorMode(preset);
+            });
+        });
+
+        // Load saved preference
+        try {
+            const saved = localStorage.getItem('collider_scheme');
+            if (saved) {
+                applyColorScheme(saved);
+                // Mark button as active
+                const btn = document.querySelector(`.scheme-btn[data-scheme="${saved}"]`);
+                if (btn) btn.classList.add('active');
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    // =========================================================================
+    // VIEW MODE TOGGLE (ATOMS vs FILES)
+    // =========================================================================
+
+    let _currentViewMode = 'atoms';
+    let _deferredViewMode = null;  // Stores mode to apply after data loads
+
+    /**
+     * Initialize the view mode toggle (Atoms vs Files)
+     * Note: Only sets up event handlers and button visual state.
+     * Actual mode application for 'files' is deferred until data is loaded.
+     */
+    function initViewModeToggle() {
+        const toggle = document.getElementById('view-mode-toggle');
+        if (!toggle) return;
+
+        const buttons = toggle.querySelectorAll('.view-mode-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.mode;
+                if (!mode || mode === _currentViewMode) return;
+
+                setViewMode(mode);
+            });
+        });
+
+        // Load saved preference - but only update button state, defer actual mode switch
+        try {
+            const saved = localStorage.getItem('collider_view_mode');
+            if (saved && (saved === 'atoms' || saved === 'files')) {
+                // Update button visual state immediately
+                buttons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === saved);
+                });
+                _currentViewMode = saved;
+
+                // If files mode, defer application until data is loaded
+                if (saved === 'files') {
+                    _deferredViewMode = 'files';
+                    console.log('[SIDEBAR] Files mode saved - deferring until data loads');
+                }
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    /**
+     * Apply deferred view mode after data is loaded
+     * Call this from initGraph() after DM.init() completes
+     */
+    function applyDeferredViewMode() {
+        if (_deferredViewMode === 'files') {
+            console.log('[SIDEBAR] Applying deferred files mode now that data is loaded');
+            _deferredViewMode = null;  // Clear to prevent re-application
+
+            // Apply files mode (data is now available)
+            if (typeof FILE_VIZ !== 'undefined') {
+                FILE_VIZ.buildFileGraph();
+                window.GRAPH_MODE = 'files';
+                FILE_VIZ.graphMode = 'files';
+                FILE_VIZ.setMode('map');
+                FILE_VIZ.setEnabled(true);
+                console.log('[SIDEBAR] View mode: FILES - showing file nodes');
+
+                if (typeof showToast === 'function') {
+                    showToast('FILE VIEW: Each node is a file. Click to expand.');
+                }
+            }
+        }
+    }
+
+    /**
+     * Set the view mode (atoms or files)
+     */
+    function setViewMode(mode) {
+        if (mode !== 'atoms' && mode !== 'files') return;
+        _currentViewMode = mode;
+
+        // Update button states
+        const buttons = document.querySelectorAll('.view-mode-btn');
+        buttons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+
+        // Save preference
+        try {
+            localStorage.setItem('collider_view_mode', mode);
+        } catch (e) { /* ignore */ }
+
+        // Apply view mode via FILE_VIZ module
+        if (mode === 'files') {
+            // Switch to file-nodes view
+            if (typeof FILE_VIZ !== 'undefined') {
+                // Build the file graph first (required before switching mode)
+                FILE_VIZ.buildFileGraph();
+                window.GRAPH_MODE = 'files';
+                FILE_VIZ.graphMode = 'files';
+                FILE_VIZ.setMode('map');
+                FILE_VIZ.setEnabled(true);
+            } else if (typeof window.GRAPH_MODE !== 'undefined') {
+                window.GRAPH_MODE = 'files';
+                if (typeof buildFileGraph === 'function') buildFileGraph(null);
+                if (typeof refreshGraph === 'function') refreshGraph();
+            }
+            console.log('[SIDEBAR] View mode: FILES - showing file nodes');
+        } else {
+            // Switch to atoms view
+            if (typeof FILE_VIZ !== 'undefined') {
+                FILE_VIZ.graphMode = 'atoms';
+                FILE_VIZ.setEnabled(false);
+            } else if (typeof window.GRAPH_MODE !== 'undefined') {
+                window.GRAPH_MODE = 'atoms';
+                if (typeof refreshGraph === 'function') refreshGraph();
+            }
+            console.log('[SIDEBAR] View mode: ATOMS - showing individual atoms');
+        }
+
+        // Show toast notification
+        if (typeof showToast === 'function') {
+            const msg = mode === 'files'
+                ? 'FILE VIEW: Each node is a file. Click to expand.'
+                : 'ATOM VIEW: Each node is a code element.';
+            showToast(msg);
+        }
+    }
+
+    /**
+     * Get current view mode
+     */
+    function getViewMode() {
+        return _currentViewMode;
     }
 
     function setColorMode(mode) {
@@ -650,15 +969,241 @@ window.SIDEBAR = (function () {
     }
 
     // =========================================================================
+    // SECTION RESIZING - Vertical drag handles
+    // =========================================================================
+
+    const SECTION_HEIGHT_KEY = 'viz_section_heights';
+    let _resizeState = { active: false, section: null, startY: 0, startHeight: 0 };
+
+    function initSectionResize() {
+        // Add resize handles to each section
+        document.querySelectorAll('.section-content').forEach(content => {
+            const sectionId = content.id;
+            if (!sectionId) return;
+
+            // Make content resizable
+            content.classList.add('resizable');
+
+            // Create resize handle
+            const handle = document.createElement('div');
+            handle.className = 'section-resize-handle';
+            handle.dataset.section = sectionId;
+
+            // Insert after section-content (before next section)
+            const section = content.closest('.section');
+            if (section && section.nextElementSibling) {
+                section.parentNode.insertBefore(handle, section.nextElementSibling);
+            }
+
+            // Bind drag events
+            handle.addEventListener('mousedown', _startResize);
+        });
+
+        // Global mouse events
+        document.addEventListener('mousemove', _onResize);
+        document.addEventListener('mouseup', _endResize);
+
+        // Restore saved heights
+        _restoreSectionHeights();
+
+        console.log('[SIDEBAR] Section resize initialized');
+    }
+
+    function _startResize(e) {
+        const sectionId = e.target.dataset.section;
+        const content = document.getElementById(sectionId);
+        if (!content) return;
+
+        _resizeState = {
+            active: true,
+            section: content,
+            startY: e.clientY,
+            startHeight: content.offsetHeight
+        };
+
+        e.target.classList.add('dragging');
+        document.body.style.cursor = 'ns-resize';
+        e.preventDefault();
+    }
+
+    function _onResize(e) {
+        if (!_resizeState.active || !_resizeState.section) return;
+
+        const delta = e.clientY - _resizeState.startY;
+        const newHeight = Math.max(60, Math.min(400, _resizeState.startHeight + delta));
+
+        _resizeState.section.style.maxHeight = newHeight + 'px';
+    }
+
+    function _endResize() {
+        if (!_resizeState.active) return;
+
+        // Save height
+        if (_resizeState.section) {
+            _saveSectionHeight(_resizeState.section.id, _resizeState.section.style.maxHeight);
+        }
+
+        // Cleanup
+        document.querySelectorAll('.section-resize-handle.dragging').forEach(h => {
+            h.classList.remove('dragging');
+        });
+        document.body.style.cursor = '';
+
+        _resizeState = { active: false, section: null, startY: 0, startHeight: 0 };
+    }
+
+    function _saveSectionHeight(sectionId, height) {
+        try {
+            const heights = JSON.parse(localStorage.getItem(SECTION_HEIGHT_KEY) || '{}');
+            heights[sectionId] = height;
+            localStorage.setItem(SECTION_HEIGHT_KEY, JSON.stringify(heights));
+        } catch (e) {
+            console.warn('[SIDEBAR] Could not save section height:', e);
+        }
+    }
+
+    function _restoreSectionHeights() {
+        try {
+            const heights = JSON.parse(localStorage.getItem(SECTION_HEIGHT_KEY) || '{}');
+            Object.entries(heights).forEach(([sectionId, height]) => {
+                const content = document.getElementById(sectionId);
+                if (content && height) {
+                    content.style.maxHeight = height;
+                }
+            });
+        } catch (e) {
+            console.warn('[SIDEBAR] Could not restore section heights:', e);
+        }
+    }
+
+    // =========================================================================
+    // SIDEBAR RESIZING - Horizontal drag handles
+    // =========================================================================
+
+    const SIDEBAR_WIDTH_KEY = 'viz_sidebar_widths';
+    let _sidebarResizeState = { active: false, side: null, startX: 0, startWidth: 0 };
+
+    function initSidebarResize() {
+        const leftHandle = document.getElementById('left-resize-handle');
+        const rightHandle = document.getElementById('right-resize-handle');
+
+        if (leftHandle) {
+            leftHandle.addEventListener('mousedown', (e) => _startSidebarResize(e, 'left'));
+        }
+        if (rightHandle) {
+            rightHandle.addEventListener('mousedown', (e) => _startSidebarResize(e, 'right'));
+        }
+
+        // Global mouse events
+        document.addEventListener('mousemove', _onSidebarResize);
+        document.addEventListener('mouseup', _endSidebarResize);
+
+        // Restore saved widths
+        _restoreSidebarWidths();
+
+        console.log('[SIDEBAR] Sidebar resize initialized');
+    }
+
+    function _startSidebarResize(e, side) {
+        const cssVar = side === 'left' ? '--sidebar-width' : '--right-panel-width';
+        const currentWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue(cssVar)) || 280;
+
+        _sidebarResizeState = {
+            active: true,
+            side: side,
+            startX: e.clientX,
+            startWidth: currentWidth
+        };
+
+        e.target.classList.add('dragging');
+        document.body.style.cursor = 'ew-resize';
+        e.preventDefault();
+    }
+
+    function _onSidebarResize(e) {
+        if (!_sidebarResizeState.active) return;
+
+        const { side, startX, startWidth } = _sidebarResizeState;
+        const delta = side === 'left' ? (e.clientX - startX) : (startX - e.clientX);
+        const minWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--min-sidebar-width')) || 200;
+        const maxWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--max-sidebar-width')) || 400;
+        const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + delta));
+
+        const cssVar = side === 'left' ? '--sidebar-width' : '--right-panel-width';
+        document.documentElement.style.setProperty(cssVar, newWidth + 'px');
+
+        // Update handle position
+        const handle = document.getElementById(`${side}-resize-handle`);
+        if (handle) {
+            if (side === 'left') {
+                handle.style.left = (newWidth - 3) + 'px';
+            } else {
+                handle.style.right = (newWidth - 3) + 'px';
+            }
+        }
+    }
+
+    function _endSidebarResize() {
+        if (!_sidebarResizeState.active) return;
+
+        // Save widths
+        _saveSidebarWidths();
+
+        // Cleanup
+        document.querySelectorAll('.sidebar-resize-handle.dragging').forEach(h => {
+            h.classList.remove('dragging');
+        });
+        document.body.style.cursor = '';
+
+        _sidebarResizeState = { active: false, side: null, startX: 0, startWidth: 0 };
+    }
+
+    function _saveSidebarWidths() {
+        try {
+            const left = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width');
+            const right = getComputedStyle(document.documentElement).getPropertyValue('--right-panel-width');
+            localStorage.setItem(SIDEBAR_WIDTH_KEY, JSON.stringify({ left, right }));
+        } catch (e) {
+            console.warn('[SIDEBAR] Could not save sidebar widths:', e);
+        }
+    }
+
+    function _restoreSidebarWidths() {
+        try {
+            const widths = JSON.parse(localStorage.getItem(SIDEBAR_WIDTH_KEY) || '{}');
+            if (widths.left) {
+                document.documentElement.style.setProperty('--sidebar-width', widths.left);
+                const leftHandle = document.getElementById('left-resize-handle');
+                if (leftHandle) leftHandle.style.left = `calc(${widths.left} - 3px)`;
+            }
+            if (widths.right) {
+                document.documentElement.style.setProperty('--right-panel-width', widths.right);
+                const rightHandle = document.getElementById('right-resize-handle');
+                if (rightHandle) rightHandle.style.right = `calc(${widths.right} - 3px)`;
+            }
+        } catch (e) {
+            console.warn('[SIDEBAR] Could not restore sidebar widths:', e);
+        }
+    }
+
+    // =========================================================================
     // PUBLIC API
     // =========================================================================
 
     return {
         // Initialization
         init,
+        initSectionResize,
+        initSidebarResize,
 
         // Color modes
         setColorMode,
+
+        // Color Schemes (33 named gradients)
+        applyColorScheme,
+        renderSchemeNavigator,
+        initSchemeNavigator,
+        SCHEME_CONFIG,
 
         // Layouts
         setLayout,
@@ -667,7 +1212,6 @@ window.SIDEBAR = (function () {
         setPhysicsPreset,
         PHYSICS_PRESETS,
 
-        // Filters
         // Filters
         populateFilterChips,
         setFilter,
@@ -679,7 +1223,13 @@ window.SIDEBAR = (function () {
         updateSelectionPanel,
 
         // Stats
-        updateStats
+        updateStats,
+
+        // View Mode (ATOMS/FILES toggle)
+        initViewModeToggle,
+        setViewMode,
+        getViewMode,
+        applyDeferredViewMode
     };
 })();
 

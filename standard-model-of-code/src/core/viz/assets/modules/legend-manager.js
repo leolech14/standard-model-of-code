@@ -174,6 +174,91 @@ const LEGEND = (function() {
     }
 
     // =========================================================================
+    // DOM RENDERING
+    // =========================================================================
+
+    /**
+     * Render a legend section to the DOM
+     * @param {string} containerId - DOM container ID
+     * @param {string} dimension - Dimension to render (tier, family, etc.)
+     * @param {Set} stateSet - Filter state set (items to show)
+     * @param {Function} onUpdate - Callback when filter changes
+     */
+    function renderSection(containerId, dimension, stateSet, onUpdate) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const legendData = getLegendData(dimension);
+        if (!legendData || legendData.length === 0) return;
+
+        // Build legend items
+        legendData.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'topo-legend-item' + (stateSet && !stateSet.has(item.id) ? ' filtered' : '');
+            el.dataset.category = item.id;
+            el.dataset.dimension = dimension;
+
+            // Color swatch
+            const swatch = document.createElement('span');
+            swatch.className = 'topo-legend-swatch';
+            swatch.style.backgroundColor = item.color;
+
+            // Label with count
+            const label = document.createElement('span');
+            label.className = 'topo-legend-label';
+            label.textContent = item.id;
+
+            const count = document.createElement('span');
+            count.className = 'topo-legend-count';
+            count.textContent = `(${item.count})`;
+
+            el.appendChild(swatch);
+            el.appendChild(label);
+            el.appendChild(count);
+
+            // Click to toggle filter
+            if (stateSet) {
+                el.addEventListener('click', () => {
+                    if (stateSet.has(item.id)) {
+                        stateSet.delete(item.id);
+                        el.classList.add('filtered');
+                    } else {
+                        stateSet.add(item.id);
+                        el.classList.remove('filtered');
+                    }
+                    if (onUpdate) onUpdate();
+                });
+            }
+
+            container.appendChild(el);
+        });
+
+        console.log(`[Legend] Rendered ${dimension}: ${legendData.length} items`);
+    }
+
+    /**
+     * Render all legend sections
+     * @param {Object} filters - VIS_FILTERS object with filter Sets
+     * @param {Function} onUpdate - Callback when any filter changes (typically refreshGraph)
+     */
+    function renderAll(filters, onUpdate) {
+        // Render node legends
+        renderSection('topo-tiers', 'tier', filters?.tiers, onUpdate);
+        renderSection('topo-families', 'family', filters?.families, onUpdate);
+        renderSection('topo-rings', 'ring', filters?.rings, onUpdate);
+        renderSection('topo-layers', 'layer', filters?.layers, onUpdate);
+        renderSection('topo-effects', 'effect', filters?.effects, onUpdate);
+
+        // Render edge legends
+        renderSection('topo-edges', 'edgeType', filters?.edges, onUpdate);
+        renderSection('topo-edge-families', 'edgeFamily', filters?.edgeFamilies, onUpdate);
+
+        console.log('[Legend] All sections rendered');
+    }
+
+    // =========================================================================
     // PUBLIC API
     // =========================================================================
 
@@ -185,6 +270,8 @@ const LEGEND = (function() {
         getDimensions,
         getDimensionMeta,
         subscribe,
+        renderSection,
+        renderAll,
 
         // Direct access to dimensions (for migration)
         dimensions,
@@ -235,3 +322,25 @@ class LegendManager {
 
 // Global Legend instance - defined by app.js (not duplicated here to avoid redeclaration)
 // Legend is accessed as a global variable provided by app.js
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BACKWARD COMPATIBILITY SHIMS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// renderLegendSection calls LEGEND.renderSection with Legend (global) as source
+window.renderLegendSection = function(containerId, dimension, stateSet, onUpdate) {
+    LEGEND.renderSection(containerId, dimension, stateSet, onUpdate);
+};
+
+// renderAllLegends uses VIS_FILTERS and refreshGraph from app.js globals
+window.renderAllLegends = function() {
+    const VIS_FILTERS = window.VIS_FILTERS;
+    const refreshGraph = window.refreshGraph;
+    if (VIS_FILTERS && refreshGraph) {
+        LEGEND.renderAll(VIS_FILTERS, refreshGraph);
+    } else {
+        console.warn('[Legend] VIS_FILTERS or refreshGraph not available');
+    }
+};
+
+console.log('[Module] LEGEND loaded - 10 functions');

@@ -265,7 +265,383 @@ const COLOR = (function () {
                 { value: 1.0, h: 0, c: 0.24, l: 0.60 }     // High - Red
             ]
         }
-};
+    };
+
+    // =========================================================================
+    // SCHEME PATHS: 33 Named Color Gradients (OKLCH 3D Paths)
+    // Each scheme is a path through OKLCH color space mapping normalized values to colors
+    // =========================================================================
+
+    const schemePaths = {
+        // =====================================================================
+        // PART A: FAMOUS SCIENTIFIC GRADIENTS (15 schemes)
+        // Source: matplotlib/viridis family - perceptually uniform
+        // =====================================================================
+
+        // === SEQUENTIAL (monotonic lightness) ===
+        viridis: {
+            name: 'Viridis',
+            semantic: 'The gold standard - blue→green→yellow',
+            stops: [
+                { value: 0.0, h: 280, c: 0.12, l: 0.25 },  // Dark purple
+                { value: 0.25, h: 240, c: 0.16, l: 0.40 }, // Blue
+                { value: 0.5, h: 170, c: 0.18, l: 0.55 },  // Teal
+                { value: 0.75, h: 120, c: 0.20, l: 0.70 }, // Green
+                { value: 1.0, h: 65, c: 0.22, l: 0.90 }    // Yellow
+            ]
+        },
+        plasma: {
+            name: 'Plasma',
+            semantic: 'Purple→pink→orange→yellow arc',
+            stops: [
+                { value: 0.0, h: 280, c: 0.15, l: 0.20 },  // Deep purple
+                { value: 0.25, h: 300, c: 0.22, l: 0.40 }, // Magenta
+                { value: 0.5, h: 340, c: 0.25, l: 0.55 },  // Pink-red
+                { value: 0.75, h: 30, c: 0.28, l: 0.72 },  // Orange
+                { value: 1.0, h: 60, c: 0.24, l: 0.92 }    // Bright yellow
+            ]
+        },
+        magma: {
+            name: 'Magma',
+            semantic: 'Black→purple→orange→white (lava)',
+            stops: [
+                { value: 0.0, h: 280, c: 0.04, l: 0.08 },  // Near black
+                { value: 0.25, h: 300, c: 0.18, l: 0.30 }, // Deep purple
+                { value: 0.5, h: 340, c: 0.24, l: 0.50 },  // Magenta
+                { value: 0.75, h: 30, c: 0.26, l: 0.75 },  // Orange
+                { value: 1.0, h: 60, c: 0.08, l: 0.98 }    // Near white
+            ]
+        },
+        inferno: {
+            name: 'Inferno',
+            semantic: 'Black→purple→red→yellow (fire)',
+            stops: [
+                { value: 0.0, h: 280, c: 0.04, l: 0.05 },  // Black
+                { value: 0.2, h: 300, c: 0.16, l: 0.25 },  // Purple
+                { value: 0.4, h: 350, c: 0.24, l: 0.45 },  // Red-purple
+                { value: 0.6, h: 20, c: 0.28, l: 0.60 },   // Red-orange
+                { value: 0.8, h: 50, c: 0.26, l: 0.78 },   // Orange-yellow
+                { value: 1.0, h: 65, c: 0.18, l: 0.95 }    // Bright yellow
+            ]
+        },
+        cividis: {
+            name: 'Cividis',
+            semantic: 'Blue→yellow (colorblind optimized)',
+            stops: [
+                { value: 0.0, h: 240, c: 0.10, l: 0.25 },  // Dark blue
+                { value: 0.33, h: 220, c: 0.08, l: 0.45 }, // Steel blue
+                { value: 0.66, h: 80, c: 0.08, l: 0.65 },  // Olive
+                { value: 1.0, h: 60, c: 0.14, l: 0.88 }    // Yellow
+            ]
+        },
+        turbo: {
+            name: 'Turbo',
+            semantic: 'Improved rainbow (no banding)',
+            stops: [
+                { value: 0.0, h: 260, c: 0.18, l: 0.35 },  // Blue-purple
+                { value: 0.2, h: 210, c: 0.22, l: 0.55 },  // Cyan-blue
+                { value: 0.4, h: 150, c: 0.24, l: 0.65 },  // Green
+                { value: 0.6, h: 60, c: 0.26, l: 0.75 },   // Yellow
+                { value: 0.8, h: 30, c: 0.28, l: 0.65 },   // Orange
+                { value: 1.0, h: 0, c: 0.24, l: 0.50 }     // Red
+            ]
+        },
+        mako: {
+            name: 'Mako',
+            semantic: 'Deep ocean blue→teal',
+            stops: [
+                { value: 0.0, h: 260, c: 0.08, l: 0.12 },  // Abyss
+                { value: 0.33, h: 240, c: 0.14, l: 0.35 }, // Deep blue
+                { value: 0.66, h: 200, c: 0.18, l: 0.58 }, // Ocean blue
+                { value: 1.0, h: 170, c: 0.16, l: 0.82 }   // Light teal
+            ]
+        },
+        rocket: {
+            name: 'Rocket',
+            semantic: 'Dark→red→white (heat)',
+            stops: [
+                { value: 0.0, h: 280, c: 0.06, l: 0.10 },  // Dark
+                { value: 0.33, h: 340, c: 0.20, l: 0.35 }, // Purple-red
+                { value: 0.66, h: 15, c: 0.26, l: 0.60 },  // Red-orange
+                { value: 1.0, h: 30, c: 0.08, l: 0.95 }    // Near white
+            ]
+        },
+
+        // === DIVERGING (center-outward) ===
+        coolwarm: {
+            name: 'Coolwarm',
+            semantic: 'Blue↔neutral↔red (diverging)',
+            stops: [
+                { value: 0.0, h: 230, c: 0.22, l: 0.45 },  // Cool blue
+                { value: 0.25, h: 220, c: 0.12, l: 0.60 }, // Light blue
+                { value: 0.5, h: 0, c: 0.02, l: 0.75 },    // Neutral gray
+                { value: 0.75, h: 20, c: 0.14, l: 0.60 },  // Light red
+                { value: 1.0, h: 15, c: 0.24, l: 0.45 }    // Warm red
+            ]
+        },
+        spectral: {
+            name: 'Spectral',
+            semantic: 'Full rainbow diverging',
+            stops: [
+                { value: 0.0, h: 10, c: 0.22, l: 0.50 },   // Red
+                { value: 0.25, h: 40, c: 0.24, l: 0.70 },  // Orange-yellow
+                { value: 0.5, h: 60, c: 0.20, l: 0.85 },   // Yellow (center)
+                { value: 0.75, h: 140, c: 0.20, l: 0.65 }, // Green
+                { value: 1.0, h: 240, c: 0.18, l: 0.50 }   // Blue
+            ]
+        },
+
+        // === APPLICATION-SPECIFIC ===
+        thermal: {
+            name: 'Thermal',
+            semantic: 'Cold→hot temperature map',
+            stops: [
+                { value: 0.0, h: 240, c: 0.18, l: 0.30 },  // Cold blue
+                { value: 0.25, h: 200, c: 0.20, l: 0.45 }, // Cool cyan
+                { value: 0.5, h: 60, c: 0.22, l: 0.65 },   // Warm yellow
+                { value: 0.75, h: 30, c: 0.26, l: 0.58 },  // Hot orange
+                { value: 1.0, h: 0, c: 0.28, l: 0.50 }     // Burning red
+            ]
+        },
+        nightvision: {
+            name: 'Night Vision',
+            semantic: 'Phosphor green display',
+            stops: [
+                { value: 0.0, h: 140, c: 0.02, l: 0.05 },  // Black
+                { value: 0.33, h: 140, c: 0.12, l: 0.25 }, // Dark green
+                { value: 0.66, h: 130, c: 0.22, l: 0.55 }, // Bright green
+                { value: 1.0, h: 120, c: 0.28, l: 0.85 }   // Glowing green
+            ]
+        },
+        ocean: {
+            name: 'Ocean',
+            semantic: 'Bathymetry depth map',
+            stops: [
+                { value: 0.0, h: 250, c: 0.12, l: 0.15 },  // Abyss
+                { value: 0.33, h: 230, c: 0.18, l: 0.35 }, // Deep
+                { value: 0.66, h: 200, c: 0.20, l: 0.55 }, // Mid-depth
+                { value: 1.0, h: 180, c: 0.16, l: 0.80 }   // Shallow
+            ]
+        },
+        terrain: {
+            name: 'Terrain',
+            semantic: 'Water→land→mountain',
+            stops: [
+                { value: 0.0, h: 220, c: 0.16, l: 0.40 },  // Water blue
+                { value: 0.3, h: 140, c: 0.18, l: 0.55 },  // Lowland green
+                { value: 0.5, h: 80, c: 0.16, l: 0.60 },   // Plains yellow-green
+                { value: 0.7, h: 40, c: 0.14, l: 0.50 },   // Hills brown
+                { value: 1.0, h: 0, c: 0.04, l: 0.90 }     // Snow white
+            ]
+        },
+        electric: {
+            name: 'Electric',
+            semantic: 'Neon cyberpunk glow',
+            stops: [
+                { value: 0.0, h: 280, c: 0.25, l: 0.30 },  // Deep purple
+                { value: 0.33, h: 320, c: 0.30, l: 0.50 }, // Hot pink
+                { value: 0.66, h: 190, c: 0.28, l: 0.65 }, // Electric cyan
+                { value: 1.0, h: 60, c: 0.26, l: 0.85 }    // Neon yellow
+            ]
+        },
+
+        // =====================================================================
+        // PART B: ROLE-SEMANTIC GRADIENTS (18 schemes)
+        // Named after canonical roles with meaningful color journeys
+        // =====================================================================
+
+        // === GROUP 1: QUERIES & ACCESS (Cool blues/cyans - passive reads) ===
+        query: {
+            name: 'Query',
+            semantic: 'Retrieve data calmly',
+            stops: [
+                { value: 0.0, h: 220, c: 0.08, l: 0.40 },  // Deep blue - start
+                { value: 0.5, h: 200, c: 0.15, l: 0.55 },  // Sky blue - middle
+                { value: 1.0, h: 190, c: 0.20, l: 0.70 }   // Light cyan - found
+            ]
+        },
+        finder: {
+            name: 'Finder',
+            semantic: 'Search and seek',
+            stops: [
+                { value: 0.0, h: 200, c: 0.05, l: 0.35 },  // Dim - searching
+                { value: 0.3, h: 180, c: 0.12, l: 0.50 },  // Teal - hunting
+                { value: 0.7, h: 160, c: 0.18, l: 0.65 },  // Cyan-green - close
+                { value: 1.0, h: 140, c: 0.24, l: 0.75 }   // Bright green - found!
+            ]
+        },
+
+        // === GROUP 2: COMMANDS & MUTATIONS (Warm - active writes) ===
+        command: {
+            name: 'Command',
+            semantic: 'Execute with authority',
+            stops: [
+                { value: 0.0, h: 30, c: 0.15, l: 0.45 },   // Amber ready
+                { value: 0.5, h: 20, c: 0.22, l: 0.58 },   // Orange active
+                { value: 1.0, h: 10, c: 0.28, l: 0.65 }    // Red-orange fired
+            ]
+        },
+        creator: {
+            name: 'Creator',
+            semantic: 'Bring into existence',
+            stops: [
+                { value: 0.0, h: 180, c: 0.10, l: 0.40 },  // Seed teal
+                { value: 0.4, h: 150, c: 0.18, l: 0.55 },  // Sprout green
+                { value: 0.8, h: 120, c: 0.24, l: 0.68 },  // Growth lime
+                { value: 1.0, h: 90, c: 0.28, l: 0.75 }    // Full bloom yellow-green
+            ]
+        },
+        destroyer: {
+            name: 'Destroyer',
+            semantic: 'Remove from existence',
+            stops: [
+                { value: 0.0, h: 0, c: 0.08, l: 0.60 },    // Pale warning
+                { value: 0.4, h: 10, c: 0.18, l: 0.50 },   // Red alert
+                { value: 0.7, h: 350, c: 0.26, l: 0.40 },  // Crimson
+                { value: 1.0, h: 340, c: 0.20, l: 0.25 }   // Dark destruction
+            ]
+        },
+
+        // === GROUP 3: FACTORIES (Construction - blue→green) ===
+        factory: {
+            name: 'Factory',
+            semantic: 'Assembly line production',
+            stops: [
+                { value: 0.0, h: 220, c: 0.10, l: 0.45 },  // Blueprint blue
+                { value: 0.3, h: 200, c: 0.16, l: 0.55 },  // Processing
+                { value: 0.6, h: 170, c: 0.20, l: 0.62 },  // Assembly
+                { value: 1.0, h: 140, c: 0.24, l: 0.70 }   // Product green
+            ]
+        },
+
+        // === GROUP 4: STORAGE (Solid, grounded - deep blues/purples) ===
+        repository: {
+            name: 'Repository',
+            semantic: 'Deep data vault',
+            stops: [
+                { value: 0.0, h: 240, c: 0.12, l: 0.30 },  // Database depths
+                { value: 0.5, h: 230, c: 0.18, l: 0.45 },  // Data layer
+                { value: 1.0, h: 220, c: 0.22, l: 0.60 }   // Accessible
+            ]
+        },
+        cache: {
+            name: 'Cache',
+            semantic: 'Fast temporary',
+            stops: [
+                { value: 0.0, h: 300, c: 0.08, l: 0.50 },  // Magenta flash
+                { value: 0.5, h: 320, c: 0.16, l: 0.62 },  // Pink speed
+                { value: 1.0, h: 340, c: 0.22, l: 0.75 }   // Hot pink hit
+            ]
+        },
+
+        // === GROUP 5: ORCHESTRATION (Purple/magenta - control flow) ===
+        service: {
+            name: 'Service',
+            semantic: 'Coordinate operations',
+            stops: [
+                { value: 0.0, h: 270, c: 0.08, l: 0.40 },  // Purple quiet
+                { value: 0.5, h: 280, c: 0.16, l: 0.55 },  // Active violet
+                { value: 1.0, h: 290, c: 0.22, l: 0.68 }   // Bright orchid
+            ]
+        },
+        orchestrator: {
+            name: 'Orchestrator',
+            semantic: 'See all, conduct all',
+            stops: [
+                { value: 0.0, h: 200, c: 0.12, l: 0.40 },  // Start blue
+                { value: 0.25, h: 270, c: 0.18, l: 0.50 }, // Through purple
+                { value: 0.5, h: 330, c: 0.22, l: 0.58 },  // To pink
+                { value: 0.75, h: 30, c: 0.24, l: 0.62 },  // Through orange
+                { value: 1.0, h: 60, c: 0.26, l: 0.70 }    // End gold (full spectrum)
+            ]
+        },
+
+        // === GROUP 6: VALIDATION (Yellow/green - pass/fail semantics) ===
+        validator: {
+            name: 'Validator',
+            semantic: 'Check and verify',
+            stops: [
+                { value: 0.0, h: 0, c: 0.20, l: 0.50 },    // Red fail
+                { value: 0.4, h: 45, c: 0.22, l: 0.65 },   // Yellow warning
+                { value: 1.0, h: 140, c: 0.24, l: 0.70 }   // Green pass
+            ]
+        },
+        guard: {
+            name: 'Guard',
+            semantic: 'Protect and defend',
+            stops: [
+                { value: 0.0, h: 350, c: 0.18, l: 0.40 },  // Dark red blocked
+                { value: 0.5, h: 30, c: 0.20, l: 0.55 },   // Orange caution
+                { value: 1.0, h: 120, c: 0.22, l: 0.65 }   // Green allowed
+            ]
+        },
+
+        // === GROUP 7: TRANSFORMATION (Rainbow arc - any to any) ===
+        transformer: {
+            name: 'Transformer',
+            semantic: 'Complete metamorphosis',
+            stops: [
+                { value: 0.0, h: 220, c: 0.14, l: 0.45 },  // Blue input
+                { value: 0.3, h: 280, c: 0.18, l: 0.52 },  // Purple process
+                { value: 0.6, h: 340, c: 0.22, l: 0.58 },  // Pink transition
+                { value: 1.0, h: 30, c: 0.26, l: 0.65 }    // Orange output
+            ]
+        },
+        parser: {
+            name: 'Parser',
+            semantic: 'Decode from wire',
+            stops: [
+                { value: 0.0, h: 0, c: 0.02, l: 0.85 },    // White wire
+                { value: 0.5, h: 180, c: 0.10, l: 0.70 },  // Decoding
+                { value: 1.0, h: 160, c: 0.20, l: 0.55 }   // Data teal
+            ]
+        },
+
+        // === GROUP 8: EVENTS (Signals - purple/yellow pulses) ===
+        handler: {
+            name: 'Handler',
+            semantic: 'React to event',
+            stops: [
+                { value: 0.0, h: 270, c: 0.08, l: 0.40 },  // Waiting purple
+                { value: 0.5, h: 290, c: 0.18, l: 0.55 },  // Triggered
+                { value: 1.0, h: 310, c: 0.26, l: 0.68 }   // Handling pink
+            ]
+        },
+        emitter: {
+            name: 'Emitter',
+            semantic: 'Broadcast signal',
+            stops: [
+                { value: 0.0, h: 50, c: 0.18, l: 0.55 },   // Yellow charge
+                { value: 0.5, h: 45, c: 0.24, l: 0.68 },   // Bright emit
+                { value: 1.0, h: 40, c: 0.30, l: 0.78 }    // Golden broadcast
+            ]
+        },
+
+        // === GROUP 9: UTILITIES (Neutral supporting - grays/pastels) ===
+        utility: {
+            name: 'Utility',
+            semantic: 'General tool',
+            stops: [
+                { value: 0.0, h: 220, c: 0.04, l: 0.45 },  // Gray-blue tool
+                { value: 0.5, h: 200, c: 0.08, l: 0.58 },  // Soft cyan
+                { value: 1.0, h: 180, c: 0.12, l: 0.72 }   // Light teal
+            ]
+        },
+        lifecycle: {
+            name: 'Lifecycle',
+            semantic: 'Birth to death cycle',
+            stops: [
+                { value: 0.0, h: 120, c: 0.20, l: 0.65 },  // Birth green
+                { value: 0.25, h: 60, c: 0.22, l: 0.70 },  // Youth yellow
+                { value: 0.5, h: 30, c: 0.24, l: 0.60 },   // Maturity orange
+                { value: 0.75, h: 0, c: 0.20, l: 0.50 },   // Aging red
+                { value: 1.0, h: 280, c: 0.10, l: 0.35 }   // Death purple
+            ]
+        }
+    };
+
+    // Current active scheme
+    let _activeScheme = null;
 
 // =========================================================================
 // SUBSCRIBERS: Reactive notifications
@@ -487,6 +863,120 @@ function getTransform() {
 }
 
 // =========================================================================
+// SCHEME API: Named Color Gradients
+// =========================================================================
+
+/**
+ * List all available scheme names
+ * @returns {string[]} Array of scheme names
+ */
+function listSchemes() {
+    return Object.keys(schemePaths);
+}
+
+/**
+ * Get scheme definition
+ * @param {string} schemeName - Name of the scheme
+ * @returns {object|null} Scheme definition with name, semantic, and stops
+ */
+function getScheme(schemeName) {
+    return schemePaths[schemeName] || null;
+}
+
+/**
+ * Get color at position t (0-1) along a scheme path
+ * @param {string} schemeName - Name of the scheme
+ * @param {number} t - Position along path (0-1)
+ * @returns {string} Hex color string
+ */
+function getSchemeColor(schemeName, t) {
+    const scheme = schemePaths[schemeName];
+    if (!scheme) return _toHex({ h: 0, c: 0.02, l: 0.40 });
+
+    const stops = scheme.stops;
+    const v = Math.max(0, Math.min(1, t));
+
+    // Find surrounding stops
+    let lower = stops[0];
+    let upper = stops[stops.length - 1];
+
+    for (let i = 0; i < stops.length - 1; i++) {
+        if (v >= stops[i].value && v <= stops[i + 1].value) {
+            lower = stops[i];
+            upper = stops[i + 1];
+            break;
+        }
+    }
+
+    // Interpolate between stops
+    const range = upper.value - lower.value;
+    const interp = range > 0 ? (v - lower.value) / range : 0;
+
+    const interpolated = {
+        h: lower.h + (upper.h - lower.h) * interp,
+        c: lower.c + (upper.c - lower.c) * interp,
+        l: lower.l + (upper.l - lower.l) * interp
+    };
+
+    return _applyTransform(interpolated);
+}
+
+/**
+ * Apply a scheme as the active color scheme
+ * This sets transforms and notifies subscribers
+ * @param {string} schemeName - Name of the scheme
+ */
+function applyScheme(schemeName) {
+    const scheme = schemePaths[schemeName];
+    if (!scheme) {
+        console.warn('[COLOR] Unknown scheme:', schemeName);
+        return;
+    }
+
+    _activeScheme = schemeName;
+    _notifySubscribers('scheme-change', { scheme: schemeName, definition: scheme });
+    console.log('[COLOR] Applied scheme:', schemeName, '-', scheme.semantic);
+}
+
+/**
+ * Get the currently active scheme name
+ * @returns {string|null} Active scheme name or null
+ */
+function getActiveScheme() {
+    return _activeScheme;
+}
+
+/**
+ * Generate a CSS gradient string for a scheme (for UI previews)
+ * @param {string} schemeName - Name of the scheme
+ * @param {string} direction - CSS gradient direction (default: 'to right')
+ * @returns {string} CSS linear-gradient string
+ */
+function getSchemeGradientCSS(schemeName, direction = 'to right') {
+    const scheme = schemePaths[schemeName];
+    if (!scheme) return 'linear-gradient(to right, #333, #666)';
+
+    const colorStops = scheme.stops.map(stop => {
+        const color = _applyTransform(stop);
+        const percent = Math.round(stop.value * 100);
+        return `${color} ${percent}%`;
+    });
+
+    return `linear-gradient(${direction}, ${colorStops.join(', ')})`;
+}
+
+/**
+ * Get scheme metadata (name, semantic description)
+ * @param {string} schemeName - Name of the scheme
+ * @returns {object} {name, semantic}
+ */
+function getSchemeInfo(schemeName) {
+    const scheme = schemePaths[schemeName];
+    if (!scheme) return { name: schemeName, semantic: 'Unknown' };
+    return { name: scheme.name, semantic: scheme.semantic };
+}
+
+// =========================================================================
 // DEBUG
 // =========================================================================
 
@@ -494,6 +984,8 @@ function debug() {
     console.log('[COLOR] Transform state:', transform);
     console.log('[COLOR] Palette dimensions:', Object.keys(palette));
     console.log('[COLOR] Interval mappings:', Object.keys(intervals));
+    console.log('[COLOR] Schemes:', Object.keys(schemePaths).length, 'available');
+    console.log('[COLOR] Active scheme:', _activeScheme);
 }
 
 // =========================================================================
@@ -515,6 +1007,15 @@ return {
     resetTransforms,
     getTransform,
 
+    // Scheme API (33 named color gradients)
+    listSchemes,
+    getScheme,
+    getSchemeColor,
+    applyScheme,
+    getActiveScheme,
+    getSchemeGradientCSS,
+    getSchemeInfo,
+
     // Subscriptions
     subscribe,
 
@@ -522,6 +1023,7 @@ return {
     palette,
     intervals,
     transform,
+    schemePaths,
 
     // Debug
     debug

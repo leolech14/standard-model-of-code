@@ -736,11 +736,8 @@ const FILE_VIZ = (function() {
             if (expandControls) expandControls.classList.toggle('visible', _mode === 'map');
             apply();
             if (typeof applyEdgeMode === 'function') applyEdgeMode();
-            if (typeof PANELS !== 'undefined' && PANELS.HudLayoutManager) {
-                PANELS.HudLayoutManager.reflow();
-            } else if (typeof HudLayoutManager !== 'undefined') {
-                HudLayoutManager.reflow();
-            }
+            // Use unified LAYOUT module for reflow
+            if (typeof LAYOUT !== 'undefined') LAYOUT.reflow();
         } else {
             if (filePanel) filePanel.classList.remove('visible');
             if (modeControls) modeControls.classList.remove('visible');
@@ -750,11 +747,8 @@ const FILE_VIZ = (function() {
             if (typeof EXPANDED_FILES !== 'undefined') EXPANDED_FILES.clear();
             if (typeof GRAPH_MODE !== 'undefined') window.GRAPH_MODE = 'atoms';
 
-            if (typeof PANELS !== 'undefined' && PANELS.HudLayoutManager) {
-                PANELS.HudLayoutManager.reflow();
-            } else if (typeof HudLayoutManager !== 'undefined') {
-                HudLayoutManager.reflow();
-            }
+            // Use unified LAYOUT module for reflow
+            if (typeof LAYOUT !== 'undefined') LAYOUT.reflow();
 
             clearAllModes();
             if (typeof applyEdgeMode === 'function') applyEdgeMode();

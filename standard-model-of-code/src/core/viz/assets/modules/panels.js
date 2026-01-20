@@ -161,62 +161,10 @@ const PANELS = (function() {
     }
 
     // =========================================================================
-    // HUD LAYOUT MANAGER
+    // HUD LAYOUT MANAGER - REMOVED, USE LAYOUT MODULE
     // =========================================================================
-
-    const HudLayoutManager = {
-        _resizeObserver: null,
-        _reflowDebouncer: null,
-        _previousLayout: null,
-
-        init() {
-            this._resizeObserver = new ResizeObserver(() => {
-                this._scheduleReflow();
-            });
-
-            // Observe panels that affect layout
-            ['selection-panel', 'legend-panel', 'kpi-panel'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) this._resizeObserver.observe(el);
-            });
-
-            // Initial layout
-            this.reflow();
-        },
-
-        _scheduleReflow() {
-            if (this._reflowDebouncer) return;
-            this._reflowDebouncer = requestAnimationFrame(() => {
-                this._reflowDebouncer = null;
-                this.reflow();
-            });
-        },
-
-        reflow() {
-            // Calculate optimal positions for HUD elements
-            const vh = window.innerHeight;
-            const selectionPanel = document.getElementById('selection-panel');
-            const legendPanel = document.getElementById('legend-panel');
-
-            if (selectionPanel && legendPanel) {
-                const selectionRect = selectionPanel.getBoundingClientRect();
-                const selectionBottom = selectionRect.bottom;
-
-                // Position legend below selection if they overlap
-                if (selectionPanel.classList.contains('visible')) {
-                    legendPanel.style.top = (selectionBottom + 10) + 'px';
-                } else {
-                    legendPanel.style.top = '';
-                }
-            }
-        },
-
-        destroy() {
-            if (this._resizeObserver) {
-                this._resizeObserver.disconnect();
-            }
-        }
-    };
+    // The HudLayoutManager has been unified into modules/layout.js
+    // Use LAYOUT.reflow() instead of PANELS.HudLayoutManager.reflow()
 
     // =========================================================================
     // PUBLIC API
@@ -228,7 +176,6 @@ const PANELS = (function() {
         toggle,
         getActive,
         initCommandBar,
-        HudLayoutManager,
 
         // State access
         get activePanelId() { return _activePanelId; }

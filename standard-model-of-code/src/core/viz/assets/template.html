@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Collider v{{VERSION}}</title>
@@ -8,7 +9,11 @@
            COLLIDER UI - Dual Sidebar Layout
            ═══════════════════════════════════════════════════════════════════ */
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg: #0a0a0f;
@@ -20,14 +25,16 @@
             --text-dim: rgba(255, 255, 255, 0.5);
             --text-muted: rgba(255, 255, 255, 0.3);
             --accent: #4a9eff;
-            --accent-dim: rgba(74, 158, 255, 0.2);
-            --accent-glow: rgba(74, 158, 255, 0.4);
-            --green: #22c55e;
-            --yellow: #eab308;
-            --red: #ef4444;
-            --cyan: #00d4ff;
+            --accent-dim: rgba(100, 110, 130, 0.15);
+            --accent-glow: rgba(100, 110, 130, 0.25);
+            --green: #5a9a70;
+            --yellow: #a09060;
+            --red: #b07070;
+            --cyan: #7090a0;
             --sidebar-width: 280px;
             --right-panel-width: 260px;
+            --min-sidebar-width: 200px;
+            --max-sidebar-width: 400px;
             --header-height: 48px;
             --radius: 8px;
             --radius-sm: 4px;
@@ -57,7 +64,11 @@
             font-size: 14px;
             letter-spacing: 2px;
         }
-        #loader-status { font-size: 11px; opacity: 0.5; }
+
+        #loader-status {
+            font-size: 11px;
+            opacity: 0.5;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            HEADER - Top bar spanning full width
@@ -83,16 +94,38 @@
             letter-spacing: 1px;
             color: var(--accent);
         }
-        .logo span { opacity: 0.5; font-size: 10px; margin-left: 6px; color: var(--text); }
+
+        .logo span {
+            opacity: 0.5;
+            font-size: 10px;
+            margin-left: 6px;
+            color: var(--text);
+        }
 
         .header-stats {
             display: flex;
             gap: 20px;
             font-size: 11px;
         }
-        .stat { display: flex; gap: 6px; align-items: center; }
-        .stat-label { opacity: 0.4; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px; }
-        .stat-value { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--cyan); }
+
+        .stat {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .stat-label {
+            opacity: 0.4;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            color: var(--cyan);
+        }
 
         .target-name {
             margin-left: auto;
@@ -131,9 +164,18 @@
             z-index: 100;
         }
 
-        #left-sidebar::-webkit-scrollbar { width: 4px; }
-        #left-sidebar::-webkit-scrollbar-track { background: transparent; }
-        #left-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        #left-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #left-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #left-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            RIGHT SIDEBAR - Info Panels
@@ -153,9 +195,64 @@
             flex-direction: column;
         }
 
-        #right-sidebar::-webkit-scrollbar { width: 4px; }
-        #right-sidebar::-webkit-scrollbar-track { background: transparent; }
-        #right-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        #right-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #right-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #right-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SIDEBAR RESIZE DIVIDERS - Horizontal drag handles
+           ═══════════════════════════════════════════════════════════════════ */
+        .sidebar-resize-handle {
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0;
+            width: 6px;
+            cursor: ew-resize;
+            z-index: 101;
+            background: transparent;
+            transition: background 0.15s;
+        }
+
+        .sidebar-resize-handle:hover,
+        .sidebar-resize-handle.dragging {
+            background: rgba(100, 110, 130, 0.25);
+        }
+
+        .sidebar-resize-handle.left {
+            left: calc(var(--sidebar-width) - 3px);
+        }
+
+        .sidebar-resize-handle.right {
+            right: calc(var(--right-panel-width) - 3px);
+        }
+
+        /* Visual indicator line */
+        .sidebar-resize-handle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 40px;
+            background: rgba(100, 110, 130, 0.3);
+            border-radius: 1px;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .sidebar-resize-handle:hover::after {
+            opacity: 1;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            SECTION - Collapsible sections
@@ -178,14 +275,141 @@
             user-select: none;
             transition: all 0.15s;
         }
-        .section-header:hover { opacity: 0.9; background: var(--surface-hover); }
-        .section-header .arrow { transition: transform 0.2s; font-size: 8px; }
-        .section-header.collapsed .arrow { transform: rotate(-90deg); }
+
+        .section-header:hover {
+            opacity: 0.9;
+            background: var(--surface-hover);
+        }
+
+        .section-header .arrow {
+            transition: transform 0.2s;
+            font-size: 8px;
+        }
+
+        .section-header.collapsed .arrow {
+            transform: rotate(-90deg);
+        }
+
+        /* PRIME SECTIONS - Highlighted config sections (muted) */
+        .section.prime {
+            background: linear-gradient(180deg, rgba(100, 110, 130, 0.03) 0%, transparent 100%);
+            border-left: 2px solid rgba(100, 110, 130, 0.3);
+        }
+
+        .section.prime .section-header {
+            opacity: 0.75;
+            color: var(--text-secondary);
+        }
+
+        .section.prime .section-header:hover {
+            opacity: 0.9;
+        }
 
         .section-content {
             padding: 8px 14px 14px;
+            overflow-y: auto;
+            transition: max-height 0.2s ease;
         }
-        .section-content.collapsed { display: none; }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        /* RESIZABLE SECTIONS - Vertical drag handles */
+        .section-resize-handle {
+            height: 4px;
+            cursor: ns-resize;
+            background: transparent;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+            position: relative;
+        }
+
+        .section-resize-handle:hover,
+        .section-resize-handle.dragging {
+            background: rgba(100, 110, 130, 0.2);
+        }
+
+        .section-resize-handle::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 2px;
+            background: rgba(100, 110, 130, 0.3);
+            border-radius: 1px;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .section-resize-handle:hover::after {
+            opacity: 1;
+        }
+
+        /* Section content height constraints when resizing */
+        .section-content.resizable {
+            min-height: 60px;
+            max-height: 400px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           VIEW MODE TOGGLE - ATOMS vs FILES (top of left sidebar)
+           ═══════════════════════════════════════════════════════════════════ */
+        .view-mode-toggle {
+            display: flex;
+            gap: 0;
+            padding: 8px 10px;
+            background: linear-gradient(180deg, rgba(74, 158, 255, 0.08) 0%, rgba(74, 158, 255, 0.02) 100%);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .view-mode-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .view-mode-btn:first-child {
+            border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+            border-right: none;
+        }
+
+        .view-mode-btn:last-child {
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        }
+
+        .view-mode-btn:hover {
+            background: rgba(74, 158, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .view-mode-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+            box-shadow: 0 0 12px rgba(74, 158, 255, 0.4);
+        }
+
+        .view-mode-icon {
+            font-size: 14px;
+        }
+
+        .view-mode-label {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            BUTTON GRID - For presets and actions
@@ -195,9 +419,18 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 6px;
         }
-        .btn-grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .btn-grid-4 { grid-template-columns: repeat(4, 1fr); }
-        .btn-grid-6 { grid-template-columns: repeat(6, 1fr); }
+
+        .btn-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .btn-grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .btn-grid-6 {
+            grid-template-columns: repeat(6, 1fr);
+        }
 
         .btn {
             padding: 8px 10px;
@@ -213,11 +446,13 @@
             text-align: center;
             text-transform: uppercase;
         }
+
         .btn:hover {
             background: rgba(255, 255, 255, 0.08);
             color: var(--text);
             border-color: var(--border-accent);
         }
+
         .btn.active {
             background: var(--accent-dim);
             border-color: var(--accent);
@@ -245,15 +480,25 @@
             gap: 6px;
             margin-bottom: 10px;
         }
-        .slider-row:last-child { margin-bottom: 0; }
+
+        .slider-row:last-child {
+            margin-bottom: 0;
+        }
 
         .slider-header {
             display: flex;
             justify-content: space-between;
             font-size: 10px;
         }
-        .slider-label { opacity: 0.6; }
-        .slider-value { font-variant-numeric: tabular-nums; color: var(--cyan); }
+
+        .slider-label {
+            opacity: 0.6;
+        }
+
+        .slider-value {
+            font-variant-numeric: tabular-nums;
+            color: var(--cyan);
+        }
 
         input[type="range"] {
             -webkit-appearance: none;
@@ -263,6 +508,7 @@
             border-radius: 2px;
             cursor: pointer;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 14px;
@@ -272,7 +518,10 @@
             cursor: grab;
             box-shadow: 0 0 8px var(--accent-glow);
         }
-        input[type="range"]::-webkit-slider-thumb:active { cursor: grabbing; }
+
+        input[type="range"]::-webkit-slider-thumb:active {
+            cursor: grabbing;
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            FILTER CHIPS
@@ -280,7 +529,10 @@
         .filter-group {
             margin-bottom: 12px;
         }
-        .filter-group:last-child { margin-bottom: 0; }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
 
         .filter-label {
             font-size: 9px;
@@ -295,6 +547,7 @@
             flex-wrap: wrap;
             gap: 4px;
         }
+
         .chip {
             padding: 5px 10px;
             background: rgba(255, 255, 255, 0.03);
@@ -307,12 +560,17 @@
             align-items: center;
             gap: 5px;
         }
-        .chip:hover { background: rgba(255, 255, 255, 0.08); }
+
+        .chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
         .chip.active {
             background: var(--accent-dim);
             border-color: var(--accent);
             color: var(--accent);
         }
+
         .chip .dot {
             width: 6px;
             height: 6px;
@@ -329,7 +587,10 @@
             font-size: 10px;
             padding: 6px 0;
         }
-        .toggle-row .toggle-label { opacity: 0.7; }
+
+        .toggle-row .toggle-label {
+            opacity: 0.7;
+        }
 
         .toggle {
             width: 36px;
@@ -340,6 +601,7 @@
             position: relative;
             transition: background 0.2s;
         }
+
         .toggle::after {
             content: '';
             position: absolute;
@@ -351,8 +613,14 @@
             border-radius: 50%;
             transition: transform 0.2s;
         }
-        .toggle.active { background: var(--accent); }
-        .toggle.active::after { transform: translateX(16px); }
+
+        .toggle.active {
+            background: var(--accent);
+        }
+
+        .toggle.active::after {
+            transform: translateX(16px);
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            INFO PANEL - Right sidebar node info
@@ -368,6 +636,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
+
         .info-panel-title {
             font-size: 10px;
             font-weight: 600;
@@ -379,7 +648,10 @@
         .node-info {
             display: none;
         }
-        .node-info.visible { display: block; }
+
+        .node-info.visible {
+            display: block;
+        }
 
         .node-name {
             font-weight: 600;
@@ -388,6 +660,7 @@
             word-break: break-all;
             color: var(--cyan);
         }
+
         .node-kind {
             font-size: 10px;
             opacity: 0.5;
@@ -401,11 +674,20 @@
             justify-content: space-between;
             font-size: 10px;
             padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-        .info-row:last-child { border-bottom: none; }
-        .info-row .label { opacity: 0.4; }
-        .info-row .value { text-align: right; }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row .label {
+            opacity: 0.4;
+        }
+
+        .info-row .value {
+            text-align: right;
+        }
 
         .node-file {
             font-size: 9px;
@@ -437,6 +719,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
+
         .selection-title {
             font-size: 10px;
             font-weight: 600;
@@ -444,6 +727,7 @@
             text-transform: uppercase;
             opacity: 0.5;
         }
+
         .selection-count {
             font-size: 9px;
             padding: 2px 8px;
@@ -461,21 +745,30 @@
             color: var(--text-dim);
             cursor: pointer;
         }
-        .selection-clear:hover { color: var(--text); border-color: var(--text-dim); }
+
+        .selection-clear:hover {
+            color: var(--text);
+            border-color: var(--text-dim);
+        }
 
         .selection-list {
             max-height: 200px;
             overflow-y: auto;
         }
+
         .selection-item {
             font-size: 10px;
             padding: 6px 8px;
             border-radius: var(--radius-sm);
             cursor: pointer;
             margin-bottom: 2px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
         }
-        .selection-item:hover { background: rgba(255,255,255,0.05); color: var(--accent); }
+
+        .selection-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            STATS PANEL (bottom of right sidebar)
@@ -492,24 +785,108 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
         }
+
         .stats-item {
             text-align: center;
             padding: 8px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: var(--radius-sm);
         }
+
         .stats-item .value {
             font-size: 16px;
             font-weight: 600;
             color: var(--cyan);
             font-variant-numeric: tabular-nums;
         }
+
         .stats-item .label {
             font-size: 8px;
             opacity: 0.4;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 2px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           COLOR PANELS (right sidebar color controls)
+           ═══════════════════════════════════════════════════════════════════ */
+        .color-panel,
+        .schemes-panel {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .color-panel .section-content,
+        .schemes-panel .section-content {
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .color-panel .btn-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+
+        .color-panel .btn {
+            padding: 6px 8px;
+            font-size: 9px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .color-panel .btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .color-panel .btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+
+        /* Collapsible header for schemes panel */
+        .info-panel-header.collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .info-panel-header.collapsible:hover {
+            opacity: 0.9;
+        }
+
+        .info-panel-header .collapse-icon {
+            font-size: 8px;
+            transition: transform 0.2s;
+        }
+
+        .info-panel-header.collapsed .collapse-icon {
+            transform: rotate(-90deg);
+        }
+
+        .schemes-panel .section-content {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .schemes-panel .section-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .schemes-panel .section-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .schemes-panel .section-content.collapsed {
+            display: none;
         }
 
         /* ═══════════════════════════════════════════════════════════════════
@@ -527,13 +904,35 @@
             z-index: 150;
             display: none;
         }
-        #perf-hud.visible { display: block; }
-        .perf-row { display: flex; gap: 12px; }
-        .perf-label { opacity: 0.5; }
-        .perf-value { font-variant-numeric: tabular-nums; }
-        .perf-good { color: var(--green); }
-        .perf-warn { color: var(--yellow); }
-        .perf-bad { color: var(--red); }
+
+        #perf-hud.visible {
+            display: block;
+        }
+
+        .perf-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .perf-label {
+            opacity: 0.5;
+        }
+
+        .perf-value {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .perf-good {
+            color: var(--green);
+        }
+
+        .perf-warn {
+            color: var(--yellow);
+        }
+
+        .perf-bad {
+            color: var(--red);
+        }
 
         /* ═══════════════════════════════════════════════════════════════════
            TOAST NOTIFICATIONS
@@ -552,6 +951,7 @@
             opacity: 0;
             transition: all 0.3s;
         }
+
         #toast.visible {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
@@ -575,6 +975,7 @@
         .color-btn {
             position: relative;
         }
+
         .color-btn::before {
             content: '';
             position: absolute;
@@ -584,12 +985,30 @@
             height: 4px;
             border-radius: 50%;
         }
-        .color-btn[data-preset="tier"]::before { background: #ff6b6b; }
-        .color-btn[data-preset="family"]::before { background: #4ecdc4; }
-        .color-btn[data-preset="layer"]::before { background: #95e1d3; }
-        .color-btn[data-preset="ring"]::before { background: #f9ed69; }
-        .color-btn[data-preset="file"]::before { background: #a8e6cf; }
-        .color-btn[data-preset="flow"]::before { background: #dcd6f7; }
+
+        .color-btn[data-preset="tier"]::before {
+            background: #ff6b6b;
+        }
+
+        .color-btn[data-preset="family"]::before {
+            background: #4ecdc4;
+        }
+
+        .color-btn[data-preset="layer"]::before {
+            background: #95e1d3;
+        }
+
+        .color-btn[data-preset="ring"]::before {
+            background: #f9ed69;
+        }
+
+        .color-btn[data-preset="file"]::before {
+            background: #a8e6cf;
+        }
+
+        .color-btn[data-preset="flow"]::before {
+            background: #dcd6f7;
+        }
 
         /* Layout buttons with mini icons */
         .layout-btn {
@@ -601,7 +1020,8 @@
         window.process = window.process || { env: { NODE_ENV: "production" } };
         window.global = window.global || window;
     </script>
-    <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+    <!-- THREE.js must be loaded explicitly - 3d-force-graph no longer exposes it globally -->
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
     <script src="https://unpkg.com/pako@2.1.0/dist/pako.min.js"></script>
 </head>
@@ -635,20 +1055,144 @@
 
     <!-- Left Sidebar -->
     <div id="left-sidebar">
-        <!-- COLOR MODE -->
-        <div class="section">
-            <div class="section-header" data-section="color">
-                <span>Color Mode</span>
+        <!-- VIEW MODE TOGGLE - TOP PRIORITY -->
+        <div class="view-mode-toggle" id="view-mode-toggle">
+            <button class="view-mode-btn active" data-mode="atoms">
+                <span class="view-mode-icon">◉</span>
+                <span class="view-mode-label">ATOMS</span>
+            </button>
+            <button class="view-mode-btn" data-mode="files">
+                <span class="view-mode-icon">◫</span>
+                <span class="view-mode-label">FILES</span>
+            </button>
+        </div>
+
+        <!-- NODE CONFIG - PRIME POSITION -->
+        <div class="section prime">
+            <div class="section-header" data-section="node-config">
+                <span>⬢ Node Config</span>
                 <span class="arrow">▼</span>
             </div>
-            <div class="section-content" id="section-color">
-                <div class="btn-grid">
-                    <button class="btn color-btn active" data-preset="tier">Tier</button>
-                    <button class="btn color-btn" data-preset="family">Family</button>
-                    <button class="btn color-btn" data-preset="layer">Layer</button>
-                    <button class="btn color-btn" data-preset="ring">Ring</button>
-                    <button class="btn color-btn" data-preset="file">File</button>
-                    <button class="btn color-btn" data-preset="flow">Flow</button>
+            <div class="section-content" id="section-node-config">
+                <!-- Size Mode Selector -->
+                <div class="filter-group">
+                    <div class="filter-label">Size Mode</div>
+                    <div class="btn-grid btn-grid-4">
+                        <button class="btn active" data-size-mode="uniform">Uniform</button>
+                        <button class="btn" data-size-mode="degree">Degree</button>
+                        <button class="btn" data-size-mode="fanout">Fanout</button>
+                        <button class="btn" data-size-mode="complexity">Complex</button>
+                    </div>
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Base Size</span>
+                        <span class="slider-value" id="cfg-node-size-val">1.0</span>
+                    </div>
+                    <input type="range" id="cfg-node-size" min="0.2" max="4" step="0.1" value="1">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Opacity</span>
+                        <span class="slider-value" id="cfg-node-opacity-val">1.0</span>
+                    </div>
+                    <input type="range" id="cfg-node-opacity" min="0.1" max="1" step="0.05" value="1">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Resolution</span>
+                        <span class="slider-value" id="cfg-node-res-val">8</span>
+                    </div>
+                    <input type="range" id="cfg-node-res" min="4" max="32" step="4" value="8">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Label Size</span>
+                        <span class="slider-value" id="cfg-label-size-val">1.0</span>
+                    </div>
+                    <input type="range" id="cfg-label-size" min="0" max="3" step="0.1" value="1">
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Show Labels</span>
+                    <div class="toggle active" id="cfg-toggle-labels"></div>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Highlight Selected</span>
+                    <div class="toggle active" id="cfg-toggle-highlight"></div>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Pulse Animation</span>
+                    <div class="toggle" id="cfg-toggle-pulse"></div>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">3D Depth Shading</span>
+                    <div class="toggle active" id="cfg-toggle-depth"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDGE CONFIG - PRIME POSITION -->
+        <div class="section prime">
+            <div class="section-header" data-section="edge-config">
+                <span>⟷ Edge Config</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content" id="section-edge-config">
+                <!-- Edge Style Selector -->
+                <div class="filter-group">
+                    <div class="filter-label">Edge Style</div>
+                    <div class="btn-grid">
+                        <button class="btn active" data-edge-style="solid">Solid</button>
+                        <button class="btn" data-edge-style="dashed">Dashed</button>
+                        <button class="btn" data-edge-style="particle">Particle</button>
+                    </div>
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Opacity</span>
+                        <span class="slider-value" id="cfg-edge-opacity-val">0.6</span>
+                    </div>
+                    <input type="range" id="cfg-edge-opacity" min="0" max="1" step="0.05" value="0.6">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Width</span>
+                        <span class="slider-value" id="cfg-edge-width-val">1.5</span>
+                    </div>
+                    <input type="range" id="cfg-edge-width" min="0.2" max="5" step="0.2" value="1.5">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Curvature</span>
+                        <span class="slider-value" id="cfg-edge-curve-val">0.0</span>
+                    </div>
+                    <input type="range" id="cfg-edge-curve" min="0" max="1" step="0.05" value="0">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Particle Speed</span>
+                        <span class="slider-value" id="cfg-particle-speed-val">0.01</span>
+                    </div>
+                    <input type="range" id="cfg-particle-speed" min="0" max="0.05" step="0.005" value="0.01">
+                </div>
+                <div class="slider-row">
+                    <div class="slider-header">
+                        <span class="slider-label">Particle Density</span>
+                        <span class="slider-value" id="cfg-particle-count-val">0</span>
+                    </div>
+                    <input type="range" id="cfg-particle-count" min="0" max="10" step="1" value="0">
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Show Arrows</span>
+                    <div class="toggle" id="cfg-toggle-arrows"></div>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Gradient Colors</span>
+                    <div class="toggle active" id="cfg-toggle-gradient"></div>
+                </div>
+                <div class="toggle-row">
+                    <span class="toggle-label">Highlight on Hover</span>
+                    <div class="toggle active" id="cfg-toggle-edge-hover"></div>
                 </div>
             </div>
         </div>
@@ -733,10 +1277,7 @@
                     <span class="toggle-label">Show Labels</span>
                     <div class="toggle active" id="toggle-labels"></div>
                 </div>
-                <div class="toggle-row">
-                    <span class="toggle-label">Starfield</span>
-                    <div class="toggle" id="toggle-stars"></div>
-                </div>
+                <!-- Starfield toggle REMOVED - nodes ARE the stars -->
             </div>
         </div>
 
@@ -782,6 +1323,10 @@
     <!-- Graph Container -->
     <div id="3d-graph"></div>
 
+    <!-- Sidebar Resize Handles -->
+    <div class="sidebar-resize-handle left" id="left-resize-handle"></div>
+    <div class="sidebar-resize-handle right" id="right-resize-handle"></div>
+
     <!-- Right Sidebar -->
     <div id="right-sidebar">
         <!-- Hover Info Panel -->
@@ -793,7 +1338,8 @@
                 <div class="node-name" id="hover-name">Node Name</div>
                 <div class="node-kind" id="hover-kind">function</div>
                 <div class="info-row"><span class="label">Atom</span><span class="value" id="hover-atom">--</span></div>
-                <div class="info-row"><span class="label">Family</span><span class="value" id="hover-family">--</span></div>
+                <div class="info-row"><span class="label">Family</span><span class="value" id="hover-family">--</span>
+                </div>
                 <div class="info-row"><span class="label">Ring</span><span class="value" id="hover-ring">--</span></div>
                 <div class="info-row"><span class="label">Tier</span><span class="value" id="hover-tier">--</span></div>
                 <div class="info-row"><span class="label">Role</span><span class="value" id="hover-role">--</span></div>
@@ -837,6 +1383,34 @@
                 </div>
             </div>
         </div>
+
+        <!-- COLOR MODE (Presets) -->
+        <div class="info-panel color-panel">
+            <div class="info-panel-header">
+                <span class="info-panel-title">Color Mode</span>
+            </div>
+            <div class="section-content" id="section-color">
+                <div class="btn-grid btn-grid-3">
+                    <button class="btn color-btn active" data-preset="tier">Tier</button>
+                    <button class="btn color-btn" data-preset="family">Family</button>
+                    <button class="btn color-btn" data-preset="layer">Layer</button>
+                    <button class="btn color-btn" data-preset="ring">Ring</button>
+                    <button class="btn color-btn" data-preset="file">File</button>
+                    <button class="btn color-btn" data-preset="flow">Flow</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLOR SCHEMES (33 Named Gradients) -->
+        <div class="info-panel schemes-panel">
+            <div class="info-panel-header collapsible" data-target="section-schemes">
+                <span class="info-panel-title">Color Schemes</span>
+                <span class="collapse-icon">▼</span>
+            </div>
+            <div class="section-content" id="section-schemes">
+                <!-- Populated dynamically by sidebar.js -->
+            </div>
+        </div>
     </div>
 
     <!-- Performance HUD -->
@@ -852,11 +1426,11 @@
     <!-- Toast -->
     <div id="toast"></div>
 
-    <!-- Selection box -->
+    <!-- Core Application Injection -->
     <div id="selection-box"></div>
-
     <script>
-        {{APP_JS}}
+        { { APP_JS } }
     </script>
 </body>
+
 </html>

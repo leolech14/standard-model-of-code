@@ -37,13 +37,17 @@
         { name: 'REFRESH', module: typeof REFRESH !== 'undefined' ? REFRESH : null },
         { name: 'LEGEND', module: typeof LEGEND !== 'undefined' ? LEGEND : null },
         { name: 'DATA', module: typeof DATA !== 'undefined' ? DATA : null },
+        { name: 'LAYOUT', module: typeof LAYOUT !== 'undefined' ? LAYOUT : null },  // UI Layout Engine
         { name: 'ANIM', module: typeof ANIM !== 'undefined' ? ANIM : null },
         { name: 'SELECT', module: typeof SELECT !== 'undefined' ? SELECT : null },
         { name: 'PANELS', module: typeof PANELS !== 'undefined' ? PANELS : null },
         { name: 'SIDEBAR', module: typeof SIDEBAR !== 'undefined' ? SIDEBAR : null },
         { name: 'EDGE', module: typeof EDGE !== 'undefined' ? EDGE : null },
         { name: 'FILE_VIZ', module: typeof FILE_VIZ !== 'undefined' ? FILE_VIZ : null },
-        { name: 'CONTROL_BAR', module: typeof CONTROL_BAR !== 'undefined' ? CONTROL_BAR : null }
+        { name: 'CONTROL_BAR', module: typeof CONTROL_BAR !== 'undefined' ? CONTROL_BAR : null },
+        // STARS module removed - nodes ARE the stars
+        { name: 'HUD', module: typeof HUD !== 'undefined' ? HUD : null },
+        { name: 'DIMENSION', module: typeof DIMENSION !== 'undefined' ? DIMENSION : null }
     ];
 
     const loaded = REQUIRED_MODULES.filter(m => m.module !== null);
@@ -144,6 +148,26 @@
         if (typeof PANELS !== 'undefined' && PANELS.initCommandBar) {
             PANELS.initCommandBar();
             console.log('[MAIN] PANELS module initialized');
+        }
+
+        // Initialize LAYOUT (replaces HudLayoutManager from app.js)
+        if (typeof LAYOUT !== 'undefined' && LAYOUT.init) {
+            LAYOUT.init();
+            console.log('[MAIN] LAYOUT module initialized (Ctrl+Shift+L for debug overlay)');
+        }
+
+        // STARS module removed - nodes ARE the stars
+
+        // Initialize HUD (fade behavior)
+        if (typeof HUD !== 'undefined' && HUD.setupFade) {
+            HUD.setupFade();
+            console.log('[MAIN] HUD module initialized');
+        }
+
+        // Initialize DIMENSION toggle
+        if (typeof DIMENSION !== 'undefined' && DIMENSION.setup) {
+            DIMENSION.setup();
+            console.log('[MAIN] DIMENSION module initialized');
         }
 
         console.log('[MAIN] Module initialization complete');

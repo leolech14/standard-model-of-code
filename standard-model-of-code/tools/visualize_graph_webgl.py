@@ -498,10 +498,26 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/utils.js",                 # Pure utility functions (zero deps)
         "modules/core.js",                  # Constants & utilities
         "modules/node-accessors.js",        # Node property functions
+        "modules/node-helpers.js",          # Node classification & colors (Phase 1)
+        "modules/color-helpers.js",         # Color utilities (Phase 1)
         "modules/color-engine.js",          # OKLCH color system
         "modules/refresh-throttle.js",      # Throttled graph updates
         "modules/legend-manager.js",        # Legend system (depends: COLOR, NODE)
         "modules/data-manager.js",          # Data access layer (depends: NODE, COLOR, LEGEND)
+        "modules/physics.js",               # Force simulation controls (Phase 1)
+        "modules/datamap.js",               # Data mapping & filtering (Phase 1)
+        "modules/groups.js",                # Node grouping (Phase 1)
+        "modules/hover.js",                 # Hover interactions (Phase 1)
+        "modules/flow.js",                  # Flow visualization mode (Phase 2)
+        "modules/ui-builders.js",           # DOM element builders (Phase 2)
+        "modules/layout-helpers.js",        # Layout stability functions (Phase 2)
+        "modules/spatial.js",               # Spatial algorithms (Phase 2)
+        "modules/layout.js",                # UI Layout Engine (foundational)
+        # stars.js REMOVED - nodes ARE the stars (archived to archive/removed_features/)
+        "modules/hud.js",                   # HUD stats & fade (Phase 3)
+        "modules/dimension.js",             # 2D/3D toggle animation (Phase 3)
+        "modules/report.js",                # Report, AI insights, metrics (Phase 3)
+        "modules/visibility.js",            # UI visibility controls (Phase 3)
         "modules/animation.js",             # Layout & animation controller
         "modules/selection.js",             # Selection system (depends: CORE, NODE)
         "modules/panels.js",                # Panel management

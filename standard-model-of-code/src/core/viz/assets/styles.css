@@ -765,168 +765,63 @@ body {
         }
 
         /* ═══════════════════════════════════════════════════════════════
-           OKLCH COLOR SCHEMES - Easy-to-spot explosion of meaningful color
-           Each button glows with its signature palette
+           SCHEME BUTTONS - 33 Named Color Gradients
+           Dynamic gradient preview via inline styles
         ═══════════════════════════════════════════════════════════════ */
-        .color-schemes-title {
-            color: var(--color-viz-highlight) !important;
-            border-bottom: 1px solid var(--color-status-warning-dim);
-            padding-bottom: var(--spacing-1-5);
-            margin-top: var(--spacing-3);
+        .scheme-category {
+            margin-bottom: 12px;
         }
-        .color-scheme-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-1-5);
-            padding: var(--spacing-2-5) var(--spacing-3);
-        }
-        .color-scheme-btn {
+
+        .scheme-grid {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing-2-5) var(--spacing-0-5);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--duration-normal) var(--easing-ease);
-            gap: var(--spacing-0-5);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 4px;
         }
-        .color-scheme-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            opacity: var(--opacity-dim);
-            transition: opacity var(--duration-normal);
-        }
-        .color-scheme-btn:hover::before {
-            opacity: var(--opacity-muted);
-        }
-        .color-scheme-btn.active {
-            transform: scale(1.05);
-            z-index: 1;
-        }
-        .color-scheme-btn.active::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: var(--radius-lg);
-            border: 2px solid currentColor;
-            opacity: 0.8;
-            animation: scheme-pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes scheme-pulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: var(--opacity-disabled); }
-        }
-        .scheme-icon {
-            font-size: var(--typography-size-lg);
-            filter: drop-shadow(0 0 var(--spacing-1) currentColor);
-        }
-        .scheme-name {
-            font-size: var(--typography-size-2xs);
-            font-weight: var(--typography-weight-bold);
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            opacity: 0.9;
-        }
-        .scheme-tooltip {
-            position: absolute;
-            bottom: calc(100% + var(--spacing-3));
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-bg-overlay);
-            color: var(--color-text-primary);
-            font-size: var(--typography-size-xs);
-            font-weight: var(--typography-weight-normal);
-            padding: var(--spacing-2-5) var(--spacing-4);
+
+        .scheme-btn {
+            display: inline-block;
+            padding: 4px 8px;
+            min-width: 60px;
+            height: 24px;
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: var(--radius-sm);
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity var(--duration-normal) var(--easing-ease);
-            z-index: var(--z-index-overlay);
-            border: 1px solid var(--color-bg-active);
-        }
-        .scheme-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: var(--spacing-2) solid transparent;
-            border-top-color: var(--color-bg-overlay);
-        }
-        .color-scheme-btn:hover .scheme-tooltip {
-            opacity: 1;
+            cursor: pointer;
+            transition: var(--transition-default);
+            font-size: 9px;
+            font-weight: var(--typography-weight-semibold);
+            text-transform: capitalize;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+            /* Background is set dynamically via JS with gradient */
         }
 
-        /* Individual color scheme button themes - SUBTLE/MUTED */
-        .color-scheme-btn.thermal {
-            background: rgba(80,40,30,0.25);
-            border-color: rgba(120,60,40,0.3);
-            color: rgba(200,130,100,0.8);
+        .scheme-btn:hover {
+            border-color: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        .color-scheme-btn.thermal::before { background: linear-gradient(135deg, var(--color-gradient-warm-start), var(--color-gradient-warm-end)); }
-        .color-scheme-btn.thermal.active { box-shadow: 0 0 10px rgba(120,60,40,0.3); }
 
-        .color-scheme-btn.spectrum {
-            background: rgba(60,60,60,0.25);
-            border-color: rgba(100,100,100,0.3);
-            color: rgba(180,180,180,0.8);
+        .scheme-btn.active {
+            border-color: rgba(255,255,255,0.7);
+            box-shadow: 0 0 12px rgba(255,255,255,0.25),
+                        inset 0 0 4px rgba(255,255,255,0.15);
+            transform: scale(1.02);
         }
-        .color-scheme-btn.spectrum::before { background: linear-gradient(135deg, rgba(100,70,80,0.3), rgba(70,100,80,0.3)); }
-        .color-scheme-btn.spectrum.active { box-shadow: 0 0 10px rgba(150,150,150,0.3); }
 
-        .color-scheme-btn.neon {
-            background: rgba(40,60,70,0.25);
-            border-color: rgba(60,100,110,0.3);
-            color: rgba(100,160,170,0.8);
+        /* Section for schemes in sidebar */
+        #section-schemes {
+            max-height: 300px;
+            overflow-y: auto;
         }
-        .color-scheme-btn.neon::before { background: linear-gradient(135deg, rgba(50,80,90,0.4), rgba(80,60,90,0.3)); }
-        .color-scheme-btn.neon.active { box-shadow: 0 0 10px rgba(80,140,150,0.3); }
 
-        .color-scheme-btn.ocean {
-            background: rgba(30,50,60,0.25);
-            border-color: rgba(50,80,100,0.3);
-            color: rgba(90,140,160,0.8);
+        #section-schemes::-webkit-scrollbar {
+            width: 4px;
         }
-        .color-scheme-btn.ocean::before { background: linear-gradient(135deg, var(--color-gradient-cool-start), var(--color-gradient-cool-end)); }
-        .color-scheme-btn.ocean.active { box-shadow: 0 0 10px rgba(60,100,120,0.3); }
 
-        .color-scheme-btn.plasma {
-            background: rgba(60,40,70,0.25);
-            border-color: rgba(90,60,100,0.3);
-            color: rgba(150,120,170,0.8);
+        #section-schemes::-webkit-scrollbar-thumb {
+            background: var(--color-bg-active);
+            border-radius: 2px;
         }
-        .color-scheme-btn.plasma::before { background: linear-gradient(135deg, var(--color-gradient-purple-start), var(--color-gradient-purple-end)); }
-        .color-scheme-btn.plasma.active { box-shadow: 0 0 10px rgba(100,70,120,0.3); }
-
-        .color-scheme-btn.matrix {
-            background: rgba(30,50,30,0.25);
-            border-color: rgba(50,80,50,0.3);
-            color: rgba(100,150,100,0.8);
-        }
-        .color-scheme-btn.matrix::before { background: linear-gradient(135deg, var(--color-gradient-green-start), var(--color-gradient-green-end)); }
-        .color-scheme-btn.matrix.active { box-shadow: 0 0 10px rgba(60,100,60,0.3); }
-
-        .color-scheme-btn.infrared {
-            background: rgba(60,35,30,0.25);
-            border-color: rgba(90,50,40,0.3);
-            color: rgba(160,100,80,0.8);
-        }
-        .color-scheme-btn.infrared::before { background: linear-gradient(135deg, rgba(70,40,30,0.4), rgba(80,50,40,0.3)); }
-        .color-scheme-btn.infrared.active { box-shadow: 0 0 10px rgba(100,60,50,0.3); }
-
-        .color-scheme-btn.aurora {
-            background: rgba(40,55,50,0.25);
-            border-color: rgba(60,90,80,0.3);
-            color: rgba(120,160,140,0.8);
-        }
-        .color-scheme-btn.aurora::before { background: linear-gradient(135deg, rgba(40,70,60,0.4), rgba(60,50,70,0.3)); }
-        .color-scheme-btn.aurora.active { box-shadow: 0 0 10px rgba(80,120,100,0.3); }
 
         /* ═══════════════════════════════════════════════════════════════
            LAYOUT PRESET BUTTONS - Text row layout (invisible lines)
