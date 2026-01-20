@@ -3555,52 +3555,8 @@ const GRADIENT_PALETTES = {
 // parseOklchString - MOVED TO modules/utils.js
 // normalizeColorInput, toColorNumber - MOVED TO modules/color-helpers.js
 
-function updateEdgeRanges() {
-    const links = (Graph && Graph.graphData().links) ? Graph.graphData().links : [];
-    let minWeight = Infinity;
-    let maxWeight = -Infinity;
-    let minConf = Infinity;
-    let maxConf = -Infinity;
-    links.forEach(link => {
-        const weight = typeof link.weight === 'number' ? link.weight : 1;
-        const confidence = typeof link.confidence === 'number' ? link.confidence : 1;
-        minWeight = Math.min(minWeight, weight);
-        maxWeight = Math.max(maxWeight, weight);
-        minConf = Math.min(minConf, confidence);
-        maxConf = Math.max(maxConf, confidence);
-    });
-    EDGE_RANGES = {
-        weight: {
-            min: isFinite(minWeight) ? minWeight : 1,
-            max: isFinite(maxWeight) ? maxWeight : 1
-        },
-        confidence: {
-            min: isFinite(minConf) ? minConf : 1,
-            max: isFinite(maxConf) ? maxConf : 1
-        }
-    };
-}
-
-function refreshNodeFileIndex() {
-    NODE_FILE_INDEX = new Map();
-    const nodes = (Graph && Graph.graphData().nodes) ? Graph.graphData().nodes : [];
-    nodes.forEach(node => {
-        if (node && node.id) {
-            NODE_FILE_INDEX.set(node.id, node.fileIdx ?? -1);
-        }
-    });
-}
-
-function getLinkFileIdx(link, side) {
-    const endpoint = link?.[side];
-    if (endpoint && typeof endpoint === 'object') {
-        return endpoint.fileIdx ?? -1;
-    }
-    if (endpoint) {
-        return NODE_FILE_INDEX.get(endpoint) ?? -1;
-    }
-    return -1;
-}
+// updateEdgeRanges, refreshNodeFileIndex, getLinkFileIdx - MOVED TO modules/edge-system.js
+// (shims delegate to EDGE.updateRanges, EDGE.refreshNodeFileIndex; getLinkFileIdx is internal)
 
 // normalizeMetric - MOVED TO modules/utils.js
 // getEdgeColor, getEdgeWidth, applyEdgeMode, cycleEdgeMode, setEdgeMode - MOVED TO modules/edge-system.js
