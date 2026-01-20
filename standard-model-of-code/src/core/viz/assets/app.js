@@ -1859,9 +1859,7 @@ function filterGraph(data, minVal, datamapSet, filters) {
     }
 
     // Filter nodes by size/importance
-    const sampleNode = allNodes.length > 0 ? allNodes[0] : null;
     let visibleNodes = allNodes.filter(n => (n.val ?? 1) >= minVal);
-    const countAfterMinVal = visibleNodes.length;
 
     if (datamapSet && datamapSet.size > 0) {
         visibleNodes = visibleNodes.filter(n => {
@@ -1872,7 +1870,6 @@ function filterGraph(data, minVal, datamapSet, filters) {
             return false;
         });
     }
-    const countAfterDatamap = visibleNodes.length;
 
     const tierFilterActive = tierFilter.size > 0;
     const ringFilterActive = ringFilter.size > 0;
@@ -2395,9 +2392,9 @@ const UIManager = {
             };
         };
 
-        bindToggle('btn-file-hulls', (active) => {
+        bindToggle('btn-file-hulls', (_active) => {
             // Toggle hull visibility
-            // if(active) showHulls(); else hideHulls();
+            // TODO: if(_active) showHulls(); else hideHulls();
         });
     },
 
@@ -4672,7 +4669,7 @@ function computeFileActivity(data) {
 
 // Draw containment spheres
 // Draw containment hulls (Optimized for performance and aesthetics)
-function drawContainmentSpheres(data) {
+function drawContainmentSpheres(_data) {
     const scene = Graph.scene();
     if (!scene) return;
     const graphNodes = DM ? DM.getVisibleNodes() : (Graph?.graphData()?.nodes || []);
@@ -4692,8 +4689,6 @@ function drawContainmentSpheres(data) {
     const hullsActive = document.getElementById('btn-file-hulls')?.classList.contains('active');
 
     if (!fileMode || flowMode || !hullsActive || FILE_CONTAINMENT.boundariesPopped) return;
-
-    const fileBoundaries = DM ? DM.getFileBoundaries() : (data?.file_boundaries || []);
 
     // Group nodes by file
     const fileGroups = {};
@@ -5230,7 +5225,7 @@ const PanelManager = {
         }
     },
 
-    onMouseUp(e) {
+    onMouseUp(_e) {
         if (this.dragState) {
             const config = this.panels.get(this.dragState.panelId);
             if (config) {
