@@ -1,59 +1,34 @@
 # PROJECT_elements
 
-> **The effort to find the basic constituents of computer programs.**
+> The effort to find the basic constituents of computer programs.
 
----
+## What Is This?
 
-## 👽 The Architecture (Brain & Body)
+**Standard Model of Code** - A theoretical framework treating code like physics (atoms, dimensions, layers).
 
-This repository is structured as a living system, divided into two specialized hemispheres:
+**Collider** - The tool that implements the theory, analyzing codebases and producing architectural insights.
 
-### 1. The Brain: `context-management/`
-*   **Purpose**: Meta-cognition, Theory, and Intelligence.
-*   **Role**: To understand, navigate, and manage the complexity of the code.
-*   **Key Components**:
-    *   **The Intelligence**: `tools/ai/analyze.py` (Forensic Surgeon & Architect).
-    *   **The Memory**: `tools/archive/archive.py` (Cloud Mirror & Registry).
-    *   **The Wisdom**: `docs/` (The Standard Model Theory, AI Manuals).
+## Quick Start
 
-### 2. The Body: `standard-model-of-code/`
-*   **Purpose**: Implementation and Physics.
-*   **Role**: To execute the theory and run the "Collider".
-*   **Key Components**:
-    *   **The Collider**: `src/` (The engine that parses code).
-    *   **The Specs**: `schema/` (The Atomic Definitions).
-    *   **The Lab**: `experiments/` (Prototyping).
+```bash
+cd standard-model-of-code
+./collider full /path/to/repo --output /tmp/analysis
+```
 
----
+## Structure
 
-## 🗺️ Navigation Map
+```
+PROJECT_elements/
+├── standard-model-of-code/   # The Body (Collider engine)
+├── context-management/       # The Brain (AI tools, cloud)
+└── archive/                  # Cold storage
+```
 
-| I want to... | Go to... |
-| :--- | :--- |
-| **Understand the Theory** | `context-management/docs/theory/THEORY.md` |
-| **Run the AI Assistant** | `context-management/tools/ai/analyze.py` |
-| **Build the Collider** | `standard-model-of-code/README.md` |
-| **View the Asset List** | `context-management/docs/ASSET_INVENTORY.md` |
+## For AI Agents
 
----
+See `CLAUDE.md` for lookup tables and commands.
 
-## 🚀 Quick Start (The Workflow)
+## Documentation
 
-1.  **Sync the Brain**:
-    ```bash
-    python context-management/tools/archive/archive.py mirror
-    ```
-    *(Uploads the Code to the Cloud Context)*
-
-2.  **Ask the Architect**:
-    ```bash
-    .tools_venv/bin/python context-management/tools/ai/analyze.py "Explain the topological structure of this repo" --mode architect
-    ```
-
-3.  **Run the Collider**:
-    ```bash
-    cd standard-model-of-code
-    python collider.py
-    ```
-
-👉 **[Enter the Standard Model (The Body)](standard-model-of-code/README.md)**
+- Theory: `standard-model-of-code/docs/THEORY.md`
+- Tool: `standard-model-of-code/docs/TOOL.md`
