@@ -676,6 +676,43 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print(f"   → {knots['bidirectional_edges']} bidirectional edges")
     print(f"   → Knot score: {knots['knot_score']}/10")
 
+    # Stage 6.5: Graph Analytics (Nerd Layer)
+    print("\n🧮 Stage 6.5: Graph Analytics...")
+    with StageTimer(perf_manager, "Stage 6.5: Graph Analytics") as timer:
+        try:
+            from graph_analyzer import find_bottlenecks, find_pagerank, find_communities
+            import networkx as nx
+            
+            # Build NetworkX graph from edges
+            G = nx.DiGraph()
+            for node in nodes:
+                G.add_node(node.get('id', ''), **{k: v for k, v in node.items() if k != 'body_source'})
+            for edge in edges:
+                src = edge.get('source', edge.get('from', ''))
+                tgt = edge.get('target', edge.get('to', ''))
+                if src and tgt:
+                    G.add_edge(src, tgt)
+            
+            # Run analytics
+            bottlenecks = find_bottlenecks(G, top_n=20) if len(G) > 0 else []
+            pagerank_top = find_pagerank(G, top_n=20) if len(G) > 0 else []
+            communities = find_communities(G) if len(G) > 5 else {}
+            
+            graph_analytics = {
+                'bottlenecks': bottlenecks,
+                'pagerank_top': pagerank_top,
+                'communities_count': len(communities),
+                'communities': {str(k): len(v) for k, v in list(communities.items())[:10]} if communities else {},
+            }
+            timer.set_output(bottlenecks=len(bottlenecks), pagerank=len(pagerank_top), communities=len(communities))
+            print(f"   → {len(bottlenecks)} bottlenecks identified")
+            print(f"   → {len(pagerank_top)} PageRank leaders")
+            print(f"   → {len(communities)} communities detected")
+        except Exception as e:
+            graph_analytics = {}
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Graph analytics skipped: {e}")
+
     # Stage 7: Data Flow
     print("\n🌊 Stage 7: Data Flow Analysis...")
     with StageTimer(perf_manager, "Stage 7: Data Flow Analysis") as timer:
@@ -795,6 +832,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         }),
         'markov': markov,
         'knots': knots,
+        'graph_analytics': graph_analytics if 'graph_analytics' in dir() else {},
         'data_flow': data_flow,
         'performance': perf_summary,
         'top_hubs': [],
