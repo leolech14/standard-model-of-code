@@ -1020,8 +1020,8 @@
         window.process = window.process || { env: { NODE_ENV: "production" } };
         window.global = window.global || window;
     </script>
-    <!-- THREE.js must be loaded explicitly - 3d-force-graph no longer exposes it globally -->
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <!-- THREE.js r149 (last version without deprecation warning) + 3d-force-graph -->
+    <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
     <script src="https://unpkg.com/pako@2.1.0/dist/pako.min.js"></script>
 </head>

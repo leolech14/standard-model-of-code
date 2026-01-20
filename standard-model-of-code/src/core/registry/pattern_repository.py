@@ -8,6 +8,13 @@ from typing import Dict, List, Tuple, Set
 from dataclasses import dataclass, field
 from pathlib import Path
 import json
+try:
+    from core.registry.role_registry import get_role_registry
+except ImportError:
+    try:
+        from registry.role_registry import get_role_registry
+    except ImportError:
+        def get_role_registry(): return None
 
 
 @dataclass 
@@ -46,6 +53,14 @@ class PatternRepository:
             self._load_from_canonical()
         else:
             self._load_default_patterns()
+
+        self.role_registry = get_role_registry()
+
+    def _canonicalize(self, role: str) -> str:
+        """Ensure role is canonical."""
+        if self.role_registry:
+            return self.role_registry.get_canonical(role)
+        return role
     
     def _load_from_canonical(self):
         """Load patterns from canonical/learned/patterns.json."""
@@ -575,7 +590,7 @@ class PatternRepository:
             
             # If exact match, it's valid
             if len(short_name) == prefix_len:
-                return (role, conf)
+                return (self._canonicalize(role), conf)
             
             # Get the character after the prefix
             next_char = short_name[prefix_len]
@@ -587,17 +602,17 @@ class PatternRepository:
             
             if prefix.endswith('_'):
                 # snake_case patterns like 'get_' - just need prefix match
-                return (role, conf)
+                return (self._canonicalize(role), conf)
             elif next_char.isupper():
                 # camelCase: 'useEffect' matches 'use' + 'E'
                 # But 'UserService' should NOT match 'use' because 'u' != 'U'
                 # Check case-sensitive prefix match for camelCase
                 if short_name.startswith(prefix):
-                    return (role, conf)
+                    return (self._canonicalize(role), conf)
             elif next_char == '_':
                 # 'test_user' matches 'test' + '_'
                 if short_name[:prefix_len].lower() == prefix_lower:
-                    return (role, conf - 5)  # Slightly lower confidence
+                    return (self._canonicalize(role), conf - 5)  # Slightly lower confidence
         
         return ('Unknown', 0)
     
@@ -608,7 +623,7 @@ class PatternRepository:
         
         for suffix, (role, conf) in self._suffix_patterns.items():
             if short_name.endswith(suffix) or short_lower.endswith(suffix.lower()):
-                return (role, conf)
+                return (self._canonicalize(role), conf)
         
         return ('Unknown', 0)
     
@@ -622,7 +637,7 @@ class PatternRepository:
         for pattern, (role, conf) in self._contains_patterns.items():
             if pattern in short_lower:
                 if conf > best_match[1]:
-                    best_match = (role, conf)
+                    best_match = (self._canonicalize(role), conf)
         
         return best_match
     
@@ -631,7 +646,8 @@ class PatternRepository:
         short_name = name.split('.')[-1] if '.' in name else name
         
         if short_name in self._dunder_patterns:
-            return self._dunder_patterns[short_name]
+            role, conf = self._dunder_patterns[short_name]
+            return (self._canonicalize(role), conf)
         
         return ('Unknown', 0)
     
@@ -654,12 +670,13 @@ class PatternRepository:
             
             # Try exact match first
             if normalized in self._param_type_patterns:
-                return self._param_type_patterns[normalized]
+                role, conf = self._param_type_patterns[normalized]
+                return (self._canonicalize(role), conf)
             
             # Try partial match (e.g., "c *gin.Context" contains "gin.Context")
             for pattern, (role, conf) in self._param_type_patterns.items():
                 if pattern in param_type:
-                    return (role, conf)
+                    return (self._canonicalize(role), conf)
         
         return ('Unknown', 0)
     

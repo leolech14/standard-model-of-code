@@ -5,11 +5,16 @@ Applies the full Standard Model theory to particles:
 - RPBL Scores (Responsibility, Purity, Boundary, Lifecycle)
 - Atom Mapping (DAT.BYT.A, LOG.FNC.M, etc.)
 - Type Alias Resolution (Helper→Utility, Schema→DTO)
+- Role Normalization to 33 canonical roles via RoleRegistry
 """
 import json
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from classification.universal_classifier import UniversalClassifier
+try:
+    from core.registry import get_role_registry
+except ImportError:
+    from registry import get_role_registry
 
 
 class StandardModelEnricher:
@@ -223,17 +228,22 @@ class StandardModelEnricher:
     
     def enrich_particle(self, particle: Dict[str, Any]) -> Dict[str, Any]:
         """Enrich a single particle with full Standard Model data."""
-        
+
         # Resolve canonical type
         current_type = particle.get('type') or particle.get('role') or 'Unknown'
         canonical_type = self.resolve_canonical_type(current_type)
+
+        # CRITICAL: Normalize to one of the 33 canonical roles
+        # This ensures consistent output regardless of classifier source
+        role_registry = get_role_registry()
+        canonical_role = role_registry.normalize(canonical_type)
+
+        # Update type/role to canonical role
+        particle['type'] = canonical_role
+        particle['role'] = canonical_role
         
-        # Update type/role to canonical
-        particle['type'] = canonical_type
-        particle['role'] = canonical_type
-        
-        # Add RPBL scores
-        rpbl = self.get_rpbl_scores(canonical_type)
+        # Add RPBL scores (use canonical_type for RPBL since it may have more detail)
+        rpbl = self.get_rpbl_scores(canonical_role)
         particle['rpbl'] = rpbl
         # 2. Dimensions (T2 Atoms)
         # The classifier usually does this during extraction, but if not...
