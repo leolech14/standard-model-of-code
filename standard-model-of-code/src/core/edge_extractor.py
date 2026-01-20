@@ -20,8 +20,28 @@ Edge Types:
 
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Any
 from abc import ABC, abstractmethod
+
+# Tree-sitter imports (optional, for high-precision extraction)
+try:
+    import tree_sitter
+    import tree_sitter_python
+    TREE_SITTER_AVAILABLE = True
+except ImportError:
+    TREE_SITTER_AVAILABLE = False
+    tree_sitter = None
+    tree_sitter_python = None
+
+try:
+    import tree_sitter_javascript
+except ImportError:
+    tree_sitter_javascript = None
+
+try:
+    import tree_sitter_typescript
+except ImportError:
+    tree_sitter_typescript = None
 
 
 # Standard library module names (common ones for quick classification)
@@ -323,14 +343,185 @@ class DefaultEdgeStrategy(EdgeExtractionStrategy):
         return []
 
 
+# =============================================================================
+# TREE-SITTER BASED STRATEGIES (High Precision)
+# =============================================================================
+
+class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
+    """
+    Base class for Tree-sitter based edge extraction.
+    Parses body_source as AST and runs queries for precise call detection.
+    """
+    
+    def __init__(self, parser: Any, language_name: str):
+        self.parser = parser
+        self.language_name = language_name
+    
+    def get_call_node_types(self) -> Set[str]:
+        """Return set of AST node types that represent function calls."""
+        return {'call', 'call_expression'}
+    
+    def extract_callee_name(self, node: Any, source_bytes: bytes) -> Optional[str]:
+        """Extract the function/method name from a call node."""
+        # Try 'function' field first (Python, JS)
+        func_node = node.child_by_field_name('function')
+        if func_node:
+            # Direct identifier: func()
+            if func_node.type == 'identifier':
+                return func_node.text.decode()
+            # Attribute access: obj.method() or self.method()
+            if func_node.type in ('attribute', 'member_expression'):
+                # Get the rightmost identifier (the method name)
+                attr = func_node.child_by_field_name('attribute') or func_node.child_by_field_name('property')
+                if attr:
+                    return attr.text.decode()
+        return None
+    
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+        edges = []
+        body = particle.get('body_source', '')
+        if not body or not self.parser:
+            return edges
+        
+        caller_id = _get_particle_id(particle)
+        source_bytes = body.encode('utf-8')
+        
+        try:
+            tree = self.parser.parse(source_bytes)
+        except Exception:
+            return edges  # Fallback to empty if parsing fails
+        
+        call_types = self.get_call_node_types()
+        found_calls: Set[str] = set()
+        
+        def visit(node):
+            if node.type in call_types:
+                callee = self.extract_callee_name(node, source_bytes)
+                if callee:
+                    found_calls.add(callee)
+            for child in node.children:
+                visit(child)
+        
+        visit(tree.root_node)
+        
+        # Match against known particles
+        for call in found_calls:
+            if call in particle_by_name:
+                target_id = _get_particle_id(particle_by_name[call])
+                edges.append({
+                    'source': caller_id,
+                    'target': target_id,
+                    'edge_type': 'calls',
+                    'family': 'Dependency',
+                    'file_path': particle.get('file_path', ''),
+                    'line': particle.get('line', 0),
+                    'confidence': 0.95,  # High confidence from AST
+                })
+        
+        return edges
+
+
+class PythonTreeSitterStrategy(TreeSitterEdgeStrategy):
+    """Tree-sitter based Python call extraction."""
+    
+    def __init__(self):
+        parser = None
+        if TREE_SITTER_AVAILABLE and tree_sitter_python:
+            try:
+                lang = tree_sitter.Language(tree_sitter_python.language())
+                parser = tree_sitter.Parser()
+                parser.language = lang
+            except Exception:
+                parser = None
+        super().__init__(parser, 'python')
+    
+    def get_call_node_types(self) -> Set[str]:
+        return {'call'}
+
+
+class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
+    """Tree-sitter based JavaScript/JSX call extraction."""
+    
+    def __init__(self):
+        parser = None
+        if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
+            try:
+                lang = tree_sitter.Language(tree_sitter_javascript.language())
+                parser = tree_sitter.Parser()
+                parser.language = lang
+            except Exception:
+                parser = None
+        super().__init__(parser, 'javascript')
+    
+    def get_call_node_types(self) -> Set[str]:
+        return {'call_expression', 'new_expression'}
+    
+    def extract_callee_name(self, node: Any, source_bytes: bytes) -> Optional[str]:
+        # Handle new_expression: new ClassName()
+        if node.type == 'new_expression':
+            constructor = node.child_by_field_name('constructor')
+            if constructor and constructor.type == 'identifier':
+                return constructor.text.decode()
+        # Fallback to parent implementation for call_expression
+        return super().extract_callee_name(node, source_bytes)
+
+
+class TypeScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
+    """Tree-sitter based TypeScript/TSX call extraction."""
+    
+    def __init__(self):
+        parser = None
+        if TREE_SITTER_AVAILABLE and tree_sitter_typescript:
+            try:
+                lang = tree_sitter.Language(tree_sitter_typescript.language_typescript())
+                parser = tree_sitter.Parser()
+                parser.language = lang
+            except Exception:
+                parser = None
+        super().__init__(parser, 'typescript')
+    
+    def get_call_node_types(self) -> Set[str]:
+        return {'call_expression', 'new_expression'}
+    
+    def extract_callee_name(self, node: Any, source_bytes: bytes) -> Optional[str]:
+        if node.type == 'new_expression':
+            constructor = node.child_by_field_name('constructor')
+            if constructor and constructor.type == 'identifier':
+                return constructor.text.decode()
+        return super().extract_callee_name(node, source_bytes)
+
+
+# =============================================================================
+# STRATEGY FACTORY (Updated with Tree-sitter priority)
+# =============================================================================
+
 def get_strategy_for_file(file_path: str) -> EdgeExtractionStrategy:
-    """Factory to get the correct strategy based on file extension."""
+    """
+    Factory to get the correct strategy based on file extension.
+    Prefers Tree-sitter strategies when available, falls back to regex.
+    """
     if file_path.endswith('.py'):
-        return PythonEdgeStrategy()
+        # Try Tree-sitter first
+        if TREE_SITTER_AVAILABLE and tree_sitter_python:
+            strategy = PythonTreeSitterStrategy()
+            if strategy.parser:
+                return strategy
+        return PythonEdgeStrategy()  # Regex fallback
+    
     if file_path.endswith('.js') or file_path.endswith('.jsx'):
-        return JavascriptEdgeStrategy()
+        if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
+            strategy = JavaScriptTreeSitterStrategy()
+            if strategy.parser:
+                return strategy
+        return JavascriptEdgeStrategy()  # Regex fallback
+    
     if file_path.endswith('.ts') or file_path.endswith('.tsx'):
-        return TypeScriptEdgeStrategy()
+        if TREE_SITTER_AVAILABLE and tree_sitter_typescript:
+            strategy = TypeScriptTreeSitterStrategy()
+            if strategy.parser:
+                return strategy
+        return TypeScriptEdgeStrategy()  # Regex fallback
+    
     if file_path.endswith('.go'):
         return GoEdgeStrategy()
     if file_path.endswith('.rs'):
