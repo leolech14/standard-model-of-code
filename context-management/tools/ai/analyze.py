@@ -64,15 +64,27 @@ import json
 # Note: SCRIPT_DIR and PROJECT_ROOT already defined above for venv detection
 CONFIG_PATH = PROJECT_ROOT / "context-management/tools/archive/config.yaml"
 SETS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/analysis_sets.yaml"
+PROMPTS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/prompts.yaml"
 
 # Pricing Estimates (USD per 1M tokens) - approximate
-PRICING = {
-    "gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
-    "gemini-2.5-pro":       {"input": 1.25, "output": 5.00},
-    "gemini-1.5-pro-001":   {"input": 1.25, "output": 5.00},
-    "gemini-1.5-pro-002":   {"input": 1.25, "output": 5.00}
-}
-DEFAULT_MODEL = "gemini-2.0-flash-001"  # 1M context, works with current quotas
+# Load initial config to get defaults
+if PROMPTS_CONFIG_PATH.exists():
+    with open(PROMPTS_CONFIG_PATH) as f:
+        _prompts_data = yaml.safe_load(f)
+        PRICING = _prompts_data.get("pricing", {})
+        DEFAULT_MODEL = _prompts_data.get("default_model", "gemini-2.0-flash-001")
+        MODES = _prompts_data.get("analysis_prompts", {}).get("modes", {})
+        # Flatten insights prompt structure for compatibility
+        if "insights" in _prompts_data.get("analysis_prompts", {}):
+            MODES["insights"] = {
+                "prompt": _prompts_data["analysis_prompts"]["insights"],
+                "output_format": "json"
+            }
+else:
+    # Fallback if config missing (though it should exist now)
+    PRICING = {}
+    DEFAULT_MODEL = "gemini-2.0-flash-001"
+    MODES = {}
 
 def load_config():
     if not CONFIG_PATH.exists():
@@ -161,103 +173,7 @@ def retry_with_backoff(func, max_retries=5, base_delay=1.0):
 
 
 # --- System Prompts & Modes ---
-INSIGHTS_PROMPT = """
-You are a SOFTWARE ARCHITECTURE ANALYST specializing in pattern recognition and code quality assessment.
-
-Your task is to analyze Collider output (a semantic graph of a codebase) and provide structured insights.
-
-ANALYSIS CONTEXT (from Collider):
-{context}
-
-TASK:
-1. Identify design patterns present (Factory, Repository, Observer, Facade, etc.)
-2. Detect anti-patterns (God Object, Spaghetti Code, Anemic Domain Model, Feature Envy, etc.)
-3. Suggest 3-5 specific refactoring opportunities with priority (CRITICAL/HIGH/MEDIUM/LOW)
-4. Interpret the topology shape in architectural terms
-5. Assess RPBL scores if present (Responsibility, Purity, Boundary, Lifecycle)
-6. Identify risk areas and technical debt
-7. Provide a 2-3 sentence executive summary
-
-OUTPUT FORMAT:
-Return ONLY valid JSON matching this structure (no markdown, no code blocks):
-{{
-  "meta": {{
-    "generated_at": "<ISO timestamp>",
-    "model": "<model name>",
-    "target": "<codebase name>",
-    "confidence": <0.0-1.0>
-  }},
-  "executive_summary": "<2-3 sentences>",
-  "patterns_detected": [
-    {{
-      "pattern_name": "<name>",
-      "pattern_type": "design_pattern|anti_pattern|architectural",
-      "confidence": <0.0-1.0>,
-      "affected_nodes": ["<node1>", "<node2>"],
-      "evidence": "<why detected>",
-      "recommendation": "<what to do>"
-    }}
-  ],
-  "refactoring_opportunities": [
-    {{
-      "title": "<short name>",
-      "priority": "CRITICAL|HIGH|MEDIUM|LOW",
-      "category": "<type>",
-      "description": "<what and why>",
-      "affected_files": ["<file1>"],
-      "estimated_impact": "<benefit>"
-    }}
-  ],
-  "topology_analysis": {{
-    "shape_interpretation": "<what the shape means>",
-    "health_assessment": "<overall health>",
-    "coupling_analysis": "<coupling assessment>"
-  }},
-  "risk_areas": [
-    {{
-      "area": "<name>",
-      "risk_level": "HIGH|MEDIUM|LOW",
-      "description": "<issue>",
-      "mitigation": "<fix>"
-    }}
-  ]
-}}
-
-Be specific. Cite actual node names from the input. Do not hallucinate nodes that don't exist.
-"""
-
-MODES = {
-    "standard": {
-        "prompt": "You are a senior software engineer. Analyze the provided codebase context and answer the user's request.",
-        "output_format": "text"
-    },
-    "forensic": {
-        "prompt": """
-You are a FORENSIC CODE ANALYST. Your goal is to provide precise, verifiable facts about the codebase.
-RULES:
-1. For every claim you make, you MUST cite the specific file path and line numbers.
-2. Format citations as: `[path/to/file.py:L10-L15]`
-3. Do not generalize. If you cannot find the specific implementation, state "Evidence not found in provided context."
-4. Quote the exact code snippet when relevant.
-""",
-        "output_format": "text"
-    },
-    "architect": {
-        "prompt": """
-You are the CHIEF ARCHITECT of the 'Standard Model of Code' project.
-Your analysis must be grounded in the project's theoretical framework (Atoms, Rings, Tiers, RPBL).
-RULES:
-1. Use the terminology defined in `metadata/COLLIDER_ARCHITECTURE.md` (e.g., "The UnifiedNode layer...", "The RPBL classification...").
-2. Connect implementation details to the architectural vision.
-3. Identify topological structures (knots, cycles, layers).
-""",
-        "output_format": "text"
-    },
-    "insights": {
-        "prompt": INSIGHTS_PROMPT,
-        "output_format": "json"
-    }
-}
+# Prompts and Modes are now loaded from PROMPTS_CONFIG_PATH above
 
 def extract_collider_context(json_path):
     """Extract key metrics from Collider unified_analysis.json for insights prompt."""

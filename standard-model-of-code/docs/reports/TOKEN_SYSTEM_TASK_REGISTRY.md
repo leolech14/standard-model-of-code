@@ -44,16 +44,42 @@
 
 | ID | Task | Priority | Confidence | Status |
 |----|------|----------|------------|--------|
-| T001 | Remove EDGE_DEFAULT_OPACITY hardcode | P0 | 99% | DONE (2026-01-19) |
-| T002 | Remove EDGE_MODE_CONFIG hardcoded values | P0 | 98% | DONE (2026-01-19) |
-| T003 | Remove EDGE_COLOR_CONFIG hardcoded values | P0 | 98% | DONE (2026-01-19) |
-| T004 | Merge PENDULUM with animation tokens | P0 | 98% | DONE (2026-01-19) |
-| T005 | Sync node-size slider max with render max | P1 | 99% | DONE (2026-01-19) |
-| T006 | Remove duplicate color schemes from app.js | P1 | 96% | DONE (2026-01-19) |
-| T007 | Tokenize LAYOUT_PRESETS motion speeds | P2 | 95% | DONE (2026-01-19) |
-| T008 | Tokenize FLOW_PRESETS | P2 | 95% | DONE (2026-01-19) |
-| T009 | Complete light theme tokens | P2 | 95% | DONE (2026-01-19) |
-| T010 | Complete high-contrast theme tokens | P2 | 95% | DONE (2026-01-19) |
+| T001 | Remove EDGE_DEFAULT_OPACITY hardcode | P0 | 98% | READY |
+| T002 | Remove EDGE_MODE_CONFIG hardcoded values | P0 | 98% | READY |
+| T003 | Remove EDGE_COLOR_CONFIG hardcoded values | P0 | 98% | READY |
+| T004 | Merge PENDULUM with animation tokens | P0 | 98% | READY |
+| T005 | Sync node-size slider max with render max | P1 | 99% | READY |
+| T006 | Remove duplicate color schemes from app.js | P1 | 96% | READY |
+| T007 | Tokenize LAYOUT_PRESETS motion speeds | P2 | 95% | READY |
+| T008 | Tokenize FLOW_PRESETS | P2 | 95% | READY |
+| T009 | Complete light theme tokens | P2 | 95% | READY |
+| T010 | Complete high-contrast theme tokens | P2 | 95% | READY |
+
+---
+
+## Execution Log
+
+### 2026-01-19: FAILED ATTEMPT - REVERTED
+
+**What happened:**
+- An agent attempted to execute T001-T010 alongside a performance subsystem integration
+- Changes caused cascading JavaScript errors:
+  - `APPEARANCE_CONFIG is not defined`
+  - `Cannot read properties of null (reading 'toFixed')`
+  - `FILE_HUE_MAP before initialization`
+- All app.js changes were reverted via `git checkout`
+
+**Root causes:**
+1. Mixed unrelated tasks (token cleanup + performance.js integration)
+2. No incremental testing between changes
+3. Script concatenation approach broke variable hoisting
+4. Removed defaults without verifying token values reached runtime
+
+**Lessons learned:**
+- Execute ONE task at a time
+- Test after EVERY single change
+- Verify in REAL browser (not headless/MCP Chrome)
+- Keep fallbacks until proven unnecessary
 
 ---
 
