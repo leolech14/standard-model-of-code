@@ -734,51 +734,6 @@ function initCommandBar() {
     console.log('[CommandBar] Initialized with direct function calls');
 }
 
-// Build chip buttons for filter groups
-function buildChipGroup(containerId, items, stateSet, onUpdate) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    // "ALL" chip
-    const allChip = document.createElement('button');
-    allChip.className = 'chip active';
-    allChip.textContent = 'ALL';
-    allChip.addEventListener('click', () => {
-        // Toggle all on/off
-        const allActive = Array.from(items.keys()).every(k => stateSet.has(k));
-        if (allActive) {
-            stateSet.clear();
-            container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        } else {
-            items.forEach((count, key) => stateSet.add(key));
-            container.querySelectorAll('.chip').forEach(c => c.classList.add('active'));
-        }
-        if (onUpdate) onUpdate();
-    });
-    container.appendChild(allChip);
-
-    // Individual chips
-    items.forEach((count, key) => {
-        const chip = document.createElement('button');
-        chip.className = 'chip' + (stateSet.has(key) ? ' active' : '');
-        chip.innerHTML = `${key}<span class="chip-count">${count}</span>`;
-        chip.addEventListener('click', () => {
-            if (stateSet.has(key)) {
-                stateSet.delete(key);
-                chip.classList.remove('active');
-            } else {
-                stateSet.add(key);
-                chip.classList.add('active');
-            }
-            // Update "ALL" chip state
-            const allActive = Array.from(items.keys()).every(k => stateSet.has(k));
-            allChip.classList.toggle('active', allActive);
-            if (onUpdate) onUpdate();
-        });
-        container.appendChild(chip);
-    });
-}
 
 // Populate filter chips in floating panels
 function populateFilterChips() {
@@ -2545,26 +2500,6 @@ const VIS_PRESETS = {
 // normalizeDatamapConfig, resolveDatamapConfigs, datamapMatches - MOVED TO modules/datamap.js
 // buildDatamapToggle, buildExclusiveOptions - MOVED TO modules/ui-builders.js
 
-function buildMetadataControls(containerId, metadata) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    const toggles = [
-        { id: 'meta-labels', label: 'LABELS', key: 'showLabels' },
-        { id: 'meta-file-panel', label: 'FILE PANEL', key: 'showFilePanel' },
-        { id: 'meta-report', label: 'REPORT', key: 'showReportPanel' },
-        { id: 'meta-edges', label: 'EDGES', key: 'showEdges' }
-    ];
-
-    toggles.forEach((toggle) => {
-        buildCheckboxRow(container, toggle.id, toggle.label, null, metadata[toggle.key], (checked) => {
-            metadata[toggle.key] = checked;
-            applyMetadataVisibility();
-            refreshGraph();
-        });
-    });
-}
 
 function buildAppearanceSliders(containerId, sliderConfigs) {
     const container = document.getElementById(containerId);
