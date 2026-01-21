@@ -23,6 +23,7 @@
 | Tree-sitter Inventory | `docs/specs/TREE_SITTER_POWER_INVENTORY.md` | Capability checklist |
 | **Tree-sitter Validation** | `docs/specs/TREE_SITTER_VALIDATION_REPORT.md` | Evidence-based validation (authoritative) |
 | **Tree-sitter Tasks** | `docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 46 tasks with confidence scores |
+| **Codome Research** | `docs/research/CODOME_EDGE_DISCOVERY.md` | Boundary nodes, inferred edges, known bugs |
 
 ## Commands
 
@@ -58,6 +59,7 @@
 | File Enricher | `src/core/file_enricher.py` |
 | **Tree-sitter Engine** | `src/core/tree_sitter_engine.py` |
 | **Edge Extractor** | `src/core/edge_extractor.py` |
+| **Codome Boundaries** | `src/core/full_analysis.py:165-298` |
 | Module pattern | `docs/specs/VISUALIZATION_UI_SPEC.md#state-unification-pattern` |
 
 ## Output Files
@@ -79,6 +81,33 @@
 |-----------|--------|
 | Analysis (Code → Graph) | Implemented |
 | Synthesis (Graph → Code) | NOT YET |
+
+## Codome Boundaries (Stage 6.8)
+
+**Status:** Pipeline implemented, UI pending
+
+Synthetic nodes representing external callers we can't see in the code:
+
+| Boundary | ID | Description |
+|----------|-----|-------------|
+| TestFramework | `__codome__::test_entry` | pytest/jest invoke test functions |
+| RuntimeEntry | `__codome__::entry_point` | __main__, CLI scripts |
+| FrameworkDI | `__codome__::framework_managed` | decorators, DI containers |
+| HTMLTemplate | `__codome__::cross_language` | JS called from HTML |
+| ExternalAPI | `__codome__::external_boundary` | npm consumers, public API |
+| DynamicDispatch | `__codome__::dynamic_target` | getattr, eval, reflection |
+
+**Known Bug:** Degree calculation includes ALL edges (structural + calls). Should filter by family.
+See `docs/research/CODOME_EDGE_DISCOVERY.md` for details.
+
+## Rendering Stack
+
+| Library | Version | Purpose |
+|---------|---------|---------|
+| Three.js | 0.149.0 | 3D rendering engine |
+| 3d-force-graph | 1.73.3 | Force-directed graph layout |
+
+**Note:** NOT raw WebGL. The stack is `3d-force-graph` → `Three.js` → `WebGL`.
 
 ## Theoretical Hierarchy
 
