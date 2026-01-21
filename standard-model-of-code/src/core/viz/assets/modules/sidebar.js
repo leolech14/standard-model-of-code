@@ -268,7 +268,7 @@ window.SIDEBAR = (function () {
                 let hasMatch = false;
                 cat.querySelectorAll('.scheme-btn').forEach(btn => {
                     const match = btn.dataset.scheme.toLowerCase().includes(term) ||
-                                  (btn.title && btn.title.toLowerCase().includes(term));
+                        (btn.title && btn.title.toLowerCase().includes(term));
                     btn.style.display = match ? 'inline-block' : 'none';
                     if (match) hasMatch = true;
                 });
@@ -750,33 +750,21 @@ window.SIDEBAR = (function () {
     // =========================================================================
 
     function _bindAppearanceControls() {
-        // Node size
-        _bindSlider('node-size', (val) => {
-            if (typeof APPEARANCE_STATE !== 'undefined') {
-                APPEARANCE_STATE.nodeScale = val;
-            }
-            if (typeof Graph !== 'undefined' && Graph) {
-                Graph.nodeVal(n => (n.val || 1) * val);
-            }
-        });
-
-        // Edge opacity
-        _bindSlider('edge-opacity', (val) => {
-            if (typeof APPEARANCE_STATE !== 'undefined') {
-                APPEARANCE_STATE.edgeOpacity = val;
-            }
-            if (typeof applyEdgeMode === 'function') applyEdgeMode();
-        });
-
-        // Label size
-        _bindSlider('label-size', (val) => {
-            if (typeof Graph !== 'undefined' && Graph) {
-                Graph.nodeLabel(n => val > 0.3 ? n.name : null);
+        // Auto-bind all sliders that have a matching numeric input
+        // This covers cfg-node-size, cfg-node-opacity, etc.
+        const ranges = document.querySelectorAll('input[type="range"]');
+        ranges.forEach(range => {
+            if (range.id) {
+                _bindSlider(range.id, (val) => {
+                    // Dispatch to specific handlers based on ID
+                    // This creates a centralized handler dispatch
+                    _handleSliderChange(range.id, val);
+                });
             }
         });
 
         // Toggles
-        _bindToggle('toggle-labels', (active) => {
+        _bindToggle('cfg-toggle-labels', (active) => {
             if (typeof VIS_FILTERS !== 'undefined' && VIS_FILTERS.metadata) {
                 VIS_FILTERS.metadata.showLabels = active;
             }
@@ -785,20 +773,90 @@ window.SIDEBAR = (function () {
             }
         });
 
-        _bindToggle('toggle-stars', (active) => {
-            // Toggle starfield visibility
+        _bindToggle('cfg-toggle-highlight', (active) => {
+            // Handled by VIS_STATE or interactions
+        });
+
+        _bindToggle('cfg-toggle-pulse', (active) => {
+            if (typeof ANIM !== 'undefined') {
+                ANIM.togglePulse(active);
+            }
+        });
+
+        _bindToggle('cfg-toggle-depth', (active) => {
+            // 3D shading toggle
+        });
+
+        _bindToggle('cfg-toggle-arrows', (active) => {
             if (typeof Graph !== 'undefined' && Graph) {
-                const scene = Graph.scene();
-                if (scene) {
-                    scene.children.forEach(child => {
-                        if (child.type === 'Points' && child.geometry?.attributes?.position?.count > 1000) {
-                            child.visible = active;
-                        }
-                    });
-                }
+                const linkDirectionalArrowLength = active ? 3.5 : 0;
+                Graph.linkDirectionalArrowLength(linkDirectionalArrowLength);
+            }
+        });
+
+        _bindToggle('cfg-toggle-gradient', (active) => {
+            if (typeof VIS_STATE !== 'undefined') {
+                // Trigger re-render of edges
+                window.refreshGradientEdgeColors && window.refreshGradientEdgeColors();
             }
         });
     }
+
+    // Centralized handler for all sliders
+    function _handleSliderChange(id, val) {
+        // Map ID to logic
+        switch (id) {
+            // Node Config
+            case 'cfg-node-size':
+                if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.nodeScale = val;
+                if (typeof Graph !== 'undefined' && Graph) Graph.nodeVal(n => (n.val || 1) * val);
+                break;
+            case 'cfg-node-opacity':
+                if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.nodeOpacity = val;
+                if (typeof applyEdgeMode === 'function') applyEdgeMode(); // Re-apply colors with new alpha
+                break;
+            case 'cfg-node-res':
+                if (typeof Graph !== 'undefined' && Graph) Graph.nodeResolution(val);
+                break;
+            case 'cfg-label-size':
+                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier, 
+                // but we can trigger a re-render or update state.
+                break;
+
+            // Edge Config    
+            case 'cfg-edge-opacity':
+                if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.edgeOpacity = val;
+                if (typeof applyEdgeMode === 'function') applyEdgeMode();
+                break;
+            case 'cfg-edge-width':
+                if (typeof Graph !== 'undefined' && Graph) Graph.linkWidth(val);
+                break;
+            case 'cfg-edge-curve':
+                if (typeof Graph !== 'undefined' && Graph) Graph.linkCurvature(val);
+                break;
+            case 'cfg-particle-speed':
+                if (typeof Graph !== 'undefined' && Graph) Graph.linkDirectionalParticleSpeed(val);
+                break;
+            case 'cfg-particle-count':
+                if (typeof Graph !== 'undefined' && Graph) Graph.linkDirectionalParticles(val);
+                break;
+
+            // Physics (Updated IDs)
+            case 'physics-charge':
+                if (typeof Graph !== 'undefined' && Graph) {
+                    Graph.d3Force('charge').strength(val);
+                    Graph.d3ReheatSimulation();
+                }
+                break;
+            case 'physics-link':
+                if (typeof Graph !== 'undefined' && Graph) {
+                    Graph.d3Force('link').distance(val);
+                    Graph.d3ReheatSimulation();
+                }
+                break;
+        }
+    }
+
 
     // =========================================================================
     // ACTION BUTTONS
@@ -998,21 +1056,48 @@ window.SIDEBAR = (function () {
 
     function _bindSlider(id, callback) {
         const slider = document.getElementById(id);
-        const valueEl = document.getElementById(`${id}-val`);
+        const numberInput = document.getElementById(`${id}-num`);
+
+        // Handle deprecated value span if it exists (for backward compat)
+        const valSpan = document.getElementById(`${id}-val`);
+
         if (!slider) return;
 
+        // Slider -> Number
         slider.addEventListener('input', () => {
             const val = parseFloat(slider.value);
-            if (valueEl) valueEl.textContent = val;
+            if (numberInput) numberInput.value = val;
+            if (valSpan) valSpan.textContent = val;
             callback(val);
         });
+
+        // Number -> Slider
+        if (numberInput) {
+            numberInput.addEventListener('change', () => { // Change triggers on enter/blur
+                let val = parseFloat(numberInput.value);
+
+                // Clamp
+                if (slider.min) val = Math.max(parseFloat(slider.min), val);
+                if (slider.max) val = Math.min(parseFloat(slider.max), val);
+
+                numberInput.value = val;
+                slider.value = val;
+                if (valSpan) valSpan.textContent = val;
+                callback(val);
+            });
+
+            // Optional: Live update while typing? Maybe too heavy. Use change for now.
+        }
     }
 
     function _setSliderValue(id, value) {
         const slider = document.getElementById(id);
-        const valueEl = document.getElementById(`${id}-val`);
+        const numberInput = document.getElementById(`${id}-num`);
+        const valSpan = document.getElementById(`${id}-val`);
+
         if (slider) slider.value = value;
-        if (valueEl) valueEl.textContent = value;
+        if (numberInput) numberInput.value = value;
+        if (valSpan) valSpan.textContent = value;
     }
 
     // =========================================================================

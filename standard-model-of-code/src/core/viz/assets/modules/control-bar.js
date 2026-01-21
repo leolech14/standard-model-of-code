@@ -15,7 +15,7 @@
  * Depends on: DATA, COLOR, ANIM, SELECT
  */
 
-const CONTROL_BAR = (function() {
+const CONTROL_BAR = (function () {
     'use strict';
 
     // =========================================================================
@@ -130,119 +130,150 @@ const CONTROL_BAR = (function() {
     // UI BUILDING
     // =========================================================================
 
+    let _isDocked = false;
+
     function createUI() {
         if (_container) return _container;
 
+        const dockContainer = document.getElementById('control-bar-container');
+        _isDocked = !!dockContainer;
+
         _container = document.createElement('div');
         _container.id = 'control-bar';
-        _container.className = 'control-bar';
-        _container.innerHTML = `
-            <div class="control-bar-inner">
-                <!-- Scope Selector -->
-                <div class="control-section scope-section">
-                    <label>SCOPE</label>
+        _container.className = _isDocked ? 'control-bar docked' : 'control-bar';
+
+        // Scope Section
+        const scopeHTML = `
+            <div class="control-section scope-section">
+                <label>SCOPE</label>
+                <div class="row-group">
                     <select id="cb-scope" class="cb-select">
                         <option value="selection">Selected Nodes</option>
                         <option value="all">All Nodes</option>
-                        <optgroup label="Groups" id="cb-groups-optgroup">
-                        </optgroup>
+                        <optgroup label="Groups" id="cb-groups-optgroup"></optgroup>
                     </select>
                     <button id="cb-add-group" class="cb-btn cb-btn-small" title="Create group from selection">+G</button>
                     <span id="cb-node-count" class="cb-badge">0</span>
                 </div>
+            </div>
+        `;
 
-                <!-- Source Field -->
-                <div class="control-section">
-                    <label>MAP</label>
-                    <select id="cb-source" class="cb-select">
-                        <optgroup label="Structural">
-                            <option value="token_estimate">Token Count</option>
-                            <option value="line_count">Line Count</option>
-                            <option value="size_bytes">File Size</option>
-                            <option value="code_lines">Code Lines</option>
-                            <option value="complexity_density">Complexity</option>
-                            <option value="cohesion">Cohesion</option>
-                        </optgroup>
-                        <optgroup label="Temporal">
-                            <option value="age_days">Age (days)</option>
-                        </optgroup>
-                        <optgroup label="Graph">
-                            <option value="in_degree">In-Degree</option>
-                            <option value="out_degree">Out-Degree</option>
-                        </optgroup>
-                        <optgroup label="Categorical">
-                            <option value="tier">Tier</option>
-                            <option value="ring">Ring</option>
-                            <option value="layer">Layer</option>
-                            <option value="role">Role</option>
-                            <option value="format_category">Format</option>
-                            <option value="effect">Effect</option>
-                        </optgroup>
-                        <optgroup label="Boolean">
-                            <option value="is_test">Is Test?</option>
-                            <option value="is_config">Is Config?</option>
-                            <option value="is_stale">Is Stale?</option>
-                        </optgroup>
-                    </select>
-                </div>
+        // Map FROM
+        const sourceHTML = `
+            <div class="control-section">
+                <label>MAP DATA SOURCE</label>
+                <select id="cb-source" class="cb-select full-width">
+                    <optgroup label="Structural">
+                        <option value="token_estimate">Token Count</option>
+                        <option value="line_count">Line Count</option>
+                        <option value="size_bytes">File Size</option>
+                        <option value="code_lines">Code Lines</option>
+                        <option value="complexity_density">Complexity</option>
+                        <option value="cohesion">Cohesion</option>
+                    </optgroup>
+                    <optgroup label="Temporal">
+                        <option value="age_days">Age (days)</option>
+                    </optgroup>
+                    <optgroup label="Graph">
+                        <option value="in_degree">In-Degree</option>
+                        <option value="out_degree">Out-Degree</option>
+                    </optgroup>
+                    <optgroup label="Categorical">
+                        <option value="tier">Tier</option>
+                        <option value="ring">Ring</option>
+                        <option value="layer">Layer</option>
+                        <option value="role">Role</option>
+                        <option value="format_category">Format</option>
+                        <option value="effect">Effect</option>
+                    </optgroup>
+                    <optgroup label="Boolean">
+                        <option value="is_test">Is Test?</option>
+                        <option value="is_config">Is Config?</option>
+                        <option value="is_stale">Is Stale?</option>
+                    </optgroup>
+                </select>
+            </div>
+        `;
 
-                <!-- Arrow -->
-                <div class="control-section arrow-section">
-                    <span class="arrow">&#8594;</span>
-                </div>
+        // Arrow (only for float mode, skip or style differently in dock)
+        const arrowHTML = _isDocked ? '' : `
+            <div class="control-section arrow-section">
+                <span class="arrow">&#8594;</span>
+            </div>
+        `;
 
-                <!-- Target Property -->
-                <div class="control-section">
-                    <label>TO</label>
-                    <select id="cb-target" class="cb-select">
-                        <optgroup label="Appearance">
-                            <option value="nodeSize">Node Size</option>
-                            <option value="hue">Color Hue</option>
-                            <option value="saturation">Saturation</option>
-                            <option value="lightness">Lightness</option>
-                            <option value="opacity">Opacity</option>
-                        </optgroup>
-                        <optgroup label="Position">
-                            <option value="xPosition">X Position</option>
-                            <option value="yPosition">Y Position</option>
-                            <option value="zPosition">Z Depth</option>
-                            <option value="radius">Radial Distance</option>
-                        </optgroup>
-                        <optgroup label="Physics">
-                            <option value="charge">Charge (repel)</option>
-                            <option value="mass">Mass</option>
-                        </optgroup>
-                        <optgroup label="Animation">
-                            <option value="pulseSpeed">Pulse Speed</option>
-                        </optgroup>
-                    </select>
-                </div>
+        // Map TO
+        const targetHTML = `
+            <div class="control-section">
+                <label>TO VISUAL PROPERTY</label>
+                <select id="cb-target" class="cb-select full-width">
+                    <optgroup label="Appearance">
+                        <option value="nodeSize">Node Size</option>
+                        <option value="hue">Color Hue</option>
+                        <option value="saturation">Saturation</option>
+                        <option value="lightness">Lightness</option>
+                        <option value="opacity">Opacity</option>
+                    </optgroup>
+                    <optgroup label="Position">
+                        <option value="xPosition">X Position</option>
+                        <option value="yPosition">Y Position</option>
+                        <option value="zPosition">Z Depth</option>
+                        <option value="radius">Radial Distance</option>
+                    </optgroup>
+                    <optgroup label="Physics">
+                        <option value="charge">Charge (repel)</option>
+                        <option value="mass">Mass</option>
+                    </optgroup>
+                    <optgroup label="Animation">
+                        <option value="pulseSpeed">Pulse Speed</option>
+                    </optgroup>
+                </select>
+            </div>
+        `;
 
-                <!-- Scale -->
-                <div class="control-section">
-                    <label>SCALE</label>
-                    <select id="cb-scale" class="cb-select cb-select-small">
-                        <option value="linear">Linear</option>
-                        <option value="sqrt" selected>Sqrt</option>
-                        <option value="log">Log</option>
-                        <option value="inverse">Inverse</option>
-                    </select>
-                </div>
+        // Scale
+        const scaleHTML = `
+            <div class="control-section">
+                <label>SCALING</label>
+                <select id="cb-scale" class="cb-select full-width">
+                    <option value="linear">Linear</option>
+                    <option value="sqrt" selected>Sqrt</option>
+                    <option value="log">Log</option>
+                    <option value="inverse">Inverse</option>
+                </select>
+            </div>
+        `;
 
-                <!-- Actions -->
-                <div class="control-section actions-section">
-                    <button id="cb-apply" class="cb-btn cb-btn-primary">APPLY</button>
-                    <button id="cb-reset" class="cb-btn">Reset</button>
-                </div>
+        // Actions
+        const actionsHTML = `
+            <div class="control-section actions-section">
+                <button id="cb-apply" class="cb-btn cb-btn-primary full-width">APPLY MAPPING</button>
+                <button id="cb-reset" class="cb-btn full-width" style="margin-top:4px">Reset</button>
+            </div>
+        `;
 
-                <!-- Group Comparison -->
-                <div class="control-section groups-section" id="cb-groups-display">
-                </div>
+        // Groups Display
+        const groupsHTML = `
+            <div class="control-section groups-section" id="cb-groups-display"></div>
+        `;
 
-                <!-- Toggle -->
-                <button id="cb-toggle" class="cb-toggle" title="Toggle Control Bar">
-                    <span class="chevron">&#9660;</span>
-                </button>
+        // Toggle (only for float mode)
+        const toggleHTML = _isDocked ? '' : `
+            <button id="cb-toggle" class="cb-toggle" title="Toggle Control Bar">
+                <span class="chevron">&#9660;</span>
+            </button>
+        `;
+
+        _container.innerHTML = `
+            <div class="control-bar-inner">
+                ${scopeHTML}
+                ${sourceHTML}
+                ${arrowHTML}
+                ${targetHTML}
+                ${scaleHTML}
+                ${actionsHTML}
+                ${groupsHTML}
+                ${toggleHTML}
             </div>
         `;
 
@@ -252,7 +283,12 @@ const CONTROL_BAR = (function() {
         // Attach event listeners
         attachListeners();
 
-        document.body.appendChild(_container);
+        if (_isDocked) {
+            dockContainer.appendChild(_container);
+        } else {
+            document.body.appendChild(_container);
+        }
+
         _visible = true;
 
         return _container;
@@ -263,10 +299,14 @@ const CONTROL_BAR = (function() {
 
         const style = document.createElement('style');
         style.id = 'control-bar-styles';
-        /* DE-GLAMORIZED: Muted, discreet colors - UI should be invisible */
-        /* FLOATING MAPPER: Centered, compact, ChatGPT-style input bar */
         style.textContent = `
+            /* BASE STYLES */
             .control-bar {
+                font-family: 'SF Mono', 'Consolas', monospace;
+            }
+
+            /* FLOATING MODE */
+            .control-bar:not(.docked) {
                 position: fixed;
                 bottom: 16px;
                 left: 50%;
@@ -280,29 +320,39 @@ const CONTROL_BAR = (function() {
                 border-radius: 12px;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
                 transition: transform 0.3s ease, opacity 0.3s ease;
-                font-family: 'SF Mono', 'Consolas', monospace;
             }
 
-            .control-bar.collapsed {
-                transform: translateX(-50%) translateY(calc(100% + 24px));
-                opacity: 0;
-                pointer-events: none;
-            }
-
-            .control-bar-inner {
+            .control-bar:not(.docked) .control-bar-inner {
                 display: flex;
                 align-items: center;
                 gap: 16px;
                 padding: 12px 20px;
-                max-width: 100%;
                 overflow-x: auto;
             }
 
+            /* DOCKED MODE */
+            .control-bar.docked {
+                position: static;
+                width: 100%;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .control-bar.docked .control-bar-inner {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                padding: 0;
+            }
+
+            /* SHARED COMPONENTS */
             .control-section {
                 display: flex;
                 flex-direction: column;
                 gap: 4px;
-                min-width: fit-content;
+                width: 100%; /* Full width when docked */
             }
 
             .control-section label {
@@ -313,14 +363,10 @@ const CONTROL_BAR = (function() {
                 letter-spacing: 1px;
             }
 
-            .arrow-section {
-                align-self: flex-end;
-                padding-bottom: 8px;
-            }
-
-            .arrow {
-                font-size: 20px;
-                color: rgba(130, 140, 155, 0.5);
+            .row-group {
+                display: flex;
+                gap: 6px;
+                align-items: center;
             }
 
             .cb-select {
@@ -328,27 +374,26 @@ const CONTROL_BAR = (function() {
                 border: 1px solid rgba(100, 105, 115, 0.2);
                 border-radius: 6px;
                 color: #c8ccd5;
-                padding: 8px 12px;
-                font-size: 13px;
+                padding: 6px 10px;
+                font-size: 11px;
                 font-family: inherit;
                 cursor: pointer;
-                min-width: 140px;
                 transition: all 0.2s;
+                flex: 1;
             }
 
             .cb-select:hover {
-                border-color: rgba(120, 125, 135, 0.35);
                 background: rgba(45, 48, 55, 0.9);
+                border-color: rgba(120, 125, 135, 0.35);
             }
-
+            
             .cb-select:focus {
                 outline: none;
-                border-color: rgba(130, 135, 145, 0.45);
-                box-shadow: none;
+                border-color: var(--accent, #4a9eff);
             }
 
-            .cb-select-small {
-                min-width: 90px;
+            .full-width {
+                width: 100%;
             }
 
             .cb-btn {
@@ -356,167 +401,75 @@ const CONTROL_BAR = (function() {
                 border: 1px solid rgba(100, 105, 115, 0.2);
                 border-radius: 6px;
                 color: #b0b5c0;
-                padding: 8px 16px;
-                font-size: 12px;
+                padding: 6px 12px;
+                font-size: 11px;
                 font-weight: 600;
-                font-family: inherit;
                 cursor: pointer;
                 transition: all 0.2s;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
             }
-
+            .actions-section {
+                width: 100%;
+            }
             .cb-btn:hover {
                 background: rgba(65, 70, 80, 0.75);
-                border-color: rgba(120, 125, 135, 0.3);
+                color: #fff;
             }
 
             .cb-btn-primary {
-                background: linear-gradient(135deg, rgba(60, 65, 75, 0.8) 0%, rgba(55, 60, 70, 0.8) 100%);
-                border-color: rgba(120, 125, 135, 0.3);
+                background: var(--accent-dim, rgba(74, 158, 255, 0.15));
+                color: var(--accent, #4a9eff);
+                border-color: var(--accent, #4a9eff);
             }
 
             .cb-btn-primary:hover {
-                background: linear-gradient(135deg, rgba(70, 75, 85, 0.9) 0%, rgba(65, 70, 80, 0.9) 100%);
-                box-shadow: none;
+                background: var(--accent, #4a9eff);
+                color: #000;
             }
 
             .cb-btn-small {
-                padding: 6px 10px;
-                font-size: 11px;
+                padding: 4px 8px;
+                min-width: 30px;
             }
 
             .cb-badge {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background: rgba(100, 105, 115, 0.2);
-                border-radius: 10px;
-                padding: 2px 8px;
-                font-size: 11px;
-                font-weight: 600;
-                color: #a0a5b0;
-                min-width: 20px;
+                font-size: 10px;
+                color: #666;
+                min-width: 15px;
+                text-align: center;
             }
 
-            .scope-section {
-                flex-direction: row;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .scope-section label {
-                align-self: center;
-            }
-
-            .actions-section {
-                flex-direction: row;
-                gap: 8px;
-                margin-left: auto;
-            }
-
+            /* GROUP CHIPS */
             .groups-section {
                 flex-direction: row;
-                gap: 6px;
                 flex-wrap: wrap;
-                max-width: 300px;
+                gap: 4px;
             }
 
             .group-chip {
                 display: inline-flex;
                 align-items: center;
-                gap: 6px;
-                background: rgba(40, 45, 55, 0.8);
-                border: 1px solid rgba(100, 105, 115, 0.2);
-                border-radius: 14px;
-                padding: 4px 10px;
-                font-size: 11px;
-                color: #b0b5c0;
-                cursor: pointer;
-                transition: all 0.2s;
+                gap: 4px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 10px;
+                padding: 2px 8px;
+                font-size: 10px;
+                cursor: default;
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
 
-            .group-chip:hover {
-                background: rgba(55, 60, 70, 0.85);
-                border-color: rgba(120, 125, 135, 0.3);
-            }
-
-            .group-chip .group-color {
-                width: 10px;
-                height: 10px;
+            .group-color {
+                width: 6px;
+                height: 6px;
                 border-radius: 50%;
             }
 
-            .group-chip .group-count {
-                font-weight: 600;
-                color: #909598;
-            }
-
-            .group-chip .group-remove {
-                color: rgba(180, 100, 100, 0.5);
-                font-weight: bold;
+            .group-remove {
                 margin-left: 4px;
-            }
-
-            .group-chip .group-remove:hover {
-                color: rgba(180, 100, 100, 0.8);
-            }
-
-            .cb-toggle {
-                position: absolute;
-                top: -28px;
-                right: 16px;
-                background: rgba(35, 38, 45, 0.95);
-                border: 1px solid rgba(100, 105, 115, 0.2);
-                border-radius: 8px;
-                padding: 4px 12px;
-                color: #909598;
                 cursor: pointer;
-                font-size: 12px;
+                opacity: 0.5;
             }
-
-            .cb-toggle:hover {
-                background: rgba(45, 48, 55, 0.95);
-            }
-
-            /* When collapsed, show a floating pill button at bottom center */
-            .control-bar.collapsed .cb-toggle {
-                position: fixed;
-                bottom: 16px;
-                left: 50%;
-                transform: translateX(-50%);
-                top: auto;
-                right: auto;
-                border-radius: 20px;
-                padding: 8px 16px;
-            }
-
-            .control-bar.collapsed .cb-toggle .chevron {
-                transform: rotate(180deg);
-            }
-
-            .chevron {
-                display: inline-block;
-                transition: transform 0.3s;
-            }
-
-            /* Stats display */
-            .cb-stats {
-                display: flex;
-                gap: 12px;
-                font-size: 11px;
-                color: rgba(140, 145, 155, 0.6);
-            }
-
-            .cb-stat {
-                display: flex;
-                gap: 4px;
-            }
-
-            .cb-stat-value {
-                color: #a0a5b0;
-                font-weight: 600;
-            }
+            .group-remove:hover { opacity: 1; }
         `;
 
         document.head.appendChild(style);

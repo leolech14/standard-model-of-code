@@ -420,7 +420,15 @@ const EDGE = (function() {
         // Don't override width in flow mode
         const flowMode = typeof window !== 'undefined' && window.flowMode;
         if (!flowMode) {
-            Graph.linkWidth(link => getWidth(link));
+            Graph.linkWidth(link => {
+                const baseWidth = getWidth(link);
+                // Respect APPEARANCE_STATE.edgeWidth multiplier if set
+                const widthMultiplier = (typeof APPEARANCE_STATE !== 'undefined' &&
+                    typeof APPEARANCE_STATE.edgeWidth === 'number')
+                    ? APPEARANCE_STATE.edgeWidth
+                    : 1;
+                return Math.max(0.5, baseWidth * widthMultiplier);
+            });
         }
     }
 
