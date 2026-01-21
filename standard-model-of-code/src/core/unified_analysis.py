@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field, asdict
-from edge_extractor import file_node_id, resolve_edges, extract_call_edges, get_import_resolution_diagnostics
+from edge_extractor import file_node_id, resolve_edges, extract_call_edges, extract_exposure_edges, get_import_resolution_diagnostics
 
 try:
     from core.registry.role_registry import get_role_registry
@@ -447,7 +447,12 @@ def analyze(target_path: str, output_dir: str = None, **options) -> UnifiedAnaly
     # =========================================================================
     print("\n🔗 Stage 4: Edge Extraction...")
     edges = extract_call_edges(particles, results, target_path=str(target))
-    print(f"   → {len(edges)} edges extracted")
+
+    # Extract exposure edges (module.exports, export statements)
+    exposure_edges = extract_exposure_edges(particles, results=results)
+    edges.extend(exposure_edges)
+
+    print(f"   → {len(edges)} edges extracted ({len(exposure_edges)} exposure)")
 
     # Resolve edges against known nodes
     if edges:

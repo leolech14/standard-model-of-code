@@ -16,6 +16,7 @@ Edge Types:
 - calls: Function/method calls another function
 - inherits: Class inherits from another class
 - uses: General usage relationship
+- exposes: Module/file exports a symbol (CommonJS or ES6)
 """
 
 import re
@@ -1142,6 +1143,216 @@ def extract_decorator_edges(particles: List[Dict]) -> List[Dict]:
                     'line': p.get('line', 0),
                     'confidence': 1.0,
                 })
+
+    return edges
+
+
+def _extract_exposure_edges_from_body(body: str, file_path: str, particle_by_name: Dict[str, List[Dict]]) -> List[Tuple[Optional[str], str]]:
+    """
+    Extract module.exports, export statements from source code.
+
+    Returns list of (exported_symbol_name, export_type) tuples.
+    Export types: 'named', 'default', 'commonjs'
+    """
+    exposures = []
+
+    if not body:
+        return exposures
+
+    # CommonJS patterns
+    # Pattern 1: module.exports = X (not module.exports.X)
+    module_exports = re.findall(r'module\.exports\s*=\s*(\w+)(?!\.)', body)
+    for sym in module_exports:
+        if sym and sym not in ('null', 'undefined'):
+            exposures.append((sym, 'commonjs'))
+
+    # Pattern 2: module.exports.X = Y
+    module_exports_named = re.findall(r'module\.exports\.(\w+)\s*=', body)
+    for sym in module_exports_named:
+        if sym:
+            exposures.append((sym, 'commonjs'))
+
+    # Pattern 3: exports.X = Y (shorthand for module.exports.X, but NOT module.exports)
+    # Use negative lookbehind to exclude "module.exports"
+    exports_named = re.findall(r'(?<!module\.)exports\.(\w+)\s*=', body)
+    for sym in exports_named:
+        if sym:
+            exposures.append((sym, 'commonjs'))
+
+    # ES6 patterns
+    # Pattern 4: export function X or export const X or export let X or export var X
+    export_func_const = re.findall(r'export\s+(?:function|const|let|var)\s+(\w+)', body)
+    for sym in export_func_const:
+        if sym:
+            exposures.append((sym, 'named'))
+
+    # Pattern 5: export class X
+    export_class = re.findall(r'export\s+class\s+(\w+)', body)
+    for sym in export_class:
+        if sym:
+            exposures.append((sym, 'named'))
+
+    # Pattern 6: export default X
+    export_default = re.findall(r'export\s+default\s+(\w+|\{[^}]+\})', body)
+    for sym in export_default:
+        if sym and sym not in ('function', 'class'):
+            # Clean up object literals
+            sym = sym.strip('{}').split(',')[0].strip() if '{' in sym else sym
+            if sym:
+                exposures.append((sym, 'default'))
+
+    # Pattern 7: export { X, Y, Z } - named exports
+    export_named_list = re.findall(r'export\s+\{\s*([^}]+)\s*\}', body)
+    for exports_str in export_named_list:
+        # Split by comma and extract names
+        names = re.findall(r'(\w+)(?:\s+as\s+\w+)?', exports_str)
+        for name in names:
+            if name:
+                exposures.append((name, 'named'))
+
+    # Python patterns
+    # Pattern 8: __all__ = ['X', 'Y', 'Z']
+    all_exports = re.findall(r'__all__\s*=\s*\[([^\]]+)\]', body)
+    for exports_str in all_exports:
+        # Extract quoted strings
+        names = re.findall(r'[\'"](\w+)[\'"]', exports_str)
+        for name in names:
+            if name:
+                exposures.append((name, 'python_all'))
+
+    return exposures
+
+
+def extract_exposure_edges(particles: List[Dict], particle_by_name: Optional[Dict[str, List[Dict]]] = None, results: Optional[List[Dict]] = None) -> List[Dict]:
+    """
+    Extract exposure relationships (module.exports, export statements).
+
+    These represent what a module/file exposes to its consumers.
+
+    Exposures can be detected at:
+    1. Module level (from raw file content in results)
+    2. Particle level (from function/class body_source)
+
+    Args:
+        particles: List of classified particles
+        particle_by_name: Optional lookup dict for resolving symbol names
+        results: Optional raw AST results with file content
+
+    Returns:
+        List of exposure edge dictionaries with edge_type='exposes'
+    """
+    edges = []
+    seen_files = set()
+
+    # Build particle_by_name lookup if not provided
+    if particle_by_name is None:
+        from collections import defaultdict
+        particle_by_name = defaultdict(list)
+        for p in particles:
+            name = p.get('name', '')
+            if name:
+                particle_by_name[name].append(p)
+                # Also register short name
+                short = name.split('.')[-1] if '.' in name else name
+                if short != name:
+                    particle_by_name[short].append(p)
+
+    # PHASE 1: Extract module-level exposures from results (raw file content)
+    # This catches top-level exports/module.exports statements
+    if results:
+        for result in results:
+            file_path = result.get('file_path', '')
+            if not file_path:
+                continue
+
+            # Skip if we've already processed this file
+            if file_path in seen_files:
+                continue
+            seen_files.add(file_path)
+
+            # Get file content
+            raw_content = result.get('raw_content', '')
+            if not raw_content:
+                try:
+                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        raw_content = f.read()
+                except Exception:
+                    continue
+
+            # Extract exposures from module-level code
+            exposures = _extract_exposure_edges_from_body(raw_content, file_path, particle_by_name)
+
+            if not exposures:
+                continue
+
+            # Create a module node ID for the source
+            # Use the file path as the source module
+            source_id = _make_node_id(file_path, '__module__')
+
+            for exported_name, export_type in exposures:
+                # Look up the exported symbol to get its full ID
+                target_particle = _find_target_particle(exported_name, file_path, particle_by_name)
+
+                if target_particle:
+                    target_id = _get_particle_id(target_particle)
+                else:
+                    # Symbol not found in particles - might be external or unclassified
+                    target_id = _make_node_id(file_path, exported_name)
+
+                edges.append({
+                    'source': source_id,
+                    'target': target_id,
+                    'edge_type': 'exposes',
+                    'family': 'Exposure',
+                    'file_path': file_path,
+                    'line': 0,  # Top-level, no specific line
+                    'confidence': 0.95,  # High confidence for explicit exports
+                    'metadata': {
+                        'export_type': export_type,
+                        'exported_name': exported_name,
+                    }
+                })
+
+    # PHASE 2: Extract particle-level exposures (exposures inside functions/classes)
+    # Less common but possible in some patterns
+    for p in particles:
+        body = p.get('body_source', '')
+        if not body:
+            continue
+
+        file_path = p.get('file_path', '')
+        particle_id = _get_particle_id(p)
+
+        # Skip if we already processed this file at module level
+        if file_path in seen_files:
+            continue
+
+        # Extract exposure statements from this particle
+        exposures = _extract_exposure_edges_from_body(body, file_path, particle_by_name)
+
+        for exported_name, export_type in exposures:
+            # Look up the exported symbol to get its full ID
+            target_particle = _find_target_particle(exported_name, file_path, particle_by_name)
+
+            if target_particle:
+                target_id = _get_particle_id(target_particle)
+            else:
+                # Symbol not found in particles - might be external or unclassified
+                target_id = _make_node_id(file_path, exported_name)
+
+            edges.append({
+                'source': particle_id,
+                'target': target_id,
+                'edge_type': 'exposes',
+                'family': 'Exposure',
+                'file_path': file_path,
+                'line': p.get('line', 0),
+                'confidence': 0.95,  # High confidence for explicit exports
+                'metadata': {
+                    'export_type': export_type,
+                    'exported_name': exported_name,
+                }
+            })
 
     return edges
 
