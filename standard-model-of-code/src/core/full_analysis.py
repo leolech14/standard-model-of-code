@@ -811,6 +811,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 policy=constraint_report['policy_violations']['count'],
                 signals=constraint_report['signals']['count']
             )
+            # Show architecture detection
+            arch_detect = constraint_report.get('architecture_detection', {})
+            if arch_detect:
+                is_layered = arch_detect.get('is_layered', False)
+                arch_type = "Layered" if is_layered else "Non-layered"
+                print(f"   → Architecture: {arch_type} (confidence: {arch_detect.get('confidence', 0):.0%})")
+                if constraint_report.get('layer_validation_skipped'):
+                    print(f"   → Layer constraints: SKIPPED (non-layered codebase)")
             print(f"   → Antimatter (Tier A): {constraint_report['antimatter']['count']}")
             print(f"   → Policy (Tier B): {constraint_report['policy_violations']['count']}")
             print(f"   → Signals (Tier C): {constraint_report['signals']['count']}")

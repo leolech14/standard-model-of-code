@@ -319,6 +319,86 @@ class ConstraintEngine:
 
         return violations
 
+    def detect_architecture_type(
+        self,
+        nodes: List[Dict[str, Any]],
+        edges: List[Dict[str, Any]],
+    ) -> Dict[str, Any]:
+        """
+        Detect if codebase follows layered architecture.
+
+        Returns detection result with confidence score.
+        Layered architecture signals:
+        - Most files have single layer assignment
+        - Low upward dependency ratio
+        """
+        from collections import defaultdict
+
+        # Signal 1: Files with single vs multiple layers
+        file_layers: Dict[str, Set[str]] = defaultdict(set)
+        for node in nodes:
+            file_path = node.get('file_path', '')
+            layer = str(node.get('layer', '')).upper()
+            if file_path and layer and layer not in ('NONE', 'UNKNOWN', ''):
+                file_layers[file_path].add(layer)
+
+        single_layer_files = sum(1 for layers in file_layers.values() if len(layers) == 1)
+        multi_layer_files = sum(1 for layers in file_layers.values() if len(layers) > 1)
+        layer_separation_ratio = single_layer_files / max(1, multi_layer_files)
+
+        # Signal 2: Upward vs downward dependency ratio
+        # Layer ranks (lower = higher in hierarchy)
+        layer_rank = {
+            'PRESENTATION': 0, 'INTERFACE': 0,
+            'APPLICATION': 1,
+            'DOMAIN': 2, 'CORE': 2,
+            'INFRASTRUCTURE': 3
+        }
+
+        node_by_id = {n.get('id', n.get('name', '')): n for n in nodes}
+        downward = upward = lateral = 0
+
+        for edge in edges:
+            src = node_by_id.get(edge.get('source', ''), {})
+            tgt = node_by_id.get(edge.get('target', ''), {})
+            src_layer = str(src.get('layer', '')).upper()
+            tgt_layer = str(tgt.get('layer', '')).upper()
+
+            src_rank = layer_rank.get(src_layer, -1)
+            tgt_rank = layer_rank.get(tgt_layer, -1)
+
+            if src_rank >= 0 and tgt_rank >= 0:
+                if src_rank < tgt_rank:
+                    downward += 1
+                elif src_rank > tgt_rank:
+                    upward += 1
+                else:
+                    lateral += 1
+
+        total_directional = downward + upward + lateral
+        upward_ratio = upward / max(1, total_directional)
+
+        # Detection logic:
+        # - Layered: separation_ratio > 3.0 AND upward_ratio < 0.10
+        # - Non-layered: separation_ratio < 1.0 OR upward_ratio > 0.15
+        is_layered = layer_separation_ratio > 3.0 and upward_ratio < 0.10
+        confidence = min(1.0, layer_separation_ratio / 5.0) * (1.0 - upward_ratio)
+
+        return {
+            'is_layered': is_layered,
+            'confidence': round(confidence, 2),
+            'signals': {
+                'single_layer_files': single_layer_files,
+                'multi_layer_files': multi_layer_files,
+                'layer_separation_ratio': round(layer_separation_ratio, 2),
+                'downward_calls': downward,
+                'upward_calls': upward,
+                'lateral_calls': lateral,
+                'upward_ratio': round(upward_ratio, 3),
+            },
+            'recommendation': 'Apply layer constraints' if is_layered else 'Skip layer constraints (non-layered codebase)'
+        }
+
     def validate_graph(
         self,
         nodes: List[Dict[str, Any]],
@@ -331,6 +411,9 @@ class ConstraintEngine:
         """
         all_violations: List[Violation] = []
 
+        # Detect architecture type first
+        arch_detection = self.detect_architecture_type(nodes, edges)
+
         # Build node lookup
         node_by_id = {}
         for node in nodes:
@@ -338,22 +421,26 @@ class ConstraintEngine:
             if node_id:
                 node_by_id[node_id] = node
 
-        # Validate all nodes
+        # Validate all nodes (always)
         for node in nodes:
             violations = self.validate_node(node)
             all_violations.extend(violations)
 
-        # Validate all edges
-        for edge in edges:
-            source_id = edge.get('source', '')
-            target_id = edge.get('target', '')
+        # Validate edges ONLY if architecture is layered
+        edge_validation_skipped = False
+        if arch_detection['is_layered']:
+            for edge in edges:
+                source_id = edge.get('source', '')
+                target_id = edge.get('target', '')
 
-            source_node = node_by_id.get(source_id)
-            target_node = node_by_id.get(target_id)
+                source_node = node_by_id.get(source_id)
+                target_node = node_by_id.get(target_id)
 
-            if source_node and target_node:
-                violations = self.validate_edge(source_node, target_node, edge)
-                all_violations.extend(violations)
+                if source_node and target_node:
+                    violations = self.validate_edge(source_node, target_node, edge)
+                    all_violations.extend(violations)
+        else:
+            edge_validation_skipped = True
 
         # Group by tier
         tier_a = [v for v in all_violations if v.tier == ViolationTier.A]
@@ -401,6 +488,10 @@ class ConstraintEngine:
             # Profiles used
             'architecture_profile': self.arch_profile.id,
             'dimension_profile': self.dim_profile.id,
+
+            # Architecture detection
+            'architecture_detection': arch_detection,
+            'layer_validation_skipped': edge_validation_skipped,
         }
 
         return report
