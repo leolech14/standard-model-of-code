@@ -272,6 +272,38 @@ INFRASTRUCTURE  → Purpose: Implement (technical details handled)
 | UI → Domain | Component calls repository directly |
 | Test → Production | Test code in main bundle |
 
+### Purpose Intelligence (Q-Scores)
+
+While Purpose Emergence (π) defines *what* a holon's purpose is, **Purpose Intelligence (Q)** provides a quantitative score of *how well* it fulfills that purpose.
+
+| Concept | Question | Output |
+|---------|----------|--------|
+| Purpose Emergence (π) | What IS the purpose? | Labels: Retrieve, Transform, Scattered |
+| Purpose Intelligence (Q) | How WELL does it serve? | Score: 0.0 - 1.0 |
+
+**The Holon Quality Formula:**
+```
+Q(H) = w_parts × Avg(Q_children) + w_intrinsic × I(H)
+```
+
+**The Five Intrinsic Metrics:**
+
+| Metric | Measures |
+|--------|----------|
+| Q_alignment | Rule violations (axioms, invariants, profiles) |
+| Q_coherence | Focus via entropy of atom categories |
+| Q_density | Signal-to-noise ratio |
+| Q_completeness | Expected children present |
+| Q_simplicity | 1 / log(complexity) |
+
+**Codebase Intelligence Score:**
+```
+Sharp code:   Q(π₄) = 0.85+  → parts serve wholes cleanly
+Muddy code:   Q(π₄) = 0.40   → scattered, misaligned, incomplete
+```
+
+**Full specification:** [PURPOSE_INTELLIGENCE.md](PURPOSE_INTELLIGENCE.md)
+
 ---
 
 ## 5. PROOFS

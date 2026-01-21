@@ -77,7 +77,7 @@
 
 ---
 
-## 3. PIPELINE (18 Stages)
+## 3. PIPELINE (19 Stages)
 
 | Stage | Name | Produces |
 |-------|------|----------|
@@ -85,7 +85,9 @@
 | 2 | Standard Model | atom classification |
 | 2.5 | Ecosystem Discovery | framework detection |
 | 2.7 | Octahedral Dimensions | 8D vectors |
-| 3 | Purpose Field | layers |
+| 3 | Purpose Field | layers, π emergence |
+| 3.5 | Organelle Purpose (π₃) | container purpose labels |
+| 3.6 | System Purpose (π₄) | file-level purpose labels |
 | 4 | Execution Flow | reachable_set, orphans |
 | 5 | Markov Transitions | state matrix |
 | 6 | Knot/Cycle Detection | cycles, knots |
@@ -94,11 +96,30 @@
 | 7 | Data Flow | data movement graph |
 | 8 | Performance Prediction | hotspots |
 | 8.5 | Constraint Validation | profile checks |
+| **8.6** | **Purpose Intelligence** | **Q-scores (quality metrics)** |
 | 9 | Roadmap Evaluation | maturity score |
 | 10 | Visual Reasoning | topology shape |
 | 11 | Semantic Cortex | high-level patterns |
 | 11b | AI Insights (optional) | LLM analysis |
 | 12 | Consolidated Output | JSON, HTML, MD |
+
+### Purpose Intelligence Stage (8.6)
+
+Computes Q-scores measuring how well each holon serves its purpose:
+
+| Metric | Measures |
+|--------|----------|
+| Q_alignment | Rule violations |
+| Q_coherence | Entropy of atom categories |
+| Q_density | Signal-to-noise ratio |
+| Q_completeness | Expected children present |
+| Q_simplicity | 1 / log(complexity) |
+
+**Formula:** `Q(H) = w_parts × Avg(Q_children) + w_intrinsic × I(H)`
+
+**Output:** Each node receives `purpose_intelligence` object with Q-scores.
+
+**Full specification:** [PURPOSE_INTELLIGENCE.md](PURPOSE_INTELLIGENCE.md)
 
 ---
 
@@ -293,6 +314,10 @@ The **Control Bar** is a persistent UI at the bottom of the screen for dynamic v
 | Knot | `$.knots.cycles[*]` | `topology_reasoning.py` |
 | Topology | `$.statistics.topology` | `topology_reasoning.py` |
 | Antimatter | `$.particles[*].violations[*]` | `antimatter_evaluator.py` |
+| Q-Score | `$.particles[*].purpose_intelligence.Q_total` | `purpose_intelligence.py` |
+| π₂ Purpose | `$.particles[*].pi2_purpose` | `purpose_emergence.py` |
+| π₃ Purpose | `$.particles[*].pi3_purpose` | `purpose_emergence.py` |
+| π₄ Purpose | `$.particles[*].pi4_purpose` | `purpose_emergence.py` |
 
 ### RPBL → JSON Path
 

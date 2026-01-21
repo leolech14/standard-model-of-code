@@ -103,6 +103,14 @@
     "graph": {
       "$ref": "#/$defs/graph_properties",
       "description": "Relational properties computed from dependency graph"
+    },
+    "purpose_emergence": {
+      "$ref": "#/$defs/purpose_emergence",
+      "description": "Emergent purpose labels at multiple holon levels (π₁-π₄)"
+    },
+    "purpose_intelligence": {
+      "$ref": "#/$defs/purpose_intelligence",
+      "description": "Quality scores measuring how well the holon serves its purpose"
     }
   },
   "$defs": {
@@ -600,6 +608,97 @@
         "suggested_action": {
           "type": "string",
           "description": "Recommended action (OK, CHECK, REVIEW, DELETE)"
+        }
+      }
+    },
+    "purpose_emergence": {
+      "type": "object",
+      "description": "Emergent purpose at multiple holon levels (what IS the purpose)",
+      "properties": {
+        "pi1_purpose": {
+          "type": "string",
+          "description": "π₁ Atomic Purpose (= Role) - the job title"
+        },
+        "pi2_purpose": {
+          "type": "string",
+          "description": "π₂ Molecular Purpose - emergent from composition (effect + boundary + topology)",
+          "examples": ["Retrieve", "Transform", "Persist", "Intake", "Emit", "Compute", "Process"]
+        },
+        "pi2_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in π₂ classification"
+        },
+        "pi3_purpose": {
+          "type": "string",
+          "description": "π₃ Organelle Purpose - emergent from child π₂ distribution (containers only)",
+          "examples": ["Repository", "Processor", "Gateway", "Scattered", "Mixed(Retrieve+Persist)"]
+        },
+        "pi3_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in π₃ classification"
+        },
+        "pi4_purpose": {
+          "type": "string",
+          "description": "π₄ System Purpose - emergent from file-level π₃ distribution",
+          "examples": ["DataAccess", "Processing", "IOBoundary", "Utility", "MixedResponsibility"]
+        },
+        "pi4_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in π₄ classification"
+        }
+      }
+    },
+    "purpose_intelligence": {
+      "type": "object",
+      "description": "Quality scores measuring HOW WELL the holon serves its purpose (Q-scores)",
+      "properties": {
+        "Q_total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Overall Purpose Intelligence score: Q(H) = w_parts × Avg(Q_children) + w_intrinsic × I(H)"
+        },
+        "Q_alignment": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Rule adherence: 1 - (weighted violations). Low = many violations."
+        },
+        "Q_coherence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Focus via entropy of atom categories. Low = scattered/god class."
+        },
+        "Q_density": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Signal-to-noise ratio. Low = too much boilerplate."
+        },
+        "Q_completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Expected children present. Low = missing parts or orphan."
+        },
+        "Q_simplicity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "1 / log(complexity). Low = over-complex."
+        },
+        "Q_intrinsic": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "I(H) = weighted combination of the five metrics"
         }
       }
     }

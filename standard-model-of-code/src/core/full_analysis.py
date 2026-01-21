@@ -157,6 +157,136 @@ def classify_disconnection(node: Dict[str, Any], in_deg: int, out_deg: int) -> O
     }
 
 
+
+# =============================================================================
+# EDGE DETECTORS: Heuristic discovery of implicit edges
+# =============================================================================
+
+
+def detect_js_imports(nodes: List[Dict], edges: List[Dict]) -> int:
+    """
+    detect_js_imports (Task #6):
+    Find edges from JS files to imported modules/functions.
+    Pattern: import { Foo } from './bar' -> invokes edge
+    """
+    new_edges = 0
+    import re
+    from pathlib import Path
+
+    # 1. Index potential targets by name
+    targets_by_name = defaultdict(list)
+    for n in nodes:
+        if n.get('name'):
+            targets_by_name[n.get('name')].append(n.get('id'))
+        
+    # 2. Identify unique JS files
+    js_files = set()
+    file_to_node_id = {} # Map file path to a representative node ID (e.g. module or first function) to use as source
+    
+    for n in nodes:
+        fpath = n.get('file_path', '')
+        if fpath.lower().endswith(('.js', '.jsx', '.ts', '.tsx')):
+            js_files.add(fpath)
+            # Prefer 'module' kind as source, else any node
+            if fpath not in file_to_node_id or n.get('kind') == 'module':
+                file_to_node_id[fpath] = n.get('id')
+
+    # 3. Scan files
+    for fpath in js_files:
+        if not fpath or fpath not in file_to_node_id:
+            continue
+
+        try:
+            # Resolving path relative to CWD (Project Root)
+            # Note: fpath in nodes is usually relative to project root
+            full_path = Path(fpath).resolve()
+            if not full_path.exists():
+                # Try relative to cwd
+                full_path = Path.cwd() / fpath
+            
+            if not full_path.exists():
+                continue
+
+            with open(full_path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+
+            # Pattern: import { X, Y } from ...
+            named_imports = re.findall(r'import\s*{([^}]+)}\s*from', content)
+            
+            source_id = file_to_node_id[fpath]
+            
+            for group in named_imports:
+                names = [n.strip().split(' as ')[0] for n in group.split(',')]
+                for name in names:
+                    name = name.strip()
+                    if name in targets_by_name:
+                        for target_id in targets_by_name[name]:
+                            if target_id == source_id: continue
+                            
+                            edges.append({
+                                'source': source_id,
+                                'target': target_id,
+                                'edge_type': 'imports',
+                                'family': 'Dependency',
+                                'inferred': True,
+                                'confidence': 0.8,
+                                'description': f"JS import {name}"
+                            })
+                            new_edges += 1
+        except Exception:
+            continue
+
+    return new_edges
+
+
+def detect_class_instantiation(nodes: List[Dict], edges: List[Dict]) -> int:
+    """
+    detect_class_instantiation (Task #7):
+    Find edges from code instantiating a class to the class definition.
+    Pattern: x = MyClass() -> invokes edge
+    """
+    new_edges = 0
+    
+    classes_by_name = defaultdict(list)
+    for n in nodes:
+        # UPDATED: Check 'kind' OR 'type' for robustness
+        if n.get('kind') == 'class' or n.get('type') == 'class':
+            classes_by_name[n.get('name', '')].append(n.get('id'))
+            
+    # 2. Scan all nodes for usage
+    for src_node in nodes:
+        body = src_node.get('body_source', '')
+        if not body:
+            continue
+            
+        # Naive pattern: look for ClassName() 
+        # (This is a heuristic, better would be AST analysis, but sticking to regex for 'light' Collider)
+        import re
+        for class_name, targets in classes_by_name.items():
+            # Skip common/short names to avoid noise
+            if len(class_name) < 4:
+                continue
+                
+            # Regex: Word boundary + ClassName + (
+            if re.search(r'\b' + re.escape(class_name) + r'\s*\(', body):
+                for target_id in targets:
+                    if target_id == src_node.get('id'):
+                        continue
+                    
+                    edges.append({
+                        'source': src_node.get('id'),
+                        'target': target_id,
+                        'edge_type': 'instantiates',
+                        'family': 'Dependency',
+                        'inferred': True,
+                        'confidence': 0.6,
+                        'description': f"Class instantiation {class_name}() detected"
+                    })
+                    new_edges += 1
+                    
+    return new_edges
+
+
 # =============================================================================
 # CODOME BOUNDARY: Synthetic nodes representing external calling contexts
 # =============================================================================
@@ -217,6 +347,14 @@ def create_codome_boundaries(nodes: List[Dict], edges: List[Dict]) -> Dict[str, 
             'summary': {source: count}
         }
     """
+    # Run Detector #1: JS Imports
+    js_count = detect_js_imports(nodes, edges)
+    # Run Detector #2: Class Instantiation
+    class_count = detect_class_instantiation(nodes, edges)
+    
+    print(f"   → [Codome] JS import edges detected: {js_count}")
+    print(f"   → [Codome] Class instantiation edges detected: {class_count}")
+
     # Group disconnected nodes by reachability source
     by_source: Dict[str, List[Dict]] = {}
     for node in nodes:
@@ -844,6 +982,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     from unified_analysis import analyze
     from standard_model_enricher import enrich_with_standard_model
     from purpose_field import detect_purpose_field
+    from purpose_emergence import compute_pi2, compute_pi3, compute_pi4
     from execution_flow import detect_execution_flow
 
     from performance_predictor import predict_performance
@@ -925,6 +1064,59 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         timer.set_output(nodes=len(purpose_field.nodes), violations=len(purpose_field.violations))
     print(f"   → {len(purpose_field.nodes)} purpose nodes")
     print(f"   → {len(purpose_field.violations)} violations")
+
+    # Stage 3.5: π₃ (Organelle Purpose) for containers
+    print("\n🧬 Stage 3.5: Organelle Purpose (π₃)...")
+    pi3_count = 0
+    # Build parent-child index from names (Class.method pattern)
+    children_by_parent = {}
+    node_by_name = {n.get('name', ''): n for n in nodes}
+    for node in nodes:
+        name = node.get('name', '')
+        if '.' in name:
+            parent_name = name.rsplit('.', 1)[0]
+            if parent_name not in children_by_parent:
+                children_by_parent[parent_name] = []
+            children_by_parent[parent_name].append(node)
+
+    # Compute π₃ for containers
+    for node in nodes:
+        name = node.get('name', '')
+        if name in children_by_parent and len(children_by_parent[name]) > 0:
+            children = children_by_parent[name]
+            pi3 = compute_pi3(node, children)
+            node['pi3_purpose'] = pi3.purpose
+            node['pi3_confidence'] = round(pi3.confidence, 2)
+            node['pi3_child_count'] = len(children)
+            pi3_count += 1
+    print(f"   → {pi3_count} containers with π₃ purpose")
+
+    # Stage 3.6: π₄ (System Purpose) for files
+    print("\n📦 Stage 3.6: System Purpose (π₄)...")
+    # Group nodes by file
+    nodes_by_file = {}
+    for node in nodes:
+        fpath = node.get('file_path', 'unknown')
+        if fpath not in nodes_by_file:
+            nodes_by_file[fpath] = []
+        nodes_by_file[fpath].append(node)
+
+    # Compute π₄ for each file
+    file_purposes = {}
+    for fpath, file_nodes in nodes_by_file.items():
+        pi4 = compute_pi4(fpath, file_nodes)
+        file_purposes[fpath] = {
+            'purpose': pi4.purpose,
+            'confidence': round(pi4.confidence, 2),
+            'node_count': len(file_nodes),
+            'signals': pi4.signals
+        }
+        # Also tag each node with its file's π₄
+        for node in file_nodes:
+            node['pi4_purpose'] = pi4.purpose
+            node['pi4_confidence'] = round(pi4.confidence, 2)
+
+    print(f"   → {len(file_purposes)} files with π₄ purpose")
 
     # Stage 4: Execution Flow
     print("\n⚡ Stage 4: Execution Flow...")
@@ -1011,6 +1203,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 else:
                     node['topology_role'] = 'internal'
 
+                # Compute π₂ (Molecular Purpose) - emergent from composition
+                pi2 = compute_pi2(node)
+                node['pi2_purpose'] = pi2.purpose
+                node['pi2_confidence'] = round(pi2.confidence, 2)
+
                 # Add disconnection taxonomy for nodes missing incoming edges
                 # This includes orphans (no edges) AND roots (no incoming but have outgoing)
                 # Roots are often: entry points, HTML event handlers, exported APIs
@@ -1085,6 +1282,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 else:
                     node['topology_role'] = 'internal'
 
+                # BUG FIX: Separate call degree from total degree for metrics
+                # This ensures we report "behavioral" stats correctly in APIs
+                node['call_in_degree'] = in_deg
+                node['call_out_degree'] = out_deg
+                
                 # Add disconnection taxonomy for nodes missing incoming edges
                 # This includes orphans (no edges) AND roots (no incoming but have outgoing)
                 if in_deg == 0:
@@ -1236,6 +1438,25 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Constraint validation skipped: {e}")
 
+    # Stage 8.6: Purpose Intelligence (Q-Scores)
+    print("\n🧠 Stage 8.6: Purpose Intelligence...")
+    codebase_intelligence = {}
+    with StageTimer(perf_manager, "Stage 8.6: Purpose Intelligence") as timer:
+        try:
+            from purpose_intelligence import enrich_nodes_with_intelligence
+            nodes, codebase_intelligence = enrich_nodes_with_intelligence(nodes, edges)
+            timer.set_output(
+                codebase_q=codebase_intelligence.get('codebase_intelligence', 0),
+                interpretation=codebase_intelligence.get('interpretation', 'Unknown'),
+            )
+            print(f"   → Codebase Intelligence: {codebase_intelligence.get('codebase_intelligence', 0):.3f}")
+            print(f"   → Interpretation: {codebase_intelligence.get('interpretation', 'Unknown')}")
+            dist = codebase_intelligence.get('distribution', {})
+            print(f"   → Distribution: {dist.get('excellent', 0)} excellent, {dist.get('good', 0)} good, {dist.get('moderate', 0)} moderate, {dist.get('poor', 0)} poor")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Purpose Intelligence skipped: {e}")
+
     # Compute aggregate metrics
     total_time = time.time() - start_time
     
@@ -1333,6 +1554,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'antimatter_count': constraint_report.get('antimatter', {}).get('count', 0) if constraint_report else 0,
             'policy_violation_count': constraint_report.get('policy_violations', {}).get('count', 0) if constraint_report else 0,
             'signal_count': constraint_report.get('signals', {}).get('count', 0) if constraint_report else 0,
+            # Purpose Intelligence metrics
+            'codebase_intelligence': codebase_intelligence.get('codebase_intelligence', 0) if codebase_intelligence else 0,
+            'codebase_interpretation': codebase_intelligence.get('interpretation', 'Unknown') if codebase_intelligence else 'Unknown',
+            'q_distribution': codebase_intelligence.get('distribution', {}) if codebase_intelligence else {},
             'rho_antimatter': round(constraint_report.get('antimatter', {}).get('rho_antimatter', 0), 4) if constraint_report else 0,
             'rho_policy': round(constraint_report.get('policy_violations', {}).get('rho_policy', 0), 4) if constraint_report else 0,
             'constraint_valid': constraint_report.get('valid', True) if constraint_report else True,
