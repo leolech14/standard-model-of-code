@@ -1,0 +1,77 @@
+# Architecture Profile: Clean/Onion Architecture
+#
+# Dependency Inversion: outer layers depend on inner layers
+# Domain at the center, infrastructure at the edges
+# Common in DDD, Clean Architecture, Hexagonal/Ports & Adapters
+
+id: clean_onion
+name: Clean/Onion Architecture
+version: "1.0.0"
+
+# Layer hierarchy (inside to outside)
+# Inner layers know nothing about outer layers
+layer_hierarchy:
+  - DOMAIN         # Core business rules (innermost)
+  - APPLICATION    # Use Cases, Application Services
+  - INFRASTRUCTURE # Adapters, Frameworks, DB (outermost)
+  - INTERFACE      # Controllers, CLI, UI (outermost)
+
+# Dependency direction: OUTSIDE → INSIDE only
+allowed_dependencies:
+  INTERFACE:
+    - APPLICATION
+    - DOMAIN
+  INFRASTRUCTURE:
+    - APPLICATION
+    - DOMAIN
+  APPLICATION:
+    - DOMAIN
+  DOMAIN:
+    - []            # Domain is the core, no outward dependencies
+
+# Forbidden dependencies
+forbidden_dependencies:
+  - source: DOMAIN
+    target: APPLICATION
+    reason: "Domain core cannot depend on application layer"
+    severity: error
+
+  - source: DOMAIN
+    target: INFRASTRUCTURE
+    reason: "Domain cannot depend on infrastructure (use ports/interfaces)"
+    severity: error
+
+  - source: DOMAIN
+    target: INTERFACE
+    reason: "Domain cannot depend on interface layer"
+    severity: error
+
+  - source: APPLICATION
+    target: INFRASTRUCTURE
+    reason: "Application should use ports, not concrete infrastructure"
+    severity: warning
+
+  - source: APPLICATION
+    target: INTERFACE
+    reason: "Application layer should not know about interface"
+    severity: error
+
+# Ports and Adapters
+ports:
+  description: "Interfaces defined in Domain/Application, implemented in Infrastructure"
+  inbound: [Controller, Handler, CLI]      # Drive the application
+  outbound: [Repository, Gateway, Client]  # Driven by the application
+
+# Role placement expectations
+role_layer_mapping:
+  Controller: INTERFACE
+  Handler: [INTERFACE, APPLICATION]
+  Service: [APPLICATION, DOMAIN]
+  Repository: INFRASTRUCTURE      # Implementation
+  Factory: DOMAIN
+  Validator: DOMAIN
+  Mapper: [APPLICATION, INFRASTRUCTURE]
+  Store: INFRASTRUCTURE
+  Cache: INFRASTRUCTURE
+  Gateway: INFRASTRUCTURE
+  Transformer: APPLICATION

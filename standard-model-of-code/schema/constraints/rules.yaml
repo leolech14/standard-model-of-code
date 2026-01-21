@@ -1,0 +1,234 @@
+# Constraint Rules
+#
+# Seed rules extracted from the v4 1440 grid (archive/data/1440_csv.csv)
+# These are the formal constraint definitions for the Constraint Field.
+#
+# Source: 81 impossible combinations from RPBL validation matrix
+# Reference: THESIS_CONSTRAINT_VALIDATION.md v3.0
+
+version: "1.0.0"
+source: "archive/data/1440_csv.csv"
+extracted_date: "2026-01-20"
+
+# =========================================================================
+# TIER A: AXIOMS (Antimatter Sources)
+# =========================================================================
+# Maximum 20 rules. Universal. Model-defining impossibilities.
+
+tier_a:
+  # ---------------------------------------------------------------------------
+  # AXIOM-001: Immutable + Mutation = Impossible
+  # ---------------------------------------------------------------------------
+  # Source: 72 of 81 impossibles in 1440 grid
+  # Reason: "Immutable cannot have mutating operations"
+  #
+  - id: AXIOM-001
+    name: immutable_no_mutation
+    description: |
+      Immutable nodes cannot perform mutating operations.
+      If lifecycle=Immutable, responsibility cannot be Create/Update/Delete.
+    scope: node
+    condition:
+      lifecycle: Immutable
+      responsibility: [Create, Update, Delete]
+    reason: "Immutable cannot have mutating operations"
+    source_count: 72
+    examples:
+      - "Create + Pure + Domain + Immutable + QueryHandler"
+      - "Delete + Impure + Infrastructure + Immutable + Repository"
+
+  # ---------------------------------------------------------------------------
+  # AXIOM-002: Entity Requires State
+  # ---------------------------------------------------------------------------
+  # Source: 4 of 81 impossibles in 1440 grid
+  # Reason: "Entity has state, cannot be pure"
+  #
+  - id: AXIOM-002
+    name: entity_has_state
+    description: |
+      Entity role implies mutable state (identity + lifecycle).
+      Entity cannot have purity=Pure.
+    scope: node
+    condition:
+      role: Entity
+      purity: Pure
+    reason: "Entity has state, cannot be pure"
+    source_count: 4
+    examples:
+      - "Read + Pure + Domain + Scoped + Entity"
+
+  # ---------------------------------------------------------------------------
+  # AXIOM-003: ValueObject is Immutable
+  # ---------------------------------------------------------------------------
+  # Source: 3 of 81 impossibles in 1440 grid
+  # Reason: "ValueObject is immutable"
+  #
+  - id: AXIOM-003
+    name: valueobject_immutable
+    description: |
+      ValueObject role requires Immutable lifecycle.
+      ValueObjects are defined by their value, not identity.
+    scope: node
+    condition:
+      role: ValueObject
+      lifecycle: [Scoped, Transient, Ephemeral, Singleton]
+    reason: "ValueObject is immutable by definition"
+    source_count: 3
+    examples:
+      - "Create + Idempotent + Adapter + Scoped + ValueObject"
+
+  # ---------------------------------------------------------------------------
+  # AXIOM-004: Immutable + Command = Impossible
+  # ---------------------------------------------------------------------------
+  # Source: 2 of 81 impossibles in 1440 grid
+  # Reason: "Immutable cannot handle commands"
+  #
+  - id: AXIOM-004
+    name: immutable_no_commands
+    description: |
+      Immutable nodes cannot handle commands (commands imply state change).
+    scope: node
+    condition:
+      lifecycle: Immutable
+      role: [Command, CommandHandler, Mutator]
+    reason: "Immutable cannot handle commands"
+    source_count: 2
+    examples:
+      - "Create + Idempotent + Domain + Immutable + CommandHandler"
+
+  # ---------------------------------------------------------------------------
+  # AXIOM-005: Getter Cannot Write
+  # ---------------------------------------------------------------------------
+  # Source: Thesis v3.0 (derived from RPBL semantics)
+  #
+  - id: AXIOM-005
+    name: getter_no_write
+    description: |
+      Getter role implies read-only access.
+      Cannot have responsibility=Create/Update/Delete.
+    scope: node
+    condition:
+      role: Getter
+      responsibility: [Create, Update, Delete]
+    reason: "Getters retrieve, they don't mutate"
+    source_count: 0  # Derived, not from 1440 grid
+    examples:
+      - "Update + Pure + Domain + Ephemeral + Getter"
+
+# =========================================================================
+# TIER B: INVARIANTS (Policy Violations)
+# =========================================================================
+# Profile-dependent architecture rules.
+
+tier_b:
+  # ---------------------------------------------------------------------------
+  # INVARIANT-001: Layer Dependency Violation
+  # ---------------------------------------------------------------------------
+  - id: INVARIANT-001
+    name: layer_dependency_violation
+    description: |
+      Dependencies must flow in the correct direction according to profile.
+      Classic Layered: Presentation → Application → Domain → Infrastructure
+      Clean/Onion: Outside → Inside (DOMAIN has no dependencies)
+    scope: edge
+    profile_dependent: true
+    condition:
+      edge_type: [imports, calls, uses]
+      # Direction checked against profile.forbidden_dependencies
+    reason: "Dependency violates architectural layer direction"
+
+  # ---------------------------------------------------------------------------
+  # INVARIANT-002: Repository Must Be Singleton/Scoped
+  # ---------------------------------------------------------------------------
+  - id: INVARIANT-002
+    name: repository_lifecycle
+    description: |
+      Repository role should have Singleton or Scoped lifecycle.
+      Transient repositories waste connection resources.
+    scope: node
+    profile_dependent: true
+    profiles: [classic_layered, clean_onion]
+    condition:
+      role: Repository
+      lifecycle: [Transient, Ephemeral]
+    reason: "Repository should not be Transient or Ephemeral"
+
+  # ---------------------------------------------------------------------------
+  # INVARIANT-003: Controller No Business Logic
+  # ---------------------------------------------------------------------------
+  - id: INVARIANT-003
+    name: controller_thin
+    description: |
+      Controller role should not contain business logic (high complexity).
+      Delegate to Application/Domain services.
+    scope: node
+    profile_dependent: true
+    profiles: [clean_onion]
+    condition:
+      role: Controller
+      complexity: ">20"
+    reason: "Controller should be thin, delegate to services"
+
+# =========================================================================
+# TIER C: HEURISTICS (Signals)
+# =========================================================================
+# Informative, probabilistic. Does NOT affect validity.
+
+tier_c:
+  # ---------------------------------------------------------------------------
+  # HEURISTIC-001: Getter With Side Effects
+  # ---------------------------------------------------------------------------
+  - id: HEURISTIC-001
+    name: getter_side_effects
+    description: |
+      Getter role with ExternalIO purity is suspicious.
+      Getters should ideally be Pure or Idempotent.
+    scope: node
+    confidence: 0.7
+    condition:
+      role: Getter
+      purity: ExternalIO
+    signal: "Getter has external I/O side effects"
+
+  # ---------------------------------------------------------------------------
+  # HEURISTIC-002: Ephemeral Repository
+  # ---------------------------------------------------------------------------
+  - id: HEURISTIC-002
+    name: ephemeral_repository
+    description: |
+      Repository with Ephemeral lifecycle is unusual.
+      May indicate incorrect classification.
+    scope: node
+    confidence: 0.5
+    condition:
+      role: Repository
+      lifecycle: Ephemeral
+    signal: "Ephemeral repository is unusual"
+
+  # ---------------------------------------------------------------------------
+  # HEURISTIC-003: God Class
+  # ---------------------------------------------------------------------------
+  - id: HEURISTIC-003
+    name: god_class
+    description: |
+      High R-score (responsibility) indicates potential god class.
+    scope: node
+    confidence: 0.85
+    condition:
+      rpbl_r: ">7"
+    signal: "Potential god class (R-score > 7)"
+
+  # ---------------------------------------------------------------------------
+  # HEURISTIC-004: Orphan Service
+  # ---------------------------------------------------------------------------
+  - id: HEURISTIC-004
+    name: orphan_service
+    description: |
+      Service role with zero inbound edges is likely dead code
+      or incorrectly classified.
+    scope: node
+    confidence: 0.75
+    condition:
+      role: Service
+      in_degree: 0
+    signal: "Service has no callers"

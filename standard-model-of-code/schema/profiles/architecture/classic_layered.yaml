@@ -1,0 +1,58 @@
+# Architecture Profile: Classic Layered
+#
+# Traditional layered architecture (Presentation → Business → Data)
+# Common in enterprise Java, .NET, traditional web apps
+
+id: classic_layered
+name: Classic Layered Architecture
+version: "1.0.0"
+
+# Layer hierarchy (top to bottom)
+# Higher layers may depend on lower layers, not vice versa
+layer_hierarchy:
+  - PRESENTATION   # UI, Views, Controllers
+  - APPLICATION    # Use Cases, Application Services
+  - DOMAIN         # Business Logic, Entities
+  - INFRASTRUCTURE # Database, External Services
+
+# Allowed dependencies (source → target)
+allowed_dependencies:
+  PRESENTATION:
+    - APPLICATION
+    - DOMAIN        # Some patterns allow direct domain access
+  APPLICATION:
+    - DOMAIN
+    - INFRASTRUCTURE  # Application orchestrates infrastructure
+  DOMAIN:
+    - []            # Domain should have no outward dependencies
+  INFRASTRUCTURE:
+    - DOMAIN        # Implements domain interfaces
+
+# Forbidden dependencies (violations)
+forbidden_dependencies:
+  - source: DOMAIN
+    target: INFRASTRUCTURE
+    reason: "Domain must not depend on infrastructure details"
+    severity: error
+
+  - source: DOMAIN
+    target: APPLICATION
+    reason: "Domain must not depend on application layer"
+    severity: error
+
+  - source: INFRASTRUCTURE
+    target: PRESENTATION
+    reason: "Infrastructure should not know about presentation"
+    severity: warning
+
+# Role placement expectations
+role_layer_mapping:
+  Controller: PRESENTATION
+  Handler: APPLICATION
+  Service: [APPLICATION, DOMAIN]
+  Repository: INFRASTRUCTURE
+  Factory: [DOMAIN, APPLICATION]
+  Validator: [DOMAIN, APPLICATION]
+  Mapper: [APPLICATION, INFRASTRUCTURE]
+  Store: INFRASTRUCTURE
+  Cache: INFRASTRUCTURE

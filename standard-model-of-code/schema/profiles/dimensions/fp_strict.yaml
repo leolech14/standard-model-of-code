@@ -1,0 +1,82 @@
+# Dimension Semantics Profile: FP Strict
+#
+# Functional Programming with strict purity requirements
+# For: Haskell, Elm, PureScript, Rust (pure subset), Scala FP
+
+id: fp_strict
+name: Functional Programming (Strict)
+version: "1.0.0"
+
+# Purity dimension semantics
+purity:
+  Pure:
+    description: "No side effects, referentially transparent"
+    allows:
+      - deterministic computation
+      - immutable data transformation
+      - pure function composition
+    forbids:
+      - I/O operations
+      - mutable state
+      - exceptions (use Result/Either)
+      - random number generation
+      - current time access
+
+  Idempotent:
+    description: "Same result on repeated calls, may have side effects on first call"
+    allows:
+      - caching
+      - memoization
+      - lazy initialization
+    forbids:
+      - state accumulation across calls
+
+  Impure:
+    description: "Has side effects, must be explicitly marked"
+    allows:
+      - I/O operations
+      - mutable state (in IO monad or effect system)
+    requires:
+      - explicit effect type (IO, Effect, Task)
+
+  ExternalIO:
+    description: "Interacts with external systems"
+    requires:
+      - effect type wrapper
+      - explicit error handling
+
+# Lifecycle dimension semantics
+lifecycle:
+  Immutable:
+    description: "Value cannot change after creation"
+    enforced: true
+    violations_are: antimatter
+
+  Ephemeral:
+    description: "Short-lived, created and discarded within scope"
+    typical_for: [closures, lambdas, intermediate values]
+
+  Transient:
+    description: "Lives for duration of a request/transaction"
+
+  Scoped:
+    description: "Bound to a specific scope or context"
+
+  Singleton:
+    description: "Single instance for application lifetime"
+    warning: "Singletons are discouraged in strict FP"
+
+# Constraint implications
+constraints:
+  - if:
+      purity: Pure
+      lifecycle: Immutable
+    then:
+      mutation_allowed: false
+      io_allowed: false
+
+  - if:
+      role: Getter
+    then:
+      purity: [Pure, Idempotent]
+      mutation_allowed: false

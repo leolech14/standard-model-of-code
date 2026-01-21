@@ -1,0 +1,124 @@
+# Constraint Taxonomy
+#
+# The Constraint Field organizes rules into three tiers based on their
+# severity and source. This stratification prevents "constraint sprawl"
+# and maintains semantic precision.
+#
+# Reference: THESIS_CONSTRAINT_VALIDATION.md v3.0
+
+version: "1.0.0"
+
+tiers:
+  # =========================================================================
+  # TIER A: AXIOMS
+  # =========================================================================
+  # Violations mean "the classification OR the code contradicts the model itself"
+  # These are ANTIMATTER - semantically impossible states
+  #
+  # Rules:
+  # - Maximum 20 rules (governance limit)
+  # - Adding requires version bump + migration note
+  # - Must be truly axiomatic, not style preference
+  # - Universal (apply regardless of profile)
+  #
+  A:
+    name: Axioms
+    alias: antimatter_sources
+    description: |
+      Model-level impossibilities. If a node violates a Tier A constraint,
+      either the classification is wrong or the code is fundamentally broken.
+    severity: antimatter
+    max_rules: 20
+    profile_dependent: false
+    violation_output:
+      flag: is_antimatter
+      metric: rho_antimatter
+      visualization: black_hole_icon
+
+  # =========================================================================
+  # TIER B: INVARIANTS
+  # =========================================================================
+  # Architecture policy violations. Profile-dependent.
+  # "Your code works but violates the chosen architecture"
+  #
+  B:
+    name: Invariants
+    alias: policy_violations
+    description: |
+      Architecture-level policy violations. Depend on the chosen profile
+      (classic_layered, clean_onion, etc.). Valid code that breaks conventions.
+    severity: policy_violation
+    profile_dependent: true
+    violation_output:
+      flag: policy_violations
+      metric: rho_policy
+      visualization: warning_badge
+
+  # =========================================================================
+  # TIER C: HEURISTICS
+  # =========================================================================
+  # Signals and smells. Informative, probabilistic.
+  # Does NOT affect validity.
+  #
+  C:
+    name: Heuristics
+    alias: signals
+    description: |
+      Probabilistic signals and code smells. Confidence-weighted.
+      Informative only - does not affect node validity.
+    severity: signal
+    affects_validity: false
+    violation_output:
+      flag: signals
+      metric: rho_signal
+      visualization: info_badge
+
+# =========================================================================
+# VALIDITY FUNCTIONS
+# =========================================================================
+# Formal definitions from the thesis
+
+validity:
+  # A node's axiom validity
+  valid_axioms:
+    formula: "∀i ∈ TierA, ¬c_i(x(node))"
+    description: "No Tier A constraint is violated"
+
+  # A node's policy validity
+  valid_invariants:
+    formula: "∀i ∈ TierB, ¬c_i(x(node))"
+    description: "No Tier B constraint is violated"
+
+  # Full validity
+  valid:
+    formula: "valid_axioms(node) ∧ valid_invariants(node)"
+    description: "Both axiom and invariant validity hold"
+
+  # Antimatter definition (precise)
+  antimatter:
+    formula: "∃i ∈ TierA, c_i(x(node)) = violate"
+    description: "At least one Tier A axiom is violated"
+
+# =========================================================================
+# CONSTRAINT SCOPES
+# =========================================================================
+# What level of the graph each constraint can validate
+
+scopes:
+  node:
+    description: "Single node's dimensions"
+    examples:
+      - "Immutable + Mutator role"
+      - "Pure + writes data"
+
+  edge:
+    description: "Relationship between two nodes"
+    examples:
+      - "Domain imports Infrastructure"
+      - "Controller calls Repository directly"
+
+  path:
+    description: "Transitive closure (max depth 3)"
+    examples:
+      - "A → B → C violates layer flow"
+      - "Circular dependency chain"

@@ -1,0 +1,94 @@
+# Dimension Semantics Profile: OOP Conventional
+#
+# Object-Oriented Programming with conventional patterns
+# For: Java, C#, Python (OOP style), TypeScript, Ruby
+
+id: oop_conventional
+name: Object-Oriented Programming (Conventional)
+version: "1.0.0"
+
+# Purity dimension semantics
+purity:
+  Pure:
+    description: "No side effects, deterministic"
+    allows:
+      - computation on inputs
+      - returning new objects
+    forbids:
+      - modifying instance state
+      - I/O operations
+      - accessing mutable globals
+
+  Idempotent:
+    description: "Safe to call multiple times with same result"
+    allows:
+      - caching/memoization
+      - lazy initialization
+      - database reads (same data)
+    common_for: [Getter, Query, Finder]
+
+  Impure:
+    description: "Has side effects (most OOP methods)"
+    allows:
+      - modifying instance state
+      - I/O operations
+      - database writes
+    common_for: [Service, Command, Mutator]
+
+  ExternalIO:
+    description: "Interacts with external systems"
+    allows:
+      - network calls
+      - file operations
+      - database access
+    common_for: [Repository, Gateway, Client]
+
+# Lifecycle dimension semantics
+lifecycle:
+  Immutable:
+    description: "State cannot change after construction"
+    common_for: [ValueObject, DTO, Configuration]
+    violations_are: error  # Not antimatter in OOP
+
+  Ephemeral:
+    description: "Created per-use, short lifetime"
+    common_for: [Request, Response, Event]
+
+  Transient:
+    description: "New instance per request"
+    common_for: [Controller, Handler]
+
+  Scoped:
+    description: "One instance per scope (request, session, thread)"
+    common_for: [DbContext, UnitOfWork, Transaction]
+
+  Singleton:
+    description: "One instance for application lifetime"
+    common_for: [Service, Repository, Cache, Configuration]
+    warning: "Test carefully for thread safety"
+
+# Constraint implications (less strict than FP)
+constraints:
+  - if:
+      lifecycle: Immutable
+    then:
+      mutation_allowed: false
+      setters_allowed: false
+
+  - if:
+      role: Repository
+    then:
+      lifecycle: [Singleton, Scoped]
+      purity: [Impure, ExternalIO]
+
+  - if:
+      role: ValueObject
+    then:
+      lifecycle: Immutable
+      purity: Pure
+
+  - if:
+      role: Entity
+    then:
+      lifecycle: [Scoped, Transient]
+      purity: [Impure]  # Entities have mutable state
