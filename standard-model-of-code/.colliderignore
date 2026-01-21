@@ -1,0 +1,43 @@
+# Collider Ignore File
+# Paths matching these patterns are excluded from analysis
+
+# Collider output directories (don't analyze our own output!)
+.collider/
+.collider_*/
+
+# Archived code (already dead)
+.archive/
+*/_archive/
+
+# Build artifacts
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Test fixtures (intentional orphans)
+tests/fixtures/
+
+# External tools (standalone scripts)
+blender/
+
+# Experiments (not production code)
+experiments/
+
+# Vendor libraries (minified, not our code)
+vendor/
+*/vendor/
+*.min.js

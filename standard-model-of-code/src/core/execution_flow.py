@@ -321,15 +321,18 @@ class ExecutionFlowDetector:
     def _detect_entry_points(self) -> List[str]:
         """Find all entry points"""
         entries = []
-        
+
         for node_id, node in self.nodes.items():
             # Explicit entry points
             if node.is_entry_point:
                 entries.append(node_id)
-            # Implicit: public functions with no callers
+            # Modules are implicit entry points (they're imported, not called)
+            elif node.kind == 'module':
+                entries.append(node_id)
+            # Implicit: public functions/classes with no callers
             elif node.in_degree == 0 and node.is_public and node.kind in ['function', 'class']:
                 entries.append(node_id)
-        
+
         return entries
     
     def _find_reachable(self, entry_points: List[str]) -> Set[str]:
@@ -352,13 +355,16 @@ class ExecutionFlowDetector:
     def _detect_orphans(self, reachable: Set[str]) -> List[str]:
         """Find orphan nodes (not reachable and not entry points)"""
         orphans = []
-        
+
         for node_id, node in self.nodes.items():
+            # Skip modules - they're structural containers, not orphan candidates
+            if node.kind == 'module':
+                continue
             # Only flag public non-entry-point nodes
             if node_id not in reachable and node.is_public and not node.is_entry_point:
                 node.is_orphan = True
                 orphans.append(node_id)
-        
+
         return orphans
     
     def _compute_reachability_paths(self, orphans: List[str], entry_points: List[str], 
