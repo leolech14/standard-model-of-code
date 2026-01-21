@@ -92,6 +92,14 @@ SETS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/analysis_sets.yaml"
 PROMPTS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/prompts.yaml"
 SEMANTIC_MODELS_PATH = PROJECT_ROOT / "context-management/config/semantic_models.yaml"
 
+# --- Environment Detection ---
+# Detect if running in an interactive terminal or a headless agent/CI environment
+IS_INTERACTIVE_ENV = sys.stdin.isatty() and not (
+    os.environ.get('ANTIGRAVITY_AGENT') == '1' or 
+    os.environ.get('CI') == 'true' or
+    os.environ.get('NONINTERACTIVE') == 'true'
+)
+
 # Architecture docs to auto-inject for architect mode
 
 # Architecture docs to auto-inject for architect mode
@@ -228,6 +236,95 @@ def recommend_sets(query: str, recommendations: dict) -> list:
                     matches.append(s)
 
     return matches
+
+
+
+def list_available_workflows() -> list:
+    """Scan .agent/workflows for available workflow definitions."""
+    workflows_dir = PROJECT_ROOT / ".agent/workflows"
+    if not workflows_dir.exists():
+        return []
+    
+    workflows = []
+    for f in workflows_dir.glob("*.md"):
+        # Parse frontmatter for description
+        desc = "No description"
+        try:
+            with open(f, 'r') as file:
+                content = file.read()
+                if content.startswith('---'):
+                    parts = content.split('---', 2)
+                    if len(parts) >= 3:
+                        import yaml
+                        frontmatter = yaml.safe_load(parts[1])
+                        desc = frontmatter.get('description', desc)
+        except Exception:
+            pass
+        
+        workflows.append({
+            'name': f.stem,
+            'description': desc,
+            'path': str(f.relative_to(PROJECT_ROOT))
+        })
+    return sorted(workflows, key=lambda x: x['name'])
+
+
+def get_hsl_status() -> dict:
+    """Check status of the Holographic Socratic Layer (HSL)."""
+    if SEMANTIC_MODELS_PATH.exists():
+        try:
+            with open(SEMANTIC_MODELS_PATH) as f:
+                config = yaml.safe_load(f)
+                count = len(config.get('antimatter', []))
+                return {'status': 'ACTIVE', 'laws': count, 'path': str(SEMANTIC_MODELS_PATH.relative_to(PROJECT_ROOT))}
+        except:
+            return {'status': 'ERROR', 'laws': 0, 'path': str(SEMANTIC_MODELS_PATH.relative_to(PROJECT_ROOT))}
+    return {'status': 'INACTIVE', 'laws': 0, 'path': 'N/A'}
+
+
+def print_briefing(analysis_sets: dict) -> None:
+    """Print a System Briefing for Agent Orientation."""
+    print("\n" + "=" * 80)
+    print("SYSTEM BRIEFING: AGENT ORIENTATION")
+    print("=" * 80)
+    
+    # 1. HSL Status (The Third Mirror)
+    hsl = get_hsl_status()
+    print(f"\n[1] HOLOGRAPHIC SOCRATIC LAYER (HSL)")
+    print(f"    Status: {hsl['status']}")
+    print(f"    Laws:   {hsl['laws']} Antimatter Laws loaded")
+    print(f"    Config: {hsl['path']}")
+    print(f"    Usage:  Use --verify <domain> to query the semantic mirror.")
+
+    # 2. Workflows (Standard Operating Procedures)
+    workflows = list_available_workflows()
+    print(f"\n[2] AVAILABLE WORKFLOWS (Standard Operating Procedures)")
+    if workflows:
+        for w in workflows:
+            print(f"    - {w['name']:<20} : {w['description']}")
+            print(f"      (Path: {w['path']})")
+    else:
+        print("    (No workflows found in .agent/workflows)")
+
+    # 3. Data Sets (Context Windows)
+    print(f"\n[3] ANALYSIS DATA SETS (Context Windows)")
+    # Reuse list logic but condensed
+    core_sets = []
+    task_sets = []
+    for name, config in analysis_sets.items():
+        desc = config.get('description', '')
+        max_tokens = config.get('max_tokens', 0)
+        tokens_str = f"{max_tokens/1000:.0f}k" if max_tokens < 1000000 else f"{max_tokens/1000000:.1f}M"
+        if max_tokens <= 100_000 and not config.get('includes'):
+            core_sets.append(f"{name} ({tokens_str})")
+        else:
+            task_sets.append(f"{name} ({tokens_str})")
+            
+    print(f"    Core: {', '.join(core_sets[:5])}...")
+    print(f"    Task: {', '.join(task_sets[:5])}...")
+    print(f"    (Use --list-sets for full details)")
+
+    print("\n" + "=" * 80 + "\n")
 
 
 def list_available_sets(analysis_sets: dict) -> None:
@@ -780,6 +877,9 @@ def interactive_mode(client, model, context, system_prompt):
     
     Uses Vertex AI Context Caching if context is large, falling back to history-replay if small or failed.
     """
+    if not IS_INTERACTIVE_ENV:
+        print("Error: Interactive mode requires a TTY and non-agent environment.", file=sys.stderr)
+        return
     print("\n" + "=" * 60)
     print("INTERACTIVE MODE (Chat Session)")
     print("=" * 60)
@@ -1438,12 +1538,18 @@ Examples:
     # Verify / Socratic Layer arguments
     parser.add_argument("--verify", metavar="DOMAIN", help="Run semantic verification/Socratic check on a domain")
     parser.add_argument("--candidate", help="Target file for verification (overrides search)")
+    parser.add_argument("--briefing", action="store_true", help="Print system briefing for agent orientation")
     args = parser.parse_args()
 
     # Load config early for --list-sets and --recommend
     sets_config = load_sets_config()
     analysis_sets = sets_config.get("analysis_sets", {})
     recommendations_config = sets_config.get("recommendations", {})
+
+    # Handle --briefing (Agent Orientation)
+    if args.briefing:
+        print_briefing(analysis_sets)
+        sys.exit(0)
 
     # Handle --verify (Socratic Layer)
     if args.verify:
@@ -1681,10 +1787,12 @@ Examples:
         print(f"Store: {args.store_name}")
         print(f"Files: {len(selected_files)}")
 
-        if not args.yes:
+        if not args.yes and IS_INTERACTIVE_ENV:
             confirm = input("\nProceed with indexing? [Y/n] ")
             if confirm.lower() == 'n':
                 sys.exit(0)
+        elif not args.yes and not IS_INTERACTIVE_ENV:
+             print("Non-interactive mode detected: Auto-confirming indexing.", file=sys.stderr)
 
         client = create_developer_client()
         if not client:
@@ -1758,7 +1866,12 @@ Examples:
             print(f"                    Use --force-oneshot to override", file=sys.stderr)
             use_interactive = True
 
-    if not args.yes:
+    if not IS_INTERACTIVE_ENV:
+        if use_interactive:
+            print("Review: Non-interactive environment detected. Disabling interactive mode.", file=sys.stderr)
+            use_interactive = False
+    
+    if not args.yes and IS_INTERACTIVE_ENV:
         mode_str = "INTERACTIVE" if use_interactive else "ONE-SHOT"
         confirm = input(f"\nProceed with {mode_str} mode? [Y/n] ")
         if confirm.lower() == 'n':

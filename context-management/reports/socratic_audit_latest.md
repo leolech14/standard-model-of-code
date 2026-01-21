@@ -1,83 +1,64 @@
-# Validated Semantic Map: PIPELINE\n\nDate: 2026-01-21 14:52:34\n\n## Concept: Stage\n> A processing unit in the analysis pipeline.\n\n### Findings
+# Validated Semantic Map: PIPELINE\n\nDate: 2026-01-21 18:44:53\n\n## Concept: Stage\n> A processing unit in the analysis pipeline.\n\n### Findings
+
+The codebase implements its analysis pipeline using a functional paradigm, where processing units are standalone functions called in sequence by the `run_full_analysis` orchestrator. This architectural pattern is fundamentally at odds with the object-oriented `Stage` concept defined.
+
+---
+
 - **Entity**: `compute_markov_matrix`
 - **Status**: Non-Compliant
-- **Evidence**: The entity is a standalone function, not a class. It modifies one of its inputs (`edges`) in place, violating the statelessness principle.
-    ```python
-    def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:
-        # ...
-        for edge in edges:
-            source = edge.get('source', '')
-            target = edge.get('target', '')
-            if source in transitions and target in transitions[source]:
-                edge['markov_weight'] = transitions[source][target] # Modifies input
-    ```
-- **Deviation**: The entity does not inherit from a `BaseStage` class. While it is called like a processing unit, its implementation as a function that mutates its arguments violates the 'stateless' invariant, which is critical for predictable pipeline behavior.
+- **Evidence**: The entity is a standalone function, not a class. It is defined as `def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:`. It also modifies one of its input arguments (`edges`) in place, which violates the statelessness principle.
+- **Deviation**:
+    - **Inheritance**: As a function, it cannot inherit from a `BaseStage` class.
+    - **Method**: It does not implement an `execute` or `run` method; it is invoked directly by its function name.
+    - **Statelessness**: The function is stateful. It modifies the `edges` list passed to it by adding a `markov_weight` key to each edge dictionary.
+    - **Return Format**: It returns a standard Python `Dict`, not a `ProcessingResult` or `AnalysisResult` object.
 
 ---
+
 - **Entity**: `detect_knots`
 - **Status**: Non-Compliant
-- **Evidence**: The entity is a standalone function, not a class.
-    ```python
-    def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:
-        """
-        Detect dependency knots (cycles) and tangles in the graph.
-        ...
-        """
-    ```
-- **Deviation**: The entity does not inherit from a `BaseStage` class as required. Although it behaves like a stateless processing unit and returns a structured dictionary, it fails to meet the structural requirement of being an instantiable Stage class.
+- **Evidence**: The entity is a standalone function, not a class. It is defined as `def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:`.
+- **Deviation**:
+    - **Inheritance**: As a function, it cannot inherit from a `BaseStage` class.
+    - **Method**: It does not implement an `execute` or `run` method; it is invoked directly.
+    - **Return Format**: It returns a standard Python `Dict`, not a `ProcessingResult` or `AnalysisResult` object.
+    - *(Note: This function does adhere to the statelessness principle, as it does not modify its inputs and returns a new dictionary. However, it fails on all other invariants.)*
 
 ---
-- **Entity**: `compute_data_flow`
-- **Status**: Non-Compliant
-- **Evidence**: The entity is a standalone function, not a class.
-    ```python
-    def compute_data_flow(nodes: List[Dict], edges: List[Dict]) -> Dict:
-        """
-        Analyze data flow patterns across the codebase.
-        """
-    ```
-- **Deviation**: The entity does not inherit from a `BaseStage` class. It correctly functions as a stateless processing unit but does not adhere to the required object-oriented structure defined by the `Stage` concept.
 
----
-- **Entity**: `create_codome_boundaries`
+- **Entity**: Graph Analytics processing block (within `run_full_analysis`)
 - **Status**: Non-Compliant
-- **Evidence**: The entity is a standalone function, not a class.
-    ```python
-    def create_codome_boundaries(nodes: List[Dict], edges: List[Dict]) -> Dict[str, Any]:
-        """
-        Create synthetic codome boundary nodes and inferred edges.
-        ...
-        """
-    ```
-- **Deviation**: The entity does not inherit from a `BaseStage` class. While it serves as a distinct processing step in the analysis pipeline, it is implemented procedurally rather than adhering to the class-based structure required by the invariants.
-
----
-- **Entity**: Inline Graph Analytics (Stage 6.5)
-- **Status**: Non-Compliant
-- **Evidence**: The logic for "Stage 6.5: Graph Analytics" is implemented as a large, inline block of code within the `run_full_analysis` function, rather than being encapsulated in a separate class or even a function.
-    ```python
-    # Stage 6.5: Graph Analytics (Nerd Layer)
-    print("\n🧮 Stage 6.5: Graph Analytics...")
-    with StageTimer(perf_manager, "Stage 6.5: Graph Analytics") as timer:
-        # Degree computation (always runs - needed for Control Bar mappings)
-        try:
-            import networkx as nx
-            # ... extensive logic follows ...
-    ```
-- **Deviation**: This is a significant deviation. The processing logic is not encapsulated in any reusable unit, violating all invariants. It is not a class, has no `run`/`execute` method, and is tightly coupled to the orchestrator function. It represents a "stage" in concept only, not in structure.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM004]**: The primary execution function `run_full_analysis` is an incomplete stub that fails to call any of the major analysis functions defined within the same file. As a result, critical functions like `classify_disconnection`, `create_codome_boundaries`, `build_file_index`, `compute_markov_matrix`, `detect_knots`, `compute_data_flow`, and `_generate_ai_insights` are orphaned. The file defines a complex analysis pipeline but provides no mechanism to execute it, rendering over 80% of the code inert and disconnected from its intended entry point. (Severity: HIGH)\n- 🔴 **[AM002]**: The code violates its designated 'Stage' role, which implies a stateless, deterministic transformation. The implementation includes numerous side effects, such as filesystem manipulation (`_resolve_output_dir`), modifying global interpreter state (`sys.path.insert`), and launching external processes with network access (`_generate_ai_insights`). These actions are characteristic of an Orchestrator or CLI Handler, not a pure processing Stage, representing significant architectural drift. (Severity: HIGH)\n- 🔴 **[AM001]**: The module exhibits context myopia by manipulating `sys.path` with `sys.path.insert(0, ...)` to resolve a local import. This is a fragile anti-pattern that ignores standard Python packaging and module resolution, creating a tight dependency on the file's location within the filesystem. This approach makes the code less portable and harder to maintain. (Severity: MEDIUM)\n\n## Concept: Extractor\n> Component responsible for raw data ingestion.\n\n### Findings
-- **Entity**: `EdgeExtractionStrategy` (and its concrete subclasses: `PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `PythonTreeSitterStrategy`, etc.)
+- **Evidence**: This processing unit is not an encapsulated entity but rather an inline block of code within the `run_full_analysis` function, starting at the comment `"# Stage 6.5: Graph Analytics..."`. It directly iterates over and modifies the `nodes` list.
+- **Deviation**:
+    - **Inheritance**: It is a block of procedural code, not a class, and thus cannot inherit.
+    - **Method**: It is not a method and cannot be executed independently; it is part of a larger function.
+    - **Statelessness**: This block is highly stateful. It modifies the `nodes` list in-place, adding numerous keys (`in_degree`, `out_degree`, `topology_role`, `disconnection`, etc.) to the node dictionaries. This creates significant side effects for subsequent stages.
+    - **Return Format**: It does not return any value; its entire purpose is to modify shared state.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM002]**: The code violates architectural layer separation by mixing core analysis logic with presentation and OS-interaction concerns. For instance, `create_codome_boundaries`, a core processing function, contains a `print` statement, which is presentation logic. More significantly, the file includes helper functions like `_open_file` and `_manual_open_command` that perform OS-level operations (opening files via shell commands), a responsibility that should reside in a dedicated CLI or UI layer, not in a `core` analysis module. This blending of concerns reduces the modularity and reusability of the core engine. (Severity: MEDIUM)\n- 🔴 **[AM001]**: The code exhibits minor context myopia by implementing custom, regex-based parsers in `detect_js_imports` and `detect_class_instantiation`. While a comment acknowledges that a full AST analysis would be more robust, this heuristic-based approach is prone to errors and duplicates the more complex function of dedicated language parsers. For a sophisticated analysis tool, relying on fragile regex for code parsing, instead of leveraging or building a more robust parsing component, represents a missed opportunity for greater accuracy and adherence to best practices. (Severity: LOW)\n\n## Concept: Extractor\n> Component responsible for raw data ingestion.\n\n### Findings
+- **Entity**: `PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `GoEdgeStrategy`, `RustEdgeStrategy`
 - **Status**: Compliant
-- **Evidence**: The responsibility of these strategy classes is to extract potential relationships from a single particle's `body_source`. They operate either on the raw string content using regular expressions (e.g., `PythonEdgeStrategy`) or by parsing the body into a local AST and querying it (e.g., `PythonTreeSitterStrategy`). For example, `PythonEdgeStrategy` uses `re.findall(r'(?:self\.)?(\w+)\s*\(', body)` to find call-like patterns. This fits the definition of operating on raw file content or AST. The logic within is confined to identifying syntactic constructs, not interpreting their cross-module meaning.
-- **Deviation**: None.
+- **Evidence**: These classes operate on the `body_source` of a code particle (a raw string) and use regular expressions to find patterns that look like function calls. For example, `PythonEdgeStrategy` uses `re.findall(r'(?:self\.)?(\w+)\s*\(', body)`. This is a direct operation on raw content to extract potential relationships without understanding the code's deeper meaning.
+- **Deviation**: N/A
+
+---
+- **Entity**: `TreeSitterEdgeStrategy`, `PythonTreeSitterStrategy`, `TypeScriptTreeSitterStrategy`
+- **Status**: Compliant
+- **Evidence**: These classes parse the raw `body_source` into an Abstract Syntax Tree (AST) using `tree-sitter`. They then traverse this tree to find structural nodes corresponding to calls (e.g., `node.type in {'call', 'call_expression'}`). This adheres to the invariant "Must operate on raw file content or AST" and avoids complex semantic reasoning by focusing on the structural syntax of the code.
+- **Deviation**: N/A
 
 ---
 - **Entity**: `JSModuleResolver`
 - **Status**: Non-Compliant
-- **Evidence**: This class is designed to resolve JavaScript module references across files. It analyzes file content to build up a stateful model of `window_exports` and `import_aliases`. The method `resolve_member_call` then uses this cross-file knowledge to link a call site (e.g., `COLOR.subscribe()`) to a particle in a different file.
-- **Deviation**: This functionality constitutes "complex semantic reasoning". Instead of simply ingesting raw data (finding the text `COLOR.subscribe`), it interprets the semantics of JavaScript's module system to resolve the meaning of the `COLOR` identifier in a global context. This requires building a cross-file symbol table, a task that goes beyond raw data ingestion and into semantic analysis, which is explicitly designated as the role of other components (like a `Classifier` or a dedicated `Resolver`).
+- **Evidence**: The purpose of this class is to resolve JavaScript module references across files by tracking aliases, global exports, and various import/export patterns. The method `resolve_member_call` attempts to determine the concrete target of a call like `COLOR.subscribe()` by checking its internal maps (`self.window_exports`, `self.import_aliases`) and even employing heuristics like fuzzy filename matching.
+- **Deviation**: This class performs cross-file symbol resolution, which is a form of "complex semantic reasoning". Instead of just extracting the text "COLOR.subscribe", it tries to understand what "COLOR" refers to in the context of the entire codebase. This reasoning step goes beyond raw data ingestion and violates the invariant that such tasks are the role of a Classifier.
 
 ---
-- **Entity**: `extract_call_edges`
+- **Entity**: `JavaScriptTreeSitterStrategy`
 - **Status**: Non-Compliant
-- **Evidence**: This function serves as the main orchestrator. It is responsible for initializing and populating the `JSModuleResolver`: `reset_js_module_resolver()`, `resolver = get_js_module_resolver()`, `resolver.analyze_file(file_path, content)`. The results of this analysis are then used by the `JavaScriptTreeSitterStrategy` to perform cross-file call resolution.
-- **Deviation**: By orchestrating the `JSModuleResolver` and incorporating its results into the edge extraction process, this function violates the invariant against performing complex semantic reasoning. It is not merely extracting raw relationships but is actively resolving them using a semantic model of the codebase's module structure, which is outside the scope of a simple "Extractor".\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM004]**: The code defines a constant `STDLIB_MODULES` (line 321) and a function `_collect_file_node_ids` (line 428) which are never used or referenced within the provided file. This constitutes orphan code that adds clutter and potential confusion for future maintenance without providing any current functionality. (Severity: LOW)\n\n
+- **Evidence**: This class directly integrates and uses `JSModuleResolver` to perform its extraction. In its `extract_edges` method, it calls `resolver.resolve_member_call(obj_name, method_name, caller_file, particle_by_name)` to find the target of a member call.
+- **Deviation**: By using `JSModuleResolver`, this strategy incorporates cross-file semantic reasoning into the extraction process. It is not merely extracting call information from the local AST; it is actively resolving symbols, which is a task reserved for components other than the Extractor according to the provided definition.
+
+---
+- **Entity**: `extract_call_edges` (Orchestrator Function)
+- **Status**: Non-Compliant
+- **Evidence**: A significant portion of this function is dedicated to setting up and using the `JSModuleResolver`. It begins by calling `reset_js_module_resolver()`, then iterates through all JS files to populate the resolver with `resolver.analyze_file(file_path, content)`. The results of this semantic analysis are then used by strategies like `JavaScriptTreeSitterStrategy`.
+- **Deviation**: This function orchestrates the violation by making cross-file semantic analysis a foundational step in the extraction process. It mixes the pure ingestion role of an Extractor with the analytical role of a more advanced component, thereby breaking the "Must not perform complex semantic reasoning" invariant.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM004]**: A significant feature for high-precision JavaScript analysis is implemented but not integrated, leaving it as orphan code. The `JavaScriptTreeSitterStrategy` class defines a method `extract_member_call` intended to parse object-method calls (e.g., `MyModule.myFunc()`). This method, and by extension the `JSModuleResolver.resolve_member_call` it is designed to feed, are never executed. The strategy inherits the generic `extract_edges` method from its parent `TreeSitterEdgeStrategy`, which does not use the specialized `extract_member_call` logic. As a result, the entire module resolution mechanism for member calls, a key feature advertised in the strategy's docstring, is non-functional. (Severity: HIGH)\n\n

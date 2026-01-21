@@ -94,6 +94,7 @@ class PurposeField:
 
         # Find uncertain mortals - low confidence atoms whose purpose is unclear
         # These are the "tiny uncertain mortals" that signal weak purpose field regions
+        # Note: confidence is 0-100 scale, threshold is 50%
         uncertain_mortals = [
             {
                 "name": n.name,
@@ -103,7 +104,7 @@ class PurposeField:
                 "layer": n.layer.value
             }
             for n in self.nodes.values()
-            if n.atomic_confidence < 0.5 and n.atomic_purpose != "Unknown"
+            if n.atomic_confidence < 50 and n.atomic_purpose != "Unknown"
         ]
         uncertain_mortals.sort(key=lambda x: x["confidence"])
 
