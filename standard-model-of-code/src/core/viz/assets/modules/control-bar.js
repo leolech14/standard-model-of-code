@@ -679,7 +679,7 @@ const CONTROL_BAR = (function () {
         if (typeof REFRESH !== 'undefined') {
             REFRESH.throttled();
         } else if (typeof Graph !== 'undefined' && Graph) {
-            Graph.refresh();
+            REFRESH.throttled();
         }
 
         showToast(`Mapped ${sourceKey} -> ${targetKey} on ${nodes.length} nodes`);

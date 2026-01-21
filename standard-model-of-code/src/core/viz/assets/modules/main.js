@@ -180,7 +180,7 @@
         if (typeof REFRESH !== 'undefined') {
             REFRESH.throttled();
         } else if (typeof Graph !== 'undefined' && Graph) {
-            Graph.refresh();
+            REFRESH.throttled();
         }
     };
 

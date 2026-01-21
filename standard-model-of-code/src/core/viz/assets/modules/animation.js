@@ -339,7 +339,7 @@ const ANIM = (function() {
                 if (typeof REFRESH !== 'undefined') {
                     REFRESH.force();
                 } else if (Graph) {
-                    Graph.refresh();
+                    REFRESH.throttled();
                 }
                 if (preset.motion === 'rotate' || preset.motion === 'orbit') {
                     _startLayoutMotion(presetKey);
@@ -394,7 +394,7 @@ const ANIM = (function() {
             if (typeof REFRESH !== 'undefined') {
                 REFRESH.throttled();
             } else if (Graph) {
-                Graph.refresh();
+                REFRESH.throttled();
             }
 
             const totalDuration = baseDuration + staggerSpread;
@@ -435,7 +435,7 @@ const ANIM = (function() {
             if (typeof REFRESH !== 'undefined') {
                 REFRESH.throttled();
             } else if (Graph) {
-                Graph.refresh();
+                REFRESH.throttled();
             }
 
             if (progress < 1) {
@@ -476,7 +476,7 @@ const ANIM = (function() {
             if (typeof REFRESH !== 'undefined') {
                 REFRESH.throttled();
             } else if (Graph) {
-                Graph.refresh();
+                REFRESH.throttled();
             }
 
             _animationId = requestAnimationFrame(animate);
@@ -596,7 +596,7 @@ const ANIM = (function() {
             if (typeof REFRESH !== 'undefined') {
                 REFRESH.throttled();
             } else if (Graph) {
-                Graph.refresh();
+                REFRESH.throttled();
             }
 
             _animationId = requestAnimationFrame(flockStep);

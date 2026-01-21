@@ -287,6 +287,71 @@ window.UI_BUILDERS = (function() {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
+    // APPEARANCE SLIDERS - Pure UI builder (decoupled from global state)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /**
+     * Build appearance sliders - PURE UI, no global dependencies
+     *
+     * @param {string} containerId - Container element ID
+     * @param {Array} sliderDefs - Array of slider definitions:
+     *   { id, label, min, max, step, value, description?, className? }
+     * @param {Function} onChange - Callback: (sliderId, newValue) => void
+     */
+    function buildAppearanceSliders(containerId, sliderDefs, onChange) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        sliderDefs.forEach(def => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'slider-row' + (def.className ? ' ' + def.className : '');
+
+            // Header row with label and value
+            const header = document.createElement('div');
+            header.className = 'slider-header';
+            const label = document.createElement('span');
+            label.className = 'slider-label';
+            label.textContent = def.label;
+            const valueDisplay = document.createElement('span');
+            valueDisplay.className = 'slider-value';
+            valueDisplay.id = def.id + '-value';
+            const safeValue = def.value ?? def.min ?? 0;
+            valueDisplay.textContent = safeValue.toFixed(def.step < 1 ? 2 : 0);
+            header.appendChild(label);
+            header.appendChild(valueDisplay);
+
+            // The slider input
+            const input = document.createElement('input');
+            input.type = 'range';
+            input.className = 'slider-input';
+            input.id = def.id;
+            input.min = def.min;
+            input.max = def.max;
+            input.step = def.step;
+            input.value = safeValue;
+            input.oninput = () => {
+                const val = parseFloat(input.value);
+                valueDisplay.textContent = val.toFixed(def.step < 1 ? 2 : 0);
+                if (onChange) onChange(def.id, val);
+            };
+
+            wrapper.appendChild(header);
+            wrapper.appendChild(input);
+
+            // Optional description for meta-sliders
+            if (def.description) {
+                const desc = document.createElement('div');
+                desc.className = 'slider-desc';
+                desc.textContent = def.description;
+                wrapper.appendChild(desc);
+            }
+
+            container.appendChild(wrapper);
+        });
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
     // MODULE EXPORT
     // ═══════════════════════════════════════════════════════════════════════
 
@@ -297,7 +362,8 @@ window.UI_BUILDERS = (function() {
         buildDatamapToggle: buildDatamapToggle,
         buildExclusiveOptions: buildExclusiveOptions,
         buildChipGroup: buildChipGroup,
-        buildMetadataControls: buildMetadataControls
+        buildMetadataControls: buildMetadataControls,
+        buildAppearanceSliders: buildAppearanceSliders
     };
 })();
 
@@ -312,5 +378,6 @@ window.buildDatamapToggle = UI_BUILDERS.buildDatamapToggle;
 window.buildExclusiveOptions = UI_BUILDERS.buildExclusiveOptions;
 window.buildChipGroup = UI_BUILDERS.buildChipGroup;
 window.buildMetadataControls = UI_BUILDERS.buildMetadataControls;
+// Note: buildAppearanceSliders shim is in app.js (orchestration layer)
 
-console.log('[Module] UI_BUILDERS loaded - 7 functions');
+console.log('[Module] UI_BUILDERS loaded - 8 functions (appearance sliders decoupled)');

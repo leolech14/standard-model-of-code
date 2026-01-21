@@ -1555,7 +1555,7 @@ const FILE_VIZ = (function() {
                 });
             }
 
-            if (Graph) Graph.refresh();
+            if (Graph) REFRESH.throttled();
             _containment.animationFrame = requestAnimationFrame(animate);
         }
 
@@ -1623,7 +1623,7 @@ const FILE_VIZ = (function() {
                 console.log('[Containment] Particles now FREE - Brownian motion with collisions');
             }
 
-            if (Graph) Graph.refresh();
+            if (Graph) REFRESH.throttled();
         }
 
         animatePop();
@@ -1669,7 +1669,7 @@ const FILE_VIZ = (function() {
                 console.log('[Containment] Boundaries restored');
             }
 
-            if (Graph) Graph.refresh();
+            if (Graph) REFRESH.throttled();
         }
 
         animateRestore();

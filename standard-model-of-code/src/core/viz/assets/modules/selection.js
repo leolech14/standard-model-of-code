@@ -354,7 +354,7 @@ const SELECT = (function() {
         if (typeof REFRESH !== 'undefined') {
             REFRESH.throttled();
         } else if (Graph) {
-            Graph.refresh();
+            REFRESH.throttled();
         }
     }
 
