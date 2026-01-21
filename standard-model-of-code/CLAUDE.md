@@ -19,6 +19,8 @@
 | Model | `docs/MODEL.md` | Theory, atoms, roles, proofs, history |
 | Collider | `docs/COLLIDER.md` | Commands, pipeline, visualization controls |
 | Viz UI Spec | `docs/specs/VISUALIZATION_UI_SPEC.md` | Technical spec for interactive UI |
+| Tree-sitter Spec | `docs/specs/TREE_SITTER_INTEGRATION_SPEC.md` | Full TS integration guide |
+| Tree-sitter Inventory | `docs/specs/TREE_SITTER_POWER_INVENTORY.md` | Capability checklist |
 
 ## Commands
 
@@ -27,6 +29,7 @@
 | Analyze codebase | `./collider full <path> --output <dir>` |
 | With AI insights | `./collider full <path> --ai-insights` |
 | Self-check | `./collider full . --output .collider` |
+| **Validate UI** | `python tools/validate_ui.py <html_path> --verbose` |
 | Install | `pip install -e .` |
 | Run tests | `pytest tests/` |
 
@@ -48,7 +51,11 @@
 | HTML JS (legacy) | `src/core/viz/assets/app.js` |
 | Control Bar | `src/core/viz/assets/modules/control-bar.js` |
 | File Viz | `src/core/viz/assets/modules/file-viz.js` |
+| **Circuit Breaker** | `src/core/viz/assets/modules/circuit-breaker.js` |
+| **UI Validator** | `tools/validate_ui.py` |
 | File Enricher | `src/core/file_enricher.py` |
+| **Tree-sitter Engine** | `src/core/tree_sitter_engine.py` |
+| **Edge Extractor** | `src/core/edge_extractor.py` |
 | Module pattern | `docs/specs/VISUALIZATION_UI_SPEC.md#state-unification-pattern` |
 
 ## Output Files
@@ -100,6 +107,22 @@
 | `M` or `` ` `` | Toggle Control Bar (visual mapping) |
 | `I` | Show info for selected nodes |
 | `Escape` | Close panels |
+
+## UI Controls (Circuit Breaker Validated)
+
+| Control | Type | Element ID | State Path | Purpose |
+|---------|------|------------|------------|---------|
+| Edge Opacity | slider | `cfg-edge-opacity` | `APPEARANCE_STATE.edgeOpacity` | Edge visibility |
+| Edge Width | slider | `cfg-edge-width` | `APPEARANCE_STATE.edgeWidth` | Edge thickness |
+| Edge Curvature | slider | `cfg-edge-curve` | `APPEARANCE_STATE.edgeCurvature` | Edge bend |
+| Node Size | slider | `cfg-node-size` | `APPEARANCE_STATE.nodeScale` | Node radius |
+| Node Opacity | slider | `cfg-node-opacity` | `APPEARANCE_STATE.nodeOpacity` | Node visibility |
+| Show Arrows | toggle | `cfg-toggle-arrows` | `APPEARANCE_STATE.showArrows` | Directional arrows |
+| Physics Charge | slider | `physics-charge` | `Graph.d3Force('charge')` | Node repulsion |
+| Dimension Toggle | button | `btn-2d` | `IS_3D` | 2D/3D switch |
+| View Mode | button | `btn-files` | `GRAPH_MODE` | Files/Atoms view |
+
+**Validate controls:** `python tools/validate_ui.py <html> --verbose`
 
 ## Rules
 

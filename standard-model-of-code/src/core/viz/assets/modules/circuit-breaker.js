@@ -1,14 +1,43 @@
 /**
- * CIRCUIT BREAKER MODULE - Enhanced Diagnostics
+ * ═══════════════════════════════════════════════════════════════════════════
+ * CIRCUIT BREAKER MODULE - UI Control Validator
+ * ═══════════════════════════════════════════════════════════════════════════
  *
- * Runtime self-test system that validates all UI controls work.
- * Provides detailed diagnostics for fixing broken controls.
+ * Runtime self-test system that validates all visualization UI controls.
+ * Acts as a quality guardian - detects binding failures, state issues,
+ * and provides actionable fix recommendations.
  *
- * Usage:
- *   CIRCUIT.runAll()           // Run all tests with full diagnostics
- *   CIRCUIT.test('edge-opacity') // Test specific control
- *   CIRCUIT.report()           // Get test results
- *   CIRCUIT.diagnose()         // Get fix recommendations
+ * @module CIRCUIT
+ * @version 2.0.0
+ *
+ * ## API
+ *
+ * | Method | Returns | Description |
+ * |--------|---------|-------------|
+ * | `runAll()` | `{passed, failed, total, results}` | Run all tests |
+ * | `test(name)` | `{passed, error, trace}` | Test single control |
+ * | `report()` | `Map<name, result>` | Get all results |
+ * | `listTests()` | `string[]` | List test names |
+ * | `diagnose()` | `{category, failures}[]` | Get categorized fix recommendations |
+ * | `inventory()` | `string` | Markdown table of all controls |
+ * | `inventoryJSON()` | `object[]` | JSON array of control definitions |
+ *
+ * ## CLI Integration
+ *
+ * ```bash
+ * python tools/validate_ui.py <html_path> --verbose
+ * ```
+ *
+ * ## Browser Console
+ *
+ * ```javascript
+ * CIRCUIT.runAll()        // Run all tests
+ * CIRCUIT.inventory()     // Print control table
+ * CIRCUIT.diagnose()      // Get fix recommendations
+ * ```
+ *
+ * @see tools/validate_ui.py - Headless test runner
+ * @see CLAUDE.md - UI Controls section
  */
 
 const CIRCUIT = (function() {
@@ -539,6 +568,41 @@ const CIRCUIT = (function() {
     }
 
     // =========================================================================
+    // INVENTORY - Generate control tables for documentation
+    // =========================================================================
+
+    /**
+     * Generate markdown table of all tested controls
+     * @returns {string} Markdown table
+     */
+    function inventory() {
+        const lines = [
+            '| Control | Type | Element ID | State Path | Purpose |',
+            '|---------|------|------------|------------|---------|'
+        ];
+        TESTS.forEach(t => {
+            const purpose = t.fix ? t.fix.split(' - ')[0].replace(/^(Check|Ensure) /, '') : t.name;
+            lines.push(`| ${t.name} | ${t.type} | \`${t.elementId || '-'}\` | \`${t.statePath || '-'}\` | ${purpose.substring(0, 40)} |`);
+        });
+        return lines.join('\n');
+    }
+
+    /**
+     * Generate JSON inventory of all controls
+     * @returns {Array} Control definitions
+     */
+    function inventoryJSON() {
+        return TESTS.map(t => ({
+            name: t.name,
+            type: t.type,
+            elementId: t.elementId,
+            statePath: t.statePath,
+            graphMethod: t.graphMethod,
+            expected: t.expected
+        }));
+    }
+
+    // =========================================================================
     // PUBLIC API
     // =========================================================================
 
@@ -548,6 +612,8 @@ const CIRCUIT = (function() {
         report,
         listTests,
         diagnose,
+        inventory,
+        inventoryJSON,
         get isRunning() { return _running; },
         TESTS
     };
