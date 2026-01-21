@@ -1057,6 +1057,142 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Dimension classification skipped: {e}")
 
+    # Stage 2.8: Scope Analysis (definitions, references, unused, shadowing)
+    print("\n🔬 Stage 2.8: Scope Analysis...")
+    with StageTimer(perf_manager, "Stage 2.8: Scope Analysis") as timer:
+        try:
+            from scope_analyzer import analyze_scopes, find_unused_definitions, find_shadowed_definitions
+            import tree_sitter
+            import tree_sitter_python
+            import tree_sitter_javascript
+
+            # Initialize parsers
+            py_parser = tree_sitter.Parser()
+            py_parser.language = tree_sitter.Language(tree_sitter_python.language())
+            js_parser = tree_sitter.Parser()
+            js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+
+            scope_stats = {'files_analyzed': 0, 'unused': 0, 'shadowed': 0}
+
+            # Analyze scope per file
+            files_analyzed = set()
+            for node in nodes:
+                file_path = node.get('file_path', '')
+                if file_path in files_analyzed:
+                    continue
+                files_analyzed.add(file_path)
+
+                # Determine language
+                if file_path.endswith('.py'):
+                    lang, parser = 'python', py_parser
+                elif file_path.endswith(('.js', '.jsx', '.ts', '.tsx')):
+                    lang, parser = 'javascript', js_parser
+                else:
+                    continue
+
+                body = node.get('body_source', '')
+                if not body or len(body) < 10:
+                    continue
+
+                try:
+                    tree = parser.parse(bytes(body, 'utf8'))
+                    graph = analyze_scopes(tree, bytes(body, 'utf8'), lang, file_path)
+                    unused = find_unused_definitions(graph)
+                    shadowed = find_shadowed_definitions(graph)
+
+                    scope_stats['files_analyzed'] += 1
+                    scope_stats['unused'] += len(unused)
+                    scope_stats['shadowed'] += len(shadowed)
+
+                    # Store in node metadata
+                    node['scope_analysis'] = {
+                        'definitions': len(graph.definitions),
+                        'references': len(graph.references),
+                        'unused_count': len(unused),
+                        'shadowed_count': len(shadowed)
+                    }
+                except Exception:
+                    pass  # Skip files that fail to parse
+
+            timer.set_output(**scope_stats)
+            print(f"   → {scope_stats['files_analyzed']} files analyzed")
+            print(f"   → {scope_stats['unused']} unused definitions detected")
+            print(f"   → {scope_stats['shadowed']} shadowing pairs found")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Scope analysis skipped: {e}")
+
+    # Stage 2.9: Control Flow Metrics (cyclomatic complexity, nesting depth)
+    print("\n📈 Stage 2.9: Control Flow Metrics...")
+    with StageTimer(perf_manager, "Stage 2.9: Control Flow Metrics") as timer:
+        try:
+            from control_flow_analyzer import analyze_control_flow, get_complexity_rating, get_nesting_rating
+            import tree_sitter
+            import tree_sitter_python
+            import tree_sitter_javascript
+
+            # Reuse parsers if available, otherwise create
+            if 'py_parser' not in dir():
+                py_parser = tree_sitter.Parser()
+                py_parser.language = tree_sitter.Language(tree_sitter_python.language())
+                js_parser = tree_sitter.Parser()
+                js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+
+            cf_stats = {'nodes_analyzed': 0, 'avg_cc': 0, 'max_cc': 0, 'avg_depth': 0, 'max_depth': 0}
+            cc_sum, depth_sum = 0, 0
+
+            for node in nodes:
+                body = node.get('body_source', '')
+                if not body or len(body) < 10:
+                    continue
+
+                file_path = node.get('file_path', '')
+                if file_path.endswith('.py'):
+                    lang, parser = 'python', py_parser
+                elif file_path.endswith(('.js', '.jsx', '.ts', '.tsx')):
+                    lang, parser = 'javascript', js_parser
+                else:
+                    continue
+
+                try:
+                    tree = parser.parse(bytes(body, 'utf8'))
+                    metrics = analyze_control_flow(tree, bytes(body, 'utf8'), lang)
+
+                    cc = metrics['cyclomatic_complexity']
+                    depth = metrics['max_nesting_depth']
+
+                    # Store in node
+                    node['control_flow'] = {
+                        'cyclomatic_complexity': cc,
+                        'complexity_rating': get_complexity_rating(cc),
+                        'max_nesting_depth': depth,
+                        'nesting_rating': get_nesting_rating(depth),
+                        'decision_points': metrics['decision_points'],
+                        'branches': metrics['branches'],
+                        'loops': metrics['loops'],
+                        'early_returns': metrics['early_returns']
+                    }
+
+                    cf_stats['nodes_analyzed'] += 1
+                    cc_sum += cc
+                    depth_sum += depth
+                    cf_stats['max_cc'] = max(cf_stats['max_cc'], cc)
+                    cf_stats['max_depth'] = max(cf_stats['max_depth'], depth)
+                except Exception:
+                    pass
+
+            if cf_stats['nodes_analyzed'] > 0:
+                cf_stats['avg_cc'] = round(cc_sum / cf_stats['nodes_analyzed'], 2)
+                cf_stats['avg_depth'] = round(depth_sum / cf_stats['nodes_analyzed'], 2)
+
+            timer.set_output(**cf_stats)
+            print(f"   → {cf_stats['nodes_analyzed']} nodes analyzed")
+            print(f"   → Avg CC: {cf_stats['avg_cc']}, Max CC: {cf_stats['max_cc']}")
+            print(f"   → Avg Depth: {cf_stats['avg_depth']}, Max Depth: {cf_stats['max_depth']}")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Control flow analysis skipped: {e}")
+
     # Stage 3: Purpose Field
     print("\n🎯 Stage 3: Purpose Field...")
     with StageTimer(perf_manager, "Stage 3: Purpose Field") as timer:
