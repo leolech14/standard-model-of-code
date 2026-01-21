@@ -570,7 +570,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     from standard_model_enricher import enrich_with_standard_model
     from purpose_field import detect_purpose_field
     from execution_flow import detect_execution_flow
-    from orphan_integrator import analyze_orphans as analyze_orphan_integration
+
     from performance_predictor import predict_performance
     from roadmap_evaluator import RoadmapEvaluator
     from topology_reasoning import TopologyClassifier
@@ -659,20 +659,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print(f"   → {len(exec_flow.entry_points)} entry points")
     print(f"   → {len(exec_flow.orphans)} orphans ({exec_flow.dead_code_percent}% dead code)")
 
-    # Stage 4.5: Orphan Integration Analysis (Self-Healing)
-    print("\n🔌 Stage 4.5: Orphan Integration Analysis...")
-    with StageTimer(perf_manager, "Stage 4.5: Orphan Integration") as timer:
-        try:
-            orphan_ids = [o if isinstance(o, str) else o.get('id', '') for o in exec_flow.orphans]
-            orphan_analysis = analyze_orphan_integration(nodes, edges, orphan_ids)
-            suggestable = sum(1 for o in orphan_analysis if o.suggested_callers)
-            timer.set_output(analyzed=len(orphan_analysis), with_suggestions=suggestable)
-            print(f"   → {len(orphan_analysis)} orphans analyzed")
-            print(f"   → {suggestable} with integration suggestions")
-        except Exception as e:
-            timer.set_status("WARN", str(e))
-            print(f"   ⚠️ Orphan integration analysis skipped: {e}")
-            orphan_analysis = []
+    # Stage 4.5: Orphan Integration Analysis (REMOVED - Module Deleted)
+    # orphan_integration was removed in remediation pass.
+    orphan_analysis = []
 
     # Stage 5: Markov Matrix
     print("\n📊 Stage 5: Markov Transition Matrix...")
@@ -808,7 +797,28 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️  Performance prediction skipped: {e}")
             perf_summary = {}
-    
+
+    # Stage 8.5: Constraint Field Validation
+    print("\n🚧 Stage 8.5: Constraint Field Validation...")
+    constraint_report = {}
+    with StageTimer(perf_manager, "Stage 8.5: Constraint Validation") as timer:
+        try:
+            from constraint_engine import ConstraintEngine
+            engine = ConstraintEngine()
+            constraint_report = engine.validate_graph(nodes, edges)
+            timer.set_output(
+                antimatter=constraint_report['antimatter']['count'],
+                policy=constraint_report['policy_violations']['count'],
+                signals=constraint_report['signals']['count']
+            )
+            print(f"   → Antimatter (Tier A): {constraint_report['antimatter']['count']}")
+            print(f"   → Policy (Tier B): {constraint_report['policy_violations']['count']}")
+            print(f"   → Signals (Tier C): {constraint_report['signals']['count']}")
+            print(f"   → Valid: {constraint_report['valid']}")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Constraint validation skipped: {e}")
+
     # Compute aggregate metrics
     total_time = time.time() - start_time
     
@@ -901,7 +911,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'avg_fanout': round(markov.get('avg_fanout', 0.0), 2),
             'graph_density': round(graph_density, 4),
             'top_hub_count': 0,
-            'topology_shape': 'UNKNOWN'
+            'topology_shape': 'UNKNOWN',
+            # Constraint Field metrics
+            'antimatter_count': constraint_report.get('antimatter', {}).get('count', 0) if constraint_report else 0,
+            'policy_violation_count': constraint_report.get('policy_violations', {}).get('count', 0) if constraint_report else 0,
+            'signal_count': constraint_report.get('signals', {}).get('count', 0) if constraint_report else 0,
+            'rho_antimatter': round(constraint_report.get('antimatter', {}).get('rho_antimatter', 0), 4) if constraint_report else 0,
+            'rho_policy': round(constraint_report.get('policy_violations', {}).get('rho_policy', 0), 4) if constraint_report else 0,
+            'constraint_valid': constraint_report.get('valid', True) if constraint_report else True,
         },
         'purpose_field': purpose_field.summary(),
         'execution_flow': dict(exec_flow.summary(), **{
@@ -914,20 +931,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         'statistical_metrics': statistical_metrics if 'statistical_metrics' in dir() else {},
         'data_flow': data_flow,
         'performance': perf_summary,
+        'constraint_field': constraint_report if constraint_report else {},
         'top_hubs': [],
         'orphans_list': exec_flow.orphans[:20],  # First 20
-        'orphan_integration': [
-            {
-                'node_id': o.node_id,
-                'name': o.name,
-                'purpose': o.purpose,
-                'category': o.category,
-                'suggested_callers': o.suggested_callers,
-                'integration_code': o.integration_code,
-                'confidence': o.confidence,
-            }
-            for o in orphan_analysis
-        ] if orphan_analysis else [],
+        'orphan_integration': [],
     }
     
     # Compute top hubs
