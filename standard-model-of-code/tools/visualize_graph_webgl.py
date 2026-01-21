@@ -519,6 +519,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/registry.js",              # Command/element registry (zero deps)
         "modules/perf-monitor.js",          # FPS/frame monitoring (zero deps)
         "modules/core.js",                  # Constants & utilities
+        "modules/theory.js",                # SMC theory constants (zero deps)
         "modules/node-accessors.js",        # Node property functions
         "modules/node-helpers.js",          # Node classification & colors (Phase 1)
         "modules/color-helpers.js",         # Color utilities (Phase 1)
