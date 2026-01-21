@@ -356,3 +356,50 @@ Possible inputs to evolvability:
 | Frame | Code analysis | Systems of Systems unification |
 
 **Principle:** We are asking questions, not making declarations. The theory grows through exploration, not definition.
+
+---
+
+## 12. Tree-sitter: The Implementation Bridge (Jan 21, 2026)
+
+> **Discovery:** Tree-sitter's underutilized capabilities directly map to our theoretical gaps.
+
+### 12.1 The Alignment
+
+| SoS Theory Concept | Tree-sitter Capability | Current Status |
+|--------------------|----------------------|----------------|
+| Flow Substances | Data flow tracking (ST-08) | 0% utilized |
+| Interface Surface | Scope tracking (@local.scope) | 0% utilized |
+| What's inside | @local.definition | 0% utilized |
+| What crosses boundary | @local.reference | 0% utilized |
+| Dead code (orphan) | Definition without reference | 0% utilized |
+| External dependency | Reference without definition | 0% utilized |
+| State (D5) | Assignment tracking | 0% utilized |
+| Effect (D6) | I/O calls, mutations | 0% utilized |
+
+### 12.2 The Scope Graph IS the Membrane Model
+
+```
+TREE-SITTER SCOPE GRAPH              SoS INTERFACE SURFACE
+───────────────────────────────────────────────────────────
+@local.scope              =          Component boundary
+@local.definition         =          What's INSIDE (private)
+@local.reference          =          What CROSSES (interface)
+def without ref           =          Dead substance (orphan)
+ref without def           =          External flow (dependency)
+```
+
+### 12.3 Open Questions
+
+- Can scope graph analysis reveal interface quality automatically?
+- Does definition-reference linking give us "substance flow" for free?
+- Can we detect interface violations from scope crossings?
+- Is there a mapping from Tree-sitter's scope levels to our architectural layers?
+
+### 12.4 Key Insight
+
+> "Tree-sitter is not a parser. It's a complete code intelligence platform."
+> — TREE_SITTER_INTEGRATION_SPEC.md
+
+Current utilization: **5-10%**. The theoretical framework (SoS, flow, interfaces) and the implementation platform (Tree-sitter) are converging. The theory asks questions that Tree-sitter can answer.
+
+**Reference:** See `docs/specs/TREE_SITTER_INTEGRATION_SPEC.md` for full capability inventory.
