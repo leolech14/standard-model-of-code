@@ -148,12 +148,12 @@ def validate_ui(
 
 def print_report(result: Dict[str, Any], verbose: bool = False) -> None:
     """Print a formatted report of the validation results."""
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
     print("CIRCUIT BREAKER VALIDATION REPORT")
-    print("=" * 60)
+    print("=" * 70)
 
     if result['errors']:
-        print("\nERRORS:")
+        print("\nJS ERRORS:")
         for error in result['errors']:
             print(f"  - {error}")
 
@@ -170,33 +170,62 @@ def print_report(result: Dict[str, Any], verbose: bool = False) -> None:
     print(f"\nResults: {passed}/{total} passed ({pct:.1f}%)")
 
     if verbose and result['results']:
-        print("\nDetailed Results:")
-        print("-" * 60)
+        print("\n" + "-" * 70)
+        print("DETAILED RESULTS")
+        print("-" * 70)
+
         for name, test_result in result['results'].items():
-            status = "PASS" if test_result.get('passed') else "FAIL"
             symbol = "+" if test_result.get('passed') else "X"
-            error = test_result.get('error', '')
-            element_found = test_result.get('elementFound', False)
 
             if test_result.get('passed'):
-                print(f"  [{symbol}] {name}")
+                print(f"\n[{symbol}] {name} - PASS")
             else:
-                reason = error if error else ('Element not found' if not element_found else 'Validation failed')
-                print(f"  [{symbol}] {name}: {reason}")
+                print(f"\n[{symbol}] {name} - FAIL")
+
+                # Error message
+                error = test_result.get('error')
+                if error:
+                    print(f"    Error: {error}")
+
+                # Expected vs Actual
+                expected = test_result.get('expected')
+                actual = test_result.get('actual')
+                if expected is not None or actual is not None:
+                    print(f"    Expected: {expected}")
+                    print(f"    Actual:   {actual}")
+
+                # State exists check
+                state_exists = test_result.get('stateExists')
+                if state_exists is False:
+                    print(f"    State: NOT DEFINED (binding chain broken)")
+
+                # Trace chain
+                trace = test_result.get('trace')
+                if trace and isinstance(trace, dict) and trace.get('chain'):
+                    print(f"    Trace:")
+                    for step in trace['chain']:
+                        print(f"      {step}")
+
+                # Fix recommendation
+                fix = test_result.get('fix')
+                if fix:
+                    print(f"    FIX: {fix}")
 
     # Summary
-    print("-" * 60)
+    print("\n" + "=" * 70)
     if failed == 0:
         print("STATUS: ALL TESTS PASSED")
     else:
         print(f"STATUS: {failed} TESTS FAILED")
 
-        # List failures
-        failures = [name for name, r in result['results'].items() if not r.get('passed')]
-        if failures:
-            print("\nFailed tests:")
-            for name in failures:
-                print(f"  - {name}")
+        # Compact failure list with fixes
+        print("\nFAILURE SUMMARY:")
+        print("-" * 70)
+        for name, r in result['results'].items():
+            if not r.get('passed'):
+                fix = r.get('fix', 'No fix suggestion')
+                print(f"  {name}:")
+                print(f"    -> {fix}")
 
 
 def main():

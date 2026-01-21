@@ -1,13 +1,14 @@
 /**
- * CIRCUIT BREAKER MODULE
+ * CIRCUIT BREAKER MODULE - Enhanced Diagnostics
  *
  * Runtime self-test system that validates all UI controls work.
- * Runs a sequence of interactions and checks if they produce effects.
+ * Provides detailed diagnostics for fixing broken controls.
  *
  * Usage:
- *   CIRCUIT.runAll()           // Run all tests
+ *   CIRCUIT.runAll()           // Run all tests with full diagnostics
  *   CIRCUIT.test('edge-opacity') // Test specific control
  *   CIRCUIT.report()           // Get test results
+ *   CIRCUIT.diagnose()         // Get fix recommendations
  */
 
 const CIRCUIT = (function() {
@@ -18,8 +19,72 @@ const CIRCUIT = (function() {
     let _running = false;
 
     // =========================================================================
-    // TEST DEFINITIONS
-    // Each test: { name, type, trigger, validate, cleanup? }
+    // DIAGNOSTIC HELPERS
+    // =========================================================================
+
+    function getStateValue(path) {
+        try {
+            const parts = path.split('.');
+            let obj = window;
+            for (const part of parts) {
+                if (obj === undefined || obj === null) return { exists: false, value: undefined };
+                obj = obj[part];
+            }
+            return { exists: true, value: obj };
+        } catch (e) {
+            return { exists: false, value: undefined, error: e.message };
+        }
+    }
+
+    function traceBinding(elementId, statePath, graphMethod) {
+        const trace = {
+            element: { id: elementId, found: false, hasListeners: false },
+            state: { path: statePath, exists: false, value: undefined },
+            graph: { method: graphMethod, callable: false },
+            chain: []
+        };
+
+        // Check element
+        const el = document.getElementById(elementId);
+        if (el) {
+            trace.element.found = true;
+            trace.element.tagName = el.tagName;
+            trace.element.type = el.type || el.tagName;
+            trace.element.value = el.value;
+            trace.chain.push(`✓ DOM element #${elementId} exists`);
+        } else {
+            trace.chain.push(`✗ DOM element #${elementId} NOT FOUND`);
+            return trace;
+        }
+
+        // Check state
+        if (statePath) {
+            const stateResult = getStateValue(statePath);
+            trace.state.exists = stateResult.exists;
+            trace.state.value = stateResult.value;
+            if (stateResult.exists) {
+                trace.chain.push(`✓ State ${statePath} = ${JSON.stringify(stateResult.value)}`);
+            } else {
+                trace.chain.push(`✗ State ${statePath} is undefined`);
+            }
+        }
+
+        // Check Graph method
+        if (graphMethod && typeof Graph !== 'undefined' && Graph) {
+            const method = Graph[graphMethod];
+            trace.graph.callable = typeof method === 'function';
+            if (trace.graph.callable) {
+                trace.chain.push(`✓ Graph.${graphMethod}() is callable`);
+            } else {
+                trace.chain.push(`✗ Graph.${graphMethod}() NOT a function`);
+            }
+        }
+
+        return trace;
+    }
+
+    // =========================================================================
+    // TEST DEFINITIONS - Enhanced with diagnostics
     // =========================================================================
 
     const TESTS = [
@@ -28,52 +93,79 @@ const CIRCUIT = (function() {
             name: 'edge-opacity',
             type: 'slider',
             elementId: 'cfg-edge-opacity',
+            statePath: 'APPEARANCE_STATE.edgeOpacity',
+            graphMethod: 'linkOpacity',
+            expected: 0.8,
             trigger: (el) => {
                 el.value = '0.8';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                return typeof APPEARANCE_STATE !== 'undefined' &&
-                       APPEARANCE_STATE.edgeOpacity === 0.8;
+                const state = getStateValue('APPEARANCE_STATE.edgeOpacity');
+                return {
+                    passed: state.exists && state.value === 0.8,
+                    expected: 0.8,
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: (el) => {
                 el.value = '0.6';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            },
+            fix: 'Ensure bindSlider() in app.js updates APPEARANCE_STATE.edgeOpacity and calls applyEdgeMode()'
         },
         {
             name: 'edge-width',
             type: 'slider',
             elementId: 'cfg-edge-width',
+            statePath: 'APPEARANCE_STATE.edgeWidth',
+            graphMethod: 'linkWidth',
+            expected: 3.0,
             trigger: (el) => {
                 el.value = '3.0';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                return typeof APPEARANCE_STATE !== 'undefined' &&
-                       APPEARANCE_STATE.edgeWidth === 3.0;
+                const state = getStateValue('APPEARANCE_STATE.edgeWidth');
+                return {
+                    passed: state.exists && state.value === 3.0,
+                    expected: 3.0,
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: (el) => {
                 el.value = '1.5';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            },
+            fix: 'Check if cfg-edge-width has oninput handler that updates APPEARANCE_STATE.edgeWidth'
         },
         {
             name: 'edge-curvature',
             type: 'slider',
             elementId: 'cfg-edge-curve',
+            statePath: 'APPEARANCE_STATE.edgeCurvature',
+            graphMethod: 'linkCurvature',
+            expected: 0.5,
             trigger: (el) => {
                 el.value = '0.5';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                return typeof APPEARANCE_STATE !== 'undefined' &&
-                       APPEARANCE_STATE.edgeCurvature === 0.5;
+                const state = getStateValue('APPEARANCE_STATE.edgeCurvature');
+                return {
+                    passed: state.exists && state.value === 0.5,
+                    expected: 0.5,
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: (el) => {
                 el.value = '0';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            },
+            fix: 'Check if cfg-edge-curve has oninput handler that updates APPEARANCE_STATE.edgeCurvature'
         },
 
         // --- NODE CONTROLS ---
@@ -81,35 +173,53 @@ const CIRCUIT = (function() {
             name: 'node-size',
             type: 'slider',
             elementId: 'cfg-node-size',
+            statePath: 'APPEARANCE_STATE.nodeScale',
+            graphMethod: 'nodeRelSize',
+            expected: 8,
             trigger: (el) => {
                 el.value = '8';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                return typeof APPEARANCE_STATE !== 'undefined' &&
-                       APPEARANCE_STATE.nodeScale === 8;
+                const state = getStateValue('APPEARANCE_STATE.nodeScale');
+                return {
+                    passed: state.exists && state.value === 8,
+                    expected: 8,
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: (el) => {
                 el.value = '5';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            },
+            fix: 'Check if cfg-node-size has oninput handler that updates APPEARANCE_STATE.nodeScale'
         },
         {
             name: 'node-opacity',
             type: 'slider',
             elementId: 'cfg-node-opacity',
+            statePath: 'APPEARANCE_STATE.nodeOpacity',
+            graphMethod: 'nodeOpacity',
+            expected: 0.5,
             trigger: (el) => {
                 el.value = '0.5';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                return typeof APPEARANCE_STATE !== 'undefined' &&
-                       APPEARANCE_STATE.nodeOpacity === 0.5;
+                const state = getStateValue('APPEARANCE_STATE.nodeOpacity');
+                return {
+                    passed: state.exists && state.value === 0.5,
+                    expected: 0.5,
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: (el) => {
                 el.value = '1';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-            }
+            },
+            fix: 'Check if cfg-node-opacity has oninput handler that updates APPEARANCE_STATE.nodeOpacity'
         },
 
         // --- TOGGLES ---
@@ -117,22 +227,29 @@ const CIRCUIT = (function() {
             name: 'toggle-arrows',
             type: 'toggle',
             elementId: 'cfg-toggle-arrows',
+            statePath: null,
+            graphMethod: 'linkDirectionalArrowLength',
+            expected: 'toggled',
             trigger: (el) => {
                 window._arrowsActiveBefore = el.classList.contains('active');
                 el.click();
             },
             validate: () => {
                 const el = document.getElementById('cfg-toggle-arrows');
-                if (!el) return false;
-                // Check if toggle state actually changed
+                if (!el) return { passed: false, error: 'Element not found' };
                 const isActiveNow = el.classList.contains('active');
-                return isActiveNow !== window._arrowsActiveBefore;
+                return {
+                    passed: isActiveNow !== window._arrowsActiveBefore,
+                    expected: !window._arrowsActiveBefore,
+                    actual: isActiveNow,
+                    stateExists: true
+                };
             },
             cleanup: (el) => {
-                // Toggle back to original state
                 el.click();
                 delete window._arrowsActiveBefore;
-            }
+            },
+            fix: 'Ensure toggle click handler toggles .active class and calls Graph.linkDirectionalArrowLength()'
         },
 
         // --- PHYSICS CONTROLS ---
@@ -140,28 +257,45 @@ const CIRCUIT = (function() {
             name: 'physics-charge',
             type: 'slider',
             elementId: 'physics-charge',
+            statePath: null,  // Bypasses PHYSICS_STATE, goes direct to Graph
+            graphMethod: 'd3Force',
+            expected: -200,
             trigger: (el) => {
-                const originalValue = el.value;
+                window._originalChargeValue = el.value;
                 el.value = '-200';
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-                el._originalValue = originalValue;
             },
             validate: () => {
-                // NOTE: sidebar.js bypasses PHYSICS_STATE and calls Graph directly
-                // So we validate via Graph API, not PHYSICS_STATE
-                if (typeof Graph === 'undefined' || !Graph.d3Force) return false;
-                const chargeForce = Graph.d3Force('charge');
-                if (!chargeForce || !chargeForce.strength) return false;
-                // d3 charge force stores strength as function, call it to get value
-                const strength = chargeForce.strength();
-                return strength === -200;
+                if (typeof Graph === 'undefined' || !Graph) {
+                    return { passed: false, error: 'Graph not defined', stateExists: false };
+                }
+                if (!Graph.d3Force) {
+                    return { passed: false, error: 'Graph.d3Force not available', stateExists: false };
+                }
+                try {
+                    const chargeForce = Graph.d3Force('charge');
+                    if (!chargeForce || !chargeForce.strength) {
+                        return { passed: false, error: 'charge force not configured', stateExists: false };
+                    }
+                    const strength = chargeForce.strength();
+                    return {
+                        passed: strength === -200,
+                        expected: -200,
+                        actual: strength,
+                        stateExists: true
+                    };
+                } catch (e) {
+                    return { passed: false, error: e.message, stateExists: false };
+                }
             },
             cleanup: (el) => {
-                if (el._originalValue) {
-                    el.value = el._originalValue;
+                if (window._originalChargeValue) {
+                    el.value = window._originalChargeValue;
                     el.dispatchEvent(new Event('input', { bubbles: true }));
+                    delete window._originalChargeValue;
                 }
-            }
+            },
+            fix: 'Ensure physics-charge slider calls Graph.d3Force("charge").strength(value) - check sidebar.js binding'
         },
 
         // --- BUTTONS ---
@@ -169,65 +303,92 @@ const CIRCUIT = (function() {
             name: 'btn-edge-mode',
             type: 'button',
             elementId: 'btn-edge-mode',
+            statePath: 'EDGE.mode',
+            graphMethod: null,
+            expected: 'changed',
             trigger: (el) => {
                 window._edgeModeBefore = typeof EDGE !== 'undefined' ? EDGE.mode : null;
                 el.click();
             },
             validate: () => {
-                if (typeof EDGE === 'undefined') return false;
-                return EDGE.mode !== window._edgeModeBefore;
+                if (typeof EDGE === 'undefined') {
+                    return { passed: false, error: 'EDGE module not defined', stateExists: false };
+                }
+                return {
+                    passed: EDGE.mode !== window._edgeModeBefore,
+                    expected: 'different from ' + window._edgeModeBefore,
+                    actual: EDGE.mode,
+                    stateExists: true
+                };
             },
             cleanup: () => {
                 delete window._edgeModeBefore;
-            }
+            },
+            fix: 'Element #btn-edge-mode missing from template.html - add button or update test elementId'
         },
-        // NOTE: btn-color-mode test REMOVED - element doesn't exist in template.html
-        // Color mode is controlled via dropdown, not a button
-        // See CIRCUIT_BREAKER_RECONNAISSANCE.md for details
 
         // --- DIMENSION TOGGLE ---
         {
             name: 'dimension-toggle',
             type: 'button',
-            elementId: 'btn-2d',  // Fixed: was 'btn-dimension' which doesn't exist
+            elementId: 'btn-2d',
+            statePath: 'IS_3D',
+            graphMethod: null,
+            expected: 'toggled',
             trigger: (el) => {
                 window._is3dBefore = typeof IS_3D !== 'undefined' ? IS_3D : null;
                 el.click();
             },
             validate: () => {
-                // Check if IS_3D actually changed (may be async)
-                if (typeof IS_3D === 'undefined') return false;
-                return IS_3D !== window._is3dBefore;
+                if (typeof IS_3D === 'undefined') {
+                    return { passed: false, error: 'IS_3D not defined', stateExists: false };
+                }
+                return {
+                    passed: IS_3D !== window._is3dBefore,
+                    expected: !window._is3dBefore,
+                    actual: IS_3D,
+                    stateExists: true
+                };
             },
             cleanup: () => {
-                // Toggle back
                 const el = document.getElementById('btn-2d');
                 if (el) el.click();
                 delete window._is3dBefore;
-            }
+            },
+            fix: 'Check if btn-2d click handler updates IS_3D global and reinitializes Graph - see dimension.js'
         },
 
         // --- VIEW MODE ---
         {
             name: 'view-mode-files',
             type: 'button',
-            elementId: null, // Uses selector
+            elementId: null,
             selector: '[data-mode="files"]',
+            statePath: 'GRAPH_MODE',
+            graphMethod: null,
+            expected: 'files',
             trigger: (el) => {
                 el.click();
             },
             validate: () => {
-                return typeof GRAPH_MODE !== 'undefined' && GRAPH_MODE === 'files';
+                const state = getStateValue('GRAPH_MODE');
+                return {
+                    passed: state.exists && state.value === 'files',
+                    expected: 'files',
+                    actual: state.value,
+                    stateExists: state.exists
+                };
             },
             cleanup: () => {
                 const atomsBtn = document.querySelector('[data-mode="atoms"]');
                 if (atomsBtn) atomsBtn.click();
-            }
+            },
+            fix: 'Ensure [data-mode="files"] button sets GRAPH_MODE = "files" and rebuilds graph'
         }
     ];
 
     // =========================================================================
-    // TEST RUNNER
+    // TEST RUNNER - Enhanced with diagnostics
     // =========================================================================
 
     async function runTest(testDef) {
@@ -236,7 +397,13 @@ const CIRCUIT = (function() {
             type: testDef.type,
             passed: false,
             error: null,
-            elementFound: false
+            elementFound: false,
+            // Enhanced diagnostics
+            expected: testDef.expected,
+            actual: null,
+            stateExists: false,
+            trace: null,
+            fix: testDef.fix || null
         };
 
         try {
@@ -247,9 +414,13 @@ const CIRCUIT = (function() {
 
             if (!el) {
                 result.error = 'Element not found';
+                result.trace = traceBinding(testDef.elementId || testDef.selector, testDef.statePath, testDef.graphMethod);
                 return result;
             }
             result.elementFound = true;
+
+            // Trace binding chain before test
+            result.trace = traceBinding(testDef.elementId || testDef.selector, testDef.statePath, testDef.graphMethod);
 
             // Run trigger
             testDef.trigger(el);
@@ -257,8 +428,17 @@ const CIRCUIT = (function() {
             // Small delay for async effects
             await new Promise(r => setTimeout(r, 50));
 
-            // Validate
-            result.passed = testDef.validate();
+            // Validate with enhanced result
+            const validateResult = testDef.validate();
+            if (typeof validateResult === 'object') {
+                result.passed = validateResult.passed;
+                result.expected = validateResult.expected !== undefined ? validateResult.expected : testDef.expected;
+                result.actual = validateResult.actual;
+                result.stateExists = validateResult.stateExists;
+                if (validateResult.error) result.error = validateResult.error;
+            } else {
+                result.passed = validateResult;
+            }
 
             // Cleanup
             if (testDef.cleanup) {
@@ -299,6 +479,9 @@ const CIRCUIT = (function() {
                 failed++;
                 const reason = result.error || (!result.elementFound ? 'Element not found' : 'Validation failed');
                 console.log(`  %c✗ ${test.name}: ${reason}`, 'color: #f87171');
+                if (result.expected !== undefined && result.actual !== undefined) {
+                    console.log(`    Expected: ${JSON.stringify(result.expected)}, Got: ${JSON.stringify(result.actual)}`);
+                }
             }
 
             // Small delay between tests
@@ -341,6 +524,29 @@ const CIRCUIT = (function() {
         return TESTS.map(t => ({ name: t.name, type: t.type }));
     }
 
+    /**
+     * Get detailed fix recommendations for all failures
+     */
+    function diagnose() {
+        const failures = [];
+        for (const [name, result] of _results) {
+            if (!result.passed) {
+                failures.push({
+                    control: name,
+                    type: result.type,
+                    error: result.error,
+                    expected: result.expected,
+                    actual: result.actual,
+                    elementFound: result.elementFound,
+                    stateExists: result.stateExists,
+                    trace: result.trace ? result.trace.chain : [],
+                    fix: result.fix
+                });
+            }
+        }
+        return failures;
+    }
+
     // =========================================================================
     // PUBLIC API
     // =========================================================================
@@ -350,6 +556,7 @@ const CIRCUIT = (function() {
         test,
         report,
         listTests,
+        diagnose,
         get isRunning() { return _running; },
         TESTS
     };
@@ -358,4 +565,4 @@ const CIRCUIT = (function() {
 // Global shortcut
 window.CIRCUIT = CIRCUIT;
 
-console.log('[Module] CIRCUIT loaded - UI control validator');
+console.log('[Module] CIRCUIT loaded - UI control validator with diagnostics');
