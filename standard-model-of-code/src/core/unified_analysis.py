@@ -407,7 +407,7 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     if options.get('llm'):
         print("\n🤖 Stage 3.5: LLM Enrichment...")
         try:
-            from llm_classifier import LLMClassifier
+            from llm_classifier import LLMClassifier  # type: ignore[import-not-found]
             model_name = options.get('llm_model', 'qwen2.5:7b-instruct')
             print(f"   → Using model: {model_name}")
             
@@ -495,8 +495,9 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
         purpose_field = detect_purpose_field(particles, edges)
         
         # Build multiple lookup indices for matching
-        particle_by_id = {p.get('id'): p for p in particles if p.get('id')}
-        particle_by_name = {p.get('name'): p for p in particles if p.get('name')}
+        # Build with direct key access since we filter for existence
+        particle_by_id = {p['id']: p for p in particles if 'id' in p and p['id']}
+        particle_by_name = {p['name']: p for p in particles if 'name' in p and p['name']}
         
         # Assign layers using multiple matching strategies
         for pf_node in purpose_field.nodes.values():

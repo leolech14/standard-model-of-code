@@ -75,6 +75,7 @@ class JSModuleResolver:
         # Parser for JS
         self.parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
+            assert tree_sitter is not None  # Guaranteed by TREE_SITTER_AVAILABLE
             try:
                 lang = tree_sitter.Language(tree_sitter_javascript.language())
                 self.parser = tree_sitter.Parser()
@@ -693,6 +694,7 @@ class PythonTreeSitterStrategy(TreeSitterEdgeStrategy):
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_python:
+            assert tree_sitter is not None  # Guaranteed by TREE_SITTER_AVAILABLE
             try:
                 lang = tree_sitter.Language(tree_sitter_python.language())
                 parser = tree_sitter.Parser()
@@ -720,6 +722,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
+            assert tree_sitter is not None  # Guaranteed by TREE_SITTER_AVAILABLE
             try:
                 lang = tree_sitter.Language(tree_sitter_javascript.language())
                 parser = tree_sitter.Parser()
@@ -895,6 +898,7 @@ class TypeScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_typescript:
+            assert tree_sitter is not None  # Guaranteed by TREE_SITTER_AVAILABLE
             try:
                 lang = tree_sitter.Language(tree_sitter_typescript.language_typescript())
                 parser = tree_sitter.Parser()
