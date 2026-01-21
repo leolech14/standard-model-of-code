@@ -99,6 +99,10 @@
         "$ref": "#/$defs/violation"
       },
       "description": "Antimatter law violations detected (Clean Arch + Dijkstra layer rules)"
+    },
+    "graph": {
+      "$ref": "#/$defs/graph_properties",
+      "description": "Relational properties computed from dependency graph"
     }
   },
   "$defs": {
@@ -528,6 +532,74 @@
             "Koestler",
             "DDD"
           ]
+        }
+      }
+    },
+    "graph_properties": {
+      "type": "object",
+      "description": "Relational properties that emerge from graph context (cannot be computed from a single node)",
+      "properties": {
+        "in_degree": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of incoming dependencies"
+        },
+        "out_degree": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of outgoing dependencies"
+        },
+        "topology_role": {
+          "enum": ["orphan", "root", "leaf", "hub", "internal"],
+          "description": "Structural position in dependency graph"
+        },
+        "betweenness_centrality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Bridge importance - fraction of shortest paths passing through this node"
+        },
+        "pagerank": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Authority score - relative importance based on incoming link quality"
+        },
+        "disconnection": {
+          "$ref": "#/$defs/disconnection",
+          "description": "Rich classification for orphan nodes (why they appear disconnected)"
+        }
+      }
+    },
+    "disconnection": {
+      "type": "object",
+      "description": "Explains WHY a node appears disconnected (replaces misleading 'orphan' label)",
+      "properties": {
+        "reachability_source": {
+          "enum": [
+            "test_entry",
+            "entry_point",
+            "framework_managed",
+            "cross_language",
+            "external_boundary",
+            "dynamic_target",
+            "unreachable"
+          ],
+          "description": "Why this node exists without standard edges"
+        },
+        "connection_gap": {
+          "enum": ["isolated", "no_incoming", "no_outgoing"],
+          "description": "What kind of disconnection this is"
+        },
+        "isolation_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "How confident we are in this classification"
+        },
+        "suggested_action": {
+          "type": "string",
+          "description": "Recommended action (OK, CHECK, REVIEW, DELETE)"
         }
       }
     }

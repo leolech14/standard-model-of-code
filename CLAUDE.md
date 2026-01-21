@@ -120,7 +120,7 @@ The visualization intelligence layer - many-to-many binding between data and vis
 |---------|-------|
 | Project | `elements-archive-2026` |
 | Bucket | `gs://elements-archive-2026/` |
-| Model | `gemini-2.0-flash-001` |
+| Model | `gemini-2.5-pro` |
 | Account | `leonardolech3@gmail.com` |
 
 ## Archive

@@ -16,7 +16,11 @@
 cd standard-model-of-code && ./collider full /path/to/repo --output /tmp/out
 
 # AI query (this project uses Gemini)
+# AI query (this project uses Gemini)
 python context-management/tools/ai/analyze.py "query" --set brain_core
+
+# Socratic Verification (Antimatter Law Check)
+python context-management/tools/ai/analyze.py --verify pipeline
 
 # Tests
 cd standard-model-of-code && pytest tests/ -q
@@ -45,6 +49,14 @@ cd standard-model-of-code && pytest tests/ -q
 - Run tests before commit
 - Archive is read-only (large files in GCS)
 - Know your hemisphere before editing
+
+## Holographic-Socratic Layer
+
+24/7 AI guardian detecting documentation/implementation drift.
+- **Command**: `python context-management/tools/ai/analyze.py --verify pipeline`
+- **Config**: `context-management/config/semantic_models.yaml`
+- **Output**: `gs://elements-archive-2026/intelligence/`
+
 
 ## GCP
 

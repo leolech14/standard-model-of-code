@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_060630",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_060630",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class. It does not inherit from a base Stage class. While it effectively orchestrates the analysis pipeline, it doesn't fit the object-oriented structure implied by the \"Stage\" concept.\n- **Deviation**: Does not inherit from a base Stage class. Does not implement an `execute` or `run` method as a class method.\n\n- **Entity**: `analyze` (from `unified_analysis.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `unified_analysis.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `enrich_with_standard_model` (from `standard_model_enricher.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `standard_model_enricher.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `detect_purpose_field` (from `purpose_field.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `purpose_field.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `detect_execution_flow` (from `execution_flow.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `execution_flow.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `predict_performance` (from `performance_predictor.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `performance_predictor.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `RoadmapEvaluator` (from `roadmap_evaluator.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `roadmap_evaluator.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `TopologyClassifier` (from `topology_reasoning.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `topology_reasoning.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `ConceptExtractor` (from `semantic_cortex.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `semantic_cortex.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n\n- **Entity**: `ConstraintEngine` (from `constraint_engine.py`)\n- **Status**: Cannot be determined\n- **Evidence**: The code relies on an external module `constraint_engine.py`.  Without its content, I cannot assess if it is a `Stage` or not.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates a comprehensive analysis pipeline without apparent antimatter violations based on the provided checks."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: Abstract base class for language-specific edge extraction from source bodies. Its subclasses operate on `body_source` which represents raw file content.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from `body_source` using regular expressions, performing raw data ingestion without semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extends `JavascriptEdgeStrategy`, operating on `body_source` with regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Returns an empty list of edges, effectively not performing any extraction but still conforming to the interface.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` by parsing it into an AST and querying the AST for calls.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses `TreeSitterEdgeStrategy` to extract edges from Python code based on AST, parsing raw code.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges using Tree-sitter, parsing raw JavaScript code into an AST. While it *uses* JSModuleResolver, that's for *resolving* edges, not *extracting* them. The core extraction still operates on raw code representation.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses `TreeSitterEdgeStrategy` to extract edges from TypeScript code using AST.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears to adhere to the specified Antimatter laws, showing no signs of context myopia, architectural drift, supply chain hallucinations, or orphan code."
+        }
+      }
+    }
+  ]
+}

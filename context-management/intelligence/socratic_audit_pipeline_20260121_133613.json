@@ -1,0 +1,108 @@
+{
+  "timestamp": "20260121_133613",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_133613",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: The analysis pipeline implementation in `run_full_analysis` and its constituent functions (e.g., `compute_markov_matrix`, `detect_knots`, etc.).\n- **Status**: Non-Compliant\n- **Evidence**: The code uses comments like `\ud83d\udd2c Stage 1: Base Analysis...` to delineate logical processing units within the `run_full_analysis` function. These units are implemented as a sequence of standalone function calls or inline code blocks, not as instances of a common `Stage` class.\n- **Deviation**: The implementation is a procedural script rather than an object-oriented pipeline of `Stage` components. It deviates from all invariants:\n    1.  **Inheritance**: The processing units are functions (e.g., `compute_markov_matrix`, `detect_knots`) or imported functions (e.g., `enrich_with_standard_model`). They are not classes and do not inherit from a `BaseStage`.\n    2.  **Method Implementation**: Being functions, they do not implement an `execute` or `run` method; they are invoked directly by their name.\n    3.  **Statelessness**: While the functions themselves do not have instance state, the overall pipeline is stateful. It operates by passing mutable data structures (`nodes`, `edges`) from one function to the next, with several functions modifying this data in-place. For example, the \"Graph Analytics\" stage modifies the `nodes` list directly: `node['in_degree'] = in_deg`. This violates the spirit of the statelessness invariant, which aims to prevent side effects.\n    4.  **Return Format**: The functions return built-in Python dictionaries (e.g., `compute_markov_matrix`) or ad-hoc objects. There is no evidence of a standardized `ProcessingResult` or `AnalysisResult` class being used as a return type across the stages.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM002",
+              "severity": "HIGH",
+              "reasoning": "The function `_generate_ai_insights` violates the 'Stage' architectural role by using `subprocess` to execute a separate Python script. This creates a brittle, out-of-process dependency that relies on a hardcoded relative file path (`Path(__file__).parent.parent.parent.parent`). A processing Stage should be self-contained or use stable, in-process APIs, not shell out to external tools, which breaks encapsulation and introduces filesystem side-effects."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "HIGH",
+              "reasoning": "The `detect_knots` function exhibits Context Myopia by re-implementing a complex graph algorithm (cycle detection) in a simplified, non-performant, and incomplete manner. It ignores robust, standard libraries (e.g., 'networkx') that solve this problem effectively. The use of arbitrary slicing (`[:10]`, `[:200]`) to limit execution proves the custom solution is not scalable and is a poor substitute for existing, well-tested tools."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "MEDIUM",
+              "reasoning": "The module imports `FileEnricher` from `src.core.file_enricher` but this dependency is never used anywhere in the file. This constitutes an orphan import, which suggests incomplete refactoring and adds unnecessary cognitive load and dependency coupling."
+            }
+          ],
+          "critique_summary": "The code violates its architectural role by creating brittle external process dependencies and exhibits severe context myopia by re-implementing standard algorithms poorly instead of using established libraries."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `EdgeExtractionStrategy` (and subclasses `PythonEdgeStrategy`, `JavascriptEdgeStrategy`, etc.)\n- **Status**: Compliant\n- **Evidence**: These classes are responsible for ingesting the `body_source` of a code particle and extracting relationships. The basic strategies use regular expressions to find call patterns directly from the raw string content. For example, `PythonEdgeStrategy` uses `re.findall(r'(?:self\\.)?(\\w+)\\s*\\(', body)`. This adheres to the \"operate on raw file content\" invariant and avoids complex reasoning by using simple pattern matching.\n- **Deviation**: None.\n\n- **Entity**: `TreeSitterEdgeStrategy` (and subclasses `PythonTreeSitterStrategy`, `JavaScriptTreeSitterStrategy`, etc.)\n- **Status**: Compliant\n- **Evidence**: This family of strategies operates by parsing the `body_source` into an Abstract Syntax Tree (AST) using `tree_sitter`. The code states: `tree = self.parser.parse(source_bytes)`. It then traverses this AST to find specific node types representing function calls (`if node.type in call_types:`). This directly matches the \"Must operate on raw file content or AST\" invariant. The reasoning is limited to identifying structural patterns in the AST, not interpreting their purpose.\n- **Deviation**: None.\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Compliant\n- **Evidence**: This class is designed for raw data ingestion from JavaScript files. Its `analyze_file` method takes raw file content, parses it into an AST (`tree = self.parser.parse(source_bytes)`), and traverses the tree to find module import/export patterns (e.g., `require`, `import`, `window.X`). This process is a form of data extraction from the AST. While its `resolve_member_call` method performs a type of reasoning, it is limited to resolving the identity of a called function based on the extracted import/export data. This is not \"complex semantic reasoning\" about the code's purpose, but rather a necessary step in constructing an accurate raw call graph.\n- **Deviation**: None.\n\n- **Entity**: `extract_call_edges` (Orchestrator Function)\n- **Status**: Compliant\n- **Evidence**: This primary function orchestrates the extraction process. It ingests a list of `particles` and `results` (which contain `raw_imports`). It operates on this data by creating \"imports\" edges from raw data, \"contains\" and \"inherits\" edges from simple structural properties, and then delegates to the `EdgeExtractionStrategy` for body analysis. Its role is to gather and assemble raw or lightly-processed structural facts, which is the core responsibility of an Extractor.\n- **Deviation**: None.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM002",
+              "severity": "MEDIUM",
+              "reasoning": "The module introduces a global singleton `_js_module_resolver` to manage state for JavaScript module resolution. This is accessed via `get_js_module_resolver()`. This pattern creates hidden dependencies and implicit global state, violating the architectural principle that an 'Extractor' should be a stateless transformer of explicit inputs to outputs. A cleaner architecture would encapsulate this state within a session or context object that is passed explicitly, making the data flow transparent and the system easier to test and reason about."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The internal helper function `_collect_file_node_ids` is defined but is never called within the module. Its underscore prefix suggests it is intended for internal use, but it has no callers, making it orphan code. Unused code increases maintenance overhead and can cause confusion."
+            }
+          ],
+          "critique_summary": "The extractor implements a sophisticated, polyglot strategy for creating a call graph, but its architecture drifts by using a global singleton for state management and contains an orphaned internal function."
+        }
+      }
+    }
+  ]
+}

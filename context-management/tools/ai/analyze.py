@@ -106,7 +106,7 @@ if PROMPTS_CONFIG_PATH.exists():
     with open(PROMPTS_CONFIG_PATH) as f:
         _prompts_data = yaml.safe_load(f)
         PRICING = _prompts_data.get("pricing", {})
-        DEFAULT_MODEL = _prompts_data.get("default_model", "gemini-2.0-flash-001")
+        DEFAULT_MODEL = _prompts_data.get("default_model", "gemini-2.5-pro")
         MODES = _prompts_data.get("analysis_prompts", {}).get("modes", {})
         # Prefer "insights_source" for raw file analysis
         INSIGHTS_PROMPT = _prompts_data.get("analysis_prompts", {}).get("insights_source") or _prompts_data.get("analysis_prompts", {}).get("insights")
@@ -116,7 +116,7 @@ if PROMPTS_CONFIG_PATH.exists():
         PLAN_VALIDATION_PROMPT = _prompts_data.get("analysis_prompts", {}).get("plan_validation")
 else:
     PRICING = {}
-    DEFAULT_MODEL = "gemini-2.0-flash-001"
+    DEFAULT_MODEL = "gemini-2.5-pro"
     MODES = {}
     INSIGHTS_PROMPT = None
     ROLE_VALIDATION_PROMPT = None

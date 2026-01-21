@@ -24,10 +24,16 @@ The UPB will consolidate and replace fragmented binding logic currently spread a
 
 ### TIER 1: REPLACE (95-100% Confidence)
 
-| File | Confidence | Current Responsibility | UPB Action |
-|------|------------|------------------------|------------|
-| `modules/control-bar.js` | **98%** | Defines `DATA_SOURCES` and `VISUAL_TARGETS` schema | **REPLACE** - UPB will own endpoint definitions |
-| `modules/file-viz.js` | **95%** | Contains `VISUAL_MAPPINGS` with hardcoded bindings | **REPLACE** - UPB binding graph supersedes |
+| File | Confidence | Current Responsibility | UPB Action | Status |
+|------|------------|------------------------|------------|--------|
+| `modules/control-bar.js` | **98%** | Defines `DATA_SOURCES` and `VISUAL_TARGETS` schema | **REPLACE** | ✅ DONE (Gemini) |
+| `modules/file-viz.js` | **95%** | Contains `VISUAL_MAPPINGS` with hardcoded bindings | **REPLACE** | ✅ DONE (Claude) |
+| `modules/node-helpers.js` | **90%** | Contains `getNodeColorByMode()` with MODE_ACCESSORS | **REPLACE** | ✅ DONE (Claude via utils.js) |
+
+**Current State (2026-01-21, updated):**
+- `control-bar.js`: ✅ Now delegates to `window.UPB.ENDPOINTS` (lines 28, 36, 44)
+- `file-viz.js`: ✅ Now uses `UPB_SCALES.applyScale()` in `applyVisualMapping()` (lines 212-219). VISUAL_MAPPINGS kept as preset config.
+- `node-helpers.js`: ✅ Uses `window.normalize()` from utils.js which now delegates to UPB_SCALES
 
 **Evidence from RAG:**
 - `control-bar.js`: Defines complete schema for sources (size_bytes, pagerank, tier, etc.) and targets (hue, saturation, nodeSize, charge, etc.)
@@ -35,11 +41,14 @@ The UPB will consolidate and replace fragmented binding logic currently spread a
 
 ### TIER 2: REFACTOR (80-94% Confidence)
 
-| File | Confidence | Current Responsibility | UPB Action |
-|------|------------|------------------------|------------|
-| `modules/color-engine.js` | **88%** | OKLCH color space implementation, gradients | **REFACTOR** - Expose L/C/H as separate bindable channels |
-| `modules/edge-system.js` | **82%** | Edge color/width based on node properties | **REFACTOR** - Edge bindings via UPB |
-| `app.js` | **80%** | Glue layer, coordinates engines | **REFACTOR** - Wire UPB as central binding authority |
+| File | Confidence | Current Responsibility | UPB Action | Status |
+|------|------------|------------------------|------------|--------|
+| `modules/color-engine.js` | **88%** | OKLCH color space implementation, gradients | **REFACTOR** | ⏳ LATER |
+| `modules/edge-system.js` | **82%** | Edge color/width based on node properties | **REFACTOR** | ✅ DONE (Claude) |
+| `app.js` | **80%** | Glue layer, coordinates engines | **REFACTOR** | ⏳ LATER |
+
+**Current State (2026-01-21, updated):**
+- `edge-system.js`: ✅ Now uses `UPB_SCALES.applyScale()` in `normalizeMetric()` (lines 145-152)
 
 **Evidence from RAG:**
 - `color-engine.js`: Contains stop-based gradients and generator functions for OKLCH

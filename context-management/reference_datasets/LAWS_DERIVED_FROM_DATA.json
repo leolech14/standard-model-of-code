@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "target": "Source Code Analysis",
+    "timestamp": "2024-01-25T18:29:17Z"
+  },
+  "executive_summary": "The provided data highlights inconsistencies in applying immutability across various code elements, particularly when dealing with operations inherently involving mutation and side effects. Several potential code smells arise from misapplied principles and flawed assumptions about component behavior.",
+  "patterns": [
+    {
+      "name": "Command Handler",
+      "type": "Design",
+      "confidence": 0.7,
+      "file": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv",
+      "evidence": "handle(CreateUserCommand), name contains Handle + Command"
+    },
+    {
+      "name": "Factory",
+      "type": "Design",
+      "confidence": 0.6,
+      "file": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv",
+      "evidence": "UserFactory.create(...), static create method"
+    },
+    {
+      "name": "API Handler",
+      "type": "Design",
+      "confidence": 0.5,
+      "file": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv",
+      "evidence": "@app.get(\"/users\")"
+    },
+    {
+      "name": "Bounded Context",
+      "type": "Architectural",
+      "confidence": 0.6,
+      "file": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv",
+      "evidence": "\"billing/, identity/\", own folder + own models"
+    },
+    {
+      "name": "Middleware",
+      "type": "Design",
+      "confidence": 0.6,
+      "file": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv",
+      "evidence": "authMiddleware, next()/await next"
+    }
+  ],
+  "issues": [
+    {
+      "type": "Violation",
+      "severity": "CRITICAL",
+      "location": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv:various",
+      "description": "Many entities (e.g., CommandHandler, APIHandler, QueueWorker, Assignment, Float, LambdaEntry, MigrationFile, RateLimiter, BoundedContext, Closure) are incorrectly marked as 'Immutable' despite inherently involving mutation, side-effects, or state changes. Immutable cannot have mutating operations.",
+      "remediation": "Correctly classify components based on their behavior. If a component performs mutations or has side effects, it should not be marked as 'Immutable'. Consider using appropriate design patterns to manage state and side effects in a controlled manner."
+    },
+    {
+      "type": "Code Smell",
+      "severity": "HIGH",
+      "location": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv:ValueObject",
+      "description": "ValueObject should be immutable and its equality determined by its value, but there is inconsistency in how this is represented depending on the operation.",
+      "remediation": "Ensure ValueObjects are truly immutable. Any operation that modifies their internal state violates the Value Object pattern. Enforce value-based equality."
+    },
+    {
+      "type": "Violation",
+      "severity": "MEDIUM",
+      "location": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv:Entity",
+      "description": "Entity is marked as Immutable, but also having identity and state, which contradicts the concept of immutability.",
+      "remediation": "Either make the Entity immutable by representing changes through new instances, or correctly classify it as mutable."
+    },
+    {
+      "type": "Violation",
+      "severity": "MEDIUM",
+      "location": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv:CommandHandler",
+      "description": "CommandHandler is marked as Immutable, but CommandHandlers typically modify the system's state by executing commands.",
+      "remediation": "Either make CommandHandlers truly immutable by delegating state changes to other components, or correctly classify them as mutable."
+    },
+    {
+      "type": "Violation",
+      "severity": "LOW",
+      "location": "context-management/reference_datasets/IMPOSSIBLE_SAMPLE.csv:various",
+      "description": "The 'optimization' property is used in conjunction with 'mutation', suggesting that optimization is being prioritized over immutability, potentially leading to unintended side effects.",
+      "remediation": "Carefully evaluate the trade-offs between performance optimization and immutability. Ensure that optimizations do not compromise the integrity or predictability of the system."
+    }
+  ],
+  "refactoring_plan": [
+    {
+      "step": 1,
+      "action": "Review and correct the 'Immutable' classification for all components.",
+      "benefit": "Ensures accurate representation of component behavior and prevents misapplication of immutability principles."
+    },
+    {
+      "step": 2,
+      "action": "Enforce immutability for Value Objects by ensuring no mutating operations exist.",
+      "benefit": "Adheres to the Value Object pattern and promotes predictable behavior."
+    },
+    {
+      "step": 3,
+      "action": "For Entities, either enforce immutability (create new instances on change) or classify them as mutable.",
+      "benefit": "Maintains consistency with the Entity pattern and prevents state-related issues."
+    },
+    {
+      "step": 4,
+      "action": "Consider using the Command pattern more explicitly for CommandHandlers to clearly separate command execution from state changes if true immutability is desired.",
+      "benefit": "Improves the structure and clarity of CommandHandlers, particularly when immutability is a goal."
+    },
+    {
+      "step": 5,
+      "action": "Evaluate the usage of 'optimization' alongside 'mutation' to ensure that performance improvements do not introduce unintended side effects or violate immutability.",
+      "benefit": "Balances performance with maintainability and predictability."
+    }
+  ]
+}

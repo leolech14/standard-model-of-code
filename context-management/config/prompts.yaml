@@ -294,4 +294,4 @@ pricing:
     input: 1.25
     output: 5.00
 
-default_model: "gemini-2.0-flash-001"
+default_model: "gemini-2.5-pro"

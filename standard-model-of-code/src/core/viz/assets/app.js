@@ -44,7 +44,7 @@ function decompressPayload(payload) {
 
     // 2. Inflate using main thread's pako (already loaded from CDN)
     if (statusEl) statusEl.innerText = 'INFLATING...';
-    const jsonStr = pako.inflate(binData, { to: 'string' });
+    const jsonStr = pako.ungzip(binData, { to: 'string' });
 
     return jsonStr;
 }
@@ -54,6 +54,7 @@ let Graph = null;
 let DM = null;  // DataManager instance - initialized in initGraph()
 let Legend = null;  // LegendManager instance - initialized in initGraph()
 let CURRENT_DENSITY = 1; // Default: show all nodes
+let SHOW_CODOME = false; // Default: hide CODOME boundary nodes
 let ACTIVE_DATAMAPS = new Set();
 let DATAMAP_CONFIGS = [];
 let DATAMAP_INDEX = {};
@@ -1035,7 +1036,12 @@ function initGraph(data) {
             .backgroundColor(toColorNumber(background.color, 0x000000))
             .nodeLabel('name')
             .nodeColor(node => toColorNumber(node.color, 0x888888))
-            .nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale)
+            .nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            })
             // ═══════════════════════════════════════════════════════════════════
             // GRADIENT EDGES: Custom THREE.Line with vertex colors
             // Each edge smoothly transitions from source node color to target node color
@@ -1463,6 +1469,11 @@ function filterGraph(data, minVal, datamapSet, filters) {
             return false;
         });
     }
+    // Filter out CODOME boundary nodes if toggle is OFF
+    if (!SHOW_CODOME) {
+        visibleNodes = visibleNodes.filter(n => !n.is_codome_boundary && !n._fromCodome);
+    }
+
 
     const tierFilterActive = tierFilter.size > 0;
     const ringFilterActive = ringFilter.size > 0;
@@ -1528,6 +1539,11 @@ function filterGraph(data, minVal, datamapSet, filters) {
 
     if (edgeFamilyFilter.size > 0) {
         visibleLinks = visibleLinks.filter(l => edgeFamilyFilter.has(l.family || 'Dependency'));
+    }
+
+    // Filter out inferred edges from CODOME if toggle is OFF
+    if (!SHOW_CODOME) {
+        visibleLinks = visibleLinks.filter(l => !l._fromCodome && !l.inferred);
     }
 
     if (!showEdges) {
@@ -1815,6 +1831,15 @@ function setupConfigControls() {
         APPEARANCE_STATE.edgeHoverHighlight = active;
     });
 
+    // Show CODOME Boundaries Toggle
+    bindToggle('cfg-toggle-codome', SHOW_CODOME, (active) => {
+        SHOW_CODOME = active;
+        console.log('[CONFIG] CODOME boundaries:', SHOW_CODOME ? 'ON' : 'OFF');
+        // Re-render graph with updated filtering
+        const filtered = filterGraph(FULL_GRAPH, CURRENT_DENSITY, ACTIVE_DATAMAPS, VIS_FILTERS);
+        if (Graph) Graph.graphData(filtered);
+    });
+
     // ═══════════════════════════════════════════════════════════════════
     // Section Collapse Handlers
     // ═══════════════════════════════════════════════════════════════════
@@ -1886,7 +1911,12 @@ function refreshGraph() {
         restoreNodePositions(FILE_GRAPH.nodes);
         Graph.graphData(FILE_GRAPH);
         applyFileColors(FILE_GRAPH.nodes);
-        Graph.nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale);
+        Graph.nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            });
         Graph.nodeLabel('name');
         applyEdgeMode();
         updateDatamapControls();
@@ -1900,7 +1930,12 @@ function refreshGraph() {
         restoreNodePositions(hybrid.nodes);
         Graph.graphData(hybrid);
         applyFileColors(hybrid.nodes);
-        Graph.nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale);
+        Graph.nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         updateDatamapControls();
@@ -1920,7 +1955,12 @@ function refreshGraph() {
         // Force re-evaluation of accessors
         Graph.nodeColor(Graph.nodeColor());
         Graph.nodeRelSize(Graph.nodeRelSize());
-        Graph.nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale);
+        Graph.nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         if (fileMode && GRAPH_MODE === 'atoms') {
@@ -1942,7 +1982,12 @@ function refreshGraph() {
         restoreNodePositions(fallback.nodes);
         Graph.graphData(fallback);
         applyNodeColors(fallback.nodes);
-        Graph.nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale);
+        Graph.nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         updateDatamapControls();
@@ -1954,7 +1999,12 @@ function refreshGraph() {
     applyNodeColors(subset.nodes);
     restoreNodePositions(subset.nodes);
     Graph.graphData(subset);
-    Graph.nodeVal(node => (node.val || 1) * APPEARANCE_STATE.nodeScale);
+    Graph.nodeVal(node => {
+                // Boundary nodes get 1.5x size multiplier
+                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+                const baseSize = node.val || 1;
+                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+            });
     Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
     applyEdgeMode();
     if (fileMode && GRAPH_MODE === 'atoms') {

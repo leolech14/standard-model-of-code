@@ -39,26 +39,41 @@ window.UTILS = (function() {
     }
 
     /**
-     * Normalize value to [0, 1] based on max
+     * Normalize value to [0, 1] based on max.
+     * NOW DELEGATES TO UPB_SCALES when available.
+     *
      * @param {number} val - Value to normalize
      * @param {number} max - Maximum value
+     * @param {string} [scaleName] - Optional scale name (linear, log, sqrt)
      * @returns {number} Normalized value
      */
-    function normalize(val, max) {
+    function normalize(val, max, scaleName) {
+        // === UPB INTEGRATION ===
+        if (window.UPB_SCALES) {
+            return window.UPB_SCALES.applyScale(scaleName || 'linear', val, 0, max);
+        }
+        // Fallback
         return Math.min(1, Math.max(0, val / max));
     }
 
     /**
-     * Normalize metric value based on range
-     * Handles degenerate ranges gracefully
+     * Normalize metric value based on range.
+     * NOW DELEGATES TO UPB_SCALES when available.
+     *
      * @param {number} value - Value to normalize
      * @param {{min: number, max: number}} range - Range object
+     * @param {string} [scaleName] - Optional scale name (linear, log, sqrt)
      * @returns {number} Normalized value in [0, 1]
      */
-    function normalizeMetric(value, range) {
+    function normalizeMetric(value, range, scaleName) {
         if (!range || range.max <= range.min) {
             return clamp01(value);
         }
+        // === UPB INTEGRATION ===
+        if (window.UPB_SCALES) {
+            return window.UPB_SCALES.applyScale(scaleName || 'linear', value, range.min, range.max);
+        }
+        // Fallback
         return clamp01((value - range.min) / (range.max - range.min));
     }
 

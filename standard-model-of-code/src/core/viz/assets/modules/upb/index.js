@@ -78,6 +78,42 @@ const UPB = (function () {
                 BINDINGS.defaultGraph.setDataRanges(dataRanges);
             }
             console.log('[UPB] Universal Property Binder Initialized');
+        },
+
+        /**
+         * Check if a target has active bindings
+         * Used by other modules to defer to UPB when bindings exist
+         * @param {string} targetKey - e.g., 'hue', 'nodeSize'
+         * @returns {boolean}
+         */
+        hasBinding: function (targetKey) {
+            const bindings = BINDINGS.defaultGraph.getBindingsFor(targetKey);
+            return bindings && bindings.length > 0;
+        },
+
+        /**
+         * Check if any color-related target has active bindings
+         * Convenience method for modules that set node.color
+         * @returns {boolean}
+         */
+        hasColorBinding: function () {
+            return this.hasBinding('hue') ||
+                   this.hasBinding('saturation') ||
+                   this.hasBinding('lightness') ||
+                   this.hasBinding('opacity');
+        },
+
+        /**
+         * Check if any edge-related target has active bindings
+         * Convenience method for edge-system.js to defer to UPB
+         * @returns {boolean}
+         */
+        hasEdgeBinding: function () {
+            return this.hasBinding('edgeHue') ||
+                   this.hasBinding('edgeSaturation') ||
+                   this.hasBinding('edgeLightness') ||
+                   this.hasBinding('edgeOpacity') ||
+                   this.hasBinding('edgeWidth');
         }
     };
 

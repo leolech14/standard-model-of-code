@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_075022",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_075022",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This function acts as a coordinator, calling other functions, but doesn't implement the Stage interface. It doesn't inherit from a base class, nor does it implement execute/run with a standard result format.\n- **Deviation**: Missing base Stage inheritance and explicit implementation of `execute` or `run` returning standard result. Also mutates many local variables, failing the stateless invariant.\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates a well-structured analysis pipeline with clear separation of concerns and good use of existing modules, without any obvious violations of Antimatter principles."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: Reads actual source code (bounded to ~100 lines), extracts AST information (decorators, base classes, docstrings), infers folder layer from path, collects import statements for framework detection. Operates on raw file content and AST. Does not perform complex semantic reasoning.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The provided code does not exhibit any immediate violations of the specified Antimatter Laws based on the given excerpt; further review in context is needed."
+        }
+      }
+    }
+  ]
+}

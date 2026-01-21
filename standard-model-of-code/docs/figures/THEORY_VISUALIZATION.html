@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Model of Code - Unified Schema</title>
+    <style>
+        :root {
+            --paper-bg: #ffffff;
+            --ink: #000;
+            --grid-line: #000;
+            --subtle: #666;
+            --font-serif: "Times New Roman", Times, serif;
+            --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --spine-width: 200px;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            font-family: var(--font-sans);
+            color: var(--ink);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .master-container {
+            background-color: var(--paper-bg);
+            width: 1400px;
+            padding: 60px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr var(--spine-width) 1fr;
+            gap: 0;
+            position: relative;
+        }
+
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: var(--font-serif);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            border-bottom: 4px solid black;
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+        }
+
+        /* COLUMNS */
+        .col-structure {
+            padding-right: 40px;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .col-spine {
+            border-left: 3px solid black;
+            border-right: 3px solid black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .col-content {
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* SPINE LEVELS */
+        .level-block {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid black;
+            position: relative;
+            font-family: var(--font-serif);
+            font-weight: bold;
+        }
+
+        .level-block:last-child {
+            border-bottom: none;
+        }
+
+        .level-id {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            font-size: 10px;
+            font-family: var(--font-sans);
+            color: var(--subtle);
+        }
+
+        .level-name {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+
+        .plane-marker {
+            position: absolute;
+            left: -30px;
+            font-size: 10px;
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        /* LEFT CONTENT (Structure/Dims) */
+        .dim-block {
+            border: 1px solid black;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .dim-block h3 {
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            font-size: 12px;
+            border-bottom: 1px solid black;
+            padding-bottom: 5px;
+        }
+
+        .connector-l {
+            position: absolute;
+            right: -42px;
+            /* 40px padding + 2px border */
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: black;
+        }
+
+        /* RIGHT CONTENT (Atoms/Roles) */
+        .atom-row {
+            position: absolute;
+            left: 40px;
+            width: 100%;
+            height: 50px;
+            /* Approximate based on visual layout */
+            display: flex;
+            align-items: center;
+        }
+
+        .atom {
+            border: 1px solid black;
+            padding: 5px 10px;
+            font-family: "Courier New", monospace;
+            font-size: 12px;
+            margin-right: 10px;
+            background: white;
+            z-index: 2;
+        }
+
+        .role {
+            font-style: italic;
+            font-family: var(--font-serif);
+            font-size: 12px;
+            margin-right: 15px;
+        }
+
+        .connector-r {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background: black;
+        }
+
+        /* SPACERS FOR ALIGNMENT */
+        /* We need to manually align rows to the spine flex items. 
+           Assuming 16 levels distributed evenly in a tall container.
+           Let's use specific positioning or flex alignment. 
+           Actually, the spine is flex: column. We can use the same structure for side columns.
+        */
+
+        .row-aligner {
+            flex: 1;
+            /* Match spine level height */
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .row-aligner.right {
+            justify-content: flex-start;
+        }
+
+        .row-aligner.left {
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="master-container">
+        <h1>Standard Model of Code: Formal Holarchy</h1>
+
+        <!-- LEFT COLUMN: FORMALISMS -->
+        <div class="col-structure">
+
+            <!-- Cosmic -->
+            <div class="row-aligner left"><span class="math-label">Σ<sub>Universe</sub></span></div>
+            <div class="row-aligner left">
+                <div class="dim-block">D<sub>Domain</sub> ⊆ Σ</div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left"></div>
+            <div class="row-aligner left">
+                <div class="dim-block">D<sub>Platform</sub></div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="dim-block">D<sub>Eco</sub></div>
+                <div class="connector-l"></div>
+            </div>
+
+            <!-- System -->
+            <div class="row-aligner left">
+                <div class="equation">Λ(sys) = { p | p ∈ L6 }</div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="equation">Π(sys) = ∫ π₃ dl</div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="equation">File = { c | c ∈ L4 }</div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="dim-block">
+                    <h3>Purpose Eq</h3>
+                    π₂(class) = Σ π₁(method)
+                </div>
+                <div class="connector-l"></div>
+            </div>
+
+            <!-- Semantic -->
+            <div class="row-aligner left">
+                <div class="dim-block" style="width: 200px;">
+                    <h3>State Space (Ω)</h3>
+                    Ω = R × P × B × L<br>
+                    |Ω| = 9<sup>4</sup> = 6,561
+                </div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="equation">π₁ = role(node)</div>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left">
+                <div class="equation">S = { token* }</div>
+                <div class="connector-l"></div>
+            </div>
+
+            <!-- Syntactic -->
+            <div class="row-aligner left"><span class="math-label">T ∈ Σ*</span>
+                <div class="connector-l"></div>
+            </div>
+            <div class="row-aligner left"></div>
+            <div class="row-aligner left"></div>
+            <div class="row-aligner left"></div>
+        </div>
+
+        <!-- CENTER COLUMN: THE HOLARCHIC SPINE -->
+        <div class="col-spine">
+            <!-- Plane: Cosmological -->
+            <div class="plane-marker" style="top:5%; height:25%;">COSMOLOGICAL</div>
+            <div class="level-block" style="border-left: 5px solid black;"><span class="level-id">L12</span><span
+                    class="level-name">UNIVERSE</span></div>
+            <div class="level-block" style="border-left: 5px solid black;"><span class="level-id">L11</span><span
+                    class="level-name">DOMAIN</span></div>
+            <div class="level-block" style="border-left: 5px solid black;"><span class="level-id">L10</span><span
+                    class="level-name">ORG</span></div>
+            <div class="level-block" style="border-left: 5px solid black;"><span class="level-id">L9</span><span
+                    class="level-name">PLATFORM</span></div>
+            <div class="level-block" style="border-left: 5px solid black; border-bottom: 2px solid black;"><span
+                    class="level-id">L8</span><span class="level-name">ECOSYSTEM</span></div>
+
+            <!-- Plane: Systemic -->
+            <div class="plane-marker" style="top:33%; height:22%;">SYSTEMIC</div>
+            <div class="level-block" style="border-left: 5px solid #666;"><span class="level-id">L7</span><span
+                    class="level-name">SYSTEM</span></div>
+            <div class="level-block" style="border-left: 5px solid #666;"><span class="level-id">L6</span><span
+                    class="level-name">PACKAGE</span></div>
+            <div class="level-block" style="border-left: 5px solid #666;"><span class="level-id">L5</span><span
+                    class="level-name">FILE</span></div>
+            <div class="level-block" style="border-left: 5px solid #666; border-bottom: 2px solid black;"><span
+                    class="level-id">L4</span><span class="level-name">CONTAINER</span></div>
+
+            <!-- Plane: Semantic -->
+            <div class="plane-marker" style="top:58%; height:18%;">SEMANTIC</div>
+            <div class="level-block" style="border-left: 5px solid #999;"><span class="level-id">L3</span><span
+                    class="level-name">NODE</span></div>
+            <div class="level-block" style="border-left: 5px solid #999;"><span class="level-id">L2</span><span
+                    class="level-name">BLOCK</span></div>
+            <div class="level-block" style="border-left: 5px solid #999; border-bottom: 2px solid black;"><span
+                    class="level-id">L1</span><span class="level-name">STATEMENT</span></div>
+
+            <!-- Plane: Physical -->
+            <div class="plane-marker" style="top:78%; height:20%;">PHYSICAL</div>
+            <div class="level-block" style="border-left: 1px dotted black;"><span class="level-id">L0</span><span
+                    class="level-name">TOKEN</span></div>
+            <div class="level-block" style="border-left: 1px dotted black;"><span class="level-id">L-1</span><span
+                    class="level-name">CHAR</span></div>
+            <div class="level-block" style="border-left: 1px dotted black;"><span class="level-id">L-2</span><span
+                    class="level-name">BYTE</span></div>
+            <div class="level-block" style="border-left: 1px dotted black;"><span class="level-id">L-3</span><span
+                    class="level-name">BIT</span></div>
+        </div>
+
+        <!-- RIGHT COLUMN: SET MEMBERSHIP -->
+        <div class="col-content">
+
+            <!-- Cosmic -->
+            <div class="row-aligner right"></div>
+            <div class="row-aligner right"></div>
+            <div class="row-aligner right"></div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="role">{Python, JS, Go}</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="role">{PyPi, NPM}</span>
+            </div>
+
+            <!-- System -->
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="role">∀ s ∈ Systems</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">Module</span> <span class="math-label">⊇
+                    {Files}</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">File</span> <span class="math-label">⊇
+                    {Classes}</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">Class</span> <span class="math-label">⊇
+                    {Methods}</span>
+            </div>
+
+            <!-- Semantic -->
+            <div class="row-aligner right">
+                <div class="connector-r"></div>
+                <span class="atom">Function</span>
+                <span class="math-label">→ π(f) ∈ Roles</span>
+            </div>
+
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">{If, For, Try}</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">{Return, Call}</span>
+            </div>
+
+            <!-- Syntactic -->
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">Lexeme</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">ASCII</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">0x00-0xFF</span>
+            </div>
+            <div class="row-aligner right">
+                <div class="connector-r"></div><span class="atom">0, 1</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FIGURE 2: 3D HOLON TREE -->
+    <div style="margin-top: 100px; width: 1000px; text-align: center;">
+        <h1 style="border-bottom: none; margin-bottom: 20px;">Figure 2: The Holonic Ascension</h1>
+        <p style="font-family: var(--font-serif); font-style: italic; margin-bottom: 20px;">
+            Diagonal isometric projection of the consolidation from physical bits to semantic holons.
+        </p>
+    </div>
+
+    <div
+        style="width: 1000px; height: 800px; position: relative; perspective: 2000px; overflow: hidden; border: 1px solid #ccc; background: #fcfcfc;">
+
+        <!-- 3D SCENE CONTAINER -->
+        <div
+            style="width: 100%; height: 100%; transform-style: preserve-3d; transform:  rotateX(55deg) rotateZ(-45deg) translateZ(-100px) translateX(200px);">
+
+            <!-- LAYER Z=0: PHYSICAL (BITS) "THE SOIL" -->
+            <div
+                style="position: absolute; width: 600px; height: 600px; background: rgba(0,0,0,0.03); border: 2px solid #ddd; transform: translateZ(0px);">
+                <div
+                    style="position: absolute; top: -30px; left: 0; transform: rotate(0deg); font-weight: bold; font-size: 14px;">
+                    Z=0: PHYSICAL PLANE (L-3)</div>
+                <!-- Bit Grid -->
+                <div
+                    style="display: grid; grid-template-columns: repeat(20, 1fr); padding: 10px; font-family: monospace; font-size: 10px; color: #aaa;">
+                    <!-- Generating a grid of bits -->
+                    <span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span>
+                    <span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>1</span><span>1</span><span>0</span>
+                    <span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span><span>1</span><span>1</span>
+                    <span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span><span>0</span>
+                    <span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span>
+                    <span>1</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span>
+                    <!-- ... visual repetition ... -->
+                    <span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>1</span><span>0</span>
+                    <span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>1</span><span>1</span>
+                </div>
+            </div>
+
+            <!-- CONNECTORS 0 -> 100 -->
+            <div
+                style="position: absolute; left: 200px; top: 200px; width: 2px; height: 150px; background: #ccc; transform: rotateX(-90deg) translateZ(75px) translateY(75px);">
+            </div>
+            <div
+                style="position: absolute; left: 400px; top: 400px; width: 2px; height: 150px; background: #ccc; transform: rotateX(-90deg) translateZ(75px) translateY(75px);">
+            </div>
+
+            <!-- LAYER Z=150: SEMANTIC (LINES/NODES) "THE TRUNK" -->
+            <div
+                style="position: absolute; left: 150px; top: 150px; width: 300px; height: 300px; background: rgba(255,255,255,0.8); border: 2px solid #999; transform: translateZ(150px); box-shadow: 10px 10px 20px rgba(0,0,0,0.1);">
+                <div
+                    style="position: absolute; top: -30px; left: 0; transform: rotate(0deg); font-weight: bold; font-size: 14px;">
+                    Z=1: SEMANTIC PLANE (L3)</div>
+                <div style="padding: 20px; font-family: monospace; font-size: 11px;">
+                    <div>def validate(x):</div>
+                    <div style="padding-left:10px;">return x > 0</div>
+                    <br>
+                    <div>class User:</div>
+                    <div style="padding-left:10px;">id: str</div>
+                </div>
+            </div>
+
+            <!-- CONNECTORS 150 -> 300 -->
+            <div
+                style="position: absolute; left: 250px; top: 250px; width: 4px; height: 150px; background: #666; transform: rotateX(-90deg) translateZ(225px) translateY(75px);">
+            </div>
+
+            <!-- LAYER Z=300: SYSTEMIC (MODULES) "THE BRANCHES" -->
+            <div
+                style="position: absolute; left: 200px; top: 200px; width: 100px; height: 100px; background: white; border: 3px solid #333; transform: translateZ(300px); display: flex; align-items: center; justify-content: center; box-shadow: 20px 20px 40px rgba(0,0,0,0.2);">
+                <div
+                    style="position: absolute; top: -40px; left: -50px; width: 200px; text-align: center; font-weight: bold; font-size: 14px;">
+                    Z=2: SYSTEM PLANE (L6)</div>
+                <div style="text-align: center; font-weight: bold;">
+                    MODULE<br>
+                    <span style="font-size: 10px;">UserAuth</span>
+                </div>
+            </div>
+
+            <!-- CONNECTORS 300 -> 450 -->
+            <div
+                style="position: absolute; left: 240px; top: 240px; width: 6px; height: 150px; background: black; transform: rotateX(-90deg) translateZ(375px) translateY(75px);">
+            </div>
+
+            <!-- LAYER Z=450: HOLON (ENTITY) "THE FRUIT" -->
+            <div
+                style="position: absolute; left: 220px; top: 220px; width: 60px; height: 60px; background: black; border: 1px solid black; transform: translateZ(450px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                <div
+                    style="position: absolute; top: -30px; left: -70px; width: 200px; text-align: center; font-weight: bold; font-size: 14px; color: black;">
+                    Z=3: HOLON (L8)</div>
+                <div style="font-size: 20px;">Ω</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; text-align: left; width: 800px; font-family: var(--font-serif); font-size: 14px;">
+        <h3>Z-Axis Emergence:</h3>
+        <p>The vertical axis (Z) represents the <strong>Scale of Abstraction</strong>.
+            <br>- <strong>Z=0 (Soil)</strong>: The entropy of raw bits.
+            <br>- <strong>Z=1 (Trunk)</strong>: The linearization of logic (Control Flow).
+            <br>- <strong>Z=2 (Branches)</strong>: The structural organization (Architecture).
+            <br>- <strong>Z=3 (Fruit)</strong>: The emergent Holon, a singular entity with defined purpose Ω.
+        </p>
+    </div>
+
+    <!-- FIGURE 3: FRACTAL -->
+    <div style="margin-top: 100px; width: 1000px; text-align: center;">
+        <h1 style="border-bottom: none; margin-bottom: 20px;">Figure 3: Fractal Scale Invariance</h1>
+        <p style="font-family: var(--font-serif); font-style: italic; margin-bottom: 40px;">
+            Recursive self-similarity of scope across orders of magnitude.
+        </p>
+    </div>
+
+    <div class="master-container" style="display:flex; justify-content:center; padding: 40px;">
+
+        <!-- SYSTEM (L7) -->
+        <div
+            style="width: 600px; height: 600px; border: 4px solid black; position: relative; padding: 40px; box-sizing: border-box;">
+            <div style="position: absolute; top: 10px; left: 10px; font-weight: bold; font-size: 20px;">L7: SYSTEM
+                (Scope ∝ 10⁶)</div>
+
+            <!-- MODULES (L6) -->
+            <div
+                style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; width: 100%; height: 100%;">
+
+                <!-- MODULE 1 -->
+                <div style="border: 3px solid #333; position: relative; padding: 20px;">
+                    <div style="position: absolute; top: 5px; left: 5px; font-weight: bold; font-size: 16px;">L6: MODULE
+                    </div>
+
+                    <!-- CLASSES (L4) -->
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; height: 100%; align-content: center;">
+
+                        <!-- CLASS 1 -->
+                        <div style="border: 2px solid #666; position: relative; padding: 10px; height: 100px;">
+                            <div style="position: absolute; top: 2px; left: 2px; font-weight: bold; font-size: 10px;">
+                                L4: CLASS</div>
+
+                            <!-- FUNCTIONS (L3) -->
+                            <div style="display: flex; gap: 5px; margin-top: 20px; flex-wrap: wrap;">
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- CLASS 2 (Fractal Repetition) -->
+                        <div style="border: 2px solid #666; position: relative; padding: 10px; height: 100px;">
+                            <div style="position: absolute; top: 2px; left: 2px; font-weight: bold; font-size: 10px;">
+                                L4: CLASS</div>
+                            <div style="display: flex; gap: 5px; margin-top: 20px; flex-wrap: wrap;">
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                                <div style="border: 1px solid #999; width: 20px; height: 20px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- CLASS 3 -->
+                        <div style="border: 2px solid #666; position: relative; padding: 10px; height: 100px;"></div>
+                        <!-- CLASS 4 -->
+                        <div style="border: 2px solid #666; position: relative; padding: 10px; height: 100px;"></div>
+
+                    </div>
+                </div>
+
+                <!-- MODULE 2 (Simplified) -->
+                <div
+                    style="border: 3px solid #333; position: relative; padding: 20px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 40px; color: #ccc;">...</span>
+                </div>
+
+                <!-- MODULE 3 (Simplified) -->
+                <div
+                    style="border: 3px solid #333; position: relative; padding: 20px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 40px; color: #ccc;">...</span>
+                </div>
+
+                <!-- MODULE 4 (Simplified) -->
+                <div
+                    style="border: 3px solid #333; position: relative; padding: 20px; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 40px; color: #ccc;">...</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div
+        style="margin-top: 20px; text-align: left; width: 800px; font-family: var(--font-serif); font-size: 14px; margin-bottom: 100px;">
+        <h3>Principles of Scale Invariance:</h3>
+        <p>1. <strong>Structural Isomorphism</strong>: A Module contains Classes in the same way a System contains
+            Modules.</p>
+        <p>2. <strong>Scope Bound</strong>: Every holon V<sub>n</sub> defines a boundary <i>∂V<sub>n</sub></i> that
+            separates internal state from the external universe.</p>
+        <p>3. <strong>Equation</strong>: S(L<sub>n</sub>) ⊃ S(L<sub>n-1</sub>) ⊃ ... ⊃ S(L<sub>0</sub>)</p>
+    </div>
+
+</body>
+
+</html>

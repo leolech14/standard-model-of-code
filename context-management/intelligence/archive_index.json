@@ -1,0 +1,268 @@
+{
+  "timestamp": "20260121_051702",
+  "root": "archive",
+  "strata": [
+    {
+      "name": "orphaned_src_2025",
+      "path": "archive/orphaned_src_2025",
+      "type": "unknown",
+      "file_count": 1,
+      "size_mb": 0.03170967102050781,
+      "composition": {
+        ".py": 1
+      }
+    },
+    {
+      "name": "docs_root_2026-01-19",
+      "path": "archive/docs_root_2026-01-19",
+      "type": "unknown",
+      "file_count": 5,
+      "size_mb": 0.13611125946044922,
+      "composition": {
+        ".md": 5
+      }
+    },
+    {
+      "name": "orphaned_docs_root_2025",
+      "path": "archive/orphaned_docs_root_2025",
+      "type": "unknown",
+      "file_count": 1,
+      "size_mb": 0.006928443908691406,
+      "composition": {
+        ".md": 1
+      }
+    },
+    {
+      "name": "spectrometer_benchmarks_legacy",
+      "path": "archive/spectrometer_benchmarks_legacy",
+      "type": "unknown",
+      "file_count": 575,
+      "size_mb": 7.606001853942871,
+      "composition": {
+        ".md": 27,
+        "": 8,
+        ".json": 22,
+        ".js": 359,
+        ".html": 25,
+        ".jst": 9,
+        ".txt": 12,
+        ".gif": 16,
+        ".png": 42,
+        ".css": 9,
+        ".svg": 1,
+        ".send": 1,
+        ".tmpl": 7,
+        ".hbs": 7,
+        ".ejs": 20,
+        ".cts": 1,
+        ".ts": 6,
+        ".cjs": 1,
+        ".pem": 2
+      }
+    },
+    {
+      "name": "spectrometer_audit_results",
+      "path": "archive/spectrometer_audit_results",
+      "type": "unknown",
+      "file_count": 22,
+      "size_mb": 0.4338388442993164,
+      "composition": {
+        ".md": 5,
+        ".csv": 8,
+        ".json": 5,
+        ".txt": 4
+      }
+    },
+    {
+      "name": "zombie_code",
+      "path": "archive/zombie_code",
+      "type": "unknown",
+      "file_count": 12,
+      "size_mb": 1.334005355834961,
+      "composition": {
+        ".py": 9,
+        ".js": 2,
+        ".cjs": 1
+      }
+    },
+    {
+      "name": "docs",
+      "path": "archive/docs",
+      "type": "unknown",
+      "file_count": 16,
+      "size_mb": 0.1694040298461914,
+      "composition": {
+        ".md": 16
+      }
+    },
+    {
+      "name": "orphaned_dashboard_web_2025",
+      "path": "archive/orphaned_dashboard_web_2025",
+      "type": "unknown",
+      "file_count": 1,
+      "size_mb": 0.020948410034179688,
+      "composition": {
+        ".html": 1
+      }
+    },
+    {
+      "name": "canvas",
+      "path": "archive/canvas",
+      "type": "unknown",
+      "file_count": 10,
+      "size_mb": 0.40450191497802734,
+      "composition": {
+        ".canvas": 9,
+        ".bak": 1
+      }
+    },
+    {
+      "name": "spectrometer_legacy",
+      "path": "archive/spectrometer_legacy",
+      "type": "unknown",
+      "file_count": 37,
+      "size_mb": 0.7206935882568359,
+      "composition": {
+        ".py": 23,
+        ".tsx": 6,
+        ".ts": 3,
+        ".html": 1,
+        ".json": 3,
+        ".md": 1
+      }
+    },
+    {
+      "name": "sessions",
+      "path": "archive/sessions",
+      "type": "unknown",
+      "file_count": 6,
+      "size_mb": 1.100168228149414,
+      "composition": {
+        ".md": 5,
+        ".groovy": 1
+      }
+    },
+    {
+      "name": "grok_chats",
+      "path": "archive/grok_chats",
+      "type": "unknown",
+      "file_count": 9,
+      "size_mb": 1.1987905502319336,
+      "composition": {
+        ".md": 9
+      }
+    },
+    {
+      "name": "docs_consolidated_2026-01-19",
+      "path": "archive/docs_consolidated_2026-01-19",
+      "type": "unknown",
+      "file_count": 12,
+      "size_mb": 0.09827995300292969,
+      "composition": {
+        ".md": 12
+      }
+    },
+    {
+      "name": "docs_smc_2026-01-19",
+      "path": "archive/docs_smc_2026-01-19",
+      "type": "unknown",
+      "file_count": 6,
+      "size_mb": 0.04047679901123047,
+      "composition": {
+        ".md": 6
+      }
+    },
+    {
+      "name": "scripts",
+      "path": "archive/scripts",
+      "type": "unknown",
+      "file_count": 71,
+      "size_mb": 0.8570642471313477,
+      "composition": {
+        ".py": 71
+      }
+    },
+    {
+      "name": "large_outputs",
+      "path": "archive/large_outputs",
+      "type": "unknown",
+      "file_count": 2,
+      "size_mb": 1186.7845544815063,
+      "composition": {
+        ".json": 1,
+        ".html": 1
+      }
+    },
+    {
+      "name": "orphaned_output_2025",
+      "path": "archive/orphaned_output_2025",
+      "type": "unknown",
+      "file_count": 3,
+      "size_mb": 3.112847328186035,
+      "composition": {
+        ".json": 3
+      }
+    },
+    {
+      "name": "docs_registry_2026-01-19",
+      "path": "archive/docs_registry_2026-01-19",
+      "type": "unknown",
+      "file_count": 6,
+      "size_mb": 0.13229084014892578,
+      "composition": {
+        ".md": 5,
+        ".json": 1
+      }
+    },
+    {
+      "name": "misc_docs",
+      "path": "archive/misc_docs",
+      "type": "unknown",
+      "file_count": 50,
+      "size_mb": 0.3855752944946289,
+      "composition": {
+        ".md": 42,
+        "": 3,
+        ".sh": 2,
+        ".textclipping": 1,
+        ".html": 1,
+        ".yml": 1
+      }
+    },
+    {
+      "name": "contextpacks",
+      "path": "archive/contextpacks",
+      "type": "unknown",
+      "file_count": 0,
+      "size_mb": 0,
+      "composition": {}
+    },
+    {
+      "name": "data",
+      "path": "archive/data",
+      "type": "unknown",
+      "file_count": 23,
+      "size_mb": 53.16923141479492,
+      "composition": {
+        ".json": 9,
+        ".csv": 5,
+        ".txt": 5,
+        ".mmd": 1,
+        "": 3
+      }
+    },
+    {
+      "name": "orphaned_tools_2025",
+      "path": "archive/orphaned_tools_2025",
+      "type": "unknown",
+      "file_count": 9,
+      "size_mb": 0.07285499572753906,
+      "composition": {
+        ".py": 8,
+        ".json": 1
+      }
+    }
+  ],
+  "total_files": 877,
+  "total_size_mb": 1257.8162775039673
+}

@@ -1,0 +1,66 @@
+# Documentation Map (The Holographic Index)
+# Maps documentation files to the semantic concepts they cover.
+# Used by the Socratic Layer to detect documentation drift.
+
+# =============================================================================
+# DOCUMENTATION → CONCEPTS
+# =============================================================================
+documentation:
+  # Core Theory Documentation
+  "standard-model-of-code/docs/theory/THEORY.md":
+    covers:
+      - theory.Atom
+      - theory.Dimension
+      - theory.Ring
+    validates_against:
+      - "standard-model-of-code/schema/atoms.schema.json"
+      - "standard-model-of-code/src/core/atom_registry.py"
+    critical: true  # Changes here require full validation
+
+  # Tool Documentation  
+  "context-management/docs/TOOL.md":
+    covers:
+      - pipeline.Stage
+      - pipeline.Extractor
+      - architecture.Tool
+    validates_against:
+      - "standard-model-of-code/src/core/*_stage.py"
+      - "standard-model-of-code/src/core/*_extractor*.py"
+      - "context-management/tools/ai/analyze.py"
+
+  # AI User Guide
+  "context-management/docs/AI_USER_GUIDE.md":
+    covers:
+      - architecture.Tool
+      - holographic_socratic_layer
+    validates_against:
+      - "context-management/tools/ai/analyze.py"
+      - "context-management/config/semantic_models.yaml"
+
+  # Holographic-Socratic Layer
+  "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md":
+    covers:
+      - holographic_socratic_layer
+      - antimatter_laws
+    validates_against:
+      - "context-management/tools/ai/analyze.py"
+      - "context-management/config/semantic_models.yaml"
+      - "PROJECT_sentinel/agents/com.elements.socratic-audit.plist"
+
+# =============================================================================
+# VALIDATION RULES
+# =============================================================================
+validation:
+  # How often each doc type should be validated
+  critical_docs:
+    interval: "on_change"
+    trigger: "WatchPaths"
+  
+  standard_docs:
+    interval: "daily"
+    trigger: "StartCalendarInterval"
+
+  # Evidence requirements
+  evidence:
+    minimum_anchors: 1
+    require_line_numbers: true

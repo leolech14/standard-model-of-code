@@ -1,0 +1,97 @@
+{
+  "timestamp": "20260121_085130",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_085130",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "Okay, I will analyze the provided code to identify classes or functions that represent the \"Stage\" concept and verify their compliance with the given invariants.\n\n### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This function orchestrates the entire analysis pipeline, encompassing multiple distinct processing steps such as base analysis, standard model enrichment, purpose field detection, and more. While it implements overall logic, it doesn't inherit from a base Stage class nor does it return a standard result format.\n- **Deviation**: Does not inherit from a base stage class. Orchestrates multiple stages, so its 'execute' equivalent encompasses the entire workflow. Does not return a standard result format but returns a dictionary, `full_output`, that may be used as input to another process. It also holds state, such as `target`, `resolved_output_dir`, `perf_manager`.\n\n- **Entity**: `analyze` (mentioned in `run_full_analysis` as `from unified_analysis import analyze`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is part of `unified_analysis`, which is not provided. Assuming the file `unified_analysis.py` defines `analyze` as a base analysis step which returns the variables to `result`, it may be a stage depending on the details not provided in this context.\n- **Deviation**: Needs more context.\n\n- **Entity**: `enrich_with_standard_model` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes` as input and returns `nodes`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `detect_purpose_field` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes` and `edges` as input and returns a `purpose_field`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `detect_execution_flow` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes`, `edges`, and `purpose_field` as input and returns a `exec_flow`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `compute_markov_matrix` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes`, and `edges` as input and returns a `markov`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `detect_knots` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes`, and `edges` as input and returns a `knots`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `compute_data_flow` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes`, and `edges` as input and returns a `data_flow`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `predict_performance` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This function is called as a stage of the pipeline within `run_full_analysis`. It takes `nodes`, and `exec_flow` as input and returns a `perf`, therefore it may be a stage.\n- **Deviation**: Needs more context.\n\n- **Entity**: `RoadmapEvaluator` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This class is called as a stage of the pipeline within `run_full_analysis`.\n- **Deviation**: Needs more context.\n\n- **Entity**: `TopologyClassifier` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This class is called as a stage of the pipeline within `run_full_analysis`.\n- **Deviation**: Needs more context.\n\n- **Entity**: `ConceptExtractor` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This class is called as a stage of the pipeline within `run_full_analysis`.\n- **Deviation**: Needs more context.\n\n- **Entity**: `ConstraintEngine` (mentioned in `run_full_analysis`)\n- **Status**: Potentially Compliant\n- **Evidence**: This class is called as a stage of the pipeline within `run_full_analysis`.\n- **Deviation**: Needs more context.\n",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM001",
+              "severity": "LOW",
+              "reasoning": "The code includes functions like `_open_file` and `_manual_open_command` which are platform-specific ways to open files. While not strictly re-implementing existing functionality (like opening files), the use of `subprocess.run` and conditional platform checks could potentially be simplified or unified using existing libraries like `webbrowser` which provides platform-independent file opening capabilities, though with less direct control."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "MEDIUM",
+              "reasoning": "The code imports several modules (e.g., `performance_predictor`, `RoadmapEvaluator`, `TopologyClassifier`, `SemanticCortex`) and refers to a removed module `orphan_integration`, but some of these modules are not demonstrably used within the provided code snippet. This suggests potentially orphan code or incomplete integration. Specifically the orphan_integration was flagged explicitly."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "LOW",
+              "reasoning": "The `full_analysis.py` script acts as a 'Stage', orchestrating multiple analysis steps. The inclusion of AI insight generation (`_generate_ai_insights`) within this Stage blurs the architectural lines. Generating AI insights is a computationally intensive, external process which should ideally be handled in a separate, asynchronous process or microservice, instead of directly within the full analysis orchestration to avoid blocking and improve scalability."
+            }
+          ],
+          "critique_summary": "The code exhibits minor context myopia with platform-specific file handling, possible orphan code with unused imported modules, and a slight architectural drift by including AI insight generation within the main analysis stage, which could be better handled asynchronously."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The class `SmartExtractor` reads source code files to extract information, infers folder layers, and collects import statements. All of these tasks relate to the ingestion of raw data (file content) or AST. There is no evidence of complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_source` (method of `SmartExtractor`)\n- **Status**: Compliant\n- **Evidence**: This method reads the content of a file, splits it into lines, extracts a code excerpt, and calls `_enrich_from_ast`. It operates on the raw file content and passes data to other functions, but doesn't perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_ast` (method of `SmartExtractor`)\n- **Status**: Non-Compliant\n- **Evidence**: This method parses the source code into an AST and extracts decorators, base classes, and docstrings. While this involves operating on the AST, the extraction of these features is related to semantic understanding and classification of the code, which violates the invariant.\n- **Deviation**: The method performs some level of semantic reasoning by extracting decorators, base classes, and docstrings from the AST, which should be the role of the Classifier.\n\n- **Entity**: `_extract_imports` (method of `SmartExtractor`)\n- **Status**: Compliant\n- **Evidence**: This method extracts import statements from the source code, either by parsing the AST or using regular expressions as a fallback. The focus is on identifying import statements, not understanding their deeper semantic meaning.\n- **Deviation**: N/A\n\n- **Entity**: `EdgeExtractionStrategy` (abstract class)\n- **Status**: Compliant\n- **Evidence**: It is an abstract class that defines a contract for concrete strategies that operate on source bodies.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `PythonEdgeStrategy` uses regular expressions to find function calls and attribute access within the source code. This is a form of raw data ingestion of source code body.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `JavascriptEdgeStrategy` uses regular expressions to extract calls and instantiation of Javascript code.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `TypeScriptEdgeStrategy` uses regular expressions to extract calls and instantiation of Typescript code.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `GoEdgeStrategy` uses regular expressions to extract calls of Go code.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `RustEdgeStrategy` uses regular expressions to extract calls of Rust code.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: `DefaultEdgeStrategy` does not extract any information. It is a fallback.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: It is an abstract class that defines a contract for concrete strategies that operate on AST by means of tree-sitter.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: `PythonTreeSitterStrategy` is uses Tree-sitter library to perform AST parsing to extract function calls. It is operating on AST directly.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: `JavaScriptTreeSitterStrategy` is uses Tree-sitter library to perform AST parsing to extract function calls. It is operating on AST directly.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: `TypeScriptTreeSitterStrategy` is uses Tree-sitter library to perform AST parsing to extract function calls. It is operating on AST directly.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "This is an abstract class that by definition has no violations of antimatter principles."
+        }
+      }
+    }
+  ]
+}

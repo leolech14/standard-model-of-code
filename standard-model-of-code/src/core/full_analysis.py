@@ -22,6 +22,281 @@ from typing import Dict, List, Any, Optional
 from src.core.file_enricher import FileEnricher
 
 
+# =============================================================================
+# DISCONNECTION TAXONOMY: Rich classification of why nodes appear disconnected
+# Replaces lazy "orphan" label with 7-type taxonomy (see ORPHAN_TAXONOMY.md)
+# =============================================================================
+
+def classify_disconnection(node: Dict[str, Any], in_deg: int, out_deg: int) -> Optional[Dict[str, Any]]:
+    """
+    Classify WHY a node appears disconnected in the dependency graph.
+
+    Returns None if node is not disconnected (has both incoming and outgoing edges).
+    Returns a dict with:
+        - reachability_source: Why this node exists without standard edges
+        - connection_gap: What kind of disconnection (isolated, no_incoming, no_outgoing)
+        - isolation_confidence: How confident we are in this classification (0.0-1.0)
+        - suggested_action: What to do about it (OK, CHECK, DELETE)
+
+    This replaces the misleading "orphan" classification which conflated 7+ phenomena.
+    """
+    # Not disconnected - has both incoming and outgoing
+    if in_deg > 0 and out_deg > 0:
+        return None
+
+    # Determine connection gap type
+    if in_deg == 0 and out_deg == 0:
+        connection_gap = 'isolated'
+    elif in_deg == 0:
+        connection_gap = 'no_incoming'
+    else:
+        connection_gap = 'no_outgoing'
+
+    file_path = node.get('file_path', '')
+    name = node.get('name', '')
+    kind = node.get('kind', '')
+    decorators = node.get('decorators', [])
+
+    # Normalize file_path for pattern matching
+    file_lower = file_path.lower()
+    name_lower = name.lower()
+
+    # 1. Test file detection (pytest, jest, unittest)
+    if any(pattern in file_lower for pattern in ['test_', '_test.', '/tests/', 'conftest', 'spec.js', '.test.', '.spec.']):
+        return {
+            'reachability_source': 'test_entry',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.95,
+            'suggested_action': 'OK - test framework invokes'
+        }
+
+    # 2. Entry point detection (__main__, CLI, scripts)
+    if any([
+        name_lower == 'main',
+        name_lower == '__main__',
+        'if __name__' in node.get('body_source', ''),
+        kind == 'script',
+        file_lower.endswith('cli.py'),
+        file_lower.endswith('__main__.py'),
+    ]):
+        return {
+            'reachability_source': 'entry_point',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.99,
+            'suggested_action': 'OK - program entry point'
+        }
+
+    # 3. Framework-managed detection (decorators, dataclasses)
+    framework_decorators = ['@dataclass', '@component', '@injectable', '@service', '@controller',
+                           '@app.route', '@pytest.fixture', '@staticmethod', '@classmethod',
+                           '@property', '@abstractmethod', '@override']
+    if decorators:
+        decorator_str = ' '.join(str(d).lower() for d in decorators)
+        if any(fd.lower().lstrip('@') in decorator_str for fd in framework_decorators):
+            return {
+                'reachability_source': 'framework_managed',
+                'connection_gap': connection_gap,
+                'isolation_confidence': 0.90,
+                'suggested_action': 'OK - framework instantiates'
+            }
+
+    # Also check for dataclass-like patterns in kind
+    if kind in ['dataclass', 'namedtuple', 'TypedDict', 'Enum']:
+        return {
+            'reachability_source': 'framework_managed',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.90,
+            'suggested_action': 'OK - instantiated at runtime'
+        }
+
+    # 4. Cross-language boundary (JS files analyzed but called from HTML/other)
+    if any(file_lower.endswith(ext) for ext in ['.js', '.jsx', '.ts', '.tsx', '.vue', '.svelte']):
+        return {
+            'reachability_source': 'cross_language',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.70,
+            'suggested_action': 'CHECK - may have cross-language callers'
+        }
+
+    # 5. Config/schema files
+    if any(pattern in file_lower for pattern in ['config', 'schema', 'settings', '.yaml', '.yml', '.json', '.toml']):
+        return {
+            'reachability_source': 'external_boundary',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.80,
+            'suggested_action': 'OK - configuration/schema'
+        }
+
+    # 6. Dynamic dispatch patterns (reflection-like)
+    body = node.get('body_source', '')
+    if any(pattern in body for pattern in ['getattr(', 'eval(', 'exec(', '__getattr__', 'globals()[', 'locals()[']):
+        return {
+            'reachability_source': 'dynamic_target',
+            'connection_gap': connection_gap,
+            'isolation_confidence': 0.60,
+            'suggested_action': 'CHECK - may be called via reflection'
+        }
+
+    # 7. Public API detection (exported, __all__, public functions)
+    if name and not name.startswith('_'):
+        # Check if it looks like a public interface
+        if kind in ['function', 'class', 'method'] and out_deg > 0:
+            return {
+                'reachability_source': 'external_boundary',
+                'connection_gap': connection_gap,
+                'isolation_confidence': 0.75,
+                'suggested_action': 'CHECK - may be public API'
+            }
+
+    # 8. Default: Truly unreachable (likely dead code)
+    return {
+        'reachability_source': 'unreachable',
+        'connection_gap': connection_gap,
+        'isolation_confidence': 0.85,
+        'suggested_action': 'REVIEW - likely dead code'
+    }
+
+
+# =============================================================================
+# CODOME BOUNDARY: Synthetic nodes representing external calling contexts
+# =============================================================================
+
+# Boundary node definitions: source → metadata
+CODOME_BOUNDARIES = {
+    'test_entry': {
+        'name': 'TestFramework',
+        'description': 'Test frameworks (pytest, jest, unittest) invoke test functions',
+        'color': '#4CAF50',  # Green - tests are healthy
+        'icon': '🧪'
+    },
+    'entry_point': {
+        'name': 'RuntimeEntry',
+        'description': 'Program entry points (__main__, CLI, scripts)',
+        'color': '#2196F3',  # Blue - entry
+        'icon': '🚀'
+    },
+    'framework_managed': {
+        'name': 'FrameworkDI',
+        'description': 'Framework/DI container instantiates (decorators, dataclasses)',
+        'color': '#9C27B0',  # Purple - framework magic
+        'icon': '⚙️'
+    },
+    'cross_language': {
+        'name': 'HTMLTemplate',
+        'description': 'Cross-language callers (HTML onclick, script src)',
+        'color': '#FF9800',  # Orange - cross-boundary
+        'icon': '🌐'
+    },
+    'external_boundary': {
+        'name': 'ExternalAPI',
+        'description': 'External consumers (npm imports, public API)',
+        'color': '#00BCD4',  # Cyan - external
+        'icon': '📡'
+    },
+    'dynamic_target': {
+        'name': 'DynamicDispatch',
+        'description': 'Dynamic invocation (getattr, eval, reflection)',
+        'color': '#E91E63',  # Pink - dynamic/uncertain
+        'icon': '🔮'
+    }
+}
+
+
+def create_codome_boundaries(nodes: List[Dict], edges: List[Dict]) -> Dict[str, Any]:
+    """
+    Create synthetic codome boundary nodes and inferred edges.
+
+    For each disconnection type (test_entry, entry_point, etc.), creates:
+    1. A synthetic boundary node (e.g., __codome__::pytest)
+    2. Inferred edges from boundary → disconnected nodes
+
+    Returns:
+        {
+            'boundary_nodes': [node_dicts...],
+            'inferred_edges': [edge_dicts...],
+            'summary': {source: count}
+        }
+    """
+    # Group disconnected nodes by reachability source
+    by_source: Dict[str, List[Dict]] = {}
+    for node in nodes:
+        disconnection = node.get('disconnection')
+        if disconnection:
+            source = disconnection.get('reachability_source', 'unknown')
+            if source not in by_source:
+                by_source[source] = []
+            by_source[source].append(node)
+
+    boundary_nodes = []
+    inferred_edges = []
+    summary = {}
+
+    for source, disconnected_nodes in by_source.items():
+        # Skip 'unreachable' - those are truly dead code
+        if source == 'unreachable':
+            summary[source] = len(disconnected_nodes)
+            continue
+
+        # Get boundary metadata
+        boundary_meta = CODOME_BOUNDARIES.get(source)
+        if not boundary_meta:
+            summary[source] = len(disconnected_nodes)
+            continue
+
+        # Create synthetic boundary node
+        boundary_id = f"__codome__::{source}"
+        boundary_node = {
+            'id': boundary_id,
+            'name': boundary_meta['name'],
+            'type': 'CodomeBoundary',
+            'file_path': '__codome__',
+            'kind': 'boundary',
+            'is_codome_boundary': True,
+            'codome_source': source,
+            'description': boundary_meta['description'],
+            'color_hint': boundary_meta['color'],
+            'icon': boundary_meta['icon'],
+            # Standard node fields for visualization
+            'in_degree': 0,
+            'out_degree': len(disconnected_nodes),
+            'topology_role': 'external',
+            'tier': 'T0',  # Entry tier
+            'dimensions': {
+                'D1_WHAT': 'BOUNDARY.CODOME',
+                'D2_HOW': 'EXTERNAL',
+                'D3_LAYER': 'BOUNDARY'
+            }
+        }
+        boundary_nodes.append(boundary_node)
+
+        # Create inferred edges from boundary → disconnected nodes
+        for target_node in disconnected_nodes:
+            target_id = target_node.get('id', '')
+            confidence = target_node.get('disconnection', {}).get('isolation_confidence', 0.5)
+
+            edge = {
+                'source': boundary_id,
+                'target': target_id,
+                'edge_type': 'invokes',
+                'family': 'Codome',
+                'inferred': True,
+                'confidence': confidence,
+                'resolution': 'inferred',
+                'codome_source': source,
+                'description': f'{boundary_meta["name"]} invokes {target_node.get("name", "unknown")}'
+            }
+            inferred_edges.append(edge)
+
+        summary[source] = len(disconnected_nodes)
+
+    return {
+        'boundary_nodes': boundary_nodes,
+        'inferred_edges': inferred_edges,
+        'summary': summary,
+        'total_boundaries': len(boundary_nodes),
+        'total_inferred_edges': len(inferred_edges)
+    }
+
 
 # =============================================================================
 # FILE-CENTRIC VIEW: Bridges atom-centric analysis with file-based navigation
@@ -701,6 +976,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             out_degree_map = dict(G.out_degree())
             degree_enriched = 0
 
+            # Compute centrality metrics (research-backed: Zimmermann/Nagappan)
+            betweenness = nx.betweenness_centrality(G) if len(G) > 0 else {}
+            pagerank = nx.pagerank(G) if len(G) > 0 and G.is_directed() else {}
+
             # Threshold for hub classification (top 5% or min 10 connections)
             all_degrees = [in_degree_map.get(n.get('id', ''), 0) + out_degree_map.get(n.get('id', ''), 0) for n in nodes]
             hub_threshold = max(10, sorted(all_degrees, reverse=True)[len(all_degrees) // 20] if len(all_degrees) > 20 else 10)
@@ -711,6 +990,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 out_deg = out_degree_map.get(node_id, 0)
                 node['in_degree'] = in_deg
                 node['out_degree'] = out_deg
+
+                # Add centrality metrics
+                node['betweenness_centrality'] = round(betweenness.get(node_id, 0), 6)
+                node['pagerank'] = round(pagerank.get(node_id, 0), 6)
 
                 # Compute topology_role (relational property)
                 if in_deg == 0 and out_deg == 0:
@@ -724,18 +1007,42 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 else:
                     node['topology_role'] = 'internal'
 
+                # Add disconnection taxonomy for nodes missing incoming edges
+                # This includes orphans (no edges) AND roots (no incoming but have outgoing)
+                # Roots are often: entry points, HTML event handlers, exported APIs
+                if in_deg == 0:
+                    disconnection = classify_disconnection(node, in_deg, out_deg)
+                    if disconnection:
+                        node['disconnection'] = disconnection
+
                 if in_deg > 0 or out_deg > 0:
                     degree_enriched += 1
 
-            # Count topology roles for summary
+            # Count topology roles and disconnection sources for summary
             role_counts = {}
+            disconnection_counts = {}
             for node in nodes:
                 role = node.get('topology_role', 'unknown')
                 role_counts[role] = role_counts.get(role, 0) + 1
+                if 'disconnection' in node:
+                    source = node['disconnection'].get('reachability_source', 'unknown')
+                    disconnection_counts[source] = disconnection_counts.get(source, 0) + 1
             print(f"   → {degree_enriched} nodes enriched with degree metrics")
             print(f"   → Topology roles: {role_counts}")
-        except ImportError:
+            if disconnection_counts:
+                print(f"   → Disconnection taxonomy: {disconnection_counts}")
+            # Report top centrality nodes
+            if betweenness:
+                top_betweenness = sorted(betweenness.items(), key=lambda x: x[1], reverse=True)[:3]
+                if top_betweenness:
+                    print(f"   → Top betweenness: {[(n.split('::')[-1], round(v, 4)) for n, v in top_betweenness]}")
+            if pagerank:
+                top_pagerank = sorted(pagerank.items(), key=lambda x: x[1], reverse=True)[:3]
+                if top_pagerank:
+                    print(f"   → Top PageRank: {[(n.split('::')[-1], round(v, 4)) for n, v in top_pagerank]}")
+        except Exception as e:
             # Fallback: compute degrees without networkx
+            print(f"   ⚠️ Graph analytics fallback: {type(e).__name__}: {e}")
             from collections import defaultdict
             in_counts = defaultdict(int)
             out_counts = defaultdict(int)
@@ -771,16 +1078,29 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 else:
                     node['topology_role'] = 'internal'
 
+                # Add disconnection taxonomy for nodes missing incoming edges
+                # This includes orphans (no edges) AND roots (no incoming but have outgoing)
+                if in_deg == 0:
+                    disconnection = classify_disconnection(node, in_deg, out_deg)
+                    if disconnection:
+                        node['disconnection'] = disconnection
+
                 if in_deg > 0 or out_deg > 0:
                     degree_enriched += 1
 
-            # Count topology roles for summary
+            # Count topology roles and disconnection sources for summary
             role_counts = {}
+            disconnection_counts = {}
             for node in nodes:
                 role = node.get('topology_role', 'unknown')
                 role_counts[role] = role_counts.get(role, 0) + 1
+                if 'disconnection' in node:
+                    source = node['disconnection'].get('reachability_source', 'unknown')
+                    disconnection_counts[source] = disconnection_counts.get(source, 0) + 1
             print(f"   → {degree_enriched} nodes enriched with degree metrics (fallback)")
             print(f"   → Topology roles: {role_counts}")
+            if disconnection_counts:
+                print(f"   → Disconnection taxonomy: {disconnection_counts}")
             G = None  # No graph for analytics
 
         # Advanced analytics (optional - requires graph_analyzer)
@@ -832,6 +1152,26 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             statistical_metrics = {}
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Statistical metrics skipped: {e}")
+
+    # Stage 6.8: Codome Boundary Generation
+    print("\n🌐 Stage 6.8: Codome Boundary Generation...")
+    codome_result = {'boundary_nodes': [], 'inferred_edges': [], 'summary': {}}
+    with StageTimer(perf_manager, "Stage 6.8: Codome Boundaries") as timer:
+        try:
+            codome_result = create_codome_boundaries(nodes, edges)
+            timer.set_output(
+                boundaries=codome_result['total_boundaries'],
+                inferred_edges=codome_result['total_inferred_edges']
+            )
+            if codome_result['boundary_nodes']:
+                print(f"   → {codome_result['total_boundaries']} codome boundary nodes created")
+                print(f"   → {codome_result['total_inferred_edges']} inferred edges generated")
+                print(f"   → Sources: {codome_result['summary']}")
+            else:
+                print("   → No disconnected nodes to link")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Codome boundary generation skipped: {e}")
 
     # Stage 7: Data Flow
     print("\n🌊 Stage 7: Data Flow Analysis...")
@@ -981,6 +1321,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'rho_antimatter': round(constraint_report.get('antimatter', {}).get('rho_antimatter', 0), 4) if constraint_report else 0,
             'rho_policy': round(constraint_report.get('policy_violations', {}).get('rho_policy', 0), 4) if constraint_report else 0,
             'constraint_valid': constraint_report.get('valid', True) if constraint_report else True,
+            # Codome boundary KPIs
+            'codome_boundary_count': codome_result.get('total_boundaries', 0),
+            'codome_inferred_edges': codome_result.get('total_inferred_edges', 0),
         },
         'purpose_field': purpose_field.summary(),
         'execution_flow': dict(exec_flow.summary(), **{
@@ -997,6 +1340,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         'top_hubs': [],
         'orphans_list': exec_flow.orphans[:20],  # First 20
         'orphan_integration': [],
+        # Codome boundary visualization layer
+        'codome_boundaries': {
+            'boundary_nodes': codome_result.get('boundary_nodes', []),
+            'inferred_edges': codome_result.get('inferred_edges', []),
+            'summary': codome_result.get('summary', {}),
+            'total_boundaries': codome_result.get('total_boundaries', 0),
+            'total_inferred_edges': codome_result.get('total_inferred_edges', 0)
+        },
     }
     
     # Compute top hubs

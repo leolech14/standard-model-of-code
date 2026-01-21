@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_051149",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_051149",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: `def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:`\n- **Deviation**: While this function represents the entire analysis pipeline which can be conceptually viewed as a stage, it doesn't adhere to Stage invariants. Specifically, it does not inherit from a base `Stage` class, and although it has a standard output format (Dict), it modifies local variables within the function scope, technically violating the \"stateless\" invariant though the modifications do not appear to persist outside the function's scope. Also, it does not have a standard method name 'execute' or 'run'.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates a well-structured and modular approach to static code analysis, with no detected antimatter violations."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: Abstract base class for language-specific edge extraction from source bodies. It defines the `extract_edges` method, which operates on a particle (representing a code element) and a dictionary of particles, to extract 'calls' and 'uses' edges from the particle's body_source. It works on the raw source.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**:  Extracts edges based on regular expressions applied to the body source of a Python particle. No semantic reasoning is performed. It operates on raw file content.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges based on regular expressions applied to the body source of a JavaScript particle. No semantic reasoning beyond simple pattern matching is involved.  It operates on raw file content.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**:  Inherits from `JavascriptEdgeStrategy` and thus also operates on raw file content using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges based on regular expressions applied to the body source of a Go particle.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges based on regular expressions applied to the body source of a Rust particle.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Returns an empty list of edges, thus performing no data ingestion or analysis.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Parses `body_source` as AST and queries. Works on the AST, and does not perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse the Python code and extract edges based on the AST.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse the Javascript/JSX code and extract edges based on the AST. Resolves member calls, but this is still based on AST structure and not complex reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse the Typescript/TSX code and extract edges based on the AST.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Non-Compliant\n- **Evidence**: Resolves JavaScript module references across files by tracking aliases, window exports and resolving member calls, but does so using the AST. While it parses the AST, it performs semantic reasoning by attempting to resolve module imports and map aliases. This goes beyond simple data ingestion.\n- **Deviation**: Performs complex semantic reasoning\n\n- **Entity**: `extract_call_edges`\n- **Status**: Non-Compliant\n- **Evidence**: orchestrates the edge extraction process including uses the `JSModuleResolver`.\n- **Deviation**: Orchestrates complex semantic reasoning performed by `JSModuleResolver`\n\n- **Entity**: `_extract_exposure_edges_from_body`\n- **Status**: Compliant\n- **Evidence**: extracts data using regex and operates on the raw source code.\n- **Deviation**: N/A\n\n- **Entity**: `extract_exposure_edges`\n- **Status**: Compliant\n- **Evidence**: It calls `_extract_exposure_edges_from_body` and is compliant. The particle_by_name is optional, so not always using the Classifier.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears to adhere to the specified Antimatter laws, demonstrating good contextual awareness, architectural compliance, and dependency management."
+        }
+      }
+    }
+  ]
+}

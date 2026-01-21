@@ -1,0 +1,97 @@
+{
+  "timestamp": "20260121_082400",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_082400",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: run_full_analysis\n- **Status**: Non-Compliant\n- **Evidence**: `def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:`\n- **Deviation**: While it performs a sequence of operations, resembling stages, it doesn't inherit from a base Stage class. It does return a dictionary, but this is not enforced to be a `ProcessingResult` or `AnalysisResult` object. It also modifies variables during the execution flow and is not stateless.\n```",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM001",
+              "severity": "LOW",
+              "reasoning": "The `_open_file` function and related helper functions `_manual_open_command` provide OS-specific file opening functionality. While useful, it's possible this functionality could be achieved through standard library modules like `webbrowser` or a dedicated cross-platform utility library, depending on the specific needs and complexity. There is a chance of reimplementing existing functionality, but the impact is relatively low because of OS-specific functionality."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The orphan analysis integration (orphan_integration) was removed in a remediation pass and the variable `orphan_analysis` is initialized as an empty list but never used. The related import statements are commented out. This represents orphan code."
+            },
+            {
+              "law_id": "AM003",
+              "severity": "MEDIUM",
+              "reasoning": "The code uses `vertexai` in `_generate_ai_insights`. While not inherently malicious, relying on such external AI services without explicit approval or robust error handling introduces a potential supply chain risk. The dependency is not declared in the imports at the top of the file, suggesting a potential configuration issue or undeclared dependency."
+            }
+          ],
+          "critique_summary": "The code exhibits minor context myopia in OS-specific file handling, includes a potentially risky external AI dependency without robust validation, and contains unused orphan code."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: Abstract base class for language-specific edge extraction from source bodies. Its `extract_edges` method operates on a particle (representing a code element) and a dictionary of particles by name.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts 'calls' and 'uses' edges from a single particle's `body_source` using regex, without complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts 'calls' edges from a single particle's `body_source` using regex, without complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Inherits from `JavascriptEdgeStrategy`.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts 'calls' edges from a single particle's `body_source` using regex, without complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts 'calls' edges from a single particle's `body_source` using regex, without complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Fallback strategy for unknown languages, performing no body analysis.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Parses `body_source` as AST and runs queries for call detection.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to extract edges from Python code.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to extract edges from Javascript code and uses `JSModuleResolver` for helping finding corresponding module.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to extract edges from Typescript code.\n- **Deviation**: N/A\n\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: Orchestrates edge extraction by selecting appropriate strategy and uses the output of the strategy which operates on raw file content and AST.\n- **Deviation**: N/A\n\n- **Entity**: `extract_decorator_edges`\n- **Status**: Compliant\n- **Evidence**: Operates on the list of classified particles to create edges.\n- **Deviation**: N/A\n\n- **Entity**: `extract_exposure_edges`\n- **Status**: Compliant\n- **Evidence**: Extracts exposure relationships from raw file content or classified particles.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Non-Compliant\n- **Evidence**: Performs analysis of JS files to resolve module references using AST. This goes beyond simple ingestion and starts performing semantic reasoning to understand module dependencies. It is also used to find corresponding methods on call expressions.\n- **Deviation**: Performs semantic reasoning beyond raw data ingestion, which is the responsibility of a Classifier.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears well-structured and implements the edge extraction logic without obvious antimatter violations."
+        }
+      }
+    }
+  ]
+}

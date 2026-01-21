@@ -302,22 +302,32 @@ function getNodeColor(node) {
 
 ## Current Action Items
 
-### Immediate (This Session)
+### Completed (Jan 21, 2026)
 - [x] Document theory framework (THEORY_EXPANSION_2026.md)
 - [x] Research external theories (RESEARCH_DIRECTIONS.md)
 - [x] Create roadmap (this document)
-- [ ] **START:** Centrality research on Collider itself
+- [x] **Centrality research** on Collider itself via Perplexity API
+- [x] Run centrality analysis on Collider's own graph - **VALIDATED**
+- [x] Document findings in `docs/research/CENTRALITY_ANALYSIS.md`
+- [x] Fetch tree-sitter locals.scm for Python/JS/TS/Go - **DOCUMENTED**
+
+### Validation Results (Jan 21, 2026)
+- `topology_role` computed on 1768 nodes
+- Distribution: 52% internal, 21% leaf, 17% root, 7% orphan, 4% hub
+- Top hub: `layout.js::get` (310 in-degree) - potential risk point
+- See `docs/research/CENTRALITY_ANALYSIS.md` for details
 
 ### Next Session
-- [ ] Run centrality analysis on Collider's own graph
-- [ ] Correlate with git history
-- [ ] Document findings in `docs/research/CENTRALITY_ANALYSIS.md`
+- [ ] Correlate topology_role with git history (change frequency, bug fixes)
+- [ ] Implement betweenness centrality in full_analysis.py
+- [ ] Implement PageRank in full_analysis.py
+- [ ] Investigate 116 orphan nodes (dead code analysis)
 
 ### Future
-- [ ] Tree-sitter scope research
-- [ ] Evolvability formula validation
-- [ ] Interface surface detection
+- [ ] Evolvability formula validation (empirical)
+- [ ] Interface surface detection via Tree-sitter scopes
 - [ ] Flow substance tracking
+- [ ] NST element mapping to SMC atoms
 
 ---
 

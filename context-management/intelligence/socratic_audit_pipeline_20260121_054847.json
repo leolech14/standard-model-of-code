@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_054847",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_054847",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class. It doesn't inherit from any base Stage class. It does implement the functionality of orchestrating multiple analysis steps, acting as a high-level processing unit, so it's semantically similar. It does return a dictionary, which *could* be adapted to fit the `ProcessingResult/AnalysisResult` requirement. It is NOT stateless as it modifies lists and dictionaries within its scope.\n- **Deviation**: Does not inherit from a base Stage class, and is not stateless. Doesn't return a `ProcessingResult/AnalysisResult` type.\n\n- **Entity**: `_generate_ai_insights`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class. It doesn't inherit from any base Stage class. It returns a dictionary or None. It's also not stateless.\n- **Deviation**: Does not inherit from a base Stage class, and is not stateless. Doesn't return a `ProcessingResult/AnalysisResult` type.\n\n- **Entity**: The individual analysis steps within `run_full_analysis` (e.g., \"Stage 1: Base Analysis\", \"Stage 2: Standard Model Enrichment\", etc.)\n- **Status**: Non-Compliant\n- **Evidence**: These are not classes. They are function calls to other modules (e.g., `analyze`, `enrich_with_standard_model`). They do not inherit from a base Stage class.\n- **Deviation**: The individual analysis steps are orchestrated *by* `run_full_analysis`, but they themselves are not Stages.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code shows no antimatter violations; it effectively builds file indices and boundaries, calculates completeness metrics, computes Markov matrices, detects knots, analyzes data flow, and generates AI insights."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: Abstract base class. Derived classes handle ingestion from source code, but do not perform complex reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from Python code using regular expressions. Operates on `body_source`, which is assumed to be raw content. Does not perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from JavaScript code using regular expressions. Operates on `body_source`, which is assumed to be raw content. Does not perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Inherits from JavascriptEdgeStrategy, so it processes raw code content with regex and doesn't do complex semantic analysis.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from Go code using regular expressions on raw source.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from Rust code using regular expressions. Operates on raw `body_source`.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Does not perform any extraction, serves as a fallback.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on an AST generated from raw code (`body_source`). The AST is a form of raw data. It extracts call information.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse and extract calls from Python code.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse JS code, and extracts calls. Also uses `JSModuleResolver` to resolve some JS module calls (using file paths), but module resolution itself is relatively simple and doesn't violate the principle of not doing complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses Tree-sitter to parse TS code, and extracts calls.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Non-Compliant\n- **Evidence**: Performs module resolution by analyzing file content, tracking import aliases, and exports, which can be considered a form of semantic analysis. It attempts to *understand* the module structure, rather than just ingest raw data. Resolving member calls requires some reasoning about the code's intended behavior.\n- **Deviation**: `JSModuleResolver` contains logic that goes beyond raw data ingestion and ventures into semantic reasoning, violating the invariant. The module resolution and alias tracking represent a higher level of understanding than simply extracting raw data.\n\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: Orchestrates the extraction of call edges by using the strategy pattern. Also uses `JSModuleResolver`\n- **Deviation**: Despite delegating most work, using the `JSModuleResolver` taints it.\n\n- **Entity**: `extract_exposure_edges`\n- **Status**: Compliant\n- **Evidence**: Extracts module exposure information. Operates on raw content or `body_source`, using regular expressions.\n- **Deviation**: N/A\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code generally adheres to good practices and doesn't obviously violate any anti-matter laws, although the reliance on regexes could be improved with tree-sitter and module resolution is a bit fuzzy."
+        }
+      }
+    }
+  ]
+}

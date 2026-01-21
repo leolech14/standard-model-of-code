@@ -579,16 +579,20 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     if graph_inference_report.get('total_inferred', 0) > 0:
         output.architecture['analysis_status'] = "applied"
     
-    # Save output
-    if output_dir:
-        out_path = Path(output_dir)
-    else:
-        out_path = target / "collider_output" if target.is_dir() else target.parent / "collider_output"
-    
-    out_path.mkdir(parents=True, exist_ok=True)
-    output_file = out_path / "unified_analysis.json"
-    output.save(str(output_file))
-    
+    # Save output (unless write_output=False, used when called from full_analysis.py)
+    write_output = options.get('write_output', True)
+    output_file = None
+
+    if write_output:
+        if output_dir:
+            out_path = Path(output_dir)
+        else:
+            out_path = target / "collider_output" if target.is_dir() else target.parent / "collider_output"
+
+        out_path.mkdir(parents=True, exist_ok=True)
+        output_file = out_path / "unified_analysis.json"
+        output.save(str(output_file))
+
     # =========================================================================
     # SUMMARY
     # =========================================================================
@@ -598,8 +602,9 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     print(f"   Edges: {output.stats['total_edges']}")
     print(f"   Coverage: {output.stats['coverage_percentage']:.1f}%")
     print(f"   Time: {analysis_time_ms}ms")
-    print(f"   Output: {output_file}")
-    
+    if output_file:
+        print(f"   Output: {output_file}")
+
     return output
 
 

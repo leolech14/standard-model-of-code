@@ -548,10 +548,19 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/panels.js",                # Panel management
         "modules/sidebar.js",               # Sidebar controls
         "modules/edge-system.js",           # Edge coloring & modes
-        "modules/file-viz.js",              # File visualization modes
+        "modules/file-color-model.js",       # Pure color generation (zero deps)
+        "modules/layout-forces.js",          # D3 force manipulation (takes graph as arg)
+        "modules/hull-visualizer.js",        # SDF-based organic membranes
+        "modules/file-viz.js",              # File visualization controller (thin orchestrator)
         "modules/tooltips.js",              # Tooltip & toast notifications
         "modules/theme.js",                 # Theme management (needs toast)
-        "modules/control-bar.js",           # Visual mapping command bar
+        # UPB Module (Universal Property Binder) - BEFORE control-bar.js
+        "modules/upb/scales.js",            # Scale functions (no deps)
+        "modules/upb/endpoints.js",         # Source/target schemas (no deps)
+        "modules/upb/blenders.js",          # Blend modes (no deps)
+        "modules/upb/bindings.js",          # Binding graph (needs scales, endpoints)
+        "modules/upb/index.js",             # Public API (needs all above)
+        "modules/control-bar.js",           # Visual mapping command bar (uses UPB)
         "modules/main.js",                  # Entry point + wiring
         "modules/circuit-breaker.js",       # UI control self-test (run with CIRCUIT.runAll())
     ]

@@ -1,0 +1,118 @@
+{
+  "timestamp": "20260121_103230",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_103230",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: The functions that act as processing units in the `run_full_analysis` pipeline (e.g., `enrich_with_standard_model`, `detect_purpose_field`, `detect_knots`, `compute_markov_matrix`).\n- **Status**: Non-Compliant\n- **Evidence**: The main `run_full_analysis` function orchestrates a sequence of processing steps, explicitly labeled with comments like \"Stage 1\", \"Stage 2\", etc. Each of these steps is implemented as a call to a standalone function. For example:\n  ```python\n  # Stage 3: Purpose Field\n  print(\"\\n\ud83c\udfaf Stage 3: Purpose Field...\")\n  with StageTimer(perf_manager, \"Stage 3: Purpose Field\") as timer:\n      purpose_field = detect_purpose_field(nodes, edges)\n      ...\n  \n  # Stage 6: Knot Detection\n  print(\"\\n\ud83d\udd17 Stage 6: Knot/Cycle Detection...\")\n  with StageTimer(perf_manager, \"Stage 6: Knot/Cycle Detection\") as timer:\n      knots = detect_knots(nodes, edges)\n      ...\n  ```\n- **Deviation**: The implementation pattern for these processing units deviates from the `Stage` concept's invariants in several ways:\n    1.  **No Inheritance**: The stages are implemented as regular functions, not classes. Therefore, they do not and cannot inherit from a common `BaseStage` class.\n    2.  **No Standard Method Name**: The functions have specific, descriptive names (e.g., `detect_knots`, `compute_data_flow`) rather than a standardized `execute` or `run` method name.\n    3.  **No Standard Result Format**: The functions return various data structures. For example, `detect_knots` returns a dictionary, while `detect_purpose_field` returns a custom object with a `.summary()` method. There is no single, standard `ProcessingResult` or `AnalysisResult` class used consistently across all stages.\n    4.  **Potential Statefulness**: The principle of statelessness is violated by at least one function. `compute_markov_matrix` modifies its `edges` input list in-place by adding a `markov_weight` key to each edge dictionary, which is a side effect.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM001",
+              "severity": "HIGH",
+              "reasoning": "The `_generate_ai_insights` function uses `subprocess` to execute another Python script (`analyze.py`) from the same project. This is a form of Context Myopia, creating a brittle, inefficient, and opaque integration. A direct import and function call would be more robust, performant, and maintainable, allowing for static analysis and direct data passing without temporary files."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "HIGH",
+              "reasoning": "The function `classify_disconnection` is defined in detail at the top of the file but is never called within the `run_full_analysis` execution flow. An orchestrator script like this should only contain functions that it directly uses in its pipeline. This function is either dead code or is incorrectly located, making it an orphan within the context of this file's primary execution path."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "MEDIUM",
+              "reasoning": "The code imports `FileEnricher` from `src.core.file_enricher` but this class is never used anywhere in the file. This represents orphan code that adds unnecessary dependency and cognitive overhead."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "MEDIUM",
+              "reasoning": "The `detect_knots` function implements a custom, simplified, and bounded algorithm for detecting cycles in a graph. This ignores the existence of robust, correct, and optimized solutions in standard libraries (e.g., `networkx`). Reimplementing fundamental algorithms without a compelling, documented reason is a common form of context myopia that introduces risk and maintenance burden."
+            }
+          ],
+          "critique_summary": "While the code correctly orchestrates a multi-stage analysis pipeline, it suffers from significant architectural flaws, including brittle process-based integrations instead of direct imports and the presence of substantial orphan code blocks."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The class is designed to ingest raw data to prepare it for another component. It satisfies the invariants:\n    1.  **Operates on raw file content or AST**: The `_enrich_from_source` method reads raw file content using `file_path.read_text(...)`, and the `_enrich_from_ast` method operates on an AST generated by `ast.parse(source)`.\n    2.  **Does not perform complex semantic reasoning**: The class's primary role is to aggregate data (code excerpts, docstrings, decorators, imports) into a `ComponentCard`. Its docstring explicitly states it \"prepares data for the LLM classifier,\" deferring the reasoning task. Methods like `_infer_layer` use simple path-based pattern matching, which is a heuristic for data enrichment, not complex semantic classification.\n- **Deviation**: None.\n\n---\n- **Entity**: `EdgeExtractionStrategy` (and its concrete implementations like `PythonEdgeStrategy`, `TreeSitterEdgeStrategy`, `JavaScriptTreeSitterStrategy`)\n- **Status**: Compliant\n- **Evidence**: This family of classes is responsible for extracting relationship data (edges) from source code. It satisfies the invariants:\n    1.  **Operates on raw file content or AST**: The strategies use one of two methods: regex-based analysis on raw code strings (`re.findall(..., body)`) as seen in `PythonEdgeStrategy`, or parsing the source code into a syntax tree (`self.parser.parse(source_bytes)`) as seen in `TreeSitterEdgeStrategy`.\n    2.  **Does not perform complex semantic reasoning**: The goal is to identify structural relationships like function calls and inheritance. While the `JSModuleResolver` used by `JavaScriptTreeSitterStrategy` is sophisticated, its reasoning is structural (resolving import aliases and variable references to build a call graph), not semantic (determining the architectural role or intent of a component). This is a complex data extraction task, not a classification task.\n- **Deviation**: None.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM004",
+              "severity": "HIGH",
+              "reasoning": "A substantial component, the 'JSModuleResolver', is effectively orphaned. This class, along with its helper functions and the 'tree-sitter' JavaScript parser setup, is designed for resolving JS modules but lacks a caller within the provided code. The expected 'JavaScriptEdgeStrategy' that would utilize this complex mechanism is absent, rendering a large portion of the file's logic disconnected and unused."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "MEDIUM",
+              "reasoning": "The 'PythonEdgeStrategy' is noted to rely on 'regex-based heuristics'. This approach demonstrates context myopia by ignoring the more powerful and accurate 'tree-sitter' library, which is already imported and configured for other languages within the project's context. A consistent, AST-based approach should be used for all supported languages to avoid duplicated effort and brittle implementations."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "LOW",
+              "reasoning": "The component architecture drifts towards a less maintainable state by implementing the 'JSModuleResolver' as a global singleton ('_js_module_resolver'). This pattern introduces hidden state and couples components implicitly, violating the principle of explicit dependencies and making the system harder to test and reason about compared to passing the resolver as a direct argument."
+            }
+          ],
+          "critique_summary": "The extractor is non-compliant due to significant architectural issues, including a large block of orphaned JavaScript resolution logic and a myopic, inconsistent strategy for Python analysis."
+        }
+      }
+    }
+  ]
+}

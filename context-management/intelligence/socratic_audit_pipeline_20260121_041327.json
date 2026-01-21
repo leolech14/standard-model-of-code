@@ -1,0 +1,39 @@
+{
+  "timestamp": "20260121_041327",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_041327",
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ]
+      },
+      "result": {
+        "verified": false,
+        "reason": "No candidates found"
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ]
+      },
+      "result": {
+        "verified": false,
+        "reason": "No candidates found"
+      }
+    }
+  ]
+}

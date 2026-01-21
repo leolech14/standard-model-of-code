@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temporal Semantic Map - PROJECT_elements</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(255,0,170,0.1));
+            padding: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 { color: #fff; margin-bottom: 10px; font-size: 2.5em; }
+        .subtitle { color: #888; }
+
+        .temporal-nav {
+            display: flex;
+            gap: 20px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            color: #888;
+            background: transparent;
+        }
+        .nav-btn.active {
+            background: linear-gradient(135deg, #00d4ff, #ff00aa);
+            color: #fff;
+        }
+        .nav-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .content { padding: 40px; }
+
+        .temporal-section {
+            display: none;
+        }
+        .temporal-section.active {
+            display: block;
+        }
+
+        /* Past Section */
+        .epoch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        .epoch-card {
+            background: rgba(0,212,255,0.05);
+            border: 1px solid rgba(0,212,255,0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .epoch-card h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+        .epoch-date { color: #666; font-size: 0.85em; margin-bottom: 10px; }
+        .epoch-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(0,212,255,0.2);
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+        .epoch-narrative { color: #aaa; line-height: 1.6; font-size: 0.9em; }
+
+        /* Present Section */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .metric-value.health-A { color: #00ff88; }
+        .metric-value.health-high { color: #ff4488; }
+        .metric-label { color: #888; font-size: 0.9em; }
+
+        .concerns-section {
+            background: rgba(255,0,68,0.05);
+            border: 1px solid rgba(255,0,68,0.2);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        .concerns-section h3 { color: #ff4488; margin-bottom: 15px; }
+        .concern-list { list-style: none; }
+        .concern-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .concern-list li:last-child { border: none; }
+
+        /* Future Section */
+        .vision-statement {
+            background: linear-gradient(135deg, rgba(255,0,170,0.1), rgba(0,212,255,0.1));
+            border: 1px solid rgba(255,0,170,0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .milestone-timeline {
+            position: relative;
+            padding-left: 80px;
+        }
+        .milestone-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff00aa, #00d4ff);
+        }
+        .milestone {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .milestone::before {
+            content: '';
+            position: absolute;
+            left: -58px;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #ff00aa;
+            border-radius: 50%;
+            border: 4px solid #0a0a0f;
+        }
+        .milestone-day {
+            position: absolute;
+            left: -120px;
+            top: 25px;
+            width: 60px;
+            text-align: right;
+            color: #ff00aa;
+            font-weight: 700;
+        }
+        .milestone h4 { color: #fff; margin-bottom: 10px; font-size: 1.2em; }
+        .milestone p { color: #aaa; line-height: 1.6; }
+
+        /* Summary Section */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .summary-card {
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .summary-card.past {
+            background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        .summary-card.present {
+            background: rgba(136,255,0,0.1);
+            border: 1px solid rgba(136,255,0,0.3);
+        }
+        .summary-card.future {
+            background: rgba(255,0,170,0.1);
+            border: 1px solid rgba(255,0,170,0.3);
+        }
+        .summary-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .summary-card.past h3 { color: #00d4ff; }
+        .summary-card.present h3 { color: #88ff00; }
+        .summary-card.future h3 { color: #ff00aa; }
+        .summary-card .big-num {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fff;
+        }
+        .summary-card .desc { color: #888; margin-top: 10px; }
+
+        /* Links */
+        .links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .link-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        .link-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Temporal Semantic Map</h1>
+        <p class="subtitle">PROJECT_elements - Past, Present, and Future unified</p>
+        <p class="subtitle" style="margin-top: 10px; color: #666;">Generated: January 21, 2026</p>
+    </div>
+
+    <div class="temporal-nav">
+        <button class="nav-btn active" onclick="showSection('summary')">Overview</button>
+        <button class="nav-btn" onclick="showSection('past')">Past (Evolution)</button>
+        <button class="nav-btn" onclick="showSection('present')">Present (Architecture)</button>
+        <button class="nav-btn" onclick="showSection('future')">Future (Roadmap)</button>
+    </div>
+
+    <div class="content">
+        <!-- SUMMARY SECTION -->
+        <div id="summary" class="temporal-section active">
+            <div class="summary-grid">
+                <div class="summary-card past">
+                    <h3>PAST</h3>
+                    <div class="big-num">4</div>
+                    <div class="desc">Epochs analyzed<br>Dec 2025 - Jan 2026</div>
+                    <div class="links">
+                        <a href="../evolution_report/evolution_timeline.html" class="link-btn">View Timeline</a>
+                    </div>
+                </div>
+                <div class="summary-card present">
+                    <h3>PRESENT</h3>
+                    <div class="big-num">A</div>
+                    <div class="desc">Health Score<br>1,716 nodes analyzed</div>
+                    <div class="links">
+                        <a href="../architecture_report/architecture_report.html" class="link-btn">View Report</a>
+                    </div>
+                </div>
+                <div class="summary-card future">
+                    <h3>FUTURE</h3>
+                    <div class="big-num">90</div>
+                    <div class="desc">Day roadmap<br>3 key milestones</div>
+                    <div class="links">
+                        <a href="../roadmap_report/roadmap.html" class="link-btn">View Roadmap</a>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="color: #fff; margin-bottom: 20px;">Key Insights</h2>
+
+            <div style="display: grid; gap: 20px;">
+                <div class="metric-card" style="text-align: left;">
+                    <h4 style="color: #00d4ff; margin-bottom: 15px;">Evolution Trajectory</h4>
+                    <p style="color: #aaa; line-height: 1.6;">
+                        From <strong>Spectrometer V7 development</strong> (Dec 2025) through <strong>legacy cleanup</strong>
+                        to <strong>Collider analysis and documentation</strong> (Jan 2026). The codebase has matured from
+                        experimental feature development to comprehensive documentation and knowledge consolidation.
+                    </p>
+                </div>
+
+                <div class="metric-card" style="text-align: left;">
+                    <h4 style="color: #88ff00; margin-bottom: 15px;">Current State</h4>
+                    <p style="color: #aaa; line-height: 1.6;">
+                        <strong>Health Score: A</strong> with 1,716 nodes and 4,243 edges. Zero dead code percentage.
+                        However, <strong>high technical debt</strong> due to the <code>app.js</code> monolith which exhibits
+                        a "random web" architecture pattern, O(n2) flock simulation, and circular overrides.
+                    </p>
+                </div>
+
+                <div class="metric-card" style="text-align: left;">
+                    <h4 style="color: #ff00aa; margin-bottom: 15px;">Projected Path</h4>
+                    <p style="color: #aaa; line-height: 1.6;">
+                        90-day plan to modularize <code>app.js</code>: <strong>Day 30</strong> - UIManager Facade,
+                        <strong>Day 60</strong> - UI Logic Extraction, <strong>Day 90</strong> - DataManager Interface.
+                        Focus on wrapping, not replacing, to minimize disruption while establishing clear boundaries.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAST SECTION -->
+        <div id="past" class="temporal-section">
+            <h2 style="color: #00d4ff; margin-bottom: 20px;">Repository Evolution</h2>
+            <p style="color: #888; margin-bottom: 30px;">4 epochs spanning December 2025 to January 2026</p>
+
+            <div class="epoch-grid">
+                <div class="epoch-card">
+                    <h3>Epoch 1: Spectrometer V7</h3>
+                    <p class="epoch-date">Dec 03 - Dec 17, 2025</p>
+                    <span class="epoch-type">Feature Development</span>
+                    <p class="epoch-narrative">
+                        Intensive feature development focused on 'spectrometer' component spanning V2-V9.
+                        Significant testing, validation, and failure analysis. Experimentation with 'haiku'
+                        versions suggesting new architectures. Push toward stabilization.
+                    </p>
+                </div>
+
+                <div class="epoch-card">
+                    <h3>Epoch 2: Legacy Archival</h3>
+                    <p class="epoch-date">Dec 17 - Dec 31, 2025</p>
+                    <span class="epoch-type">Archival/Cleanup</span>
+                    <p class="epoch-narrative">
+                        Focused on archiving and cleaning up old code and dependencies. Created
+                        'spectrometer_benchmarks_legacy' directory. Cleanup of obsolete code into
+                        'zombie_code' for future reference.
+                    </p>
+                </div>
+
+                <div class="epoch-card">
+                    <h3>Epoch 3: Collider Analysis</h3>
+                    <p class="epoch-date">Dec 31, 2025 - Jan 14, 2026</p>
+                    <span class="epoch-type">Analysis & Reporting</span>
+                    <p class="epoch-narrative">
+                        Centered around analyzing the Collider Tool. Created unified_analysis.json and
+                        collider_report.html. Documented theoretical basis and strategic implications.
+                        Formal analysis pipeline established.
+                    </p>
+                </div>
+
+                <div class="epoch-card">
+                    <h3>Epoch 4: Documentation</h3>
+                    <p class="epoch-date">Jan 14 - Jan 28, 2026</p>
+                    <span class="epoch-type">Knowledge Consolidation</span>
+                    <p class="epoch-narrative">
+                        Strong focus on documentation. Created markdown files covering workflows, project
+                        maps, system commands, theories, and data schemas. Deliberate effort to organize
+                        and categorize the project's knowledge base.
+                    </p>
+                </div>
+            </div>
+
+            <div class="links" style="margin-top: 30px;">
+                <a href="../evolution_report/evolution_timeline.html" class="link-btn">Full Evolution Timeline</a>
+            </div>
+        </div>
+
+        <!-- PRESENT SECTION -->
+        <div id="present" class="temporal-section">
+            <h2 style="color: #88ff00; margin-bottom: 20px;">Current Architecture</h2>
+            <p style="color: #888; margin-bottom: 30px;">Collider analysis of standard-model-of-code</p>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value health-A">A</div>
+                    <div class="metric-label">Health Score</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1,716</div>
+                    <div class="metric-label">Nodes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">4,243</div>
+                    <div class="metric-label">Edges</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">0%</div>
+                    <div class="metric-label">Dead Code</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value health-high">HIGH</div>
+                    <div class="metric-label">Technical Debt</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2.47</div>
+                    <div class="metric-label">Avg Edges/Node</div>
+                </div>
+            </div>
+
+            <div class="concerns-section">
+                <h3>Critical Concerns</h3>
+                <ul class="concern-list">
+                    <li><strong>Monolithic app.js</strong> - Lacks clear call hierarchy, "random web" architecture</li>
+                    <li><strong>O(n2) flock simulation</strong> - Performance bottleneck impacting scalability</li>
+                    <li><strong>Circular overrides</strong> - Graph.linkOpacity() and Graph.nodeColor() have architectural disconnects</li>
+                    <li><strong>Multiple animation systems</strong> - Potential race conditions and conflicts</li>
+                    <li><strong>Stale code presence</strong> - PHYSICS_STATE and APPEARANCE_STATE contain dead code</li>
+                </ul>
+            </div>
+
+            <h3 style="color: #fff; margin-bottom: 15px;">Role Distribution</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" style="font-size: 2em;">473</div>
+                    <div class="metric-label">Utility</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="font-size: 2em;">449</div>
+                    <div class="metric-label">Internal</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="font-size: 2em;">207</div>
+                    <div class="metric-label">Query</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="font-size: 2em;">140</div>
+                    <div class="metric-label">Asserter</div>
+                </div>
+            </div>
+
+            <div class="links" style="margin-top: 30px;">
+                <a href="../architecture_report/architecture_report.html" class="link-btn">Full Architecture Report</a>
+            </div>
+        </div>
+
+        <!-- FUTURE SECTION -->
+        <div id="future" class="temporal-section">
+            <h2 style="color: #ff00aa; margin-bottom: 20px;">90-Day Roadmap</h2>
+            <p style="color: #888; margin-bottom: 30px;">Goal: Modularize app.js monolith and reduce technical debt</p>
+
+            <div class="vision-statement">
+                In 90 days, the codebase will have begun the process of modularizing the app.js monolith
+                by introducing a UIManager facade. Initial refactoring efforts will focus on extracting
+                UI-related logic into this facade, establishing clear boundaries, and improving testability.
+                This will set the stage for more comprehensive modularization in subsequent phases.
+            </div>
+
+            <h3 style="color: #fff; margin-bottom: 20px;">Key Milestones</h3>
+            <div class="milestone-timeline">
+                <div class="milestone">
+                    <div class="milestone-day">Day 30</div>
+                    <h4>UIManager Facade Implementation</h4>
+                    <p>Implement the UIManager facade pattern, encapsulating existing global UI variables
+                    and methods. Focus on wrapping, not replacing, existing functionality to minimize
+                    disruption. Establish initial unit tests for the UIManager.</p>
+                </div>
+
+                <div class="milestone">
+                    <div class="milestone-day">Day 60</div>
+                    <h4>UI Logic Extraction</h4>
+                    <p>Extract UI-related logic from app.js into the UIManager. Begin with non-critical
+                    functions related to button clicks and UI rendering. Monitor for performance regressions
+                    and architectural conflicts during this extraction process.</p>
+                </div>
+
+                <div class="milestone">
+                    <div class="milestone-day">Day 90</div>
+                    <h4>DataManager Interface Definition</h4>
+                    <p>Define a clear DataManager interface to handle the application's data layer.
+                    Map all function call relationships related to data access to prepare for future
+                    extraction into the DataManager. Document API and initial use cases.</p>
+                </div>
+            </div>
+
+            <h3 style="color: #fff; margin: 30px 0 20px;">Immediate Priorities</h3>
+            <div style="display: grid; gap: 15px;">
+                <div class="metric-card" style="text-align: left; display: flex; align-items: center; gap: 20px;">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff00aa, #00d4ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
+                    <div>
+                        <div style="color: #fff; margin-bottom: 5px;">Implement UIManager Facade Pattern</div>
+                        <span style="background: rgba(255,0,68,0.2); color: #ff4488; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 8px;">Impact: High</span>
+                        <span style="background: rgba(255,136,0,0.1); color: #ff8800; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">Effort: Medium</span>
+                    </div>
+                </div>
+                <div class="metric-card" style="text-align: left; display: flex; align-items: center; gap: 20px;">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff00aa, #00d4ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
+                    <div>
+                        <div style="color: #fff; margin-bottom: 5px;">Identify UI Logic within app.js for extraction</div>
+                        <span style="background: rgba(255,0,68,0.2); color: #ff4488; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 8px;">Impact: High</span>
+                        <span style="background: rgba(255,136,0,0.1); color: #ff8800; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">Effort: Medium</span>
+                    </div>
+                </div>
+                <div class="metric-card" style="text-align: left; display: flex; align-items: center; gap: 20px;">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #ff00aa, #00d4ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
+                    <div>
+                        <div style="color: #fff; margin-bottom: 5px;">Document current state of global UI variables</div>
+                        <span style="background: rgba(255,136,0,0.2); color: #ff8800; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 8px;">Impact: Medium</span>
+                        <span style="background: rgba(0,255,136,0.1); color: #00ff88; padding: 2px 8px; border-radius: 4px; font-size: 0.8em;">Effort: Low</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="links" style="margin-top: 30px;">
+                <a href="../roadmap_report/roadmap.html" class="link-btn">Full Roadmap Report</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.temporal-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

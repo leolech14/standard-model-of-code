@@ -1,0 +1,97 @@
+{
+  "timestamp": "20260121_081013",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_081013",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "Okay, I will analyze the provided code to identify potential \"Stage\" classes/functions and verify their compliance with the given invariants.\n\n### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is the main orchestrator function, and doesn't inherit from a `BaseStage` class. It calls multiple analysis functions. It returns a dictionary. Its modifications are localized and doesn't inherently maintain state, so is mostly stateless.\n- **Deviation**: Fails to inherit from a base Stage class. Implements more of an orchestrator than a Stage object.\n\n- **Entity**: `analyze` (from `unified_analysis.py`)\n- **Status**: Likely Compliant (Assuming adherence to invariants within `unified_analysis.py`)\n- **Evidence**: As per documentation: `result = analyze(str(target), output_dir=str(resolved_output_dir), write_output=False, **analysis_options)`. It should act as a Stage object. I don't have the codebase for this module so I can only assume.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `enrich_with_standard_model`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `nodes = enrich_with_standard_model(nodes)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `discover_ecosystem_unknowns`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `ecosystem_discovery = discover_ecosystem_unknowns(nodes)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `classify_all_dimensions`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `dim_count = classify_all_dimensions(nodes)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `detect_purpose_field`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `purpose_field = detect_purpose_field(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `detect_execution_flow`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `exec_flow = detect_execution_flow(nodes, edges, purpose_field)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `compute_markov_matrix`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `markov = compute_markov_matrix(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `detect_knots`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `knots = detect_knots(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: Graph Analytics block using `find_bottlenecks`, `find_pagerank`, `find_communities`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definitions)\n- **Evidence**: They are acting as individual analytics sub-stages. It is a stateless functions that transforms nodes from previous stage.\n- **Deviation**: Assuming they adheres to the given invariants.\n\n- **Entity**: `compute_all_metrics`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `statistical_metrics = compute_all_metrics(nodes)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `compute_data_flow`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `data_flow = compute_data_flow(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `predict_performance`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `perf = predict_performance(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `ConstraintEngine.validate_graph`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `constraint_report = engine.validate_graph(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `RoadmapEvaluator.evaluate`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `roadmap_result = evaluator.evaluate(all_files)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `TopologyClassifier.classify`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `topology_result = topo.classify(nodes, edges)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `ConceptExtractor.extract_concepts`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `semantics = cortex.extract_concepts(nodes)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `FileEnricher.enrich_boundaries`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `file_boundaries = enricher.enrich_boundaries(file_boundaries)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n- **Entity**: `_generate_ai_insights`\n- **Status**: Likely Compliant (Assuming adherence to invariants within the function definition)\n- **Evidence**: As per documentation: `ai_insights = _generate_ai_insights(full_output, out_path, options)`. It should act as a Stage object. It is a stateless function that transforms nodes from previous stage.\n- **Deviation**: Assuming it adheres to the given invariants.\n\n",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM001",
+              "severity": "LOW",
+              "reasoning": "The code includes several functions for file system operations (e.g., `_resolve_output_dir`, `_find_latest_html`, `_open_file`, `_manual_open_command`) and OS interaction. While these functions are relatively small, there is a possibility that similar functionalities already exist within standard Python libraries (like `os`, `pathlib`, `subprocess`) or project-specific utility modules. Need deeper review for duplication."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "MEDIUM",
+              "reasoning": "The `full_analysis.py` script serves as the entry point for the full analysis pipeline, orchestrating various stages. The code directly imports and calls functions from multiple modules (e.g., `unified_analysis`, `standard_model_enricher`, `purpose_field`, `execution_flow`, etc.), which might indicate an architectural drift towards a god-object pattern. This Stage role needs to primarily orchestrate calls, not embody deep logic of each stage. The mixing of orchestration with specific logic from other modules needs deeper inspection to ensure layering is well respected."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "Stage 4.5 (Orphan Integration Analysis) was REMOVED. There is evidence the code was integrated previously but later abandoned. Need to confirm this is no longer necessary and fully removed."
+            }
+          ],
+          "critique_summary": "The code exhibits potential violations related to context myopia (file handling), architectural drift (Stage orchestrating detailed logic), and orphan code (legacy analysis stage), warranting further investigation."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The `SmartExtractor` class focuses on extracting raw data and structural context from code files using AST parsing and string manipulation. It reads file content, extracts code excerpts, infers folder layers, collects import statements, and parses AST for decorators, base classes, and docstrings.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_source` method\n- **Status**: Compliant\n- **Evidence**: This method directly reads the content of files, extracts code snippets, and extracts import statements and uses basic string operations and the `ast` module. It does not perform semantic analysis.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_ast` method\n- **Status**: Compliant\n- **Evidence**: This method utilizes `ast.parse` to analyze the structure of the code to extract decorators, base classes, and docstrings. It does not do semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `_extract_imports` method\n- **Status**: Compliant\n- **Evidence**: This method parses the AST to extract import statements. It falls back to regex if the AST parsing fails due to syntax errors. This method focuses on extracting raw data, not semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `EdgeExtractionStrategy` and subclasses\n- **Status**: Compliant\n- **Evidence**: The `EdgeExtractionStrategy` and its subclasses (`PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `TypeScriptEdgeStrategy`, `GoEdgeStrategy`, `RustEdgeStrategy`, `DefaultEdgeStrategy`, `TreeSitterEdgeStrategy`, `PythonTreeSitterStrategy`, `JavaScriptTreeSitterStrategy`, `TypeScriptTreeSitterStrategy`) focus on extracting \"calls\" and \"uses\" edges from the `body_source` of code elements. While they use regex or tree-sitter parsers, the primary goal is to identify relationships based on syntax (function calls, attribute access), not to perform complex semantic reasoning about what the code does.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Compliant\n- **Evidence**: The `JSModuleResolver` extracts module aliases and exports from Javascript files, which is essentially extracting import/export information. While it resolves member calls, the logic is limited to resolving aliases and identifying the target based on names and file paths. It does not perform deep semantic analysis of how the modules are being used.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The PythonEdgeStrategy.extract_edges method has only stub logic and no immediately obvious Antimatter violations."
+        }
+      }
+    }
+  ]
+}

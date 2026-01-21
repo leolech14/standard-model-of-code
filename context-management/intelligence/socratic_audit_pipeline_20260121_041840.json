@@ -1,0 +1,74 @@
+{
+  "timestamp": "20260121_041840",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_041840",
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class inheriting from a base stage. While it orchestrates the analysis pipeline conceptually as stages, it doesn't adhere to the technical definition of a stage.\n- **Deviation**: Does not inherit from a base Stage class. Does not implement an `execute` or `run` method.\n\n- **Entity**: `PerformanceManager` (from `observability` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `PerformanceManager` is not available in the provided code.\n\n- **Entity**: `StageTimer` (from `observability` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `StageTimer` is not available in the provided code.\n\n- **Entity**: `analyze` (from `unified_analysis` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `analyze` is not available in the provided code.\n\n- **Entity**: `enrich_with_standard_model` (from `standard_model_enricher` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `enrich_with_standard_model` is not available in the provided code.\n\n- **Entity**: `detect_purpose_field` (from `purpose_field` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `detect_purpose_field` is not available in the provided code.\n\n- **Entity**: `detect_execution_flow` (from `execution_flow` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `detect_execution_flow` is not available in the provided code.\n\n- **Entity**: `predict_performance` (from `performance_predictor` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `predict_performance` is not available in the provided code.\n\n- **Entity**: `RoadmapEvaluator` (from `roadmap_evaluator` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `RoadmapEvaluator` is not available in the provided code.\n\n- **Entity**: `TopologyClassifier` (from `topology_reasoning` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `TopologyClassifier` is not available in the provided code.\n\n- **Entity**: `ConceptExtractor` (from `semantic_cortex` module, imported but not shown in code)\n- **Status**: Cannot Assess\n- **Evidence**: Information about `ConceptExtractor` is not available in the provided code.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates a well-structured approach to static code analysis, integrating various analysis stages and addressing potential anti-matter violations, with no immediate violations detected."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: This is an abstract base class for language-specific edge extraction from source bodies. It defines the `extract_edges` method, which takes a particle and a dictionary of particles by name as input. It does not perform any complex semantic reasoning. This aligns with operating on the 'raw data' aspect, leaving semantic interpretation to other components.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on the `body_source` of a particle, using regular expressions to find function calls and attribute accesses. It does not perform complex semantic reasoning; it simply identifies potential calls based on patterns in the raw text.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Similar to `PythonEdgeStrategy`, it operates on the `body_source` using regular expressions to find function calls and constructor calls. It adheres to the invariant of not performing complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Inherits from `JavascriptEdgeStrategy` and thus operates on the `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on the `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on the `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: It simply returns an empty list of edges, performing no data ingestion.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: This class utilizes tree-sitter to parse source code and extract calls based on AST node types.  The `extract_callee_name` function extracts the method name from the AST. The class operates on the AST and the source bytes, but does not attempt any semantic understanding beyond identifying call sites based on syntax.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates using tree-sitter AST parsing, does not perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates using tree-sitter AST parsing.  While it uses `JSModuleResolver`, this resolver only deals with module aliases and exports and does not perform deeper semantic analysis of the code.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates using tree-sitter AST parsing, does not perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: This function orchestrates the extraction of call relationships. It uses the `EdgeExtractionStrategy` classes to extract edges from the body source of particles. JSModuleResolver helps to resolve module references. It processes raw imports and file contents. No complex semantic reasoning is performed here.\n- **Deviation**: N/A\n\n- **Entity**: `extract_exposure_edges`\n- **Status**: Compliant\n- **Evidence**: Operates on raw file content to identify exported symbols. Uses regular expressions.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates good modularity and follows the stated design role of extracting relationships between code elements, and no anti-matter violations were detected."
+        }
+      }
+    }
+  ]
+}

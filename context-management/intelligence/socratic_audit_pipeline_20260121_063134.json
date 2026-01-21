@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_063134",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_063134",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: _resolve_output_dir\n- **Status**: Non-Compliant\n- **Evidence**: This is a helper function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: _find_latest_html\n- **Status**: Non-Compliant\n- **Evidence**: This is a helper function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: _open_file\n- **Status**: Non-Compliant\n- **Evidence**: This is a helper function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: _manual_open_command\n- **Status**: Non-Compliant\n- **Evidence**: This is a helper function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: build_file_index\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: build_file_boundaries\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: _calculate_theory_completeness\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: compute_markov_matrix\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: detect_knots\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: compute_data_flow\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: _generate_ai_insights\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n\n- **Entity**: run_full_analysis\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class, and doesn't implement 'execute' or 'run'. It orchestrates the whole analysis but is not a Stage itself.\n- **Deviation**: Does not inherit from a base Stage class, nor does it implement 'execute' or 'run'.\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code demonstrates a well-structured approach to static code analysis, incorporating multiple stages for enriching and analyzing the codebase, with good error handling and modular design, thus adhering to the principles of 'Antimatter' laws."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: This is an abstract base class. Subclasses are responsible for extracting edges from the `body_source` of a particle, which can be considered the raw file content (or AST representation). The class itself doesn't perform semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` using regular expressions to find function calls and attribute accesses.  This is a form of raw data ingestion, albeit a simple one, and does not involve complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` using regular expressions to identify function calls and instantiations.  This is a form of raw data ingestion, albeit a simple one, and does not involve complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Inherits from `JavascriptEdgeStrategy`, so it operates in the same manner on `body_source` using regex.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` using regular expressions.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**:  This strategy performs no extraction.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source` by parsing it into an AST using Tree-sitter and then querying the AST to extract calls. This is operating on an AST, and while Tree-sitter provides structured data, the extraction itself doesn't perform complex semantic reasoning. It focuses on identifying call patterns from the AST structure.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**:  Operates on `body_source`'s AST.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source`'s AST, and uses the resolver to find possible references to other modules. The logic is extracting the dependencies from the AST generated from the raw code, rather than performing complex semantic analysis.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Operates on `body_source`'s AST.\n- **Deviation**: N/A\n\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: Orchestrates the edge extraction process. It uses the `EdgeExtractionStrategy` instances to extract the call edges, and is responsible for reading the raw content when available.\n- **Deviation**: N/A\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears to adhere to the specified architectural principles and does not exhibit any immediate Antimatter violations."
+        }
+      }
+    }
+  ]
+}

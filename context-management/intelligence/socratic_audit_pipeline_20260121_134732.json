@@ -1,0 +1,103 @@
+{
+  "timestamp": "20260121_134732",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_134732",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: Analysis Stage Functions (e.g., `compute_markov_matrix`, `detect_knots`, `enrich_with_standard_model`, `detect_purpose_field`)\n- **Status**: Non-Compliant\n- **Evidence**: The analysis pipeline is orchestrated within the `run_full_analysis` function. This function calls a series of helper functions, each corresponding to a conceptual \"Stage\" as indicated by the comments and print statements (e.g., `print(\"\\n\ud83d\udcca Stage 5: Markov Transition Matrix...\")`, `markov = compute_markov_matrix(nodes, edges)`). These functions act as the processing units in the pipeline.\n- **Deviation**: The implementation uses a procedural pattern of sequential function calls, which violates the object-oriented contract specified in the Semantic Definition.\n    - **Inheritance**: The stages are implemented as standalone functions (e.g., `compute_markov_matrix`, `detect_knots`) or methods on disparate classes (`ConstraintEngine.validate_graph`). They are not classes that inherit from a common `BaseStage`.\n    - **Method Signature**: There is no standardized `execute` or `run` method. Each stage is invoked by its unique function name.\n    - **Return Format**: The functions do not return a standard result format. They return a mix of different dictionary structures (`compute_markov_matrix`), and custom objects (`detect_purpose_field` returns an object with `.nodes` and `.violations` attributes). This is not a consistent `ProcessingResult` or `AnalysisResult`.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM001",
+              "severity": "MEDIUM",
+              "reasoning": "The `detect_knots` function implements a 'simplified Tarjan-like' algorithm for cycle detection. This is a partial reimplementation of a standard graph theory problem that is solved robustly by mature libraries. The code's use of arbitrary processing limits (e.g., `list(graph.keys())[:200]`) suggests it is not a complete or reliable implementation, ignoring existing, more robust solutions."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "MEDIUM",
+              "reasoning": "The file `src/core/full_analysis.py` contains UI-facing logic (`_open_file`, `_manual_open_command`) to open a report in the OS's default application. A 'core' analysis module should be architecturally decoupled from presentation concerns. This logic belongs in a higher-level CLI or UI handling layer, not mixed with core data processing."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "LOW",
+              "reasoning": "The `_open_file` function reimplements cross-platform logic to open a file path, manually checking for 'darwin', 'nt', etc. This duplicates functionality already present and handled more robustly by Python's standard `webbrowser.open()` library function, which can open local file paths."
+            }
+          ],
+          "critique_summary": "The code violates architectural boundaries by mixing core analysis with UI logic, and exhibits context myopia by reimplementing standard graph and OS interaction functionalities."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `EdgeExtractionStrategy` (and subclasses `PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `TreeSitterEdgeStrategy`, etc.)\n- **Status**: Compliant\n- **Evidence**: These classes are responsible for finding `calls` and `uses` relationships within the source code of a function or method body. The regex-based strategies operate directly on raw string content (`body_source`), while the `TreeSitterEdgeStrategy` subclasses parse the `body_source` into an AST. This adheres to the first invariant.\n    - **Invariant 1 (Operates on raw content or AST):** `calls = re.findall(r'(?:self\\.)?(\\w+)\\s*\\(', body)` (from `PythonEdgeStrategy`) and `tree = self.parser.parse(source_bytes)` (from `TreeSitterEdgeStrategy`).\n    - **Invariant 2 (No complex semantic reasoning):** The analysis is purely syntactic. It finds patterns that look like function calls (`func()`) or accesses the AST to find `call_expression` nodes. It does not attempt to understand the purpose or high-level role of the functions involved.\n- **Deviation**: None.\n\n---\n- **Entity**: `JSModuleResolver`\n- **Status**: Compliant\n- **Evidence**: This class is responsible for ingesting JavaScript source code to build a map of module imports, exports, and aliases. This allows the extractor to correctly link a call in one file to its definition in another.\n    - **Invariant 1 (Operates on raw content or AST):** The `analyze_file` method uses a Tree-sitter parser to operate on the AST of the raw file content: `tree = self.parser.parse(source_bytes)`.\n    - **Invariant 2 (No complex semantic reasoning):** While it performs a sophisticated task (cross-file name resolution), its reasoning is confined to the mechanical rules of JavaScript modules (`import`, `require`, `window.X`). It resolves symbol identities based on syntax, which is a form of advanced data extraction, not an act of classifying the code's conceptual role or intent. For example, it determines that `alias.method()` refers to a function in another file, but does not reason about what `method` *is* or *does*.\n- **Deviation**: None.\n\n---\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: This function orchestrates the overall process of relationship extraction. It ingests particles (code elements) and raw parse results (which contain `raw_imports` and `raw_content`).\n    - **Invariant 1 (Operates on raw content or AST):** It directly processes `raw_imports`, and it delegates body analysis to `EdgeExtractionStrategy` classes, which operate on raw content or ASTs.\n    - **Invariant 2 (No complex semantic reasoning):** The function's logic is about creating structural edges (`contains`, `inherits`) from pre-existing data fields (`parent`, `base_classes`) and dispatching to language-specific strategies. It does not perform any new semantic analysis itself. Its role is to assemble the final set of extracted data.\n- **Deviation**: None.\n\n---\n- **Entity**: `_extract_exposure_edges_from_body`\n- **Status**: Compliant\n- **Evidence**: This function is responsible for finding module export statements (`module.exports`, `export default`, `__all__`, etc.).\n    - **Invariant 1 (Operates on raw content or AST):** It operates exclusively on the raw string content of a file or code block using regular expressions. Evidence: `module_exports = re.findall(r'module\\.exports\\s*=\\s*(\\w+)(?!\\.)', body)`.\n    - **Invariant 2 (No complex semantic reasoning):** The function uses simple pattern matching to find explicit export syntax. This is a direct ingestion of structural information from the raw text and involves no interpretation of the code's behavior or purpose.\n- **Deviation**: None.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The constant `STDLIB_MODULES` is defined as a frozenset of common Python standard library module names, but it is never referenced or used anywhere within the provided code snippet. This constitutes orphan data, which adds clutter and can be confusing for future maintenance, even if it has no performance impact."
+            }
+          ],
+          "critique_summary": "The code is architecturally sound, context-aware, and adheres strictly to its 'Extractor' role, but it contains a minor instance of orphan data (an unused constant)."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_071844",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_071844",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: The function `run_full_analysis` does not inherit from a base `Stage` class. It also does not return a standard result format (ProcessingResult/AnalysisResult). It returns a dictionary, but not of the required type.\n- **Deviation**: Fails to inherit from a base `Stage` class, does not return the correct result type and modifies local variables within its scope.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears to be well-structured and does not obviously violate any of the specified Antimatter laws based on static analysis."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: `EdgeExtractionStrategy`\n- **Status**: Compliant\n- **Evidence**: Abstract base class; method `extract_edges` operates on a particle dictionary (representing code element data) and a dictionary to look up particles by name. It focuses on extracting relationships, but doesn't perform semantic analysis.\n- **Deviation**: N/A\n\n- **Entity**: `PythonEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Extracts edges from Python code based on regex matching of calls and attribute accesses. Operates on raw code content (`body_source`) and `particle_by_name`. No semantic reasoning involved, only pattern matching.\n- **Deviation**: N/A\n\n- **Entity**: `JavascriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Similar to `PythonEdgeStrategy`, it extracts edges from JavaScript code based on regex patterns like function calls and constructor instantiations. Uses `body_source` for analysis and `particle_by_name` to find call targets.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Inherits from `JavascriptEdgeStrategy`, using the same mechanisms for edge extraction.\n- **Deviation**: N/A\n\n- **Entity**: `GoEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**:  Extracts edges from Go code using regex to find function calls.\n- **Deviation**: N/A\n\n- **Entity**: `RustEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**:  Extracts edges from Rust code using regex to find function calls.\n- **Deviation**: N/A\n\n- **Entity**: `DefaultEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Does not extract any edges; serves as a fallback for unknown languages.\n- **Deviation**: N/A\n\n- **Entity**: `TreeSitterEdgeStrategy`\n- **Status**: Compliant\n- **Evidence**: Uses an AST parser to precisely detect calls within code. It operates on the `body_source` to create the AST, extracts function names using `extract_callee_name`, and identifies potential call targets, without performing complex reasoning on the code semantics.\n- **Deviation**: N/A\n\n- **Entity**: `PythonTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Extends `TreeSitterEdgeStrategy` with Python-specific AST parsing.  It uses the body source to build the AST and traverse it for specific call patterns.\n- **Deviation**: N/A\n\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Extends `TreeSitterEdgeStrategy` with Javascript-specific AST parsing. It enhances the base class's functionality by resolving member calls using the `JSModuleResolver` (which only tracks aliases and does not classify the types of dependencies) and extracting callback references.  Uses the body source to build the AST and traverse it for specific call patterns.\n- **Deviation**: N/A\n\n- **Entity**: `TypeScriptTreeSitterStrategy`\n- **Status**: Compliant\n- **Evidence**: Extends `TreeSitterEdgeStrategy` with Typescript-specific AST parsing. It retrieves constructor names from new expressions and generally parses the code via AST.\n- **Deviation**: N/A\n\n- **Entity**: `extract_call_edges`\n- **Status**: Compliant\n- **Evidence**: Orchestrates the extraction of call relationships by iterating through particles, selecting the appropriate `EdgeExtractionStrategy` based on the file extension, and using that strategy to extract edges based on the `body_source`. Also handles imports, containment, and inheritance edge creation. Its use of `JSModuleResolver` helps with alias resolution, but it avoids semantic reasoning.\n- **Deviation**: N/A\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code appears to be well-structured and implements the edge extraction logic, without any apparent antimatter violations."
+        }
+      }
+    }
+  ]
+}

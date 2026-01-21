@@ -191,7 +191,47 @@ const UPB_ENDPOINTS = (function () {
 
         // Animation
         pulseSpeed: { label: 'Pulse Speed', category: 'animation', range: [0, 5], blendMode: 'max' },
-        rotationSpeed: { label: 'Rotation Speed', category: 'animation', range: [0, 2], blendMode: 'max' }
+        rotationSpeed: { label: 'Rotation Speed', category: 'animation', range: [0, 2], blendMode: 'max' },
+
+        // Edge-specific targets
+        edgeHue: {
+            category: 'edge-color',
+            range: [0, 360],
+            blendMode: 'replace',
+            label: 'Edge Hue',
+            tags: ['visual', 'chromatic', 'edge', 'cyclical']
+        },
+        edgeSaturation: {
+            category: 'edge-color',
+            range: [0, 100],
+            blendMode: 'average',
+            label: 'Edge Saturation',
+            tags: ['visual', 'chromatic', 'edge', 'intensity']
+        },
+        edgeLightness: {
+            category: 'edge-color',
+            range: [0, 100],
+            minOutput: 10,
+            blendMode: 'average',
+            label: 'Edge Lightness',
+            tags: ['visual', 'chromatic', 'edge', 'brightness']
+        },
+        edgeOpacity: {
+            category: 'edge-color',
+            range: [0.01, 1.0],
+            minOutput: 0.01,
+            blendMode: 'multiply',
+            label: 'Edge Opacity',
+            tags: ['visual', 'chromatic', 'edge', 'presence']
+        },
+        edgeWidth: {
+            category: 'edge-geometry',
+            range: [0.5, 5],
+            minOutput: 0.5,
+            blendMode: 'max',
+            label: 'Edge Width',
+            tags: ['visual', 'geometric', 'edge', 'thickness']
+        }
     };
 
     function getSource(name) {

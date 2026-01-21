@@ -1,0 +1,110 @@
+# Semantic Models Definition (The Map)
+# This file defines the "Truth" that the codebase (The Territory) must be mapped against.
+# Part of the Holographic-Socratic Layer: validates that code matches documentation.
+
+# =============================================================================
+# DOMAIN: PIPELINE (How code is analyzed)
+# =============================================================================
+pipeline:
+  scope: "standard-model-of-code/src/core/**"
+  children: [extraction, classification, analysis]
+  definitions:
+    Stage:
+      description: "A processing unit in the analysis pipeline."
+      role: "Processing"
+      invariants:
+        - "Must inherit from a base Stage class (e.g., BaseStage)"
+        - "Must implement an 'execute' or 'run' method"
+        - "Should be stateless (no instance variables modified during run)"
+        - "Must return a standard result format (ProcessingResult/AnalysisResult)"
+      anchors:
+        - file: "standard-model-of-code/src/core/*_stage.py"
+          pattern: "class *Stage"
+        - file: "standard-model-of-code/src/core/full_analysis.py"
+          pattern: "class FullAnalysisPipeline"
+    
+    Extractor:
+      description: "Component responsible for raw data ingestion."
+      role: "Source"
+      invariants:
+        - "Must operate on raw file content or AST"
+        - "Must not perform complex semantic reasoning (role of Classifier)"
+      anchors:
+        - file: "standard-model-of-code/src/core/*_extractor*.py"
+          pattern: "class *Extractor"
+
+# =============================================================================
+# DOMAIN: THEORY (The Standard Model concepts)
+# =============================================================================
+theory:
+  scope: "standard-model-of-code/docs/theory/**"
+  definitions:
+    Atom:
+      description: "The fundamental unit of code meaning."
+      role: "Entity"
+      invariants:
+        - "Must have a unique ID in the format 'FILE::NAME'"
+        - "Must have a 'kind' (Function/Class/Variable)"
+      anchors:
+        - file: "standard-model-of-code/schema/atoms.schema.json"
+          pattern: "properties"
+        - file: "standard-model-of-code/src/core/atom_registry.py"
+          pattern: "class AtomRegistry"
+    
+    Dimension:
+      description: "An axis of the 8D semantic space."
+      invariants:
+        - "Must have a fixed set of allowed values (Enum)"
+      anchors:
+        - file: "standard-model-of-code/src/core/dimensions.py"
+          pattern: "class D*"
+
+# =============================================================================
+# DOMAIN: ARCHITECTURE (Code organization)
+# =============================================================================
+architecture:
+  scope: "context-management/**"
+  definitions:
+    Tool:
+      description: "A standalone executable utility."
+      invariants:
+        - "Must handle its own arguments (argparse/click)"
+        - "Should have a 'main' function"
+        - "Must reside in 'context-management/tools' or 'standard-model-of-code/src/cli'"
+      anchors:
+        - file: "context-management/tools/ai/*.py"
+          pattern: "def main()"
+        - file: "standard-model-of-code/cli.py"
+          pattern: "def main()"
+
+# -------------------------------------------------------------------------
+# ANTIMATTER LAWS (Liability Guardrails)
+# -------------------------------------------------------------------------
+antimatter:
+  - id: "AM001"
+    name: "Context Myopia Violation"
+    description: "Code that duplicates existing functionality or ignores broader project context."
+    detection_prompt: >
+      Does this code re-implement logic that likely already exists in the standard library or project utilities?
+      Does it lack necessary imports or references to established project modules?
+
+  - id: "AM002"
+    name: "Architectural Drift"
+    description: "Code that violates the intended Role or Layer constraints."
+    detection_prompt: >
+      Does the implementation contradict the stated design role (e.g., a Stateless Stage storing state)?
+      Does it make cross-layer calls (e.g., domain logic calling CLI directly)?
+
+  - id: "AM003"
+    name: "Supply Chain Hallucination"
+    description: "Reference to non-existent or unapproved external dependencies."
+    detection_prompt: >
+      Does the code import libraries that are not standard Python or explicitly verifiable in the imports?
+      Are there any suspicious or 'hallucinated' package names?
+
+  - id: "AM004"
+    name: "Orphan Code"
+    description: "Code that is defined but never used or connected."
+    detection_prompt: >
+      Is this a 'ghost' function or class that has no discovered callers or entry points?
+      Does it lack integration code?

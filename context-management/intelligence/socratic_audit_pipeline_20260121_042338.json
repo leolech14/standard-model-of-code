@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_042338",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_042338",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class. It does not inherit from a base stage class. It appears to implement the logic of multiple stages. It returns a dictionary, which could be considered a result format.\n- **Deviation**: Does not inherit from a base Stage class. It is a function, not a class. It's debatable whether it's stateless, as it modifies `sys.path` and potentially other global state. It does return a dictionary, which can serve as the result format.\n\n- **Entity**: Several sections within `run_full_analysis` (e.g., \"Stage 1: Base Analysis...\", \"Stage 2: Standard Model Enrichment...\")\n- **Status**: Non-Compliant\n- **Evidence**: These are code blocks within a function, not classes. They do not inherit from a base stage class. They perform stage-like operations but lack the structure of a class.\n- **Deviation**: Not classes, do not inherit, and are not structured as independent stages.\n\n- **Entity**: Implicit Stages (Base Analysis, Standard Model Enrichment, etc.)\n- **Status**: Non-Compliant\n- **Evidence**: The code contains implicit stages, as indicated by the print statements and comments (e.g., \"Stage 1: Base Analysis\"). However, these stages are not defined as separate classes inheriting from a base Stage class. They are implemented as sequential blocks of code within the `run_full_analysis` function.\n- **Deviation**: The code doesn't explicitly define Stage classes or a base Stage class. Each stage is implemented as a block of code within the `run_full_analysis` function, violating the inheritance and structure invariants.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The provided code demonstrates a strong understanding of architectural principles and avoids common antimatter patterns, resulting in a clean audit."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The `SmartExtractor` class focuses on ingesting raw code files, extracting relevant information such as code excerpts, docstrings, decorators, and imports. It operates on raw file content and AST to gather context for a given code component. It does not perform complex semantic reasoning; that's left to the Classifier.\n- **Deviation**: N/A\n\n- **Entity**: `EdgeExtractionStrategy` and its subclasses (`PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `TypeScriptEdgeStrategy`, `GoEdgeStrategy`, `RustEdgeStrategy`, `DefaultEdgeStrategy`, `TreeSitterEdgeStrategy`, `PythonTreeSitterStrategy`, `JavaScriptTreeSitterStrategy`, `TypeScriptTreeSitterStrategy`)\n- **Status**: Compliant\n- **Evidence**: These classes are responsible for extracting relationships (edges) between code elements from the raw source code. They operate by either regex matching or AST parsing (tree-sitter) to identify calls, uses, imports, etc. They do not perform complex semantic reasoning, but focus on identifying relationships within the code based on its structure and syntax.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Compliant\n- **Evidence**: The `JSModuleResolver` class extracts information from Javascript and Typescript source code to help resolve dependencies. It analyzes the code using AST to find module aliases and exports. It aids in resolving module dependencies but does not perform classification or other complex semantic reasoning. It works at the level of syntactic structure and module imports.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The provided code snippet does not exhibit any Antimatter violations according to the specified checks."
+        }
+      }
+    }
+  ]
+}

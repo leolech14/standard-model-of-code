@@ -143,6 +143,9 @@
 | `in_degree` | int | 7 |
 | `out_degree` | int | 7 |
 | `topology_role` | string | 7 |
+| `disconnection` | object | 7 |
+| `betweenness_centrality` | float | 7 |
+| `pagerank` | float | 7 |
 
 ### Relational Properties
 
@@ -153,6 +156,9 @@ Unlike intrinsic properties (atoms, roles, dimensions) which can be determined f
 | `in_degree` | edge list | Number of incoming dependencies |
 | `out_degree` | edge list | Number of outgoing dependencies |
 | `topology_role` | full graph | Structural position in dependency graph |
+| `disconnection` | full graph | Why orphan nodes appear disconnected (7 types) |
+| `betweenness_centrality` | full graph | Bridge importance (0-1, higher = more paths through) |
+| `pagerank` | full graph | Authority score (0-1, higher = more influential) |
 
 #### Topology Roles
 
@@ -165,6 +171,43 @@ Unlike intrinsic properties (atoms, roles, dimensions) which can be determined f
 | `internal` | in>0, out>0 | Normal flow-through node | most nodes |
 
 This classification follows graph theory conventions where "leaf" denotes a node with no outgoing edges (nothing depends on it downstream). The term was already used implicitly in `graph_type_inference.py` before being formalized here.
+
+#### Disconnection Taxonomy (Jan 2026)
+
+**Note:** The `orphan` label is a *misclassification bucket* conflating 7+ distinct phenomena. Only ~9% of orphans are truly dead code. For orphan nodes, a `disconnection` property provides rich classification:
+
+| `reachability_source` | Meaning | Action |
+|-----------------------|---------|--------|
+| `test_entry` | Called by test framework (pytest, jest) | OK |
+| `entry_point` | Program entry point (__main__, CLI) | OK |
+| `framework_managed` | Instantiated by framework (dataclass, DI) | OK |
+| `cross_language` | Called from different language (JS↔Python) | CHECK |
+| `external_boundary` | Public API, exported function | CHECK |
+| `dynamic_target` | Called via reflection/eval | CHECK |
+| `unreachable` | True dead code, no callers | DELETE |
+
+```json
+{
+  "topology_role": "orphan",
+  "disconnection": {
+    "reachability_source": "test_entry",
+    "connection_gap": "isolated",
+    "isolation_confidence": 0.95,
+    "suggested_action": "OK - test framework invokes"
+  }
+}
+```
+
+#### Centrality Metrics
+
+Network centrality measures a node's structural importance:
+
+| Property | Algorithm | Meaning |
+|----------|-----------|---------|
+| `betweenness_centrality` | Shortest paths | Bridges between modules (change risk) |
+| `pagerank` | Random walk | Influential nodes (authority) |
+
+High centrality nodes are architectural hotspots requiring extra care when modifying.
 
 ### Edge (Minimal)
 
@@ -308,13 +351,31 @@ INFRASTRUCTURE  → Purpose: Implement (technical details handled)
 ## 7. THEORETICAL LINEAGE
 
 ```
-Koestler (Holons)     → 16 LEVELS
+Koestler (Holons)     → 16 LEVELS + Systems of Systems
 Popper (Three Worlds) → 3 PLANES
 Ranganathan (Facets)  → 8 DIMENSIONS
 Clean Architecture    → LAYER dimension
 DDD (Evans)           → 33 ROLES
 Shannon               → M-I-P-O CYCLE
 ```
+
+### Holon Theory (Koestler 1967)
+
+The 16-level scale is a **holarchy** - a hierarchy of holons. Each level is:
+- A **WHOLE** when looking down (it contains parts)
+- A **PART** when looking up (it is contained)
+
+This is why **Systems of Systems** applies: every level is a system made of systems, recursively.
+
+| Level | As WHOLE (looking down) | As PART (looking up) |
+|-------|-------------------------|----------------------|
+| L5 FILE | Contains classes, functions | Part of package |
+| L3 NODE | Contains body, params | Part of file |
+| L1 STATEMENT | Contains tokens | Part of block |
+
+**Key insight:** Emergence happens at EVERY level transition. The purpose (π) of a higher level is emergent from, not merely aggregated from, its parts.
+
+See `THEORY_EXPANSION_2026.md` Section 5 for full treatment.
 
 ---
 

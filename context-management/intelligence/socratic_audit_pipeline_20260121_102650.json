@@ -1,0 +1,103 @@
+{
+  "timestamp": "20260121_102650",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_102650",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function, not a class inheriting from a base `Stage`.\n    ```python\n    def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None) -> Dict:\n        \"\"\"Run complete analysis with all theoretical frameworks.\"\"\"\n    ```\n- **Deviation**: This function acts as the main pipeline orchestrator rather than a discrete stage. It does not inherit from a base `Stage` class. It also returns a raw `dict` instead of a standardized `AnalysisResult` class instance, which is a minor deviation from the return format invariant.\n\n---\n- **Entity**: `compute_markov_matrix`\n- **Status**: Non-Compliant\n- **Evidence**: The function modifies its `edges` input list in place, which violates the statelessness invariant.\n    ```python\n    # IMPORTANT: Enrich edges with markov_weight for flow visualization\n    edges_with_weight = 0\n    for edge in edges:\n        source = edge.get('source', '')\n        target = edge.get('target', '')\n        if source in transitions and target in transitions[source]:\n            edge['markov_weight'] = transitions[source][target] #<-- Modifies input\n            edges_with_weight += 1\n    ```\n- **Deviation**: The function is not stateless, as it modifies the `edges` list that is passed into it. It also does not inherit from a `BaseStage` and returns a `dict` instead of a formal result object.\n\n---\n- **Entity**: `detect_knots`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function and does not inherit from a base class.\n    ```python\n    def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:\n        \"\"\"\n        Detect dependency knots (cycles) and tangles in the graph.\n        ...\n        \"\"\"\n    ```\n- **Deviation**: While this function is stateless and implements a single processing step (compliant with the spirit of the concept), it fails to meet the structural invariants. It does not inherit from a `BaseStage` class and returns a `dict` instead of a standardized `AnalysisResult` class instance.\n\n---\n- **Entity**: `compute_data_flow`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function and does not inherit from a base class.\n    ```python\n    def compute_data_flow(nodes: List[Dict], edges: List[Dict]) -> Dict:\n        \"\"\"\n        Analyze data flow patterns across the codebase.\n        \"\"\"\n    ```\n- **Deviation**: Similar to other identified stages in this file, this is a stateless function that performs a processing step but does not adhere to the formal structural requirements of the 'Stage' concept. It does not inherit from a base class and returns a `dict`.\n\n---\n- **Entity**: \"Stage 6.5: Graph Analytics\" (inline logic block)\n- **Status**: Non-Compliant\n- **Evidence**: This processing step is not encapsulated in a function or class. It is an inline block of code within `run_full_analysis` that directly mutates the `nodes` list.\n    ```python\n    # In run_full_analysis:\n    print(\"\\n\ud83e\uddee Stage 6.5: Graph Analytics...\")\n    with StageTimer(perf_manager, \"Stage 6.5: Graph Analytics\") as timer:\n        # ...\n        for node in nodes:\n            node_id = node.get('id', '')\n            # ...\n            node['in_degree'] = in_deg\n            node['out_degree'] = out_deg\n            # ...\n            node['topology_role'] = 'internal'\n            # ...\n            if in_deg == 0:\n                disconnection = classify_disconnection(node, in_deg, out_deg)\n                if disconnection:\n                    node['disconnection'] = disconnection\n    ```\n- **Deviation**: This logic represents a processing stage but is not implemented as a distinct, reusable unit. It severely violates the \"stateless\" invariant by modifying the main `nodes` data structure in place, creating side effects for all subsequent stages in the pipeline. It also fails the \"implement an 'execute' or 'run' method\" and \"inherit from a base class\" invariants by not being a class or a standalone function.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM004",
+              "severity": "HIGH",
+              "reasoning": "A large and complex function, `classify_disconnection`, is defined with extensive logic and comments at the beginning of the file but is never called within the main execution path (`run_full_analysis`) or any of its helper functions. This represents a significant block of orphaned code that serves no purpose in the current implementation, suggesting it is either dead code from a previous feature or was incompletely integrated."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The code imports `FileEnricher` from `src.core.file_enricher` but this class is never instantiated or used anywhere in the file. This constitutes an unnecessary import, which is a minor form of orphan code."
+            }
+          ],
+          "critique_summary": "The code effectively orchestrates a complex analysis pipeline, but it is non-compliant due to containing a significant orphaned function and an unused import, indicating dead code that requires removal."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `EdgeExtractionStrategy` (and its regex-based subclasses: `PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `GoEdgeStrategy`, `RustEdgeStrategy`)\n- **Status**: Compliant\n- **Evidence**: These strategies operate on the `body_source` of a code particle, which is raw file content. They use simple regular expressions to find call-like patterns (e.g., `re.findall(r'(?:self\\.)?(\\w+)\\s*\\(', body)`). This is a form of raw data ingestion without deeper analysis.\n- **Deviation**: None.\n\n---\n- **Entity**: `TreeSitterEdgeStrategy` (and its non-JS subclasses: `PythonTreeSitterStrategy`, `TypeScriptTreeSitterStrategy`)\n- **Status**: Compliant\n- **Evidence**: These strategies explicitly parse the raw `body_source` into an AST (`tree = self.parser.parse(source_bytes)`). They then traverse this AST to find nodes of a specific type (e.g., `call_expression`) and extract the callee's name. This adheres to the \"operate on raw file content or AST\" invariant, and the extraction is purely syntactic.\n- **Deviation**: None.\n\n---\n- **Entity**: `_extract_exposure_edges_from_body`\n- **Status**: Compliant\n- **Evidence**: This function uses regular expressions (`re.findall`) on a raw string of source code (`body`) to find patterns like `module.exports =`, `export function`, and `__all__ =`. This is a direct implementation of raw data ingestion via pattern matching on file content.\n- **Deviation**: None.\n\n---\n- **Entity**: `JSModuleResolver`\n- **Status**: Non-Compliant\n- **Evidence**: The docstring for this class states it \"Resolves JavaScript module references across files.\" The method `resolve_member_call` attempts to find the definitive target of a call like `COLOR.subscribe()` by checking global exports (`window_exports`) and import aliases (`import_aliases`).\n- **Deviation**: This component violates the \"Must not perform complex semantic reasoning\" invariant. While it operates on an AST, its purpose is not just to extract raw data (e.g., \"a call to 'subscribe' on an object 'COLOR' exists\"), but to reason about the meaning of `COLOR` by tracking aliases across files. This cross-file resolution is a form of semantic reasoning that, according to the concept definition, belongs in a `Classifier`, not an `Extractor`.\n\n---\n- **Entity**: `JavaScriptTreeSitterStrategy`\n- **Status**: Non-Compliant\n- **Evidence**: The `extract_edges` method in this class uses the non-compliant `JSModuleResolver`. It explicitly calls `resolver.resolve_member_call(obj_name, method_name, caller_file, particle_by_name)` to determine the target of a call.\n- **Deviation**: By depending on `JSModuleResolver` for its core logic, this strategy incorporates complex semantic reasoning into its extraction process, violating the invariant. It doesn't just extract the call; it attempts to resolve it.\n\n---\n- **Entity**: `extract_call_edges`\n- **Status**: Non-Compliant\n- **Evidence**: This orchestrator function initializes and populates the `JSModuleResolver` by calling `resolver.analyze_file` on all JavaScript files. It then uses strategies, including the non-compliant `JavaScriptTreeSitterStrategy`, to perform its work.\n- **Deviation**: This function is responsible for setting up and triggering the complex semantic reasoning performed by `JSModuleResolver`. Its role extends beyond simple raw data ingestion and orchestration of compliant extractors.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM004",
+              "severity": "HIGH",
+              "reasoning": "The `JSModuleResolver` class is designed to resolve complex JavaScript member calls (e.g., `MyModule.myFunction()`). Its state is populated by the `analyze_file` method. However, its primary lookup method, `resolve_member_call`, is never invoked anywhere in the provided code. The `JavaScriptTreeSitterStrategy` appears to be the intended consumer, but it inherits the base `extract_edges` method which does not use this advanced resolution logic. Consequently, the entire system for resolving member calls across JS modules is defined and prepared but never actually used, leaving this critical functionality orphaned."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "LOW",
+              "reasoning": "The use of a global singleton `_js_module_resolver` introduces global state, which can complicate testing and parallel execution. While helper functions (`get_js_module_resolver`, `reset_js_module_resolver`) are provided to manage it, this pattern represents a minor architectural drift from a purely functional or dependency-injected approach, which would be more robust. The current implementation is pragmatic but less architecturally pure for an 'Extractor' role that should ideally be stateless."
+            }
+          ],
+          "critique_summary": "The code showcases a sophisticated and extensible strategy pattern for extraction, but a core, complex feature for JavaScript module resolution is orphaned and non-operational, representing a significant implementation gap."
+        }
+      }
+    }
+  ]
+}

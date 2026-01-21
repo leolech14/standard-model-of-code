@@ -8,44 +8,61 @@
 #   auto_interactive: If true, automatically use interactive mode
 #   includes: Other sets to compose (optional)
 
+# ==========================================================================
+# MODULE ARCHITECTURE: THE DATA BOXES
+# These sets represent the "Ingredients" for AI agents.
+# Agents can toggle micro-sets or select larger composite boxes.
+# ==========================================================================
+
 analysis_sets:
-  # ==========================================================================
-  # CORE SETS - Well-sized, commonly used
-  # ==========================================================================
-
-  brain_core:
-    description: "AI tools, configs, and prompts"
-    max_tokens: 50000
+  # --- BOX 1: THE ARCHIVE (Historical/Reference) ---
+  archive:
+    description: "Historical snapshots and large reference datasets (Read-Only)"
+    max_tokens: 1000000
     patterns:
-      - "context-management/tools/ai/*.py"
-      - "context-management/config/*.yaml"
-      - "context-management/docs/AI_USER_GUIDE.md"
-      - "README.md"
+      - "archive/**"
 
-  pipeline:
-    description: "Collider analysis pipeline (entry to output)"
+  # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
+  repo_docs:
+    description: "The 'Map' – Design specs, user guides, and theory docs"
+    max_tokens: 200000
+    patterns:
+      - "**/*.md"
+      - "context-management/docs/*.md"
+      - "standard-model-of-code/docs/*.md"
+
+  # --- BOX 3: REPO - IMPLEMENTATION: THEORY (Core Logic) ---
+  repo_theory:
+    description: "The 'Source of Truth' – Core schemas, dimensions, and model definitions"
     max_tokens: 100000
-    auto_interactive: true
+    patterns:
+      - "standard-model-of-code/schema/**/*.yaml"
+      - "standard-model-of-code/src/core/dimensions.py"
+      - "standard-model-of-code/src/core/atom_registry.py"
+      - "context-management/config/semantic_models.yaml"
+
+  # --- BOX 4: REPO - IMPLEMENTATION: TOOL (Engine Logic) ---
+  repo_tool:
+    description: "The 'Engine' – Collider logic, analysis pipeline, and AI tools"
+    max_tokens: 150000
     patterns:
       - "standard-model-of-code/src/core/full_analysis.py"
-      - "standard-model-of-code/src/core/unified_analysis.py"
-      - "standard-model-of-code/src/core/edge_extractor.py"
-      - "standard-model-of-code/src/core/tree_sitter_engine.py"
-      - "standard-model-of-code/src/core/output_generator.py"
-      - "standard-model-of-code/src/core/brain_download.py"
-      - "standard-model-of-code/cli.py"
-
-  classifiers:
-    description: "All role/type/atom classifiers"
-    max_tokens: 80000
-    patterns:
-      - "standard-model-of-code/src/core/registry/*.py"
-      - "standard-model-of-code/src/core/standard_model_enricher.py"
-      - "standard-model-of-code/src/core/graph_type_inference.py"
-      - "standard-model-of-code/src/core/heuristic_classifier.py"
-      - "standard-model-of-code/src/core/atom_classifier.py"
       - "standard-model-of-code/src/core/classification/*.py"
-      - "standard-model-of-code/src/core/parser/symbol_classifier.py"
+      - "context-management/tools/ai/*.py"
+
+  # --- BOX 5: THE PAST (Archeology) ---
+  archeology:
+    description: "The Geologic Record (Generation 2 Analysis)"
+    max_tokens: 300000
+    patterns:
+      - "archive/docs_smc_2026-01-19/**"
+      - "archive/docs_registry_2026-01-19/**"
+      - "archive/orphaned_src_2025/**"
+      - "archive/misc_docs/**"
+
+  # ==========================================================================
+  # MICRO-SETS (Specific Ingredients)
+  # ==========================================================================
 
   constraints:
     description: "Constraint Field system (profiles, engine, rules)"

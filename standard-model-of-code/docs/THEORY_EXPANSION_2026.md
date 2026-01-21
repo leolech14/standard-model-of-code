@@ -125,17 +125,86 @@ THIS:
       (biological SoS)            (computational SoS)
 ```
 
-**Open Questions:**
-- What makes something a System of Systems?
-  - Is it composition? (systems made of systems)
-  - Is it emergence? (whole > sum of parts)
-  - Is it self-reference? (the system models itself)
-- Where are the boundaries between systems?
-  - Are boundaries discovered or designed?
-  - Can a node be in multiple systems simultaneously?
-- What is the "atom" of a System of Systems?
-  - Is there a smallest unit that is still a "system"?
-  - Or is it systems all the way down?
+### 5.2 The Core Insight: Recursive Composition (Clarified Jan 21, 2026)
+
+**Critical clarification:** SoS is NOT about external connections (repo connecting to other repos). It IS about **recursive composition looking BOTH directions**.
+
+> "It's turtles all the way down AND all the way up."
+
+Every level of code is a **system made of systems**:
+
+```
+TURTLES ALL THE WAY UP:
+L12 UNIVERSE
+ └── L11 DOMAIN
+      └── L10 ORGANIZATION
+           └── L9 PLATFORM
+                └── L8 ECOSYSTEM
+                     └── L7 SYSTEM
+                          └── L6 PACKAGE
+                               └── L5 FILE ← You are here
+                                    └── L4 CONTAINER
+                                         └── L3 NODE
+                                              └── L2 BLOCK
+                                                   └── L1 STATEMENT
+                                                        └── L0 TOKEN
+                                                             └── L-1 CHARACTER
+                                                                  └── L-2 BYTE
+                                                                       └── L-3 BIT
+
+TURTLES ALL THE WAY DOWN:
+```
+
+**Key properties:**
+1. **Every level is a system.** A function is a system. A statement is a system. A token is a system.
+2. **Every level is composed of systems.** A function is made of statements, which are made of tokens.
+3. **Emergence happens at EVERY level.** Not just at the top - three nodes consolidating purpose exhibit emergent properties.
+4. **The 16-level scale IS a holarchy.** Each level is a **holon** (Koestler 1967) - simultaneously a WHOLE and a PART.
+
+### 5.3 Holon Theory Connection
+
+Arthur Koestler (1967) defined a **holon** as an entity that is:
+- A **WHOLE** when looking DOWN (it contains parts)
+- A **PART** when looking UP (it is contained)
+
+This is the **Janus-faced** nature of code elements:
+
+| Looking | The node is | It exhibits |
+|---------|-------------|-------------|
+| DOWN (inward) | A whole containing parts | Self-assertive tendency (autonomy) |
+| UP (outward) | A part within a whole | Integrative tendency (belonging) |
+
+**Example: A Function**
+- Looking DOWN: It's a whole composed of statements, variables, control flow
+- Looking UP: It's a part of a class, which is part of a module, which is part of a package...
+
+**The holarchy** (hierarchy of holons) is NOT a dominance hierarchy. Each level has its own logic, its own emergent properties, its own purpose.
+
+### 5.4 Emergence at Every Level
+
+The "purpose" we compute (π₁, π₂, π₃...) isn't just top-down inheritance. Emergence happens at **each transition**:
+
+```
+π₁(statement) = atomic purpose (role of single node)
+π₂(block) = emergent from {π₁(statements)} - NEW PROPERTY APPEARS
+π₃(function) = emergent from {π₂(blocks)} - NEW PROPERTY APPEARS
+π₄(class) = emergent from {π₃(functions)} - NEW PROPERTY APPEARS
+...continues up...
+```
+
+This is why three nodes consolidating purpose IS emergence - you don't need the full codebase. Emergence is **fractal**: it happens at every scale.
+
+### 5.5 Open Questions (Refined)
+
+**Resolved:**
+- ~~What makes something a System of Systems?~~ → Recursive composition (systems made of systems)
+- ~~Is it systems all the way down?~~ → YES. And all the way UP.
+
+**Still Open:**
+- At what level does "meaning" emerge? Can a token have meaning, or only aggregates?
+- Is there a "ground level" where systems become mere structure?
+- How do we formalize the holon's dual nature (whole/part) in our schema?
+- Can we compute emergence (detect when π(n+1) > Σ π(n))?
 
 **Reference:** See `/assets/Universal_Laws_of_Software_Organisms_Page_*.png` for foundational research connecting Constructal Law, Cybernetics, VSM, and Synergetics to code.
 
@@ -153,11 +222,13 @@ The term "leaf" already existed in `graph_type_inference.py` (line 93: `"leaf_ca
 
 | Role | Condition | Meaning |
 |------|-----------|---------|
-| `orphan` | in=0, out=0 | Disconnected |
+| `orphan` | in=0, out=0 | Disconnected (⚠️ see §13 - this is a misclassification bucket) |
 | `root` | in=0, out>0 | Entry point, initiator |
 | `leaf` | in>0, out=0 | Terminal, no outgoing dependencies |
 | `hub` | high degree | Central coordinator |
 | `internal` | in>0, out>0 | Normal flow-through |
+
+> **⚠️ WARNING:** The `orphan` classification is structurally correct but semantically lazy. It conflates 7+ distinct phenomena (dead code, entry points, test fixtures, cross-language boundaries, etc.). See **Section 13: Disconnection Taxonomy** for the proper treatment.
 
 ### 6.2 Relational vs Intrinsic Properties
 
@@ -354,6 +425,7 @@ Possible inputs to evolvability:
 | Interface | Edge exists | Surface quality, coupling nature |
 | Evolution | Git history exists | Evolvability as computable property |
 | Frame | Code analysis | Systems of Systems unification |
+| **Disconnection** | `orphan` label exists | **7-type taxonomy (§13)** |
 
 **Principle:** We are asking questions, not making declarations. The theory grows through exploration, not definition.
 
@@ -403,3 +475,143 @@ ref without def           =          External flow (dependency)
 Current utilization: **5-10%**. The theoretical framework (SoS, flow, interfaces) and the implementation platform (Tree-sitter) are converging. The theory asks questions that Tree-sitter can answer.
 
 **Reference:** See `docs/specs/TREE_SITTER_INTEGRATION_SPEC.md` for full capability inventory.
+
+---
+
+## 13. Disconnection Taxonomy: Replacing "Orphan" (Jan 21, 2026)
+
+> **Discovery:** "Orphan" is a misclassification bucket, not a real category. It conflates 7+ distinct phenomena.
+
+### 13.1 The Problem
+
+Section 6 defines `topology_role=orphan` as nodes with `in_degree=0 AND out_degree=0`. This is **structurally correct but semantically lazy**.
+
+Research reveals "orphan" in dependency graphs is a **known bad practice** across the industry:
+> "Static analysis tools handle false positive orphans via whitelist rules, annotation-based exclusion, and iterative refinement."
+
+Translation: Everyone knows "orphan" is wrong, so they bolt on hacks.
+
+### 13.2 What "Orphan" Actually Conflates
+
+| What We Label | What It IS | Correct Treatment |
+|---------------|------------|-------------------|
+| orphan | Dead code (truly unreachable) | **DELETE** |
+| orphan | Entry point (__main__, CLI) | Mark as `root` |
+| orphan | Test fixture (pytest, jest) | Mark as `test_root` |
+| orphan | Framework-managed (DI, decorators) | Mark as `framework_root` |
+| orphan | Cross-language boundary (JS↔Python) | Mark as `boundary` |
+| orphan | Dynamic dispatch target (reflection) | Mark as `dynamic_target` |
+| orphan | External interface (public API) | Mark as `external_boundary` |
+
+**Evidence from Collider self-analysis (116 "orphans"):**
+- Only 11 (9%) are truly dead code
+- 68 (59%) are JS functions (cross-language gap)
+- 16 (14%) are test fixtures
+- 15 (13%) are dataclasses (instantiation not tracked)
+- 6 (5%) are script entry points
+
+### 13.3 Proposed: `disconnection` Property
+
+Replace the single "orphan" label with a rich taxonomy:
+
+```python
+disconnection: {
+    # WHY is this node disconnected?
+    reachability_source:
+        "unreachable"       |  # True dead code - DELETE
+        "entry_point"       |  # __main__, CLI, event handler
+        "test_entry"        |  # pytest fixture, test function
+        "framework_managed" |  # @Component, dataclass instantiation
+        "cross_language"    |  # Called from JS, YAML, etc.
+        "dynamic_target"    |  # Reflection, eval, getattr
+        "external_boundary",   # Public API, exported function
+
+    # HOW is it disconnected?
+    connection_gap:
+        "isolated"     |  # No incoming AND no outgoing
+        "no_incoming"  |  # Nothing calls this (but it calls others)
+        "no_outgoing",    # Calls nothing (terminal)
+
+    # How confident are we?
+    isolation_confidence: 0.0 - 1.0,
+
+    # What should we do?
+    suggested_action: "OK" | "CHECK" | "DELETE"
+}
+```
+
+### 13.4 Detection Logic
+
+```
+IF node is disconnected:
+    IF in test file           → test_entry (confidence: 0.95)
+    IF has __main__ guard     → entry_point (confidence: 0.99)
+    IF has framework decorator → framework_managed (confidence: 0.90)
+    IF different language     → cross_language (confidence: 0.70)
+    IF has dynamic patterns   → dynamic_target (confidence: 0.60)
+    IF is public/exported     → external_boundary (confidence: 0.80)
+    ELSE                      → unreachable (confidence: 0.85)
+```
+
+### 13.5 Visualization Implications
+
+**Current (Wrong):**
+```
+All orphans → Gray → "Dead code?" tooltip
+```
+
+**Proposed (Right):**
+
+| Category | Color | Icon | Tooltip |
+|----------|-------|------|---------|
+| `unreachable` | Red | 💀 | "No callers found - safe to delete?" |
+| `entry_point` | Green | ▶ | "Entry point - runs via __main__" |
+| `test_entry` | Blue | 🧪 | "Test fixture - framework invokes" |
+| `framework_managed` | Purple | ⚙ | "Framework creates this" |
+| `cross_language` | Yellow | 🌉 | "Called from other language" |
+| `dynamic_target` | Orange | ⚡ | "Called via reflection/dynamic" |
+| `external_boundary` | Cyan | ↗ | "Public API - external callers" |
+
+### 13.6 Theory Connection
+
+This connects to multiple SMC concepts:
+
+| Concept | Connection |
+|---------|------------|
+| **Interface Surface (§8)** | Disconnection types are boundary crossings our analysis can't see |
+| **Flow Substances (§7)** | Different substances flow through different boundaries |
+| **Tree-sitter (§12)** | `@local.reference` without `@local.definition` = external boundary |
+| **Systems of Systems (§5)** | Each disconnection type is a different kind of system boundary |
+
+### 13.7 Open Questions
+
+**Confidence calibration:**
+- How do we validate confidence scores empirically?
+- Should confidence decay over time (stale analysis)?
+
+**Cross-language completeness:**
+- Can we ever fully trace JS↔Python↔YAML↔HTML boundaries?
+- Is "cross_language" always a temporary classification?
+
+**The "truly dead" problem:**
+- Even `unreachable` might be called via:
+  - String-based imports (`importlib.import_module`)
+  - Config-driven dispatch
+  - Plugin systems
+- Is anything TRULY dead without runtime evidence?
+
+**Framework detection:**
+- How do we know all framework patterns?
+- Is there a universal "framework marker" or is it framework-specific?
+
+### 13.8 Implementation Status
+
+| Component | Status |
+|-----------|--------|
+| Research | ✅ Complete (see `docs/research/ORPHAN_TAXONOMY.md`) |
+| Theory | ✅ This section |
+| Detection algorithm | ⚪ Not implemented |
+| Schema update | ⚪ Not implemented |
+| Visualization | ⚪ Not implemented |
+
+**Reference:** See `docs/research/ORPHAN_TAXONOMY.md` for full research and visualization mockups.

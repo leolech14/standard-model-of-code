@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_062630",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_062630",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: This is a function, not a class inheriting from a base Stage class. While it orchestrates the analysis pipeline, it's not a Stage itself. It *calls* many things that could be stages, however.\n- **Deviation**: Does not inherit from a Stage class.\n\n- **Entity**: The anonymous code blocks which contain the Stage execution logic.  For example: `with StageTimer(perf_manager, \"Stage 1: Base Analysis\") as timer:`\n- **Status**: Non-Compliant\n- **Evidence**: These code blocks are executed within `run_full_analysis` and while using `StageTimer` for performance measurement, they are *not* classes that inherit from a base `Stage` class, nor do they implement an `execute` or `run` method. Further, they do not return a standard `ProcessingResult/AnalysisResult`.\n- **Deviation**: Does not inherit from a Stage class, does not implement `execute` or `run`, and doesn't return the correct type.\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code shows a well-structured and comprehensive analysis pipeline, incorporating various stages from base analysis to graph analytics, with a focus on performance tracking and error handling, suggesting good adherence to architectural principles and code maintainability."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The class reads raw source code to extract information like decorators, base classes, and docstrings, and infers folder layer from path. It does not perform complex semantic reasoning, focusing on extracting context for nodes.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_source` method in `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: This method reads the content of source files and splits it into lines to then extracts relevant code excerpts. No complex semantic reasoning is done here.\n- **Deviation**: N/A\n\n- **Entity**: `_extract_imports` method in `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The method extracts import statements from the source code using AST parsing or regex. It doesn't perform complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `_enrich_from_ast` method in `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: The method parses AST to extract decorators, base classes and docstrings. It uses AST to find the code block in question, but it is only extracting data and not performing classification.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver`\n- **Status**: Compliant\n- **Evidence**: `JSModuleResolver` analyzes JS files and keeps tracks of exports, imports and aliases. It enables the edge extractor to find function definitions across modules.\n- **Deviation**: N/A\n\n- **Entity**: `EdgeExtractionStrategy` and its subclasses (`PythonEdgeStrategy`, `JavascriptEdgeStrategy`, `TypeScriptEdgeStrategy`, `GoEdgeStrategy`, `RustEdgeStrategy`, `DefaultEdgeStrategy`, `TreeSitterEdgeStrategy`, `PythonTreeSitterStrategy`, `JavaScriptTreeSitterStrategy`, `TypeScriptTreeSitterStrategy`)\n- **Status**: Compliant\n- **Evidence**: These classes extract edges from the raw source code or AST of various languages. All operations are targeted towards extraction, not classification.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The provided PythonEdgeStrategy code does not violate any Antimatter laws because it is only a declaration, and has no implementation."
+        }
+      }
+    }
+  ]
+}

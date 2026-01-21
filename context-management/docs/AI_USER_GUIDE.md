@@ -39,39 +39,59 @@ python context-management/tools/ai/analyze.py "Does the archive tool violate the
 ```
 **Why it works**: The model "reads" your theory definitions before looking at the code, ensuring it speaks your language (Rings, Atoms, Tiers).
 
+### 5. The Holographic-Socratic Layer (Continuous Validation)
+**Tool**: `context-management/tools/ai/analyze.py --verify`
+**Best For**: Automated semantic auditing, Antimatter Law enforcement, codebase health monitoring.
+**Mechanism**: File-change triggers + scheduled runs + SocraticValidator class.
+**Usage**:
+```bash
+# Audit a domain against Antimatter Laws
+python context-management/tools/ai/analyze.py --verify pipeline
+
+# Audit specific candidate file
+python context-management/tools/ai/analyze.py --verify pipeline --candidate path/to/file.py
+```
+**Why it works**: The layer reconstructs full context from any partial query (Holographic) and perpetually questions code against invariants (Socratic). See [HOLOGRAPHIC_SOCRATIC_LAYER.md](./HOLOGRAPHIC_SOCRATIC_LAYER.md) for full documentation.
+
 ### 4. The Live Collaborator (Local Development)
-**Tool**: `context-management/tools/ai/local_analyze.py`
+**Tool**: `context-management/tools/ai/analyze.py`
 **Best For**: Active development, Debugging, "Chat with my code".
 
-**Two Modes of Operation**:
+**Three Modes of Operation**:
 1.  **Tier 1 (Vertex AI)**: Deep reasoning, long-context (1M+ tokens).
 2.  **Tier 2 (File Search)**: Fast, cheap RAG with citations (requires `GEMINI_API_KEY`).
+3.  **Tier 3 (Socratic Verification)**: Automated semantic auditing and guardrail enforcement.
 
 **Usage**:
 
 **Tier 1: Deep Reasoning (Vertex)**
 ```bash
 # Chat with your local changes (uses .tools_venv)
-python context-management/tools/ai/local_analyze.py --interactive --set body
+python context-management/tools/ai/analyze.py --interactive --set body
 ```
 
 **Tier 2: Fast RAG (File Search)**
 ```bash
 # 1. Index a set (e.g. 'renderer') to a store
 export GEMINI_API_KEY="..."
-python context-management/tools/ai/local_analyze.py --index --set renderer --store-name renderer-v1
+python context-management/tools/ai/analyze.py --index --set renderer --store-name renderer-v1
 
 # 2. Ask questions with citations
-python context-management/tools/ai/local_analyze.py --search "How are textures loaded?" --store-name renderer-v1
-
-# 3. Manage stores
-python context-management/tools/ai/local_analyze.py --list-stores
-python context-management/tools/ai/local_analyze.py --delete-store renderer-v1
+python context-management/tools/ai/analyze.py --search "How are textures loaded?" --store-name renderer-v1
 ```
 
-**Tier 3: Insights (Structured Output)**
+**Tier 3: Socratic Verification (The Critic)**
 ```bash
-python context-management/tools/ai/local_analyze.py --mode insights --file "README.md" --output "report.json"
+# Audit a domain against Antimatter Laws
+python context-management/tools/ai/analyze.py --verify pipeline
+
+# Check a specific candidate file
+python context-management/tools/ai/analyze.py --verify pipeline --candidate standard-model-of-code/src/core/violation_stage.py
+```
+
+**Insights (Structured Output)**
+```bash
+python context-management/tools/ai/analyze.py --mode insights --file "README.md" --output "report.json"
 ```
 
 ## The Workflows
@@ -95,6 +115,6 @@ python context-management/tools/ai/local_analyze.py --mode insights --file "READ
 
 2.  **Ask for Help**:
     ```bash
-    .tools_venv/bin/python context-management/tools/ai/local_analyze.py --interactive
+    .tools_venv/bin/python context-management/tools/ai/analyze.py --interactive
     ```
     *Interactive session loads your local files instantly.*

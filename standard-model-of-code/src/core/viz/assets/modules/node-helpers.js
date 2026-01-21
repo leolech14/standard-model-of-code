@@ -66,6 +66,24 @@ window.NODE_HELPERS = (function() {
         const NODE_COLOR_MODE = window.NODE_COLOR_MODE;
         const DM = window.DM;
 
+        // Special case: CODOME boundary nodes (external callers)
+        // Always use their explicit color_hint, regardless of color mode
+        if (node.is_codome_boundary || node.kind === 'boundary') {
+            if (node.color_hint) {
+                return node.color_hint;
+            }
+            // Fallback color mapping by codome_source
+            const CODOME_COLORS = {
+                'test_entry': '#4CAF50',      // Green
+                'entry_point': '#2196F3',     // Blue
+                'framework_managed': '#9C27B0', // Purple
+                'cross_language': '#FF9800',  // Orange
+                'external_boundary': '#00BCD4', // Cyan
+                'dynamic_target': '#E91E63'   // Pink
+            };
+            return CODOME_COLORS[node.codome_source] || '#FF9800';
+        }
+
         // Special case: file coloring needs extra context
         if (NODE_COLOR_MODE === 'file') {
             const fileIdx = node.fileIdx ?? -1;
@@ -143,6 +161,11 @@ window.NODE_HELPERS = (function() {
             if (window.fileMode) {
                 return;
             }
+            // For boundary nodes, always apply their specific color
+            if (node.is_codome_boundary || node.kind === 'boundary') {
+                node.color = getNodeColorByMode(node);
+                return;
+            }
             node.color = getNodeColorByMode(node);
         });
     }
@@ -155,21 +178,41 @@ window.NODE_HELPERS = (function() {
         const Graph = window.Graph;
         if (!Graph) return;
         const scale = window.APPEARANCE_STATE?.nodeScale || 1;
+        const BOUNDARY_NODE_SIZE_MULTIPLIER = 1.5; // Boundary nodes 1.5x larger
+
+        const isBoundaryNode = (n) => n.is_codome_boundary || n.kind === 'boundary';
+        const sizeWithBoundaryCheck = (baseSize) =>
+            isBoundaryNode({ is_codome_boundary: arguments[0]?.is_codome_boundary, kind: arguments[0]?.kind })
+                ? baseSize * BOUNDARY_NODE_SIZE_MULTIPLIER
+                : baseSize;
+
         switch (mode) {
             case 'uniform':
-                Graph.nodeVal(() => 1 * scale);
+                Graph.nodeVal(n => (isBoundaryNode(n) ? 1.5 : 1) * scale);
                 break;
             case 'degree':
-                Graph.nodeVal(n => Math.max(1, ((n.in_degree || 0) + (n.out_degree || 0)) * 0.5) * scale);
+                Graph.nodeVal(n => {
+                    const baseSize = Math.max(1, ((n.in_degree || 0) + (n.out_degree || 0)) * 0.5);
+                    return (isBoundaryNode(n) ? baseSize * BOUNDARY_NODE_SIZE_MULTIPLIER : baseSize) * scale;
+                });
                 break;
             case 'fanout':
-                Graph.nodeVal(n => (n.val || n.fanout || 1) * scale);
+                Graph.nodeVal(n => {
+                    const baseSize = n.val || n.fanout || 1;
+                    return (isBoundaryNode(n) ? baseSize * BOUNDARY_NODE_SIZE_MULTIPLIER : baseSize) * scale;
+                });
                 break;
             case 'complexity':
-                Graph.nodeVal(n => Math.max(1, (n.complexity || n.loc || 10) * 0.05) * scale);
+                Graph.nodeVal(n => {
+                    const baseSize = Math.max(1, (n.complexity || n.loc || 10) * 0.05);
+                    return (isBoundaryNode(n) ? baseSize * BOUNDARY_NODE_SIZE_MULTIPLIER : baseSize) * scale;
+                });
                 break;
             default:
-                Graph.nodeVal(n => (n.val || 1) * scale);
+                Graph.nodeVal(n => {
+                    const baseSize = n.val || 1;
+                    return (isBoundaryNode(n) ? baseSize * BOUNDARY_NODE_SIZE_MULTIPLIER : baseSize) * scale;
+                });
         }
     }
 

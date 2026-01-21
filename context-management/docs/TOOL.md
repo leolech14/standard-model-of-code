@@ -341,6 +341,8 @@ ddd:
 
 Architectural violations that the Collider can detect.
 
+> **Automated Enforcement**: The [Holographic-Socratic Layer](./HOLOGRAPHIC_SOCRATIC_LAYER.md) continuously monitors for these violations via scheduled and file-triggered audits.
+
 | ID | Name | Description | Severity |
 |----|------|-------------|----------|
 | AM001 | Layer Skip Violation | Direct dependency from higher to non-adjacent lower layer | ERROR |

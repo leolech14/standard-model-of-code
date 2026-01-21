@@ -8,7 +8,7 @@ paths:
 ## AI Analysis Tool
 - Location: `tools/ai/analyze.py`
 - Requires: `gcloud auth application-default login`
-- Model: `gemini-2.0-flash-001` (1M context)
+- Model: `gemini-2.5-pro` (default, best quality)
 
 ## Analysis Sets
 - Defined in: `config/analysis_sets.yaml`

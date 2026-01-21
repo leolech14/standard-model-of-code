@@ -1,0 +1,123 @@
+{
+  "timestamp": "20260121_105420",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_105420",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function `def run_full_analysis(...)`, not a class. The analysis pipeline is orchestrated through a series of procedural function calls within this main function, such as `nodes = enrich_with_standard_model(nodes)` and `markov = compute_markov_matrix(nodes, edges)`.\n- **Deviation**: The implementation follows a procedural/functional pattern rather than the object-oriented one described by the invariants.\n    - It does not inherit from a base class.\n    - While its name includes \"run\", it does not implement a method as it is not a class.\n    - It is not fully stateless, as it has side effects like printing to the console and orchestrating file system operations (e.g., via `_generate_ai_insights` and potentially opening reports).\n    - It returns a dictionary, which is a structured format, but not an instance of a `ProcessingResult`/`AnalysisResult` class.\n\n- **Entity**: `compute_markov_matrix`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function `def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:`. It is a processing unit called within `run_full_analysis`.\n- **Deviation**: This function does not meet the structural requirements of a 'Stage' class.\n    - It does not inherit from a base class.\n    - It does not have an `execute` or `run` method; it is invoked directly by its descriptive name.\n    - It is not stateless. The evidence is in the code: `for edge in edges: ... edge['markov_weight'] = ...`. This modifies the `edges` list, which is passed in as an argument, violating the statelessness invariant.\n    - It returns a dictionary, not an instance of a standard result class.\n\n- **Entity**: `detect_knots`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function `def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:`. It is a processing unit called within `run_full_analysis`.\n- **Deviation**: This function does not meet the structural requirements of a 'Stage' class.\n    - It does not inherit from a base class.\n    - It does not have an `execute` or `run` method.\n    - It returns a dictionary, not an instance of a standard result class.\n    - (Note: It does appear to be stateless, as it does not modify its inputs.)\n\n- **Entity**: `compute_data_flow`\n- **Status**: Non-Compliant\n- **Evidence**: The entity is a standalone function `def compute_data_flow(nodes: List[Dict], edges: List[Dict]) -> Dict:`. It is a processing unit called within `run_full_analysis`.\n- **Deviation**: This function does not meet the structural requirements of a 'Stage' class.\n    - It does not inherit from a base class.\n    - It does not have an `execute` or `run` method.\n    - It returns a dictionary, not an instance of a standard result class.\n    - (Note: It does appear to be stateless, as it does not modify its inputs.)",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM002",
+              "severity": "HIGH",
+              "reasoning": "The 'Stage' role is violated by the `_generate_ai_insights` function, which uses `subprocess` to execute another Python script (`analyze.py`) from within the same project. This creates a fragile, out-of-process dependency based on file system paths and external process management, rather than using a clean, in-process API call via imports. This pattern complicates dependency management, testing, and introduces unnecessary performance overhead and points of failure. A proper Stage should integrate with other internal components via direct function calls."
+            }
+          ],
+          "critique_summary": "The code effectively orchestrates a complex analysis pipeline but commits a significant architectural drift by shelling out to an external script for a core function, which introduces brittleness and violates stage encapsulation."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**:\n    - **Invariant 1 (Must operate on raw file content or AST):** The class directly satisfies this invariant.\n        - It operates on raw file content in `_enrich_from_source` by reading files with `file_path.read_text(...)` and caching the lines.\n        - It operates on an AST in `_enrich_from_ast` by using `ast.parse(source)` and `ast.walk(tree)` to extract details like decorators, base classes, and docstrings.\n    - **Invariant 2 (Must not perform complex semantic reasoning):** The class's primary role is to gather factual context (code excerpts, signatures, imports, AST-derived properties) for a component. The method `_infer_layer` performs a very simple heuristic guess based on path name patterns (e.g., if \"/api/\" is in the path, the layer is \"presentation\"). This is not complex reasoning; it's a shallow, rule-based pattern match intended as a \"heuristic pre-classification\" to aid the actual Classifier, which is consistent with the role of preparing data.\n- **Deviation**: None. The heuristic layer inference is a form of light reasoning but does not qualify as \"complex semantic reasoning\" and fits within the component's stated goal of preparing rich context for a classifier.\n\n---\n\n- **Entity**: `EdgeExtractor` (and associated strategies like `PythonEdgeStrategy`, `TreeSitterEdgeStrategy`, `JSModuleResolver`)\n- **Status**: Compliant\n- **Evidence**:\n    - **Invariant 1 (Must operate on raw file content or AST):** The entire component and its strategies are built on this principle.\n        - Regex-based strategies (`PythonEdgeStrategy`, `JavascriptEdgeStrategy`) operate on raw code snippets (`body_source`) using `re.findall`.\n        - Tree-sitter-based strategies (`PythonTreeSitterStrategy`, `JavaScriptTreeSitterStrategy`) operate on ASTs by parsing the `body_source` with a `tree_sitter` parser and querying the resulting tree for call nodes.\n    - **Invariant 2 (Must not perform complex semantic reasoning):** The component's purpose is to extract structural relationships (edges) like `calls` and `uses`. It identifies that \"function A calls function B\" but does not interpret the meaning or architectural implication of that call. Even the more advanced `JSModuleResolver` is focused on the structural task of resolving which specific function is being called, which is a necessary step for accurate data ingestion, not a semantic interpretation of the code's behavior.\n- **Deviation**: None. The component is strictly focused on extracting factual, structural data (the graph edges) from the source code.",
+        "guardrails": {
+          "compliant": false,
+          "violations": [
+            {
+              "law_id": "AM002",
+              "severity": "HIGH",
+              "reasoning": "The 'PythonEdgeStrategy' class in edge_extractor.py is defined to fulfill the role of a Python-specific edge extractor, but its core 'extract_edges' method is a non-functional placeholder containing only 'body = part'. This constitutes a severe architectural drift, as the component completely fails to perform its advertised architectural function, leaving a critical gap in the system's capability."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "HIGH",
+              "reasoning": "In edge_extractor.py, the 'JSModuleResolver.resolve_member_call' method's Strategy 3 ('Fuzzy match') uses a simplistic string comparison ('file_stem.startswith(object_lower)'). This approach is a form of Context Myopia as it ignores the rich semantics of JavaScript modules and namespaces, leading to a high probability of incorrect call graph resolutions and demonstrating a failure to use more robust, context-aware parsing techniques already present in the resolver."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "MEDIUM",
+              "reasoning": "In smart_extractor.py, the '_add_graph_context' function uses simple substring matching ('name in source') to connect nodes and edges. This is myopic because it ignores the structured format of the node IDs, creating a high risk of incorrect connections where one node's name is a substring of another's (e.g., 'DB' matching 'MongoDB')."
+            },
+            {
+              "law_id": "AM001",
+              "severity": "MEDIUM",
+              "reasoning": "In edge_extractor.py, the '_find_target_particle' function, when faced with multiple cross-file candidates for a function call, defaults to picking the first one ('candidates[0]'). This is myopic as it ignores the caller's specific import context, making an arbitrary choice that is likely to be incorrect in any project with shared function names across different modules."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The 'edge_extractor.py' file defines a large frozenset named 'STDLIB_MODULES'. This constant is defined but is never referenced or used anywhere within the provided codebase, making it orphan code."
+            },
+            {
+              "law_id": "AM004",
+              "severity": "LOW",
+              "reasoning": "The 'JSModuleResolver' class in edge_extractor.py defines a public method 'get_stats()', but there are no calls to this method within the project. It is defined but unused, qualifying as orphan code."
+            },
+            {
+              "law_id": "AM002",
+              "severity": "LOW",
+              "reasoning": "Node identity generation logic is duplicated and fragmented across modules. 'smart_extractor.py' creates its own 'node_id' format, while 'edge_extractor.py' defines a different, more complex system for creating node and file IDs. This represents a minor architectural drift, as this core concern should be centralized in a single utility or model to ensure consistency."
+            }
+          ],
+          "critique_summary": "The audit reveals significant architectural flaws, especially in edge extraction, which relies on brittle heuristics and contains non-functional placeholders, alongside multiple instances of unused code and context-ignoring logic."
+        }
+      }
+    }
+  ]
+}

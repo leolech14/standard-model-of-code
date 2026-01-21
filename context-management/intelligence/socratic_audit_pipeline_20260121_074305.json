@@ -1,0 +1,81 @@
+{
+  "timestamp": "20260121_074305",
+  "domain": "pipeline",
+  "execution_id": "pipeline-20260121_074305",
+  "generation": 1,
+  "parent_execution_id": null,
+  "analysis_type": "primary",
+  "source": {
+    "type": "repository",
+    "location": "/Users/lech/PROJECTS_all/PROJECT_elements"
+  },
+  "results": [
+    {
+      "hypothesis": {
+        "concept": "Stage",
+        "claim": "Hypothesis: The concept 'Stage' is implemented according to strict invariants.",
+        "description": "A processing unit in the analysis pipeline.",
+        "invariants": [
+          "Must inherit from a base Stage class (e.g., BaseStage)",
+          "Must implement an 'execute' or 'run' method",
+          "Should be stateless (no instance variables modified during run)",
+          "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_stage.py",
+            "pattern": "class *Stage"
+          },
+          {
+            "file": "standard-model-of-code/src/core/full_analysis.py",
+            "pattern": "class FullAnalysisPipeline"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "analysis": "```text\n### Findings\n- **Entity**: `run_full_analysis`\n- **Status**: Non-Compliant\n- **Evidence**: While `run_full_analysis` orchestrates multiple steps, it doesn't inherit from a base `Stage` class, nor does it return a standard result format like `ProcessingResult` or `AnalysisResult`. It directly returns a dictionary `full_output`. Additionally, it mutates the `nodes` list in place across multiple stages, violating the statelessness invariant.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format, and is not stateless.\n\n- **Entity**: `analyze` (from `unified_analysis.py` implicitly)\n- **Status**: Compliant (Assuming it adheres to the invariants, but without the code of unified_analysis.py it is impossible to be sure)\n- **Evidence**: The code mentions `from unified_analysis import analyze` and the `run_full_analysis` function calls `analyze` and processes its result. Assuming the `analyze` function returns a dictionary with 'nodes' and 'edges' keys (or an object with `.nodes` and `.edges` attributes), and adheres to other Stage invariants, it can be considered a Stage. Without the source code of `unified_analysis.py` it is impossible to check if it implements an 'execute' or 'run' method, the exact return type and if the called function is stateless.\n\n- **Entity**: `enrich_with_standard_model`\n- **Status**: Non-Compliant\n- **Evidence**: `enrich_with_standard_model` is called with the nodes list and modifies it in place, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `detect_purpose_field`\n- **Status**: Non-Compliant\n- **Evidence**: `detect_purpose_field` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `detect_execution_flow`\n- **Status**: Non-Compliant\n- **Evidence**: `detect_execution_flow` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `compute_markov_matrix`\n- **Status**: Non-Compliant\n- **Evidence**: `compute_markov_matrix` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `detect_knots`\n- **Status**: Non-Compliant\n- **Evidence**: `detect_knots` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `compute_data_flow`\n- **Status**: Non-Compliant\n- **Evidence**: `compute_data_flow` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `predict_performance`\n- **Status**: Non-Compliant\n- **Evidence**: `predict_performance` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `RoadmapEvaluator`'s `evaluate` method\n- **Status**: Non-Compliant\n- **Evidence**: The `evaluate` method of `RoadmapEvaluator` is called, but there is no indication that `RoadmapEvaluator` inherits from a base Stage class or that its `evaluate` method returns the standard result type. Also, it's a method rather than a standalone function.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `TopologyClassifier`'s `classify` method\n- **Status**: Non-Compliant\n- **Evidence**: The `classify` method of `TopologyClassifier` is called, but there is no indication that `TopologyClassifier` inherits from a base Stage class or that its `classify` method returns the standard result type. Also, it's a method rather than a standalone function.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `ConceptExtractor`'s `extract_concepts` method\n- **Status**: Non-Compliant\n- **Evidence**: The `extract_concepts` method of `ConceptExtractor` is called, but there is no indication that `ConceptExtractor` inherits from a base Stage class or that its `extract_concepts` method returns the standard result type. Also, it's a method rather than a standalone function.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `_generate_ai_insights`\n- **Status**: Non-Compliant\n- **Evidence**: `_generate_ai_insights` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `generate_outputs` (from `src.core.output_generator.py` implicitly)\n- **Status**: Non-Compliant\n- **Evidence**: `generate_outputs` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `ConstraintEngine`'s `validate_graph` method\n- **Status**: Non-Compliant\n- **Evidence**: The `validate_graph` method of `ConstraintEngine` is called, but there is no indication that `ConstraintEngine` inherits from a base Stage class or that its `validate_graph` method returns the standard result type. Also, it's a method rather than a standalone function.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `discover_ecosystem_unknowns`\n- **Status**: Non-Compliant\n- **Evidence**: `discover_ecosystem_unknowns` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `classify_all_dimensions`\n- **Status**: Non-Compliant\n- **Evidence**: `classify_all_dimensions` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `build_file_index`\n- **Status**: Non-Compliant\n- **Evidence**: `build_file_index` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n\n- **Entity**: `build_file_boundaries`\n- **Status**: Non-Compliant\n- **Evidence**: `build_file_boundaries` is called, but does not inherit from a base class or returns the standard result type.\n- **Deviation**: Does not inherit from a base Stage class, does not return a standard result format.\n```",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The code generally adheres to architectural principles and avoids common antimatter violations, focusing on comprehensive code analysis and enrichment."
+        }
+      }
+    },
+    {
+      "hypothesis": {
+        "concept": "Extractor",
+        "claim": "Hypothesis: The concept 'Extractor' is implemented according to strict invariants.",
+        "description": "Component responsible for raw data ingestion.",
+        "invariants": [
+          "Must operate on raw file content or AST",
+          "Must not perform complex semantic reasoning (role of Classifier)"
+        ],
+        "anchors": [
+          {
+            "file": "standard-model-of-code/src/core/*_extractor*.py",
+            "pattern": "class *Extractor"
+          }
+        ],
+        "scope": "standard-model-of-code/src/core/**"
+      },
+      "result": {
+        "verified": true,
+        "candidates": [
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/smart_extractor.py",
+          "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/edge_extractor.py"
+        ],
+        "analysis": "### Findings\n- **Entity**: `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: This class reads actual source code, extracts AST information and infers folder layer from path and collects import statements. It operates on raw file content and AST. Does not perform any semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `_extract_imports` method in `SmartExtractor`\n- **Status**: Compliant\n- **Evidence**: This method extract imports statements from the source code using AST. It operates on raw file content and AST. Does not perform any semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `EdgeExtractionStrategy` (and its subclasses) in `edge_extractor.py`\n- **Status**: Compliant\n- **Evidence**: The `EdgeExtractionStrategy` and its subclasses operate on the `body_source` of code elements, using regular expressions or AST parsing to identify relationships (edges) between code elements. These strategies focus on extracting call graphs and usage patterns, and do not perform any complex semantic reasoning.\n- **Deviation**: N/A\n\n- **Entity**: `JSModuleResolver` in `edge_extractor.py`\n- **Status**: Compliant\n- **Evidence**: The `JSModuleResolver` analyzes JavaScript files to extract module aliases and exports, focusing on identifying import and export patterns. It does not perform complex semantic reasoning, instead focusing on resolving module references based on syntax and file structure.\n- **Deviation**: N/A\n",
+        "guardrails": {
+          "compliant": true,
+          "violations": [],
+          "critique_summary": "The provided code does not violate any of the specified Antimatter laws as the PythonEdgeStrategy class provides a structure for extracting edges from python code while also accounting for the standard library."
+        }
+      }
+    }
+  ]
+}

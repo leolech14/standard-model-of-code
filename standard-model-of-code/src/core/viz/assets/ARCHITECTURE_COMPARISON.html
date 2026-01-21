@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collider Architecture: v1.0 vs v2.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --surface: #131920;
+            --surface-2: #1a2028;
+            --border: #2a3444;
+            --text: #c5cdd9;
+            --text-muted: #6b7a8f;
+            --accent: #39bae6;
+            --green: #7fd962;
+            --yellow: #e6b450;
+            --orange: #ff8f40;
+            --red: #f07178;
+            --purple: #d4bfff;
+            --v1-color: #ff8f40;
+            --v2-color: #7fd962;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--v1-color), var(--v2-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 24px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .toggle-btn {
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-btn:hover {
+            background: var(--border);
+        }
+
+        .toggle-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .toggle-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Score Overview */
+        .score-overview {
+            display: grid;
+            grid-template-columns: 1fr 200px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
+        }
+
+        .score-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .score-card.v1 {
+            border-color: var(--v1-color);
+            box-shadow: 0 0 40px rgba(255, 143, 64, 0.1);
+        }
+
+        .score-card.v2 {
+            border-color: var(--v2-color);
+            box-shadow: 0 0 40px rgba(127, 217, 98, 0.1);
+        }
+
+        .score-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .score-card.v1 h2 { color: var(--v1-color); }
+        .score-card.v2 h2 { color: var(--v2-color); }
+
+        .score-card .grade {
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 16px 0;
+        }
+
+        .score-card.v1 .grade { color: var(--v1-color); }
+        .score-card.v2 .grade { color: var(--v2-color); }
+
+        .score-card .score {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .arrow {
+            font-size: 3rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .improvement {
+            background: var(--v2-color);
+            color: var(--bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(10px); opacity: 0.7; }
+        }
+
+        /* Radar Chart */
+        .chart-section {
+            margin-bottom: 60px;
+        }
+
+        .chart-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .radar-chart {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+
+        .radar-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radar-axis {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 200px;
+            background: var(--border);
+            transform-origin: top center;
+        }
+
+        .radar-label {
+            position: absolute;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+        }
+
+        .radar-polygon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radar-polygon svg {
+            overflow: visible;
+        }
+
+        .radar-v1 {
+            fill: rgba(255, 143, 64, 0.2);
+            stroke: var(--v1-color);
+            stroke-width: 2;
+            transition: all 0.8s ease;
+        }
+
+        .radar-v2 {
+            fill: rgba(127, 217, 98, 0.2);
+            stroke: var(--v2-color);
+            stroke-width: 2;
+            transition: all 0.8s ease;
+        }
+
+        .radar-v1.animated, .radar-v2.animated {
+            animation: radarPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes radarPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.9; }
+        }
+
+        /* Bar Chart */
+        .bar-chart-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 180px 1fr 60px;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .bar-label {
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .bar-track {
+            height: 32px;
+            background: var(--surface-2);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 8px;
+            transition: width 1s ease;
+        }
+
+        .bar-fill.v1 {
+            background: linear-gradient(90deg, var(--v1-color), rgba(255, 143, 64, 0.6));
+            z-index: 1;
+        }
+
+        .bar-fill.v2 {
+            background: linear-gradient(90deg, var(--v2-color), rgba(127, 217, 98, 0.6));
+            z-index: 2;
+        }
+
+        .bar-fill.animated {
+            animation: barGrow 1.5s ease forwards;
+        }
+
+        @keyframes barGrow {
+            from { width: 0 !important; }
+        }
+
+        .bar-value {
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 4px;
+        }
+
+        .bar-value .v1-val { color: var(--v1-color); }
+        .bar-value .v2-val { color: var(--v2-color); }
+
+        /* Comparison Grid */
+        .comparison-section {
+            margin-bottom: 60px;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .comparison-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-card.v1 { border-top: 3px solid var(--v1-color); }
+        .comparison-card.v2 { border-top: 3px solid var(--v2-color); }
+
+        .comparison-card .card-header {
+            padding: 20px 24px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comparison-card .card-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .comparison-card.v1 .card-header h3 { color: var(--v1-color); }
+        .comparison-card.v2 .card-header h3 { color: var(--v2-color); }
+
+        .comparison-card .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .comparison-card.v1 .badge {
+            background: rgba(255, 143, 64, 0.2);
+            color: var(--v1-color);
+        }
+
+        .comparison-card.v2 .badge {
+            background: rgba(127, 217, 98, 0.2);
+            color: var(--v2-color);
+        }
+
+        .comparison-card .card-body {
+            padding: 24px;
+        }
+
+        .comparison-card pre {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .comparison-card .problem {
+            color: var(--red);
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .comparison-card .solution {
+            color: var(--green);
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .benefits-list li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--v2-color);
+            font-weight: bold;
+        }
+
+        /* Mermaid Diagrams */
+        .diagram-section {
+            margin-bottom: 60px;
+        }
+
+        .diagram-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .diagram-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .diagram-tab {
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .diagram-tab:hover {
+            background: var(--surface-2);
+        }
+
+        .diagram-tab.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(57, 186, 230, 0.1);
+        }
+
+        .diagram-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            min-height: 400px;
+        }
+
+        .diagram-panel {
+            display: none;
+        }
+
+        .diagram-panel.active {
+            display: block;
+        }
+
+        .diagram-panel .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Improvement Cards */
+        .improvements-section {
+            margin-bottom: 60px;
+        }
+
+        .improvements-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .improvements-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .improvement-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .improvement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .improvement-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .improvement-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .improvement-card .points {
+            display: inline-block;
+            background: var(--v2-color);
+            color: var(--bg);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .improvement-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Progress Animation */
+        .progress-section {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .progress-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .progress-ring-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+        }
+
+        .progress-ring .bg {
+            stroke: var(--surface-2);
+        }
+
+        .progress-ring .progress {
+            stroke-dasharray: 565.48;
+            stroke-dashoffset: 565.48;
+            transition: stroke-dashoffset 2s ease;
+        }
+
+        .progress-ring.v1 .progress { stroke: var(--v1-color); }
+        .progress-ring.v2 .progress { stroke: var(--v2-color); }
+
+        .progress-ring.animated .progress {
+            animation: ringFill 2s ease forwards;
+        }
+
+        .progress-ring .label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-ring .label .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .progress-ring.v1 .label .value { color: var(--v1-color); }
+        .progress-ring.v2 .label .value { color: var(--v2-color); }
+
+        .progress-ring .label .text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Summary */
+        .summary-section {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .summary-section h2 {
+            font-size: 2rem;
+            margin-bottom: 24px;
+            color: var(--v2-color);
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-bottom: 32px;
+        }
+
+        .summary-stat {
+            text-align: center;
+        }
+
+        .summary-stat .value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .summary-stat .label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .summary-section .cta {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--v2-color);
+            color: var(--bg);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .summary-section .cta:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Animations Toggle */
+        .no-animations * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* Legend */
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .legend-dot.v1 { background: var(--v1-color); }
+        .legend-dot.v2 { background: var(--v2-color); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Architecture Evolution</h1>
+        <p>Collider Visualization: v1.0 vs v2.0 Comparison</p>
+    </header>
+
+    <div class="controls">
+        <button class="toggle-btn active" id="toggleAnimations" onclick="toggleAnimations()">
+            <span class="icon">▶</span>
+            <span id="animBtnText">Animations ON</span>
+        </button>
+        <button class="toggle-btn" onclick="replayAnimations()">
+            <span class="icon">↻</span>
+            Replay All
+        </button>
+        <button class="toggle-btn" onclick="toggleVersion('v1')">
+            <span class="icon" style="color: var(--v1-color);">●</span>
+            Show v1.0
+        </button>
+        <button class="toggle-btn" onclick="toggleVersion('v2')">
+            <span class="icon" style="color: var(--v2-color);">●</span>
+            Show v2.0
+        </button>
+    </div>
+
+    <main class="container">
+        <!-- Score Overview -->
+        <section class="score-overview">
+            <div class="score-card v1">
+                <h2>Version 1.0</h2>
+                <div class="grade">B+</div>
+                <div class="score">79 / 100</div>
+            </div>
+            <div class="arrow-container">
+                <div class="arrow">→</div>
+                <div class="improvement">+13 pts</div>
+            </div>
+            <div class="score-card v2">
+                <h2>Version 2.0</h2>
+                <div class="grade">A-</div>
+                <div class="score">92 / 100</div>
+            </div>
+        </section>
+
+        <!-- Progress Rings -->
+        <section class="progress-section">
+            <h2>Overall Score</h2>
+            <div class="progress-ring-container">
+                <div class="progress-ring v1 animated" id="ring-v1">
+                    <svg width="200" height="200">
+                        <circle class="bg" cx="100" cy="100" r="90"/>
+                        <circle class="progress" cx="100" cy="100" r="90" style="stroke-dashoffset: 118.75"/>
+                    </svg>
+                    <div class="label">
+                        <div class="value">79</div>
+                        <div class="text">v1.0</div>
+                    </div>
+                </div>
+                <div class="progress-ring v2 animated" id="ring-v2">
+                    <svg width="200" height="200">
+                        <circle class="bg" cx="100" cy="100" r="90"/>
+                        <circle class="progress" cx="100" cy="100" r="90" style="stroke-dashoffset: 45.24"/>
+                    </svg>
+                    <div class="label">
+                        <div class="value">92</div>
+                        <div class="text">v2.0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bar Chart -->
+        <section class="chart-section">
+            <h2>Category Comparison</h2>
+            <div class="bar-chart-container">
+                <div class="bar-row">
+                    <div class="bar-label">Modularity</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 90%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">9</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Dependencies</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 70%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">7</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Separation</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 80%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">8</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Testability</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 60%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">6</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Performance</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 90%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">9</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Migration Safety</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 80%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">8</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Maintainability</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 80%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">8</span>/<span class="v2-val">9</span></div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Error Handling</div>
+                    <div class="bar-track">
+                        <div class="bar-fill v1 animated" style="width: 50%"></div>
+                        <div class="bar-fill v2 animated" style="width: 90%"></div>
+                    </div>
+                    <div class="bar-value"><span class="v1-val">5</span>/<span class="v2-val">9</span></div>
+                </div>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot v1"></div>
+                    <span>v1.0 (Current)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot v2"></div>
+                    <span>v2.0 (Proposed)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Improvements -->
+        <section class="improvements-section">
+            <h2>Key Improvements</h2>
+            <div class="improvements-grid">
+                <div class="improvement-card">
+                    <div class="icon">💉</div>
+                    <h3>Dependency Injection</h3>
+                    <span class="points">+2 points</span>
+                    <p>Explicit <code>init(deps)</code> methods replace implicit global references. Modules become testable in isolation and dependencies are visible in code.</p>
+                    <ul class="benefits-list">
+                        <li>Test modules without browser</li>
+                        <li>Safe refactoring</li>
+                        <li>Self-documenting architecture</li>
+                    </ul>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🎨</div>
+                    <h3>Single Source of Truth</h3>
+                    <span class="points">+3 points</span>
+                    <p>Python injects palette config at build time. No more hardcoded colors in JavaScript that can drift from token files.</p>
+                    <ul class="benefits-list">
+                        <li>Change tokens once, changes everywhere</li>
+                        <li>Impossible for Python/JS to disagree</li>
+                        <li>Smaller JS bundle</li>
+                    </ul>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🧪</div>
+                    <h3>Test Suite</h3>
+                    <span class="points">+3 points</span>
+                    <p>Automated Jest tests for all pure logic modules. CI catches regressions before users see bugs.</p>
+                    <ul class="benefits-list">
+                        <li>Refactor with confidence</li>
+                        <li>Tests document behavior</li>
+                        <li>Coverage metrics</li>
+                    </ul>
+                </div>
+                <div class="improvement-card">
+                    <div class="icon">🛡️</div>
+                    <h3>Error Boundaries</h3>
+                    <span class="points">+4 points</span>
+                    <p>Global error handler catches failures and shows actionable fallback UI instead of white screen of death.</p>
+                    <ul class="benefits-list">
+                        <li>Users always see something useful</li>
+                        <li>Errors logged for debugging</li>
+                        <li>Non-critical failures don't crash app</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Comparison -->
+        <section class="comparison-section">
+            <h2>Code Comparison</h2>
+
+            <h3 style="text-align: center; margin: 32px 0 16px; color: var(--text-muted);">Dependency Management</h3>
+            <div class="comparison-grid">
+                <div class="comparison-card v1">
+                    <div class="card-header">
+                        <h3>v1.0 - Implicit Globals</h3>
+                        <span class="badge">Fragile</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="problem">⚠️ References globals that may not exist</p>
+                        <pre><code>// core.js
+function amplify(value, gamma) {
+    // APPEARANCE_STATE might not exist!
+    const g = gamma !== undefined ? gamma :
+        (typeof APPEARANCE_STATE !== 'undefined'
+            ? APPEARANCE_STATE.amplifier
+            : 1);
+    return Math.pow(value, 1 / g);
+}
+
+// refresh-throttle.js
+function _doRefresh() {
+    // Graph might not exist!
+    if (typeof Graph !== 'undefined') {
+        Graph.refresh();
+    }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="comparison-card v2">
+                    <div class="card-header">
+                        <h3>v2.0 - Explicit Init</h3>
+                        <span class="badge">Robust</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="solution">✓ Dependencies passed explicitly</p>
+                        <pre><code>// core.js
+const CORE = (function() {
+    let _config = { amplifier: 1 };
+
+    function init(config) {
+        Object.assign(_config, config);
+        return CORE;
+    }
+
+    function amplify(value, gamma) {
+        const g = gamma ?? _config.amplifier;
+        return Math.pow(value, 1 / g);
+    }
+
+    return { init, amplify };
+})();
+
+// main.js - explicit wiring
+CORE.init({ amplifier: 1.5 });
+REFRESH.init(graph);</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin: 32px 0 16px; color: var(--text-muted);">Error Handling</h3>
+            <div class="comparison-grid">
+                <div class="comparison-card v1">
+                    <div class="card-header">
+                        <h3>v1.0 - No Boundaries</h3>
+                        <span class="badge">Risky</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="problem">⚠️ Any error = white screen</p>
+                        <pre><code>// graph-core.js
+function init(container, data) {
+    // If this throws, entire app crashes
+    const graph = ForceGraph3D()(container);
+    graph.graphData(data);
+    return graph;
+}
+
+// No fallback, no error message
+// User sees blank page</code></pre>
+                    </div>
+                </div>
+                <div class="comparison-card v2">
+                    <div class="card-header">
+                        <h3>v2.0 - Graceful Fallback</h3>
+                        <span class="badge">Safe</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="solution">✓ Errors caught and displayed</p>
+                        <pre><code>// graph-core.js
+function init(container, deps) {
+    const safeInit = ERRORS.wrap('GRAPH', () => {
+        if (!container) {
+            throw new Error('Container not found');
+        }
+        const graph = ForceGraph3D()(container);
+        graph.graphData(deps.data.get());
+        return graph;
+    });
+    return safeInit();
+}
+
+// User sees helpful error message
+// App continues working where possible</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Diagrams -->
+        <section class="diagram-section">
+            <h2>Architecture Diagrams</h2>
+            <div class="diagram-tabs">
+                <button class="diagram-tab active" onclick="showDiagram('v1-arch')">v1.0 Architecture</button>
+                <button class="diagram-tab" onclick="showDiagram('v2-arch')">v2.0 Architecture</button>
+                <button class="diagram-tab" onclick="showDiagram('flow')">Data Flow</button>
+            </div>
+            <div class="diagram-container">
+                <div class="diagram-panel active" id="v1-arch">
+                    <pre class="mermaid">
+graph TD
+    subgraph Modules[v1.0 Modules]
+        CORE[CORE]
+        NODE[NODE]
+        COLOR[COLOR]
+        DATA[DATA]
+        GRAPH[GRAPH]
+        REFRESH[REFRESH]
+    end
+
+    subgraph Globals[Implicit Globals]
+        G1[APPEARANCE_STATE]
+        G2[Graph instance]
+        G3[FULL_GRAPH]
+    end
+
+    CORE -.->|runtime check| G1
+    DATA -.->|runtime check| G3
+    GRAPH -.->|creates| G2
+    REFRESH -.->|runtime check| G2
+
+    style Globals fill:#1a1a2e,stroke:#f07178
+    style Modules fill:#1a2e1a,stroke:#7fd962
+                    </pre>
+                </div>
+                <div class="diagram-panel" id="v2-arch">
+                    <pre class="mermaid">
+graph TD
+    CONFIG[COLLIDER_CONFIG]
+
+    subgraph Init[Explicit Initialization]
+        CORE2[CORE.init]
+        NODE2[NODE.init]
+        COLOR2[COLOR.init]
+        DATA2[DATA.init]
+        GRAPH2[GRAPH.init]
+        REFRESH2[REFRESH.init]
+    end
+
+    CONFIG -->|palette| COLOR2
+    CONFIG -->|config| CORE2
+    NODE2 -->|accessor| DATA2
+    DATA2 -->|data| GRAPH2
+    COLOR2 -->|colors| GRAPH2
+    GRAPH2 -->|instance| REFRESH2
+
+    style CONFIG fill:#1a2e1a,stroke:#7fd962
+    style Init fill:#1a2e1a,stroke:#7fd962
+                    </pre>
+                </div>
+                <div class="diagram-panel" id="flow">
+                    <pre class="mermaid">
+flowchart TB
+    subgraph Build[Build Time - Python]
+        TOKENS[tokens.json]
+        PY[visualize.py]
+        OUT[report.html]
+    end
+
+    subgraph Runtime[Browser Runtime]
+        CFG[CONFIG]
+        ERR[ERRORS]
+        MOD[MODULES]
+        GL[WebGL]
+    end
+
+    TOKENS --> PY
+    PY -->|inject| OUT
+    OUT --> CFG
+    CFG --> ERR
+    ERR --> MOD
+    MOD --> GL
+
+    style Build fill:#1a1a2e,stroke:#39bae6
+    style Runtime fill:#1a2e1a,stroke:#7fd962
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="summary-section">
+            <h2>Investment vs Payoff</h2>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="value">~800</div>
+                    <div class="label">Lines of New Code</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="value">+13</div>
+                    <div class="label">Points Gained</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="value">∞</div>
+                    <div class="label">Bugs Prevented</div>
+                </div>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                The v2.0 improvements layer on top of the existing modularization.
+                Error boundaries should be implemented first (highest ROI), followed by
+                config injection during Phase 6, then tests added incrementally.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Collider Visualization Architecture Comparison</p>
+        <p>Generated for PROJECT_elements</p>
+    </footer>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#0a0e14',
+                primaryColor: '#1a2e1a',
+                primaryTextColor: '#c5cdd9',
+                primaryBorderColor: '#2a3444',
+                lineColor: '#6b7a8f',
+                secondaryColor: '#1a1a2e',
+                tertiaryColor: '#131920'
+            }
+        });
+
+        // Animation state
+        let animationsEnabled = true;
+
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const btn = document.getElementById('toggleAnimations');
+            const text = document.getElementById('animBtnText');
+
+            if (animationsEnabled) {
+                document.body.classList.remove('no-animations');
+                btn.classList.add('active');
+                text.textContent = 'Animations ON';
+                btn.querySelector('.icon').textContent = '▶';
+            } else {
+                document.body.classList.add('no-animations');
+                btn.classList.remove('active');
+                text.textContent = 'Animations OFF';
+                btn.querySelector('.icon').textContent = '⏸';
+            }
+        }
+
+        function replayAnimations() {
+            // Remove and re-add animated class to trigger animations
+            const animated = document.querySelectorAll('.animated');
+            animated.forEach(el => {
+                el.classList.remove('animated');
+                void el.offsetWidth; // Force reflow
+                el.classList.add('animated');
+            });
+        }
+
+        function toggleVersion(version) {
+            const v1Elements = document.querySelectorAll('.v1, .bar-fill.v1');
+            const v2Elements = document.querySelectorAll('.v2, .bar-fill.v2');
+
+            if (version === 'v1') {
+                v1Elements.forEach(el => el.style.opacity = el.style.opacity === '0.2' ? '1' : '0.2');
+            } else {
+                v2Elements.forEach(el => el.style.opacity = el.style.opacity === '0.2' ? '1' : '0.2');
+            }
+        }
+
+        function showDiagram(id) {
+            // Update tabs
+            document.querySelectorAll('.diagram-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update panels
+            document.querySelectorAll('.diagram-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+
+            // Re-render mermaid for newly visible diagrams
+            mermaid.contentLoaded();
+        }
+
+        // Animate progress rings on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.progress-ring').forEach(ring => {
+            observer.observe(ring);
+        });
+
+        // Animate bars on scroll
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.bar-fill').forEach((bar, i) => {
+                        setTimeout(() => {
+                            bar.classList.add('animated');
+                        }, i * 100);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.bar-chart-container').forEach(chart => {
+            barObserver.observe(chart);
+        });
+    </script>
+</body>
+</html>
