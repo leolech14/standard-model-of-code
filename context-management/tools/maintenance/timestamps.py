@@ -21,14 +21,14 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from collections import defaultdict
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent  # up 3 levels: tools/maintenance/ -> tools/ -> context-management/ -> PROJECT_ROOT
 TIMESTAMPS_FILE = PROJECT_ROOT / "project_elements_file_timestamps.csv"
 
 
 def load_timestamps():
     """Load and parse the timestamps CSV."""
     if not TIMESTAMPS_FILE.exists():
-        print(f"Error: {TIMESTAMPS_FILE} not found. Run ./tools/update_timestamps.sh first.")
+        print(f"Error: {TIMESTAMPS_FILE} not found. Run context-management/tools/maintenance/update_timestamps.sh first.")
         sys.exit(1)
 
     files = []

@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field, asdict
-from edge_extractor import file_node_id, resolve_edges, extract_call_edges
+from edge_extractor import file_node_id, resolve_edges, extract_call_edges, get_import_resolution_diagnostics
 
 try:
     from core.registry.role_registry import get_role_registry
@@ -316,11 +316,8 @@ def create_unified_output(
     # Import resolution stats
     import_edges = [e for e in output.edges if e.get("edge_type") == "imports"]
     if import_edges:
-        import_resolution_stats = {}
-        for edge in import_edges:
-            resolution = edge.get("resolution", "unknown")
-            import_resolution_stats[resolution] = import_resolution_stats.get(resolution, 0) + 1
-        output.stats["import_resolution"] = import_resolution_stats
+        counts, _ = get_import_resolution_diagnostics(output.edges)
+        output.stats["import_resolution"] = counts
 
     # Auto-discovery report
     if auto_discovery_report:

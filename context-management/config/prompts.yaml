@@ -112,6 +112,144 @@ analysis_prompts:
       ]
     }}
 
+  plan_validation: |
+    You are a SENIOR SOFTWARE ARCHITECT validating an implementation plan.
+
+    Your task is to critically review the provided plan against the actual source code to:
+    1. Verify all line numbers cited in the plan are accurate
+    2. Confirm the pipeline execution order is correctly documented
+    3. Identify any files or emission points the plan missed
+    4. Assess if the proposed changes will achieve the stated goals
+    5. Find any risks or edge cases not addressed
+
+    ANALYSIS CONTEXT:
+    {context}
+
+    TASK:
+    1. Cross-reference every line number in the plan with actual code
+    2. Verify the pipeline order diagram matches the actual execution flow
+    3. Check if all role emission points are accounted for
+    4. Identify any gaps or errors in the plan
+    5. Provide a confidence score for plan accuracy
+
+    OUTPUT FORMAT:
+    Return ONLY valid JSON:
+    {{
+      "meta": {{
+        "validator": "plan_validation",
+        "timestamp": "<ISO timestamp>"
+      }},
+      "line_number_verification": {{
+        "total_citations": <int>,
+        "verified_correct": <int>,
+        "errors": [
+          {{
+            "file": "<file>",
+            "claimed_line": <int>,
+            "actual_line": <int or null>,
+            "issue": "<description>"
+          }}
+        ]
+      }},
+      "pipeline_order_verification": {{
+        "correct": <bool>,
+        "issues": ["<issue1>", "<issue2>"]
+      }},
+      "missing_emission_points": [
+        {{
+          "file": "<file>",
+          "line": <int>,
+          "code": "<snippet>",
+          "severity": "HIGH|MEDIUM|LOW"
+        }}
+      ],
+      "plan_gaps": [
+        {{
+          "description": "<gap>",
+          "recommendation": "<fix>",
+          "severity": "HIGH|MEDIUM|LOW"
+        }}
+      ],
+      "confidence_assessment": {{
+        "plan_accuracy": <0.0-1.0>,
+        "will_achieve_goal": <0.0-1.0>,
+        "rationale": "<explanation>"
+      }}
+    }}
+
+  role_validation: |
+    You are a CODE ARCHITECTURE VALIDATOR specializing in the Standard Model of Code theory.
+
+    CONTEXT:
+    The Standard Model of Code defines 33 CANONICAL ROLES (the WHY dimension):
+    Query, Finder, Loader, Getter, Command, Creator, Mutator, Destroyer, Factory, Builder,
+    Repository, Store, Cache, Service, Controller, Manager, Orchestrator, Validator, Guard,
+    Asserter, Transformer, Mapper, Serializer, Parser, Handler, Listener, Subscriber, Emitter,
+    Utility, Formatter, Helper, Internal, Lifecycle
+
+    The RoleRegistry provides:
+    - `validate(role)` - checks if role is canonical
+    - `normalize(role)` - maps non-canonical to canonical
+
+    ANALYSIS CONTEXT (Source Code):
+    {context}
+
+    TASK:
+    1. Verify the RoleRegistry loads all 33 canonical roles from roles.json
+    2. Audit the ROLE_NORMALIZATION mapping for completeness
+    3. Check that standard_model_enricher.py calls normalize() before emitting roles
+    4. Identify any classifiers that might emit roles AFTER the enricher (bypassing normalization)
+    5. Find any hardcoded role strings that should use the registry
+    6. Assess confidence that 100% of output will have canonical roles
+
+    OUTPUT FORMAT:
+    Return ONLY valid JSON:
+    {{
+      "meta": {{
+        "validator": "role_validation",
+        "timestamp": "<ISO timestamp>"
+      }},
+      "canonical_roles_loaded": {{
+        "expected": 33,
+        "found": <int>,
+        "missing": ["<role>"]
+      }},
+      "normalization_coverage": {{
+        "mappings_defined": <int>,
+        "unmapped_emissions": [
+          {{
+            "role": "<non-canonical role>",
+            "source_file": "<file>",
+            "line": <int>,
+            "suggested_mapping": "<canonical role>"
+          }}
+        ]
+      }},
+      "pipeline_analysis": {{
+        "enricher_wired_correctly": <bool>,
+        "bypass_risks": [
+          {{
+            "file": "<file>",
+            "risk": "<description>",
+            "severity": "HIGH|MEDIUM|LOW"
+          }}
+        ]
+      }},
+      "hardcoded_roles": [
+        {{
+          "file": "<file>",
+          "line": <int>,
+          "role_string": "<role>",
+          "recommendation": "<fix>"
+        }}
+      ],
+      "confidence_assessment": {{
+        "overall_confidence": <0.0-1.0>,
+        "rationale": "<explanation>",
+        "gaps": ["<gap1>", "<gap2>"]
+      }}
+    }}
+
   modes:
     standard:
       prompt: "You are a senior software engineer. Analyze the provided codebase context and answer the user's request."

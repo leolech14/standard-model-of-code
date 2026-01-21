@@ -1,38 +1,183 @@
+# Analysis Sets Configuration
+# Each set defines a coherent slice of the codebase for AI analysis
+#
+# Fields:
+#   description: Human-readable purpose
+#   patterns: Glob patterns to include
+#   max_tokens: Token budget (approximate). Sets exceeding this warn user.
+#   auto_interactive: If true, automatically use interactive mode
+#   includes: Other sets to compose (optional)
+
 analysis_sets:
-  brain:
-    description: "The Context & Intelligence Layer (Tools, Docs, Registry)"
-    patterns:
-      - "context-management/**"
-      - "README.md"
+  # ==========================================================================
+  # CORE SETS - Well-sized, commonly used
+  # ==========================================================================
 
   brain_core:
-    description: "Essential AI & Config Tools (Fits in 1M context)"
+    description: "AI tools, configs, and prompts"
+    max_tokens: 50000
     patterns:
-      - "context-management/tools/ai/**"
-      - "context-management/config/**"
-      - "context-management/docs/AI_OPERATING_MANUAL.md"
+      - "context-management/tools/ai/*.py"
+      - "context-management/config/*.yaml"
+      - "context-management/docs/AI_USER_GUIDE.md"
       - "README.md"
-  
-  body:
-    description: "The Standard Model of Code (Source Implementation)"
+
+  pipeline:
+    description: "Collider analysis pipeline (entry to output)"
+    max_tokens: 100000
+    auto_interactive: true
     patterns:
-      - "standard-model-of-code/src/**"
-      - "standard-model-of-code/README.md"
+      - "standard-model-of-code/src/core/full_analysis.py"
+      - "standard-model-of-code/src/core/unified_analysis.py"
+      - "standard-model-of-code/src/core/edge_extractor.py"
+      - "standard-model-of-code/src/core/tree_sitter_engine.py"
+      - "standard-model-of-code/src/core/output_generator.py"
+      - "standard-model-of-code/src/core/brain_download.py"
+      - "standard-model-of-code/cli.py"
+
+  classifiers:
+    description: "All role/type/atom classifiers"
+    max_tokens: 80000
+    patterns:
+      - "standard-model-of-code/src/core/registry/*.py"
+      - "standard-model-of-code/src/core/standard_model_enricher.py"
+      - "standard-model-of-code/src/core/graph_type_inference.py"
+      - "standard-model-of-code/src/core/heuristic_classifier.py"
+      - "standard-model-of-code/src/core/atom_classifier.py"
+      - "standard-model-of-code/src/core/classification/*.py"
+      - "standard-model-of-code/src/core/parser/symbol_classifier.py"
+
+  constraints:
+    description: "Constraint Field system (profiles, engine, rules)"
+    max_tokens: 50000
+    patterns:
+      - "standard-model-of-code/src/core/constraint_engine.py"
+      - "standard-model-of-code/src/core/profile_loader.py"
+      - "standard-model-of-code/schema/constraints/*.yaml"
+      - "standard-model-of-code/schema/profiles/**/*.yaml"
+
+  viz_core:
+    description: "Visualization core (control bar, data manager, template)"
+    max_tokens: 100000
+    auto_interactive: true
+    patterns:
+      - "standard-model-of-code/src/core/viz/assets/modules/*.js"
+      - "standard-model-of-code/src/core/viz/assets/template.html"
+      - "standard-model-of-code/src/core/viz/assets/styles.css"
+      - "standard-model-of-code/tools/visualize_graph_webgl.py"
 
   theory:
-    description: "Pure Theoretical Framework & Architecture"
+    description: "Theoretical framework and documentation"
+    max_tokens: 200000
+    auto_interactive: true
     patterns:
-      - "standard-model-of-code/docs/**"
-      - "context-management/docs/theory/**"
-      - "context-management/docs/project_map.md"
+      - "standard-model-of-code/docs/MODEL.md"
+      - "standard-model-of-code/docs/COLLIDER.md"
+      - "standard-model-of-code/docs/specs/*.md"
+      - "context-management/docs/*.md"
 
-  legacy:
-    description: "Archived and Deprecated Assets"
+  schema:
+    description: "All schema definitions (atoms, roles, dimensions)"
+    max_tokens: 60000
     patterns:
-      - "archive/**"
-      - "standard-model-of-code/_archive/**"
+      - "standard-model-of-code/schema/**/*.yaml"
+      - "standard-model-of-code/schema/**/*.json"
+      - "standard-model-of-code/src/patterns/*.yaml"
+
+  # ==========================================================================
+  # COMPOSED SETS - Combinations for specific tasks
+  # ==========================================================================
+
+  architecture_review:
+    description: "Full architecture review (pipeline + classifiers + constraints)"
+    max_tokens: 250000
+    auto_interactive: true
+    includes:
+      - pipeline
+      - classifiers
+      - constraints
+
+  implementation_review:
+    description: "Implementation review (pipeline + schema + theory)"
+    max_tokens: 350000
+    auto_interactive: true
+    includes:
+      - pipeline
+      - schema
+      - theory
+
+  # ==========================================================================
+  # LEGACY SETS - Kept for compatibility but with warnings
+  # ==========================================================================
+
+  brain:
+    description: "[LARGE] Full context-management directory"
+    max_tokens: 150000
+    auto_interactive: true
+    patterns:
+      - "context-management/**/*.py"
+      - "context-management/**/*.yaml"
+      - "context-management/**/*.md"
+
+  body:
+    description: "[EXCEEDS LIMIT] Full src - use 'pipeline' or 'classifiers' instead"
+    max_tokens: 3500000  # Warns user this exceeds 1M
+    patterns:
+      - "standard-model-of-code/src/**/*.py"
+
+  viz:
+    description: "[EXCEEDS LIMIT] Full viz - use 'viz_core' instead"
+    max_tokens: 3200000
+    patterns:
+      - "standard-model-of-code/src/core/viz/**"
 
   complete:
-    description: "Full Repository (Excluding heavy binaries/node_modules)"
+    description: "[DANGEROUS] Entire repo - will exceed any context window"
+    max_tokens: 10000000
     patterns:
-      - "*"
+      - "**/*.py"
+      - "**/*.js"
+      - "**/*.yaml"
+      - "**/*.md"
+
+  # ==========================================================================
+  # TASK-SPECIFIC SETS
+  # ==========================================================================
+
+  role_registry:
+    description: "Role normalization system"
+    max_tokens: 30000
+    patterns:
+      - "standard-model-of-code/src/core/registry/role_registry.py"
+      - "standard-model-of-code/src/core/registry/__init__.py"
+      - "standard-model-of-code/schema/fixed/roles.json"
+
+  tests:
+    description: "Test files for validation"
+    max_tokens: 150000
+    auto_interactive: true
+    patterns:
+      - "standard-model-of-code/tests/*.py"
+
+# ==========================================================================
+# RECOMMENDATIONS - Maps question types to sets
+# ==========================================================================
+recommendations:
+  "how does * work":
+    - pipeline
+    - classifiers
+  "review * implementation":
+    - architecture_review
+  "explain * architecture":
+    - theory
+    - pipeline
+  "debug * issue":
+    - pipeline
+    - tests
+  "constraint * validation":
+    - constraints
+  "visualization * display":
+    - viz_core
+  "role * classification":
+    - classifiers
+    - role_registry

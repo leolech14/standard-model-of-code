@@ -325,56 +325,56 @@
 
     "accent": {
       "primary": {
-        "$value": "oklch(75% 0.15 200)",
-        "$description": "Primary accent - cyan"
+        "$value": "oklch(60% 0.04 220)",
+        "$description": "Primary accent - muted slate blue (discreet)"
       },
       "primary-bright": {
-        "$value": "#00d4ff",
-        "$description": "Bright cyan accent"
+        "$value": "oklch(65% 0.05 220)",
+        "$description": "Slightly brighter slate (still muted)"
       },
       "primary-dim": {
-        "$value": "oklch(55% 0.10 200)",
+        "$value": "oklch(50% 0.03 220)",
         "$description": "Dimmed accent"
       },
       "primary-bg": {
-        "$value": "oklch(75% 0.15 200 / 0.15)",
-        "$description": "Accent background tint"
+        "$value": "oklch(60% 0.04 220 / 0.10)",
+        "$description": "Accent background tint (very subtle)"
       },
       "primary-bg-medium": {
-        "$value": "rgba(0, 212, 255, 0.5)",
-        "$description": "Medium accent background"
+        "$value": "rgba(100, 120, 150, 0.2)",
+        "$description": "Medium accent background (muted)"
       },
       "primary-bg-subtle": {
-        "$value": "rgba(0, 212, 255, 0.15)",
+        "$value": "rgba(100, 120, 150, 0.08)",
         "$description": "Subtle accent background"
       },
       "primary-glow": {
-        "$value": "rgba(77, 212, 255, 0.2)",
-        "$description": "Accent glow"
+        "$value": "rgba(100, 120, 150, 0.1)",
+        "$description": "Accent glow (barely visible)"
       },
       "secondary": {
-        "$value": "rgba(80, 140, 200, 0.5)",
-        "$description": "Secondary accent"
+        "$value": "rgba(100, 120, 150, 0.3)",
+        "$description": "Secondary accent (muted)"
       },
       "secondary-dim": {
-        "$value": "rgba(80, 140, 200, 0.25)",
+        "$value": "rgba(100, 120, 150, 0.15)",
         "$description": "Dimmed secondary accent"
       },
       "secondary-bg": {
-        "$value": "rgba(80, 140, 200, 0.4)",
+        "$value": "rgba(100, 120, 150, 0.2)",
         "$description": "Secondary accent background"
       },
       "teal": {
-        "$value": "#33ccbb",
-        "$description": "Teal accent"
+        "$value": "#6b8a8a",
+        "$description": "Teal accent (desaturated)"
       },
       "purple": {
-        "$value": "#7c3aed",
-        "$description": "Purple accent"
+        "$value": "#7a7a9a",
+        "$description": "Purple accent (desaturated)"
       },
       "purple-light": {
-        "$value": "#b39dff",
-        "$description": "Light purple accent"
+        "$value": "#9a9ab0",
+        "$description": "Light purple accent (desaturated)"
       }
     },
 
@@ -504,39 +504,39 @@
     },
 
     "viz": {
-      "$description": "Visualization-specific colors",
-      "tooltip-bg": { "$value": "rgba(180, 210, 255, 0.9)" },
-      "tooltip-text": { "$value": "rgba(20, 30, 45, 0.95)" },
-      "node-glow": { "$value": "rgba(100, 180, 255, 0.5)" },
-      "edge-glow": { "$value": "rgba(77, 212, 255, 0.3)" },
-      "selection": { "$value": "rgba(0, 212, 255, 0.4)" },
-      "highlight": { "$value": "rgba(255, 200, 100, 0.9)" },
-      "canvas-bg": { "$value": "#03040a", "$description": "3D canvas background" },
-      "node-fallback": { "$value": "#888888", "$description": "Default node color" },
-      "edge-fallback": { "$value": "#333333", "$description": "Default edge color" },
-      "group-halo": { "$value": "#88d0ff", "$description": "Group halo color" }
+      "$description": "Visualization-specific colors (discreet, functional)",
+      "tooltip-bg": { "$value": "rgba(40, 45, 55, 0.95)" },
+      "tooltip-text": { "$value": "rgba(220, 220, 225, 0.95)" },
+      "node-glow": { "$value": "rgba(100, 110, 130, 0.25)" },
+      "edge-glow": { "$value": "rgba(100, 110, 130, 0.15)" },
+      "selection": { "$value": "rgba(120, 140, 180, 0.3)" },
+      "highlight": { "$value": "rgba(200, 180, 140, 0.7)" },
+      "canvas-bg": { "$value": "#0a0b0f", "$description": "3D canvas background (slightly lighter)" },
+      "node-fallback": { "$value": "#707080", "$description": "Default node color (muted)" },
+      "edge-fallback": { "$value": "#383840", "$description": "Default edge color" },
+      "group-halo": { "$value": "#7090a0", "$description": "Group halo color (desaturated)" }
     },
 
     "edge": {
-      "$description": "Edge type colors for JS consumption",
-      "internal": { "$value": "#4dd4ff" },
-      "external": { "$value": "#ff6b6b" },
-      "unresolved": { "$value": "#9aa0a6" },
-      "unknown": { "$value": "#666666" },
-      "default": { "$value": "#333333" },
-      "calls": { "$value": "#4dd4ff" },
-      "contains": { "$value": "#00ff9d" },
-      "uses": { "$value": "#ffb800" },
-      "imports": { "$value": "#9aa0a6" },
-      "inherits": { "$value": "#ff6b6b" }
+      "$description": "Edge type colors for JS consumption (desaturated)",
+      "internal": { "$value": "#7090a8" },
+      "external": { "$value": "#a08080" },
+      "unresolved": { "$value": "#707075" },
+      "unknown": { "$value": "#505055" },
+      "default": { "$value": "#404045" },
+      "calls": { "$value": "#7090a8" },
+      "contains": { "$value": "#70a090" },
+      "uses": { "$value": "#a09070" },
+      "imports": { "$value": "#707075" },
+      "inherits": { "$value": "#a08080" }
     },
 
     "console": {
-      "$description": "Console logging colors",
-      "success": { "$value": "#4ade80" },
-      "error": { "$value": "#f87171" },
-      "warning": { "$value": "#ffaa00" },
-      "info": { "$value": "#4dd4ff" }
+      "$description": "Console logging colors (functional)",
+      "success": { "$value": "#5a9a70" },
+      "error": { "$value": "#b07070" },
+      "warning": { "$value": "#a09060" },
+      "info": { "$value": "#7090a0" }
     },
 
     "schemes": {
@@ -620,28 +620,28 @@
   },
 
   "shadow": {
-    "$description": "Box shadows for elevation",
+    "$description": "Box shadows for elevation (subtle, no glow)",
 
     "none": { "$value": "none" },
     "sm": {
-      "$value": "0 2px 8px oklch(0% 0 0 / 0.3)",
+      "$value": "0 2px 6px oklch(0% 0 0 / 0.25)",
       "$description": "Subtle shadow"
     },
     "md": {
-      "$value": "0 4px 16px oklch(0% 0 0 / 0.5)",
+      "$value": "0 4px 12px oklch(0% 0 0 / 0.35)",
       "$description": "Medium shadow"
     },
     "lg": {
-      "$value": "0 8px 32px oklch(0% 0 0 / 0.6)",
+      "$value": "0 6px 20px oklch(0% 0 0 / 0.4)",
       "$description": "Large shadow"
     },
     "glow-accent": {
-      "$value": "0 0 10px oklch(70% 0.15 200 / 0.3)",
-      "$description": "Cyan glow"
+      "$value": "0 0 4px oklch(60% 0.04 220 / 0.15)",
+      "$description": "Subtle accent highlight (barely visible)"
     },
     "glow-error": {
-      "$value": "0 0 10px oklch(65% 0.22 25 / 0.3)",
-      "$description": "Red glow"
+      "$value": "0 0 4px oklch(55% 0.12 25 / 0.2)",
+      "$description": "Subtle error highlight"
     }
   },
 

@@ -243,18 +243,120 @@ const AnimationManager = {
 
 ---
 
-## Appendix: Call Graph Audit Needed
+## Appendix A: Collider Self-Analysis Results
 
-To fix ARCH-001, we need to run Collider on itself and analyze:
+**Executed:** 2026-01-19
+**Command:** `./collider full src/core/viz/assets --output /tmp/viz_analysis`
 
-```bash
-./collider full src/core/viz/assets --output /tmp/app_analysis
-```
+### Summary
 
-Then examine:
-- Which functions have highest in-degree (most callers)?
-- Which functions have highest out-degree (call most things)?
-- Are there clear clusters that could become modules?
-- What are the entry points from HTML event handlers?
+| Metric | Value |
+|--------|-------|
+| Total Nodes | 1383 |
+| Total Edges | 2078 |
+| Total Lines | 11,067 |
+| Files | 5 |
+| Coverage | 100% |
+| Unknown | 0% |
+
+### Role Distribution (app.js = 246 nodes)
+
+| Role | Count | Notes |
+|------|-------|-------|
+| Utility | 1021 | 74% - confirms "utility soup" problem |
+| DTO | 252 | Mostly minified library objects |
+| Controller | 28 | UI interaction handlers |
+| Query | 25 | Data accessors |
+| Internal | 14 | Private helpers |
+| Command | 10 | Action triggers |
+| Lifecycle | 6 | Init/destroy functions |
+| Service | 6 | Shared services |
+
+**Key insight:** 74% classified as "Utility" indicates no clear architectural separation.
+
+### Top Functions by OUT-Degree (call the most things)
+
+| Function | Calls | Role |
+|----------|-------|------|
+| `initGraph` | 30 | Entry point |
+| `refreshGraph` | 14 | Core render loop |
+| `initFallback2D` | 12 | 2D mode setup |
+| `applyFileVizMode` | 11 | File visualization |
+| `SidebarManager` | 10 | UI component |
+| `buildAppearanceSliders` | 9 | UI builder |
+| `initCommandBar` | 8 | Command UI |
+| `updateSelectionVisuals` | 7 | Selection rendering |
+| `applyEdgeMode` | 7 | Edge styling |
+| `updateSelectionPanel` | 7 | Selection UI |
+
+### Top Functions by IN-Degree (called by most things)
+
+| Function | Callers | Role |
+|----------|---------|------|
+| `test` | 32 | Self-test utility |
+| `toggle` | 16 | Panel toggle helper |
+| `render` | 16 | Core render |
+| `getNodeTier` | 11 | Node accessor |
+| `refreshGraph` | 11 | Graph update |
+| `cross` | 11 | Vector math |
+| `getNodeAtomFamily` | 10 | Node accessor |
+| `applyEdgeMode` | 10 | Edge styling |
+| `toColorNumber` | 9 | Color utility |
+| `updateSelectionVisuals` | 9 | Selection render |
+
+### Cluster Analysis
+
+The data reveals potential module boundaries:
+
+1. **Graph Core** (initGraph, refreshGraph, render)
+   - 30+ out-degree indicates "god function" pattern
+
+2. **Node Accessors** (getNodeTier, getNodeAtomFamily, getNodeRing, etc.)
+   - 8-11 in-degree each, could be consolidated into `NodeAccessor` module
+
+3. **Selection System** (updateSelectionVisuals, updateSelectionPanel, showSelectionModal)
+   - Tightly coupled cluster, natural extraction candidate
+
+4. **File Visualization** (applyFileVizMode, setFileVizMode, getFileColor)
+   - Another coherent cluster
+
+5. **UI Components** (SidebarManager, buildAppearanceSliders, initCommandBar)
+   - Panel-related functions grouped
+
+### Recommended Module Extraction Order
+
+Based on analysis:
+
+| Priority | Module | Functions | Benefit |
+|----------|--------|-----------|---------|
+| 1 | `NodeAccessor` | getNodeTier, getNodeAtomFamily, getNodeRing, getNodeEffect | Reduces scattered calls |
+| 2 | `SelectionManager` | updateSelectionVisuals, updateSelectionPanel, showSelectionModal | Clear boundary |
+| 3 | `FileViz` | applyFileVizMode, setFileVizMode, getFileColor, drawFileBoundaries | Feature isolation |
+| 4 | `Physics` | startFlockSimulation, flockStep, applyForces | Performance critical |
+| 5 | `ColorEngine` | toColorNumber, getGradientEdgeColor, refreshGradientEdgeColors | Reusable component |
+
+---
+
+## Appendix B: Gemini Oracle Analysis
+
+**Executed:** 2026-01-19
+**Mode:** Forensic (line-level citations)
+
+### Key Findings Confirmed
+
+1. **O(n²) Flock Pattern** - Lines 5238-5258 confirmed as performance hotspot
+2. **Module Boundaries Absent** - Single 10K line file with no imports/exports
+3. **High Coupling** - `refreshGraph()` called from 11 different locations
+4. **State Sprawl** - Global variables like `LAYOUT_ANIMATION_ID` modified everywhere
+
+### Gemini Recommendations
+
+> "The lack of module boundaries suggests an organic growth pattern where features were added incrementally without architectural planning. The fix requires systematic extraction of coherent clusters into separate files with clear interfaces."
+
+---
+
+## Appendix C: Historical Context
 
 This is **meta-ironic**: using Collider to diagnose Collider's own architecture problems.
+
+The visualization layer (app.js) was originally a quick prototype that grew organically as features were added. The core Collider analysis engine (Python) has much better architecture - the debt is concentrated in the frontend visualization.

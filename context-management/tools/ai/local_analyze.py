@@ -307,12 +307,18 @@ def get_or_create_store(client, store_name: str) -> str:
     """Get existing store by name or create new one. Returns store resource name."""
     # List existing stores
     stores = list_file_search_stores(client)
+    
+    matches = [s for s in stores if s.display_name == store_name]
 
-    # Check if store with this display name exists
-    for store in stores:
-        if store.display_name == store_name:
-            print(f"  Found existing store: {store.name}")
-            return store.name
+    if len(matches) > 1:
+        print(f"  WARNING: Multiple stores found with name '{store_name}'. Using the most recent.")
+        # Sort by create_time desc if possible, or just take first. 
+        # API returns generic objects, assuming standard list order for now.
+        return matches[0].name
+    
+    if len(matches) == 1:
+        print(f"  Found existing store: {matches[0].name}")
+        return matches[0].name
 
     # Create new store
     print(f"  Creating new store: {store_name}")
@@ -329,14 +335,21 @@ def index_files_to_store(client, store_name: str, files: list, base_dir: Path) -
 
     Returns dict with stats: {indexed: int, failed: int, errors: list}
     """
-    stats = {'indexed': 0, 'failed': 0, 'errors': [], 'files': []}
+    stats = {'indexed': 0, 'failed': 0, 'errors': [], 'files': [], 'skipped': 0}
 
     for file_path in files:
         rel_path = str(file_path.relative_to(base_dir))
+        
+        # Check for unsupported file types (YAML often fails in current API)
+        if file_path.suffix.lower() in ['.yaml', '.yml']:
+            print(f"  Skipping: {rel_path} (YAML files not fully supported)", flush=True)
+            stats['skipped'] += 1
+            continue
+
         try:
             print(f"  Indexing: {rel_path}...", end=" ", flush=True)
 
-            # Upload and index the file - simplified config for compatibility
+            # Upload and index the file
             result = client.file_search_stores.upload_to_file_search_store(
                 file=str(file_path),
                 file_search_store_name=store_name,
@@ -345,8 +358,11 @@ def index_files_to_store(client, store_name: str, files: list, base_dir: Path) -
                 }
             )
 
-            # The result might be an operation or the file directly depending on SDK version
-            # Just check if we got a result without error
+            # SDK Compatibility: failure to wait for operation can cause missing docs
+            # If result is an Operation (has .result method), we should wait.
+            if hasattr(result, 'result'):
+                result.result() 
+
             stats['indexed'] += 1
             stats['files'].append(rel_path)
             print("OK")
@@ -424,23 +440,48 @@ def delete_file_search_store(client, store_name: str) -> bool:
     try:
         # If it looks like a resource name, delete directly
         if store_name.startswith('fileSearchStores/'):
-            client.file_search_stores.delete(name=store_name)
-            print(f"  Deleted: {store_name}")
-            return True
+            try:
+                client.file_search_stores.delete(name=store_name)
+                print(f"  Deleted: {store_name}")
+                return True
+            except Exception as e:
+                if "400" in str(e) and "non-empty" in str(e).lower():
+                    print(f"  Error: Store {store_name} is not empty.")
+                    # TODO: Implement file deletion if API supports listing files in store nicely
+                    print(f"  Please delete files from the store before deleting the store.")
+                else:
+                    print(f"  Error deleting store: {e}")
+                return False
 
         # Otherwise, find by display name
         stores = list_file_search_stores(client)
-        for store in stores:
-            if store.display_name == store_name:
-                client.file_search_stores.delete(name=store.name)
-                print(f"  Deleted: {store.name} ({store.display_name})")
-                return True
+        matches = [s for s in stores if s.display_name == store_name]
+        
+        if not matches:
+             print(f"  Store not found: {store_name}")
+             return False
+        
+        if len(matches) > 1:
+             print(f"  WARNING: {len(matches)} stores found with name '{store_name}'.")
+             print("  Please use the resource name (fileSearchStores/...) to be specific.")
+             print("  Use --list-stores to see resource names.")
+             return False
 
-        print(f"  Store not found: {store_name}")
-        return False
+        target_store = matches[0]
+        try:
+            client.file_search_stores.delete(name=target_store.name)
+            print(f"  Deleted: {target_store.name} ({target_store.display_name})")
+            return True
+        except Exception as e:
+            if "400" in str(e) and "non-empty" in str(e).lower():
+                print(f"  Error: Store '{store_name}' is not empty.")
+                print(f"  The API requires stores to be empty before deletion.")
+            else:
+                print(f"  Error deleting store: {e}")
+            return False
 
     except Exception as e:
-        print(f"  Error deleting store: {e}")
+        print(f"  Error finding store: {e}")
         return False
 
 
@@ -943,10 +984,23 @@ Examples:
                 print("\n" + "-" * 40)
                 print("CITATIONS:")
                 for i, cite in enumerate(result['citations'], 1):
-                    if 'file' in cite:
-                        print(f"  [{i}] {cite.get('title', cite['file'])}")
-                    elif 'title' in cite:
-                        print(f"  [{i}] {cite['title']}")
+                    # Prefer showing Title AND File URI if both exist
+                    title = cite.get('title')
+                    file_uri = cite.get('file')
+                    web_uri = cite.get('web')
+
+                    if file_uri:
+                        if title and title != file_uri:
+                             print(f"  [{i}] {title} ({file_uri})")
+                        else:
+                             print(f"  [{i}] {file_uri}")
+                    elif web_uri:
+                        if title:
+                            print(f"  [{i}] {title} ({web_uri})")
+                        else:
+                            print(f"  [{i}] {web_uri}")
+                    else:
+                        print(f"  [{i}] {title or 'Unknown Source'}")
 
             # Print usage
             if result['usage']:
@@ -1087,6 +1141,7 @@ Examples:
         print("INDEXING COMPLETE")
         print(f"{'='*60}")
         print(f"  Indexed: {stats['indexed']}")
+        print(f"  Skipped: {stats['skipped']}")
         print(f"  Failed:  {stats['failed']}")
 
         if stats['errors']:

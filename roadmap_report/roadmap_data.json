@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-01-21T01:43:57.628621",
+  "horizon_days": 90,
+  "goal": "modularize app.js monolith and reduce technical debt",
+  "vision": {
+    "vision_statement": "In 90 days, the codebase will have begun the process of modularizing the `app.js` monolith by introducing a UIManager facade. Initial refactoring efforts will focus on extracting UI-related logic into this facade, establishing clear boundaries, and improving testability in this area. This will set the stage for more comprehensive modularization in subsequent phases, and overall reduce technical debt.",
+    "key_milestones": [
+      {
+        "day": 30,
+        "title": "UIManager Facade Implementation",
+        "description": "Implement the UIManager facade pattern, encapsulating existing global UI variables and methods. Focus on wrapping, not replacing, existing functionality to minimize disruption. Establish initial unit tests for the UIManager."
+      },
+      {
+        "day": 60,
+        "title": "UI Logic Extraction",
+        "description": "Extract UI-related logic from `app.js` into the UIManager. Begin with non-critical functions related to button clicks and UI rendering. Monitor for performance regressions and architectural conflicts during this extraction process."
+      },
+      {
+        "day": 90,
+        "title": "DataManager Interface Definition",
+        "description": "Define a clear DataManager interface to handle the application's data layer. Map all function call relationships related to data access to prepare for future extraction into the DataManager. Document API and initial use cases."
+      }
+    ],
+    "immediate_priorities": [
+      {
+        "priority": 1,
+        "action": "Implement UIManager Facade Pattern",
+        "impact": "high",
+        "effort": "medium"
+      },
+      {
+        "priority": 2,
+        "action": "Identify UI Logic within `app.js` for extraction",
+        "impact": "high",
+        "effort": "medium"
+      },
+      {
+        "priority": 3,
+        "action": "Document current state of global UI variables and their usage",
+        "impact": "medium",
+        "effort": "low"
+      },
+      {
+        "priority": 4,
+        "action": "Define DataManager interface",
+        "impact": "medium",
+        "effort": "low"
+      }
+    ],
+    "risk_factors": [
+      "Introduction of subtle UI regressions during facade implementation",
+      "Unexpected dependencies within extracted UI logic",
+      "Resistance from developers comfortable with the current monolithic structure",
+      "Scope creep leading to delays in facade completion"
+    ],
+    "success_metrics": [
+      "Reduction in `app.js` lines of code related to UI management",
+      "Increased test coverage for UI components",
+      "Clearer separation of UI concerns within the codebase",
+      "Successful integration of UIManager facade without introducing regressions"
+    ],
+    "resource_recommendations": "Allocate 1-2 senior developers with strong JavaScript and refactoring skills to lead the modularization effort. Dedicate time for code reviews and knowledge sharing to ensure team alignment. Consider using automated refactoring tools to assist with the extraction process. Ensure adequate time for thorough testing after each extraction step."
+  }
+}

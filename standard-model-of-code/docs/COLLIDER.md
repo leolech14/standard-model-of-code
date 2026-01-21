@@ -182,11 +182,99 @@ This is **meta-analysis** — AI analyzing an analysis.
 |------|------|
 | HTML template | `src/core/viz/assets/template.html` |
 | Styles | `src/core/viz/assets/styles.css` |
-| Interactive logic | `src/core/viz/assets/app.js` |
+| Main application | `src/core/viz/assets/app.js` |
+| Control Bar | `src/core/viz/assets/modules/control-bar.js` |
+| File Visualization | `src/core/viz/assets/modules/file-viz.js` |
+| Edge System | `src/core/viz/assets/modules/edge-system.js` |
+| Animation | `src/core/viz/assets/modules/animation.js` |
 
 ---
 
-## 6. LOOKUP TABLES
+## 6. VISUALIZATION CONTROLS
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `M` or `` ` `` | Toggle Control Bar |
+| `Escape` | Close panels, collapse Control Bar |
+| `I` | Show info for selected nodes |
+| `W` | Cycle wave pattern |
+| `Click` | Select node |
+| `Shift+Click` | Multi-select |
+| `Ctrl/Cmd+Click` | Toggle selection |
+
+### Control Bar (Visual Mapping)
+
+The **Control Bar** is a persistent UI at the bottom of the screen for dynamic visual mapping.
+
+**Access:** Press `M` or backtick `` ` ``
+
+#### Scope Options
+
+| Scope | Description |
+|-------|-------------|
+| Selected Nodes | Apply to current selection |
+| All Nodes | Apply to entire graph |
+| Group X | Apply to saved node group |
+
+#### Source Fields (MAP from)
+
+| Category | Fields |
+|----------|--------|
+| Structural | `token_estimate`, `line_count`, `size_bytes`, `code_lines`, `complexity_density`, `cohesion` |
+| Temporal | `age_days` |
+| Graph | `in_degree`, `out_degree` |
+| Categorical | `tier`, `ring`, `layer`, `role`, `format_category`, `effect` |
+| Boolean | `is_test`, `is_config`, `is_stale` |
+
+#### Target Properties (MAP to)
+
+| Category | Properties |
+|----------|------------|
+| Appearance | `nodeSize`, `hue`, `saturation`, `lightness`, `opacity` |
+| Position | `xPosition`, `yPosition`, `zPosition`, `radius` |
+| Physics | `charge`, `mass` |
+| Animation | `pulseSpeed` |
+
+#### Scale Types
+
+| Scale | Use Case |
+|-------|----------|
+| Linear | Even distribution |
+| Sqrt | Compress large values |
+| Log | Extreme ranges |
+| Inverse | Flip mapping |
+
+#### Groups
+
+- Click `+G` to create group from selection
+- Groups appear as colored chips with node counts
+- Use for A/B visual comparison
+
+### File Visualization Modes
+
+| Mode | Description |
+|------|-------------|
+| Color | Each file gets unique hue |
+| Hulls | Boundary polygons around file clusters |
+| Cluster | Force-based file grouping |
+| Map | File nodes view (files as first-class nodes) |
+| Spheres | Containment spheres |
+
+### Edge Modes
+
+| Mode | Colors By |
+|------|-----------|
+| gradient-tier | Source/target tier |
+| gradient-file | Source/target file |
+| gradient-flow | Data flow direction |
+| type | Edge type (calls, imports, etc.) |
+| mono | Single color |
+
+---
+
+## 7. LOOKUP TABLES
 
 ### Term → JSON Path → Code Location
 

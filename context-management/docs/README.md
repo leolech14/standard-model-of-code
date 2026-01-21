@@ -15,7 +15,7 @@ See the canonical sources in **standard-model-of-code/**:
 
 | Document | Purpose |
 |----------|---------|
-| [AI_OPERATING_MANUAL.md](AI_OPERATING_MANUAL.md) | How AI agents should operate |
+| [AI_USER_GUIDE.md](AI_USER_GUIDE.md) | How AI agents should operate |
 | [TOOL.md](TOOL.md) | AI analysis tool (analyze.py) |
 | [ORIENTATION_FILES.md](ORIENTATION_FILES.md) | Export context files for sharing |
 | [theory/THEORY.md](theory/THEORY.md) | Extended theory reference |
@@ -32,8 +32,10 @@ See the canonical sources in **standard-model-of-code/**:
 
 | Constant | Value | Source |
 |:---|---:|:---|
-| Atoms | 167 (94 implemented) | Theory |
-| Roles | 29 (implemented) | Theory |
-| Dimensions | 8 | Theory |
+| Atoms | 167 (94 implemented) | Theory (`MODEL.md`) |
+| Roles | 29 (implemented) | Theory (`MODEL.md`) |
+| Dimensions | 8 | Theory (`MODEL.md`) |
+| Hadrons | 96 (Canonical) | Data (`spectrometer_v12_minimal/HADRONS_96_FULL.md`) |
+| Continents | 5 (In-Repo) | Data (`spectrometer_v12_minimal/CONTINENTS_12.md`) |
 | Pipeline | 12 stages | Tool |
 

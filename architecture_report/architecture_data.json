@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-01-21T01:42:42.280253",
+  "metrics": {
+    "node_count": 1716,
+    "edge_count": 4243,
+    "avg_edges_per_node": 2.47,
+    "dead_code_percentage": 0,
+    "role_distribution": {
+      "Controller": 74,
+      "Factory": 82,
+      "Internal": 449,
+      "Utility": 473,
+      "Service": 63,
+      "Store": 23,
+      "Asserter": 140,
+      "Query": 207,
+      "Validator": 55,
+      "Parser": 4,
+      "Lifecycle": 57,
+      "Finder": 1,
+      "Mapper": 4,
+      "Guard": 2,
+      "Formatter": 2,
+      "Transformer": 12,
+      "Command": 55,
+      "Handler": 1,
+      "Creator": 4,
+      "Repository": 5,
+      "Listener": 1,
+      "Subscriber": 2
+    },
+    "layer_distribution": {
+      "Interface": 64,
+      "Application": 683,
+      "Core": 427,
+      "presentation": 16,
+      "domain": 205,
+      "infrastructure": 67,
+      "Test": 136,
+      "testing": 30,
+      "application": 18,
+      "Unknown": 49,
+      "Infrastructure": 21
+    },
+    "hot_spots": [
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/layout.js:get",
+        338
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:set",
+        129
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:add",
+        96
+      ],
+      [
+        "pathlib",
+        66
+      ],
+      [
+        "typing",
+        66
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:remove",
+        66
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/panels.js:open",
+        60
+      ],
+      [
+        "json",
+        53
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/circuit-breaker.js:test",
+        52
+      ],
+      [
+        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:clear",
+        47
+      ]
+    ],
+    "health_score": "A"
+  },
+  "semantic_analysis": {
+    "overall_assessment": "The codebase exhibits a mix of positive indicators (high health score, no dead code) and significant architectural challenges, most notably the monolithic `app.js` file and related issues. While the health score is good, it might not accurately reflect the underlying architectural problems.",
+    "strengths": [
+      "High Health Score (A), indicating good coding practices and maintainability within individual components.",
+      "Zero percent dead code suggests effective code cleanup and resource management.",
+      "Diverse role distribution showcasing modularization attempts with components like Controllers, Factories, Services, etc."
+    ],
+    "concerns": [
+      "Monolithic `app.js` file lacking clear call hierarchy and architectural separation ('random web' architecture).",
+      "O(n\u00b2) flock simulation algorithm impacting performance and scalability.",
+      "Circular overrides and architectural disconnects in `Graph.linkOpacity()` and `Graph.nodeColor()` functions.",
+      "Multiple animation systems leading to potential race conditions and conflicts.",
+      "Presence of stale code and pathological holons (God Classes/Anemic Models)."
+    ],
+    "recommendations": [
+      {
+        "priority": "critical",
+        "action": "Implement the six-phase remediation plan for the `app.js` file, focusing on mapping call relationships, identifying subsystem boundaries, and creating a DataManager interface.",
+        "rationale": "Addressing the monolithic `app.js` is crucial for improving maintainability, debuggability, and overall architecture quality."
+      },
+      {
+        "priority": "high",
+        "action": "Optimize the flocking simulation algorithm to reduce its complexity from O(n\u00b2) to a more efficient approach (e.g., using spatial partitioning techniques).",
+        "rationale": "The current O(n\u00b2) complexity severely impacts performance and scalability, making the application laggy with a moderate number of nodes."
+      },
+      {
+        "priority": "high",
+        "action": "Throttle the `Graph.refresh()` function to prevent excessive updates and improve performance.",
+        "rationale": "Unthrottled `Graph.refresh()` is a high-priority issue with a low effort to fix, offering a significant performance gain."
+      },
+      {
+        "priority": "high",
+        "action": "Refactor `Graph.linkOpacity()` and `Graph.nodeColor()` to ensure a single source of truth for node appearance and prevent circular overrides and architectural disconnects. The `ColorOrchestrator` should be the central point for color management.",
+        "rationale": "These functions have critical architectural flaws causing functionality breakage and inconsistent state."
+      },
+      {
+        "priority": "medium",
+        "action": "Address race conditions in the animation system by implementing locks in `popBoundaries` and `restoreBoundaries`.",
+        "rationale": "Race conditions cause visual glitches and inconsistent behavior, negatively impacting the user experience."
+      },
+      {
+        "priority": "medium",
+        "action": "Consolidate the multiple animation systems into a single, unified system to prevent conflicts and improve maintainability.",
+        "rationale": "Having multiple animation systems increases complexity and the risk of race conditions."
+      },
+      {
+        "priority": "low",
+        "action": "Address stale code in `PHYSICS_STATE` and dead code in `APPEARANCE_STATE` and UI event handlers by removing or refactoring them.",
+        "rationale": "Removing dead and stale code improves code clarity and reduces maintenance overhead."
+      },
+      {
+        "priority": "low",
+        "action": "Refactor potential Pathological Holons ('God Classes' or 'Anemic Models') to align with better architectural principles.",
+        "rationale": "Addressing these patterns improves modularity and maintainability."
+      }
+    ],
+    "architecture_pattern": "Potentially transitioning towards a microservices or modular monolith, but currently heavily influenced by a procedural or 'random web' approach due to the `app.js` issues. Role distribution hints at component-based design, but needs better enforcement.",
+    "technical_debt_estimate": "high"
+  }
+}

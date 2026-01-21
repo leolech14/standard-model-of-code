@@ -37,7 +37,18 @@
 
 ---
 
-## 2. The Legacy Archive (Code Graveyard)
+## 2. Reference Datasets (The Gold Nuggets)
+*Canonical data structures extracted from theory.*
+
+| Dataset | Path | Status |
+| :--- | :--- | :--- |
+| **96 Hadrons (Full)** | `context-management/reference_datasets/HADRONS_96.md` | **Canonical**. Extracted from Grok threads. |
+| **12 Continents** | *(Missing)* | **Partial**. Needs extraction. |
+| **1440 Grid** | `context-management/reference_datasets/RPBL_1440.csv` | **Raw Data**. The validation matrix. |
+
+---
+
+## 3. The Legacy Archive (Code Graveyard)
 *These scripts are in `archive/`. They are NOT active, but contain valuable logic you might want to resurrect.*
 
 ### Implementation Scripts (`archive/scripts/`)

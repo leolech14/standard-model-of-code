@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Future Roadmap</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 100%);
+            color: #e0e0e0;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        h1 { color: #ff00aa; margin-bottom: 10px; font-size: 2.5em; }
+        .subtitle { color: #888; margin-bottom: 40px; }
+        .vision {
+            background: linear-gradient(135deg, rgba(255,0,170,0.1), rgba(0,212,255,0.1));
+            border: 1px solid rgba(255,0,170,0.3);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff00aa, #00d4ff);
+        }
+        .milestone {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .milestone::before {
+            content: '';
+            position: absolute;
+            left: -43px;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #ff00aa;
+            border-radius: 50%;
+            border: 4px solid #0a0a0f;
+        }
+        .milestone-day {
+            position: absolute;
+            left: -100px;
+            top: 25px;
+            width: 50px;
+            text-align: right;
+            color: #ff00aa;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+        .milestone-title {
+            font-size: 1.3em;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .milestone-desc {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .card h3 { color: #00d4ff; margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; }
+        .priority {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .priority:last-child { border: none; }
+        .priority-num {
+            background: linear-gradient(135deg, #ff00aa, #00d4ff);
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .priority-content { flex: 1; }
+        .priority-action { color: #fff; margin-bottom: 5px; }
+        .tags { display: flex; gap: 8px; }
+        .tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+        }
+        .impact-high { background: rgba(255,0,68,0.2); color: #ff4488; }
+        .impact-medium { background: rgba(255,136,0,0.2); color: #ff8800; }
+        .impact-low { background: rgba(0,212,255,0.2); color: #00d4ff; }
+        .effort-high { background: rgba(255,0,68,0.1); color: #ff4488; border: 1px solid rgba(255,0,68,0.3); }
+        .effort-medium { background: rgba(255,136,0,0.1); color: #ff8800; border: 1px solid rgba(255,136,0,0.3); }
+        .effort-low { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+        .list { list-style: none; }
+        .list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #aaa; }
+        .list li:last-child { border: none; }
+        .section { margin-bottom: 40px; }
+        .section h2 { color: #fff; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Future Roadmap</h1>
+    <p class="subtitle">90-day projection - Generated 2026-01-21</p>
+
+    <div class="vision">
+        In 90 days, the codebase will have begun the process of modularizing the `app.js` monolith by introducing a UIManager facade. Initial refactoring efforts will focus on extracting UI-related logic into this facade, establishing clear boundaries, and improving testability in this area. This will set the stage for more comprehensive modularization in subsequent phases, and overall reduce technical debt.
+    </div>
+
+    <div class="section">
+        <h2>Milestones</h2>
+        <div class="timeline">
+
+            <div class="milestone">
+                <div class="milestone-day">Day 30</div>
+                <div class="milestone-title">UIManager Facade Implementation</div>
+                <div class="milestone-desc">Implement the UIManager facade pattern, encapsulating existing global UI variables and methods. Focus on wrapping, not replacing, existing functionality to minimize disruption. Establish initial unit tests for the UIManager.</div>
+                <small style="color: #666;">Target: Feb 20, 2026</small>
+            </div>
+
+            <div class="milestone">
+                <div class="milestone-day">Day 60</div>
+                <div class="milestone-title">UI Logic Extraction</div>
+                <div class="milestone-desc">Extract UI-related logic from `app.js` into the UIManager. Begin with non-critical functions related to button clicks and UI rendering. Monitor for performance regressions and architectural conflicts during this extraction process.</div>
+                <small style="color: #666;">Target: Mar 22, 2026</small>
+            </div>
+
+            <div class="milestone">
+                <div class="milestone-day">Day 90</div>
+                <div class="milestone-title">DataManager Interface Definition</div>
+                <div class="milestone-desc">Define a clear DataManager interface to handle the application's data layer. Map all function call relationships related to data access to prepare for future extraction into the DataManager. Document API and initial use cases.</div>
+                <small style="color: #666;">Target: Apr 21, 2026</small>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Immediate Priorities</h2>
+        <div class="card">
+
+            <div class="priority">
+                <div class="priority-num">1</div>
+                <div class="priority-content">
+                    <div class="priority-action">Implement UIManager Facade Pattern</div>
+                    <div class="tags">
+                        <span class="tag impact-high">Impact: high</span>
+                        <span class="tag effort-medium">Effort: medium</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="priority">
+                <div class="priority-num">2</div>
+                <div class="priority-content">
+                    <div class="priority-action">Identify UI Logic within `app.js` for extraction</div>
+                    <div class="tags">
+                        <span class="tag impact-high">Impact: high</span>
+                        <span class="tag effort-medium">Effort: medium</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="priority">
+                <div class="priority-num">3</div>
+                <div class="priority-content">
+                    <div class="priority-action">Document current state of global UI variables and their usage</div>
+                    <div class="tags">
+                        <span class="tag impact-medium">Impact: medium</span>
+                        <span class="tag effort-low">Effort: low</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="priority">
+                <div class="priority-num">4</div>
+                <div class="priority-content">
+                    <div class="priority-action">Define DataManager interface</div>
+                    <div class="tags">
+                        <span class="tag impact-medium">Impact: medium</span>
+                        <span class="tag effort-low">Effort: low</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Risk Factors</h3>
+            <ul class="list">
+                <li>Introduction of subtle UI regressions during facade implementation</li>
+                <li>Unexpected dependencies within extracted UI logic</li>
+                <li>Resistance from developers comfortable with the current monolithic structure</li>
+                <li>Scope creep leading to delays in facade completion</li>
+
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Success Metrics</h3>
+            <ul class="list">
+                <li>Reduction in `app.js` lines of code related to UI management</li>
+                <li>Increased test coverage for UI components</li>
+                <li>Clearer separation of UI concerns within the codebase</li>
+                <li>Successful integration of UIManager facade without introducing regressions</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 40px;">
+        <h3>Resource Recommendations</h3>
+        <p style="color: #aaa; line-height: 1.6;">Allocate 1-2 senior developers with strong JavaScript and refactoring skills to lead the modularization effort. Dedicate time for code reviews and knowledge sharing to ensure team alignment. Consider using automated refactoring tools to assist with the extraction process. Ensure adequate time for thorough testing after each extraction step.</p>
+    </div>
+
+</body>
+</html>

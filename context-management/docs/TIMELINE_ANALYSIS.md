@@ -329,27 +329,28 @@ The timestamp CSV is auto-updated via:
 
 ```bash
 # Manual update
-./tools/update_timestamps.sh
+./context-management/tools/maintenance/update_timestamps.sh
 
 # With statistics
-./tools/update_timestamps.sh --stats
+./context-management/tools/maintenance/update_timestamps.sh --stats
 
 # Quiet mode (for scripts)
-./tools/update_timestamps.sh --quiet
+./context-management/tools/maintenance/update_timestamps.sh --quiet
 ```
 
 **Auto-triggers:**
-- Runs automatically during `./tools/agent_boot.sh`
+- Runs automatically during `./context-management/tools/maintenance/boot.sh`
 
 **Output file:**
-- `/project_elements_file_timestamps.csv`
+- `project_elements_file_timestamps.csv` (project root)
 
-**Excludes:** `.venv/`, `node_modules/`, `__pycache__/`, `.git/`
+**Excludes:** `.git/`, `node_modules/`, `__pycache__/`, `.venv/`, `.archive/`, `.collider_report/`, `.eval/`, `.mypy_cache/`, `.pytest_cache/`, `.ruff_cache/`, hidden files, `.pyc/.pyo/.so/.dylib/.whl`
 
-**Note:** Uses macOS `birthtime` (actual file creation), not `ctime` (inode change).
+**Note:** Uses macOS `st_birthtime` (actual file creation), not `ctime` (inode change).
 
 ---
 
 *Analysis generated: 2026-01-18*
+*Updated: 2026-01-20 (paths corrected)*
 *Based on file system timestamps (creation + modification)*
-*Auto-update: `./tools/update_timestamps.sh`*
+*Auto-update: `./context-management/tools/maintenance/update_timestamps.sh`*
