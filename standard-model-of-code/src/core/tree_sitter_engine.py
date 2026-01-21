@@ -7,6 +7,7 @@ Minimal, maximum output, works across 160+ languages
 
 import os
 import ast
+import fnmatch
 import json
 import logging
 import re
@@ -15,7 +16,7 @@ import sys
 import threading
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, Set
 
 try:
     from type_registry import normalize_type
@@ -73,6 +74,75 @@ def parse_with_timeout(parser, source_bytes: bytes, timeout_seconds: int = 30):
         raise exception[0]
 
     return result[0]
+
+
+def load_colliderignore(base_path: Path) -> Set[str]:
+    """Load .colliderignore patterns from a directory.
+
+    Returns a set of patterns to ignore (similar to .gitignore format).
+    """
+    ignore_file = base_path / '.colliderignore'
+    patterns = set()
+
+    # Default patterns always ignored
+    default_patterns = {
+        '.git', '__pycache__', 'node_modules', 'venv', '.venv',
+        '.archive', 'archive', '.collider', 'blender', 'experiments'
+    }
+    patterns.update(default_patterns)
+
+    if ignore_file.exists():
+        try:
+            with open(ignore_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    # Skip empty lines and comments
+                    if not line or line.startswith('#'):
+                        continue
+                    # Remove trailing slash for directory patterns
+                    pattern = line.rstrip('/')
+                    patterns.add(pattern)
+        except Exception as e:
+            logging.warning(f"Failed to read .colliderignore: {e}")
+
+    return patterns
+
+
+def should_ignore_path(path: Path, patterns: Set[str], base_path: Path) -> bool:
+    """Check if a path should be ignored based on patterns.
+
+    Supports:
+    - Exact directory names: '.archive', 'node_modules'
+    - Glob patterns: '*.min.js', '*/vendor/*'
+    - Path prefixes: '.collider_*'
+    """
+    # Get relative path from base
+    try:
+        rel_path = path.relative_to(base_path)
+    except ValueError:
+        rel_path = path
+
+    path_str = str(rel_path)
+    path_parts = rel_path.parts
+
+    for pattern in patterns:
+        # Check if any path component matches pattern directly
+        for part in path_parts:
+            if part == pattern:
+                return True
+            # Check glob patterns (e.g., .collider_*)
+            if fnmatch.fnmatch(part, pattern):
+                return True
+
+        # Check if full path matches glob pattern
+        if fnmatch.fnmatch(path_str, pattern):
+            return True
+
+        # Check if path contains the pattern as a component
+        if f'/{pattern}/' in f'/{path_str}/':
+            return True
+
+    return False
 
 
 class TreeSitterUniversalEngine:
@@ -194,7 +264,8 @@ class TreeSitterUniversalEngine:
             'touchpoints': touchpoints,
             'raw_imports': raw_imports,
             'lines_analyzed': len(content.split('\n')),
-            'chars_analyzed': len(content)
+            'chars_analyzed': len(content),
+            'raw_content': content,  # For JS module resolution
         }
         if depth_metrics:
             result['depth_metrics'] = depth_metrics
@@ -581,27 +652,42 @@ class TreeSitterUniversalEngine:
             return []
         
     def analyze_directory(self, dir_path: str, extensions: List[str] = None) -> List[Dict[str, Any]]:
-        """Analyze all supported files in a directory."""
+        """Analyze all supported files in a directory.
+
+        Respects .colliderignore file if present in the directory.
+        """
         results = []
         path = Path(dir_path)
-        
+
         if not path.exists():
             return []
-            
-        for root, _, files in os.walk(path):
-            if any(p in str(Path(root)) for p in ['.git', '__pycache__', 'node_modules', 'venv']):
+
+        # Load ignore patterns from .colliderignore
+        ignore_patterns = load_colliderignore(path)
+
+        for root, dirs, files in os.walk(path):
+            root_path = Path(root)
+
+            # Skip ignored directories (modify dirs in-place to prevent descent)
+            if should_ignore_path(root_path, ignore_patterns, path):
+                dirs[:] = []  # Don't descend into this directory
                 continue
-                
+
             for file in files:
-                file_path = str(Path(root) / file)
+                file_path = root_path / file
+
+                # Skip ignored files
+                if should_ignore_path(file_path, ignore_patterns, path):
+                    continue
+
                 ext = Path(file).suffix
-                
+
                 if extensions and ext not in extensions:
                     continue
-                    
+
                 if ext in self.supported_languages:
-                    results.append(self.analyze_file(file_path))
-                    
+                    results.append(self.analyze_file(str(file_path)))
+
         return results
 
     def _extract_particles(self, content: str, language: str, file_path: str) -> List[Dict]:
@@ -693,7 +779,25 @@ class TreeSitterUniversalEngine:
         if file_path and Path(file_path).name == 'data.js':
             return []
 
-        # Try to import factory (lazy import to avoid circular dep issues)
+        # For Python: use AST-based extraction (handles imports inside functions/try-except)
+        # AST is more reliable than regex because it understands Python syntax
+        if language == 'python':
+            imports = []
+            try:
+                tree = ast.parse(content)
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.Import):
+                        for n in node.names:
+                            imports.append({'module': n.name, 'alias': n.asname or '', 'items': []})
+                    elif isinstance(node, ast.ImportFrom):
+                        module = node.module or ''
+                        items = [n.name for n in node.names]
+                        imports.append({'module': module, 'items': items, 'is_relative': node.level > 0})
+            except SyntaxError:
+                pass  # Invalid Python, return empty
+            return imports
+
+        # For other languages: use regex-based import_extractor
         try:
             from core.parser.import_extractor import extract_imports
             from dataclasses import asdict
@@ -702,30 +806,12 @@ class TreeSitterUniversalEngine:
                 from parser.import_extractor import extract_imports
                 from dataclasses import asdict
             except ImportError:
-                # Fallback to python-only manual extraction if module not found
-                imports = []
-                if language == 'python':
-                    try:
-                        tree = ast.parse(content)
-                        for node in ast.walk(tree):
-                            if isinstance(node, ast.Import):
-                                for n in node.names:
-                                    imports.append(n.name)
-                            elif isinstance(node, ast.ImportFrom):
-                                module = node.module or ''
-                                for n in node.names:
-                                    imports.append(f"{module}.{n.name}")
-                    except:
-                        pass
-                return imports
+                return []  # No extractor available for this language
 
-        # Use the robust extractor
         try:
             extracted = extract_imports(content, language)
-            # Convert dataclasses to dicts for serialization/compatibility
             return [asdict(imp) for imp in extracted]
-        except Exception as e:
-            # Fallback for errors
+        except Exception:
             return []
 
     def _fallback_analysis(self, file_path: str) -> Dict[str, Any]:

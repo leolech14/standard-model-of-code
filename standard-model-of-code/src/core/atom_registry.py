@@ -355,7 +355,8 @@ class AtomRegistry:
         self.ecosystem_patterns = {
             "react": {
                 "imports": ["react", "react-dom", "react-native"],
-                "file_patterns": [".js", ".jsx", ".ts", ".tsx"],
+                # Only .jsx/.tsx are React by extension; .js/.ts need import evidence
+                "file_patterns": [".jsx", ".tsx"],
                 "code_patterns": {
                     # Functional Component - any function returning JSX
                     "EXT.REACT.001": ["function", "return", "<", "/>"],  

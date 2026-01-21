@@ -44,6 +44,223 @@ except ImportError:
     tree_sitter_typescript = None
 
 
+# =============================================================================
+# JS MODULE RESOLVER - Track aliases, window exports, and resolve member calls
+# =============================================================================
+
+class JSModuleResolver:
+    """
+    Resolves JavaScript module references across files.
+
+    Tracks:
+    - window.X = X patterns (global exports)
+    - const X = require('./file') (CommonJS)
+    - import X from './file' (ES6)
+    - IIFE module patterns
+
+    Usage:
+        resolver = JSModuleResolver()
+        resolver.analyze_file(file_path, content, parser)
+        target = resolver.resolve_member_call('COLOR', 'subscribe', caller_file)
+    """
+
+    def __init__(self):
+        # Map: global_name -> file_path (e.g., 'COLOR' -> 'color-engine.js')
+        self.window_exports: Dict[str, str] = {}
+        # Map: (file_path, local_name) -> source_module (e.g., ('app.js', 'COLOR') -> 'color-engine.js')
+        self.import_aliases: Dict[Tuple[str, str], str] = {}
+        # Map: file_path -> module_name (e.g., 'color-engine.js' -> 'COLOR')
+        self.file_to_module: Dict[str, str] = {}
+        # Parser for JS
+        self.parser = None
+        if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
+            try:
+                lang = tree_sitter.Language(tree_sitter_javascript.language())
+                self.parser = tree_sitter.Parser()
+                self.parser.language = lang
+            except Exception:
+                pass
+
+    def analyze_file(self, file_path: str, content: str) -> None:
+        """Analyze a JS file to extract module aliases and exports."""
+        if not self.parser or not content:
+            return
+
+        source_bytes = content.encode('utf-8')
+        try:
+            tree = self.parser.parse(source_bytes)
+        except Exception:
+            return
+
+        file_name = Path(file_path).stem  # e.g., 'color-engine'
+
+        def visit(node):
+            # Pattern 1: window.X = X or window.X = {...}
+            if node.type == 'assignment_expression':
+                left = node.child_by_field_name('left')
+                if left and left.type == 'member_expression':
+                    obj = left.child_by_field_name('object')
+                    prop = left.child_by_field_name('property')
+                    if obj and prop and obj.text == b'window':
+                        export_name = prop.text.decode()
+                        self.window_exports[export_name] = file_path
+                        self.file_to_module[file_path] = export_name
+
+            # Pattern 2: const X = require('./file')
+            if node.type == 'variable_declarator':
+                name_node = node.child_by_field_name('name')
+                value_node = node.child_by_field_name('value')
+                if name_node and value_node and value_node.type == 'call_expression':
+                    func = value_node.child_by_field_name('function')
+                    if func and func.text == b'require':
+                        args = value_node.child_by_field_name('arguments')
+                        if args and args.child_count > 0:
+                            arg = args.children[0] if args.children else None
+                            if arg and arg.type == 'string':
+                                module_path = arg.text.decode().strip('\'"')
+                                local_name = name_node.text.decode()
+                                self.import_aliases[(file_path, local_name)] = module_path
+
+            # Pattern 3: import X from './file' or import { X } from './file'
+            if node.type == 'import_statement':
+                source_node = None
+                for child in node.children:
+                    if child.type == 'string':
+                        source_node = child
+                        break
+                if source_node:
+                    module_path = source_node.text.decode().strip('\'"')
+                    # Find the imported names
+                    for child in node.children:
+                        if child.type == 'identifier':
+                            local_name = child.text.decode()
+                            self.import_aliases[(file_path, local_name)] = module_path
+                        elif child.type == 'import_clause':
+                            for subchild in child.children:
+                                if subchild.type == 'identifier':
+                                    local_name = subchild.text.decode()
+                                    self.import_aliases[(file_path, local_name)] = module_path
+                                elif subchild.type == 'named_imports':
+                                    for spec in subchild.children:
+                                        if spec.type == 'import_specifier':
+                                            name = spec.child_by_field_name('name')
+                                            if name:
+                                                local_name = name.text.decode()
+                                                self.import_aliases[(file_path, local_name)] = module_path
+
+            # Pattern 4: const X = (function() {...})() - IIFE globals (browser script pattern)
+            # These become globals in browser scripts loaded via <script> tags
+            if node.type == 'lexical_declaration':
+                for declarator in node.children:
+                    if declarator.type == 'variable_declarator':
+                        name_node = declarator.child_by_field_name('name')
+                        value_node = declarator.child_by_field_name('value')
+                        if name_node and name_node.type == 'identifier':
+                            export_name = name_node.text.decode()
+                            # Check if it's an IIFE: (function() {...})() or (() => {...})()
+                            if value_node and value_node.type == 'call_expression':
+                                func = value_node.child_by_field_name('function')
+                                if func and func.type == 'parenthesized_expression':
+                                    # It's an IIFE - register as a global
+                                    if export_name not in self.window_exports:
+                                        self.window_exports[export_name] = file_path
+                                        self.file_to_module[file_path] = export_name
+
+            for child in node.children:
+                visit(child)
+
+        visit(tree.root_node)
+
+    def resolve_member_call(
+        self,
+        object_name: str,
+        method_name: str,
+        caller_file: str,
+        particle_by_name: Dict[str, List[Dict]]
+    ) -> Optional[Dict]:
+        """
+        Resolve a member call like COLOR.subscribe() to its target particle.
+
+        Args:
+            object_name: The object being called on (e.g., 'COLOR')
+            method_name: The method being called (e.g., 'subscribe')
+            caller_file: The file containing the call
+            particle_by_name: Dict mapping names to particles
+
+        Returns:
+            The target particle, or None if not resolved
+        """
+        # Skip built-in objects
+        if object_name in ('document', 'window', 'console', 'Math', 'JSON', 'Object', 'Array', 'String', 'Number'):
+            return None
+
+        # Strategy 1: Check window exports
+        if object_name in self.window_exports:
+            target_file = self.window_exports[object_name]
+            # Look for method in that file
+            candidates = particle_by_name.get(method_name, [])
+            for c in candidates:
+                if c.get('file_path') == target_file:
+                    return c
+
+        # Strategy 2: Check import aliases for this file
+        alias_key = (caller_file, object_name)
+        if alias_key in self.import_aliases:
+            module_path = self.import_aliases[alias_key]
+            # Resolve relative path
+            if module_path.startswith('.'):
+                caller_dir = str(Path(caller_file).parent)
+                resolved = str(Path(caller_dir) / module_path)
+                # Try with .js extension
+                for ext in ['', '.js', '/index.js']:
+                    test_path = resolved + ext
+                    candidates = particle_by_name.get(method_name, [])
+                    for c in candidates:
+                        if test_path in c.get('file_path', ''):
+                            return c
+
+        # Strategy 3: Fuzzy match - object name might match file name
+        # e.g., COLOR might come from color-engine.js or color.js
+        # NOTE: Require match at START of filename to avoid false positives like
+        # 'dm' matching 'legen-dm-anager' (substring match in wrong place)
+        object_lower = object_name.lower()
+        candidates = particle_by_name.get(method_name, [])
+        for c in candidates:
+            file_stem = Path(c.get('file_path', '')).stem.lower().replace('-', '').replace('_', '')
+            # Match if object name starts the filename OR filename starts the object name
+            # e.g., 'color' matches 'colorengine', 'data' matches 'datamanager'
+            if file_stem.startswith(object_lower) or object_lower.startswith(file_stem):
+                return c
+
+        return None
+
+    def get_stats(self) -> Dict[str, int]:
+        """Return statistics about resolved modules."""
+        return {
+            'window_exports': len(self.window_exports),
+            'import_aliases': len(self.import_aliases),
+            'file_to_module': len(self.file_to_module),
+        }
+
+
+# Global resolver instance (populated during analysis)
+_js_module_resolver: Optional[JSModuleResolver] = None
+
+
+def get_js_module_resolver() -> JSModuleResolver:
+    """Get or create the global JS module resolver."""
+    global _js_module_resolver
+    if _js_module_resolver is None:
+        _js_module_resolver = JSModuleResolver()
+    return _js_module_resolver
+
+
+def reset_js_module_resolver() -> None:
+    """Reset the global resolver (for testing or fresh analysis)."""
+    global _js_module_resolver
+    _js_module_resolver = None
+
+
 # Standard library module names (common ones for quick classification)
 STDLIB_MODULES = frozenset([
     'abc', 'argparse', 'ast', 'asyncio', 'base64', 'builtins', 'collections',
@@ -139,37 +356,76 @@ def _collect_file_node_ids(particles: List[Dict]) -> Dict[str, str]:
     return mapping
 
 
+def _find_target_particle(
+    call_name: str,
+    caller_file: str,
+    particle_by_name: Dict[str, List[Dict]]
+) -> Optional[Dict]:
+    """
+    Find target particle for a call, preferring same-file matches.
+
+    This handles duplicate function names across files (e.g., 'init', 'clamp01').
+    When a function calls another function with the same name as one in its own file,
+    the same-file version should be preferred (respects module scope).
+
+    Args:
+        call_name: The name being called
+        caller_file: The file path of the caller
+        particle_by_name: Dict mapping names to LIST of particles with that name
+
+    Returns:
+        The best matching particle, or None if not found
+    """
+    candidates = particle_by_name.get(call_name, [])
+    if not candidates:
+        return None
+
+    # Prefer same-file match (respects module scope)
+    for candidate in candidates:
+        if candidate.get('file_path') == caller_file:
+            return candidate
+
+    # Fallback to first match (cross-file reference)
+    return candidates[0]
+
+
 # =============================================================================
 # STRATEGY PATTERN FOR BODY ANALYSIS
 # =============================================================================
 
 class EdgeExtractionStrategy(ABC):
     """Abstract base class for language-specific edge extraction from source bodies."""
-    
+
     @abstractmethod
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         """
         Extract 'calls' and 'uses' edges from a single particle's body_source.
+
+        Args:
+            particle: The calling particle (function/method/class)
+            particle_by_name: Dict mapping names to LIST of particles with that name
+                             (supports duplicate names across files)
         """
         pass
 
 
 class PythonEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Python (regex-based heuristics)."""
-    
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
             return edges
-            
+
         caller_id = _get_particle_id(particle)
         caller_name = particle.get('name', '')
+        caller_file = particle.get('file_path', '')
         caller_short = caller_name.split('.')[-1] if '.' in caller_name else caller_name
-        
+
         # Look for function calls: func() or self.method()
         calls = re.findall(r'(?:self\.)?(\w+)\s*\(', body)
-        
+
         for call in calls:
             # Skip self-calls and common built-ins
             if call == caller_short:
@@ -179,14 +435,15 @@ class PythonEdgeStrategy(EdgeExtractionStrategy):
                        'hasattr', 'getattr', 'setattr', 'open', 'super', 'type', 'id'):
                 continue
 
-            if call in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[call])
+            target = _find_target_particle(call, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'calls',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.7,  # Heuristic detection
                 })
@@ -199,65 +456,68 @@ class PythonEdgeStrategy(EdgeExtractionStrategy):
                 continue
             if accessed in ('Path', 'Dict', 'List', 'Optional', 'Union', 'Any', 'Type', 'Set', 'Tuple'):
                 continue  # Skip typing imports
-            if accessed in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[accessed])
+            target = _find_target_particle(accessed, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'uses',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.8,  # Attribute access detection
                 })
-                
+
         return edges
 
 
 class JavascriptEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for JavaScript/TypeScript."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
             return edges
 
         caller_id = _get_particle_id(particle)
-        caller_name = particle.get('name', '')
+        caller_file = particle.get('file_path', '')
 
         # JS Calls: func(), obj.method(), this.method()
         # Heuristic: word followed by (
         calls = re.findall(r'(?:this\.|[\w]+\.)?(\w+)\s*\(', body)
 
         for call in calls:
-            if call in ('console', 'log', 'alert', 'push', 'pop', 'map', 'filter', 'forEach', 
+            if call in ('console', 'log', 'alert', 'push', 'pop', 'map', 'filter', 'forEach',
                        'reduce', 'length', 'toString', 'parseInt', 'parseFloat', 'require'):
                 continue
-            
-            if call in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[call])
+
+            target = _find_target_particle(call, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'calls',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.7,
                 })
-        
+
         # New instantiation
         news = re.findall(r'new\s+(\w+)\s*\(', body)
         for cls in news:
-             if cls in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[cls])
+            target = _find_target_particle(cls, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
-                    'edge_type': 'calls', # Constructor call
+                    'edge_type': 'calls',  # Constructor call
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.9,
                 })
@@ -273,31 +533,32 @@ class TypeScriptEdgeStrategy(JavascriptEdgeStrategy):
 
 class GoEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Go."""
-    
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
             return edges
-            
+
         caller_id = _get_particle_id(particle)
+        caller_file = particle.get('file_path', '')
 
         # Go calls: Pkg.Func(), func()
-        # Extract Word.Word( or Word(
         calls = re.findall(r'(?:[\w]+\.)?(\w+)\s*\(', body)
-        
+
         for call in calls:
             if call in ('println', 'fmt', 'len', 'append', 'make', 'new', 'panic', 'copy'):
                 continue
-            
-            if call in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[call])
+
+            target = _find_target_particle(call, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'calls',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.7,
                 })
@@ -306,31 +567,32 @@ class GoEdgeStrategy(EdgeExtractionStrategy):
 
 class RustEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Rust."""
-    
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
             return edges
-            
+
         caller_id = _get_particle_id(particle)
+        caller_file = particle.get('file_path', '')
 
         # Rust calls: func(), module::func(), struct.method()
-        # Regex for word followed by (
         calls = re.findall(r'(?:[\w:]+\.|[\w:]+::)?(\w+)\s*\(', body)
 
         for call in calls:
             if call in ('println', 'vec', 'Some', 'None', 'Ok', 'Err', 'unwrap', 'clone', 'to_string'):
                 continue
-            
-            if call in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[call])
+
+            target = _find_target_particle(call, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'calls',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.7,
                 })
@@ -339,7 +601,8 @@ class RustEdgeStrategy(EdgeExtractionStrategy):
 
 class DefaultEdgeStrategy(EdgeExtractionStrategy):
     """Fallback strategy for unknown languages (no body analysis)."""
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         return []
 
 
@@ -377,23 +640,24 @@ class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
                     return attr.text.decode()
         return None
     
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, Dict]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body or not self.parser:
             return edges
-        
+
         caller_id = _get_particle_id(particle)
+        caller_file = particle.get('file_path', '')
         source_bytes = body.encode('utf-8')
-        
+
         try:
             tree = self.parser.parse(source_bytes)
         except Exception:
             return edges  # Fallback to empty if parsing fails
-        
+
         call_types = self.get_call_node_types()
         found_calls: Set[str] = set()
-        
+
         def visit(node):
             if node.type in call_types:
                 callee = self.extract_callee_name(node, source_bytes)
@@ -401,23 +665,24 @@ class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
                     found_calls.add(callee)
             for child in node.children:
                 visit(child)
-        
+
         visit(tree.root_node)
-        
-        # Match against known particles
+
+        # Match against known particles (prefer same-file)
         for call in found_calls:
-            if call in particle_by_name:
-                target_id = _get_particle_id(particle_by_name[call])
+            target = _find_target_particle(call, caller_file, particle_by_name)
+            if target:
+                target_id = _get_particle_id(target)
                 edges.append({
                     'source': caller_id,
                     'target': target_id,
                     'edge_type': 'calls',
                     'family': 'Dependency',
-                    'file_path': particle.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': particle.get('line', 0),
                     'confidence': 0.95,  # High confidence from AST
                 })
-        
+
         return edges
 
 
@@ -440,8 +705,17 @@ class PythonTreeSitterStrategy(TreeSitterEdgeStrategy):
 
 
 class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
-    """Tree-sitter based JavaScript/JSX call extraction."""
-    
+    """
+    Tree-sitter based JavaScript/JSX call extraction with module resolution.
+
+    Enhanced to handle:
+    - Direct calls: func()
+    - Member calls: COLOR.subscribe() -> resolved via JSModuleResolver
+    - Constructor calls: new ClassName()
+    - Callbacks: addEventListener('click', handler)
+    - Method chaining: obj.method1().method2()
+    """
+
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
@@ -452,18 +726,166 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
             except Exception:
                 parser = None
         super().__init__(parser, 'javascript')
-    
+
     def get_call_node_types(self) -> Set[str]:
         return {'call_expression', 'new_expression'}
-    
+
+    def extract_member_call(self, node: Any, source_bytes: bytes) -> Tuple[Optional[str], Optional[str]]:
+        """
+        Extract both object and method from a member call.
+
+        Returns:
+            (object_name, method_name) tuple, e.g., ('COLOR', 'subscribe')
+            (None, method_name) for direct calls like func()
+        """
+        func_node = node.child_by_field_name('function')
+        if not func_node:
+            return (None, None)
+
+        # Direct call: func()
+        if func_node.type == 'identifier':
+            return (None, func_node.text.decode())
+
+        # Member call: obj.method() or this.method()
+        if func_node.type == 'member_expression':
+            obj_node = func_node.child_by_field_name('object')
+            prop_node = func_node.child_by_field_name('property')
+            if obj_node and prop_node:
+                # Handle 'this' keyword - return 'this' as obj_name for semantic tracking
+                # (resolution will use same-file preference which is correct for this)
+                if obj_node.type == 'this':
+                    obj_name = 'this'
+                elif obj_node.type == 'identifier':
+                    obj_name = obj_node.text.decode()
+                else:
+                    obj_name = None
+                method_name = prop_node.text.decode() if prop_node.type == 'property_identifier' else None
+                return (obj_name, method_name)
+
+        return (None, None)
+
+    def extract_callback_args(self, node: Any, source_bytes: bytes) -> List[str]:
+        """
+        Extract callback function references from call arguments.
+
+        Handles patterns like:
+        - addEventListener('click', handleClick)
+        - array.map(processItem)
+        - promise.then(onSuccess, onError)
+        """
+        callbacks = []
+        args_node = node.child_by_field_name('arguments')
+        if not args_node:
+            return callbacks
+
+        for arg in args_node.children:
+            # Direct function reference: addEventListener('click', handler)
+            if arg.type == 'identifier':
+                callbacks.append(arg.text.decode())
+            # Could also handle arrow functions with named calls inside, but that's complex
+
+        return callbacks
+
     def extract_callee_name(self, node: Any, source_bytes: bytes) -> Optional[str]:
-        # Handle new_expression: new ClassName()
+        """Extract just the method name (for backward compatibility)."""
         if node.type == 'new_expression':
             constructor = node.child_by_field_name('constructor')
             if constructor and constructor.type == 'identifier':
                 return constructor.text.decode()
-        # Fallback to parent implementation for call_expression
-        return super().extract_callee_name(node, source_bytes)
+        _, method = self.extract_member_call(node, source_bytes)
+        return method
+
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+        """
+        Extract edges with full module resolution for JS.
+
+        Enhanced to:
+        1. Resolve member calls via JSModuleResolver
+        2. Track callback references
+        3. Fall back to same-file preference for unresolved calls
+        """
+        edges = []
+        body = particle.get('body_source', '')
+        if not body or not self.parser:
+            return edges
+
+        caller_id = _get_particle_id(particle)
+        caller_file = particle.get('file_path', '')
+        source_bytes = body.encode('utf-8')
+
+        try:
+            tree = self.parser.parse(source_bytes)
+        except Exception:
+            return edges
+
+        resolver = get_js_module_resolver()
+        call_types = self.get_call_node_types()
+        # Key by (obj_name, method_name) to avoid dropping edges when different objects
+        # call the same method name (e.g., ANIM.init() vs GRAPH.init())
+        processed: Set[Tuple[Optional[str], str]] = set()
+
+        def visit(node):
+            if node.type in call_types:
+                # Extract full member call info
+                obj_name, method_name = self.extract_member_call(node, source_bytes)
+
+                if method_name:
+                    edge_key = (obj_name, method_name)
+                    if edge_key not in processed:
+                        processed.add(edge_key)
+                        target = None
+
+                        # Strategy 1: If it's 'this.method()', use same-file preference directly
+                        # (this refers to methods in the same class/object)
+                        if obj_name == 'this':
+                            target = _find_target_particle(method_name, caller_file, particle_by_name)
+
+                        # Strategy 2: If it's a member call (obj.method), use resolver
+                        elif obj_name:
+                            target = resolver.resolve_member_call(
+                                obj_name, method_name, caller_file, particle_by_name
+                            )
+
+                        # Strategy 3: Fall back to same-file preference for direct calls
+                        if not target:
+                            target = _find_target_particle(method_name, caller_file, particle_by_name)
+
+                        if target:
+                            target_id = _get_particle_id(target)
+                            edges.append({
+                                'source': caller_id,
+                                'target': target_id,
+                                'edge_type': 'calls',
+                                'family': 'Dependency',
+                                'file_path': caller_file,
+                                'line': particle.get('line', 0),
+                                'confidence': 0.95 if obj_name and obj_name != 'this' else 0.85,
+                            })
+
+                # Also extract callbacks from arguments
+                callbacks = self.extract_callback_args(node, source_bytes)
+                for cb_name in callbacks:
+                    cb_key = (None, cb_name)  # Callbacks are direct references (no object)
+                    if cb_key not in processed:
+                        processed.add(cb_key)
+                        target = _find_target_particle(cb_name, caller_file, particle_by_name)
+                        if target:
+                            target_id = _get_particle_id(target)
+                            edges.append({
+                                'source': caller_id,
+                                'target': target_id,
+                                'edge_type': 'calls',
+                                'family': 'Dependency',
+                                'file_path': caller_file,
+                                'line': particle.get('line', 0),
+                                'confidence': 0.80,  # Callback reference
+                            })
+
+            for child in node.children:
+                visit(child)
+
+        visit(tree.root_node)
+        return edges
 
 
 class TypeScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
@@ -548,8 +970,32 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
     """
     edges = []
 
-    # Build particle lookup by name AND by full ID (skip file nodes)
-    particle_by_name = {}
+    # -------------------------------------------------------------------------
+    # 0. INITIALIZE JS MODULE RESOLVER
+    # -------------------------------------------------------------------------
+    # Reset and populate the resolver with all JS files for cross-module resolution
+    reset_js_module_resolver()
+    resolver = get_js_module_resolver()
+
+    # Populate resolver with JS file contents (need raw_content from results)
+    for result in results:
+        file_path = result.get('file_path', '')
+        if file_path.endswith('.js') or file_path.endswith('.jsx'):
+            # Get content from the result if available, or read from file
+            content = result.get('raw_content', '')
+            if not content and file_path:
+                try:
+                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        content = f.read()
+                except Exception:
+                    content = ''
+            if content:
+                resolver.analyze_file(file_path, content)
+
+    # Build particle lookup by name (storing LISTS to handle duplicates across files)
+    # and by full ID (skip file nodes)
+    from collections import defaultdict
+    particle_by_name: Dict[str, List[Dict]] = defaultdict(list)
     particle_by_id = {}
     for p in particles:
         metadata = p.get("metadata") or {}
@@ -558,11 +1004,11 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
         name = p.get('name', '')
         particle_id = _get_particle_id(p)
         if name:
-            particle_by_name[name] = p
+            particle_by_name[name].append(p)
             # Also register short name
             short = name.split('.')[-1] if '.' in name else name
-            if short not in particle_by_name:
-                particle_by_name[short] = p
+            if short != name:
+                particle_by_name[short].append(p)
         if particle_id:
             particle_by_id[particle_id] = p
 
@@ -625,12 +1071,14 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
 
         # Inheritance
         base_classes = p.get('base_classes', [])
+        caller_file = p.get('file_path', '')
         for base in base_classes:
             if base and base not in ('object', 'ABC', 'Protocol'):
                 source_id = _get_particle_id(p)
-                # Look up base class in known particles
-                if base in particle_by_name:
-                    target_id = _get_particle_id(particle_by_name[base])
+                # Look up base class in known particles (prefer same-file)
+                target_particle = _find_target_particle(base, caller_file, particle_by_name)
+                if target_particle:
+                    target_id = _get_particle_id(target_particle)
                 else:
                     target_id = base  # External class, keep as name
                 edges.append({
@@ -638,7 +1086,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
                     'target': target_id,
                     'edge_type': 'inherits',
                     'family': 'Inheritance',
-                    'file_path': p.get('file_path', ''),
+                    'file_path': caller_file,
                     'line': p.get('line', 0),
                     'confidence': 1.0,
                 })
@@ -783,6 +1231,10 @@ def resolve_import_target_to_file(
         if len(existing) > 1:
             return None, True
         if len(existing) == 1:
+            # Check for ambiguity with stdlib/external
+            root_module = _get_module_root(target_module)
+            if root_module in STDLIB_MODULES:
+                return None, True
             return existing[0], False
 
     return None, False
