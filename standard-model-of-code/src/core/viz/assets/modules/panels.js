@@ -160,7 +160,8 @@ const PANELS = (function() {
             });
         }
 
-        // Density Slider (filter panel duplicate)
+        // Density Slider (filter panel) - NOTE: #density-slider2 not in current HTML template
+        // Code retained for future filter panel implementation
         const densitySlider2 = document.getElementById('density-slider2');
         const densityValue2 = document.getElementById('density-value2');
         if (densitySlider2) {

@@ -121,7 +121,9 @@
 
     /**
      * Initialize all modules with data
-     * Called from app.js after data is loaded
+     * NOTE: Currently unused - app.js calls module inits directly in setupControls()
+     * Kept for potential future centralization
+     * @deprecated Use direct module init calls instead
      */
     window.initializeModules = function(data) {
         console.log('[MAIN] Initializing modules with data...');
@@ -201,17 +203,6 @@
         }
 
         console.log('===========================');
-    };
-
-    // =========================================================================
-    // KEYBOARD SHORTCUTS INTEGRATION
-    // =========================================================================
-
-    // The main keyboard handler remains in app.js, but modules can register
-    // their own shortcuts here if needed
-    window.MODULE_SHORTCUTS = {
-        'KeyM': () => typeof CONTROL_BAR !== 'undefined' && CONTROL_BAR.toggle(),  // M for Mapping
-        'Backquote': () => typeof CONTROL_BAR !== 'undefined' && CONTROL_BAR.toggle(),  // ` (backtick)
     };
 
     // =========================================================================

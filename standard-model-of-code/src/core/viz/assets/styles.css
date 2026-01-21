@@ -166,23 +166,7 @@ body {
             text-transform: uppercase;
         }
 
-        .density-slider {
-            width: 60px;
-            height: var(--spacing-1-5);
-            -webkit-appearance: none;
-            background: var(--color-border-strong);
-            border-radius: var(--spacing-0-5);
-            cursor: pointer;
-        }
-
-        .density-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: var(--spacing-5);
-            height: var(--spacing-5);
-            background: var(--accent);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-        }
+        /* .density-slider - REMOVED (orphaned CSS, no HTML element uses this class) */
 
         /* Dock status */
         .dock-status {

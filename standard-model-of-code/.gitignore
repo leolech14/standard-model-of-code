@@ -92,5 +92,5 @@ audio/*.sh
 # Generated output directory
 output.md/
 .collider/
+.collider_*/
 *.backup
-standard-model-of-code/.collider_report/

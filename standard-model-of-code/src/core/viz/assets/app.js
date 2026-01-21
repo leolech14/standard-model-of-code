@@ -828,12 +828,8 @@ function initGraph(data) {
         console.log(`%c[Theme] Loaded: ${THEME_CONFIG.available.join(', ')}`, `color: ${CONSOLE_COLORS.info}; font-weight: bold`);
     }
     const simulation = physicsConfig.simulation || {};
-    const background = appearanceConfig.background || {};
-    // const stars = background.stars || {};  // REMOVED - starfield feature deleted
-    const bloom = background.bloom || {};
-    // NEW: Render, highlight, flow_mode from THE REMOTE CONTROL
-    const renderConfig = appearanceConfig.render || {};
-    const highlightConfig = appearanceConfig.highlight || {};
+    // background.bloom, background.stars - REMOVED (post-processing not available in r149+ UMD builds)
+    // renderConfig, highlightConfig - REMOVED (unused, features not implemented)
     FLOW_CONFIG = appearanceConfig.flow_mode || {};
 
     // Merge animation tokens into PENDULUM (T004)
@@ -1063,7 +1059,7 @@ function initGraph(data) {
             // GROUP DRAG: Move all selected nodes together, maintaining offsets
             // Note: onNodeDragStart doesn't exist - detect start via flag
             // ═══════════════════════════════════════════════════════════════════
-            .onNodeDrag((node, translate) => {
+            .onNodeDrag((node, _translate) => {
                 // Only handle group drag if multiple nodes selected and this node is selected
                 if (SELECTED_NODE_IDS.size > 1 && SELECTED_NODE_IDS.has(node.id)) {
                     // First drag frame: store relative offsets
@@ -1095,7 +1091,7 @@ function initGraph(data) {
                     }
                 }
             })
-            .onNodeDragEnd(node => {
+            .onNodeDragEnd(_node => {
                 // Clear group drag state
                 window._groupDragActive = false;
                 window._groupDragOffsets = null;
@@ -1625,8 +1621,11 @@ function setupControls(data) {
     // Initialize the Unified UI Manager
     UIManager.init(data);
 
-    // HudLayoutManager.init() - REMOVED: Now handled by LAYOUT.init() in main.js
-    // The LAYOUT module is initialized via initializeModules() to avoid double-init
+    // Initialize modules that require data/DOM to be ready
+    // (SIDEBAR.init() is called earlier in DOMContentLoaded)
+    if (typeof LAYOUT !== 'undefined' && LAYOUT.init) LAYOUT.init();
+    if (typeof HUD !== 'undefined' && HUD.setupFade) HUD.setupFade();
+    if (typeof DIMENSION !== 'undefined' && DIMENSION.setup) DIMENSION.setup();
 
     // Initialize Command Bar and Floating Panels
     initCommandBar();
