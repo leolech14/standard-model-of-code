@@ -188,3 +188,261 @@ function closePanel(panelId) { PANELS.close(panelId); }
 function togglePanel(panelId) { PANELS.toggle(panelId); }
 function initCommandBar() { PANELS.initCommandBar(); }
 // HudLayoutManager - app.js owns this, not duplicated here
+
+// ════════════════════════════════════════════════════════════════════════
+// PANEL DRAG & RESIZE - Make panels movable and resizable
+// ════════════════════════════════════════════════════════════════════════
+
+const PANEL_DRAG = (function() {
+    'use strict';
+
+    const _panels = new Map();
+    let _dragState = null;
+    let _resizeState = null;
+    const STORAGE_KEY = 'collider-panel-positions';
+
+    function init() {
+        // Initialize draggable/resizable panels (use actual element IDs)
+        initPanel('side-dock', { draggable: true, resizable: true, minWidth: 150, maxWidth: 400 });
+        initPanel('header-panel', { draggable: true, resizable: false });
+        initPanel('stats-panel', { draggable: true, resizable: false });
+        initPanel('metrics-panel', { draggable: true, resizable: true, minWidth: 180, maxWidth: 350 });
+
+        // Restore saved positions
+        restorePositions();
+
+        // Global mouse handlers
+        document.addEventListener('mousemove', (e) => _onMouseMove(e));
+        document.addEventListener('mouseup', (e) => _onMouseUp(e));
+    }
+
+    function initPanel(id, options = {}) {
+        const panel = document.getElementById(id) || document.querySelector('.' + id);
+        if (!panel) return;
+
+        const config = {
+            el: panel,
+            id: id,
+            draggable: options.draggable !== false,
+            resizable: options.resizable === true,
+            minWidth: options.minWidth || 100,
+            maxWidth: options.maxWidth || 600,
+            minHeight: options.minHeight || 50,
+            maxHeight: options.maxHeight || window.innerHeight - 100
+        };
+
+        _panels.set(id, config);
+
+        // Make panel positioned if not already
+        const style = window.getComputedStyle(panel);
+        if (style.position === 'static') {
+            panel.style.position = 'absolute';
+        }
+
+        // Add drag handle (the panel header or title)
+        if (config.draggable) {
+            const header = panel.querySelector('.side-title, .hud-title, .panel-header') || panel;
+            header.style.cursor = 'move';
+            header.addEventListener('mousedown', (e) => _startDrag(e, id));
+        }
+
+        // Add resize handle
+        if (config.resizable) {
+            const handle = document.createElement('div');
+            handle.className = 'panel-resize-handle';
+            handle.addEventListener('mousedown', (e) => _startResize(e, id));
+            panel.appendChild(handle);
+            panel.style.position = 'absolute';
+        }
+    }
+
+    function _startDrag(e, panelId) {
+        // Don't drag if clicking on interactive elements
+        if (e.target.closest('input, button, select, .collapsible-content, .preset-btn, .layout-btn, .scheme-btn')) {
+            return;
+        }
+
+        const config = _panels.get(panelId);
+        if (!config) return;
+
+        e.preventDefault();
+        const rect = config.el.getBoundingClientRect();
+
+        _dragState = {
+            panelId,
+            startX: e.clientX,
+            startY: e.clientY,
+            startLeft: rect.left,
+            startTop: rect.top
+        };
+
+        config.el.classList.add('panel-dragging');
+    }
+
+    function _startResize(e, panelId) {
+        const config = _panels.get(panelId);
+        if (!config) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const rect = config.el.getBoundingClientRect();
+
+        _resizeState = {
+            panelId,
+            startX: e.clientX,
+            startY: e.clientY,
+            startWidth: rect.width,
+            startHeight: rect.height
+        };
+
+        config.el.classList.add('panel-resizing');
+    }
+
+    function _onMouseMove(e) {
+        if (_dragState) {
+            const config = _panels.get(_dragState.panelId);
+            if (!config) return;
+
+            const dx = e.clientX - _dragState.startX;
+            const dy = e.clientY - _dragState.startY;
+
+            let newLeft = _dragState.startLeft + dx;
+            let newTop = _dragState.startTop + dy;
+
+            // Keep within viewport
+            newLeft = Math.max(0, Math.min(window.innerWidth - 50, newLeft));
+            newTop = Math.max(0, Math.min(window.innerHeight - 50, newTop));
+
+            config.el.style.left = newLeft + 'px';
+            config.el.style.top = newTop + 'px';
+            config.el.style.right = 'auto';
+            config.el.style.bottom = 'auto';
+        }
+
+        if (_resizeState) {
+            const config = _panels.get(_resizeState.panelId);
+            if (!config) return;
+
+            const dx = e.clientX - _resizeState.startX;
+            const dy = e.clientY - _resizeState.startY;
+
+            let newWidth = _resizeState.startWidth + dx;
+            let newHeight = _resizeState.startHeight + dy;
+
+            // Apply constraints
+            newWidth = Math.max(config.minWidth, Math.min(config.maxWidth, newWidth));
+            newHeight = Math.max(config.minHeight, Math.min(config.maxHeight, newHeight));
+
+            config.el.style.width = newWidth + 'px';
+            // Only resize height for certain panels
+            if (config.el.classList.contains('side-dock') || config.el.classList.contains('side-content')) {
+                // Don't change height for sidebar - it's auto
+            } else {
+                config.el.style.height = newHeight + 'px';
+            }
+        }
+    }
+
+    function _onMouseUp(_e) {
+        if (_dragState) {
+            const config = _panels.get(_dragState.panelId);
+            if (config) {
+                config.el.classList.remove('panel-dragging');
+                savePositions();
+            }
+            _dragState = null;
+        }
+
+        if (_resizeState) {
+            const config = _panels.get(_resizeState.panelId);
+            if (config) {
+                config.el.classList.remove('panel-resizing');
+                savePositions();
+            }
+            _resizeState = null;
+        }
+    }
+
+    function savePositions() {
+        const positions = {};
+        _panels.forEach((config, id) => {
+            const rect = config.el.getBoundingClientRect();
+            const style = config.el.style;
+            positions[id] = {
+                left: style.left || rect.left + 'px',
+                top: style.top || rect.top + 'px',
+                width: style.width || null,
+                height: style.height || null
+            };
+        });
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
+        } catch (e) {
+            console.warn('[PANEL_DRAG] Could not save positions:', e);
+        }
+    }
+
+    function restorePositions() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+
+            const positions = JSON.parse(saved);
+            Object.entries(positions).forEach(([id, pos]) => {
+                const config = _panels.get(id);
+                if (!config) return;
+
+                if (pos.left) config.el.style.left = pos.left;
+                if (pos.top) config.el.style.top = pos.top;
+                if (pos.width) config.el.style.width = pos.width;
+                if (pos.height) config.el.style.height = pos.height;
+
+                // Clear right/bottom if we're setting left/top
+                if (pos.left) config.el.style.right = 'auto';
+                if (pos.top) config.el.style.bottom = 'auto';
+            });
+        } catch (e) {
+            console.warn('[PANEL_DRAG] Could not restore positions:', e);
+        }
+    }
+
+    function resetPositions() {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        } catch (e) {
+            console.warn('[PANEL_DRAG] Could not reset positions:', e);
+        }
+    }
+
+    return {
+        init,
+        initPanel,
+        savePositions,
+        restorePositions,
+        resetPositions,
+        get panels() { return _panels; }
+    };
+})();
+
+// Backward compatibility wrapper
+const PanelManager = {
+    panels: PANEL_DRAG.panels,
+    init() { PANEL_DRAG.init(); },
+    initPanel(id, opts) { PANEL_DRAG.initPanel(id, opts); },
+    savePositions() { PANEL_DRAG.savePositions(); },
+    restorePositions() { PANEL_DRAG.restorePositions(); },
+    resetPositions() { PANEL_DRAG.resetPositions(); }
+};
+
+// Initialize after DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => PANEL_DRAG.init());
+} else {
+    setTimeout(() => PANEL_DRAG.init(), 100);
+}
+
+// Expose globally
+window.PANEL_DRAG = PANEL_DRAG;
+window.PanelManager = PanelManager;

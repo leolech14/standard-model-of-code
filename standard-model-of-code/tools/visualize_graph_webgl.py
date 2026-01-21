@@ -516,6 +516,8 @@ def generate_webgl_html(json_source: Any, output_path: str):
     MODULE_ORDER = [
         "performance.js",                   # Performance subsystem (existing)
         "modules/utils.js",                 # Pure utility functions (zero deps)
+        "modules/registry.js",              # Command/element registry (zero deps)
+        "modules/perf-monitor.js",          # FPS/frame monitoring (zero deps)
         "modules/core.js",                  # Constants & utilities
         "modules/node-accessors.js",        # Node property functions
         "modules/node-helpers.js",          # Node classification & colors (Phase 1)
@@ -525,6 +527,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/legend-manager.js",        # Legend system (depends: COLOR, NODE)
         "modules/data-manager.js",          # Data access layer (depends: NODE, COLOR, LEGEND)
         "modules/vis-state.js",             # Unified visualization state (depends: COLOR)
+        "modules/ui-manager.js",            # UI orchestration (depends: vis-state, data-manager)
         "modules/physics.js",               # Force simulation controls (Phase 1)
         "modules/datamap.js",               # Data mapping & filtering (Phase 1)
         "modules/groups.js",                # Node grouping (Phase 1)
@@ -549,6 +552,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/theme.js",                 # Theme management (needs toast)
         "modules/control-bar.js",           # Visual mapping command bar
         "modules/main.js",                  # Entry point + wiring
+        "modules/circuit-breaker.js",       # UI control self-test (run with CIRCUIT.runAll())
     ]
 
     print(f"Loading assets from {viz_assets}...")
