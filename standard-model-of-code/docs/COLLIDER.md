@@ -10,7 +10,7 @@
 
 | Command | Purpose |
 |---------|---------|
-| `./collider full <path>` | Complete 12-stage analysis |
+| `./collider full <path>` | Complete 18-stage analysis |
 | `./collider full <path> --output <dir>` | Custom output directory |
 | `./collider full <path> --ai-insights` | With LLM enrichment |
 

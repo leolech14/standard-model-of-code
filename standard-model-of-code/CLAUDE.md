@@ -9,7 +9,7 @@
 | Purpose | Find basic constituents of computer programs |
 | Atoms | 200 documented, 94 implemented, 600+ ecosystem potential |
 | Roles | 33 canonical, 29 implemented |
-| Pipeline | 12 stages |
+| Pipeline | 18 stages |
 | Body Coverage | ~36% nodes have `body_source` |
 
 ## Canonical Sources
@@ -22,6 +22,7 @@
 | Tree-sitter Spec | `docs/specs/TREE_SITTER_INTEGRATION_SPEC.md` | Full TS integration guide |
 | Tree-sitter Inventory | `docs/specs/TREE_SITTER_POWER_INVENTORY.md` | Capability checklist |
 | **Tree-sitter Validation** | `docs/specs/TREE_SITTER_VALIDATION_REPORT.md` | Evidence-based validation (authoritative) |
+| **Tree-sitter Tasks** | `docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 46 tasks with confidence scores |
 
 ## Commands
 

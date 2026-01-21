@@ -15,7 +15,7 @@
  *   ANIM.setStaggerPattern('radial')      // Change wave pattern
  */
 
-const ANIM = (function() {
+const ANIM = (function () {
     'use strict';
 
     // =========================================================================
@@ -606,6 +606,74 @@ const ANIM = (function() {
     }
 
     // =========================================================================
+    // PULSE ANIMATION
+    // =========================================================================
+
+    let _pulseId = null;
+
+    function togglePulse(active) {
+        if (active) {
+            _startPulse();
+        } else {
+            _stopPulse();
+        }
+    }
+
+    function _startPulse() {
+        if (_pulseId) return;
+        const startTime = Date.now();
+
+        function loop() {
+            const elapsed = Date.now() - startTime;
+            // Oscillate lightness +/- 10%
+            const val = Math.sin(elapsed * 0.003) * 10;
+
+            if (typeof COLOR !== 'undefined') {
+                COLOR.setTransform('lightnessShift', val);
+                // Also breathe chroma a bit
+                COLOR.setTransform('chromaScale', 1.0 + Math.sin(elapsed * 0.003) * 0.2);
+            }
+
+            if (typeof REFRESH !== 'undefined') {
+                REFRESH.throttled();
+            } else if (typeof Graph !== 'undefined' && Graph) {
+                // Determine if we need to force re-coloring or if just re-rendering canvas is enough.
+                // Since transforms affect color calculation, we likely need to re-apply colors.
+                if (typeof window.applyNodeColors === 'function') {
+                    const nodes = Graph.graphData().nodes;
+                    window.applyNodeColors(nodes);
+                    Graph.nodeColor(Graph.nodeColor()); // Trigger internal update
+                }
+            }
+
+            _pulseId = requestAnimationFrame(loop);
+        }
+        _pulseId = requestAnimationFrame(loop);
+        if (typeof showModeToast === 'function') showModeToast('Pulse Animation ON');
+    }
+
+    function _stopPulse() {
+        if (_pulseId) {
+            cancelAnimationFrame(_pulseId);
+            _pulseId = null;
+        }
+        // Reset
+        if (typeof COLOR !== 'undefined') {
+            COLOR.setTransform('lightnessShift', 0);
+            COLOR.setTransform('chromaScale', 1.0);
+        }
+
+        // Final refresh to clear artifacts
+        if (typeof window.applyNodeColors === 'function' && typeof Graph !== 'undefined') {
+            const nodes = Graph.graphData().nodes;
+            window.applyNodeColors(nodes);
+            Graph.nodeColor(Graph.nodeColor());
+        }
+
+        if (typeof showModeToast === 'function') showModeToast('Pulse Animation OFF');
+    }
+
+    // =========================================================================
     // PUBLIC API
     // =========================================================================
 
@@ -644,6 +712,7 @@ const ANIM = (function() {
         // Stagger patterns
         setStaggerPattern,
         cycleStaggerPattern,
+        togglePulse, // Added to public API
         get staggerPattern() { return _currentStaggerPattern; },
         get staggerPatterns() { return Object.keys(STAGGER_PATTERNS); },
 

@@ -232,14 +232,6 @@ const CONTROL_BAR = (function () {
         return _container;
     }
 
-    // Expose internal helper for UPB integration
-    function publicApplyToNode(node, k, v) { applyToNode(node, k, v); }
-
-    return {
-        createUI,
-        applyToNode: publicApplyToNode
-    };
-
     function addStyles() {
         if (document.getElementById('control-bar-styles')) return;
 

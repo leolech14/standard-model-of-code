@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Canonical constants (MUST NOT CHANGE)
 CANONICAL_ATOMS = 167
-CANONICAL_ROLES = 27
+CANONICAL_ROLES = 33
 
 def count_patterns():
     """Count all patterns from live code."""

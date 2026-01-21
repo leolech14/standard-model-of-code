@@ -890,13 +890,7 @@ window.SIDEBAR = (function () {
             });
         }
 
-        // Toggle 2D
-        const toggle2dBtn = document.getElementById('btn-2d');
-        if (toggle2dBtn) {
-            toggle2dBtn.addEventListener('click', () => {
-                if (typeof toggle2DMode === 'function') toggle2DMode();
-            });
-        }
+        // NOTE: btn-2d binding removed - dimension.js is authoritative for 2D/3D toggle
 
         // Freeze simulation
         const freezeBtn = document.getElementById('btn-freeze');
@@ -1117,7 +1111,6 @@ window.SIDEBAR = (function () {
             const isActive = toggle.classList.toggle('active');
             callback(isActive);
         });
-        console.log('[SIDEBAR] _bindToggle: bound', id);
     }
 
     // =========================================================================

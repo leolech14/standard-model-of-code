@@ -2,7 +2,7 @@
 """
 Role Migration Script
 
-Maps deprecated roles to canonical 27 roles.
+Maps deprecated roles to canonical 33 roles.
 Run this before validation to ensure consistency.
 """
 

@@ -39,7 +39,7 @@ def get_current_metrics():
     
     return {
         "atoms": len(classifier.atoms_by_subtype),
-        "roles": 27,  # Canonical constant
+        "roles": 33,  # Canonical constant
         "prefix_patterns": len(repo.get_prefix_patterns()),
         "suffix_patterns": len(repo.get_suffix_patterns()),
         "path_patterns": len(repo.get_path_patterns()),

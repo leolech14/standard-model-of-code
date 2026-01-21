@@ -97,7 +97,7 @@ class PurposeFieldDetector:
     }
     
     # Layer detection based on purpose (role)
-    # Covers all 27 roles from the Standard Model
+    # Covers all 33 roles from the Standard Model
     PURPOSE_TO_LAYER = {
         # PRESENTATION - User interface, display, I/O
         "Controller": Layer.PRESENTATION,

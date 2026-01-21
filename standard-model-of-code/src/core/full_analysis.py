@@ -845,7 +845,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print("\n⏱️  Stage 8: Performance Prediction...")
     with StageTimer(perf_manager, "Stage 8: Performance Prediction") as timer:
         try:
-            perf = predict_performance(nodes, edges)
+            perf = predict_performance(nodes, exec_flow)
             perf_summary = perf.summary() if hasattr(perf, 'summary') else {}
         except Exception as e:
             timer.set_status("WARN", str(e))
