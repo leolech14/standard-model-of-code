@@ -7,8 +7,9 @@ Loads from:
 - src/patterns/ATOMS_TIER0_CORE.yaml (42 T0 atoms)
 - src/patterns/ATOMS_TIER1_STDLIB.yaml (21 T1 atoms)
 - src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml (17 T2 atoms)
+- src/patterns/t2_mined/*.yaml (3,500+ mined T2 atoms)
 
-Total: 80+ atoms unified into single taxonomy.
+Total: 3,600+ atoms unified into single taxonomy.
 """
 
 import json
@@ -62,6 +63,39 @@ def infer_phase_family(atom_id: str) -> tuple:
         return ('EXECUTION', 'System')
 
     return ('LOGIC', 'Unknown')
+
+
+def _infer_mined_phase_family(ecosystem: str, category: str) -> tuple:
+    """Infer phase and family for mined T2 atoms based on ecosystem and category."""
+    ecosystem = ecosystem.lower()
+    category = category.lower()
+
+    # Security-related atoms
+    if 'security' in category or 'sec' in category:
+        return ('SECURITY', ecosystem.capitalize())
+
+    # Web frameworks
+    if ecosystem in ('django', 'flask', 'fastapi', 'express', 'rails', 'spring', 'laravel'):
+        return ('WEB', ecosystem.capitalize())
+
+    # Frontend frameworks
+    if ecosystem in ('react', 'vue', 'angular', 'svelte'):
+        return ('FRONTEND', ecosystem.capitalize())
+
+    # Cloud/Infrastructure
+    if ecosystem in ('aws', 'aws-lambda', 'gcp', 'azure', 'terraform', 'kubernetes', 'docker'):
+        return ('CLOUD', ecosystem.capitalize())
+
+    # Machine Learning
+    if ecosystem in ('tensorflow', 'pytorch', 'keras', 'scikit-learn'):
+        return ('ML', ecosystem.capitalize())
+
+    # Languages
+    if ecosystem in ('python', 'javascript', 'typescript', 'java', 'go', 'ruby', 'rust', 'php'):
+        return ('LANGUAGE', ecosystem.capitalize())
+
+    # Default
+    return ('ECOSYSTEM', ecosystem.capitalize() if ecosystem else 'General')
 
 
 def build_unified_taxonomy(patterns_dir: Path = None) -> Dict:
@@ -148,7 +182,7 @@ def build_unified_taxonomy(patterns_dir: Path = None) -> Dict:
         taxonomy["atoms"][atom_id] = atom
         taxonomy["tier_info"]["T1"]["count"] += 1
 
-    # Load T2 atoms
+    # Load T2 atoms (original)
     t2_atoms = load_yaml_atoms(patterns_dir / "ATOMS_TIER2_ECOSYSTEM.yaml")
     for atom in t2_atoms:
         atom_id = atom.get("id", "")
@@ -161,6 +195,39 @@ def build_unified_taxonomy(patterns_dir: Path = None) -> Dict:
         })
         taxonomy["atoms"][atom_id] = atom
         taxonomy["tier_info"]["T2"]["count"] += 1
+
+    # Load mined T2 atoms from t2_mined directory
+    t2_mined_dir = patterns_dir / "t2_mined"
+    if t2_mined_dir.exists():
+        mined_count = 0
+        seen_ids = set(taxonomy["atoms"].keys())  # Avoid duplicates
+        for yaml_file in sorted(t2_mined_dir.glob("ATOMS_T2_*.yaml")):
+            mined_atoms = load_yaml_atoms(yaml_file)
+            for atom in mined_atoms:
+                atom_id = atom.get("id", "")
+                if atom_id in seen_ids:
+                    continue  # Skip duplicates
+                seen_ids.add(atom_id)
+
+                # Infer phase and family for mined atoms
+                ecosystem = atom.get("ecosystem", "")
+                category = atom.get("category", "")
+                phase, family = _infer_mined_phase_family(ecosystem, category)
+
+                _add_atom(taxonomy, phase, family, {
+                    "id": atom_id,
+                    "name": atom.get("name", atom_id),
+                    "ecosystem": ecosystem,
+                    "category": category,
+                    "tier": "T2"
+                })
+                taxonomy["atoms"][atom_id] = atom
+                mined_count += 1
+
+        taxonomy["tier_info"]["T2_mined"] = {
+            "count": mined_count,
+            "source": "t2_mined/*.yaml"
+        }
 
     return taxonomy
 

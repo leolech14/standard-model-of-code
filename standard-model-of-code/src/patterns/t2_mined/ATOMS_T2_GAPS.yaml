@@ -1,0 +1,1107 @@
+version: 1.0.0
+generated_by: manual_definition
+source: official_documentation
+description: |
+  Manually defined T2 atoms for high-priority ecosystems not fully covered
+  by Semgrep or ESLint mining. Based on official API documentation.
+atom_count: 100
+
+atoms:
+  # ============================================================
+  # FASTAPI (15 atoms)
+  # ============================================================
+  - id: EXT.FASTAPI.ROUTE.001
+    name: Route Decorator
+    ecosystem: fastapi
+    category: routing
+    description: FastAPI route decorator for defining HTTP endpoints
+    patterns:
+      - "@app.get("
+      - "@app.post("
+      - "@app.put("
+      - "@app.delete("
+      - "@app.patch("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.DEPENDS.002
+    name: Dependency Injection
+    ecosystem: fastapi
+    category: dependency-injection
+    description: FastAPI Depends for dependency injection
+    patterns:
+      - "Depends("
+      - "= Depends("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.BASEMODEL.003
+    name: Pydantic BaseModel
+    ecosystem: fastapi
+    category: validation
+    description: Pydantic BaseModel for request/response validation
+    patterns:
+      - "class X(BaseModel):"
+      - "from pydantic import BaseModel"
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.QUERY.004
+    name: Query Parameter
+    ecosystem: fastapi
+    category: parameters
+    description: FastAPI Query for query parameter validation
+    patterns:
+      - "Query("
+      - "= Query("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.PATH.005
+    name: Path Parameter
+    ecosystem: fastapi
+    category: parameters
+    description: FastAPI Path for path parameter validation
+    patterns:
+      - "Path("
+      - "= Path("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.BODY.006
+    name: Request Body
+    ecosystem: fastapi
+    category: parameters
+    description: FastAPI Body for request body validation
+    patterns:
+      - "Body("
+      - "= Body("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.RESPONSE.007
+    name: Response Model
+    ecosystem: fastapi
+    category: response
+    description: FastAPI response_model for response validation
+    patterns:
+      - "response_model="
+      - "JSONResponse("
+      - "HTMLResponse("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.ROUTER.008
+    name: API Router
+    ecosystem: fastapi
+    category: routing
+    description: FastAPI APIRouter for route grouping
+    patterns:
+      - "APIRouter("
+      - "include_router("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.SECURITY.009
+    name: Security Schemes
+    ecosystem: fastapi
+    category: security
+    description: FastAPI OAuth2 and security schemes
+    patterns:
+      - "OAuth2PasswordBearer("
+      - "OAuth2PasswordRequestForm"
+      - "HTTPBearer("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.MIDDLEWARE.010
+    name: Middleware
+    ecosystem: fastapi
+    category: middleware
+    description: FastAPI middleware for request/response processing
+    patterns:
+      - "@app.middleware("
+      - "CORSMiddleware"
+      - "add_middleware("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.LIFESPAN.011
+    name: Lifespan Events
+    ecosystem: fastapi
+    category: lifecycle
+    description: FastAPI startup/shutdown events
+    patterns:
+      - "@app.on_event(\"startup\")"
+      - "@app.on_event(\"shutdown\")"
+      - "lifespan="
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.BACKGROUND.012
+    name: Background Tasks
+    ecosystem: fastapi
+    category: async
+    description: FastAPI BackgroundTasks for async operations
+    patterns:
+      - "BackgroundTasks"
+      - "background_tasks.add_task("
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.WEBSOCKET.013
+    name: WebSocket
+    ecosystem: fastapi
+    category: websocket
+    description: FastAPI WebSocket endpoint
+    patterns:
+      - "@app.websocket("
+      - "WebSocket"
+      - "websocket.accept()"
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.EXCEPTION.014
+    name: Exception Handler
+    ecosystem: fastapi
+    category: error-handling
+    description: FastAPI exception handlers
+    patterns:
+      - "@app.exception_handler("
+      - "HTTPException("
+      - "RequestValidationError"
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  - id: EXT.FASTAPI.STATIC.015
+    name: Static Files
+    ecosystem: fastapi
+    category: static
+    description: FastAPI static file serving
+    patterns:
+      - "StaticFiles("
+      - "mount(\"/static\""
+    source_rules:
+      - fastapi-docs
+    tier: T2
+
+  # ============================================================
+  # TENSORFLOW (20 atoms)
+  # ============================================================
+  - id: EXT.TF.MODEL.001
+    name: Keras Model
+    ecosystem: tensorflow
+    category: model
+    description: TensorFlow Keras Model definition
+    patterns:
+      - "tf.keras.Model"
+      - "keras.Model"
+      - "Model("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.SEQUENTIAL.002
+    name: Sequential Model
+    ecosystem: tensorflow
+    category: model
+    description: TensorFlow Sequential model for linear stacks
+    patterns:
+      - "tf.keras.Sequential"
+      - "Sequential(["
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.LAYER.003
+    name: Keras Layer
+    ecosystem: tensorflow
+    category: layer
+    description: TensorFlow Keras layers
+    patterns:
+      - "tf.keras.layers"
+      - "Dense("
+      - "Conv2D("
+      - "LSTM("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.TENSOR.004
+    name: Tensor
+    ecosystem: tensorflow
+    category: data
+    description: TensorFlow Tensor creation and manipulation
+    patterns:
+      - "tf.constant("
+      - "tf.Variable("
+      - "tf.zeros("
+      - "tf.ones("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.DATASET.005
+    name: Dataset API
+    ecosystem: tensorflow
+    category: data
+    description: TensorFlow Dataset for data pipelines
+    patterns:
+      - "tf.data.Dataset"
+      - ".batch("
+      - ".shuffle("
+      - ".prefetch("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.GRADIENT.006
+    name: Gradient Tape
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow GradientTape for automatic differentiation
+    patterns:
+      - "tf.GradientTape"
+      - "tape.gradient("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.OPTIMIZER.007
+    name: Optimizer
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow optimizers for training
+    patterns:
+      - "tf.keras.optimizers"
+      - "Adam("
+      - "SGD("
+      - "optimizer.apply_gradients("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.LOSS.008
+    name: Loss Function
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow loss functions
+    patterns:
+      - "tf.keras.losses"
+      - "BinaryCrossentropy("
+      - "SparseCategoricalCrossentropy("
+      - "MeanSquaredError("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.COMPILE.009
+    name: Model Compile
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow model compilation
+    patterns:
+      - ".compile("
+      - "optimizer="
+      - "loss="
+      - "metrics="
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.FIT.010
+    name: Model Fit
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow model training
+    patterns:
+      - ".fit("
+      - "epochs="
+      - "batch_size="
+      - "validation_data="
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.PREDICT.011
+    name: Model Predict
+    ecosystem: tensorflow
+    category: inference
+    description: TensorFlow model inference
+    patterns:
+      - ".predict("
+      - "model("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.SAVE.012
+    name: Model Save/Load
+    ecosystem: tensorflow
+    category: persistence
+    description: TensorFlow model serialization
+    patterns:
+      - ".save("
+      - "tf.keras.models.load_model("
+      - "SavedModel"
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.CALLBACK.013
+    name: Callback
+    ecosystem: tensorflow
+    category: training
+    description: TensorFlow training callbacks
+    patterns:
+      - "tf.keras.callbacks"
+      - "ModelCheckpoint("
+      - "EarlyStopping("
+      - "TensorBoard("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.FUNCTION.014
+    name: tf.function
+    ecosystem: tensorflow
+    category: performance
+    description: TensorFlow function graph compilation
+    patterns:
+      - "@tf.function"
+      - "tf.function("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.DISTRIBUTE.015
+    name: Distribution Strategy
+    ecosystem: tensorflow
+    category: distributed
+    description: TensorFlow distributed training
+    patterns:
+      - "tf.distribute"
+      - "MirroredStrategy("
+      - "strategy.scope()"
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.CUSTOM.016
+    name: Custom Layer
+    ecosystem: tensorflow
+    category: layer
+    description: TensorFlow custom layer definition
+    patterns:
+      - "class X(tf.keras.layers.Layer)"
+      - "def call(self"
+      - "def build(self"
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.METRICS.017
+    name: Metrics
+    ecosystem: tensorflow
+    category: evaluation
+    description: TensorFlow evaluation metrics
+    patterns:
+      - "tf.keras.metrics"
+      - "Accuracy("
+      - "Precision("
+      - "Recall("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.REGULARIZER.018
+    name: Regularizer
+    ecosystem: tensorflow
+    category: regularization
+    description: TensorFlow regularization
+    patterns:
+      - "tf.keras.regularizers"
+      - "kernel_regularizer="
+      - "l2("
+      - "l1("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.INITIALIZER.019
+    name: Initializer
+    ecosystem: tensorflow
+    category: initialization
+    description: TensorFlow weight initialization
+    patterns:
+      - "tf.keras.initializers"
+      - "kernel_initializer="
+      - "GlorotUniform("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  - id: EXT.TF.HUB.020
+    name: TF Hub
+    ecosystem: tensorflow
+    category: transfer-learning
+    description: TensorFlow Hub for pretrained models
+    patterns:
+      - "tensorflow_hub"
+      - "hub.load("
+      - "hub.KerasLayer("
+    source_rules:
+      - tensorflow-docs
+    tier: T2
+
+  # ============================================================
+  # PYTORCH (20 atoms)
+  # ============================================================
+  - id: EXT.TORCH.MODULE.001
+    name: nn.Module
+    ecosystem: pytorch
+    category: model
+    description: PyTorch neural network module base class
+    patterns:
+      - "nn.Module"
+      - "class X(nn.Module)"
+      - "def forward(self"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.TENSOR.002
+    name: Tensor
+    ecosystem: pytorch
+    category: data
+    description: PyTorch tensor creation
+    patterns:
+      - "torch.tensor("
+      - "torch.Tensor"
+      - "torch.zeros("
+      - "torch.ones("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.LAYER.003
+    name: Neural Network Layers
+    ecosystem: pytorch
+    category: layer
+    description: PyTorch neural network layers
+    patterns:
+      - "nn.Linear("
+      - "nn.Conv2d("
+      - "nn.LSTM("
+      - "nn.BatchNorm"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.OPTIM.004
+    name: Optimizer
+    ecosystem: pytorch
+    category: training
+    description: PyTorch optimizers
+    patterns:
+      - "torch.optim"
+      - "optim.Adam("
+      - "optim.SGD("
+      - "optimizer.step()"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.LOSS.005
+    name: Loss Function
+    ecosystem: pytorch
+    category: training
+    description: PyTorch loss functions
+    patterns:
+      - "nn.CrossEntropyLoss"
+      - "nn.MSELoss"
+      - "nn.BCELoss"
+      - "F.cross_entropy("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.DATASET.006
+    name: Dataset
+    ecosystem: pytorch
+    category: data
+    description: PyTorch Dataset class
+    patterns:
+      - "torch.utils.data.Dataset"
+      - "class X(Dataset)"
+      - "def __getitem__(self"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.DATALOADER.007
+    name: DataLoader
+    ecosystem: pytorch
+    category: data
+    description: PyTorch DataLoader for batching
+    patterns:
+      - "DataLoader("
+      - "batch_size="
+      - "shuffle="
+      - "num_workers="
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.AUTOGRAD.008
+    name: Autograd
+    ecosystem: pytorch
+    category: training
+    description: PyTorch automatic differentiation
+    patterns:
+      - "requires_grad"
+      - ".backward()"
+      - "torch.autograd"
+      - "grad_fn"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.DEVICE.009
+    name: Device Management
+    ecosystem: pytorch
+    category: hardware
+    description: PyTorch GPU/CPU device management
+    patterns:
+      - ".to(device)"
+      - ".cuda()"
+      - "torch.device("
+      - "torch.cuda.is_available()"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.SAVE.010
+    name: Save/Load
+    ecosystem: pytorch
+    category: persistence
+    description: PyTorch model serialization
+    patterns:
+      - "torch.save("
+      - "torch.load("
+      - "state_dict()"
+      - "load_state_dict("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.TRAIN.011
+    name: Training Mode
+    ecosystem: pytorch
+    category: training
+    description: PyTorch training/eval mode
+    patterns:
+      - ".train()"
+      - ".eval()"
+      - "torch.no_grad()"
+      - "with torch.no_grad():"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.TRANSFORMS.012
+    name: Transforms
+    ecosystem: pytorch
+    category: data
+    description: PyTorch image transforms
+    patterns:
+      - "torchvision.transforms"
+      - "transforms.Compose("
+      - "transforms.ToTensor()"
+      - "transforms.Normalize("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.SEQUENTIAL.013
+    name: Sequential
+    ecosystem: pytorch
+    category: model
+    description: PyTorch Sequential container
+    patterns:
+      - "nn.Sequential("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.FUNCTIONAL.014
+    name: Functional API
+    ecosystem: pytorch
+    category: layer
+    description: PyTorch functional API
+    patterns:
+      - "F.relu("
+      - "F.softmax("
+      - "F.dropout("
+      - "torch.nn.functional"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.DDP.015
+    name: Distributed Training
+    ecosystem: pytorch
+    category: distributed
+    description: PyTorch distributed data parallel
+    patterns:
+      - "DistributedDataParallel"
+      - "torch.distributed"
+      - "init_process_group("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.LIGHTNING.016
+    name: Lightning Module
+    ecosystem: pytorch
+    category: framework
+    description: PyTorch Lightning module
+    patterns:
+      - "pl.LightningModule"
+      - "pytorch_lightning"
+      - "training_step("
+      - "configure_optimizers("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.JIT.017
+    name: TorchScript
+    ecosystem: pytorch
+    category: performance
+    description: PyTorch JIT compilation
+    patterns:
+      - "torch.jit.script("
+      - "torch.jit.trace("
+      - "@torch.jit.script"
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.AMP.018
+    name: Mixed Precision
+    ecosystem: pytorch
+    category: performance
+    description: PyTorch automatic mixed precision
+    patterns:
+      - "torch.cuda.amp"
+      - "autocast("
+      - "GradScaler("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.HOOK.019
+    name: Hooks
+    ecosystem: pytorch
+    category: debugging
+    description: PyTorch forward/backward hooks
+    patterns:
+      - "register_hook("
+      - "register_forward_hook("
+      - "register_backward_hook("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  - id: EXT.TORCH.ONNX.020
+    name: ONNX Export
+    ecosystem: pytorch
+    category: export
+    description: PyTorch ONNX model export
+    patterns:
+      - "torch.onnx.export("
+    source_rules:
+      - pytorch-docs
+    tier: T2
+
+  # ============================================================
+  # DOCKER (15 atoms)
+  # ============================================================
+  - id: EXT.DOCKER.FROM.001
+    name: Base Image
+    ecosystem: docker
+    category: image
+    description: Dockerfile FROM instruction for base image
+    patterns:
+      - "FROM "
+      - "FROM python:"
+      - "FROM node:"
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.RUN.002
+    name: Run Command
+    ecosystem: docker
+    category: build
+    description: Dockerfile RUN instruction for commands
+    patterns:
+      - "RUN "
+      - "RUN apt-get"
+      - "RUN pip install"
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.COPY.003
+    name: Copy Files
+    ecosystem: docker
+    category: build
+    description: Dockerfile COPY instruction
+    patterns:
+      - "COPY "
+      - "ADD "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.WORKDIR.004
+    name: Working Directory
+    ecosystem: docker
+    category: build
+    description: Dockerfile WORKDIR instruction
+    patterns:
+      - "WORKDIR "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.ENV.005
+    name: Environment Variable
+    ecosystem: docker
+    category: config
+    description: Dockerfile ENV instruction
+    patterns:
+      - "ENV "
+      - "ARG "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.EXPOSE.006
+    name: Expose Port
+    ecosystem: docker
+    category: network
+    description: Dockerfile EXPOSE instruction
+    patterns:
+      - "EXPOSE "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.CMD.007
+    name: Container Command
+    ecosystem: docker
+    category: runtime
+    description: Dockerfile CMD instruction
+    patterns:
+      - "CMD ["
+      - "ENTRYPOINT ["
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.VOLUME.008
+    name: Volume Mount
+    ecosystem: docker
+    category: storage
+    description: Dockerfile VOLUME instruction
+    patterns:
+      - "VOLUME "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.USER.009
+    name: User
+    ecosystem: docker
+    category: security
+    description: Dockerfile USER instruction
+    patterns:
+      - "USER "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.MULTISTAGE.010
+    name: Multi-stage Build
+    ecosystem: docker
+    category: optimization
+    description: Dockerfile multi-stage build pattern
+    patterns:
+      - "FROM ... AS builder"
+      - "COPY --from="
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.HEALTHCHECK.011
+    name: Health Check
+    ecosystem: docker
+    category: monitoring
+    description: Dockerfile HEALTHCHECK instruction
+    patterns:
+      - "HEALTHCHECK "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.LABEL.012
+    name: Label
+    ecosystem: docker
+    category: metadata
+    description: Dockerfile LABEL instruction
+    patterns:
+      - "LABEL "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.SHELL.013
+    name: Shell
+    ecosystem: docker
+    category: build
+    description: Dockerfile SHELL instruction
+    patterns:
+      - "SHELL ["
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.STOPSIGNAL.014
+    name: Stop Signal
+    ecosystem: docker
+    category: runtime
+    description: Dockerfile STOPSIGNAL instruction
+    patterns:
+      - "STOPSIGNAL "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  - id: EXT.DOCKER.ONBUILD.015
+    name: On Build
+    ecosystem: docker
+    category: inheritance
+    description: Dockerfile ONBUILD instruction
+    patterns:
+      - "ONBUILD "
+    source_rules:
+      - dockerfile-docs
+    tier: T2
+
+  # ============================================================
+  # KUBERNETES (15 atoms)
+  # ============================================================
+  - id: EXT.K8S.POD.001
+    name: Pod
+    ecosystem: kubernetes
+    category: workload
+    description: Kubernetes Pod definition
+    patterns:
+      - "kind: Pod"
+      - "apiVersion: v1"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.DEPLOYMENT.002
+    name: Deployment
+    ecosystem: kubernetes
+    category: workload
+    description: Kubernetes Deployment for replicated pods
+    patterns:
+      - "kind: Deployment"
+      - "replicas:"
+      - "strategy:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.SERVICE.003
+    name: Service
+    ecosystem: kubernetes
+    category: networking
+    description: Kubernetes Service for networking
+    patterns:
+      - "kind: Service"
+      - "type: ClusterIP"
+      - "type: LoadBalancer"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.CONFIGMAP.004
+    name: ConfigMap
+    ecosystem: kubernetes
+    category: configuration
+    description: Kubernetes ConfigMap for configuration
+    patterns:
+      - "kind: ConfigMap"
+      - "configMapKeyRef:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.SECRET.005
+    name: Secret
+    ecosystem: kubernetes
+    category: security
+    description: Kubernetes Secret for sensitive data
+    patterns:
+      - "kind: Secret"
+      - "secretKeyRef:"
+      - "type: Opaque"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.INGRESS.006
+    name: Ingress
+    ecosystem: kubernetes
+    category: networking
+    description: Kubernetes Ingress for external access
+    patterns:
+      - "kind: Ingress"
+      - "rules:"
+      - "tls:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.PVC.007
+    name: PersistentVolumeClaim
+    ecosystem: kubernetes
+    category: storage
+    description: Kubernetes PVC for storage
+    patterns:
+      - "kind: PersistentVolumeClaim"
+      - "storageClassName:"
+      - "accessModes:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.NAMESPACE.008
+    name: Namespace
+    ecosystem: kubernetes
+    category: organization
+    description: Kubernetes Namespace for isolation
+    patterns:
+      - "kind: Namespace"
+      - "namespace:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.SERVICEACCOUNT.009
+    name: ServiceAccount
+    ecosystem: kubernetes
+    category: security
+    description: Kubernetes ServiceAccount for identity
+    patterns:
+      - "kind: ServiceAccount"
+      - "serviceAccountName:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.RBAC.010
+    name: RBAC
+    ecosystem: kubernetes
+    category: security
+    description: Kubernetes Role-Based Access Control
+    patterns:
+      - "kind: Role"
+      - "kind: RoleBinding"
+      - "kind: ClusterRole"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.HPA.011
+    name: HorizontalPodAutoscaler
+    ecosystem: kubernetes
+    category: scaling
+    description: Kubernetes HPA for autoscaling
+    patterns:
+      - "kind: HorizontalPodAutoscaler"
+      - "minReplicas:"
+      - "maxReplicas:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.STATEFULSET.012
+    name: StatefulSet
+    ecosystem: kubernetes
+    category: workload
+    description: Kubernetes StatefulSet for stateful apps
+    patterns:
+      - "kind: StatefulSet"
+      - "volumeClaimTemplates:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.DAEMONSET.013
+    name: DaemonSet
+    ecosystem: kubernetes
+    category: workload
+    description: Kubernetes DaemonSet for node-level pods
+    patterns:
+      - "kind: DaemonSet"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.JOB.014
+    name: Job
+    ecosystem: kubernetes
+    category: workload
+    description: Kubernetes Job for batch workloads
+    patterns:
+      - "kind: Job"
+      - "kind: CronJob"
+      - "schedule:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2
+
+  - id: EXT.K8S.NETWORKPOLICY.015
+    name: NetworkPolicy
+    ecosystem: kubernetes
+    category: security
+    description: Kubernetes NetworkPolicy for network rules
+    patterns:
+      - "kind: NetworkPolicy"
+      - "ingress:"
+      - "egress:"
+    source_rules:
+      - kubernetes-docs
+    tier: T2

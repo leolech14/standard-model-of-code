@@ -1,7 +1,7 @@
 version: 1.0.0
-generated_by: mine_semgrep.py
-source: semgrep-rules
-atom_count: 42
+generated_by: mine_eslint.py
+source: eslint-plugins
+atom_count: 399
 atoms:
 - id: EXT.REACT.BEST.001
   name: This Props
@@ -516,4 +516,3800 @@ atoms:
   - sanitizer.sanitize(...)
   source_rules:
   - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.REACT.STYLE.001
+  name: Boolean Prop Naming
+  ecosystem: react
+  category: stylistic issues
+  description: Enforces consistent naming for boolean props
+  patterns:
+  - props.
+  - PropTypes
+  - boolean-prop-naming
+  source_rules:
+  - eslint:boolean-prop-naming.js
+  tier: T2
+- id: EXT.REACT.ERR.002
+  name: Button Has Type
+  ecosystem: react
+  category: possible errors
+  description: Disallow usage of `button` elements without an explicit `type` attribute
+  patterns:
+  - button-has-type
+  source_rules:
+  - eslint:button-has-type.js
+  tier: T2
+- id: EXT.REACT.BEST.004
+  name: Default Props Match Prop Types
+  ecosystem: react
+  category: best practices
+  description: Enforce all defaultProps have a corresponding non-required PropType
+  patterns:
+  - props.
+  - PropTypes
+  - default-props-match-prop-types
+  source_rules:
+  - eslint:default-props-match-prop-types.js
+  tier: T2
+- id: EXT.REACT.STYLE.005
+  name: Destructuring Assignment
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce consistent usage of destructuring assignment of props, state,
+    and context
+  patterns:
+  - destructuring-assignment
+  source_rules:
+  - eslint:destructuring-assignment.js
+  tier: T2
+- id: EXT.REACT.BEST.006
+  name: Display Name
+  ecosystem: react
+  category: best practices
+  description: Disallow missing displayName in a React component definition
+  patterns:
+  - display-name
+  source_rules:
+  - eslint:display-name.js
+  tier: T2
+- id: EXT.REACT.BEST.007
+  name: Forbid Component Props
+  ecosystem: react
+  category: best practices
+  description: Disallow certain props on components
+  patterns:
+  - props.
+  - PropTypes
+  - forbid-component-props
+  source_rules:
+  - eslint:forbid-component-props.js
+  tier: T2
+- id: EXT.REACT.BEST.008
+  name: Forbid Dom Props
+  ecosystem: react
+  category: best practices
+  description: Disallow certain props on DOM Nodes
+  patterns:
+  - props.
+  - PropTypes
+  - forbid-dom-props
+  source_rules:
+  - eslint:forbid-dom-props.js
+  tier: T2
+- id: EXT.REACT.BEST.009
+  name: Forbid Elements
+  ecosystem: react
+  category: best practices
+  description: Disallow certain elements
+  patterns:
+  - forbid-elements
+  source_rules:
+  - eslint:forbid-elements.js
+  tier: T2
+- id: EXT.REACT.BEST.010
+  name: Forbid Foreign Prop Types
+  ecosystem: react
+  category: best practices
+  description: Disallow using another component\
+  patterns:
+  - props.
+  - PropTypes
+  - forbid-foreign-prop-types
+  source_rules:
+  - eslint:forbid-foreign-prop-types.js
+  tier: T2
+- id: EXT.REACT.BEST.011
+  name: Forbid Prop Types
+  ecosystem: react
+  category: best practices
+  description: Disallow certain propTypes
+  patterns:
+  - props.
+  - PropTypes
+  - forbid-prop-types
+  source_rules:
+  - eslint:forbid-prop-types.js
+  tier: T2
+- id: EXT.REACT.ERR.012
+  name: Forward Ref Uses Ref
+  ecosystem: react
+  category: possible errors
+  description: Require all forwardRef components include a ref parameter
+  patterns:
+  - forward-ref-uses-ref
+  source_rules:
+  - eslint:forward-ref-uses-ref.js
+  tier: T2
+- id: EXT.REACT.STYLE.013
+  name: Function Component Definition
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce a specific function type for function components
+  patterns:
+  - function-component-definition
+  source_rules:
+  - eslint:function-component-definition.js
+  tier: T2
+- id: EXT.REACT.BEST.014
+  name: Hook Use State
+  ecosystem: react
+  category: best practices
+  description: Ensure destructuring and symmetric naming of useState hook value and
+    setter variables
+  patterns:
+  - useState
+  - useEffect
+  - hook-use-state
+  source_rules:
+  - eslint:hook-use-state.js
+  tier: T2
+- id: EXT.REACT.BEST.015
+  name: Iframe Missing Sandbox
+  ecosystem: react
+  category: best practices
+  description: Enforce sandbox attribute on iframe elements
+  patterns:
+  - iframe-missing-sandbox
+  source_rules:
+  - eslint:iframe-missing-sandbox.js
+  tier: T2
+- id: EXT.REACT.STYLE.016
+  name: Jsx Boolean Value
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce boolean attributes notation in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-boolean-value
+  source_rules:
+  - eslint:jsx-boolean-value.js
+  tier: T2
+- id: EXT.REACT.STYLE.017
+  name: Jsx Child Element Spacing
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce or disallow spaces inside of curly braces in JSX attributes
+    and expressions
+  patterns:
+  - <Component
+  - className=
+  - jsx-child-element-spacing
+  source_rules:
+  - eslint:jsx-child-element-spacing.js
+  tier: T2
+- id: EXT.REACT.STYLE.018
+  name: Jsx Closing Bracket Location
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce closing bracket location in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-closing-bracket-location
+  source_rules:
+  - eslint:jsx-closing-bracket-location.js
+  tier: T2
+- id: EXT.REACT.STYLE.019
+  name: Jsx Closing Tag Location
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce closing tag location for multiline JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-closing-tag-location
+  source_rules:
+  - eslint:jsx-closing-tag-location.js
+  tier: T2
+- id: EXT.REACT.STYLE.020
+  name: Jsx Curly Brace Presence
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow unnecessary JSX expressions when literals alone are sufficient
+    or enforce JSX expressions on literals in JSX children or attributes
+  patterns:
+  - <Component
+  - className=
+  - jsx-curly-brace-presence
+  source_rules:
+  - eslint:jsx-curly-brace-presence.js
+  tier: T2
+- id: EXT.REACT.STYLE.021
+  name: Jsx Curly Newline
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce consistent linebreaks in curly braces in JSX attributes and
+    expressions
+  patterns:
+  - <Component
+  - className=
+  - jsx-curly-newline
+  source_rules:
+  - eslint:jsx-curly-newline.js
+  tier: T2
+- id: EXT.REACT.STYLE.022
+  name: Jsx Curly Spacing
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce or disallow spaces inside of curly braces in JSX attributes
+    and expressions
+  patterns:
+  - <Component
+  - className=
+  - jsx-curly-spacing
+  source_rules:
+  - eslint:jsx-curly-spacing.js
+  tier: T2
+- id: EXT.REACT.STYLE.023
+  name: Jsx Equals Spacing
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce or disallow spaces around equal signs in JSX attributes
+  patterns:
+  - <Component
+  - className=
+  - jsx-equals-spacing
+  source_rules:
+  - eslint:jsx-equals-spacing.js
+  tier: T2
+- id: EXT.REACT.STYLE.024
+  name: Jsx Filename Extension
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow file extensions that may contain JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-filename-extension
+  source_rules:
+  - eslint:jsx-filename-extension.js
+  tier: T2
+- id: EXT.REACT.STYLE.025
+  name: Jsx First Prop New Line
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce proper position of the first property in JSX
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-first-prop-new-line
+  source_rules:
+  - eslint:jsx-first-prop-new-line.js
+  tier: T2
+- id: EXT.REACT.STYLE.026
+  name: Jsx Fragments
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce shorthand or standard form for React fragments
+  patterns:
+  - <Component
+  - className=
+  - jsx-fragments
+  source_rules:
+  - eslint:jsx-fragments.js
+  tier: T2
+- id: EXT.REACT.STYLE.027
+  name: Jsx Handler Names
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce event handler naming conventions in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-handler-names
+  source_rules:
+  - eslint:jsx-handler-names.js
+  tier: T2
+- id: EXT.REACT.STYLE.028
+  name: Jsx Indent Props
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce props indentation in JSX
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-indent-props
+  source_rules:
+  - eslint:jsx-indent-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.029
+  name: Jsx Indent
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce JSX indentation
+  patterns:
+  - <Component
+  - className=
+  - jsx-indent
+  source_rules:
+  - eslint:jsx-indent.js
+  tier: T2
+- id: EXT.REACT.ERR.030
+  name: Jsx Key
+  ecosystem: react
+  category: possible errors
+  description: Disallow missing `key` props in iterators/collection literals
+  patterns:
+  - <Component
+  - className=
+  - jsx-key
+  source_rules:
+  - eslint:jsx-key.js
+  tier: T2
+- id: EXT.REACT.STYLE.031
+  name: Jsx Max Depth
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce JSX maximum depth
+  patterns:
+  - <Component
+  - className=
+  - jsx-max-depth
+  source_rules:
+  - eslint:jsx-max-depth.js
+  tier: T2
+- id: EXT.REACT.STYLE.032
+  name: Jsx Max Props Per Line
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce maximum of props on a single line in JSX
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-max-props-per-line
+  source_rules:
+  - eslint:jsx-max-props-per-line.js
+  tier: T2
+- id: EXT.REACT.STYLE.033
+  name: Jsx Newline
+  ecosystem: react
+  category: stylistic issues
+  description: Require or prevent a new line after jsx elements and expressions.
+  patterns:
+  - <Component
+  - className=
+  - jsx-newline
+  source_rules:
+  - eslint:jsx-newline.js
+  tier: T2
+- id: EXT.REACT.BEST.034
+  name: Jsx No Bind
+  ecosystem: react
+  category: best practices
+  description: Disallow `.bind()` or arrow functions in JSX props
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-bind
+  source_rules:
+  - eslint:jsx-no-bind.js
+  tier: T2
+- id: EXT.REACT.ERR.035
+  name: Jsx No Comment Textnodes
+  ecosystem: react
+  category: possible errors
+  description: Disallow comments from being inserted as text nodes
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-comment-textnodes
+  source_rules:
+  - eslint:jsx-no-comment-textnodes.js
+  tier: T2
+- id: EXT.REACT.BEST.036
+  name: Jsx No Constructed Context Values
+  ecosystem: react
+  category: best practices
+  description: Disallows JSX context provider values from taking values that will
+    cause needless rerenders
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-constructed-context-values
+  source_rules:
+  - eslint:jsx-no-constructed-context-values.js
+  tier: T2
+- id: EXT.REACT.ERR.037
+  name: Jsx No Duplicate Props
+  ecosystem: react
+  category: possible errors
+  description: Disallow duplicate properties in JSX
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-no-duplicate-props
+  source_rules:
+  - eslint:jsx-no-duplicate-props.js
+  tier: T2
+- id: EXT.REACT.ERR.038
+  name: Jsx No Leaked Render
+  ecosystem: react
+  category: possible errors
+  description: Disallow problematic leaked values from being rendered
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-leaked-render
+  source_rules:
+  - eslint:jsx-no-leaked-render.js
+  tier: T2
+- id: EXT.REACT.STYLE.039
+  name: Jsx No Literals
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow usage of string literals in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-literals
+  source_rules:
+  - eslint:jsx-no-literals.js
+  tier: T2
+- id: EXT.REACT.BEST.040
+  name: Jsx No Script Url
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of `javascript:` URLs
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-script-url
+  source_rules:
+  - eslint:jsx-no-script-url.js
+  tier: T2
+- id: EXT.REACT.BEST.041
+  name: Jsx No Target Blank
+  ecosystem: react
+  category: best practices
+  description: Disallow `target=
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-target-blank
+  source_rules:
+  - eslint:jsx-no-target-blank.js
+  tier: T2
+- id: EXT.REACT.ERR.042
+  name: Jsx No Undef
+  ecosystem: react
+  category: possible errors
+  description: Disallow undeclared variables in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-undef
+  source_rules:
+  - eslint:jsx-no-undef.js
+  tier: T2
+- id: EXT.REACT.ERR.043
+  name: Jsx No Useless Fragment
+  ecosystem: react
+  category: possible errors
+  description: Disallow unnecessary fragments
+  patterns:
+  - <Component
+  - className=
+  - jsx-no-useless-fragment
+  source_rules:
+  - eslint:jsx-no-useless-fragment.js
+  tier: T2
+- id: EXT.REACT.STYLE.044
+  name: Jsx One Expression Per Line
+  ecosystem: react
+  category: stylistic issues
+  description: Require one JSX element per line
+  patterns:
+  - <Component
+  - className=
+  - jsx-one-expression-per-line
+  source_rules:
+  - eslint:jsx-one-expression-per-line.js
+  tier: T2
+- id: EXT.REACT.STYLE.045
+  name: Jsx Pascal Case
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce PascalCase for user-defined JSX components
+  patterns:
+  - <Component
+  - className=
+  - jsx-pascal-case
+  source_rules:
+  - eslint:jsx-pascal-case.js
+  tier: T2
+- id: EXT.REACT.STYLE.046
+  name: Jsx Props No Multi Spaces
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow multiple spaces between inline JSX props
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-props-no-multi-spaces
+  source_rules:
+  - eslint:jsx-props-no-multi-spaces.js
+  tier: T2
+- id: EXT.REACT.BEST.047
+  name: Jsx Props No Spread Multi
+  ecosystem: react
+  category: best practices
+  description: Disallow JSX prop spreading the same identifier multiple times
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-props-no-spread-multi
+  source_rules:
+  - eslint:jsx-props-no-spread-multi.js
+  tier: T2
+- id: EXT.REACT.BEST.048
+  name: Jsx Props No Spreading
+  ecosystem: react
+  category: best practices
+  description: Disallow JSX prop spreading
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-props-no-spreading
+  source_rules:
+  - eslint:jsx-props-no-spreading.js
+  tier: T2
+- id: EXT.REACT.STYLE.049
+  name: Jsx Sort Default Props
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce defaultProps declarations alphabetical sorting
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-sort-default-props
+  source_rules:
+  - eslint:jsx-sort-default-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.050
+  name: Jsx Sort Props
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce props alphabetical sorting
+  patterns:
+  - <Component
+  - className=
+  - props.
+  - PropTypes
+  - jsx-sort-props
+  source_rules:
+  - eslint:jsx-sort-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.051
+  name: Jsx Space Before Closing
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce spacing before closing bracket in JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-space-before-closing
+  source_rules:
+  - eslint:jsx-space-before-closing.js
+  tier: T2
+- id: EXT.REACT.STYLE.052
+  name: Jsx Tag Spacing
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce whitespace in and around the JSX opening and closing brackets
+  patterns:
+  - <Component
+  - className=
+  - jsx-tag-spacing
+  source_rules:
+  - eslint:jsx-tag-spacing.js
+  tier: T2
+- id: EXT.REACT.BEST.053
+  name: Jsx Uses React
+  ecosystem: react
+  category: best practices
+  description: Disallow React to be incorrectly marked as unused
+  patterns:
+  - <Component
+  - className=
+  - jsx-uses-react
+  source_rules:
+  - eslint:jsx-uses-react.js
+  tier: T2
+- id: EXT.REACT.BEST.054
+  name: Jsx Uses Vars
+  ecosystem: react
+  category: best practices
+  description: Disallow variables used in JSX to be incorrectly marked as unused
+  patterns:
+  - <Component
+  - className=
+  - jsx-uses-vars
+  source_rules:
+  - eslint:jsx-uses-vars.js
+  tier: T2
+- id: EXT.REACT.STYLE.055
+  name: Jsx Wrap Multilines
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow missing parentheses around multiline JSX
+  patterns:
+  - <Component
+  - className=
+  - jsx-wrap-multilines
+  source_rules:
+  - eslint:jsx-wrap-multilines.js
+  tier: T2
+- id: EXT.REACT.ERR.056
+  name: No Access State In Setstate
+  ecosystem: react
+  category: possible errors
+  description: Disallow when this.state is accessed within setState
+  patterns:
+  - no-access-state-in-setstate
+  source_rules:
+  - eslint:no-access-state-in-setstate.js
+  tier: T2
+- id: EXT.REACT.BEST.057
+  name: No Adjacent Inline Elements
+  ecosystem: react
+  category: best practices
+  description: Disallow adjacent inline elements not separated by whitespace.
+  patterns:
+  - no-adjacent-inline-elements
+  source_rules:
+  - eslint:no-adjacent-inline-elements.js
+  tier: T2
+- id: EXT.REACT.BEST.058
+  name: No Array Index Key
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of Array index in keys
+  patterns:
+  - no-array-index-key
+  source_rules:
+  - eslint:no-array-index-key.js
+  tier: T2
+- id: EXT.REACT.BEST.059
+  name: No Arrow Function Lifecycle
+  ecosystem: react
+  category: best practices
+  description: Lifecycle methods should be methods on the prototype, not class fields
+  patterns:
+  - no-arrow-function-lifecycle
+  source_rules:
+  - eslint:no-arrow-function-lifecycle.js
+  tier: T2
+- id: EXT.REACT.BEST.060
+  name: No Children Prop
+  ecosystem: react
+  category: best practices
+  description: Disallow passing of children as props
+  patterns:
+  - props.
+  - PropTypes
+  - no-children-prop
+  source_rules:
+  - eslint:no-children-prop.js
+  tier: T2
+- id: EXT.REACT.ERR.061
+  name: No Danger With Children
+  ecosystem: react
+  category: possible errors
+  description: Disallow when a DOM element is using both children and dangerouslySetInnerHTML
+  patterns:
+  - no-danger-with-children
+  source_rules:
+  - eslint:no-danger-with-children.js
+  tier: T2
+- id: EXT.REACT.BEST.062
+  name: No Danger
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of dangerous JSX properties
+  patterns:
+  - no-danger
+  source_rules:
+  - eslint:no-danger.js
+  tier: T2
+- id: EXT.REACT.BEST.063
+  name: No Deprecated
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of deprecated methods
+  patterns:
+  - no-deprecated
+  source_rules:
+  - eslint:no-deprecated.js
+  tier: T2
+- id: EXT.REACT.GEN.064
+  name: No Did Mount Set State
+  ecosystem: react
+  category: general
+  description: Prevent usage of setState in componentDidMount
+  patterns:
+  - no-did-mount-set-state
+  source_rules:
+  - eslint:no-did-mount-set-state.js
+  tier: T2
+- id: EXT.REACT.GEN.065
+  name: No Did Update Set State
+  ecosystem: react
+  category: general
+  description: Prevent usage of setState in componentDidUpdate
+  patterns:
+  - no-did-update-set-state
+  source_rules:
+  - eslint:no-did-update-set-state.js
+  tier: T2
+- id: EXT.REACT.ERR.066
+  name: No Direct Mutation State
+  ecosystem: react
+  category: possible errors
+  description: Disallow direct mutation of this.state
+  patterns:
+  - no-direct-mutation-state
+  source_rules:
+  - eslint:no-direct-mutation-state.js
+  tier: T2
+- id: EXT.REACT.BEST.067
+  name: No Find Dom Node
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of findDOMNode
+  patterns:
+  - no-find-dom-node
+  source_rules:
+  - eslint:no-find-dom-node.js
+  tier: T2
+- id: EXT.REACT.ERR.068
+  name: No Invalid Html Attribute
+  ecosystem: react
+  category: possible errors
+  description: Disallow usage of invalid attributes
+  patterns:
+  - no-invalid-html-attribute
+  source_rules:
+  - eslint:no-invalid-html-attribute.js
+  tier: T2
+- id: EXT.REACT.BEST.069
+  name: No Is Mounted
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of isMounted
+  patterns:
+  - no-is-mounted
+  source_rules:
+  - eslint:no-is-mounted.js
+  tier: T2
+- id: EXT.REACT.STYLE.070
+  name: No Multi Comp
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow multiple component definition per file
+  patterns:
+  - no-multi-comp
+  source_rules:
+  - eslint:no-multi-comp.js
+  tier: T2
+- id: EXT.REACT.ERR.071
+  name: No Namespace
+  ecosystem: react
+  category: possible errors
+  description: Enforce that namespaces are not used in React elements
+  patterns:
+  - no-namespace
+  source_rules:
+  - eslint:no-namespace.js
+  tier: T2
+- id: EXT.REACT.BEST.072
+  name: No Object Type As Default Prop
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of referential-type variables as default param in functional
+    component
+  patterns:
+  - props.
+  - PropTypes
+  - no-object-type-as-default-prop
+  source_rules:
+  - eslint:no-object-type-as-default-prop.js
+  tier: T2
+- id: EXT.REACT.ERR.073
+  name: No Redundant Should Component Update
+  ecosystem: react
+  category: possible errors
+  description: Disallow usage of shouldComponentUpdate when extending React.PureComponent
+  patterns:
+  - no-redundant-should-component-update
+  source_rules:
+  - eslint:no-redundant-should-component-update.js
+  tier: T2
+- id: EXT.REACT.BEST.074
+  name: No Render Return Value
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of the return value of ReactDOM.render
+  patterns:
+  - no-render-return-value
+  source_rules:
+  - eslint:no-render-return-value.js
+  tier: T2
+- id: EXT.REACT.STYLE.075
+  name: No Set State
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow usage of setState
+  patterns:
+  - no-set-state
+  source_rules:
+  - eslint:no-set-state.js
+  tier: T2
+- id: EXT.REACT.BEST.076
+  name: No String Refs
+  ecosystem: react
+  category: best practices
+  description: Disallow using string references
+  patterns:
+  - no-string-refs
+  source_rules:
+  - eslint:no-string-refs.js
+  tier: T2
+- id: EXT.REACT.ERR.077
+  name: No This In Sfc
+  ecosystem: react
+  category: possible errors
+  description: Disallow `this` from being used in stateless functional components
+  patterns:
+  - no-this-in-sfc
+  source_rules:
+  - eslint:no-this-in-sfc.js
+  tier: T2
+- id: EXT.REACT.STYLE.078
+  name: No Typos
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow common typos
+  patterns:
+  - no-typos
+  source_rules:
+  - eslint:no-typos.js
+  tier: T2
+- id: EXT.REACT.ERR.079
+  name: No Unescaped Entities
+  ecosystem: react
+  category: possible errors
+  description: Disallow unescaped HTML entities from appearing in markup
+  patterns:
+  - no-unescaped-entities
+  source_rules:
+  - eslint:no-unescaped-entities.js
+  tier: T2
+- id: EXT.REACT.ERR.080
+  name: No Unknown Property
+  ecosystem: react
+  category: possible errors
+  description: Disallow usage of unknown DOM property
+  patterns:
+  - props.
+  - PropTypes
+  - no-unknown-property
+  source_rules:
+  - eslint:no-unknown-property.js
+  tier: T2
+- id: EXT.REACT.BEST.081
+  name: No Unsafe
+  ecosystem: react
+  category: best practices
+  description: Disallow usage of unsafe lifecycle methods
+  patterns:
+  - no-unsafe
+  source_rules:
+  - eslint:no-unsafe.js
+  tier: T2
+- id: EXT.REACT.ERR.082
+  name: No Unstable Nested Components
+  ecosystem: react
+  category: possible errors
+  description: Disallow creating unstable components inside components
+  patterns:
+  - no-unstable-nested-components
+  source_rules:
+  - eslint:no-unstable-nested-components.js
+  tier: T2
+- id: EXT.REACT.BEST.083
+  name: No Unused Class Component Methods
+  ecosystem: react
+  category: best practices
+  description: Disallow declaring unused methods of component class
+  patterns:
+  - no-unused-class-component-methods
+  source_rules:
+  - eslint:no-unused-class-component-methods.js
+  tier: T2
+- id: EXT.REACT.BEST.084
+  name: No Unused Prop Types
+  ecosystem: react
+  category: best practices
+  description: Disallow definitions of unused propTypes
+  patterns:
+  - props.
+  - PropTypes
+  - no-unused-prop-types
+  source_rules:
+  - eslint:no-unused-prop-types.js
+  tier: T2
+- id: EXT.REACT.BEST.085
+  name: No Unused State
+  ecosystem: react
+  category: best practices
+  description: Disallow definitions of unused state
+  patterns:
+  - no-unused-state
+  source_rules:
+  - eslint:no-unused-state.js
+  tier: T2
+- id: EXT.REACT.GEN.086
+  name: No Will Update Set State
+  ecosystem: react
+  category: general
+  description: Prevent usage of setState in componentWillUpdate
+  patterns:
+  - no-will-update-set-state
+  source_rules:
+  - eslint:no-will-update-set-state.js
+  tier: T2
+- id: EXT.REACT.STYLE.087
+  name: Prefer Es6 Class
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce ES5 or ES6 class for React Components
+  patterns:
+  - prefer-es6-class
+  source_rules:
+  - eslint:prefer-es6-class.js
+  tier: T2
+- id: EXT.REACT.ERR.088
+  name: Prefer Exact Props
+  ecosystem: react
+  category: possible errors
+  description: Prefer exact proptype definitions
+  patterns:
+  - props.
+  - PropTypes
+  - prefer-exact-props
+  source_rules:
+  - eslint:prefer-exact-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.089
+  name: Prefer Read Only Props
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce that props are read-only
+  patterns:
+  - props.
+  - PropTypes
+  - prefer-read-only-props
+  source_rules:
+  - eslint:prefer-read-only-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.090
+  name: Prefer Stateless Function
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce stateless components to be written as a pure function
+  patterns:
+  - prefer-stateless-function
+  source_rules:
+  - eslint:prefer-stateless-function.js
+  tier: T2
+- id: EXT.REACT.BEST.091
+  name: Prop Types
+  ecosystem: react
+  category: best practices
+  description: Disallow missing props validation in a React component definition
+  patterns:
+  - props.
+  - PropTypes
+  - prop-types
+  source_rules:
+  - eslint:prop-types.js
+  tier: T2
+- id: EXT.REACT.ERR.092
+  name: React In Jsx Scope
+  ecosystem: react
+  category: possible errors
+  description: Disallow missing React when using JSX
+  patterns:
+  - <Component
+  - className=
+  - react-in-jsx-scope
+  source_rules:
+  - eslint:react-in-jsx-scope.js
+  tier: T2
+- id: EXT.REACT.BEST.093
+  name: Require Default Props
+  ecosystem: react
+  category: best practices
+  description: Enforce a defaultProps definition for every prop that is not a required
+    prop
+  patterns:
+  - props.
+  - PropTypes
+  - require-default-props
+  source_rules:
+  - eslint:require-default-props.js
+  tier: T2
+- id: EXT.REACT.BEST.094
+  name: Require Optimization
+  ecosystem: react
+  category: best practices
+  description: Enforce React components to have a shouldComponentUpdate method
+  patterns:
+  - require-optimization
+  source_rules:
+  - eslint:require-optimization.js
+  tier: T2
+- id: EXT.REACT.ERR.095
+  name: Require Render Return
+  ecosystem: react
+  category: possible errors
+  description: Enforce ES5 or ES6 class for returning value in render function
+  patterns:
+  - require-render-return
+  source_rules:
+  - eslint:require-render-return.js
+  tier: T2
+- id: EXT.REACT.STYLE.096
+  name: Self Closing Comp
+  ecosystem: react
+  category: stylistic issues
+  description: Disallow extra closing tags for components without children
+  patterns:
+  - self-closing-comp
+  source_rules:
+  - eslint:self-closing-comp.js
+  tier: T2
+- id: EXT.REACT.STYLE.097
+  name: Sort Comp
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce component methods order
+  patterns:
+  - sort-comp
+  source_rules:
+  - eslint:sort-comp.js
+  tier: T2
+- id: EXT.REACT.STYLE.098
+  name: Sort Default Props
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce defaultProps declarations alphabetical sorting
+  patterns:
+  - props.
+  - PropTypes
+  - sort-default-props
+  source_rules:
+  - eslint:sort-default-props.js
+  tier: T2
+- id: EXT.REACT.STYLE.099
+  name: Sort Prop Types
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce propTypes declarations alphabetical sorting
+  patterns:
+  - props.
+  - PropTypes
+  - sort-prop-types
+  source_rules:
+  - eslint:sort-prop-types.js
+  tier: T2
+- id: EXT.REACT.STYLE.100
+  name: State In Constructor
+  ecosystem: react
+  category: stylistic issues
+  description: Enforce class component state initialization style
+  patterns:
+  - state-in-constructor
+  source_rules:
+  - eslint:state-in-constructor.js
+  tier: T2
+- id: EXT.REACT.STYLE.101
+  name: Static Property Placement
+  ecosystem: react
+  category: stylistic issues
+  description: Enforces where React component static properties should be positioned.
+  patterns:
+  - props.
+  - PropTypes
+  - static-property-placement
+  source_rules:
+  - eslint:static-property-placement.js
+  tier: T2
+- id: EXT.REACT.ERR.102
+  name: Style Prop Object
+  ecosystem: react
+  category: possible errors
+  description: Enforce style prop value is an object
+  patterns:
+  - props.
+  - PropTypes
+  - style-prop-object
+  source_rules:
+  - eslint:style-prop-object.js
+  tier: T2
+- id: EXT.REACT.BEST.103
+  name: Void Dom Elements No Children
+  ecosystem: react
+  category: best practices
+  description: Disallow void DOM elements (e.g. `<img />`, `<br />`) from receiving
+    children
+  patterns:
+  - void-dom-elements-no-children
+  source_rules:
+  - eslint:void-dom-elements-no-children.js
+  tier: T2
+- id: EXT.VUE.GEN.001
+  name: Attribute Hyphenation
+  ecosystem: vue
+  category: general
+  description: enforce attribute naming style on custom components in template
+  patterns:
+  - attribute-hyphenation
+  source_rules:
+  - eslint:attribute-hyphenation.js
+  tier: T2
+- id: EXT.VUE.GEN.002
+  name: Attributes Order
+  ecosystem: vue
+  category: general
+  description: enforce order of attributes
+  patterns:
+  - attributes-order
+  source_rules:
+  - eslint:attributes-order.js
+  tier: T2
+- id: EXT.VUE.GEN.003
+  name: Block Lang
+  ecosystem: vue
+  category: general
+  description: disallow use other than available `lang`
+  patterns:
+  - block-lang
+  source_rules:
+  - eslint:block-lang.js
+  tier: T2
+- id: EXT.VUE.GEN.004
+  name: Block Order
+  ecosystem: vue
+  category: general
+  description: enforce order of component top-level elements
+  patterns:
+  - block-order
+  source_rules:
+  - eslint:block-order.js
+  tier: T2
+- id: EXT.VUE.GEN.005
+  name: Block Tag Newline
+  ecosystem: vue
+  category: general
+  description: enforce line breaks after opening and before closing block-level tags
+  patterns:
+  - block-tag-newline
+  source_rules:
+  - eslint:block-tag-newline.js
+  tier: T2
+- id: EXT.VUE.GEN.006
+  name: Comma Style
+  ecosystem: vue
+  category: general
+  description: 'Rule: comma-style'
+  patterns:
+  - comma-style
+  source_rules:
+  - eslint:comma-style.js
+  tier: T2
+- id: EXT.VUE.GEN.007
+  name: Comment Directive
+  ecosystem: vue
+  category: general
+  description: support comment-directives in `<template>`
+  patterns:
+  - v-if
+  - v-for
+  - comment-directive
+  source_rules:
+  - eslint:comment-directive.js
+  tier: T2
+- id: EXT.VUE.GEN.008
+  name: Component Api Style
+  ecosystem: vue
+  category: general
+  description: enforce component API style
+  patterns:
+  - Vue.component
+  - defineComponent
+  - component-api-style
+  source_rules:
+  - eslint:component-api-style.js
+  tier: T2
+- id: EXT.VUE.GEN.009
+  name: Component Definition Name Casing
+  ecosystem: vue
+  category: general
+  description: enforce specific casing for component definition name
+  patterns:
+  - Vue.component
+  - defineComponent
+  - component-definition-name-casing
+  source_rules:
+  - eslint:component-definition-name-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.010
+  name: Component Name In Template Casing
+  ecosystem: vue
+  category: general
+  description: enforce specific casing for the component naming style in template
+  patterns:
+  - Vue.component
+  - defineComponent
+  - component-name-in-template-casing
+  source_rules:
+  - eslint:component-name-in-template-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.011
+  name: Component Options Name Casing
+  ecosystem: vue
+  category: general
+  description: enforce the casing of component name in `components` options
+  patterns:
+  - Vue.component
+  - defineComponent
+  - component-options-name-casing
+  source_rules:
+  - eslint:component-options-name-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.012
+  name: Custom Event Name Casing
+  ecosystem: vue
+  category: general
+  description: enforce specific casing for custom event name
+  patterns:
+  - custom-event-name-casing
+  source_rules:
+  - eslint:custom-event-name-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.013
+  name: Define Emits Declaration
+  ecosystem: vue
+  category: general
+  description: enforce declaration style of `defineEmits`
+  patterns:
+  - define-emits-declaration
+  source_rules:
+  - eslint:define-emits-declaration.js
+  tier: T2
+- id: EXT.VUE.GEN.014
+  name: Define Macros Order
+  ecosystem: vue
+  category: general
+  description: enforce order of compiler macros (`defineProps`, `defineEmits`, etc.)
+  patterns:
+  - define-macros-order
+  source_rules:
+  - eslint:define-macros-order.js
+  tier: T2
+- id: EXT.VUE.GEN.015
+  name: Define Props Declaration
+  ecosystem: vue
+  category: general
+  description: enforce declaration style of `defineProps`
+  patterns:
+  - define-props-declaration
+  source_rules:
+  - eslint:define-props-declaration.js
+  tier: T2
+- id: EXT.VUE.GEN.016
+  name: Define Props Destructuring
+  ecosystem: vue
+  category: general
+  description: enforce consistent style for props destructuring
+  patterns:
+  - define-props-destructuring
+  source_rules:
+  - eslint:define-props-destructuring.js
+  tier: T2
+- id: EXT.VUE.GEN.017
+  name: Enforce Style Attribute
+  ecosystem: vue
+  category: general
+  description: enforce or forbid the use of the `scoped` and `module` attributes in
+    SFC top level style tags
+  patterns:
+  - enforce-style-attribute
+  source_rules:
+  - eslint:enforce-style-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.018
+  name: First Attribute Linebreak
+  ecosystem: vue
+  category: general
+  description: enforce the location of first attribute
+  patterns:
+  - first-attribute-linebreak
+  source_rules:
+  - eslint:first-attribute-linebreak.js
+  tier: T2
+- id: EXT.VUE.GEN.019
+  name: Html Button Has Type
+  ecosystem: vue
+  category: general
+  description: disallow usage of button without an explicit type attribute
+  patterns:
+  - html-button-has-type
+  source_rules:
+  - eslint:html-button-has-type.js
+  tier: T2
+- id: EXT.VUE.GEN.020
+  name: Html Closing Bracket Newline
+  ecosystem: vue
+  category: general
+  description: require or disallow a line break before tag
+  patterns:
+  - html-closing-bracket-newline
+  source_rules:
+  - eslint:html-closing-bracket-newline.js
+  tier: T2
+- id: EXT.VUE.GEN.021
+  name: Html Closing Bracket Spacing
+  ecosystem: vue
+  category: general
+  description: require or disallow a space before tag
+  patterns:
+  - html-closing-bracket-spacing
+  source_rules:
+  - eslint:html-closing-bracket-spacing.js
+  tier: T2
+- id: EXT.VUE.GEN.022
+  name: Html Comment Content Newline
+  ecosystem: vue
+  category: general
+  description: enforce unified line break in HTML comments
+  patterns:
+  - html-comment-content-newline
+  source_rules:
+  - eslint:html-comment-content-newline.js
+  tier: T2
+- id: EXT.VUE.GEN.023
+  name: Html Comment Content Spacing
+  ecosystem: vue
+  category: general
+  description: enforce unified spacing in HTML comments
+  patterns:
+  - html-comment-content-spacing
+  source_rules:
+  - eslint:html-comment-content-spacing.js
+  tier: T2
+- id: EXT.VUE.GEN.024
+  name: Html Comment Indent
+  ecosystem: vue
+  category: general
+  description: enforce consistent indentation in HTML comments
+  patterns:
+  - html-comment-indent
+  source_rules:
+  - eslint:html-comment-indent.js
+  tier: T2
+- id: EXT.VUE.GEN.025
+  name: Html End Tags
+  ecosystem: vue
+  category: general
+  description: enforce end tag style
+  patterns:
+  - html-end-tags
+  source_rules:
+  - eslint:html-end-tags.js
+  tier: T2
+- id: EXT.VUE.GEN.026
+  name: Html Indent
+  ecosystem: vue
+  category: general
+  description: enforce consistent indentation in `<template>`
+  patterns:
+  - html-indent
+  source_rules:
+  - eslint:html-indent.js
+  tier: T2
+- id: EXT.VUE.GEN.027
+  name: Html Quotes
+  ecosystem: vue
+  category: general
+  description: enforce quotes style of HTML attributes
+  patterns:
+  - html-quotes
+  source_rules:
+  - eslint:html-quotes.js
+  tier: T2
+- id: EXT.VUE.GEN.028
+  name: Html Self Closing
+  ecosystem: vue
+  category: general
+  description: enforce self-closing style
+  patterns:
+  - html-self-closing
+  source_rules:
+  - eslint:html-self-closing.js
+  tier: T2
+- id: EXT.VUE.GEN.029
+  name: Jsx Uses Vars
+  ecosystem: vue
+  category: general
+  description: prevent variables used in JSX to be marked as unused
+  patterns:
+  - jsx-uses-vars
+  source_rules:
+  - eslint:jsx-uses-vars.js
+  tier: T2
+- id: EXT.VUE.GEN.030
+  name: Match Component File Name
+  ecosystem: vue
+  category: general
+  description: require component name property to match its file name
+  patterns:
+  - Vue.component
+  - defineComponent
+  - match-component-file-name
+  source_rules:
+  - eslint:match-component-file-name.js
+  tier: T2
+- id: EXT.VUE.GEN.031
+  name: Match Component Import Name
+  ecosystem: vue
+  category: general
+  description: require the registered component name to match the imported component
+    name
+  patterns:
+  - Vue.component
+  - defineComponent
+  - match-component-import-name
+  source_rules:
+  - eslint:match-component-import-name.js
+  tier: T2
+- id: EXT.VUE.GEN.032
+  name: Max Attributes Per Line
+  ecosystem: vue
+  category: general
+  description: enforce the maximum number of attributes per line
+  patterns:
+  - max-attributes-per-line
+  source_rules:
+  - eslint:max-attributes-per-line.js
+  tier: T2
+- id: EXT.VUE.GEN.033
+  name: Max Len
+  ecosystem: vue
+  category: general
+  description: enforce a maximum line length in `.vue` files
+  patterns:
+  - max-len
+  source_rules:
+  - eslint:max-len.js
+  tier: T2
+- id: EXT.VUE.GEN.034
+  name: Max Lines Per Block
+  ecosystem: vue
+  category: general
+  description: enforce maximum number of lines in Vue SFC blocks
+  patterns:
+  - max-lines-per-block
+  source_rules:
+  - eslint:max-lines-per-block.js
+  tier: T2
+- id: EXT.VUE.GEN.035
+  name: Max Props
+  ecosystem: vue
+  category: general
+  description: enforce maximum number of props in Vue component
+  patterns:
+  - max-props
+  source_rules:
+  - eslint:max-props.js
+  tier: T2
+- id: EXT.VUE.GEN.036
+  name: Max Template Depth
+  ecosystem: vue
+  category: general
+  description: enforce maximum depth of template
+  patterns:
+  - max-template-depth
+  source_rules:
+  - eslint:max-template-depth.js
+  tier: T2
+- id: EXT.VUE.GEN.037
+  name: Multi Word Component Names
+  ecosystem: vue
+  category: general
+  description: require component names to be always multi-word
+  patterns:
+  - Vue.component
+  - defineComponent
+  - multi-word-component-names
+  source_rules:
+  - eslint:multi-word-component-names.js
+  tier: T2
+- id: EXT.VUE.GEN.038
+  name: Multiline Html Element Content Newline
+  ecosystem: vue
+  category: general
+  description: require a line break before and after the contents of a multiline element
+  patterns:
+  - multiline-html-element-content-newline
+  source_rules:
+  - eslint:multiline-html-element-content-newline.js
+  tier: T2
+- id: EXT.VUE.GEN.039
+  name: Mustache Interpolation Spacing
+  ecosystem: vue
+  category: general
+  description: enforce unified spacing in mustache interpolations
+  patterns:
+  - mustache-interpolation-spacing
+  source_rules:
+  - eslint:mustache-interpolation-spacing.js
+  tier: T2
+- id: EXT.VUE.GEN.040
+  name: New Line Between Multi Line Property
+  ecosystem: vue
+  category: general
+  description: enforce new lines between multi-line properties in Vue components
+  patterns:
+  - new-line-between-multi-line-property
+  source_rules:
+  - eslint:new-line-between-multi-line-property.js
+  tier: T2
+- id: EXT.VUE.GEN.041
+  name: Next Tick Style
+  ecosystem: vue
+  category: general
+  description: enforce Promise or callback style in `nextTick`
+  patterns:
+  - next-tick-style
+  source_rules:
+  - eslint:next-tick-style.js
+  tier: T2
+- id: EXT.VUE.GEN.042
+  name: No Arrow Functions In Watch
+  ecosystem: vue
+  category: general
+  description: disallow using arrow functions to define watcher
+  patterns:
+  - no-arrow-functions-in-watch
+  source_rules:
+  - eslint:no-arrow-functions-in-watch.js
+  tier: T2
+- id: EXT.VUE.GEN.043
+  name: No Async In Computed Properties
+  ecosystem: vue
+  category: general
+  description: disallow asynchronous actions in computed properties
+  patterns:
+  - no-async-in-computed-properties
+  source_rules:
+  - eslint:no-async-in-computed-properties.js
+  tier: T2
+- id: EXT.VUE.GEN.044
+  name: No Bare Strings In Template
+  ecosystem: vue
+  category: general
+  description: disallow the use of bare strings in `<template>`
+  patterns:
+  - no-bare-strings-in-template
+  source_rules:
+  - eslint:no-bare-strings-in-template.js
+  tier: T2
+- id: EXT.VUE.GEN.045
+  name: No Boolean Default
+  ecosystem: vue
+  category: general
+  description: disallow boolean defaults
+  patterns:
+  - no-boolean-default
+  source_rules:
+  - eslint:no-boolean-default.js
+  tier: T2
+- id: EXT.VUE.GEN.046
+  name: No Child Content
+  ecosystem: vue
+  category: general
+  description: disallow element
+  patterns:
+  - no-child-content
+  source_rules:
+  - eslint:no-child-content.js
+  tier: T2
+- id: EXT.VUE.GEN.047
+  name: No Computed Properties In Data
+  ecosystem: vue
+  category: general
+  description: disallow accessing computed properties in `data`
+  patterns:
+  - no-computed-properties-in-data
+  source_rules:
+  - eslint:no-computed-properties-in-data.js
+  tier: T2
+- id: EXT.VUE.GEN.048
+  name: No Console
+  ecosystem: vue
+  category: general
+  description: 'Rule: no-console'
+  patterns:
+  - no-console
+  source_rules:
+  - eslint:no-console.js
+  tier: T2
+- id: EXT.VUE.GEN.049
+  name: No Constant Condition
+  ecosystem: vue
+  category: general
+  description: 'Rule: no-constant-condition'
+  patterns:
+  - no-constant-condition
+  source_rules:
+  - eslint:no-constant-condition.js
+  tier: T2
+- id: EXT.VUE.GEN.050
+  name: No Custom Modifiers On V Model
+  ecosystem: vue
+  category: general
+  description: disallow custom modifiers on v-model used on the component
+  patterns:
+  - no-custom-modifiers-on-v-model
+  source_rules:
+  - eslint:no-custom-modifiers-on-v-model.js
+  tier: T2
+- id: EXT.VUE.GEN.051
+  name: No Deprecated Data Object Declaration
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated object declaration on data (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-data-object-declaration
+  source_rules:
+  - eslint:no-deprecated-data-object-declaration.js
+  tier: T2
+- id: EXT.VUE.GEN.052
+  name: No Deprecated Delete Set
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `$delete` and `$set` (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-delete-set
+  source_rules:
+  - eslint:no-deprecated-delete-set.js
+  tier: T2
+- id: EXT.VUE.GEN.053
+  name: No Deprecated Destroyed Lifecycle
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `destroyed` and `beforeDestroy` lifecycle
+    hooks (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-destroyed-lifecycle
+  source_rules:
+  - eslint:no-deprecated-destroyed-lifecycle.js
+  tier: T2
+- id: EXT.VUE.GEN.054
+  name: No Deprecated Dollar Listeners Api
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `$listeners` (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-dollar-listeners-api
+  source_rules:
+  - eslint:no-deprecated-dollar-listeners-api.js
+  tier: T2
+- id: EXT.VUE.GEN.055
+  name: No Deprecated Dollar Scopedslots Api
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `$scopedSlots` (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-dollar-scopedslots-api
+  source_rules:
+  - eslint:no-deprecated-dollar-scopedslots-api.js
+  tier: T2
+- id: EXT.VUE.GEN.056
+  name: No Deprecated Events Api
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated events api (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-events-api
+  source_rules:
+  - eslint:no-deprecated-events-api.js
+  tier: T2
+- id: EXT.VUE.GEN.057
+  name: No Deprecated Filter
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated filters syntax (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-filter
+  source_rules:
+  - eslint:no-deprecated-filter.js
+  tier: T2
+- id: EXT.VUE.GEN.058
+  name: No Deprecated Functional Template
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated the `functional` template (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-functional-template
+  source_rules:
+  - eslint:no-deprecated-functional-template.js
+  tier: T2
+- id: EXT.VUE.GEN.059
+  name: No Deprecated Html Element Is
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated the `is` attribute on HTML elements (in Vue.js
+    3.0.0+)
+  patterns:
+  - no-deprecated-html-element-is
+  source_rules:
+  - eslint:no-deprecated-html-element-is.js
+  tier: T2
+- id: EXT.VUE.GEN.060
+  name: No Deprecated Inline Template
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `inline-template` attribute (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-inline-template
+  source_rules:
+  - eslint:no-deprecated-inline-template.js
+  tier: T2
+- id: EXT.VUE.GEN.061
+  name: No Deprecated Model Definition
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `model` definition (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-model-definition
+  source_rules:
+  - eslint:no-deprecated-model-definition.js
+  tier: T2
+- id: EXT.VUE.GEN.062
+  name: No Deprecated Props Default This
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `this` access in props default function (in Vue.js
+    3.0.0+)
+  patterns:
+  - no-deprecated-props-default-this
+  source_rules:
+  - eslint:no-deprecated-props-default-this.js
+  tier: T2
+- id: EXT.VUE.GEN.063
+  name: No Deprecated Router Link Tag Prop
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `tag` property on `RouterLink` (in Vue.js
+    3.0.0+)
+  patterns:
+  - no-deprecated-router-link-tag-prop
+  source_rules:
+  - eslint:no-deprecated-router-link-tag-prop.js
+  tier: T2
+- id: EXT.VUE.GEN.064
+  name: No Deprecated Scope Attribute
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `scope` attribute (in Vue.js 2.5.0+)
+  patterns:
+  - no-deprecated-scope-attribute
+  source_rules:
+  - eslint:no-deprecated-scope-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.065
+  name: No Deprecated Slot Attribute
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `slot` attribute (in Vue.js 2.6.0+)
+  patterns:
+  - no-deprecated-slot-attribute
+  source_rules:
+  - eslint:no-deprecated-slot-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.066
+  name: No Deprecated Slot Scope Attribute
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `slot-scope` attribute (in Vue.js 2.6.0+)
+  patterns:
+  - no-deprecated-slot-scope-attribute
+  source_rules:
+  - eslint:no-deprecated-slot-scope-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.067
+  name: No Deprecated V Bind Sync
+  ecosystem: vue
+  category: general
+  description: disallow use of deprecated `.sync` modifier on `v-bind` directive (in
+    Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-v-bind-sync
+  source_rules:
+  - eslint:no-deprecated-v-bind-sync.js
+  tier: T2
+- id: EXT.VUE.GEN.068
+  name: No Deprecated V Is
+  ecosystem: vue
+  category: general
+  description: disallow deprecated `v-is` directive (in Vue.js 3.1.0+)
+  patterns:
+  - no-deprecated-v-is
+  source_rules:
+  - eslint:no-deprecated-v-is.js
+  tier: T2
+- id: EXT.VUE.GEN.069
+  name: No Deprecated V On Native Modifier
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `.native` modifiers (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-v-on-native-modifier
+  source_rules:
+  - eslint:no-deprecated-v-on-native-modifier.js
+  tier: T2
+- id: EXT.VUE.GEN.070
+  name: No Deprecated V On Number Modifiers
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated number (keycode) modifiers (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-v-on-number-modifiers
+  source_rules:
+  - eslint:no-deprecated-v-on-number-modifiers.js
+  tier: T2
+- id: EXT.VUE.GEN.071
+  name: No Deprecated Vue Config Keycodes
+  ecosystem: vue
+  category: general
+  description: disallow using deprecated `Vue.config.keyCodes` (in Vue.js 3.0.0+)
+  patterns:
+  - no-deprecated-vue-config-keycodes
+  source_rules:
+  - eslint:no-deprecated-vue-config-keycodes.js
+  tier: T2
+- id: EXT.VUE.GEN.072
+  name: No Dupe Keys
+  ecosystem: vue
+  category: general
+  description: disallow duplication of field names
+  patterns:
+  - no-dupe-keys
+  source_rules:
+  - eslint:no-dupe-keys.js
+  tier: T2
+- id: EXT.VUE.GEN.073
+  name: No Dupe V Else If
+  ecosystem: vue
+  category: general
+  description: disallow duplicate conditions in `v-if` / `v-else-if` chains
+  patterns:
+  - no-dupe-v-else-if
+  source_rules:
+  - eslint:no-dupe-v-else-if.js
+  tier: T2
+- id: EXT.VUE.GEN.074
+  name: No Duplicate Attr Inheritance
+  ecosystem: vue
+  category: general
+  description: enforce `inheritAttrs` to be set to `false` when using `v-bind=
+  patterns:
+  - no-duplicate-attr-inheritance
+  source_rules:
+  - eslint:no-duplicate-attr-inheritance.js
+  tier: T2
+- id: EXT.VUE.GEN.075
+  name: No Duplicate Attributes
+  ecosystem: vue
+  category: general
+  description: disallow duplication of attributes
+  patterns:
+  - no-duplicate-attributes
+  source_rules:
+  - eslint:no-duplicate-attributes.js
+  tier: T2
+- id: EXT.VUE.GEN.076
+  name: No Duplicate Class Names
+  ecosystem: vue
+  category: general
+  description: disallow duplication of class names in class attributes
+  patterns:
+  - no-duplicate-class-names
+  source_rules:
+  - eslint:no-duplicate-class-names.js
+  tier: T2
+- id: EXT.VUE.GEN.077
+  name: No Empty Component Block
+  ecosystem: vue
+  category: general
+  description: disallow the `<template>` `<script>` `<style>` block to be empty
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-empty-component-block
+  source_rules:
+  - eslint:no-empty-component-block.js
+  tier: T2
+- id: EXT.VUE.GEN.078
+  name: No Export In Script Setup
+  ecosystem: vue
+  category: general
+  description: disallow `export` in `<script setup>`
+  patterns:
+  - no-export-in-script-setup
+  source_rules:
+  - eslint:no-export-in-script-setup.js
+  tier: T2
+- id: EXT.VUE.GEN.079
+  name: No Expose After Await
+  ecosystem: vue
+  category: general
+  description: disallow asynchronously registered `expose`
+  patterns:
+  - no-expose-after-await
+  source_rules:
+  - eslint:no-expose-after-await.js
+  tier: T2
+- id: EXT.VUE.GEN.080
+  name: No Extra Parens
+  ecosystem: vue
+  category: general
+  description: 'Rule: no-extra-parens'
+  patterns:
+  - no-extra-parens
+  source_rules:
+  - eslint:no-extra-parens.js
+  tier: T2
+- id: EXT.VUE.GEN.081
+  name: No Import Compiler Macros
+  ecosystem: vue
+  category: general
+  description: disallow importing Vue compiler macros
+  patterns:
+  - no-import-compiler-macros
+  source_rules:
+  - eslint:no-import-compiler-macros.js
+  tier: T2
+- id: EXT.VUE.GEN.082
+  name: No Irregular Whitespace
+  ecosystem: vue
+  category: general
+  description: disallow irregular whitespace in `.vue` files
+  patterns:
+  - no-irregular-whitespace
+  source_rules:
+  - eslint:no-irregular-whitespace.js
+  tier: T2
+- id: EXT.VUE.GEN.083
+  name: No Lifecycle After Await
+  ecosystem: vue
+  category: general
+  description: disallow asynchronously registered lifecycle hooks
+  patterns:
+  - no-lifecycle-after-await
+  source_rules:
+  - eslint:no-lifecycle-after-await.js
+  tier: T2
+- id: EXT.VUE.GEN.084
+  name: No Literals In Template
+  ecosystem: vue
+  category: general
+  description: disallow object, array, and function literals in template
+  patterns:
+  - no-literals-in-template
+  source_rules:
+  - eslint:no-literals-in-template.js
+  tier: T2
+- id: EXT.VUE.GEN.085
+  name: No Lone Template
+  ecosystem: vue
+  category: general
+  description: disallow unnecessary `<template>`
+  patterns:
+  - no-lone-template
+  source_rules:
+  - eslint:no-lone-template.js
+  tier: T2
+- id: EXT.VUE.GEN.086
+  name: No Multi Spaces
+  ecosystem: vue
+  category: general
+  description: disallow multiple spaces
+  patterns:
+  - no-multi-spaces
+  source_rules:
+  - eslint:no-multi-spaces.js
+  tier: T2
+- id: EXT.VUE.GEN.087
+  name: No Multiple Objects In Class
+  ecosystem: vue
+  category: general
+  description: disallow passing multiple objects in an array to class
+  patterns:
+  - no-multiple-objects-in-class
+  source_rules:
+  - eslint:no-multiple-objects-in-class.js
+  tier: T2
+- id: EXT.VUE.GEN.088
+  name: No Multiple Slot Args
+  ecosystem: vue
+  category: general
+  description: disallow passing multiple arguments to scoped slots
+  patterns:
+  - no-multiple-slot-args
+  source_rules:
+  - eslint:no-multiple-slot-args.js
+  tier: T2
+- id: EXT.VUE.GEN.089
+  name: No Multiple Template Root
+  ecosystem: vue
+  category: general
+  description: disallow adding multiple root nodes to the template
+  patterns:
+  - no-multiple-template-root
+  source_rules:
+  - eslint:no-multiple-template-root.js
+  tier: T2
+- id: EXT.VUE.GEN.090
+  name: No Mutating Props
+  ecosystem: vue
+  category: general
+  description: disallow mutation of component props
+  patterns:
+  - no-mutating-props
+  source_rules:
+  - eslint:no-mutating-props.js
+  tier: T2
+- id: EXT.VUE.GEN.091
+  name: No Negated V If Condition
+  ecosystem: vue
+  category: general
+  description: disallow negated conditions in v-if/v-else
+  patterns:
+  - no-negated-v-if-condition
+  source_rules:
+  - eslint:no-negated-v-if-condition.js
+  tier: T2
+- id: EXT.VUE.GEN.092
+  name: No Parsing Error
+  ecosystem: vue
+  category: general
+  description: disallow parsing errors in `<template>`
+  patterns:
+  - no-parsing-error
+  source_rules:
+  - eslint:no-parsing-error.js
+  tier: T2
+- id: EXT.VUE.GEN.093
+  name: No Potential Component Option Typo
+  ecosystem: vue
+  category: general
+  description: disallow a potential typo in your component property
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-potential-component-option-typo
+  source_rules:
+  - eslint:no-potential-component-option-typo.js
+  tier: T2
+- id: EXT.VUE.GEN.094
+  name: No Ref As Operand
+  ecosystem: vue
+  category: general
+  description: disallow use of value wrapped by `ref()` (Composition API) as an operand
+  patterns:
+  - no-ref-as-operand
+  source_rules:
+  - eslint:no-ref-as-operand.js
+  tier: T2
+- id: EXT.VUE.GEN.095
+  name: No Ref Object Reactivity Loss
+  ecosystem: vue
+  category: general
+  description: disallow usages of ref objects that can lead to loss of reactivity
+  patterns:
+  - no-ref-object-reactivity-loss
+  source_rules:
+  - eslint:no-ref-object-reactivity-loss.js
+  tier: T2
+- id: EXT.VUE.GEN.096
+  name: No Required Prop With Default
+  ecosystem: vue
+  category: general
+  description: enforce props with default values to be optional
+  patterns:
+  - no-required-prop-with-default
+  source_rules:
+  - eslint:no-required-prop-with-default.js
+  tier: T2
+- id: EXT.VUE.GEN.097
+  name: No Reserved Component Names
+  ecosystem: vue
+  category: general
+  description: disallow the use of reserved names in component definitions
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-reserved-component-names
+  source_rules:
+  - eslint:no-reserved-component-names.js
+  tier: T2
+- id: EXT.VUE.GEN.098
+  name: No Reserved Keys
+  ecosystem: vue
+  category: general
+  description: disallow overwriting reserved keys
+  patterns:
+  - no-reserved-keys
+  source_rules:
+  - eslint:no-reserved-keys.js
+  tier: T2
+- id: EXT.VUE.GEN.099
+  name: No Reserved Props
+  ecosystem: vue
+  category: general
+  description: disallow reserved names in props
+  patterns:
+  - no-reserved-props
+  source_rules:
+  - eslint:no-reserved-props.js
+  tier: T2
+- id: EXT.VUE.GEN.100
+  name: No Restricted Block
+  ecosystem: vue
+  category: general
+  description: disallow specific block
+  patterns:
+  - no-restricted-block
+  source_rules:
+  - eslint:no-restricted-block.js
+  tier: T2
+- id: EXT.VUE.GEN.101
+  name: No Restricted Call After Await
+  ecosystem: vue
+  category: general
+  description: disallow asynchronously called restricted methods
+  patterns:
+  - no-restricted-call-after-await
+  source_rules:
+  - eslint:no-restricted-call-after-await.js
+  tier: T2
+- id: EXT.VUE.GEN.102
+  name: No Restricted Class
+  ecosystem: vue
+  category: general
+  description: disallow specific classes in Vue components
+  patterns:
+  - no-restricted-class
+  source_rules:
+  - eslint:no-restricted-class.js
+  tier: T2
+- id: EXT.VUE.GEN.103
+  name: No Restricted Component Names
+  ecosystem: vue
+  category: general
+  description: disallow specific component names
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-restricted-component-names
+  source_rules:
+  - eslint:no-restricted-component-names.js
+  tier: T2
+- id: EXT.VUE.GEN.104
+  name: No Restricted Component Options
+  ecosystem: vue
+  category: general
+  description: disallow specific component option
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-restricted-component-options
+  source_rules:
+  - eslint:no-restricted-component-options.js
+  tier: T2
+- id: EXT.VUE.GEN.105
+  name: No Restricted Custom Event
+  ecosystem: vue
+  category: general
+  description: disallow specific custom event
+  patterns:
+  - no-restricted-custom-event
+  source_rules:
+  - eslint:no-restricted-custom-event.js
+  tier: T2
+- id: EXT.VUE.GEN.106
+  name: No Restricted Html Elements
+  ecosystem: vue
+  category: general
+  description: disallow specific elements
+  patterns:
+  - no-restricted-html-elements
+  source_rules:
+  - eslint:no-restricted-html-elements.js
+  tier: T2
+- id: EXT.VUE.GEN.107
+  name: No Restricted Props
+  ecosystem: vue
+  category: general
+  description: disallow specific props
+  patterns:
+  - no-restricted-props
+  source_rules:
+  - eslint:no-restricted-props.js
+  tier: T2
+- id: EXT.VUE.GEN.108
+  name: No Restricted Static Attribute
+  ecosystem: vue
+  category: general
+  description: disallow specific attribute
+  patterns:
+  - no-restricted-static-attribute
+  source_rules:
+  - eslint:no-restricted-static-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.109
+  name: No Restricted V Bind
+  ecosystem: vue
+  category: general
+  description: disallow specific argument in `v-bind`
+  patterns:
+  - no-restricted-v-bind
+  source_rules:
+  - eslint:no-restricted-v-bind.js
+  tier: T2
+- id: EXT.VUE.GEN.110
+  name: No Restricted V On
+  ecosystem: vue
+  category: general
+  description: disallow specific argument in `v-on`
+  patterns:
+  - no-restricted-v-on
+  source_rules:
+  - eslint:no-restricted-v-on.js
+  tier: T2
+- id: EXT.VUE.GEN.111
+  name: No Root V If
+  ecosystem: vue
+  category: general
+  description: disallow `v-if` directives on root element
+  patterns:
+  - no-root-v-if
+  source_rules:
+  - eslint:no-root-v-if.js
+  tier: T2
+- id: EXT.VUE.GEN.112
+  name: No Setup Props Reactivity Loss
+  ecosystem: vue
+  category: general
+  description: disallow usages that lose the reactivity of `props` passed to `setup`
+  patterns:
+  - no-setup-props-reactivity-loss
+  source_rules:
+  - eslint:no-setup-props-reactivity-loss.js
+  tier: T2
+- id: EXT.VUE.GEN.113
+  name: No Shared Component Data
+  ecosystem: vue
+  category: general
+  description: enforce component
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-shared-component-data
+  source_rules:
+  - eslint:no-shared-component-data.js
+  tier: T2
+- id: EXT.VUE.GEN.114
+  name: No Side Effects In Computed Properties
+  ecosystem: vue
+  category: general
+  description: disallow side effects in computed properties
+  patterns:
+  - no-side-effects-in-computed-properties
+  source_rules:
+  - eslint:no-side-effects-in-computed-properties.js
+  tier: T2
+- id: EXT.VUE.GEN.115
+  name: No Spaces Around Equal Signs In Attribute
+  ecosystem: vue
+  category: general
+  description: disallow spaces around equal signs in attribute
+  patterns:
+  - no-spaces-around-equal-signs-in-attribute
+  source_rules:
+  - eslint:no-spaces-around-equal-signs-in-attribute.js
+  tier: T2
+- id: EXT.VUE.GEN.116
+  name: No Static Inline Styles
+  ecosystem: vue
+  category: general
+  description: disallow static inline `style` attributes
+  patterns:
+  - no-static-inline-styles
+  source_rules:
+  - eslint:no-static-inline-styles.js
+  tier: T2
+- id: EXT.VUE.GEN.117
+  name: No Template Key
+  ecosystem: vue
+  category: general
+  description: disallow `key` attribute on `<template>`
+  patterns:
+  - no-template-key
+  source_rules:
+  - eslint:no-template-key.js
+  tier: T2
+- id: EXT.VUE.GEN.118
+  name: No Template Shadow
+  ecosystem: vue
+  category: general
+  description: disallow variable declarations from shadowing variables declared in
+    the outer scope
+  patterns:
+  - no-template-shadow
+  source_rules:
+  - eslint:no-template-shadow.js
+  tier: T2
+- id: EXT.VUE.GEN.119
+  name: No Template Target Blank
+  ecosystem: vue
+  category: general
+  description: disallow target=
+  patterns:
+  - no-template-target-blank
+  source_rules:
+  - eslint:no-template-target-blank.js
+  tier: T2
+- id: EXT.VUE.GEN.120
+  name: No Textarea Mustache
+  ecosystem: vue
+  category: general
+  description: disallow mustaches in `<textarea>`
+  patterns:
+  - no-textarea-mustache
+  source_rules:
+  - eslint:no-textarea-mustache.js
+  tier: T2
+- id: EXT.VUE.GEN.121
+  name: No This In Before Route Enter
+  ecosystem: vue
+  category: general
+  description: disallow `this` usage in a `beforeRouteEnter` method
+  patterns:
+  - no-this-in-before-route-enter
+  source_rules:
+  - eslint:no-this-in-before-route-enter.js
+  tier: T2
+- id: EXT.VUE.GEN.122
+  name: No Undef Components
+  ecosystem: vue
+  category: general
+  description: disallow use of undefined components in `<template>`
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-undef-components
+  source_rules:
+  - eslint:no-undef-components.js
+  tier: T2
+- id: EXT.VUE.GEN.123
+  name: No Undef Directives
+  ecosystem: vue
+  category: general
+  description: disallow use of undefined custom directives
+  patterns:
+  - v-if
+  - v-for
+  - no-undef-directives
+  source_rules:
+  - eslint:no-undef-directives.js
+  tier: T2
+- id: EXT.VUE.GEN.124
+  name: No Undef Properties
+  ecosystem: vue
+  category: general
+  description: disallow undefined properties
+  patterns:
+  - no-undef-properties
+  source_rules:
+  - eslint:no-undef-properties.js
+  tier: T2
+- id: EXT.VUE.GEN.125
+  name: No Unsupported Features
+  ecosystem: vue
+  category: general
+  description: disallow unsupported Vue.js syntax on the specified version
+  patterns:
+  - no-unsupported-features
+  source_rules:
+  - eslint:no-unsupported-features.js
+  tier: T2
+- id: EXT.VUE.GEN.126
+  name: No Unused Components
+  ecosystem: vue
+  category: general
+  description: disallow registering components that are not used inside templates
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-unused-components
+  source_rules:
+  - eslint:no-unused-components.js
+  tier: T2
+- id: EXT.VUE.GEN.127
+  name: No Unused Emit Declarations
+  ecosystem: vue
+  category: general
+  description: disallow unused emit declarations
+  patterns:
+  - no-unused-emit-declarations
+  source_rules:
+  - eslint:no-unused-emit-declarations.js
+  tier: T2
+- id: EXT.VUE.GEN.128
+  name: No Unused Properties
+  ecosystem: vue
+  category: general
+  description: disallow unused properties
+  patterns:
+  - no-unused-properties
+  source_rules:
+  - eslint:no-unused-properties.js
+  tier: T2
+- id: EXT.VUE.GEN.129
+  name: No Unused Refs
+  ecosystem: vue
+  category: general
+  description: disallow unused refs
+  patterns:
+  - no-unused-refs
+  source_rules:
+  - eslint:no-unused-refs.js
+  tier: T2
+- id: EXT.VUE.GEN.130
+  name: No Unused Vars
+  ecosystem: vue
+  category: general
+  description: disallow unused variable definitions of v-for directives or scope attributes
+  patterns:
+  - no-unused-vars
+  source_rules:
+  - eslint:no-unused-vars.js
+  tier: T2
+- id: EXT.VUE.GEN.131
+  name: No Use Computed Property Like Method
+  ecosystem: vue
+  category: general
+  description: disallow use computed property like method
+  patterns:
+  - no-use-computed-property-like-method
+  source_rules:
+  - eslint:no-use-computed-property-like-method.js
+  tier: T2
+- id: EXT.VUE.GEN.132
+  name: No Use V Else With V For
+  ecosystem: vue
+  category: general
+  description: disallow using `v-else-if`/`v-else` on the same element as `v-for`
+  patterns:
+  - no-use-v-else-with-v-for
+  source_rules:
+  - eslint:no-use-v-else-with-v-for.js
+  tier: T2
+- id: EXT.VUE.GEN.133
+  name: No Use V If With V For
+  ecosystem: vue
+  category: general
+  description: disallow using `v-if` on the same element as `v-for`
+  patterns:
+  - no-use-v-if-with-v-for
+  source_rules:
+  - eslint:no-use-v-if-with-v-for.js
+  tier: T2
+- id: EXT.VUE.GEN.134
+  name: No Useless Mustaches
+  ecosystem: vue
+  category: general
+  description: disallow unnecessary mustache interpolations
+  patterns:
+  - no-useless-mustaches
+  source_rules:
+  - eslint:no-useless-mustaches.js
+  tier: T2
+- id: EXT.VUE.GEN.135
+  name: No Useless Template Attributes
+  ecosystem: vue
+  category: general
+  description: disallow useless attribute on `<template>`
+  patterns:
+  - no-useless-template-attributes
+  source_rules:
+  - eslint:no-useless-template-attributes.js
+  tier: T2
+- id: EXT.VUE.GEN.136
+  name: No Useless V Bind
+  ecosystem: vue
+  category: general
+  description: disallow unnecessary `v-bind` directives
+  patterns:
+  - no-useless-v-bind
+  source_rules:
+  - eslint:no-useless-v-bind.js
+  tier: T2
+- id: EXT.VUE.GEN.137
+  name: No V For Template Key On Child
+  ecosystem: vue
+  category: general
+  description: disallow key of `<template v-for>` placed on child elements
+  patterns:
+  - no-v-for-template-key-on-child
+  source_rules:
+  - eslint:no-v-for-template-key-on-child.js
+  tier: T2
+- id: EXT.VUE.GEN.138
+  name: No V For Template Key
+  ecosystem: vue
+  category: general
+  description: disallow `key` attribute on `<template v-for>`
+  patterns:
+  - no-v-for-template-key
+  source_rules:
+  - eslint:no-v-for-template-key.js
+  tier: T2
+- id: EXT.VUE.GEN.139
+  name: No V Html
+  ecosystem: vue
+  category: general
+  description: disallow use of v-html to prevent XSS attack
+  patterns:
+  - no-v-html
+  source_rules:
+  - eslint:no-v-html.js
+  tier: T2
+- id: EXT.VUE.GEN.140
+  name: No V Model Argument
+  ecosystem: vue
+  category: general
+  description: disallow adding an argument to `v-model` used in custom component
+  patterns:
+  - no-v-model-argument
+  source_rules:
+  - eslint:no-v-model-argument.js
+  tier: T2
+- id: EXT.VUE.GEN.141
+  name: No V Text V Html On Component
+  ecosystem: vue
+  category: general
+  description: disallow v-text / v-html on component
+  patterns:
+  - Vue.component
+  - defineComponent
+  - no-v-text-v-html-on-component
+  source_rules:
+  - eslint:no-v-text-v-html-on-component.js
+  tier: T2
+- id: EXT.VUE.GEN.142
+  name: No V Text
+  ecosystem: vue
+  category: general
+  description: disallow use of v-text
+  patterns:
+  - no-v-text
+  source_rules:
+  - eslint:no-v-text.js
+  tier: T2
+- id: EXT.VUE.GEN.143
+  name: No Watch After Await
+  ecosystem: vue
+  category: general
+  description: disallow asynchronously registered `watch`
+  patterns:
+  - no-watch-after-await
+  source_rules:
+  - eslint:no-watch-after-await.js
+  tier: T2
+- id: EXT.VUE.GEN.144
+  name: One Component Per File
+  ecosystem: vue
+  category: general
+  description: enforce that each component should be in its own file
+  patterns:
+  - Vue.component
+  - defineComponent
+  - one-component-per-file
+  source_rules:
+  - eslint:one-component-per-file.js
+  tier: T2
+- id: EXT.VUE.GEN.145
+  name: Order In Components
+  ecosystem: vue
+  category: general
+  description: enforce order of properties in components
+  patterns:
+  - Vue.component
+  - defineComponent
+  - order-in-components
+  source_rules:
+  - eslint:order-in-components.js
+  tier: T2
+- id: EXT.VUE.GEN.146
+  name: Padding Line Between Blocks
+  ecosystem: vue
+  category: general
+  description: require or disallow padding lines between blocks
+  patterns:
+  - padding-line-between-blocks
+  source_rules:
+  - eslint:padding-line-between-blocks.js
+  tier: T2
+- id: EXT.VUE.GEN.147
+  name: Padding Line Between Tags
+  ecosystem: vue
+  category: general
+  description: require or disallow newlines between sibling tags in template
+  patterns:
+  - padding-line-between-tags
+  source_rules:
+  - eslint:padding-line-between-tags.js
+  tier: T2
+- id: EXT.VUE.GEN.148
+  name: Padding Lines In Component Definition
+  ecosystem: vue
+  category: general
+  description: require or disallow padding lines in component definition
+  patterns:
+  - Vue.component
+  - defineComponent
+  - padding-lines-in-component-definition
+  source_rules:
+  - eslint:padding-lines-in-component-definition.js
+  tier: T2
+- id: EXT.VUE.GEN.149
+  name: Prefer Define Options
+  ecosystem: vue
+  category: general
+  description: enforce use of `defineOptions` instead of default export
+  patterns:
+  - prefer-define-options
+  source_rules:
+  - eslint:prefer-define-options.js
+  tier: T2
+- id: EXT.VUE.GEN.150
+  name: Prefer Import From Vue
+  ecosystem: vue
+  category: general
+  description: enforce import from
+  patterns:
+  - prefer-import-from-vue
+  source_rules:
+  - eslint:prefer-import-from-vue.js
+  tier: T2
+- id: EXT.VUE.GEN.151
+  name: Prefer Prop Type Boolean First
+  ecosystem: vue
+  category: general
+  description: enforce `Boolean` comes first in component prop types
+  patterns:
+  - prefer-prop-type-boolean-first
+  source_rules:
+  - eslint:prefer-prop-type-boolean-first.js
+  tier: T2
+- id: EXT.VUE.GEN.152
+  name: Prefer Separate Static Class
+  ecosystem: vue
+  category: general
+  description: require static class names in template to be in a separate `class`
+    attribute
+  patterns:
+  - prefer-separate-static-class
+  source_rules:
+  - eslint:prefer-separate-static-class.js
+  tier: T2
+- id: EXT.VUE.GEN.153
+  name: Prefer True Attribute Shorthand
+  ecosystem: vue
+  category: general
+  description: require shorthand form attribute when `v-bind` value is `true`
+  patterns:
+  - prefer-true-attribute-shorthand
+  source_rules:
+  - eslint:prefer-true-attribute-shorthand.js
+  tier: T2
+- id: EXT.VUE.GEN.154
+  name: Prefer Use Template Ref
+  ecosystem: vue
+  category: general
+  description: require using `useTemplateRef` instead of `ref`/`shallowRef` for template
+    refs
+  patterns:
+  - prefer-use-template-ref
+  source_rules:
+  - eslint:prefer-use-template-ref.js
+  tier: T2
+- id: EXT.VUE.GEN.155
+  name: Prop Name Casing
+  ecosystem: vue
+  category: general
+  description: enforce specific casing for the Prop name in Vue components
+  patterns:
+  - prop-name-casing
+  source_rules:
+  - eslint:prop-name-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.156
+  name: Quote Props
+  ecosystem: vue
+  category: general
+  description: 'Rule: quote-props'
+  patterns:
+  - quote-props
+  source_rules:
+  - eslint:quote-props.js
+  tier: T2
+- id: EXT.VUE.GEN.157
+  name: Require Component Is
+  ecosystem: vue
+  category: general
+  description: require `v-bind:is` of `<component>` elements
+  patterns:
+  - Vue.component
+  - defineComponent
+  - require-component-is
+  source_rules:
+  - eslint:require-component-is.js
+  tier: T2
+- id: EXT.VUE.GEN.158
+  name: Require Default Export
+  ecosystem: vue
+  category: general
+  description: require components to be the default export
+  patterns:
+  - require-default-export
+  source_rules:
+  - eslint:require-default-export.js
+  tier: T2
+- id: EXT.VUE.GEN.159
+  name: Require Default Prop
+  ecosystem: vue
+  category: general
+  description: require default value for props
+  patterns:
+  - require-default-prop
+  source_rules:
+  - eslint:require-default-prop.js
+  tier: T2
+- id: EXT.VUE.GEN.160
+  name: Require Direct Export
+  ecosystem: vue
+  category: general
+  description: require the component to be directly exported
+  patterns:
+  - require-direct-export
+  source_rules:
+  - eslint:require-direct-export.js
+  tier: T2
+- id: EXT.VUE.GEN.161
+  name: Require Emit Validator
+  ecosystem: vue
+  category: general
+  description: require type definitions in emits
+  patterns:
+  - require-emit-validator
+  source_rules:
+  - eslint:require-emit-validator.js
+  tier: T2
+- id: EXT.VUE.GEN.162
+  name: Require Explicit Emits
+  ecosystem: vue
+  category: general
+  description: require `emits` option with name triggered by `$emit()`
+  patterns:
+  - require-explicit-emits
+  source_rules:
+  - eslint:require-explicit-emits.js
+  tier: T2
+- id: EXT.VUE.GEN.163
+  name: Require Explicit Slots
+  ecosystem: vue
+  category: general
+  description: require slots to be explicitly defined
+  patterns:
+  - require-explicit-slots
+  source_rules:
+  - eslint:require-explicit-slots.js
+  tier: T2
+- id: EXT.VUE.GEN.164
+  name: Require Expose
+  ecosystem: vue
+  category: general
+  description: require declare public properties using `expose`
+  patterns:
+  - require-expose
+  source_rules:
+  - eslint:require-expose.js
+  tier: T2
+- id: EXT.VUE.GEN.165
+  name: Require Macro Variable Name
+  ecosystem: vue
+  category: general
+  description: require a certain macro variable name
+  patterns:
+  - require-macro-variable-name
+  source_rules:
+  - eslint:require-macro-variable-name.js
+  tier: T2
+- id: EXT.VUE.GEN.166
+  name: Require Name Property
+  ecosystem: vue
+  category: general
+  description: require a name property in Vue components
+  patterns:
+  - require-name-property
+  source_rules:
+  - eslint:require-name-property.js
+  tier: T2
+- id: EXT.VUE.GEN.167
+  name: Require Prop Comment
+  ecosystem: vue
+  category: general
+  description: require props to have a comment
+  patterns:
+  - require-prop-comment
+  source_rules:
+  - eslint:require-prop-comment.js
+  tier: T2
+- id: EXT.VUE.GEN.168
+  name: Require Prop Type Constructor
+  ecosystem: vue
+  category: general
+  description: require prop type to be a constructor
+  patterns:
+  - require-prop-type-constructor
+  source_rules:
+  - eslint:require-prop-type-constructor.js
+  tier: T2
+- id: EXT.VUE.GEN.169
+  name: Require Prop Types
+  ecosystem: vue
+  category: general
+  description: require type definitions in props
+  patterns:
+  - require-prop-types
+  source_rules:
+  - eslint:require-prop-types.js
+  tier: T2
+- id: EXT.VUE.GEN.170
+  name: Require Render Return
+  ecosystem: vue
+  category: general
+  description: enforce render function to always return value
+  patterns:
+  - require-render-return
+  source_rules:
+  - eslint:require-render-return.js
+  tier: T2
+- id: EXT.VUE.GEN.171
+  name: Require Slots As Functions
+  ecosystem: vue
+  category: general
+  description: enforce properties of `$slots` to be used as a function
+  patterns:
+  - require-slots-as-functions
+  source_rules:
+  - eslint:require-slots-as-functions.js
+  tier: T2
+- id: EXT.VUE.GEN.172
+  name: Require Toggle Inside Transition
+  ecosystem: vue
+  category: general
+  description: require control the display of the content inside `<transition>`
+  patterns:
+  - require-toggle-inside-transition
+  source_rules:
+  - eslint:require-toggle-inside-transition.js
+  tier: T2
+- id: EXT.VUE.GEN.173
+  name: Require Typed Object Prop
+  ecosystem: vue
+  category: general
+  description: enforce adding type declarations to object props
+  patterns:
+  - require-typed-object-prop
+  source_rules:
+  - eslint:require-typed-object-prop.js
+  tier: T2
+- id: EXT.VUE.GEN.174
+  name: Require Typed Ref
+  ecosystem: vue
+  category: general
+  description: require `ref` and `shallowRef` functions to be strongly typed
+  patterns:
+  - require-typed-ref
+  source_rules:
+  - eslint:require-typed-ref.js
+  tier: T2
+- id: EXT.VUE.GEN.175
+  name: Require V For Key
+  ecosystem: vue
+  category: general
+  description: require `v-bind:key` with `v-for` directives
+  patterns:
+  - require-v-for-key
+  source_rules:
+  - eslint:require-v-for-key.js
+  tier: T2
+- id: EXT.VUE.GEN.176
+  name: Require Valid Default Prop
+  ecosystem: vue
+  category: general
+  description: enforce props default values to be valid
+  patterns:
+  - require-valid-default-prop
+  source_rules:
+  - eslint:require-valid-default-prop.js
+  tier: T2
+- id: EXT.VUE.GEN.177
+  name: Restricted Component Names
+  ecosystem: vue
+  category: general
+  description: enforce using only specific component names
+  patterns:
+  - Vue.component
+  - defineComponent
+  - restricted-component-names
+  source_rules:
+  - eslint:restricted-component-names.js
+  tier: T2
+- id: EXT.VUE.GEN.178
+  name: Return In Computed Property
+  ecosystem: vue
+  category: general
+  description: enforce that a return statement is present in computed property
+  patterns:
+  - return-in-computed-property
+  source_rules:
+  - eslint:return-in-computed-property.js
+  tier: T2
+- id: EXT.VUE.GEN.179
+  name: Return In Emits Validator
+  ecosystem: vue
+  category: general
+  description: enforce that a return statement is present in emits validator
+  patterns:
+  - return-in-emits-validator
+  source_rules:
+  - eslint:return-in-emits-validator.js
+  tier: T2
+- id: EXT.VUE.GEN.180
+  name: Script Indent
+  ecosystem: vue
+  category: general
+  description: enforce consistent indentation in `<script>`
+  patterns:
+  - script-indent
+  source_rules:
+  - eslint:script-indent.js
+  tier: T2
+- id: EXT.VUE.GEN.181
+  name: Singleline Html Element Content Newline
+  ecosystem: vue
+  category: general
+  description: require a line break before and after the contents of a singleline
+    element
+  patterns:
+  - singleline-html-element-content-newline
+  source_rules:
+  - eslint:singleline-html-element-content-newline.js
+  tier: T2
+- id: EXT.VUE.GEN.182
+  name: Slot Name Casing
+  ecosystem: vue
+  category: general
+  description: enforce specific casing for slot names
+  patterns:
+  - slot-name-casing
+  source_rules:
+  - eslint:slot-name-casing.js
+  tier: T2
+- id: EXT.VUE.GEN.183
+  name: Sort Keys
+  ecosystem: vue
+  category: general
+  description: enforce sort-keys in a manner that is compatible with order-in-components
+  patterns:
+  - sort-keys
+  source_rules:
+  - eslint:sort-keys.js
+  tier: T2
+- id: EXT.VUE.GEN.184
+  name: Static Class Names Order
+  ecosystem: vue
+  category: general
+  description: enforce static class names order
+  patterns:
+  - static-class-names-order
+  source_rules:
+  - eslint:static-class-names-order.js
+  tier: T2
+- id: EXT.VUE.GEN.185
+  name: This In Template
+  ecosystem: vue
+  category: general
+  description: disallow usage of `this` in template
+  patterns:
+  - this-in-template
+  source_rules:
+  - eslint:this-in-template.js
+  tier: T2
+- id: EXT.VUE.GEN.186
+  name: Use V On Exact
+  ecosystem: vue
+  category: general
+  description: enforce usage of `exact` modifier on `v-on`
+  patterns:
+  - use-v-on-exact
+  source_rules:
+  - eslint:use-v-on-exact.js
+  tier: T2
+- id: EXT.VUE.GEN.187
+  name: V Bind Style
+  ecosystem: vue
+  category: general
+  description: enforce `v-bind` directive style
+  patterns:
+  - v-bind-style
+  source_rules:
+  - eslint:v-bind-style.js
+  tier: T2
+- id: EXT.VUE.GEN.188
+  name: V For Delimiter Style
+  ecosystem: vue
+  category: general
+  description: enforce `v-for` directive
+  patterns:
+  - v-for-delimiter-style
+  source_rules:
+  - eslint:v-for-delimiter-style.js
+  tier: T2
+- id: EXT.VUE.GEN.189
+  name: V If Else Key
+  ecosystem: vue
+  category: general
+  description: require key attribute for conditionally rendered repeated components
+  patterns:
+  - v-if-else-key
+  source_rules:
+  - eslint:v-if-else-key.js
+  tier: T2
+- id: EXT.VUE.GEN.190
+  name: V On Event Hyphenation
+  ecosystem: vue
+  category: general
+  description: enforce v-on event naming style on custom components in template
+  patterns:
+  - v-on-event-hyphenation
+  source_rules:
+  - eslint:v-on-event-hyphenation.js
+  tier: T2
+- id: EXT.VUE.GEN.191
+  name: V On Handler Style
+  ecosystem: vue
+  category: general
+  description: enforce writing style for handlers in `v-on` directives
+  patterns:
+  - v-on-handler-style
+  source_rules:
+  - eslint:v-on-handler-style.js
+  tier: T2
+- id: EXT.VUE.GEN.192
+  name: V On Style
+  ecosystem: vue
+  category: general
+  description: enforce `v-on` directive style
+  patterns:
+  - v-on-style
+  source_rules:
+  - eslint:v-on-style.js
+  tier: T2
+- id: EXT.VUE.GEN.193
+  name: V Slot Style
+  ecosystem: vue
+  category: general
+  description: enforce `v-slot` directive style
+  patterns:
+  - v-slot-style
+  source_rules:
+  - eslint:v-slot-style.js
+  tier: T2
+- id: EXT.VUE.GEN.194
+  name: Valid Attribute Name
+  ecosystem: vue
+  category: general
+  description: require valid attribute names
+  patterns:
+  - valid-attribute-name
+  source_rules:
+  - eslint:valid-attribute-name.js
+  tier: T2
+- id: EXT.VUE.GEN.195
+  name: Valid Define Emits
+  ecosystem: vue
+  category: general
+  description: enforce valid `defineEmits` compiler macro
+  patterns:
+  - valid-define-emits
+  source_rules:
+  - eslint:valid-define-emits.js
+  tier: T2
+- id: EXT.VUE.GEN.196
+  name: Valid Define Options
+  ecosystem: vue
+  category: general
+  description: enforce valid `defineOptions` compiler macro
+  patterns:
+  - valid-define-options
+  source_rules:
+  - eslint:valid-define-options.js
+  tier: T2
+- id: EXT.VUE.GEN.197
+  name: Valid Define Props
+  ecosystem: vue
+  category: general
+  description: enforce valid `defineProps` compiler macro
+  patterns:
+  - valid-define-props
+  source_rules:
+  - eslint:valid-define-props.js
+  tier: T2
+- id: EXT.VUE.GEN.198
+  name: Valid Model Definition
+  ecosystem: vue
+  category: general
+  description: require valid keys in model option
+  patterns:
+  - valid-model-definition
+  source_rules:
+  - eslint:valid-model-definition.js
+  tier: T2
+- id: EXT.VUE.GEN.199
+  name: Valid Next Tick
+  ecosystem: vue
+  category: general
+  description: enforce valid `nextTick` function calls
+  patterns:
+  - valid-next-tick
+  source_rules:
+  - eslint:valid-next-tick.js
+  tier: T2
+- id: EXT.VUE.GEN.200
+  name: Valid Template Root
+  ecosystem: vue
+  category: general
+  description: enforce valid template root
+  patterns:
+  - valid-template-root
+  source_rules:
+  - eslint:valid-template-root.js
+  tier: T2
+- id: EXT.VUE.GEN.201
+  name: Valid V Bind Sync
+  ecosystem: vue
+  category: general
+  description: enforce valid `.sync` modifier on `v-bind` directives
+  patterns:
+  - valid-v-bind-sync
+  source_rules:
+  - eslint:valid-v-bind-sync.js
+  tier: T2
+- id: EXT.VUE.GEN.202
+  name: Valid V Bind
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-bind` directives
+  patterns:
+  - valid-v-bind
+  source_rules:
+  - eslint:valid-v-bind.js
+  tier: T2
+- id: EXT.VUE.GEN.203
+  name: Valid V Cloak
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-cloak` directives
+  patterns:
+  - valid-v-cloak
+  source_rules:
+  - eslint:valid-v-cloak.js
+  tier: T2
+- id: EXT.VUE.GEN.204
+  name: Valid V Else If
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-else-if` directives
+  patterns:
+  - valid-v-else-if
+  source_rules:
+  - eslint:valid-v-else-if.js
+  tier: T2
+- id: EXT.VUE.GEN.205
+  name: Valid V Else
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-else` directives
+  patterns:
+  - valid-v-else
+  source_rules:
+  - eslint:valid-v-else.js
+  tier: T2
+- id: EXT.VUE.GEN.206
+  name: Valid V For
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-for` directives
+  patterns:
+  - valid-v-for
+  source_rules:
+  - eslint:valid-v-for.js
+  tier: T2
+- id: EXT.VUE.GEN.207
+  name: Valid V Html
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-html` directives
+  patterns:
+  - valid-v-html
+  source_rules:
+  - eslint:valid-v-html.js
+  tier: T2
+- id: EXT.VUE.GEN.208
+  name: Valid V If
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-if` directives
+  patterns:
+  - valid-v-if
+  source_rules:
+  - eslint:valid-v-if.js
+  tier: T2
+- id: EXT.VUE.GEN.209
+  name: Valid V Is
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-is` directives
+  patterns:
+  - valid-v-is
+  source_rules:
+  - eslint:valid-v-is.js
+  tier: T2
+- id: EXT.VUE.GEN.210
+  name: Valid V Memo
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-memo` directives
+  patterns:
+  - valid-v-memo
+  source_rules:
+  - eslint:valid-v-memo.js
+  tier: T2
+- id: EXT.VUE.GEN.211
+  name: Valid V Model
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-model` directives
+  patterns:
+  - valid-v-model
+  source_rules:
+  - eslint:valid-v-model.js
+  tier: T2
+- id: EXT.VUE.GEN.212
+  name: Valid V On
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-on` directives
+  patterns:
+  - valid-v-on
+  source_rules:
+  - eslint:valid-v-on.js
+  tier: T2
+- id: EXT.VUE.GEN.213
+  name: Valid V Once
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-once` directives
+  patterns:
+  - valid-v-once
+  source_rules:
+  - eslint:valid-v-once.js
+  tier: T2
+- id: EXT.VUE.GEN.214
+  name: Valid V Pre
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-pre` directives
+  patterns:
+  - valid-v-pre
+  source_rules:
+  - eslint:valid-v-pre.js
+  tier: T2
+- id: EXT.VUE.GEN.215
+  name: Valid V Show
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-show` directives
+  patterns:
+  - valid-v-show
+  source_rules:
+  - eslint:valid-v-show.js
+  tier: T2
+- id: EXT.VUE.GEN.216
+  name: Valid V Slot
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-slot` directives
+  patterns:
+  - valid-v-slot
+  source_rules:
+  - eslint:valid-v-slot.js
+  tier: T2
+- id: EXT.VUE.GEN.217
+  name: Valid V Text
+  ecosystem: vue
+  category: general
+  description: enforce valid `v-text` directives
+  patterns:
+  - valid-v-text
+  source_rules:
+  - eslint:valid-v-text.js
+  tier: T2
+- id: EXT.ANGULAR.GEN.001
+  name: Alt Text
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Enforces alternate text for elements which require
+    the alt, aria-label, aria-labelledby attributes.'
+  patterns:
+  - alt-text
+  source_rules:
+  - angular-eslint:alt-text.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.002
+  name: Attributes Order
+  ecosystem: angular
+  category: general
+  description: Ensures that HTML attributes and Angular bindings are sorted based
+    on an expected order
+  patterns:
+  - attributes-order
+  source_rules:
+  - angular-eslint:attributes-order.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.003
+  name: Banana In Box
+  ecosystem: angular
+  category: general
+  description: Ensures that the two-way data binding syntax is correct
+  patterns:
+  - banana-in-box
+  source_rules:
+  - angular-eslint:banana-in-box.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.004
+  name: Button Has Type
+  ecosystem: angular
+  category: general
+  description: Ensures that a button has a valid type specified
+  patterns:
+  - button-has-type
+  source_rules:
+  - angular-eslint:button-has-type.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.005
+  name: Click Events Have Key Events
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that the click event is accompanied with at
+    least one key event keyup, keydown or keypress.'
+  patterns:
+  - click-events-have-key-events
+  source_rules:
+  - angular-eslint:click-events-have-key-events.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.006
+  name: Conditional Complexity
+  ecosystem: angular
+  category: general
+  description: The conditional complexity should not exceed a rational limit
+  patterns:
+  - conditional-complexity
+  source_rules:
+  - angular-eslint:conditional-complexity.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.007
+  name: Cyclomatic Complexity
+  ecosystem: angular
+  category: general
+  description: 'Rule: cyclomatic-complexity'
+  patterns:
+  - cyclomatic-complexity
+  source_rules:
+  - angular-eslint:cyclomatic-complexity.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.008
+  name: Elements Content
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that the heading, anchor and button elements
+    have content in them'
+  patterns:
+  - elements-content
+  source_rules:
+  - angular-eslint:elements-content.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.009
+  name: Eqeqeq
+  ecosystem: angular
+  category: general
+  description: Requires `===` and `!==` in place of `==` and `!=`
+  patterns:
+  - eqeqeq
+  source_rules:
+  - angular-eslint:eqeqeq.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.010
+  name: I18n
+  ecosystem: angular
+  category: general
+  description: Ensures following best practices for i18n.
+  patterns:
+  - i18n
+  source_rules:
+  - angular-eslint:i18n.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.011
+  name: Interactive Supports Focus
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that elements with interactive handlers like
+    `(click)` are focusable.'
+  patterns:
+  - interactive-supports-focus
+  source_rules:
+  - angular-eslint:interactive-supports-focus.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.012
+  name: Label Has Associated Control
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that a label element/component is associated
+    with a form element'
+  patterns:
+  - label-has-associated-control
+  source_rules:
+  - angular-eslint:label-has-associated-control.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.013
+  name: Mouse Events Have Key Events
+  ecosystem: angular
+  category: general
+  description: 'Rule: mouse-events-have-key-events'
+  patterns:
+  - mouse-events-have-key-events
+  source_rules:
+  - angular-eslint:mouse-events-have-key-events.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.014
+  name: No Any
+  ecosystem: angular
+  category: problem
+  description: 'Rule: no-any'
+  patterns:
+  - no-any
+  source_rules:
+  - angular-eslint:no-any.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.015
+  name: No Autofocus
+  ecosystem: angular
+  category: problem
+  description: '[Accessibility] Ensures that the `autofocus` attribute is not used'
+  patterns:
+  - no-autofocus
+  source_rules:
+  - angular-eslint:no-autofocus.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.016
+  name: No Call Expression
+  ecosystem: angular
+  category: problem
+  description: Disallows calling expressions in templates, except for output handlers
+  patterns:
+  - no-call-expression
+  source_rules:
+  - angular-eslint:no-call-expression.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.017
+  name: No Distracting Elements
+  ecosystem: angular
+  category: problem
+  description: '[Accessibility] Enforces that no distracting elements are used'
+  patterns:
+  - no-distracting-elements
+  source_rules:
+  - angular-eslint:no-distracting-elements.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.018
+  name: No Duplicate Attributes
+  ecosystem: angular
+  category: problem
+  description: Ensures that there are no duplicate input properties or output event
+    listeners
+  patterns:
+  - no-duplicate-attributes
+  source_rules:
+  - angular-eslint:no-duplicate-attributes.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.019
+  name: No Empty Control Flow
+  ecosystem: angular
+  category: problem
+  description: Ensures that control flow blocks are not empty. Empty control flow
+    blocks usually occur due to refactoring that wasn
+  patterns:
+  - no-empty-control-flow
+  source_rules:
+  - angular-eslint:no-empty-control-flow.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.020
+  name: No Inline Styles
+  ecosystem: angular
+  category: problem
+  description: Disallows the use of inline styles in HTML templates
+  patterns:
+  - no-inline-styles
+  source_rules:
+  - angular-eslint:no-inline-styles.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.021
+  name: No Interpolation In Attributes
+  ecosystem: angular
+  category: problem
+  description: Ensures that property-binding is used instead of interpolation in attributes.
+  patterns:
+  - no-interpolation-in-attributes
+  source_rules:
+  - angular-eslint:no-interpolation-in-attributes.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.022
+  name: No Negated Async
+  ecosystem: angular
+  category: problem
+  description: Ensures that async pipe results, as well as values used with the async
+    pipe, are not negated
+  patterns:
+  - no-negated-async
+  source_rules:
+  - angular-eslint:no-negated-async.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.023
+  name: No Nested Tags
+  ecosystem: angular
+  category: problem
+  description: Denies nesting of <p> and <a> tags.
+  patterns:
+  - no-nested-tags
+  source_rules:
+  - angular-eslint:no-nested-tags.ts
+  tier: T2
+- id: EXT.ANGULAR.PROB.024
+  name: No Positive Tabindex
+  ecosystem: angular
+  category: problem
+  description: Ensures that the `tabindex` attribute is not positive
+  patterns:
+  - no-positive-tabindex
+  source_rules:
+  - angular-eslint:no-positive-tabindex.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.025
+  name: Prefer At Else
+  ecosystem: angular
+  category: suggestion
+  description: Prefer using `@else` instead of a second `@if` with the opposite condition
+    to reduce code and make it easier to read.
+  patterns:
+  - prefer-at-else
+  source_rules:
+  - angular-eslint:prefer-at-else.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.026
+  name: Prefer At Empty
+  ecosystem: angular
+  category: suggestion
+  description: Prefer using `@empty` with `@for` loops instead of a separate `@if`
+    or `@else` block to reduce code and make it easier to read.
+  patterns:
+  - prefer-at-empty
+  source_rules:
+  - angular-eslint:prefer-at-empty.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.027
+  name: Prefer Built In Pipes
+  ecosystem: angular
+  category: suggestion
+  description: Encourages the use of Angular built-in pipes (e.g. lowercase, uppercase,
+    titlecase) instead of certain JavaScript methods in Angular templates.
+  patterns:
+  - prefer-built-in-pipes
+  source_rules:
+  - angular-eslint:prefer-built-in-pipes.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.028
+  name: Prefer Class Binding
+  ecosystem: angular
+  category: suggestion
+  description: Suggests using [class] bindings over ngClass where applicable
+  patterns:
+  - prefer-class-binding
+  source_rules:
+  - angular-eslint:prefer-class-binding.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.029
+  name: Prefer Contextual For Variables
+  ecosystem: angular
+  category: suggestion
+  description: Ensures that contextual variables are used in @for blocks where possible
+    instead of aliasing them.
+  patterns:
+  - prefer-contextual-for-variables
+  source_rules:
+  - angular-eslint:prefer-contextual-for-variables.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.030
+  name: Prefer Control Flow
+  ecosystem: angular
+  category: suggestion
+  description: Ensures that the built-in control flow is used.
+  patterns:
+  - prefer-control-flow
+  source_rules:
+  - angular-eslint:prefer-control-flow.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.031
+  name: Prefer Ngsrc
+  ecosystem: angular
+  category: suggestion
+  description: Ensures ngSrc is used instead of src for img elements
+  patterns:
+  - prefer-ngsrc
+  source_rules:
+  - angular-eslint:prefer-ngsrc.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.032
+  name: Prefer Self Closing Tags
+  ecosystem: angular
+  category: suggestion
+  description: Ensures that self-closing tags are used for elements with a closing
+    tag but no content.
+  patterns:
+  - prefer-self-closing-tags
+  source_rules:
+  - angular-eslint:prefer-self-closing-tags.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.033
+  name: Prefer Static String Properties
+  ecosystem: angular
+  category: suggestion
+  description: Ensures that static string values use property assignment instead of
+    property binding.
+  patterns:
+  - prefer-static-string-properties
+  source_rules:
+  - angular-eslint:prefer-static-string-properties.ts
+  tier: T2
+- id: EXT.ANGULAR.SUGG.034
+  name: Prefer Template Literal
+  ecosystem: angular
+  category: suggestion
+  description: Ensure that template literals are used instead of concatenating strings
+    or expressions.
+  patterns:
+  - '*ngIf'
+  - '*ngFor'
+  - prefer-template-literal
+  source_rules:
+  - angular-eslint:prefer-template-literal.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.035
+  name: Role Has Required Aria
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures elements with ARIA roles have all required
+    properties for that role.'
+  patterns:
+  - role-has-required-aria
+  source_rules:
+  - angular-eslint:role-has-required-aria.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.036
+  name: Table Scope
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that the `scope` attribute is only used on
+    the `<th>` element'
+  patterns:
+  - table-scope
+  source_rules:
+  - angular-eslint:table-scope.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.037
+  name: Use Track By Function
+  ecosystem: angular
+  category: general
+  description: Ensures trackBy function is used
+  patterns:
+  - use-track-by-function
+  source_rules:
+  - angular-eslint:use-track-by-function.ts
+  tier: T2
+- id: EXT.ANGULAR.GEN.038
+  name: Valid Aria
+  ecosystem: angular
+  category: general
+  description: '[Accessibility] Ensures that correct ARIA attributes and respective
+    values are used'
+  patterns:
+  - valid-aria
+  source_rules:
+  - angular-eslint:valid-aria.ts
   tier: T2
