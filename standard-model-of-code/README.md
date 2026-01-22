@@ -15,7 +15,7 @@ This project has two sides. Pick your path:
 
 ### Theory (The "Why")
 The **Standard Model of Code** is a theoretical framework that treats code like physics:
-- **Atoms**: 200 structural types (94 implemented), e.g., Entity, Repository, Service
+- **Atoms**: 200 structural types (80 implemented), e.g., Entity, Repository, Service
 - **Dimensions**: 8-dimensional classification (RPBL + 4 more)
 - **Layers**: Architectural strata (Domain, Infrastructure, Application...)
 

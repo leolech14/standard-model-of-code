@@ -18,48 +18,27 @@
 
 ### Test
 ```bash
-# TODO: Define test command for this repo
-# Examples:
-# npm test
-# pytest
-# go test ./...
-# make test
+cd standard-model-of-code && pytest tests/ -q
 ```
 
 ### Lint
 ```bash
-# TODO: Define lint command for this repo
-# Examples:
-# npm run lint
-# ruff check .
-# golangci-lint run
+cd standard-model-of-code && ruff check src/
 ```
 
 ### Format
 ```bash
-# TODO: Define format command for this repo
-# Examples:
-# npm run format
-# black .
-# gofmt -w .
+cd standard-model-of-code && black src/ --check
 ```
 
 ### Build
 ```bash
-# TODO: Define build command for this repo
-# Examples:
-# npm run build
-# make build
-# go build ./...
+cd standard-model-of-code && pip install -e .
 ```
 
 ### Run
 ```bash
-# TODO: Define run command for this repo
-# Examples:
-# npm start
-# python main.py
-# ./bin/app
+./collider full <path> --output <dir>
 ```
 
 ---
@@ -87,7 +66,8 @@ PROJECT_elements/
 
 | Variable | Purpose | Where Defined |
 |----------|---------|---------------|
-| TBD | TBD | TBD |
+| `GEMINI_API_KEY` | AI analysis (File Search RAG) | Doppler: `ai-tools/dev` |
+| `ANTHROPIC_API_KEY` | Claude API (optional) | Doppler: `ai-tools/dev` |
 
 ---
 
@@ -95,7 +75,12 @@ PROJECT_elements/
 
 | Dependency | Version | Purpose |
 |------------|---------|---------|
-| TBD | TBD | TBD |
+| Python | 3.10+ | Runtime |
+| tree-sitter | latest | AST parsing |
+| networkx | latest | Graph analysis |
+| pytest | latest | Testing |
+| ruff | latest | Linting |
+| black | latest | Formatting |
 
 ---
 

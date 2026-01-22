@@ -1,0 +1,82 @@
+# =============================================================================
+# CONSTANTS.YAML - Single Source of Truth for Project Constants
+# =============================================================================
+#
+# PURPOSE: Eliminate contradictions across documentation by providing ONE
+#          authoritative source for all project-wide constants.
+#
+# VALIDATION: The Holographic-Socratic Layer should validate these values
+#             against actual implementation. See: analyze.py --verify
+#
+# LAST VERIFIED: 2026-01-22
+# VERIFIED BY: Claude (Repo Guru) + analyze.py
+# =============================================================================
+
+schema_version: "1.0.0"
+project: "Standard Model of Code"
+tool: "Collider"
+
+# =============================================================================
+# COUNTS - Verified against actual files
+# =============================================================================
+
+counts:
+  # Atoms
+  atoms_total: 3616              # 80 core + 3,536 ecosystem
+  atoms_core: 80                 # Verified: grep "- id:" ATOMS_TIER*.yaml
+  atoms_ecosystem: 3536          # Framework-specific atoms (250+ ecosystems)
+  atoms_tier0_core: 42           # src/patterns/ATOMS_TIER0_CORE.yaml
+  atoms_tier1_stdlib: 21         # src/patterns/ATOMS_TIER1_STDLIB.yaml
+  atoms_tier2_ecosystem: 17      # src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml
+
+  # Roles
+  roles_canonical: 33            # Verified: schema/fixed/roles.json
+  roles_implemented: 29          # Per CLAUDE.md (needs verification)
+
+  # Pipeline
+  pipeline_stages: 18            # Per CLAUDE.md, full_analysis.py
+
+  # Classification
+  dimensions: 8                  # WHAT, LAYER, ROLE, BOUNDARY, STATE, EFFECT, LIFECYCLE, TRUST
+
+  # Documentation
+  glossary_terms: 106            # Verified: docs/GLOSSARY.yaml
+
+# =============================================================================
+# SOURCE FILES - Where to find canonical data
+# =============================================================================
+
+sources:
+  atoms:
+    tier0: "src/patterns/ATOMS_TIER0_CORE.yaml"
+    tier1: "src/patterns/ATOMS_TIER1_STDLIB.yaml"
+    tier2: "src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml"
+    index: "src/patterns/ATOMS_UNIVERSAL_INDEX.yaml"
+
+  roles: "schema/fixed/roles.json"
+
+  glossary: "docs/GLOSSARY.yaml"
+
+  pipeline: "src/core/full_analysis.py"
+
+# =============================================================================
+# ARCHITECTURE - Brain/Body Split
+# =============================================================================
+
+architecture:
+  body:
+    path: "standard-model-of-code/"
+    purpose: "Collider analysis engine"
+
+  brain:
+    path: "context-management/"
+    purpose: "AI tools, cloud sync, orchestration"
+
+# =============================================================================
+# VALIDATION COMMANDS - How to verify these values
+# =============================================================================
+
+validation:
+  atoms_count: "grep -E '^  - id:' src/patterns/ATOMS_TIER*.yaml | wc -l"
+  roles_count: "python3 -c \"import json; print(json.load(open('schema/fixed/roles.json'))['count'])\""
+  glossary_count: "grep -E '^  [a-z_]+:$' docs/GLOSSARY.yaml | wc -l"
