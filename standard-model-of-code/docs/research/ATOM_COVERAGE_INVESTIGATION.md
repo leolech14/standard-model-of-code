@@ -19,27 +19,241 @@ This is not a bug—it's a **feature** that aligns with physics: a small number 
 
 ## Investigation Methodology
 
-### Approach
+### Research Questions
+
+| ID | Question | Answered |
+|----|----------|----------|
+| RQ1 | How many atoms actually exist and what is their distribution? | Yes |
+| RQ2 | What percentage of code do different atom tiers cover? | Yes |
+| RQ3 | Are there quality issues (duplicates, gaps) in the inventory? | Yes |
+| RQ4 | What is the causal relationship between tiers and coverage? | Yes |
+| RQ5 | What are the strategic implications for positioning? | Yes |
+
+### Phase 1: Inventory Audit
+
+**Objective:** Count and categorize all atoms in the system.
+
+**Method:**
+```bash
+# Load all atom sources programmatically
+python3 -c "
+import yaml, json
+from pathlib import Path
+from collections import Counter
+
+patterns_dir = Path('src/patterns')
+
+# Count by source, tier, ecosystem, category
+all_atoms = []
+# ... aggregation logic
+"
 ```
-PHASE 1: Inventory Audit
+
+**Data Collected:**
+- Total atom count by source file
+- Distribution by tier (T0, T1, T2, base)
+- Distribution by ecosystem (178 total)
+- Distribution by category (security, functional, etc.)
+
+**Tools Used:**
+- Python 3.10+ with PyYAML
+- Counter and defaultdict for aggregation
+
+### Phase 2: Coverage Analysis
+
+**Objective:** Measure actual atom usage in real codebases.
+
+**Method:**
+```bash
+# Self-analysis (Collider codebase)
+./collider full . --output .collider
+
+# External repos (GitHub top-starred)
+git clone <repo>
+./collider full <repo> --output /tmp/<repo>_analysis
+
+# Extract coverage metrics
+python3 -c "
+import json
+from collections import Counter
+
+with open('unified_analysis.json') as f:
+    data = json.load(f)
+
+nodes = data.get('nodes', [])
+atom_counts = Counter(n.get('atom', 'Unknown') for n in nodes)
+# ... analysis
+"
+```
+
+**Codebases Analyzed:**
+| Repo | Nodes | Language | GitHub Stars |
+|------|-------|----------|--------------|
+| Collider (self) | 1,274 | Python | N/A |
+| gatsby | 5,929 | JavaScript | ~55k |
+| meilisearch | 5,343 | Rust | ~45k |
+| vuejs/core | 1,242 | TypeScript | ~46k |
+| Made-With-ML | 115 | Python | ~36k |
+| pdf.js | ~3,000 | JavaScript | ~47k |
+| 30-Days-Of-JavaScript | ~500 | JavaScript | ~42k |
+
+**Metrics Extracted:**
+- Nodes per atom (absolute count)
+- Percentage distribution
+- T2 enrichment rate
+- Ecosystem detection accuracy
+
+### Phase 3: Quality Assessment
+
+**Objective:** Identify data quality issues in atom inventory.
+
+**Method:**
+```bash
+# Exact duplicate detection
+python3 -c "
+from collections import Counter
+id_counts = Counter(atom['id'] for atom in all_atoms)
+duplicates = [(id, count) for id, count in id_counts.items() if count > 1]
+"
+
+# Semantic similarity detection
+python3 -c "
+import re
+def normalize(s):
+    return re.sub(r'[^a-z0-9]', '', s.lower())
+
+name_groups = defaultdict(list)
+for atom in all_atoms:
+    norm = normalize(atom.get('name', ''))
+    name_groups[norm].append(atom['id'])
+
+overlaps = [(name, ids) for name, ids in name_groups.items() if len(ids) > 1]
+"
+```
+
+**Quality Dimensions:**
+| Dimension | Metric | Finding |
+|-----------|--------|---------|
+| Uniqueness | Exact ID duplicates | 16 found |
+| Semantic overlap | Similar names | 463 groups |
+| Category balance | Security vs functional | 77% / 23% |
+| Pattern quality | Specificity assessment | Variable |
+
+### Phase 4: Causal Chain Identification
+
+**Objective:** Establish WHY the observed patterns exist.
+
+**Method:** Logical deduction from code flow analysis.
+
+**Process:**
+1. Trace node classification from AST parsing to final output
+2. Identify decision points where atoms are assigned
+3. Document the causal relationship between inputs and outputs
+4. Validate chains against observed data
+
+**Causal Chain Template:**
+```
+OBSERVATION: X happens
          ↓
-PHASE 2: Coverage Analysis (Real Codebases)
+CAUSE 1: Because of Y
          ↓
-PHASE 3: Quality Assessment
+CAUSE 2: Which results from Z
          ↓
-PHASE 4: Causal Chain Identification
+ROOT CAUSE: Fundamental property P
          ↓
-PHASE 5: Implications Mapping
+VALIDATION: Confirmed by evidence E
+```
+
+### Phase 5: Implications Mapping
+
+**Objective:** Derive strategic and tactical implications.
+
+**Method:** Structured analysis framework.
+
+**Framework:**
+```
+FINDING → IMPLICATION → ACTION → PRIORITY
+
+Example:
+F: 4 atoms cover 80-90%
+   → I: Positioning should emphasize fundamentals
+      → A: Update marketing copy
+         → P: P1 (strategic)
 ```
 
 ### Evidence Sources
-| Source | Type | Confidence |
-|--------|------|------------|
-| `src/patterns/atoms.json` | Primary | 100% |
-| `src/patterns/ATOMS_TIER*.yaml` | Primary | 100% |
-| `src/patterns/t2_mined/*.yaml` | Primary | 100% |
-| `.collider/unified_analysis.json` | Empirical | 95% |
-| GitHub repo test runs (6 repos) | Empirical | 90% |
+
+| Source | Type | Access | Confidence |
+|--------|------|--------|------------|
+| `src/patterns/atoms.json` | Primary data | Direct file read | 100% |
+| `src/patterns/ATOMS_TIER*.yaml` | Primary data | Direct file read | 100% |
+| `src/patterns/t2_mined/*.yaml` | Primary data | Direct file read | 100% |
+| `.collider/unified_analysis.json` | Empirical | Generated output | 95% |
+| GitHub repos (6) | Empirical | Clone + analyze | 90% |
+| Semgrep rule files | Secondary | Source of T2 mining | 85% |
+
+### Confidence Scoring Framework
+
+**Definition:** Confidence = P(finding is correct | evidence)
+
+| Score | Meaning | Criteria |
+|-------|---------|----------|
+| 95-100% | **Certain** | Direct measurement, multiple sources agree |
+| 90-94% | **High** | Strong evidence, minor assumptions |
+| 85-89% | **Medium-High** | Good evidence, some extrapolation |
+| 80-84% | **Medium** | Reasonable evidence, notable assumptions |
+| <80% | **Low** | Indirect evidence, significant assumptions |
+
+**Scoring Factors:**
+- +10%: Direct measurement (vs inference)
+- +5%: Multiple independent sources
+- +5%: Reproducible methodology
+- -5%: Small sample size
+- -10%: Indirect evidence
+- -10%: Untested assumptions
+
+### Limitations and Caveats
+
+| Limitation | Impact | Mitigation |
+|------------|--------|------------|
+| Sample size (7 repos) | May not generalize | Diverse language selection |
+| Self-selection bias | Popular repos != typical | Acknowledged in findings |
+| T2 detection accuracy | Pattern matching imperfect | Conservative estimates |
+| Single point in time | Snapshot analysis | Document date clearly |
+
+### Reproducibility
+
+**To reproduce this investigation:**
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-org/PROJECT_elements
+cd PROJECT_elements/standard-model-of-code
+
+# 2. Install dependencies
+pip install -e .
+
+# 3. Run self-analysis
+./collider full . --output .collider
+
+# 4. Run inventory analysis
+python3 -c "
+# [Full script available in docs/scripts/atom_inventory_analysis.py]
+"
+
+# 5. Analyze external repos
+for repo in gatsby meilisearch vuejs/core; do
+    git clone https://github.com/$repo /tmp/$repo
+    ./collider full /tmp/$repo --output /tmp/${repo}_analysis
+done
+
+# 6. Compare results with this document
+```
+
+**Data Artifacts:**
+- Raw atom counts: `docs/reports/ATOM_STATISTICAL_ANALYSIS.md`
+- Analysis outputs: `.collider/unified_analysis.json`
+- This report: `docs/research/ATOM_COVERAGE_INVESTIGATION.md`
 
 ---
 
