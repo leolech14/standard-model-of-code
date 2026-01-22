@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-22T15:55:00Z",
+    "model": "sonar-deep-research",
+    "query": "We have built a local MCP (Model Context Protocol) server in Python that wraps the Perplexity API and implements a deterministic auto-save pipeline:\n\n1. Query arrives via JSON-RPC over stdio\n2. Call Perplexity API\n3. Save TWO files automatically:\n   - raw/{timestamp}_{slug}.json (COMPLETE API response)\n   - docs/{timestamp}_{slug}.md (human-readable markdown)\n4. Return response with save confirmation\n\nOur goal is ZERO information loss from research queries.\n\nPlease evaluate this approach:\n1. Is the dual-format save (JSON + Markdown) a good pattern for research archival?\n2. Are there better alternatives for deterministic, lossless archival of API responses?\n3. What metadata should we include beyond the raw API response?\n4. Should we implement compression, indexing, or other features?\n5. How do production systems handle similar research/knowledge archival requirements?",
+    "query_length": 808,
+    "source": "external-perplexity-mcp (manual-save)"
+  },
+  "api_response": {
+    "model": "sonar-deep-research",
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "# Evaluating Deterministic Auto-Save Architectures for Research API Archival...[FULL RESPONSE - see docs/*.md]"
+        }
+      }
+    ],
+    "citations": [
+      "https://modelcontextprotocol.io/specification/draft/basic/security_best_practices",
+      "https://apyhub.com/blog/converting-md-best-markdown-apis",
+      "https://www.dpconline.org/handbook/digital-preservation/preservation-issues",
+      "https://modelcontextprotocol.info/docs/best-practices/",
+      "https://docs.gitlab.com/development/documentation/restful_api_styleguide/",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC12685206/",
+      "https://jfrog.com/help/r/jfrog-rest-apis/re-index-paths-on-metadata-server",
+      "https://blogs.loc.gov/thesignal/2014/04/protect-your-data-file-fixity-and-data-integrity/",
+      "https://www.dpconline.org/handbook/technical-solutions-and-tools/fixity-and-checksums",
+      "https://www.archondatastore.com/blog/storage-tiering-and-data-tiering/",
+      "https://docs.perplexity.ai/llms-full.txt",
+      "https://www.loc.gov/standards/premis/",
+      "https://www.digitalpreservation.gov/series/challenge/premis.html",
+      "https://pinata.cloud/blog/what-is-content-addressability/",
+      "https://microservices.io/patterns/data/event-sourcing.html",
+      "https://www.digitalpreservation.gov/documents/bagitspec.pdf",
+      "https://www.go-fair.org/fair-principles/"
+    ]
+  }
+}
