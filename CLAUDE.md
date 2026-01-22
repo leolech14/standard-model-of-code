@@ -67,6 +67,26 @@ doppler secrets set SECRET_NAME="value" --project ai-tools --config dev
 | `GEMINI_API_KEY` | File Search RAG queries |
 | `ANTHROPIC_API_KEY` | Claude API (if needed) |
 
+## Research Rules (Non-Negotiable)
+
+**Perplexity Research:** ALWAYS save outputs to `standard-model-of-code/docs/research/perplexity/`
+
+```bash
+# Filename format
+YYYYMMDD_HHMMSS_topic_slug.md
+
+# Example
+20260122_143000_context_window_utilization.md
+```
+
+After ANY Perplexity query (MCP or otherwise), immediately save the response using the Write tool. Include:
+- Query text
+- Full response
+- Citations
+- Date/model used
+
+**Gemini Research:** Save significant findings to `standard-model-of-code/docs/research/`
+
 ## Commands
 
 | Task | Command |
