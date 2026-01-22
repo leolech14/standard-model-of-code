@@ -49,6 +49,7 @@ See `docs/reports/ATOM_STATISTICAL_ANALYSIS.md` for full analysis.
 | With AI insights | `./collider full <path> --ai-insights` |
 | Self-check | `./collider full . --output .collider` |
 | **Validate UI** | `python tools/validate_ui.py <html_path> --verbose` |
+| **Export to GraphRAG** | `python tools/export_graphrag.py <analysis.json> --output <dir>` |
 | Install | `pip install -e .` |
 | Run tests | `pytest tests/` |
 
