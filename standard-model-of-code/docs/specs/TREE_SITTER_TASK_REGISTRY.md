@@ -3,8 +3,8 @@
 > Master registry tracking tree-sitter integration implementation status.
 >
 > **Created:** 2026-01-21
-> **Last Updated:** 2026-01-22 (D3 ROLE queries added)
-> **Status:** PHASES 1-4 COMPLETE, PHASE 5 DEFERRED, PHASE 6 (D3 ROLE) COMPLETE
+> **Last Updated:** 2026-01-22 (Full dimension coverage for JS/Go/Rust)
+> **Status:** PHASES 1-4, 6-7 COMPLETE, PHASE 5 DEFERRED
 
 ---
 
@@ -12,7 +12,7 @@
 
 | Phase | Status | Evidence |
 |-------|--------|----------|
-| **Phase 1: Foundation** | ✅ COMPLETE | `queries/`, loader, 19 .scm files |
+| **Phase 1: Foundation** | ✅ COMPLETE | `queries/`, loader, 24 .scm files |
 | **Phase 2: Scope Analysis** | ✅ COMPLETE | `scope_analyzer.py` (824 lines) |
 | **Phase 3: Control Flow** | ✅ COMPLETE | `control_flow_analyzer.py` (475 lines) |
 | **Phase 4: Pattern Detection** | ✅ COMPLETE | `data_flow_analyzer.py` (872 lines), patterns.scm |
@@ -35,12 +35,12 @@
 | `src/core/data_flow_analyzer.py` | 872 | D6:EFFECT purity detection |
 | `src/core/control_flow_analyzer.py` | 475 | Cyclomatic complexity, nesting |
 
-### Query Files (19 .scm files)
+### Query Files (24 .scm files)
 
 ```
 src/core/queries/
 ├── __init__.py              # Query loader (271 lines)
-├── python/
+├── python/                  # 9 queries (full dimension coverage)
 │   ├── symbols.scm          # Function/class extraction
 │   ├── locals.scm           # Scope tracking
 │   ├── patterns.scm         # Atom detection
@@ -48,21 +48,26 @@ src/core/queries/
 │   ├── state.scm            # D5:STATE
 │   ├── boundary.scm         # D4:BOUNDARY
 │   ├── lifecycle.scm        # D7:LIFECYCLE
-│   ├── imports.scm          # Import/export extraction (NEW)
-│   └── roles.scm            # D3:ROLE detection (NEW, 278 lines)
-├── javascript/
+│   ├── imports.scm          # Import/export extraction
+│   └── roles.scm            # D3:ROLE detection (278 lines)
+├── javascript/              # 8 queries (full dimension coverage)
 │   ├── symbols.scm
 │   ├── locals.scm
 │   ├── patterns.scm
-│   ├── imports.scm          # ES6/CommonJS imports (NEW)
-│   └── roles.scm            # D3:ROLE detection (NEW, 358 lines)
-├── typescript/
+│   ├── imports.scm          # ES6/CommonJS imports
+│   ├── roles.scm            # D3:ROLE (358 lines)
+│   ├── boundary.scm         # D4:BOUNDARY (219 lines)
+│   ├── state.scm            # D5:STATE (249 lines)
+│   └── lifecycle.scm        # D7:LIFECYCLE (252 lines)
+├── typescript/              # 2 queries
 │   ├── symbols.scm
-│   └── roles.scm            # D3:ROLE + interfaces/types (NEW, 207 lines)
-├── go/
-│   └── symbols.scm
-├── rust/
-│   └── symbols.scm
+│   └── roles.scm            # D3:ROLE + interfaces/types (207 lines)
+├── go/                      # 2 queries
+│   ├── symbols.scm
+│   └── roles.scm            # D3:ROLE (313 lines)
+├── rust/                    # 2 queries
+│   ├── symbols.scm
+│   └── roles.scm            # D3:ROLE (247 lines)
 └── _fallback/
     └── symbols.scm
 ```
