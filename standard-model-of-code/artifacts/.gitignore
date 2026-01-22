@@ -1,0 +1,14 @@
+# Atom Research Artifacts
+# Only commit manifests and summaries, not raw analysis data
+
+# Ignore large analysis outputs
+*/repos/
+*.repos_cache/
+unified_analysis.json
+
+# Keep these
+!corpus*.yaml
+!summary.csv
+!summary.md
+!results.json
+!*.gitkeep

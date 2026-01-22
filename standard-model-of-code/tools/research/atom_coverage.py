@@ -5,15 +5,20 @@ Atom Coverage Analysis Tool
 Computes coverage metrics from a Collider unified_analysis.json output.
 Measures top-k mass, Unknown rate, and T2 enrichment.
 
+Also supports T2 sample extraction for precision labeling (Study B).
+
 Usage:
     python tools/research/atom_coverage.py .collider/unified_analysis.json
     python tools/research/atom_coverage.py analysis.json --output coverage.json
     python tools/research/atom_coverage.py analysis.json --check-unknown 10
+    python tools/research/atom_coverage.py analysis.json --extract-t2-samples 200 --output samples.csv
 """
 
 import argparse
+import csv
 import json
 import math
+import random
 import sys
 from collections import Counter
 from pathlib import Path
@@ -154,6 +159,71 @@ def analyze_coverage(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def extract_t2_samples(
+    data: dict[str, Any],
+    n_samples: int,
+    seed: int = 42,
+) -> list[dict]:
+    """
+    Extract T2-enriched nodes for precision labeling (Study B).
+
+    Returns a list of sample dicts suitable for CSV export and human labeling.
+    """
+    nodes = data.get("nodes", [])
+
+    # Find nodes with T2 enrichment
+    t2_nodes = []
+    for node in nodes:
+        t2_atom = (
+            node.get("t2_atom")
+            or node.get("semantic_atom")
+            or node.get("ecosystem_atom")
+        )
+        if t2_atom:
+            t2_nodes.append({
+                "node_id": node.get("id", "unknown"),
+                "file": node.get("file_path", "unknown"),
+                "line": node.get("start_line", 0),
+                "atom_d1": node.get("atom", "Unknown"),
+                "atom_t2": t2_atom,
+                "ecosystem": node.get("ecosystem") or node.get("detected_ecosystem") or "unknown",
+                "snippet": (node.get("body_source") or "")[:200].replace("\n", "\\n"),
+                # Labeling fields (to be filled by human)
+                "label": "",  # correct / incorrect / ambiguous
+                "error_type": "",  # broad_regex / wrong_ecosystem / mis_parsed / semantic_confusion
+                "notes": "",
+            })
+
+    if not t2_nodes:
+        return []
+
+    # Sample with seed for reproducibility
+    random.seed(seed)
+    if len(t2_nodes) <= n_samples:
+        samples = t2_nodes
+    else:
+        samples = random.sample(t2_nodes, n_samples)
+
+    return samples
+
+
+def write_t2_samples_csv(samples: list[dict], output_file: Path) -> None:
+    """Write T2 samples to CSV for labeling."""
+    if not samples:
+        print("No T2 samples to write", file=sys.stderr)
+        return
+
+    fieldnames = [
+        "node_id", "file", "line", "atom_d1", "atom_t2", "ecosystem",
+        "snippet", "label", "error_type", "notes"
+    ]
+
+    with open(output_file, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(samples)
+
+
 def print_summary(analysis: dict[str, Any], filepath: str) -> None:
     """Print human-readable summary."""
     m = analysis["metrics"]
@@ -239,10 +309,34 @@ def main():
     parser.add_argument(
         "--json", action="store_true", help="Output JSON to stdout"
     )
+    parser.add_argument(
+        "--extract-t2-samples",
+        type=int,
+        metavar="N",
+        help="Extract N T2-enriched nodes for precision labeling (Study B)",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Random seed for T2 sampling (default: 42)",
+    )
 
     args = parser.parse_args()
 
     data = load_analysis(args.analysis_file)
+
+    # T2 sample extraction mode
+    if args.extract_t2_samples:
+        samples = extract_t2_samples(data, args.extract_t2_samples, seed=args.seed)
+        if args.output:
+            write_t2_samples_csv(samples, args.output)
+            print(f"Extracted {len(samples)} T2 samples to: {args.output}")
+        else:
+            # Print as JSON to stdout
+            print(json.dumps(samples, indent=2))
+        sys.exit(0)
+
     analysis = analyze_coverage(data)
 
     if "error" in analysis:
