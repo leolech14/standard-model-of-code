@@ -707,9 +707,10 @@ class AtomRegistry:
         combined = f"{name} {body_source}"  # Check both name and body
 
         for atom_id, keywords in patterns.items():
-            # Match if ALL keywords are found (precise)
-            if all(kw.lower() in combined.lower() for kw in keywords):
-                # print(f"DEBUG: Detected T2 atom {atom_id} for ecosystem {ecosystem}.")
+            # Match if ANY keyword is found (practical detection)
+            # Note: AST-based detection via tree-sitter is the ideal approach
+            # but string matching with any() provides reasonable coverage
+            if any(kw.lower() in combined.lower() for kw in keywords):
                 return atom_id
 
         # print(f"DEBUG: No T2 atom detected for ecosystem {ecosystem} with provided source.")
