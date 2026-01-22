@@ -1,29 +1,50 @@
 #!/bin/bash
 # Agent Boot Script
 # Generates INITIATION_REPORT for agent sessions
-# Usage: ./tools/agent_boot.sh
+# Usage: bash context-management/tools/maintenance/boot.sh [--json]
+#
+# Flags:
+#   --json    Output only JSON (no decorative text)
 
 set -e
 
-echo "=== AGENT BOOT SEQUENCE ==="
-echo ""
+# Parse flags
+JSON_ONLY=false
+for arg in "$@"; do
+    case $arg in
+        --json) JSON_ONLY=true ;;
+    esac
+done
+
+if [ "$JSON_ONLY" = false ]; then
+    echo "=== AGENT BOOT SEQUENCE ==="
+    echo ""
+fi
 
 # Update timestamps CSV
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/update_timestamps.sh" ]; then
-    echo "Updating file timestamps..."
-    "$SCRIPT_DIR/update_timestamps.sh" --quiet
-    echo "Timestamps updated."
-    echo ""
+    if [ "$JSON_ONLY" = false ]; then
+        echo "Updating file timestamps..."
+    fi
+    "$SCRIPT_DIR/update_timestamps.sh" --quiet 2>/dev/null || true
+    if [ "$JSON_ONLY" = false ]; then
+        echo "Timestamps updated."
+        echo ""
+    fi
 fi
 
 # Get repo root
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-echo "Repo Root: $REPO_ROOT"
+if [ "$JSON_ONLY" = false ]; then
+    echo "Repo Root: $REPO_ROOT"
+fi
 
 # Get current branch
 BRANCH=$(git branch --show-current 2>/dev/null || echo "not_a_git_repo")
-echo "Branch: $BRANCH"
+if [ "$JSON_ONLY" = false ]; then
+    echo "Branch: $BRANCH"
+fi
 
 # Get git status
 if git diff --quiet 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
@@ -31,7 +52,9 @@ if git diff --quiet 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
 else
     STATUS="dirty"
 fi
-echo "Status: $STATUS"
+if [ "$JSON_ONLY" = false ]; then
+    echo "Status: $STATUS"
+fi
 
 # Detect commands (look for common patterns)
 detect_command() {
@@ -98,26 +121,41 @@ detect_command() {
     esac
 }
 
-TEST_CMD=$(detect_command test)
-LINT_CMD=$(detect_command lint)
-FORMAT_CMD=$(detect_command format)
-BUILD_CMD=$(detect_command build)
-RUN_CMD=$(detect_command run)
+# PROJECT_elements specific overrides (check for collider)
+if [ -f "$REPO_ROOT/collider" ] || [ -f "$REPO_ROOT/standard-model-of-code/cli.py" ]; then
+    # This is PROJECT_elements - use known commands
+    TEST_CMD="cd standard-model-of-code && pytest tests/ -q"
+    LINT_CMD="cd standard-model-of-code && ruff check src/"
+    FORMAT_CMD="cd standard-model-of-code && black src/ --check"
+    BUILD_CMD="cd standard-model-of-code && pip install -e ."
+    RUN_CMD="./collider full <path> --output <dir>"
+else
+    # Generic detection
+    TEST_CMD=$(detect_command test)
+    LINT_CMD=$(detect_command lint)
+    FORMAT_CMD=$(detect_command format)
+    BUILD_CMD=$(detect_command build)
+    RUN_CMD=$(detect_command run)
+fi
 
-echo ""
-echo "Commands detected:"
-echo "  test:   $TEST_CMD"
-echo "  lint:   $LINT_CMD"
-echo "  format: $FORMAT_CMD"
-echo "  build:  $BUILD_CMD"
-echo "  run:    $RUN_CMD"
+if [ "$JSON_ONLY" = false ]; then
+    echo ""
+    echo "Commands detected:"
+    echo "  test:   $TEST_CMD"
+    echo "  lint:   $LINT_CMD"
+    echo "  format: $FORMAT_CMD"
+    echo "  build:  $BUILD_CMD"
+    echo "  run:    $RUN_CMD"
+fi
 
 # Generate timestamp
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-echo ""
-echo "=== INITIATION_REPORT ==="
-echo ""
+if [ "$JSON_ONLY" = false ]; then
+    echo ""
+    echo "=== INITIATION_REPORT ==="
+    echo ""
+fi
 
 # Output JSON
 cat <<EOF
@@ -144,10 +182,12 @@ cat <<EOF
 }
 EOF
 
-echo ""
-echo "=== BOOT COMPLETE ==="
-echo ""
-echo "Next steps:"
-echo "1. Review docs/agent_school/WORKFLOWS.md for commit discipline"
-echo "2. Review docs/agent_school/DOD.md for definition of done"
-echo "3. Begin your task using the micro-loop: SCAN → PLAN → EXECUTE → VALIDATE → COMMIT"
+if [ "$JSON_ONLY" = false ]; then
+    echo ""
+    echo "=== BOOT COMPLETE ==="
+    echo ""
+    echo "Next steps:"
+    echo "1. Review context-management/docs/agent_school/ for workflows"
+    echo "2. Review standard-model-of-code/CLAUDE.md for tool details"
+    echo "3. Begin your task using: SCAN → PLAN → EXECUTE → VALIDATE → COMMIT"
+fi

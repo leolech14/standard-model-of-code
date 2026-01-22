@@ -4,9 +4,14 @@
 # Fields:
 #   description: Human-readable purpose
 #   patterns: Glob patterns to include
+#   exclude: Glob patterns to exclude (optional)
 #   max_tokens: Token budget (approximate). Sets exceeding this warn user.
 #   auto_interactive: If true, automatically use interactive mode
 #   includes: Other sets to compose (optional)
+#
+# WARNING: The 'archive/' directory contains legacy/historical files.
+#          Most sets should NOT include archive/** to avoid context pollution.
+#          Use the 'archive' or 'archeology' sets explicitly when needed.
 
 # ==========================================================================
 # MODULE ARCHITECTURE: THE DATA BOXES
@@ -23,13 +28,32 @@ analysis_sets:
       - "archive/**"
 
   # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
+  # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
   repo_docs:
     description: "The 'Map' – Design specs, user guides, and theory docs"
     max_tokens: 200000
     patterns:
-      - "**/*.md"
       - "context-management/docs/*.md"
       - "standard-model-of-code/docs/*.md"
+
+  # --- BOX 2b: ROADMAP (Planning) ---
+  roadmap:
+    description: "Project roadmaps and future plans"
+    max_tokens: 50000
+    patterns:
+      - "standard-model-of-code/docs/RESEARCH_TO_IMPLEMENTATION_ROADMAP.md"
+      - "standard-model-of-code/docs/RESEARCH_DIRECTIONS.md"
+      - "standard-model-of-code/docs/THEORY_EXPANSION_2026.md"
+      - "standard-model-of-code/docs/plans/*.md"
+
+  # --- BOX 2c: DOCS CORE (Focused) ---
+  docs_core:
+    description: "Core documentation and specs (excluding archive/agent)"
+    max_tokens: 150000
+    patterns:
+      - "standard-model-of-code/docs/*.md"
+      - "standard-model-of-code/docs/specs/*.md"
+
 
   # --- BOX 3: REPO - IMPLEMENTATION: THEORY (Core Logic) ---
   repo_theory:
@@ -105,6 +129,30 @@ analysis_sets:
   # COMPOSED SETS - Combinations for specific tasks
   # ==========================================================================
 
+  # ==========================================================================
+  # COMPOSED SETS - Combinations for specific tasks
+  # ==========================================================================
+
+  pipeline:
+    description: "Main analysis pipeline (driver, graph builder, extractors)"
+    max_tokens: 120000
+    auto_interactive: true
+    patterns:
+      - "standard-model-of-code/src/core/full_analysis.py"
+      - "standard-model-of-code/src/core/graph_analyzer.py"
+      - "standard-model-of-code/src/core/edge_extractor.py"
+      - "standard-model-of-code/src/core/smart_extractor.py"
+      - "standard-model-of-code/src/core/unified_analysis.py"
+
+  classifiers:
+    description: "All classifier logic (identifying atoms and roles)"
+    max_tokens: 80000
+    patterns:
+      - "standard-model-of-code/src/core/classification/*.py"
+      - "standard-model-of-code/src/core/heuristic_classifier.py"
+      - "standard-model-of-code/src/core/universal_detector.py"
+      - "standard-model-of-code/src/core/dimension_classifier.py"
+
   architecture_review:
     description: "Full architecture review (pipeline + classifiers + constraints)"
     max_tokens: 250000
@@ -113,6 +161,7 @@ analysis_sets:
       - pipeline
       - classifiers
       - constraints
+
 
   implementation_review:
     description: "Implementation review (pipeline + schema + theory)"
@@ -149,13 +198,17 @@ analysis_sets:
       - "standard-model-of-code/src/core/viz/**"
 
   complete:
-    description: "[DANGEROUS] Entire repo - will exceed any context window"
+    description: "[DANGEROUS] Entire repo (excluding archive) - will exceed any context window"
     max_tokens: 10000000
     patterns:
-      - "**/*.py"
-      - "**/*.js"
-      - "**/*.yaml"
-      - "**/*.md"
+      - "standard-model-of-code/**/*.py"
+      - "standard-model-of-code/**/*.js"
+      - "standard-model-of-code/**/*.yaml"
+      - "standard-model-of-code/**/*.md"
+      - "context-management/**/*.py"
+      - "context-management/**/*.yaml"
+      - "context-management/**/*.md"
+    # NOTE: archive/** explicitly excluded - use 'archive' set if needed
 
   # ==========================================================================
   # TASK-SPECIFIC SETS

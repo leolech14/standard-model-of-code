@@ -200,12 +200,12 @@ def main():
         (base_dir / "output/atman_final", "ATMAN", "Node.js"),
         (base_dir / "output/atman_current_20251219", "ATMAN (Current)", "Node.js"),
         (Path("/tmp/poetry_test"), "Poetry", "Python"),
-        (Path("/tmp/spectrometer_self_test"), "Spectrometer", "Python+JS"),
+        (Path("/tmp/collider_self_test"), "Collider", "Python+JS"),
     ]
     
     metrics_list = []
     
-    print("📊 Extracting metrics from Spectrometer outputs...")
+    print("📊 Extracting metrics from Collider outputs...")
     print()
     
     for output_dir, name, language in codebases:

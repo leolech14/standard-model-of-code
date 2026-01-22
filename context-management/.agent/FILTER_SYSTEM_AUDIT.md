@@ -1,5 +1,9 @@
 # FILTER SYSTEM AUDIT - CONSOLIDATED KNOWLEDGE
 
+> **SNAPSHOT WARNING:** This is a historical snapshot from 2026-01-18.
+> Line numbers may be stale. For current analysis, run:
+> `python context-management/tools/ai/analyze.py --verify viz_core`
+
 > Generated: 2026-01-18
 > Updated: 2026-01-18 (Full Confidence Pass + Fixes Applied)
 > Status: **ALL FIXES IMPLEMENTED**

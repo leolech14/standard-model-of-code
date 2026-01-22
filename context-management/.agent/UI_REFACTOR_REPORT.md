@@ -1,5 +1,9 @@
 # UI REFACTOR REPORT - Collider v4 Sidebar
 
+> **SNAPSHOT WARNING:** This is a historical snapshot from 2026-01-18.
+> Line numbers may be stale. For current analysis, run:
+> `python context-management/tools/ai/analyze.py --verify viz_core`
+
 > Comprehensive analysis of current UI issues, architecture understanding, and implementation path.
 > Generated: 2026-01-18
 

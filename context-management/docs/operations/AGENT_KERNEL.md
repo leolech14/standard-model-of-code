@@ -13,14 +13,11 @@
 ## Session Start: Boot Sequence
 
 ```bash
-# Option A: Run the boot script (from repo root)
-bash context-management/tools/maintenance/boot.sh
-
-# Option B: Manual boot
-# 1. Read context-management/docs/agent_school/INDEX.md
-# 2. Follow the checklist
-# 3. Output INITIATION_REPORT JSON
+# Run the boot script (from repo root)
+bash context-management/tools/maintenance/boot.sh --json
 ```
+
+**Primary doc:** `context-management/docs/agent_school/AGENT_BOOT.md`
 
 ## Definition of Done
 
