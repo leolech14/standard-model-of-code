@@ -76,20 +76,24 @@ class StandardModelEnricher:
         print(f"   ✓ Loaded {len(self.canonical_types)} canonical types")
     
     def _load_atoms(self):
-        """Load atoms from atoms.json"""
-        patterns_dir = Path(__file__).parent.parent / "patterns"
-        atoms_file = patterns_dir / "atoms.json"
-        
-        if not atoms_file.exists():
-            print(f"⚠️  atoms.json not found at {atoms_file}")
-            return
-        
-        with open(atoms_file) as f:
-            data = json.load(f)
-        
-        self.atoms = data.get('atoms', {})
-        self.atom_mappings = data.get('mappings', {})
-        print(f"   ✓ Loaded {len(self.atoms)} atoms")
+        """Load atoms from unified taxonomy (includes mined T2 atoms)."""
+        try:
+            from core.atom_loader import build_unified_taxonomy
+        except ImportError:
+            from atom_loader import build_unified_taxonomy
+
+        taxonomy = build_unified_taxonomy()
+
+        self.atoms = taxonomy.get('atoms', {})
+        self.atom_mappings = taxonomy.get('mappings', {})
+
+        # Count by tier
+        tier_counts = {}
+        for tier, info in taxonomy.get('tier_info', {}).items():
+            tier_counts[tier] = info.get('count', 0)
+
+        total = sum(tier_counts.values())
+        print(f"   ✓ Loaded {total} atoms ({tier_counts})")
     
     def resolve_canonical_type(self, type_name: str) -> str:
         """Resolve a type name to its canonical form."""

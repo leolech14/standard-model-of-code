@@ -663,6 +663,55 @@ class AtomRegistry:
             except Exception:
                 pass  # Skip malformed files
 
+        # Load mined T2 patterns from YAML files
+        self._load_mined_patterns()
+
+    def _load_mined_patterns(self):
+        """Load mined T2 ecosystem patterns from t2_mined/*.yaml files."""
+        import yaml
+        t2_mined_dir = Path(__file__).parent.parent / "patterns" / "t2_mined"
+
+        if not t2_mined_dir.exists():
+            return
+
+        for yaml_file in t2_mined_dir.glob("ATOMS_T2_*.yaml"):
+            try:
+                with open(yaml_file, 'r', encoding='utf-8') as f:
+                    data = yaml.safe_load(f)
+
+                atoms = data.get('atoms', [])
+                for atom in atoms:
+                    ecosystem = atom.get('ecosystem', '').lower()
+                    atom_id = atom.get('id', '')
+                    patterns = atom.get('patterns', [])
+
+                    if not ecosystem or not atom_id or not patterns:
+                        continue
+
+                    # Store T2 atom definition
+                    self.t2_atoms[atom_id] = {
+                        "id": atom_id,
+                        "name": atom.get("name", ""),
+                        "description": atom.get("description", ""),
+                        "ecosystem": ecosystem,
+                        "tier": "T2"
+                    }
+
+                    # Add to ecosystem_patterns for detection
+                    if ecosystem not in self.ecosystem_patterns:
+                        self.ecosystem_patterns[ecosystem] = {
+                            "imports": [],
+                            "file_patterns": [],
+                            "code_patterns": {}
+                        }
+
+                    # Add patterns for this atom
+                    if atom_id not in self.ecosystem_patterns[ecosystem].get("code_patterns", {}):
+                        self.ecosystem_patterns[ecosystem].setdefault("code_patterns", {})[atom_id] = patterns
+
+            except Exception:
+                pass  # Skip malformed files
+
     def detect_ecosystem(self, file_path: str, imports: List[str] = None, content: str = "") -> Optional[str]:
         """Detect which ecosystem a file belongs to based on imports and patterns."""
         imports = imports or []
