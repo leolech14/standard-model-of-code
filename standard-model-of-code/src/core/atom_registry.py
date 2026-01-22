@@ -548,6 +548,96 @@ class AtomRegistry:
                     # Once
                     "EXT.GO.020": ["sync.Once"],
                 }
+            },
+            "django": {
+                "imports": ["django"],
+                "file_patterns": ["manage.py", "settings.py", "urls.py", "views.py", "models.py", "admin.py", "forms.py", "serializers.py"],
+                "code_patterns": {
+                    # Model - Django ORM model
+                    "EXT.DJANGO.001": ["models.Model", "class Meta:"],
+                    # View (Class-based)
+                    "EXT.DJANGO.002": ["View)", "TemplateView)", "ListView)", "DetailView)", "CreateView)", "UpdateView)", "DeleteView)"],
+                    # View (Function-based)
+                    "EXT.DJANGO.003": ["def ", "(request", "HttpResponse", "render(", "redirect("],
+                    # Form
+                    "EXT.DJANGO.004": ["forms.Form", "forms.ModelForm", "class Meta:"],
+                    # Admin
+                    "EXT.DJANGO.005": ["admin.site.register", "admin.ModelAdmin"],
+                    # URL patterns
+                    "EXT.DJANGO.006": ["urlpatterns", "path(", "re_path(", "include("],
+                    # Middleware
+                    "EXT.DJANGO.007": ["MiddlewareMixin", "def __call__", "def process_request", "def process_response"],
+                    # Template tag
+                    "EXT.DJANGO.008": ["@register.simple_tag", "@register.filter", "template.Library()"],
+                    # Management command
+                    "EXT.DJANGO.009": ["BaseCommand", "def handle(self"],
+                    # DRF ViewSet
+                    "EXT.DJANGO.010": ["viewsets.ModelViewSet", "viewsets.ViewSet", "ViewSet)"],
+                    # DRF Serializer
+                    "EXT.DJANGO.011": ["serializers.ModelSerializer", "serializers.Serializer", "Serializer)"],
+                    # DRF Permission
+                    "EXT.DJANGO.012": ["permissions.BasePermission", "IsAuthenticated", "AllowAny"],
+                    # Signal handler
+                    "EXT.DJANGO.013": ["@receiver", "post_save", "pre_save", "post_delete"],
+                    # Migration
+                    "EXT.DJANGO.014": ["migrations.Migration", "operations ="],
+                    # Test case
+                    "EXT.DJANGO.015": ["TestCase)", "Client()", "self.client.get", "self.client.post"],
+                }
+            },
+            "flask": {
+                "imports": ["flask"],
+                "file_patterns": [".py"],
+                "code_patterns": {
+                    # Route decorator
+                    "EXT.FLASK.001": ["@app.route", "@blueprint.route", "@bp.route"],
+                    # App initialization
+                    "EXT.FLASK.002": ["Flask(__name__)", "= Flask("],
+                    # Blueprint
+                    "EXT.FLASK.003": ["Blueprint(", "register_blueprint"],
+                    # Request handling
+                    "EXT.FLASK.004": ["request.args", "request.form", "request.json", "request.method"],
+                    # Response helpers
+                    "EXT.FLASK.005": ["jsonify(", "make_response(", "abort(", "redirect("],
+                    # Context
+                    "EXT.FLASK.006": ["g.", "current_app", "session["],
+                    # Before/after request
+                    "EXT.FLASK.007": ["@app.before_request", "@app.after_request", "@app.teardown_request"],
+                    # Error handler
+                    "EXT.FLASK.008": ["@app.errorhandler", "errorhandler("],
+                    # Extension init
+                    "EXT.FLASK.009": ["init_app(", "SQLAlchemy(", "Migrate(", "LoginManager("],
+                    # Template rendering
+                    "EXT.FLASK.010": ["render_template(", "render_template_string("],
+                    # Test client
+                    "EXT.FLASK.011": ["test_client()", "with app.test_client"],
+                }
+            },
+            "fastapi": {
+                "imports": ["fastapi"],
+                "file_patterns": [".py"],
+                "code_patterns": {
+                    # Route decorators
+                    "EXT.FASTAPI.001": ["@app.get", "@app.post", "@app.put", "@app.delete", "@app.patch"],
+                    # Router
+                    "EXT.FASTAPI.002": ["APIRouter(", "@router.get", "@router.post"],
+                    # App initialization
+                    "EXT.FASTAPI.003": ["FastAPI("],
+                    # Dependency injection
+                    "EXT.FASTAPI.004": ["Depends(", "= Depends"],
+                    # Pydantic models
+                    "EXT.FASTAPI.005": ["BaseModel)", "Field(", "validator"],
+                    # Response models
+                    "EXT.FASTAPI.006": ["response_model=", "JSONResponse", "HTMLResponse"],
+                    # Background tasks
+                    "EXT.FASTAPI.007": ["BackgroundTasks", "background_tasks.add_task"],
+                    # WebSocket
+                    "EXT.FASTAPI.008": ["@app.websocket", "WebSocket"],
+                    # Middleware
+                    "EXT.FASTAPI.009": ["@app.middleware", "add_middleware"],
+                    # Security
+                    "EXT.FASTAPI.010": ["OAuth2PasswordBearer", "HTTPBearer", "APIKey"],
+                }
             }
         }
 
