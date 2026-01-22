@@ -21,69 +21,78 @@ This is not a bug—it's a **feature** that aligns with physics: a small number 
 
 ### The Collider Pipeline (How Analysis Works)
 
-Understanding the investigation requires understanding how Collider analyzes code:
+Understanding the investigation requires understanding how Collider analyzes code.
+
+> **VALIDATED 2026-01-22** via Gemini 2.5 Pro forensic analysis of `full_analysis.py`
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        COLLIDER PIPELINE (25 STAGES)                        │
+│                    COLLIDER PIPELINE (Actual Implementation)                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  INPUT: Source code directory                                               │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 1-3: FILE DISCOVERY & PARSING                                 │   │
-│  │ • Discover all source files (.py, .js, .ts, .go, .rs, etc.)         │   │
-│  │ • Parse each file into AST using tree-sitter                        │   │
-│  │ • Extract nodes: functions, classes, variables, imports             │   │
+│  │ STAGE 1: BASE ANALYSIS (unified_analysis.py sub-pipeline)           │   │
+│  │ This is NOT a single step - it's a full sub-pipeline:               │   │
+│  │ • AST Parsing (TreeSitterUniversalEngine)          L314             │   │
+│  │ • Auto Pattern Discovery                           L330             │   │
+│  │ • LLM Enrichment (optional)                        L336             │   │
+│  │ • EDGE EXTRACTION (calls, imports) ← HAPPENS EARLY L349-368         │   │
+│  │ • Graph-Based Inference                            L374             │   │
+│  │ • Initial Standard Model Enrichment                L410             │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 4-6: STRUCTURAL CLASSIFICATION                                │   │
-│  │ • Map AST node types to BASE ATOMS (atoms.json)                     │   │
-│  │   - function_definition → LOG.FNC.M                                 │   │
-│  │   - class_definition → ORG.AGG.M                                    │   │
-│  │   - assignment → DAT.VAR.A                                          │   │
-│  │ • Every node gets a structural atom (100% coverage)                 │   │
+│  │ STAGE 2: STANDARD MODEL ENRICHMENT                 L1173            │   │
+│  │ • RPBL scores (Responsibility, Purity, Boundary, Lifecycle)         │   │
+│  │ • Flatten nodes for downstream use                                  │   │
+│  │                                                                     │   │
+│  │ STAGE 2.5: ECOSYSTEM DISCOVERY                     L1199            │   │
+│  │ • Identify unknown ecosystem patterns                               │   │
+│  │                                                                     │   │
+│  │ STAGE 2.7: DIMENSION CLASSIFICATION                L1209            │   │
+│  │ • D4 (Boundary), D5 (State), D7 (Lifecycle)                         │   │
+│  │                                                                     │   │
+│  │ STAGE 2.8-2.11: ANALYSIS PASSES                    L1219-1359       │   │
+│  │ • Scope Analysis (unused vars, shadowing)                           │   │
+│  │ • Control Flow (cyclomatic complexity)                              │   │
+│  │ • Pattern-Based Atom Detection                                      │   │
+│  │ • Data Flow Analysis (D6:EFFECT purity)                             │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 7-9: ECOSYSTEM DETECTION                                      │   │
-│  │ • Analyze imports to detect frameworks                              │   │
-│  │   - "from django.db import models" → ecosystem: django              │   │
-│  │   - "import React from 'react'" → ecosystem: react                  │   │
-│  │ • Sets ecosystem context for T2 pattern matching                    │   │
+│  │ STAGE 3-4: PURPOSE & EXECUTION FLOW                L1407-1456       │   │
+│  │ • Purpose Field detection                                           │   │
+│  │ • π₃/π₄ emergent purpose computation                                │   │
+│  │ • Entry points and orphan detection                                 │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 10-12: T2 SEMANTIC ENRICHMENT                                 │   │
-│  │ • Match code patterns against T2 atom definitions                   │   │
-│  │   - "@app.route" + function → EXT.FLASK.VIEW.001                    │   │
-│  │   - "class X(models.Model)" → EXT.DJANG.MODEL.001                   │   │
-│  │ • Add D1_WHAT dimension with T2 atom ID                             │   │
-│  │ • NOT all nodes match (0-60% T2 coverage)                           │   │
+│  │ STAGE 5-6: GRAPH ANALYTICS                         L1465-1631       │   │
+│  │ • Markov transition matrix                                          │   │
+│  │ • Knot detection (cycles, tangles)                                  │   │
+│  │ • PageRank, centrality, degrees                                     │   │
+│  │ • Disconnection classification                                      │   │
+│  │ • Statistical metrics (Halstead)                                    │   │
+│  │ • CODOME BOUNDARIES (synthetic nodes for callers)  L1631            │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 13-18: DIMENSION ANALYSIS                                     │   │
-│  │ • D3_ROLE: Repository, Service, Controller, etc.                    │   │
-│  │ • D4_BOUNDARY: Internal, Input, Output, IO                          │   │
-│  │ • D5_STATE: Stateless, Stateful                                     │   │
-│  │ • D6_EFFECT: Pure, ReadOnly, WriteOnly, ReadWrite                   │   │
-│  │ • D7_LIFECYCLE: Create, Use, Destroy, Manage                        │   │
+│  │ STAGE 7-8: ADVANCED ANALYSIS                       L1658-1701       │   │
+│  │ • Data flow sources/sinks                                           │   │
+│  │ • Performance prediction                                            │   │
+│  │ • CONSTRAINT FIELD VALIDATION (antimatter)         L1677            │   │
+│  │ • Purpose Intelligence (Q-Scores)                  L1701            │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 19-22: EDGE EXTRACTION & GRAPH BUILDING                       │   │
-│  │ • Extract relationships: calls, imports, contains, inherits         │   │
-│  │ • Build dependency graph                                            │   │
-│  │ • Compute Markov transition probabilities                           │   │
-│  └─────────────────────────────────────────────────────────────────────┘   │
-│         ↓                                                                   │
-│  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │ STAGE 23-25: METRICS & OUTPUT                                       │   │
-│  │ • Compute graph metrics (PageRank, centrality, clustering)          │   │
-│  │ • Calculate RPBL scores (Responsibility, Purity, Boundary, Lifecycle)│   │
-│  │ • Generate unified_analysis.json + HTML visualization               │   │
+│  │ STAGE 9-12: OUTPUTS                                L1776-1850       │   │
+│  │ • Roadmap evaluation (optional)                                     │   │
+│  │ • Visual topology classification                                    │   │
+│  │ • Semantic Cortex (concept extraction)                              │   │
+│  │ • AI Insights (optional Gemini)                                     │   │
+│  │ • Generate unified_analysis.json + HTML                             │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │         ↓                                                                   │
 │  OUTPUT: unified_analysis.json, collider_report.html                       │
@@ -91,10 +100,65 @@ Understanding the investigation requires understanding how Collider analyzes cod
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Key Insight for Investigation:**
-- Stages 4-6 (structural) run on ALL nodes → 100% coverage with base atoms
-- Stages 10-12 (semantic) run pattern matching → Variable T2 coverage
-- This is WHY 4 atoms cover 80-90%: they're assigned in Stage 4-6
+**Key Architectural Insight:**
+```
+The pipeline flow is: PARSE → BUILD GRAPH → ANALYZE/ENRICH GRAPH
+                      (not: Parse → Classify → Then Build Graph)
+
+Edge extraction happens EARLY in Stage 1, not near the end.
+All subsequent stages CONSUME and ENRICH the already-built graph.
+```
+
+**Relevance to Investigation:**
+- Atom classification happens during Stage 1 (initial) and Stage 2.10 (pattern-based)
+- The 4 base atoms (LOG.FNC.M, ORG.AGG.M, etc.) are assigned via AST→Atom mappings
+- T2 enrichment happens in Stage 2.10 via pattern matching against mined rules
+
+### Critical Distinction: Atoms vs Roles
+
+> **VALIDATED 2026-01-22** via Gemini 2.5 Pro forensic analysis of `schema/fixed/roles.json`
+
+**Common Misconception:** "Atoms map AST nodes to semantic roles"
+
+**Correction:** Atoms and Roles are **orthogonal dimensions** in the Standard Model:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     ATOMS vs ROLES (Orthogonal Dimensions)                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  DIMENSION 1 (D1:WHAT) - ATOMS                                              │
+│  ───────────────────────────────                                            │
+│  Question: "What syntactic construct is this?"                              │
+│  Source: AST parsing (direct mapping)                                       │
+│  Example: function_definition → LOG.FNC.M                                   │
+│  Coverage: 100% (every node gets an atom)                                   │
+│                                                                             │
+│  DIMENSION 3 (D3:WHY) - ROLES                                               │
+│  ────────────────────────────                                               │
+│  Question: "What purpose does this serve?"                                  │
+│  Source: Graph analysis, naming heuristics, import patterns                 │
+│  Example: UserService.get_user() → "Repository" role (data access)         │
+│  Coverage: ~60-80% (inference, not direct mapping)                          │
+│                                                                             │
+│  KEY INSIGHT:                                                               │
+│  ─────────────                                                              │
+│  A function (LOG.FNC.M atom) can have ANY role:                             │
+│    • Controller role (handles requests)                                     │
+│    • Repository role (accesses data)                                        │
+│    • Service role (business logic)                                          │
+│    • Utility role (helper operations)                                       │
+│                                                                             │
+│  Atom = Structure (deterministic)                                           │
+│  Role = Purpose (inferred)                                                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Why This Matters:**
+- This investigation focuses on **Atom coverage** (D1), not Role coverage (D3)
+- The "4 atoms cover 80-90%" claim is about structural classification
+- Role inference is a separate analysis pass (Stage 2 RPBL scores)
 
 ### Research Questions
 
@@ -773,3 +837,4 @@ Collider        1,274       17       1%    python
 | 2026-01-22 | Initial investigation | Claude Opus 4.5 |
 | 2026-01-22 | Added causal chains | Claude Opus 4.5 |
 | 2026-01-22 | Confidence scores validated | Claude Opus 4.5 |
+| 2026-01-22 | Added Atoms vs Roles distinction (Gemini validation fix) | Claude Opus 4.5 |
