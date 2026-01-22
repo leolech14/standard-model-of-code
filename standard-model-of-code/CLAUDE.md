@@ -40,6 +40,7 @@ See `docs/reports/ATOM_STATISTICAL_ANALYSIS.md` for full analysis.
 | **Tree-sitter Tasks** | `docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 46 tasks with confidence scores |
 | **Codome Research** | `docs/research/CODOME_EDGE_DISCOVERY.md` | Boundary nodes, inferred edges, known bugs |
 | **Atom Statistics** | `docs/reports/ATOM_STATISTICAL_ANALYSIS.md` | Coverage model, quality issues, honest numbers |
+| **Atom Investigation** | `docs/research/ATOM_COVERAGE_INVESTIGATION.md` | Causal analysis, confidence scores, implications |
 
 ## Commands
 
