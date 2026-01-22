@@ -37,26 +37,190 @@ Languages supported:   5 (Python, JS/TS, Go, Rust)
 
 ---
 
+## MARKET OVERVIEW (2025-2026)
+
+### Market Size and Growth
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| Global SAST Market (2025) | $554 million | Mordor Intelligence |
+| Projected Market (2030) | $1.548 billion | Mordor Intelligence |
+| CAGR | 22.82% | Mordor Intelligence |
+| Cloud SAST Growth Rate | 20.4% CAGR | Industry reports |
+| IDE Plugin Growth Rate | 21.1% CAGR | Industry reports |
+
+### Key Market Trends
+
+1. **Shift-Left Security** - IDE plugins growing fastest (21.1% CAGR) as security moves to code authoring
+2. **AI-Generated Code** - 60% more false positives from legacy scanners on AI-written code
+3. **Platform Consolidation** - 70% of triage time lost to duplicate alerts across isolated tools
+4. **Supply Chain Security** - 45% of orgs will experience supply chain attacks by 2025 (Gartner)
+5. **Developer-First Tools** - Emphasis on low false positives and seamless workflow integration
+
+---
+
 ## COMPETITIVE LANDSCAPE
 
-### Market Leaders
+### Detailed Competitor Profiles
 
-| Tool | Focus | Price | Strengths |
-|------|-------|-------|-----------|
-| **SonarQube** | Code Quality + Security | $500+/yr | 30+ languages, CI/CD, enterprise |
-| **Semgrep** | Custom Rules + Security | Free-$100/mo | Flexible, fast, open source |
-| **Snyk Code** | Security-First | $57+/user/mo | Real-time, AI fixes |
-| **CodeClimate** | Engineering Intelligence | $15+/user/mo | Team metrics, maintainability |
-| **Coverity** | Enterprise Security | Enterprise | Deep analysis, compliance |
-| **Veracode** | Compliance | Enterprise | OWASP, PCI-DSS, GDPR |
+#### SonarQube / SonarCloud
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Code Quality + Security |
+| **Languages** | 30+ (Java, Python, JS/TS, C/C++, C#, Go, Ruby, PHP, etc.) |
+| **Pricing** | Cloud: €30/mo (100K LOC), Free tier (50K LOC), Enterprise: Annual license |
+| **Deployment** | Cloud (SonarCloud) + Self-managed (SonarQube Server) |
+| **Key Feature** | Quality Gates - enforce thresholds before merge |
+| **Certifications** | SOC 2 Type II (Feb 2025), ISO 27001:2022 |
+| **IDE Plugins** | JetBrains, VS Code |
+| **CI/CD** | Jenkins, GitHub Actions, Azure DevOps, GitLab CI, Bitbucket |
+
+#### Semgrep
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Custom Rules + Security (SAST/SCA/Secrets) |
+| **Languages** | 20+ (C, C++, C#, Go, Java, JS, Kotlin, PHP, Python, Ruby, Rust, etc.) |
+| **Pricing** | Free (10 contributors), Teams: $40/dev/mo (Code), $40/dev/mo (SCA), $20/dev/mo (Secrets) |
+| **Deployment** | Cloud + Self-managed |
+| **Key Feature** | Rule-based pattern matching, Semgrep Assistant (GPT-4 powered) |
+| **Recent** | MCP Server for LLM integration, 85% false positive auto-detection |
+| **IDE Plugins** | Limited |
+| **CI/CD** | GitHub, GitLab, Bitbucket, Azure DevOps |
+
+#### Snyk Code
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Developer-First Security (SAST/SCA/DAST/Container) |
+| **Languages** | Java, Python, JS/TS, C#, Go, Ruby, PHP |
+| **Pricing** | From $25/mo, Ignite: $1,260/dev/yr, Enterprise: Contact |
+| **Deployment** | Cloud-native |
+| **Key Feature** | AI-powered semantic analysis, lowest false-positive rates |
+| **Recent** | Acquired Probely (DAST) Nov 2024, 300+ new customers in 2024 |
+| **IDE Plugins** | VS Code, JetBrains |
+| **CI/CD** | Jenkins, CircleCI, GitHub Actions, AWS CodePipeline, Azure, Bitbucket |
+
+#### CodeQL (GitHub Advanced Security)
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Semantic Analysis / Vulnerability Research |
+| **Languages** | 9 GA (JS/TS, Python, Java, C/C++, C#, Ruby, Go, Kotlin), Swift (beta) |
+| **Pricing** | Free (open source), GHAS: $29/active committer/mo |
+| **Deployment** | Cloud (GitHub) + Enterprise Server |
+| **Key Feature** | Queryable code database, 432 security queries, 100% CWE Top 25 |
+| **Recent** | 318 default queries (+27% YoY) |
+| **IDE Plugins** | VS Code (CodeQL extension) |
+| **CI/CD** | Native GitHub Actions |
+
+#### Veracode
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Enterprise Compliance (SAST/DAST/SCA/IaC) |
+| **Languages** | 100+ languages, 350+ frameworks |
+| **Pricing** | SAST: ~$15K/yr (100 apps), SCA: ~$12K/yr, DAST: ~$20-25K/yr, Full suite: $100K+ |
+| **Deployment** | Cloud + Hybrid |
+| **Key Feature** | Whole-program analysis, AI-powered Veracode Fix |
+| **Recent** | 420 trillion LOC scanned, 204M flaws found, EASM (May 2025), Package Firewall (Jun 2025) |
+| **IDE Plugins** | VS Code, JetBrains, Eclipse, Visual Studio |
+| **CI/CD** | Jenkins, Azure DevOps, GitLab, GitHub Actions |
+
+#### Checkmarx One
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Enterprise AppSec Platform (SAST/DAST/SCA/API) |
+| **Languages** | 30+ (Apex, Groovy, Java, JS, JSP, Kotlin, PHP, Python, Ruby, etc.) |
+| **Pricing** | $5K-$35K+/yr (50 devs), Enterprise: Contact |
+| **Deployment** | Cloud |
+| **Key Feature** | Agentic AI for instant fix recommendations, unified dashboard |
+| **Recent** | Acquired Dustico (2021) for malicious code detection |
+| **IDE Plugins** | Yes (multiple) |
+| **CI/CD** | Major platforms supported |
+
+#### Coverity (Black Duck/Synopsys)
+
+| Attribute | Value |
+|-----------|-------|
+| **Focus** | Enterprise Security + Code Quality |
+| **Languages** | 22 languages, 200+ frameworks |
+| **Pricing** | Enterprise (contact sales) |
+| **Deployment** | Cloud + On-prem |
+| **Key Feature** | Multi-file defect detection, Code Sight IDE plugin |
+| **Compliance** | OWASP Top 10, CWE Top 25, MISRA, CERT |
+| **IDE Plugins** | Code Sight (real-time) |
+| **CI/CD** | Popular IDE, SCM, CI systems |
+
+### Comprehensive Feature Matrix
+
+| Feature | Collider | SonarQube | Semgrep | Snyk | CodeQL | Veracode | Checkmarx |
+|---------|----------|-----------|---------|------|--------|----------|-----------|
+| **SAST** | Partial | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **SCA** | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **DAST** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
+| **Secrets** | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **IaC** | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **Container** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
+| **API Security** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
+| **Quality Gates** | ❌ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **AI Remediation** | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **8D Classification** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **3D Visualization** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Architecture Intel** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Purity Analysis** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Graph Centrality** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+### Pricing Comparison
+
+| Tool | Free Tier | Entry Price | Enterprise |
+|------|-----------|-------------|------------|
+| **Collider** | ✅ Open source | Free | N/A |
+| **SonarQube** | 50K LOC | €30/mo (100K LOC) | Annual license |
+| **Semgrep** | 10 contributors | $40/dev/mo | Contact |
+| **Snyk** | Limited | $25/mo | $1,260/dev/yr |
+| **CodeQL** | Open source repos | $29/committer/mo | GHAS |
+| **Veracode** | ❌ | ~$15K/yr | $100K+ |
+| **Checkmarx** | ❌ | ~$5K/yr | $35K+ |
+| **Coverity** | ❌ | Enterprise | Enterprise |
+
+### Emerging Competitors
+
+| Tool | Focus | Key Differentiator |
+|------|-------|-------------------|
+| **Aikido Security** | AI-powered SAST + compliance | Acquired Trag AI (2025), SOC 2/GDPR automation |
+| **DeepSource** | DevSecOps platform | Noise reduction, auto-remediation |
+| **CodeRabbit** | AI code review | Learns from developer corrections |
 
 ### Collider's Unique Position
 
 ```
 Collider creates a NEW CATEGORY: Code Architecture Intelligence
 
-Traditional tools ask: "Is this code secure/clean?"
-Collider asks: "What IS this code? How does it behave? What role does it play?"
+┌─────────────────────────────────────────────────────────────────┐
+│                    THE SECURITY QUESTION                        │
+│                                                                 │
+│   SonarQube:  "Is this code clean?"                            │
+│   Snyk:       "Is this code secure?"                           │
+│   Semgrep:    "Does this match a vulnerability pattern?"       │
+│   Veracode:   "Does this pass compliance?"                     │
+│                                                                 │
+│   Collider:   "What IS this code?"                             │
+│               "What role does it play in the system?"          │
+│               "How does it connect to everything else?"        │
+│               "What is its architectural character?"           │
+└─────────────────────────────────────────────────────────────────┘
+
+Unique capabilities NO competitor offers:
+• 8-Dimensional Classification (D1-D8)
+• 200 Atoms / 33 Roles taxonomy
+• 3D Force-Directed Graph Visualization
+• Purity Scoring (D6:EFFECT)
+• RPBL Character Analysis
+• Graph Centrality (PageRank, Betweenness)
+• Universal Property Binding (data → visual mapping)
 ```
 
 ---
@@ -505,3 +669,4 @@ This is NOT something SonarQube, Semgrep, or any competitor offers.
 |------|--------|
 | 2026-01-22 | Initial creation with competitive analysis and 6-module roadmap |
 | 2026-01-22 | Expanded to 15 modules (M1-M15) covering all 24 identified gaps |
+| 2026-01-22 | Added market research: $554M market size, detailed competitor profiles, pricing, feature matrices |
