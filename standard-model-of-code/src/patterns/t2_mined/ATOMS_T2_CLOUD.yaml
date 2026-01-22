@@ -1,0 +1,1529 @@
+version: 1.0.0
+generated_by: mine_semgrep.py
+source: semgrep-rules
+atom_count: 122
+atoms:
+- id: EXT.LAMBDA.SEC.001
+  name: Client Query
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CLIENT.query($QUERY,...)
+  source_rules:
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.002
+  name: Query
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $TABLE.query(..., QueryFilter = $SINK, ...)
+  - $DB.Query($QUERY,...)
+  - $CLIENT.query($QUERY,...)
+  - $DB.query($QUERY, ...)
+  - $POOL.query($QUERY, ...)
+  source_rules:
+  - sequelize-sqli
+  - pg-sqli
+  - dynamodb-filter-injection
+  - mysql-sqli
+  - database-sqli
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.003
+  name: Client Prepare
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CLIENT.prepare($QUERY,...)
+  source_rules:
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.004
+  name: Prepare
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CLIENT.prepare($QUERY,...)
+  source_rules:
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.005
+  name: Client Escape
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CLIENT.escape(...)
+  source_rules:
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.006
+  name: Escape
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CLIENT.escape(...)
+  source_rules:
+  - mysql2-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.007
+  name: Base Connection Execute
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - ActiveRecord::Base.connection.execute($QUERY,...)
+  source_rules:
+  - activerecord-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.008
+  name: Execute
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $POOL.execute($QUERY, ...)
+  - ActiveRecord::Base.connection.execute($QUERY,...)
+  - $CURSOR.execute($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  - pymysql-sqli
+  - activerecord-sqli
+  - mysql-sqli
+  - sqlalchemy-sqli
+  - pymssql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.009
+  name: Model Find By Sql
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $MODEL.find_by_sql($QUERY,...)
+  source_rules:
+  - activerecord-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.010
+  name: Find By Sql
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $MODEL.find_by_sql($QUERY,...)
+  source_rules:
+  - activerecord-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.011
+  name: Model Select All
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $MODEL.select_all($QUERY,...)
+  source_rules:
+  - activerecord-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.012
+  name: Select All
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $MODEL.select_all($QUERY,...)
+  source_rules:
+  - activerecord-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.013
+  name: Conn Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.exec($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.014
+  name: Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $DB.Exec($QUERY,...)
+  - $CONN.exec($QUERY,...)
+  - $CP.exec($CMD,...)
+  source_rules:
+  - detect-child-process
+  - database-sqli
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.015
+  name: Conn Exec Params
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.exec_params($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.016
+  name: Exec Params
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.exec_params($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.017
+  name: Conn Exec Prepared
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.exec_prepared($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.018
+  name: Exec Prepared
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.exec_prepared($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.019
+  name: Conn Async Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.020
+  name: Async Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.021
+  name: Conn Async Exec Params
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec_params($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.022
+  name: Async Exec Params
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec_params($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.023
+  name: Conn Async Exec Prepared
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec_prepared($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.024
+  name: Async Exec Prepared
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CONN.async_exec_prepared($QUERY,...)
+  source_rules:
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.025
+  name: Db Run
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - DB.run($QUERY,...)
+  source_rules:
+  - sequel-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.026
+  name: Run
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - DB.run($QUERY,...)
+  source_rules:
+  - sequel-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.027
+  name: Concat
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - '"$SQLSTR".concat(...)'
+  - '"$HTMLSTR".concat(...)'
+  source_rules:
+  - tainted-html-string
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.028
+  name: Util Format
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - $UTIL.format($HTMLSTR, ...)
+  - util.format($SQLSTR, ...)
+  source_rules:
+  - tainted-html-string
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.029
+  name: Format
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - $UTIL.format($HTMLSTR, ...)
+  - '"$HTMLSTR".format(...)'
+  - String.format("$SQLSTR", ...)
+  - '"$SQLSTR".format(...)'
+  - $HTML.format(...)
+  source_rules:
+  - tainted-html-string
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.030
+  name: Pool Query
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $POOL.query($QUERY, ...)
+  source_rules:
+  - mysql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.031
+  name: Pool Execute
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $POOL.execute($QUERY, ...)
+  source_rules:
+  - mysql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.032
+  name: Db Query
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.query($QUERY, ...)
+  - $DB.Query($QUERY,...)
+  source_rules:
+  - sequelize-sqli
+  - database-sqli
+  - pg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.033
+  name: Knex Fromraw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.fromRaw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.034
+  name: Fromraw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.fromRaw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.035
+  name: Knex Whereraw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.whereRaw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.036
+  name: Whereraw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.whereRaw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.037
+  name: Knex Raw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.raw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.038
+  name: Raw
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $KNEX.raw($QUERY, ...)
+  source_rules:
+  - knex-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.039
+  name: Cp Exec
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.exec($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.040
+  name: Cp Execsync
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.execSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.041
+  name: Execsync
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.execSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.042
+  name: Cp Spawn
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.spawn($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.043
+  name: Spawn
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.spawn($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.044
+  name: Cp Spawnsync
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.spawnSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.045
+  name: Spawnsync
+  ecosystem: aws-lambda
+  category: security
+  description: 'Allowing spawning arbitrary programs or running shell processes with
+    arbitrary arguments may end up in a command injection vulnerability. Try to avoid
+    non-literal values for the command string. If it '
+  patterns:
+  - $CP.spawnSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.LAMBDA.SEC.046
+  name: Vm Runincontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.047
+  name: Runincontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.048
+  name: Vm Runinnewcontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInNewContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.049
+  name: Runinnewcontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInNewContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.050
+  name: Vm Runinthiscontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInThisContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.051
+  name: Runinthiscontext
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInThisContext($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.052
+  name: Vm Compilefunction
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.compileFunction($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.053
+  name: Compilefunction
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.compileFunction($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.054
+  name: Vm Script
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.Script($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.055
+  name: Script
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.Script($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.056
+  name: Vm Sourcetextmodule
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.SourceTextModule($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.057
+  name: Sourcetextmodule
+  ecosystem: aws-lambda
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.SourceTextModule($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.058
+  name: Com Amazonaws Services Lambda Runtime Context
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - $HANDLERTYPE $HANDLER(InputStream $EVENT, OutputStream $OUT, com.amazonaws.services.lambda.runtime.Context
+    $CONTEXT) {
+  - $HANDLERTYPE $HANDLER($TYPE $EVENT, com.amazonaws.services.lambda.runtime.Context
+    $CONTEXT) {
+  source_rules:
+  - tainted-sqli
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.059
+  name: Sb Append
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - $SB.append(...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.060
+  name: Append
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - $SB.append(...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.061
+  name: String Format
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - String.format("$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.062
+  name: Java Sql Callablestatement
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.sql.CallableStatement $STMT) = ...;
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.063
+  name: Java Sql Statement
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.sql.Statement $STMT) = ...;
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.064
+  name: Java Sql Preparedstatement
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.sql.PreparedStatement $STMT) = ...;
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.065
+  name: Conn Preparestatement
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.066
+  name: Preparestatement
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.067
+  name: Path Queryforobject
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.068
+  name: Queryforobject
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.069
+  name: Java Util Map
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.070
+  name: Path Queryformap
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.071
+  name: Queryformap
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.072
+  name: Org Springframework Jdbc Support Rowset Sqlrowset
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - (org.springframework.jdbc.support.rowset.SqlRowSet $STMT) = ...;
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.073
+  name: Cursor Execute
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CURSOR.execute($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  - pymysql-sqli
+  - mysql-sqli
+  - sqlalchemy-sqli
+  - pymssql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.074
+  name: Cursor Executemany
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CURSOR.executemany($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  - mysql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.075
+  name: Executemany
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CURSOR.executemany($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  - mysql-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.076
+  name: Table Scan
+  ecosystem: aws-lambda
+  category: security
+  description: Detected DynamoDB query filter that is tainted by `$EVENT` object.
+    This could lead to NoSQL injection if the variable is user-controlled and not
+    properly sanitized. Explicitly assign query params inst
+  patterns:
+  - $TABLE.scan(..., ScanFilter = $SINK, ...)
+  source_rules:
+  - dynamodb-filter-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.077
+  name: Scan
+  ecosystem: aws-lambda
+  category: security
+  description: Detected DynamoDB query filter that is tainted by `$EVENT` object.
+    This could lead to NoSQL injection if the variable is user-controlled and not
+    properly sanitized. Explicitly assign query params inst
+  patterns:
+  - $TABLE.scan(..., ScanFilter = $SINK, ...)
+  source_rules:
+  - dynamodb-filter-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.078
+  name: Table Query
+  ecosystem: aws-lambda
+  category: security
+  description: Detected DynamoDB query filter that is tainted by `$EVENT` object.
+    This could lead to NoSQL injection if the variable is user-controlled and not
+    properly sanitized. Explicitly assign query params inst
+  patterns:
+  - $TABLE.query(..., QueryFilter = $SINK, ...)
+  source_rules:
+  - dynamodb-filter-injection
+  tier: T2
+- id: EXT.LAMBDA.SEC.079
+  name: Pickle Load
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - pickle.load($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.080
+  name: Load
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - cPickle.load($SINK,...)
+  - dill.load($SINK,...)
+  - _pickle.load($SINK,...)
+  - pickle.load($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.081
+  name: Pickle Loads
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - pickle.loads($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.082
+  name: Loads
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - cPickle.loads($SINK,...)
+  - _pickle.loads($SINK,...)
+  - pickle.loads($SINK,...)
+  - dill.loads($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.083
+  name: Pickle Load
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - _pickle.load($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.084
+  name: Pickle Loads
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - _pickle.loads($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.085
+  name: Cpickle Load
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - cPickle.load($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.086
+  name: Cpickle Loads
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - cPickle.loads($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.087
+  name: Dill Load
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - dill.load($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.088
+  name: Dill Loads
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - dill.loads($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.089
+  name: Shelve Open
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - shelve.open($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.090
+  name: Open
+  ecosystem: aws-lambda
+  category: security
+  description: Avoid using `pickle`, which is known to lead to code execution vulnerabilities.
+    When unpickling, the serialized data could be manipulated to run arbitrary code.
+    Instead, consider serializing the relev
+  patterns:
+  - shelve.open($SINK,...)
+  source_rules:
+  - tainted-pickle-deserialization
+  tier: T2
+- id: EXT.LAMBDA.SEC.091
+  name: Loop Subprocess Shell
+  ecosystem: aws-lambda
+  category: security
+  description: Detected asyncio subprocess function with argument tainted by `event`
+    object. If this data can be controlled by a malicious actor, it may be an instance
+    of command injection. Audit the use of this cal
+  patterns:
+  - $LOOP.subprocess_shell($PROTOCOL, $CMD)
+  source_rules:
+  - dangerous-asyncio-shell
+  tier: T2
+- id: EXT.LAMBDA.SEC.092
+  name: Subprocess Shell
+  ecosystem: aws-lambda
+  category: security
+  description: Detected asyncio subprocess function with argument tainted by `event`
+    object. If this data can be controlled by a malicious actor, it may be an instance
+    of command injection. Audit the use of this cal
+  patterns:
+  - $LOOP.subprocess_shell($PROTOCOL, $CMD)
+  source_rules:
+  - dangerous-asyncio-shell
+  tier: T2
+- id: EXT.LAMBDA.SEC.093
+  name: Asyncio Subprocess Create Subprocess Shell
+  ecosystem: aws-lambda
+  category: security
+  description: Detected asyncio subprocess function with argument tainted by `event`
+    object. If this data can be controlled by a malicious actor, it may be an instance
+    of command injection. Audit the use of this cal
+  patterns:
+  - asyncio.subprocess.create_subprocess_shell($CMD, ...)
+  source_rules:
+  - dangerous-asyncio-shell
+  tier: T2
+- id: EXT.LAMBDA.SEC.094
+  name: Create Subprocess Shell
+  ecosystem: aws-lambda
+  category: security
+  description: Detected asyncio subprocess function with argument tainted by `event`
+    object. If this data can be controlled by a malicious actor, it may be an instance
+    of command injection. Audit the use of this cal
+  patterns:
+  - asyncio.subprocess.create_subprocess_shell($CMD, ...)
+  - asyncio.create_subprocess_shell($CMD, ...)
+  source_rules:
+  - dangerous-asyncio-shell
+  tier: T2
+- id: EXT.LAMBDA.SEC.095
+  name: Asyncio Create Subprocess Shell
+  ecosystem: aws-lambda
+  category: security
+  description: Detected asyncio subprocess function with argument tainted by `event`
+    object. If this data can be controlled by a malicious actor, it may be an instance
+    of command injection. Audit the use of this cal
+  patterns:
+  - asyncio.create_subprocess_shell($CMD, ...)
+  source_rules:
+  - dangerous-asyncio-shell
+  tier: T2
+- id: EXT.LAMBDA.SEC.096
+  name: Shlex Split
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function with argument tainted by an `event` object.  If
+    this data can be controlled by a malicious actor, it may be an instance of command
+    injection. The default option for `shell
+  patterns:
+  - shlex.split(...)
+  source_rules:
+  - dangerous-subprocess-use
+  tier: T2
+- id: EXT.LAMBDA.SEC.097
+  name: Split
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function with argument tainted by an `event` object.  If
+    this data can be controlled by a malicious actor, it may be an instance of command
+    injection. The default option for `shell
+  patterns:
+  - shlex.split(...)
+  source_rules:
+  - dangerous-subprocess-use
+  tier: T2
+- id: EXT.LAMBDA.SEC.098
+  name: Pipes Quote
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function with argument tainted by an `event` object.  If
+    this data can be controlled by a malicious actor, it may be an instance of command
+    injection. The default option for `shell
+  patterns:
+  - pipes.quote(...)
+  source_rules:
+  - dangerous-subprocess-use
+  tier: T2
+- id: EXT.LAMBDA.SEC.099
+  name: Quote
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function with argument tainted by an `event` object.  If
+    this data can be controlled by a malicious actor, it may be an instance of command
+    injection. The default option for `shell
+  patterns:
+  - shlex.quote(...)
+  - pipes.quote(...)
+  source_rules:
+  - dangerous-subprocess-use
+  tier: T2
+- id: EXT.LAMBDA.SEC.100
+  name: Shlex Quote
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function with argument tainted by an `event` object.  If
+    this data can be controlled by a malicious actor, it may be an instance of command
+    injection. The default option for `shell
+  patterns:
+  - shlex.quote(...)
+  source_rules:
+  - dangerous-subprocess-use
+  tier: T2
+- id: EXT.LAMBDA.SEC.101
+  name: Loop Subprocess Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function '$LOOP.subprocess_exec' with argument
+    tainted by `event` object. If this data can be controlled by a malicious actor,
+    it may be an instance of command injection. Audit the
+  patterns:
+  - $LOOP.subprocess_exec($PROTOCOL, "=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $CMD,
+    ...)
+  - $LOOP.subprocess_exec($PROTOCOL, ["=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $CMD,
+    ...], ...)
+  - $LOOP.subprocess_exec($PROTOCOL, [$CMD, ...], ...)
+  - $LOOP.subprocess_exec($PROTOCOL, $CMD, ...)
+  source_rules:
+  - dangerous-asyncio-exec
+  tier: T2
+- id: EXT.LAMBDA.SEC.102
+  name: Subprocess Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected subprocess function '$LOOP.subprocess_exec' with argument
+    tainted by `event` object. If this data can be controlled by a malicious actor,
+    it may be an instance of command injection. Audit the
+  patterns:
+  - $LOOP.subprocess_exec($PROTOCOL, "=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $CMD,
+    ...)
+  - $LOOP.subprocess_exec($PROTOCOL, ["=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $CMD,
+    ...], ...)
+  - $LOOP.subprocess_exec($PROTOCOL, [$CMD, ...], ...)
+  - $LOOP.subprocess_exec($PROTOCOL, $CMD, ...)
+  source_rules:
+  - dangerous-asyncio-exec
+  tier: T2
+- id: EXT.LAMBDA.SEC.103
+  name: Html Format
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - $HTML.format(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.104
+  name: Cursor Mogrify
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CURSOR.mogrify($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.105
+  name: Mogrify
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `event` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use paramet
+  patterns:
+  - $CURSOR.mogrify($QUERY,...)
+  source_rules:
+  - psycopg-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.106
+  name: Fmt Fprintf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Fprintf($F, "$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.107
+  name: Fprintf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Fprintf($F, "$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.108
+  name: Fmt Sprintf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Sprintf("$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.109
+  name: Sprintf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Sprintf("$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.110
+  name: Fmt Printf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Printf("$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.111
+  name: Printf
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - fmt.Printf("$SQLSTR", ...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.112
+  name: Strconv Atoi
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - strconv.Atoi(...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.113
+  name: Atoi
+  ecosystem: aws-lambda
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - strconv.Atoi(...)
+  source_rules:
+  - tainted-sql-string
+  tier: T2
+- id: EXT.LAMBDA.SEC.114
+  name: Db Exec
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.Exec($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.115
+  name: Db Execcontent
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.ExecContent($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.116
+  name: Execcontent
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.ExecContent($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.117
+  name: Db Querycontext
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryContext($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.118
+  name: Querycontext
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryContext($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.119
+  name: Db Queryrow
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryRow($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.120
+  name: Queryrow
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryRow($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.121
+  name: Db Queryrowcontext
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryRowContext($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2
+- id: EXT.LAMBDA.SEC.122
+  name: Queryrowcontext
+  ecosystem: aws-lambda
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if the variable is user-controlled and not properly sanitized.
+    In order to prevent SQL injection, use parame
+  patterns:
+  - $DB.QueryRowContext($QUERY,...)
+  source_rules:
+  - database-sqli
+  tier: T2

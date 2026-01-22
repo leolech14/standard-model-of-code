@@ -1,0 +1,4047 @@
+version: 1.0.0
+generated_by: mine_semgrep.py
+source: semgrep-rules
+atom_count: 327
+atoms:
+- id: EXT.JS.SEC.001
+  name: Json Parse
+  ecosystem: javascript
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - JSON.parse(...)
+  source_rules:
+  - insecure-object-assign
+  tier: T2
+- id: EXT.JS.SEC.002
+  name: Parse
+  ecosystem: javascript
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - JSON.parse(...)
+  source_rules:
+  - insecure-object-assign
+  tier: T2
+- id: EXT.JS.SEC.003
+  name: Object Assign
+  ecosystem: javascript
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - Object.assign(...)
+  source_rules:
+  - insecure-object-assign
+  tier: T2
+- id: EXT.JS.SEC.004
+  name: Assign
+  ecosystem: javascript
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - Object.assign(...)
+  source_rules:
+  - insecure-object-assign
+  tier: T2
+- id: EXT.JS.SEC.005
+  name: Csrf
+  ecosystem: javascript
+  category: security
+  description: Detected use of express.csrf() middleware before express.methodOverride().
+    This can allow GET requests (which are not checked by csrf) to turn into POST
+    requests later.
+  patterns:
+  - express.csrf();
+  source_rules:
+  - detect-no-csrf-before-method-override
+  tier: T2
+- id: EXT.JS.SEC.006
+  name: Csrf
+  ecosystem: javascript
+  category: security
+  description: Detected use of express.csrf() middleware before express.methodOverride().
+    This can allow GET requests (which are not checked by csrf) to turn into POST
+    requests later.
+  patterns:
+  - express.csrf();
+  source_rules:
+  - detect-no-csrf-before-method-override
+  tier: T2
+- id: EXT.JS.SEC.007
+  name: Crypto Pseudorandombytes
+  ecosystem: javascript
+  category: security
+  description: Detected usage of crypto.pseudoRandomBytes, which does not produce
+    secure random numbers.
+  patterns:
+  - crypto.pseudoRandomBytes
+  source_rules:
+  - detect-pseudoRandomBytes
+  tier: T2
+- id: EXT.JS.SEC.008
+  name: Props Get
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - $PROPS.get('...')
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.009
+  name: Get
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - $PROPS.get('...')
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.010
+  name: Location Href
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - location.href
+  - $WINDOW. ... .location.href = $FUNC(...)
+  - $WINDOW. ... .location.href
+  - location.href = $FUNC(...)
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.011
+  name: Location Hash
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - location.hash = $FUNC(...)
+  - $WINDOW. ... .location.hash = $FUNC(...)
+  - location.hash
+  - $WINDOW. ... .location.hash
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.012
+  name: Location Search
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - location.search = $FUNC(...)
+  - location.search
+  - $WINDOW. ... .location.search
+  - $WINDOW. ... .location.search = $FUNC(...)
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.013
+  name: Window Eval
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - window.eval(<... $SINK ...>)
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.014
+  name: Eval
+  ecosystem: javascript
+  category: security
+  description: Detected use of dynamic execution of JavaScript which may come from
+    user-input, which can lead to Cross-Site-Scripting (XSS). Where possible avoid
+    including user-input in functions which dynamically e
+  patterns:
+  - window.eval(<... $SINK ...>)
+  source_rules:
+  - detect-eval-with-expression
+  tier: T2
+- id: EXT.JS.SEC.015
+  name: Cp Exec
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.exec($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.016
+  name: Exec
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - child_process.exec($CMD,...)
+  - $CP.exec($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.017
+  name: Cp Execsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.execSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.018
+  name: Execsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.execSync($CMD,...)
+  - child_process.execSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.019
+  name: Cp Spawn
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.spawn(...)
+  - '$CP.spawn(...,{shell: $SHELL})'
+  - $CP.spawn($CMD,...)
+  source_rules:
+  - detect-child-process
+  - spawn-shell-true
+  - dangerous-spawn-shell
+  tier: T2
+- id: EXT.JS.SEC.020
+  name: Spawn
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.spawn(...)
+  - child_process.spawn($CMD,...)
+  - '$CP.spawn(...,{shell: $SHELL})'
+  - $CP.spawn($CMD,...)
+  source_rules:
+  - detect-child-process
+  - spawn-shell-true
+  - dangerous-spawn-shell
+  tier: T2
+- id: EXT.JS.SEC.021
+  name: Cp Spawnsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.spawnSync(...)
+  - $CP.spawnSync($CMD,...)
+  - '$CP.spawnSync(...,{shell: $SHELL})'
+  source_rules:
+  - detect-child-process
+  - spawn-shell-true
+  - dangerous-spawn-shell
+  tier: T2
+- id: EXT.JS.SEC.022
+  name: Spawnsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - $CP.spawnSync(...)
+  - $CP.spawnSync($CMD,...)
+  - '$CP.spawnSync(...,{shell: $SHELL})'
+  - child_process.spawnSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  - spawn-shell-true
+  - dangerous-spawn-shell
+  tier: T2
+- id: EXT.JS.SEC.023
+  name: Child Process Exec
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - child_process.exec($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.024
+  name: Child Process Execsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - child_process.execSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.025
+  name: Child Process Spawn
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - child_process.spawn($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.SEC.026
+  name: Child Process Spawnsync
+  ecosystem: javascript
+  category: security
+  description: Detected calls to child_process from a function argument `$FUNC`. This
+    could lead to a command injection if the input is user controllable. Try to avoid
+    calls to child_process, and if it is needed ens
+  patterns:
+  - child_process.spawnSync($CMD,...)
+  source_rules:
+  - detect-child-process
+  tier: T2
+- id: EXT.JS.CORR.027
+  name: Json Stringify
+  ecosystem: javascript
+  category: correctness
+  description: JSON stringify does not produce a stable key ordering, and should not
+    be relied on for producing object keys. Consider using json-stable-stringify instead.
+  patterns:
+  - JSON.stringify(...)
+  source_rules:
+  - no-stringify-keys
+  tier: T2
+- id: EXT.JS.CORR.028
+  name: Stringify
+  ecosystem: javascript
+  category: correctness
+  description: JSON stringify does not produce a stable key ordering, and should not
+    be relied on for producing object keys. Consider using json-stable-stringify instead.
+  patterns:
+  - JSON.stringify(...)
+  source_rules:
+  - no-stringify-keys
+  tier: T2
+- id: EXT.JS.CORR.029
+  name: String Replaceall
+  ecosystem: javascript
+  category: correctness
+  description: The string method replaceAll is not supported in all versions of javascript,
+    and is not supported by older browser versions. Consider using replace() with
+    a regex as the first argument instead like my
+  patterns:
+  - $STRING.replaceAll("...",$NEW)
+  source_rules:
+  - no-replaceall
+  tier: T2
+- id: EXT.JS.CORR.030
+  name: Replaceall
+  ecosystem: javascript
+  category: correctness
+  description: The string method replaceAll is not supported in all versions of javascript,
+    and is not supported by older browser versions. Consider using replace() with
+    a regex as the first argument instead like my
+  patterns:
+  - $STRING.replaceAll("...",$NEW)
+  source_rules:
+  - no-replaceall
+  tier: T2
+- id: EXT.JS.SEC.031
+  name: Test
+  ecosystem: javascript
+  category: security
+  description: Detected the use of a regular expression `$REDOS` which appears to
+    be vulnerable to a Regular expression Denial-of-Service (ReDoS). For this reason,
+    it is recommended to review the regex and ensure it
+  patterns:
+  - /$REDOS/.test(...)
+  - '"$REDOS".test(...)'
+  source_rules:
+  - detect-redos
+  tier: T2
+- id: EXT.JS.SEC.032
+  name: X Match
+  ecosystem: javascript
+  category: security
+  description: Detected the use of a regular expression `$REDOS` which appears to
+    be vulnerable to a Regular expression Denial-of-Service (ReDoS). For this reason,
+    it is recommended to review the regex and ensure it
+  patterns:
+  - $X.match(/$REDOS/)
+  - $X.match("$REDOS")
+  source_rules:
+  - detect-redos
+  tier: T2
+- id: EXT.JS.SEC.033
+  name: Match
+  ecosystem: javascript
+  category: security
+  description: Detected the use of a regular expression `$REDOS` which appears to
+    be vulnerable to a Regular expression Denial-of-Service (ReDoS). For this reason,
+    it is recommended to review the regex and ensure it
+  patterns:
+  - $X.match(/$REDOS/)
+  - $X.match("$REDOS")
+  source_rules:
+  - detect-redos
+  tier: T2
+- id: EXT.JS.SEC.034
+  name: X Concat
+  ecosystem: javascript
+  category: security
+  description: Detected string concatenation with a non-literal variable in a util.format
+    / console.log function. If an attacker injects a format specifier in the string,
+    it will forge the log message. Try to use co
+  patterns:
+  - $X.concat($Y)
+  source_rules:
+  - unsafe-formatstring
+  tier: T2
+- id: EXT.JS.SEC.035
+  name: Concat
+  ecosystem: javascript
+  category: security
+  description: Detected string concatenation with a non-literal variable in a util.format
+    / console.log function. If an attacker injects a format specifier in the string,
+    it will forge the log message. Try to use co
+  patterns:
+  - $X.concat($Y)
+  source_rules:
+  - unsafe-formatstring
+  tier: T2
+- id: EXT.JS.SEC.036
+  name: Util Format
+  ecosystem: javascript
+  category: security
+  description: Detected string concatenation with a non-literal variable in a util.format
+    / console.log function. If an attacker injects a format specifier in the string,
+    it will forge the log message. Try to use co
+  patterns:
+  - $UTIL.format($STR,$PARAM,...)
+  source_rules:
+  - unsafe-formatstring
+  tier: T2
+- id: EXT.JS.SEC.037
+  name: Format
+  ecosystem: javascript
+  category: security
+  description: Detected string concatenation with a non-literal variable in a util.format
+    / console.log function. If an attacker injects a format specifier in the string,
+    it will forge the log message. Try to use co
+  patterns:
+  - $UTIL.format($STR,$PARAM,...)
+  source_rules:
+  - unsafe-formatstring
+  tier: T2
+- id: EXT.JS.SEC.038
+  name: Str Replace
+  ecosystem: javascript
+  category: security
+  description: '`$STR.replace` method will only replace the first occurrence when
+    used with a string argument ($CHAR). If this method is used for escaping of dangerous
+    data then there is a possibility for a bypass. T'
+  patterns:
+  - '$STR.replace(($CHAR: string), ...)'
+  source_rules:
+  - incomplete-sanitization
+  tier: T2
+- id: EXT.JS.SEC.039
+  name: Replace
+  ecosystem: javascript
+  category: security
+  description: '`$STR.replace` method will only replace the first occurrence when
+    used with a string argument ($CHAR). If this method is used for escaping of dangerous
+    data then there is a possibility for a bypass. T'
+  patterns:
+  - $Y.replace(...)
+  - '$STR.replace(($CHAR: string), ...)'
+  source_rules:
+  - incomplete-sanitization
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.040
+  name: Path Join
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.041
+  name: Join
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.042
+  name: Path Resolve
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.043
+  name: Resolve
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.044
+  name: Y Replace
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.replace(...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.045
+  name: Y Indexof
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.046
+  name: Indexof
+  ecosystem: javascript
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.JS.SEC.047
+  name: Vm Runincontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInContext("$CMD", ...)
+  - $VM.runInContext($X,...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.048
+  name: Runincontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInContext("$CMD", ...)
+  - $VM.runInContext($X,...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.049
+  name: Vm Runinnewcontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInNewContext($X,...)
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.050
+  name: Runinnewcontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInNewContext($X,...)
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.051
+  name: Vm Runinthiscontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInThisContext($X,...)
+  - $VM.runInThisContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.052
+  name: Runinthiscontext
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.runInThisContext($X,...)
+  - $VM.runInThisContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.053
+  name: Vm Compilefunction
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  - $VM.compileFunction($X,...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.054
+  name: Compilefunction
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  - $VM.compileFunction($X,...)
+  source_rules:
+  - express-detect-notevil-usage
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.055
+  name: Vm Script
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.Script($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.056
+  name: Script
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.Script($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.057
+  name: Vm Sourcetextmodule
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.SourceTextModule($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.058
+  name: Sourcetextmodule
+  ecosystem: javascript
+  category: security
+  description: The `vm` module enables compiling and running code within V8 Virtual
+    Machine contexts. The `vm` module is not a security mechanism. Do not use it to
+    run untrusted code. If code passed to `vm` function
+  patterns:
+  - new $VM.SourceTextModule($X,...)
+  source_rules:
+  - vm-runincontext-injection
+  tier: T2
+- id: EXT.JS.SEC.059
+  name: Then
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $MODEL.$FIND($E).then((...,$S,...)=>{...})
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.060
+  name: Req Query
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.query
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.061
+  name: Req Body
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.body
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.062
+  name: Req Params
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.params
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.063
+  name: Req Cookies
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.cookies
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.064
+  name: Req Headers
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.headers
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.065
+  name: Pug Compile
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.066
+  name: Compile
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.067
+  name: Pug Compileclient
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.068
+  name: Compileclient
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.069
+  name: Pug Compileclientwithdependenciestracked
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.070
+  name: Compileclientwithdependenciestracked
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.071
+  name: Pug Render
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.render(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.072
+  name: Render
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.render(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.073
+  name: Pug Template
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.074
+  name: Template
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.075
+  name: Pug Renderstring
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.JS.SEC.076
+  name: Renderstring
+  ecosystem: javascript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.CORR.001
+  name: Json Stringify
+  ecosystem: typescript
+  category: correctness
+  description: JSON stringify does not produce a stable key ordering, and should not
+    be relied on for producing object keys. Consider using json-stable-stringify instead.
+  patterns:
+  - JSON.stringify(...)
+  source_rules:
+  - no-stringify-keys
+  tier: T2
+- id: EXT.TS.CORR.002
+  name: Stringify
+  ecosystem: typescript
+  category: correctness
+  description: JSON stringify does not produce a stable key ordering, and should not
+    be relied on for producing object keys. Consider using json-stable-stringify instead.
+  patterns:
+  - JSON.stringify(...)
+  source_rules:
+  - no-stringify-keys
+  tier: T2
+- id: EXT.TS.SEC.003
+  name: Access
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .access($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.004
+  name: Appendfile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .appendFile($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.005
+  name: Chmod
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .chmod($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.006
+  name: Chown
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .chown($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.007
+  name: Close
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .close($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.008
+  name: Copyfile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .copyFile($SMTH, $FILE,...)
+  - $FS. ... .copyFile($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.009
+  name: Createreadstream
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .createReadStream($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.010
+  name: Createwritestream
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .createWriteStream($FILE,...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.011
+  name: Exists
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .exists($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.012
+  name: Fchmod
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fchmod($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.013
+  name: Fchown
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fchown($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.014
+  name: Fdatasync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fdatasync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.015
+  name: Fstat
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fstat($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.016
+  name: Fsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fsync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.017
+  name: Ftruncate
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .ftruncate($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.018
+  name: Futimes
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .futimes($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.019
+  name: Lchmod
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lchmod($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.020
+  name: Lchown
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lchown($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.021
+  name: Lutimes
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lutimes($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.022
+  name: Link
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .link($SMTH, $FILE, ...)
+  - $FS. ... .link($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.023
+  name: Lstat
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lstat($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.024
+  name: Mkdir
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .mkdir($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.025
+  name: Mkdtemp
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .mkdtemp($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.026
+  name: Open
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .open($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.027
+  name: Opendir
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .opendir($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.028
+  name: Read
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .read($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.029
+  name: Readdir
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readdir($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.030
+  name: Readfile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readFile($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.031
+  name: Readlink
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readlink($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.032
+  name: Readv
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readv($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.033
+  name: Realpath
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .realpath($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.034
+  name: Realpath Native
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .realpath.native($FILE, ...)
+  - realpath.native($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.035
+  name: Native
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .realpath.native($FILE, ...)
+  - $FS. ... .realpathSync.native($FILE, ...)
+  - realpath.native($FILE, ...)
+  - realpathSync.native($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.036
+  name: Rename
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .rename($FILE, ...)
+  - $FS. ... .rename($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.037
+  name: Rmdir
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .rmdir($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.038
+  name: Stat
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .stat($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.039
+  name: Symlink
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .symlink($FILE, ...)
+  - $FS. ... .symlink($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.040
+  name: Truncate
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .truncate($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.041
+  name: Unlink
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .unlink($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.042
+  name: Unwatchfile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .unwatchFile($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.043
+  name: Utimes
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .utimes($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.044
+  name: Watch
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .watch($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.045
+  name: Watchfile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .watchFile($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.046
+  name: Write
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .write($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.047
+  name: Writefile
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .writeFile($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.048
+  name: Writev
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .writev($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.049
+  name: Accesssync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .accessSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.050
+  name: Appendfilesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .appendFileSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.051
+  name: Chmodsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .chmodSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.052
+  name: Chownsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .chownSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.053
+  name: Closesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .closeSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.054
+  name: Copyfilesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .copyFileSync($FILE, ...)
+  - $FS. ... .copyFileSync($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.055
+  name: Cpsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .cpSync($FILE, ...)
+  - $FS. ... .cpSync($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.056
+  name: Existssync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .existsSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.057
+  name: Fchmodsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fchmodSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.058
+  name: Fchownsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fchownSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.059
+  name: Fdatasyncsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fdatasyncSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.060
+  name: Fstatsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fstatSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.061
+  name: Fsyncsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .fsyncSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.062
+  name: Ftruncatesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .ftruncateSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.063
+  name: Futimessync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .futimesSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.064
+  name: Lchmodsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lchmodSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.065
+  name: Lchownsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lchownSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.066
+  name: Lutimessync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lutimesSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.067
+  name: Linksync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .linkSync($FILE, ...)
+  - $FS. ... .linkSync($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.068
+  name: Lstatsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .lstatSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.069
+  name: Mkdirsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .mkdirSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.070
+  name: Mkdtempsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .mkdtempSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.071
+  name: Opendirsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .opendirSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.072
+  name: Opensync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .openSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.073
+  name: Readdirsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readdirSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.074
+  name: Readfilesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readFileSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.075
+  name: Readlinksync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readlinkSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.076
+  name: Readsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.077
+  name: Readvsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .readvSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.078
+  name: Realpathync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .realpathync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.079
+  name: Realpathsync Native
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .realpathSync.native($FILE, ...)
+  - realpathSync.native($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.080
+  name: Renamesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .renameSync($SMTH, $FILE, ...)
+  - $FS. ... .renameSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.081
+  name: Rmdirsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .rmdirSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.082
+  name: Rmsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .rmSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.083
+  name: Statsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .statSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.084
+  name: Symlinksync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .symlinkSync($FILE, ...)
+  - $FS. ... .symlinkSync($SMTH, $FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.085
+  name: Truncatesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .truncateSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.086
+  name: Unlinksync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .unlinkSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.087
+  name: Utimessync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .utimesSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.088
+  name: Writefilesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .writeFileSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.089
+  name: Writesync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .writeSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.090
+  name: Writevsync
+  ecosystem: typescript
+  category: security
+  description: Detected that function argument `$ARG` has entered the fs module. An
+    attacker could potentially control the location of this file, to include going
+    backwards in the directory with '../'. To address th
+  patterns:
+  - $FS. ... .writevSync($FILE, ...)
+  source_rules:
+  - detect-non-literal-fs-filename
+  tier: T2
+- id: EXT.TS.SEC.091
+  name: Translateprovider Translations
+  ecosystem: typescript
+  category: security
+  description: The use of $translateProvider.translations method can be dangerous
+    if user input is provided to this API.
+  patterns:
+  - $translateProvider.translations(...,$SOURCE);
+  source_rules:
+  - detect-angular-translateprovider-translations-method
+  tier: T2
+- id: EXT.TS.SEC.092
+  name: Translations
+  ecosystem: typescript
+  category: security
+  description: The use of $translateProvider.translations method can be dangerous
+    if user input is provided to this API.
+  patterns:
+  - $translateProvider.translations(...,$SOURCE);
+  source_rules:
+  - detect-angular-translateprovider-translations-method
+  tier: T2
+- id: EXT.TS.SEC.093
+  name: Then
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $MODEL.$FIND($E).then((...,$S,...)=>{...})
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.094
+  name: Req Query
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.query
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.095
+  name: Req Body
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.body
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.096
+  name: Req Params
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.params
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.097
+  name: Req Cookies
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.cookies
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.098
+  name: Req Headers
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $REQ.headers
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.099
+  name: Pug Compile
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.100
+  name: Compile
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.101
+  name: Pug Compileclient
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.102
+  name: Compileclient
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.103
+  name: Pug Compileclientwithdependenciestracked
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.104
+  name: Compileclientwithdependenciestracked
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.105
+  name: Pug Render
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.render(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.106
+  name: Render
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.render(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.107
+  name: Pug Template
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.108
+  name: Template
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.109
+  name: Pug Renderstring
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.110
+  name: Renderstring
+  ecosystem: typescript
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.TS.SEC.111
+  name: Vm Runincontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.112
+  name: Runincontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.113
+  name: Vm Runinnewcontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.114
+  name: Runinnewcontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.115
+  name: Vm Runinthiscontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInThisContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.116
+  name: Runinthiscontext
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.runInThisContext("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.117
+  name: Vm Compilefunction
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.TS.SEC.118
+  name: Compilefunction
+  ecosystem: typescript
+  category: security
+  description: 'Detected usage of the `notevil` package, which is unmaintained and
+    has vulnerabilities. Using any sort of `eval()` functionality can be very dangerous,
+    but if you must, the `eval` package is an up to '
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  source_rules:
+  - express-detect-notevil-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.001
+  name: Req Query
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.query
+  source_rules:
+  - express-data-exfiltration
+  - require-request
+  - express-open-redirect
+  - res-render-injection
+  - express-expat-xxe
+  - express-path-join-resolve-traversal
+  - tainted-sql-string
+  - x-frame-options-misconfiguration
+  - express-sandbox-code-injection
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.002
+  name: Req Body
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.body
+  source_rules:
+  - express-data-exfiltration
+  - require-request
+  - express-open-redirect
+  - res-render-injection
+  - express-expat-xxe
+  - express-path-join-resolve-traversal
+  - tainted-sql-string
+  - x-frame-options-misconfiguration
+  - express-sandbox-code-injection
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.003
+  name: Req Params
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.params
+  source_rules:
+  - express-data-exfiltration
+  - require-request
+  - express-open-redirect
+  - res-render-injection
+  - express-expat-xxe
+  - express-path-join-resolve-traversal
+  - tainted-sql-string
+  - x-frame-options-misconfiguration
+  - express-sandbox-code-injection
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.004
+  name: Req Cookies
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.cookies
+  source_rules:
+  - express-data-exfiltration
+  - require-request
+  - express-open-redirect
+  - res-render-injection
+  - express-expat-xxe
+  - express-path-join-resolve-traversal
+  - tainted-sql-string
+  - x-frame-options-misconfiguration
+  - express-sandbox-code-injection
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.005
+  name: Req Headers
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.headers
+  source_rules:
+  - express-data-exfiltration
+  - require-request
+  - express-open-redirect
+  - res-render-injection
+  - express-expat-xxe
+  - express-path-join-resolve-traversal
+  - tainted-sql-string
+  - x-frame-options-misconfiguration
+  - express-sandbox-code-injection
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.006
+  name: Req Files
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.files.$ANYTHING['data'].toString('utf8')
+  - $REQ.files.$ANYTHING.data.toString('utf8')
+  source_rules:
+  - express-libxml-noent
+  - express-xml2json-xxe
+  - node-knex-sqli
+  - express-sequelize-injection
+  - express-third-party-object-deserialization
+  tier: T2
+- id: EXT.EXPRESS.SEC.007
+  name: Anything Data Tostring
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.files.$ANYTHING.data.toString('utf8')
+  - files.$ANYTHING.data.toString('utf8')
+  source_rules:
+  - express-libxml-noent
+  - express-xml2json-xxe
+  - node-knex-sqli
+  - express-sequelize-injection
+  - express-third-party-object-deserialization
+  tier: T2
+- id: EXT.EXPRESS.SEC.008
+  name: Tostring
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $REQ.files.$ANYTHING['data'].toString('utf8')
+  - $REQ.files.$ANYTHING.data.toString('utf8')
+  - files.$ANYTHING.data.toString('utf8')
+  - files.$ANYTHING['data'].toString('utf8')
+  source_rules:
+  - express-libxml-noent
+  - express-xml2json-xxe
+  - node-knex-sqli
+  - express-sequelize-injection
+  - express-third-party-object-deserialization
+  tier: T2
+- id: EXT.EXPRESS.SEC.009
+  name: Sequelize Query
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - sequelize.query($QUERY,...)
+  source_rules:
+  - express-sequelize-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.010
+  name: Query
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $DB.sequelize.query($QUERY,...)
+  - sequelize.query($QUERY,...)
+  source_rules:
+  - express-sequelize-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.011
+  name: Db Sequelize Query
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $DB.sequelize.query($QUERY,...)
+  source_rules:
+  - express-sequelize-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.012
+  name: Hash
+  ecosystem: express
+  category: security
+  description: Detected a sequelize statement that is tainted by user-input. This
+    could lead to SQL injection if the variable is user-controlled and is not properly
+    sanitized. In order to prevent SQL injection, it i
+  patterns:
+  - $FUNC. ... .hash(...)
+  source_rules:
+  - express-sequelize-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.013
+  name: Router Query
+  ecosystem: express
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $ROUTER.query.$VALUE
+  source_rules:
+  - code-string-concat
+  tier: T2
+- id: EXT.EXPRESS.SEC.014
+  name: Res Set
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.set($HEADER, $X)
+  - '$RES.set({$HEADER: $X}, ...)'
+  - '$RES.set({$HEADER: ...}, ...)'
+  - $RES.set($HEADER, ...)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.015
+  name: Set
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.set($HEADER, $X)
+  - '$RES.set({$HEADER: $X}, ...)'
+  - '$RES.set({$HEADER: ...}, ...)'
+  - $RES.set($HEADER, ...)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.016
+  name: Res Header
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.header($HEADER, ...)
+  - $RES.header($HEADER, $X)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.017
+  name: Header
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.header($HEADER, ...)
+  - $RES.header($HEADER, $X)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.018
+  name: Res Setheader
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.setHeader($HEADER, ...)
+  - $RES.setHeader($HEADER, $X)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.019
+  name: Setheader
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - $RES.setHeader($HEADER, ...)
+  - $RES.setHeader($HEADER, $X)
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.020
+  name: Res Writehead
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - '$RES.writeHead($STATUS, {$HEADER: ...}, ...)'
+  - '$RES.writeHead($STATUS, {$HEADER: $X}, ...)'
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.021
+  name: Writehead
+  ecosystem: express
+  category: security
+  description: By letting user input control CORS parameters, there is a risk that
+    software does not properly verify that the source of data or communication is
+    valid. Use literal values for CORS settings.
+  patterns:
+  - '$RES.writeHead($STATUS, {$HEADER: ...}, ...)'
+  - '$RES.writeHead($STATUS, {$HEADER: $X}, ...)'
+  source_rules:
+  - x-frame-options-misconfiguration
+  - cors-misconfiguration
+  tier: T2
+- id: EXT.EXPRESS.SEC.022
+  name: Vm Run
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `vm2`.
+  patterns:
+  - $VM.run(...)
+  source_rules:
+  - express-vm2-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.023
+  name: Run
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `vm2`.
+  patterns:
+  - new VM(...).run(...)
+  - new $SANDBOX($OPTS).run(...)
+  - new NodeVM(...).run(...)
+  - $S.run(...)
+  - new $SANDBOX().run(...)
+  source_rules:
+  - express-sandbox-code-injection
+  - express-vm2-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.024
+  name: Expat Tojson
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities
+  patterns:
+  - $REQ.on('...', function(...) { ... $EXPAT.toJson($INPUT,...); ... })
+  - $EXPAT.toJson($SINK,...)
+  source_rules:
+  - express-xml2json-xxe-event
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.025
+  name: Tojson
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities
+  patterns:
+  - $REQ.on('...', function(...) { ... $EXPAT.toJson($INPUT,...); ... })
+  - $EXPAT.toJson($SINK,...)
+  source_rules:
+  - express-xml2json-xxe-event
+  - express-xml2json-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.026
+  name: Object Assign
+  ecosystem: express
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - Object.assign(...)
+  source_rules:
+  - express-data-exfiltration
+  tier: T2
+- id: EXT.EXPRESS.SEC.027
+  name: Assign
+  ecosystem: express
+  category: security
+  description: Depending on the context, user control data in `Object.assign` can
+    cause web response to include data that it should not have or can lead to a mass
+    assignment vulnerability.
+  patterns:
+  - Object.assign(...)
+  source_rules:
+  - express-data-exfiltration
+  tier: T2
+- id: EXT.EXPRESS.SEC.028
+  name: Page Open
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.open($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.029
+  name: Open
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.open($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.030
+  name: Page Setcontent
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.setContent($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.031
+  name: Setcontent
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.setContent($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.032
+  name: Page Openurl
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.openUrl($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.033
+  name: Openurl
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.openUrl($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.034
+  name: Page Evaluatejavascript
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateJavaScript($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.035
+  name: Evaluatejavascript
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateJavaScript($SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.036
+  name: Page Property
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.property("content",$SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.037
+  name: Property
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.property("content",$SINK,...)
+  source_rules:
+  - express-phantom-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.038
+  name: Vm Runincontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInContext(...)
+  - $VM.runInContext("$CMD", ...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.039
+  name: Runincontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInContext(...)
+  - $VM.runInContext("$CMD", ...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.040
+  name: Vm Runinnewcontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInNewContext(...)
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.041
+  name: Runinnewcontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInNewContext(...)
+  - $VM.runInNewContext("$CMD", ...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.042
+  name: Vm Compilefunction
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  - $VM.compileFunction(...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.043
+  name: Compilefunction
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.compileFunction("$CMD", ...)
+  - $VM.compileFunction(...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.044
+  name: Vm Runinthiscontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInThisContext("$CMD", ...)
+  - $VM.runInThisContext(...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.045
+  name: Runinthiscontext
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - $VM.runInThisContext("$CMD", ...)
+  - $VM.runInThisContext(...)
+  source_rules:
+  - express-vm-injection
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.046
+  name: Vm Script
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - new $VM.Script(...)
+  source_rules:
+  - express-vm-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.047
+  name: Script
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `$VM`.
+  patterns:
+  - new $VM.Script(...)
+  source_rules:
+  - express-vm-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.048
+  name: Parser Parse
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities.
+  patterns:
+  - $PARSER.parse($QUERY)
+  source_rules:
+  - express-expat-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.049
+  name: Parse
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities.
+  patterns:
+  - $PARSER.parse($QUERY)
+  source_rules:
+  - express-expat-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.050
+  name: Parser Write
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities.
+  patterns:
+  - $PARSER.write($QUERY)
+  source_rules:
+  - express-expat-xxe
+  tier: T2
+- id: EXT.EXPRESS.SEC.051
+  name: Write
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach the XML Parser, as
+    it can result in XML External or Internal Entity (XXE) Processing vulnerabilities.
+  patterns:
+  - $PARSER.write($QUERY)
+  - $RES.write($ARG)
+  source_rules:
+  - express-expat-xxe
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.052
+  name: Wk Generate
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $WK.generate($SINK,...)
+  source_rules:
+  - express-wkhtmltoimage-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.053
+  name: Generate
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `phantom` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $WK.generate($SINK,...)
+  source_rules:
+  - express-wkhtmltoimage-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.054
+  name: Then
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $MODEL.$FIND($E).then((...,$S,...)=>{...})
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.055
+  name: Pug Compile
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.056
+  name: Compile
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compile(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.057
+  name: Pug Compileclient
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.058
+  name: Compileclient
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClient(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.059
+  name: Pug Compileclientwithdependenciestracked
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.060
+  name: Compileclientwithdependenciestracked
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.compileClientWithDependenciesTracked(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.061
+  name: Pug Render
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.render(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.062
+  name: Render
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $S.render(...)
+  - $RES.render($SINK, ...)
+  - $PUG.render(...)
+  source_rules:
+  - direct-response-write
+  - express-insecure-template-usage
+  - res-render-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.063
+  name: Pug Template
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.064
+  name: Template
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.template(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.065
+  name: Pug Renderstring
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.066
+  name: Renderstring
+  ecosystem: express
+  category: security
+  description: User data from `$REQ` is being compiled into the template, which can
+    lead to a Server Side Template Injection (SSTI) vulnerability.
+  patterns:
+  - $PUG.renderString(...)
+  source_rules:
+  - express-insecure-template-usage
+  tier: T2
+- id: EXT.EXPRESS.SEC.067
+  name: Page Goto
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.goto($SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.068
+  name: Goto
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.goto($SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.069
+  name: Page Evaluate
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluate($CODE,$SINK,...)
+  - $PAGE.evaluate($SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.070
+  name: Evaluate
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluate($CODE,$SINK,...)
+  - $PAGE.evaluate($SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.071
+  name: Page Evaluatehandle
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateHandle($SINK,...)
+  - $PAGE.evaluateHandle($CODE,$SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.072
+  name: Evaluatehandle
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateHandle($SINK,...)
+  - $PAGE.evaluateHandle($CODE,$SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.073
+  name: Page Evaluateonnewdocument
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateOnNewDocument($SINK,...)
+  - $PAGE.evaluateOnNewDocument($CODE,$SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.074
+  name: Evaluateonnewdocument
+  ecosystem: express
+  category: security
+  description: If unverified user data can reach the `puppeteer` methods it can result
+    in Server-Side Request Forgery vulnerabilities
+  patterns:
+  - $PAGE.evaluateOnNewDocument($SINK,...)
+  - $PAGE.evaluateOnNewDocument($CODE,$SINK,...)
+  source_rules:
+  - express-puppeteer-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.075
+  name: S Run
+  ecosystem: express
+  category: security
+  description: Make sure that unverified user data can not reach `sandbox`.
+  patterns:
+  - $S.run(...)
+  source_rules:
+  - express-sandbox-code-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.076
+  name: Libxml Parsexml
+  ecosystem: express
+  category: security
+  description: Detected use of parseXml() function with the `noent` field set to `true`.
+    This can lead to an XML External Entities (XXE) attack if untrusted data is passed
+    into it.
+  patterns:
+  - '$LIBXML.parseXml($DATA, {..., noent: true, ...}, ...)'
+  - $LIBXML.parseXml( $DATA, $OPTS )
+  source_rules:
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.077
+  name: Parsexml
+  ecosystem: express
+  category: security
+  description: Detected use of parseXml() function with the `noent` field set to `true`.
+    This can lead to an XML External Entities (XXE) attack if untrusted data is passed
+    into it.
+  patterns:
+  - '$LIBXML.parseXml($DATA, {..., noent: true, ...}, ...)'
+  - $LIBXML.parseXml( $DATA, $OPTS )
+  source_rules:
+  - express-libxml-vm-noent
+  tier: T2
+- id: EXT.EXPRESS.SEC.078
+  name: App Use
+  ecosystem: express
+  category: security
+  description: Directory listing/indexing is enabled, which may lead to disclosure
+    of sensitive directories and files. It is recommended to disable directory listing
+    unless it is a public resource. If you need direc
+  patterns:
+  - $APP.use(require('serve-index')(...))
+  - $APP.use(..., $SERVEINDEX(...), ...)
+  source_rules:
+  - express-check-directory-listing
+  tier: T2
+- id: EXT.EXPRESS.SEC.079
+  name: Use
+  ecosystem: express
+  category: security
+  description: Directory listing/indexing is enabled, which may lead to disclosure
+    of sensitive directories and files. It is recommended to disable directory listing
+    unless it is a public resource. If you need direc
+  patterns:
+  - $APP.use(require('serve-index')(...))
+  - $APP.use(..., $SERVEINDEX(...), ...)
+  source_rules:
+  - express-check-directory-listing
+  tier: T2
+- id: EXT.EXPRESS.SEC.080
+  name: Res Redirect
+  ecosystem: express
+  category: security
+  description: The application redirects to a URL specified by user-supplied input
+    `$REQ` that is not validated. This could redirect users to malicious locations.
+    Consider using an allow-list approach to validate UR
+  patterns:
+  - $RES.redirect("$HTTP"+$REQ. ... .$VALUE + $...A)
+  - $RES.redirect(`$HTTP${$REQ.$VALUE[...]}...`)
+  - $RES.redirect(`${$ASSIGN}...`)
+  - $RES.redirect(..., <... $UNK ...>, ...)
+  - $RES.redirect($REQ.$VALUE['...'])
+  source_rules:
+  - unknown-value-in-redirect
+  - express-open-redirect
+  tier: T2
+- id: EXT.EXPRESS.SEC.081
+  name: Redirect
+  ecosystem: express
+  category: security
+  description: The application redirects to a URL specified by user-supplied input
+    `$REQ` that is not validated. This could redirect users to malicious locations.
+    Consider using an allow-list approach to validate UR
+  patterns:
+  - $RES.redirect("$HTTP"+$REQ. ... .$VALUE + $...A)
+  - $RES.redirect(`$HTTP${$REQ.$VALUE[...]}...`)
+  - $RES.redirect(`${$ASSIGN}...`)
+  - $RES.redirect(..., <... $UNK ...>, ...)
+  - $RES.redirect($REQ.$VALUE['...'])
+  source_rules:
+  - unknown-value-in-redirect
+  - express-open-redirect
+  tier: T2
+- id: EXT.EXPRESS.SEC.082
+  name: Path Join
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - path.join(...,$SINK,...)
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.083
+  name: Join
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - path.join(...,$SINK,...)
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.084
+  name: Path Resolve
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  - path.resolve(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.085
+  name: Resolve
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  - path.resolve(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.086
+  name: Y Replace
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $Y.replace(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.087
+  name: Replace
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $Y.replace(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.088
+  name: Y Indexof
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.089
+  name: Indexof
+  ecosystem: express
+  category: security
+  description: Possible writing outside of the destination, make sure that the target
+    path is nested in the intended destination
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  tier: T2
+- id: EXT.EXPRESS.SEC.090
+  name: Res Render
+  ecosystem: express
+  category: security
+  description: 'User controllable data `$REQ` enters `$RES.render(...)` this can lead
+    to the loading of other HTML/templating pages that they may not be authorized
+    to render. An attacker may attempt to use directory '
+  patterns:
+  - $RES.render($SINK, ...)
+  source_rules:
+  - res-render-injection
+  tier: T2
+- id: EXT.EXPRESS.SEC.091
+  name: Req On
+  ecosystem: express
+  category: security
+  description: Xml Parser is used inside Request Event. Make sure that unverified
+    user data can not reach the XML Parser, as it can result in XML External or Internal
+    Entity (XXE) Processing vulnerabilities
+  patterns:
+  - $REQ.on('...', function(...) { ... $EXPAT.toJson($INPUT,...); ... })
+  source_rules:
+  - express-xml2json-xxe-event
+  tier: T2
+- id: EXT.EXPRESS.SEC.092
+  name: Util Format
+  ecosystem: express
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - util.format($HTMLSTR, ...)
+  - util.format($SQLSTR, $EXPR)
+  source_rules:
+  - raw-html-format
+  - tainted-sql-string
+  tier: T2
+- id: EXT.EXPRESS.SEC.093
+  name: Format
+  ecosystem: express
+  category: security
+  description: Detected user input used to manually construct a SQL string. This is
+    usually bad practice because manual construction could accidentally result in
+    a SQL injection. An attacker could use a SQL injectio
+  patterns:
+  - util.format($HTMLSTR, ...)
+  - util.format($SQLSTR, $EXPR)
+  source_rules:
+  - raw-html-format
+  - tainted-sql-string
+  tier: T2
+- id: EXT.EXPRESS.SEC.094
+  name: Concat
+  ecosystem: express
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    HTML. This can introduce a Cross-Site-Scripting (XSS) vulnerability if this comes
+    from user-provided input. Consider using a sanitiza
+  patterns:
+  - '"$HTMLSTR".concat(...)'
+  source_rules:
+  - raw-html-format
+  tier: T2
+- id: EXT.EXPRESS.SEC.095
+  name: Res Write
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $RES.write($ARG)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.096
+  name: Res Send
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $RES.send($ARG)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.097
+  name: Send
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $RES.send($ARG)
+  - $RES. ... .type('$F'). ... .send(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.098
+  name: S Escapehtml
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.099
+  name: Escapehtml
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.100
+  name: Value Sanitize
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $VALUE.sanitize(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.101
+  name: Sanitize
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $VALUE.sanitize(...)
+  - $S.sanitize(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.102
+  name: S Sanitize
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $S.sanitize(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.103
+  name: S Render
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $S.render(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.104
+  name: Type
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - $RES. ... .type('$F'). ... .send(...)
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.105
+  name: X Includes
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - if(<... !$X.includes($SOURCE)...>) {
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.106
+  name: Includes
+  ecosystem: express
+  category: security
+  description: Detected directly writing to a Response object from user-defined input.
+    This bypasses any HTML escaping and may expose your application to a Cross-Site-scripting
+    (XSS) vulnerability. Instead, use 'res
+  patterns:
+  - if(<... !$X.includes($SOURCE)...>) {
+  source_rules:
+  - direct-response-write
+  tier: T2
+- id: EXT.EXPRESS.SEC.107
+  name: Mustache Escape
+  ecosystem: express
+  category: security
+  description: The Mustache escape function is being overwritten. This could bypass
+    HTML escaping safety measures built into the rendering engine, exposing your application
+    to cross-site scripting (XSS) vulnerabilit
+  patterns:
+  - $MUSTACHE.escape = ...
+  - Mustache.escape = ...
+  source_rules:
+  - escape-function-overwrite
+  tier: T2
+- id: EXT.NODE.J.SEC.001
+  name: Server On
+  ecosystem: node.js
+  category: security
+  description: Checks for creation of telnet servers or attempts to connect through
+    telnet. This is insecure as the telnet protocol supports no encryption, and data
+    passes through unencrypted.
+  patterns:
+  - $SERVER.on(...)
+  source_rules:
+  - telnet-request
+  tier: T2
+- id: EXT.NODE.J.SEC.002
+  name: Server Connect
+  ecosystem: node.js
+  category: security
+  description: Checks for creation of telnet servers or attempts to connect through
+    telnet. This is insecure as the telnet protocol supports no encryption, and data
+    passes through unencrypted.
+  patterns:
+  - $SERVER.connect(...)
+  source_rules:
+  - telnet-request
+  tier: T2
+- id: EXT.NODE.J.SEC.003
+  name: Connect
+  ecosystem: node.js
+  category: security
+  description: Checks for creation of telnet servers or attempts to connect through
+    telnet. This is insecure as the telnet protocol supports no encryption, and data
+    passes through unencrypted.
+  patterns:
+  - $SERVER.connect(...)
+  - $C.connect($OPTIONS,...);
+  source_rules:
+  - ftp-request
+  - telnet-request
+  tier: T2
+- id: EXT.NODE.J.SEC.004
+  name: Server Createserver
+  ecosystem: node.js
+  category: security
+  description: Checks for creation of telnet servers or attempts to connect through
+    telnet. This is insecure as the telnet protocol supports no encryption, and data
+    passes through unencrypted.
+  patterns:
+  - $SERVER.createServer(...)
+  source_rules:
+  - telnet-request
+  tier: T2
+- id: EXT.NODE.J.SEC.005
+  name: Createserver
+  ecosystem: node.js
+  category: security
+  description: Checks for creation of telnet servers or attempts to connect through
+    telnet. This is insecure as the telnet protocol supports no encryption, and data
+    passes through unencrypted.
+  patterns:
+  - $HTTPS.createServer(...).$FUNC(...);
+  - $SERVER.createServer(...)
+  source_rules:
+  - disallow-old-tls-versions1
+  - telnet-request
+  tier: T2
+- id: EXT.NODE.J.SEC.006
+  name: Process Env
+  ecosystem: node.js
+  category: security
+  description: Checks for setting the environment variable NODE_TLS_REJECT_UNAUTHORIZED
+    to 0, which disables TLS verification. This should only be used for debugging
+    purposes. Setting the option rejectUnauthorized t
+  patterns:
+  - process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+  source_rules:
+  - bypass-tls-verification
+  tier: T2
+- id: EXT.NODE.J.SEC.007
+  name: Http Request
+  ecosystem: node.js
+  category: security
+  description: Checks for requests sent to http:// URLs. This is dangerous as the
+    server is attempting to connect to a website that does not encrypt traffic with
+    TLS. Instead, only send requests to https:// URLs.
+  patterns:
+  - $HTTP.request("=~/http://.*/",...);
+  - '$HTTP.request(..., {...,hostname: "..."}, ...);'
+  source_rules:
+  - http-request
+  tier: T2
+- id: EXT.NODE.J.SEC.008
+  name: Request
+  ecosystem: node.js
+  category: security
+  description: Checks for requests sent to http:// URLs. This is dangerous as the
+    server is attempting to connect to a website that does not encrypt traffic with
+    TLS. Instead, only send requests to https:// URLs.
+  patterns:
+  - $HTTP.request("=~/http://.*/",...);
+  - '$HTTP.request(..., {...,hostname: "..."}, ...);'
+  source_rules:
+  - http-request
+  tier: T2
+- id: EXT.NODE.J.SEC.009
+  name: Http Get
+  ecosystem: node.js
+  category: security
+  description: Checks for requests sent to http:// URLs. This is dangerous as the
+    server is attempting to connect to a website that does not encrypt traffic with
+    TLS. Instead, only send requests to https:// URLs.
+  patterns:
+  - $HTTP.get("=~/http://.*/", ...)
+  source_rules:
+  - http-request
+  tier: T2
+- id: EXT.NODE.J.SEC.010
+  name: Get
+  ecosystem: node.js
+  category: security
+  description: Checks for requests sent to http:// URLs. This is dangerous as the
+    server is attempting to connect to a website that does not encrypt traffic with
+    TLS. Instead, only send requests to https:// URLs.
+  patterns:
+  - $HTTP.get("=~/http://.*/", ...)
+  source_rules:
+  - http-request
+  tier: T2
+- id: EXT.NODE.J.SEC.011
+  name: Https Createserver
+  ecosystem: node.js
+  category: security
+  description: Detects direct creations of $HTTPS servers that don't disallow SSL
+    v2, SSL v3, and TLS v1. These protocols are deprecated due to POODLE, man in the
+    middle attacks, and other vulnerabilities.
+  patterns:
+  - $HTTPS.createServer(...).$FUNC(...);
+  source_rules:
+  - disallow-old-tls-versions1
+  tier: T2
+- id: EXT.NODE.J.SEC.012
+  name: C Connect
+  ecosystem: node.js
+  category: security
+  description: 'Checks for lack of usage of the "secure: true" option when sending
+    ftp requests through the nodejs ftp module. This leads to unencrypted traffic
+    being sent to the ftp server. There are other options s'
+  patterns:
+  - $C.connect($OPTIONS,...);
+  source_rules:
+  - ftp-request
+  tier: T2
+- id: EXT.NODE.J.SEC.013
+  name: Req Query
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $REQ.query
+  source_rules:
+  - express-path-join-resolve-traversal
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.014
+  name: Req Body
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $REQ.body
+  source_rules:
+  - express-path-join-resolve-traversal
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.015
+  name: Req Params
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $REQ.params
+  source_rules:
+  - express-path-join-resolve-traversal
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.016
+  name: Req Cookies
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $REQ.cookies
+  source_rules:
+  - express-path-join-resolve-traversal
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.017
+  name: Req Headers
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $REQ.headers
+  source_rules:
+  - express-path-join-resolve-traversal
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.018
+  name: Router Query
+  ecosystem: node.js
+  category: security
+  description: 'Found data from an Express or Next web request flowing to `eval`.
+    If this data is user-controllable this can lead to execution of arbitrary system
+    commands in the context of your application process. '
+  patterns:
+  - $ROUTER.query.$VALUE
+  source_rules:
+  - code-string-concat
+  tier: T2
+- id: EXT.NODE.J.SEC.019
+  name: Path Join
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - path.join(...,$SINK,...)
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.020
+  name: Join
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - path.join(...,$SINK,...)
+  - $PATH.join(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.021
+  name: Path Resolve
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  - path.resolve(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.022
+  name: Resolve
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $PATH.resolve(...,$SINK,...)
+  - path.resolve(...,$SINK,...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.023
+  name: Y Replace
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.replace(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.024
+  name: Replace
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.replace(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.025
+  name: Y Indexof
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2
+- id: EXT.NODE.J.SEC.026
+  name: Indexof
+  ecosystem: node.js
+  category: security
+  description: Detected possible user input going into a `path.join` or `path.resolve`
+    function. This could possibly lead to a path traversal vulnerability,  where the
+    attacker can access arbitrary files stored in t
+  patterns:
+  - $Y.indexOf(...)
+  source_rules:
+  - express-path-join-resolve-traversal
+  - path-join-resolve-traversal
+  tier: T2

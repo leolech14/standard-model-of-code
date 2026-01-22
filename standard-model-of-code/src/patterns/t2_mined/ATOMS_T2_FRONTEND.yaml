@@ -1,0 +1,519 @@
+version: 1.0.0
+generated_by: mine_semgrep.py
+source: semgrep-rules
+atom_count: 42
+atoms:
+- id: EXT.REACT.BEST.001
+  name: This Props
+  ecosystem: react
+  category: best-practice
+  description: Copying a prop into state in React -- this is bad practice as all updates
+    to it are ignored. Instead, read props directly in your component and avoid copying
+    props into state.
+  patterns:
+  - 'this.state = {$NAME: <... this.props.$PROP ...>}'
+  - 'state = {$NAME: <... this.props.$PROP ...>}'
+  source_rules:
+  - react-props-in-state
+  tier: T2
+- id: EXT.REACT.BEST.002
+  name: This State
+  ecosystem: react
+  category: best-practice
+  description: Copying a prop into state in React -- this is bad practice as all updates
+    to it are ignored. Instead, read props directly in your component and avoid copying
+    props into state.
+  patterns:
+  - 'this.state = {$NAME: <... this.props.$PROP ...>}'
+  source_rules:
+  - react-props-in-state
+  tier: T2
+- id: EXT.REACT.BEST.003
+  name: Dom Finddomnode
+  ecosystem: react
+  category: best-practice
+  description: findDOMNode is an escape hatch used to access the underlying DOM node.
+    In most cases, use of this escape hatch is discouraged because it pierces the
+    component abstraction.
+  patterns:
+  - $DOM.findDOMNode(...)
+  source_rules:
+  - react-find-dom
+  tier: T2
+- id: EXT.REACT.SEC.004
+  name: Finddomnode
+  ecosystem: react
+  category: security
+  description: findDOMNode is an escape hatch used to access the underlying DOM node.
+    In most cases, use of this escape hatch is discouraged because it pierces the
+    component abstraction.
+  patterns:
+  - ReactDOM.findDOMNode(...).$HTML = $SINK
+  - $DOM.findDOMNode(...)
+  source_rules:
+  - react-unsanitized-property
+  - react-find-dom
+  tier: T2
+- id: EXT.REACT.GEN.005
+  name: I18Next T
+  ecosystem: react
+  category: portability
+  description: Translation key '$KEY' should match format 'MODULE.FEATURE.*'
+  patterns:
+  - $I18NEXT.t('$KEY', $OPTIONS)
+  - $I18NEXT.t('$KEY')
+  - $I18NEXT.t([$DYNAMIC_KEY, '$KEY'])
+  - $I18NEXT.t([$DYNAMIC_KEY, '$KEY'], $OPTIONS)
+  source_rules:
+  - i18next-key-format
+  tier: T2
+- id: EXT.REACT.SEC.006
+  name: Createelement
+  ecosystem: react
+  category: security
+  description: Detected a variable used in an anchor tag with the 'href' attribute.
+    A malicious actor may be able to input the 'javascript:' URI, which could cause
+    cross-site scripting (XSS). It is recommended to di
+  patterns:
+  - 'React.createElement($EL, {href: $X})'
+  source_rules:
+  - react-href-var
+  tier: T2
+- id: EXT.REACT.SEC.007
+  name: Createelement
+  ecosystem: react
+  category: security
+  description: Detected a variable used in an anchor tag with the 'href' attribute.
+    A malicious actor may be able to input the 'javascript:' URI, which could cause
+    cross-site scripting (XSS). It is recommended to di
+  patterns:
+  - 'React.createElement($EL, {href: $X})'
+  source_rules:
+  - react-href-var
+  tier: T2
+- id: EXT.REACT.SEC.008
+  name: S Escapehtml
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.009
+  name: Escapehtml
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.010
+  name: Value Sanitize
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $VALUE.sanitize(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.011
+  name: Sanitize
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $VALUE.sanitize(...)
+  - $S.sanitize(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.012
+  name: S Sanitize
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $S.sanitize(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.013
+  name: S Render
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $S.render(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.014
+  name: Render
+  ecosystem: react
+  category: security
+  description: 'Detection of dangerouslySetInnerHTML from non-constant definition.
+    This can inadvertently expose users to cross-site scripting (XSS) attacks if this
+    comes from user-provided input. If you have to use '
+  patterns:
+  - $S.render(...)
+  source_rules:
+  - react-unsanitized-method
+  - react-unsanitized-property
+  - react-dangerouslysetinnerhtml
+  tier: T2
+- id: EXT.REACT.SEC.015
+  name: This Window Document
+  ecosystem: react
+  category: security
+  description: Detection of $HTML from non-constant definition. This can inadvertently
+    expose users to cross-site scripting (XSS) attacks if this comes from user-provided
+    input. If you have to use $HTML, consider us
+  patterns:
+  - this.window.document. ... .$HTML('...',$SINK)
+  source_rules:
+  - react-unsanitized-method
+  tier: T2
+- id: EXT.REACT.SEC.016
+  name: Window Document
+  ecosystem: react
+  category: security
+  description: Detection of $HTML from non-constant definition. This can inadvertently
+    expose users to cross-site scripting (XSS) attacks if this comes from user-provided
+    input. If you have to use $HTML, consider us
+  patterns:
+  - window.document. ... .$HTML('...',$SINK)
+  source_rules:
+  - react-unsanitized-method
+  tier: T2
+- id: EXT.REACT.SEC.017
+  name: Reactdom Finddomnode
+  ecosystem: react
+  category: security
+  description: Detection of $HTML from non-constant definition. This can inadvertently
+    expose users to cross-site scripting (XSS) attacks if this comes from user-provided
+    input. If you have to use $HTML, consider us
+  patterns:
+  - ReactDOM.findDOMNode(...).$HTML = $SINK
+  source_rules:
+  - react-unsanitized-property
+  tier: T2
+- id: EXT.ANGULAR.SEC.001
+  name: Scedelegateprovider Resourceurlwhitelist
+  ecosystem: angular
+  category: security
+  description: $sceDelegateProvider allowlisting can introduce security issues if
+    wildcards are used.
+  patterns:
+  - $sceDelegateProvider.resourceUrlWhitelist([...,'**',...]);
+  - $sceDelegateProvider.resourceUrlWhitelist([...,$DOM,...]);
+  source_rules:
+  - detect-angular-resource-loading
+  tier: T2
+- id: EXT.ANGULAR.SEC.002
+  name: Resourceurlwhitelist
+  ecosystem: angular
+  category: security
+  description: $sceDelegateProvider allowlisting can introduce security issues if
+    wildcards are used.
+  patterns:
+  - $sceDelegateProvider.resourceUrlWhitelist([...,'**',...]);
+  - $sceDelegateProvider.resourceUrlWhitelist([...,$DOM,...]);
+  source_rules:
+  - detect-angular-resource-loading
+  tier: T2
+- id: EXT.ANGULAR.SEC.003
+  name: Sce Trustasurl
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsUrl can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsUrl($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-url-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.004
+  name: Trustasurl
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsUrl can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsUrl($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-url-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.005
+  name: Sce Trustascss
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsCss can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsCss($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-css-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.006
+  name: Trustascss
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsCss can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsCss($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-css-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.007
+  name: Sce Trustas
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAs(...)
+  source_rules:
+  - detect-angular-trust-as-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.008
+  name: Trustas
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAs(...)
+  source_rules:
+  - detect-angular-trust-as-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.009
+  name: Sce Trustashtml
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsHtml(...)
+  - $sce.trustAsHtml($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-html-method
+  - detect-angular-trust-as-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.010
+  name: Trustashtml
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsHtml(...)
+  - $sce.trustAsHtml($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-html-method
+  - detect-angular-trust-as-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.011
+  name: Sce Trustasjs
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsJs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsJs($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-js-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.012
+  name: Trustasjs
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsJs can be dangerous if unsanitized user input
+    flows through this API.
+  patterns:
+  - $sce.trustAsJs($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-js-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.013
+  name: Translateprovider Translations
+  ecosystem: angular
+  category: security
+  description: The use of $translateProvider.translations method can be dangerous
+    if user input is provided to this API.
+  patterns:
+  - $translateProvider.translations(...,$SOURCE);
+  source_rules:
+  - detect-angular-translateprovider-translations-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.014
+  name: Translations
+  ecosystem: angular
+  category: security
+  description: The use of $translateProvider.translations method can be dangerous
+    if user input is provided to this API.
+  patterns:
+  - $translateProvider.translations(...,$SOURCE);
+  source_rules:
+  - detect-angular-translateprovider-translations-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.015
+  name: Sceprovider Enabled
+  ecosystem: angular
+  category: security
+  description: $sceProvider is set to false. Disabling Strict Contextual escaping
+    (SCE) in an AngularJS application could provide additional attack surface for
+    XSS vulnerabilities.
+  patterns:
+  - $sceProvider.enabled(false);
+  source_rules:
+  - detect-angular-sce-disabled
+  tier: T2
+- id: EXT.ANGULAR.SEC.016
+  name: Enabled
+  ecosystem: angular
+  category: security
+  description: $sceProvider is set to false. Disabling Strict Contextual escaping
+    (SCE) in an AngularJS application could provide additional attack surface for
+    XSS vulnerabilities.
+  patterns:
+  - $sceProvider.enabled(false);
+  source_rules:
+  - detect-angular-sce-disabled
+  tier: T2
+- id: EXT.ANGULAR.SEC.017
+  name: Window Location Href
+  ecosystem: angular
+  category: security
+  description: Use of $window.location.href can lead to open-redirect if user input
+    is used for redirection.
+  patterns:
+  - $window.location.href = ...
+  source_rules:
+  - detect-angular-open-redirect
+  tier: T2
+- id: EXT.ANGULAR.SEC.018
+  name: Sce Trustasresourceurl
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsResourceUrl can be dangerous if unsanitized
+    user input flows through this API.
+  patterns:
+  - $sce.trustAsResourceUrl($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-resourceurl-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.019
+  name: Trustasresourceurl
+  ecosystem: angular
+  category: security
+  description: The use of $sce.trustAsResourceUrl can be dangerous if unsanitized
+    user input flows through this API.
+  patterns:
+  - $sce.trustAsResourceUrl($scope.$INPUT);
+  source_rules:
+  - detect-angular-trust-as-resourceurl-method
+  tier: T2
+- id: EXT.ANGULAR.SEC.020
+  name: S Escapehtml
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.ANGULAR.SEC.021
+  name: Escapehtml
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - $S.escapeHTML(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.ANGULAR.SEC.022
+  name: Value Sanitize
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - $VALUE.sanitize(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.ANGULAR.SEC.023
+  name: Sanitize
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - $VALUE.sanitize(...)
+  - $S.sanitize(...)
+  - sanitizer.sanitize(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.ANGULAR.SEC.024
+  name: S Sanitize
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - $S.sanitize(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2
+- id: EXT.ANGULAR.SEC.025
+  name: Sanitizer Sanitize
+  ecosystem: angular
+  category: security
+  description: Detected the use of `$TRUST`. This can introduce a Cross-Site-Scripting
+    (XSS) vulnerability if this comes from user-provided input. If you have to use
+    `$TRUST`, ensure it does not come from user-input
+  patterns:
+  - sanitizer.sanitize(...)
+  source_rules:
+  - angular-bypasssecuritytrust
+  tier: T2

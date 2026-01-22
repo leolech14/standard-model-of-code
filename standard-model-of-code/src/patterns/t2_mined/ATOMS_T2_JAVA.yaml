@@ -1,0 +1,3471 @@
+version: 1.0.0
+generated_by: mine_semgrep.py
+source: semgrep-rules
+atom_count: 265
+atoms:
+- id: EXT.JAVA.SEC.001
+  name: Jdk Tls Client Protocols
+  ecosystem: java
+  category: security
+  description: Detects setting client protocols to insecure versions of TLS and SSL.
+    These protocols are deprecated due to POODLE, man in the middle attacks, and other
+    vulnerabilities.
+  patterns:
+  - $VALUE. ... .setProperty("jdk.tls.client.protocols", "$PATTERNS");
+  source_rules:
+  - disallow-old-tls-versions2
+  tier: T2
+- id: EXT.JAVA.SEC.002
+  name: Setproperty
+  ecosystem: java
+  category: security
+  description: Detects setting client protocols to insecure versions of TLS and SSL.
+    These protocols are deprecated due to POODLE, man in the middle attacks, and other
+    vulnerabilities.
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.SUPPORT_DTD,
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    true);
+  - java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", true);
+  source_rules:
+  - disallow-old-tls-versions2
+  - tls-renegotiation
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.003
+  name: Uri Create
+  ecosystem: java
+  category: security
+  description: 'Checks for requests sent via HttpClient to http:// URLS. This is dangerous
+    because the server is attempting to connect to a website that does not encrypt
+    traffic with TLS. Instead, send requests only '
+  patterns:
+  - URI.create($URI)
+  - URI.create("=~/[hH][tT][tT][pP]://.*/", ...)
+  source_rules:
+  - httpclient-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.004
+  name: Create
+  ecosystem: java
+  category: security
+  description: 'Checks for requests sent via HttpClient to http:// URLS. This is dangerous
+    because the server is attempting to connect to a website that does not encrypt
+    traffic with TLS. Instead, send requests only '
+  patterns:
+  - URI.create($URI)
+  - URI.create("=~/[hH][tT][tT][pP]://.*/", ...)
+  source_rules:
+  - httpclient-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.005
+  name: Java Lang System Setproperty
+  ecosystem: java
+  category: security
+  description: 'Checks for cases where java applications are allowing unsafe renegotiation.
+    This leaves the application vulnerable to a man-in-the-middle attack where chosen
+    plain text is injected as prefix to a TLS '
+  patterns:
+  - java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", true);
+  source_rules:
+  - tls-renegotiation
+  tier: T2
+- id: EXT.JAVA.SEC.006
+  name: Sun Security Ssl Allowunsaferenegotiation
+  ecosystem: java
+  category: security
+  description: 'Checks for cases where java applications are allowing unsafe renegotiation.
+    This leaves the application vulnerable to a man-in-the-middle attack where chosen
+    plain text is injected as prefix to a TLS '
+  patterns:
+  - java.lang.System.setProperty("sun.security.ssl.allowUnsafeRenegotiation", true);
+  source_rules:
+  - tls-renegotiation
+  tier: T2
+- id: EXT.JAVA.SEC.007
+  name: Concat
+  ecosystem: java
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    URL. This could allow an attacker to send data to their own server, potentially
+    exposing sensitive data such as cookies or authorizat
+  patterns:
+  - '"$HTMLSTR".concat(...)'
+  - (String $STR).concat($INPUT)
+  - $SOURCE.concat(...)
+  - $INPUT.concat(...)
+  - '"$URLSTR".concat(...)'
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - formatted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.JAVA.SEC.008
+  name: Sb Append
+  ecosystem: java
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    URL. This could allow an attacker to send data to their own server, potentially
+    exposing sensitive data such as cookies or authorizat
+  patterns:
+  - $SB.append(...)
+  source_rules:
+  - tainted-html-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.JAVA.SEC.009
+  name: Append
+  ecosystem: java
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    URL. This could allow an attacker to send data to their own server, potentially
+    exposing sensitive data such as cookies or authorizat
+  patterns:
+  - $STRB.append($INPUT)
+  - (StringBuilder $STRB).append($INPUT)
+  - $SB.append(...)
+  - (StringBuilder $SB).append($...TAINTED)
+  - (StringBuilder $S).append($X)
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - formatted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.JAVA.SEC.010
+  name: String Format
+  ecosystem: java
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    URL. This could allow an attacker to send data to their own server, potentially
+    exposing sensitive data such as cookies or authorizat
+  patterns:
+  - String.format("...", ..., $SOURCE, ...)
+  - $RUNTIME.loadLibrary(String.format(...));
+  - String.format(..., $INPUT, ...)
+  - String.format($VAR, ...)
+  - String.format("$HTMLSTR", ...)
+  source_rules:
+  - tainted-system-command
+  - jdo-sqli
+  - tainted-html-string
+  - tainted-url-host
+  - command-injection-formatted-runtime-call
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.011
+  name: Format
+  ecosystem: java
+  category: security
+  description: User data flows into the host portion of this manually-constructed
+    URL. This could allow an attacker to send data to their own server, potentially
+    exposing sensitive data such as cookies or authorizat
+  patterns:
+  - String.format("...", ..., $SOURCE, ...)
+  - $RUNTIME.loadLibrary(String.format(...));
+  - String.format(..., $INPUT, ...)
+  - String.format($VAR, ...)
+  - String.format("$HTMLSTR", ...)
+  source_rules:
+  - tainted-system-command
+  - jdo-sqli
+  - tainted-html-string
+  - tainted-url-host
+  - command-injection-formatted-runtime-call
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.012
+  name: String Join
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - String.join(..., $INPUT, ...)
+  - String.join("...", ..., $SOURCE, ...)
+  source_rules:
+  - tainted-system-command
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.013
+  name: Join
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - String.join(..., $INPUT, ...)
+  - String.join("...", ..., $SOURCE, ...)
+  source_rules:
+  - tainted-system-command
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.014
+  name: Source Concat
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $SOURCE.concat(...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.JAVA.SEC.015
+  name: Command
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $PB.command(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - (ProcessBuilder $PB).command(...).$ADD(...);
+  - $PB.command(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - $PB.command($CMD,"-c",$ARG,...)
+  - $PB.command(new String[]{$CMD,"-c",$ARG,...},...)
+  source_rules:
+  - tainted-system-command
+  - command-injection-process-builder
+  tier: T2
+- id: EXT.JAVA.SEC.016
+  name: Runtime Getruntime
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - Runtime.getRuntime(...).$EXEC(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.JAVA.SEC.017
+  name: Getruntime
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - java.lang.Runtime.getRuntime(...)
+  - Runtime.getRuntime(...).$EXEC(...);
+  source_rules:
+  - tainted-system-command
+  - command-injection-formatted-runtime-call
+  tier: T2
+- id: EXT.JAVA.SEC.018
+  name: Builder Start
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $BUILDER.start(...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.JAVA.SEC.019
+  name: Start
+  ecosystem: java
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $BUILDER.start(...)
+  - new ProcessBuilder(...). ... .start(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.JAVA.SEC.020
+  name: Java Io File
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.File(...)
+  - (java.io.File $FILE) = ...
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.021
+  name: File
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.File(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.022
+  name: Java Io Filereader
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileReader(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.023
+  name: Filereader
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileReader(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.024
+  name: Java Io Fileinputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileInputStream(...)
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.025
+  name: Fileinputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileInputStream(...)
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.026
+  name: Get
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - (Paths $PATHS).get(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.027
+  name: Resourceutils Getfile
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - ResourceUtils.getFile($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.028
+  name: Getfile
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - ResourceUtils.getFile($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.029
+  name: Java Io Fileoutputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - (java.io.FileOutputStream $FOS) = ...
+  - new java.io.FileOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.030
+  name: Fileoutputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.031
+  name: Javax Xml Transform Streamsource
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new javax.xml.transform.StreamSource($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.032
+  name: Streamsource
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new javax.xml.transform.StreamSource($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.033
+  name: Fileutils Openoutputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - FileUtils.openOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.034
+  name: Openoutputstream
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - FileUtils.openOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.JAVA.SEC.035
+  name: Org Apache Commons Io Filenameutils Getname
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - org.apache.commons.io.FilenameUtils.getName(...)
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.036
+  name: Getname
+  ecosystem: java
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - org.apache.commons.io.FilenameUtils.getName(...)
+  source_rules:
+  - tainted-file-path
+  - httpservlet-path-traversal
+  tier: T2
+- id: EXT.JAVA.SEC.037
+  name: Body
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - ResponseEntity. ... .body($PAYLOAD)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.038
+  name: Encode Forhtml
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - Encode.forHtml(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.039
+  name: Forhtml
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - Encode.forHtml(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.040
+  name: Sanitize
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - (PolicyFactory $POLICY).sanitize(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.041
+  name: Scan
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - (AntiSamy $AS).scan(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.042
+  name: Jsoup Clean
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - JSoup.clean(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.043
+  name: Clean
+  ecosystem: java
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - JSoup.clean(...)
+  source_rules:
+  - no-direct-response-writer
+  - tainted-html-string
+  tier: T2
+- id: EXT.JAVA.SEC.044
+  name: Cookie Getvalue
+  ecosystem: java
+  category: security
+  description: Detected a potential path traversal. A malicious actor could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled var
+  patterns:
+  - $COOKIE.getValue(...)
+  source_rules:
+  - httpservlet-path-traversal
+  - tainted-env-from-http-request
+  - tainted-session-from-http-request
+  - tainted-cmd-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.045
+  name: Getvalue
+  ecosystem: java
+  category: security
+  description: Detected a potential path traversal. A malicious actor could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled var
+  patterns:
+  - $COOKIE.getValue(...)
+  source_rules:
+  - httpservlet-path-traversal
+  - tainted-env-from-http-request
+  - tainted-session-from-http-request
+  - tainted-cmd-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.046
+  name: Javax Xml Stream Xmlinputfactory Newfactory
+  ecosystem: java
+  category: security
+  description: XML external entities are not explicitly disabled for this XMLInputFactory.
+    This could be vulnerable to XML external entity vulnerabilities. Explicitly disable
+    external entities by setting "javax.xml.
+  patterns:
+  - javax.xml.stream.XMLInputFactory.newFactory(...)
+  source_rules:
+  - xmlinputfactory-possible-xxe
+  tier: T2
+- id: EXT.JAVA.SEC.047
+  name: Newfactory
+  ecosystem: java
+  category: security
+  description: XML external entities are not explicitly disabled for this XMLInputFactory.
+    This could be vulnerable to XML external entity vulnerabilities. Explicitly disable
+    external entities by setting "javax.xml.
+  patterns:
+  - javax.xml.stream.XMLInputFactory.newFactory(...)
+  source_rules:
+  - xmlinputfactory-possible-xxe
+  tier: T2
+- id: EXT.JAVA.SEC.048
+  name: Accesscontroller Doprivileged
+  ecosystem: java
+  category: security
+  description: Marking code as privileged enables a piece of trusted code to temporarily
+    enable access to more resources than are available directly to the code that called
+    it. Be very careful in your use of the pri
+  patterns:
+  - AccessController.doPrivileged(...);
+  source_rules:
+  - do-privileged-use
+  tier: T2
+- id: EXT.JAVA.SEC.049
+  name: Doprivileged
+  ecosystem: java
+  category: security
+  description: Marking code as privileged enables a piece of trusted code to temporarily
+    enable access to more resources than are available directly to the code that called
+    it. Be very careful in your use of the pri
+  patterns:
+  - AccessController.doPrivileged(...);
+  source_rules:
+  - do-privileged-use
+  tier: T2
+- id: EXT.JAVA.SEC.050
+  name: Java Util Regex Pattern Matches
+  ecosystem: java
+  category: security
+  description: A regular expression is being used directly from a String method parameter.
+    This could be a Regular Expression Denial of Service (ReDoS) vulnerability if
+    the parameter is user-controlled and not prope
+  patterns:
+  - java.util.regex.Pattern.matches($PARAM, $ANY_STRING_TO_MATCH)
+  source_rules:
+  - java-pattern-from-string-parameter
+  tier: T2
+- id: EXT.JAVA.SEC.051
+  name: Matches
+  ecosystem: java
+  category: security
+  description: A regular expression is being used directly from a String method parameter.
+    This could be a Regular Expression Denial of Service (ReDoS) vulnerability if
+    the parameter is user-controlled and not prope
+  patterns:
+  - java.util.regex.Pattern.matches($PARAM, $ANY_STRING_TO_MATCH)
+  source_rules:
+  - java-pattern-from-string-parameter
+  tier: T2
+- id: EXT.JAVA.SEC.052
+  name: Java Util Regex Pattern Compile
+  ecosystem: java
+  category: security
+  description: A regular expression is being used directly from a String method parameter.
+    This could be a Regular Expression Denial of Service (ReDoS) vulnerability if
+    the parameter is user-controlled and not prope
+  patterns:
+  - java.util.regex.Pattern.compile($PARAM,...)
+  source_rules:
+  - java-pattern-from-string-parameter
+  tier: T2
+- id: EXT.JAVA.SEC.053
+  name: Compile
+  ecosystem: java
+  category: security
+  description: A regular expression is being used directly from a String method parameter.
+    This could be a Regular Expression Denial of Service (ReDoS) vulnerability if
+    the parameter is user-controlled and not prope
+  patterns:
+  - java.util.regex.Pattern.compile($PARAM,...)
+  - (javax.xml.xpath.XPath $XP).compile(...).evaluate(...)
+  - $P = $X.compile("</script>", $X.CASE_INSENSITIVE);
+  source_rules:
+  - xssrequestwrapper-is-insecure
+  - java-pattern-from-string-parameter
+  - tainted-xpath-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.054
+  name: Javax Xml Stream Xmlinputfactory
+  ecosystem: java
+  category: security
+  description: XML external entities are enabled for this XMLInputFactory. This is
+    vulnerable to XML external entity attacks. Disable external entities by setting
+    "javax.xml.stream.isSupportingExternalEntities" to f
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.SUPPORT_DTD,
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    Boolean.TRUE);
+  source_rules:
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.055
+  name: Javax Xml Stream Issupportingexternalentities
+  ecosystem: java
+  category: security
+  description: XML external entities are enabled for this XMLInputFactory. This is
+    vulnerable to XML external entity attacks. Disable external entities by setting
+    "javax.xml.stream.isSupportingExternalEntities" to f
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    Boolean.TRUE);
+  source_rules:
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.056
+  name: Javax Xml Stream Xmlinputfactory Is Supporting External Entities
+  ecosystem: java
+  category: security
+  description: XML external entities are enabled for this XMLInputFactory. This is
+    vulnerable to XML external entity attacks. Disable external entities by setting
+    "javax.xml.stream.isSupportingExternalEntities" to f
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    Boolean.TRUE);
+  source_rules:
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.057
+  name: Javax Xml Stream Xmlinputfactory Support Dtd
+  ecosystem: java
+  category: security
+  description: XML external entities are enabled for this XMLInputFactory. This is
+    vulnerable to XML external entity attacks. Disable external entities by setting
+    "javax.xml.stream.isSupportingExternalEntities" to f
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.SUPPORT_DTD,
+    true);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.SUPPORT_DTD,
+    Boolean.TRUE);
+  source_rules:
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.058
+  name: Boolean True
+  ecosystem: java
+  category: security
+  description: XML external entities are enabled for this XMLInputFactory. This is
+    vulnerable to XML external entity attacks. Disable external entities by setting
+    "javax.xml.stream.isSupportingExternalEntities" to f
+  patterns:
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty("javax.xml.stream.isSupportingExternalEntities",
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.SUPPORT_DTD,
+    Boolean.TRUE);
+  - (javax.xml.stream.XMLInputFactory $XMLFACTORY).setProperty(javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES,
+    Boolean.TRUE);
+  source_rules:
+  - xmlinputfactory-external-entities-enabled
+  tier: T2
+- id: EXT.JAVA.SEC.059
+  name: Resp Getwriter
+  ecosystem: java
+  category: security
+  description: Cross-site scripting detected in HttpServletResponse writer with variable
+    '$VAR'. User input was detected going directly from the HttpServletRequest into
+    output. Ensure your data is properly encoded u
+  patterns:
+  - $WRITER = $RESP.getWriter(...);
+  - $RESP.getWriter(...).write(..., $VAR, ...);
+  source_rules:
+  - servletresponse-writer-xss
+  tier: T2
+- id: EXT.JAVA.SEC.060
+  name: Getwriter
+  ecosystem: java
+  category: security
+  description: Cross-site scripting detected in HttpServletResponse writer with variable
+    '$VAR'. User input was detected going directly from the HttpServletRequest into
+    output. Ensure your data is properly encoded u
+  patterns:
+  - (HttpServletResponse $RESPONSE).getWriter(...).$WRITE(...)
+  - $WRITER = $RESP.getWriter(...);
+  - $RESP.getWriter(...).write(..., $VAR, ...);
+  source_rules:
+  - no-direct-response-writer
+  - servletresponse-writer-xss
+  tier: T2
+- id: EXT.JAVA.SEC.061
+  name: Write
+  ecosystem: java
+  category: security
+  description: Cross-site scripting detected in HttpServletResponse writer with variable
+    '$VAR'. User input was detected going directly from the HttpServletRequest into
+    output. Ensure your data is properly encoded u
+  patterns:
+  - $RESP.getWriter(...).write(..., $VAR, ...);
+  source_rules:
+  - servletresponse-writer-xss
+  tier: T2
+- id: EXT.JAVA.SEC.062
+  name: Input Concat
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - $INPUT.concat(...)
+  source_rules:
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.063
+  name: Strb Append
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - $STRB.append($INPUT)
+  source_rules:
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.064
+  name: Createstatement
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - (Connection $C).createStatement(...).$SQLFUNC(...)
+  source_rules:
+  - formatted-sql-string
+  tier: T2
+- id: EXT.JAVA.SEC.065
+  name: Preparestatement
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  - (Connection $C).prepareStatement(...).$SQLFUNC(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  - formatted-sql-string
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.066
+  name: Email Send
+  ecosystem: java
+  category: security
+  description: Insecure SMTP connection detected. This connection will trust any SSL
+    certificate. Enable certificate verification by setting 'email.setSSLCheckServerIdentity(true)'.
+  patterns:
+  - $EMAIL.send(...);
+  source_rules:
+  - insecure-smtp-connection
+  tier: T2
+- id: EXT.JAVA.SEC.067
+  name: Send
+  ecosystem: java
+  category: security
+  description: Insecure SMTP connection detected. This connection will trust any SSL
+    certificate. Enable certificate verification by setting 'email.setSSLCheckServerIdentity(true)'.
+  patterns:
+  - $EMAIL.send(...);
+  source_rules:
+  - insecure-smtp-connection
+  tier: T2
+- id: EXT.JAVA.SEC.068
+  name: Class Forname
+  ecosystem: java
+  category: security
+  description: If an attacker can supply values that the application then uses to
+    determine which class to instantiate or which method to invoke, the potential
+    exists for the attacker to create control flow paths th
+  patterns:
+  - Class.forName($CLASS,...)
+  source_rules:
+  - unsafe-reflection
+  tier: T2
+- id: EXT.JAVA.SEC.069
+  name: Forname
+  ecosystem: java
+  category: security
+  description: If an attacker can supply values that the application then uses to
+    determine which class to instantiate or which method to invoke, the potential
+    exists for the attacker to create control flow paths th
+  patterns:
+  - Class.forName($CLASS,...)
+  source_rules:
+  - unsafe-reflection
+  tier: T2
+- id: EXT.JAVA.SEC.070
+  name: Java Nio File Files Setposixfilepermissions
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - java.nio.file.Files.setPosixFilePermissions($FILE, java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/"));
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.071
+  name: Java Nio File Attribute Posixfilepermissions Fromstring
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $TYPE $P = java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/");
+  - java.nio.file.Files.setPosixFilePermissions($FILE, java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/"));
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.072
+  name: Setposixfilepermissions
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - java.nio.file.Files.setPosixFilePermissions($FILE, java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/"));
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.073
+  name: Fromstring
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $TYPE $P = java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/");
+  - java.nio.file.Files.setPosixFilePermissions($FILE, java.nio.file.attribute.PosixFilePermissions.fromString("=~/(^......r..$)|(^.......w.$)|(^........x$)/"));
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.074
+  name: P Add
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_READ);
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_WRITE);
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_EXECUTE);
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.075
+  name: Java Nio File Attribute Posixfilepermission Others Read
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_READ);
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.076
+  name: Add
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_READ);
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_WRITE);
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_EXECUTE);
+  - $ARGLIST.add(...);
+  source_rules:
+  - tainted-cmd-from-http-request
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.077
+  name: Java Nio File Attribute Posixfilepermission Others Write
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_WRITE);
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.078
+  name: Java Nio File Attribute Posixfilepermission Others Execute
+  ecosystem: java
+  category: security
+  description: 'Detected file permissions that are overly permissive (read, write,
+    and execute). It is generally a bad practices to set overly permissive file permission
+    such as read+write+exec for all users. If the '
+  patterns:
+  - $P.add(java.nio.file.attribute.PosixFilePermission.OTHERS_EXECUTE);
+  source_rules:
+  - overly-permissive-file-permission
+  tier: T2
+- id: EXT.JAVA.SEC.079
+  name: Header
+  ecosystem: java
+  category: security
+  description: https://find-sec-bugs.github.io/bugs.htm#PERMISSIVE_CORS Permissive
+    CORS policy will allow a malicious application to communicate with the victim
+    application in an inappropriate way, leading to spoofi
+  patterns:
+  - ServerResponse.$RES().header("=~/access-control-allow-origin/i", "=~/^\*|null$/i")
+  - ResponseEntity.$RES().header("=~/access-control-allow-origin/i", "=~/^\*|null$/i")
+  source_rules:
+  - permissive-cors
+  tier: T2
+- id: EXT.JAVA.SEC.080
+  name: Javax Xml Xpath Xpath
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a XPath evaluate
+    or compile command. This could lead to xpath injection if variables passed into
+    the evaluate or compile commands are not properly s
+  patterns:
+  - (javax.xml.xpath.XPath $XP).compile(...).evaluate(...)
+  - (javax.xml.xpath.XPath $XP).evaluate(...)
+  source_rules:
+  - tainted-xpath-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.081
+  name: Evaluate
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a XPath evaluate
+    or compile command. This could lead to xpath injection if variables passed into
+    the evaluate or compile commands are not properly s
+  patterns:
+  - (javax.xml.xpath.XPath $XP).compile(...).evaluate(...)
+  - (javax.xml.xpath.XPath $XP).evaluate(...)
+  source_rules:
+  - tainted-xpath-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.082
+  name: Md Digest
+  ecosystem: java
+  category: security
+  description: 'It looks like MD5 is used as a password hash. MD5 is not considered
+    a secure password hash because it can be cracked by an attacker in a short amount
+    of time. Use a suitable password hashing function '
+  patterns:
+  - $MD.digest(...);
+  source_rules:
+  - md5-used-as-password
+  tier: T2
+- id: EXT.JAVA.SEC.083
+  name: Digest
+  ecosystem: java
+  category: security
+  description: 'It looks like MD5 is used as a password hash. MD5 is not considered
+    a secure password hash because it can be cracked by an attacker in a short amount
+    of time. Use a suitable password hashing function '
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  - $MD.digest(...);
+  - $DU.$GET_ALGO().digest(...)
+  source_rules:
+  - use-of-sha1
+  - use-of-md5-digest-utils
+  - md5-used-as-password
+  tier: T2
+- id: EXT.JAVA.SEC.084
+  name: Cookie Setsecure
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'secure' flag. The 'secure'
+    flag for cookies prevents the client from transmitting the cookie over insecure
+    channels such as HTTP. Set the 'secure' flag by ca
+  patterns:
+  - $COOKIE.setSecure(false);
+  source_rules:
+  - cookie-missing-secure-flag
+  - cookie-setSecure
+  tier: T2
+- id: EXT.JAVA.SEC.085
+  name: Setsecure
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'secure' flag. The 'secure'
+    flag for cookies prevents the client from transmitting the cookie over insecure
+    channels such as HTTP. Set the 'secure' flag by ca
+  patterns:
+  - $COOKIE.setSecure(false);
+  source_rules:
+  - cookie-missing-secure-flag
+  - cookie-setSecure
+  tier: T2
+- id: EXT.JAVA.SEC.086
+  name: Response Addcookie
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'secure' flag. The 'secure'
+    flag for cookies prevents the client from transmitting the cookie over insecure
+    channels such as HTTP. Set the 'secure' flag by ca
+  patterns:
+  - $RESPONSE.addCookie($COOKIE);
+  source_rules:
+  - cookie-missing-secure-flag
+  - cookie-missing-httponly
+  tier: T2
+- id: EXT.JAVA.SEC.087
+  name: Addcookie
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'secure' flag. The 'secure'
+    flag for cookies prevents the client from transmitting the cookie over insecure
+    channels such as HTTP. Set the 'secure' flag by ca
+  patterns:
+  - $RESPONSE.addCookie($COOKIE);
+  source_rules:
+  - cookie-missing-secure-flag
+  - cookie-missing-httponly
+  tier: T2
+- id: EXT.JAVA.SEC.088
+  name: Req Getparameter
+  ecosystem: java
+  category: security
+  description: When data from an untrusted source is put into a logger and not neutralized
+    correctly, an attacker could forge log entries or include malicious content.
+  patterns:
+  - $LOG.$LEVEL(<... $REQ.getParameter(...) ...>);
+  - $LOG.log($LEVEL,<... $REQ.getParameter(...) ...>);
+  - String $VAL = $REQ.getParameter(...);
+  - $VAR = $REQ.getParameter(...);
+  source_rules:
+  - crlf-injection-logs
+  - http-response-splitting
+  tier: T2
+- id: EXT.JAVA.SEC.089
+  name: Getparameter
+  ecosystem: java
+  category: security
+  description: When data from an untrusted source is put into a logger and not neutralized
+    correctly, an attacker could forge log entries or include malicious content.
+  patterns:
+  - $LOG.$LEVEL(<... $REQ.getParameter(...) ...>);
+  - $LOG.log($LEVEL,<... $REQ.getParameter(...) ...>);
+  - String $VAL = $REQ.getParameter(...);
+  - $VAR = $REQ.getParameter(...);
+  source_rules:
+  - crlf-injection-logs
+  - http-response-splitting
+  tier: T2
+- id: EXT.JAVA.SEC.090
+  name: Log Log
+  ecosystem: java
+  category: security
+  description: When data from an untrusted source is put into a logger and not neutralized
+    correctly, an attacker could forge log entries or include malicious content.
+  patterns:
+  - $LOG.log($LEVEL,<... $REQ.getParameter(...) ...>);
+  source_rules:
+  - crlf-injection-logs
+  tier: T2
+- id: EXT.JAVA.SEC.091
+  name: Log
+  ecosystem: java
+  category: security
+  description: When data from an untrusted source is put into a logger and not neutralized
+    correctly, an attacker could forge log entries or include malicious content.
+  patterns:
+  - $LOG.log($LEVEL,<... $REQ.getParameter(...) ...>);
+  source_rules:
+  - crlf-injection-logs
+  tier: T2
+- id: EXT.JAVA.SEC.092
+  name: Java Lang Runtime
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into the environment
+    variables of an 'exec' command.  Instead, call the command with user-supplied
+    arguments by using the overloaded method with one Stri
+  patterns:
+  - (java.lang.Runtime $R)
+  - (java.lang.Runtime $R).exec($CMD, $ENV_ARGS, ...);
+  - (java.lang.Runtime $R).exec($CMD, ...);
+  source_rules:
+  - command-injection-formatted-runtime-call
+  - tainted-env-from-http-request
+  - tainted-cmd-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.093
+  name: Exec
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into the environment
+    variables of an 'exec' command.  Instead, call the command with user-supplied
+    arguments by using the overloaded method with one Stri
+  patterns:
+  - $RUNTIME.exec(new String[]{"=~/(sh|bash|ksh|csh|tcsh|zsh)/",$BASH,$ARG,...},...)
+  - $RUNTIME.exec($X + $Y);
+  - $RUNTIME.exec(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - $RUNTIME.exec("=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $ARG,...)
+  - $RUNTIME.exec($CMD,"-c",$ARG,...)
+  source_rules:
+  - command-injection-formatted-runtime-call
+  - tainted-env-from-http-request
+  - tainted-cmd-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.094
+  name: Javax Naming Directory Initialdircontext
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into an LDAP query.
+    This could lead to LDAP injection if the input is not properly sanitized, which
+    could result in attackers modifying objects in the LD
+  patterns:
+  - (javax.naming.directory.InitialDirContext $IDC).search(...)
+  source_rules:
+  - tainted-ldapi-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.095
+  name: Search
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into an LDAP query.
+    This could lead to LDAP injection if the input is not properly sanitized, which
+    could result in attackers modifying objects in the LD
+  patterns:
+  - (javax.naming.directory.InitialDirContext $IDC).search(...)
+  - (javax.naming.directory.DirContext $CTX).search(...)
+  source_rules:
+  - tainted-ldapi-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.096
+  name: Javax Naming Directory Dircontext
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into an LDAP query.
+    This could lead to LDAP injection if the input is not properly sanitized, which
+    could result in attackers modifying objects in the LD
+  patterns:
+  - (javax.naming.directory.DirContext $CTX).search(...)
+  source_rules:
+  - tainted-ldapi-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.097
+  name: Env Put
+  ecosystem: java
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none");
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.JAVA.SEC.098
+  name: Ctx Security Authentication
+  ecosystem: java
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none");
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.JAVA.SEC.099
+  name: Put
+  ecosystem: java
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none");
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.JAVA.SEC.100
+  name: Pb Command
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a ProcessBuilder
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your vari
+  patterns:
+  - $PB.command(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - $PB.command(new String[]{$CMD,"/c",$ARG,...},...)
+  - $PB.command(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - $PB.command($CMD,"-c",$ARG,...)
+  - $PB.command(new String[]{$CMD,"-c",$ARG,...},...)
+  source_rules:
+  - command-injection-process-builder
+  tier: T2
+- id: EXT.JAVA.SEC.101
+  name: Arrays Aslist
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a ProcessBuilder
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your vari
+  patterns:
+  - new ProcessBuilder(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - $PB.command(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - $PB.command(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - new ProcessBuilder(Arrays.asList("cmd","/c",$ARG,...),...)
+  - $RUNTIME.exec(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  source_rules:
+  - command-injection-formatted-runtime-call
+  - command-injection-process-builder
+  tier: T2
+- id: EXT.JAVA.SEC.102
+  name: Aslist
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a ProcessBuilder
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your vari
+  patterns:
+  - new ProcessBuilder(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - $PB.command(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - $PB.command(Arrays.asList($CMD,"/c",$ARG,...),...)
+  - new ProcessBuilder(Arrays.asList("cmd","/c",$ARG,...),...)
+  - $RUNTIME.exec(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  source_rules:
+  - command-injection-formatted-runtime-call
+  - command-injection-process-builder
+  tier: T2
+- id: EXT.JAVA.SEC.103
+  name: Keygenerator Getinstance
+  ecosystem: java
+  category: security
+  description: Using less than 128 bits for Blowfish is considered insecure. Use 128
+    bits or more, or switch to use AES instead.
+  patterns:
+  - $KEYGEN = KeyGenerator.getInstance("Blowfish");
+  source_rules:
+  - blowfish-insufficient-key-size
+  tier: T2
+- id: EXT.JAVA.SEC.104
+  name: Getinstance
+  ecosystem: java
+  category: security
+  description: Using less than 128 bits for Blowfish is considered insecure. Use 128
+    bits or more, or switch to use AES instead.
+  patterns:
+  - java.security.MessageDigest.getInstance($ALGO, ...);
+  - Cipher.getInstance("AES")
+  - (Cipher $CIPHER).getInstance("AES")
+  - $CIPHER.getInstance("Blowfish")
+  - $CIPHER.getInstance("=~/AES/ECB.*/")
+  source_rules:
+  - use-of-sha1
+  - use-of-weak-rsa-key
+  - use-of-default-aes
+  - gcm-detection
+  - blowfish-insufficient-key-size
+  - use-of-blowfish
+  - use-of-md5
+  - use-of-rc2
+  - ecb-cipher
+  - desede-is-deprecated
+  tier: T2
+- id: EXT.JAVA.SEC.105
+  name: Java Lang Runtime Getruntime
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a java.lang.Runtime
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your v
+  patterns:
+  - java.lang.Runtime.getRuntime(...)
+  source_rules:
+  - command-injection-formatted-runtime-call
+  tier: T2
+- id: EXT.JAVA.SEC.106
+  name: Runtime Exec
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a java.lang.Runtime
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your v
+  patterns:
+  - $RUNTIME.exec(new String[]{"=~/(sh|bash|ksh|csh|tcsh|zsh)/",$BASH,$ARG,...},...)
+  - $RUNTIME.exec($X + $Y);
+  - $RUNTIME.exec(Arrays.asList("=~/(sh|bash|ksh|csh|tcsh|zsh)/","-c",$ARG,...),...)
+  - $RUNTIME.exec("=~/(sh|bash|ksh|csh|tcsh|zsh)/", "-c", $ARG,...)
+  - $RUNTIME.exec($CMD,"-c",$ARG,...)
+  source_rules:
+  - command-injection-formatted-runtime-call
+  tier: T2
+- id: EXT.JAVA.SEC.107
+  name: Runtime Loadlibrary
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a java.lang.Runtime
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your v
+  patterns:
+  - $RUNTIME.loadLibrary($X + $Y);
+  - $RUNTIME.loadLibrary(String.format(...));
+  source_rules:
+  - command-injection-formatted-runtime-call
+  tier: T2
+- id: EXT.JAVA.SEC.108
+  name: Loadlibrary
+  ecosystem: java
+  category: security
+  description: A formatted or concatenated string was detected as input to a java.lang.Runtime
+    call. This is dangerous if a variable is controlled by user input and could result
+    in a command injection. Ensure your v
+  patterns:
+  - $RUNTIME.loadLibrary($X + $Y);
+  - $RUNTIME.loadLibrary(String.format(...));
+  source_rules:
+  - command-injection-formatted-runtime-call
+  tier: T2
+- id: EXT.JAVA.SEC.109
+  name: Java Net Urldecoder Decode
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a session command,
+    like `setAttribute`. User input into such a command could lead to an attacker
+    inputting malicious code into your session paramete
+  patterns:
+  - java.net.URLDecoder.decode($PARAM, ...)
+  source_rules:
+  - tainted-session-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.110
+  name: Decode
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a session command,
+    like `setAttribute`. User input into such a command could lead to an attacker
+    inputting malicious code into your session paramete
+  patterns:
+  - java.net.URLDecoder.decode($PARAM, ...)
+  source_rules:
+  - tainted-session-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.111
+  name: Getsession
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a session command,
+    like `setAttribute`. User input into such a command could lead to an attacker
+    inputting malicious code into your session paramete
+  patterns:
+  - (HttpServletRequest $REQ).getSession().$FUNC($NAME, $VALUE);
+  source_rules:
+  - tainted-session-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.112
+  name: X Compile
+  ecosystem: java
+  category: security
+  description: It looks like you're using an implementation of XSSRequestWrapper from
+    dzone. (https://www.javacodegeeks.com/2012/07/anti-cross-site-scripting-xss-filter.html)
+    The XSS filtering in this code is not se
+  patterns:
+  - $P = $X.compile("</script>", $X.CASE_INSENSITIVE);
+  source_rules:
+  - xssrequestwrapper-is-insecure
+  tier: T2
+- id: EXT.JAVA.SEC.113
+  name: X Case Insensitive
+  ecosystem: java
+  category: security
+  description: It looks like you're using an implementation of XSSRequestWrapper from
+    dzone. (https://www.javacodegeeks.com/2012/07/anti-cross-site-scripting-xss-filter.html)
+    The XSS filtering in this code is not se
+  patterns:
+  - $P = $X.compile("</script>", $X.CASE_INSENSITIVE);
+  source_rules:
+  - xssrequestwrapper-is-insecure
+  tier: T2
+- id: EXT.JAVA.SEC.114
+  name: Cookie Sethttponly
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly'
+    flag for cookies instructs the browser to forbid client-side scripts from reading
+    the cookie. Set the 'HttpOnly' flag by calli
+  patterns:
+  - $COOKIE.setHttpOnly(false);
+  source_rules:
+  - cookie-missing-httponly
+  tier: T2
+- id: EXT.JAVA.SEC.115
+  name: Sethttponly
+  ecosystem: java
+  category: security
+  description: A cookie was detected without setting the 'HttpOnly' flag. The 'HttpOnly'
+    flag for cookies instructs the browser to forbid client-side scripts from reading
+    the cookie. Set the 'HttpOnly' flag by calli
+  patterns:
+  - $COOKIE.setHttpOnly(false);
+  source_rules:
+  - cookie-missing-httponly
+  tier: T2
+- id: EXT.JAVA.SEC.116
+  name: Arglist Add
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a 'ProcessBuilder'
+    or 'exec' command. This could lead to command injection if variables passed into
+    the exec commands are not properly sanitized. In
+  patterns:
+  - $ARGLIST.add(...);
+  source_rules:
+  - tainted-cmd-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.117
+  name: Sslcontext Getinstance
+  ecosystem: java
+  category: security
+  description: An insecure SSL context was detected. TLS versions 1.0, 1.1, and all
+    SSL versions are considered weak encryption and are deprecated. Use SSLContext.getInstance("TLSv1.2")
+    for the best security.
+  patterns:
+  - SSLContext.getInstance("...")
+  source_rules:
+  - weak-ssl-context
+  tier: T2
+- id: EXT.JAVA.SEC.118
+  name: Java Security Messagedigest Getinstance
+  ecosystem: java
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Instead, use PBKDF2 for password hashing or SHA25
+  patterns:
+  - java.security.MessageDigest.getInstance("$ALGO", ...);
+  - java.security.MessageDigest.getInstance($ALGO, ...);
+  source_rules:
+  - use-of-sha1
+  - use-of-sha224
+  - use-of-md5
+  tier: T2
+- id: EXT.JAVA.SEC.119
+  name: Du Getsha1Digest
+  ecosystem: java
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Instead, use PBKDF2 for password hashing or SHA25
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.JAVA.SEC.120
+  name: Getsha1Digest
+  ecosystem: java
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Instead, use PBKDF2 for password hashing or SHA25
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.JAVA.SEC.121
+  name: Cipher Getinstance
+  ecosystem: java
+  category: security
+  description: 'Use of Blowfish was detected. Blowfish uses a 64-bit block size that  makes
+    it vulnerable to birthday attacks, and is therefore considered non-compliant.  Instead,
+    use a strong, secure cipher: Cipher.'
+  patterns:
+  - Cipher.getInstance("AES")
+  - $CIPHER.getInstance("=~/RSA/[Nn][Oo][Nn][Ee]/NoPadding/")
+  - Cipher $VAR = $CIPHER.getInstance($MODE);
+  - $CIPHER.getInstance("RC4")
+  - $CIPHER.getInstance("Blowfish")
+  source_rules:
+  - use-of-default-aes
+  - use-of-blowfish
+  - use-of-rc2
+  - ecb-cipher
+  - rsa-no-padding
+  - use-of-rc4
+  - desede-is-deprecated
+  - use-of-aes-ecb
+  tier: T2
+- id: EXT.JAVA.SEC.122
+  name: G Getinstance
+  ecosystem: java
+  category: security
+  description: RSA keys should be at least 2048 bits based on NIST recommendation.
+  patterns:
+  - KeyPairGenerator $KEY = $G.getInstance("RSA");
+  source_rules:
+  - use-of-weak-rsa-key
+  tier: T2
+- id: EXT.JAVA.SEC.123
+  name: Javax Crypto Cipher Getinstance
+  ecosystem: java
+  category: security
+  description: Use of AES with no settings detected. By default, java.crypto.Cipher
+    uses ECB mode. ECB doesn't  provide message confidentiality and is not semantically
+    secure so should not be used. Instead, use a st
+  patterns:
+  - javax.crypto.Cipher.getInstance("AES")
+  source_rules:
+  - use-of-default-aes
+  tier: T2
+- id: EXT.JAVA.SEC.124
+  name: Javax Crypto Cipher
+  ecosystem: java
+  category: security
+  description: Use of AES with no settings detected. By default, java.crypto.Cipher
+    uses ECB mode. ECB doesn't  provide message confidentiality and is not semantically
+    secure so should not be used. Instead, use a st
+  patterns:
+  - (javax.crypto.Cipher $CIPHER).getInstance("AES")
+  source_rules:
+  - use-of-default-aes
+  tier: T2
+- id: EXT.JAVA.SEC.125
+  name: Crypto Cipher Getinstance
+  ecosystem: java
+  category: security
+  description: Use of AES with no settings detected. By default, java.crypto.Cipher
+    uses ECB mode. ECB doesn't  provide message confidentiality and is not semantically
+    secure so should not be used. Instead, use a st
+  patterns:
+  - crypto.Cipher.getInstance("AES")
+  source_rules:
+  - use-of-default-aes
+  tier: T2
+- id: EXT.JAVA.SEC.126
+  name: Crypto Cipher
+  ecosystem: java
+  category: security
+  description: Use of AES with no settings detected. By default, java.crypto.Cipher
+    uses ECB mode. ECB doesn't  provide message confidentiality and is not semantically
+    secure so should not be used. Instead, use a st
+  patterns:
+  - (crypto.Cipher $CIPHER).getInstance("AES")
+  source_rules:
+  - use-of-default-aes
+  tier: T2
+- id: EXT.JAVA.SEC.127
+  name: Crypto Keygenerator Getinstance
+  ecosystem: java
+  category: security
+  description: Triple DES (3DES or DESede) is considered deprecated. AES is the recommended
+    cipher. Upgrade to use AES.
+  patterns:
+  - $CRYPTO.KeyGenerator.getInstance("DES")
+  source_rules:
+  - desede-is-deprecated
+  tier: T2
+- id: EXT.JAVA.SEC.128
+  name: Org Apache Commons Codec Digest Digestutils Getsha3 224Digest
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getSha3_224Digest()
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.129
+  name: Getsha3 224Digest
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getSha3_224Digest()
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.130
+  name: Org Apache Commons Codec Digest Digestutils Getsha512 224Digest
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getSha512_224Digest()
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.131
+  name: Getsha512 224Digest
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getSha512_224Digest()
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.132
+  name: Org Apache Commons Codec Digest Digestutils Sha3 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha3_224(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.133
+  name: Sha3 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha3_224(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.134
+  name: Org Apache Commons Codec Digest Digestutils Sha3 224Hex
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha3_224Hex(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.135
+  name: Sha3 224Hex
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha3_224Hex(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.136
+  name: Org Apache Commons Codec Digest Digestutils Sha512 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha512_224(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.137
+  name: Sha512 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha512_224(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.138
+  name: Org Apache Commons Codec Digest Digestutils Sha512 224Hex
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha512_224Hex(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.139
+  name: Sha512 224Hex
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.sha512_224Hex(...)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.140
+  name: Org Apache Commons Codec Digest Digestutils
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224)
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA3_224)
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_512_224)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.141
+  name: Org Apache Commons Codec Digest Messagedigestalgorithms Sha 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.142
+  name: Digestutils
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224)
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA3_224)
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_512_224)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.143
+  name: Org Apache Commons Codec Digest Messagedigestalgorithms Sha 512 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_512_224)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.144
+  name: Org Apache Commons Codec Digest Messagedigestalgorithms Sha3 224
+  ecosystem: java
+  category: security
+  description: This code uses a 224-bit hash function, which is deprecated or disallowed
+    in some security policies. Consider updating to a stronger hash function such
+    as SHA-384 or higher to ensure compliance and se
+  patterns:
+  - new org.apache.commons.codec.digest.DigestUtils(org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA3_224)
+  source_rules:
+  - use-of-sha224
+  tier: T2
+- id: EXT.JAVA.SEC.145
+  name: Method Getinstance
+  ecosystem: java
+  category: security
+  description: GCM detected, please check that IV/nonce is not reused, an Initialization
+    Vector (IV) is a nonce used to randomize the encryption, so that even if multiple
+    messages with identical plaintext are encryp
+  patterns:
+  - $METHOD.getInstance("AES/GCM/NoPadding",...);
+  source_rules:
+  - gcm-detection
+  tier: T2
+- id: EXT.JAVA.SEC.146
+  name: Getbytes
+  ecosystem: java
+  category: security
+  description: 'GCM IV/nonce is reused: encryption can be totally useless'
+  patterns:
+  - new GCMParameterSpec(..., "...".getBytes(...), ...);
+  - byte[] $NONCE = "...".getBytes(...); ... new GCMParameterSpec(..., $NONCE, ...);
+  source_rules:
+  - gcm-nonce-reuse
+  tier: T2
+- id: EXT.JAVA.SEC.147
+  name: Java Util Random
+  ecosystem: java
+  category: security
+  description: Detected use of the functions `Math.random()` or `java.util.Random()`.
+    These are both not cryptographically strong random number generators (RNGs). If
+    you are using these RNGs to create passwords or s
+  patterns:
+  - new java.util.Random(...).$FUNC(...)
+  source_rules:
+  - weak-random
+  tier: T2
+- id: EXT.JAVA.SEC.148
+  name: Random
+  ecosystem: java
+  category: security
+  description: Detected use of the functions `Math.random()` or `java.util.Random()`.
+    These are both not cryptographically strong random number generators (RNGs). If
+    you are using these RNGs to create passwords or s
+  patterns:
+  - java.lang.Math.random(...)
+  - new java.util.Random(...).$FUNC(...)
+  source_rules:
+  - weak-random
+  tier: T2
+- id: EXT.JAVA.SEC.149
+  name: Java Lang Math Random
+  ecosystem: java
+  category: security
+  description: Detected use of the functions `Math.random()` or `java.util.Random()`.
+    These are both not cryptographically strong random number generators (RNGs). If
+    you are using these RNGs to create passwords or s
+  patterns:
+  - java.lang.Math.random(...)
+  source_rules:
+  - weak-random
+  tier: T2
+- id: EXT.JAVA.SEC.150
+  name: Javax Crypto Nullcipher
+  ecosystem: java
+  category: security
+  description: 'NullCipher was detected. This will not encrypt anything; the cipher
+    text will be the same as the plain text. Use a valid, secure cipher: Cipher.getInstance("AES/CBC/PKCS7PADDING").
+    See https://owasp.o'
+  patterns:
+  - new javax.crypto.NullCipher(...);
+  source_rules:
+  - no-null-cipher
+  tier: T2
+- id: EXT.JAVA.SEC.151
+  name: Nullcipher
+  ecosystem: java
+  category: security
+  description: 'NullCipher was detected. This will not encrypt anything; the cipher
+    text will be the same as the plain text. Use a valid, secure cipher: Cipher.getInstance("AES/CBC/PKCS7PADDING").
+    See https://owasp.o'
+  patterns:
+  - new javax.crypto.NullCipher(...);
+  source_rules:
+  - no-null-cipher
+  tier: T2
+- id: EXT.JAVA.SEC.152
+  name: Dbfactory Setfeature
+  ecosystem: java
+  category: security
+  description: External entities are allowed for $DBFACTORY. This is vulnerable to
+    XML external entity attacks. Disable this by setting the feature "http://xml.org/sax/features/external-general-entities"
+    to false.
+  patterns:
+  - $DBFACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+    false);
+  - $DBFACTORY.setFeature("http://xml.org/sax/features/external-general-entities",
+    true);
+  - $DBFACTORY.setFeature("http://xml.org/sax/features/external-parameter-entities",
+    true);
+  source_rules:
+  - documentbuilderfactory-disallow-doctype-decl-false
+  - documentbuilderfactory-external-parameter-entities-true
+  - documentbuilderfactory-external-general-entities-true
+  tier: T2
+- id: EXT.JAVA.SEC.153
+  name: Xml Org
+  ecosystem: java
+  category: security
+  description: External entities are allowed for $DBFACTORY. This is vulnerable to
+    XML external entity attacks. Disable this by setting the feature "http://xml.org/sax/features/external-general-entities"
+    to false.
+  patterns:
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", false);
+  - $DBFACTORY.setFeature("http://xml.org/sax/features/external-general-entities",
+    true);
+  - $DBFACTORY.setFeature("http://xml.org/sax/features/external-parameter-entities",
+    true);
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-parameter-entities",
+    false);
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-external-parameter-entities-true
+  - documentbuilderfactory-external-general-entities-true
+  tier: T2
+- id: EXT.JAVA.SEC.154
+  name: Setfeature
+  ecosystem: java
+  category: security
+  description: External entities are allowed for $DBFACTORY. This is vulnerable to
+    XML external entity attacks. Disable this by setting the feature "http://xml.org/sax/features/external-general-entities"
+    to false.
+  patterns:
+  - $DBFACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+    false);
+  - $FACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+  - $DBFACTORY.setFeature("http://xml.org/sax/features/external-general-entities",
+    true);
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-parameter-entities",
+    false);
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", false);
+  source_rules:
+  - documentbuilderfactory-external-parameter-entities-true
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-external-general-entities-true
+  - saxparserfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-disallow-doctype-decl-false
+  tier: T2
+- id: EXT.JAVA.SEC.155
+  name: Transformerfactory Newinstance
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY = TransformerFactory.newInstance();
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.156
+  name: Newinstance
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY = SAXParserFactory.newInstance();
+  - $FACTORY = DocumentBuilderFactory.newInstance();
+  - $FACTORY = TransformerFactory.newInstance();
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  - saxparserfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.157
+  name: Factory Newtransformer
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.newTransformer(...);
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.158
+  name: Newtransformer
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.newTransformer(...);
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.159
+  name: Factory Setattribute
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.setAttribute("=~/.*accessExternalStylesheet.*/", ""); ...
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+  - $FACTORY.setAttribute("=~/.*accessExternalDTD.*/", "");
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); ...
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.160
+  name: Xmlconstants Access External Stylesheet
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); ...
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.161
+  name: Setattribute
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.setAttribute("=~/.*accessExternalStylesheet.*/", ""); ...
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+  - $FACTORY.setAttribute("=~/.*accessExternalDTD.*/", "");
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); ...
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.162
+  name: Xmlconstants Access External Dtd
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this TransformerFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the attributes
+    "accessExternalDTD" and "accessExternalStyleshee
+  patterns:
+  - $FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+  source_rules:
+  - transformerfactory-dtds-not-disabled
+  tier: T2
+- id: EXT.JAVA.SEC.163
+  name: Documentbuilderfactory Newinstance
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this DocumentBuilderFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the feature
+    "http://apache.org/xml/features/disallow-doctyp
+  patterns:
+  - $FACTORY = DocumentBuilderFactory.newInstance();
+  source_rules:
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.164
+  name: Factory Newdocumentbuilder
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this DocumentBuilderFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the feature
+    "http://apache.org/xml/features/disallow-doctyp
+  patterns:
+  - $FACTORY.newDocumentBuilder();
+  source_rules:
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.165
+  name: Newdocumentbuilder
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this DocumentBuilderFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the feature
+    "http://apache.org/xml/features/disallow-doctyp
+  patterns:
+  - $FACTORY.newDocumentBuilder();
+  source_rules:
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.166
+  name: Factory Setfeature
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this DocumentBuilderFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the feature
+    "http://apache.org/xml/features/disallow-doctyp
+  patterns:
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-general-entities", false);
+  - $FACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+  - $FACTORY.setFeature("http://xml.org/sax/features/external-parameter-entities",
+    false);
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.167
+  name: Apache Org
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this DocumentBuilderFactory. This
+    is vulnerable to XML external entity attacks. Disable this by setting the feature
+    "http://apache.org/xml/features/disallow-doctyp
+  patterns:
+  - $DBFACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+    false);
+  - $FACTORY.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  - documentbuilderfactory-disallow-doctype-decl-false
+  - documentbuilderfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.168
+  name: Saxparserfactory Newinstance
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this SAXParserFactory. This is
+    vulnerable to XML external entity attacks. Disable this by setting the feature
+    `http://apache.org/xml/features/disallow-doctype-decl
+  patterns:
+  - $FACTORY = SAXParserFactory.newInstance();
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.169
+  name: Factory Newsaxparser
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this SAXParserFactory. This is
+    vulnerable to XML external entity attacks. Disable this by setting the feature
+    `http://apache.org/xml/features/disallow-doctype-decl
+  patterns:
+  - $FACTORY.newSAXParser();
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.170
+  name: Newsaxparser
+  ecosystem: java
+  category: security
+  description: DOCTYPE declarations are enabled for this SAXParserFactory. This is
+    vulnerable to XML external entity attacks. Disable this by setting the feature
+    `http://apache.org/xml/features/disallow-doctype-decl
+  patterns:
+  - $FACTORY.newSAXParser();
+  source_rules:
+  - saxparserfactory-disallow-doctype-decl-missing
+  tier: T2
+- id: EXT.JAVA.SEC.171
+  name: Java Sql Callablestatement
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.CallableStatement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.172
+  name: Java Sql Statement
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.Statement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.173
+  name: Java Sql Preparedstatement
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.PreparedStatement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.174
+  name: Conn Preparestatement
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.175
+  name: Path Queryforobject
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.176
+  name: Queryforobject
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.177
+  name: Java Util Map
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.178
+  name: Path Queryformap
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.179
+  name: Queryformap
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.180
+  name: Org Springframework Jdbc Support Rowset Sqlrowset
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.support.rowset.SqlRowSet $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  - tainted-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.181
+  name: Org Springframework Jdbc Core Jdbctemplate
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.core.JdbcTemplate $TEMPL).batchUpdate(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.182
+  name: Batchupdate
+  ecosystem: java
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.core.JdbcTemplate $TEMPL).batchUpdate(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.JAVA.SEC.183
+  name: Pm Newquery
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - $PM.newQuery(...,$X + $Y,...);
+  - $PM.newQuery(...,String.format(...),...);
+  - $PM.newQuery(...,$SQL,...)
+  source_rules:
+  - jdo-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.184
+  name: Newquery
+  ecosystem: java
+  category: security
+  description: Detected a formatted string in a SQL statement. This could lead to
+    SQL injection if variables in the SQL statement are not properly sanitized. Use
+    a prepared statements (java.sql.PreparedStatement) in
+  patterns:
+  - $PM.newQuery(...,$X + $Y,...);
+  - $PM.newQuery(...,String.format(...),...);
+  - $PM.newQuery(...,$SQL,...)
+  source_rules:
+  - jdo-sqli
+  tier: T2
+- id: EXT.JAVA.SEC.185
+  name: Getoutputstream
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - (HttpServletResponse $RESPONSE).getOutputStream(...).$WRITE(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.186
+  name: Java Io Printwriter
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - (java.io.PrintWriter $WRITER).$WRITE(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.187
+  name: Javax Servlet Servletoutputstream
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - (javax.servlet.ServletOutputStream $WRITER).$WRITE(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.188
+  name: Java Io Outputstream
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - (java.io.OutputStream $WRITER).$WRITE(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.189
+  name: Org Apache Commons Lang Stringescapeutils Escapehtml
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.apache.commons.lang.StringEscapeUtils.escapeHtml(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.190
+  name: Escapehtml
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.apache.commons.lang.StringEscapeUtils.escapeHtml(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.191
+  name: Org Springframework Web Util Htmlutils Htmlescape
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.springframework.web.util.HtmlUtils.htmlEscape(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.192
+  name: Htmlescape
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.springframework.web.util.HtmlUtils.htmlEscape(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.193
+  name: Org Owasp Esapi Esapi Encoder
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.owasp.esapi.ESAPI.encoder().encodeForHTML(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.194
+  name: Encoder
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.owasp.esapi.ESAPI.encoder().encodeForHTML(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.195
+  name: Encodeforhtml
+  ecosystem: java
+  category: security
+  description: 'Detected a request with potential user-input going into a OutputStream
+    or Writer object. This bypasses any view or template environments, including HTML
+    escaping, which may expose this application to '
+  patterns:
+  - org.owasp.esapi.ESAPI.encoder().encodeForHTML(...)
+  source_rules:
+  - no-direct-response-writer
+  tier: T2
+- id: EXT.JAVA.SEC.196
+  name: Org Apache Http Conn Ssl Noophostnameverifier
+  ecosystem: java
+  category: security
+  description: Insecure HostnameVerifier implementation detected. This will accept
+    any SSL certificate with any hostname, which creates the possibility for man-in-the-middle
+    attacks.
+  patterns:
+  - import org.apache.http.conn.ssl.NoopHostnameVerifier;
+  source_rules:
+  - insecure-hostname-verifier
+  tier: T2
+- id: EXT.JAVA.SEC.197
+  name: Com Amazonaws Services Lambda Runtime Context
+  ecosystem: java
+  category: security
+  description: Detected SQL statement that is tainted by `$EVENT` object. This could
+    lead to SQL injection if variables in the SQL statement are not properly sanitized.
+    Use parameterized SQL queries or properly sani
+  patterns:
+  - $HANDLERTYPE $HANDLER(InputStream $EVENT, OutputStream $OUT, com.amazonaws.services.lambda.runtime.Context
+    $CONTEXT) {
+  - $HANDLERTYPE $HANDLER($TYPE $EVENT, com.amazonaws.services.lambda.runtime.Context
+    $CONTEXT) {
+  source_rules:
+  - tainted-sqli
+  tier: T2
+- id: EXT.SPRING.SEC.001
+  name: Obj Csrf
+  ecosystem: spring
+  category: security
+  description: CSRF protection is disabled for this configuration. This is a security
+    risk.
+  patterns:
+  - $OBJ.csrf(...).disable(...)
+  source_rules:
+  - spring-csrf-disabled
+  tier: T2
+- id: EXT.SPRING.SEC.002
+  name: Csrf
+  ecosystem: spring
+  category: security
+  description: CSRF protection is disabled for this configuration. This is a security
+    risk.
+  patterns:
+  - $OBJ.csrf(...).disable(...)
+  source_rules:
+  - spring-csrf-disabled
+  tier: T2
+- id: EXT.SPRING.SEC.003
+  name: Disable
+  ecosystem: spring
+  category: security
+  description: CSRF protection is disabled for this configuration. This is a security
+    risk.
+  patterns:
+  - $OBJ.csrf(...).disable(...)
+  source_rules:
+  - spring-csrf-disabled
+  tier: T2
+- id: EXT.SPRING.SEC.004
+  name: Management Endpoints Web Exposure Include
+  ecosystem: spring
+  category: security
+  description: Spring Boot Actuators "$...ACTUATORS" are enabled. Depending on the
+    actuators, this can pose a significant security risk. Please double-check if the
+    actuators are needed and properly secured.
+  patterns:
+  - management.endpoints.web.exposure.include=$...ACTUATORS
+  - management.endpoints.web.exposure.include=*
+  source_rules:
+  - spring-actuator-dangerous-endpoints-enabled
+  - spring-actuator-fully-enabled
+  tier: T2
+- id: EXT.SPRING.SEC.005
+  name: Concat
+  ecosystem: spring
+  category: security
+  description: User data flows into this manually-constructed SQL string. User data
+    can be safely inserted into SQL strings using prepared statements or an object-relational
+    mapper (ORM). Manually-constructed SQL st
+  patterns:
+  - '"$HTMLSTR".concat(...)'
+  - '"$SQLSTR".concat(...)'
+  - $SOURCE.concat(...)
+  - '"$URLSTR".concat(...)'
+  - (String $STR).concat($SOURCE)
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - tainted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.SPRING.SEC.006
+  name: Sb Append
+  ecosystem: spring
+  category: security
+  description: User data flows into this manually-constructed SQL string. User data
+    can be safely inserted into SQL strings using prepared statements or an object-relational
+    mapper (ORM). Manually-constructed SQL st
+  patterns:
+  - $SB.append(...)
+  source_rules:
+  - tainted-html-string
+  - tainted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.SPRING.SEC.007
+  name: Append
+  ecosystem: spring
+  category: security
+  description: User data flows into this manually-constructed SQL string. User data
+    can be safely inserted into SQL strings using prepared statements or an object-relational
+    mapper (ORM). Manually-constructed SQL st
+  patterns:
+  - $SB.append(...)
+  - (StringBuilder $SB).append($...TAINTED)
+  - (StringBuilder $STRB).append($INPUT)
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - tainted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.SPRING.SEC.008
+  name: String Format
+  ecosystem: spring
+  category: security
+  description: User data flows into this manually-constructed SQL string. User data
+    can be safely inserted into SQL strings using prepared statements or an object-relational
+    mapper (ORM). Manually-constructed SQL st
+  patterns:
+  - String.format("...", ..., $SOURCE, ...)
+  - String.format($VAR, ...)
+  - String.format("$SQLSTR", ...)
+  - String.format("$HTMLSTR", ...)
+  - String.format("$URLSTR", ...)
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - tainted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.SPRING.SEC.009
+  name: Format
+  ecosystem: spring
+  category: security
+  description: User data flows into this manually-constructed SQL string. User data
+    can be safely inserted into SQL strings using prepared statements or an object-relational
+    mapper (ORM). Manually-constructed SQL st
+  patterns:
+  - String.format("...", ..., $SOURCE, ...)
+  - String.format($VAR, ...)
+  - String.format("$SQLSTR", ...)
+  - String.format("$HTMLSTR", ...)
+  - String.format("$URLSTR", ...)
+  source_rules:
+  - tainted-system-command
+  - tainted-html-string
+  - tainted-sql-string
+  - tainted-url-host
+  tier: T2
+- id: EXT.SPRING.SEC.010
+  name: String Join
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - String.join("...", ..., $SOURCE, ...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.011
+  name: Join
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - String.join("...", ..., $SOURCE, ...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.012
+  name: Source Concat
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $SOURCE.concat(...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.013
+  name: Command
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - (ProcessBuilder $PB).command(...).$ADD(...);
+  - (ProcessBuilder $PB).command(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.014
+  name: Runtime Getruntime
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - Runtime.getRuntime(...).$EXEC(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.015
+  name: Getruntime
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - Runtime.getRuntime(...).$EXEC(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.016
+  name: Builder Start
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $BUILDER.start(...)
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.017
+  name: Start
+  ecosystem: spring
+  category: security
+  description: Detected user input entering a method which executes a system command.
+    This could result in a command injection vulnerability, which allows an attacker
+    to inject an arbitrary system command onto the s
+  patterns:
+  - $BUILDER.start(...)
+  - new ProcessBuilder(...). ... .start(...);
+  source_rules:
+  - tainted-system-command
+  tier: T2
+- id: EXT.SPRING.SEC.018
+  name: Java Io File
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.File(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.019
+  name: File
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.File(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.020
+  name: Java Io Filereader
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileReader(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.021
+  name: Filereader
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileReader(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.022
+  name: Java Io Fileinputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileInputStream(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.023
+  name: Fileinputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileInputStream(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.024
+  name: Get
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - (Paths $PATHS).get(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.025
+  name: Resourceutils Getfile
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - ResourceUtils.getFile($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.026
+  name: Getfile
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - ResourceUtils.getFile($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.027
+  name: Java Io Fileoutputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.028
+  name: Fileoutputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new java.io.FileOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.029
+  name: Javax Xml Transform Streamsource
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new javax.xml.transform.StreamSource($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.030
+  name: Streamsource
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - new javax.xml.transform.StreamSource($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.031
+  name: Fileutils Openoutputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - FileUtils.openOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.032
+  name: Openoutputstream
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - FileUtils.openOutputStream($FILE, ...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.033
+  name: Org Apache Commons Io Filenameutils Getname
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - org.apache.commons.io.FilenameUtils.getName(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.034
+  name: Getname
+  ecosystem: spring
+  category: security
+  description: Detected user input controlling a file path. An attacker could control
+    the location of this file, to include going backwards in the directory with '../'.
+    To address this, ensure that user-controlled v
+  patterns:
+  - org.apache.commons.io.FilenameUtils.getName(...)
+  source_rules:
+  - tainted-file-path
+  tier: T2
+- id: EXT.SPRING.SEC.035
+  name: Body
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - ResponseEntity. ... .body($PAYLOAD)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.036
+  name: Encode Forhtml
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - Encode.forHtml(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.037
+  name: Forhtml
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - Encode.forHtml(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.038
+  name: Sanitize
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - (PolicyFactory $POLICY).sanitize(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.039
+  name: Scan
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - (AntiSamy $AS).scan(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.040
+  name: Jsoup Clean
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - JSoup.clean(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.041
+  name: Clean
+  ecosystem: spring
+  category: security
+  description: Detected user input flowing into a manually constructed HTML string.
+    You may be accidentally bypassing secure methods of rendering HTML by manually
+    constructing HTML and this could create a cross-site
+  patterns:
+  - JSoup.clean(...)
+  source_rules:
+  - tainted-html-string
+  tier: T2
+- id: EXT.SPRING.SEC.042
+  name: Java Sql Callablestatement
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.CallableStatement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.043
+  name: Java Sql Statement
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.Statement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.044
+  name: Java Sql Preparedstatement
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.sql.PreparedStatement $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.045
+  name: Conn Preparestatement
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.046
+  name: Preparestatement
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $VAR = $CONN.prepareStatement(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.047
+  name: Path Queryforobject
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.048
+  name: Queryforobject
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - $PATH.queryForObject(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.049
+  name: Java Util Map
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.050
+  name: Path Queryformap
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.051
+  name: Queryformap
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (java.util.Map<String, Object> $STMT) = $PATH.queryForMap(...);
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.052
+  name: Org Springframework Jdbc Support Rowset Sqlrowset
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.support.rowset.SqlRowSet $STMT) = ...;
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.053
+  name: Org Springframework Jdbc Core Jdbctemplate
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.core.JdbcTemplate $TEMPL).batchUpdate(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.SPRING.SEC.054
+  name: Batchupdate
+  ecosystem: spring
+  category: security
+  description: Detected input from a HTTPServletRequest going into a SQL sink or statement.
+    This could lead to SQL injection if variables in the SQL statement are not properly
+    sanitized. Use parameterized SQL querie
+  patterns:
+  - (org.springframework.jdbc.core.JdbcTemplate $TEMPL).batchUpdate(...)
+  source_rules:
+  - tainted-sql-from-http-request
+  tier: T2
+- id: EXT.KOTLIN.SEC.001
+  name: Md Getinstance
+  ecosystem: kotlin
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - $VAR = $MD.getInstance("$ALGO")
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.KOTLIN.SEC.002
+  name: Getinstance
+  ecosystem: kotlin
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - val $VAR = $CIPHER.getInstance($MODE)
+  - var $VAR = $CIPHER.getInstance($MODE)
+  - $CIPHER.getInstance("=~/RSA/[Nn][Oo][Nn][Ee]/NoPadding/")
+  - $VAR = $MD.getInstance("$ALGO")
+  - $KEY = $G.getInstance("RSA")
+  source_rules:
+  - use-of-sha1
+  - use-of-weak-rsa-key
+  - use-of-md5
+  - ecb-cipher
+  - rsa-no-padding
+  - gcm-detection
+  tier: T2
+- id: EXT.KOTLIN.SEC.003
+  name: Du Getsha1Digest
+  ecosystem: kotlin
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.KOTLIN.SEC.004
+  name: Getsha1Digest
+  ecosystem: kotlin
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.KOTLIN.SEC.005
+  name: Digest
+  ecosystem: kotlin
+  category: security
+  description: Detected SHA1 hash algorithm which is considered insecure. SHA1 is
+    not collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - $DU.getSha1Digest().digest(...)
+  source_rules:
+  - use-of-sha1
+  tier: T2
+- id: EXT.KOTLIN.SEC.006
+  name: Cipher Getinstance
+  ecosystem: kotlin
+  category: security
+  description: Cipher in ECB mode is detected. ECB mode produces the same output for
+    the same input each time which allows an attacker to intercept and replay the
+    data. Further, ECB mode does not provide any integri
+  patterns:
+  - val $VAR = $CIPHER.getInstance($MODE)
+  - var $VAR = $CIPHER.getInstance($MODE)
+  - $CIPHER.getInstance("=~/RSA/[Nn][Oo][Nn][Ee]/NoPadding/")
+  - 'val $VAR : Cipher = $CIPHER.getInstance($MODE)'
+  - 'var $VAR : Cipher = $CIPHER.getInstance($MODE)'
+  source_rules:
+  - rsa-no-padding
+  - ecb-cipher
+  tier: T2
+- id: EXT.KOTLIN.SEC.007
+  name: G Getinstance
+  ecosystem: kotlin
+  category: security
+  description: RSA keys should be at least 2048 bits based on NIST recommendation.
+  patterns:
+  - $KEY = $G.getInstance("RSA")
+  source_rules:
+  - use-of-weak-rsa-key
+  tier: T2
+- id: EXT.KOTLIN.SEC.008
+  name: Env Put
+  ecosystem: kotlin
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none")
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.KOTLIN.SEC.009
+  name: Ctx Security Authentication
+  ecosystem: kotlin
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none")
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.KOTLIN.SEC.010
+  name: Put
+  ecosystem: kotlin
+  category: security
+  description: Detected anonymous LDAP bind. This permits anonymous users to execute
+    LDAP statements. Consider enforcing authentication for LDAP. See https://docs.oracle.com/javase/tutorial/jndi/ldap/auth_mechs.html
+  patterns:
+  - $ENV.put($CTX.SECURITY_AUTHENTICATION, "none")
+  source_rules:
+  - anonymous-ldap-bind
+  tier: T2
+- id: EXT.KOTLIN.SEC.011
+  name: Method Getinstance
+  ecosystem: kotlin
+  category: security
+  description: GCM detected, please check that IV/nonce is not reused, an Initialization
+    Vector (IV) is a nonce used to randomize the encryption, so that even if multiple
+    messages with identical plaintext are encryp
+  patterns:
+  - $METHOD.getInstance("AES/GCM/NoPadding",...)
+  source_rules:
+  - gcm-detection
+  tier: T2
+- id: EXT.KOTLIN.SEC.012
+  name: Java Security Messagedigest Getinstance
+  ecosystem: kotlin
+  category: security
+  description: Detected MD5 hash algorithm which is considered insecure. MD5 is not
+    collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - java.security.MessageDigest.getInstance("MD5")
+  source_rules:
+  - use-of-md5
+  tier: T2
+- id: EXT.KOTLIN.SEC.013
+  name: Org Apache Commons Codec Digest Digestutils Getmd5Digest
+  ecosystem: kotlin
+  category: security
+  description: Detected MD5 hash algorithm which is considered insecure. MD5 is not
+    collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getMd5Digest()
+  source_rules:
+  - use-of-md5
+  tier: T2
+- id: EXT.KOTLIN.SEC.014
+  name: Getmd5Digest
+  ecosystem: kotlin
+  category: security
+  description: Detected MD5 hash algorithm which is considered insecure. MD5 is not
+    collision resistant and is therefore not suitable as a cryptographic signature.
+    Use SHA256 or SHA3 instead.
+  patterns:
+  - org.apache.commons.codec.digest.DigestUtils.getMd5Digest()
+  source_rules:
+  - use-of-md5
+  tier: T2
