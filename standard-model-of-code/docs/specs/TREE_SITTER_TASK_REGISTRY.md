@@ -3,8 +3,8 @@
 > Master registry tracking tree-sitter integration implementation status.
 >
 > **Created:** 2026-01-21
-> **Last Updated:** 2026-01-22 (Post-implementation audit)
-> **Status:** PHASES 1-4 COMPLETE, PHASE 5 DEFERRED
+> **Last Updated:** 2026-01-22 (D3 ROLE queries added)
+> **Status:** PHASES 1-4 COMPLETE, PHASE 5 DEFERRED, PHASE 6 (D3 ROLE) COMPLETE
 
 ---
 
@@ -12,11 +12,12 @@
 
 | Phase | Status | Evidence |
 |-------|--------|----------|
-| **Phase 1: Foundation** | ✅ COMPLETE | `queries/`, loader, 15 .scm files |
+| **Phase 1: Foundation** | ✅ COMPLETE | `queries/`, loader, 19 .scm files |
 | **Phase 2: Scope Analysis** | ✅ COMPLETE | `scope_analyzer.py` (824 lines) |
 | **Phase 3: Control Flow** | ✅ COMPLETE | `control_flow_analyzer.py` (475 lines) |
 | **Phase 4: Pattern Detection** | ✅ COMPLETE | `data_flow_analyzer.py` (872 lines), patterns.scm |
 | **Phase 5: Advanced Features** | ⏸️ DEFERRED | Cross-file, injections - low alignment |
+| **Phase 6: D3 ROLE Queries** | ✅ COMPLETE | roles.scm (Python, JavaScript, TypeScript), imports.scm |
 | **Phase 7: Visualization** | ✅ COMPLETE | UPB wiring, 15 SOURCES, 11 PRESETS |
 
 **Tests:** 216 passing (100%)
@@ -34,11 +35,11 @@
 | `src/core/data_flow_analyzer.py` | 872 | D6:EFFECT purity detection |
 | `src/core/control_flow_analyzer.py` | 475 | Cyclomatic complexity, nesting |
 
-### Query Files (15 .scm files)
+### Query Files (19 .scm files)
 
 ```
 src/core/queries/
-├── __init__.py              # Query loader (250 lines)
+├── __init__.py              # Query loader (271 lines)
 ├── python/
 │   ├── symbols.scm          # Function/class extraction
 │   ├── locals.scm           # Scope tracking
@@ -46,13 +47,18 @@ src/core/queries/
 │   ├── data_flow.scm        # Assignment tracking
 │   ├── state.scm            # D5:STATE
 │   ├── boundary.scm         # D4:BOUNDARY
-│   └── lifecycle.scm        # D7:LIFECYCLE
+│   ├── lifecycle.scm        # D7:LIFECYCLE
+│   ├── imports.scm          # Import/export extraction (NEW)
+│   └── roles.scm            # D3:ROLE detection (NEW, 278 lines)
 ├── javascript/
 │   ├── symbols.scm
 │   ├── locals.scm
-│   └── patterns.scm
+│   ├── patterns.scm
+│   ├── imports.scm          # ES6/CommonJS imports (NEW)
+│   └── roles.scm            # D3:ROLE detection (NEW, 358 lines)
 ├── typescript/
-│   └── symbols.scm
+│   ├── symbols.scm
+│   └── roles.scm            # D3:ROLE + interfaces/types (NEW, 207 lines)
 ├── go/
 │   └── symbols.scm
 ├── rust/
@@ -130,5 +136,6 @@ These tasks have low alignment with core mission and are deferred:
 - [x] Phase 3 Control Flow: COMPLETE
 - [x] Phase 4 Pattern Detection: COMPLETE
 - [ ] Phase 5 Advanced Features: DEFERRED
+- [x] Phase 6 D3 ROLE Queries: COMPLETE (roles.scm for Python, JavaScript, TypeScript)
 - [x] Phase 7 Visualization: COMPLETE
 - [x] All tests passing (216/216)
