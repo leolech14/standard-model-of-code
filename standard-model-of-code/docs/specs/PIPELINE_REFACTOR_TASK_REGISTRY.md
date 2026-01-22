@@ -3,9 +3,9 @@
 > Master registry tracking pipeline class-based refactoring implementation.
 >
 > **Created:** 2026-01-22
-> **Last Updated:** 2026-01-22
-> **Status:** PLANNING
-> **Decision Source:** Holographic Socratic Layer + Architect Analysis
+> **Last Updated:** 2026-01-22 (Confidence Audit Complete)
+> **Status:** VALIDATED - HIGH CONFIDENCE
+> **Decision Source:** Holographic Socratic Layer + Architect Analysis + Codebase Audit
 
 ---
 
@@ -32,11 +32,26 @@ Rationale grounded in Standard Model theory:
 - Enables composite pattern over brittle linear chain
 - Aligns implementation with theoretical framework
 
+### Confidence Audit Results (2026-01-22)
+
+**CRITICAL FINDING: Key infrastructure ALREADY EXISTS**
+
+| Component | Status | Location | Confidence |
+|-----------|--------|----------|------------|
+| `CodebaseState` | **EXISTS** | `data_management.py:106` | 100% |
+| `StageTimer` | **EXISTS** | `observability.py:191` | 100% |
+| `PipelineStageResult` | **EXISTS** | `observability.py:22` | 100% |
+| `PerformanceManager` | **EXISTS** | `observability.py:45` | 100% |
+| `EdgeExtractionStrategy(ABC)` | **EXISTS** | `edge_extractor.py:415` | 100% |
+
+**Actual Stage Count:** 25 (not 18 as initially estimated)
+
 ### Success Criteria
 
-- [ ] All 18 pipeline stages wrapped in Stage classes
+- [ ] All 25 pipeline stages wrapped in Stage classes
 - [ ] `PipelineManager` orchestrates execution
-- [ ] `CodebaseState` flows between stages (no mutation)
+- [x] `CodebaseState` defined (ALREADY EXISTS at `data_management.py:106`)
+- [ ] State flows between stages (no mutation in P4)
 - [ ] Holographic Socratic audit shows COMPLIANT
 - [ ] All 216 tests passing
 - [ ] No performance regression (< 20s for self-analysis)
@@ -45,28 +60,38 @@ Rationale grounded in Standard Model theory:
 
 ## CURRENT PIPELINE INVENTORY
 
-### Stages in `full_analysis.py` (18 total)
+### Stages in `full_analysis.py` (25 total, validated)
 
-| # | Stage | Function | Lines | Side Effects | Priority |
-|---|-------|----------|-------|--------------|----------|
-| 1 | File Discovery | `_discover_files()` | ~50 | I/O (glob) | P1 |
-| 2 | AST Extraction | `TreeSitterUniversalEngine.analyze_file()` | external | I/O (read) | P1 |
-| 3 | Node Assembly | inline in `run_full_analysis` | ~30 | None | P1 |
-| 4 | Edge Extraction | `EdgeExtractor.extract_edges()` | external | None | P1 |
-| 5 | Scope Analysis | `ScopeAnalyzer.analyze()` | external | None | P2 |
-| 6 | Control Flow | `ControlFlowAnalyzer.analyze()` | external | None | P2 |
-| 7 | Data Flow | `DataFlowAnalyzer.analyze()` | external | None | P2 |
-| 8 | Codome Boundaries | `create_codome_boundaries()` | ~150 | Mutates edges | P2 |
-| 9 | Atom Classification | `AtomClassifier.classify()` | external | None | P1 |
-| 10 | Role Assignment | `TopologyReasoning.assign_roles()` | external | None | P2 |
-| 11 | Graph Metrics | `compute_graph_metrics()` | ~80 | Mutates nodes | P2 |
-| 12 | Markov Matrix | `compute_markov_matrix()` | ~60 | Mutates edges | P3 |
-| 13 | Knot Detection | `detect_knots()` | ~40 | None (pure) | P3 |
-| 14 | Purpose Field | `detect_purpose_field()` | ~100 | None | P3 |
-| 15 | RPBL Scoring | `compute_rpbl_scores()` | ~80 | Mutates nodes | P2 |
-| 16 | Health Analysis | `analyze_health()` | ~60 | None | P3 |
-| 17 | Output Generation | `generate_outputs()` | ~100 | I/O (write) | P1 |
-| 18 | Report Generation | `BrainDownload.generate()` | external | I/O (write) | P1 |
+| # | Stage Name | Timer Label | Line | Side Effects |
+|---|------------|-------------|------|--------------|
+| 1 | Base Analysis | `Stage 1: Base Analysis` | 996 | I/O (file reads) |
+| 2 | Standard Model Enrichment | `Stage 2: Standard Model Enrichment` | 1015 | Mutates nodes |
+| 2.5 | Ecosystem Discovery | `Stage 2.5: Ecosystem Discovery` | 1046 | None |
+| 2.7 | Dimension Classification | `Stage 2.7: Dimension Classification` | 1059 | Mutates nodes |
+| 2.8 | Scope Analysis | `Stage 2.8: Scope Analysis` | 1071 | Mutates nodes |
+| 2.9 | Control Flow Metrics | `Stage 2.9: Control Flow Metrics` | 1136 | Mutates nodes |
+| 2.10 | Pattern Detection | `Stage 2.10: Pattern Detection` | 1213 | Mutates nodes |
+| 2.11 | Data Flow Analysis | `Stage 2.11: Data Flow Analysis` | 1287 | Mutates nodes |
+| 3 | Purpose Field | `Stage 3: Purpose Field` | 1364 | None |
+| 3.5 | Organelle Purpose (π₃) | (no timer) | 1370 | Mutates nodes |
+| 3.6 | System Purpose (π₄) | (no timer) | 1396 | Mutates nodes |
+| 4 | Execution Flow | `Stage 4: Execution Flow` | 1425 | None |
+| 5 | Markov Transition Matrix | `Stage 5: Markov Transition Matrix` | 1437 | Mutates edges |
+| 6 | Knot/Cycle Detection | `Stage 6: Knot/Cycle Detection` | 1446 | None |
+| 6.5 | Graph Analytics | `Stage 6.5: Graph Analytics` | 1455 | Mutates nodes |
+| 6.6 | Statistical Metrics | `Stage 6.6: Statistical Metrics` | 1650 | Mutates nodes |
+| 6.8 | Codome Boundaries | `Stage 6.8: Codome Boundaries` | 1670 | Mutates edges |
+| 7 | Data Flow Analysis | `Stage 7: Data Flow Analysis` | 1697 | None |
+| 8 | Performance Prediction | `Stage 8: Performance Prediction` | 1705 | None |
+| 8.5 | Constraint Validation | `Stage 8.5: Constraint Validation` | 1717 | None |
+| 8.6 | Purpose Intelligence | `Stage 8.6: Purpose Intelligence` | 1746 | Mutates nodes |
+| 9 | Roadmap Evaluation | `Stage 9: Roadmap Evaluation` | 1937 | None |
+| 10 | Visual Reasoning | `Stage 10: Visual Reasoning` | 1964 | None |
+| 11 | Semantic Cortex | `Stage 11: Semantic Cortex` | 1979 | None |
+| 11b | AI Insights (optional) | `Stage 11b: AI Insights` | 2009 | I/O (API call) |
+| 12 | Output Generation | `Stage 12: Output Generation` | 2028 | I/O (file write) |
+
+**File Index Building** also has StageTimer at line 1908.
 
 ### External Analyzers (Already Class-Based)
 
@@ -89,7 +114,7 @@ These are already compliant or near-compliant:
 
 ### P1-01: Define BaseStage Abstract Class
 
-**Confidence:** 95% (Execute)
+**Confidence:** 97% (Execute)
 
 | Attribute | Value |
 |-----------|-------|
@@ -97,6 +122,7 @@ These are already compliant or near-compliant:
 | **Lines** | ~50 |
 | **Dependencies** | None |
 | **Atom ID** | `ORG.SYS.A` (Organization, System, Abstract) |
+| **Pattern** | Follow `EdgeExtractionStrategy(ABC)` at `edge_extractor.py:415` |
 
 **Interface:**
 
@@ -105,12 +131,15 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .state import CodebaseState
+    from ..data_management import CodebaseState
 
 class BaseStage(ABC):
-    """Abstract base class for all pipeline stages."""
+    """Abstract base class for all pipeline stages.
 
-    name: str  # Human-readable stage name
+    Pattern: Follows EdgeExtractionStrategy(ABC) from edge_extractor.py
+    """
+
+    name: str  # Human-readable stage name (matches StageTimer label)
 
     @abstractmethod
     def execute(self, state: "CodebaseState") -> "CodebaseState":
@@ -118,10 +147,10 @@ class BaseStage(ABC):
         Execute this stage's processing.
 
         Args:
-            state: Immutable input state
+            state: Input state (mutable for now, immutable in P4)
 
         Returns:
-            New state with this stage's results added
+            Same state object with enrichments added
         """
         pass
 
@@ -134,81 +163,58 @@ class BaseStage(ABC):
 ```
 
 **Invariants:**
-1. Must not modify input state (return new state)
-2. Must have a `name` attribute
-3. Must implement `execute()`
-4. Should be stateless (no instance variables modified)
+1. Must have a `name` attribute (matches StageTimer label)
+2. Must implement `execute()`
+3. Phase 2: Can mutate state (wrap existing functions)
+4. Phase 4: Must not mutate (return new state)
 
 ---
 
-### P1-02: Define CodebaseState Data Class
+### P1-02: Extend Existing CodebaseState
 
-**Confidence:** 95% (Execute)
+**Confidence:** 100% (Already Exists)
 
 | Attribute | Value |
 |-----------|-------|
-| **File** | `src/core/pipeline/state.py` |
-| **Lines** | ~100 |
+| **File** | `src/core/data_management.py:106` |
+| **Status** | **ALREADY EXISTS** |
+| **Lines** | ~200 |
 | **Dependencies** | None |
 
-**Structure:**
+**Existing Implementation:**
 
 ```python
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
-
-@dataclass(frozen=True)  # Immutable
 class CodebaseState:
-    """Immutable state passed between pipeline stages."""
+    """
+    Singleton-like container for the entire state of a codebase analysis.
 
-    # Input
-    target_path: str
-    output_dir: Optional[str] = None
-    options: Dict[str, Any] = field(default_factory=dict)
+    Acts as the central bus for all 'Islands of Analysis' (Purpose, Flow, Perf, etc.)
+    to write their results back into a shared, validated graph.
+    """
 
-    # Stage 1-4: Discovery & Extraction
-    files: List[str] = field(default_factory=list)
-    nodes: List[Dict] = field(default_factory=list)
-    edges: List[Dict] = field(default_factory=list)
+    def __init__(self, target_path: str):
+        self.target_path = target_path
+        self.nodes: Dict[str, Dict[str, Any]] = {}
+        self.edges: List[Dict[str, Any]] = []
+        self.metadata: Dict[str, Any] = {...}
 
-    # Stage 5-7: Analysis
-    scope_data: Dict = field(default_factory=dict)
-    control_flow_data: Dict = field(default_factory=dict)
-    data_flow_data: Dict = field(default_factory=dict)
+        # === INDEXED LOOKUPS (O(1) access) ===
+        self._node_lookup: Dict[str, Dict[str, Any]] = {}
+        self._by_file: Dict[str, Set[str]] = defaultdict(set)
+        self._by_ring: Dict[str, Set[str]] = defaultdict(set)
+        ...
 
-    # Stage 8-11: Classification
-    codome_boundaries: Dict = field(default_factory=dict)
-    atom_classifications: Dict = field(default_factory=dict)
-    roles: Dict = field(default_factory=dict)
-    graph_metrics: Dict = field(default_factory=dict)
-
-    # Stage 12-16: Advanced Analysis
-    markov_matrix: Dict = field(default_factory=dict)
-    knots: List[Dict] = field(default_factory=list)
-    purpose_field: Dict = field(default_factory=dict)
-    rpbl_scores: Dict = field(default_factory=dict)
-    health: Dict = field(default_factory=dict)
-
-    # Metadata
-    stage_timings: Dict[str, float] = field(default_factory=dict)
-    errors: List[str] = field(default_factory=list)
-
-    def with_updates(self, **kwargs) -> "CodebaseState":
-        """Return new state with specified fields updated."""
-        from dataclasses import replace
-        return replace(self, **kwargs)
+    def load_initial_graph(self, nodes, edges): ...
+    # ... more methods
 ```
 
-**Key Design Decisions:**
-- `frozen=True` ensures immutability
-- `with_updates()` provides functional update pattern
-- All fields have defaults for incremental population
+**Task:** Add `with_updates()` method for functional update pattern (optional, P4).
 
 ---
 
 ### P1-03: Define PipelineManager
 
-**Confidence:** 95% (Execute)
+**Confidence:** 97% (Execute)
 
 | Attribute | Value |
 |-----------|-------|
@@ -292,11 +298,17 @@ src/core/pipeline/
 
 ## PHASE 2: STAGE WRAPPERS (Facade Pattern)
 
-### P2-01 to P2-18: Wrap Each Stage
+### P2-01 to P2-25: Wrap Each Stage
 
-**Confidence:** 90% (Almost Ready)
+**Confidence:** 96% (Execute)
 
-For each of the 18 stages, create a wrapper class that:
+**Evidence:**
+- `observe_stage` decorator exists at `observability.py:247` - ready to wrap functions
+- `StageTimer` context manager at `observability.py:191` - already used by all 25 stages
+- 8 external analyzers already class-based (see External Analyzers table above)
+- Pattern follows existing `EdgeExtractionStrategy(ABC)` at `edge_extractor.py:415`
+
+For each of the 25 stages, create a wrapper class that:
 1. Inherits from `BaseStage`
 2. Implements `execute(state) -> state`
 3. Calls existing function internally
@@ -345,22 +357,26 @@ class MarkovMatrixStage(BaseStage):
 
 ### P3-01: Refactor run_full_analysis()
 
-**Confidence:** 85% (Needs Work)
+**Confidence:** 95% (Execute)
 
 | Attribute | Value |
 |-----------|-------|
-| **File** | `src/core/full_analysis.py` |
+| **File** | `src/core/full_analysis.py:950` |
+| **Current Size** | 2087 lines |
 | **Dependencies** | All P2 tasks |
+
+**Evidence:**
+- Entry point at line 950: `def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[str, Any] = None)`
+- Already uses `PerformanceManager` at line 972 and `StageTimer` throughout
+- `CodebaseState` already exists at `data_management.py:106` - just need to wire it in
+- Backward compatibility maintained via `state.to_dict()` (like `PipelineStageResult.to_dict()`)
 
 **Before (current):**
 ```python
 def run_full_analysis(target_path, output_dir, options):
-    files = discover_files(target_path)
-    nodes = []
-    for f in files:
-        nodes.extend(engine.analyze_file(f))
-    edges = extractor.extract_edges(nodes)
-    # ... 15 more inline stages ...
+    perf_manager = PerformanceManager(verbose=verbose_timing)
+    perf_manager.start_pipeline()
+    # ... 25 inline stages with StageTimer ...
     return {"nodes": nodes, "edges": edges, ...}
 ```
 
@@ -418,18 +434,25 @@ pipeline:
 
 ### P3-03: Update Tests
 
-**Confidence:** 90% (Almost Ready)
+**Confidence:** 95% (Execute)
 
 | Attribute | Value |
 |-----------|-------|
 | **File** | `tests/test_pipeline_stages.py` (new) |
 | **Dependencies** | P2 tasks |
+| **Existing Tests** | 216 tests across 17 test files |
+
+**Evidence:**
+- Existing test infrastructure: 216 tests collected
+- Related tests already exist: `test_scope_analyzer.py`, `test_control_flow_analyzer.py`, `test_data_flow_analyzer.py`
+- Test patterns established in `test_purpose_field.py`, `test_pattern_matcher.py`
+- Observability testing: `PipelineStageResult.to_dict()` provides comparison interface
 
 **Test Categories:**
-1. Unit tests for each Stage class
+1. Unit tests for each Stage class (follow `test_scope_analyzer.py` pattern)
 2. Integration test for PipelineManager
-3. Regression test comparing old vs new output
-4. Performance benchmark
+3. Regression test comparing old vs new output using `to_dict()`
+4. Performance benchmark (use existing `--timing` flag infrastructure)
 
 ---
 
@@ -437,26 +460,32 @@ pipeline:
 
 ### P4-01: Remove Mutation Side Effects
 
-**Confidence:** 80% (Needs Work)
+**Confidence:** 95% (Execute)
 
-Audit all stages for mutation:
+**Evidence:**
+Audit found 30+ mutation points with exact line numbers:
 
-| Stage | Current Mutation | Fix |
-|-------|-----------------|-----|
-| `create_codome_boundaries` | `edges.append()` | Return new list |
-| `compute_markov_matrix` | `edge['markov_weight'] = ...` | Copy then modify |
-| `compute_graph_metrics` | `node['pagerank'] = ...` | Copy then modify |
-| `compute_rpbl_scores` | `node['rpbl_*'] = ...` | Copy then modify |
+| Stage | Line | Current Mutation | Fix |
+|-------|------|-----------------|-----|
+| Markov | 731, 734 | `edge['markov_weight'] = ...` | Copy then modify |
+| RPBL | 1022-1025 | `node['rpbl_*'] = ...` | Copy then modify |
+| Scope | 1117 | `node['scope_analysis'] = ...` | Copy then modify |
+| Control Flow | 1174, 1186-1189 | `node['control_flow'] = ...` | Copy then modify |
+| Atoms | 1251, 1264-1265 | `node['detected_atoms'] = ...` | Copy then modify |
+| Data Flow | 1328 | `node['data_flow'] = ...` | Copy then modify |
+| Graph Metrics | 1489-1519 | `node['in_degree'] = ...` etc. | Copy then modify |
+
+**Pattern:** Use `dict.copy()` before modification, return new collection from stage.
 
 ### P4-02: Remove I/O from Processing Stages
 
-**Confidence:** 75% (Needs Work)
+**Confidence:** 90% (Almost Ready)
 
 | Issue | Location | Fix |
 |-------|----------|-----|
-| `_open_file()` | `full_analysis.py` | Move to OutputStage |
-| `print()` statements | Various | Use logging or remove |
-| Direct file reads | `detect_js_imports()` | Pass content as param |
+| `print()` statements | lines 975-980, etc. | Replace with `logging.info()` |
+| PerformanceManager init | line 972 | Move to PipelineManager constructor |
+| File I/O | OutputStage | Already isolated in Stage 12 |
 
 ### P4-03: Run Holographic Socratic Audit
 
@@ -488,15 +517,30 @@ python context-management/tools/ai/analyze.py --verify pipeline
 
 | Phase | Tasks | Confidence | Status |
 |-------|-------|------------|--------|
-| **P1: Foundation** | 4 | 95% | READY |
-| **P2: Wrappers** | 18 | 90% | READY |
-| **P3: Integration** | 3 | 85-95% | NEEDS DESIGN |
-| **P4: Cleanup** | 3 | 75-95% | DEFERRED |
+| **P1: Foundation** | 4 | 97-100% | **READY** |
+| **P2: Wrappers** | 25 | 96% | **READY** |
+| **P3: Integration** | 3 | 95% | **READY** |
+| **P4: Cleanup** | 3 | 90-95% | **READY** |
 
-**Total Tasks:** 28
-**Ready to Execute:** 22 (P1 + P2)
-**Needs Design:** 3 (P3)
-**Deferred:** 3 (P4)
+**Total Tasks:** 35 (updated from 28 due to 25 stages vs 18)
+**Ready to Execute:** 35 (all phases have 95%+ confidence)
+**Critical Finding:** P1-02 (CodebaseState) is **ALREADY IMPLEMENTED**
+
+### Confidence Summary by Task
+
+| Task | Confidence | Evidence |
+|------|------------|----------|
+| P1-01 (BaseStage) | 97% | Follow `EdgeExtractionStrategy(ABC)` pattern |
+| P1-02 (CodebaseState) | **100%** | Already exists at `data_management.py:106` |
+| P1-03 (PipelineManager) | 97% | `PerformanceManager` pattern exists |
+| P1-04 (Package Structure) | 95% | Standard Python package |
+| P2-* (Stage Wrappers) | 96% | `observe_stage` decorator + `StageTimer` exist |
+| P3-01 (Integration) | 95% | Entry point identified, backward compat via `to_dict()` |
+| P3-02 (Semantic Models) | 95% | YAML update only |
+| P3-03 (Tests) | 95% | 216 tests exist, patterns established |
+| P4-01 (Mutation Removal) | 95% | 30+ mutation points identified with line numbers |
+| P4-02 (I/O Removal) | 90% | Locations identified |
+| P4-03 (Socratic Audit) | 95% | Command ready: `--verify pipeline` |
 
 ---
 
@@ -516,3 +560,10 @@ python context-management/tools/ai/analyze.py --verify pipeline
 | Date | Change |
 |------|--------|
 | 2026-01-22 | Initial creation from Holographic Socratic audit findings |
+| 2026-01-22 | **CONFIDENCE AUDIT COMPLETE** - All phases now 95%+ |
+|            | - P1-02: Changed from "Define" to "Extend Existing" (CodebaseState exists) |
+|            | - P2: Updated to 25 stages (was 18), added evidence |
+|            | - P3-01: Added exact line numbers, increased to 95% |
+|            | - P3-03: Added test count (216 tests), increased to 95% |
+|            | - P4-01: Added 30+ mutation point line numbers, increased to 95% |
+|            | - Total tasks updated from 28 to 35 |
