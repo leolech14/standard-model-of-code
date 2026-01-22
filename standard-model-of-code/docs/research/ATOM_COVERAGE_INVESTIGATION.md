@@ -19,6 +19,83 @@ This is not a bug—it's a **feature** that aligns with physics: a small number 
 
 ## Investigation Methodology
 
+### The Collider Pipeline (How Analysis Works)
+
+Understanding the investigation requires understanding how Collider analyzes code:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        COLLIDER PIPELINE (25 STAGES)                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  INPUT: Source code directory                                               │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 1-3: FILE DISCOVERY & PARSING                                 │   │
+│  │ • Discover all source files (.py, .js, .ts, .go, .rs, etc.)         │   │
+│  │ • Parse each file into AST using tree-sitter                        │   │
+│  │ • Extract nodes: functions, classes, variables, imports             │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 4-6: STRUCTURAL CLASSIFICATION                                │   │
+│  │ • Map AST node types to BASE ATOMS (atoms.json)                     │   │
+│  │   - function_definition → LOG.FNC.M                                 │   │
+│  │   - class_definition → ORG.AGG.M                                    │   │
+│  │   - assignment → DAT.VAR.A                                          │   │
+│  │ • Every node gets a structural atom (100% coverage)                 │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 7-9: ECOSYSTEM DETECTION                                      │   │
+│  │ • Analyze imports to detect frameworks                              │   │
+│  │   - "from django.db import models" → ecosystem: django              │   │
+│  │   - "import React from 'react'" → ecosystem: react                  │   │
+│  │ • Sets ecosystem context for T2 pattern matching                    │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 10-12: T2 SEMANTIC ENRICHMENT                                 │   │
+│  │ • Match code patterns against T2 atom definitions                   │   │
+│  │   - "@app.route" + function → EXT.FLASK.VIEW.001                    │   │
+│  │   - "class X(models.Model)" → EXT.DJANG.MODEL.001                   │   │
+│  │ • Add D1_WHAT dimension with T2 atom ID                             │   │
+│  │ • NOT all nodes match (0-60% T2 coverage)                           │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 13-18: DIMENSION ANALYSIS                                     │   │
+│  │ • D3_ROLE: Repository, Service, Controller, etc.                    │   │
+│  │ • D4_BOUNDARY: Internal, Input, Output, IO                          │   │
+│  │ • D5_STATE: Stateless, Stateful                                     │   │
+│  │ • D6_EFFECT: Pure, ReadOnly, WriteOnly, ReadWrite                   │   │
+│  │ • D7_LIFECYCLE: Create, Use, Destroy, Manage                        │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 19-22: EDGE EXTRACTION & GRAPH BUILDING                       │   │
+│  │ • Extract relationships: calls, imports, contains, inherits         │   │
+│  │ • Build dependency graph                                            │   │
+│  │ • Compute Markov transition probabilities                           │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ STAGE 23-25: METRICS & OUTPUT                                       │   │
+│  │ • Compute graph metrics (PageRank, centrality, clustering)          │   │
+│  │ • Calculate RPBL scores (Responsibility, Purity, Boundary, Lifecycle)│   │
+│  │ • Generate unified_analysis.json + HTML visualization               │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│         ↓                                                                   │
+│  OUTPUT: unified_analysis.json, collider_report.html                       │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Key Insight for Investigation:**
+- Stages 4-6 (structural) run on ALL nodes → 100% coverage with base atoms
+- Stages 10-12 (semantic) run pattern matching → Variable T2 coverage
+- This is WHY 4 atoms cover 80-90%: they're assigned in Stage 4-6
+
 ### Research Questions
 
 | ID | Question | Answered |
