@@ -891,6 +891,68 @@ function _toHex(oklch) {
     return '#' + [r, g, bl].map(x => x.toString(16).padStart(2, '0')).join('');
 }
 
+/**
+ * Convert HEX color to OKLCH
+ * @param {string} hex - Hex color string (#RGB, #RRGGBB, or #RRGGBBAA)
+ * @returns {object} {h, c, l} OKLCH values
+ */
+function hexToOklch(hex) {
+    // Parse hex to RGB
+    let r = 0, g = 0, b = 0;
+
+    if (!hex || typeof hex !== 'string') {
+        return { h: 0, c: 0, l: 0.5 }; // Gray fallback
+    }
+
+    // Remove # if present
+    hex = hex.replace(/^#/, '');
+
+    // Handle different hex formats
+    if (hex.length === 3) {
+        // #RGB -> #RRGGBB
+        r = parseInt(hex[0] + hex[0], 16);
+        g = parseInt(hex[1] + hex[1], 16);
+        b = parseInt(hex[2] + hex[2], 16);
+    } else if (hex.length >= 6) {
+        r = parseInt(hex.slice(0, 2), 16);
+        g = parseInt(hex.slice(2, 4), 16);
+        b = parseInt(hex.slice(4, 6), 16);
+    } else {
+        return { h: 0, c: 0, l: 0.5 }; // Invalid hex, gray fallback
+    }
+
+    // Normalize to 0-1
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    // Convert sRGB to linear RGB
+    const toLinear = (x) => x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    r = toLinear(r);
+    g = toLinear(g);
+    b = toLinear(b);
+
+    // Linear RGB to OKLab (via LMS)
+    const l_ = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    const m_ = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    const s_ = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+
+    const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+    const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+    const bLab = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+    // OKLab to OKLCH
+    const C = Math.sqrt(a * a + bLab * bLab);
+    let H = Math.atan2(bLab, a) * 180 / Math.PI;
+    if (H < 0) H += 360;
+
+    return {
+        h: H,
+        c: C,
+        l: L
+    };
+}
+
 function _applyTransform(oklch) {
     const t = transform;
 
@@ -1219,6 +1281,10 @@ return {
     getCategories,
     getLabel,
     interpolate,
+
+    // OKLCH Conversion (for UPB integration)
+    toHex: _toHex,
+    hexToOklch,
 
     // Transform controls
     setTransform,

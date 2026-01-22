@@ -128,7 +128,9 @@ let EDGE_MODE_CONFIG = {
 };
 // Edge type colors - populated from theme.tokens.json:501-512 at runtime
 let EDGE_COLOR_CONFIG = {};
-// FILE_COLOR_CONFIG, EDGE_RANGES, NODE_FILE_INDEX - provided by modules (file-viz.js, edge-system.js)
+// File color config - strategy, lightness, saturation, chroma
+let FILE_COLOR_CONFIG = {};
+// EDGE_RANGES, NODE_FILE_INDEX - provided by modules (edge-system.js)
 let NODE_COLOR_CONFIG = { tier: {}, ring: {}, unknown: '#666666' };
 
 // Console logging colors - populated from theme config

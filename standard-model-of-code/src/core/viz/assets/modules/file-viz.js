@@ -277,13 +277,18 @@ const FILE_VIZ = (function () {
 
     function applyFileGraphMode() {
         if (!_fileGraph) buildFileGraph();
-        if (!_fileGraph || typeof Graph === 'undefined') return;
+        if (!_fileGraph || !Graph) return;  // Guard against null AND undefined
 
         Graph.graphData(_fileGraph);
         _graphMode = 'files';
 
         if (typeof showToast !== 'undefined') {
             showToast(`File Map: ${_fileGraph.nodes.length} files, ${_fileGraph.links.length} connections`);
+        }
+
+        // Enforce strict centering on Origin (0,0,0)
+        if (Graph.d3Force) {
+            Graph.d3Force('center', d3.forceCenter(0, 0, 0));
         }
     }
 
@@ -424,4 +429,9 @@ if (typeof window !== 'undefined') {
     // Backward compat aliases
     window.drawFileBoundaries = FILE_VIZ.drawFileBoundaries;
     window.getColorForMapping = FILE_VIZ.getColor;
+    // Global getter for EXPANDED_FILES (read-only, like SELECTED_NODE_IDS)
+    Object.defineProperty(window, 'EXPANDED_FILES', {
+        get: () => FILE_VIZ.getExpandedFiles(),
+        configurable: true
+    });
 }

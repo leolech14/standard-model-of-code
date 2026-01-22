@@ -662,16 +662,24 @@ const CONTROL_BAR = (function () {
                 break;
 
             case 'hue':
-                const currentColor = node.color || 'hsl(200, 70%, 50%)';
-                node.color = setHSLComponent(currentColor, 'h', value);
+                // Use OKLCH color space via COLOR module
+                const hueOklch = window.COLOR.hexToOklch(node.color || '#808080');
+                hueOklch.h = value;
+                node.color = window.COLOR.toHex(hueOklch);
                 break;
 
             case 'saturation':
-                node.color = setHSLComponent(node.color || 'hsl(200, 70%, 50%)', 's', value);
+                // Map saturation (0-100) to OKLCH chroma (0-0.3)
+                const satOklch = window.COLOR.hexToOklch(node.color || '#808080');
+                satOklch.c = (value / 100) * 0.3;
+                node.color = window.COLOR.toHex(satOklch);
                 break;
 
             case 'lightness':
-                node.color = setHSLComponent(node.color || 'hsl(200, 70%, 50%)', 'l', value);
+                // Map lightness (0-100) to OKLCH lightness (0-1)
+                const litOklch = window.COLOR.hexToOklch(node.color || '#808080');
+                litOklch.l = value / 100;
+                node.color = window.COLOR.toHex(litOklch);
                 break;
 
             case 'opacity':
@@ -716,26 +724,6 @@ const CONTROL_BAR = (function () {
             default:
                 node[targetKey] = value;
         }
-    }
-
-    function setHSLComponent(colorStr, component, value) {
-        // Parse existing HSL or convert
-        let h = 200, s = 70, l = 50;
-
-        const hslMatch = colorStr.match(/hsl\((\d+),\s*(\d+)%?,\s*(\d+)%?\)/);
-        if (hslMatch) {
-            h = parseInt(hslMatch[1]);
-            s = parseInt(hslMatch[2]);
-            l = parseInt(hslMatch[3]);
-        }
-
-        switch (component) {
-            case 'h': h = value; break;
-            case 's': s = value; break;
-            case 'l': l = value; break;
-        }
-
-        return `hsl(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%)`;
     }
 
     function setAlpha(colorStr, alpha) {
