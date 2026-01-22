@@ -502,8 +502,47 @@ python tools/research/summarize_corpus.py artifacts/2026-01-22/ --output summary
 
 ---
 
+## AI Orchestration
+
+Phase 2 uses multi-AI validation for research rigor. See **AI_ORCHESTRATION_PROTOCOL.md** for full details.
+
+### Quick Reference
+
+| System | Model | Role | Analysis Set |
+|--------|-------|------|--------------|
+| Gemini | gemini-2.5-pro | Structural analysis | `research_full` |
+| Perplexity | sonar-pro | External validation | N/A (web) |
+| ChatGPT | o3 Extended | Falsification audit | N/A (manual) |
+
+### Ensemble Validation Rule
+
+No claim advances to L2 without:
+1. Deterministic metric computation (Mode A)
+2. Gemini analysis with line-level citations
+3. Perplexity external validation with URLs
+4. ChatGPT falsification attempt
+
+**Convergence threshold:** 2/3 AI systems must agree to promote.
+
+### Commands
+
+```bash
+# Gemini analysis
+.tools_venv/bin/python context-management/tools/ai/analyze.py \
+  "[query]" --set research_full --mode forensic
+
+# Perplexity (via MCP)
+mcp__perplexity__perplexity_research
+
+# ChatGPT (manual with adversarial prompt)
+# See AI_ORCHESTRATION_PROTOCOL.md for template
+```
+
+---
+
 ## Version History
 
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-01-22 | Initial protocol draft | Claude Opus 4.5 |
+| 2026-01-22 | Added AI orchestration section | Claude Opus 4.5 |

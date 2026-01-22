@@ -229,6 +229,50 @@ analysis_sets:
     patterns:
       - "standard-model-of-code/tests/*.py"
 
+  # ==========================================================================
+  # RESEARCH SETS - Phase 2 Atom Coverage Investigation
+  # ==========================================================================
+
+  research_core:
+    description: "Core research artifacts (investigation + protocol)"
+    max_tokens: 100000
+    patterns:
+      - "standard-model-of-code/docs/research/*.md"
+      - "standard-model-of-code/docs/reports/*.md"
+
+  research_tools:
+    description: "Research tooling (coverage, inventory, corpus runner)"
+    max_tokens: 80000
+    patterns:
+      - "standard-model-of-code/tools/research/*.py"
+      - "standard-model-of-code/tools/research/Makefile"
+      - "standard-model-of-code/artifacts/atom-research/*.yaml"
+
+  research_atoms:
+    description: "Atom definitions for coverage analysis"
+    max_tokens: 150000
+    patterns:
+      - "standard-model-of-code/src/patterns/ATOMS*.yaml"
+      - "standard-model-of-code/src/patterns/*.yaml"
+      - "standard-model-of-code/src/patterns/*.json"
+
+  research_full:
+    description: "Complete research context (documents + tools + atoms)"
+    max_tokens: 350000
+    auto_interactive: true
+    includes:
+      - research_core
+      - research_tools
+      - research_atoms
+
+  research_validation:
+    description: "Research validation context (classifiers + tests + claims)"
+    max_tokens: 200000
+    includes:
+      - research_core
+      - classifiers
+      - tests
+
 # ==========================================================================
 # RECOMMENDATIONS - Maps question types to sets
 # ==========================================================================
@@ -251,3 +295,11 @@ recommendations:
   "role * classification":
     - classifiers
     - role_registry
+  "validate * research":
+    - research_validation
+  "review * claims":
+    - research_core
+  "atom * coverage":
+    - research_full
+  "falsify * hypothesis":
+    - research_validation
