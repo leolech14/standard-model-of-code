@@ -1,0 +1,1512 @@
+# ============================================================================
+# GLOSSARY.yaml - Canonical Vocabulary of the Standard Model of Code
+# ============================================================================
+#
+# This is the SINGLE SOURCE OF TRUTH for all domain-specific vocabulary.
+#
+# STRUCTURE:
+#   - category: origin classification
+#   - origin: attribution for borrowed terms
+#   - project_meaning: how WE use this term
+#   - not_to_be_confused_with: disambiguation
+#
+# CATEGORIES:
+#   - original_invention: We created this term (35 terms)
+#   - physics_metaphor: Borrowed from physics with new meaning (18 terms)
+#   - borrowed_theory: Academic concept with attribution (22 terms)
+#   - standard_cs: Conventional CS term (31 terms)
+#
+# Last updated: 2026-01-21
+# Total terms: 106
+# ============================================================================
+
+schema_version: "1.0.0"
+project: "Standard Model of Code"
+maintainer: "Leonardo Lech <leonardo.lech@gmail.com>"
+
+# ============================================================================
+# ORIGINAL INVENTIONS (35 terms) - "We Baptized These"
+# ============================================================================
+
+terms:
+
+  # ---------------------------------------------------------------------------
+  # Architecture & Structure
+  # ---------------------------------------------------------------------------
+
+  alien_architecture:
+    canonical_name: "Alien Architecture"
+    category: original_invention
+    introduced:
+      version: "0.1.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The whimsical name for the project's AI-centric development methodology,
+      where AI agents are first-class participants in the development process
+      with specialized roles and protocols.
+    related_terms: [the_triad, agent_school, brain_body_architecture]
+
+  brain_body_architecture:
+    canonical_name: "Brain/Body Architecture"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The core organizing principle separating the codebase into two hemispheres:
+      - BODY: The Collider analysis engine (standard-model-of-code/)
+      - BRAIN: AI tools, context management, cloud integration (context-management/)
+    related_terms: [collider, the_triad]
+
+  the_triad:
+    canonical_name: "The Triad"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The three specialized AI roles designed for different cognitive tasks:
+      1. The Librarian - Exploration and discovery via RAG
+      2. The Surgeon - Forensic, line-level verification with citations
+      3. The Architect - High-level reasoning with theory context
+    related_terms: [the_librarian, the_surgeon, the_architect]
+
+  the_librarian:
+    canonical_name: "The Librarian"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      AI role specialized for exploration and discovery. Uses RAG (Retrieval-
+      Augmented Generation) over indexed codebase to find relevant files,
+      patterns, and connections. Best for "where is X?" questions.
+    related_terms: [the_triad, analysis_sets]
+
+  the_surgeon:
+    canonical_name: "The Surgeon"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      AI role specialized for forensic, line-level verification. Provides
+      exact citations (file:line) for every claim. Best for validation and
+      fact-checking. Never hallucinates - if unsure, says "not found".
+    related_terms: [the_triad, line_level_evidence]
+
+  the_architect:
+    canonical_name: "The Architect"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      AI role specialized for high-level reasoning. Automatically receives
+      architectural theory as context. Best for design decisions, trade-off
+      analysis, and understanding system-wide implications.
+    related_terms: [the_triad, global_topology]
+
+  holographic_socratic_layer:
+    canonical_name: "Holographic-Socratic Layer"
+    category: original_invention
+    introduced:
+      version: "0.4.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      Self-maintaining semantic validation system with two properties:
+      - HOLOGRAPHIC: Can reconstruct the whole from any part (like a hologram)
+      - SOCRATIC: Perpetually questions invariants and assumptions
+      Runs as 24/7 guardian detecting drift between docs and implementation.
+    related_terms: [antimatter_laws, context_amnesia]
+
+  brain_download:
+    canonical_name: "Brain Download"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      A structured markdown report (output.md) generated by the Collider tool
+      containing the complete analysis of a codebase. Formatted for consumption
+      by both humans and LLMs. Contains: Identity, Character (RPBL), Architecture,
+      Health Status, Improvements, Visual Reasoning, Domain Context.
+    output_file: "output.md"
+    related_terms: [collider, rpbl_classification]
+
+  # ---------------------------------------------------------------------------
+  # Classification Systems
+  # ---------------------------------------------------------------------------
+
+  rpbl_classification:
+    canonical_name: "RPBL Classification"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      A 4-dimensional behavioral profile for characterizing code health:
+      - R: Responsibility (1-9) - How focused is this code's purpose?
+      - P: Purity (1-9) - How free of side effects?
+      - B: Boundary (1-9) - How well-defined are its interfaces?
+      - L: Lifecycle (1-9) - How well-managed is its creation/destruction?
+    acronym_expansion: "Responsibility, Purity, Boundary, Lifecycle"
+    related_terms: [eight_dimensions, brain_download]
+
+  eight_dimensions:
+    canonical_name: "8 Dimensions"
+    category: original_invention
+    introduced:
+      version: "0.1.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The 8 orthogonal axes used to classify every code particle:
+      D1: WHAT (Atom type), D2: LAYER (Architecture), D3: ROLE (Purpose),
+      D4: BOUNDARY (Internal/External), D5: STATE (Stateful/Stateless),
+      D6: EFFECT (Pure/Effectful), D7: LIFECYCLE (Creation/Destruction),
+      D8: TRUST (Trusted/Untrusted)
+    inspired_by:
+      term: "Faceted Classification"
+      author: "S.R. Ranganathan"
+    related_terms: [tau_notation, manifold]
+
+  eight_lenses:
+    canonical_name: "8 Lenses"
+    category: original_invention
+    introduced:
+      version: "0.1.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The 8 perspectives for interrogating any code particle:
+      1. Identity (What is it called?)
+      2. Ontology (What exists?)
+      3. Classification (What kind?)
+      4. Composition (How structured?)
+      5. Relationships (How connected?)
+      6. Transformation (What does it do?)
+      7. Semantics (What does it mean?)
+      8. Epistemology (How certain are we?)
+    inspired_by:
+      term: "Zachman Framework"
+      author: "John Zachman"
+    related_terms: [eight_dimensions]
+
+  tau_notation:
+    canonical_name: "Tau Notation (τ)"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The canonical notation for representing a particle's 8-dimensional
+      classification in a single line. Format: τ(D1, D2, D3, D4, D5, D6, D7, D8)
+      Example: τ(Function, Application, Service, Internal, Stateless, Pure, Transient, Trusted)
+    related_terms: [eight_dimensions, particle]
+
+  # ---------------------------------------------------------------------------
+  # Pipeline & Analysis
+  # ---------------------------------------------------------------------------
+
+  analysis_sets:
+    canonical_name: "Analysis Sets"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Pre-defined collections of files used as context windows for AI analysis.
+      Examples: 'brain' (AI tools), 'body' (Collider engine), 'theory' (docs),
+      'complete' (everything). Configured in analysis_sets.yaml.
+    config_file: "context-management/config/analysis_sets.yaml"
+    related_terms: [the_librarian, context_amnesia]
+
+  unified_node:
+    canonical_name: "UnifiedNode"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The canonical Data Transfer Object (DTO) for code nodes in the analysis
+      pipeline. Creates a fixed data contract ensuring consistent structure
+      regardless of source language or parser.
+    related_terms: [unified_edge, codebase_state]
+
+  unified_edge:
+    canonical_name: "UnifiedEdge"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The canonical Data Transfer Object (DTO) for relationships between nodes.
+      Types: calls, imports, inherits, implements, contains, uses.
+    related_terms: [unified_node, codebase_state]
+
+  codebase_state:
+    canonical_name: "CodebaseState"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The primary in-memory data management class that holds the complete
+      graph representation of a codebase and its indexes for O(1) lookups.
+    implementation: "src/core/codebase_state.py"
+    related_terms: [unified_node, unified_edge]
+
+  context_amnesia:
+    canonical_name: "Context Amnesia"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The problem of standard AI tools lacking a global view of a repository.
+      Each conversation starts fresh, losing accumulated understanding.
+      The Holographic-Socratic Layer is designed to combat this.
+    related_terms: [holographic_socratic_layer, global_topology]
+
+  global_topology:
+    canonical_name: "Global Topology"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The complete, interconnected structure of an entire codebase viewed
+      as a single graph. Includes all nodes, edges, and their relationships.
+    related_terms: [topology_reasoning, context_amnesia]
+
+  line_level_evidence:
+    canonical_name: "Line-Level Evidence"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Verifiable, cited facts at the code line number level (file:line).
+      A key feature of "The Surgeon" role - every claim must have a citation.
+    related_terms: [the_surgeon]
+
+  # ---------------------------------------------------------------------------
+  # Modules & Components
+  # ---------------------------------------------------------------------------
+
+  semantic_cortex:
+    canonical_name: "Semantic Cortex"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Module responsible for domain inference - understanding WHAT business
+      domain a codebase represents (e.g., e-commerce, healthcare, fintech).
+    implementation: "src/core/semantic_cortex.py"
+    related_terms: [topology_reasoning, purpose_field]
+
+  topology_reasoning:
+    canonical_name: "Topology Reasoning"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Module responsible for classifying the overall shape of the code graph.
+      Detects: Star (central hub), Hierarchical (layers), Mesh (interconnected),
+      Islands (disconnected clusters), Layered (clean architecture).
+    implementation: "src/core/topology_reasoning.py"
+    related_terms: [global_topology, semantic_cortex]
+
+  purpose_field:
+    canonical_name: "Purpose Field"
+    category: original_invention
+    introduced:
+      version: "0.4.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      Module/concept for assigning semantic layers and purpose to code.
+      Inspired by the Higgs Field in physics - gives "meaning" to otherwise
+      meaningless code particles.
+    inspired_by:
+      term: "Higgs Field"
+      field: "particle physics"
+    related_terms: [higgs_purpose_field, eight_dimensions]
+
+  knot_detection:
+    canonical_name: "Knot Detection"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Analysis computation that finds tangled, circular dependencies in the
+      codebase - "knots" that are difficult to untangle and indicate
+      architectural problems.
+    related_terms: [coupling, topology_reasoning]
+
+  # ---------------------------------------------------------------------------
+  # Anti-Patterns & Forensics
+  # ---------------------------------------------------------------------------
+
+  timestamp_forensics:
+    canonical_name: "Timestamp Forensics"
+    category: original_invention
+    introduced:
+      version: "0.4.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      Analysis technique using file creation/modification times to detect
+      AI-induced anti-patterns. Files created and never modified may indicate
+      "hollow generation" - AI output that was never refined by humans.
+    related_terms: [hollow_generator]
+
+  hollow_generator:
+    canonical_name: "Hollow Generator"
+    category: original_invention
+    introduced:
+      version: "0.4.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      AI-specific anti-pattern where a file is created by AI and never
+      refined, reviewed, or modified by humans. Detected via timestamp
+      forensics (creation_time == modification_time).
+    related_terms: [timestamp_forensics]
+
+  the_mirror:
+    canonical_name: "The Mirror"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Tool (archive.py mirror) that syncs the local repository to cloud
+      storage (GCS) for AI access. Creates a "mirror" of the codebase
+      accessible to cloud-based AI tools.
+    command: "python context-management/tools/archive/archive.py mirror"
+    related_terms: [analysis_sets]
+
+  agent_school:
+    canonical_name: "Agent School"
+    category: original_invention
+    introduced:
+      version: "0.4.0"
+      date: "2026"
+      by: "Leonardo Lech"
+    definition: |
+      The set of documents and protocols for initiating new AI agents into
+      the repository. Includes AGENT_KERNEL.md, AGENT_INITIATION.md, and
+      boot scripts that ensure agents understand project conventions.
+    location: "context-management/docs/agent_school/"
+    related_terms: [the_triad, alien_architecture]
+
+  workflow_factory:
+    canonical_name: "Workflow Factory"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      System for choosing the right AI tool/tier for a given task.
+      Routes simple queries to fast models, complex analysis to powerful models.
+    related_terms: [the_triad, analysis_sets]
+
+  # ---------------------------------------------------------------------------
+  # Visualization
+  # ---------------------------------------------------------------------------
+
+  token_resolver:
+    canonical_name: "TokenResolver"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Singleton class responsible for resolving design tokens for visualization.
+      Maps semantic token names to actual CSS values.
+    pattern: "Singleton"
+    related_terms: [appearance_engine]
+
+  appearance_engine:
+    canonical_name: "AppearanceEngine"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Module in visualization architecture responsible for visual styling
+      of nodes and edges based on their classification and metrics.
+    pattern: "Strategy"
+    related_terms: [token_resolver, controls_engine]
+
+  controls_engine:
+    canonical_name: "ControlsEngine"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Module in visualization architecture responsible for user interface
+      controls (sliders, toggles, buttons) in the visualization.
+    related_terms: [appearance_engine]
+
+# ============================================================================
+# PHYSICS METAPHORS (18 terms) - "Borrowed from Physics"
+# ============================================================================
+
+  standard_model_of_code:
+    canonical_name: "Standard Model of Code"
+    category: physics_metaphor
+    origin:
+      term: "Standard Model"
+      field: "particle physics"
+      coined_by: "Abraham Pais & Sam Treiman"
+      year: 1975
+      note: "Steven Weinberg claims earlier use in 1973"
+    project_meaning: |
+      The overarching theoretical framework treating code analysis like
+      particle physics - finding the fundamental "particles" (atoms) that
+      make up all software, their properties, and their interactions.
+    not_to_be_confused_with:
+      - term: "Standard Model (physics)"
+        distinction: "The physics theory describes actual subatomic particles"
+
+  collider:
+    canonical_name: "Collider"
+    category: physics_metaphor
+    origin:
+      term: "Particle Collider"
+      field: "particle physics"
+      example: "Large Hadron Collider (LHC) at CERN"
+      year: 1957
+      note: "First collider: Stanford Mark III, 1957"
+    project_meaning: |
+      The primary analysis tool that "smashes" code to reveal its constituent
+      parts. Takes a codebase as input, produces unified_analysis.json,
+      output.md (Brain Download), and collider_report.html (visualization).
+    command: "./collider full <path> --output <dir>"
+    previous_name: "Spectrometer"
+    related_terms: [spectrometer, brain_download]
+
+  spectrometer:
+    canonical_name: "Spectrometer"
+    category: physics_metaphor
+    origin:
+      term: "Spectrometer"
+      field: "physics/chemistry"
+      note: "Instrument for measuring properties of light spectra"
+    project_meaning: |
+      DEPRECATED. Original name for the Collider tool, reflecting intent
+      to analyze the "spectrum" of code types. Renamed to Collider for
+      better metaphorical fit.
+    deprecated: true
+    deprecated_date: "2025-06"
+    replacement: "collider"
+
+  particle:
+    canonical_name: "Particle"
+    category: physics_metaphor
+    origin:
+      term: "Particle"
+      field: "physics"
+      note: "General term for subatomic matter"
+    project_meaning: |
+      A raw code unit after parsing but before full classification.
+      A function, class, or method that has been extracted from source
+      but not yet assigned its full dimensional coordinates.
+    related_terms: [atom, unified_node]
+
+  atom:
+    canonical_name: "Atom"
+    category: physics_metaphor
+    origin:
+      term: "Atom"
+      field: "physics/chemistry"
+      coined_by: "Democritus"
+      year: "~400 BCE"
+      etymology: "Greek 'atomos' = uncuttable"
+      revived_by: "John Dalton"
+      revived_year: 1808
+    project_meaning: |
+      The smallest classified semantic unit of code. The "element" in our
+      Periodic Table of Code. Examples: Function, Class, Method, Module.
+      Each atom has properties defined by the 8 Dimensions.
+    not_to_be_confused_with:
+      - term: "Atomic operation"
+        distinction: "Different concept - refers to indivisible transactions"
+    related_terms: [particle, hadron]
+
+  hadron:
+    canonical_name: "Hadron"
+    category: physics_metaphor
+    origin:
+      term: "Hadron"
+      field: "particle physics"
+      coined_by: "Louis Rosenfeld"
+      year: 1962
+      etymology: "Greek 'hadros' = thick, heavy"
+      note: "Composite particles made of quarks (e.g., protons, neutrons)"
+    project_meaning: |
+      A composite code structure made of multiple atoms. A canonical
+      data structure that groups related code elements together.
+    related_terms: [atom, quark]
+
+  quark:
+    canonical_name: "Quark"
+    category: physics_metaphor
+    origin:
+      term: "Quark"
+      field: "particle physics"
+      coined_by: "Murray Gell-Mann"
+      year: 1964
+      etymology: "From James Joyce's Finnegans Wake: 'Three quarks for Muster Mark'"
+    project_meaning: |
+      A sub-element of an atom - the smallest meaningful code fragment.
+      Statements, expressions, tokens that make up a function or class.
+    related_terms: [atom, hadron]
+
+  antimatter:
+    canonical_name: "Antimatter"
+    category: physics_metaphor
+    origin:
+      term: "Antimatter"
+      field: "particle physics"
+      predicted_by: "Paul Dirac"
+      year: 1928
+      term_coined_by: "Arthur Schuster"
+      term_year: 1898
+    project_meaning: |
+      Forbidden code patterns - architectural violations that should not
+      exist. When detected, indicates a problem (like matter meeting
+      antimatter causes annihilation). Examples: LayerSkipViolation,
+      ReverseLayerDependency, GodClass, AnemicModel.
+    related_terms: [antimatter_laws, holographic_socratic_layer]
+
+  antimatter_laws:
+    canonical_name: "Antimatter Laws"
+    category: physics_metaphor
+    origin:
+      derived_from: "antimatter"
+    project_meaning: |
+      The set of architectural invariants that define what constitutes
+      "antimatter" (forbidden patterns). Violations are detected and
+      reported. Currently 5 laws: AM001-AM005.
+    schema_file: "schema/antimatter_laws.yaml"
+    related_terms: [antimatter]
+
+  fermion:
+    canonical_name: "Fermion"
+    category: physics_metaphor
+    origin:
+      term: "Fermion"
+      field: "particle physics"
+      named_after: "Enrico Fermi"
+      coined_by: "Paul Dirac"
+      year: 1945
+      note: "Particles with half-integer spin, obey Pauli Exclusion Principle"
+    project_meaning: |
+      Code elements that are stateful and unique - like entities in DDD.
+      Two fermions cannot occupy the same state (each entity has unique
+      identity). Contrasted with Bosons (stateless, interchangeable).
+    related_terms: [boson, entity]
+
+  boson:
+    canonical_name: "Boson"
+    category: physics_metaphor
+    origin:
+      term: "Boson"
+      field: "particle physics"
+      named_after: "Satyendra Nath Bose"
+      coined_by: "Paul Dirac"
+      year: 1945
+      note: "Particles with integer spin, can occupy same state"
+    project_meaning: |
+      Code elements that are stateless and interchangeable - like services.
+      Multiple bosons can occupy the same state (services are fungible).
+      Act as "force carriers" coordinating work between entities.
+    related_terms: [fermion, service]
+
+  manifold:
+    canonical_name: "Manifold"
+    category: physics_metaphor
+    origin:
+      term: "Manifold"
+      field: "mathematics/physics"
+      note: "A topological space that locally resembles Euclidean space"
+    project_meaning: |
+      The 8-dimensional space where every code particle has a coordinate.
+      Each particle's position in this manifold is described by Tau notation.
+    related_terms: [eight_dimensions, tau_notation]
+
+  mass:
+    canonical_name: "Mass (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Mass"
+      field: "physics"
+      note: "Resistance to acceleration, measure of matter"
+    project_meaning: |
+      A metaphor for code complexity - "resistance to change". High-mass
+      code is difficult to modify, refactor, or understand.
+    related_terms: [energy_code, black_hole]
+
+  energy_code:
+    canonical_name: "Energy (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Energy"
+      field: "physics"
+      note: "Capacity to do work"
+    project_meaning: |
+      A metaphor for code execution or the "intent" that makes things happen.
+      Static code has potential energy; running code has kinetic energy.
+    related_terms: [mass]
+
+  black_hole:
+    canonical_name: "Black Hole (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Black Hole"
+      field: "astrophysics"
+      popularized_by: "John Wheeler"
+      year: 1967
+    project_meaning: |
+      A metaphor for a "God Class" that has immense gravitational pull
+      (high coupling). Everything depends on it, nothing escapes its
+      influence. A critical architectural smell.
+    related_terms: [god_class, coupling]
+
+  dark_matter:
+    canonical_name: "Dark Matter (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Dark Matter"
+      field: "astrophysics"
+      coined_by: "Fritz Zwicky"
+      year: 1933
+    project_meaning: |
+      A metaphor for undocumented or invisible code that still has
+      gravitational (dependency) effect on the system. Code that exists
+      but isn't visible in the primary analysis.
+    related_terms: [orphan_node]
+
+  wormhole:
+    canonical_name: "Wormhole (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Wormhole"
+      field: "theoretical physics"
+      note: "Hypothetical passage through spacetime"
+    project_meaning: |
+      A metaphor for a well-defined interface (like an API contract) that
+      connects two otherwise separate systems ("Holons") without exposing
+      their internal complexity.
+    related_terms: [holon, boundary]
+
+  higgs_purpose_field:
+    canonical_name: "Higgs/Purpose Field"
+    category: physics_metaphor
+    origin:
+      term: "Higgs Field"
+      field: "particle physics"
+      predicted_by: "Peter Higgs et al."
+      year: 1964
+      note: "Field that gives particles their mass"
+    project_meaning: |
+      A theoretical concept in our model - a field that gives "meaning"
+      (semantic purpose) to otherwise meaningless code particles. The
+      Purpose Field module implements this idea.
+    related_terms: [purpose_field]
+
+# ============================================================================
+# BORROWED THEORIES (22 terms) - "Standing on Giants"
+# ============================================================================
+
+  holon:
+    canonical_name: "Holon"
+    category: borrowed_theory
+    origin:
+      term: "Holon"
+      field: "systems theory"
+      coined_by: "Arthur Koestler"
+      year: 1967
+      work: "The Ghost in the Machine"
+      definition: "A system that is simultaneously a whole and a part"
+    project_meaning: |
+      A software system viewed as both complete in itself AND a component
+      of a larger system. Every module is a holon - self-contained yet
+      part of the application.
+    related_terms: [holarchy]
+
+  holarchy:
+    canonical_name: "Holarchy"
+    category: borrowed_theory
+    origin:
+      term: "Holarchy"
+      field: "systems theory"
+      coined_by: "Arthur Koestler"
+      year: 1967
+      work: "The Ghost in the Machine"
+      definition: "A hierarchy of holons"
+    project_meaning: |
+      The nested, self-similar structure of a codebase where each level
+      (function → class → module → package → system) is both a whole
+      and a part of something larger.
+    related_terms: [holon, sixteen_levels]
+
+  three_worlds:
+    canonical_name: "Three Worlds / 3 Planes"
+    category: borrowed_theory
+    origin:
+      term: "Three Worlds"
+      field: "philosophy of science"
+      coined_by: "Karl Popper"
+      year: 1972
+      work: "Objective Knowledge: An Evolutionary Approach"
+    project_meaning: |
+      Every code entity exists in all 3 planes simultaneously:
+      1. PHYSICAL: Bytes on storage
+      2. VIRTUAL: Symbols and structure
+      3. SEMANTIC: Meaning and intent
+    related_terms: [eight_dimensions]
+
+  map_territory:
+    canonical_name: "Map vs Territory"
+    category: borrowed_theory
+    origin:
+      term: "Map-Territory Relation"
+      field: "general semantics"
+      coined_by: "Alfred Korzybski"
+      year: 1933
+      work: "Science and Sanity"
+      quote: "The map is not the territory"
+    project_meaning: |
+      Core epistemic stance: Our model (the "map") is not the code itself
+      (the "territory"). The unified_analysis.json is a representation,
+      not the actual codebase.
+    related_terms: [epistemology_lens]
+
+  faceted_classification:
+    canonical_name: "Faceted Classification"
+    category: borrowed_theory
+    origin:
+      term: "Faceted Classification"
+      field: "library and information science"
+      coined_by: "S.R. Ranganathan"
+      year: 1933
+      work: "The Colon Classification"
+    project_meaning: |
+      The method of organizing by multiple independent facets (dimensions)
+      rather than a single hierarchy. Direct inspiration for our 8 Dimensions -
+      each dimension is an independent facet.
+    related_terms: [eight_dimensions]
+
+  systemic_functional_linguistics:
+    canonical_name: "Systemic Functional Linguistics"
+    category: borrowed_theory
+    origin:
+      term: "Systemic Functional Linguistics"
+      field: "linguistics"
+      coined_by: "M.A.K. Halliday"
+      year: 1978
+      work: "Language as Social Semiotic"
+    project_meaning: |
+      Theory of simultaneous "metafunctions" in language. Directly inspired
+      our 8 Dimensions - every code element simultaneously fulfills multiple
+      functional roles (ideational, interpersonal, textual).
+    related_terms: [eight_dimensions]
+
+  constructal_law:
+    canonical_name: "Constructal Law"
+    category: borrowed_theory
+    origin:
+      term: "Constructal Law"
+      field: "thermodynamics/engineering"
+      coined_by: "Adrian Bejan"
+      year: 1996
+      work: "Journal of Advanced Transportation"
+      statement: "For a flow system to persist, it must evolve to provide easier access to its currents"
+    project_meaning: |
+      Explains why codebases self-organize into hierarchical structures.
+      Like river deltas, code evolves to minimize friction in the "flow"
+      of data and control.
+    related_terms: [holarchy, topology_reasoning]
+
+  information_theory:
+    canonical_name: "Information Theory / Entropy"
+    category: borrowed_theory
+    origin:
+      term: "Information Entropy"
+      field: "information theory"
+      coined_by: "Claude Shannon"
+      year: 1948
+      work: "A Mathematical Theory of Communication"
+      journal: "Bell System Technical Journal"
+    project_meaning: |
+      Used to measure code complexity and unpredictability. High-entropy
+      code is harder to understand; low-entropy code is more predictable.
+    related_terms: [complexity_density]
+
+  category_theory:
+    canonical_name: "Category Theory"
+    category: borrowed_theory
+    origin:
+      term: "Category Theory"
+      field: "mathematics"
+      coined_by: "Samuel Eilenberg & Saunders Mac Lane"
+      year: 1945
+      work: "General Algebra, Annals of Mathematics"
+    project_meaning: |
+      Used to formalize the concept of "pure functions" as morphisms
+      between objects. A pure function is a morphism that preserves
+      structure without side effects.
+    related_terms: [purity, effect_dimension]
+
+  nature_of_order:
+    canonical_name: "The Nature of Order / Centers"
+    category: borrowed_theory
+    origin:
+      term: "Centers"
+      field: "architecture theory"
+      coined_by: "Christopher Alexander"
+      year: 2002
+      work: "The Nature of Order (4 volumes)"
+    project_meaning: |
+      Theory of "living structures" composed of mutually reinforcing "centers".
+      Used to explain code cohesion - good modules have strong centers that
+      reinforce each other.
+    related_terms: [cohesion, pattern_language]
+
+  pattern_language:
+    canonical_name: "Pattern Language"
+    category: borrowed_theory
+    origin:
+      term: "Pattern Language"
+      field: "architecture theory"
+      coined_by: "Christopher Alexander"
+      year: 1977
+      work: "A Pattern Language: Towns, Buildings, Construction"
+    project_meaning: |
+      Inspiration for software design patterns. A vocabulary of reusable
+      solutions. Our Atom catalog is a pattern language for code structures.
+    related_terms: [nature_of_order, atom]
+
+  vitruvian_triad:
+    canonical_name: "Vitruvian Triad"
+    category: borrowed_theory
+    origin:
+      term: "Firmitas, Utilitas, Venustas"
+      field: "classical architecture"
+      coined_by: "Vitruvius"
+      year: "~15 BCE"
+      work: "De Architectura"
+      translation: "Strength, Utility, Beauty"
+    project_meaning: |
+      Mapped to code quality dimensions:
+      - Firmitas (Strength) → Robustness, error handling
+      - Utilitas (Utility) → Functionality, correctness
+      - Venustas (Beauty) → Readability, elegance
+    related_terms: [rpbl_classification]
+
+  linnaean_taxonomy:
+    canonical_name: "Linnaean Taxonomy"
+    category: borrowed_theory
+    origin:
+      term: "Linnaean Taxonomy"
+      field: "biology"
+      coined_by: "Carl Linnaeus"
+      year: 1735
+      work: "Systema Naturae"
+    project_meaning: |
+      Inspiration for our 16-Level containment hierarchy. Like Kingdom →
+      Phylum → Class → Species, we have Universe → Domain → System → Function.
+    related_terms: [sixteen_levels]
+
+  ooda_loop:
+    canonical_name: "OODA Loop"
+    category: borrowed_theory
+    origin:
+      term: "OODA Loop"
+      field: "military strategy"
+      coined_by: "John Boyd"
+      year: 1976
+      work: "Patterns of Conflict (briefing)"
+      expansion: "Observe, Orient, Decide, Act"
+    project_meaning: |
+      Analogy for the M-I-P-O (Memory-Input-Process-Output) fractal pattern
+      we observe in code at all levels. Every function is a mini-OODA loop.
+    related_terms: [transformation_lens]
+
+  critical_rationalism:
+    canonical_name: "Critical Rationalism"
+    category: borrowed_theory
+    origin:
+      term: "Critical Rationalism"
+      field: "philosophy of science"
+      coined_by: "Karl Popper"
+      year: 1934
+      work: "The Logic of Scientific Discovery"
+    project_meaning: |
+      Core epistemic stance: theories must be falsifiable. Our classifications
+      are hypotheses that can be proven wrong. We prefer "Unknown" over
+      false certainty.
+    related_terms: [confidence_levels, epistemology_lens]
+
+  clean_architecture:
+    canonical_name: "Clean Architecture"
+    category: borrowed_theory
+    origin:
+      term: "Clean Architecture"
+      field: "software engineering"
+      coined_by: "Robert C. Martin (Uncle Bob)"
+      year: 2012
+      work: "Blog post 'The Clean Architecture'"
+      book: "Clean Architecture: A Craftsman's Guide (2017)"
+    project_meaning: |
+      One of the architectural patterns we detect and validate. Layers:
+      Entities → Use Cases → Controllers → Frameworks. Dependency rule:
+      inner layers know nothing of outer layers.
+    related_terms: [layer_dimension, antimatter_laws]
+
+  domain_driven_design:
+    canonical_name: "Domain-Driven Design (DDD)"
+    category: borrowed_theory
+    origin:
+      term: "Domain-Driven Design"
+      field: "software engineering"
+      coined_by: "Eric Evans"
+      year: 2003
+      work: "Domain-Driven Design: Tackling Complexity in the Heart of Software"
+    project_meaning: |
+      Concepts we borrow: Entity, Value Object, Aggregate, Repository,
+      Service, Bounded Context. Our Role dimension maps to DDD tactical
+      patterns.
+    acronym: "DDD"
+    related_terms: [entity, repository, service]
+
+  cqrs:
+    canonical_name: "CQRS"
+    category: borrowed_theory
+    origin:
+      term: "CQRS"
+      field: "software architecture"
+      coined_by: "Greg Young"
+      year: 2010
+      expansion: "Command Query Responsibility Segregation"
+    project_meaning: |
+      Pattern we detect in Role classification. Queries (read) and Commands
+      (write) should be separate. Violation of this is an antimatter smell.
+    related_terms: [query_role, command_role]
+
+# ============================================================================
+# STANDARD CS TERMS (31 terms) - "Conventional Vocabulary"
+# ============================================================================
+
+  pagerank:
+    canonical_name: "PageRank"
+    category: standard_cs
+    origin:
+      term: "PageRank"
+      field: "computer science / information retrieval"
+      invented_by: "Larry Page, Sergey Brin"
+      year: 1998
+      work: "The PageRank Citation Ranking: Bringing Order to the Web"
+      institution: "Stanford University"
+    project_meaning: |
+      Standard graph algorithm used to rank node importance. We use it to
+      identify the most "important" functions/classes in a codebase based
+      on how many other nodes depend on them.
+    related_terms: [hub, topology_reasoning]
+
+  coupling:
+    canonical_name: "Coupling"
+    category: standard_cs
+    origin:
+      term: "Coupling"
+      field: "software engineering"
+      coined_by: "Larry Constantine"
+      year: 1974
+      work: "Structured Design (with Ed Yourdon)"
+    project_meaning: |
+      Standard metric: degree of interdependence between modules. Low
+      coupling is desirable. Measured via edge analysis.
+    related_terms: [cohesion, black_hole]
+
+  cohesion:
+    canonical_name: "Cohesion"
+    category: standard_cs
+    origin:
+      term: "Cohesion"
+      field: "software engineering"
+      coined_by: "Larry Constantine"
+      year: 1974
+      work: "Structured Design (with Ed Yourdon)"
+    project_meaning: |
+      Standard metric: degree to which elements of a module belong together.
+      High cohesion is desirable. Measured via internal relationship density.
+    related_terms: [coupling, nature_of_order]
+
+  cyclomatic_complexity:
+    canonical_name: "Cyclomatic Complexity"
+    category: standard_cs
+    origin:
+      term: "Cyclomatic Complexity"
+      field: "software engineering"
+      invented_by: "Thomas J. McCabe"
+      year: 1976
+      work: "A Complexity Measure"
+      journal: "IEEE Transactions on Software Engineering"
+    project_meaning: |
+      Standard metric: number of linearly independent paths through code.
+      Higher = more complex = harder to test. We compute this per function.
+    related_terms: [complexity_density]
+
+  abstract_syntax_tree:
+    canonical_name: "Abstract Syntax Tree (AST)"
+    category: standard_cs
+    origin:
+      term: "Abstract Syntax Tree"
+      field: "computer science / compilers"
+      emerged: "1960s"
+      note: "No single inventor; evolved from compiler theory"
+    project_meaning: |
+      Standard tree representation of parsed source code. Our analysis
+      starts with AST extraction via Tree-sitter. Nodes in the AST become
+      particles in our model.
+    acronym: "AST"
+    related_terms: [tree_sitter, particle]
+
+  tree_sitter:
+    canonical_name: "Tree-sitter"
+    category: standard_cs
+    origin:
+      term: "Tree-sitter"
+      field: "software engineering"
+      created_by: "Max Brunsfeld (GitHub)"
+      year: 2018
+    project_meaning: |
+      Standard parser generator library we use for AST extraction. Supports
+      incremental parsing and multiple languages with unified API.
+    implementation: "src/core/tree_sitter_engine.py"
+    related_terms: [abstract_syntax_tree]
+
+  dead_code:
+    canonical_name: "Dead Code"
+    category: standard_cs
+    origin:
+      term: "Dead Code"
+      field: "software engineering"
+      note: "Standard industry term"
+    project_meaning: |
+      Standard concept: unreachable or unused code. We detect this via
+      graph analysis - nodes with no incoming edges (except entry points).
+    related_terms: [orphan_node]
+
+  orphan_node:
+    canonical_name: "Orphan Node"
+    category: standard_cs
+    origin:
+      term: "Orphan"
+      field: "graph theory"
+      note: "Standard term for disconnected node"
+    project_meaning: |
+      Node with no incoming or outgoing edges. May indicate dead code,
+      entry point, or external API. We classify orphans by "codome boundary"
+      to explain WHY they appear disconnected.
+    related_terms: [dead_code, codome_boundary]
+
+  hub:
+    canonical_name: "Hub"
+    category: standard_cs
+    origin:
+      term: "Hub"
+      field: "network theory"
+      note: "Standard term from scale-free network research"
+    project_meaning: |
+      Standard concept: central node with many connections. In code, a
+      function or class that many others depend on. High in-degree = hub.
+    related_terms: [pagerank, black_hole]
+
+  god_class:
+    canonical_name: "God Class"
+    category: standard_cs
+    origin:
+      term: "God Class"
+      field: "software engineering"
+      note: "Standard anti-pattern term"
+    project_meaning: |
+      Standard anti-pattern: class that knows too much or does too much.
+      We detect via size metrics + high coupling. Metaphorically a "black hole".
+    related_terms: [black_hole, antimatter]
+
+# ============================================================================
+# Additional standard CS terms (abbreviated for length)
+# ============================================================================
+
+  rag:
+    canonical_name: "RAG"
+    category: standard_cs
+    acronym_expansion: "Retrieval-Augmented Generation"
+    origin:
+      year: 2020
+      coined_by: "Facebook AI Research (Lewis et al.)"
+    project_meaning: "Mechanism used by The Librarian for context retrieval"
+
+  dto:
+    canonical_name: "DTO"
+    category: standard_cs
+    acronym_expansion: "Data Transfer Object"
+    origin:
+      coined_by: "Martin Fowler"
+      work: "Patterns of Enterprise Application Architecture"
+    project_meaning: "Pattern used for UnifiedNode and UnifiedEdge"
+
+  singleton:
+    canonical_name: "Singleton Pattern"
+    category: standard_cs
+    origin:
+      work: "Design Patterns: Elements of Reusable Object-Oriented Software"
+      year: 1994
+      authors: "Gang of Four (Gamma, Helm, Johnson, Vlissides)"
+    project_meaning: "Pattern used by TokenResolver"
+
+  facade:
+    canonical_name: "Facade Pattern"
+    category: standard_cs
+    origin:
+      work: "Design Patterns: Elements of Reusable Object-Oriented Software"
+      year: 1994
+    project_meaning: "Pattern used by TreeSitterUniversalEngine"
+
+  strategy:
+    canonical_name: "Strategy Pattern"
+    category: standard_cs
+    origin:
+      work: "Design Patterns: Elements of Reusable Object-Oriented Software"
+      year: 1994
+    project_meaning: "Pattern used by AppearanceEngine"
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+# ============================================================================
+# MISSING ORIGINAL INVENTIONS (4 more)
+# ============================================================================
+
+  twelve_stage_pipeline:
+    canonical_name: "12-Stage Full Analysis Pipeline"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The specific named pipeline that performs complete codebase analysis.
+      Stages 1-6: Unified Analysis (parsing to graph)
+      Stages 7-12: Full Analysis (enrichment and semantics)
+    implementation: "src/core/full_analysis.py"
+    related_terms: [unified_analysis, full_analysis]
+
+  unified_analysis:
+    canonical_name: "Unified Analysis"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Stages 1-6 of the pipeline: File Discovery, AST Parsing, Symbol Extraction,
+      Atom Classification, Role Detection, Dependency Extraction. Produces the
+      base graph structure.
+    related_terms: [twelve_stage_pipeline, full_analysis]
+
+  full_analysis:
+    canonical_name: "Full Analysis"
+    category: original_invention
+    introduced:
+      version: "0.2.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Stages 7-12 of the pipeline: Metrics Computation, Topology Analysis,
+      Graph Construction, PageRank, Community Detection, Antimatter Detection,
+      Report Generation, Visualization. Adds semantic enrichment.
+    related_terms: [twelve_stage_pipeline, unified_analysis]
+
+  execution_flow:
+    canonical_name: "Execution Flow"
+    category: original_invention
+    introduced:
+      version: "0.3.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      Module for identifying entry points and orphans in the codebase.
+      Traces how execution flows through the call graph.
+    implementation: "src/core/execution_flow.py"
+    related_terms: [orphan_node, topology_reasoning]
+
+# ============================================================================
+# MISSING BORROWED THEORIES (4 more)
+# ============================================================================
+
+  semiotics:
+    canonical_name: "Semiotics"
+    category: borrowed_theory
+    origin:
+      term: "Semiotics"
+      field: "linguistics/philosophy"
+      founders: "Ferdinand de Saussure, Charles Sanders Peirce"
+      year: "1900s"
+    project_meaning: |
+      Study of signs - relationship between Signifier (code syntax) and
+      Signified (code meaning). We analyze code as a sign system.
+    related_terms: [three_worlds]
+
+  generative_grammar:
+    canonical_name: "Generative Grammar"
+    category: borrowed_theory
+    origin:
+      term: "Generative Grammar"
+      field: "linguistics"
+      coined_by: "Noam Chomsky"
+      year: 1957
+      work: "Syntactic Structures"
+    project_meaning: |
+      Theory that language is generated by recursive rules. Analogy for
+      how code syntax is generated from grammar rules (BNF, Tree-sitter).
+    related_terms: [abstract_syntax_tree]
+
+  phylogenetics:
+    canonical_name: "Phylogenetics"
+    category: borrowed_theory
+    origin:
+      term: "Phylogenetics"
+      field: "biology"
+      note: "Study of evolutionary relationships"
+    project_meaning: |
+      Used as analogy for code evolution - how codebases fork, merge,
+      and evolve over time. Git history as phylogenetic tree.
+    related_terms: [linnaean_taxonomy]
+
+  code_is_law:
+    canonical_name: "Code is Law"
+    category: borrowed_theory
+    origin:
+      term: "Code is Law"
+      field: "cyberlaw"
+      coined_by: "Lawrence Lessig"
+      year: 1999
+      work: "Code and Other Laws of Cyberspace"
+    project_meaning: |
+      Framing a codebase as a legal system with a "constitution" (architecture),
+      "laws" (invariants), and "violations" (antimatter).
+    related_terms: [antimatter_laws]
+
+# ============================================================================
+# MISSING STANDARD CS TERMS (16 more)
+# ============================================================================
+
+  graph:
+    canonical_name: "Graph"
+    category: standard_cs
+    origin:
+      term: "Graph"
+      field: "mathematics/computer science"
+      note: "Fundamental data structure"
+    project_meaning: |
+      Data structure of nodes and edges representing the codebase.
+      We use directed graphs where nodes are code entities and edges
+      are relationships (calls, imports, inherits).
+
+  node:
+    canonical_name: "Node"
+    category: standard_cs
+    origin:
+      term: "Node"
+      field: "graph theory"
+    project_meaning: |
+      A vertex in the graph; a code entity like a function, class, or module.
+      Synonym: Particle (before classification), UnifiedNode (after).
+
+  edge:
+    canonical_name: "Edge"
+    category: standard_cs
+    origin:
+      term: "Edge"
+      field: "graph theory"
+    project_meaning: |
+      A connection between nodes representing a relationship.
+      Types: calls, imports, inherits, implements, contains, uses.
+
+  pipeline:
+    canonical_name: "Pipeline"
+    category: standard_cs
+    origin:
+      term: "Pipeline"
+      field: "software engineering"
+    project_meaning: |
+      Series of data processing stages. Our 12-stage pipeline transforms
+      source code into analyzed graph with metrics and reports.
+
+  schema:
+    canonical_name: "Schema"
+    category: standard_cs
+    origin:
+      term: "Schema"
+      field: "database/data modeling"
+    project_meaning: |
+      Formal definition of a data structure. We have schemas for nodes
+      (particle.schema.json), edges, and output formats.
+
+  api:
+    canonical_name: "API"
+    category: standard_cs
+    acronym_expansion: "Application Programming Interface"
+    project_meaning: "Standard meaning - interface for programmatic access"
+
+  cli:
+    canonical_name: "CLI"
+    category: standard_cs
+    acronym_expansion: "Command-Line Interface"
+    project_meaning: "The ./collider command interface"
+
+  linter:
+    canonical_name: "Linter"
+    category: standard_cs
+    origin:
+      term: "Lint"
+      coined_by: "Stephen C. Johnson"
+      year: 1978
+      note: "Named after lint (fabric fibers)"
+    project_meaning: |
+      Static code analysis tool. Collider is a superset of a linter -
+      it analyzes structure, not just style.
+
+  refactoring:
+    canonical_name: "Refactoring"
+    category: standard_cs
+    origin:
+      term: "Refactoring"
+      field: "software engineering"
+      popularized_by: "Martin Fowler"
+      year: 1999
+      work: "Refactoring: Improving the Design of Existing Code"
+    project_meaning: "Standard meaning - restructuring code without changing behavior"
+
+  dependency:
+    canonical_name: "Dependency"
+    category: standard_cs
+    project_meaning: |
+      Standard concept - when one module requires another. We track
+      dependencies as edges in the graph.
+
+  inheritance:
+    canonical_name: "Inheritance"
+    category: standard_cs
+    project_meaning: |
+      OOP concept - deriving a class from another. We track via
+      'inherits' edge type.
+
+  polymorphism:
+    canonical_name: "Polymorphism"
+    category: standard_cs
+    project_meaning: |
+      OOP concept - same interface, different implementations.
+      Metaphorically: "quantum superposition" of implementations.
+    related_terms: [quantum_superposition]
+
+  memoization:
+    canonical_name: "Memoization"
+    category: standard_cs
+    project_meaning: |
+      Caching technique for function results. Used in our analysis
+      for performance optimization.
+
+  networkx:
+    canonical_name: "NetworkX"
+    category: standard_cs
+    origin:
+      created_by: "Aric Hagberg, Dan Schult, Pieter Swart"
+      year: 2004
+    project_meaning: |
+      Python graph analysis library we use for PageRank, betweenness
+      centrality, and other graph algorithms.
+
+  betweenness_centrality:
+    canonical_name: "Betweenness Centrality"
+    category: standard_cs
+    origin:
+      term: "Betweenness Centrality"
+      field: "network analysis"
+      coined_by: "Linton Freeman"
+      year: 1977
+    project_meaning: |
+      Graph metric measuring how often a node lies on shortest paths.
+      High betweenness = critical bridge/bottleneck.
+
+  microservices:
+    canonical_name: "Microservices"
+    category: standard_cs
+    project_meaning: |
+      Architectural pattern - small, independent services. One of
+      the topology shapes we detect.
+
+  side_effects:
+    canonical_name: "Side Effects"
+    category: standard_cs
+    origin:
+      field: "functional programming"
+    project_meaning: |
+      Operations that modify state outside their scope. Captured in
+      D6: EFFECT dimension (Pure vs Effectful).
+    related_terms: [purity, effect_dimension]
+
+# ============================================================================
+# METADATA
+# ============================================================================
+
+statistics:
+  total_terms: 106
+  original_inventions: 35
+  physics_metaphors: 18
+  borrowed_theories: 22
+  standard_cs: 31
+  coverage: "100%"
+
+version_history:
+  - version: "1.0.0"
+    date: "2026-01-21"
+    author: "Leonardo Lech + Claude"
+    changes: "Initial comprehensive glossary with full attribution"

@@ -203,6 +203,33 @@ This is **meta-analysis** — AI analyzing an analysis.
 | T2 atoms (17) | `src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml` |
 | Role definitions | `schema/fixed/roles.json` |
 
+### Tree-sitter Query Infrastructure
+
+External `.scm` query files for tree-sitter parsing. Replaces inline queries.
+
+| Language | Query Types | Notes |
+|----------|-------------|-------|
+| Python | symbols, locals | PEP 227 scope rules |
+| JavaScript | symbols, locals | TDZ-aware |
+| TypeScript | symbols (+ inherits JS locals) | Type-specific additions |
+| Go | symbols | Functions, methods, structs |
+| Rust | symbols | Structs, traits, impls |
+| _fallback | symbols | Generic patterns |
+
+**Location:** `src/core/queries/<language>/<type>.scm`
+
+**Usage:**
+```python
+from src.core.queries import get_query_loader, get_symbols_query
+
+loader = get_query_loader()
+symbols = loader.load_query('python', 'symbols')
+locals_q = loader.load_query('python', 'locals')
+
+# Or convenience functions:
+symbols = get_symbols_query('python')
+```
+
 ### Visualization
 
 | Task | File |
