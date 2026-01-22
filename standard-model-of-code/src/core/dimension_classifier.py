@@ -50,6 +50,24 @@ class LifecyclePhase(Enum):
     DESTROY = "destroy"      # Cleanup: __del__, close, dispose, cleanup
 
 
+# Role confidence thresholds for tree-sitter detection
+ROLE_CONFIDENCE = {
+    'repository': 90,
+    'service': 85,
+    'controller': 85,
+    'factory': 80,
+    'handler': 80,
+    'validator': 85,
+    'mapper': 75,
+    'utility': 60,
+    'asserter': 90,
+    'guard': 80,
+    'emitter': 75,
+    'lifecycle': 85,
+    'internal': 70,
+}
+
+
 # =============================================================================
 # TREE-SITTER DIMENSION CLASSIFIER
 # =============================================================================
@@ -122,7 +140,7 @@ class TreeSitterDimensionClassifier:
 
         loader = get_query_loader()
 
-        for query_type in ['boundary', 'state', 'lifecycle']:
+        for query_type in ['boundary', 'state', 'lifecycle', 'roles']:
             query_text = loader.load_query(language, query_type)
             if query_text:
                 try:
@@ -192,6 +210,112 @@ class TreeSitterDimensionClassifier:
             return LifecyclePhase.DESTROY
         else:
             return LifecyclePhase.USE
+
+    def classify_role(self, source: str, name: str = '', language: str = 'python') -> Optional[Dict[str, Any]]:
+        """
+        Classify D3_ROLE using tree-sitter roles.scm queries.
+
+        Returns dict with:
+            - role: canonical role name (Repository, Service, Controller, etc.)
+            - confidence: detection confidence (0-100)
+            - evidence: list of matching patterns
+
+        Returns None if tree-sitter unavailable or no role detected.
+        """
+        if not self._ensure_initialized(language):
+            return None
+
+        if 'roles' not in self._queries:
+            return None
+
+        tree = self._parser.parse(bytes(source, 'utf8'))
+        captures = self._run_query_with_details('roles', tree.root_node, source)
+
+        if not captures:
+            return None
+
+        # Prioritize roles by specificity (more specific patterns win)
+        role_priority = [
+            'repository', 'service', 'controller', 'factory',
+            'validator', 'handler', 'mapper', 'guard', 'emitter',
+            'asserter', 'lifecycle', 'internal', 'utility'
+        ]
+
+        detected_roles = {}
+        for tag, details in captures.items():
+            # Extract role from tag like 'role.repository.class'
+            if tag.startswith('role.'):
+                parts = tag.split('.')
+                if len(parts) >= 2:
+                    role_type = parts[1]
+                    if role_type not in detected_roles:
+                        detected_roles[role_type] = {
+                            'patterns': [],
+                            'confidence': ROLE_CONFIDENCE.get(role_type, 50)
+                        }
+                    detected_roles[role_type]['patterns'].extend(details)
+
+        if not detected_roles:
+            return None
+
+        # Select best role by priority
+        best_role = None
+        for role in role_priority:
+            if role in detected_roles:
+                best_role = role
+                break
+
+        if not best_role:
+            best_role = list(detected_roles.keys())[0]
+
+        # Map to canonical role names
+        canonical_map = {
+            'repository': 'Repository',
+            'service': 'Service',
+            'controller': 'Controller',
+            'factory': 'Factory',
+            'handler': 'Handler',
+            'validator': 'Validator',
+            'mapper': 'Mapper',
+            'utility': 'Utility',
+            'asserter': 'Asserter',
+            'guard': 'Guard',
+            'emitter': 'Emitter',
+            'lifecycle': 'Lifecycle',
+            'internal': 'Internal',
+        }
+
+        return {
+            'role': canonical_map.get(best_role, best_role.title()),
+            'confidence': detected_roles[best_role]['confidence'],
+            'evidence': detected_roles[best_role]['patterns'][:3],  # Top 3 patterns
+            'all_detected': list(detected_roles.keys()),
+        }
+
+    def _run_query_with_details(self, query_type: str, root_node, source: str) -> Dict[str, List[str]]:
+        """Run a query and return captures with matched text."""
+        import tree_sitter
+
+        query = self._queries.get(query_type)
+        if not query:
+            return {}
+
+        cursor = tree_sitter.QueryCursor(query)
+        captures = cursor.captures(root_node)
+
+        result = {}
+        for tag, nodes in captures.items():
+            if tag.startswith('_'):  # Skip internal captures
+                continue
+            if nodes:
+                matched_texts = []
+                for node in nodes[:5]:  # Limit to 5 matches per tag
+                    text = source[node.start_byte:node.end_byte]
+                    if len(text) > 50:
+                        text = text[:50] + '...'
+                    matched_texts.append(text)
+                result[tag] = matched_texts
+        return result
 
     def _run_query(self, query_type: str, root_node) -> Set[str]:
         """Run a query and return set of capture tag names."""
