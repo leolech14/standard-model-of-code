@@ -164,7 +164,7 @@ File Search stores are indexed separately but should mirror these patterns:
 
 | Analysis Set | Corresponding Store |
 |--------------|---------------------|
-| `brain_core` | `collider-brain` |
+| `brain` | `collider-brain` |
 | `pipeline` | `collider-pipeline` |
 | `classifiers` | `collider-classifiers` |
 | `theory` | `collider-docs` |
