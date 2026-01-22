@@ -1136,16 +1136,28 @@ function initGraph(data) {
 
     // FIX: Drift on resize
     // Updates Graph renderer size when window creates
-    window.addEventListener('resize', () => {
+    function onWindowResize() {
         if (Graph) {
             Graph.width(window.innerWidth);
             Graph.height(window.innerHeight);
         }
-    });
+    }
+
+    // Remove existing listener if function already exists (unlikely in pure script, but good practice)
+    if (window.onWindowResize) {
+        window.removeEventListener('resize', window.onWindowResize);
+    }
+    window.onWindowResize = onWindowResize;
+    window.addEventListener('resize', onWindowResize);
 
     // OPTIMIZATION: Hide loader immediately after Graph creation (don't wait for physics)
     // This makes the visualization appear 200-500ms faster
     document.getElementById('loader').style.display = 'none';
+
+    // Hook up Advanced Observability (if available)
+    if (typeof PERF_MONITOR !== 'undefined' && PERF_MONITOR.setRenderer) {
+        PERF_MONITOR.setRenderer(Graph.renderer());
+    }
 
     // =================================================================
     // RENDERER QUALITY: Enable anti-aliasing and high DPI
@@ -1178,22 +1190,33 @@ function initGraph(data) {
         controls.enableRotate = navConfig.enableRotate !== undefined ? navConfig.enableRotate : true;
         controls.enablePan = navConfig.enablePan !== undefined ? navConfig.enablePan : true;
 
-        // Mouse Buttons: Map generic names to integer constants
-        // 0: ROTATE, 1: DOLLY (Zoom), 2: PAN
-        const defaultButtons = {
-            LEFT: 2, // PAN
-            MIDDLE: 1, // DOLLY
-            RIGHT: 0 // ROTATE
-        };
+        // Mouse Buttons: Use Registry if available, otherwise fallback
+        if (typeof ControlRegistry !== 'undefined') {
+            controls.mouseButtons = ControlRegistry.getMapping();
 
-        if (navConfig.mouseButtons) {
-            controls.mouseButtons = {
-                LEFT: navConfig.mouseButtons.LEFT ?? defaultButtons.LEFT,
-                MIDDLE: navConfig.mouseButtons.MIDDLE ?? defaultButtons.MIDDLE,
-                RIGHT: navConfig.mouseButtons.RIGHT ?? defaultButtons.RIGHT
-            };
+            // Listen for runtime updates from Settings Panel
+            window.addEventListener('controls-updated', () => {
+                console.log('[App] Controls updated from registry');
+                controls.mouseButtons = ControlRegistry.getMapping();
+            });
         } else {
-            controls.mouseButtons = defaultButtons;
+            // Fallback: Map generic names to integer constants
+            // 0: ROTATE, 1: DOLLY (Zoom), 2: PAN
+            const defaultButtons = {
+                LEFT: 2, // PAN
+                MIDDLE: 1, // DOLLY
+                RIGHT: 0 // ROTATE
+            };
+
+            if (navConfig.mouseButtons) {
+                controls.mouseButtons = {
+                    LEFT: navConfig.mouseButtons.LEFT ?? defaultButtons.LEFT,
+                    MIDDLE: navConfig.mouseButtons.MIDDLE ?? defaultButtons.MIDDLE,
+                    RIGHT: navConfig.mouseButtons.RIGHT ?? defaultButtons.RIGHT
+                };
+            } else {
+                controls.mouseButtons = defaultButtons;
+            }
         }
 
         // Spacebar toggling disabled to ensure stability
@@ -1239,6 +1262,9 @@ function initGraph(data) {
         setupHudFade();
         setupDimensionToggle();
         applyEdgeMode();
+
+        // Initialize Settings Panel
+        if (typeof SettingsPanel !== 'undefined') SettingsPanel.init();
 
         // SELF-TEST: Deterministic validation of UI controls (deferred)
         runSelfTest(data);
@@ -1914,11 +1940,11 @@ function refreshGraph() {
         Graph.graphData(FILE_GRAPH);
         applyFileColors(FILE_GRAPH.nodes);
         Graph.nodeVal(node => {
-                // Boundary nodes get 1.5x size multiplier
-                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
-                const baseSize = node.val || 1;
-                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
-            });
+            // Boundary nodes get 1.5x size multiplier
+            const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+            const baseSize = node.val || 1;
+            return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+        });
         Graph.nodeLabel('name');
         applyEdgeMode();
         updateDatamapControls();
@@ -1933,11 +1959,11 @@ function refreshGraph() {
         Graph.graphData(hybrid);
         applyFileColors(hybrid.nodes);
         Graph.nodeVal(node => {
-                // Boundary nodes get 1.5x size multiplier
-                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
-                const baseSize = node.val || 1;
-                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
-            });
+            // Boundary nodes get 1.5x size multiplier
+            const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+            const baseSize = node.val || 1;
+            return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+        });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         updateDatamapControls();
@@ -1958,11 +1984,11 @@ function refreshGraph() {
         Graph.nodeColor(Graph.nodeColor());
         Graph.nodeRelSize(Graph.nodeRelSize());
         Graph.nodeVal(node => {
-                // Boundary nodes get 1.5x size multiplier
-                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
-                const baseSize = node.val || 1;
-                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
-            });
+            // Boundary nodes get 1.5x size multiplier
+            const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+            const baseSize = node.val || 1;
+            return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+        });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         if (fileMode && GRAPH_MODE === 'atoms') {
@@ -1985,11 +2011,11 @@ function refreshGraph() {
         Graph.graphData(fallback);
         applyNodeColors(fallback.nodes);
         Graph.nodeVal(node => {
-                // Boundary nodes get 1.5x size multiplier
-                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
-                const baseSize = node.val || 1;
-                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
-            });
+            // Boundary nodes get 1.5x size multiplier
+            const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+            const baseSize = node.val || 1;
+            return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+        });
         Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
         applyEdgeMode();
         updateDatamapControls();
@@ -2002,11 +2028,11 @@ function refreshGraph() {
     restoreNodePositions(subset.nodes);
     Graph.graphData(subset);
     Graph.nodeVal(node => {
-                // Boundary nodes get 1.5x size multiplier
-                const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
-                const baseSize = node.val || 1;
-                return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
-            });
+        // Boundary nodes get 1.5x size multiplier
+        const isBoundary = node.is_codome_boundary || node.kind === 'boundary';
+        const baseSize = node.val || 1;
+        return (isBoundary ? baseSize * 1.5 : baseSize) * APPEARANCE_STATE.nodeScale;
+    });
     Graph.nodeLabel(VIS_FILTERS.metadata.showLabels ? 'name' : '');
     applyEdgeMode();
     if (fileMode && GRAPH_MODE === 'atoms') {

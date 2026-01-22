@@ -54,6 +54,7 @@ const CONTROL_BAR = (function () {
     let _activeMapping = null;
     let _groups = [];         // [{id, name, nodeIds, color}]
     let _groupCounter = 0;
+    let _interval = null;
 
     // Current mapping configuration
     let _config = {
@@ -492,7 +493,29 @@ const CONTROL_BAR = (function () {
         }
 
         // Update node count periodically
-        setInterval(updateNodeCount, 1000);
+        _interval = setInterval(updateNodeCount, 1000);
+    }
+
+    // =========================================================================
+    // CLEANUP
+    // =========================================================================
+
+    function dispose() {
+        if (_interval) {
+            clearInterval(_interval);
+            _interval = null;
+        }
+
+        // Remove listeners by cloning/replacing (brute force clean)
+        // or by removing specific named listeners if we refactored attachListeners
+        // Here we just remove the container from DOM which unhooks DOM listeners
+        if (_container && _container.parentNode) {
+            _container.parentNode.removeChild(_container);
+        }
+        _container = null;
+        _visible = false;
+
+        console.log('[CONTROL_BAR] Disposed');
     }
 
     // =========================================================================
@@ -610,7 +633,7 @@ const CONTROL_BAR = (function () {
         const dm = typeof DATA !== 'undefined' ? DATA : null;
         if (dm && typeof dm.getRange === 'function') {
             const dataScope = _config.scope === 'selection' ? 'selection' :
-                              _config.scope === 'all' ? 'global' : 'visible';
+                _config.scope === 'all' ? 'global' : 'visible';
             const range = dm.getRange(sourceKey, dataScope);
             if (window.UPB.BINDINGS.defaultGraph) {
                 window.UPB.BINDINGS.defaultGraph._dataRanges[sourceKey] = range;
@@ -855,7 +878,8 @@ const CONTROL_BAR = (function () {
         get groups() { return _groups; },
         DATA_SOURCES,
         VISUAL_TARGETS,
-        SCALES
+        SCALES,
+        dispose
     };
 
 })();
