@@ -111,6 +111,55 @@ const UPB_ENDPOINTS = (function () {
             domain: 'file',
             label: 'Is Stale',
             tags: ['temporal', 'boolean', 'risk']
+        },
+
+        // =====================================================================
+        // TREE-SITTER ANALYSIS (T2-T6)
+        // =====================================================================
+
+        // T2: Purity Score (D6:EFFECT - continuous)
+        D6_pure_score: {
+            Type: 'continuous',
+            domain: 'node',
+            label: 'Purity Score',
+            range: [0, 1],
+            tags: ['theory', 'D6', 'purity', 'effect', 'tree-sitter']
+        },
+
+        // T3: Purity Rating (D6:EFFECT - categorical)
+        D6_EFFECT: {
+            Type: 'discrete',
+            domain: 'node',
+            label: 'Purity Rating',
+            values: ['pure', 'mostly_pure', 'mixed', 'mostly_impure', 'impure'],
+            tags: ['theory', 'D6', 'purity', 'categorical', 'tree-sitter']
+        },
+
+        // T4: PageRank (graph centrality)
+        pagerank: {
+            Type: 'continuous',
+            domain: 'node',
+            label: 'PageRank',
+            range: [0, 1],
+            tags: ['topological', 'centrality', 'influence', 'quantitative']
+        },
+
+        // T5: Betweenness Centrality (bridge nodes)
+        betweenness_centrality: {
+            Type: 'continuous',
+            domain: 'node',
+            label: 'Betweenness',
+            range: [0, 1],
+            tags: ['topological', 'centrality', 'bridge', 'quantitative']
+        },
+
+        // T6: Topology Role (categorical)
+        topology_role: {
+            Type: 'discrete',
+            domain: 'node',
+            label: 'Topology Role',
+            values: ['orphan', 'root', 'leaf', 'hub', 'internal'],
+            tags: ['topological', 'categorical', 'structure']
         }
     };
 

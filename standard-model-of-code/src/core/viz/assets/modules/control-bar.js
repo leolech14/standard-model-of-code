@@ -129,6 +129,13 @@ const CONTROL_BAR = (function () {
                         <option value="is_config">Is Config?</option>
                         <option value="is_stale">Is Stale?</option>
                     </optgroup>
+                    <optgroup label="Tree-sitter Analysis">
+                        <option value="D6_pure_score">Purity Score (0-1)</option>
+                        <option value="D6_EFFECT">Purity Rating</option>
+                        <option value="pagerank">PageRank Influence</option>
+                        <option value="betweenness_centrality">Betweenness (Bridge)</option>
+                        <option value="topology_role">Topology Role</option>
+                    </optgroup>
                 </select>
             </div>
         `;

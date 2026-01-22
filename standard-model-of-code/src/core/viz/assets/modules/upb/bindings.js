@@ -198,10 +198,93 @@ const UPB_BINDINGS = (function () {
     // Default singleton instance
     const defaultGraph = new BindingGraph();
 
+    // =========================================================================
+    // PRESET BINDINGS (T8-T9)
+    // Recommended mappings for tree-sitter analysis data
+    // =========================================================================
+    const PRESETS = {
+        // T8: Purity → Lightness (pure code appears brighter)
+        'purity-lightness': {
+            source: 'D6_pure_score',
+            target: 'lightness',
+            scale: 'linear',
+            range: [30, 90],  // 30% dark (impure) to 90% bright (pure)
+            description: 'Pure code appears brighter'
+        },
+
+        // T9: PageRank → Node Size (influential nodes are larger)
+        'pagerank-size': {
+            source: 'pagerank',
+            target: 'nodeSize',
+            scale: 'sqrt',    // Compress outliers
+            range: [3, 25],
+            description: 'Influential nodes appear larger'
+        },
+
+        // Bonus: Betweenness → Saturation (bridge nodes are more vivid)
+        'betweenness-saturation': {
+            source: 'betweenness_centrality',
+            target: 'saturation',
+            scale: 'sqrt',
+            range: [20, 100],
+            description: 'Bridge nodes appear more vivid'
+        },
+
+        // Bonus: Topology Role → Hue (different roles, different colors)
+        'topology-hue': {
+            source: 'topology_role',
+            target: 'hue',
+            scale: 'discrete',
+            // orphan=red, root=green, leaf=blue, hub=purple, internal=gray
+            range: [0, 360],
+            description: 'Topology roles have distinct colors'
+        }
+    };
+
+    /**
+     * Apply a named preset to the default graph
+     * @param {string} presetName - Key from PRESETS
+     * @returns {Binding|null}
+     */
+    function applyPreset(presetName) {
+        const preset = PRESETS[presetName];
+        if (!preset) {
+            console.warn(`[UPB] Unknown preset: ${presetName}`);
+            return null;
+        }
+        return defaultGraph.bind(preset.source, preset.target, {
+            id: `preset-${presetName}`,
+            scale: preset.scale,
+            range: preset.range
+        });
+    }
+
+    /**
+     * Apply all presets
+     */
+    function applyAllPresets() {
+        Object.keys(PRESETS).forEach(name => applyPreset(name));
+        console.log(`[UPB] Applied ${Object.keys(PRESETS).length} preset bindings`);
+    }
+
+    /**
+     * List available presets
+     */
+    function listPresets() {
+        return Object.keys(PRESETS).map(name => ({
+            name,
+            ...PRESETS[name]
+        }));
+    }
+
     return {
         Binding,
         BindingGraph,
-        defaultGraph
+        defaultGraph,
+        PRESETS,
+        applyPreset,
+        applyAllPresets,
+        listPresets
     };
 
 })();
