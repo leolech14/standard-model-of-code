@@ -82,31 +82,35 @@ PROJECT_elements/
 
 ---
 
-## Hemispheres
+## Particle/Wave Duality
 
-The repository is organized into two "hemispheres":
+The repository follows a **physics-inspired architecture**:
 
-### BODY (standard-model-of-code/)
-The **Collider engine** - analyzes code structure, classifies atoms, generates graphs.
+### PARTICLE (standard-model-of-code/)
+**Measurement, collapse** - The Collider engine collapses the "wave function" of source code into concrete knowledge.
 
 ```bash
-# Run analysis
+# Run analysis (collapse wave → particle)
 ./collider full /path/to/repo --output .collider
 
-# With AI insights
-./collider full /path/to/repo --ai-insights
+# Output: unified_analysis.json (the "particle" of knowledge)
 ```
 
-### BRAIN (context-management/)
-The **AI tools** - Gemini analysis, Perplexity research, context engineering.
+### WAVE (context-management/)
+**Potential, field** - AI reasoning, strategy, context engineering. Holds the field of potential.
 
 ```bash
-# Query with set
+# Query with set (explore the wave)
 python context-management/tools/ai/analyze.py --set pipeline "How does X work?"
 
 # Index for RAG
 python context-management/tools/ai/analyze.py --index --set theory --store-name my-store
 ```
+
+### OBSERVER (.agent/)
+**Decides what to measure** - Task registry, BARE intelligence, workflow orchestration.
+
+The Observer chooses which aspects of the Wave to collapse into Particles.
 
 ---
 
