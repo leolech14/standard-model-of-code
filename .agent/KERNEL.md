@@ -8,11 +8,18 @@
 
 ```
 1. READ this file (KERNEL.md)
-2. READ manifest.yaml for discovery pointers
-3. CHECK registry/INDEX.md for active tasks
-4. FIND or CREATE a RUN record in runs/
-5. BEGIN work, logging steps to your RUN record
+2. RUN  .agent/tools/check_stale.sh        ← Release abandoned claims
+3. CHECK git status for uncommitted work   ← Detect interrupted sessions
+4. READ manifest.yaml for discovery pointers
+5. CHECK registry/INDEX.md for active tasks
+6. CLAIM task BEFORE starting work         ← Atomic reservation required
+7. FIND or CREATE a RUN record in runs/
+8. BEGIN work, logging steps to your RUN record
 ```
+
+**Post-Compaction Rule:** After context restore, NEVER trust in-memory task state.
+Always perform live filesystem check via `claim_task.sh`. The `claimed/` directory
+is the single source of truth, not your restored context.
 
 ---
 
@@ -266,12 +273,13 @@ python context-management/tools/archive/archive.py mirror
 
 | Field | Value |
 |-------|-------|
-| Kernel Version | 1.2.0 |
+| Kernel Version | 1.3.0 |
 | Created | 2026-01-22 |
 | Last Updated | 2026-01-23 |
 
 ### Changelog
 
+- **1.3.0** (2026-01-23): Enhanced boot protocol with mandatory claim verification (prevents multi-agent race conditions after compaction)
 - **1.2.0** (2026-01-23): Added Context Engineering section (lost-in-middle, token tiers, quality rules)
 - **1.1.0** (2026-01-23): Added Task State Machine section, tool usage docs
 - **1.0.0** (2026-01-22): Initial kernel with boot protocol, 4D model, TASK/RUN separation
