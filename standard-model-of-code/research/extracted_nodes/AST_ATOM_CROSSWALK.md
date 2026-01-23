@@ -100,11 +100,11 @@
 | Language | Unmapped Node | Suggested Atom | Priority |
 |----------|---------------|----------------|----------|
 | Rust | `unsafe_block` | UnsafeBlock | Medium |
-| Rust | `lifetime` | Lifetime ✅ (exists #136) | - |
-| Go | `select_statement` | ChannelSelect ✅ (exists #146) | - |
+| Rust | `lifetime` | Lifetime ✓ (exists #136) | - |
+| Go | `select_statement` | ChannelSelect ✓ (exists #146) | - |
 | TypeScript | `satisfies_expression` | SatisfiesExpr | Low |
-| Java | `record_declaration` | Record ✅ (exists #91) | - |
-| Python | `walrus_operator` | WalrusExpr ✅ (exists #55) | - |
+| Java | `record_declaration` | Record ✓ (exists #91) | - |
+| Python | `walrus_operator` | WalrusExpr ✓ (exists #55) | - |
 
 ---
 

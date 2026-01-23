@@ -19,10 +19,10 @@ The visualization filter system in `src/core/viz/assets/app.js` has been thoroug
 
 | Fix | Status | Lines Changed |
 |-----|--------|---------------|
-| Zero-node protection for VIS_FILTERS | ✅ DONE | 2955-2966, 3657-3675 |
-| `clearAllFilters()` function added | ✅ DONE | 5214-5240 |
-| Legend.visible dead code removed | ✅ DONE | 624, 630, 661-700, 1617 |
-| Debug logging cleaned up | ✅ DONE | 2879-2889, 2973-2977, 7616 |
+| Zero-node protection for VIS_FILTERS | ✓ DONE | 2955-2966, 3657-3675 |
+| `clearAllFilters()` function added | ✓ DONE | 5214-5240 |
+| Legend.visible dead code removed | ✓ DONE | 624, 630, 661-700, 1617 |
+| Debug logging cleaned up | ✓ DONE | 2879-2889, 2973-2977, 7616 |
 
 ---
 
@@ -125,13 +125,13 @@ OUTPUT: { nodes: visibleNodes, links: visibleLinks }
 
 | Component | Evidence | Status |
 |-----------|----------|--------|
-| Filter application order | Direct code trace | ✅ CORRECT |
-| Empty Set semantics | Lines 2950-2953 | ✅ CORRECT |
-| Tier normalization | `toUpperCase()` at 2781 | ✅ CORRECT |
-| Ring normalization | `toUpperCase()` at 2825 | ✅ CORRECT |
-| Role case handling | Same extraction both sides | ✅ CORRECT |
-| Edge endpoint filtering | Lines 2990-2993 | ✅ CORRECT |
-| Selection auto-clear on filter | Lines 8482-8487 | ✅ CORRECT |
+| Filter application order | Direct code trace | ✓ CORRECT |
+| Empty Set semantics | Lines 2950-2953 | ✓ CORRECT |
+| Tier normalization | `toUpperCase()` at 2781 | ✓ CORRECT |
+| Ring normalization | `toUpperCase()` at 2825 | ✓ CORRECT |
+| Role case handling | Same extraction both sides | ✓ CORRECT |
+| Edge endpoint filtering | Lines 2990-2993 | ✓ CORRECT |
+| Selection auto-clear on filter | Lines 8482-8487 | ✓ CORRECT |
 
 ### 2.2 False Alarms (Initially Suspected, Now Cleared)
 
@@ -522,10 +522,10 @@ Graph methods used (exhaustive list):
 - `backgroundColor()` - styling
 
 **NOT used (confirmed absent):**
-- `nodeVisibility()` ❌
-- `linkVisibility()` ❌
-- `nodeFilter()` ❌
-- `linkFilter()` ❌
+- `nodeVisibility()` ✗
+- `linkVisibility()` ✗
+- `nodeFilter()` ✗
+- `linkFilter()` ✗
 
 ---
 

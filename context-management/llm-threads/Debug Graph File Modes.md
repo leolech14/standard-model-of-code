@@ -100,7 +100,7 @@ check current state of repo
 
 Based on the repository check, here is the current state:
 
-### **✅ Completed (Option 1)**
+### **✓ Completed (Option 1)**
 *   **Commit**: `11f4661` - `feat(infra): consolidate blender source and experiments, exclude build artifacts`
 *   **Status**: The [blender/](cci:7://file:///Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/blender:0:0-0:0) source tree, `experiments/html`, and [.gitignore](cci:7://file:///Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/.gitignore:0:0-0:0) updates are safely committed.
 
@@ -254,17 +254,17 @@ DID THE AGENT THE WORKED ON IT FORGOT ABOUNT THEM????
   ┌─────────────────────────────────────────┬────────────┐                                                                               
   │                  Task                   │   Status   │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Align template.html with canonical UI   │ ✅ aa2ec35 │                                                                               
+  │ Align template.html with canonical UI   │ ✓ aa2ec35 │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Fix TDZ errors in app.js                │ ✅ 27ba72b │                                                                               
+  │ Fix TDZ errors in app.js                │ ✓ 27ba72b │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Update self-tests to match canonical UI │ ✅ 27ba72b │                                                                               
+  │ Update self-tests to match canonical UI │ ✓ 27ba72b │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Update controls.tokens.json v2.0.0      │ ✅ 27ba72b │                                                                               
+  │ Update controls.tokens.json v2.0.0      │ ✓ 27ba72b │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Regenerate and verify coherence         │ ✅         │                                                                               
+  │ Regenerate and verify coherence         │ ✓         │                                                                               
   ├─────────────────────────────────────────┼────────────┤                                                                               
-  │ Commit complete token architecture      │ ✅         │                                                                               
+  │ Commit complete token architecture      │ ✓         │                                                                               
   └─────────────────────────────────────────┴────────────┘                                                                               
   Commits made:                                                                                                                          
   - aa2ec35 - template.html alignment with canonical UI                                                                                  
@@ -365,14 +365,14 @@ DID THE AGENT THE WORKED ON IT FORGOT ABOUNT THEM????
   Surface Parity Check                                                                                                                   
   ━━━━━━━━━━━━━━━━━━━━                                                                                                                   
   command-bar.buttons (8 surfaces)                                                                                                       
-    ✅ DOM:     8/8                                                                                                                      
-    ✅ Handlers: 8/8                                                                                                                     
-    ✅ Tokens:  8/8                                                                                                                      
+    ✓ DOM:     8/8                                                                                                                      
+    ✓ Handlers: 8/8                                                                                                                     
+    ✓ Tokens:  8/8                                                                                                                      
                                                                                                                                          
   floating-panels (4 surfaces)                                                                                                           
-    ✅ DOM:     4/4                                                                                                                      
-    ❌ Handlers: 3/4  ← MISSING: togglePanelSettings                                                                                     
-    ✅ Tokens:  4/4                                                                                                                      
+    ✓ DOM:     4/4                                                                                                                      
+    ✗ Handlers: 3/4  ← MISSING: togglePanelSettings                                                                                     
+    ✓ Tokens:  4/4                                                                                                                      
                                                                                                                                          
   FAILED: 1 surface mismatch                                                                                                             
                                                                                                                                          
@@ -809,11 +809,11 @@ console.<computed> @ VM7:63
 (anonymous) @ 3d-force-graph.min.js:2
 VM7:63 [Legend] Counts: Object
 VM7:63 [DM] Initialized 1663 nodes, 5106 edges, 193 files
-VM7:63 [DM] Self-Test: ✅ PASS
+VM7:63 [DM] Self-Test: ✓ PASS
 VM7:63   Raw: 1663 nodes, 5106 edges, 193 files
 VM7:63   Indexes: nodeById=1663, tiers=3, families=1
 VM7:63   Edges: bySource=956, byTarget=1226, markov=0
-VM7:63 [DM Parity] ✅ ALL PASS
+VM7:63 [DM Parity] ✓ ALL PASS
 VM7:63   ✓ Node count: DM=1663, Raw=1663
 VM7:63   ✓ Edge count: DM=5106, Raw=5106
 VM7:63   ✓ Node index size: DM=1663, Raw=1663
@@ -967,11 +967,11 @@ console.<computed> @ VM82:63
 (anonymous) @ 3d-force-graph.min.js:2
 VM82:63 [Legend] Counts: Object
 VM82:63 [DM] Initialized 1663 nodes, 5106 edges, 193 files
-VM82:63 [DM] Self-Test: ✅ PASS
+VM82:63 [DM] Self-Test: ✓ PASS
 VM82:63   Raw: 1663 nodes, 5106 edges, 193 files
 VM82:63   Indexes: nodeById=1663, tiers=3, families=1
 VM82:63   Edges: bySource=956, byTarget=1226, markov=0
-VM82:63 [DM Parity] ✅ ALL PASS
+VM82:63 [DM Parity] ✓ ALL PASS
 VM82:63   ✓ Node count: DM=1663, Raw=1663
 VM82:63   ✓ Edge count: DM=5106, Raw=5106
 VM82:63   ✓ Node index size: DM=1663, Raw=1663

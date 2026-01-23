@@ -469,7 +469,7 @@ confidence = 0.85
 cohesion = 0.72
 
 # Wrong
-confidence = 85  # ❌
+confidence = 85  # ✗
 ```
 
 **Legacy Handling**: Any 0–100 values encountered during import are normalized to 0–1 on export. Original values preserved as `*_raw` fields when needed for debugging.

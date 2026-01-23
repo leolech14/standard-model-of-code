@@ -16,8 +16,8 @@
 
 | Tool | Dates | Decision | Location | Reason |
 |------|-------|----------|----------|--------|
-| yFiles for HTML | Dec 2025 | ❌ Archived | Removed | Evaluation expired, not adopted |
-| vsdx-export | Dec 2025 | ❌ Archived | Removed | Bundled with yFiles eval |
+| yFiles for HTML | Dec 2025 | ✗ Archived | Removed | Evaluation expired, not adopted |
+| vsdx-export | Dec 2025 | ✗ Archived | Removed | Bundled with yFiles eval |
 
 ---
 

@@ -299,9 +299,9 @@ pytest tests/ -v
 
 | Phase | Step | Confidence | Time Est | Validated |
 |-------|------|------------|----------|-----------|
-| 1 | Clone Semgrep | **99%** | 30s | ✅ DONE |
-| 1 | Parse YAML | **99.5%** | 2h | ✅ 2085/2095 success |
-| 1 | Convert format | **95%** | 1h | ✅ Format verified |
+| 1 | Clone Semgrep | **99%** | 30s | ✓ DONE |
+| 1 | Parse YAML | **99.5%** | 2h | ✓ 2085/2095 success |
+| 1 | Convert format | **95%** | 1h | ✓ Format verified |
 | 1 | Deduplicate | 85% | 2h | ⏳ Pending |
 | 1 | Output | 99% | 30m | ⏳ Pending |
 | 2 | Clone ESLint | 99% | 30s | ⏳ Pending |
@@ -316,11 +316,11 @@ pytest tests/ -v
 
 ### What's Been Validated
 
-1. ✅ Semgrep repo cloned successfully
-2. ✅ 2,085 rules parsed with 99.5% success rate
-3. ✅ Ecosystem distribution confirmed (20+ ecosystems)
-4. ✅ Metadata extraction working (id, technology, category, message)
-5. ✅ Django: 77 rules, Flask: 48 rules, Express: 72 rules available
+1. ✓ Semgrep repo cloned successfully
+2. ✓ 2,085 rules parsed with 99.5% success rate
+3. ✓ Ecosystem distribution confirmed (20+ ecosystems)
+4. ✓ Metadata extraction working (id, technology, category, message)
+5. ✓ Django: 77 rules, Flask: 48 rules, Express: 72 rules available
 
 ---
 

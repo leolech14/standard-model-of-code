@@ -423,8 +423,8 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   **Goal:** universal preferences + universal workflows only        
   **Size target:** ~1–2 pages                                       
                                                                     
-  ✅ Put this at: `~/.claude/CLAUDE.md`                             
-  ❌ Do **not** keep large operational content here.                
+  ✓ Put this at: `~/.claude/CLAUDE.md`                             
+  ✗ Do **not** keep large operational content here.                
                                                                     
   ### Layer 1: Ecosystem / Workspace (loaded only in that           
   workspace)                                                        
@@ -934,11 +934,11 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   Status Check                                                      
   Indicator: NODES                                                  
   Value: 1,959                                                      
-  Assessment: ✅ Data loaded                                        
+  Assessment: ✓ Data loaded                                        
   ────────────────────────────────────────                          
   Indicator: EDGES                                                  
   Value: 5,255                                                      
-  Assessment: ✅ Links present                                      
+  Assessment: ✓ Links present                                      
   ────────────────────────────────────────                          
   Indicator: ENTROPY                                                
   Value: --                                                         
@@ -946,7 +946,7 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   ────────────────────────────────────────                          
   Indicator: Cohesion                                               
   Value: 0%                                                         
-  Assessment: ✅ Boundaries "popped" (expected in expanded view)    
+  Assessment: ✓ Boundaries "popped" (expected in expanded view)    
   ────────────────────────────────────────                          
   Indicator: System Metrics                                         
   Value: All "--"                                                   
@@ -1095,7 +1095,7 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   ---                                                               
   3. Metrics Analysis                                               
                                                                     
-  Cohesion: 0% — ✅ EXPECTED                                        
+  Cohesion: 0% — ✓ EXPECTED                                        
   Metric: Cohesion                                                  
   Formula: internal_edges / (internal + external)                   
   Current Value: 0%                                                 
@@ -1106,7 +1106,7 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   - Leaf nodes                                                      
   - Dependency injection containers                                 
                                                                     
-  System Metrics: "--" — ✅ EXPECTED (partially)                    
+  System Metrics: "--" — ✓ EXPECTED (partially)                    
   Metric: EDGE RES                                                  
   Status: "--"                                                      
   Reason: Missing kpis data or total_edges == 0                     
@@ -1142,7 +1142,7 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   const kpis = (data && data.kpis) ? data.kpis : {};                
   // If property missing → asNumber(undefined) → null → "--"        
                                                                     
-  ENTROPY: "--" — ✅ NOT IMPLEMENTED                                
+  ENTROPY: "--" — ✓ NOT IMPLEMENTED                                
                                                                     
   Defined in theory: Shannon entropy H = -∑ P(atom_i) log₂ P(atom_i)
                                                                     
@@ -1173,23 +1173,23 @@ THE MOUSE CONTROLS DRIFTED, HOW? WHY?
   ---                                                               
   5. Verdict                                                        
   Component: FILE mode toggle                                       
-  Status: ✅ Works                                                  
+  Status: ✓ Works                                                  
   Notes: setFileModeState() orchestrates correctly                  
   ────────────────────────────────────────                          
   Component: File graph building                                    
-  Status: ✅ Works                                                  
+  Status: ✓ Works                                                  
   Notes: buildFileGraph() creates nodes/links                       
   ────────────────────────────────────────                          
   Component: Containment spheres                                    
-  Status: ✅ Works                                                  
+  Status: ✓ Works                                                  
   Notes: 3D physics with soft collisions                            
   ────────────────────────────────────────                          
   Component: File expansion                                         
-  Status: ✅ Works                                                  
+  Status: ✓ Works                                                  
   Notes: Single-expansion model, hybrid mode                        
   ────────────────────────────────────────                          
   Component: Cohesion: 0%                                           
-  Status: ✅ Expected                                               
+  Status: ✓ Expected                                               
   Notes: All external dependencies in view                          
   ────────────────────────────────────────                          
   Component: System Metrics: "--"                                   
@@ -1480,13 +1480,13 @@ CHECK THIS RECENT IMPLEMENTATION
   ┌───────────────┬─────────┬────────────────────────────────────────────────┐
   │   Indicator   │  Value  │                   Assessment                   │
   ├───────────────┼─────────┼────────────────────────────────────────────────┤
-  │ NODES         │ 1,959   │ ✅ Data loaded                                 │
+  │ NODES         │ 1,959   │ ✓ Data loaded                                 │
   ├───────────────┼─────────┼────────────────────────────────────────────────┤
-  │ EDGES         │ 5,255   │ ✅ Links present                               │
+  │ EDGES         │ 5,255   │ ✓ Links present                               │
   ├───────────────┼─────────┼────────────────────────────────────────────────┤
   │ ENTROPY       │ --      │ ⚠️ Not calculated                              │
   ├───────────────┼─────────┼────────────────────────────────────────────────┤
-  │ Cohesion      │ 0%      │ ✅ Boundaries "popped" (expected in expanded   │
+  │ Cohesion      │ 0%      │ ✓ Boundaries "popped" (expected in expanded   │
   │               │         │ view)                                          │
   ├───────────────┼─────────┼────────────────────────────────────────────────┤
   │ System        │ All     │ ⚠️ Not computed                                │
@@ -1612,7 +1612,7 @@ CHECK THIS RECENT IMPLEMENTATION
   ---                                                                         
   3. Metrics Analysis                                                         
                                                                               
-  Cohesion: 0% — ✅ EXPECTED                                                  
+  Cohesion: 0% — ✓ EXPECTED                                                  
   Metric: Cohesion                                                            
   Formula: internal_edges / (internal + external)                             
   Current Value: 0%                                                           
@@ -1623,7 +1623,7 @@ CHECK THIS RECENT IMPLEMENTATION
   - Leaf nodes                                                                
   - Dependency injection containers                                           
                                                                               
-  System Metrics: "--" — ✅ EXPECTED (partially)                              
+  System Metrics: "--" — ✓ EXPECTED (partially)                              
   ┌──────────────┬────────┬──────────────────────────────────────────┐        
   │    Metric    │ Status │                  Reason                  │        
   ├──────────────┼────────┼──────────────────────────────────────────┤        
@@ -1647,7 +1647,7 @@ CHECK THIS RECENT IMPLEMENTATION
   const kpis = (data && data.kpis) ? data.kpis : {};                          
   // If property missing → asNumber(undefined) → null → "--"                  
                                                                               
-  ENTROPY: "--" — ✅ NOT IMPLEMENTED                                          
+  ENTROPY: "--" — ✓ NOT IMPLEMENTED                                          
                                                                               
   Defined in theory: Shannon entropy H = -∑ P(atom_i) log₂ P(atom_i)          
                                                                               
@@ -1677,23 +1677,23 @@ CHECK THIS RECENT IMPLEMENTATION
   ---                                                                         
   5. Verdict                                                                  
   Component: FILE mode toggle                                                 
-  Status: ✅ Works                                                            
+  Status: ✓ Works                                                            
   Notes: setFileModeState() orchestrates correctly                            
   ────────────────────────────────────────                                    
   Component: File graph building                                              
-  Status: ✅ Works                                                            
+  Status: ✓ Works                                                            
   Notes: buildFileGraph() creates nodes/links                                 
   ────────────────────────────────────────                                    
   Component: Containment spheres                                              
-  Status: ✅ Works                                                            
+  Status: ✓ Works                                                            
   Notes: 3D physics with soft collisions                                      
   ────────────────────────────────────────                                    
   Component: File expansion                                                   
-  Status: ✅ Works                                                            
+  Status: ✓ Works                                                            
   Notes: Single-expansion model, hybrid mode                                  
   ────────────────────────────────────────                                    
   Component: Cohesion: 0%                                                     
-  Status: ✅ Expected                                                         
+  Status: ✓ Expected                                                         
   Notes: All external dependencies in view                                    
   ────────────────────────────────────────                                    
   Component: System Metrics: "--"                                             
@@ -1797,11 +1797,11 @@ CHECK THIS RECENT IMPLEMENTATION
                                                                               
   MODE          CLUSTERS NODES?    DRAWS HULLS?                               
   ────────────  ───────────────    ────────────                               
-  COLOR         ❌ No              ❌ No                                      
-  HULLS         ❌ No              ✅ Yes  ← YOU ARE HERE                     
-  CLUSTER       ✅ Yes             ❌ No                                      
-  MAP           (file nodes)       ❌ No                                      
-  SPHERES       ❌ No              ✅ Containment                             
+  COLOR         ✗ No              ✗ No                                      
+  HULLS         ✗ No              ✓ Yes  ← YOU ARE HERE                     
+  CLUSTER       ✓ Yes             ✗ No                                      
+  MAP           (file nodes)       ✗ No                                      
+  SPHERES       ✗ No              ✓ Containment                             
                                                                               
   What's Happening                                                            
                                                                               
@@ -2087,7 +2087,7 @@ CHECK THIS RECENT IMPLEMENTATION
                                                                               
   Question 1: Compatible with Repo Architecture?                              
                                                                               
-  ❌ NO — Violations found:                                                   
+  ✗ NO — Violations found:                                                   
   Principle: TOKEN-DRIVEN                                                     
   Expected: Config from data?.physics?.fileCohesion                           
   My Code: Hardcoded FILE_COHESION_CONFIG object                              
@@ -2105,7 +2105,7 @@ CHECK THIS RECENT IMPLEMENTATION
   My Code: Partially followed                                                 
   Question 2: Token-wise (efficient)?                                         
                                                                               
-  ❌ NO — Issues:                                                             
+  ✗ NO — Issues:                                                             
   Issue: ~100 lines added                                                     
   Problem: Could be ~40 lines following existing patterns                     
   ────────────────────────────────────────                                    
@@ -2507,11 +2507,11 @@ output_human-readable_standard-model-of-code_FIXED.html:9778 Uncaught ReferenceE
     at output_human-readable_standard-model-of-code_FIXED.html:9773:48
 output_human-readable_standard-model-of-code_FIXED.html:4089 [Legend] Counts: Object
 output_human-readable_standard-model-of-code_FIXED.html:4288 [DM] Initialized 1959 nodes, 5255 edges, 203 files
-output_human-readable_standard-model-of-code_FIXED.html:4656 [DM] Self-Test: ✅ PASS
+output_human-readable_standard-model-of-code_FIXED.html:4656 [DM] Self-Test: ✓ PASS
 output_human-readable_standard-model-of-code_FIXED.html:4657   Raw: 1959 nodes, 5255 edges, 203 files
 output_human-readable_standard-model-of-code_FIXED.html:4658   Indexes: nodeById=1959, tiers=3, families=1
 output_human-readable_standard-model-of-code_FIXED.html:4659   Edges: bySource=1009, byTarget=1278, markov=1009
-output_human-readable_standard-model-of-code_FIXED.html:4691 [DM Parity] ✅ ALL PASS
+output_human-readable_standard-model-of-code_FIXED.html:4691 [DM Parity] ✓ ALL PASS
 output_human-readable_standard-model-of-code_FIXED.html:4694   ✓ Node count: DM=1959, Raw=1959
 output_human-readable_standard-model-of-code_FIXED.html:4694   ✓ Edge count: DM=5255, Raw=5255
 output_human-readable_standard-model-of-code_FIXED.html:4694   ✓ Node index size: DM=1959, Raw=1959
@@ -2567,11 +2567,11 @@ output_human-readable_standard-model-of-code_FIXED.html:3750 Uncaught TypeError:
     at output_human-readable_standard-model-of-code_FIXED.html:9850:48
 output_human-readable_standard-model-of-code_FIXED.html:4166 [Legend] Counts: Object
 output_human-readable_standard-model-of-code_FIXED.html:4365 [DM] Initialized 1959 nodes, 5255 edges, 203 files
-output_human-readable_standard-model-of-code_FIXED.html:4733 [DM] Self-Test: ✅ PASS
+output_human-readable_standard-model-of-code_FIXED.html:4733 [DM] Self-Test: ✓ PASS
 output_human-readable_standard-model-of-code_FIXED.html:4734   Raw: 1959 nodes, 5255 edges, 203 files
 output_human-readable_standard-model-of-code_FIXED.html:4735   Indexes: nodeById=1959, tiers=3, families=1
 output_human-readable_standard-model-of-code_FIXED.html:4736   Edges: bySource=1009, byTarget=1278, markov=1009
-output_human-readable_standard-model-of-code_FIXED.html:4768 [DM Parity] ✅ ALL PASS
+output_human-readable_standard-model-of-code_FIXED.html:4768 [DM Parity] ✓ ALL PASS
 output_human-readable_standard-model-of-code_FIXED.html:4771   ✓ Node count: DM=1959, Raw=1959
 output_human-readable_standard-model-of-code_FIXED.html:4771   ✓ Edge count: DM=5255, Raw=5255
 output_human-readable_standard-model-of-code_FIXED.html:4771   ✓ Node index size: DM=1959, Raw=1959

@@ -200,13 +200,13 @@ PEP 227 is explicit: when resolving nested scopes, class scopes are skipped; you
 
 So your Python locals.scm design rule is correct:
 
-✅ (function_definition) @local.scope
+✓ (function_definition) @local.scope
 
-✅ (lambda) @local.scope
+✓ (lambda) @local.scope
 
-✅ comprehensions as scopes (practically useful)
+✓ comprehensions as scopes (practically useful)
 
-❌ (class_definition) @local.scope (do not do this)
+✗ (class_definition) @local.scope (do not do this)
 
 If you violate this, your “scope-aware edge resolution” will confidently produce wrong bindings in Python.
 

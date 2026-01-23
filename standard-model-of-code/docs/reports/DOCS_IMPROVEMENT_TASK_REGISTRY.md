@@ -22,7 +22,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Tables, code blocks, and lists are better than prose for AI |
 | **Confidence** | 95% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "Structure is King. Use tables, code blocks, lists, and Mermaid. These formats reduce ambiguity and are easily parsed into structured data, which is how an AI thinks." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -31,7 +31,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Separate "execution manual" from "conceptual scaffolding" |
 | **Confidence** | 90% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "It correctly separates instructions for action from knowledge for understanding... This documentation suite succeeds by not trying to make one file do everything." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -40,7 +40,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Metaphorical/marketing language wastes tokens for AI |
 | **Confidence** | 85% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "Phrases like 'The periodic table of code' are powerful for humans but are effectively high-entropy noise for a purely execution-oriented AI." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -49,7 +49,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Restating same concept multiple times hurts AI |
 | **Confidence** | 80% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "The core ideas are restated in multiple sections... For an AI, it can be redundant data that consumes context window space." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -58,7 +58,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Directly telling AI how to think about the project helps |
 | **Confidence** | 95% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "This is the single most valuable pattern. The section 'FOR AI: The Missing Semantic Layer' directly instructs the AI on how to frame its thinking." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -67,7 +67,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Every abstract concept must map to concrete file paths |
 | **Confidence** | 90% |
-| **Validation** | ✅ VALIDATED by Gemini |
+| **Validation** | ✓ VALIDATED by Gemini |
 | **Evidence** | "Always link abstract ideas to concrete file paths, as seen in the Dichotomy table. This is the most critical step for making theory actionable." |
 | **Source** | Gemini 2.5 Pro forensic analysis |
 
@@ -76,7 +76,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | Current GLOSSARY defines generic terms AI already knows |
 | **Confidence** | 90% |
-| **Validation** | ✅ VALIDATED by Gemini 2.5 Pro |
+| **Validation** | ✓ VALIDATED by Gemini 2.5 Pro |
 | **Evidence** | `[docs/GLOSSARY.md:L12-L16]` defines "Atom", "Codespace", "Collider". `[docs/UNIFIED_THEORY.md:PART XIV]` contains "Essential Glossary" defining terms like "Abstraction", "Graph", "Hierarchy", "Node", "Recursion" which are foundational to AI training data. |
 | **Source** | Gemini 2.5 Pro forensic analysis (2026-01-19) |
 
@@ -85,7 +85,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | THEORY_MAP, FORMAL_PROOF, MECHANIZED_PROOFS duplicate content |
 | **Confidence** | 95% |
-| **Validation** | ✅ VALIDATED by Gemini 2.5 Pro |
+| **Validation** | ✓ VALIDATED by Gemini 2.5 Pro |
 | **Evidence** | `[docs/THEORY_MAP.md:L30-L80]` describes "4-Tier Stack". `[docs/FORMAL_PROOF.md:Theorem 3.7]` proves same concept formally. `[docs/MECHANIZED_PROOFS.md:Verified Theorems]` and `[docs/FORMAL_PROOF.md:Theorems]` list exact same theorem set (3.3, 3.4, 3.5). Role count inconsistency: 33 in `[docs/UNIFIED_THEORY.md:L250]` vs 27 in `[docs/FORMAL_PROOF.md:Def 1.3]`. |
 | **Source** | Gemini 2.5 Pro forensic analysis (2026-01-19) | |
 
@@ -103,7 +103,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 |-----------|-------|
 | **Assumption** | No troubleshooting guide exists |
 | **Confidence** | 90% |
-| **Validation** | ✅ VALIDATED (by absence) |
+| **Validation** | ✓ VALIDATED (by absence) |
 | **Evidence** | grep for "error", "troubleshoot", "debug" in docs/ shows no dedicated guide |
 | **Source** | Local file analysis |
 
@@ -226,7 +226,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 | **Priority** | P1 |
 | **Confidence** | 100% |
 | **Based On** | Mirror sync failed, blocking Gemini analysis |
-| **Status** | ✅ COMPLETE |
+| **Status** | ✓ COMPLETE |
 | **File** | `context-management/tools/archive/config.yaml` |
 | **Action** | Exclude .tools_venv, fix file path encoding issues |
 | **Success Criteria** | `archive.py mirror` completes without errors |
@@ -237,7 +237,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 ## 4. DEPENDENCY GRAPH
 
 ```
-T-DOC-010 (Fix Mirror) ✅ COMPLETE
+T-DOC-010 (Fix Mirror) ✓ COMPLETE
     │
     └──▶ T-DOC-004 (Dedupe Theory) [UNBLOCKED - ready]
 
@@ -269,7 +269,7 @@ T-DOC-009 (Remove redundancy) ──▶ depends on T-DOC-004
 
 | Confidence Level | Count | Tasks |
 |------------------|-------|-------|
-| **100%** | 1 | T-DOC-010 ✅ COMPLETE |
+| **100%** | 1 | T-DOC-010 ✓ COMPLETE |
 | **95%** | 2 | T-DOC-002, T-DOC-004 |
 | **90%** | 3 | T-DOC-001, T-DOC-005, T-DOC-006 |
 | **85%** | 2 | T-DOC-003, T-DOC-008 |

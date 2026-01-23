@@ -538,6 +538,45 @@ The "base atoms" are not arbitrary—they reflect the **fundamental grammar of p
 
 This mirrors how physics has quarks, leptons, and bosons—not thousands of "fundamental" particles.
 
+### Post-Pilot Update (2026-01-22)
+
+> **STATUS:** L1 observation validated. L2 generalization BLOCKED pending larger corpus.
+
+The 4-repo deterministic pilot (instructor, httpx, cobra, zod) produced stronger results than the pre-pilot expectations:
+
+| Metric | Pre-Pilot Expectation | Pilot Observation | Interpretation |
+|--------|----------------------|-------------------|----------------|
+| Top-4 mass | 80-90% | **96.43-100%** (median 98.81%) | Evidence exceeds prior |
+| Unknown rate | <10% | 0.20-0.42% (median 0.30%) | Classifier working well |
+| Sample size | 7 repos (informal) | 4 repos (deterministic) | Smaller but higher quality |
+
+**Claim Evolution:**
+
+```
+Original claim (pre-pilot):
+  "Top 2-4 structural atoms account for ~80-90% of nodes"
+  Source: Informal analysis of 7 repos without deterministic controls
+
+Revised L1 claim (post-pilot):
+  "In the 4-repo pilot, the 4 most frequent atoms account for 96-100% of nodes (median 98.81%)"
+  Source: Deterministic analysis with full provenance chain
+  Status: L1 OBSERVATION (pilot-level evidence)
+
+Future L2 claim (pending):
+  "Across 100+ stratified repos, top-4 mass >= 70% with CI lower bound >= 65%"
+  Status: BLOCKED - requires corpus expansion
+```
+
+**Why the discrepancy?**
+1. **Dynamic vs fixed:** The pilot measures the 4 *most frequent* atoms per repo (dynamic), not a fixed set of base atoms
+2. **Better tooling:** `atom_coverage.py` provides deterministic metrics with provenance
+3. **Cleaner repos:** The pilot corpus excludes generated/vendored code
+
+**References:**
+- Pilot artifacts: `artifacts/atom-research/2026-01-22/`
+- Measurement contract: `docs/research/MEASUREMENT_CONTRACT.md`
+- Decision record: `artifacts/atom-research/2026-01-22/ai-audit/decision_finding_1.md`
+
 ---
 
 ## FINDING 2: T2 Atoms Provide Enrichment, Not Coverage
@@ -659,7 +698,7 @@ Semgrep rules focus on vulnerabilities
 
 **What We Detect vs What We Miss (Django example):**
 ```
-✅ DETECTED (Security):        ❌ MISSED (Functional):
+✓ DETECTED (Security):        ✗ MISSED (Functional):
 - SQL injection               - Model definitions
 - XSS vulnerabilities         - View functions
 - Insecure cookies            - Template rendering
@@ -1019,9 +1058,20 @@ Claims upgrade only when evidence supports them:
 | Level | Status | Evidence Required | Current Claims |
 |-------|--------|-------------------|----------------|
 | L0 | Observed in 1 repo | Single run | - |
-| L1 | **CURRENT** | 7 repos, causal chains | Pareto distribution (93-97%) |
-| L2 | Pending | 100+ stratified repos, CI | - |
+| L1 | **CURRENT** | Deterministic pilot with provenance | **F1A: 4-repo pilot shows 96-100% top-4 mass** |
+| L2 | BLOCKED | 100+ stratified repos, CI >= 65% | Pending corpus expansion |
 | L3 | Future | Stable across versions, regression gates | - |
+
+**L1 Evidence (2026-01-22 Pilot):**
+- **Corpus:** instructor, httpx, cobra, zod (4 repos, 3 languages)
+- **Metrics:** top-4 mass median 98.81%, range 96.43-100%
+- **Provenance:** Full chain from prompt → audit → decision with SHA256 seals
+- **Artifacts:** `artifacts/atom-research/2026-01-22/`
+
+**L2 Blocking Factors:**
+1. Sample size: 4 repos vs 100+ required
+2. Falsification tests: proposed but not executed
+3. CI computation: requires bootstrapping on larger corpus
 
 **Rule:** Never upgrade claim wording without meeting evidence requirements for the target level.
 
@@ -1065,3 +1115,4 @@ python tools/research/atom_coverage.py analysis.json --check-unknown 10
 | 2026-01-22 | **HARDENING**: Scoped claims, operational definitions, evidence ledgers, falsification tests, runnable snippets | Claude Opus 4.5 |
 | 2026-01-22 | Added Claims Ladder + Phase 2 reference | Claude Opus 4.5 |
 | 2026-01-22 | **D3_ROLE WIRING**: Tree-sitter `classify_role()` integrated into pipeline. See Phase 2 Protocol Study D. | Claude Opus 4.5 |
+| 2026-01-22 | **POST-PILOT UPDATE**: Added claim evolution section documenting pilot observation (96-100% top-4 mass) vs pre-pilot expectations (80-90%). Claims Ladder updated with L1 evidence and L2 blocking factors. | Claude Opus 4.5 |

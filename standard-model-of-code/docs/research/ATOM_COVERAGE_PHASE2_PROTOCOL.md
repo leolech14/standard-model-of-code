@@ -434,15 +434,15 @@ Tested on `src/core/classification/` (17 nodes):
 
 | Language | Status | Test |
 |----------|--------|------|
-| Python | ✅ Working | Repository, Validator, Handler detected |
-| JavaScript | ✅ Working | Repository (90%), boundary=io, state=stateful |
-| TypeScript | ✅ Working | Shares JS queries |
+| Python | ✓ Working | Repository, Validator, Handler detected |
+| JavaScript | ✓ Working | Repository (90%), boundary=io, state=stateful |
+| TypeScript | ✓ Working | Shares JS queries |
 
 ### Promotion Path
 
 | Level | Requirement | Status |
 |-------|-------------|--------|
-| L0 | Works on 1 repo | ✅ ACHIEVED |
+| L0 | Works on 1 repo | ✓ ACHIEVED |
 | L1 | Works on 7 repos with >20% TS coverage | Pending |
 | L2 | Works on 100+ repos | Pending |
 

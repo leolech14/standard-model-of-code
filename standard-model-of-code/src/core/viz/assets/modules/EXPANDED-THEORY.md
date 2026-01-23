@@ -491,7 +491,7 @@
   ───────────────────────────────────────────────────────
   ─────────                                              
   Dependencies     IMPORTS/CALLS      in_degree,         
-   ✅ IMPLEMENTED                                        
+   ✓ IMPLEMENTED                                        
                                       out_degree,        
                                       topology_role      
                                                          
@@ -587,9 +587,9 @@
       "id": "src/services/user.py::UserService.validate",
                                                          
       # ANATOMY (static structure)                       
-      "topology_role": "internal",      # ✅ implemented 
-      "in_degree": 5,                   # ✅ implemented 
-      "out_degree": 3,                  # ✅ implemented 
+      "topology_role": "internal",      # ✓ implemented 
+      "in_degree": 5,                   # ✓ implemented 
+      "out_degree": 3,                  # ✓ implemented 
                                                          
       # PHYSIOLOGY (runtime dynamics)                    
       "call_count": 14392,              # ⚪ Layer 2     
@@ -822,14 +822,14 @@
   ───────────────────────────────────────────────────────
   ──                                                     
   Nodes (components)               Interface Surface     
-    ✅ what they ARE                 ⚪ HOW they connect 
+    ✓ what they ARE                 ⚪ HOW they connect 
                                                          
   Edges (connections)              Connection Quality    
-    ✅ that they connect             ⚪ HOW WELL they    
+    ✓ that they connect             ⚪ HOW WELL they    
   connect                                                
                                                          
   topology_role                    coupling_nature       
-    ✅ position in flow              ⚪                  
+    ✓ position in flow              ⚪                  
   tightness/looseness                                    
                                                          
   The Interface Surface (Membrane)                       

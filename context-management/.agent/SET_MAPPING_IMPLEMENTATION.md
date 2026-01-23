@@ -261,7 +261,7 @@ const EDGE_TYPE_TO_FAMILY = {
 │  src/core/edge_extractor.py                                     │
 │  ├── Extracts relationships                                     │
 │  ├── Creates edges with: source, target, edge_type             │
-│  └── ❌ DOES NOT assign edge.family                            │
+│  └── ✗ DOES NOT assign edge.family                            │
 │                                                                 │
 └───────────────────────┬─────────────────────────────────────────┘
                         │
@@ -392,12 +392,12 @@ const EDGE_TYPE_TO_FAMILY = {
 
 | Question | layers (D2_LAYER) | effects (D6_EFFECT) | edgeFamilies |
 |----------|-------------------|---------------------|--------------|
-| **Data computed in Python?** | ✅ YES (95%) | ✅ YES (95%) | ❌ NO (100%) |
-| **Data in graph.json?** | ✅ YES nested (95%) | ✅ YES nested (95%) | ❌ NO (100%) |
-| **Property path known?** | ✅ `dimensions.D2_LAYER` | ✅ `dimensions.D6_EFFECT` | ⚠️ Need to add |
-| **Values populated?** | ✅ 6 values | ✅ 4 values | N/A |
+| **Data computed in Python?** | ✓ YES (95%) | ✓ YES (95%) | ✗ NO (100%) |
+| **Data in graph.json?** | ✓ YES nested (95%) | ✓ YES nested (95%) | ✗ NO (100%) |
+| **Property path known?** | ✓ `dimensions.D2_LAYER` | ✓ `dimensions.D6_EFFECT` | ⚠️ Need to add |
+| **Values populated?** | ✓ 6 values | ✓ 4 values | N/A |
 | **app.js can access?** | ⚠️ Needs accessor | ⚠️ Needs accessor | ⚠️ Needs accessor |
-| **UI pattern exists?** | ✅ Copy from tier | ✅ Copy from tier | ✅ Copy from edges |
+| **UI pattern exists?** | ✓ Copy from tier | ✓ Copy from tier | ✓ Copy from edges |
 | **Overall Confidence** | **90%** | **90%** | **60%** |
 
 ### 5.2 Risk Assessment

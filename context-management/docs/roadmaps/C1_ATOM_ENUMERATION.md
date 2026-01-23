@@ -17,7 +17,7 @@
 | Metric | Current | Target |
 |--------|---------|--------|
 | Atoms documented | ~30% | 100% |
-| Phases defined | 4/4 | 4/4 ✅ |
+| Phases defined | 4/4 | 4/4 ✓ |
 | Families defined | ~15/22 | 22/22 |
 | Cross-language mappings | Partial | 5 languages |
 

@@ -313,9 +313,9 @@ The `classify_role()` method in `dimension_classifier.py` is now **wired into th
 
 | Component | Status | Evidence |
 |-----------|--------|----------|
-| `roles.scm` queries | ✅ Loaded | Python, JavaScript, TypeScript |
-| `classify_role()` method | ✅ Called | `universal_classifier.py:625-629` |
-| Tiered fallback | ✅ Working | Tree-sitter → Heuristic |
+| `roles.scm` queries | ✓ Loaded | Python, JavaScript, TypeScript |
+| `classify_role()` method | ✓ Called | `universal_classifier.py:625-629` |
+| Tiered fallback | ✓ Working | Tree-sitter → Heuristic |
 
 ### 11.2 Coverage Metrics
 

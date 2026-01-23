@@ -18,8 +18,8 @@ This report documents a critical architectural clarification discovered during t
 ### The Missing Capability
 
 Collider currently implements **unidirectional** analysis:
-- **Analysis:** Code → Structured Graph ✅ EXISTS
-- **Synthesis:** Structured Graph → Code ❌ MISSING
+- **Analysis:** Code → Structured Graph ✓ EXISTS
+- **Synthesis:** Structured Graph → Code ✗ MISSING
 
 The full vision requires **bidirectional** transformation, enabling manipulation in "codespace" followed by deterministic reconstruction.
 
@@ -60,7 +60,7 @@ The full vision requires **bidirectional** transformation, enabling manipulation
 │  │  • Markov Chain Analysis (transition probabilities)           │  │
 │  │  • Knot Detection (circular dependencies)                     │  │
 │  │                                                               │  │
-│  │  STATUS: ✅ IMPLEMENTED - This is the core value              │  │
+│  │  STATUS: ✓ IMPLEMENTED - This is the core value              │  │
 │  └───────────────────────────────────────────────────────────────┘  │
 │                              │                                      │
 │                              ▼                                      │
@@ -73,7 +73,7 @@ The full vision requires **bidirectional** transformation, enabling manipulation
 │  │  • Refactoring Suggestions                                    │  │
 │  │  • Risk Assessment Narratives                                 │  │
 │  │                                                               │  │
-│  │  STATUS: ✅ IMPLEMENTED - Via Vertex AI Gemini integration    │  │
+│  │  STATUS: ✓ IMPLEMENTED - Via Vertex AI Gemini integration    │  │
 │  │  NOTE: The tool is fully functional WITHOUT this layer        │  │
 │  └───────────────────────────────────────────────────────────────┘  │
 │                                                                     │

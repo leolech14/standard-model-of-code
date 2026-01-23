@@ -25,11 +25,11 @@ This audit analyzed the PROJECT_elements repository structure against its define
 
 | Set | Files | Size | Tokens | Fits 1M? | Purpose |
 |-----|-------|------|--------|----------|---------|
-| `brain_core` | 8 | 0.02 MB | 6,198 | ✅ | AI tool questions |
-| `theory` | 5 | 0.22 MB | 57,177 | ✅ | Architectural reasoning |
-| `body` | 116 | 3.94 MB | 1,031,586 | ❌ | Source code analysis |
-| `brain` | 115 | 52.75 MB | 13,826,894 | ❌ | Full context layer |
-| `legacy` | 898 | 70.48 MB | 18,475,837 | ❌ | Archive exploration |
+| `brain_core` | 8 | 0.02 MB | 6,198 | ✓ | AI tool questions |
+| `theory` | 5 | 0.22 MB | 57,177 | ✓ | Architectural reasoning |
+| `body` | 116 | 3.94 MB | 1,031,586 | ✗ | Source code analysis |
+| `brain` | 115 | 52.75 MB | 13,826,894 | ✗ | Full context layer |
+| `legacy` | 898 | 70.48 MB | 18,475,837 | ✗ | Archive exploration |
 
 **Usable Sets**: `brain_core`, `theory`
 
@@ -37,7 +37,7 @@ This audit analyzed the PROJECT_elements repository structure against its define
 
 ## Relocation Candidates
 
-### ✅ HIGH CONFIDENCE (Proceed)
+### ✓ HIGH CONFIDENCE (Proceed)
 
 | Cluster | Count | Size | Action |
 |---------|-------|------|--------|
@@ -52,7 +52,7 @@ This audit analyzed the PROJECT_elements repository structure against its define
 | Duplicate Roadmaps | 5 sets | Same content in multiple locations | Symlink vs. copy strategy |
 | Root `llm-threads/` | 1 dir | Unclear if active work | User confirmation |
 
-### ❌ LOW CONFIDENCE (Defer/Skip)
+### ✗ LOW CONFIDENCE (Defer/Skip)
 
 | Cluster | Reason |
 |---------|--------|
@@ -128,52 +128,52 @@ The following files exist in multiple locations:
 > **Decision Source**: `gemini-2.5-pro` via `analyze.py --set brain_core`  
 > **Confidence**: 100% (grounded in repo architecture)
 
-### Q1: Duplicate Roadmap Strategy ✅ RESOLVED
+### Q1: Duplicate Roadmap Strategy ✓ RESOLVED
 **Decision**: **SYMLINKS**
 
 | Option | ✓ | Justification |
 |--------|---|---------------|
-| **Symlinks** | ✅ | Maintains single source of truth. "Wisdom" lives in Brain. |
-| Copies | ❌ | Risk of drift |
-| Git submodule | ❌ | Overkill |
+| **Symlinks** | ✓ | Maintains single source of truth. "Wisdom" lives in Brain. |
+| Copies | ✗ | Risk of drift |
+| Git submodule | ✗ | Overkill |
 
 **Action**: Create symlinks from `standard-model-of-code/.agent/orientation/` → `context-management/docs/`
 
 ---
 
-### Q2: Agent Config Distribution Model ✅ RESOLVED
+### Q2: Agent Config Distribution Model ✓ RESOLVED
 **Decision**: **CENTRALIZED**
 
 | Option | ✓ | Justification |
 |--------|---|---------------|
-| Distributed | ❌ | Fragments "Intelligence" |
-| **Centralized** | ✅ | Aligns with Brain concept. All meta-management in one place. |
+| Distributed | ✗ | Fragments "Intelligence" |
+| **Centralized** | ✓ | Aligns with Brain concept. All meta-management in one place. |
 
 **Action**: Move `standard-model-of-code/.agent/` → `context-management/.agent/`
 
 ---
 
-### Q3: `llm-threads/` Folder Purpose ✅ RESOLVED
+### Q3: `llm-threads/` Folder Purpose ✓ RESOLVED
 **Decision**: **RELOCATE to `context-management/experiments/`**
 
 | Option | ✓ | Justification |
 |--------|---|---------------|
-| Keep at root | ❌ | Clutter |
-| Archive | ❌ | Not legacy |
-| **context-management/experiments/** | ✅ | LLM experiments are Brain function, not Body physics. |
+| Keep at root | ✗ | Clutter |
+| Archive | ✗ | Not legacy |
+| **context-management/experiments/** | ✓ | LLM experiments are Brain function, not Body physics. |
 
 **Action**: `mv llm-threads/ context-management/experiments/llm-threads/`
 
 ---
 
-### Q4: Large Output Files Retention ✅ RESOLVED
+### Q4: Large Output Files Retention ✓ RESOLVED
 **Decision**: **ARCHIVED**
 
 | Option | ✓ | Justification |
 |--------|---|---------------|
-| Keep | ❌ | Bloats repo |
-| Delete | ❌ | Loses history |
-| **Archive** | ✅ | Memory system preserves context, keeps repo lean. |
+| Keep | ✗ | Bloats repo |
+| Delete | ✗ | Loses history |
+| **Archive** | ✓ | Memory system preserves context, keeps repo lean. |
 
 **Action**: `mv standard-model-of-code/output/unified_real_v2/ archive/large_outputs/`
 

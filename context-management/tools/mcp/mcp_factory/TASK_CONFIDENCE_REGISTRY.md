@@ -35,7 +35,7 @@
 | Current | 85% | Clear inputs, no blockers |
 | Onwards | 90% | Foundation for templates/validation |
 
-**Verdict:** ✅ **ACCEPT** (90% confidence)
+**Verdict:** ✓ **ACCEPT** (90% confidence)
 
 ---
 
@@ -65,7 +65,7 @@
 | Current | 90% | Simple extraction |
 | Onwards | 85% | Gemini recommended this |
 
-**Verdict:** ✅ **ACCEPT** (88% confidence)
+**Verdict:** ✓ **ACCEPT** (88% confidence)
 
 ---
 
@@ -80,7 +80,7 @@
 | Current | 95% | Low complexity, hashlib exists |
 | Onwards | 80% | Supports archival integrity |
 
-**Verdict:** ✅ **ACCEPT** (85% confidence)
+**Verdict:** ✓ **ACCEPT** (85% confidence)
 
 ---
 
@@ -114,7 +114,7 @@
 | Current | 80% | Need BEST_PRACTICES.md first |
 | Onwards | 95% | Foundation for scaffold.py |
 
-**Verdict:** ✅ **MIGRATED** - Now tracked as TASK-001 in .agent/
+**Verdict:** ✓ **MIGRATED** - Now tracked as TASK-001 in .agent/
 
 ---
 
@@ -129,7 +129,7 @@
 | Current | 20% | Would need research |
 | Onwards | 50% | Not critical path |
 
-**Verdict:** ❌ **REJECT** (40% confidence) - Defer indefinitely, Python-first
+**Verdict:** ✗ **REJECT** (40% confidence) - Defer indefinitely, Python-first
 
 ---
 

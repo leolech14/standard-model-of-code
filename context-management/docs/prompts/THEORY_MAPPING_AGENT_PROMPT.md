@@ -314,7 +314,7 @@ The analysis pipeline (`src/core/`) contains 64+ Python modules:
 **Current Bottleneck:** Reachability at 29.3% (target ≥ 80%)
 
 **Phase Overview:**
-- Phase 0: Locked invariants ✅ DONE
+- Phase 0: Locked invariants ✓ DONE
 - Phase 1: Graph substrate completion
 - Phase 2: Resolution correctness
 - **Phase 3: Entrypoints + reachability** ← PRIORITY

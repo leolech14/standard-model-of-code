@@ -542,39 +542,39 @@ with open('insights/cacheable_functions.json', 'w') as f:
 
 ### 1. Physical Layer
 
-**✅ DO**:
+**✓ DO**:
 - Use JSON for portability
 - Compress large outputs (gzip)
 - Version your schema
 - Include metadata (timestamp, version, target)
 
-**❌ DON'T**:
+**✗ DON'T**:
 - Store raw code in output (use references)
 - Duplicate data across files
 - Hardcode file paths
 
 ### 2. Virtual Layer
 
-**✅ DO**:
+**✓ DO**:
 - Build indices for common queries
 - Use NetworkX for graph operations
 - Cache expensive computations
 - Lazy-load large datasets
 
-**❌ DON'T**:
+**✗ DON'T**:
 - Load entire dataset if you only need subset
 - Rebuild indices on every query
 - Keep duplicate copies in memory
 
 ### 3. Semantic Layer
 
-**✅ DO**:
+**✓ DO**:
 - Use dimensional patterns for queries
 - Combine lenses for richer insights
 - Track evidence strength (R8)
 - Document query patterns
 
-**❌ DON'T**:
+**✗ DON'T**:
 - Ignore confidence scores
 - Mix physical IDs with semantic patterns
 - Hard-code dimension values

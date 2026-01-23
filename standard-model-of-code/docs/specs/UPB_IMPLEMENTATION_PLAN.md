@@ -28,12 +28,12 @@ This plan extracts and consolidates binding logic from the sprawl identified in 
 ```
                      Depends On →
                    control-bar  file-viz  node-helpers  edge-system  color-engine  data-manager
- control-bar.js        -           -           -             -            ✅            ✅
- file-viz.js           -           -           ✅            -            ✅            ✅
+ control-bar.js        -           -           -             -            ✓            ✓
+ file-viz.js           -           -           ✓            -            ✓            ✓
  node-helpers.js       -           -           -             -            -             -
- edge-system.js        -           -           ✅            -            ✅            -
+ edge-system.js        -           -           ✓            -            ✓            -
  color-engine.js       -           -           -             -            -             -
- data-manager.js       -           -           ✅            -            ✅            -
+ data-manager.js       -           -           ✓            -            ✓            -
 ```
 
 **Key Finding:** `color-engine.js` and `node-helpers.js` are foundational (zero dependencies).

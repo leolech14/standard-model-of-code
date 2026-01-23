@@ -375,10 +375,10 @@ Only after Phase 2 is stable, remove dead code.
 ```
 
 **This changes the execution plan from:**
-- ❌ "Build UIManager, then wire everything"
+- ✗ "Build UIManager, then wire everything"
 
 **To:**
-- ✅ "Make template work first, understand deeply, then refactor incrementally"
+- ✓ "Make template work first, understand deeply, then refactor incrementally"
 
 ---
 

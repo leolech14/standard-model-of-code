@@ -56,12 +56,12 @@ Collider is a near-perfect "Graph" component for a code-focused GraphRAG system.
 
 | Component | Status | Action Needed |
 |-----------|--------|---------------|
-| Entity extraction | ✅ Done | — |
-| Edge building | ✅ Done | — |
-| Community detection | ✅ Done | — |
+| Entity extraction | ✓ Done | — |
+| Edge building | ✓ Done | — |
+| Community detection | ✓ Done | — |
 | Community summarization | ⚠️ Partial | Add auto-summary per community |
-| Query-time retrieval | ❌ Missing | Build subgraph retrieval API |
-| LLM response generation | ❌ Missing | Add RAG runtime layer |
+| Query-time retrieval | ✗ Missing | Build subgraph retrieval API |
+| LLM response generation | ✗ Missing | Add RAG runtime layer |
 
 ---
 

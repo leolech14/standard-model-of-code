@@ -237,7 +237,7 @@ graph LR
     class GEN,CODE2 future
 ```
 
-**Status:** ✅ Analysis implemented (82.4% accuracy) | ⏳ Generation future
+**Status:** ✓ Analysis implemented (82.4% accuracy) | ⏳ Generation future
 
 ### 2. LLM-Driven Architecture Generation
 

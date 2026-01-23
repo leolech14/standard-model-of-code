@@ -12,11 +12,11 @@
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| `topology_role` | `full_analysis.py:705-735` | ✅ LIVE |
-| `in_degree`, `out_degree` | `full_analysis.py` | ✅ LIVE |
-| Basic Tree-sitter parsing | `tree_sitter_engine.py` | ✅ 5-10% utilized |
-| Dependency graph | `edge_extractor.py` | ✅ LIVE |
-| NetworkX integration | `full_analysis.py` | ✅ LIVE |
+| `topology_role` | `full_analysis.py:705-735` | ✓ LIVE |
+| `in_degree`, `out_degree` | `full_analysis.py` | ✓ LIVE |
+| Basic Tree-sitter parsing | `tree_sitter_engine.py` | ✓ 5-10% utilized |
+| Dependency graph | `edge_extractor.py` | ✓ LIVE |
+| NetworkX integration | `full_analysis.py` | ✓ LIVE |
 
 ### What We Theorized (Not Implemented)
 
@@ -25,8 +25,8 @@
 | Flow Substances | THEORY_EXPANSION §7 | ⚪ OPEN QUESTIONS | ⚪ NOT STARTED |
 | Interface Surface | THEORY_EXPANSION §8 | ⚪ OPEN QUESTIONS | ⚪ NOT STARTED |
 | Evolvability | THEORY_EXPANSION §9 | ⚪ OPEN QUESTIONS | ⚪ NOT STARTED |
-| Network Centrality | RESEARCH_DIRECTIONS §1.3 | ✅ RESEARCHED | ⚪ NOT STARTED |
-| Biological Modularity | RESEARCH_DIRECTIONS §1.4 | ✅ RESEARCHED | ⚪ NOT STARTED |
+| Network Centrality | RESEARCH_DIRECTIONS §1.3 | ✓ RESEARCHED | ⚪ NOT STARTED |
+| Biological Modularity | RESEARCH_DIRECTIONS §1.4 | ✓ RESEARCHED | ⚪ NOT STARTED |
 
 ### Tree-sitter Capabilities (Unutilized)
 

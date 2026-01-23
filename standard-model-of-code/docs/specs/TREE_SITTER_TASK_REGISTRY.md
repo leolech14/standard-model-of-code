@@ -12,13 +12,13 @@
 
 | Phase | Status | Evidence |
 |-------|--------|----------|
-| **Phase 1: Foundation** | ✅ COMPLETE | `queries/`, loader, 25 .scm files |
-| **Phase 2: Scope Analysis** | ✅ COMPLETE | `scope_analyzer.py` (824 lines) |
-| **Phase 3: Control Flow** | ✅ COMPLETE | `control_flow_analyzer.py` (475 lines) |
-| **Phase 4: Pattern Detection** | ✅ COMPLETE | `data_flow_analyzer.py` (872 lines), patterns.scm |
+| **Phase 1: Foundation** | ✓ COMPLETE | `queries/`, loader, 25 .scm files |
+| **Phase 2: Scope Analysis** | ✓ COMPLETE | `scope_analyzer.py` (824 lines) |
+| **Phase 3: Control Flow** | ✓ COMPLETE | `control_flow_analyzer.py` (475 lines) |
+| **Phase 4: Pattern Detection** | ✓ COMPLETE | `data_flow_analyzer.py` (872 lines), patterns.scm |
 | **Phase 5: Advanced Features** | ⏸️ DEFERRED | Cross-file, injections - low alignment |
-| **Phase 6: D3 ROLE Queries** | ✅ COMPLETE | roles.scm (Python, JavaScript, TypeScript, Go, Rust), imports.scm |
-| **Phase 7: Visualization** | ✅ COMPLETE | UPB wiring, 15 SOURCES, 11 PRESETS |
+| **Phase 6: D3 ROLE Queries** | ✓ COMPLETE | roles.scm (Python, JavaScript, TypeScript, Go, Rust), imports.scm |
+| **Phase 7: Visualization** | ✓ COMPLETE | UPB wiring, 15 SOURCES, 11 PRESETS |
 
 **Tests:** 216 passing (100%)
 
@@ -77,10 +77,10 @@ src/core/queries/
 
 | Stage | Name | Status |
 |-------|------|--------|
-| 2.8 | Scope Analysis | ✅ Integrated |
-| 2.9 | Control Flow Metrics | ✅ Integrated |
-| 2.10 | Pattern-Based Atom Detection | ✅ Integrated |
-| 2.11 | Data Flow Analysis (D6:EFFECT) | ✅ Integrated |
+| 2.8 | Scope Analysis | ✓ Integrated |
+| 2.9 | Control Flow Metrics | ✓ Integrated |
+| 2.10 | Pattern-Based Atom Detection | ✓ Integrated |
+| 2.11 | Data Flow Analysis (D6:EFFECT) | ✓ Integrated |
 
 ### Visualization (UPB)
 

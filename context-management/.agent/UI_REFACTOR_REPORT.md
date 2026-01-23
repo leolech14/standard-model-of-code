@@ -29,17 +29,17 @@ Transform the sidebar to match the clean, minimal style of the top panels (COLLI
 ### 1.3 Session Progress
 | Item | Status |
 |------|--------|
-| Preset buttons (Tier, Family, etc.) not working | ✅ FIXED |
-| Edges missing on Spectrum/Infrared | ✅ FIXED |
-| Panel overlap (top-left + sidebar) | ✅ FIXED |
-| Sidebar styling partially unified | ✅ DONE |
-| Emoji icons removed from layout buttons | ✅ FIXED |
-| Emoji icons removed from preset buttons | ✅ FIXED |
-| TOPOLOGY section collapsed by default | ✅ FIXED |
-| CSS token audit | ✅ DONE |
-| Filter logic inverted | ❌ PENDING (architecture understood) |
-| Layout performance | ❌ PENDING |
-| Neon sliders | ❌ PENDING |
+| Preset buttons (Tier, Family, etc.) not working | ✓ FIXED |
+| Edges missing on Spectrum/Infrared | ✓ FIXED |
+| Panel overlap (top-left + sidebar) | ✓ FIXED |
+| Sidebar styling partially unified | ✓ DONE |
+| Emoji icons removed from layout buttons | ✓ FIXED |
+| Emoji icons removed from preset buttons | ✓ FIXED |
+| TOPOLOGY section collapsed by default | ✓ FIXED |
+| CSS token audit | ✓ DONE |
+| Filter logic inverted | ✗ PENDING (architecture understood) |
+| Layout performance | ✗ PENDING |
+| Neon sliders | ✗ PENDING |
 
 ---
 
@@ -451,10 +451,10 @@ max-height: calc(100vh - var(--offset-panel-margin) * 3);
 
 | Previous Issue | Status |
 |----------------|--------|
-| `left: 320px` hardcoded | ✅ Fixed - now uses calc with tokens |
-| Mixed token/hardcoded values | ✅ Audited and fixed |
-| Emoji icons inconsistent | ✅ Fixed - all buttons now text-only |
-| TOPOLOGY section too prominent | ✅ Fixed - collapsed by default |
+| `left: 320px` hardcoded | ✓ Fixed - now uses calc with tokens |
+| Mixed token/hardcoded values | ✓ Audited and fixed |
+| Emoji icons inconsistent | ✓ Fixed - all buttons now text-only |
+| TOPOLOGY section too prominent | ✓ Fixed - collapsed by default |
 
 ### 5.4 Git Diff Summary
 
@@ -470,23 +470,23 @@ git diff schema/viz/tokens/
 
 ## 6. IMPLEMENTATION PLAN
 
-### Phase 1: Safe Fixes ✅ COMPLETE
+### Phase 1: Safe Fixes ✓ COMPLETE
 
 | Task | Status |
 |------|--------|
-| Remove emoji from layout buttons | ✅ Done |
-| Remove emoji from preset buttons | ✅ Done |
-| Collapse TOPOLOGY by default | ✅ Done |
-| Audit and fix token consistency | ✅ Done |
+| Remove emoji from layout buttons | ✓ Done |
+| Remove emoji from preset buttons | ✓ Done |
+| Collapse TOPOLOGY by default | ✓ Done |
+| Audit and fix token consistency | ✓ Done |
 
-### Phase 2: Investigation ✅ PARTIALLY COMPLETE
+### Phase 2: Investigation ✓ PARTIALLY COMPLETE
 
 | Task | Status |
 |------|--------|
-| Map filter click handler flow | ✅ Done - `toggleTopoFilter()` at line 5234 |
-| Understand filterGraph() | ✅ Done - lines 2960-3074 |
-| Locate slider CSS | ✅ Done - 5 different slider styles found |
-| Profile layout performance | ❌ Pending |
+| Map filter click handler flow | ✓ Done - `toggleTopoFilter()` at line 5234 |
+| Understand filterGraph() | ✓ Done - lines 2960-3074 |
+| Locate slider CSS | ✓ Done - 5 different slider styles found |
+| Profile layout performance | ✗ Pending |
 
 ### Phase 3: Medium Fixes (Ready to implement)
 
@@ -558,7 +558,7 @@ git diff schema/viz/tokens/
 
 ## 8. NEXT STEPS
 
-### ✅ Completed
+### ✓ Completed
 1. [x] Remove emoji from layout buttons
 2. [x] Remove emoji from preset buttons
 3. [x] Add `collapsed` class to TOPOLOGY section

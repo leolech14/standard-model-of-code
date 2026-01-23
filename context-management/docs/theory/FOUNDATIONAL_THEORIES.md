@@ -68,7 +68,7 @@ UNIVERSE (L12)
                                 └── BLOCK (L2) ─ holon
 ```
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Koestler | Standard Model | How |
 |----------|----------------|-----|
@@ -114,7 +114,7 @@ WORLD 2 (Mental) ←───────── Programmer understands the code
 WORLD 1 (Physical) ←──────── Programmer types, bytes written to disk
 ```
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Popper | Standard Model | How |
 |--------|----------------|-----|
@@ -158,7 +158,7 @@ O:51;4:f.44'N5 =
   O (Literature) : 51 (English) ; 4 (Drama) : f (Shakespeare) . 44 (Hamlet) 'N5 (1960s criticism)
 ```
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Ranganathan | Standard Model | How |
 |-------------|----------------|-----|
@@ -209,7 +209,7 @@ request       business logic  response
 data          function        result
 ```
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Shannon | Standard Model | How |
 |---------|----------------|-----|
@@ -261,7 +261,7 @@ data          function        result
 | Frameworks | INFRASTRUCTURE | DB, web, devices |
 | (Test) | TEST | Verification layer |
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Clean Architecture | Standard Model | How |
 |--------------------|----------------|-----|
@@ -305,7 +305,7 @@ data          function        result
 | **Factory** | Complex object creation | FACTORY role |
 | **Domain Event** | Something that happened | HANDLER/LISTENER roles |
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | DDD | Standard Model | How |
 |-----|----------------|-----|
@@ -345,7 +345,7 @@ Layer 0: CPU allocation
 
 **Key Principle**: A layer is a COMPLETE abstraction. Layer N doesn't need to know HOW Layer N-1 works, only what it provides.
 
-## What Standard Model Already Integrates ✅
+## What Standard Model Already Integrates ✓
 
 | Dijkstra | Standard Model | How |
 |----------|----------------|-----|
@@ -371,19 +371,19 @@ Layer 0: CPU allocation
 
 | # | Gap | Source Theory | Status | Implementation |
 |---|-----|---------------|--------|----------------|
-| 1 | **World 2 (Mental)** | Popper | ✅ DONE | D9_INTENT dimension added to particle schema |
-| 2 | **Entropy/Complexity** | Shannon | ✅ DONE | `metrics.complexity` with cyclomatic, cognitive, entropy |
-| 3 | **Layer violation detection** | Clean Arch + Dijkstra | ✅ DONE | AM001, AM002 in antimatter_laws.yaml |
-| 4 | **Bounded Context** | DDD | ✅ DONE | `ddd.bounded_context` + AM005 violation |
+| 1 | **World 2 (Mental)** | Popper | ✓ DONE | D9_INTENT dimension added to particle schema |
+| 2 | **Entropy/Complexity** | Shannon | ✓ DONE | `metrics.complexity` with cyclomatic, cognitive, entropy |
+| 3 | **Layer violation detection** | Clean Arch + Dijkstra | ✓ DONE | AM001, AM002 in antimatter_laws.yaml |
+| 4 | **Bounded Context** | DDD | ✓ DONE | `ddd.bounded_context` + AM005 violation |
 
 ## Medium Gaps
 
 | # | Gap | Source Theory | Status | Implementation |
 |---|-----|---------------|--------|----------------|
-| 5 | Tension dynamics | Koestler | ✅ DONE | `metrics.coupling.tension` |
-| 6 | Matter facet | Ranganathan | ✅ DONE | D10_LANGUAGE dimension |
-| 7 | Canonical notation (tau) | Ranganathan | ✅ DONE | τ() format defined in schema |
-| 8 | Aggregate roots | DDD | ✅ DONE | `ddd.is_aggregate_root`, `ddd.aggregate_id` |
+| 5 | Tension dynamics | Koestler | ✓ DONE | `metrics.coupling.tension` |
+| 6 | Matter facet | Ranganathan | ✓ DONE | D10_LANGUAGE dimension |
+| 7 | Canonical notation (tau) | Ranganathan | ✓ DONE | τ() format defined in schema |
+| 8 | Aggregate roots | DDD | ✓ DONE | `ddd.is_aggregate_root`, `ddd.aggregate_id` |
 | 9 | Noise/error propagation | Shannon | ⏳ Partial | Planned via edge confidence propagation |
 
 ## Low Priority / Nice to Have
@@ -391,7 +391,7 @@ Layer 0: CPU allocation
 | # | Gap | Source Theory | Status | Notes |
 |---|-----|---------------|--------|-------|
 | 10 | World 3 autonomy | Popper | ⏳ Planned | Emergent properties detection |
-| 11 | Holon pathologies | Koestler | ✅ DONE | AM003 (GodClass), AM004 (AnemicModel) |
+| 11 | Holon pathologies | Koestler | ✓ DONE | AM003 (GodClass), AM004 (AnemicModel) |
 | 12 | Screaming architecture | Clean Arch | ⏳ Planned | Domain alignment score |
 
 ## Implementation Files

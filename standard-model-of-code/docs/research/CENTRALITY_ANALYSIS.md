@@ -23,11 +23,11 @@ This distribution validates the theoretical model - most code is "internal" flow
 
 | Role | Count | % | Meaning | Health Indicator |
 |------|-------|---|---------|------------------|
-| internal | 921 | 52.1% | Flow-through nodes | ✅ Healthy majority |
-| leaf | 366 | 20.7% | Terminals, dependencies | ✅ Good leaf count |
+| internal | 921 | 52.1% | Flow-through nodes | ✓ Healthy majority |
+| leaf | 366 | 20.7% | Terminals, dependencies | ✓ Good leaf count |
 | root | 295 | 16.7% | Entry points | ⚠️ Many entry points |
 | orphan | 116 | 6.6% | Disconnected | ⚠️ Investigate for dead code |
-| hub | 70 | 4.0% | High connectivity | ✅ Acceptable hub count |
+| hub | 70 | 4.0% | High connectivity | ✓ Acceptable hub count |
 
 ### Observations
 
@@ -109,9 +109,9 @@ From research (PERPLEXITY_RESEARCH_JAN21.md):
 | Metric | Research Threshold | Collider Value | Status |
 |--------|-------------------|----------------|--------|
 | Orphan % | < 5% ideal | 6.6% | ⚠️ Slightly high |
-| Hub % | < 10% | 4.0% | ✅ Healthy |
+| Hub % | < 10% | 4.0% | ✓ Healthy |
 | Max in-degree | < 50 typical | 310 | ⚠️ One outlier |
-| Avg degree | 2-5 | 2.1 | ✅ Sparse graph |
+| Avg degree | 2-5 | 2.1 | ✓ Sparse graph |
 
 ---
 

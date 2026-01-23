@@ -13,15 +13,15 @@
 
 | Capability | Status | Competitors |
 |------------|--------|-------------|
-| 8-Dimensional Classification | ✅ Implemented | None |
-| Standard Model Theory (200 atoms, 33 roles) | ✅ Implemented | None |
-| 3D Force-Directed Graph Visualization | ✅ Implemented | None |
-| Purity Scoring (D6:EFFECT) | ✅ Implemented | None |
-| RPBL Character Analysis | ✅ Implemented | None |
-| Graph Centrality (PageRank, Betweenness) | ✅ Implemented | None |
-| Topology Role Detection | ✅ Implemented | None |
-| UPB Visual Property Binding | ✅ Implemented | None |
-| Tree-sitter AST Analysis | ✅ Implemented | Partial (Semgrep) |
+| 8-Dimensional Classification | ✓ Implemented | None |
+| Standard Model Theory (200 atoms, 33 roles) | ✓ Implemented | None |
+| 3D Force-Directed Graph Visualization | ✓ Implemented | None |
+| Purity Scoring (D6:EFFECT) | ✓ Implemented | None |
+| RPBL Character Analysis | ✓ Implemented | None |
+| Graph Centrality (PageRank, Betweenness) | ✓ Implemented | None |
+| Topology Role Detection | ✓ Implemented | None |
+| UPB Visual Property Binding | ✓ Implemented | None |
+| Tree-sitter AST Analysis | ✓ Implemented | Partial (Semgrep) |
 
 ### Current Metrics (Self-Analysis)
 
@@ -158,33 +158,33 @@ Languages supported:   5 (Python, JS/TS, Go, Rust)
 
 | Feature | Collider | SonarQube | Semgrep | Snyk | CodeQL | Veracode | Checkmarx |
 |---------|----------|-----------|---------|------|--------|----------|-----------|
-| **SAST** | Partial | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **SCA** | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **DAST** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
-| **Secrets** | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **IaC** | ❌ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **Container** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
-| **API Security** | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ |
-| **Quality Gates** | ❌ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| **AI Remediation** | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **8D Classification** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **3D Visualization** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Architecture Intel** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Purity Analysis** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Graph Centrality** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **SAST** | Partial | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **SCA** | ✗ | ✗ | ✓ | ✓ | ✗ | ✓ | ✓ |
+| **DAST** | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ |
+| **Secrets** | ✗ | ✓ | ✓ | ✓ | ✗ | ✓ | ✓ |
+| **IaC** | ✗ | ✓ | ✓ | ✓ | ✗ | ✓ | ✓ |
+| **Container** | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ |
+| **API Security** | ✗ | ✗ | ✗ | ✓ | ✗ | ✓ | ✓ |
+| **Quality Gates** | ✗ | ✓ | ✗ | ✓ | ✓ | ✓ | ✓ |
+| **AI Remediation** | ✗ | ✗ | ✓ | ✓ | ✗ | ✓ | ✓ |
+| **8D Classification** | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **3D Visualization** | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **Architecture Intel** | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **Purity Analysis** | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
+| **Graph Centrality** | ✓ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
 
 ### Pricing Comparison
 
 | Tool | Free Tier | Entry Price | Enterprise |
 |------|-----------|-------------|------------|
-| **Collider** | ✅ Open source | Free | N/A |
+| **Collider** | ✓ Open source | Free | N/A |
 | **SonarQube** | 50K LOC | €30/mo (100K LOC) | Annual license |
 | **Semgrep** | 10 contributors | $40/dev/mo | Contact |
 | **Snyk** | Limited | $25/mo | $1,260/dev/yr |
 | **CodeQL** | Open source repos | $29/committer/mo | GHAS |
-| **Veracode** | ❌ | ~$15K/yr | $100K+ |
-| **Checkmarx** | ❌ | ~$5K/yr | $35K+ |
-| **Coverity** | ❌ | Enterprise | Enterprise |
+| **Veracode** | ✗ | ~$15K/yr | $100K+ |
+| **Checkmarx** | ✗ | ~$5K/yr | $35K+ |
+| **Coverity** | ✗ | Enterprise | Enterprise |
 
 ### Emerging Competitors
 
@@ -256,14 +256,14 @@ Collider's pipeline architecture supports pluggable modules at multiple extensio
 
 | Language | Priority | Effort | Tree-sitter Support |
 |----------|----------|--------|---------------------|
-| Java | HIGH | Medium | ✅ Available |
-| C/C++ | HIGH | Medium | ✅ Available |
-| C# | MEDIUM | Medium | ✅ Available |
-| Ruby | MEDIUM | Low | ✅ Available |
-| PHP | MEDIUM | Low | ✅ Available |
-| Kotlin | MEDIUM | Low | ✅ Available |
-| Swift | LOW | Low | ✅ Available |
-| Scala | LOW | Medium | ✅ Available |
+| Java | HIGH | Medium | ✓ Available |
+| C/C++ | HIGH | Medium | ✓ Available |
+| C# | MEDIUM | Medium | ✓ Available |
+| Ruby | MEDIUM | Low | ✓ Available |
+| PHP | MEDIUM | Low | ✓ Available |
+| Kotlin | MEDIUM | Low | ✓ Available |
+| Swift | LOW | Low | ✓ Available |
+| Scala | LOW | Medium | ✓ Available |
 
 **Implementation Pattern:**
 ```

@@ -503,7 +503,7 @@ called the Standard Model of Code (line 7) and a tool called Collider (line 9)..
 Tokens Used: 429 Input, 62 Output
 Estimated Cost: $0.0001
 ```
-✅ AI correctly cited line numbers.
+✓ AI correctly cited line numbers.
 
 ---
 
@@ -522,7 +522,7 @@ Selected 2 files:
   - context-management/docs/COLLIDER_ARCHITECTURE.md
   - README.md
 ```
-✅ Architecture doc auto-injected even though I only specified `README.md`.
+✓ Architecture doc auto-injected even though I only specified `README.md`.
 
 ---
 
@@ -761,12 +761,12 @@ The user's audit report is extremely thorough, but it seems to be based on the *
 
 | Audit Finding | Status in v2 (My last edit) |
 |---|---|
-| **High: Context caching** | ✅ Fixed. I implemented [interactive_mode](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:285:0-361:34) which uses `client.models.generate_content(contents=conversation_history)` to reuse the session. |
-| **High: Secret exposure** | ✅ Fixed. I added a huge list of `default_excludes` including `.env`, `*.key`, `credentials*`. |
-| **Medium: Architect docs** | ✅ Fixed. Added automatic injection of `COLLIDER_ARCHITECTURE.md` when mode is `architect`. |
-| **Medium: Line numbers** | ✅ Fixed. Added [read_file_content(..., with_line_numbers=True)](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:194:0-213:18) and auto-enable it for forensic/interactive. |
-| **Medium: Non-deterministic** | ✅ Fixed. Added `sorted(files)` in [list_local_files](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:115:0-191:20). |
-| **Medium: Insights mode** | ❌ **Still Missing**. I did not implement `insights` mode in local analyze. |
+| **High: Context caching** | ✓ Fixed. I implemented [interactive_mode](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:285:0-361:34) which uses `client.models.generate_content(contents=conversation_history)` to reuse the session. |
+| **High: Secret exposure** | ✓ Fixed. I added a huge list of `default_excludes` including `.env`, `*.key`, `credentials*`. |
+| **Medium: Architect docs** | ✓ Fixed. Added automatic injection of `COLLIDER_ARCHITECTURE.md` when mode is `architect`. |
+| **Medium: Line numbers** | ✓ Fixed. Added [read_file_content(..., with_line_numbers=True)](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:194:0-213:18) and auto-enable it for forensic/interactive. |
+| **Medium: Non-deterministic** | ✓ Fixed. Added `sorted(files)` in [list_local_files](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:115:0-191:20). |
+| **Medium: Insights mode** | ✗ **Still Missing**. I did not implement `insights` mode in local analyze. |
 
 The User is asking whether to "start implementing parity" or purely remediate. Since I have already done the remediation for everything except `insights` mode, I should clarify this and ask if they want me to add `insights` mode (which generates structured JSON) to [local_analyze.py](cci:7://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:0:0-0:0).
 
@@ -808,12 +808,12 @@ Here is the "Parity Check" on what I just built vs. the audit:
 
 | Audit Finding | Status in Current Code (v2) |
 | :--- | :--- |
-| **High: Context caching** | ✅ **Implemented.** [interactive_mode](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:285:0-361:34) now sends `conversation_history` to Gemini, reusing the session instead of re-sending context. |
-| **High: Secret exposure** | ✅ **Implemented.** I added a massive `default_excludes` list (lines 125-148) blocking `.env`, `*.key`, `credentials*`. |
-| **Medium: Line numbers** | ✅ **Implemented.** I added [read_file_content(..., with_line_numbers=True)](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:194:0-213:18) and auto-enable it for forensic/interactive. |
-| **Medium: Architect docs** | ✅ **Implemented.** Added `ARCHITECT_DOCS` auto-injection (lines 414-419). |
-| **Medium: Non-deterministic** | ✅ **Implemented.** Added `dirs[:] = sorted(...)` and `sorted(files)` (lines 173, 175) for deterministic walking. |
-| **Medium: Insights mode** | ❌ **Missing.** This is the *only* valid finding left. `insights` requires structured JSON output, which I haven't added yet. |
+| **High: Context caching** | ✓ **Implemented.** [interactive_mode](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:285:0-361:34) now sends `conversation_history` to Gemini, reusing the session instead of re-sending context. |
+| **High: Secret exposure** | ✓ **Implemented.** I added a massive `default_excludes` list (lines 125-148) blocking `.env`, `*.key`, `credentials*`. |
+| **Medium: Line numbers** | ✓ **Implemented.** I added [read_file_content(..., with_line_numbers=True)](cci:1://file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/local_analyze.py:194:0-213:18) and auto-enable it for forensic/interactive. |
+| **Medium: Architect docs** | ✓ **Implemented.** Added `ARCHITECT_DOCS` auto-injection (lines 414-419). |
+| **Medium: Non-deterministic** | ✓ **Implemented.** Added `dirs[:] = sorted(...)` and `sorted(files)` (lines 173, 175) for deterministic walking. |
+| **Medium: Insights mode** | ✗ **Missing.** This is the *only* valid finding left. `insights` requires structured JSON output, which I haven't added yet. |
 
 **Recommendation:**
 Since I've already done the heavy lifting for parity, let's finish the job. I can add the **Insights Mode** (Structured JSON output) right now.

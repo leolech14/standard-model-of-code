@@ -258,8 +258,8 @@ The term "leaf" already existed in `graph_type_inference.py` (line 93: `"leaf_ca
 
 | Layer | Substance | Source | Status |
 |-------|-----------|--------|--------|
-| **Static** | Dependencies | Code analysis | ✅ Tracked |
-| **Static** | Import chains | Code analysis | ✅ Tracked |
+| **Static** | Dependencies | Code analysis | ✓ Tracked |
+| **Static** | Import chains | Code analysis | ✓ Tracked |
 | **Static** | Type flow | Code analysis | ⚪ Not yet |
 | **Runtime** | Control flow | Profiler | ⚪ Not yet |
 | **Runtime** | Execution time | Profiler | ⚪ Not yet |
@@ -608,8 +608,8 @@ This connects to multiple SMC concepts:
 
 | Component | Status |
 |-----------|--------|
-| Research | ✅ Complete (see `docs/research/ORPHAN_TAXONOMY.md`) |
-| Theory | ✅ This section |
+| Research | ✓ Complete (see `docs/research/ORPHAN_TAXONOMY.md`) |
+| Theory | ✓ This section |
 | Detection algorithm | ⚪ Not implemented |
 | Schema update | ⚪ Not implemented |
 | Visualization | ⚪ Not implemented |

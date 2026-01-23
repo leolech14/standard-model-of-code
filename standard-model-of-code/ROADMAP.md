@@ -20,7 +20,7 @@ Phase 4 (auditability + determinism)
 
 ## Phase 0 — Locked invariants (DONE)
 
-### Deliverables ✅
+### Deliverables ✓
 - Multi-layer graph spec: `GRAPH_LAYERS.md`
 - Domain separation spec: `docs/SPEC.md v0.1.3`
 - Guardrail tests (6 tests, all passing)
