@@ -637,17 +637,20 @@ def search_with_file_search(client, store_name: str, query: str, model: str = No
 
     model = model or FILE_SEARCH_MODEL
 
-    response = client.models.generate_content(
-        model=model,
-        contents=query,
-        config=types.GenerateContentConfig(
-            tools=[types.Tool(
-                file_search=types.FileSearch(
-                    file_search_store_names=[store_name]
-                )
-            )]
+    def make_request():
+        return client.models.generate_content(
+            model=model,
+            contents=query,
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(
+                    file_search=types.FileSearch(
+                        file_search_store_names=[store_name]
+                    )
+                )]
+            )
         )
-    )
+
+    response = retry_with_backoff(make_request)
 
     result = {
         'text': response.text,
@@ -760,16 +763,42 @@ def print_stores_list(stores: list) -> None:
     print("=" * 70 + "\n")
 
 
+
+def _find_doppler():
+    """Find doppler executable in PATH or common locations."""
+    import shutil
+    if shutil.which("doppler"):
+        return "doppler"
+    
+    # Common locations on macOS/Linux
+    candidates = [
+        os.path.expanduser("~/.local/bin/doppler"),
+        "/usr/local/bin/doppler",
+        "/opt/homebrew/bin/doppler",
+        "/usr/bin/doppler"
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return "doppler"
+
+
 def get_doppler_secret(key: str) -> str | None:
     """Fetch a secret from Doppler. Returns None if unavailable."""
     try:
+        doppler_exe = _find_doppler()
+        # print(f"DEBUG: doppler_exe found: {doppler_exe}", flush=True)
         result = subprocess.run(
-            ["doppler", "secrets", "get", key, "--plain"],
+            [doppler_exe, "secrets", "get", key, "--plain"],
             capture_output=True, text=True, timeout=5
         )
+        if result.returncode != 0:
+            print(f"DEBUG: doppler command failed: {result.stderr}", flush=True)
+        
         if result.returncode == 0:
             return result.stdout.strip()
-    except (subprocess.TimeoutExpired, FileNotFoundError):
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        print(f"DEBUG: doppler execution error: {e}", flush=True)
         pass
     return None
 
@@ -1164,14 +1193,17 @@ OUTPUT FORMAT (use exactly this structure):
 Please provide academic/industry validation or relevant research."""
 
     try:
-        response = client.models.generate_content(
-            model=FAST_MODEL,
-            contents=grounding_prompt,
-            config=types.GenerateContentConfig(
-                temperature=0.3,  # Low temperature for consistent output
-                max_output_tokens=800
+        def make_request():
+            return client.models.generate_content(
+                model=FAST_MODEL,
+                contents=grounding_prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.3,  # Low temperature for consistent output
+                    max_output_tokens=800
+                )
             )
-        )
+
+        response = retry_with_backoff(make_request)
         grounded = response.text.strip()
 
         # Validate output has expected markers
@@ -1217,7 +1249,7 @@ def create_client():
 
     if backend == "aistudio":
         # AI Studio (Developer API) - simple API key auth
-        api_key = os.environ.get(GEMINI_API_KEY_ENV)
+        api_key = get_doppler_secret(GEMINI_API_KEY_ENV) or os.environ.get(GEMINI_API_KEY_ENV)
         if not api_key:
             print(f"\n{'='*60}")
             print("GEMINI API KEY REQUIRED")
@@ -1606,13 +1638,16 @@ class SocraticValidator:
         '''
         
         try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config=genai.types.GenerateContentConfig(
-                    response_mime_type="application/json"
+            def make_request():
+                return client.models.generate_content(
+                    model=model,
+                    contents=prompt,
+                    config=genai.types.GenerateContentConfig(
+                        response_mime_type="application/json"
+                    )
                 )
-            )
+
+            response = retry_with_backoff(make_request)
             return json.loads(response.text)
         except Exception as e:
             print(f"Error in Socratic Validation: {e}")
@@ -1773,10 +1808,13 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
     - **Deviation**: [If non-compliant, explain why]
     '''
     
-    response = vertex_client.models.generate_content(
-        model=DEFAULT_MODEL,
-        contents=[Part.from_text(text=prompt)]
-    )
+    def make_request():
+        return vertex_client.models.generate_content(
+            model=DEFAULT_MODEL,
+            contents=[Part.from_text(text=prompt)]
+        )
+
+    response = retry_with_backoff(make_request)
     analysis_result = response.text
     
     # Phase C: Socratic Validation (Semantic Guardrails)
@@ -1927,13 +1965,16 @@ class SocraticValidator:
         '''
         
         try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config=genai.types.GenerateContentConfig(
-                    response_mime_type="application/json"
+            def make_request():
+                return client.models.generate_content(
+                    model=model,
+                    contents=prompt,
+                    config=genai.types.GenerateContentConfig(
+                        response_mime_type="application/json"
+                    )
                 )
-            )
+
+            response = retry_with_backoff(make_request)
             return json.loads(response.text)
         except Exception as e:
             print(f"Error in Socratic Validation: {e}")
@@ -2391,14 +2432,17 @@ Please provide a thorough, comprehensive answer using the full context available
                 flash_client, _ = create_client()
 
                 from google.genai import types
-                response = flash_client.models.generate_content(
-                    model=FAST_MODEL,
-                    contents=flash_prompt,
-                    config=types.GenerateContentConfig(
-                        temperature=0.7,
-                        max_output_tokens=8192  # Allow longer responses for comprehensive queries
+                def make_request():
+                    return flash_client.models.generate_content(
+                        model=FAST_MODEL,
+                        contents=flash_prompt,
+                        config=types.GenerateContentConfig(
+                            temperature=0.7,
+                            max_output_tokens=8192  # Allow longer responses for comprehensive queries
+                        )
                     )
-                )
+
+                response = retry_with_backoff(make_request)
 
                 flash_result = response.text
                 duration_ms = int((time.time() - flash_start) * 1000)
