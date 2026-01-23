@@ -1,0 +1,102 @@
+# Research: AUDIT FOR CUTTING: Analyze the current .agent/ infrastructure and identify:
+
+1. REDUNDANCY: What fil...
+
+> **Date:** 2026-01-23 06:59:29
+> **Source:** gemini
+> **Model:** gemini-2.5-pro
+> **Checksum:** `sha256:e1fa629ebac81a74142bd2123bf4958927b55c6d15a0653eed7a6a1807ec2dba`
+> **Raw JSON:** `raw/20260123_065929_audit_for_cutting__analyze_the_current__agent__inf.json`
+
+---
+
+## Query
+
+AUDIT FOR CUTTING: Analyze the current .agent/ infrastructure and identify:
+
+1. REDUNDANCY: What files/systems overlap in purpose?
+2. DEAD WEIGHT: What exists but isn't actively used?
+3. OVER-ABSTRACTION: What has more layers than needed?
+4. CONSOLIDATION TARGETS: What could be merged into fewer files?
+
+Output a specific list of:
+- FILES TO DELETE (with justification)
+- FILES TO MERGE (what into what)
+- SIMPLIFICATIONS (reduce complexity without losing function)
+
+Be ruthless. If something isn't actively providing value, it should go.
+
+---
+
+## Response
+
+Of course. As a senior software engineer, I've analyzed the provided context. The system is well-structured and shows strong design discipline, but it's also carrying weight from its initial design and ideation phases. Now that the system is operational, we can be ruthless in trimming away the scaffolding to improve clarity and reduce cognitive overhead.
+
+Here is my audit and recommended actions.
+
+### Executive Summary
+
+The agent infrastructure is solid, but suffers from a common pattern: **design artifacts are co-mingled with operational artifacts.** The `BARE` and `Sprint System` concepts were born from broad design documents (`OPEN_CONCERNS.md`, `BARE.md`), but now that they are partially implemented, these documents create redundancy and a gap between documentation and reality.
+
+The primary goal of this audit is to **make the documentation reflect the current, working system** while moving aspirational designs into a dedicated roadmap.
+
+---
+
+### 1. Files to DELETE
+
+These files provide little to no active value and can be removed without impacting the system's function.
+
+| File(s) to Delete | Justification |
+| :--- | :--- |
+| **`.agent/intelligence/truths/history/*.yaml`** | **DEAD WEIGHT.** These are historical snapshots of `repo_truths.yaml`. The `BARE` spec does not define any mechanism for trend analysis or use of this history. The only file that matters is the current one (`.agent/intelligence/truths/repo_truths.yaml`). This history is just noise until a feature requires it. |
+| **`.agent/workflows/testing_suite.md`** | **MISPLACED / DEAD WEIGHT.** This file describes a "Global Discovery Experiment" for cloning 100+ repos. This is not part of the core `.agent/` operational loop. It's a plan for a separate, large-scale experiment. It should be moved to a dedicated `experiments/` directory or deleted if it's purely hypothetical. It adds clutter and confusion to the agent's core workflow definitions. |
+
+---
+
+### 2. Files to MERGE (Consolidation Targets)
+
+These files have overlapping purposes and should be consolidated to create a single source of truth.
+
+| Merge This... | Into This... | Justification |
+| :--- | :--- | :--- |
+| **`.agent/OPEN_CONCERNS.md`** | 1. `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md`<br>2. A new `sprints/README.md` | **REDUNDANCY & OVER-ABSTRACTION.** `OPEN_CONCERNS.md` is a valuable ideation document, but its job is done. Its contents have either been implemented (the Sprint System) or are visionary goals that align perfectly with the BARE system. <br><br> **Action Plan:**<br> 1. **Migrate Vision:** Take the unimplemented proposals from `OPEN_CONCERNS` (like "Research Refinery") and integrate them as future implementation phases or processors within the `BARE.md` spec. This consolidates all future-facing system design into one place.<br> 2. **Migrate Implemented Docs:** Take the description of the sprint system and put it in a new `sprints/README.md`. Documentation should live with the implementation.<br> 3. **Delete `OPEN_CONCERNS.md`** after its contents are successfully migrated. |
+
+---
+
+### 3. SIMPLIFICATIONS (Reduce Complexity)
+
+These are architectural or process changes to reduce complexity without losing significant functionality.
+
+#### A. Simplify the BARE Specification
+
+*   **Problem:** `specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` is a massive document describing a 6-processor daemon. In reality, only one processor (`TruthValidator`) is running, and its output admits its own low quality (`source: grep_estimate`). This creates a huge documentation-to-reality gap, which is a form of technical debt.
+*   **Simplification:**
+    1.  **Re-scope `BARE.md`:** Aggressively edit the document. The main body should **only describe what is currently implemented or in active development**. This means focusing on the `TruthValidator` and perhaps the `CrossValidator`.
+    2.  **Create a "Roadmap" Section:** Move the detailed specs for the other 4+ processors (`ConceptMapper`, `ConfidenceBooster`, etc.) to a "Future Vision" or "Roadmap" section at the end of the document. This clearly separates reality from aspiration.
+    3.  **Reflect Reality:** The `TruthValidator` description should be updated to state that it currently uses a `grep_estimate` and that a priority is to upgrade it to consume the output of the `collider` tool, as noted in `repo_truths.yaml`. This makes the system's own documentation a driver for its improvement.
+
+#### B. Simplify the Task State Machine
+
+*   **Problem:** The task lifecycle in `KERNEL.md` is `DISCOVERY → SCOPED → PLANNED → EXECUTING → VALIDATING → COMPLETE → ARCHIVED`. This is a classic, robust state machine, but it may be **over-abstracted** for a small, high-velocity team of agents. The distinction between `SCOPED` and `PLANNED` is subtle and adds an extra step. `VALIDATING` can often be handled by CI/CD or merged into the definition of `COMPLETE`.
+*   **Simplification:**
+    1.  **Collapse States:** Propose a leaner state machine:
+        `DISCOVERY → READY → EXECUTING → COMPLETE → ARCHIVED`
+    2.  **Redefine States:**
+        *   `READY` combines `SCOPED` and `PLANNED`. A task is `READY` when it's clear enough for an agent to claim and start work.
+        *   The `VALIDATING` step becomes an implicit gate for the `EXECUTING → COMPLETE` transition. A task cannot be marked `COMPLETE` until it passes tests and verification.
+    3.  **Benefit:** This reduces the number of states to manage, simplifies the `claim_task.sh` logic (only claim `READY` tasks), and lowers the procedural overhead for each task.
+
+#### C. Consolidate Agent Capability Definitions
+
+*   **Problem:** `manifest.yaml` defines agent capabilities (`claude: [code, planning]`, etc.). This is good, but it's static. The sprint system and task assignments are the *real* expression of what agents are doing.
+*   **Simplification:**
+    1.  **Remove `agents` section from `manifest.yaml`.** Instead of a static list of capabilities, derive agent roles from their activity.
+    2.  **Embrace the RUN Record:** The `runs/` directory is the true source of truth for agent activity. The system can be simplified by relying on an analysis of `runs/` to understand which agents are good at which kinds of tasks, rather than maintaining a theoretical list in the manifest. This follows the principle of "truth is in the git history, not in a config file."
+
+By implementing these cuts, consolidations, and simplifications, the `.agent/` system will become leaner, easier for a new agent (or human) to understand, and more honest about its current state versus its future ambitions.
+
+---
+
+## Citations
+
+_No citations provided_

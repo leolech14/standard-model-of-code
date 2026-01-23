@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-23T07:01:10.509419",
+    "source": "gemini",
+    "model": "gemini-2.5-pro",
+    "query": "Given the CUTTING audit results, propose the MINIMAL VIABLE META-REGISTRY. Requirements:\n\n1. SINGLE FILE only (.agent/META_REGISTRY.yaml)\n2. MAXIMUM 50 lines for the whole file\n3. NO health checks, NO checksums, NO complex metadata\n4. Just: path, type, purpose (one line each)\n5. Can be MANUALLY maintained (no automation needed initially)\n6. Replaces the need for INDEX.md tables\n\nOutput the EXACT file content that should be created, following YAML best practices.",
+    "query_length": 466,
+    "checksum": "sha256:e45fce79e1e0579a9f8f7b53821b18e31fe4d023e5b856805bfee4d8f1277ee6"
+  },
+  "response": {
+    "content": "Based on my analysis of the project's structure and the requirements for a minimal, manually maintained meta-registry, here is the proposed content for `.agent/META_REGISTRY.yaml`.\n\nThis file acts as a single, machine-readable source of truth for locating the key registries and strategic documents within the repository, satisfying all your constraints.\n\n```yaml\n# A minimal, manually maintained index of key project registries and documents.\n# Replaces markdown tables in INDEX.md for machine parsing and agent discovery.\n\nregistries:\n  - path: .agent/KERNEL.md\n    type: Bootstrap Protocol\n    purpose: Agent boot protocol and core project principles.\n\n  - path: .agent/manifest.yaml\n    type: Project Manifest\n    purpose: Machine-readable project metadata and capabilities.\n\n  - path: .agent/SUBSYSTEM_INTEGRATION.md\n    type: Integration Map\n    purpose: Visual and descriptive map of subsystem connections.\n\n  - path: .agent/OPEN_CONCERNS.md\n    type: Design Document\n    purpose: Design for the sprint system and other open problems.\n\n  - path: .agent/roadmap/ROADMAP_REGISTRY.yaml\n    type: Strategic Roadmap\n    purpose: Registry of strategic goals and long-term vision.\n\n  - path: .agent/sprints/\n    type: Sprint Registry\n    purpose: Sprint definitions, tracking work in major cycles.\n\n  - path: .agent/registry/INDEX.md\n    type: Task Dashboard\n    purpose: Human-readable dashboard for all tracked tasks.\n\n  - path: .agent/registry/inbox/\n    type: Discovery Inbox\n    purpose: Triage inbox for new, un-scoped opportunities.\n\n  - path: .agent/runs/\n    type: Run Records\n    purpose: Log of all agent work sessions (RUN records).\n\n  - path: .agent/intelligence/insights/\n    type: Research Insights\n    purpose: Actionable insights from the Research Refinery.\n\n  - path: .agent/intelligence/truths/\n    type: BARE Truths\n    purpose: Canonical truths about the codebase (BARE output).\n```",
+    "mode": "standard"
+  }
+}
