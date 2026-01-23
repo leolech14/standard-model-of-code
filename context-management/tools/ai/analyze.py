@@ -1786,6 +1786,10 @@ Examples:
     # =========================================================================
     # ACI (Adaptive Context Intelligence) MODE
     # =========================================================================
+    # Initialize ACI tracking variables for feedback logging
+    aci_decision = None
+    aci_start_time = None
+
     if args.aci:
         if not HAS_ACI:
             print("Error: ACI module not available. Check aci/ directory.", file=sys.stderr)
@@ -1809,12 +1813,25 @@ Examples:
 
         # TIER 0: INSTANT - Try to answer from cached truths
         if decision.tier == Tier.INSTANT or decision.use_truths:
+            instant_start = time.time()
             truths = load_repo_truths(PROJECT_ROOT)
             if truths:
                 instant_answer = answer_from_truths(args.prompt, truths)
                 if instant_answer:
                     print(f"[INSTANT] {instant_answer}")
                     print(f"\n(Source: .agent/intelligence/truths/repo_truths.yaml)", file=sys.stderr)
+                    # Log to feedback loop
+                    if HAS_ACI:
+                        from aci.query_analyzer import analyze_query as aci_analyze
+                        profile = aci_analyze(args.prompt)
+                        log_aci_query(
+                            profile=profile,
+                            decision=decision,
+                            tokens_input=0,  # No API call
+                            tokens_output=0,
+                            success=True,
+                            duration_ms=int((time.time() - instant_start) * 1000)
+                        )
                     sys.exit(0)
                 elif decision.tier == Tier.INSTANT:
                     print("Could not answer from truths. Falling back to RAG.", file=sys.stderr)
@@ -1873,16 +1890,58 @@ Examples:
 
         # TIER 1 & 2: RAG and LONG_CONTEXT - Continue with normal flow
         # Override args.set with ACI-selected sets
-        if decision.primary_sets and not args.set:
-            # Use the first set as primary
-            args.set = decision.primary_sets[0]
-            print(f"ACI auto-selected set: {args.set}", file=sys.stderr)
+        # Store ACI decision for later feedback logging
+        aci_decision = decision
+        aci_start_time = time.time()
 
-        # Inject agent context if needed
-        if decision.inject_agent and args.set:
+        if decision.primary_sets and not args.set:
+            # ACI returns multiple sets - merge them into a dynamic composite
+            if len(decision.primary_sets) == 1:
+                args.set = decision.primary_sets[0]
+                print(f"ACI auto-selected set: {args.set}", file=sys.stderr)
+            else:
+                # Create a dynamic merged set from all ACI-selected sets
+                merged_patterns = []
+                merged_critical = []
+                for set_name in decision.primary_sets:
+                    set_def = analysis_sets.get(set_name, {})
+                    merged_patterns.extend(set_def.get('patterns', []))
+                    merged_critical.extend(set_def.get('critical_files', []))
+                    # Also handle includes
+                    for inc in set_def.get('includes', []):
+                        inc_def = analysis_sets.get(inc, {})
+                        merged_patterns.extend(inc_def.get('patterns', []))
+
+                # Create dynamic set in memory
+                analysis_sets['_aci_merged'] = {
+                    'description': f"ACI merged: {', '.join(decision.primary_sets)}",
+                    'patterns': list(set(merged_patterns)),  # dedupe
+                    'critical_files': list(set(merged_critical)),
+                    'max_tokens': 200000,
+                    'positional_strategy': 'front-load'
+                }
+                args.set = '_aci_merged'
+                print(f"ACI merged sets: {', '.join(decision.primary_sets)}", file=sys.stderr)
+
+        # Inject agent context if needed (when using single set)
+        if decision.inject_agent and args.set and not args.set.startswith('_aci_'):
             if not args.set.startswith("agent_"):
-                print(f"ACI injecting agent context alongside {args.set}", file=sys.stderr)
-                # We'll handle this in the set resolution below
+                # Merge agent sets with current set
+                agent_patterns = []
+                for agent_set in ['agent_kernel', 'agent_tasks']:
+                    if agent_set in analysis_sets:
+                        agent_patterns.extend(analysis_sets[agent_set].get('patterns', []))
+
+                current_set = analysis_sets.get(args.set, {})
+                analysis_sets['_aci_with_agent'] = {
+                    'description': f"ACI: {args.set} + agent context",
+                    'patterns': agent_patterns + current_set.get('patterns', []),
+                    'critical_files': current_set.get('critical_files', []),
+                    'max_tokens': 200000,
+                    'positional_strategy': current_set.get('positional_strategy', 'front-load')
+                }
+                args.set = '_aci_with_agent'
+                print(f"ACI injected agent context", file=sys.stderr)
 
     # Handle --list-sets
     if args.list_sets:
@@ -2472,6 +2531,23 @@ Examples:
                 print(f"Tokens Used: {input_tokens:,} Input, {output_tokens:,} Output")
                 est = estimate_cost(input_tokens, output_tokens, args.model)
                 print(f"Estimated Cost: ${est:.4f}")
+
+                # Log to ACI feedback loop for LONG_CONTEXT tier
+                if args.aci and HAS_ACI and aci_decision is not None:
+                    try:
+                        from aci.query_analyzer import analyze_query as aci_analyze
+                        profile = aci_analyze(args.prompt)
+                        duration_ms = int((time.time() - aci_start_time) * 1000) if aci_start_time else 0
+                        log_aci_query(
+                            profile=profile,
+                            decision=aci_decision,
+                            tokens_input=input_tokens,
+                            tokens_output=output_tokens,
+                            success=True,
+                            duration_ms=duration_ms
+                        )
+                    except Exception:
+                        pass  # Don't fail on feedback logging errors
 
         except Exception as e:
             print(f"Error: {e}")

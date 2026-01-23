@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-23T09:50:26.892341
+**Generated At**: 2026-01-23T09:55:18.750077
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -56,14 +56,14 @@
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_082626_batch_confidence.json` | 16449 | 16449 |
 | SYNCED | `.agent/intelligence/truths/repo_truths.yaml` | 405 | 405 |
 | SYNCED | `.agent/manifest.yaml` | 2561 | 2561 |
-| SYNCED | `.agent/registry/INDEX.md` | 6125 | 6125 |
+| SYNCED | `.agent/registry/INDEX.md` | 6666 | 6666 |
 | SYNCED | `.agent/registry/README.md` | 4195 | 4195 |
 | SYNCED | `.agent/registry/active/TASK-001.yaml` | 1654 | 1654 |
 | SYNCED | `.agent/registry/active/TASK-002.yaml` | 703 | 703 |
 | SYNCED | `.agent/registry/active/TASK-003.yaml` | 1050 | 1050 |
 | SYNCED | `.agent/registry/active/TASK-004.yaml` | 2905 | 2905 |
 | SYNCED | `.agent/registry/active/TASK-007.yaml` | 2005 | 2005 |
-| SYNCED | `.agent/registry/active/TASK-010-001.yaml` | 1918 | 1918 |
+| SYNCED | `.agent/registry/active/TASK-010-001.yaml` | 1903 | 1903 |
 | SYNCED | `.agent/registry/active/TASK-010-002.yaml` | 2053 | 2053 |
 | SYNCED | `.agent/registry/active/TASK-010-003.yaml` | 2073 | 2073 |
 | SYNCED | `.agent/registry/batches/BATCH-010-SURVEY.yaml` | 4192 | 4192 |
