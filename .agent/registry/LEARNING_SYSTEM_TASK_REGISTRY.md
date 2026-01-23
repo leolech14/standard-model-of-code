@@ -57,7 +57,7 @@
 ☑️  TASK-106  Dataset optimization guide          [pending commit]
 ☑️  TASK-113  Positional strategy                 [5c7b35b]
 ☑️  TASK-103  analyze.py auto-save                 [d16826d]
-🟡 TASK-120  Autonomous Confidence Booster        [70%] ← NEW
+🟡 TASK-120  Autonomous Confidence Booster        [85%] BOOSTED +15%
 🟡 TASK-121  Task Opportunity Explorer            [65%] ← NEW
 💤 TASK-104  Pre-commit hook                      [nice-to-have]
 💤 TASK-102  --research-loop                      [complex scope]
@@ -283,17 +283,24 @@ effective usable limit. Sets above this suffer lost-in-middle effects.
 ## 🟡 NEEDS CONFIDENCE BOOST (New Tasks)
 
 ### 🟡 TASK-120: Autonomous Task Confidence Booster
-**Risk:** A+ | **Threshold:** 95% | **Score:** 70%
+**Risk:** A+ | **Threshold:** 95% | **Score:** 85% | **BOOSTED**
 
 **Vision:** Background daemon that automatically boosts task confidence by generating
 and executing Socratic Research Loop queries until tasks meet execution thresholds.
 
 | Dimension | Score | Rationale |
 |-----------|-------|-----------|
-| Factual | 75% | Pattern exists (Perplexity MCP, analyze.py), needs architecture |
+| Factual | 90% | **BOOSTED:** All patterns found - DualFormatSaver, analyze.py, perplexity_research.py fully documented |
 | Alignment | 95% | Core mission: self-improving task system |
-| Current | 60% | Requires new infrastructure (daemon, query generator) |
+| Current | 85% | **BOOSTED:** Infrastructure ready - only need scanner, query_generator, orchestrator |
 | Onwards | 90% | Enables autonomous agent improvement |
+
+**Evidence (2026-01-23 session):**
+- DualFormatSaver: production-ready in `utils/output_formatters.py`
+- Perplexity: `perplexity_research.py` with auto-save
+- Gemini: `analyze.py:auto_save_gemini_response()` implemented
+- Task management: `claim_task.sh`, `release_task.sh` exist
+- Registry parsing: YAML extraction patterns in analyze.py:320-330
 
 **Architecture:**
 ```
@@ -464,7 +471,7 @@ to the main registry.
 
 ```
 NEEDS BOOST (research to reach 95% threshold):
-1. 🟡 TASK-120  Autonomous Confidence Booster  [70%] +25% needed
+1. 🟡 TASK-120  Autonomous Confidence Booster  [85%] +10% needed (BOOSTED from 70%)
 2. 🟡 TASK-121  Task Opportunity Explorer      [65%] +30% needed
 
 DEFERRED:
@@ -509,3 +516,4 @@ POTENTIAL NEW TASKS:
 | 3.5.0 | 2026-01-23 | Boost analysis: TASK-103 boosted to 85%, TASK-104/102 deferred |
 | 3.6.0 | 2026-01-23 | TASK-103 complete: analyze.py auto-save with DualFormatSaver |
 | 3.7.0 | 2026-01-23 | New tasks: TASK-120 (Autonomous Confidence Booster), TASK-121 (Task Opportunity Explorer) |
+| 3.8.0 | 2026-01-23 | TASK-120 boosted 70%→85% via codebase exploration (all patterns found) |
