@@ -250,6 +250,47 @@ analysis_prompts:
       }}
     }}
 
+  task_assessment: |
+    You are a STAFF ENGINEER reviewing a proposed task before execution.
+
+    TASK DETAILS:
+    - ID: {task_id}
+    - Subject: {task_subject}
+    - Description: {task_description}
+    - Current Score: {current_score}%
+
+    RELEVANT CODE CONTEXT:
+    {code_context}
+
+    ASSESSMENT TASK:
+    Evaluate this task across 4 dimensions (score each 0-100):
+
+    1. FACTUAL: Is the task description accurate? Does it match the actual codebase state?
+    2. ALIGNMENT: Does this task serve the project's mission and goals?
+    3. CURRENT: Does this task fit the codebase as it exists today?
+    4. ONWARDS: Does this task align with the project's roadmap and future direction?
+
+    For each dimension, provide:
+    - Score (0-100)
+    - Evidence (specific files, patterns, or facts that support your score)
+    - Concerns (any risks or issues identified)
+
+    OUTPUT FORMAT (JSON only, no markdown):
+    {{
+      "task_id": "{task_id}",
+      "assessed_at": "<ISO timestamp>",
+      "dimensions": {{
+        "factual": {{"score": <0-100>, "evidence": "<specific evidence>", "concerns": "<any concerns>"}},
+        "alignment": {{"score": <0-100>, "evidence": "<specific evidence>", "concerns": "<any concerns>"}},
+        "current": {{"score": <0-100>, "evidence": "<specific evidence>", "concerns": "<any concerns>"}},
+        "onwards": {{"score": <0-100>, "evidence": "<specific evidence>", "concerns": "<any concerns>"}}
+      }},
+      "composite_score": <average of 4 dimensions>,
+      "recommendation": "READY|NEEDS_WORK|REJECT",
+      "summary": "<2-3 sentence executive summary>",
+      "suggested_actions": ["<action1>", "<action2>"]
+    }}
+
   modes:
     standard:
       prompt: "You are a senior software engineer. Analyze the provided codebase context and answer the user's request."

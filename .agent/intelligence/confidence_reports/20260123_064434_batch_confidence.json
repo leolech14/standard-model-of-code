@@ -1,0 +1,84 @@
+[
+  {
+    "task_id": "TASK-127",
+    "assessed_at": "2026-01-23T09:43:59.474210+00:00",
+    "current_score": 75,
+    "assessment": {
+      "task_id": "TASK-127",
+      "assessed_at": "2024-07-28T14:30:00Z",
+      "dimensions": {
+        "factual": {
+          "score": 95,
+          "evidence": "The codebase confirms multiple, non-unified locations for storing logs, state, and artifacts. Evidence includes: `context-management/intelligence/` for daemon state (`hsl_daemon.py`), `standard-model-of-code/docs/research/` for research outputs (`perplexity_mcp_server.py`), and `context-management/tools/archive/manifests/` for archive metadata (`archive.py`). The problem statement is accurate.",
+          "concerns": "The task's subject 'Unify registry locations' could imply refactoring, but the description 'Document..., create README' is a documentation task. This slight ambiguity should be clarified, but a doc-first approach is sound."
+        },
+        "alignment": {
+          "score": 100,
+          "evidence": "The project's goal is to create an integrated, self-monitoring 'Holographic-Socratic Layer'. A chaotic file structure with scattered outputs directly undermines this. Establishing a documented, coherent structure for where tools store their artifacts is a foundational requirement for system health and interoperability.",
+          "concerns": "None. This is a high-leverage housekeeping task that directly supports the project's core mission."
+        },
+        "current": {
+          "score": 100,
+          "evidence": "The problem is immediate and evident today. Developers must read the source of multiple scripts (`hsl_daemon.py`, `perplexity_mcp_server.py`, `archive/indexer.py`) to understand where different types of data are stored. This task addresses a clear, existing pain point and source of confusion.",
+          "concerns": "None. The task is timely and addresses current technical debt."
+        },
+        "onwards": {
+          "score": 95,
+          "evidence": "As more autonomous tools are added, the need for a standardized artifact registry will only increase. This task establishes a critical convention for future development, ensuring scalability and preventing further fragmentation. It sets a precedent for how new tools should behave.",
+          "concerns": "The created documentation must be treated as a living standard and enforced in code reviews. Without enforcement, it risks becoming obsolete as new tools are added, diminishing its long-term value."
+        }
+      },
+      "composite_score": 97,
+      "recommendation": "READY",
+      "summary": "This task correctly identifies critical fragmentation in how tools store their outputs. Documenting existing locations and defining a unified convention is a foundational step towards a more robust, scalable, and maintainable system, aligning perfectly with the project's long-term goals.",
+      "suggested_actions": [
+        "Clarify in the task that this is a 'document-first' initiative, with code refactoring to follow in a separate task.",
+        "Create a central `REGISTRY.md` within `context-management/` that defines canonical locations for categories like 'state', 'logs', 'research', and 'archives'.",
+        "The document should explicitly list the scripts that currently deviate from the proposed standard as candidates for future refactoring.",
+        "Propose a single root directory (e.g., `context-management/registry/`) to serve as the new standard for all tool-generated outputs."
+      ]
+    },
+    "raw_response": "```json\n{\n  \"task_id\": \"TASK-127\",\n  \"assessed_at\": \"2024-07-28T14:30:00Z\",\n  \"dimensions\": {\n    \"factual\": {\n      \"score\": 95,\n      \"evidence\": \"The codebase confirms multiple, non-unified locations for storing logs, state, and artifacts. Evidence includes: `context-management/intelligence/` for daemon state (`hsl_daemon.py`), `standard-model-of-code/docs/research/` for research outputs (`perplexity_mcp_server.py`), and `context-management/tools/archive/manifests/` for archive metadata (`archive.py`). The problem statement is accurate.\",\n      \"concerns\": \"The task's subject 'Unify registry locations' could imply refactoring, but the description 'Document..., create README' is a documentation task. This slight ambiguity should be clarified, but a doc-first approach is sound.\"\n    },\n    \"alignment\": {\n      \"score\": 100,\n      \"evidence\": \"The project's goal is to create an integrated, self-monitoring 'Holographic-Socratic Layer'. A chaotic file structure with scattered outputs directly undermines this. Establishing a documented, coherent structure for where tools store their artifacts is a foundational requirement for system health and interoperability.\",\n      \"concerns\": \"None. This is a high-leverage housekeeping task that directly supports the project's core mission.\"\n    },\n    \"current\": {\n      \"score\": 100,\n      \"evidence\": \"The problem is immediate and evident today. Developers must read the source of multiple scripts (`hsl_daemon.py`, `perplexity_mcp_server.py`, `archive/indexer.py`) to understand where different types of data are stored. This task addresses a clear, existing pain point and source of confusion.\",\n      \"concerns\": \"None. The task is timely and addresses current technical debt.\"\n    },\n    \"onwards\": {\n      \"score\": 95,\n      \"evidence\": \"As more autonomous tools are added, the need for a standardized artifact registry will only increase. This task establishes a critical convention for future development, ensuring scalability and preventing further fragmentation. It sets a precedent for how new tools should behave.\",\n      \"concerns\": \"The created documentation must be treated as a living standard and enforced in code reviews. Without enforcement, it risks becoming obsolete as new tools are added, diminishing its long-term value.\"\n    }\n  },\n  \"composite_score\": 97,\n  \"recommendation\": \"READY\",\n  \"summary\": \"This task correctly identifies critical fragmentation in how tools store their outputs. Documenting existing locations and defining a unified convention is a foundational step towards a more robust, scalable, and maintainable system, aligning perfectly with the project's long-term goals.\",\n  \"suggested_actions\": [\n    \"Clarify in the task that this is a 'document-first' initiative, with code refactoring to follow in a separate task.\",\n    \"Create a central `REGISTRY.md` within `context-management/` that defines canonical locations for categories like 'state', 'logs', 'research', and 'archives'.\",\n    \"The document should explicitly list the scripts that currently deviate from the proposed standard as candidates for future refactoring.\",\n    \"Propose a single root directory (e.g., `context-management/registry/`) to serve as the new standard for all tool-generated outputs.\"\n  ]\n}\n```"
+  },
+  {
+    "task_id": "TASK-126",
+    "assessed_at": "2026-01-23T09:44:34.343277+00:00",
+    "current_score": 80,
+    "assessment": {
+      "task_id": "TASK-126",
+      "assessed_at": "2024-05-22T15:30:00Z",
+      "dimensions": {
+        "factual": {
+          "score": 85,
+          "evidence": "The codebase confirms a precedent for storing research in a subdirectory of the proposed target. `perplexity_mcp_server.py` defines `RESEARCH_BASE` as `standard-model-of-code/docs/research/perplexity`. The task's use of the plural 'dirs' implies other research locations exist, which is plausible given the reusable `DualFormatSaver` utility, but not explicitly shown in the provided context. The task is more of a standardization than a merge of disparate top-level directories.",
+          "concerns": "The description 'Merge research dirs' is slightly ambiguous. It's unclear if other, un-consolidated research directories exist or if this is a proactive standardization task. The scope could be larger than just adjusting one script if other research-generating tools exist."
+        },
+        "alignment": {
+          "score": 95,
+          "evidence": "The project's goal is creating a 'Standard Model of Code' with an auditable context layer. `hsl_daemon.py` watches `standard-model-of-code/docs`. Placing all research under this path makes it a first-class, auditable component of the project's context, directly serving the mission. The `DualFormatSaver`'s output of both machine-readable JSON and human-readable Markdown further supports this.",
+          "concerns": "There are no significant concerns regarding alignment; this task is highly synergistic with the project's stated goals."
+        },
+        "current": {
+          "score": 90,
+          "evidence": "The codebase is well-prepared for this change. The pattern is already established in `perplexity_mcp_server.py`, and the `utils/output_formatters.py::DualFormatSaver` class provides a centralized, reusable mechanism that can be easily configured to point all outputs to the consolidated location. This is a logical extension of existing patterns.",
+          "concerns": "A key risk is failing to identify all scripts that generate research outputs. A code search for instantiations of `DualFormatSaver` or hardcoded paths like '/research/' or '/output/' will be necessary to ensure a complete migration."
+        },
+        "onwards": {
+          "score": 95,
+          "evidence": "This is a foundational task that enables future work. A single, predictable location for all research artifacts simplifies the development of future analysis, summarization, and auditing tools (like `present_architect.py`). It also simplifies the configuration of file watchers like `hsl_daemon.py`, as only the parent `docs/research/` directory would need to be monitored instead of multiple, disparate locations.",
+          "concerns": "There are no long-term concerns. This refactoring reduces future complexity and technical debt."
+        }
+      },
+      "composite_score": 91,
+      "recommendation": "READY",
+      "summary": "This task standardizes the storage location for all AI-generated research into `docs/research/`, which strongly aligns with the project's mission of building a unified, auditable context layer. The codebase already follows this pattern in places, making this a low-risk, high-value consolidation that simplifies current tooling and enables future development.",
+      "suggested_actions": [
+        "Perform a repository-wide search for all instantiations of `DualFormatSaver` to identify every tool that generates research.",
+        "Ensure any other MCP servers or research tools are updated to use the standardized `docs/research/<source_name>` path structure.",
+        "Confirm that the `WATCH_PATHS` in `hsl_daemon.py` effectively cover the consolidated directory without modification.",
+        "Review archiving policies (e.g., for `archive.py`) to ensure they correctly handle the new consolidated research path for long-term storage."
+      ]
+    },
+    "raw_response": "```json\n{\n  \"task_id\": \"TASK-126\",\n  \"assessed_at\": \"2024-05-22T15:30:00Z\",\n  \"dimensions\": {\n    \"factual\": {\n      \"score\": 85,\n      \"evidence\": \"The codebase confirms a precedent for storing research in a subdirectory of the proposed target. `perplexity_mcp_server.py` defines `RESEARCH_BASE` as `standard-model-of-code/docs/research/perplexity`. The task's use of the plural 'dirs' implies other research locations exist, which is plausible given the reusable `DualFormatSaver` utility, but not explicitly shown in the provided context. The task is more of a standardization than a merge of disparate top-level directories.\",\n      \"concerns\": \"The description 'Merge research dirs' is slightly ambiguous. It's unclear if other, un-consolidated research directories exist or if this is a proactive standardization task. The scope could be larger than just adjusting one script if other research-generating tools exist.\"\n    },\n    \"alignment\": {\n      \"score\": 95,\n      \"evidence\": \"The project's goal is creating a 'Standard Model of Code' with an auditable context layer. `hsl_daemon.py` watches `standard-model-of-code/docs`. Placing all research under this path makes it a first-class, auditable component of the project's context, directly serving the mission. The `DualFormatSaver`'s output of both machine-readable JSON and human-readable Markdown further supports this.\",\n      \"concerns\": \"There are no significant concerns regarding alignment; this task is highly synergistic with the project's stated goals.\"\n    },\n    \"current\": {\n      \"score\": 90,\n      \"evidence\": \"The codebase is well-prepared for this change. The pattern is already established in `perplexity_mcp_server.py`, and the `utils/output_formatters.py::DualFormatSaver` class provides a centralized, reusable mechanism that can be easily configured to point all outputs to the consolidated location. This is a logical extension of existing patterns.\",\n      \"concerns\": \"A key risk is failing to identify all scripts that generate research outputs. A code search for instantiations of `DualFormatSaver` or hardcoded paths like '/research/' or '/output/' will be necessary to ensure a complete migration.\"\n    },\n    \"onwards\": {\n      \"score\": 95,\n      \"evidence\": \"This is a foundational task that enables future work. A single, predictable location for all research artifacts simplifies the development of future analysis, summarization, and auditing tools (like `present_architect.py`). It also simplifies the configuration of file watchers like `hsl_daemon.py`, as only the parent `docs/research/` directory would need to be monitored instead of multiple, disparate locations.\",\n      \"concerns\": \"There are no long-term concerns. This refactoring reduces future complexity and technical debt.\"\n    }\n  },\n  \"composite_score\": 91,\n  \"recommendation\": \"READY\",\n  \"summary\": \"This task standardizes the storage location for all AI-generated research into `docs/research/`, which strongly aligns with the project's mission of building a unified, auditable context layer. The codebase already follows this pattern in places, making this a low-risk, high-value consolidation that simplifies current tooling and enables future development.\",\n  \"suggested_actions\": [\n    \"Perform a repository-wide search for all instantiations of `DualFormatSaver` to identify every tool that generates research.\",\n    \"Ensure any other MCP servers or research tools are updated to use the standardized `docs/research/<source_name>` path structure.\",\n    \"Confirm that the `WATCH_PATHS` in `hsl_daemon.py` effectively cover the consolidated directory without modification.\",\n    \"Review archiving policies (e.g., for `archive.py`) to ensure they correctly handle the new consolidated research path for long-term storage.\"\n  ]\n}\n```"
+  }
+]
