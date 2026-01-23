@@ -59,6 +59,12 @@
 ☑️  TASK-103  analyze.py auto-save                 [d16826d]
 🟡 TASK-120  Autonomous Confidence Booster        [85%] BOOSTED +15%
 🟡 TASK-121  Task Opportunity Explorer            [65%] ← NEW
+🟢 TASK-122  Clean .collider_* test directories   [90%] REPO-ORG
+🟢 TASK-123  Consolidate .agent directories       [85%] REPO-ORG
+🟢 TASK-124  Create ARCHITECTURE_MAP.md           [95%] REPO-ORG
+🟢 TASK-125  Audit .gitignore for outputs         [90%] REPO-ORG
+🟡 TASK-126  Consolidate research directories     [80%] REPO-ORG
+🟡 TASK-127  Unify registry locations             [75%] REPO-ORG
 💤 TASK-104  Pre-commit hook                      [nice-to-have]
 💤 TASK-102  --research-loop                      [complex scope]
 💤 TASK-105  Live-reload for viz
@@ -447,6 +453,76 @@ to the main registry.
 
 ---
 
+## 🟢 REPO ORGANIZATION (Ready to Execute)
+
+### 🟢 TASK-122: Clean .collider_* test directories
+**Risk:** A | **Threshold:** 85% | **Score:** 90%
+
+16 stale .collider_* directories in standard-model-of-code/:
+- .collider_baseline, .collider_current, .collider_diag, .collider_report
+- .collider_test, .collider_test2-8, .collider_ui_test, .collider_validate
+
+**Action:** Delete all except .collider (canonical), add to .gitignore
+
+---
+
+### 🟢 TASK-123: Consolidate .agent directories
+**Risk:** A | **Threshold:** 85% | **Score:** 85%
+
+Two .agent directories exist:
+- `./.agent` (root - CANONICAL)
+- `./context-management/.agent` (stale?)
+
+**Action:** Merge or delete context-management/.agent
+
+---
+
+### 🟢 TASK-124: Create ARCHITECTURE_MAP.md
+**Risk:** A | **Threshold:** 85% | **Score:** 95%
+
+Repo needs navigation guide for humans and AI agents.
+
+**Deliverable:** Root-level ARCHITECTURE_MAP.md with:
+- Directory purposes
+- Canonical vs generated files
+- Quick lookup table
+
+---
+
+### 🟢 TASK-125: Audit .gitignore for outputs
+**Risk:** A | **Threshold:** 85% | **Score:** 90%
+
+Add missing patterns:
+- .collider_*/ (test outputs)
+- repos/ (downloaded for analysis)
+- .tools_venv/
+
+---
+
+### 🟡 TASK-126: Consolidate research directories
+**Risk:** A | **Threshold:** 85% | **Score:** 80%
+
+Research spread across 3 locations:
+- standard-model-of-code/research/
+- standard-model-of-code/tools/research/
+- standard-model-of-code/docs/research/ (CANONICAL)
+
+**Action:** Consolidate to docs/research/
+
+---
+
+### 🟡 TASK-127: Unify registry locations
+**Risk:** A | **Threshold:** 85% | **Score:** 75%
+
+Multiple registries:
+- .agent/registry/ (task confidence)
+- context-management/registry/ (auto-generated)
+- standard-model-of-code/docs/registry/ (unknown)
+
+**Action:** Document purposes, create README
+
+---
+
 ## 💤 DEFERRED
 
 ### 💤 TASK-105: Live-reload for viz development
@@ -470,21 +546,20 @@ to the main registry.
 ## Execution Priority
 
 ```
-NEEDS BOOST (research to reach 95% threshold):
-1. 🟡 TASK-120  Autonomous Confidence Booster  [85%] +10% needed (BOOSTED from 70%)
-2. 🟡 TASK-121  Task Opportunity Explorer      [65%] +30% needed
+REPO ORGANIZATION (execute now):
+1. 🟢 TASK-124  Create ARCHITECTURE_MAP.md           [95%]
+2. 🟢 TASK-122  Clean .collider_* test directories   [90%]
+3. 🟢 TASK-125  Audit .gitignore for outputs         [90%]
+4. 🟢 TASK-123  Consolidate .agent directories       [85%]
+
+NEEDS BOOST:
+5. 🟡 TASK-126  Consolidate research directories     [80%] +5% needed
+6. 🟡 TASK-127  Unify registry locations             [75%] +10% needed
+7. 🟡 TASK-120  Autonomous Confidence Booster        [85%] +10% (A+ threshold)
+8. 🟡 TASK-121  Task Opportunity Explorer            [65%] +30% (A+ threshold)
 
 DEFERRED:
-- 💤 TASK-104  Pre-commit hook     (nice-to-have, not core mission)
-- 💤 TASK-102  --research-loop     (complex scope, needs design)
-- 💤 TASK-105  Live-reload for viz
-- 💤 TASK-108  Knowledge embodiment workflow
-- 💤 TASK-109  Deploy HSL to Cloud Run
-
-POTENTIAL NEW TASKS:
-- Build subgraph retrieval API (GraphRAG runtime)
-- Automate RAG → LC hybrid pipeline
-- Community auto-summarization
+- 💤 TASK-104, 102, 105, 108, 109
 ```
 
 ---
@@ -494,11 +569,11 @@ POTENTIAL NEW TASKS:
 | Status | Count | Tasks |
 |--------|-------|-------|
 | ☑️  COMPLETE | 16 | 100, 103, 115, 116, 117, 110, 101, 111, 118, 119, 114, 106, 113, MCP-001, MCP-003, MCP-004 |
-| 🟡 NEEDS BOOST | 2 | 120 (Confidence Booster), 121 (Opportunity Explorer) |
-| 🟢 READY | 0 | (none at threshold yet) |
+| 🟢 READY | 4 | 122, 123, 124, 125 (REPO-ORG) |
+| 🟡 NEEDS BOOST | 4 | 120, 121, 126, 127 |
 | 💤 DEFERRED | 5 | 104, 102, 105, 108, 109 |
 | ⛔ REJECTED | 2 | MCP-007, 112 (subsumed) |
-| **TOTAL** | **25** | |
+| **TOTAL** | **31** | |
 
 ---
 
@@ -517,3 +592,4 @@ POTENTIAL NEW TASKS:
 | 3.6.0 | 2026-01-23 | TASK-103 complete: analyze.py auto-save with DualFormatSaver |
 | 3.7.0 | 2026-01-23 | New tasks: TASK-120 (Autonomous Confidence Booster), TASK-121 (Task Opportunity Explorer) |
 | 3.8.0 | 2026-01-23 | TASK-120 boosted 70%→85% via codebase exploration (all patterns found) |
+| 3.9.0 | 2026-01-23 | REPO-ORG: +6 tasks (122-127) for repo organization cleanup |
