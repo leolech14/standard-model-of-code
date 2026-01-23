@@ -1,0 +1,32 @@
+CONTEXT NEEDED FOR: Pareto Distribution Claim in Code Structure Analysis
+
+We are validating a research claim that:
+"The top-4 structural code types (functions, classes/aggregates, variables, modules) account for 70-90% of nodes in typical codebases."
+
+Our empirical data from 4 open-source repos (Python, Go, TypeScript) shows:
+- Top-4 mass median: 98.81%
+- Range: 96.43% to 100.0%
+
+TASKS (External Context Only - NOT validating our internal metrics):
+
+1. LITERATURE: Find academic papers or industry reports on:
+   - Distribution of code elements (functions, classes, variables) in software
+   - Pareto/power-law distributions in software metrics
+   - Static analysis coverage patterns
+
+2. METHODOLOGY: Are there standard methodologies for:
+   - Measuring code element distributions
+   - Validating structural claims across language/domain strata
+
+3. COMPARABLE WORK: Has anyone made similar claims about:
+   - A small set of code types dominating codebase structure
+   - Universal patterns in code organization across languages
+
+4. NOVELTY: Is this claim pattern:
+   - Well-established (cite prior art)
+   - Novel (no significant prior work)
+   - Contested (contradicting evidence exists)
+
+Provide URLs for all citations.
+
+NOTE: You are providing EXTERNAL CONTEXT only. Do not claim to validate our internal measurements.

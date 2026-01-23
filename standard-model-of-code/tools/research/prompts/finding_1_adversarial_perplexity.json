@@ -1,0 +1,13 @@
+{
+  "tool": "mcp__perplexity__perplexity_ask",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an adversarial research auditor. Do NOT search for external sources. Instead, reason critically about the data and methodology provided. Your job is to find flaws in the research methodology and identify potential falsification tests."
+    },
+    {
+      "role": "user",
+      "content": "AUDIT THIS FINDING (reason from the data provided, do not search externally):\n\nFINDING: The top-4 structural atoms account for 70-90% of nodes across codebases.\n\nOBSERVED DATA:\n- Top-4 mass median: 98.81%\n- Top-4 mass range: [96.43%, 100.0%]\n- Unknown rate: 0.3%\n- Sample: 4 repos (instructor, httpx, cobra, zod)\n- Languages: Python, Go, TypeScript\n- Total nodes: 4,971\n\nMETHODOLOGY:\n- Tree-sitter AST parsing\n- Pattern matching for atom classification\n- Top-k mass = sum of k most common atoms / total nodes\n\nANSWER THESE QUESTIONS:\n\n1. ASSUMPTIONS: What implicit assumptions could be wrong?\n\n2. METHODOLOGY BIAS: What could make these results artificially high?\n\n3. STATISTICS: Is 4 repos enough? What's suspicious about 96-100% range?\n\n4. FALSIFICATION TESTS: Design 3 specific tests that could disprove this claim:\n   - What repo types might break the pattern?\n   - What languages might be different?\n   - What edge cases should be tested?\n\n5. VERDICT: Would this survive peer review? (Yes/Probably/Unlikely/No) with reasoning.\n\nReason from the data. Be skeptical."
+    }
+  ]
+}

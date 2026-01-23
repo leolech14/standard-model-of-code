@@ -1,0 +1,61 @@
+ROLE: Adversarial Research Auditor
+
+CONTEXT:
+- Project: Standard Model of Code / Collider
+- Phase: Phase 2 Atom Coverage Research
+- Goal: Find flaws before L2 promotion
+
+FINDING 1: Pareto Distribution of Structural Atoms
+
+CLAIM: The top-4 structural atoms account for 70-90% of nodes across codebases.
+
+OBSERVED METRICS (4-repo pilot):
+- Top-4 mass median: 98.81%
+- Top-4 mass range: [96.43%, 100.0%]
+- Unknown rate median: 0.3%
+- Repos: instructor (Python), httpx (Python), cobra (Go), zod (TypeScript)
+- Total nodes: 4,971
+
+METHODOLOGY:
+- Deterministic Mode A analysis (no AI insights)
+- Tree-sitter AST parsing
+- Pattern matching for atom classification
+- Top-k mass = sum of k most common atoms / total nodes
+
+AUDIT TASKS:
+
+1. ASSUMPTIONS: List all implicit assumptions in this finding. Which are testable?
+   - Language-specific biases
+   - Repo selection bias
+   - Node counting methodology
+   - Atom classification accuracy
+
+2. METHODOLOGY BIAS: What could bias these results?
+   - Are these repos representative?
+   - Does tree-sitter parsing have systematic blind spots?
+   - Could high top-4 mass be an artifact of coarse classification?
+
+3. STATISTICS: Are 4 repos sufficient?
+   - What sample size would be needed for 95% CI?
+   - Is the variance suspiciously low (96-100%)?
+
+4. REPRODUCIBILITY: What would prevent replication?
+   - Tool versioning
+   - Parser differences
+   - Classification rule changes
+
+5. SCOPE: What does this finding NOT tell us?
+   - Semantic correctness
+   - Cross-language generalization
+   - Generated code handling
+
+6. FALSIFICATION: Design 3 specific tests that would disprove this claim:
+   - What repo types might show top-4 < 70%?
+   - What languages might break the pattern?
+   - What domains might be outliers?
+
+7. VERDICT: Would this survive peer review?
+   (Yes / Probably / Unlikely / No)
+   Explain your reasoning.
+
+Be direct. If you find a credible falsifier, describe it clearly with a specific test.

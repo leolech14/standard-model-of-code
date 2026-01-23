@@ -1,0 +1,47 @@
+CONTEXT: Phase 2 Atom Coverage Research
+SET: research_validation
+REPO_COMMIT: 43f2b6f
+
+FINDING 1: Pareto Distribution of Structural Atoms
+
+CLAIM: The top-4 structural atoms (LOG.FNC.M, ORG.AGG.M, DAT.VAR.A, ORG.MOD.O) account for 70-90% of nodes across analyzed codebases.
+
+EVIDENCE FROM CORPUS RUN (2026-01-22):
+- Repos analyzed: 4 (instructor, httpx, cobra, zod)
+- Languages: Python, Go, TypeScript
+- Total nodes: 4,971
+
+METRICS:
+- Top-4 mass median: 98.81%
+- Top-4 mass range: [96.43%, 100.0%]
+- Top-4 CI lower bound: 96.43%
+- Unknown rate median: 0.3%
+- Unknown rate range: [0.2%, 0.42%]
+
+TASK: Validate the evidence chain for Finding 1.
+
+REQUIREMENTS:
+1. Cite specific file paths and line numbers from the research tooling
+2. Verify the metrics computation logic in atom_coverage.py
+3. Check if the claim wording ("70-90%") matches the observed metrics (96-100%)
+4. Identify any gaps or confounders in the evidence
+5. Assess whether 4 repos is sufficient for the claimed scope
+
+OUTPUT FORMAT:
+## Observation
+[What the data shows - cite specific artifacts]
+
+## Interpretation
+[What this means for the Pareto hypothesis]
+
+## Gaps Identified
+[Any methodological gaps or confounders]
+
+## Wording Assessment
+[Does the claim accurately reflect the data?]
+
+## Confidence
+[0-100% with justification]
+
+## Limitations
+[What this analysis cannot tell us]
