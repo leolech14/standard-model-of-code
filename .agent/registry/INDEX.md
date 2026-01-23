@@ -50,6 +50,9 @@ All tasks now use the unified 4D scoring system:
 | TASK-004 | Execute CUTTING_PLAN: Bulk to Lean | READY | 95% | - |
 | TASK-005 | Perplexity research tool | SCOPED | 85% | - |
 | TASK-006 | Socratic audit misalignment fixes | SCOPED | 90% | - |
+| **TASK-010-001** | **Create survey.py module** | **COMPLETE** | **100%** | **-** |
+| **TASK-010-002** | **Directory pattern detector** | **COMPLETE** | **100%** | **-** |
+| **TASK-010-003** | **Exclusion patterns config** | **COMPLETE** | **100%** | **-** |
 
 ---
 
@@ -141,10 +144,16 @@ FILE VIZ BUGS (COMPLETE):
   ✓ OPP-058  Fix FILES toggle - data not switching  [FIXED]
   ✓ OPP-059  Fix ATOMS toggle - data not restored   [FIXED]
 
-PHASE 10 SURVEY (NEW):
-  7. TASK-010-001  Create survey.py skeleton         [95%]
-  8. TASK-010-002  Directory pattern detector        [90%]
-  9. TASK-010-003  Default exclusion patterns config [90%]
+PHASE 10 SURVEY (COMPLETE - Sub-batch 10.1):
+  ✓ TASK-010-001  Create survey.py module           [DONE] 620 LOC
+  ✓ TASK-010-002  Directory pattern detector        [DONE] Integrated
+  ✓ TASK-010-003  Default exclusion patterns config [DONE] exclusions.yaml
+
+INTEGRATION VERIFIED:
+  - survey.py integrated into full_analysis.py as Stage 0
+  - CLI flags: --no-survey, --exclude <path>
+  - BEFORE survey: 4,342 nodes (viz/assets)
+  - AFTER survey:    795 nodes (82% reduction!)
 
 BATCH PROMOTE:
   ./promote_opportunity.py OPP-023 OPP-024 OPP-025 OPP-026 OPP-027

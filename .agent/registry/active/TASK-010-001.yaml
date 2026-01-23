@@ -46,7 +46,7 @@ steps:
     status: complete
   - step: 5
     description: "Add to __init__.py exports"
-    status: pending  # Still needed
+    status: complete
 
 estimated_loc: 50
 complexity: LOW
