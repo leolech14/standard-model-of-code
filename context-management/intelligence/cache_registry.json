@@ -1,0 +1,21 @@
+{
+  "updated_at": "2026-01-23T20:37:22.927024",
+  "entries": {
+    "gemini-2.0-flash::abc123_clean": {
+      "cache_name": "cachedContents/test1",
+      "model": "gemini-2.0-flash",
+      "workspace_key": "abc123_clean",
+      "created_at": 1769211442.9267619,
+      "expires_at": 1769218642.9267619,
+      "token_count": 50000
+    },
+    "gemini-1.5-pro::abc123_clean": {
+      "cache_name": "cachedContents/test2",
+      "model": "gemini-1.5-pro",
+      "workspace_key": "abc123_clean",
+      "created_at": 1769211442.927008,
+      "expires_at": 1769215042.927008,
+      "token_count": 30000
+    }
+  }
+}
