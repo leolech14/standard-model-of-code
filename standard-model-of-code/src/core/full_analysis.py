@@ -978,7 +978,53 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if timing_enabled or verbose_timing:
         print("Performance Tracking: ENABLED")
     print("=" * 60)
-    
+
+    # =========================================================================
+    # STAGE 0: SURVEY - Pre-Analysis Intelligence (Phase 10)
+    # =========================================================================
+    survey_result = None
+    exclude_paths = []
+
+    # Check if survey is requested (default: enabled)
+    run_survey_enabled = options.get("survey", True)
+    skip_survey = options.get("no_survey", False)
+
+    if run_survey_enabled and not skip_survey and target.is_dir():
+        print("\n🔍 Stage 0: Survey (Pre-Analysis Intelligence)...")
+        with StageTimer(perf_manager, "Stage 0: Survey") as timer:
+            try:
+                from survey import run_survey, print_survey_report
+                survey_result = run_survey(str(target))
+
+                # Collect exclusion paths
+                exclude_paths = survey_result.recommended_excludes
+
+                timer.set_output(
+                    total_files=survey_result.total_files,
+                    exclusions=len(exclude_paths),
+                    estimated_nodes=survey_result.estimated_nodes
+                )
+
+                print(f"   → Scanned {survey_result.total_files:,} files in {survey_result.scan_time_ms:.0f}ms")
+                print(f"   → Found {len(survey_result.directory_exclusions)} vendor directories")
+                print(f"   → Found {len(survey_result.minified_files)} minified files")
+                print(f"   → Excluding {len(exclude_paths)} paths")
+                print(f"   → Estimated {survey_result.estimated_nodes:,} nodes after exclusions")
+
+                # Print warnings
+                for warning in survey_result.warnings:
+                    print(f"   ⚠️  {warning}")
+
+            except ImportError as e:
+                print(f"   ⚠️  Survey module not available: {e}")
+            except Exception as e:
+                print(f"   ⚠️  Survey failed (continuing without exclusions): {e}")
+    else:
+        if skip_survey:
+            print("\n🔍 Stage 0: Survey... SKIPPED (--no-survey)")
+        elif not target.is_dir():
+            print("\n🔍 Stage 0: Survey... SKIPPED (single file)")
+
     from unified_analysis import analyze
     from standard_model_enricher import enrich_with_standard_model
     from purpose_field import detect_purpose_field
@@ -996,6 +1042,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 1: Base Analysis") as timer:
         analysis_options = dict(options)
         analysis_options.pop("roadmap", None)
+        # Pass survey exclusions to unified analysis (Phase 10 integration)
+        if exclude_paths:
+            analysis_options['exclude_paths'] = exclude_paths
         result = analyze(str(target), output_dir=str(resolved_output_dir), write_output=False, **analysis_options)
         nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
         edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])

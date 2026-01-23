@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-23T09:02:27.108431
+**Generated At**: 2026-01-23T09:45:27.747726
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -39,12 +39,15 @@
 | LOCAL_ONLY | `"assets/Ferramenta Local-First de Mapa de Calor de Analogias \342\200\223 Especifica\303\247\303\243o Completa.pdf"` | 0 | - |
 | SYNCED | `.agent/KERNEL.md` | 8632 | 8632 |
 | SYNCED | `.agent/META_REGISTRY.yaml` | 2488 | 2488 |
+| SYNCED | `.agent/ROADMAP.yaml` | 6709 | 6709 |
 | SYNCED | `.agent/SUBSYSTEM_INTEGRATION.md` | 10021 | 10021 |
 | SYNCED | `.agent/agents/claude/todo.yaml` | 75 | 75 |
 | SYNCED | `.agent/agents/gemini/todo.yaml` | 75 | 75 |
 | SYNCED | `.agent/agents/grok/todo.yaml` | 73 | 73 |
+| SYNCED | `.agent/docs/CONSOLIDATION_REPORT.md` | 11473 | 11473 |
 | SYNCED | `.agent/hooks/README.md` | 585 | 585 |
 | SYNCED | `.agent/hooks/post-commit` | 914 | 914 |
+| SYNCED | `.agent/intelligence/AI_ENRICHMENT_CHALLENGE_REPORT.md` | 5594 | 5594 |
 | SYNCED | `.agent/intelligence/LEGACY_SPRAWL_MAP.md` | 5923 | 5923 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_064434_batch_confidence.json` | 14948 | 14948 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_080709_batch_confidence.json` | 15967 | 15967 |
@@ -52,13 +55,17 @@
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_082626_batch_confidence.json` | 16449 | 16449 |
 | SYNCED | `.agent/intelligence/truths/repo_truths.yaml` | 405 | 405 |
 | SYNCED | `.agent/manifest.yaml` | 2561 | 2561 |
-| SYNCED | `.agent/registry/INDEX.md` | 5258 | 5258 |
+| SYNCED | `.agent/registry/INDEX.md` | 6125 | 6125 |
 | SYNCED | `.agent/registry/README.md` | 4195 | 4195 |
 | SYNCED | `.agent/registry/active/TASK-001.yaml` | 1654 | 1654 |
 | SYNCED | `.agent/registry/active/TASK-002.yaml` | 703 | 703 |
 | SYNCED | `.agent/registry/active/TASK-003.yaml` | 1050 | 1050 |
 | SYNCED | `.agent/registry/active/TASK-004.yaml` | 2905 | 2905 |
 | SYNCED | `.agent/registry/active/TASK-007.yaml` | 2005 | 2005 |
+| SYNCED | `.agent/registry/active/TASK-010-001.yaml` | 1918 | 1918 |
+| SYNCED | `.agent/registry/active/TASK-010-002.yaml` | 2053 | 2053 |
+| SYNCED | `.agent/registry/active/TASK-010-003.yaml` | 2073 | 2073 |
+| SYNCED | `.agent/registry/batches/BATCH-010-SURVEY.yaml` | 4192 | 4192 |
 | SYNCED | `.agent/registry/claimed/README.md` | 1836 | 1836 |
 | SYNCED | `.agent/registry/inbox/OPP-001.yaml` | 575 | 575 |
 | SYNCED | `.agent/registry/inbox/OPP-002.yaml` | 594 | 594 |
@@ -117,6 +124,8 @@
 | SYNCED | `.agent/registry/inbox/OPP-055.yaml` | 434 | 434 |
 | SYNCED | `.agent/registry/inbox/OPP-056.yaml` | 430 | 430 |
 | SYNCED | `.agent/registry/inbox/OPP-057.yaml` | 414 | 414 |
+| SYNCED | `.agent/registry/inbox/OPP-058.yaml` | 2163 | 2163 |
+| SYNCED | `.agent/registry/inbox/OPP-059.yaml` | 2172 | 2172 |
 | SYNCED | `.agent/runs/RUN-20260122-194058-claude.yaml` | 2816 | 2816 |
 | SYNCED | `.agent/schema/opportunity.schema.yaml` | 2768 | 2768 |
 | SYNCED | `.agent/schema/refinery_node.schema.yaml` | 20893 | 20893 |
@@ -148,7 +157,7 @@
 | SYNCED | `AGENTKNOWLEDGEDUMP.md` | 16116 | 16116 |
 | SYNCED | `AGENTS.md` | 1217 | 1217 |
 | SYNCED | `ARCHITECTURE_MAP.md` | 6124 | 6124 |
-| SYNCED | `CLAUDE.md` | 6870 | 6870 |
+| SYNCED | `CLAUDE.md` | 7355 | 7355 |
 | SYNCED | `Dockerfile` | 1369 | 1369 |
 | SYNCED | `GEMINI.md` | 1849 | 1849 |
 | CLOUD_ONLY | `Liabilities` | - | 156077 |
@@ -476,7 +485,7 @@
 | SYNCED | `collider_output_small/output_llm-oriented_src_20260121_082117.json` | 12816877 | 12816877 |
 | SYNCED | `collider_output_small/unified_analysis.json` | 11332250 | 11332250 |
 | SYNCED | `context-management/config/aci_config.yaml` | 5469 | 5469 |
-| SYNCED | `context-management/config/analysis_sets.yaml` | 14848 | 14848 |
+| SYNCED | `context-management/config/analysis_sets.yaml` | 16404 | 16404 |
 | SYNCED | `context-management/config/documentation_map.yaml` | 2170 | 2170 |
 | SYNCED | `context-management/config/insights_schema.json` | 5684 | 5684 |
 | SYNCED | `context-management/config/prompts.yaml` | 13524 | 13524 |
@@ -489,12 +498,3 @@
 | SYNCED | `context-management/docs/EVAL_LOG.md` | 895 | 895 |
 | SYNCED | `context-management/docs/HOLOGRAPHIC_DEPLOYMENT_MANUAL.md` | 3644 | 3644 |
 | SYNCED | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | 3549 | 3549 |
-| SYNCED | `context-management/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md` | 8294 | 8294 |
-| SYNCED | `context-management/docs/ORIENTATION_FILES.md` | 5089 | 5089 |
-| SYNCED | `context-management/docs/README.md` | 1484 | 1484 |
-| SYNCED | `context-management/docs/REPOSITORY_AUDIT_2026-01-19.md` | 6236 | 6236 |
-| SYNCED | `context-management/docs/STORAGE_ARCHITECTURE.md` | 17715 | 17715 |
-| SYNCED | `context-management/docs/TIMELINE_ANALYSIS.md` | 13274 | 13274 |
-| SYNCED | `context-management/docs/TOOL.md` | 20164 | 20164 |
-| SYNCED | `context-management/docs/WORKFLOW_FACTORY.md` | 18403 | 18403 |
-| SYNCED | `context-management/docs/agent_school/AGENT_ANTI_PATTERNS.md` | 11510 | 11510 |

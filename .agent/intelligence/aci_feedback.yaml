@@ -1,0 +1,26 @@
+version: 1.0.0
+created: '2026-01-23T12:44:28.228519+00:00'
+entries:
+- timestamp: '2026-01-23T12:44:28.228499+00:00'
+  query: what are the latest Python 3.12 features in 2026
+  intent: research
+  complexity: moderate
+  scope: external
+  tier: perplexity
+  sets_used:
+  - theory
+  tokens_input: 14
+  tokens_output: 437
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 8295
+  error: null
+stats:
+  total_queries: 1
+  by_tier:
+    perplexity: 1
+  by_intent:
+    research: 1
+  success_rate: 1.0
+  avg_tokens: 14

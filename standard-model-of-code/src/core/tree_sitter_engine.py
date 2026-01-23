@@ -803,10 +803,21 @@ class TreeSitterUniversalEngine:
             # If hook query fails, return empty list (non-blocking)
             return []
         
-    def analyze_directory(self, dir_path: str, extensions: List[str] = None) -> List[Dict[str, Any]]:
+    def analyze_directory(
+        self,
+        dir_path: str,
+        extensions: List[str] = None,
+        exclude_paths: List[str] = None
+    ) -> List[Dict[str, Any]]:
         """Analyze all supported files in a directory.
 
         Respects .colliderignore file if present in the directory.
+        Also accepts explicit exclude_paths from survey module.
+
+        Args:
+            dir_path: Directory to analyze
+            extensions: Optional list of extensions to filter (e.g., ['.py', '.js'])
+            exclude_paths: Optional list of paths to exclude (from survey module)
         """
         results = []
         path = Path(dir_path)
@@ -816,6 +827,13 @@ class TreeSitterUniversalEngine:
 
         # Load ignore patterns from .colliderignore
         ignore_patterns = load_colliderignore(path)
+
+        # Add survey exclusions to ignore patterns
+        if exclude_paths:
+            for excl in exclude_paths:
+                # Add both the path and pattern form
+                ignore_patterns.add(excl)
+                ignore_patterns.add(excl.rstrip('/'))
 
         for root, dirs, files in os.walk(path):
             root_path = Path(root)

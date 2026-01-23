@@ -372,11 +372,16 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     # =========================================================================
     print("\n📂 Stage 1: AST Parsing...")
     ts_engine = TreeSitterUniversalEngine()
-    
+
+    # Get exclusions from options (passed by survey in full_analysis.py)
+    exclude_paths = options.get('exclude_paths', [])
+    if exclude_paths:
+        print(f"   → Excluding {len(exclude_paths)} paths from survey")
+
     if target.is_file():
         results = [ts_engine.analyze_file(str(target))]
     else:
-        results = ts_engine.analyze_directory(str(target))
+        results = ts_engine.analyze_directory(str(target), exclude_paths=exclude_paths)
     
     raw_particle_count = sum(len(r.get('particles', [])) for r in results)
     print(f"   → {raw_particle_count} particles extracted")

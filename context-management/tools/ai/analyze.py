@@ -1853,8 +1853,8 @@ Examples:
 
                     # Log to feedback loop if available
                     if HAS_ACI:
-                        from aci import analyze_query
-                        profile = analyze_query(args.prompt)
+                        from aci.query_analyzer import analyze_query as aci_analyze
+                        profile = aci_analyze(args.prompt)
                         usage = result.get("usage", {})
                         log_aci_query(
                             profile=profile,
