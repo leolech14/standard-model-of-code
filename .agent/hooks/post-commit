@@ -1,0 +1,15 @@
+#!/bin/sh
+# Auto-mirror to GCS and Drive after every commit
+echo "--------------------------------------------------------"
+echo "🤖 [Auto-Mirror] Syncing to Cloud..."
+echo "--------------------------------------------------------"
+# Run mirror in background so it doesn't block the user immediately (or foreground if preferred)
+# Using foreground here to ensure it finishes or fails visibly
+/usr/bin/python3 context-management/tools/archive/archive.py mirror || echo "⚠️ Mirror failed (Check setup)"
+echo "--------------------------------------------------------"
+
+# BARE: Background Auto-Refinement Engine
+# Run TruthValidator to keep repo facts up-to-date
+echo "🧠 [BARE] Validating repository truths..."
+/usr/bin/python3 .agent/tools/truth_validator.py > /dev/null 2>&1 && echo "✓ Truths updated" || echo "⚠️ TruthValidator failed"
+echo "--------------------------------------------------------"
