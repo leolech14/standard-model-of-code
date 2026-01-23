@@ -16,8 +16,8 @@
 #   - borrowed_theory: Academic concept with attribution (22 terms)
 #   - standard_cs: Conventional CS term (31 terms)
 #
-# Last updated: 2026-01-21
-# Total terms: 106
+# Last updated: 2026-01-23
+# Total terms: 110
 # ============================================================================
 
 schema_version: "1.0.0"
@@ -367,6 +367,64 @@ terms:
       codebase - "knots" that are difficult to untangle and indicate
       architectural problems.
     related_terms: [coupling, topology_reasoning]
+
+  # ---------------------------------------------------------------------------
+  # Levels & Hierarchy
+  # ---------------------------------------------------------------------------
+
+  sixteen_levels:
+    canonical_name: "16-Level Abstraction Hierarchy"
+    category: original_invention
+    introduced:
+      version: "0.1.0"
+      date: "2025"
+      by: "Leonardo Lech"
+    definition: |
+      The containment hierarchy from L-3 (Bit/Qubit) to L12 (Universe).
+      Each level CONTAINS lower levels and IS CONTAINED BY higher levels.
+      Higher levels represent greater abstraction - hiding details and
+      simplifying complexity progressively.
+
+      PHYSICAL ZONE (L-3 to L-1):
+        L-3: Bit/Qubit    - Raw binary / quantum state
+        L-2: Byte         - 8-bit grouping
+        L-1: Character    - Encoded symbol
+
+      SYNTACTIC ZONE (L0):
+        L0:  Token        - The "event horizon" where text becomes logic
+
+      SEMANTIC ZONE (L1 to L3):
+        L1:  Statement    - Single instruction
+        L2:  Block        - Grouped statements
+        L3:  Node         - Function/Method (fundamental unit of analysis)
+
+      SYSTEMIC ZONE (L4 to L7):
+        L4:  Container    - Class/Struct
+        L5:  File         - Source file
+        L6:  Package      - Module/directory
+        L7:  System       - Service/application
+
+      COSMOLOGICAL ZONE (L8 to L12):
+        L8:  Ecosystem    - Framework/runtime
+        L9:  Platform     - OS/cloud
+        L10: Organization - Company/team
+        L11: Domain       - Industry vertical
+        L12: Universe     - All software
+    inspired_by:
+      - term: "Holons"
+        author: "Arthur Koestler (1967)"
+        insight: "Wholes that are parts - recursive containment"
+      - term: "Information Hiding"
+        author: "David Parnas (1972)"
+        insight: "Modules hide internals = abstraction hierarchy"
+      - term: "Layered Architecture"
+        field: "Systems Theory"
+        insight: "Higher layers abstract lower ones"
+    key_insight: |
+      Each level transition is an EMERGENCE boundary. The purpose of a higher
+      level is emergent from, not merely aggregated from, its parts.
+      L3 (Function) is the operational focus - the "atom" of semantic analysis.
+    related_terms: [containment, abstraction, holon, holarchy, purpose_field]
 
   # ---------------------------------------------------------------------------
   # Anti-Patterns & Forensics
@@ -1278,8 +1336,67 @@ terms:
     related_terms: [orphan_node, topology_reasoning]
 
 # ============================================================================
-# MISSING BORROWED THEORIES (4 more)
+# MISSING BORROWED THEORIES (7 more)
 # ============================================================================
+
+  containment:
+    canonical_name: "Containment"
+    category: borrowed_theory
+    origin:
+      term: "Containment"
+      field: "systems theory / UML"
+      note: "Structural relationship in hierarchical systems"
+      references:
+        - "UML/Enterprise Architect - requirement grouping"
+        - "Containment Domains (UT Austin, 2011)"
+        - "Containment Units (ACM, 2002)"
+    project_meaning: |
+      A structural relationship where a container element ENCLOSES child
+      elements, forming nested hierarchies. Each level CONTAINS the levels
+      below it. Distinct from composition (lifecycle binding) and aggregation
+      (weak reference). In our model, containment is the primary organizing
+      principle: Package contains Files contains Classes contains Functions.
+    not_to_be_confused_with:
+      - composition: "Strong has-a with shared lifecycle"
+      - aggregation: "Weak has-a with independent lifecycle"
+      - inheritance: "is-a relationship (subtyping)"
+    related_terms: [sixteen_levels, holon, holarchy]
+
+  abstraction:
+    canonical_name: "Abstraction"
+    category: borrowed_theory
+    origin:
+      term: "Abstraction"
+      field: "computer science"
+      definition: "Hiding implementation details to focus on essential features"
+      references:
+        - "Parnas (1972) - Information Hiding"
+        - "Liskov (1987) - Data Abstraction"
+    project_meaning: |
+      The progressive hiding of details as you move up the containment hierarchy.
+      Higher levels abstract lower levels by ignoring their implementation details.
+      L0 (Token) exposes raw syntax; L7 (System) abstracts entire subsystems.
+      Each level transition represents an increase in abstraction.
+    key_insight: |
+      In the Standard Model, abstraction and containment are linked:
+      higher containment = higher abstraction. A System abstracts its Packages,
+      which abstract their Files, which abstract their Classes, etc.
+    related_terms: [sixteen_levels, containment, information_hiding]
+
+  information_hiding:
+    canonical_name: "Information Hiding"
+    category: borrowed_theory
+    origin:
+      term: "Information Hiding"
+      field: "software engineering"
+      coined_by: "David Parnas"
+      year: 1972
+      work: "On the Criteria To Be Used in Decomposing Systems into Modules"
+    project_meaning: |
+      The principle that modules should hide internal details behind stable
+      interfaces. Foundation of abstraction hierarchies - each level hides
+      the complexity of levels below it.
+    related_terms: [abstraction, containment, encapsulation]
 
   semiotics:
     canonical_name: "Semiotics"
