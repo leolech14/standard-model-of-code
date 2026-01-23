@@ -1,0 +1,70 @@
+# .agent/META_REGISTRY.yaml
+# Minimal meta-registry: WHERE to find WHAT
+# Part of Bulk-to-Lean transition (CUTTING_PLAN Phase 1)
+
+version: "1.0"
+last_updated: "2026-01-23"
+
+# =============================================================================
+# AGENT SUBSYSTEMS
+# =============================================================================
+registries:
+  tasks:
+    active: ".agent/registry/active/"
+    archive: ".agent/registry/archive/"
+    inbox: ".agent/registry/inbox/"
+    index: ".agent/registry/INDEX.md"
+
+  intelligence:
+    truths: ".agent/intelligence/truths/current_truths.yaml"
+    # history/ archived to archive/agent_cuts/2026-01-23/
+
+  sprints:
+    active: ".agent/sprints/"
+    current: ".agent/sprints/SPRINT-001.yaml"
+
+  specs:
+    dir: ".agent/specs/"
+    cutting_plan: ".agent/specs/CUTTING_PLAN.md"
+    bare: ".agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md"
+
+  tools:
+    dir: ".agent/tools/"
+    boost: ".agent/tools/boost_confidence.py"
+    registry: ".agent/tools/task_registry.py"
+
+# =============================================================================
+# BODY (COLLIDER) - Located in standard-model-of-code/
+# =============================================================================
+body:
+  root: "standard-model-of-code/"
+  entry: "standard-model-of-code/cli.py"
+  pipeline: "standard-model-of-code/src/core/full_analysis.py"
+  schema: "standard-model-of-code/schema/"
+  viz: "standard-model-of-code/src/core/viz/"
+
+# =============================================================================
+# BRAIN (CONTEXT MANAGEMENT)
+# =============================================================================
+brain:
+  root: "context-management/"
+  config: "context-management/config/"
+  tools: "context-management/tools/"
+  registry: "context-management/registry/"
+
+# =============================================================================
+# ARCHIVE
+# =============================================================================
+archive:
+  local: "archive/"
+  gcs: "gs://elements-archive-2026/"
+  agent_cuts: "archive/agent_cuts/"
+
+# =============================================================================
+# DOCS
+# =============================================================================
+docs:
+  theory: "standard-model-of-code/docs/MODEL.md"
+  tool: "standard-model-of-code/docs/COLLIDER.md"
+  registries: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
+  integration: ".agent/SUBSYSTEM_INTEGRATION.md"
