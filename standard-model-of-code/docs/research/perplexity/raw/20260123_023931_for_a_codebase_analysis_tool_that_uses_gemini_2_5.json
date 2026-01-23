@@ -1,0 +1,115 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-23T02:39:31.580074",
+    "model": "sonar-pro",
+    "query": "For a codebase analysis tool that uses Gemini 2.5 Pro (1M token context), we have 'analysis sets' defined in YAML with token budgets. Given the research on:\n\n1. Lost-in-the-middle effect (best at beginning/end)\n2. Real effective context often 50-60% of advertised\n3. Token quality > quantity\n4. Sandwich method (instructions → context → instructions)\n\nWhat are the SPECIFIC best practices for:\n- Setting token budget tiers (what % of 1M is safe?)\n- Structuring the prompt (where to put instructions vs code)\n- When to use RAG vs long-context\n\nProvide concrete numbers and thresholds where possible.",
+    "query_length": 598,
+    "source": "perplexity-mcp"
+  },
+  "api_response": {
+    "id": "f2db5dee-e64c-464a-b799-bf4cfed48028",
+    "model": "sonar-pro",
+    "created": 1769146771,
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 910,
+      "total_tokens": 1048,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.014,
+        "request_cost": 0.006,
+        "total_cost": 0.02
+      }
+    },
+    "citations": [
+      "https://www.finout.io/blog/gemini-pricing-in-2026",
+      "https://www.cloudzero.com/blog/gemini-pricing/",
+      "https://www.metacto.com/blogs/the-true-cost-of-google-gemini-a-guide-to-api-pricing-and-integration",
+      "https://ai.google.dev/gemini-api/docs/pricing",
+      "https://neuraltalk.ai/calculators/gemini-2-5-pro",
+      "https://firebase.google.com/docs/ai-logic/count-tokens",
+      "https://addyo.substack.com/p/gemini-cli-tips-and-tricks",
+      "https://chatlyai.app/blog/gemini-3-pro-vs-gemini-2-5-pro-cost-analysis"
+    ],
+    "search_results": [
+      {
+        "title": "Gemini Pricing in 2026 for Individuals, Orgs & Developers - Finout",
+        "url": "https://www.finout.io/blog/gemini-pricing-in-2026",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-21",
+        "snippet": "For models like 2.5 Pro, costs increase sharply when input exceeds 200,000 tokens. This threshold also impacts output pricing. Long ...",
+        "source": "web"
+      },
+      {
+        "title": "Gemini AI Pricing: What You'll Really Pay In 2025 - CloudZero",
+        "url": "https://www.cloudzero.com/blog/gemini-pricing/",
+        "date": "2025-09-01",
+        "last_updated": "2026-01-23",
+        "snippet": "For models like 2.5 Pro, your unit rates step up once the input exceeds 200k tokens, so very long contexts and retrieval-heavy prompts can cross ...",
+        "source": "web"
+      },
+      {
+        "title": "Google Gemini API Pricing 2026: Complete Cost Guide per 1M Tokens",
+        "url": "https://www.metacto.com/blogs/the-true-cost-of-google-gemini-a-guide-to-api-pricing-and-integration",
+        "date": "2026-01-12",
+        "last_updated": "2026-01-22",
+        "snippet": "Gemini 2.5 Pro: $1.25-$2.50 per 1M input tokens | $10-$15 per 1M output tokens; Gemini 1.5 Flash: $0.075-$0.15 per 1M input tokens | $0.30-$0.60 per 1M output ...",
+        "source": "web"
+      },
+      {
+        "title": "Gemini Developer API pricing",
+        "url": "https://ai.google.dev/gemini-api/docs/pricing",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-22",
+        "snippet": "Gemini 3 Pro Preview ; Context caching price, Not available, $0.20, prompts <= 200k tokens $0.40, prompts > 200k $4.50 / 1,000,000 tokens per hour (storage price).",
+        "source": "web"
+      },
+      {
+        "title": "Gemini 2.5 Pro Pricing Calculator - NeuralTalk AI",
+        "url": "https://neuraltalk.ai/calculators/gemini-2-5-pro",
+        "snippet": "Our Gemini 2.5 Pro Pricing Calculator is a free, comprehensive tool that helps you estimate and understand the costs of using Google's Gemini 2.5 Pro model ...",
+        "source": "web"
+      },
+      {
+        "title": "Count tokens for Gemini models | Firebase AI Logic - Google",
+        "url": "https://firebase.google.com/docs/ai-logic/count-tokens",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-23",
+        "snippet": "Tip: To control the number of tokens used for generating a response (and thus control costs), you can set the thinking budget (for Gemini 3 models and Gemini ...",
+        "source": "web"
+      },
+      {
+        "title": "Gemini CLI Tips & Tricks - by Addy Osmani - Elevate",
+        "url": "https://addyo.substack.com/p/gemini-cli-tips-and-tricks",
+        "date": "2025-10-21",
+        "last_updated": "2026-01-22",
+        "snippet": "30 pro-tips for effectively using Gemini CLI for agentic coding.",
+        "source": "web"
+      },
+      {
+        "title": "Gemini 2.5 Pro vs Gemini 3 Pro: Cost Analysis - AI Chat",
+        "url": "https://chatlyai.app/blog/gemini-3-pro-vs-gemini-2-5-pro-cost-analysis",
+        "date": "2025-12-08",
+        "last_updated": "2026-01-23",
+        "snippet": "When preview pricing applies, costs increase to $4 per million input tokens and $20 per million output tokens. Gemini 3 Pro API Pricing. Gemini ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**For Gemini 2.5 Pro's 1M token context in codebase analysis, set token budgets conservatively at 10-20% of total capacity (100k-200k tokens max) to stay under the critical 200k threshold where input costs double from $1.25 to $2.50 per 1M tokens and output from $10 to $15, while mitigating lost-in-the-middle effects and 50-60% effective context loss.** [1][2][3][4]\n\n### Token Budget Tiers\nStructure budgets in YAML 'analysis sets' with these **concrete tiers** based on pricing cliffs, performance research, and cost efficiency:\n- **Tier 1: <50k tokens (5% of 1M)** – Small files/single modules. **Safe default** for high accuracy; avoids all brackets. Cost: $1.25/M input.\n- **Tier 2: 50k-150k tokens (5-15%)** – Medium repos. **Optimal sweet spot** – stays ≤200k pricing, prioritizes beginning/end placement to counter lost-in-the-middle. Effective context ~25-90k after 50% loss.\n- **Tier 3: 150k-200k tokens (15-20%)** – Large analysis. **Hard cap** – hits pricing jump at 200k+; use only if token quality (clean, relevant code) justifies. Monitor for quality drop-off.\n- **Avoid >200k (20%+)** unless caching: Costs spike, and real performance plateaus due to 50-60% effective limit; research shows diminished recall mid-context.[1][2][3][4]\n\n**Pro tip**: Enforce budgets with pre-tokenization checks; use context caching for repeated codebases (saves 75% on inputs, $0.31–$0.625/M + $4.50/hr storage).[2]\n\n### Prompt Structuring (Sandwich Method)\nApply the **sandwich structure** to combat lost-in-the-middle: instructions at start/end, code in middle but prioritized at edges.\n```\n[Core Instructions: Task, rules, output format – 5-10% tokens]\n[High-priority code: Key files/modules – beginning/end]\n[Supporting context: Full codebase – compressed middle]\n[Reinforcing Instructions: \"Focus on X, ignore Y, summarize Z\" – 5-10% tokens]\n```\n- **Instructions**: 10-20% total tokens, split 60/40 (start heavier). Repeat key directives at end for 20-30% recall boost.[Research alignment: beginning/end primacy]\n- **Code placement**: Critical paths/files first/last (e.g., entrypoints, configs); bulk in middle with summaries/chunking. Token quality > quantity: dedupe, remove comments, use tree-summaries for large sets.\n- **Threshold**: If >100k code tokens, chunk into <75k segments with overlap (10-20%).\n\n### RAG vs Long-Context Thresholds\n| Scenario | Use **RAG** (when...) | Use **Long-Context** (when...) | Thresholds |\n|----------|-----------------------|-------------------------------|------------|\n| **Small/Targeted** (<50k) | Rarely needed | Default: Full context | Always long-context |\n| **Medium (50k-200k)** | If retrieval precision >80% needed (e.g., specific bugs) | Default for holistic analysis | RAG if >20% irrelevant code |\n| **Large (>200k)** | **Mandatory**: Chunk repo, retrieve top-k relevant (k=5-20 files) | Only with caching | Switch at 200k pricing cliff |\n| **Cost-sensitive** | Always for repeats | One-shot analysis | RAG saves 50-75% via caching [2] |\n\n**Decision rule**: RAG if query-specific (e.g., \"find vuln in auth\"); long-context for global (e.g., \"architecture review\"). Crossover at **150k tokens** – beyond this, effective context drops below 75-90k, favoring RAG for quality.[1][2]\n\n**Additional optimizations**: Set thinking budgets for controlled outputs; batch mode halves costs (input $0.625 ≤200k).[4] Prioritize token quality via preprocessing (e.g., AST extraction).[2]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

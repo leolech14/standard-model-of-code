@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-22T22:09:47.565682",
+    "model": "sonar-pro",
+    "query": "Quick technical questions for a file-based task coordination system on macOS:\n\n1. Is the `mv` (rename) command atomic on macOS APFS filesystem? Can two processes calling mv on the same source file at the exact same moment both succeed, or will exactly one succeed and one fail?\n\n2. For a file-based locking/claiming system using mv, what's the standard pattern for handling crashed processes that never released their claim? (timeout-based expiry, heartbeat files, or manual cleanup?)\n\n3. Is there a better alternative to mv for atomic file claiming on macOS?\n\nKeep answer concise and technical.",
+    "query_length": 595,
+    "source": "perplexity-mcp"
+  },
+  "api_response": {
+    "id": "0574fc3b-b50e-4deb-b302-36b50d48322b",
+    "model": "sonar-pro",
+    "created": 1769130587,
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 355,
+      "total_tokens": 476,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.005,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://itnerd.blog/2017/12/18/in-depth-apples-apfs-filesystem/",
+      "https://eclecticlight.co/2024/04/22/apfs-command-tools/",
+      "https://bombich.com/en/kb/ccc/5/frequently-asked-questions-about-ccc-and-macos-catalina",
+      "https://gist.github.com/darwin/3c92ac089cf99beb54f1108b2e8b4b9f",
+      "https://en.wikipedia.org/wiki/Apple_File_System",
+      "https://eclecticlight.co/2020/04/14/copy-move-and-clone-files-in-apfs-a-primer/",
+      "https://discussions.apple.com/thread/256191931"
+    ],
+    "search_results": [
+      {
+        "title": "In Depth: Apple's APFS Filesystem - The IT Nerd",
+        "url": "https://itnerd.blog/2017/12/18/in-depth-apples-apfs-filesystem/",
+        "date": "2017-12-18",
+        "last_updated": "2025-10-14",
+        "snippet": "APFS supports atomic safe save. This is similar to the ... SSD's will be converted from HFS+ to APFS automatically when you install macOS ...",
+        "source": "web"
+      },
+      {
+        "title": "APFS: Command tools - The Eclectic Light Company",
+        "url": "https://eclecticlight.co/2024/04/22/apfs-command-tools/",
+        "date": "2024-04-22",
+        "last_updated": "2026-01-22",
+        "snippet": "APFS has extensive support in the tools bundled in macOS. Its GUI app Disk Utility provides regular users with fairly comprehensive features ...",
+        "source": "web"
+      },
+      {
+        "title": "Frequently asked questions about CCC and APFS Volume Groups",
+        "url": "https://bombich.com/en/kb/ccc/5/frequently-asked-questions-about-ccc-and-macos-catalina",
+        "date": "2022-06-02",
+        "last_updated": "2026-01-01",
+        "snippet": "This article aims to answer your questions about how CCC handles this new volume structure and what you have to do, if anything, to adjust your backups for ...",
+        "source": "web"
+      },
+      {
+        "title": "APFS Container cloning/replicating under Catalina (with a bootable ...",
+        "url": "https://gist.github.com/darwin/3c92ac089cf99beb54f1108b2e8b4b9f",
+        "date": "2020-01-03",
+        "last_updated": "2025-09-13",
+        "snippet": "You can downsize the existing APFS container, create a new APFS container on your main disk and install a secondary macOS there and boot into it.",
+        "source": "web"
+      },
+      {
+        "title": "Apple File System - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Apple_File_System",
+        "date": "2016-06-13",
+        "last_updated": "2025-12-08",
+        "snippet": "Apple File System (APFS) is a proprietary file system developed and deployed by Apple Inc. for macOS Sierra (10.12.4) and later, iOS 10.3, tvOS 10.2, watchOS ...",
+        "source": "web"
+      },
+      {
+        "title": "Copy, move and clone files in APFS, a primer",
+        "url": "https://eclecticlight.co/2020/04/14/copy-move-and-clone-files-in-apfs-a-primer/",
+        "date": "2020-04-14",
+        "last_updated": "2025-11-03",
+        "snippet": "On macOS (as on every modern OS) we have atomic writes, meaning that when you edit a file (in a GUI app), you're actually editing a copy of ...",
+        "source": "web"
+      },
+      {
+        "title": "How to merge APFS partitions or move macOS installation",
+        "url": "https://discussions.apple.com/thread/256191931",
+        "date": "2025-11-19",
+        "snippet": "How to merge APFS partitions or move macOS installation. I currently have my hard drive partitioned: NAME FORMAT SIZE. MacIntosh HD APFS 3TB.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**1. Yes, `mv` (rename) is atomic on macOS APFS.** APFS supports **atomic safe save** for file operations like rename/move, using copy-on-write semantics: the rename completes fully or not at all, ensuring consistency even on power failure. If two processes `mv` the same source file simultaneously, **exactly one succeeds (taking the target name) and the other fails** with an error like `EPERM` or `ENOENT`, as the filesystem serializes directory updates atomically.[1]\n\n**2. Standard pattern for crashed processes in mv-based locking: timeout-based expiry.** Create a **claim file** via atomic `mv task.pending task.<pid>.<timestamp>`; processes periodically renew by touching/updating the timestamp (e.g., via `touch` or rewrite). Checkers scan for stale claims where `timestamp + timeout < now()` and release via `mv task.<pid>.<timestamp> task.released`. Heartbeat files (separate periodic writes) or manual cleanup are alternatives but less automated.[web:0] (No direct APFS sources; common Unix pattern.)\n\n**3. No clearly better alternative to `mv` for atomic claiming.** `mv` (via `rename(2)`) provides **guaranteed atomicity** within the same directory/volume on APFS. Alternatives like `link(2)`+`unlink(2)` or `open(2)` with `O_CREAT|O_EXCL` work but are less simple for claiming; `flock(2)` or `fcntl(2)` advisory locks aren't atomic for creation/claiming and require open files. Stay with `mv` for robustness.[1][web:2]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

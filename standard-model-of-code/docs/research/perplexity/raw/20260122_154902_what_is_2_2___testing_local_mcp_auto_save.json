@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-22T15:49:02.719420",
+    "model": "sonar-pro",
+    "query": "What is 2+2? (Testing local MCP auto-save)",
+    "query_length": 42,
+    "source": "perplexity-mcp"
+  },
+  "api_response": {
+    "id": "6a4c697e-94bc-42bc-931c-d366d3f7d009",
+    "model": "sonar-pro",
+    "created": 1769107742,
+    "usage": {
+      "prompt_tokens": 14,
+      "completion_tokens": 157,
+      "total_tokens": 171,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.002,
+        "request_cost": 0.006,
+        "total_cost": 0.008
+      }
+    },
+    "citations": [
+      "https://www.atlas.org/solution/cd1f55a8-bc57-4f67-ab29-65f242773b88/2-plus-2",
+      "https://www.youtube.com/watch?v=tY46Kmm0LOo",
+      "https://www.youtube.com/watch?v=1A5hRU7Wqrc",
+      "https://www.oreateai.com/blog/the-simple-truth-what-is-2-plus-2/c2798f6d1c41ce4a525598bf35c38814",
+      "https://www.youtube.com/shorts/CQhk00XWzfM",
+      "https://fr.wikipedia.org/wiki/2_+_2_=_5",
+      "https://www.popularmechanics.com/science/math/a69798532/why-some-people-think-2-plus-2-equals-5-math/"
+    ],
+    "search_results": [
+      {
+        "title": "Solved: 2 plus 2",
+        "url": "https://www.atlas.org/solution/cd1f55a8-bc57-4f67-ab29-65f242773b88/2-plus-2",
+        "date": "2024-12-10",
+        "last_updated": "2026-01-22",
+        "snippet": "Based on this calculation, the final answer to the question \"2 plus 2\" is 4. This is confirmed by the additional information found in the provided source, which ...",
+        "source": "web"
+      },
+      {
+        "title": "What is half of 2 plus 2? The \"correct\" answer explained",
+        "url": "https://www.youtube.com/watch?v=tY46Kmm0LOo",
+        "date": "2024-11-04",
+        "last_updated": "2026-01-22",
+        "snippet": "What is half of 2 plus 2? The \"correct\" answer explained. 99K views · 1 year ago ...more. MindYourDecisions. 3.26M. Subscribe. 1.9K. Share.",
+        "source": "web"
+      },
+      {
+        "title": "Complexes : calculer efficacement 2/2",
+        "url": "https://www.youtube.com/watch?v=1A5hRU7Wqrc",
+        "date": "2024-12-01",
+        "last_updated": "2026-01-22",
+        "snippet": "Diviser des nombres complexes n'est pas evident au premier abord. Cette video t'explique d'abord comment faire puis te donne des astuces ...",
+        "source": "web"
+      },
+      {
+        "title": "The Simple Truth: What Is 2 Plus 2?",
+        "url": "https://www.oreateai.com/blog/the-simple-truth-what-is-2-plus-2/c2798f6d1c41ce4a525598bf35c38814",
+        "date": "2026-01-16",
+        "last_updated": "2026-01-22",
+        "snippet": "This exercise teaches patience and precision; each number has its place and purpose within equations as well as real-world applications—from ...",
+        "source": "web"
+      },
+      {
+        "title": "Viral Question: HALF OF 2 + 2?",
+        "url": "https://www.youtube.com/shorts/CQhk00XWzfM",
+        "date": "2025-05-07",
+        "last_updated": "2025-05-07",
+        "snippet": "Viral Question: HALF OF 2 + 2? 27K. Dislike ... CALCULATION https://hedashop.fr/products/nos-70-secrets-de ...",
+        "source": "web"
+      },
+      {
+        "title": "2 + 2 = 5",
+        "url": "https://fr.wikipedia.org/wiki/2_+_2_=_5",
+        "date": "2006-03-14",
+        "last_updated": "2025-12-12",
+        "snippet": "L'expression 2 + 2 = 5 (« deux plus deux égale cinq ») est parfois utilisée comme une représentation d'un sophisme destiné à perpétuer une idéologie ...",
+        "source": "web"
+      },
+      {
+        "title": "Why Some People Think 2+2=5 | Controversial Math Problem",
+        "url": "https://www.popularmechanics.com/science/math/a69798532/why-some-people-think-2-plus-2-equals-5-math/",
+        "date": "2025-12-17",
+        "last_updated": "2026-01-22",
+        "snippet": "Using “2+2=4” as food for thought, mathematicians are exploring the circumstances in which 2+2 doesn't actually equal 4, at least not neatly, ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**2 + 2 equals 4.**[1][4]\n\nThis is a basic arithmetic addition of two integers, where the sum is confirmed through direct calculation: start with 2, add another 2, resulting in 4.[1] Multiple sources, including educational platforms and math blogs, affirm this as the standard result in conventional mathematics.[1][4]\n\nOther results discuss unrelated ambiguities, such as order of operations in phrases like \"half of 2 + 2\" (yielding 3 or 2 depending on interpretation),[2][5] or non-standard contexts like complex numbers.[3] References to 2 + 2 = 5 are rhetorical or sophistical, not mathematically valid in base-10 arithmetic.[6][7]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

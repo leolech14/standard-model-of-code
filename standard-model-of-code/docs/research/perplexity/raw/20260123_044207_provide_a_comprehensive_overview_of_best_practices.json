@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-23T04:42:07.183649",
+    "model": "sonar-pro",
+    "query": "Provide a comprehensive overview of best practices for distributed task coordination and locking in a multi-agent system where agents are stateless workers operating on a shared file system.\n\nContext:\n- Agents are shell-script-based and can be restarted, losing in-memory state (amnesiac property).\n- A file-based locking mechanism is used, where claiming a task is an atomic 'mv' command.\n- The system needs to be resilient to race conditions, especially after an agent restores its session and might have stale knowledge of a task it previously held.\n\nQuestions to answer:\n1. What are the standard design patterns for ensuring only one agent works on a task at a time in this environment (e.g., leader election, distributed locks)? How does an atomic 'mv' fit into these patterns?\n2. Compare the robustness of two approaches for state synchronization after an agent restores:\n   a) Storing claim status in a context summary that is restored with the agent.\n   b) Forcing the agent to always perform a live check-and-claim against the file system after restore.\n3. What are the pitfalls of file-based locking (e.g., stale locks)?\n4. Propose a \"defense in depth\" strategy, including mechanisms like heartbeats (timestamp updates) and stale lock detection (reapers/janitors), to make the system fault-tolerant.\n5. Provide code examples or pseudo-code in shell script for implementing an idempotent and robust task claiming function.",
+    "query_length": 1431,
+    "source": "perplexity-mcp"
+  },
+  "api_response": {
+    "id": "1cc96a91-5072-488b-9e4c-b71723b527f3",
+    "model": "sonar-pro",
+    "created": 1769154127,
+    "usage": {
+      "prompt_tokens": 294,
+      "completion_tokens": 1736,
+      "total_tokens": 2030,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.026,
+        "request_cost": 0.006,
+        "total_cost": 0.033
+      }
+    },
+    "citations": [
+      "https://www.geeksforgeeks.org/system-design/distributed-task-queue-distributed-systems/",
+      "https://arxiv.org/html/2512.11643v1",
+      "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/web-queue-worker"
+    ],
+    "search_results": [
+      {
+        "title": "Distributed Task Queue - Distributed Systems - GeeksforGeeks",
+        "url": "https://www.geeksforgeeks.org/system-design/distributed-task-queue-distributed-systems/",
+        "date": "2025-07-23",
+        "last_updated": "2026-01-22",
+        "snippet": "A distributed task queue is a system used in distributed computing to manage and coordinate tasks across multiple machines or servers.",
+        "source": "web"
+      },
+      {
+        "title": "Stateless Snowflake: A Cloud-Agnostic Distributed ID Generator ...",
+        "url": "https://arxiv.org/html/2512.11643v1",
+        "date": "2025-12-12",
+        "last_updated": "2026-01-18",
+        "snippet": "This paper presents a cloud-agnostic, container-native ID generation protocol that eliminates the dependency on explicit worker IDs. By deriving ...",
+        "source": "web"
+      },
+      {
+        "title": "Web-Queue-Worker Architecture Style - Azure - Microsoft Learn",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/web-queue-worker",
+        "date": "2026-01-06",
+        "last_updated": "2026-01-05",
+        "snippet": "The web and worker are both stateless, and session state can be stored in a distributed cache. The worker handles long-running work ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "### 1. Standard Design Patterns for Exclusive Task Coordination\n\nIn distributed task queues for stateless workers, common patterns ensure mutual exclusion via **distributed locks** or **leader election**, where workers atomically claim tasks to prevent concurrent execution. Workers monitor a shared queue (e.g., file directory) and use atomic operations to transition tasks from \"available\" to \"claimed\" states, enabling parallelism while handling failures through retries and persistence.[1] Atomic `mv` fits as a **file-based distributed lock**: renaming a task file (e.g., `task-123.available` to `task-123.claimed-by-$HOSTNAME`) is atomic on shared filesystems like NFS, serving as a lightweight lock without external services like ZooKeeper or Redis, ideal for shell-script agents.[1]\n\n### 2. Robustness Comparison: State Synchronization After Restore\n\n| Approach | Description | Robustness Pros | Robustness Cons |\n|----------|-------------|-----------------|-----------------|\n| **a) Context Summary Restore** | Agent restores prior claim from a summary file (e.g., JSON with task IDs it \"owns\"). | Faster startup; reduces filesystem I/O. | Vulnerable to **stale state**: post-crash, another agent may have claimed/released the task via live `mv`, leading to duplicate work or conflicts if summary lags. |\n| **b) Live Check-and-Claim** | Agent discards in-memory/session state on restore, always re-running atomic `mv` to re-claim. | Highly robust; **always verifies current filesystem truth**, eliminating staleness and race conditions even after restarts. | Minor overhead from repeated claims; potential thundering herd if many agents restore simultaneously. |\n\n**Live check-and-claim (b) is more robust** for amnesiac agents, as it enforces **idempotency** and current-state consensus without assuming persisted knowledge survives restarts or external changes.[1]\n\n### 3. Pitfalls of File-Based Locking\n\nFile-based locking on shared filesystems is simple but prone to issues:\n- **Stale locks**: Crashed agents leave \"claimed\" files indefinitely; no auto-release without timeouts.[1]\n- **Race conditions on restore**: Agents with stale session state may assume ownership without re-checking.\n- **Filesystem inconsistencies**: NFS stale file handles, lease expirations, or network partitions cause `mv` failures or phantom locks.\n- **No fencing**: Multiple agents might see the same file state briefly during propagation delays.\n- **Scalability limits**: Directory scans for available tasks become O(n) bottlenecks at high task volumes; no built-in priorities or retries.[1]\n- **No durability guarantees**: Filesystem crashes lose queues unless replicated.\n\n### 4. Defense-in-Depth Strategy for Fault Tolerance\n\nLayer multiple mechanisms for resilience:\n- **Atomic Claiming (Base Layer)**: Use `mv` for instantaneous mutual exclusion.\n- **Heartbeats (Liveness)**: On claim, create/update a **lockfile** with timestamp (e.g., `task-123.lock` containing `claim_time=$(date +%s); hostname`). Worker periodically (e.g., every 30s) touches it via `echo $(( $(date +%s) )) > task-123.lock` during processing.[1]\n- **Stale Lock Detection (Cleanup Layer)**: Run **janitor/reaper** cron jobs (separate from workers) every 1-5 minutes: for each `.claimed` or `.lock` file, check if `age > max_lease (e.g., 10min)` and hostname pingable; if stale, `mv back to .available` or delete lock.[1]\n- **Idempotent Double-Check**: Before processing, verify `test -f task-123.lock && grep $(hostname) task-123.lock`.\n- **Leases with Fencing**: Embed sequence numbers or UUIDs in filenames; reject non-monotonic claims.\n- **Monitoring**: Log claim attempts/failures; alert on reaper activity > threshold.[1]\n- **Backpressure**: If queue > threshold, pause producers.\n\nThis ensures **progress** (no permanent lockouts) and **safety** (no duplicates) even with crashes, partitions, or high churn.\n\n### 5. Shell Script Pseudo-Code: Idempotent Task Claiming Function\n\n```bash\n#!/bin/bash\n\n# Config\nMAX_LEASE_SECS=600  # 10min\nLOCK_DIR=\"/shared/tasks\"\nREAPER_INTERVAL=60  # For heartbeat\n\n# Idempotent claim: always live-check filesystem, heartbeat-aware\nclaim_task() {\n    local task_id=\"$1\"\n    local available=\"$LOCK_DIR/task-${task_id}.available\"\n    local claimed=\"$LOCK_DIR/task-${task_id}.claimed\"\n    local lockfile=\"$LOCK_DIR/task-${task_id}.lock\"\n\n    # Atomic claim via mv (fails if already moved)\n    if ! mv \"$available\" \"$claimed\" 2>/dev/null; then\n        echo \"Claim failed: task ${task_id} unavailable or claimed\" >&2\n        return 1\n    fi\n\n    # Write initial lock with claim time + host (fencing)\n    echo \"$(date +%s) $(hostname)\" > \"$lockfile\"\n\n    echo \"Claimed task ${task_id}\" >&2\n    return 0\n}\n\n# Heartbeat: touch lock during processing (call in loop)\nheartbeat() {\n    local task_id=\"$1\"\n    local lockfile=\"$LOCK_DIR/task-${task_id}.lock\"\n    echo \"$(date +%s) $(hostname)\" > \"$lockfile\"\n}\n\n# Release on completion/failure\nrelease_task() {\n    local task_id=\"$1\"\n    local claimed=\"$LOCK_DIR/task-${task_id}.claimed\"\n    local lockfile=\"$LOCK_DIR/task-${task_id}.lock\"\n    rm -f \"$claimed\" \"$lockfile\"\n}\n\n# Live verify before processing (defense vs. races)\nverify_ownership() {\n    local task_id=\"$1\"\n    local lockfile=\"$LOCK_DIR/task-${task_id}.lock\"\n    if [ ! -f \"$lockfile\" ]; then\n        echo \"No lock for ${task_id}\" >&2\n        return 1\n    fi\n    if ! grep -q \"$(hostname)\" \"$lockfile\"; then\n        echo \"Not owner of ${task_id}\" >&2\n        return 1\n    fi\n    local age=$(( $(date +%s) - $(cut -d' ' -f1 \"$lockfile\") ))\n    if [ $age -gt $MAX_LEASE_SECS ]; then\n        echo \"Lease expired for ${task_id}\" >&2\n        return 1\n    fi\n    return 0\n}\n\n# Usage in worker loop (post-restore: ALWAYS call claim_task, ignore \"memory\")\nprocess_loop() {\n    for task_id in $(ls $LOCK_DIR/*.available | sed 's|.*/task-\\([0-9]*\\)\\.available|\\1|'); do\n        if claim_task \"$task_id\" && verify_ownership \"$task_id\"; then\n            # Process...\n            while verify_ownership \"$task_id\"; do\n                # Do work\n                sleep 30 && heartbeat \"$task_id\"  # Or in work loop\n            done\n            release_task \"$task_id\"\n        fi\n    done\n}\n\n# Separate reaper script (cron: */1 * * * *)\nreap_stale() {\n    for lockfile in $LOCK_DIR/*.lock; do\n        task_id=$(basename \"$lockfile\" .lock | sed 's|task-||')\n        claimed=\"$LOCK_DIR/task-${task_id}.claimed\"\n        age=$(( $(date +%s) - $(cut -d' ' -f1 \"$lockfile\") ))\n        host=$(cut -d' ' -f2 \"$lockfile\")\n        if [ $age -gt $MAX_LEASE_SECS ] || ! ping -c1 -W1 \"$host\" >/dev/null 2>&1; then\n            mv \"$claimed\" \"$LOCK_DIR/task-${task_id}.available\" 2>/dev/null || rm -f \"$claimed\"\n            rm -f \"$lockfile\"\n        fi\n    done\n}\n```\n\nThis implementation is **restart-safe** (no state reliance), handles staleness via reaper, and scales via simple cron. Test on NFS for atomicity.[1]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

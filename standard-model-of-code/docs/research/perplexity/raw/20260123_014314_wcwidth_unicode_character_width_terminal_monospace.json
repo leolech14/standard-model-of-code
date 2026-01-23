@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-23T01:43:14.219295",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "wcwidth unicode character width terminal monospace emoji double-width alignment Python",
+    "query_length": 86,
+    "checksum": "sha256:3880c9526e423e8b0b6dc0d11079372fadb2a84e80f337fe34ed7cf12c6a1457"
+  },
+  "response": {
+    "id": "43467197-5b3a-49cc-990a-5b7771b1de4c",
+    "model": "sonar-pro",
+    "created": 1769143394,
+    "usage": {
+      "prompt_tokens": 13,
+      "completion_tokens": 428,
+      "total_tokens": 441,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://pypi.org/project/wcwidth/0.1.5/",
+      "https://github.com/jquast/wcwidth",
+      "https://ocaml.org/p/wcwidth/1.0.1",
+      "https://doc.sagemath.org/html/en/reference/spkg/wcwidth.html",
+      "https://packagehub.suse.com/packages/python-wcwidth/",
+      "https://wcwidth.readthedocs.io/en/latest/specs.html",
+      "https://software.opensuse.org/package/python-wcwidth",
+      "https://www.jeffquast.com/post/terminal_wcwidth_solution/"
+    ],
+    "search_results": [
+      {
+        "title": "wcwidth 0.1.5 - PyPI",
+        "url": "https://pypi.org/project/wcwidth/0.1.5/",
+        "date": "2015-09-14",
+        "last_updated": "2025-08-23",
+        "snippet": "Use function wcwidth() to determine the length of a single character, and wcswidth() to determine the length of a string of characters.",
+        "source": "web"
+      },
+      {
+        "title": "jquast/wcwidth: Python library that measures the width of strings in a ...",
+        "url": "https://github.com/jquast/wcwidth",
+        "date": "2014-04-05",
+        "last_updated": "2025-10-28",
+        "snippet": "Use function wcwidth() to determine the length of a single unicode character. See Specification of character measurements. More briefly, return values of ...",
+        "source": "web"
+      },
+      {
+        "title": "wcwidth 1.0.1 · OCaml Package",
+        "url": "https://ocaml.org/p/wcwidth/1.0.1",
+        "date": "2024-05-22",
+        "last_updated": "2025-10-18",
+        "snippet": "Implementation of the wcwidth(3) and wcswidth(3) functions for OCaml, which lets you calculate the number of columns a string occupies in a ...",
+        "source": "web"
+      },
+      {
+        "title": "wcwidth: Measures the displayed width of unicode strings in a terminal",
+        "url": "https://doc.sagemath.org/html/en/reference/spkg/wcwidth.html",
+        "last_updated": "2026-01-13",
+        "snippet": "wcwidth: Measures the displayed width of unicode strings in a terminal. Description: Measures the displayed width of unicode strings in a terminal.",
+        "source": "web"
+      },
+      {
+        "title": "python-wcwidth - SUSE Package Hub",
+        "url": "https://packagehub.suse.com/packages/python-wcwidth/",
+        "last_updated": "2025-09-29",
+        "snippet": "This API is mainly for Terminal Emulator implementors -- any python program that attempts to determine the printable width of a string on a Terminal.",
+        "source": "web"
+      },
+      {
+        "title": "Specification — wcwidth 0.2.14 documentation - Read the Docs",
+        "url": "https://wcwidth.readthedocs.io/en/latest/specs.html",
+        "snippet": "This document defines how the wcwidth library measures the printable width of characters of a string.",
+        "source": "web"
+      },
+      {
+        "title": "python-wcwidth - openSUSE Software",
+        "url": "https://software.opensuse.org/package/python-wcwidth",
+        "last_updated": "2025-09-13",
+        "snippet": "This API is mainly for Terminal Emulator implementors -- any python program that attempts to determine the printable width of a string on a Terminal. It is ...",
+        "source": "web"
+      },
+      {
+        "title": "Offering a solution for Terminal Wide Character issues - Jeff Quast",
+        "url": "https://www.jeffquast.com/post/terminal_wcwidth_solution/",
+        "date": "2020-06-07",
+        "last_updated": "2026-01-16",
+        "snippet": "In the python wcwidth library, I added support for all versions of Unicode, it requires only a matter of selecting the right version, by ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**wcwidth** is a Python library that measures how many cells a unicode character or string occupies when displayed in a terminal with monospace fonts.[1][2] This is essential because while most characters occupy 1 cell, some occupy 2 cells (like full-width characters and emoji), and others occupy 0 cells (like combining characters).\n\n## The Problem\n\nPython's standard `len()` function counts characters by codepoints, not by their display width. For example, the Japanese text `'コンニチハ'` has 5 codepoints but occupies 10 cells on screen.[2] This causes alignment issues when using standard string functions like `rjust()`.\n\n## The Solution\n\nwcwidth provides two main functions:[1][2]\n\n**`wcwidth()`** — determines the width of a *single character*, returning:\n- `-1` for indeterminate/non-printable characters\n- `0` for zero-width characters (null, combining marks)\n- `1` for most characters\n- `2` for East Asian Wide (W) or East Asian Full-width (F) characters, including emoji\n\n**`wcswidth()`** — determines the width of a *string*, returning the sum of all character widths or `-1` if any character is unprintable\n\n## Usage Example\n\nTo right-align a string correctly on an 80-column terminal:[1]\n\n```python\nfrom wcwidth import wcswidth\ntext = u'コンニチハ'\npadding = ' ' * (80 - wcswidth(text))\nprint(padding + text)\n```\n\nWith emoji, `wcswidth('🦆')` returns `2` since emoji are double-width characters.[3]\n\n## Installation and Availability\n\nInstall via pip: `pip install wcwidth`[1] The library is also available through package managers on various Linux distributions and in conda.[4][5]\n\nwcwidth is widely used in terminal applications including **blessed** (terminal wrapper), **python-prompt-toolkit** (interactive CLI builder), **pgcli**, and **curtsies**.[2]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

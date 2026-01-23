@@ -1,0 +1,122 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-23T01:42:33.225676",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "ASCII table formatting guide for LLM assistants monospace alignment emoji unicode width terminal",
+    "query_length": 96,
+    "checksum": "sha256:214c0fcc90bf916bec07fb9a11eb3998010f3a0e078d63aa35cde3381252c570"
+  },
+  "response": {
+    "id": "b4cb75ae-473c-4d6f-8e55-0e9645403bfc",
+    "model": "sonar-pro",
+    "created": 1769143353,
+    "usage": {
+      "prompt_tokens": 15,
+      "completion_tokens": 313,
+      "total_tokens": 328,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.005,
+        "request_cost": 0.006,
+        "total_cost": 0.011
+      }
+    },
+    "citations": [
+      "https://irsa.ipac.caltech.edu/applications/2MASS/IM/docs/tablehelp.html",
+      "https://www.geeksforgeeks.org/dsa/ascii-table/",
+      "https://en.wikipedia.org/wiki/ASCII",
+      "https://theasciicode.com.ar",
+      "https://www.ascii-code.com",
+      "https://www.ascii-code.com/articles/Beginners-Guide-to-ASCII",
+      "https://www.rapidtables.com/code/text/ascii-table.html",
+      "https://www.asciitable.com",
+      "https://learn.sparkfun.com/tutorials/ascii/all?print=1"
+    ],
+    "search_results": [
+      {
+        "title": "IPAC ASCII Table File Formatting Help",
+        "url": "https://irsa.ipac.caltech.edu/applications/2MASS/IM/docs/tablehelp.html",
+        "last_updated": "2025-10-26",
+        "snippet": "This help page provides a guide to creating correctly formatted IPAC ASCII table files for use with the 2MASS Batch Image Service.",
+        "source": "web"
+      },
+      {
+        "title": "ASCII Values Alphabets ( A-Z, a-z & Special Character Table )",
+        "url": "https://www.geeksforgeeks.org/dsa/ascii-table/",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-23",
+        "snippet": "Each character is assigned a unique ASCII value ranging from 0 to 127. · Uppercase letters, lowercase letters, digits and symbols all have ...",
+        "source": "web"
+      },
+      {
+        "title": "ASCII - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ASCII",
+        "date": "2001-11-01",
+        "last_updated": "2025-12-20",
+        "snippet": "Ninety-five code-points are printable, including digits 0 to 9, lowercase letters a to z, uppercase letters A to Z, and commonly used punctuation symbols. For ...",
+        "source": "web"
+      },
+      {
+        "title": "The complete table of ASCII characters, codes, symbols and signs ...",
+        "url": "https://theasciicode.com.ar",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-23",
+        "snippet": "At first only included capital letters and numbers , but in 1967 was added the lowercase letters and some control characters, forming what is known as US-ASCII, ...",
+        "source": "web"
+      },
+      {
+        "title": "ASCII table - Table of ASCII codes, characters and symbols",
+        "url": "https://www.ascii-code.com",
+        "snippet": "This page shows the extended ASCII table which is based on the Windows-1252 character set which is an 8 bit ASCII table with 256 characters and symbols.",
+        "source": "web"
+      },
+      {
+        "title": "The Beginner's Guide to ASCII",
+        "url": "https://www.ascii-code.com/articles/Beginners-Guide-to-ASCII",
+        "date": "2025-01-01",
+        "last_updated": "2025-10-19",
+        "snippet": "This comprehensive guide is designed to help you understand and appreciate ASCII, the foundational character encoding standard that powers our daily digital ...",
+        "source": "web"
+      },
+      {
+        "title": "ASCII Table - ASCII codes, hex, decimal, binary, html",
+        "url": "https://www.rapidtables.com/code/text/ascii-table.html",
+        "last_updated": "2025-10-20",
+        "snippet": "ASCII (American Standard Code for Information Interchange) is a 7-bit characters code, with values from 0 to 127. The ASCII code is a subset of UTF-8 code. The ...",
+        "source": "web"
+      },
+      {
+        "title": "Ascii Table - ASCII character codes and html, octal, hex and decimal",
+        "url": "https://www.asciitable.com",
+        "last_updated": "2026-01-22",
+        "snippet": "Ascii character table - What is ascii - Complete tables including hex, octal, html, decimal conversions.",
+        "source": "web"
+      },
+      {
+        "title": "ASCII Table - SparkFun Learn",
+        "url": "https://learn.sparkfun.com/tutorials/ascii/all?print=1",
+        "date": "2016-01-01",
+        "last_updated": "2025-12-24",
+        "snippet": "Printable Characters. There are 95 printable characters in the ASCII encoding scheme. Note that the \"space\" character denotes a printable space (\" \").",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "The search results provided focus on ASCII technical specifications and IPAC table formatting standards, but they don't contain information about ASCII table formatting guides specifically designed for LLM assistants, monospace alignment techniques, emoji and Unicode width handling, or terminal display considerations.\n\nBased on the available search results, I can offer limited relevant information:\n\n**ASCII basics for table formatting:**\nASCII is a 7-bit character encoding with values from 0 to 127, containing **95 printable characters**[3][9] including digits (0-9), uppercase letters (A-Z), lowercase letters (a-z), and punctuation symbols[3]. These printable characters range from ASCII 32 (space) to ASCII 126 (tilde)[2].\n\n**Structured table requirements:**\nThe IPAC ASCII table format demonstrates principles applicable to data tables: columns must be delimited consistently (using bars `|`), header lines must align with data lines, and field widths must be equal across all rows[1]. Each column position must match precisely between the header and data sections[1].\n\nHowever, the search results do not address:\n- How LLM assistants should format ASCII tables for optimal readability\n- Monospace font alignment techniques specific to assistant outputs\n- Emoji and Unicode character width complications in terminal environments\n- Terminal rendering considerations for table display\n\nTo properly answer your question about ASCII table formatting for LLM assistants with monospace alignment, emoji handling, and Unicode width considerations, I would need search results specifically covering terminal rendering, character width calculations, and modern text display standards for AI assistants."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}
