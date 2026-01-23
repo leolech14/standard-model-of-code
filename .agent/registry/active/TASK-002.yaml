@@ -1,0 +1,34 @@
+# Task promoted from opportunity OPP-001
+# Created: 2026-01-23T09:26:24Z
+
+id: TASK-002
+title: "Deep comparison with LangGraph architecture"
+status: DISCOVERY
+
+description: |
+  Perplexity validation revealed LangGraph has production-grade
+  state management with graph checkpoints. Could inform scaling
+  path for .agent/ system.
+
+  Suggested action: Create research task analyzing LangGraph internals.
+
+  ---
+  Promoted from: OPP-001
+  Original urgency: MEDIUM
+
+confidence:
+  factual: 70
+  alignment: 70
+  current: 70
+  onwards: 70
+  verdict: 70
+
+tracking:
+  created_at: "2026-01-23T09:26:24Z"
+  promoted_from: "OPP-001"
+
+steps_completed: []
+
+output_artifacts: []
+
+# Deferred until SPRINT-001 completes
