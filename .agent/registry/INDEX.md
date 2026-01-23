@@ -12,6 +12,7 @@
 | TASK-001 | Bootstrap agent coordination system | COMPLETE | 100% | SPRINT-001 |
 | TASK-002 | Deep comparison with LangGraph architecture | DISCOVERY | 70% | - |
 | TASK-003 | Fix promote_opportunity.sh multiline bug | COMPLETE | 100% | SPRINT-001 |
+| **TASK-004** | **Execute CUTTING_PLAN: Bulk to Lean** | **READY** | **95%** | - |
 
 ---
 
@@ -32,7 +33,7 @@
 
 ```
 Inbox:      6 opportunities (2 new from legacy migration)
-Active:     3 tasks (2 complete, 1 discovery)
+Active:     4 tasks (2 complete, 1 discovery, 1 READY)
 Archived:   1 task
 Sprints:    1 active (SPRINT-001)
 Legacy:     11 registries consolidated (2 deleted, 5 archived, 2 migrated, 2 kept)
@@ -54,7 +55,9 @@ See: `.agent/sprints/SPRINT-001.yaml`
 
 ```
 READY NOW:
-  (none - current sprint items complete)
+  1. TASK-004  CUTTING_PLAN execution     [95%] ← 5 phases, forensic docs ready
+     Spec: .agent/specs/CUTTING_PLAN.md
+     Tool: .agent/tools/execute_cutting_phase1.sh
 
 DISCOVERY (needs scoping):
   1. TASK-002  LangGraph comparison       [70%]

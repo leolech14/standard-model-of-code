@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-23T07:21:32.477545
+**Generated At**: 2026-01-23T07:29:41.780198
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -86,7 +86,7 @@
 | SYNCED | `.claude/rules/brain.md` | 762 | 762 |
 | SYNCED | `.gemini/context/body.md` | 936 | 936 |
 | SYNCED | `.gemini/context/brain.md` | 1010 | 1010 |
-| SYNCED | `.gitignore` | 3391 | 3391 |
+| SYNCED | `.gitignore` | 3596 | 3596 |
 | SYNCED | `AGENTKNOWLEDGEDUMP.md` | 16116 | 16116 |
 | SYNCED | `AGENTS.md` | 1217 | 1217 |
 | SYNCED | `ARCHITECTURE_MAP.md` | 6124 | 6124 |

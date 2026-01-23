@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-23T07:21:32.477545",
+  "generated_at": "2026-01-23T07:29:41.780198",
   "stats": {
     "total_files": 1485,
     "local_only": 50,
@@ -585,8 +585,8 @@
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.gitignore",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/.gitignore",
-      "local_size": 3391,
-      "cloud_size": 3391
+      "local_size": 3596,
+      "cloud_size": 3596
     },
     "AGENTKNOWLEDGEDUMP.md": {
       "status": "SYNCED",
@@ -4218,15 +4218,15 @@
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/registry/REGISTRY.json",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/context-management/registry/REGISTRY.json",
-      "local_size": 653892,
-      "cloud_size": 653892
+      "local_size": 659496,
+      "cloud_size": 659496
     },
     "context-management/registry/REGISTRY_REPORT.md": {
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/registry/REGISTRY_REPORT.md",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/context-management/registry/REGISTRY_REPORT.md",
-      "local_size": 40636,
-      "cloud_size": 40636
+      "local_size": 40574,
+      "cloud_size": 40574
     },
     "context-management/reports/context_bubble_analysis.html": {
       "status": "SYNCED",
