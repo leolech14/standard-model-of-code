@@ -87,6 +87,14 @@ import json
 from google import genai
 from google.genai.types import Part, Content
 
+# Import DualFormatSaver for auto-save functionality
+try:
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from utils.output_formatters import DualFormatSaver
+    HAS_DUAL_FORMAT_SAVER = True
+except ImportError:
+    HAS_DUAL_FORMAT_SAVER = False
+
 # --- Config & Setup ---
 SETS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/analysis_sets.yaml"
 PROMPTS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/prompts.yaml"
@@ -149,6 +157,52 @@ FILE_SEARCH_MODEL = "gemini-2.5-pro"  # File Search requires 2.5+ models
 FILE_SEARCH_CHUNK_SIZE = 512  # Tokens per chunk
 FILE_SEARCH_CHUNK_OVERLAP = 50  # Overlap tokens between chunks
 GEMINI_API_KEY_ENV = "GEMINI_API_KEY"  # Environment variable for Developer API key
+
+# Auto-save configuration for Gemini responses
+GEMINI_RESEARCH_PATH = PROJECT_ROOT / "standard-model-of-code/docs/research/gemini"
+AUTO_SAVE_ENABLED = True  # Set to False to disable auto-save
+
+# Initialize DualFormatSaver for Gemini responses
+_gemini_saver = None
+if HAS_DUAL_FORMAT_SAVER and AUTO_SAVE_ENABLED:
+    _gemini_saver = DualFormatSaver(base_path=GEMINI_RESEARCH_PATH)
+
+
+def auto_save_gemini_response(query: str, response_text: str, model: str, mode: str = "standard") -> str:
+    """
+    Auto-save Gemini response using DualFormatSaver.
+
+    Args:
+        query: Original query text
+        response_text: Response text from Gemini
+        model: Model used (e.g., "gemini-2.5-pro")
+        mode: Analysis mode (e.g., "standard", "insights", "forensic")
+
+    Returns:
+        Path to saved markdown file, or empty string if save failed/disabled
+    """
+    if not _gemini_saver:
+        return ""
+
+    try:
+        # Build response dict compatible with DualFormatSaver
+        response_dict = {
+            "content": response_text,
+            "mode": mode,
+        }
+
+        result = _gemini_saver.save(
+            query=query,
+            response=response_dict,
+            source="gemini",
+            model=model
+        )
+
+        print(f"  [Auto-saved: {result.md_path.name}]", file=sys.stderr)
+        return str(result.md_path)
+    except Exception as e:
+        print(f"  [Auto-save failed: {e}]", file=sys.stderr)
+        return ""
 
 
 def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dict:
@@ -1998,9 +2052,18 @@ Examples:
         try:
             response = retry_with_backoff(make_request)
             print(response.text)
+
+            # Auto-save trace response
+            auto_save_gemini_response(
+                query=f"[TRACE MODE] {args.prompt or 'execution trace'}",
+                response_text=response.text or "",
+                model=args.model,
+                mode="trace"
+            )
+
             if args.output:
                 with open(args.output, 'w') as f:
-                    f.write(response.text)
+                    f.write(response.text or "")
                 print(f"Stats saved to {args.output}")
         except Exception as e:
             print(f"Error during generation: {e}", file=sys.stderr)
@@ -2039,11 +2102,19 @@ Examples:
             # Save or print
             if args.output:
                 with open(args.output, 'w') as f:
-                    f.write(response.text)
+                    f.write(response.text or "")
                 print(f"\n✅ Insights saved to: {args.output}")
             else:
                 print(response.text)
-            
+
+            # Auto-save insights response
+            auto_save_gemini_response(
+                query="[INSIGHTS MODE] Structured analysis",
+                response_text=response.text or "",
+                model=args.model,
+                mode="insights"
+            )
+
             print("\n-----------------")
             if response.usage_metadata:
                 input_tokens = response.usage_metadata.prompt_token_count
@@ -2084,10 +2155,18 @@ Examples:
             # Save or print
             if args.output:
                 with open(args.output, 'w') as f:
-                    f.write(response.text)
+                    f.write(response.text or "")
                 print(f"\n✅ Role validation report saved to: {args.output}")
             else:
                 print(response.text)
+
+            # Auto-save role validation response
+            auto_save_gemini_response(
+                query="[ROLE_VALIDATION MODE] Registry audit",
+                response_text=response.text or "",
+                model=args.model,
+                mode="role_validation"
+            )
 
             print("\n-----------------")
             if response.usage_metadata:
@@ -2129,10 +2208,18 @@ Examples:
             # Save or print
             if args.output:
                 with open(args.output, 'w') as f:
-                    f.write(response.text)
+                    f.write(response.text or "")
                 print(f"\n✅ Plan validation report saved to: {args.output}")
             else:
                 print(response.text)
+
+            # Auto-save plan validation response
+            auto_save_gemini_response(
+                query="[PLAN_VALIDATION MODE] Implementation plan verification",
+                response_text=response.text or "",
+                model=args.model,
+                mode="plan_validation"
+            )
 
             print("\n-----------------")
             if response.usage_metadata:
@@ -2162,15 +2249,24 @@ Examples:
         try:
             response = retry_with_backoff(make_request)
             print(response.text)
+
+            # Auto-save Gemini response
+            auto_save_gemini_response(
+                query=args.prompt or "query",
+                response_text=response.text or "",
+                model=args.model,
+                mode=args.mode
+            )
+
             print("\n-----------------")
-            
+
             if response.usage_metadata:
                 input_tokens = response.usage_metadata.prompt_token_count
                 output_tokens = response.usage_metadata.candidates_token_count
                 print(f"Tokens Used: {input_tokens:,} Input, {output_tokens:,} Output")
                 est = estimate_cost(input_tokens, output_tokens, args.model)
                 print(f"Estimated Cost: ${est:.4f}")
-        
+
         except Exception as e:
             print(f"Error: {e}")
             sys.exit(1)
