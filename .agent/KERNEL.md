@@ -46,18 +46,18 @@ This project uses a fractal duality pattern:
 The pattern applies at every level:
 
 ```
-PROJECT_elements/
-├── standard-model-of-code/   # Body (Collider engine)
-│   ├── docs/specs/           # Concepts (MODEL.md, schemas)
-│   └── src/                  # Objects (implementation)
+PROJECT_elements/                 # Particle/Wave Architecture
+├── standard-model-of-code/       # PARTICLE (measurement, collapse)
+│   ├── docs/specs/               # Concepts (MODEL.md, schemas)
+│   └── src/                      # Objects (implementation)
 │
-├── context-management/       # Brain (AI tools)
-│   ├── docs/                 # Concepts (guides, specs)
-│   └── tools/                # Objects (scripts, servers)
+├── context-management/           # WAVE (potential, field)
+│   ├── docs/                     # Concepts (guides, specs)
+│   └── tools/                    # Objects (scripts, servers)
 │
-└── .agent/                   # Agent Coordination
-    ├── schema/               # Concepts (task.schema, run.schema)
-    └── registry/, runs/      # Objects (TASK-XXX, RUN-*)
+└── .agent/                       # OBSERVER (decides what to measure)
+    ├── schema/                   # Concepts (task.schema, run.schema)
+    └── registry/, runs/          # Objects (TASK-XXX, RUN-*)
 ```
 
 ---

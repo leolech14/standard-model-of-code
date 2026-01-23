@@ -3,7 +3,7 @@ paths:
   - "standard-model-of-code/**"
 ---
 
-# Body (Collider) Rules
+# Particle (Collider) Rules
 
 ## Before Making Changes
 - Read `standard-model-of-code/CLAUDE.md` first

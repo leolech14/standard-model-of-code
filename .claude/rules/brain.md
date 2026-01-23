@@ -3,7 +3,7 @@ paths:
   - "context-management/**"
 ---
 
-# Brain (AI/Context) Rules
+# Wave (AI/Context) Rules
 
 ## AI Analysis Tool
 - Location: `tools/ai/analyze.py`
@@ -12,8 +12,8 @@ paths:
 
 ## Analysis Sets
 - Defined in: `config/analysis_sets.yaml`
-- Use `--set brain_core` for AI tools analysis
-- Use `--set body` for Collider code analysis
+- Use `--set brain` for Wave (AI tools) analysis
+- Use `--set body` for Particle (Collider) analysis
 
 ## Cloud Mirror
 - Tool: `tools/archive/archive.py`

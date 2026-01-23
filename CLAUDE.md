@@ -12,13 +12,16 @@
 | Roles | 33 canonical, 29 implemented |
 | Pipeline | 18 stages (see `full_analysis.py`) |
 
-## Architecture
+## Architecture (Particle/Wave Duality)
 
-| Hemisphere | Path | Purpose |
-|------------|------|---------|
-| **Body** | `standard-model-of-code/` | Collider engine |
-| **Brain** | `context-management/` | AI tools, cloud mirror |
-| **Agent** | `.agent/` | Task registry, BARE, intelligence |
+| Realm | Path | Physics | Purpose |
+|--------|------|---------|---------|
+| **Particle** | `standard-model-of-code/` | Measurement, collapse | Collider engine, concrete analysis |
+| **Wave** | `context-management/` | Potential, field | AI tools, planning, research |
+| **Observer** | `.agent/` | Decides what to measure | Task registry, BARE, intelligence |
+
+> The Collider collapses the "wave function" of source code into a **particle** of knowledge (`unified_analysis.json`).
+> The Wave domain holds the **field of potential** — AI reasoning, strategy, context.
 
 **Full integration map:** `.agent/SUBSYSTEM_INTEGRATION.md`
 
@@ -41,10 +44,10 @@ bash context-management/tools/maintenance/boot.sh
 ## Environment Setup
 
 ```bash
-# For Body work (Collider):
+# For Particle work (Collider engine):
 cd standard-model-of-code && pip install -e .
 
-# For Brain work (AI tools):
+# For Wave work (AI tools, planning):
 python -m venv .tools_venv
 source .tools_venv/bin/activate
 pip install google-genai pyyaml
@@ -157,7 +160,7 @@ The visualization intelligence layer - many-to-many binding between data and vis
 
 1. Always regenerate HTML: `./collider full . --output .collider`
 2. Run tests before commit
-3. Know which hemisphere you're in
+3. Know which realm you're in (Particle/Wave/Observer)
 4. Large outputs → offload to GCS
 
 ## Commit Convention: AI-Native
@@ -187,14 +190,14 @@ Types: `feat`, `fix`, `refactor`, `docs`, `chore`
 
 This is a **pattern**, not automation. Apply it when commits are significant.
 
-## Hemisphere Handoff
+## Domain Handoff
 
-For Body (Collider) work:
+For **Particle** work (Collider, analysis):
 ```
 @standard-model-of-code/CLAUDE.md
 ```
 
-For Brain (AI/Context) work:
+For **Wave** work (AI, planning, research):
 ```
 @context-management/docs/AI_USER_GUIDE.md
 ```

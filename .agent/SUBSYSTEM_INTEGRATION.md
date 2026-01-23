@@ -16,13 +16,13 @@
 │        │                                                                     │
 │        ▼                                                                     │
 │   ┌─────────────┐                                                            │
-│   │  COLLIDER   │  ← The "physics engine" (ground truth producer)            │
-│   │  (Body)     │                                                            │
+│   │  COLLIDER   │  ← Collapses wave function → particle of knowledge         │
+│   │ (Particle)  │                                                            │
 │   └─────┬───────┘                                                            │
 │         │                                                                    │
 │         ▼  unified_analysis.json                                             │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │                    INTELLIGENCE LAYER (Brain)                        │   │
+│   │                    INTELLIGENCE LAYER (Wave)                         │   │
 │   │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐              │   │
 │   │  │ analyze.py  │◄───│     HSL     │    │ Perplexity  │              │   │
 │   │  │ (Engine)    │    │ (Framework) │    │    MCP      │              │   │
