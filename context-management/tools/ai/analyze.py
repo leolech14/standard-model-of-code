@@ -132,6 +132,15 @@ try:
 except ImportError:
     HAS_ACI = False
 
+# Import Industrial UI for styled output
+try:
+    from industrial_ui import GeminiUI, Colors as C
+    HAS_INDUSTRIAL_UI = True
+except ImportError:
+    HAS_INDUSTRIAL_UI = False
+    GeminiUI = None  # type: ignore
+    C = None  # type: ignore
+
 # Import Perplexity research for Tier 3 queries
 try:
     from perplexity_research import research as perplexity_research, auto_save_research
@@ -147,10 +156,19 @@ SEMANTIC_MODELS_PATH = PROJECT_ROOT / "context-management/config/semantic_models
 # --- Environment Detection ---
 # Detect if running in an interactive terminal or a headless agent/CI environment
 IS_INTERACTIVE_ENV = sys.stdin.isatty() and not (
-    os.environ.get('ANTIGRAVITY_AGENT') == '1' or 
+    os.environ.get('ANTIGRAVITY_AGENT') == '1' or
     os.environ.get('CI') == 'true' or
     os.environ.get('NONINTERACTIVE') == 'true'
 )
+
+# Session logging - prints structured turn logs to stderr for visibility
+# Set SESSION_LOG=1 to see timestamped user/assistant turns
+SESSION_LOG = os.environ.get('SESSION_LOG') == '1'
+
+# Session log collector for auto-save
+_session_turns = []
+_session_start_time = None
+_session_model = None
 
 # Architecture docs to auto-inject for architect mode
 
@@ -206,9 +224,10 @@ def load_sets_config():
         return yaml.safe_load(f)
 
 
-# Token limits
-MAX_CONTEXT_TOKENS = 1_000_000  # Gemini 2.0 Flash limit
-INTERACTIVE_THRESHOLD = 50_000  # Auto-interactive above this
+# Token limits per tier
+MAX_CONTEXT_TOKENS = 1_000_000       # Gemini 3 Pro (Long Context tier)
+MAX_FLASH_DEEP_TOKENS = 2_000_000    # Gemini 2.0 Flash (Flash Deep tier)
+INTERACTIVE_THRESHOLD = 50_000       # Auto-interactive above this
 
 # File Search configuration
 # NOTE: File Search requires the Gemini Developer API (ai.google.dev), not Vertex AI
@@ -935,6 +954,253 @@ def retry_with_backoff(func, max_retries=5, base_delay=1.0):
     raise Exception("Max retries exceeded")
 
 
+def enrich_query_for_perplexity(query: str, decision, analysis_sets: dict) -> str:
+    """
+    Enrich a query with local context before sending to Perplexity.
+
+    This implements the Context Injection pattern recommended for external research:
+    1. Extract key definitions from local glossary/theory
+    2. Include critical file excerpts from ACI-selected sets
+    3. Frame the query with local context
+
+    Args:
+        query: Original user query
+        decision: ACI RoutingDecision with primary_sets
+        analysis_sets: Loaded analysis sets configuration
+
+    Returns:
+        Enriched query string with local context injected
+    """
+    context_parts = []
+    max_context_chars = 2000  # Keep context concise for Perplexity
+
+    # 1. Try to load key definitions from glossary
+    glossary_path = PROJECT_ROOT / "standard-model-of-code/docs/GLOSSARY.yaml"
+    if glossary_path.exists():
+        try:
+            with open(glossary_path, 'r') as f:
+                glossary = yaml.safe_load(f) or {}
+
+            # Extract terms mentioned in query (case-insensitive)
+            query_lower = query.lower()
+            relevant_terms = []
+            for term, definition in glossary.items():
+                if term.lower() in query_lower or term.lower().replace('_', ' ') in query_lower:
+                    if isinstance(definition, dict):
+                        desc = definition.get('definition') or definition.get('description', '')
+                    else:
+                        desc = str(definition)
+                    if desc:
+                        relevant_terms.append(f"- {term}: {desc[:200]}")
+
+            if relevant_terms:
+                context_parts.append("LOCAL DEFINITIONS:\n" + "\n".join(relevant_terms[:5]))
+        except Exception:
+            pass
+
+    # 2. Extract critical files from ACI-selected sets
+    if decision and hasattr(decision, 'primary_sets') and decision.primary_sets:
+        critical_files = []
+        for set_name in decision.primary_sets[:3]:  # Limit to 3 sets
+            set_def = analysis_sets.get(set_name, {})
+            for cf in set_def.get('critical_files', [])[:2]:  # Max 2 per set
+                full_path = PROJECT_ROOT / cf
+                if full_path.exists() and str(full_path) not in critical_files:
+                    critical_files.append(str(full_path))
+
+        # Read excerpts from critical files
+        file_excerpts = []
+        chars_used = 0
+        for fpath in critical_files[:3]:  # Max 3 files
+            if chars_used >= max_context_chars:
+                break
+            try:
+                content = read_file_content(fpath)
+                # Take first 500 chars as excerpt
+                excerpt = content[:500].strip()
+                if excerpt:
+                    fname = Path(fpath).name
+                    file_excerpts.append(f"[{fname}]: {excerpt}...")
+                    chars_used += len(excerpt)
+            except Exception:
+                pass
+
+        if file_excerpts:
+            context_parts.append("LOCAL CODEBASE CONTEXT:\n" + "\n".join(file_excerpts))
+
+    # 3. Build enriched query
+    if context_parts:
+        enriched = f"""CONTEXT FROM LOCAL CODEBASE (Standard Model of Code project):
+
+{chr(10).join(context_parts)}
+
+---
+
+RESEARCH QUESTION:
+{query}
+
+Please validate or research the above question, considering the local context provided. Focus on academic/industry standards and best practices."""
+        return enriched
+
+    # If no context available, at least frame the query
+    return f"""Research question about the "Standard Model of Code" project (a meta-language for representing code structure):
+
+{query}
+
+Please provide academic/industry validation or relevant research."""
+
+
+def generate_grounded_perplexity_query(client, query: str, verbose: bool = False) -> str:
+    """
+    Generate a context-grounded query for Perplexity using Gemini Flash.
+
+    This function implements intelligent grounding by:
+    1. Loading domain definitions from semantic_models.yaml
+    2. Using Gemini Flash to rewrite the query with relevant local context
+    3. Producing a well-structured query with clear context/question separation
+
+    Args:
+        client: Gemini client instance
+        query: Original user query
+        verbose: Print debug info if True
+
+    Returns:
+        Grounded query string with ---context--- and ---question--- markers
+        Falls back to basic framing if Gemini unavailable
+    """
+    from google.genai import types
+
+    # Load semantic models for domain context
+    context_summary = []
+
+    if SEMANTIC_MODELS_PATH.exists():
+        try:
+            with open(SEMANTIC_MODELS_PATH, 'r') as f:
+                models = yaml.safe_load(f) or {}
+
+            # Extract domain definitions
+            for domain_name, domain_config in models.items():
+                if domain_name == 'antimatter':
+                    continue  # Skip antimatter laws for grounding
+
+                scope = domain_config.get('scope', '')
+                definitions = domain_config.get('definitions', {})
+
+                if definitions:
+                    domain_concepts = []
+                    for concept, details in list(definitions.items())[:3]:  # Max 3 per domain
+                        desc = details.get('description', '')
+                        if desc:
+                            domain_concepts.append(f"- {concept}: {desc[:100]}")
+
+                    if domain_concepts:
+                        context_summary.append(f"[{domain_name.upper()}]\n" + "\n".join(domain_concepts))
+        except Exception as e:
+            if verbose:
+                print(f"[GROUNDING] Failed to load semantic_models.yaml: {e}", file=sys.stderr)
+
+    # Load key terms from glossary
+    glossary_path = PROJECT_ROOT / "standard-model-of-code/docs/GLOSSARY.yaml"
+    if glossary_path.exists():
+        try:
+            with open(glossary_path, 'r') as f:
+                glossary = yaml.safe_load(f) or {}
+
+            # Extract terms mentioned in query (relaxed matching)
+            query_lower = query.lower()
+            relevant_terms = []
+            for term, definition in list(glossary.items())[:20]:  # Check up to 20 terms
+                term_lower = term.lower().replace('_', ' ')
+                if term_lower in query_lower or any(word in query_lower for word in term_lower.split()):
+                    if isinstance(definition, dict):
+                        desc = definition.get('definition') or definition.get('description', '')
+                    else:
+                        desc = str(definition)
+                    if desc and len(relevant_terms) < 5:
+                        relevant_terms.append(f"- {term}: {desc[:150]}")
+
+            if relevant_terms:
+                context_summary.append("[GLOSSARY TERMS]\n" + "\n".join(relevant_terms))
+        except Exception:
+            pass
+
+    # If we have no context or no client, use basic framing
+    if not context_summary or not client:
+        base_context = """PROJECT: Standard Model of Code
+TYPE: Meta-language for representing code structure
+KEY CONCEPTS: Atoms (code units), Dimensions (classification axes), Roles (semantic types), Layers (architectural levels)
+TOOL: Collider (analysis pipeline)"""
+        return f"""---context---
+{base_context}
+
+---question---
+{query}
+
+Please provide academic/industry validation or relevant research."""
+
+    # Use Gemini Flash to intelligently generate grounded query
+    grounding_prompt = f"""You are a research query optimizer. Your task is to rewrite a research query with relevant context from a local codebase, so an external research API (Perplexity) can provide better answers.
+
+LOCAL CODEBASE CONTEXT:
+{chr(10).join(context_summary)}
+
+ORIGINAL QUERY: {query}
+
+INSTRUCTIONS:
+1. Identify which local concepts are most relevant to this query
+2. Create a concise context block (200-400 tokens) that:
+   - States the project name and purpose
+   - Includes ONLY the most relevant definitions/concepts
+   - Omits irrelevant domain details
+3. Reformat the query to be clear and specific
+
+OUTPUT FORMAT (use exactly this structure):
+---context---
+[Your concise context here]
+
+---question---
+[The refined research question]
+
+Please provide academic/industry validation or relevant research."""
+
+    try:
+        response = client.models.generate_content(
+            model=FAST_MODEL,
+            contents=grounding_prompt,
+            config=types.GenerateContentConfig(
+                temperature=0.3,  # Low temperature for consistent output
+                max_output_tokens=800
+            )
+        )
+        grounded = response.text.strip()
+
+        # Validate output has expected markers
+        if "---context---" in grounded and "---question---" in grounded:
+            if verbose:
+                print(f"[GROUNDING] Successfully grounded query ({len(grounded)} chars)", file=sys.stderr)
+            return grounded
+        else:
+            if verbose:
+                print(f"[GROUNDING] Gemini output missing markers, using as-is", file=sys.stderr)
+            # Return raw output if it looks reasonable
+            if len(grounded) > 100:
+                return grounded
+
+    except Exception as e:
+        if verbose:
+            print(f"[GROUNDING] Gemini Flash failed: {e}", file=sys.stderr)
+
+    # Fallback: build static grounded query
+    return f"""---context---
+PROJECT: Standard Model of Code (meta-language for representing code structure)
+{chr(10).join(context_summary[:2])}
+
+---question---
+{query}
+
+Please provide academic/industry validation or relevant research."""
+
+
 def create_client():
     """Create Gemini client based on configured backend.
 
@@ -1089,13 +1355,104 @@ def build_context_from_files(files, base_dir, with_line_numbers=False,
     return "\n".join(context_parts), total_chars
 
 
+def _log_turn(role: str, content: str, truncate: int = 500, tokens_in: int = 0, tokens_out: int = 0):
+    """Log a turn to stderr and collect for auto-save.
+
+    When SESSION_LOG=1, prints structured turn markers that can be parsed.
+    All turns are collected for auto-save at session end.
+    """
+    global _session_turns, _session_start_time
+
+    timestamp_epoch = time.time()
+    timestamp_str = time.strftime('%H:%M:%S')
+
+    # Always collect for auto-save (full content)
+    turn_record = {
+        "timestamp": timestamp_epoch,
+        "timestamp_str": time.strftime('%Y-%m-%d %H:%M:%S'),
+        "role": role,
+        "content": content,
+    }
+    if tokens_in or tokens_out:
+        turn_record["tokens_in"] = tokens_in
+        turn_record["tokens_out"] = tokens_out
+    _session_turns.append(turn_record)
+
+    if _session_start_time is None:
+        _session_start_time = timestamp_epoch
+
+    # Print to stderr if SESSION_LOG is enabled
+    if not SESSION_LOG:
+        return
+
+    # Truncate long content for readability in terminal
+    display = content if len(content) <= truncate else content[:truncate] + f"... [{len(content) - truncate} more chars]"
+
+    # Color codes
+    colors = {
+        'user': '\033[92m',      # Green
+        'assistant': '\033[94m', # Blue
+        'system': '\033[93m',    # Yellow
+        'error': '\033[91m',     # Red
+    }
+    reset = '\033[0m'
+    color = colors.get(role, '\033[0m')
+
+    print(f"\n{color}[{timestamp_str}] {role.upper()}{reset}", file=sys.stderr)
+    print(f"{display}", file=sys.stderr)
+
+
+def _save_session_log(model: str = None, total_tokens_in: int = 0, total_tokens_out: int = 0):
+    """Auto-save the full session log to a JSON file."""
+    global _session_turns, _session_start_time, _session_model
+
+    if not _session_turns:
+        return
+
+    # Build session record
+    session = {
+        "session_start": time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(_session_start_time)) if _session_start_time else None,
+        "session_end": time.strftime('%Y-%m-%d %H:%M:%S'),
+        "model": model or _session_model or "unknown",
+        "total_tokens_in": total_tokens_in,
+        "total_tokens_out": total_tokens_out,
+        "turn_count": len(_session_turns),
+        "turns": _session_turns
+    }
+
+    # Save to research/gemini directory
+    save_dir = PROJECT_ROOT / "standard-model-of-code" / "docs" / "research" / "gemini" / "sessions"
+    save_dir.mkdir(parents=True, exist_ok=True)
+
+    # Generate filename
+    timestamp = time.strftime('%Y%m%d_%H%M%S')
+    # Get first user query for filename
+    first_query = next((t["content"][:50] for t in _session_turns if t["role"] == "user"), "session")
+    slug = "".join(c if c.isalnum() else "_" for c in first_query.lower()).strip("_")[:40]
+    filename = f"{timestamp}_{slug}.json"
+
+    filepath = save_dir / filename
+    with open(filepath, 'w') as f:
+        json.dump(session, f, indent=2)
+
+    print(f"  [Session saved: {filepath.relative_to(PROJECT_ROOT)}]", file=sys.stderr)
+
+    # Clear for next session
+    _session_turns = []
+    _session_start_time = None
+
+
 def interactive_mode(client, model, context, system_prompt):
     """Run interactive REPL mode with caching support.
-    
+
     Uses Vertex AI Context Caching if context is large, falling back to history-replay if small or failed.
+    When SESSION_LOG=1, logs turns to stderr for real-time visibility.
     """
+    if SESSION_LOG:
+        _log_turn("system", f"Session started. Model: {model}")
+
     if not IS_INTERACTIVE_ENV:
-        print("Error: Interactive mode requires a TTY and non-agent environment.", file=sys.stderr)
+        print("Error: Interactive mode requires a TTY.", file=sys.stderr)
         return
     print("\n" + "=" * 60)
     print("INTERACTIVE MODE (Chat Session)")
@@ -1142,6 +1499,7 @@ def interactive_mode(client, model, context, system_prompt):
             if user_input.lower() in ['exit', 'quit', 'q']:
                 print(f"\nSession stats: {total_input_tokens:,} input tokens, {total_output_tokens:,} output tokens")
                 print("Goodbye!")
+                _log_turn("system", f"Session ended. {total_input_tokens:,} in, {total_output_tokens:,} out")
                 if cache:
                      try:
                          client.caches.delete(name=cache.name)
@@ -1157,7 +1515,8 @@ def interactive_mode(client, model, context, system_prompt):
             
             # Add user message
             conversation_history.append(Content(role="user", parts=[Part.from_text(text=user_input)]))
-            
+            _log_turn("user", user_input)
+
             print("\nThinking...")
             
             def make_request():
@@ -1173,7 +1532,8 @@ def interactive_mode(client, model, context, system_prompt):
             
             response = retry_with_backoff(make_request)
             print(f"\n{response.text}")
-            
+            _log_turn("assistant", response.text)
+
             # Add assistant response
             conversation_history.append(Content(role="model", parts=[Part.from_text(text=response.text)]))
             
@@ -1187,6 +1547,7 @@ def interactive_mode(client, model, context, system_prompt):
         except KeyboardInterrupt:
             print(f"\n\nSession stats: {total_input_tokens:,} input tokens, {total_output_tokens:,} output tokens")
             print("Goodbye!")
+            _log_turn("system", f"Session interrupted. {total_input_tokens:,} in, {total_output_tokens:,} out")
             if cache:
                  try:
                      client.caches.delete(name=cache.name)
@@ -1194,6 +1555,7 @@ def interactive_mode(client, model, context, system_prompt):
             break
         except Exception as e:
             print(f"\nError: {e}")
+            _log_turn("error", str(e))
 
 
 # -------------------------------------------------------------------------
@@ -1758,7 +2120,7 @@ Examples:
     parser.add_argument("--briefing", action="store_true", help="Print system briefing for agent orientation")
     # ACI (Adaptive Context Intelligence) arguments
     parser.add_argument("--aci", action="store_true", help="Enable Adaptive Context Intelligence (auto-select tier and context)")
-    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity"], help="Force specific ACI tier")
+    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity", "flash_deep", "deep"], help="Force specific ACI tier (deep = flash_deep = 2M context)")
     parser.add_argument("--aci-debug", action="store_true", help="Show detailed ACI routing decision")
     args = parser.parse_args()
 
@@ -1795,21 +2157,42 @@ Examples:
             print("Error: ACI module not available. Check aci/ directory.", file=sys.stderr)
             sys.exit(1)
 
-        print(f"\n{'='*60}", file=sys.stderr)
-        print("ADAPTIVE CONTEXT INTELLIGENCE (ACI)", file=sys.stderr)
-        print(f"{'='*60}", file=sys.stderr)
-
         # Analyze and route the query
         force_tier = args.tier if args.tier else ""
         decision = analyze_and_route(args.prompt, force_tier=force_tier)
 
-        if args.aci_debug:
-            print(f"\n{format_routing_decision(decision)}", file=sys.stderr)
-
-        print(f"Query: {args.prompt[:80]}{'...' if len(args.prompt) > 80 else ''}", file=sys.stderr)
-        print(f"Tier:  {decision.tier.value.upper()}", file=sys.stderr)
-        print(f"Sets:  {', '.join(decision.primary_sets)}", file=sys.stderr)
-        print(f"{'='*60}\n", file=sys.stderr)
+        # Industrial UI output (BLUE theme)
+        if HAS_INDUSTRIAL_UI and GeminiUI is not None:
+            ui = GeminiUI()
+            ui.header("ADAPTIVE CONTEXT INTELLIGENCE")
+            ui.aci_routing(
+                tier=decision.tier.value.upper(),
+                confidence=0.9,  # Default confidence (ACI doesn't track this yet)
+                reason=decision.reasoning or "Auto-routed"
+            )
+            ui.blank()
+            ui.section("QUERY")
+            truncated_q = args.prompt[:80] + ('...' if len(args.prompt) > 80 else '')
+            print(f"    {truncated_q}")
+            ui.blank()
+            ui.item("Sets", ', '.join(decision.primary_sets))
+            if args.aci_debug:
+                ui.blank()
+                ui.section("DEBUG")
+                print(format_routing_decision(decision), file=sys.stderr)
+            ui.divider()
+            print()
+        else:
+            # Fallback plain output
+            print(f"\n{'='*60}", file=sys.stderr)
+            print("ADAPTIVE CONTEXT INTELLIGENCE (ACI)", file=sys.stderr)
+            print(f"{'='*60}", file=sys.stderr)
+            if args.aci_debug:
+                print(f"\n{format_routing_decision(decision)}", file=sys.stderr)
+            print(f"Query: {args.prompt[:80]}{'...' if len(args.prompt) > 80 else ''}", file=sys.stderr)
+            print(f"Tier:  {decision.tier.value.upper()}", file=sys.stderr)
+            print(f"Sets:  {', '.join(decision.primary_sets)}", file=sys.stderr)
+            print(f"{'='*60}\n", file=sys.stderr)
 
         # TIER 0: INSTANT - Try to answer from cached truths
         if decision.tier == Tier.INSTANT or decision.use_truths:
@@ -1846,27 +2229,70 @@ Examples:
             else:
                 start_time = time.time()
                 try:
+                    # NEW: Use intelligent grounding with Gemini Flash
+                    print(f"[PERPLEXITY] Grounding query with local context...", file=sys.stderr)
+                    try:
+                        grounding_client, _ = create_client()  # Unpack (client, backend) tuple
+                        enriched_query = generate_grounded_perplexity_query(
+                            grounding_client, args.prompt, verbose=(args.aci_debug if hasattr(args, 'aci_debug') else False)
+                        )
+                        grounding_method = "intelligent (Gemini Flash)"
+                    except Exception as grounding_err:
+                        print(f"[PERPLEXITY] Gemini grounding failed ({grounding_err}), using basic enrichment", file=sys.stderr)
+                        enriched_query = enrich_query_for_perplexity(args.prompt, decision, analysis_sets)
+                        grounding_method = "basic (template)"
+
+                    # Show enrichment summary
+                    context_added = "---context---" in enriched_query or "LOCAL DEFINITIONS:" in enriched_query or "LOCAL CODEBASE CONTEXT:" in enriched_query
+                    if context_added:
+                        print(f"[PERPLEXITY] Context injected via {grounding_method}", file=sys.stderr)
+                    else:
+                        print(f"[PERPLEXITY] No matching local context found, using framed query", file=sys.stderr)
+
                     print(f"[PERPLEXITY] Executing research query...", file=sys.stderr)
-                    result = perplexity_research(args.prompt)
+                    result = perplexity_research(enriched_query)
                     duration_ms = int((time.time() - start_time) * 1000)
 
-                    # Display results
-                    print("\n" + "=" * 60)
-                    print("PERPLEXITY RESEARCH RESULTS")
-                    print("=" * 60)
-                    print(result.get("content", "No content returned"))
+                    # Display results (GREEN theme for Perplexity)
+                    if HAS_INDUSTRIAL_UI:
+                        from industrial_ui import PerplexityUI as PUI
+                        pui = PUI()
+                        pui.header("PERPLEXITY RESEARCH")
+                        pui.model_info(result.get("model", "sonar-pro"))
+                        pui.blank()
+                        pui.section("RESPONSE")
+                        print()
+                        print(result.get("content", "No content returned"))
+                        print()
 
-                    # Display citations
-                    citations = result.get("citations", [])
-                    if citations:
-                        print("\n" + "-" * 60)
-                        print("CITATIONS:")
-                        for i, cite in enumerate(citations, 1):
-                            print(f"  [{i}] {cite}")
+                        # Display citations
+                        citations = result.get("citations", [])
+                        if citations:
+                            pui.citations_section(citations)
+                            pui.blank()
 
-                    # Auto-save
-                    saved_path = auto_save_research(args.prompt, result, result.get("model", "sonar-pro"))
-                    print(f"\n[Auto-saved to: {saved_path}]", file=sys.stderr)
+                        # Auto-save
+                        saved_path = auto_save_research(args.prompt, result, result.get("model", "sonar-pro"))
+                        pui.info(f"Saved: {saved_path}")
+                        pui.footer()
+                    else:
+                        # Fallback plain output
+                        print("\n" + "=" * 60)
+                        print("PERPLEXITY RESEARCH RESULTS")
+                        print("=" * 60)
+                        print(result.get("content", "No content returned"))
+
+                        # Display citations
+                        citations = result.get("citations", [])
+                        if citations:
+                            print("\n" + "-" * 60)
+                            print("CITATIONS:")
+                            for i, cite in enumerate(citations, 1):
+                                print(f"  [{i}] {cite}")
+
+                        # Auto-save
+                        saved_path = auto_save_research(args.prompt, result, result.get("model", "sonar-pro"))
+                        print(f"\n[Auto-saved to: {saved_path}]", file=sys.stderr)
 
                     # Log to feedback loop if available
                     if HAS_ACI:
@@ -1887,6 +2313,132 @@ Examples:
                     print(f"[PERPLEXITY] Error: {e}", file=sys.stderr)
                     print("Falling back to LONG_CONTEXT tier.", file=sys.stderr)
                     decision = analyze_and_route(args.prompt, force_tier="long_context")
+
+        # TIER 4: FLASH_DEEP - Gemini 2.0 Flash with 2M context
+        if decision.tier == Tier.FLASH_DEEP:
+            print("[FLASH_DEEP] 2M context tier selected - loading comprehensive context...", file=sys.stderr)
+            flash_start = time.time()
+
+            try:
+                # Load ALL sets for comprehensive analysis
+                comprehensive_sets = decision.primary_sets or [
+                    "pipeline", "theory", "architecture_review",
+                    "agent_full", "visualization", "classifiers"
+                ]
+
+                # Collect all files from all sets
+                all_files = []
+                all_patterns = []
+                for set_name in comprehensive_sets:
+                    set_def = analysis_sets.get(set_name, {})
+                    all_patterns.extend(set_def.get('patterns', []))
+                    for cf in set_def.get('critical_files', []):
+                        full_path = PROJECT_ROOT / cf
+                        if full_path.exists():
+                            all_files.append(str(full_path))
+                    # Handle includes
+                    for inc in set_def.get('includes', []):
+                        inc_def = analysis_sets.get(inc, {})
+                        all_patterns.extend(inc_def.get('patterns', []))
+
+                # Resolve glob patterns
+                all_patterns = list(set(all_patterns))  # dedupe
+                for pattern in all_patterns:
+                    full_pattern = str(PROJECT_ROOT / pattern)
+                    import glob as glob_module
+                    matches = glob_module.glob(full_pattern, recursive=True)
+                    all_files.extend([m for m in matches if Path(m).is_file()])
+
+                all_files = list(set(all_files))  # dedupe
+                print(f"[FLASH_DEEP] Loading {len(all_files)} files from {len(comprehensive_sets)} sets", file=sys.stderr)
+
+                # Build massive context
+                context_parts = []
+                total_chars = 0
+                max_chars = MAX_FLASH_DEEP_TOKENS * 4  # ~4 chars per token
+
+                for fpath in sorted(all_files):
+                    if total_chars >= max_chars:
+                        break
+                    try:
+                        content = read_file_content(fpath)
+                        rel_path = Path(fpath).relative_to(PROJECT_ROOT)
+                        file_block = f"\n{'='*60}\nFILE: {rel_path}\n{'='*60}\n{content}\n"
+                        context_parts.append(file_block)
+                        total_chars += len(file_block)
+                    except Exception:
+                        pass
+
+                context = "\n".join(context_parts)
+                estimated_tokens = len(context) // 4
+                print(f"[FLASH_DEEP] Context: {estimated_tokens:,} tokens (~{len(context):,} chars)", file=sys.stderr)
+
+                # Build prompt
+                flash_prompt = f"""You are analyzing a comprehensive snapshot of the Standard Model of Code project.
+You have access to {len(all_files)} files totaling ~{estimated_tokens:,} tokens.
+
+COMPREHENSIVE CODEBASE CONTEXT:
+{context}
+
+{'='*60}
+USER QUERY:
+{args.prompt}
+
+Please provide a thorough, comprehensive answer using the full context available."""
+
+                # Create Flash client and execute
+                print(f"[FLASH_DEEP] Executing with {FAST_MODEL}...", file=sys.stderr)
+                flash_client, _ = create_client()
+
+                from google.genai import types
+                response = flash_client.models.generate_content(
+                    model=FAST_MODEL,
+                    contents=flash_prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0.7,
+                        max_output_tokens=8192  # Allow longer responses for comprehensive queries
+                    )
+                )
+
+                flash_result = response.text
+                duration_ms = int((time.time() - flash_start) * 1000)
+
+                # Display results
+                print("\n" + "=" * 60)
+                print(f"FLASH_DEEP ANALYSIS ({FAST_MODEL}, {estimated_tokens:,} tokens context)")
+                print("=" * 60)
+                print(flash_result)
+
+                # Auto-save
+                saved_path = auto_save_gemini_response(args.prompt, flash_result, FAST_MODEL, "flash_deep")
+                if saved_path:
+                    print(f"\n[Auto-saved: {saved_path}]", file=sys.stderr)
+
+                print(f"\n[FLASH_DEEP completed in {duration_ms/1000:.1f}s]", file=sys.stderr)
+
+                # Log ACI feedback
+                if HAS_ACI:
+                    try:
+                        from aci.query_analyzer import analyze_query as aci_analyze
+                        flash_profile = aci_analyze(args.prompt)
+                        usage = getattr(response, 'usage_metadata', None)
+                        log_aci_query(
+                            profile=flash_profile,
+                            decision=decision,
+                            tokens_input=getattr(usage, 'prompt_token_count', estimated_tokens) if usage else estimated_tokens,
+                            tokens_output=getattr(usage, 'candidates_token_count', 0) if usage else 0,
+                            success=True,
+                            duration_ms=duration_ms
+                        )
+                    except Exception as log_err:
+                        print(f"[FLASH_DEEP] ACI logging skipped: {log_err}", file=sys.stderr)
+
+                sys.exit(0)
+
+            except Exception as e:
+                print(f"[FLASH_DEEP] Error: {e}", file=sys.stderr)
+                print("Falling back to LONG_CONTEXT tier.", file=sys.stderr)
+                decision = analyze_and_route(args.prompt, force_tier="long_context")
 
         # TIER 1 & 2: RAG and LONG_CONTEXT - Continue with normal flow
         # Override args.set with ACI-selected sets
@@ -2503,16 +3055,18 @@ Examples:
         system_prompt = MODES.get(args.mode, {}).get('prompt', '')
         full_prompt = f"{system_prompt}\n\nCODEBASE CONTEXT:\n{context}\n\nUSER QUERY: {args.prompt}"
 
+        _log_turn("user", args.prompt or "")
         print("\n--- Analyzing ---", file=sys.stderr)
-        
+
         def make_request():
             return client.models.generate_content(
                 model=args.model,
                 contents=[Part.from_text(text=full_prompt)]
             )
-        
+
         try:
             response = retry_with_backoff(make_request)
+            _log_turn("assistant", response.text or "")
             print(response.text)
 
             # Auto-save Gemini response
@@ -2549,8 +3103,12 @@ Examples:
                     except Exception:
                         pass  # Don't fail on feedback logging errors
 
+                # Auto-save full session log
+                _save_session_log(model=args.model, total_tokens_in=input_tokens, total_tokens_out=output_tokens)
+
         except Exception as e:
             print(f"Error: {e}")
+            _save_session_log(model=args.model)  # Save even on error
             sys.exit(1)
 
 

@@ -1,0 +1,15 @@
+id: TASK-061
+title: Fix HSL Daemon Locally
+status: READY
+priority: P0
+domain: infrastructure
+description: ''
+confidence:
+  factual: 98
+  alignment: 95
+  current: 95
+  onwards: 95
+  overall: 95
+source_opp: OPP-061
+promoted_at: '2026-01-23T17:10:57.337031'
+steps: []

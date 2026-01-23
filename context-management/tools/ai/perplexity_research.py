@@ -21,6 +21,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+# Check if Industrial UI is available for styled output
+try:
+    import industrial_ui  # noqa: F401
+    HAS_INDUSTRIAL_UI = True
+except ImportError:
+    HAS_INDUSTRIAL_UI = False
+
 # Auto-save location
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent
@@ -206,6 +213,7 @@ def main():
         sys.exit(1)
 
     # Auto-save (unless disabled)
+    saved_path = None
     if not args.no_save:
         try:
             saved_path = auto_save_research(query, result, args.model)
@@ -216,24 +224,65 @@ def main():
     # Output
     if args.json:
         output = json.dumps(result, indent=2)
+        if args.output:
+            Path(args.output).write_text(output)
+            print(f"Output written to {args.output}", file=sys.stderr)
+        else:
+            print(output)
+    elif HAS_INDUSTRIAL_UI and not args.output:
+        # Industrial UI styled output (GREEN theme)
+        # Import here to ensure types are available
+        from industrial_ui import PerplexityUI as PUI, Colors as C
+        ui = PUI()
+        ui.header("PERPLEXITY RESEARCH")
+        ui.model_info(args.model)
+        ui.blank()
+        ui.query_info(query, len(query))
+        ui.blank()
+
+        # Response content
+        ui.section("RESPONSE")
+        print()
+        print(result["content"])
+        print()
+
+        # Citations
+        if result.get("citations"):
+            ui.citations_section(result["citations"])
+            ui.blank()
+
+        # Usage stats
+        usage = result.get("usage", {})
+        if usage:
+            ui.section("USAGE")
+            print(f"    {C.DIM}Input:{C.RESET}  {usage.get('prompt_tokens', '?'):,} tokens")
+            print(f"    {C.DIM}Output:{C.RESET} {usage.get('completion_tokens', '?'):,} tokens")
+            ui.blank()
+
+        # Save location
+        if saved_path:
+            ui.info(f"Saved: {saved_path}")
+
+        ui.footer()
     else:
+        # Plain text output (fallback or file output)
         output = result["content"]
         if result.get("citations"):
             output += "\n\n---\nSources:\n"
             for i, citation in enumerate(result["citations"], 1):
                 output += f"{i}. {citation}\n"
 
-    if args.output:
-        Path(args.output).write_text(output)
-        print(f"Output written to {args.output}", file=sys.stderr)
-    else:
-        print(output)
+        if args.output:
+            Path(args.output).write_text(output)
+            print(f"Output written to {args.output}", file=sys.stderr)
+        else:
+            print(output)
 
-    # Print usage stats
-    usage = result.get("usage", {})
-    if usage:
-        print(f"\n[Usage] Input: {usage.get('prompt_tokens', '?')} tokens, "
-              f"Output: {usage.get('completion_tokens', '?')} tokens", file=sys.stderr)
+        # Print usage stats (plain mode)
+        usage = result.get("usage", {})
+        if usage:
+            print(f"\n[Usage] Input: {usage.get('prompt_tokens', '?')} tokens, "
+                  f"Output: {usage.get('completion_tokens', '?')} tokens", file=sys.stderr)
 
 
 if __name__ == "__main__":
