@@ -57,6 +57,8 @@
 ☑️  TASK-106  Dataset optimization guide          [pending commit]
 ☑️  TASK-113  Positional strategy                 [5c7b35b]
 ☑️  TASK-103  analyze.py auto-save                 [d16826d]
+🟡 TASK-120  Autonomous Confidence Booster        [70%] ← NEW
+🟡 TASK-121  Task Opportunity Explorer            [65%] ← NEW
 💤 TASK-104  Pre-commit hook                      [nice-to-have]
 💤 TASK-102  --research-loop                      [complex scope]
 💤 TASK-105  Live-reload for viz
@@ -278,15 +280,127 @@ effective usable limit. Sets above this suffer lost-in-middle effects.
 
 ---
 
-## 🚧 BLOCKED
+## 🟡 NEEDS CONFIDENCE BOOST (New Tasks)
 
-### 🚧 TASK-113: Implement positional strategy in analyze.py
-**Risk:** A | **Score:** 70% | **Blocked By:** TASK-111
+### 🟡 TASK-120: Autonomous Task Confidence Booster
+**Risk:** A+ | **Threshold:** 95% | **Score:** 70%
+
+**Vision:** Background daemon that automatically boosts task confidence by generating
+and executing Socratic Research Loop queries until tasks meet execution thresholds.
+
+| Dimension | Score | Rationale |
+|-----------|-------|-----------|
+| Factual | 75% | Pattern exists (Perplexity MCP, analyze.py), needs architecture |
+| Alignment | 95% | Core mission: self-improving task system |
+| Current | 60% | Requires new infrastructure (daemon, query generator) |
+| Onwards | 90% | Enables autonomous agent improvement |
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│               AUTONOMOUS CONFIDENCE BOOSTER                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  1. SCANNER                    2. QUERY GENERATOR                │
+│     Read registry              Generate Gemini/Perplexity        │
+│     Find tasks <85%            queries for each dimension        │
+│                                                                  │
+│  3. BATCH OPTIMIZER            4. EXECUTOR                       │
+│     Group by semantic          Run queries in parallel           │
+│     similarity                 Respect token limits              │
+│     Track token budgets                                          │
+│                                                                  │
+│  5. CONFIDENCE UPDATER         6. REPORTER                       │
+│     Parse AI responses         Log progress                      │
+│     Update 4D scores           Notify when tasks READY           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Components:**
+1. `confidence_scanner.py` - Reads registry, identifies <threshold tasks
+2. `query_generator.py` - Generates targeted confidence-boosting queries
+3. `batch_optimizer.py` - Groups by semantic similarity, respects token limits
+4. `confidence_updater.py` - Parses AI responses, updates 4D scores
+5. `boost_daemon.py` - Background process orchestrator
+
+**Dependencies:**
+- analyze.py (Gemini queries)
+- Perplexity MCP (external validation)
+- DualFormatSaver (auto-save responses)
+- claim_task.sh (prevent conflicts with manual work)
+
+**To Boost:** Design document, API specification, daemon architecture
 
 ---
 
-### 🚧 TASK-117: Enforce explicit task state machine
-**Risk:** A+ | **Score:** 85% | **Blocked By:** State machine research
+### 🟡 TASK-121: Task Opportunity Explorer
+**Risk:** A+ | **Threshold:** 95% | **Score:** 65%
+
+**Vision:** Background process that discovers new task opportunities by analyzing
+codebase changes, research outputs, and conversation patterns.
+
+| Dimension | Score | Rationale |
+|-----------|-------|-----------|
+| Factual | 60% | Concept clear, no existing implementation |
+| Alignment | 95% | Core mission: self-discovering improvement opportunities |
+| Current | 55% | Requires new infrastructure |
+| Onwards | 95% | Foundation for fully autonomous agents |
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────────────┐
+│               TASK OPPORTUNITY EXPLORER                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  SOURCES                       ANALYZERS                         │
+│  ┌─────────────┐              ┌─────────────────────────┐        │
+│  │ Git commits │───────────►  │ Commit Message Analyzer │        │
+│  │ (new code)  │              │ - Detect TODOs, FIXMEs  │        │
+│  └─────────────┘              │ - Find incomplete work  │        │
+│                               └─────────────────────────┘        │
+│  ┌─────────────┐              ┌─────────────────────────┐        │
+│  │ Perplexity  │───────────►  │ Research Gap Detector   │        │
+│  │ research/   │              │ - Unanswered questions  │        │
+│  └─────────────┘              │ - New best practices    │        │
+│                               └─────────────────────────┘        │
+│  ┌─────────────┐              ┌─────────────────────────┐        │
+│  │ Socratic    │───────────►  │ Drift Detector          │        │
+│  │ audits      │              │ - Spec violations       │        │
+│  └─────────────┘              │ - New debt discovered   │        │
+│                               └─────────────────────────┘        │
+│  ┌─────────────┐              ┌─────────────────────────┐        │
+│  │ Conversation│───────────►  │ Idea Extractor          │        │
+│  │ transcripts │              │ - User requests         │        │
+│  └─────────────┘              │ - Unfinished threads    │        │
+│                               └─────────────────────────┘        │
+│                                                                  │
+│  OUTPUT: New TASK-XXX entries with initial 4D scores             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Components:**
+1. `opportunity_scanner.py` - Monitors sources for signals
+2. `commit_analyzer.py` - Extracts TODOs, incomplete patterns from commits
+3. `research_gap_detector.py` - Finds unanswered questions in research/
+4. `drift_detector.py` - Parses Socratic audits for violations
+5. `idea_extractor.py` - Mines conversation logs for user requests
+6. `task_proposer.py` - Creates draft TASK entries with 4D scores
+
+**Dependencies:**
+- Git hooks (post-commit trigger)
+- HSL daemon (socratic audits)
+- Perplexity research directory
+- Claude conversation logs
+
+**To Boost:** Define signals taxonomy, scoring heuristics, conflict resolution
+
+---
+
+## 🚧 BLOCKED
+
+(No blocked tasks - TASK-113 and TASK-117 were completed in earlier sessions)
 
 ---
 
@@ -313,7 +427,9 @@ effective usable limit. Sets above this suffer lost-in-middle effects.
 ## Execution Priority
 
 ```
-ALL READY TASKS COMPLETE!
+NEEDS BOOST (research to reach 95% threshold):
+1. 🟡 TASK-120  Autonomous Confidence Booster  [70%] +25% needed
+2. 🟡 TASK-121  Task Opportunity Explorer      [65%] +30% needed
 
 DEFERRED:
 - 💤 TASK-104  Pre-commit hook     (nice-to-have, not core mission)
@@ -335,10 +451,11 @@ POTENTIAL NEW TASKS:
 | Status | Count | Tasks |
 |--------|-------|-------|
 | ☑️  COMPLETE | 16 | 100, 103, 115, 116, 117, 110, 101, 111, 118, 119, 114, 106, 113, MCP-001, MCP-003, MCP-004 |
-| 🟢 READY | 0 | (all ready tasks complete) |
+| 🟡 NEEDS BOOST | 2 | 120 (Confidence Booster), 121 (Opportunity Explorer) |
+| 🟢 READY | 0 | (none at threshold yet) |
 | 💤 DEFERRED | 5 | 104, 102, 105, 108, 109 |
 | ⛔ REJECTED | 2 | MCP-007, 112 (subsumed) |
-| **TOTAL** | **23** | |
+| **TOTAL** | **25** | |
 
 ---
 
@@ -355,3 +472,4 @@ POTENTIAL NEW TASKS:
 | 3.4.0 | 2026-01-23 | All ready tasks complete: +3 (114, 106, 113), RAG/LC thresholds documented |
 | 3.5.0 | 2026-01-23 | Boost analysis: TASK-103 boosted to 85%, TASK-104/102 deferred |
 | 3.6.0 | 2026-01-23 | TASK-103 complete: analyze.py auto-save with DualFormatSaver |
+| 3.7.0 | 2026-01-23 | New tasks: TASK-120 (Autonomous Confidence Booster), TASK-121 (Task Opportunity Explorer) |
