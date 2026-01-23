@@ -45,9 +45,46 @@ class NodeStats:
     file: str
     in_degree: int = 0
     out_degree: int = 0
+    # Filtered degrees (dependency edges only: calls, uses, imports)
+    call_in_degree: int = 0
+    call_out_degree: int = 0
     betweenness: float = 0.0
     pagerank: float = 0.0
     community: int = -1
+
+
+# Edge types that count toward "call" degree (dependency relationships)
+DEPENDENCY_EDGE_TYPES = frozenset({'calls', 'uses', 'imports', 'instantiates'})
+# Edge types that are structural (shouldn't inflate centrality)
+STRUCTURAL_EDGE_TYPES = frozenset({'contains', 'inherits', 'decorates', 'exposes'})
+
+
+def get_filtered_degree(G: "nx.DiGraph", node_id: str, direction: str = "in",
+                        edge_types: frozenset = DEPENDENCY_EDGE_TYPES) -> int:
+    """
+    Calculate degree counting only edges of specified types.
+
+    Args:
+        G: NetworkX DiGraph with 'kind' attribute on edges
+        node_id: Node to calculate degree for
+        direction: "in", "out", or "both"
+        edge_types: Set of edge types to count (default: dependency edges)
+
+    Returns:
+        Filtered degree count
+    """
+    count = 0
+    if direction in ("in", "both"):
+        for pred in G.predecessors(node_id):
+            edge_data = G.get_edge_data(pred, node_id, {})
+            if edge_data.get('kind', 'calls') in edge_types:
+                count += 1
+    if direction in ("out", "both"):
+        for succ in G.successors(node_id):
+            edge_data = G.get_edge_data(node_id, succ, {})
+            if edge_data.get('kind', 'calls') in edge_types:
+                count += 1
+    return count
 
 
 @dataclass
@@ -97,7 +134,9 @@ def load_graph(path: str | Path) -> "nx.DiGraph":
                 G.add_node(src, name=src.split("|")[-2] if "|" in src else src, kind="unknown", file="")
             if not G.has_node(tgt):
                 G.add_node(tgt, name=tgt.split("|")[-2] if "|" in tgt else tgt, kind="unknown", file="")
-            G.add_edge(src, tgt, kind=rel.get("kind", "calls"))
+            G.add_edge(src, tgt,
+                       kind=rel.get("kind") or rel.get("edge_type", "calls"),
+                       family=rel.get("family", "Dependency"))
             edge_count += 1
     
     print(f"   Loaded {len(G.nodes)} nodes, {edge_count} edges")
@@ -133,9 +172,12 @@ def find_bottlenecks(G: "nx.DiGraph", top_n: int = 20, sample_size: int = 500) -
             file=info.get("file", ""),
             in_degree=G.in_degree(node_id),
             out_degree=G.out_degree(node_id),
+            # FIX: Add filtered degrees (dependency edges only)
+            call_in_degree=get_filtered_degree(G, node_id, "in"),
+            call_out_degree=get_filtered_degree(G, node_id, "out"),
             betweenness=centrality,
         ))
-    
+
     return results
 
 
@@ -171,9 +213,12 @@ def find_pagerank(G: "nx.DiGraph", top_n: int = 20) -> list[NodeStats]:
             file=info.get("file", ""),
             in_degree=G.in_degree(node_id),
             out_degree=G.out_degree(node_id),
+            # FIX: Add filtered degrees (dependency edges only)
+            call_in_degree=get_filtered_degree(G, node_id, "in"),
+            call_out_degree=get_filtered_degree(G, node_id, "out"),
             pagerank=rank,
         ))
-    
+
     return results
 
 
