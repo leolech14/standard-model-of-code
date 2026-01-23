@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+BARE - Background Auto-Refinement Engine CLI
+
+Usage:
+    ./bare truth       # Run TruthValidator
+    ./bare drift       # Run CrossValidator (not yet implemented)
+    ./bare concepts    # Run ConceptMapper (not yet implemented)
+    ./bare boost       # Run ConfidenceBooster (not yet implemented)
+    ./bare discover    # Run OpportunityExplorer (not yet implemented)
+    ./bare optimize    # Run SelfOptimizer (not yet implemented)
+    ./bare all         # Run all processors
+    ./bare status      # Show BARE status
+
+See: .agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md
+"""
+
+import sys
+from pathlib import Path
+
+# Add tools directory to path
+TOOLS_DIR = Path(__file__).parent
+sys.path.insert(0, str(TOOLS_DIR))
+
+
+def cmd_truth():
+    """Run TruthValidator."""
+    from truth_validator import main
+    return main()
+
+
+def cmd_drift():
+    """Run CrossValidator."""
+    print("CrossValidator not yet implemented (Phase 2)")
+    return 1
+
+
+def cmd_concepts():
+    """Run ConceptMapper."""
+    print("ConceptMapper not yet implemented (Phase 3)")
+    return 1
+
+
+def cmd_boost():
+    """Run ConfidenceBooster."""
+    print("ConfidenceBooster not yet implemented (Phase 4)")
+    print("See: TASK-120 in .agent/registry/LEARNING_SYSTEM_TASK_REGISTRY.md")
+    return 1
+
+
+def cmd_discover():
+    """Run OpportunityExplorer."""
+    print("OpportunityExplorer not yet implemented (Phase 4)")
+    print("See: TASK-121 in .agent/registry/LEARNING_SYSTEM_TASK_REGISTRY.md")
+    return 1
+
+
+def cmd_optimize():
+    """Run SelfOptimizer."""
+    print("SelfOptimizer not yet implemented (Phase 5)")
+    return 1
+
+
+def cmd_all():
+    """Run all implemented processors."""
+    print("Running all BARE processors...")
+    print("=" * 60)
+    results = []
+
+    # Phase 1
+    print("\n[1/6] TruthValidator")
+    results.append(("TruthValidator", cmd_truth()))
+
+    print("\n[2/6] CrossValidator")
+    results.append(("CrossValidator", cmd_drift()))
+
+    print("\n[3/6] ConceptMapper")
+    results.append(("ConceptMapper", cmd_concepts()))
+
+    print("\n[4/6] ConfidenceBooster")
+    results.append(("ConfidenceBooster", cmd_boost()))
+
+    print("\n[5/6] OpportunityExplorer")
+    results.append(("OpportunityExplorer", cmd_discover()))
+
+    print("\n[6/6] SelfOptimizer")
+    results.append(("SelfOptimizer", cmd_optimize()))
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("BARE Run Summary:")
+    for name, code in results:
+        status = "OK" if code == 0 else "SKIP"
+        print(f"  [{status}] {name}")
+
+    return 0
+
+
+def cmd_status():
+    """Show BARE status."""
+    print("BARE - Background Auto-Refinement Engine")
+    print("=" * 60)
+    print("\nProcessors:")
+    print("  [OK]   TruthValidator    - Phase 1 (implemented)")
+    print("  [TODO] CrossValidator    - Phase 2")
+    print("  [TODO] ConceptMapper     - Phase 3")
+    print("  [TODO] ConfidenceBooster - Phase 4 (see TASK-120)")
+    print("  [TODO] OpportunityExplorer - Phase 4 (see TASK-121)")
+    print("  [TODO] SelfOptimizer     - Phase 5")
+
+    # Check for existing truths
+    truths_path = TOOLS_DIR.parent / "intelligence" / "truths" / "repo_truths.yaml"
+    if truths_path.exists():
+        import yaml
+        with open(truths_path) as f:
+            truths = yaml.safe_load(f)
+        print(f"\nLast truth validation: {truths.get('version', 'unknown')}")
+        print(f"Confidence: {truths.get('confidence', 0) * 100:.0f}%")
+    else:
+        print("\nNo truths generated yet. Run: ./bare truth")
+
+    print("\nSpec: .agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md")
+    return 0
+
+
+COMMANDS = {
+    "truth": cmd_truth,
+    "drift": cmd_drift,
+    "concepts": cmd_concepts,
+    "boost": cmd_boost,
+    "discover": cmd_discover,
+    "optimize": cmd_optimize,
+    "all": cmd_all,
+    "status": cmd_status,
+}
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        print("\nAvailable commands:")
+        for cmd in COMMANDS:
+            print(f"  {cmd}")
+        return 1
+
+    command = sys.argv[1]
+
+    if command in ("-h", "--help"):
+        print(__doc__)
+        return 0
+
+    if command not in COMMANDS:
+        print(f"Unknown command: {command}")
+        print(f"Available: {', '.join(COMMANDS.keys())}")
+        return 1
+
+    return COMMANDS[command]()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
