@@ -1,0 +1,107 @@
+# Opportunity Schema
+# Defines the structure for items in .agent/registry/inbox/
+# These are discoveries that haven't been promoted to tasks yet
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Opportunity"
+description: "A discovered improvement or task candidate awaiting promotion"
+
+type: object
+
+required:
+  - id
+  - title
+  - source
+  - discovered_at
+
+properties:
+  id:
+    type: string
+    pattern: "^OPP-[0-9]{3,}$"
+    description: "Unique identifier (OPP-001, OPP-002, etc.)"
+
+  title:
+    type: string
+    maxLength: 100
+    description: "Brief summary of the opportunity"
+
+  description:
+    type: string
+    description: "Detailed explanation of what was discovered"
+
+  source:
+    type: string
+    enum:
+      - BARE           # Auto-discovered by Background Auto-Refinement Engine
+      - RESEARCH       # From analyze.py or Perplexity query
+      - HUMAN          # Manual entry
+      - WATCHER        # From file watcher
+      - EXTERNAL       # From outside source (GitHub issue, etc.)
+    description: "How this opportunity was discovered"
+
+  discovered_at:
+    type: string
+    format: date-time
+    description: "ISO 8601 timestamp of discovery"
+
+  evidence:
+    type: array
+    items:
+      type: object
+      properties:
+        file:
+          type: string
+          description: "Path to relevant file"
+        lines:
+          type: array
+          items:
+            type: integer
+          description: "Relevant line numbers"
+        quote:
+          type: string
+          description: "Relevant text snippet"
+    description: "Supporting evidence for this opportunity"
+
+  suggested_action:
+    type: string
+    description: "What should be done about this"
+
+  urgency:
+    type: string
+    enum: [LOW, MEDIUM, HIGH, CRITICAL]
+    default: MEDIUM
+    description: "How soon this needs attention"
+
+  related_to:
+    type: array
+    items:
+      type: string
+    description: "Related task IDs, file paths, or concepts"
+
+  defer_until:
+    type: string
+    description: "Condition or date to wait for before promoting"
+
+  promoted_to:
+    type: string
+    pattern: "^TASK-[0-9]{3,}$"
+    description: "Task ID if promoted (set by promote script)"
+
+  promoted_at:
+    type: string
+    format: date-time
+    description: "When this was promoted to a task"
+
+# Example opportunity file:
+# ---
+# id: OPP-001
+# title: "Deep comparison with LangGraph architecture"
+# source: RESEARCH
+# discovered_at: "2026-01-23T05:30:00Z"
+# description: |
+#   Perplexity validation revealed LangGraph has production-grade
+#   state management with graph checkpoints. Could inform scaling
+#   path for .agent/ system.
+# suggested_action: "Create research task to analyze LangGraph internals"
+# urgency: MEDIUM
+# defer_until: "After SPRINT-001 completes"
