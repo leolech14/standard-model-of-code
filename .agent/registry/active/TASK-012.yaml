@@ -1,0 +1,66 @@
+id: TASK-012
+title: Run Holographic Socratic Audit
+description: '### P4-03: Run Holographic Socratic Audit
+
+
+  **Confidence:** 95% (Execute)
+
+
+  ```bash
+
+  python context-management/tools/ai/analyze.py --verify pipeline
+
+  ```
+
+
+  **Expected Result:** COMPLIANT for Stage concept
+
+
+  ---
+
+
+  ## CONFIDENCE METHODOLOGY
+
+
+  **Confidence = min(Factual, Alignment)**
+
+
+  | Level | Meaning | Action |
+
+  |-------|---------|--------|
+
+  | **95%+** | Execute immediately | Green light |
+
+  | **90-94%** | Almost ready | Minor clarification needed |
+
+  | **85-89%** | Needs work | Design review required |
+
+  | **80'
+status: COMPLETE
+output:
+  audit_file: context-management/intelligence/socratic_audit_pipeline_20260123_124526.json
+  findings:
+    - run_pipeline_analysis: Compliant
+    - run_full_analysis: Non-Compliant (needs BaseStage refactor)
+    - JSModuleResolver: Non-Compliant (semantic reasoning)
+    - TreeSitterStrategies: Non-Compliant (AST/scope analysis)
+  liabilities:
+    - AM001: Regex-based dependency detection (LOW)
+    - AM002: File I/O in full_analysis.py (LOW)
+    - AM004: Codome boundaries not operational (MEDIUM)
+confidence:
+  factual: 95
+  alignment: 95
+  current: 95
+  onwards: 95
+created: '2026-01-23T14:41:07.778678+00:00'
+updated: '2026-01-23T15:17:32.615866+00:00'
+promoted_from: OPP-032
+category: PIPELINE
+runs: []
+output: {}
+sprint_id: SPRINT-002
+risk: A+
+steps: []
+blocked_by: []
+blocks: []
