@@ -58,7 +58,8 @@ import yaml
 from google import genai
 
 # --- Config Paths ---
-TASKS_DIR = REPO_ROOT / ".agent" / "registry" / "tasks"
+TASKS_DIR = REPO_ROOT / ".agent" / "registry" / "active"
+ARCHIVE_DIR = REPO_ROOT / ".agent" / "registry" / "archive"
 PROMPTS_CONFIG = REPO_ROOT / "context-management" / "config" / "prompts.yaml"
 ANALYSIS_SETS_CONFIG = REPO_ROOT / "context-management" / "config" / "analysis_sets.yaml"
 REPORTS_DIR = REPO_ROOT / ".agent" / "intelligence" / "confidence_reports"
@@ -108,7 +109,7 @@ def load_task(task_id: str) -> tuple[Path, dict]:
             return task_file, yaml.safe_load(f)
 
     # Check archive
-    archive_file = TASKS_DIR / "archive" / f"{task_id}.yaml"
+    archive_file = ARCHIVE_DIR / f"{task_id}.yaml"
     if archive_file.exists():
         with open(archive_file) as f:
             return archive_file, yaml.safe_load(f)
@@ -122,12 +123,26 @@ def get_pending_tasks() -> list[tuple[Path, dict]]:
     for task_file in TASKS_DIR.glob("TASK-*.yaml"):
         with open(task_file) as f:
             data = yaml.safe_load(f)
-            if data and data.get("status") == "pending":
+            if not data:
+                continue
+
+            # Handle both schemas for status (new uses uppercase)
+            status = data.get("status", "pending").lower()
+            if status in ("complete", "archived", "deferred"):
+                continue
+
+            # Handle both schemas for score
+            confidence = data.get("confidence", {})
+            if confidence:
+                scores = [confidence.get(k, 0) for k in ['factual', 'alignment', 'current', 'onwards'] if confidence.get(k)]
+                score = min(scores) if scores else 0
+            else:
                 score = data.get("score", 0)
-                risk = data.get("risk", "A")
-                threshold = {"A": 85, "A+": 95, "A++": 99}.get(risk, 85)
-                if score < threshold:
-                    tasks.append((task_file, data))
+
+            risk = data.get("risk", "A")
+            threshold = {"A": 85, "A+": 95, "A++": 99}.get(risk, 85)
+            if score < threshold:
+                tasks.append((task_file, data))
     return tasks
 
 
@@ -203,6 +218,10 @@ def get_gemini_client():
 def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: dict, verbose: bool = False) -> dict:
     """Run AI assessment on a task and return report."""
 
+    # Normalize task ID
+    raw_id = str(task.get('id', '0'))
+    normalized_tid = raw_id if raw_id.startswith('TASK-') else f"TASK-{raw_id}"
+
     # Get the prompt template
     prompt_template = prompts.get("task_assessment")
     if not prompt_template:
@@ -211,12 +230,22 @@ def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: 
     # Load code context
     code_context = load_context_for_task(task, analysis_sets)
 
+    # Handle both schemas
+    task_subject = task.get("title") or task.get("subject") or "Untitled"
+
+    confidence = task.get("confidence", {})
+    if confidence:
+        scores = [confidence.get(k, 0) for k in ['factual', 'alignment', 'current', 'onwards'] if confidence.get(k)]
+        current_score = min(scores) if scores else 0
+    else:
+        current_score = task.get("score", 0)
+
     # Format the prompt
     formatted_prompt = prompt_template.format(
-        task_id=f"TASK-{task['id']}",
-        task_subject=task.get("subject", "Untitled"),
+        task_id=normalized_tid,
+        task_subject=task_subject,
         task_description=task.get("description", "No description"),
-        current_score=task.get("score", 0),
+        current_score=current_score,
         code_context=code_context
     )
 
@@ -228,7 +257,7 @@ def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: 
         print("=" * 60 + "\n")
 
     # Call Gemini
-    print(f"  Assessing TASK-{task['id']}...", end=" ", flush=True)
+    print(f"  Assessing {normalized_tid}...", end=" ", flush=True)
 
     try:
         response = client.models.generate_content(
@@ -249,7 +278,7 @@ def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: 
         print("OK")
 
         return {
-            "task_id": f"TASK-{task['id']}",
+            "task_id": normalized_tid,
             "assessed_at": datetime.now(timezone.utc).isoformat(),
             "current_score": task.get("score", 0),
             "assessment": assessment,
@@ -259,7 +288,7 @@ def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: 
     except json.JSONDecodeError as e:
         print(f"PARSE ERROR: {e}")
         return {
-            "task_id": f"TASK-{task['id']}",
+            "task_id": normalized_tid,
             "assessed_at": datetime.now(timezone.utc).isoformat(),
             "error": f"JSON parse error: {e}",
             "raw_response": response.text if 'response' in dir() else None
@@ -267,7 +296,7 @@ def assess_task(client, task_id: str, task: dict, prompts: dict, analysis_sets: 
     except Exception as e:
         print(f"ERROR: {e}")
         return {
-            "task_id": f"TASK-{task['id']}",
+            "task_id": normalized_tid,
             "assessed_at": datetime.now(timezone.utc).isoformat(),
             "error": str(e)
         }

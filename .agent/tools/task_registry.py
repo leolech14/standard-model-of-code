@@ -34,8 +34,10 @@ except ImportError:
     yaml = None
 
 REPO_ROOT = Path(__file__).parent.parent.parent
-TASKS_DIR = REPO_ROOT / ".agent" / "registry" / "tasks"
-ARCHIVE_DIR = TASKS_DIR / "archive"
+TASKS_DIR = REPO_ROOT / ".agent" / "registry" / "active"
+ARCHIVE_DIR = REPO_ROOT / ".agent" / "registry" / "archive"
+# Legacy LEARNING_SYSTEM tasks (for migration)
+LEGACY_DIR = ARCHIVE_DIR / "legacy_learning_system" / "tasks"
 
 # Risk-adjusted thresholds
 THRESHOLDS = {"A": 85, "A+": 95, "A++": 99}
@@ -53,6 +55,7 @@ def load_task(task_id: str) -> tuple[Path, dict]:
     if not task_id.startswith("TASK-"):
         task_id = f"TASK-{task_id}"
 
+    # Check active tasks first
     task_file = TASKS_DIR / f"{task_id}.yaml"
     if task_file.exists():
         with open(task_file) as f:
@@ -61,6 +64,7 @@ def load_task(task_id: str) -> tuple[Path, dict]:
             else:
                 return task_file, pyyaml.safe_load(f)
 
+    # Check archive
     archive_file = ARCHIVE_DIR / f"{task_id}.yaml"
     if archive_file.exists():
         with open(archive_file) as f:
@@ -68,6 +72,24 @@ def load_task(task_id: str) -> tuple[Path, dict]:
                 return archive_file, yaml.load(f)
             else:
                 return archive_file, pyyaml.safe_load(f)
+
+    # Check legacy LEARNING_SYSTEM tasks
+    legacy_file = LEGACY_DIR / f"{task_id}.yaml"
+    if legacy_file.exists():
+        with open(legacy_file) as f:
+            if yaml:
+                return legacy_file, yaml.load(f)
+            else:
+                return legacy_file, pyyaml.safe_load(f)
+
+    # Check legacy archive
+    legacy_archive = LEGACY_DIR / "archive" / f"{task_id}.yaml"
+    if legacy_archive.exists():
+        with open(legacy_archive) as f:
+            if yaml:
+                return legacy_archive, yaml.load(f)
+            else:
+                return legacy_archive, pyyaml.safe_load(f)
 
     raise FileNotFoundError(f"Task {task_id} not found")
 
@@ -100,6 +122,8 @@ def cmd_list(args):
     ensure_dirs()
 
     tasks = []
+
+    # Load from active directory
     for task_file in TASKS_DIR.glob("TASK-*.yaml"):
         with open(task_file) as f:
             if yaml:
@@ -107,17 +131,43 @@ def cmd_list(args):
             else:
                 data = pyyaml.safe_load(f)
             if data:
+                data['_source'] = 'active'
                 tasks.append(data)
+
+    # Load from legacy LEARNING_SYSTEM directory
+    if LEGACY_DIR.exists():
+        for task_file in LEGACY_DIR.glob("TASK-*.yaml"):
+            with open(task_file) as f:
+                if yaml:
+                    data = yaml.load(f)
+                else:
+                    data = pyyaml.safe_load(f)
+                if data:
+                    data['_source'] = 'legacy'
+                    tasks.append(data)
 
     # Group by status
     ready, needs_boost, complete, deferred = [], [], [], []
 
-    for task in sorted(tasks, key=lambda t: t.get('id', 0)):
-        tid = f"TASK-{task['id']}"
-        score = task.get('score', 0)
+    for task in sorted(tasks, key=lambda t: int(str(t.get('id', 0)).replace('TASK-', ''))):
+        task_id = str(task.get('id', '0'))
+        tid = task_id if task_id.startswith('TASK-') else f"TASK-{task_id}"
+
+        # Handle both legacy and new schemas
+        # New schema: confidence.factual/alignment/current/onwards
+        # Legacy schema: score
+        confidence = task.get('confidence', {})
+        if confidence:
+            # New schema: compute min of 4D scores
+            scores = [confidence.get(k, 0) for k in ['factual', 'alignment', 'current', 'onwards'] if confidence.get(k)]
+            score = min(scores) if scores else 0
+        else:
+            score = task.get('score', 0)
+
         risk = task.get('risk', 'A')
-        status = task.get('status', 'pending')
-        subject = task.get('subject', 'Untitled')[:40]
+        status = task.get('status', 'pending').lower()
+        # Handle both title (new) and subject (legacy)
+        subject = (task.get('title') or task.get('subject') or 'Untitled')[:40]
         emoji = get_status_emoji(score, risk)
 
         line = f"{emoji} {tid:12} {subject:40} [{score}%]"
