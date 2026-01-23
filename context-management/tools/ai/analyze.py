@@ -160,24 +160,30 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
       - max_tokens: token budget
       - auto_interactive: whether to auto-enable interactive mode
       - description: human-readable description
+      - critical_files: list of files to position strategically
+      - positional_strategy: 'sandwich' or 'front-load'
     """
     if resolved is None:
         resolved = set()
 
     if set_name in resolved:
         # Circular dependency protection
-        return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': ''}
+        return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': '',
+                'critical_files': [], 'positional_strategy': None}
 
     resolved.add(set_name)
 
     if set_name not in analysis_sets:
-        return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': f'Unknown set: {set_name}'}
+        return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': f'Unknown set: {set_name}',
+                'critical_files': [], 'positional_strategy': None}
 
     set_def = analysis_sets[set_name]
     patterns = list(set_def.get('patterns', []))
     max_tokens = set_def.get('max_tokens', 100_000)
     auto_interactive = set_def.get('auto_interactive', False)
     description = set_def.get('description', '')
+    critical_files = list(set_def.get('critical_files', []))
+    positional_strategy = set_def.get('positional_strategy', None)
 
     # Resolve includes
     for included_set in set_def.get('includes', []):
@@ -185,6 +191,13 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
         patterns.extend(included['patterns'])
         max_tokens = max(max_tokens, included['max_tokens'])
         auto_interactive = auto_interactive or included['auto_interactive']
+        # Merge critical_files from included sets (parent set takes precedence)
+        for cf in included.get('critical_files', []):
+            if cf not in critical_files:
+                critical_files.append(cf)
+        # Parent strategy takes precedence over included
+        if not positional_strategy and included.get('positional_strategy'):
+            positional_strategy = included['positional_strategy']
 
     # Remove duplicates while preserving order
     seen = set()
@@ -198,7 +211,9 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
         'patterns': unique_patterns,
         'max_tokens': max_tokens,
         'auto_interactive': auto_interactive,
-        'description': description
+        'description': description,
+        'critical_files': critical_files,
+        'positional_strategy': positional_strategy
     }
 
 
@@ -857,18 +872,65 @@ def create_cache(client, model, context_text, ttl_minutes=60):
         return None
 
 
-def build_context_from_files(files, base_dir, with_line_numbers=False):
-    """Build context string from local files."""
+def build_context_from_files(files, base_dir, with_line_numbers=False,
+                              critical_files=None, positional_strategy=None):
+    """Build context string from local files with optional positional strategy.
+
+    Args:
+        files: List of file paths to include
+        base_dir: Base directory for relative paths
+        with_line_numbers: Add line numbers to file content
+        critical_files: List of file paths (relative) to position strategically
+        positional_strategy: 'sandwich' (begin+end) or 'front-load' (begin only)
+
+    Context Engineering:
+        LLMs have U-shaped attention - they recall beginning/end better than middle.
+        - 'sandwich': Place critical files at START and duplicate summary at END
+        - 'front-load': Place critical files at START only
+    """
     context_parts = []
     total_chars = 0
-    
+    critical_files = critical_files or []
+
+    # Identify critical file paths (match by relative path suffix)
+    critical_paths = []
+    regular_paths = []
     for file_path in files:
+        rel_path = str(file_path.relative_to(base_dir))
+        is_critical = any(rel_path.endswith(cf) or cf in rel_path for cf in critical_files)
+        if is_critical:
+            critical_paths.append(file_path)
+        else:
+            regular_paths.append(file_path)
+
+    # Reorder based on strategy
+    if positional_strategy == 'sandwich':
+        # Critical at start, regular in middle, critical summary at end
+        ordered_files = critical_paths + regular_paths
+        print(f"  Positional strategy: SANDWICH ({len(critical_paths)} critical files at start+end)", file=sys.stderr)
+    elif positional_strategy == 'front-load':
+        # Critical at start only
+        ordered_files = critical_paths + regular_paths
+        print(f"  Positional strategy: FRONT-LOAD ({len(critical_paths)} critical files at start)", file=sys.stderr)
+    else:
+        ordered_files = files
+
+    # Build context
+    for file_path in ordered_files:
         rel_path = file_path.relative_to(base_dir)
         content = read_file_content(file_path, with_line_numbers=with_line_numbers)
         file_block = f"\n--- FILE: {rel_path} ---\n{content}\n--- END FILE ---\n"
         context_parts.append(file_block)
         total_chars += len(file_block)
-    
+
+    # Sandwich: Add critical file summaries at end
+    if positional_strategy == 'sandwich' and critical_paths:
+        context_parts.append("\n--- CRITICAL FILES REFERENCE (END ANCHOR) ---")
+        for file_path in critical_paths:
+            rel_path = file_path.relative_to(base_dir)
+            context_parts.append(f"  - {rel_path}")
+        context_parts.append("--- END CRITICAL FILES REFERENCE ---\n")
+
     return "\n".join(context_parts), total_chars
 
 
@@ -1718,6 +1780,8 @@ Examples:
     # Track set metadata for auto-interactive decisions
     set_auto_interactive = False
     set_max_tokens = 100_000
+    set_critical_files = []
+    set_positional_strategy = None
 
     # Collect files
     patterns = None
@@ -1734,6 +1798,8 @@ Examples:
         patterns = resolved['patterns']
         set_auto_interactive = resolved['auto_interactive']
         set_max_tokens = resolved['max_tokens']
+        set_critical_files = resolved.get('critical_files', [])
+        set_positional_strategy = resolved.get('positional_strategy', None)
 
         # Show resolution info
         print(f"Using Set:    {args.set.upper()} - {resolved['description']}", file=sys.stderr)
@@ -1836,7 +1902,12 @@ Examples:
     
     # Build context
     print("\nBuilding context from local files...", file=sys.stderr)
-    context, total_chars = build_context_from_files(selected_files, PROJECT_ROOT, with_line_numbers=use_line_numbers)
+    context, total_chars = build_context_from_files(
+        selected_files, PROJECT_ROOT,
+        with_line_numbers=use_line_numbers,
+        critical_files=set_critical_files,
+        positional_strategy=set_positional_strategy
+    )
     estimated_tokens = total_chars // 4  # Rough estimate
     print(f"Context size: ~{estimated_tokens:,} tokens ({total_chars:,} chars)", file=sys.stderr)
     if use_line_numbers:
