@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-01-23T09:45:27.747726",
+  "generated_at": "2026-01-23T09:50:26.892341",
   "stats": {
-    "total_files": 1591,
+    "total_files": 1593,
     "local_only": 50,
     "cloud_only": 24,
-    "synced": 1515
+    "synced": 1517
   },
   "files": {
     "\"assets/Analogias \\342\\200\\234Quentes\\342\\200\\235 em Espa\\303\\247os Conceituais Multi-camadas.pdf\"": {
@@ -321,6 +321,13 @@
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/.agent/intelligence/LEGACY_SPRAWL_MAP.md",
       "local_size": 5923,
       "cloud_size": 5923
+    },
+    ".agent/intelligence/aci_feedback.yaml": {
+      "status": "SYNCED",
+      "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/aci_feedback.yaml",
+      "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/.agent/intelligence/aci_feedback.yaml",
+      "local_size": 528,
+      "cloud_size": 528
     },
     ".agent/intelligence/confidence_reports/20260123_064434_batch_confidence.json": {
       "status": "SYNCED",
@@ -4705,18 +4712,18 @@
       "cloud_size": 859494
     },
     "context-management/registry/REGISTRY.json": {
-      "status": "SYNCED",
+      "status": "DRIFT_MODIFIED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/registry/REGISTRY.json",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/context-management/registry/REGISTRY.json",
-      "local_size": 690064,
-      "cloud_size": 690064
+      "local_size": 705514,
+      "cloud_size": 704598
     },
     "context-management/registry/REGISTRY_REPORT.md": {
-      "status": "SYNCED",
+      "status": "DRIFT_MODIFIED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/registry/REGISTRY_REPORT.md",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/context-management/registry/REGISTRY_REPORT.md",
-      "local_size": 38825,
-      "cloud_size": 38825
+      "local_size": 38729,
+      "cloud_size": 38747
     },
     "context-management/reports/context_bubble_analysis.html": {
       "status": "SYNCED",
@@ -7214,8 +7221,8 @@
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/cli.py",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/standard-model-of-code/cli.py",
-      "local_size": 22318,
-      "cloud_size": 22318
+      "local_size": 22997,
+      "cloud_size": 22997
     },
     "standard-model-of-code/data/1440_summary.json": {
       "status": "SYNCED",
@@ -8253,6 +8260,13 @@
       "local_size": 4565,
       "cloud_size": 4565
     },
+    "standard-model-of-code/docs/research/perplexity/20260123_094428_what_are_the_latest_python_3_12_features_in_2026.md": {
+      "status": "SYNCED",
+      "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/docs/research/perplexity/20260123_094428_what_are_the_latest_python_3_12_features_in_2026.md",
+      "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/standard-model-of-code/docs/research/perplexity/20260123_094428_what_are_the_latest_python_3_12_features_in_2026.md",
+      "local_size": 2912,
+      "cloud_size": 2912
+    },
     "standard-model-of-code/docs/research/perplexity/README.md": {
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/docs/research/perplexity/README.md",
@@ -9279,8 +9293,8 @@
       "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/full_analysis.py",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/standard-model-of-code/src/core/full_analysis.py",
-      "local_size": 90700,
-      "cloud_size": 90700
+      "local_size": 93291,
+      "cloud_size": 93291
     },
     "standard-model-of-code/src/core/generate_health_report.py": {
       "status": "SYNCED",
@@ -9752,11 +9766,11 @@
       "cloud_size": 4470
     },
     "standard-model-of-code/src/core/tree_sitter_engine.py": {
-      "status": "DRIFT_MODIFIED",
+      "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/tree_sitter_engine.py",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/standard-model-of-code/src/core/tree_sitter_engine.py",
       "local_size": 39725,
-      "cloud_size": 39099
+      "cloud_size": 39725
     },
     "standard-model-of-code/src/core/type_registry.py": {
       "status": "SYNCED",
@@ -9766,11 +9780,11 @@
       "cloud_size": 6006
     },
     "standard-model-of-code/src/core/unified_analysis.py": {
-      "status": "DRIFT_MODIFIED",
+      "status": "SYNCED",
       "local_path": "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/unified_analysis.py",
       "cloud_uri": "gs://elements-archive-2026/repository_mirror/latest/standard-model-of-code/src/core/unified_analysis.py",
       "local_size": 26263,
-      "cloud_size": 26015
+      "cloud_size": 26263
     },
     "standard-model-of-code/src/core/unified_analysis.schema.json": {
       "status": "SYNCED",

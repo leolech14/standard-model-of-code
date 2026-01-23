@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-23T09:45:27.747726
+**Generated At**: 2026-01-23T09:50:26.892341
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -49,6 +49,7 @@
 | SYNCED | `.agent/hooks/post-commit` | 914 | 914 |
 | SYNCED | `.agent/intelligence/AI_ENRICHMENT_CHALLENGE_REPORT.md` | 5594 | 5594 |
 | SYNCED | `.agent/intelligence/LEGACY_SPRAWL_MAP.md` | 5923 | 5923 |
+| SYNCED | `.agent/intelligence/aci_feedback.yaml` | 528 | 528 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_064434_batch_confidence.json` | 14948 | 14948 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_080709_batch_confidence.json` | 15967 | 15967 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_081036_batch_confidence.json` | 16572 | 16572 |
@@ -497,4 +498,3 @@
 | SYNCED | `context-management/docs/DOCS_REORG_TASK_REGISTRY.md` | 12382 | 12382 |
 | SYNCED | `context-management/docs/EVAL_LOG.md` | 895 | 895 |
 | SYNCED | `context-management/docs/HOLOGRAPHIC_DEPLOYMENT_MANUAL.md` | 3644 | 3644 |
-| SYNCED | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | 3549 | 3549 |
