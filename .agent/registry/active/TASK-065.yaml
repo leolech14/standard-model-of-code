@@ -1,0 +1,15 @@
+id: TASK-065
+title: Always-Green Continuous Refinement Pipeline
+status: READY
+priority: P0
+domain: infrastructure
+description: ''
+confidence:
+  factual: 95
+  alignment: 100
+  current: 85
+  onwards: 100
+  overall: 85
+source_opp: OPP-065
+promoted_at: '2026-01-23T17:28:08.262696'
+steps: []

@@ -1,0 +1,331 @@
+{
+  "timestamp": "2026-01-23T17:25:53.494088",
+  "total": 34,
+  "distribution": {
+    "A+": 1,
+    "A": 5,
+    "B": 24,
+    "C": 3,
+    "F": 1
+  },
+  "promotable": [
+    {
+      "id": "OPP-061",
+      "title": "Fix HSL Daemon Locally",
+      "confidence": 95
+    },
+    {
+      "id": "OPP-004",
+      "title": "Document registry architecture",
+      "confidence": 85
+    },
+    {
+      "id": "OPP-059",
+      "title": "Sprawl Consolidation Infrastructure",
+      "confidence": 90
+    },
+    {
+      "id": "OPP-064",
+      "title": "Hierarchical Tree Layout for File View",
+      "confidence": 85
+    },
+    {
+      "id": "OPP-065",
+      "title": "Always-Green Continuous Refinement Pipeline",
+      "confidence": 85
+    },
+    {
+      "id": "OPP-066",
+      "title": "Handle Gemini API Rate Limiting (429)",
+      "confidence": 85
+    }
+  ],
+  "needs_research": [
+    {
+      "id": "OPP-062",
+      "title": "BARE Phase 2 - CrossValidator Implementation",
+      "overall": 35,
+      "grade": "F",
+      "weakest_dimension": "current",
+      "weakest_score": 35,
+      "gap_to_A": 50,
+      "refinery_needs": [
+        "Deep read semantic_models.yaml to understand Antimatter definitions",
+        "Map CrossValidator logic to analyze.py"
+      ]
+    },
+    {
+      "id": "OPP-002",
+      "title": "Fix promote_opportunity.sh multiline bug",
+      "overall": 50,
+      "grade": "C",
+      "weakest_dimension": "factual",
+      "weakest_score": 50,
+      "gap_to_A": 35,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-005",
+      "title": "Token System Refactoring - Remove Hardcoded Values from app.js",
+      "overall": 50,
+      "grade": "C",
+      "weakest_dimension": "factual",
+      "weakest_score": 50,
+      "gap_to_A": 35,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-006",
+      "title": "Pipeline Refactor - Class-Based Stage Architecture",
+      "overall": 50,
+      "grade": "C",
+      "weakest_dimension": "factual",
+      "weakest_score": 50,
+      "gap_to_A": 35,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-015",
+      "title": "Update control-bar.js to delegate",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-017",
+      "title": "Integrate edge-system.js (NEW - Gap Fill)",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-034",
+      "title": "All preset properties mapped to token paths (NEEDS MAPPING)",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-042",
+      "title": "Edge cases documented (partial - need to verify filter interaction)",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-043",
+      "title": "No other code calls `HudLayoutManager`",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-044",
+      "title": "No localStorage keys used by this class that affect other features",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-051",
+      "title": "Node colors render correctly",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-052",
+      "title": "Topology tooltip colors work",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-053",
+      "title": "Physics sliders adjust simulation",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-054",
+      "title": "Datamap toggles filter nodes",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-055",
+      "title": "Groups can be created/deleted",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-056",
+      "title": "Hover panel shows node info",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-063",
+      "title": "Verify GCS Mirror Post-Triage",
+      "overall": 70,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 70,
+      "gap_to_A": 15,
+      "refinery_needs": [
+        "Confirm gsutil ls -L syntax for size verification",
+        "Verify .gitignore exclusion patterns are correct"
+      ]
+    },
+    {
+      "id": "OPP-016",
+      "title": "Integrate file-viz.js (NEW - Gap Fill)",
+      "overall": 75,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 75,
+      "gap_to_A": 10,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-003",
+      "title": "Consolidate research directories",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-007",
+      "title": "Context Refinery: Continuous Context Refinement System",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-018",
+      "title": "Wire UPB_BLENDERS in bindings.js",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-019",
+      "title": "Add minOutput/blendMode to endpoints.js TARGETS",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-020",
+      "title": "Add DATA.getRange() to data-manager.js",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-021",
+      "title": "Update control-bar.js to use DATA.getRange()",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-022",
+      "title": "Add minOutput support to scales.js",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-033",
+      "title": "Phase 5 Advanced Features: DEFERRED",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "factual",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-060",
+      "title": "Autonomous Enrichment Pipeline (AEP) MVP",
+      "overall": 80,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 80,
+      "gap_to_A": 5,
+      "refinery_needs": []
+    },
+    {
+      "id": "OPP-010",
+      "title": "Create presets.yaml (NEW - Gap Fill)",
+      "overall": 82,
+      "grade": "B",
+      "weakest_dimension": "current",
+      "weakest_score": 82,
+      "gap_to_A": 3,
+      "refinery_needs": []
+    }
+  ]
+}

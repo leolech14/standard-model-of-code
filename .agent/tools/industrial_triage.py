@@ -245,11 +245,21 @@ def save_report(categories: Dict[str, List[Dict]], research_needs: List[Dict]) -
     return report_path
 
 
-def auto_promote(categories: Dict[str, List[Dict]]) -> int:
-    """Auto-promote A+ items to TASK status."""
+def auto_promote(categories: Dict[str, List[Dict]], include_a: bool = True) -> int:
+    """Auto-promote A+/A items to TASK status.
+
+    Args:
+        categories: Categorized opportunities by grade
+        include_a: If True, also promote A grade items (default: True)
+    """
     promoted = 0
 
-    for opp in categories["A+"]:
+    # Combine A+ and optionally A grade items
+    promotable = categories["A+"].copy()
+    if include_a:
+        promotable.extend(categories["A"])
+
+    for opp in promotable:
         opp_id = opp.get("id", "")
         if not opp_id.startswith("OPP-"):
             continue
