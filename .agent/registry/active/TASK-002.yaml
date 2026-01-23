@@ -3,7 +3,7 @@
 
 id: TASK-002
 title: "Deep comparison with LangGraph architecture"
-status: DISCOVERY
+status: READY
 
 description: |
   Perplexity validation revealed LangGraph has production-grade
@@ -12,16 +12,24 @@ description: |
 
   Suggested action: Create research task analyzing LangGraph internals.
 
+  Time-box: 1 week, culminating in decision document.
+  Research questions:
+  1. What would incremental adoption path look like?
+  2. How can refine_context_loop.py be modeled as stateful graph?
+  3. What are performance and operational costs?
+
   ---
   Promoted from: OPP-001
   Original urgency: MEDIUM
+  Confidence boosted: 2026-01-23T14:36:17Z
 
 confidence:
-  factual: 70
-  alignment: 70
-  current: 70
-  onwards: 70
-  verdict: 70
+  factual: 95
+  alignment: 100
+  current: 90
+  onwards: 100
+  overall: 95
+  verdict: READY
 
 tracking:
   created_at: "2026-01-23T09:26:24Z"
