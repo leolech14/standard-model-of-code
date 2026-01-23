@@ -13,15 +13,42 @@ pipeline:
       description: "A processing unit in the analysis pipeline."
       role: "Processing"
       invariants:
-        - "Must inherit from a base Stage class (e.g., BaseStage)"
-        - "Must implement an 'execute' or 'run' method"
-        - "Should be stateless (no instance variables modified during run)"
-        - "Must return a standard result format (ProcessingResult/AnalysisResult)"
+        - "Must inherit from BaseStage (src/core/pipeline/base_stage.py)"
+        - "Must implement the 'execute(state: CodebaseState) -> CodebaseState' method"
+        - "Must implement the 'name' property returning a unique stage identifier"
+        - "Should be stateless (no instance variables modified during execute)"
+        - "May implement validate_input() and validate_output() for pre/post checks"
       anchors:
-        - file: "standard-model-of-code/src/core/*_stage.py"
-          pattern: "class *Stage"
+        - file: "standard-model-of-code/src/core/pipeline/base_stage.py"
+          pattern: "class BaseStage"
+        - file: "standard-model-of-code/src/core/pipeline/manager.py"
+          pattern: "class PipelineManager"
         - file: "standard-model-of-code/src/core/full_analysis.py"
-          pattern: "class FullAnalysisPipeline"
+          pattern: "def run_full_analysis"
+
+    PipelineManager:
+      description: "Orchestrator that executes stages in sequence with timing."
+      role: "Coordinator"
+      invariants:
+        - "Must accept a list of BaseStage instances"
+        - "Must execute stages in order via run(state) method"
+        - "Must track timing per stage"
+        - "May provide stage-start and stage-complete callbacks"
+      anchors:
+        - file: "standard-model-of-code/src/core/pipeline/manager.py"
+          pattern: "class PipelineManager"
+
+    CodebaseState:
+      description: "Central state container passed between pipeline stages."
+      role: "State"
+      invariants:
+        - "Must contain nodes and edges collections"
+        - "Must provide O(1) indexed lookups (by_file, by_ring, by_kind, by_role)"
+        - "Must track metadata including layers_activated"
+        - "Must support enrich_node() for layer enrichment"
+      anchors:
+        - file: "standard-model-of-code/src/core/data_management.py"
+          pattern: "class CodebaseState"
     
     Extractor:
       description: "Component responsible for raw data ingestion."
