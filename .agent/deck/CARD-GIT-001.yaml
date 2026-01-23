@@ -1,0 +1,62 @@
+# CARD-GIT-001: Commit Checkpoint
+# Create a git commit to save progress
+
+id: CARD-GIT-001
+title: "Commit Checkpoint"
+description: "Create a git commit to checkpoint current progress. Use frequently to avoid losing work and maintain audit trail."
+
+phase_gate: [ANY]
+
+preconditions:
+  - check: "git_has_changes()"
+    description: "There must be staged or unstaged changes"
+  - check: "work_is_coherent"
+    description: "Changes should form a logical unit"
+
+steps:
+  - action: "git status"
+    description: "Review current changes"
+    checkpoint: false
+  - action: "git diff"
+    description: "Inspect actual changes"
+    checkpoint: false
+  - action: "git add <specific-files>"
+    description: "Stage relevant files (prefer specific over -A)"
+    checkpoint: true
+  - action: "git commit -m 'type: description'"
+    description: "Create commit with conventional message"
+    checkpoint: true
+
+outcomes:
+  success:
+    state_changes:
+      - "Changes committed to local history"
+      - "Working tree clean or reduced"
+    unlocks: [CARD-GIT-002]
+    meters:
+      reliability: 2
+      focus: 1
+  failure:
+    state_changes:
+      - "Pre-commit hook failed"
+      - "Changes remain staged"
+    meters:
+      reliability: -1
+      debt: 1
+
+rollback:
+  possible: true
+  steps:
+    - "git reset --soft HEAD~1 (undo commit, keep changes)"
+    - "git reset HEAD~1 (undo commit and staging)"
+  warning: "If pushed to remote, requires force push or revert"
+
+context_injection:
+  - path: ".git/logs/HEAD"
+    sections: ["recent commits"]
+
+cost:
+  tokens_estimate: 300
+  risk_level: LOW
+
+tags: [git, commit, checkpoint, foundational]

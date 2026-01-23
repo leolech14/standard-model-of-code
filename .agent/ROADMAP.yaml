@@ -164,6 +164,41 @@ phases:
     description: "Tool for creating MCP servers"
     detail_doc: "context-management/tools/mcp/mcp_factory/ROADMAP.md"
 
+  # --- OBSERVER DOMAIN (Agent System) ---
+
+  - id: O1
+    title: "Decision Deck Layer"
+    status: IMPLEMENTING
+    priority: HIGH
+    domain: observer
+    description: |
+      Constrained action space for AI agents. Agents choose from validated cards
+      with explicit preconditions, steps, and outcomes. Validated by Gemini + Perplexity
+      (40-60% improvement in task success rates with constrained action spaces).
+    detail_doc: ".agent/specs/DECISION_DECK_LAYER.md"
+    components:
+      - ".agent/schema/card.schema.yaml - Card schema"
+      - ".agent/deck/*.yaml - Card definitions"
+      - ".agent/state/meters.yaml - Behavior meters"
+      - ".agent/tools/deal_cards.py - Card dealer"
+    sub_phases:
+      - "O1.1: Static Deck (DONE) - Schema + 6 initial cards"
+      - "O1.2: Dealer Script (DONE) - deal_cards.py implemented"
+      - "O1.3: Meters Display (DONE) - Visual meter bars"
+      - "O1.4: Card Execution (PLANNED) - play_card.py"
+      - "O1.5: Wildcard Logging (PLANNED) - Pattern detection"
+      - "O1.6: Deck Expansion (ONGOING) - Add cards based on usage"
+
+  - id: O2
+    title: "Semantic Context Refinery"
+    status: PLANNED
+    domain: observer
+    description: |
+      Outside-In processing: Corpus → Inventory → Delta → Clusters → Atoms.
+      Everything becomes addressable nodes (ATOM-xxxx). BARE Phase 2+.
+    detail_doc: null  # To be created
+    depends_on: [O1]
+
 # ============================================================
 # CURRENT FOCUS
 # ============================================================
@@ -174,6 +209,8 @@ current_focus:
       reason: "Reachability is the bottleneck (29.3%)"
     - phase: 10
       reason: "Survey needed to prevent vendor noise"
+    - phase: O1
+      reason: "Decision Deck MVP operational, expanding cards"
 
   blockers:
     - "Missing entrypoint rules (click/typer/FastAPI)"

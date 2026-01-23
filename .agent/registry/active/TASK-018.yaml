@@ -1,0 +1,80 @@
+# TASK-018: Implement Decision Deck Layer MVP
+# Created: 2026-01-23
+# Source: Grok conversation + Gemini/Perplexity validation
+
+id: TASK-018
+title: "Implement Decision Deck Layer MVP"
+status: IN_PROGRESS
+priority: HIGH
+domain: observer
+
+description: |
+  Implement the Decision Deck Layer - a constrained action space for AI agents.
+  Instead of free-form deciding, agents choose from validated cards with
+  explicit preconditions, steps, and outcomes.
+
+  Validated by:
+  - Gemini 3 Pro: STRONG ACCEPT
+  - Perplexity sonar-deep-research: 60+ citations, 40-60% improvement validated
+
+  Academic foundations: GOAP, Behavior Trees, Hoare Logic
+
+created_at: "2026-01-23T15:30:00Z"
+updated_at: "2026-01-23T16:00:00Z"
+
+confidence:
+  factual: 0.95
+  alignment: 0.95
+  current: 0.90
+  onwards: 0.95
+  overall: 0.90
+
+deliverables:
+  completed:
+    - path: ".agent/specs/DECISION_DECK_LAYER.md"
+      description: "Full specification with Display Protocol"
+    - path: ".agent/schema/card.schema.yaml"
+      description: "Card schema definition"
+    - path: ".agent/deck/CARD-REG-001.yaml"
+      description: "Promote Opportunity card"
+    - path: ".agent/deck/CARD-RES-001.yaml"
+      description: "Research with Perplexity card"
+    - path: ".agent/deck/CARD-RES-002.yaml"
+      description: "Research with Gemini card"
+    - path: ".agent/deck/CARD-GIT-001.yaml"
+      description: "Commit Checkpoint card"
+    - path: ".agent/deck/CARD-ANA-001.yaml"
+      description: "Run Collider Analysis card"
+    - path: ".agent/deck/CARD-DOC-001.yaml"
+      description: "Write Specification card"
+    - path: ".agent/deck/CARD-WLD-000.yaml"
+      description: "Wildcard (escape hatch)"
+    - path: ".agent/state/meters.yaml"
+      description: "Behavior meters (Focus, Reliability, Debt, Discovery)"
+    - path: ".agent/tools/deal_cards.py"
+      description: "Card dealer script"
+
+  pending:
+    - description: "play_card.py - Card execution helper"
+    - description: "Wildcard logging for pattern detection"
+    - description: "Additional cards based on common workflows"
+
+related_to:
+  - ROADMAP.yaml#O1
+  - BARE_LIVE.md
+  - ACI tier_router.py
+
+validation:
+  gemini:
+    verdict: "STRONG ACCEPT"
+    key_insight: "Provides missing Governance Layer referenced in BARE_LIVE.md"
+  perplexity:
+    verdict: "Academically sound"
+    citations: 60
+    key_insight: "Convergence of GOAP + Behavior Trees + Hoare Logic"
+
+tags:
+  - decision-deck
+  - governance
+  - constrained-action
+  - agent-system

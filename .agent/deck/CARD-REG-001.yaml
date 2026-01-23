@@ -1,0 +1,60 @@
+# CARD-REG-001: Promote Opportunity to Task
+# Converts a validated opportunity from inbox to active task
+
+id: CARD-REG-001
+title: "Promote Opportunity to Task"
+description: "Convert a validated opportunity from inbox to active task. Use when an opportunity has been researched and is ready for execution."
+
+phase_gate: [DESIGNING]
+
+preconditions:
+  - check: "file_exists('.agent/registry/inbox/OPP-*.yaml')"
+    description: "At least one opportunity exists in inbox"
+  - check: "opportunity.confidence >= 0.75"
+    description: "Opportunity must have >= 75% overall confidence"
+    confidence_min:
+      factual: 0.75
+
+steps:
+  - action: "python .agent/tools/promote_opportunity.py OPP-xxx"
+    description: "Run promotion script with opportunity ID"
+    checkpoint: true
+  - action: "git add .agent/registry/"
+    description: "Stage registry changes"
+  - action: "Review generated TASK-xxx.yaml"
+    description: "Verify task was created correctly"
+
+outcomes:
+  success:
+    state_changes:
+      - "TASK-xxx created in .agent/registry/active/"
+      - "OPP-xxx marked with promoted_to field"
+      - "INDEX.md updated"
+    unlocks: [CARD-REG-002, CARD-REG-003]
+    meters:
+      reliability: 1
+      focus: 1
+  failure:
+    state_changes:
+      - "Opportunity remains in inbox unchanged"
+    meters:
+      reliability: -1
+
+rollback:
+  possible: true
+  steps:
+    - "Delete TASK-xxx from .agent/registry/active/"
+    - "Remove promoted_to and promoted_at from OPP-xxx"
+    - "git checkout .agent/registry/"
+  warning: "If already committed, requires git revert"
+
+context_injection:
+  - path: ".agent/registry/INDEX.md"
+    sections: ["Active Tasks", "Discovery Inbox"]
+  - path: ".agent/schema/opportunity.schema.yaml"
+
+cost:
+  tokens_estimate: 500
+  risk_level: LOW
+
+tags: [registry, promotion, workflow, foundational]

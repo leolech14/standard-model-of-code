@@ -1,0 +1,57 @@
+# CARD-ANA-001: Run Collider Analysis
+# Execute full Collider analysis on a codebase
+
+id: CARD-ANA-001
+title: "Run Collider Analysis"
+description: "Execute full Collider analysis pipeline on a codebase. Generates unified_analysis.json, collider_report.html, and output.md."
+
+phase_gate: [EXECUTING, VALIDATING]
+
+preconditions:
+  - check: "collider_installed()"
+    description: "Collider must be installed (pip install -e .)"
+  - check: "target_path_exists"
+    description: "Target codebase path must exist"
+
+steps:
+  - action: "./collider full <path> --output <dir>"
+    description: "Run full analysis pipeline"
+    checkpoint: true
+  - action: "Review unified_analysis.json"
+    description: "Check node count, edge count, metrics"
+  - action: "Open collider_report.html"
+    description: "Verify visualization renders correctly"
+
+outcomes:
+  success:
+    state_changes:
+      - "unified_analysis.json generated"
+      - "collider_report.html generated"
+      - "output.md (Brain Download) generated"
+    unlocks: [CARD-VIZ-001, CARD-DOC-002]
+    meters:
+      discovery: 1
+      reliability: 1
+  failure:
+    state_changes:
+      - "Error logged to stderr"
+      - "Partial output may exist"
+    meters:
+      reliability: -2
+      debt: 1
+
+rollback:
+  possible: true
+  steps:
+    - "rm -rf <output-dir>"
+  warning: "Analysis time is not recoverable"
+
+context_injection:
+  - path: "standard-model-of-code/CLAUDE.md"
+    sections: ["Commands", "Output Files"]
+
+cost:
+  tokens_estimate: 1000
+  risk_level: LOW
+
+tags: [analysis, collider, pipeline, core]

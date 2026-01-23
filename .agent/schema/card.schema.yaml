@@ -1,0 +1,280 @@
+# Card Schema v1.0
+# Defines the structure for Decision Deck cards in .agent/deck/
+# Cards are CERTIFIED MOVES with preconditions, steps, outcomes, rollback
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Card"
+description: "A certified action with explicit preconditions and outcomes"
+
+type: object
+
+required:
+  - id
+  - title
+  - phase_gate
+  - preconditions
+  - steps
+  - outcomes
+
+properties:
+  id:
+    type: string
+    pattern: "^CARD-[A-Z]{3}-[0-9]{3}$"
+    description: "Unique identifier (CARD-REG-001 = Registry domain, card 001)"
+    examples:
+      - "CARD-REG-001"  # Registry operation
+      - "CARD-GIT-001"  # Git operation
+      - "CARD-ANA-001"  # Analysis operation
+      - "CARD-VIZ-001"  # Visualization operation
+      - "CARD-RES-001"  # Research operation
+
+  title:
+    type: string
+    maxLength: 60
+    description: "Action verb phrase (e.g., 'Promote Opportunity to Task')"
+
+  description:
+    type: string
+    maxLength: 300
+    description: "What this card does and when to use it"
+
+  phase_gate:
+    type: array
+    items:
+      type: string
+      enum:
+        - DESIGNING    # Planning, research, spec writing
+        - EXECUTING    # Active implementation
+        - VALIDATING   # Testing, review, verification
+        - COMPLETE     # Finished (card rarely valid here)
+        - ANY          # No phase restriction
+    description: "Sprint phases where this card is playable"
+
+  preconditions:
+    type: array
+    items:
+      type: object
+      required:
+        - check
+        - description
+      properties:
+        check:
+          type: string
+          description: "Evaluable condition (file exists, state matches, etc.)"
+        description:
+          type: string
+          description: "Human-readable explanation"
+        confidence_min:
+          type: object
+          properties:
+            factual:
+              type: number
+              minimum: 0
+              maximum: 1
+            alignment:
+              type: number
+              minimum: 0
+              maximum: 1
+            current:
+              type: number
+              minimum: 0
+              maximum: 1
+            onwards:
+              type: number
+              minimum: 0
+              maximum: 1
+          description: "Minimum 4D confidence scores required"
+    description: "All conditions that must be true to play this card"
+
+  steps:
+    type: array
+    items:
+      type: object
+      required:
+        - action
+        - description
+      properties:
+        action:
+          type: string
+          description: "What to do (command, tool call, file edit)"
+        description:
+          type: string
+          description: "Why this step matters"
+        checkpoint:
+          type: boolean
+          default: false
+          description: "If true, verify success before continuing"
+    minItems: 1
+    description: "Ordered sequence of actions"
+
+  outcomes:
+    type: object
+    required:
+      - success
+    properties:
+      success:
+        type: object
+        required:
+          - state_changes
+        properties:
+          state_changes:
+            type: array
+            items:
+              type: string
+            description: "What changes in the system state"
+          unlocks:
+            type: array
+            items:
+              type: string
+              pattern: "^CARD-[A-Z]{3}-[0-9]{3}$"
+            description: "Cards that become playable after success"
+          meters:
+            type: object
+            properties:
+              reliability:
+                type: integer
+                minimum: -10
+                maximum: 10
+              focus:
+                type: integer
+                minimum: -10
+                maximum: 10
+              debt:
+                type: integer
+                minimum: -10
+                maximum: 10
+              discovery:
+                type: integer
+                minimum: -10
+                maximum: 10
+            description: "Meter adjustments on success"
+      failure:
+        type: object
+        properties:
+          state_changes:
+            type: array
+            items:
+              type: string
+          meters:
+            type: object
+            properties:
+              reliability:
+                type: integer
+              focus:
+                type: integer
+              debt:
+                type: integer
+              discovery:
+                type: integer
+    description: "What happens on success or failure"
+
+  rollback:
+    type: object
+    properties:
+      possible:
+        type: boolean
+        default: true
+      steps:
+        type: array
+        items:
+          type: string
+        description: "How to undo this card's effects"
+      warning:
+        type: string
+        description: "Caution about rollback limitations"
+    description: "How to undo if needed"
+
+  context_injection:
+    type: array
+    items:
+      type: object
+      properties:
+        path:
+          type: string
+          description: "File to read for context"
+        sections:
+          type: array
+          items:
+            type: string
+          description: "Specific sections to extract"
+    description: "Files to inject into agent context when card is dealt"
+
+  cost:
+    type: object
+    properties:
+      tokens_estimate:
+        type: integer
+        description: "Estimated token cost"
+      time_estimate:
+        type: string
+        description: "Human-readable time estimate (avoid in practice)"
+      risk_level:
+        type: string
+        enum: [LOW, MEDIUM, HIGH, CRITICAL]
+    description: "Resource cost of playing this card"
+
+  tags:
+    type: array
+    items:
+      type: string
+    description: "Categorization tags for filtering"
+
+  supersedes:
+    type: array
+    items:
+      type: string
+      pattern: "^CARD-[A-Z]{3}-[0-9]{3}$"
+    description: "Cards this one replaces (deprecated cards)"
+
+  conflicts_with:
+    type: array
+    items:
+      type: string
+      pattern: "^CARD-[A-Z]{3}-[0-9]{3}$"
+    description: "Cards that cannot be played in same turn"
+
+# Example card file:
+# ---
+# id: CARD-REG-001
+# title: "Promote Opportunity to Task"
+# description: "Convert a validated opportunity from inbox to active task"
+# phase_gate: [DESIGNING]
+# preconditions:
+#   - check: "OPP-xxx exists in .agent/registry/inbox/"
+#     description: "Opportunity file must exist"
+#   - check: "confidence.factual >= 0.75"
+#     description: "Must have high factual confidence"
+#     confidence_min:
+#       factual: 0.75
+# steps:
+#   - action: "python .agent/tools/promote_opportunity.py OPP-xxx"
+#     description: "Run promotion script"
+#     checkpoint: true
+#   - action: "git add .agent/registry/"
+#     description: "Stage changes"
+# outcomes:
+#   success:
+#     state_changes:
+#       - "TASK-xxx created in active/"
+#       - "OPP-xxx marked as promoted"
+#     unlocks: [CARD-REG-002]
+#     meters:
+#       reliability: +1
+#       focus: +1
+#   failure:
+#     state_changes:
+#       - "Opportunity remains in inbox"
+#     meters:
+#       reliability: -1
+# rollback:
+#   possible: true
+#   steps:
+#     - "Delete TASK-xxx from active/"
+#     - "Remove promoted_to from OPP-xxx"
+# context_injection:
+#   - path: ".agent/registry/INDEX.md"
+#     sections: ["Active Tasks", "Execution Priority"]
+# cost:
+#   tokens_estimate: 500
+#   risk_level: LOW
+# tags: [registry, promotion, workflow]

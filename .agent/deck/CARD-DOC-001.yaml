@@ -1,0 +1,53 @@
+# CARD-DOC-001: Write Specification
+# Create or update a specification document
+
+id: CARD-DOC-001
+title: "Write Specification"
+description: "Create or update a formal specification document in .agent/specs/ or docs/specs/. Use after research validates an approach."
+
+phase_gate: [DESIGNING]
+
+preconditions:
+  - check: "concept_validated"
+    description: "Concept should be validated via research first"
+  - check: "scope_defined"
+    description: "Clear boundaries of what spec covers"
+
+steps:
+  - action: "Define spec structure (Purpose, Architecture, Schema, Examples)"
+    description: "Plan document sections"
+    checkpoint: false
+  - action: "Write spec to appropriate location"
+    description: "Create the specification document"
+    checkpoint: true
+  - action: "Add to CLAUDE.md canonical sources if significant"
+    description: "Update documentation index"
+    checkpoint: false
+
+outcomes:
+  success:
+    state_changes:
+      - "Spec document created"
+      - "Knowledge formalized for future reference"
+    unlocks: [CARD-REG-001, CARD-TST-001]
+    meters:
+      reliability: 1
+      discovery: 1
+      debt: -1
+  failure:
+    state_changes:
+      - "Partial spec may exist"
+    meters:
+      debt: 1
+
+rollback:
+  possible: true
+  steps:
+    - "Delete spec file"
+    - "Revert CLAUDE.md changes"
+
+cost:
+  tokens_estimate: 2000
+  risk_level: LOW
+
+tags: [documentation, specification, design, foundational]
