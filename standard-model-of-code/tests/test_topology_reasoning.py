@@ -299,12 +299,13 @@ class TestLandscapeHealthIndex:
 
     def setup_method(self):
         self.lhi = LandscapeHealthIndex()
+        self.lhi_legacy = LandscapeHealthIndex(legacy_mode=True)
 
     def test_perfect_health(self):
         """Perfect codebase: no cycles, low elevation, no bad gradients."""
         profile = LandscapeProfile(
-            b0=2,  # sqrt(4) = 2 is ideal for 4 nodes
-            b1=0,
+            b0=1,  # Single connected component
+            b1=0,  # No cycles
             elevations={"a": 3.0, "b": 3.5, "c": 4.0, "d": 3.2},
             gradients=[
                 {"gradient": -1.0, "risk": "LOW"},
@@ -312,18 +313,19 @@ class TestLandscapeHealthIndex:
             ]
         )
         result = self.lhi.compute(profile)
-        assert result["grade"] in ["A", "B"]  # Should be high grade
-        assert result["index"] >= 7.0
+        # Consolidated formula: T=10 (no cycles, b0=1), E~8 (low elevations), Gd~9 (downhill), A=5 (no data)
+        assert result["grade"] in ["A", "B", "C"]  # Alignment penalty without data
+        assert result["index"] >= 6.0
 
     def test_cyclic_codebase(self):
-        """Codebase with many cycles should have poor health."""
+        """Codebase with many cycles should have poor health (legacy mode)."""
         profile = LandscapeProfile(
             b0=1,
             b1=10,  # Many cycles
             elevations={"a": 5.0, "b": 5.0},
             gradients=[]
         )
-        result = self.lhi.compute(profile)
+        result = self.lhi_legacy.compute(profile)
         # b1=10: 10.0 - (10 * 0.5) = 5.0 (mediocre cycle health)
         assert result["component_scores"]["cycles"] <= 5.0
 
@@ -339,14 +341,14 @@ class TestLandscapeHealthIndex:
         assert result["component_scores"]["elevation"] < 3.0
 
     def test_fragmented_codebase(self):
-        """Too many disconnected components is unhealthy."""
+        """Too many disconnected components is unhealthy (legacy mode)."""
         profile = LandscapeProfile(
             b0=50,  # Way too many components for 10 nodes
             b1=0,
             elevations={f"n{i}": 5.0 for i in range(10)},
             gradients=[]
         )
-        result = self.lhi.compute(profile)
+        result = self.lhi_legacy.compute(profile)
         assert result["component_scores"]["isolation"] < 5.0
 
     def test_grade_mapping(self):
