@@ -11,13 +11,13 @@
 #   - not_to_be_confused_with: disambiguation
 #
 # CATEGORIES:
-#   - original_invention: We created this term (40 terms)
+#   - original_invention: We created this term (46 terms)
 #   - physics_metaphor: Borrowed from physics with new meaning (18 terms)
 #   - borrowed_theory: Academic concept with attribution (22 terms)
 #   - standard_cs: Conventional CS term (31 terms)
 #
 # Last updated: 2026-01-24
-# Total terms: 116
+# Total terms: 122
 # ============================================================================
 
 schema_version: "1.0.0"
@@ -653,6 +653,219 @@ terms:
       Empirical Laws are discovered through observation and can be wrong.
       Natural Laws are proven through mathematics and cannot be violated.
     related_terms: [natural_law_of_code, roadmap_law, lehmans_laws]
+
+  law_surface:
+    canonical_name: "Law Surface (5-Tuple)"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      The minimal specification for any candidate law, making it testable
+      and implementable. A law is only touchable when all five components
+      are defined.
+    structure: |
+      Law = (Scope, Observable, Perturbation, Prediction, Cost)
+
+      1. SCOPE: Where it should hold
+         - Language-agnostic? OO-only? Distributed systems?
+         - Static structure? Runtime? Socio-technical?
+
+      2. OBSERVABLE: What you can measure in units
+         - Graph: edges, cycles, centrality, cut-points, modularity
+         - Information: redundancy, compression, entropy proxies
+         - Evolution: churn, change amplification, lead time
+         - Outcomes: defects, incidents, rollback rates, MTTR
+
+      3. PERTURBATION: What you can change deliberately
+         - Add/remove dependency edge
+         - Introduce/break a cycle
+         - Split/merge a module boundary
+         - Change team boundary (Conway perturbation)
+
+      4. PREDICTION: What should happen if law is real
+         - Must be falsifiable, ideally directional + monotonic
+         - "If coupling increases, change amplification increases"
+
+      5. COST: What violation exacts
+         - Unavoidable (mathematical/physical)
+         - Expected (empirical, statistical)
+         - Coordination-based (roadmap/Schelling)
+    contact_operation: |
+      The minimal touch: ΔCause → ΔObservable → ΔCost
+      If you can't produce controlled ΔCause, or can't measure ΔObservable,
+      or there is no ΔCost, you're not touching a law. You're touching vibes.
+    related_terms: [natural_law_of_code, hunt_protocol, evidence_triangle]
+
+  evidence_triangle:
+    canonical_name: "Evidence Triangle"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      The three parallel datasets required to validate a candidate law.
+      A law becomes touchable when it links all three.
+    structure: |
+      Dataset 1 — STRUCTURE (static):
+        dependency graphs, cycles, centrality, boundaries
+
+      Dataset 2 — EVOLUTION (time):
+        git churn, change amplification, ownership, review load
+
+      Dataset 3 — OUTCOMES (cost):
+        defects, incidents, rollbacks, lead time, MTTR
+    validation_chain: |
+      Structure → predicts Evolution → predicts Outcomes
+
+      If it only links Structure → "feels messy," you're above the
+      observer horizon (semantic layer), not in law territory.
+    why_three: |
+      Any two can correlate spuriously. The third breaks degeneracy.
+      Structure alone is description. Evolution alone is history.
+      Outcomes alone is post-hoc rationalization.
+      All three together: causation candidate.
+    related_terms: [law_surface, observer_horizon, hunt_protocol]
+
+  observer_effect_taxonomy:
+    canonical_name: "Observer Effect Taxonomy"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      Three distinct ways observation can change "the system" in code analysis.
+      Conflating them leads to epistemological confusion.
+    effects: |
+      EFFECT A: Instrumentation Overhead (Physical/Behavioral)
+        Adding tracing, profiling, logging changes latency, cache behavior,
+        timing-sensitive bugs, performance. The sensor couples to the system.
+        Rule: Treat instrumentation as perturbation, not neutral lens.
+
+      EFFECT B: Interpretive Collapse (Semantic)
+        Static analysis labels a node "hub" or "bridge." The graph didn't
+        change, but meaning collapses from many readings to one shared frame.
+        Changes coordination, not bytes.
+        Rule: Semantics are co-created; structure is discovered.
+
+      EFFECT C: Goodhart/Governance (Social/Behavioral)
+        Metrics on dashboards get optimized. Coverage % → coverage theater.
+        Coupling score → gaming the score. Complexity target → move complexity
+        to config, ops, or callers. Measurement changes behavior changes thing.
+        Rule: Measurement-as-knowledge differs from measurement-as-control.
+    key_insight: |
+      Observation doesn't change the structure.
+      Observation changes the trajectory.
+      The instrument becomes part of the system.
+    related_terms: [observer_horizon, reflexive_law, goodhart_dynamics]
+
+  reflexive_law:
+    canonical_name: "Reflexive Law"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      A law that changes based on whether people know about it and act on it.
+      Contrasts with Non-Reflexive (Natural) Laws which hold regardless of belief.
+    distinction: |
+      NON-REFLEXIVE (Natural Laws):
+        Hold even if nobody believes them.
+        Topology, information theory, thermodynamics.
+        Can be discovered in isolation.
+
+      REFLEXIVE (Goodhart-style):
+        Laws of the human+code system, not topology alone.
+        Change when measured, incentivized, or targeted.
+        Real, but require socio-technical framing.
+    examples: |
+      Non-reflexive: "Cycles increase minimum reasoning span"
+        (True whether you know it or not)
+
+      Reflexive: "Code review coverage correlates with quality"
+        (Changes when review becomes a checkbox ritual)
+    warning: |
+      Reflexive laws aren't "fake." They're laws of a different system.
+      The mistake is treating them as topology when they're sociology.
+    related_terms: [natural_law_of_code, observer_effect_taxonomy, goodhart_dynamics]
+
+  hunt_protocol:
+    canonical_name: "Hunt Protocol"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      The complete methodology for validating candidate Natural Laws of Code.
+      Reusable for any claim.
+    steps: |
+      1. DEFINE O (Observable): "What do we measure?"
+      2. DEFINE C (Cost): "What pain metric proves 'real'?"
+      3. DEFINE P (Perturbation): "What deliberate change moves O?"
+      4. PREDICT: "If law holds, ΔO implies ΔC (direction + shape)"
+      5. TEST ON HISTORY: "Does it predict out-of-sample?"
+      6. TRY TO BREAK IT: "Find counterexamples; shrink scope if needed"
+      7. CLASSIFY:
+         - Theorem/Invariant (mathematical proof)
+         - Empirical Law (statistical, falsifiable)
+         - Roadmap/Coordination Law (Schelling point)
+         - Heuristic (weak, context-heavy)
+    methodology_rules: |
+      - Separate "science mode" from "governance mode"
+        Science: measure privately, predict, test on history, don't incentivize
+        Governance: once validated, gate/policy — but accept you're shaping reality
+
+      - Pre-register predictions (even informally)
+        Write what you predict, what counts as cost, what falsifies it
+        BEFORE showing results. Prevents "we saw it therefore it's true."
+
+      - Prefer counterfactuals computable without changing human behavior
+        Code advantage: replay git history, analyze past snapshots,
+        compare similar modules, run virtual perturbations
+
+      - Use Evidence Triangle (three parallel datasets)
+        Structure + Evolution + Outcomes = causation candidate
+    disqualification_test: |
+      WRONG: "Can you still ship?" (Gravity doesn't prevent walking)
+      RIGHT: "Can you violate without ANY measurable cost, over time, across contexts?"
+
+      If cost-free violation is possible: not a constraint.
+      If violation only costs elsewhere: constraint-shaped.
+      If cost only appears with coordination: roadmap/Schelling mechanism.
+    related_terms: [law_surface, evidence_triangle, natural_law_of_code]
+
+  observer_horizon:
+    canonical_name: "Observer Horizon"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      The boundary between layers where observation discovers vs. creates.
+      Below the horizon: laws operate independently (discovery).
+      Above the horizon: observation participates in creation (invention).
+    layers: |
+      BELOW HORIZON (Discovery):
+        Physical layer (bytes): Unchanged by observation
+        Structural layer (graph): Discovered, not created
+
+      ABOVE HORIZON (Co-creation):
+        Semantic layer (meaning): Co-created, interpretive
+        Behavioral layer (future): Changed by observation, agency
+    implication: |
+      True Natural Laws must live below the observer horizon.
+      Claims about "meaning" or "quality" are above it — observer-dependent.
+
+      The Collider sits AT the horizon:
+        - Discovering what's below (topology)
+        - Enabling what's above (interpretation, action)
+    related_terms: [observer_effect_taxonomy, reflexive_law, natural_law_of_code]
 
   # ---------------------------------------------------------------------------
   # Visualization
