@@ -342,6 +342,43 @@ def main():
         help="Compare current results to saved baseline"
     )
 
+    # ==========================================
+    # SYMMETRY Command - Wave-Particle Symmetry Analysis
+    # ==========================================
+    symmetry_parser = subparsers.add_parser(
+        "symmetry",
+        help="Analyze Wave-Particle symmetry between docs and code",
+        description="Compare documentation (Wave) with implementation (Particle) to measure symmetry."
+    )
+    symmetry_parser.add_argument(
+        "path",
+        nargs="?",
+        default=".",
+        help="Path to the repository to analyze (default: current directory)"
+    )
+    symmetry_parser.add_argument(
+        "--docs",
+        default=".",
+        help="Path to documentation directory (default: same as path)"
+    )
+    symmetry_parser.add_argument(
+        "--output", "-o",
+        default=None,
+        help="Output file path for the report"
+    )
+    symmetry_parser.add_argument(
+        "--format", "-f",
+        choices=["brief", "json", "markdown"],
+        default="brief",
+        help="Output format (default: brief)"
+    )
+    symmetry_parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.75,
+        help="Minimum confidence threshold for matching (default: 0.75)"
+    )
+
     # Parse
     args = parser.parse_args()
     
@@ -620,6 +657,43 @@ def main():
             print(f"❌ Could not generate fix for schema: {args.schema}")
             sys.exit(1)
     
+    elif args.command == "symmetry":
+        from src.core.symmetry_reporter import run_symmetry_analysis
+
+        repo_path = Path(args.path).resolve()
+        docs_path = Path(args.docs).resolve() if args.docs != "." else repo_path
+
+        if not repo_path.exists():
+            print(f"❌ Error: Repository path not found: {repo_path}")
+            sys.exit(1)
+
+        print(f"🔬 Wave-Particle Symmetry Analysis")
+        print(f"   Repository: {repo_path}")
+        print(f"   Documentation: {docs_path}")
+        print()
+
+        try:
+            result = run_symmetry_analysis(
+                repo_path=str(repo_path),
+                docs_path=str(docs_path),
+                output_format=args.format,
+                threshold=args.threshold
+            )
+
+            if args.output:
+                output_path = Path(args.output)
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                output_path.write_text(result)
+                print(f"✅ Report saved to: {output_path}")
+            else:
+                print(result)
+
+        except Exception as e:
+            print(f"❌ Symmetry analysis failed: {e}")
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
+
     else:
         parser.print_help()
         sys.exit(1)

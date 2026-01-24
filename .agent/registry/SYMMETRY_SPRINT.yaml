@@ -1,0 +1,184 @@
+# SYMMETRY SPRINT - Multi-Agent Parallel Deployment Plan
+# Wave-Particle True Symmetry Implementation
+# Created: 2026-01-23
+
+sprint:
+  id: SYMMETRY-001
+  name: "True Wave-Particle Symmetry"
+  goal: "Replace proxy metrics with Collider-based true symmetry measurement"
+  status: READY_FOR_DEPLOYMENT
+
+# ============================================================================
+# PARALLEL EXECUTION MATRIX
+# ============================================================================
+#
+#   PHASE 1 (PARALLEL - No Conflicts)
+#   ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+#   │   Agent A       │   Agent B       │   Agent C       │   Agent D       │
+#   │   Task #11      │   Task #12      │   Task #13      │   Task #15      │
+#   │   Visibility    │   WaveExtractor │   IdentityMatch │   requirements  │
+#   │   NEW FILE      │   NEW FILE      │   NEW FILE      │   ADDITIVE      │
+#   └────────┬────────┴────────┬────────┴────────┬────────┴─────────────────┘
+#            │                 │                 │
+#            └─────────────────┼─────────────────┘
+#                              ▼
+#   PHASE 2 (SEQUENTIAL - Depends on Phase 1)
+#   ┌─────────────────────────────────────────────────────────────────────────┐
+#   │   Agent E - Task #14 - CLI Command + Reporter                           │
+#   │   BLOCKED BY: #11, #12, #13                                             │
+#   └────────────────────────────────┬────────────────────────────────────────┘
+#                                    ▼
+#   PHASE 3 (FINAL - Integration)
+#   ┌─────────────────────────────────────────────────────────────────────────┐
+#   │   Agent F - Task #16 - Replace proxy symmetry_check.py                  │
+#   │   BLOCKED BY: #11, #12, #13, #14                                        │
+#   └─────────────────────────────────────────────────────────────────────────┘
+#
+# ============================================================================
+
+phases:
+  - id: 1
+    name: "Foundation Modules"
+    parallel: true
+    tasks:
+      - id: 11
+        agent: "backend-specialist"
+        file: "standard-model-of-code/src/core/visibility_analyzer.py"
+        operation: CREATE
+        conflicts_with: []
+
+      - id: 12
+        agent: "backend-specialist"
+        file: "standard-model-of-code/src/core/wave_extractor.py"
+        operation: CREATE
+        conflicts_with: []
+
+      - id: 13
+        agent: "backend-specialist"
+        file: "standard-model-of-code/src/core/identity_matcher.py"
+        operation: CREATE
+        conflicts_with: []
+
+      - id: 15
+        agent: "rapid-prototype"
+        file: "standard-model-of-code/requirements.txt"
+        operation: APPEND
+        conflicts_with: []
+
+  - id: 2
+    name: "CLI Integration"
+    parallel: false
+    blocked_by: [1]
+    tasks:
+      - id: 14
+        agent: "backend-specialist"
+        files:
+          - "standard-model-of-code/cli.py"
+          - "standard-model-of-code/src/core/symmetry_reporter.py"
+        operation: MODIFY + CREATE
+
+  - id: 3
+    name: "Legacy Replacement"
+    parallel: false
+    blocked_by: [2]
+    tasks:
+      - id: 16
+        agent: "backend-specialist"
+        file: ".agent/tools/symmetry_check.py"
+        operation: REWRITE
+
+# ============================================================================
+# DEFINITION OF DONE (DoD)
+# ============================================================================
+
+dod:
+  per_task:
+    - "All new files have module docstrings"
+    - "All public functions have docstrings"
+    - "Unit tests exist and pass"
+    - "No linting errors (ruff check)"
+
+  per_phase:
+    - "All task DoDs satisfied"
+    - "Integration test passes"
+    - "No merge conflicts with main"
+
+  sprint_complete:
+    - "All phases complete"
+    - "./collider symmetry . --docs . --brief returns score"
+    - "python .agent/tools/symmetry_check.py --brief uses true symmetry"
+    - "Documentation updated in WAVE_PARTICLE_SYMMETRY.md"
+    - "Single commit with all changes"
+
+# ============================================================================
+# VALIDATION COMMANDS
+# ============================================================================
+
+validation:
+  phase_1:
+    - "pytest tests/test_visibility_analyzer.py -v"
+    - "pytest tests/test_wave_extractor.py -v"
+    - "pytest tests/test_identity_matcher.py -v"
+    - "pip install -r requirements.txt"
+
+  phase_2:
+    - "./collider symmetry . --docs . --output /tmp/sym.json"
+    - "cat /tmp/sym.json | jq .symmetry_score"
+
+  phase_3:
+    - "python .agent/tools/symmetry_check.py --json"
+    - "python .agent/tools/symmetry_check.py --brief"
+
+  final:
+    - "git diff --stat"
+    - "pytest tests/ -q"
+    - "./collider full . --output .collider"
+
+# ============================================================================
+# COMMIT TEMPLATE
+# ============================================================================
+
+commit:
+  message: |
+    feat(symmetry): Implement true Wave-Particle symmetry measurement
+
+    ## CHANGES
+    | File | Description |
+    |------|-------------|
+    | src/core/visibility_analyzer.py | Public/private/protected detection |
+    | src/core/wave_extractor.py | Markdown API reference extraction |
+    | src/core/identity_matcher.py | Fuzzy symbol matching |
+    | src/core/symmetry_reporter.py | Symmetry diff and reporting |
+    | cli.py | Add `symmetry` subcommand |
+    | requirements.txt | Add mistletoe, rapidfuzz |
+    | .agent/tools/symmetry_check.py | Use true Collider symmetry |
+
+    ## API
+    ./collider symmetry /path --docs docs/ [--brief|--json]
+
+    ## TESTING
+    pytest tests/test_*symmetry*.py tests/test_visibility*.py
+
+    Co-Authored-By: Claude <noreply@anthropic.com>
+
+# ============================================================================
+# AGENT SPAWN COMMANDS
+# ============================================================================
+
+spawn:
+  phase_1_parallel:
+    description: "Run all 4 agents in parallel for Phase 1"
+    command: |
+      # Claude Code: Use Task tool with 4 parallel invocations
+      # Each agent gets: task ID, file path, full instructions from TaskGet
+
+  validation_gate:
+    description: "Run after Phase 1 before Phase 2"
+    command: |
+      pytest tests/test_visibility_analyzer.py tests/test_wave_extractor.py tests/test_identity_matcher.py -v
+
+  final_commit:
+    description: "After all phases complete"
+    command: |
+      git add -A
+      git commit -m "$(cat .agent/registry/SYMMETRY_SPRINT.yaml | grep -A20 'commit:' | tail -n+3)"
