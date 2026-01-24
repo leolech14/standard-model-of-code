@@ -78,6 +78,33 @@ from .context_optimizer import (
     format_context_summary,
 )
 
+from .semantic_matcher import (
+    SemanticMatch,
+    SemanticTarget,
+    PurposeLevel,
+    EdgeDirection,
+    semantic_match,
+    get_upstream_context,
+    get_downstream_context,
+    compute_semantic_distance,
+    format_semantic_match,
+)
+
+from .cache_registry import (
+    CacheEntry,
+    CacheRegistry,
+    get_workspace_key,
+)
+
+from .refinery import (
+    RefineryNode,
+    Refinery,
+    FileChunker,
+    PythonChunker,
+    MarkdownChunker,
+    YamlChunker,
+)
+
 __all__ = [
     # Configuration
     "ACI_CONFIG",
@@ -101,6 +128,27 @@ __all__ = [
     "answer_from_truths",
     "optimize_context",
     "format_context_summary",
+    # Semantic Matcher (Graph-based context selection)
+    "SemanticMatch",
+    "SemanticTarget",
+    "PurposeLevel",
+    "EdgeDirection",
+    "semantic_match",
+    "get_upstream_context",
+    "get_downstream_context",
+    "compute_semantic_distance",
+    "format_semantic_match",
+    # Cache Registry
+    "CacheEntry",
+    "CacheRegistry",
+    "get_workspace_key",
+    # Refinery (Context Atomization)
+    "RefineryNode",
+    "Refinery",
+    "FileChunker",
+    "PythonChunker",
+    "MarkdownChunker",
+    "YamlChunker",
 ]
 
 

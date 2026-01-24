@@ -4,7 +4,9 @@
 
 id: TASK-017
 title: "Build Inbox Triage Tool - Score and Prioritize Opportunities"
-status: EXECUTING
+status: COMPLETE
+completed_at: "2026-01-24T02:50:00Z"
+completion_note: "Triage tool built, 57 opps scored, duplicates archived, priority report generated."
 owner: claude-session-20260123
 
 description: |
