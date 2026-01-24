@@ -1,0 +1,68 @@
+# Pre-commit hooks for PROJECT_elements
+# Enforces commit hygiene for human and AI agent workflows
+#
+# Install: pre-commit install --hook-type commit-msg --hook-type pre-commit
+# Test:    pre-commit run --all-files
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  # ===========================================
+  # Commit Message Validation (Conventional Commits)
+  # ===========================================
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.18.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies: ['@commitlint/config-conventional']
+
+  # ===========================================
+  # Python Code Quality
+  # ===========================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+        exclude: ^(archive/|\.agent/registry/inbox/)
+      - id: check-json
+      - id: check-toml
+      - id: end-of-file-fixer
+        exclude: ^(archive/|standard-model-of-code/docs/research/)
+      - id: trailing-whitespace
+        exclude: ^(archive/|standard-model-of-code/docs/research/)
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # ===========================================
+  # Python Syntax Check (Fast)
+  # ===========================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+        files: \.py$
+
+  # ===========================================
+  # Prevent Secrets from Being Committed
+  # (Disabled for now - enable after generating baseline)
+  # ===========================================
+  # - repo: https://github.com/Yelp/detect-secrets
+  #   rev: v1.5.0
+  #   hooks:
+  #     - id: detect-secrets
+  #       args: ['--baseline', '.secrets.baseline']
+  #       exclude: ^(archive/|\.git/)
+
+# ===========================================
+# CI Configuration
+# ===========================================
+ci:
+  autofix_commit_msg: |
+    chore: auto-fix from pre-commit hooks
+
+    Co-Authored-By: pre-commit-ci[bot] <66853113+pre-commit-ci[bot]@users.noreply.github.com>
+  autoupdate_commit_msg: 'chore: update pre-commit hooks'
+  skip: [commitlint]  # Skip in CI (no commit message to validate)
