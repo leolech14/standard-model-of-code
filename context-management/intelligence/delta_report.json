@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "tool": "delta_detector",
+    "version": "1.0.0",
+    "detected_at": "2026-01-24T03:32:51.020792",
+    "baseline_source": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/intelligence/delta_state.json",
+    "current_inventory": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/intelligence/corpus_inventory.json"
+  },
+  "summary": {
+    "added": 14,
+    "modified": 0,
+    "deleted": 0,
+    "unchanged": 2885,
+    "total_changes": 14,
+    "has_changes": true
+  },
+  "changes": {
+    "added": [
+      {
+        "path": "context-management/intelligence/atoms/atoms_brain.json",
+        "language": "json",
+        "category": "configuration",
+        "size_bytes": 211777,
+        "lines": 7088,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:25:37.845122"
+      },
+      {
+        "path": "context-management/intelligence/boundaries.json",
+        "language": "json",
+        "category": "configuration",
+        "size_bytes": 105900,
+        "lines": 2494,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:10:40.293861"
+      },
+      {
+        "path": "context-management/intelligence/corpus_inventory.json",
+        "language": "json",
+        "category": "configuration",
+        "size_bytes": 896847,
+        "lines": 26419,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T02:56:48.749300"
+      },
+      {
+        "path": "context-management/intelligence/delta_report.json",
+        "language": "json",
+        "category": "configuration",
+        "size_bytes": 928642,
+        "lines": 25987,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:24:33.391617"
+      },
+      {
+        "path": "context-management/intelligence/delta_state.json",
+        "language": "json",
+        "category": "configuration",
+        "size_bytes": 300643,
+        "lines": 2889,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:24:33.394053"
+      },
+      {
+        "path": "context-management/intelligence/state/live.yaml",
+        "language": "yaml",
+        "category": "configuration",
+        "size_bytes": 1506,
+        "lines": 92,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:25:40.343231"
+      },
+      {
+        "path": "standard-model-of-code/docs/KNOWLEDGE_TREE.md",
+        "language": "markdown",
+        "category": "documentation",
+        "size_bytes": 11360,
+        "lines": 279,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:24:30.581465"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/gemini/docs/20260124_031030_you_are_helping_craft_a_research_query_for_perplex.md",
+        "language": "markdown",
+        "category": "documentation",
+        "size_bytes": 5692,
+        "lines": 75,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:10:30.305375"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/gemini/raw/20260124_031030_you_are_helping_craft_a_research_query_for_perplex.json",
+        "language": "json",
+        "category": "documentation",
+        "size_bytes": 5604,
+        "lines": 13,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:10:30.305050"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/gemini/sessions/20260124_031030_you_are_helping_craft_a_research_query_f.json",
+        "language": "json",
+        "category": "documentation",
+        "size_bytes": 5833,
+        "lines": 21,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:10:30.305635"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/perplexity/docs/20260124_030434_deep_research_on_john_mcafee_s_complete_list_of_in.md",
+        "language": "markdown",
+        "category": "documentation",
+        "size_bytes": 47464,
+        "lines": 229,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:04:34.695297"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/perplexity/docs/20260124_031338_what_specific_historical__social__and_technologica.md",
+        "language": "markdown",
+        "category": "documentation",
+        "size_bytes": 58314,
+        "lines": 254,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:13:38.326756"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/perplexity/raw/20260124_030434_deep_research_on_john_mcafee_s_complete_list_of_in.json",
+        "language": "json",
+        "category": "documentation",
+        "size_bytes": 70322,
+        "lines": 462,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:04:34.695117"
+      },
+      {
+        "path": "standard-model-of-code/docs/research/perplexity/raw/20260124_031338_what_specific_historical__social__and_technologica.json",
+        "language": "json",
+        "category": "documentation",
+        "size_bytes": 81666,
+        "lines": 469,
+        "content_hash": "sha256:quick_mode",
+        "modified_at": "2026-01-24T03:13:38.326550"
+      }
+    ],
+    "modified": [],
+    "deleted": []
+  }
+}

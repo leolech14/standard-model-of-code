@@ -1,0 +1,5617 @@
+{
+  "meta": {
+    "tool": "atom_generator",
+    "version": "1.0.0",
+    "generated_at": "2026-01-24T03:34:27.814270",
+    "boundary": "body"
+  },
+  "summary": {
+    "atoms_generated": 130,
+    "by_layer": {
+      "Domain": 128,
+      "Presentation": 1,
+      "Documentation": 1
+    },
+    "by_role": {
+      "EntryPoint": 9,
+      "Unknown": 113,
+      "Repository": 5,
+      "Entity": 3
+    },
+    "by_language": {
+      "python": 130
+    }
+  },
+  "atoms": [
+    {
+      "id": "FILE-standard_model_of_code_src_core___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "\ud83d\ude80 SPECTROMETER V12 MINIMAL - Core Module",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.778713",
+        "updated_at": "2026-01-24T03:34:27.778713",
+        "source_modified_at": "2026-01-23T09:51:08.991863",
+        "last_analyzed_at": "2026-01-24T03:34:27.778713"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 24,
+        "size_bytes": 554,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_analytics_engine_py",
+      "type": "file",
+      "name": "analytics_engine.py",
+      "source_path": "standard-model-of-code/src/core/analytics_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.779140",
+        "updated_at": "2026-01-24T03:34:27.779140",
+        "source_modified_at": "2026-01-20T00:16:29.659092",
+        "last_analyzed_at": "2026-01-24T03:34:27.779140"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 384,
+        "size_bytes": 12228,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_atom_loader_py",
+      "type": "file",
+      "name": "atom_loader.py",
+      "source_path": "standard-model-of-code/src/core/atom_loader.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.779451",
+        "updated_at": "2026-01-24T03:34:27.779451",
+        "source_modified_at": "2026-01-22T01:15:14.575020",
+        "last_analyzed_at": "2026-01-24T03:34:27.779451"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 285,
+        "size_bytes": 9433,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_atom_registry_py",
+      "type": "file",
+      "name": "atom_registry.py",
+      "source_path": "standard-model-of-code/src/core/atom_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.779880",
+        "updated_at": "2026-01-24T03:34:27.779880",
+        "source_modified_at": "2026-01-22T01:44:35.819341",
+        "last_analyzed_at": "2026-01-24T03:34:27.779880"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 937,
+        "size_bytes": 51261,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_brain_download_py",
+      "type": "file",
+      "name": "brain_download.py",
+      "source_path": "standard-model-of-code/src/core/brain_download.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.780161",
+        "updated_at": "2026-01-24T03:34:27.780161",
+        "source_modified_at": "2026-01-19T17:52:49.721491",
+        "last_analyzed_at": "2026-01-24T03:34:27.780161"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 405,
+        "size_bytes": 17195,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_classification_ddd_mappings_py",
+      "type": "file",
+      "name": "ddd_mappings.py",
+      "source_path": "standard-model-of-code/src/core/classification/ddd_mappings.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.780646",
+        "updated_at": "2026-01-24T03:34:27.780646",
+        "source_modified_at": "2025-12-24T17:56:58.813489",
+        "last_analyzed_at": "2026-01-24T03:34:27.780646"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 42,
+        "size_bytes": 1057,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_classification_universal_classifier_py",
+      "type": "file",
+      "name": "universal_classifier.py",
+      "source_path": "standard-model-of-code/src/core/classification/universal_classifier.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.781015",
+        "updated_at": "2026-01-24T03:34:27.781015",
+        "source_modified_at": "2026-01-22T13:23:05.969914",
+        "last_analyzed_at": "2026-01-24T03:34:27.781015"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 785,
+        "size_bytes": 38263,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_constraint_engine_py",
+      "type": "file",
+      "name": "constraint_engine.py",
+      "source_path": "standard-model-of-code/src/core/constraint_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.781349",
+        "updated_at": "2026-01-24T03:34:27.781349",
+        "source_modified_at": "2026-01-20T23:49:03.642840",
+        "last_analyzed_at": "2026-01-24T03:34:27.781349"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 558,
+        "size_bytes": 19706,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_control_flow_analyzer_py",
+      "type": "file",
+      "name": "control_flow_analyzer.py",
+      "source_path": "standard-model-of-code/src/core/control_flow_analyzer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.781711",
+        "updated_at": "2026-01-24T03:34:27.781711",
+        "source_modified_at": "2026-01-21T20:02:11.570499",
+        "last_analyzed_at": "2026-01-24T03:34:27.781711"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 475,
+        "size_bytes": 14570,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_data_flow_analyzer_py",
+      "type": "file",
+      "name": "data_flow_analyzer.py",
+      "source_path": "standard-model-of-code/src/core/data_flow_analyzer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.782095",
+        "updated_at": "2026-01-24T03:34:27.782095",
+        "source_modified_at": "2026-01-21T21:21:04.108819",
+        "last_analyzed_at": "2026-01-24T03:34:27.782095"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 872,
+        "size_bytes": 30069,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_data_management_py",
+      "type": "file",
+      "name": "data_management.py",
+      "source_path": "standard-model-of-code/src/core/data_management.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.782412",
+        "updated_at": "2026-01-24T03:34:27.782412",
+        "source_modified_at": "2026-01-15T19:18:22.047573",
+        "last_analyzed_at": "2026-01-24T03:34:27.782412"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 352,
+        "size_bytes": 12390,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_dimension_classifier_py",
+      "type": "file",
+      "name": "dimension_classifier.py",
+      "source_path": "standard-model-of-code/src/core/dimension_classifier.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.782855",
+        "updated_at": "2026-01-24T03:34:27.782855",
+        "source_modified_at": "2026-01-22T00:28:52.186975",
+        "last_analyzed_at": "2026-01-24T03:34:27.782855"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 662,
+        "size_bytes": 23153,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_edge_extractor_py",
+      "type": "file",
+      "name": "edge_extractor.py",
+      "source_path": "standard-model-of-code/src/core/edge_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.783067",
+        "updated_at": "2026-01-24T03:34:27.783067",
+        "source_modified_at": "2026-01-23T20:59:59.934610",
+        "last_analyzed_at": "2026-01-24T03:34:27.783067"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 1786,
+        "size_bytes": 69127,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_execution_flow_py",
+      "type": "file",
+      "name": "execution_flow.py",
+      "source_path": "standard-model-of-code/src/core/execution_flow.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.783584",
+        "updated_at": "2026-01-24T03:34:27.783584",
+        "source_modified_at": "2026-01-20T21:04:19.285322",
+        "last_analyzed_at": "2026-01-24T03:34:27.783584"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 522,
+        "size_bytes": 19099,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_extract_orphans_py",
+      "type": "file",
+      "name": "extract_orphans.py",
+      "source_path": "standard-model-of-code/src/core/extract_orphans.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Load JSON from stdin",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.783975",
+        "updated_at": "2026-01-24T03:34:27.783975",
+        "source_modified_at": "2026-01-20T20:50:32.630374",
+        "last_analyzed_at": "2026-01-24T03:34:27.783975"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 37,
+        "size_bytes": 1247,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_file_enricher_py",
+      "type": "file",
+      "name": "file_enricher.py",
+      "source_path": "standard-model-of-code/src/core/file_enricher.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.784300",
+        "updated_at": "2026-01-24T03:34:27.784300",
+        "source_modified_at": "2026-01-20T00:10:10.287246",
+        "last_analyzed_at": "2026-01-24T03:34:27.784300"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 414,
+        "size_bytes": 15007,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_full_analysis_py",
+      "type": "file",
+      "name": "full_analysis.py",
+      "source_path": "standard-model-of-code/src/core/full_analysis.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "File: standard-model-of-code/src/core/full_analysis.py",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.784346",
+        "updated_at": "2026-01-24T03:34:27.784346",
+        "source_modified_at": "2026-01-23T22:29:47.925004",
+        "last_analyzed_at": "2026-01-24T03:34:27.784346"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 2409,
+        "size_bytes": 104703,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_generate_health_report_py",
+      "type": "file",
+      "name": "generate_health_report.py",
+      "source_path": "standard-model-of-code/src/core/generate_health_report.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Load JSON from stdin",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Repository",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.784701",
+        "updated_at": "2026-01-24T03:34:27.784701",
+        "source_modified_at": "2026-01-20T20:53:11.556844",
+        "last_analyzed_at": "2026-01-24T03:34:27.784701"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 118,
+        "size_bytes": 5499,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_god_class_detector_lite_py",
+      "type": "file",
+      "name": "god_class_detector_lite.py",
+      "source_path": "standard-model-of-code/src/core/god_class_detector_lite.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.785193",
+        "updated_at": "2026-01-24T03:34:27.785193",
+        "source_modified_at": "2025-12-23T05:56:56.790370",
+        "last_analyzed_at": "2026-01-24T03:34:27.785193"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 464,
+        "size_bytes": 18261,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_graph_analyzer_py",
+      "type": "file",
+      "name": "graph_analyzer.py",
+      "source_path": "standard-model-of-code/src/core/graph_analyzer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.785577",
+        "updated_at": "2026-01-24T03:34:27.785577",
+        "source_modified_at": "2026-01-23T02:42:37.577364",
+        "last_analyzed_at": "2026-01-24T03:34:27.785577"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 518,
+        "size_bytes": 16616,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_graph_framework_py",
+      "type": "file",
+      "name": "graph_framework.py",
+      "source_path": "standard-model-of-code/src/core/graph_framework.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Graph-based semantic analysis framework.",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.785876",
+        "updated_at": "2026-01-24T03:34:27.785876",
+        "source_modified_at": "2026-01-23T21:37:01.478322",
+        "last_analyzed_at": "2026-01-24T03:34:27.785876"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 266,
+        "size_bytes": 7674,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_graph_metrics_py",
+      "type": "file",
+      "name": "graph_metrics.py",
+      "source_path": "standard-model-of-code/src/core/graph_metrics.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Advanced graph metrics for semantic purpose detection.",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.786054",
+        "updated_at": "2026-01-24T03:34:27.786054",
+        "source_modified_at": "2026-01-23T21:37:22.762522",
+        "last_analyzed_at": "2026-01-24T03:34:27.786054"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 290,
+        "size_bytes": 8701,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_graph_type_inference_py",
+      "type": "file",
+      "name": "graph_type_inference.py",
+      "source_path": "standard-model-of-code/src/core/graph_type_inference.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.786271",
+        "updated_at": "2026-01-24T03:34:27.786271",
+        "source_modified_at": "2026-01-20T20:28:52.674529",
+        "last_analyzed_at": "2026-01-24T03:34:27.786271"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 463,
+        "size_bytes": 18261,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_heuristic_classifier_py",
+      "type": "file",
+      "name": "heuristic_classifier.py",
+      "source_path": "standard-model-of-code/src/core/heuristic_classifier.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.786622",
+        "updated_at": "2026-01-24T03:34:27.786622",
+        "source_modified_at": "2026-01-20T19:54:27.359299",
+        "last_analyzed_at": "2026-01-24T03:34:27.786622"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 625,
+        "size_bytes": 26264,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_identity_matcher_py",
+      "type": "file",
+      "name": "identity_matcher.py",
+      "source_path": "standard-model-of-code/src/core/identity_matcher.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Entity",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.786889",
+        "updated_at": "2026-01-24T03:34:27.786889",
+        "source_modified_at": "2026-01-23T21:58:38.851226",
+        "last_analyzed_at": "2026-01-24T03:34:27.786889"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 203,
+        "size_bytes": 6692,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_insights_engine_py",
+      "type": "file",
+      "name": "insights_engine.py",
+      "source_path": "standard-model-of-code/src/core/insights_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.787207",
+        "updated_at": "2026-01-24T03:34:27.787207",
+        "source_modified_at": "2026-01-04T14:43:39.510676",
+        "last_analyzed_at": "2026-01-24T03:34:27.787207"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 539,
+        "size_bytes": 22743,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_intent_extractor_py",
+      "type": "file",
+      "name": "intent_extractor.py",
+      "source_path": "standard-model-of-code/src/core/intent_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Multi-modal intent extraction from code, commits, docs.",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.787563",
+        "updated_at": "2026-01-24T03:34:27.787563",
+        "source_modified_at": "2026-01-23T21:38:28.122587",
+        "last_analyzed_at": "2026-01-24T03:34:27.787563"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 289,
+        "size_bytes": 8281,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_ir_py",
+      "type": "file",
+      "name": "ir.py",
+      "source_path": "standard-model-of-code/src/core/ir.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.787847",
+        "updated_at": "2026-01-24T03:34:27.787847",
+        "source_modified_at": "2025-12-23T06:54:51.541002",
+        "last_analyzed_at": "2026-01-24T03:34:27.787847"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 83,
+        "size_bytes": 2274,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_newman_suite_py",
+      "type": "file",
+      "name": "newman_suite.py",
+      "source_path": "standard-model-of-code/src/core/newman_suite.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Presentation",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.788209",
+        "updated_at": "2026-01-24T03:34:27.788209",
+        "source_modified_at": "2026-01-16T06:45:57.858729",
+        "last_analyzed_at": "2026-01-24T03:34:27.788209"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 131,
+        "size_bytes": 5597,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_normalize_output_py",
+      "type": "file",
+      "name": "normalize_output.py",
+      "source_path": "standard-model-of-code/src/core/normalize_output.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.788508",
+        "updated_at": "2026-01-24T03:34:27.788508",
+        "source_modified_at": "2026-01-16T20:37:12.244099",
+        "last_analyzed_at": "2026-01-24T03:34:27.788508"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 385,
+        "size_bytes": 11737,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_observability_py",
+      "type": "file",
+      "name": "observability.py",
+      "source_path": "standard-model-of-code/src/core/observability.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.788577",
+        "updated_at": "2026-01-24T03:34:27.788577",
+        "source_modified_at": "2026-01-23T20:59:08.511510",
+        "last_analyzed_at": "2026-01-24T03:34:27.788577"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 313,
+        "size_bytes": 11164,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_ollama_client_py",
+      "type": "file",
+      "name": "ollama_client.py",
+      "source_path": "standard-model-of-code/src/core/ollama_client.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.788928",
+        "updated_at": "2026-01-24T03:34:27.788928",
+        "source_modified_at": "2026-01-16T04:58:04.600950",
+        "last_analyzed_at": "2026-01-24T03:34:27.788928"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 245,
+        "size_bytes": 8241,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_output_generator_py",
+      "type": "file",
+      "name": "output_generator.py",
+      "source_path": "standard-model-of-code/src/core/output_generator.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.789166",
+        "updated_at": "2026-01-24T03:34:27.789166",
+        "source_modified_at": "2026-01-23T22:28:39.694699",
+        "last_analyzed_at": "2026-01-24T03:34:27.789166"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 119,
+        "size_bytes": 3932,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_parser___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/parser/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.789491",
+        "updated_at": "2026-01-24T03:34:27.789491",
+        "source_modified_at": "2025-12-22T21:16:17.504867",
+        "last_analyzed_at": "2026-01-24T03:34:27.789491"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 65,
+        "size_bytes": 1392,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_parser_import_extractor_py",
+      "type": "file",
+      "name": "import_extractor.py",
+      "source_path": "standard-model-of-code/src/core/parser/import_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.789687",
+        "updated_at": "2026-01-24T03:34:27.789687",
+        "source_modified_at": "2025-12-22T21:14:09.884447",
+        "last_analyzed_at": "2026-01-24T03:34:27.789687"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 272,
+        "size_bytes": 8914,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_parser_python_extractor_py",
+      "type": "file",
+      "name": "python_extractor.py",
+      "source_path": "standard-model-of-code/src/core/parser/python_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.789846",
+        "updated_at": "2026-01-24T03:34:27.789846",
+        "source_modified_at": "2026-01-16T04:58:04.602058",
+        "last_analyzed_at": "2026-01-24T03:34:27.789846"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 252,
+        "size_bytes": 10003,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_parser_python_parser_py",
+      "type": "file",
+      "name": "python_parser.py",
+      "source_path": "standard-model-of-code/src/core/parser/python_parser.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.790107",
+        "updated_at": "2026-01-24T03:34:27.790107",
+        "source_modified_at": "2025-12-22T21:16:02.380016",
+        "last_analyzed_at": "2026-01-24T03:34:27.790107"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 311,
+        "size_bytes": 11131,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_parser_symbol_classifier_py",
+      "type": "file",
+      "name": "symbol_classifier.py",
+      "source_path": "standard-model-of-code/src/core/parser/symbol_classifier.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.790297",
+        "updated_at": "2026-01-24T03:34:27.790297",
+        "source_modified_at": "2025-12-22T21:15:06.869227",
+        "last_analyzed_at": "2026-01-24T03:34:27.790297"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 347,
+        "size_bytes": 11011,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pattern_matcher_py",
+      "type": "file",
+      "name": "pattern_matcher.py",
+      "source_path": "standard-model-of-code/src/core/pattern_matcher.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.790575",
+        "updated_at": "2026-01-24T03:34:27.790575",
+        "source_modified_at": "2026-01-21T20:31:22.691082",
+        "last_analyzed_at": "2026-01-24T03:34:27.790575"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 352,
+        "size_bytes": 10306,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_performance_predictor_py",
+      "type": "file",
+      "name": "performance_predictor.py",
+      "source_path": "standard-model-of-code/src/core/performance_predictor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.790965",
+        "updated_at": "2026-01-24T03:34:27.790965",
+        "source_modified_at": "2025-12-22T21:55:41.003651",
+        "last_analyzed_at": "2026-01-24T03:34:27.790965"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 374,
+        "size_bytes": 12554,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.791262",
+        "updated_at": "2026-01-24T03:34:27.791262",
+        "source_modified_at": "2026-01-23T13:22:22.789583",
+        "last_analyzed_at": "2026-01-24T03:34:27.791262"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 185,
+        "size_bytes": 5845,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_base_stage_py",
+      "type": "file",
+      "name": "base_stage.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/base_stage.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.791453",
+        "updated_at": "2026-01-24T03:34:27.791453",
+        "source_modified_at": "2026-01-23T12:17:56.618788",
+        "last_analyzed_at": "2026-01-24T03:34:27.791453"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 77,
+        "size_bytes": 2154,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_manager_py",
+      "type": "file",
+      "name": "manager.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/manager.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.791898",
+        "updated_at": "2026-01-24T03:34:27.791898",
+        "source_modified_at": "2026-01-23T13:47:26.106184",
+        "last_analyzed_at": "2026-01-24T03:34:27.791898"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 270,
+        "size_bytes": 9507,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_snapshot_py",
+      "type": "file",
+      "name": "snapshot.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/snapshot.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.792377",
+        "updated_at": "2026-01-24T03:34:27.792377",
+        "source_modified_at": "2026-01-23T13:46:46.854275",
+        "last_analyzed_at": "2026-01-24T03:34:27.792377"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 219,
+        "size_bytes": 6778,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.792665",
+        "updated_at": "2026-01-24T03:34:27.792665",
+        "source_modified_at": "2026-01-23T13:20:20.016980",
+        "last_analyzed_at": "2026-01-24T03:34:27.792665"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 151,
+        "size_bytes": 4707,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_ai_insights_py",
+      "type": "file",
+      "name": "ai_insights.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/ai_insights.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.792879",
+        "updated_at": "2026-01-24T03:34:27.792879",
+        "source_modified_at": "2026-01-23T13:18:53.963478",
+        "last_analyzed_at": "2026-01-24T03:34:27.792879"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 88,
+        "size_bytes": 2482,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_base_analysis_py",
+      "type": "file",
+      "name": "base_analysis.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/base_analysis.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.793223",
+        "updated_at": "2026-01-24T03:34:27.793223",
+        "source_modified_at": "2026-01-23T12:52:02.194707",
+        "last_analyzed_at": "2026-01-24T03:34:27.793223"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 113,
+        "size_bytes": 3472,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_codome_boundary_py",
+      "type": "file",
+      "name": "codome_boundary.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/codome_boundary.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.793506",
+        "updated_at": "2026-01-24T03:34:27.793506",
+        "source_modified_at": "2026-01-23T13:17:08.868106",
+        "last_analyzed_at": "2026-01-24T03:34:27.793506"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 83,
+        "size_bytes": 2579,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_constraint_validation_py",
+      "type": "file",
+      "name": "constraint_validation.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/constraint_validation.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.793788",
+        "updated_at": "2026-01-24T03:34:27.793788",
+        "source_modified_at": "2026-01-23T13:18:02.452380",
+        "last_analyzed_at": "2026-01-24T03:34:27.793788"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 73,
+        "size_bytes": 2015,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_control_flow_py",
+      "type": "file",
+      "name": "control_flow.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/control_flow.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.794088",
+        "updated_at": "2026-01-24T03:34:27.794088",
+        "source_modified_at": "2026-01-23T13:16:02.203694",
+        "last_analyzed_at": "2026-01-24T03:34:27.794088"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 80,
+        "size_bytes": 2455,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_data_flow_analysis_py",
+      "type": "file",
+      "name": "data_flow_analysis.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/data_flow_analysis.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.794272",
+        "updated_at": "2026-01-24T03:34:27.794272",
+        "source_modified_at": "2026-01-23T13:16:04.111935",
+        "last_analyzed_at": "2026-01-24T03:34:27.794272"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 79,
+        "size_bytes": 2399,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_data_flow_macro_py",
+      "type": "file",
+      "name": "data_flow_macro.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/data_flow_macro.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.794434",
+        "updated_at": "2026-01-24T03:34:27.794434",
+        "source_modified_at": "2026-01-23T13:18:01.354126",
+        "last_analyzed_at": "2026-01-24T03:34:27.794434"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 65,
+        "size_bytes": 1800,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_dimension_classification_py",
+      "type": "file",
+      "name": "dimension_classification.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/dimension_classification.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.794731",
+        "updated_at": "2026-01-24T03:34:27.794731",
+        "source_modified_at": "2026-01-23T13:15:45.752805",
+        "last_analyzed_at": "2026-01-24T03:34:27.794731"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 103,
+        "size_bytes": 3598,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_ecosystem_discovery_py",
+      "type": "file",
+      "name": "ecosystem_discovery.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/ecosystem_discovery.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795014",
+        "updated_at": "2026-01-24T03:34:27.795014",
+        "source_modified_at": "2026-01-23T13:10:51.305707",
+        "last_analyzed_at": "2026-01-24T03:34:27.795014"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 107,
+        "size_bytes": 3611,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_edge_extraction_py",
+      "type": "file",
+      "name": "edge_extraction.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/edge_extraction.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795262",
+        "updated_at": "2026-01-24T03:34:27.795262",
+        "source_modified_at": "2026-01-23T12:45:25.833132",
+        "last_analyzed_at": "2026-01-24T03:34:27.795262"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 75,
+        "size_bytes": 2265,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_graph_analytics_py",
+      "type": "file",
+      "name": "graph_analytics.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/graph_analytics.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795473",
+        "updated_at": "2026-01-24T03:34:27.795473",
+        "source_modified_at": "2026-01-23T12:39:46.581028",
+        "last_analyzed_at": "2026-01-24T03:34:27.795473"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 80,
+        "size_bytes": 2499,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_knot_detection_py",
+      "type": "file",
+      "name": "knot_detection.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/knot_detection.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795619",
+        "updated_at": "2026-01-24T03:34:27.795619",
+        "source_modified_at": "2026-01-23T13:17:02.902827",
+        "last_analyzed_at": "2026-01-24T03:34:27.795619"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 65,
+        "size_bytes": 1697,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_markov_matrix_py",
+      "type": "file",
+      "name": "markov_matrix.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/markov_matrix.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795752",
+        "updated_at": "2026-01-24T03:34:27.795752",
+        "source_modified_at": "2026-01-23T13:16:55.670417",
+        "last_analyzed_at": "2026-01-24T03:34:27.795752"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 67,
+        "size_bytes": 1968,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_organelle_purpose_py",
+      "type": "file",
+      "name": "organelle_purpose.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/organelle_purpose.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.795992",
+        "updated_at": "2026-01-24T03:34:27.795992",
+        "source_modified_at": "2026-01-23T13:16:53.549835",
+        "last_analyzed_at": "2026-01-24T03:34:27.795992"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 89,
+        "size_bytes": 3081,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_output_generation_py",
+      "type": "file",
+      "name": "output_generation.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/output_generation.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796125",
+        "updated_at": "2026-01-24T03:34:27.796125",
+        "source_modified_at": "2026-01-23T13:18:54.785691",
+        "last_analyzed_at": "2026-01-24T03:34:27.796125"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 131,
+        "size_bytes": 3861,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_pattern_detection_py",
+      "type": "file",
+      "name": "pattern_detection.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/pattern_detection.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796243",
+        "updated_at": "2026-01-24T03:34:27.796243",
+        "source_modified_at": "2026-01-23T13:16:03.184314",
+        "last_analyzed_at": "2026-01-24T03:34:27.796243"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 80,
+        "size_bytes": 2367,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_performance_prediction_py",
+      "type": "file",
+      "name": "performance_prediction.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/performance_prediction.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796356",
+        "updated_at": "2026-01-24T03:34:27.796356",
+        "source_modified_at": "2026-01-23T13:18:02.032036",
+        "last_analyzed_at": "2026-01-24T03:34:27.796356"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 73,
+        "size_bytes": 2116,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_purpose_field_py",
+      "type": "file",
+      "name": "purpose_field.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/purpose_field.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796578",
+        "updated_at": "2026-01-24T03:34:27.796578",
+        "source_modified_at": "2026-01-23T12:54:11.158305",
+        "last_analyzed_at": "2026-01-24T03:34:27.796578"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 80,
+        "size_bytes": 2530,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_purpose_intelligence_py",
+      "type": "file",
+      "name": "purpose_intelligence.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/purpose_intelligence.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796718",
+        "updated_at": "2026-01-24T03:34:27.796718",
+        "source_modified_at": "2026-01-23T13:18:03.196925",
+        "last_analyzed_at": "2026-01-24T03:34:27.796718"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 77,
+        "size_bytes": 2340,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_roadmap_evaluation_py",
+      "type": "file",
+      "name": "roadmap_evaluation.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/roadmap_evaluation.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796849",
+        "updated_at": "2026-01-24T03:34:27.796849",
+        "source_modified_at": "2026-01-23T13:18:51.223935",
+        "last_analyzed_at": "2026-01-24T03:34:27.796849"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 85,
+        "size_bytes": 2247,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_scope_analysis_py",
+      "type": "file",
+      "name": "scope_analysis.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/scope_analysis.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.796978",
+        "updated_at": "2026-01-24T03:34:27.796978",
+        "source_modified_at": "2026-01-23T13:16:00.954014",
+        "last_analyzed_at": "2026-01-24T03:34:27.796978"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 88,
+        "size_bytes": 2455,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_semantic_cortex_py",
+      "type": "file",
+      "name": "semantic_cortex.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/semantic_cortex.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.797161",
+        "updated_at": "2026-01-24T03:34:27.797161",
+        "source_modified_at": "2026-01-23T13:18:53.360636",
+        "last_analyzed_at": "2026-01-24T03:34:27.797161"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 68,
+        "size_bytes": 1711,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_stage_0_survey_py",
+      "type": "file",
+      "name": "stage_0_survey.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/stage_0_survey.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.797396",
+        "updated_at": "2026-01-24T03:34:27.797396",
+        "source_modified_at": "2026-01-23T13:10:34.280354",
+        "last_analyzed_at": "2026-01-24T03:34:27.797396"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 109,
+        "size_bytes": 3488,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_standard_model_py",
+      "type": "file",
+      "name": "standard_model.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/standard_model.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Entity",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.797634",
+        "updated_at": "2026-01-24T03:34:27.797634",
+        "source_modified_at": "2026-01-23T12:44:01.374561",
+        "last_analyzed_at": "2026-01-24T03:34:27.797634"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 83,
+        "size_bytes": 2692,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_statistical_metrics_py",
+      "type": "file",
+      "name": "statistical_metrics.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/statistical_metrics.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.797775",
+        "updated_at": "2026-01-24T03:34:27.797775",
+        "source_modified_at": "2026-01-23T13:17:07.150588",
+        "last_analyzed_at": "2026-01-24T03:34:27.797775"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 70,
+        "size_bytes": 1993,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_system_purpose_py",
+      "type": "file",
+      "name": "system_purpose.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/system_purpose.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.797908",
+        "updated_at": "2026-01-24T03:34:27.797908",
+        "source_modified_at": "2026-01-23T13:16:54.787512",
+        "last_analyzed_at": "2026-01-24T03:34:27.797908"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 87,
+        "size_bytes": 2885,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_pipeline_stages_topology_reasoning_py",
+      "type": "file",
+      "name": "topology_reasoning.py",
+      "source_path": "standard-model-of-code/src/core/pipeline/stages/topology_reasoning.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.798064",
+        "updated_at": "2026-01-24T03:34:27.798064",
+        "source_modified_at": "2026-01-23T13:18:52.622330",
+        "last_analyzed_at": "2026-01-24T03:34:27.798064"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 69,
+        "size_bytes": 1862,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_profile_loader_py",
+      "type": "file",
+      "name": "profile_loader.py",
+      "source_path": "standard-model-of-code/src/core/profile_loader.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.798315",
+        "updated_at": "2026-01-24T03:34:27.798315",
+        "source_modified_at": "2026-01-20T23:10:52.827526",
+        "last_analyzed_at": "2026-01-24T03:34:27.798315"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 193,
+        "size_bytes": 7032,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_purpose_emergence_py",
+      "type": "file",
+      "name": "purpose_emergence.py",
+      "source_path": "standard-model-of-code/src/core/purpose_emergence.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.798632",
+        "updated_at": "2026-01-24T03:34:27.798632",
+        "source_modified_at": "2026-01-21T15:34:06.114073",
+        "last_analyzed_at": "2026-01-24T03:34:27.798632"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 510,
+        "size_bytes": 16731,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_purpose_field_py",
+      "type": "file",
+      "name": "purpose_field.py",
+      "source_path": "standard-model-of-code/src/core/purpose_field.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.799027",
+        "updated_at": "2026-01-24T03:34:27.799027",
+        "source_modified_at": "2026-01-21T15:00:47.593632",
+        "last_analyzed_at": "2026-01-24T03:34:27.799027"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 485,
+        "size_bytes": 19257,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_purpose_intelligence_py",
+      "type": "file",
+      "name": "purpose_intelligence.py",
+      "source_path": "standard-model-of-code/src/core/purpose_intelligence.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.799387",
+        "updated_at": "2026-01-24T03:34:27.799387",
+        "source_modified_at": "2026-01-21T17:38:11.701630",
+        "last_analyzed_at": "2026-01-24T03:34:27.799387"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 563,
+        "size_bytes": 17523,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_queries___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/queries/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.799687",
+        "updated_at": "2026-01-24T03:34:27.799687",
+        "source_modified_at": "2026-01-22T00:14:12.846944",
+        "last_analyzed_at": "2026-01-24T03:34:27.799687"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 270,
+        "size_bytes": 9612,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/registry/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.799739",
+        "updated_at": "2026-01-24T03:34:27.799739",
+        "source_modified_at": "2026-01-23T14:38:00.721797",
+        "last_analyzed_at": "2026-01-24T03:34:27.799739"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 69,
+        "size_bytes": 1329,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry_pattern_registry_py",
+      "type": "file",
+      "name": "pattern_registry.py",
+      "source_path": "standard-model-of-code/src/core/registry/pattern_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.800158",
+        "updated_at": "2026-01-24T03:34:27.800158",
+        "source_modified_at": "2026-01-23T14:37:49.258978",
+        "last_analyzed_at": "2026-01-24T03:34:27.800158"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 752,
+        "size_bytes": 28481,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry_registry_of_registries_py",
+      "type": "file",
+      "name": "registry_of_registries.py",
+      "source_path": "standard-model-of-code/src/core/registry/registry_of_registries.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.800390",
+        "updated_at": "2026-01-24T03:34:27.800390",
+        "source_modified_at": "2026-01-23T14:38:06.802446",
+        "last_analyzed_at": "2026-01-24T03:34:27.800390"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 100,
+        "size_bytes": 3352,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry_role_registry_py",
+      "type": "file",
+      "name": "role_registry.py",
+      "source_path": "standard-model-of-code/src/core/registry/role_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.800637",
+        "updated_at": "2026-01-24T03:34:27.800637",
+        "source_modified_at": "2026-01-20T19:52:27.399043",
+        "last_analyzed_at": "2026-01-24T03:34:27.800637"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 245,
+        "size_bytes": 7392,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry_schema_registry_py",
+      "type": "file",
+      "name": "schema_registry.py",
+      "source_path": "standard-model-of-code/src/core/registry/schema_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.800848",
+        "updated_at": "2026-01-24T03:34:27.800848",
+        "source_modified_at": "2026-01-23T14:37:54.316677",
+        "last_analyzed_at": "2026-01-24T03:34:27.800848"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 455,
+        "size_bytes": 17298,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_registry_workflow_registry_py",
+      "type": "file",
+      "name": "workflow_registry.py",
+      "source_path": "standard-model-of-code/src/core/registry/workflow_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.801008",
+        "updated_at": "2026-01-24T03:34:27.801008",
+        "source_modified_at": "2026-01-23T14:23:55.339032",
+        "last_analyzed_at": "2026-01-24T03:34:27.801008"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 63,
+        "size_bytes": 1792,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_report_generator_py",
+      "type": "file",
+      "name": "report_generator.py",
+      "source_path": "standard-model-of-code/src/core/report_generator.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Repository",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.801186",
+        "updated_at": "2026-01-24T03:34:27.801186",
+        "source_modified_at": "2026-01-11T17:18:38.969345",
+        "last_analyzed_at": "2026-01-24T03:34:27.801186"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 253,
+        "size_bytes": 9234,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_roadmap_evaluator_py",
+      "type": "file",
+      "name": "roadmap_evaluator.py",
+      "source_path": "standard-model-of-code/src/core/roadmap_evaluator.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "File: standard-model-of-code/src/core/roadmap_evaluator.py",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.801348",
+        "updated_at": "2026-01-24T03:34:27.801348",
+        "source_modified_at": "2026-01-11T17:18:38.969533",
+        "last_analyzed_at": "2026-01-24T03:34:27.801348"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 129,
+        "size_bytes": 4788,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_scope_analyzer_py",
+      "type": "file",
+      "name": "scope_analyzer.py",
+      "source_path": "standard-model-of-code/src/core/scope_analyzer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.801593",
+        "updated_at": "2026-01-24T03:34:27.801593",
+        "source_modified_at": "2026-01-21T23:37:14.686074",
+        "last_analyzed_at": "2026-01-24T03:34:27.801593"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 824,
+        "size_bytes": 28482,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_semantic_cortex_py",
+      "type": "file",
+      "name": "semantic_cortex.py",
+      "source_path": "standard-model-of-code/src/core/semantic_cortex.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.801749",
+        "updated_at": "2026-01-24T03:34:27.801749",
+        "source_modified_at": "2026-01-11T17:18:38.970459",
+        "last_analyzed_at": "2026-01-24T03:34:27.801749"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 100,
+        "size_bytes": 4911,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_smart_extractor_py",
+      "type": "file",
+      "name": "smart_extractor.py",
+      "source_path": "standard-model-of-code/src/core/smart_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.802213",
+        "updated_at": "2026-01-24T03:34:27.802213",
+        "source_modified_at": "2025-12-20T02:34:36.631012",
+        "last_analyzed_at": "2026-01-24T03:34:27.802213"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 359,
+        "size_bytes": 12955,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_standard_model_enricher_py",
+      "type": "file",
+      "name": "standard_model_enricher.py",
+      "source_path": "standard-model-of-code/src/core/standard_model_enricher.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Entity",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.802491",
+        "updated_at": "2026-01-24T03:34:27.802491",
+        "source_modified_at": "2026-01-22T01:39:56.150315",
+        "last_analyzed_at": "2026-01-24T03:34:27.802491"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 326,
+        "size_bytes": 12338,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_stats_generator_py",
+      "type": "file",
+      "name": "stats_generator.py",
+      "source_path": "standard-model-of-code/src/core/stats_generator.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.802805",
+        "updated_at": "2026-01-24T03:34:27.802805",
+        "source_modified_at": "2026-01-19T02:46:40.571924",
+        "last_analyzed_at": "2026-01-24T03:34:27.802805"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 387,
+        "size_bytes": 17162,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_survey_py",
+      "type": "file",
+      "name": "survey.py",
+      "source_path": "standard-model-of-code/src/core/survey.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.803273",
+        "updated_at": "2026-01-24T03:34:27.803273",
+        "source_modified_at": "2026-01-23T23:45:15.216235",
+        "last_analyzed_at": "2026-01-24T03:34:27.803273"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 1411,
+        "size_bytes": 49485,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_symbol_indexer_py",
+      "type": "file",
+      "name": "symbol_indexer.py",
+      "source_path": "standard-model-of-code/src/core/symbol_indexer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.803587",
+        "updated_at": "2026-01-24T03:34:27.803587",
+        "source_modified_at": "2026-01-22T00:02:27.459591",
+        "last_analyzed_at": "2026-01-24T03:34:27.803587"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 601,
+        "size_bytes": 21446,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_symmetry_reporter_py",
+      "type": "file",
+      "name": "symmetry_reporter.py",
+      "source_path": "standard-model-of-code/src/core/symmetry_reporter.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Repository",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.803878",
+        "updated_at": "2026-01-24T03:34:27.803878",
+        "source_modified_at": "2026-01-23T22:01:26.356239",
+        "last_analyzed_at": "2026-01-24T03:34:27.803878"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 290,
+        "size_bytes": 9616,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_topology_reasoning_py",
+      "type": "file",
+      "name": "topology_reasoning.py",
+      "source_path": "standard-model-of-code/src/core/topology_reasoning.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Topological invariants for the code graph.",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.804183",
+        "updated_at": "2026-01-24T03:34:27.804183",
+        "source_modified_at": "2026-01-23T23:04:36.060052",
+        "last_analyzed_at": "2026-01-24T03:34:27.804183"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 569,
+        "size_bytes": 19459,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_tree_sitter_engine_py",
+      "type": "file",
+      "name": "tree_sitter_engine.py",
+      "source_path": "standard-model-of-code/src/core/tree_sitter_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.804287",
+        "updated_at": "2026-01-24T03:34:27.804287",
+        "source_modified_at": "2026-01-23T11:08:35.757548",
+        "last_analyzed_at": "2026-01-24T03:34:27.804287"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 1062,
+        "size_bytes": 42123,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_type_registry_py",
+      "type": "file",
+      "name": "type_registry.py",
+      "source_path": "standard-model-of-code/src/core/type_registry.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.804648",
+        "updated_at": "2026-01-24T03:34:27.804648",
+        "source_modified_at": "2025-12-20T02:10:33.962753",
+        "last_analyzed_at": "2026-01-24T03:34:27.804648"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 183,
+        "size_bytes": 6006,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_unified_analysis_py",
+      "type": "file",
+      "name": "unified_analysis.py",
+      "source_path": "standard-model-of-code/src/core/unified_analysis.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.804783",
+        "updated_at": "2026-01-24T03:34:27.804783",
+        "source_modified_at": "2026-01-23T20:54:09.222105",
+        "last_analyzed_at": "2026-01-24T03:34:27.804783"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 689,
+        "size_bytes": 26277,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_universal_detector_py",
+      "type": "file",
+      "name": "universal_detector.py",
+      "source_path": "standard-model-of-code/src/core/universal_detector.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.805060",
+        "updated_at": "2026-01-24T03:34:27.805060",
+        "source_modified_at": "2026-01-18T12:02:58.579564",
+        "last_analyzed_at": "2026-01-24T03:34:27.805060"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 116,
+        "size_bytes": 5504,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_validation___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/validation/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "File: standard-model-of-code/src/core/validation/__init__.py",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.805110",
+        "updated_at": "2026-01-24T03:34:27.805110",
+        "source_modified_at": "2026-01-04T14:43:39.512233",
+        "last_analyzed_at": "2026-01-24T03:34:27.805110"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 0,
+        "size_bytes": 0,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_validation_self_proof_py",
+      "type": "file",
+      "name": "self_proof.py",
+      "source_path": "standard-model-of-code/src/core/validation/self_proof.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.805308",
+        "updated_at": "2026-01-24T03:34:27.805308",
+        "source_modified_at": "2026-01-16T04:58:04.604905",
+        "last_analyzed_at": "2026-01-24T03:34:27.805308"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 644,
+        "size_bytes": 24602,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_visibility_analyzer_py",
+      "type": "file",
+      "name": "visibility_analyzer.py",
+      "source_path": "standard-model-of-code/src/core/visibility_analyzer.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.805467",
+        "updated_at": "2026-01-24T03:34:27.805467",
+        "source_modified_at": "2026-01-23T21:58:32.096684",
+        "last_analyzed_at": "2026-01-24T03:34:27.805467"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 213,
+        "size_bytes": 7896,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_viz___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/core/viz/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Visualization engines for the Collider visualizer.",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.805773",
+        "updated_at": "2026-01-24T03:34:27.805773",
+        "source_modified_at": "2026-01-16T07:06:16.334787",
+        "last_analyzed_at": "2026-01-24T03:34:27.805773"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 8,
+        "size_bytes": 316,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_viz_appearance_engine_py",
+      "type": "file",
+      "name": "appearance_engine.py",
+      "source_path": "standard-model-of-code/src/core/viz/appearance_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.806077",
+        "updated_at": "2026-01-24T03:34:27.806077",
+        "source_modified_at": "2026-01-19T16:47:59.345901",
+        "last_analyzed_at": "2026-01-24T03:34:27.806077"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 563,
+        "size_bytes": 23753,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_viz_controls_engine_py",
+      "type": "file",
+      "name": "controls_engine.py",
+      "source_path": "standard-model-of-code/src/core/viz/controls_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.806527",
+        "updated_at": "2026-01-24T03:34:27.806527",
+        "source_modified_at": "2026-01-20T00:29:22.158661",
+        "last_analyzed_at": "2026-01-24T03:34:27.806527"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 457,
+        "size_bytes": 21175,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_viz_physics_engine_py",
+      "type": "file",
+      "name": "physics_engine.py",
+      "source_path": "standard-model-of-code/src/core/viz/physics_engine.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.806688",
+        "updated_at": "2026-01-24T03:34:27.806688",
+        "source_modified_at": "2026-01-17T00:19:39.725783",
+        "last_analyzed_at": "2026-01-24T03:34:27.806688"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 59,
+        "size_bytes": 2279,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_viz_token_resolver_py",
+      "type": "file",
+      "name": "token_resolver.py",
+      "source_path": "standard-model-of-code/src/core/viz/token_resolver.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.807053",
+        "updated_at": "2026-01-24T03:34:27.807053",
+        "source_modified_at": "2026-01-19T14:50:34.791440",
+        "last_analyzed_at": "2026-01-24T03:34:27.807053"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 442,
+        "size_bytes": 15163,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_core_wave_extractor_py",
+      "type": "file",
+      "name": "wave_extractor.py",
+      "source_path": "standard-model-of-code/src/core/wave_extractor.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.807254",
+        "updated_at": "2026-01-24T03:34:27.807254",
+        "source_modified_at": "2026-01-23T21:59:43.147245",
+        "last_analyzed_at": "2026-01-24T03:34:27.807254"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 290,
+        "size_bytes": 9399,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_analyze_failures_py",
+      "type": "file",
+      "name": "analyze_failures.py",
+      "source_path": "standard-model-of-code/src/scripts/analyze_failures.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.807649",
+        "updated_at": "2026-01-24T03:34:27.807649",
+        "source_modified_at": "2025-12-23T03:22:29.662946",
+        "last_analyzed_at": "2026-01-24T03:34:27.807649"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 84,
+        "size_bytes": 2405,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_canonize_migration_py",
+      "type": "file",
+      "name": "canonize_migration.py",
+      "source_path": "standard-model-of-code/src/scripts/canonize_migration.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "Paths",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.807998",
+        "updated_at": "2026-01-24T03:34:27.807998",
+        "source_modified_at": "2025-12-22T01:25:53.940750",
+        "last_analyzed_at": "2026-01-24T03:34:27.807998"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 165,
+        "size_bytes": 6354,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_clone_repos_py",
+      "type": "file",
+      "name": "clone_repos.py",
+      "source_path": "standard-model-of-code/src/scripts/clone_repos.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Repository",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.808306",
+        "updated_at": "2026-01-24T03:34:27.808306",
+        "source_modified_at": "2025-12-23T03:28:02.707641",
+        "last_analyzed_at": "2026-01-24T03:34:27.808306"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 54,
+        "size_bytes": 1688,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_curate_repos_py",
+      "type": "file",
+      "name": "curate_repos.py",
+      "source_path": "standard-model-of-code/src/scripts/curate_repos.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Repository",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.808509",
+        "updated_at": "2026-01-24T03:34:27.808509",
+        "source_modified_at": "2025-12-23T03:08:54.492210",
+        "last_analyzed_at": "2026-01-24T03:34:27.808509"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 58,
+        "size_bytes": 1864,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_extract_chart_data_py",
+      "type": "file",
+      "name": "extract_chart_data.py",
+      "source_path": "standard-model-of-code/src/scripts/extract_chart_data.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.808714",
+        "updated_at": "2026-01-24T03:34:27.808714",
+        "source_modified_at": "2026-01-22T01:51:45.109160",
+        "last_analyzed_at": "2026-01-24T03:34:27.808714"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 247,
+        "size_bytes": 8617,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_extract_patterns_py",
+      "type": "file",
+      "name": "extract_patterns.py",
+      "source_path": "standard-model-of-code/src/scripts/extract_patterns.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.809098",
+        "updated_at": "2026-01-24T03:34:27.809098",
+        "source_modified_at": "2025-12-23T15:47:34.525624",
+        "last_analyzed_at": "2026-01-24T03:34:27.809098"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 241,
+        "size_bytes": 8718,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_find_disconnected_modules_py",
+      "type": "file",
+      "name": "find_disconnected_modules.py",
+      "source_path": "standard-model-of-code/src/scripts/find_disconnected_modules.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.809315",
+        "updated_at": "2026-01-24T03:34:27.809315",
+        "source_modified_at": "2025-12-23T02:18:28.297353",
+        "last_analyzed_at": "2026-01-24T03:34:27.809315"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 73,
+        "size_bytes": 2282,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_generate_paper_charts_py",
+      "type": "file",
+      "name": "generate_paper_charts.py",
+      "source_path": "standard-model-of-code/src/scripts/generate_paper_charts.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.809778",
+        "updated_at": "2026-01-24T03:34:27.809778",
+        "source_modified_at": "2025-12-23T04:51:51.502478",
+        "last_analyzed_at": "2026-01-24T03:34:27.809778"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 331,
+        "size_bytes": 12729,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_migrate_roles_py",
+      "type": "file",
+      "name": "migrate_roles.py",
+      "source_path": "standard-model-of-code/src/scripts/migrate_roles.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.810190",
+        "updated_at": "2026-01-24T03:34:27.810190",
+        "source_modified_at": "2026-01-21T08:46:17.065827",
+        "last_analyzed_at": "2026-01-24T03:34:27.810190"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 55,
+        "size_bytes": 1378,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_pattern_manager_py",
+      "type": "file",
+      "name": "pattern_manager.py",
+      "source_path": "standard-model-of-code/src/scripts/pattern_manager.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.810356",
+        "updated_at": "2026-01-24T03:34:27.810356",
+        "source_modified_at": "2026-01-21T08:46:15.812997",
+        "last_analyzed_at": "2026-01-24T03:34:27.810356"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 192,
+        "size_bytes": 6530,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_run_benchmark_py",
+      "type": "file",
+      "name": "run_benchmark.py",
+      "source_path": "standard-model-of-code/src/scripts/run_benchmark.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.810784",
+        "updated_at": "2026-01-24T03:34:27.810784",
+        "source_modified_at": "2025-12-23T11:29:31.896646",
+        "last_analyzed_at": "2026-01-24T03:34:27.810784"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 382,
+        "size_bytes": 13779,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_sample_for_mini_validation_py",
+      "type": "file",
+      "name": "sample_for_mini_validation.py",
+      "source_path": "standard-model-of-code/src/scripts/sample_for_mini_validation.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.810989",
+        "updated_at": "2026-01-24T03:34:27.810989",
+        "source_modified_at": "2026-01-16T04:58:04.607955",
+        "last_analyzed_at": "2026-01-24T03:34:27.810989"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 158,
+        "size_bytes": 6040,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_update_docs_py",
+      "type": "file",
+      "name": "update_docs.py",
+      "source_path": "standard-model-of-code/src/scripts/update_docs.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Documentation",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.811277",
+        "updated_at": "2026-01-24T03:34:27.811277",
+        "source_modified_at": "2026-01-21T08:46:34.193572",
+        "last_analyzed_at": "2026-01-24T03:34:27.811277"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 183,
+        "size_bytes": 5529,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_validate_annotations_py",
+      "type": "file",
+      "name": "validate_annotations.py",
+      "source_path": "standard-model-of-code/src/scripts/validate_annotations.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.811720",
+        "updated_at": "2026-01-24T03:34:27.811720",
+        "source_modified_at": "2025-12-23T00:54:36.460887",
+        "last_analyzed_at": "2026-01-24T03:34:27.811720"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 170,
+        "size_bytes": 6364,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_verify_standard_code_py",
+      "type": "file",
+      "name": "verify_standard_code.py",
+      "source_path": "standard-model-of-code/src/scripts/verify_standard_code.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.812137",
+        "updated_at": "2026-01-24T03:34:27.812137",
+        "source_modified_at": "2025-12-26T13:51:20.192519",
+        "last_analyzed_at": "2026-01-24T03:34:27.812137"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 250,
+        "size_bytes": 8958,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_scripts_verify_taxonomy_py",
+      "type": "file",
+      "name": "verify_taxonomy.py",
+      "source_path": "standard-model-of-code/src/scripts/verify_taxonomy.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "File: standard-model-of-code/src/scripts/verify_taxonomy.py",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.812459",
+        "updated_at": "2026-01-24T03:34:27.812459",
+        "source_modified_at": "2025-12-20T18:11:03.899665",
+        "last_analyzed_at": "2026-01-24T03:34:27.812459"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "source",
+        "lines_of_code": 28,
+        "size_bytes": 820,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools___init___py",
+      "type": "file",
+      "name": "__init__.py",
+      "source_path": "standard-model-of-code/src/tools/__init__.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "File: standard-model-of-code/src/tools/__init__.py",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "EntryPoint",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.812510",
+        "updated_at": "2026-01-24T03:34:27.812510",
+        "source_modified_at": "2025-12-22T23:24:36.799688",
+        "last_analyzed_at": "2026-01-24T03:34:27.812510"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 0,
+        "size_bytes": 0,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_compute_dimension_orthogonality_py",
+      "type": "file",
+      "name": "compute_dimension_orthogonality.py",
+      "source_path": "standard-model-of-code/src/tools/compute_dimension_orthogonality.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.812837",
+        "updated_at": "2026-01-24T03:34:27.812837",
+        "source_modified_at": "2025-12-20T18:57:44.223026",
+        "last_analyzed_at": "2026-01-24T03:34:27.812837"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 356,
+        "size_bytes": 12676,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_conversation_mapper_py",
+      "type": "file",
+      "name": "conversation_mapper.py",
+      "source_path": "standard-model-of-code/src/tools/conversation_mapper.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.813122",
+        "updated_at": "2026-01-24T03:34:27.813122",
+        "source_modified_at": "2026-01-04T14:43:39.514079",
+        "last_analyzed_at": "2026-01-24T03:34:27.813122"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 526,
+        "size_bytes": 20136,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_dedupe_insights_py",
+      "type": "file",
+      "name": "dedupe_insights.py",
+      "source_path": "standard-model-of-code/src/tools/dedupe_insights.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.813459",
+        "updated_at": "2026-01-24T03:34:27.813459",
+        "source_modified_at": "2025-12-24T16:49:38.433236",
+        "last_analyzed_at": "2026-01-24T03:34:27.813459"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 318,
+        "size_bytes": 10853,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_extract_chat_insights_py",
+      "type": "file",
+      "name": "extract_chat_insights.py",
+      "source_path": "standard-model-of-code/src/tools/extract_chat_insights.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.813786",
+        "updated_at": "2026-01-24T03:34:27.813786",
+        "source_modified_at": "2025-12-24T17:01:50.689186",
+        "last_analyzed_at": "2026-01-24T03:34:27.813786"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 559,
+        "size_bytes": 22552,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_prove_py",
+      "type": "file",
+      "name": "prove.py",
+      "source_path": "standard-model-of-code/src/tools/prove.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.814023",
+        "updated_at": "2026-01-24T03:34:27.814023",
+        "source_modified_at": "2026-01-16T04:58:04.608950",
+        "last_analyzed_at": "2026-01-24T03:34:27.814023"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 544,
+        "size_bytes": 28917,
+        "boundary": "body"
+      }
+    },
+    {
+      "id": "FILE-standard_model_of_code_src_tools_redundancy_detector_py",
+      "type": "file",
+      "name": "redundancy_detector.py",
+      "source_path": "standard-model-of-code/src/tools/redundancy_detector.py",
+      "content_hash": "sha256:quick_mode",
+      "summary": "!/usr/bin/env python3",
+      "relationships": {
+        "contains": [],
+        "imports": [],
+        "imported_by": []
+      },
+      "confidence": {
+        "factual": 95,
+        "alignment": 70,
+        "current": 90,
+        "onwards": 70,
+        "composite": 70
+      },
+      "dimensions": {
+        "D1_WHAT": "File",
+        "D2_LAYER": "Domain",
+        "D3_ROLE": "Unknown",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Unknown",
+        "D6_EFFECT": "Unknown",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 80
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:34:27.814256",
+        "updated_at": "2026-01-24T03:34:27.814256",
+        "source_modified_at": "2026-01-16T04:58:04.609762",
+        "last_analyzed_at": "2026-01-24T03:34:27.814256"
+      },
+      "metadata": {
+        "language": "python",
+        "category": "tooling",
+        "lines_of_code": 396,
+        "size_bytes": 13738,
+        "boundary": "body"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+version: 1.0.0
+synthesized_at: '2026-01-24T03:34:52.941184'
+project_root: /Users/lech/PROJECTS_all/PROJECT_elements
+corpus:
+  total_files: 2899
+  total_bytes: 3136852407
+  total_lines: 1661741
+  languages:
+  - markdown
+  - shell
+  - other
+  - json
+  - html
+  - toml
+  - python
+  - javascript
+  - yaml
+  - css
+  - typescript
+  - java
+  categories:
+  - other
+  - configuration
+  - test
+  - agent
+  - documentation
+  - tooling
+  - source
+  - archive
+  - research
+  last_scan: '2026-01-24T03:30:27.362959'
+boundaries:
+  count: 34
+  names:
+  - archive
+  - repo_docs
+  - roadmap
+  - docs_core
+  - repo_theory
+  - repo_tool
+  - archeology
+  - constraints
+  - viz_core
+  - theory
+  - schema
+  - pipeline
+  - classifiers
+  - architecture_review
+  - implementation_review
+  - brain
+  - body
+  - viz
+  - complete
+  - role_registry
+  - tests
+  - research_core
+  - research_tools
+  - research_atoms
+  - research_full
+  - research_validation
+  - agent_kernel
+  - agent_tasks
+  - agent_intelligence
+  - agent_specs
+  - agent_full
+  - aci_core
+  - aci_siblings
+  - aci_audit
+  total_files_mapped: 5902
+  last_mapped: '2026-01-24T03:30:49.433946'
+delta:
+  has_changes: true
+  added: 14
+  modified: 0
+  deleted: 0
+  last_detected: '2026-01-24T03:32:51.020792'
+atoms:
+  total: 295
+  by_boundary:
+    body: 130
+    brain: 165
+  atom_files:
+  - atoms_body.json
+  - atoms_brain.json
+health:
+  corpus_fresh: true
+  boundaries_fresh: true
+  delta_fresh: true
+  all_tools_ran: true
+quick_stats:
+  files: 2899
+  boundaries: 34
+  atoms: 295
+  pending_changes: 14

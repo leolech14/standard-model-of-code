@@ -1,0 +1,2497 @@
+{
+  "meta": {
+    "tool": "boundary_mapper",
+    "version": "1.0.0",
+    "mapped_at": "2026-01-24T03:30:49.433946",
+    "source": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/config/analysis_sets.yaml"
+  },
+  "summary": {
+    "boundaries": 34,
+    "total_files_mapped": 5902
+  },
+  "boundaries": [
+    {
+      "id": "BOUNDARY-archive",
+      "type": "boundary",
+      "name": "archive",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:6555978428726b04dd0237f814cc30e45d11064bed1f195a4a8e3db4677ca288",
+      "summary": "Historical snapshots and large reference datasets (Read-Only)",
+      "region_name": "archive",
+      "include_patterns": [
+        "archive/**"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-archive__DS_Store",
+          "FILE-archive_agent_cuts_2026-01-23_MANIFEST_md",
+          "FILE-archive_agent_cuts_2026-01-23_OPEN_CONCERNS_md",
+          "FILE-archive_agent_cuts_2026-01-23_PROVENANCE_yaml",
+          "FILE-archive_agent_cuts_2026-01-23_truths_history_truths_20260123_052327_yaml",
+          "FILE-archive_agent_cuts_2026-01-23_truths_history_truths_20260123_052436_yaml",
+          "FILE-archive_agent_cuts_2026-01-23_workflows_testing_suite_md",
+          "FILE-archive_canvas_THEORY_COMPLETE_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_canvas_bak",
+          "FILE-archive_canvas_THEORY_COMPLETE_CLEAN_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_FIXED_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_FIXED_fixed_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_ORGANIZED_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_ORGANIZED_fixed_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_ORGANIZED_v2_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_VALID_canvas",
+          "FILE-archive_canvas_THEORY_COMPLETE_with_extracts_canvas",
+          "FILE-archive_context-management-agent-2026-01-23_FILTER_SYSTEM_AUDIT_md",
+          "FILE-archive_context-management-agent-2026-01-23_SET_MAPPING_IMPLEMENTATION_md",
+          "FILE-archive_context-management-agent-2026-01-23_UI_REFACTOR_REPORT_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_C1_ATOM_ENUMERATION_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_C2_JSON_SCHEMA_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_C3_TRAINING_CORPUS_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_CLAUDE_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_DOCS_README_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_ORIENTATION_FILES_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_REPO_README_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_ROADMAP_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_THEORY_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_TOOL_md",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_graph_schema_json",
+          "FILE-archive_context-management-agent-2026-01-23_orientation_particle_schema_json",
+          "FILE-archive_context-management-agent-2026-01-23_workflows_publish_md",
+          "FILE-archive_data_1440_csv_csv",
+          "FILE-archive_data_2025-12-05-this-session-is-being-continued-from-a-previous-co_txt",
+          "FILE-archive_data_384_several_false_csv",
+          "FILE-archive_data_a255be92-d927-4e5b-9075-9a1b596e48bc",
+          "FILE-archive_data_b59a2612-ae19-4e7f-8d07-49ce684ec8c8",
+          "FILE-archive_data_batch_analysis_results_json",
+          "FILE-archive_data_canvas_extracted_data_json",
+          "FILE-archive_data_canvas_summary_txt",
+          "FILE-archive_data_db3d7b84-1392-4e9d-9042-869d0e4087dd",
+          "FILE-archive_data_extracted_subhadrons_txt",
+          "FILE-archive_data_failure_analysis_report_json",
+          "FILE-archive_data_gap_analysis_adjustments_json",
+          "FILE-archive_data_gap_summary_json",
+          "FILE-archive_data_graph_TD_mmd",
+          "FILE-archive_data_massive_validation_results_json",
+          "FILE-archive_data_massive_validation_results_simulated_json",
+          "FILE-archive_data_project_elements_file_timestamps_2026-01-18_csv"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.591688",
+        "updated_at": "2026-01-24T03:30:48.591688",
+        "last_analyzed_at": "2026-01-24T03:30:48.591688"
+      },
+      "metadata": {
+        "max_tokens": 1000000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 1043,
+        "total_bytes": 1407769095,
+        "total_lines": 22675817,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-repo_docs",
+      "type": "boundary",
+      "name": "repo_docs",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:54b70ed3ea510998905875f6a80f922753be4e61a7028a0f5aea3963e7a78a88",
+      "summary": "The 'Map' \u2013 Design specs, user guides, and theory docs",
+      "region_name": "repo_docs",
+      "include_patterns": [
+        "context-management/docs/*.md",
+        "standard-model-of-code/docs/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
+          "FILE-context-management_docs_AI_USER_GUIDE_md",
+          "FILE-context-management_docs_ASSET_INVENTORY_md",
+          "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
+          "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
+          "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_README_md",
+          "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
+          "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
+          "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
+          "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_WORKFLOW_FACTORY_md",
+          "FILE-standard-model-of-code_docs_COLLIDER_md",
+          "FILE-standard-model-of-code_docs_COMPETITIVE_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_KNOWLEDGE_TREE_md",
+          "FILE-standard-model-of-code_docs_MODEL_md",
+          "FILE-standard-model-of-code_docs_OPEN_CONCERNS_md",
+          "FILE-standard-model-of-code_docs_PURPOSE_INTELLIGENCE_md",
+          "FILE-standard-model-of-code_docs_README_md",
+          "FILE-standard-model-of-code_docs_RESEARCH_DIRECTIONS_md",
+          "FILE-standard-model-of-code_docs_RESEARCH_TO_IMPLEMENTATION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_SPRAWL_CONSOLIDATION_PLAN_md",
+          "FILE-standard-model-of-code_docs_THEORY_EXPANSION_2026_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.597282",
+        "updated_at": "2026-01-24T03:30:48.597282",
+        "last_analyzed_at": "2026-01-24T03:30:48.597282"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 30,
+        "total_bytes": 360322,
+        "total_lines": 9641,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-roadmap",
+      "type": "boundary",
+      "name": "roadmap",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:8eb79c47f55fdfad5ee74c31726841528cd1a7d3faabc912241d79a8da38ddb2",
+      "summary": "Project roadmaps and future plans",
+      "region_name": "roadmap",
+      "include_patterns": [
+        "standard-model-of-code/docs/RESEARCH_TO_IMPLEMENTATION_ROADMAP.md",
+        "standard-model-of-code/docs/RESEARCH_DIRECTIONS.md",
+        "standard-model-of-code/docs/THEORY_EXPANSION_2026.md",
+        "standard-model-of-code/docs/plans/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_docs_RESEARCH_DIRECTIONS_md",
+          "FILE-standard-model-of-code_docs_RESEARCH_TO_IMPLEMENTATION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_THEORY_EXPANSION_2026_md",
+          "FILE-standard-model-of-code_docs_plans_ROLE_REGISTRY_HARDENING_PLAN_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.597723",
+        "updated_at": "2026-01-24T03:30:48.597723",
+        "last_analyzed_at": "2026-01-24T03:30:48.597723"
+      },
+      "metadata": {
+        "max_tokens": 50000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 4,
+        "total_bytes": 61065,
+        "total_lines": 1530,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-docs_core",
+      "type": "boundary",
+      "name": "docs_core",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:8bc1ce8d1d4d28d45eb00e3aeae92e8ab9bbefa3f6770571dea5f9c30f3f309d",
+      "summary": "Core documentation and specs (excluding archive/agent)",
+      "region_name": "docs_core",
+      "include_patterns": [
+        "standard-model-of-code/docs/*.md",
+        "standard-model-of-code/docs/specs/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_docs_COLLIDER_md",
+          "FILE-standard-model-of-code_docs_COMPETITIVE_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_KNOWLEDGE_TREE_md",
+          "FILE-standard-model-of-code_docs_MODEL_md",
+          "FILE-standard-model-of-code_docs_OPEN_CONCERNS_md",
+          "FILE-standard-model-of-code_docs_PURPOSE_INTELLIGENCE_md",
+          "FILE-standard-model-of-code_docs_README_md",
+          "FILE-standard-model-of-code_docs_RESEARCH_DIRECTIONS_md",
+          "FILE-standard-model-of-code_docs_RESEARCH_TO_IMPLEMENTATION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_SPRAWL_CONSOLIDATION_PLAN_md",
+          "FILE-standard-model-of-code_docs_THEORY_EXPANSION_2026_md",
+          "FILE-standard-model-of-code_docs_specs_AI_INTERFACE_SPEC_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_BOUNDARY_DEFINITION_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_COMPLETENESS_INDEX_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_HEALTH_INDEX_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_LANDSCAPE_md",
+          "FILE-standard-model-of-code_docs_specs_COMPLETENESS_ATTESTATION_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_specs_EXHAUSTIVE_CLASSIFICATION_MODEL_md",
+          "FILE-standard-model-of-code_docs_specs_LANDSCAPE_IMPLEMENTATION_GUIDE_md",
+          "FILE-standard-model-of-code_docs_specs_NODE_COUNT_GROUND_TRUTH_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_STAGES_md",
+          "FILE-standard-model-of-code_docs_specs_README_md",
+          "FILE-standard-model-of-code_docs_specs_REGISTRY_OF_REGISTRIES_md",
+          "FILE-standard-model-of-code_docs_specs_SCALE_INOUT_TOPOLOGY_md",
+          "FILE-standard-model-of-code_docs_specs_SCALE_TRANSFORMS_md",
+          "FILE-standard-model-of-code_docs_specs_SEMANTIC_INDEXER_IMPLEMENTATION_md",
+          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_PLAN_md",
+          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_INTEGRATION_SPEC_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_POWER_INVENTORY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_VALIDATION_REPORT_md",
+          "FILE-standard-model-of-code_docs_specs_UI_LAYOUT_ARCHITECTURE_md",
+          "FILE-standard-model-of-code_docs_specs_UI_REFACTOR_VISION_md",
+          "FILE-standard-model-of-code_docs_specs_UI_SESSION_SUMMARY_md",
+          "FILE-standard-model-of-code_docs_specs_UNIVERSAL_PROPERTY_BINDER_md",
+          "FILE-standard-model-of-code_docs_specs_UPB_IMPLEMENTATION_PLAN_md",
+          "FILE-standard-model-of-code_docs_specs_UPB_LEGACY_SPRAWL_md",
+          "FILE-standard-model-of-code_docs_specs_UPB_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_VISUALIZATION_UI_SPEC_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.603765",
+        "updated_at": "2026-01-24T03:30:48.603765",
+        "last_analyzed_at": "2026-01-24T03:30:48.603765"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 43,
+        "total_bytes": 649373,
+        "total_lines": 18791,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-repo_theory",
+      "type": "boundary",
+      "name": "repo_theory",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:c8e4a4ef5bca646812bbcbf4d268d412d463c697dec8ad696fbb85701fd352f5",
+      "summary": "The 'Source of Truth' \u2013 Core schemas, dimensions, and model definitions",
+      "region_name": "repo_theory",
+      "include_patterns": [
+        "standard-model-of-code/schema/**/*.yaml",
+        "standard-model-of-code/src/core/dimensions.py",
+        "standard-model-of-code/src/core/atom_registry.py",
+        "context-management/config/semantic_models.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_config_semantic_models_yaml",
+          "FILE-standard-model-of-code_schema_antimatter_laws_yaml",
+          "FILE-standard-model-of-code_schema_constants_yaml",
+          "FILE-standard-model-of-code_schema_constraints_rules_yaml",
+          "FILE-standard-model-of-code_schema_constraints_taxonomy_yaml",
+          "FILE-standard-model-of-code_schema_profiles_architecture_classic_layered_yaml",
+          "FILE-standard-model-of-code_schema_profiles_architecture_clean_onion_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_fp_strict_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_oop_conventional_yaml",
+          "FILE-standard-model-of-code_src_core_atom_registry_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.605962",
+        "updated_at": "2026-01-24T03:30:48.605962",
+        "last_analyzed_at": "2026-01-24T03:30:48.605962"
+      },
+      "metadata": {
+        "max_tokens": 100000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 10,
+        "total_bytes": 88367,
+        "total_lines": 2021,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-repo_tool",
+      "type": "boundary",
+      "name": "repo_tool",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:cca3f6e846dce536f7d88cd892beef7c03ea89efa7e6e01c77bd23747450b2f0",
+      "summary": "The 'Engine' \u2013 Collider logic, analysis pipeline, and AI tools",
+      "region_name": "repo_tool",
+      "include_patterns": [
+        "standard-model-of-code/src/core/full_analysis.py",
+        "standard-model-of-code/src/core/classification/*.py",
+        "context-management/tools/ai/*.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_tools_ai_analyze_py",
+          "FILE-context-management_tools_ai_debug_models_py",
+          "FILE-context-management_tools_ai_future_visionary_py",
+          "FILE-context-management_tools_ai_gemini_cache_demo_py",
+          "FILE-context-management_tools_ai_gemini_genai_test_py",
+          "FILE-context-management_tools_ai_gemini_test_simple_py",
+          "FILE-context-management_tools_ai_industrial_ui_py",
+          "FILE-context-management_tools_ai_insights_generator_py",
+          "FILE-context-management_tools_ai_list_models_py",
+          "FILE-context-management_tools_ai_loop_py",
+          "FILE-context-management_tools_ai_observe_session_py",
+          "FILE-context-management_tools_ai_perplexity_research_py",
+          "FILE-context-management_tools_ai_present_architect_py",
+          "FILE-context-management_tools_ai_repo_archaeologist_py",
+          "FILE-context-management_tools_ai_setup_rag_py",
+          "FILE-context-management_tools_ai_test_vertex_sdk_py",
+          "FILE-standard-model-of-code_src_core_classification_ddd_mappings_py",
+          "FILE-standard-model-of-code_src_core_classification_universal_classifier_py",
+          "FILE-standard-model-of-code_src_core_full_analysis_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.609351",
+        "updated_at": "2026-01-24T03:30:48.609351",
+        "last_analyzed_at": "2026-01-24T03:30:48.609351"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 19,
+        "total_bytes": 388223,
+        "total_lines": 10072,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-archeology",
+      "type": "boundary",
+      "name": "archeology",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:add3884e15fbeb67bd6a710707ed5877839c3ae984c49b150664ee47fc8fcee4",
+      "summary": "The Geologic Record (Generation 2 Analysis)",
+      "region_name": "archeology",
+      "include_patterns": [
+        "archive/docs_smc_2026-01-19/**",
+        "archive/docs_registry_2026-01-19/**",
+        "archive/orphaned_src_2025/**",
+        "archive/misc_docs/**"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-archive_docs_registry_2026-01-19_ARCHIVE_MANIFEST_md",
+          "FILE-archive_docs_registry_2026-01-19_DOC_NODES_md",
+          "FILE-archive_docs_registry_2026-01-19_FACT_CROSSREF_md",
+          "FILE-archive_docs_registry_2026-01-19_FACT_INVENTORY_md",
+          "FILE-archive_docs_registry_2026-01-19_GEMINI_EXTRACTION_2026-01-19_md",
+          "FILE-archive_docs_registry_2026-01-19_nodes_json",
+          "FILE-archive_docs_smc_2026-01-19_ATOMS_REFERENCE_md",
+          "FILE-archive_docs_smc_2026-01-19_COMMANDS_md",
+          "FILE-archive_docs_smc_2026-01-19_CONSOLIDATED_UNDERSTANDING_md",
+          "FILE-archive_docs_smc_2026-01-19_INDEX_md",
+          "FILE-archive_docs_smc_2026-01-19_QUICKSTART_md",
+          "FILE-archive_docs_smc_2026-01-19_THEORY_MAP_md",
+          "FILE-archive_misc_docs_ACTUAL_VALIDATION_DATA_md",
+          "FILE-archive_misc_docs_ARCHITECTURAL_PATTERN_ANALYSIS_DOCUMENTATION_md",
+          "FILE-archive_misc_docs_ASSET_MANIFEST_md",
+          "FILE-archive_misc_docs_CANVAS_FILES_SUMMARY_md",
+          "FILE-archive_misc_docs_CANVAS_ORGANIZATION_SUMMARY_md",
+          "FILE-archive_misc_docs_CODEX_md",
+          "FILE-archive_misc_docs_CONTINENTS_12_md",
+          "FILE-archive_misc_docs_CONTINENTS_12_LIST_md",
+          "FILE-archive_misc_docs_CRITICAL_FAILURE_ANALYSIS_md",
+          "FILE-archive_misc_docs_DDDLINT_PIVOT_ROADMAP_md",
+          "FILE-archive_misc_docs_Dockerfile",
+          "FILE-archive_misc_docs_ENHANCED_FRAMEWORK_RESULTS_md",
+          "FILE-archive_misc_docs_FAILURE_DIAGNOSIS_md",
+          "FILE-archive_misc_docs_FINAL_VALIDATION_SUMMARY_md",
+          "FILE-archive_misc_docs_GAP_ANALYSIS_MATRIX_md",
+          "FILE-archive_misc_docs_GOD_CLASS_DETECTION_RESEARCH_PAPER_md",
+          "FILE-archive_misc_docs_HADRONS_MERMAID_DIAGRAM_md",
+          "FILE-archive_misc_docs_IMPLEMENTATION_ROADMAP_md",
+          "FILE-archive_misc_docs_IMPOSSIBLE_42_md",
+          "FILE-archive_misc_docs_IMPOSSIBLE_42_LIST_md",
+          "FILE-archive_misc_docs_LAWS_11_md",
+          "FILE-archive_misc_docs_LAWS_11_LIST_md",
+          "FILE-archive_misc_docs_LLM_SETUP_GUIDE_md",
+          "FILE-archive_misc_docs_METHOD_QUALITY_REPORT_md",
+          "FILE-archive_misc_docs_SUBHADRONS_1440_md",
+          "FILE-archive_misc_docs_SUBHADRONS_1440_LIST_md",
+          "FILE-archive_misc_docs_SUBHADRONS_384_md",
+          "FILE-archive_misc_docs_SUBHADRONS_384_LIST_md",
+          "FILE-archive_misc_docs_THEORY_COMPLETE_md",
+          "FILE-archive_misc_docs_THEORY_COMPREHENSIVE_REPORT_md",
+          "FILE-archive_misc_docs_THIRD_PARTY_VALIDATION_PGORECKI_md",
+          "FILE-archive_misc_docs_TOUCHPOINTS",
+          "FILE-archive_misc_docs_UNIVERSAL_PATTERN_ANALYSIS_REPORT_md",
+          "FILE-archive_misc_docs_V13-GROK_md",
+          "FILE-archive_misc_docs_alignment_summary_md",
+          "FILE-archive_misc_docs_batch_analysis_results_md",
+          "FILE-archive_misc_docs_comprehensive_error_report_md",
+          "FILE-archive_misc_docs_ddd_architecture_patterns_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.611586",
+        "updated_at": "2026-01-24T03:30:48.611586",
+        "last_analyzed_at": "2026-01-24T03:30:48.611586"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 63,
+        "total_bytes": 618715,
+        "total_lines": 13828,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-constraints",
+      "type": "boundary",
+      "name": "constraints",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:f36c2b41317decbe3785b93f07d9f635c156af64dea8098d415c57a015269f24",
+      "summary": "Constraint Field system (profiles, engine, rules)",
+      "region_name": "constraints",
+      "include_patterns": [
+        "standard-model-of-code/src/core/constraint_engine.py",
+        "standard-model-of-code/src/core/profile_loader.py",
+        "standard-model-of-code/schema/constraints/*.yaml",
+        "standard-model-of-code/schema/profiles/**/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_schema_constraints_rules_yaml",
+          "FILE-standard-model-of-code_schema_constraints_taxonomy_yaml",
+          "FILE-standard-model-of-code_schema_profiles_architecture_classic_layered_yaml",
+          "FILE-standard-model-of-code_schema_profiles_architecture_clean_onion_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_fp_strict_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_oop_conventional_yaml",
+          "FILE-standard-model-of-code_src_core_constraint_engine_py",
+          "FILE-standard-model-of-code_src_core_profile_loader_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.612453",
+        "updated_at": "2026-01-24T03:30:48.612453",
+        "last_analyzed_at": "2026-01-24T03:30:48.612453"
+      },
+      "metadata": {
+        "max_tokens": 50000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 8,
+        "total_bytes": 47787,
+        "total_lines": 1420,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-viz_core",
+      "type": "boundary",
+      "name": "viz_core",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:da2b73b85ef054436e8a9e37daf1987604bce5fc2718727f745f22689b378785",
+      "summary": "Visualization core (control bar, data manager, template)",
+      "region_name": "viz_core",
+      "include_patterns": [
+        "standard-model-of-code/src/core/viz/assets/modules/*.js",
+        "standard-model-of-code/src/core/viz/assets/template.html",
+        "standard-model-of-code/src/core/viz/assets/styles.css",
+        "standard-model-of-code/tools/visualize_graph_webgl.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_AxialLayout_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_CodomeHUD_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_HolarchyMapper_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_InteractionManager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_SettingsPanel_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_TowerRenderer_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_animation_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_circuit-breaker_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-engine_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_control-bar_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_core_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_data-manager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_datamap_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_dimension_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_edge-system_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-color-model_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-tree-layout_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-viz_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_flow_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_groups_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_hardware-info_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_hover_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_hud_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_hull-visualizer_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_layout-forces_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_layout-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_layout_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_legend-manager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_main_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_node-accessors_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_node-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_panels_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_perf-monitor_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_physics_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_pipeline-navigator_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_refresh-throttle_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_registry_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_report_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_selection_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_sidebar_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_spatial_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_theme_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_theory_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_tooltips_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_ui-builders_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_ui-manager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_unlit-nodes_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_utils_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_vis-state_js"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.621988",
+        "updated_at": "2026-01-24T03:30:48.621988",
+        "last_analyzed_at": "2026-01-24T03:30:48.621988"
+      },
+      "metadata": {
+        "max_tokens": 100000,
+        "auto_interactive": true,
+        "includes": [],
+        "file_count": 54,
+        "total_bytes": 950630,
+        "total_lines": 24354,
+        "critical_files": [
+          "standard-model-of-code/src/core/viz/assets/template.html"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-theory",
+      "type": "boundary",
+      "name": "theory",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:fbfb10f218d1a86cb68396d6a9e064fc72be145da9e901daff4a99101ca2363c",
+      "summary": "Theoretical framework and documentation",
+      "region_name": "theory",
+      "include_patterns": [
+        "standard-model-of-code/docs/MODEL.md",
+        "standard-model-of-code/docs/COLLIDER.md",
+        "standard-model-of-code/docs/specs/*.md",
+        "context-management/docs/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
+          "FILE-context-management_docs_AI_USER_GUIDE_md",
+          "FILE-context-management_docs_ASSET_INVENTORY_md",
+          "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
+          "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
+          "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_README_md",
+          "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
+          "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
+          "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
+          "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_WORKFLOW_FACTORY_md",
+          "FILE-standard-model-of-code_docs_COLLIDER_md",
+          "FILE-standard-model-of-code_docs_MODEL_md",
+          "FILE-standard-model-of-code_docs_specs_AI_INTERFACE_SPEC_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_BOUNDARY_DEFINITION_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_COMPLETENESS_INDEX_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_HEALTH_INDEX_md",
+          "FILE-standard-model-of-code_docs_specs_CODOME_LANDSCAPE_md",
+          "FILE-standard-model-of-code_docs_specs_COMPLETENESS_ATTESTATION_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_specs_EXHAUSTIVE_CLASSIFICATION_MODEL_md",
+          "FILE-standard-model-of-code_docs_specs_LANDSCAPE_IMPLEMENTATION_GUIDE_md",
+          "FILE-standard-model-of-code_docs_specs_NODE_COUNT_GROUND_TRUTH_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_PIPELINE_STAGES_md",
+          "FILE-standard-model-of-code_docs_specs_README_md",
+          "FILE-standard-model-of-code_docs_specs_REGISTRY_OF_REGISTRIES_md",
+          "FILE-standard-model-of-code_docs_specs_SCALE_INOUT_TOPOLOGY_md",
+          "FILE-standard-model-of-code_docs_specs_SCALE_TRANSFORMS_md",
+          "FILE-standard-model-of-code_docs_specs_SEMANTIC_INDEXER_IMPLEMENTATION_md",
+          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_PLAN_md",
+          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_INTEGRATION_SPEC_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_POWER_INVENTORY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_VALIDATION_REPORT_md",
+          "FILE-standard-model-of-code_docs_specs_UI_LAYOUT_ARCHITECTURE_md",
+          "FILE-standard-model-of-code_docs_specs_UI_REFACTOR_VISION_md",
+          "FILE-standard-model-of-code_docs_specs_UI_SESSION_SUMMARY_md",
+          "FILE-standard-model-of-code_docs_specs_UNIVERSAL_PROPERTY_BINDER_md",
+          "FILE-standard-model-of-code_docs_specs_UPB_IMPLEMENTATION_PLAN_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.624471",
+        "updated_at": "2026-01-24T03:30:48.624471",
+        "last_analyzed_at": "2026-01-24T03:30:48.624471"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": true,
+        "includes": [],
+        "file_count": 53,
+        "total_bytes": 756583,
+        "total_lines": 21625,
+        "critical_files": [
+          "standard-model-of-code/docs/MODEL.md",
+          "standard-model-of-code/docs/COLLIDER.md"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    },
+    {
+      "id": "BOUNDARY-schema",
+      "type": "boundary",
+      "name": "schema",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:1118ca2fbbfe8b3fd67d283c85071a04bcc640ffa7608f6432f468cb3f017b6f",
+      "summary": "All schema definitions (atoms, roles, dimensions)",
+      "region_name": "schema",
+      "include_patterns": [
+        "standard-model-of-code/schema/**/*.yaml",
+        "standard-model-of-code/schema/**/*.json",
+        "standard-model-of-code/src/patterns/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_schema_antimatter_laws_yaml",
+          "FILE-standard-model-of-code_schema_atoms_extensions_go_json",
+          "FILE-standard-model-of-code_schema_constants_yaml",
+          "FILE-standard-model-of-code_schema_constraints_rules_yaml",
+          "FILE-standard-model-of-code_schema_constraints_taxonomy_yaml",
+          "FILE-standard-model-of-code_schema_crosswalks_go_json",
+          "FILE-standard-model-of-code_schema_crosswalks_java_json",
+          "FILE-standard-model-of-code_schema_crosswalks_python_json",
+          "FILE-standard-model-of-code_schema_crosswalks_rust_json",
+          "FILE-standard-model-of-code_schema_crosswalks_typescript_json",
+          "FILE-standard-model-of-code_schema_fixed_atoms_json",
+          "FILE-standard-model-of-code_schema_fixed_dimensions_json",
+          "FILE-standard-model-of-code_schema_fixed_roles_json",
+          "FILE-standard-model-of-code_schema_graph_schema_json",
+          "FILE-standard-model-of-code_schema_ground_truth_standard_model_of_code_json",
+          "FILE-standard-model-of-code_schema_learned_patterns_json",
+          "FILE-standard-model-of-code_schema_particle_schema_json",
+          "FILE-standard-model-of-code_schema_profiles_architecture_classic_layered_yaml",
+          "FILE-standard-model-of-code_schema_profiles_architecture_clean_onion_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_fp_strict_yaml",
+          "FILE-standard-model-of-code_schema_profiles_dimensions_oop_conventional_yaml",
+          "FILE-standard-model-of-code_schema_surfaces_surface_manifest_json",
+          "FILE-standard-model-of-code_schema_surfaces_viz_surface_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_appearance_tokens_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_controls_tokens_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_layout_tokens_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_performance_tokens_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_physics_tokens_json",
+          "FILE-standard-model-of-code_schema_viz_tokens_theme_tokens_json",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER0_CORE_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER1_STDLIB_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER2_ECOSYSTEM_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_UNIVERSAL_INDEX_yaml",
+          "FILE-standard-model-of-code_src_patterns_exclusions_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.629810",
+        "updated_at": "2026-01-24T03:30:48.629810",
+        "last_analyzed_at": "2026-01-24T03:30:48.629810"
+      },
+      "metadata": {
+        "max_tokens": 60000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 34,
+        "total_bytes": 328774,
+        "total_lines": 12496,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-pipeline",
+      "type": "boundary",
+      "name": "pipeline",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e7ada87b9a08817ae1d03ceed8c80a2005eb836a467d5b7ffc76b0abb10a01df",
+      "summary": "Main analysis pipeline (driver, graph builder, extractors)",
+      "region_name": "pipeline",
+      "include_patterns": [
+        "standard-model-of-code/src/core/full_analysis.py",
+        "standard-model-of-code/src/core/graph_analyzer.py",
+        "standard-model-of-code/src/core/edge_extractor.py",
+        "standard-model-of-code/src/core/smart_extractor.py",
+        "standard-model-of-code/src/core/unified_analysis.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src_core_edge_extractor_py",
+          "FILE-standard-model-of-code_src_core_full_analysis_py",
+          "FILE-standard-model-of-code_src_core_graph_analyzer_py",
+          "FILE-standard-model-of-code_src_core_smart_extractor_py",
+          "FILE-standard-model-of-code_src_core_unified_analysis_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.630548",
+        "updated_at": "2026-01-24T03:30:48.630548",
+        "last_analyzed_at": "2026-01-24T03:30:48.630548"
+      },
+      "metadata": {
+        "max_tokens": 120000,
+        "auto_interactive": true,
+        "includes": [],
+        "file_count": 5,
+        "total_bytes": 229678,
+        "total_lines": 5761,
+        "critical_files": [
+          "standard-model-of-code/src/core/full_analysis.py"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-classifiers",
+      "type": "boundary",
+      "name": "classifiers",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:0fbde1cbae1f4145d0f61e23a2d7c8725f022f6f5e7ae3d66a571661e25967ab",
+      "summary": "All classifier logic (identifying atoms and roles)",
+      "region_name": "classifiers",
+      "include_patterns": [
+        "standard-model-of-code/src/core/classification/*.py",
+        "standard-model-of-code/src/core/heuristic_classifier.py",
+        "standard-model-of-code/src/core/universal_detector.py",
+        "standard-model-of-code/src/core/dimension_classifier.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src_core_classification_ddd_mappings_py",
+          "FILE-standard-model-of-code_src_core_classification_universal_classifier_py",
+          "FILE-standard-model-of-code_src_core_dimension_classifier_py",
+          "FILE-standard-model-of-code_src_core_heuristic_classifier_py",
+          "FILE-standard-model-of-code_src_core_universal_detector_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.631465",
+        "updated_at": "2026-01-24T03:30:48.631465",
+        "last_analyzed_at": "2026-01-24T03:30:48.631465"
+      },
+      "metadata": {
+        "max_tokens": 80000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 5,
+        "total_bytes": 94241,
+        "total_lines": 2230,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-architecture_review",
+      "type": "boundary",
+      "name": "architecture_review",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Full architecture review (pipeline + classifiers + constraints)",
+      "region_name": "architecture_review",
+      "include_patterns": [],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": []
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.631482",
+        "updated_at": "2026-01-24T03:30:48.631482",
+        "last_analyzed_at": "2026-01-24T03:30:48.631482"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": true,
+        "includes": [
+          "pipeline",
+          "classifiers",
+          "constraints"
+        ],
+        "file_count": 0,
+        "total_bytes": 0,
+        "total_lines": 0,
+        "critical_files": [
+          "standard-model-of-code/src/core/full_analysis.py",
+          "standard-model-of-code/docs/COLLIDER.md"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    },
+    {
+      "id": "BOUNDARY-implementation_review",
+      "type": "boundary",
+      "name": "implementation_review",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Implementation review (pipeline + schema + theory)",
+      "region_name": "implementation_review",
+      "include_patterns": [],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": []
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.631487",
+        "updated_at": "2026-01-24T03:30:48.631487",
+        "last_analyzed_at": "2026-01-24T03:30:48.631487"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": true,
+        "includes": [
+          "pipeline",
+          "schema",
+          "theory"
+        ],
+        "file_count": 0,
+        "total_bytes": 0,
+        "total_lines": 0,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-brain",
+      "type": "boundary",
+      "name": "brain",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:2b2c3fdbb8003c25b0ea3e9606735291bf418fc7364aa16bc27f2d7c8f6d44fe",
+      "summary": "[LARGE] Full context-management directory",
+      "region_name": "brain",
+      "include_patterns": [
+        "context-management/**/*.py",
+        "context-management/**/*.yaml",
+        "context-management/**/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_config_aci_config_yaml",
+          "FILE-context-management_config_analysis_sets_yaml",
+          "FILE-context-management_config_documentation_map_yaml",
+          "FILE-context-management_config_prompts_yaml",
+          "FILE-context-management_config_semantic_models_yaml",
+          "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
+          "FILE-context-management_docs_AI_USER_GUIDE_md",
+          "FILE-context-management_docs_ASSET_INVENTORY_md",
+          "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
+          "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
+          "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_README_md",
+          "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
+          "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
+          "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
+          "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_WORKFLOW_FACTORY_md",
+          "FILE-context-management_docs_agent_school_AGENTKNOWLEDGEDUMP_md",
+          "FILE-context-management_docs_agent_school_AGENT_ANTI_PATTERNS_md",
+          "FILE-context-management_docs_agent_school_AGENT_BOOT_md",
+          "FILE-context-management_docs_agent_school_DOD_md",
+          "FILE-context-management_docs_agent_school_INDEX_md",
+          "FILE-context-management_docs_agent_school_REPO_FACTS_md",
+          "FILE-context-management_docs_agent_school_REPO_GURU_PROMPT_md",
+          "FILE-context-management_docs_agent_school_WORKFLOWS_md",
+          "FILE-context-management_docs_archive_AUTOMATED_TASK_GENERATION_md",
+          "FILE-context-management_docs_archive_CLEANUP_PLAN_md",
+          "FILE-context-management_docs_archive_CODEBASE_INSIGHTS_REPORT_md",
+          "FILE-context-management_docs_archive_END_TO_END_VERIFICATION_md",
+          "FILE-context-management_docs_archive_GENERATED_TASKS_md",
+          "FILE-context-management_docs_archive_GITHUB_ANALYSIS_PLAN_md",
+          "FILE-context-management_docs_archive_ROADMAP_10_OF_10_md",
+          "FILE-context-management_docs_archive_SESSION_COMPLETION_SUMMARY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_GLOSSARY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_HIERARCHY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_README_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_0_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_md",
+          "FILE-context-management_docs_operations_AGENT_INITIATION_md",
+          "FILE-context-management_docs_operations_AGENT_KERNEL_md",
+          "FILE-context-management_docs_operations_CASE_AGAINST_PREMATURE_CLOUD_md",
+          "FILE-context-management_docs_operations_DECISION_BRIEF_LOCAL_FIRST_md",
+          "FILE-context-management_docs_operations_HSL_DAEMON_SETUP_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.660773",
+        "updated_at": "2026-01-24T03:30:48.660773",
+        "last_analyzed_at": "2026-01-24T03:30:48.660773"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": true,
+        "includes": [],
+        "file_count": 165,
+        "total_bytes": 2502304,
+        "total_lines": 60173,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-body",
+      "type": "boundary",
+      "name": "body",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:a0b3c9fcdbd45befc4abd6b4a9e590ce81a0123e914d32879c19a51d56839a2b",
+      "summary": "[EXCEEDS LIMIT] Full src - use 'pipeline' or 'classifiers' instead",
+      "region_name": "body",
+      "include_patterns": [
+        "standard-model-of-code/src/**/*.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src___init___py",
+          "FILE-standard-model-of-code_src_core___init___py",
+          "FILE-standard-model-of-code_src_core_analytics_engine_py",
+          "FILE-standard-model-of-code_src_core_atom_loader_py",
+          "FILE-standard-model-of-code_src_core_atom_registry_py",
+          "FILE-standard-model-of-code_src_core_brain_download_py",
+          "FILE-standard-model-of-code_src_core_classification_ddd_mappings_py",
+          "FILE-standard-model-of-code_src_core_classification_universal_classifier_py",
+          "FILE-standard-model-of-code_src_core_constraint_engine_py",
+          "FILE-standard-model-of-code_src_core_control_flow_analyzer_py",
+          "FILE-standard-model-of-code_src_core_data_flow_analyzer_py",
+          "FILE-standard-model-of-code_src_core_data_management_py",
+          "FILE-standard-model-of-code_src_core_dimension_classifier_py",
+          "FILE-standard-model-of-code_src_core_edge_extractor_py",
+          "FILE-standard-model-of-code_src_core_execution_flow_py",
+          "FILE-standard-model-of-code_src_core_extract_orphans_py",
+          "FILE-standard-model-of-code_src_core_file_enricher_py",
+          "FILE-standard-model-of-code_src_core_full_analysis_py",
+          "FILE-standard-model-of-code_src_core_generate_health_report_py",
+          "FILE-standard-model-of-code_src_core_god_class_detector_lite_py",
+          "FILE-standard-model-of-code_src_core_graph_analyzer_py",
+          "FILE-standard-model-of-code_src_core_graph_framework_py",
+          "FILE-standard-model-of-code_src_core_graph_metrics_py",
+          "FILE-standard-model-of-code_src_core_graph_type_inference_py",
+          "FILE-standard-model-of-code_src_core_heuristic_classifier_py",
+          "FILE-standard-model-of-code_src_core_identity_matcher_py",
+          "FILE-standard-model-of-code_src_core_insights_engine_py",
+          "FILE-standard-model-of-code_src_core_intent_extractor_py",
+          "FILE-standard-model-of-code_src_core_ir_py",
+          "FILE-standard-model-of-code_src_core_newman_suite_py",
+          "FILE-standard-model-of-code_src_core_normalize_output_py",
+          "FILE-standard-model-of-code_src_core_observability_py",
+          "FILE-standard-model-of-code_src_core_ollama_client_py",
+          "FILE-standard-model-of-code_src_core_output_generator_py",
+          "FILE-standard-model-of-code_src_core_parser___init___py",
+          "FILE-standard-model-of-code_src_core_parser_import_extractor_py",
+          "FILE-standard-model-of-code_src_core_parser_python_extractor_py",
+          "FILE-standard-model-of-code_src_core_parser_python_parser_py",
+          "FILE-standard-model-of-code_src_core_parser_symbol_classifier_py",
+          "FILE-standard-model-of-code_src_core_pattern_matcher_py",
+          "FILE-standard-model-of-code_src_core_performance_predictor_py",
+          "FILE-standard-model-of-code_src_core_pipeline___init___py",
+          "FILE-standard-model-of-code_src_core_pipeline_base_stage_py",
+          "FILE-standard-model-of-code_src_core_pipeline_manager_py",
+          "FILE-standard-model-of-code_src_core_pipeline_snapshot_py",
+          "FILE-standard-model-of-code_src_core_pipeline_stages___init___py",
+          "FILE-standard-model-of-code_src_core_pipeline_stages_ai_insights_py",
+          "FILE-standard-model-of-code_src_core_pipeline_stages_base_analysis_py",
+          "FILE-standard-model-of-code_src_core_pipeline_stages_codome_boundary_py",
+          "FILE-standard-model-of-code_src_core_pipeline_stages_constraint_validation_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.684322",
+        "updated_at": "2026-01-24T03:30:48.684322",
+        "last_analyzed_at": "2026-01-24T03:30:48.684322"
+      },
+      "metadata": {
+        "max_tokens": 3500000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 131,
+        "total_bytes": 1490903,
+        "total_lines": 40193,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-viz",
+      "type": "boundary",
+      "name": "viz",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:c32c50ed28719517b855e7e7e086e8fb097a88311d8f09dce9753a3de71e95ac",
+      "summary": "[EXCEEDS LIMIT] Full viz - use 'viz_core' instead",
+      "region_name": "viz",
+      "include_patterns": [
+        "standard-model-of-code/src/core/viz/**"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src_core_viz___init___py",
+          "FILE-standard-model-of-code_src_core_viz___pycache_____init___cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache_____init___cpython-313_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache_____init___cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___appearance_engine_cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___appearance_engine_cpython-313_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___appearance_engine_cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___blender_engine_cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___blender_engine_cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___controls_engine_cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___controls_engine_cpython-313_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___controls_engine_cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___physics_engine_cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___physics_engine_cpython-313_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___physics_engine_cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___token_resolver_cpython-311_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___token_resolver_cpython-313_pyc",
+          "FILE-standard-model-of-code_src_core_viz___pycache___token_resolver_cpython-314_pyc",
+          "FILE-standard-model-of-code_src_core_viz_appearance_engine_py",
+          "FILE-standard-model-of-code_src_core_viz_assets_ARCHITECTURE_html",
+          "FILE-standard-model-of-code_src_core_viz_assets_ARCHITECTURE_md",
+          "FILE-standard-model-of-code_src_core_viz_assets_ARCHITECTURE_COMPARISON_html",
+          "FILE-standard-model-of-code_src_core_viz_assets_ARCHITECTURE_COMPARISON_V2_html",
+          "FILE-standard-model-of-code_src_core_viz_assets_ARCHITECTURE_V2_md",
+          "FILE-standard-model-of-code_src_core_viz_assets_REFACTOR_STATUS_md",
+          "FILE-standard-model-of-code_src_core_viz_assets_TRUE-STORY_TXT",
+          "FILE-standard-model-of-code_src_core_viz_assets_app_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_app_js_backup",
+          "FILE-standard-model-of-code_src_core_viz_assets_archive_deprecated_organic-hulls_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_cmd-btn_css",
+          "FILE-standard-model-of-code_src_core_viz_assets_docs_EXTRACTION_PLAN_md",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_AxialLayout_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_CodomeHUD_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_EXPANDED-THEORY_md",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_HolarchyMapper_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_InteractionManager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_SettingsPanel_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_TowerRenderer_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_animation_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_circuit-breaker_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-engine_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_control-bar_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_core_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_data-manager_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_datamap_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_dimension_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_edge-system_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-color-model_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-tree-layout_js"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:48.699490",
+        "updated_at": "2026-01-24T03:30:48.699490",
+        "last_analyzed_at": "2026-01-24T03:30:48.699490"
+      },
+      "metadata": {
+        "max_tokens": 3200000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 104,
+        "total_bytes": 3179006,
+        "total_lines": 41887,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-complete",
+      "type": "boundary",
+      "name": "complete",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:c9149d73c5af48468c2832d601ca178d7f2aa3be39f53b17bec08fa425668135",
+      "summary": "[DANGEROUS] Entire repo (excluding archive) - will exceed any context window",
+      "region_name": "complete",
+      "include_patterns": [
+        "standard-model-of-code/**/*.py",
+        "standard-model-of-code/**/*.js",
+        "standard-model-of-code/**/*.yaml",
+        "standard-model-of-code/**/*.md",
+        "context-management/**/*.py",
+        "context-management/**/*.yaml",
+        "context-management/**/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_config_aci_config_yaml",
+          "FILE-context-management_config_analysis_sets_yaml",
+          "FILE-context-management_config_documentation_map_yaml",
+          "FILE-context-management_config_prompts_yaml",
+          "FILE-context-management_config_semantic_models_yaml",
+          "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
+          "FILE-context-management_docs_AI_USER_GUIDE_md",
+          "FILE-context-management_docs_ASSET_INVENTORY_md",
+          "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
+          "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
+          "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
+          "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_README_md",
+          "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
+          "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
+          "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
+          "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_WORKFLOW_FACTORY_md",
+          "FILE-context-management_docs_agent_school_AGENTKNOWLEDGEDUMP_md",
+          "FILE-context-management_docs_agent_school_AGENT_ANTI_PATTERNS_md",
+          "FILE-context-management_docs_agent_school_AGENT_BOOT_md",
+          "FILE-context-management_docs_agent_school_DOD_md",
+          "FILE-context-management_docs_agent_school_INDEX_md",
+          "FILE-context-management_docs_agent_school_REPO_FACTS_md",
+          "FILE-context-management_docs_agent_school_REPO_GURU_PROMPT_md",
+          "FILE-context-management_docs_agent_school_WORKFLOWS_md",
+          "FILE-context-management_docs_archive_AUTOMATED_TASK_GENERATION_md",
+          "FILE-context-management_docs_archive_CLEANUP_PLAN_md",
+          "FILE-context-management_docs_archive_CODEBASE_INSIGHTS_REPORT_md",
+          "FILE-context-management_docs_archive_END_TO_END_VERIFICATION_md",
+          "FILE-context-management_docs_archive_GENERATED_TASKS_md",
+          "FILE-context-management_docs_archive_GITHUB_ANALYSIS_PLAN_md",
+          "FILE-context-management_docs_archive_ROADMAP_10_OF_10_md",
+          "FILE-context-management_docs_archive_SESSION_COMPLETION_SUMMARY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_GLOSSARY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_HIERARCHY_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_README_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_0_md",
+          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_md",
+          "FILE-context-management_docs_operations_AGENT_INITIATION_md",
+          "FILE-context-management_docs_operations_AGENT_KERNEL_md",
+          "FILE-context-management_docs_operations_CASE_AGAINST_PREMATURE_CLOUD_md",
+          "FILE-context-management_docs_operations_DECISION_BRIEF_LOCAL_FIRST_md",
+          "FILE-context-management_docs_operations_HSL_DAEMON_SETUP_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.421716",
+        "updated_at": "2026-01-24T03:30:49.421716",
+        "last_analyzed_at": "2026-01-24T03:30:49.421716"
+      },
+      "metadata": {
+        "max_tokens": 10000000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 3976,
+        "total_bytes": 62628634,
+        "total_lines": 1593559,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-role_registry",
+      "type": "boundary",
+      "name": "role_registry",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:9f8178bcad7dc69569207a45543b077b3dfd77d0c224a0fcfed4fc89707cbb05",
+      "summary": "Role normalization system",
+      "region_name": "role_registry",
+      "include_patterns": [
+        "standard-model-of-code/src/core/registry/role_registry.py",
+        "standard-model-of-code/src/core/registry/__init__.py",
+        "standard-model-of-code/schema/fixed/roles.json"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_schema_fixed_roles_json",
+          "FILE-standard-model-of-code_src_core_registry___init___py",
+          "FILE-standard-model-of-code_src_core_registry_role_registry_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.421970",
+        "updated_at": "2026-01-24T03:30:49.421970",
+        "last_analyzed_at": "2026-01-24T03:30:49.421970"
+      },
+      "metadata": {
+        "max_tokens": 30000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 3,
+        "total_bytes": 11270,
+        "total_lines": 419,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-tests",
+      "type": "boundary",
+      "name": "tests",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:282d8c20ed559d29340c921a7ddb3cee836b9e67d707ab37a2828dac6de2f0ef",
+      "summary": "Test files for validation",
+      "region_name": "tests",
+      "include_patterns": [
+        "standard-model-of-code/tests/*.py"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_tests_conftest_py",
+          "FILE-standard-model-of-code_tests_test_cci_py",
+          "FILE-standard-model-of-code_tests_test_contract_output_py",
+          "FILE-standard-model-of-code_tests_test_control_flow_analyzer_py",
+          "FILE-standard-model-of-code_tests_test_data_flow_analyzer_py",
+          "FILE-standard-model-of-code_tests_test_domain_separation_guardrails_py",
+          "FILE-standard-model-of-code_tests_test_entrypoint_expansion_py",
+          "FILE-standard-model-of-code_tests_test_identity_matcher_py",
+          "FILE-standard-model-of-code_tests_test_import_resolution_py",
+          "FILE-standard-model-of-code_tests_test_insights_engine_py",
+          "FILE-standard-model-of-code_tests_test_output_generator_py",
+          "FILE-standard-model-of-code_tests_test_parse_errors_py",
+          "FILE-standard-model-of-code_tests_test_pattern_matcher_py",
+          "FILE-standard-model-of-code_tests_test_pipeline_py",
+          "FILE-standard-model-of-code_tests_test_purpose_field_py",
+          "FILE-standard-model-of-code_tests_test_query_loader_py",
+          "FILE-standard-model-of-code_tests_test_react_t2_detection_py",
+          "FILE-standard-model-of-code_tests_test_role_registry_py",
+          "FILE-standard-model-of-code_tests_test_scope_analyzer_py",
+          "FILE-standard-model-of-code_tests_test_semantic_indexer_py",
+          "FILE-standard-model-of-code_tests_test_topology_reasoning_py",
+          "FILE-standard-model-of-code_tests_test_visibility_analyzer_py",
+          "FILE-standard-model-of-code_tests_test_viz_tokens_py",
+          "FILE-standard-model-of-code_tests_test_wave_extractor_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.422797",
+        "updated_at": "2026-01-24T03:30:49.422797",
+        "last_analyzed_at": "2026-01-24T03:30:49.422797"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": true,
+        "includes": [],
+        "file_count": 24,
+        "total_bytes": 187508,
+        "total_lines": 5529,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-research_core",
+      "type": "boundary",
+      "name": "research_core",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:5779895a38265d65bf8498e9d32000fabb5fd98bfa78294d9a793996595b1995",
+      "summary": "Core research artifacts (investigation + protocol)",
+      "region_name": "research_core",
+      "include_patterns": [
+        "standard-model-of-code/docs/research/*.md",
+        "standard-model-of-code/docs/reports/*.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_docs_reports_APP_JS_FINAL_REFACTOR_PLAN_md",
+          "FILE-standard-model-of-code_docs_reports_APP_JS_MODULARIZATION_PLAN_md",
+          "FILE-standard-model-of-code_docs_reports_APP_JS_REFACTOR_PLAN_md",
+          "FILE-standard-model-of-code_docs_reports_ARCHITECTURE_ANTI_PATTERN_INVESTIGATION_md",
+          "FILE-standard-model-of-code_docs_reports_ARCHITECTURE_DEBT_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_reports_ATOM_STATISTICAL_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_reports_CIRCUIT_BREAKER_RECONNAISSANCE_md",
+          "FILE-standard-model-of-code_docs_reports_DEEP_CHALLENGE_2026-01-19_md",
+          "FILE-standard-model-of-code_docs_reports_DESIGN_TOKEN_SYSTEM_AUDIT_md",
+          "FILE-standard-model-of-code_docs_reports_DOCS_IMPROVEMENT_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_reports_FACT_RECONCILIATION_2026-01-19_md",
+          "FILE-standard-model-of-code_docs_reports_FRONTEND_BACKEND_GAP_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_reports_GAPS_ANALYSIS_2026-01-19_md",
+          "FILE-standard-model-of-code_docs_reports_INFALLIBLE_PLAN_TAXONOMY_COMPLETION_md",
+          "FILE-standard-model-of-code_docs_reports_MODULARIZATION_TASKS_md",
+          "FILE-standard-model-of-code_docs_reports_MODULARIZATION_WORKFLOW_md",
+          "FILE-standard-model-of-code_docs_reports_README_md",
+          "FILE-standard-model-of-code_docs_reports_SIDEBAR_REFACTOR_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_reports_TAXONOMY_GAP_REPORT_md",
+          "FILE-standard-model-of-code_docs_reports_THESIS_CONSTRAINT_VALIDATION_md",
+          "FILE-standard-model-of-code_docs_reports_TOKEN_SYSTEM_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_reports_TOKEN_SYSTEM_VERIFICATION_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_research_AI_ORCHESTRATION_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_research_ATOM_COVERAGE_INVESTIGATION_md",
+          "FILE-standard-model-of-code_docs_research_ATOM_COVERAGE_PHASE2_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_research_CENTRALITY_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_research_CODOME_EDGE_DISCOVERY_md",
+          "FILE-standard-model-of-code_docs_research_CODOME_SURVEY_SPEC_md",
+          "FILE-standard-model-of-code_docs_research_CONTEXT_WINDOW_RESEARCH_JAN22_md",
+          "FILE-standard-model-of-code_docs_research_DECISION_TEMPLATE_md",
+          "FILE-standard-model-of-code_docs_research_GPT-52-PRO-REPLY_md",
+          "FILE-standard-model-of-code_docs_research_GRAPHRAG_LANDSCAPE_md",
+          "FILE-standard-model-of-code_docs_research_HOLLO_REPO_MAP_md",
+          "FILE-standard-model-of-code_docs_research_HYPOTHESES_L2_md",
+          "FILE-standard-model-of-code_docs_research_HYPOTHESES_L2_FORMAL_md",
+          "FILE-standard-model-of-code_docs_research_MEASUREMENT_CONTRACT_md",
+          "FILE-standard-model-of-code_docs_research_ORPHAN_TAXONOMY_md",
+          "FILE-standard-model-of-code_docs_research_PERPLEXITY_RESEARCH_JAN21_md",
+          "FILE-standard-model-of-code_docs_research_PURPOSE_ONTOLOGY_md",
+          "FILE-standard-model-of-code_docs_research_PURPOSE_ONTOLOGY_VISUALS_md",
+          "FILE-standard-model-of-code_docs_research_SESSION_DUMP_2026-01-23_md",
+          "FILE-standard-model-of-code_docs_research_TASK_EVALUATION_JAN21_md",
+          "FILE-standard-model-of-code_docs_research_TREE_SITTER_SCOPE_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_research_WORKFLOW_99_VALIDATION_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.424341",
+        "updated_at": "2026-01-24T03:30:49.424341",
+        "last_analyzed_at": "2026-01-24T03:30:49.424341"
+      },
+      "metadata": {
+        "max_tokens": 100000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 44,
+        "total_bytes": 835198,
+        "total_lines": 20906,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-research_tools",
+      "type": "boundary",
+      "name": "research_tools",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:fbd85082d88a380dc2741573f1dce0bc18a8f029c76a1e4ec745873c70434913",
+      "summary": "Research tooling (coverage, inventory, corpus runner)",
+      "region_name": "research_tools",
+      "include_patterns": [
+        "standard-model-of-code/tools/research/*.py",
+        "standard-model-of-code/tools/research/Makefile",
+        "standard-model-of-code/artifacts/atom-research/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_artifacts_atom-research_corpus_102_validation_yaml",
+          "FILE-standard-model-of-code_artifacts_atom-research_corpus_33_calibration_yaml",
+          "FILE-standard-model-of-code_artifacts_atom-research_corpus_pilot_yaml",
+          "FILE-standard-model-of-code_tools_research_Makefile",
+          "FILE-standard-model-of-code_tools_research_atom_coverage_py",
+          "FILE-standard-model-of-code_tools_research_atom_inventory_py",
+          "FILE-standard-model-of-code_tools_research_evaluate_hypotheses_py",
+          "FILE-standard-model-of-code_tools_research_regenerate_results_py",
+          "FILE-standard-model-of-code_tools_research_run_corpus_py",
+          "FILE-standard-model-of-code_tools_research_summarize_corpus_py",
+          "FILE-standard-model-of-code_tools_research_validate_audit_pack_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.425025",
+        "updated_at": "2026-01-24T03:30:49.425025",
+        "last_analyzed_at": "2026-01-24T03:30:49.425025"
+      },
+      "metadata": {
+        "max_tokens": 80000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 11,
+        "total_bytes": 133705,
+        "total_lines": 4504,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-research_atoms",
+      "type": "boundary",
+      "name": "research_atoms",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e8feef300a489d041563ae8e217a0189eca3a62aafbb4462fcbd4fbf2d6d4eae",
+      "summary": "Atom definitions for coverage analysis (explicit, no noise)",
+      "region_name": "research_atoms",
+      "include_patterns": [
+        "standard-model-of-code/src/patterns/ATOMS_TIER0_CORE.yaml",
+        "standard-model-of-code/src/patterns/ATOMS_TIER1_STDLIB.yaml",
+        "standard-model-of-code/src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml",
+        "standard-model-of-code/src/patterns/ATOMS_UNIVERSAL_INDEX.yaml",
+        "standard-model-of-code/src/patterns/atoms.json",
+        "standard-model-of-code/src/patterns/t2_mined/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER0_CORE_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER1_STDLIB_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_TIER2_ECOSYSTEM_yaml",
+          "FILE-standard-model-of-code_src_patterns_ATOMS_UNIVERSAL_INDEX_yaml",
+          "FILE-standard-model-of-code_src_patterns_atoms_json",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_CLOUD_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_FRONTEND_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_GAPS_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_JAVA_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_JAVASCRIPT_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_OTHER_yaml",
+          "FILE-standard-model-of-code_src_patterns_t2_mined_ATOMS_T2_PYTHON_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.426263",
+        "updated_at": "2026-01-24T03:30:49.426263",
+        "last_analyzed_at": "2026-01-24T03:30:49.426263"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 12,
+        "total_bytes": 1443244,
+        "total_lines": 44333,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-research_full",
+      "type": "boundary",
+      "name": "research_full",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Complete research context (documents + tools + atoms)",
+      "region_name": "research_full",
+      "include_patterns": [],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": []
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.426283",
+        "updated_at": "2026-01-24T03:30:49.426283",
+        "last_analyzed_at": "2026-01-24T03:30:49.426283"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": true,
+        "includes": [
+          "research_core",
+          "research_tools",
+          "research_atoms"
+        ],
+        "file_count": 0,
+        "total_bytes": 0,
+        "total_lines": 0,
+        "critical_files": [
+          "standard-model-of-code/docs/research/ATOM_COVERAGE_INVESTIGATION.md"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    },
+    {
+      "id": "BOUNDARY-research_validation",
+      "type": "boundary",
+      "name": "research_validation",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Research validation context (classifiers + tests + claims)",
+      "region_name": "research_validation",
+      "include_patterns": [],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": []
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.426289",
+        "updated_at": "2026-01-24T03:30:49.426289",
+        "last_analyzed_at": "2026-01-24T03:30:49.426289"
+      },
+      "metadata": {
+        "max_tokens": 200000,
+        "auto_interactive": false,
+        "includes": [
+          "research_core",
+          "classifiers",
+          "tests"
+        ],
+        "file_count": 0,
+        "total_bytes": 0,
+        "total_lines": 0,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_kernel",
+      "type": "boundary",
+      "name": "agent_kernel",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:2644950a2d7ffd71ae65bd43c362c99f86d3290f42e876c2c791c80b434d0b3d",
+      "summary": "Agent boot protocol and manifest (~30k tokens)",
+      "region_name": "agent_kernel",
+      "include_patterns": [
+        ".agent/KERNEL.md",
+        ".agent/manifest.yaml",
+        ".agent/SUBSYSTEM_INTEGRATION.md",
+        ".agent/OPEN_CONCERNS.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_KERNEL_md",
+          "FILE-_agent_SUBSYSTEM_INTEGRATION_md",
+          "FILE-_agent_manifest_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.426797",
+        "updated_at": "2026-01-24T03:30:49.426797",
+        "last_analyzed_at": "2026-01-24T03:30:49.426797"
+      },
+      "metadata": {
+        "max_tokens": 30000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 3,
+        "total_bytes": 21297,
+        "total_lines": 588,
+        "critical_files": [
+          ".agent/KERNEL.md"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_tasks",
+      "type": "boundary",
+      "name": "agent_tasks",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:92c807179fa4d71736b7e32164c4a213e8b233af1319c483d065a00744e75c8b",
+      "summary": "Active tasks, sprints, and registry (~50k tokens)",
+      "region_name": "agent_tasks",
+      "include_patterns": [
+        ".agent/registry/INDEX.md",
+        ".agent/registry/active/*.yaml",
+        ".agent/registry/tasks/*.yaml",
+        ".agent/sprints/*.yaml",
+        ".agent/registry/LEARNING_SYSTEM_TASK_REGISTRY.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_registry_INDEX_md",
+          "FILE-_agent_registry_active_TASK-002_yaml",
+          "FILE-_agent_registry_active_TASK-003_yaml",
+          "FILE-_agent_registry_active_TASK-004_yaml",
+          "FILE-_agent_registry_active_TASK-005_yaml",
+          "FILE-_agent_registry_active_TASK-006_yaml",
+          "FILE-_agent_registry_active_TASK-007_yaml",
+          "FILE-_agent_registry_active_TASK-008_yaml",
+          "FILE-_agent_registry_active_TASK-009_yaml",
+          "FILE-_agent_registry_active_TASK-010_yaml",
+          "FILE-_agent_registry_active_TASK-011_yaml",
+          "FILE-_agent_registry_active_TASK-012_yaml",
+          "FILE-_agent_registry_active_TASK-013_yaml",
+          "FILE-_agent_registry_active_TASK-014_yaml",
+          "FILE-_agent_registry_active_TASK-015_yaml",
+          "FILE-_agent_registry_active_TASK-016_yaml",
+          "FILE-_agent_registry_active_TASK-017_yaml",
+          "FILE-_agent_registry_active_TASK-018_yaml",
+          "FILE-_agent_registry_active_TASK-019_yaml",
+          "FILE-_agent_registry_active_TASK-020_yaml",
+          "FILE-_agent_registry_active_TASK-021_yaml",
+          "FILE-_agent_registry_active_TASK-059_yaml",
+          "FILE-_agent_registry_active_TASK-061_yaml",
+          "FILE-_agent_registry_active_TASK-064_yaml",
+          "FILE-_agent_registry_active_TASK-065_yaml",
+          "FILE-_agent_registry_active_TASK-066_yaml",
+          "FILE-_agent_sprints_SPRINT-001_yaml",
+          "FILE-_agent_sprints_SPRINT-002_yaml",
+          "FILE-_agent_sprints_SPRINT-003_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.430828",
+        "updated_at": "2026-01-24T03:30:49.430828",
+        "last_analyzed_at": "2026-01-24T03:30:49.430828"
+      },
+      "metadata": {
+        "max_tokens": 50000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 29,
+        "total_bytes": 49143,
+        "total_lines": 1605,
+        "critical_files": [
+          ".agent/registry/INDEX.md"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_intelligence",
+      "type": "boundary",
+      "name": "agent_intelligence",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:15dcb994f5bdd08c9ff23bbf1e386d85d4527b5a00831a1975de9c1d215b1c45",
+      "summary": "BARE truths, drift reports, metrics (~40k tokens)",
+      "region_name": "agent_intelligence",
+      "include_patterns": [
+        ".agent/intelligence/truths/*.yaml",
+        ".agent/intelligence/drift/*.yaml",
+        ".agent/intelligence/metrics/*.yaml",
+        ".agent/intelligence/concepts/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_intelligence_truths_repo_truths_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.431117",
+        "updated_at": "2026-01-24T03:30:49.431117",
+        "last_analyzed_at": "2026-01-24T03:30:49.431117"
+      },
+      "metadata": {
+        "max_tokens": 40000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 1,
+        "total_bytes": 405,
+        "total_lines": 20,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_specs",
+      "type": "boundary",
+      "name": "agent_specs",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:3cc90321ee370315a52198486e88c1e236caa44a57b32d0bd26dd38e96de666c",
+      "summary": "BARE spec, workflows, schemas (~60k tokens)",
+      "region_name": "agent_specs",
+      "include_patterns": [
+        ".agent/specs/*.md",
+        ".agent/workflows/*.md",
+        ".agent/schema/*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_schema_card_schema_yaml",
+          "FILE-_agent_schema_hierarchy_schema_yaml",
+          "FILE-_agent_schema_opportunity_schema_yaml",
+          "FILE-_agent_schema_refinery_node_schema_yaml",
+          "FILE-_agent_schema_run_schema_yaml",
+          "FILE-_agent_schema_task_schema_yaml",
+          "FILE-_agent_specs_AUTONOMOUS_ENRICHMENT_PIPELINE_md",
+          "FILE-_agent_specs_BACKGROUND_AUTO_REFINEMENT_ENGINE_md",
+          "FILE-_agent_specs_BARE_LIVE_md",
+          "FILE-_agent_specs_CUTTING_PLAN_md",
+          "FILE-_agent_specs_DECISION_DECK_LAYER_md",
+          "FILE-_agent_specs_WAVE_PARTICLE_SYMMETRY_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.433166",
+        "updated_at": "2026-01-24T03:30:49.433166",
+        "last_analyzed_at": "2026-01-24T03:30:49.433166"
+      },
+      "metadata": {
+        "max_tokens": 60000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 12,
+        "total_bytes": 128716,
+        "total_lines": 4042,
+        "critical_files": [
+          ".agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_full",
+      "type": "boundary",
+      "name": "agent_full",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary": "Complete .agent/ context for task/planning queries (~150k tokens)",
+      "region_name": "agent_full",
+      "include_patterns": [],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": []
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.433185",
+        "updated_at": "2026-01-24T03:30:49.433185",
+        "last_analyzed_at": "2026-01-24T03:30:49.433185"
+      },
+      "metadata": {
+        "max_tokens": 150000,
+        "auto_interactive": true,
+        "includes": [
+          "agent_kernel",
+          "agent_tasks",
+          "agent_intelligence",
+          "agent_specs"
+        ],
+        "file_count": 0,
+        "total_bytes": 0,
+        "total_lines": 0,
+        "critical_files": [
+          ".agent/KERNEL.md",
+          ".agent/registry/INDEX.md"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    },
+    {
+      "id": "BOUNDARY-aci_core",
+      "type": "boundary",
+      "name": "aci_core",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:f2de051264e457e3b0f4d8930bd903ae632ebf05c0a9742d309dd949f13af64a",
+      "summary": "ACI module source code - the curriculum compiler",
+      "region_name": "aci_core",
+      "include_patterns": [
+        "context-management/tools/ai/aci/*.py",
+        "context-management/config/aci_config.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_config_aci_config_yaml",
+          "FILE-context-management_tools_ai_aci___init___py",
+          "FILE-context-management_tools_ai_aci_cache_registry_py",
+          "FILE-context-management_tools_ai_aci_context_optimizer_py",
+          "FILE-context-management_tools_ai_aci_feedback_loop_py",
+          "FILE-context-management_tools_ai_aci_query_analyzer_py",
+          "FILE-context-management_tools_ai_aci_repopack_py",
+          "FILE-context-management_tools_ai_aci_semantic_matcher_py",
+          "FILE-context-management_tools_ai_aci_tier_router_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.433622",
+        "updated_at": "2026-01-24T03:30:49.433622",
+        "last_analyzed_at": "2026-01-24T03:30:49.433622"
+      },
+      "metadata": {
+        "max_tokens": 30000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 9,
+        "total_bytes": 94171,
+        "total_lines": 2827,
+        "critical_files": [
+          "context-management/tools/ai/aci/tier_router.py",
+          "context-management/tools/ai/aci/context_optimizer.py"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-aci_siblings",
+      "type": "boundary",
+      "name": "aci_siblings",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:d6fad5b19cae936b98022da6ee8ede534683e08dbe8a402d3c49cde440f618fb",
+      "summary": "ACI sibling subsystems (HSL, Perplexity, analyze.py)",
+      "region_name": "aci_siblings",
+      "include_patterns": [
+        "context-management/tools/ai/analyze.py",
+        "context-management/tools/ai/perplexity_research.py",
+        "context-management/tools/hsl_daemon.py",
+        "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_tools_ai_analyze_py",
+          "FILE-context-management_tools_ai_perplexity_research_py",
+          "FILE-context-management_tools_hsl_daemon_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.433827",
+        "updated_at": "2026-01-24T03:30:49.433827",
+        "last_analyzed_at": "2026-01-24T03:30:49.433827"
+      },
+      "metadata": {
+        "max_tokens": 50000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 4,
+        "total_bytes": 160319,
+        "total_lines": 4106,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-aci_audit",
+      "type": "boundary",
+      "name": "aci_audit",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:f39079627bc3916e36e9f9d1b6151b98b7f59cfa88f21a15789b350644ebfae4",
+      "summary": "Full ACI audit context - code + config + siblings + docs",
+      "region_name": "aci_audit",
+      "include_patterns": [
+        "context-management/docs/AI_USER_GUIDE.md",
+        "context-management/config/analysis_sets.yaml",
+        "context-management/config/prompts.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_config_analysis_sets_yaml",
+          "FILE-context-management_config_prompts_yaml",
+          "FILE-context-management_docs_AI_USER_GUIDE_md"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-24T03:30:49.433941",
+        "updated_at": "2026-01-24T03:30:49.433941",
+        "last_analyzed_at": "2026-01-24T03:30:49.433941"
+      },
+      "metadata": {
+        "max_tokens": 100000,
+        "auto_interactive": true,
+        "includes": [
+          "aci_core",
+          "aci_siblings"
+        ],
+        "file_count": 3,
+        "total_bytes": 36630,
+        "total_lines": 1006,
+        "critical_files": [
+          "context-management/tools/ai/aci/tier_router.py",
+          "context-management/tools/ai/aci/context_optimizer.py",
+          "context-management/config/aci_config.yaml"
+        ],
+        "positional_strategy": "sandwich"
+      }
+    }
+  ]
+}
