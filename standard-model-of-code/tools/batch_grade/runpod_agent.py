@@ -291,7 +291,7 @@ def download_results(pod: Dict, local_dir: Path, retries: int = 3) -> Path:
     sftp = client.open_sftp()
 
     # List and download result files
-    remote_dir = "/workspace/collider/standard-model-of-code/tools/batch_grade/grades"
+    remote_dir = "/workspace/grades"  # run_batch_local.py outputs here on RunPod
     try:
         files = sftp.listdir(remote_dir)
         for f in files:
