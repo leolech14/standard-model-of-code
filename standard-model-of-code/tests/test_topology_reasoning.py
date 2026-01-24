@@ -299,7 +299,6 @@ class TestLandscapeHealthIndex:
 
     def setup_method(self):
         self.lhi = LandscapeHealthIndex()
-        self.lhi_legacy = LandscapeHealthIndex(legacy_mode=True)
 
     def test_perfect_health(self):
         """Perfect codebase: no cycles, low elevation, no bad gradients."""
@@ -318,14 +317,14 @@ class TestLandscapeHealthIndex:
         assert result["index"] >= 6.0
 
     def test_cyclic_codebase(self):
-        """Codebase with many cycles should have poor health (legacy mode)."""
+        """Codebase with many cycles should have poor health."""
         profile = LandscapeProfile(
             b0=1,
             b1=10,  # Many cycles
             elevations={"a": 5.0, "b": 5.0},
             gradients=[]
         )
-        result = self.lhi_legacy.compute(profile)
+        result = self.lhi.compute(profile)
         # b1=10: 10.0 - (10 * 0.5) = 5.0 (mediocre cycle health)
         assert result["component_scores"]["cycles"] <= 5.0
 
@@ -341,14 +340,14 @@ class TestLandscapeHealthIndex:
         assert result["component_scores"]["elevation"] < 3.0
 
     def test_fragmented_codebase(self):
-        """Too many disconnected components is unhealthy (legacy mode)."""
+        """Too many disconnected components is unhealthy."""
         profile = LandscapeProfile(
             b0=50,  # Way too many components for 10 nodes
             b1=0,
             elevations={f"n{i}": 5.0 for i in range(10)},
             gradients=[]
         )
-        result = self.lhi_legacy.compute(profile)
+        result = self.lhi.compute(profile)
         assert result["component_scores"]["isolation"] < 5.0
 
     def test_grade_mapping(self):
