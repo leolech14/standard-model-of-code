@@ -69,6 +69,7 @@ BATCH_CONFIG = {
 }
 
 # Script to run inside the pod
+# Note: Repo structure is PROJECT_elements/standard-model-of-code/tools/batch_grade/
 SETUP_SCRIPT = '''#!/bin/bash
 set -e
 
@@ -83,6 +84,9 @@ else
     cd collider
 fi
 
+# The actual collider code is inside standard-model-of-code/
+cd standard-model-of-code
+
 # Install dependencies
 pip install -q tree-sitter==0.20.4 tree-sitter-python tree-sitter-javascript tree-sitter-go tree-sitter-typescript pyyaml
 
@@ -92,7 +96,8 @@ echo "=== SETUP COMPLETE ==="
 RUN_SCRIPT = '''#!/bin/bash
 set -e
 
-cd /workspace/collider
+# Navigate to actual collider location
+cd /workspace/collider/standard-model-of-code
 echo "=== STARTING BATCH GRADE ==="
 python tools/batch_grade/run_batch_local.py --workers {workers} --timeout {timeout} {limit_arg}
 echo "=== BATCH GRADE COMPLETE ==="
@@ -201,64 +206,92 @@ def get_ssh_connection_info(pod: Dict) -> tuple[str, int]:
     raise ValueError(f"Could not find SSH connection info in pod: {ports}")
 
 
-def run_ssh_command(pod: Dict, command: str, timeout: int = 3600) -> str:
-    """Run command on pod via SSH."""
+def run_ssh_command(pod: Dict, command: str, timeout: int = 3600, retries: int = 3) -> str:
+    """Run command on pod via SSH with retry logic."""
     import paramiko
 
     ssh_host, ssh_port = get_ssh_connection_info(pod)
-    print(f"Connecting to {ssh_host}:{ssh_port}...")
 
-    # Connect via SSH using private key
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    for attempt in range(retries):
+        try:
+            print(f"Connecting to {ssh_host}:{ssh_port} (attempt {attempt + 1}/{retries})...")
 
-    # Use private key for authentication
-    private_key = paramiko.Ed25519Key.from_private_key_file(str(SSH_KEY_PATH))
+            # Connect via SSH using private key
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    client.connect(
-        hostname=ssh_host,
-        port=ssh_port,
-        username="root",
-        pkey=private_key,
-        timeout=30,
-    )
+            # Use private key for authentication
+            private_key = paramiko.Ed25519Key.from_private_key_file(str(SSH_KEY_PATH))
 
-    print(f"Executing command...")
-    _, stdout, stderr = client.exec_command(command, timeout=timeout)
+            client.connect(
+                hostname=ssh_host,
+                port=ssh_port,
+                username="root",
+                pkey=private_key,
+                timeout=60,  # Increased from 30
+                banner_timeout=60,
+                auth_timeout=60,
+            )
 
-    # Stream output
-    output = []
-    for line in iter(stdout.readline, ""):
-        print(line, end="")
-        output.append(line)
+            print(f"Executing command...")
+            _, stdout, stderr = client.exec_command(command, timeout=timeout)
 
-    exit_status = stdout.channel.recv_exit_status()
-    client.close()
+            # Stream output
+            output = []
+            for line in iter(stdout.readline, ""):
+                print(line, end="")
+                output.append(line)
 
-    if exit_status != 0:
-        error = stderr.read().decode()
-        raise RuntimeError(f"Command failed (exit {exit_status}): {error}")
+            exit_status = stdout.channel.recv_exit_status()
+            client.close()
 
-    return "".join(output)
+            if exit_status != 0:
+                error = stderr.read().decode()
+                raise RuntimeError(f"Command failed (exit {exit_status}): {error}")
+
+            return "".join(output)
+
+        except (TimeoutError, OSError, paramiko.SSHException) as e:
+            print(f"  Connection failed: {e}")
+            if attempt < retries - 1:
+                wait_time = 2 ** (attempt + 1)  # 2, 4, 8 seconds
+                print(f"  Retrying in {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                raise
 
 
-def download_results(pod: Dict, local_dir: Path) -> Path:
-    """Download results from pod via SCP."""
+def download_results(pod: Dict, local_dir: Path, retries: int = 3) -> Path:
+    """Download results from pod via SCP with retry logic."""
     import paramiko
 
     ssh_host, ssh_port = get_ssh_connection_info(pod)
     local_dir.mkdir(parents=True, exist_ok=True)
 
-    # Use SCP to download with private key
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    private_key = paramiko.Ed25519Key.from_private_key_file(str(SSH_KEY_PATH))
-    client.connect(hostname=ssh_host, port=ssh_port, username="root", pkey=private_key, timeout=30)
+    for attempt in range(retries):
+        try:
+            print(f"Connecting for download (attempt {attempt + 1}/{retries})...")
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            private_key = paramiko.Ed25519Key.from_private_key_file(str(SSH_KEY_PATH))
+            client.connect(
+                hostname=ssh_host, port=ssh_port, username="root", pkey=private_key,
+                timeout=60, banner_timeout=60, auth_timeout=60
+            )
+            break
+        except (TimeoutError, OSError, paramiko.SSHException) as e:
+            print(f"  Connection failed: {e}")
+            if attempt < retries - 1:
+                wait_time = 2 ** (attempt + 1)
+                print(f"  Retrying in {wait_time}s...")
+                time.sleep(wait_time)
+            else:
+                raise
 
     sftp = client.open_sftp()
 
     # List and download result files
-    remote_dir = "/workspace/collider/tools/batch_grade/grades"
+    remote_dir = "/workspace/collider/standard-model-of-code/tools/batch_grade/grades"
     try:
         files = sftp.listdir(remote_dir)
         for f in files:
