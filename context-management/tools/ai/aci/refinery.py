@@ -54,6 +54,7 @@ class RefineryNode:
     end_line: int = 0              # End line number
     metadata: Dict[str, Any] = field(default_factory=dict)  # Additional metadata
     created_at: float = field(default_factory=time.time)
+    embedding: List[float] = field(default_factory=list)  # Vector embedding (384-dim for MiniLM)
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to JSON-serializable dict."""
@@ -66,6 +67,78 @@ class RefineryNode:
 
     def __repr__(self) -> str:
         return f"RefineryNode({self.chunk_type}:{self.chunk_id[:8]}... {self.token_estimate}tok)"
+
+
+class EmbeddingEngine:
+    """
+    Vector embedding engine using sentence-transformers.
+
+    Uses all-MiniLM-L6-v2: 22M params, 384 dims, ~15ms/1K tokens.
+    Loads model lazily on first use.
+    """
+
+    _instance = None
+    _model = None
+
+    def __new__(cls):
+        """Singleton pattern - only load model once."""
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def _load_model(self):
+        """Lazy load the embedding model."""
+        if self._model is None:
+            try:
+                from sentence_transformers import SentenceTransformer
+                logger.info("Loading embedding model: all-MiniLM-L6-v2...")
+                self._model = SentenceTransformer('all-MiniLM-L6-v2')
+                logger.info("Embedding model loaded.")
+            except ImportError:
+                logger.warning("sentence-transformers not installed. Embeddings disabled.")
+                logger.warning("Install with: pip install sentence-transformers")
+                self._model = None
+            except Exception as e:
+                logger.error(f"Failed to load embedding model: {e}")
+                self._model = None
+
+    def embed(self, texts: List[str]) -> List[List[float]]:
+        """
+        Generate embeddings for a list of texts.
+
+        Args:
+            texts: List of text strings to embed
+
+        Returns:
+            List of embedding vectors (384-dim each), or empty lists if unavailable
+        """
+        self._load_model()
+
+        if self._model is None:
+            return [[] for _ in texts]
+
+        try:
+            embeddings = self._model.encode(texts, show_progress_bar=False)
+            return [emb.tolist() for emb in embeddings]
+        except Exception as e:
+            logger.error(f"Embedding failed: {e}")
+            return [[] for _ in texts]
+
+    def embed_single(self, text: str) -> List[float]:
+        """Embed a single text string."""
+        result = self.embed([text])
+        return result[0] if result else []
+
+    @property
+    def is_available(self) -> bool:
+        """Check if embedding model is available."""
+        self._load_model()
+        return self._model is not None
+
+    @property
+    def dimension(self) -> int:
+        """Embedding dimension (384 for MiniLM)."""
+        return 384
 
 
 class FileChunker(ABC):
@@ -297,14 +370,17 @@ class Refinery:
     Orchestrates:
     1. File type detection and chunking
     2. Relevance scoring
-    3. Caching of processed chunks
-    4. Export to JSON
+    3. Optional vector embeddings
+    4. Caching of processed chunks
+    5. Export to JSON
     """
 
-    def __init__(self, cache_dir: Path = CHUNK_REGISTRY_DIR):
+    def __init__(self, cache_dir: Path = CHUNK_REGISTRY_DIR, enable_embeddings: bool = False):
         self.cache_dir = cache_dir
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self._chunk_cache: Dict[str, List[RefineryNode]] = {}
+        self.enable_embeddings = enable_embeddings
+        self._embedding_engine = EmbeddingEngine() if enable_embeddings else None
 
     def _get_chunker(self, file_path: str) -> FileChunker:
         """Get appropriate chunker for file type."""
@@ -426,6 +502,14 @@ class Refinery:
             )
             nodes.append(node)
 
+        # Generate embeddings if enabled
+        if self.enable_embeddings and self._embedding_engine and nodes:
+            texts = [n.content for n in nodes]
+            embeddings = self._embedding_engine.embed(texts)
+            for node, emb in zip(nodes, embeddings):
+                node.embedding = emb
+            logger.info(f"Generated {len(embeddings)} embeddings")
+
         logger.info(f"Processed {file_path}: {len(nodes)} chunks")
 
         # Update cache
@@ -534,6 +618,52 @@ class Refinery:
         logger.info(f"Compacted to {len(selected)} nodes, ~{total_tokens} tokens")
         return selected
 
+    def semantic_search(
+        self,
+        query: str,
+        nodes: List[RefineryNode],
+        top_k: int = 5
+    ) -> List[Tuple[RefineryNode, float]]:
+        """
+        Search nodes by semantic similarity to query.
+
+        Args:
+            query: Search query text
+            nodes: List of nodes to search
+            top_k: Number of top results to return
+
+        Returns:
+            List of (node, similarity_score) tuples, sorted by similarity
+        """
+        if not self._embedding_engine:
+            logger.warning("Embeddings not enabled. Use enable_embeddings=True")
+            return []
+
+        # Filter nodes with embeddings
+        embedded_nodes = [n for n in nodes if n.embedding]
+        if not embedded_nodes:
+            logger.warning("No embedded nodes found. Run with embeddings enabled.")
+            return []
+
+        # Embed query
+        query_emb = self._embedding_engine.embed_single(query)
+        if not query_emb:
+            return []
+
+        # Compute cosine similarity
+        import numpy as np
+        query_vec = np.array(query_emb)
+
+        results = []
+        for node in embedded_nodes:
+            node_vec = np.array(node.embedding)
+            similarity = np.dot(query_vec, node_vec) / (np.linalg.norm(query_vec) * np.linalg.norm(node_vec))
+            results.append((node, float(similarity)))
+
+        # Sort by similarity
+        results.sort(key=lambda x: x[1], reverse=True)
+        return results[:top_k]
+
     def stats(self) -> Dict[str, Any]:
         """Get refinery statistics."""
         all_nodes = []
@@ -556,13 +686,31 @@ class Refinery:
 if __name__ == "__main__":
     import sys
 
-    refinery = Refinery()
+    # Parse arguments
+    enable_embed = '--embed' in sys.argv
+    if enable_embed:
+        sys.argv.remove('--embed')
+
+    search_query = None
+    if '--search' in sys.argv:
+        idx = sys.argv.index('--search')
+        if idx + 1 < len(sys.argv):
+            search_query = sys.argv[idx + 1]
+            sys.argv.pop(idx + 1)
+            sys.argv.pop(idx)
+
+    refinery = Refinery(enable_embeddings=enable_embed or bool(search_query))
 
     if len(sys.argv) < 2:
-        print("Usage: python refinery.py <file_or_dir> [--export <output.json>]")
+        print("Usage: python refinery.py <file_or_dir> [options]")
+        print("\nOptions:")
+        print("  --export <output.json>  Export chunks to JSON")
+        print("  --embed                 Generate vector embeddings")
+        print("  --search <query>        Semantic search (implies --embed)")
         print("\nExample:")
         print("  python refinery.py src/core/full_analysis.py")
         print("  python refinery.py src/ --export chunks.json")
+        print("  python refinery.py src/ --embed --search 'pipeline stages'")
         sys.exit(1)
 
     target = sys.argv[1]
@@ -587,15 +735,25 @@ if __name__ == "__main__":
     print(f"\n=== REFINERY Results ===")
     print(f"Total chunks: {len(nodes)}")
     print(f"Total tokens: ~{sum(n.token_estimate for n in nodes)}")
+    if enable_embed:
+        embedded_count = sum(1 for n in nodes if n.embedding)
+        print(f"Embedded: {embedded_count}/{len(nodes)}")
 
     if nodes:
         avg_rel = sum(n.relevance_score for n in nodes) / len(nodes)
         print(f"Avg relevance: {avg_rel:.2f}")
 
-        # Top 5 by relevance
-        print(f"\nTop 5 chunks by relevance:")
-        for node in refinery.select_top_k(nodes, 5):
-            print(f"  {node.relevance_score:.2f} | {node.chunk_type:15} | {node.source_file.split('/')[-1]}:{node.start_line}")
+        # Semantic search if requested
+        if search_query:
+            print(f"\n=== Semantic Search: '{search_query}' ===")
+            results = refinery.semantic_search(search_query, nodes, top_k=5)
+            for node, score in results:
+                print(f"  {score:.3f} | {node.chunk_type:15} | {node.source_file.split('/')[-1]}:{node.start_line}")
+        else:
+            # Top 5 by relevance
+            print(f"\nTop 5 chunks by relevance:")
+            for node in refinery.select_top_k(nodes, 5):
+                print(f"  {node.relevance_score:.2f} | {node.chunk_type:15} | {node.source_file.split('/')[-1]}:{node.start_line}")
 
     if output_path:
         refinery.export_to_json(nodes, output_path)

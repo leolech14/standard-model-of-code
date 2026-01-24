@@ -99,6 +99,7 @@ from .cache_registry import (
 from .refinery import (
     RefineryNode,
     Refinery,
+    EmbeddingEngine,
     FileChunker,
     PythonChunker,
     MarkdownChunker,
@@ -145,6 +146,7 @@ __all__ = [
     # Refinery (Context Atomization)
     "RefineryNode",
     "Refinery",
+    "EmbeddingEngine",
     "FileChunker",
     "PythonChunker",
     "MarkdownChunker",
