@@ -87,8 +87,8 @@ fi
 # The actual collider code is inside standard-model-of-code/
 cd standard-model-of-code
 
-# Install dependencies
-pip install -q tree-sitter==0.20.4 tree-sitter-python tree-sitter-javascript tree-sitter-go tree-sitter-typescript pyyaml
+# Install dependencies - use pip install -e for collider with all deps
+pip install -q -e . pyyaml
 
 echo "=== SETUP COMPLETE ==="
 '''
