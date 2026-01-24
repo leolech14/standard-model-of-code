@@ -11,13 +11,13 @@
 #   - not_to_be_confused_with: disambiguation
 #
 # CATEGORIES:
-#   - original_invention: We created this term (35 terms)
+#   - original_invention: We created this term (36 terms)
 #   - physics_metaphor: Borrowed from physics with new meaning (18 terms)
 #   - borrowed_theory: Academic concept with attribution (22 terms)
 #   - standard_cs: Conventional CS term (31 terms)
 #
-# Last updated: 2026-01-23
-# Total terms: 111
+# Last updated: 2026-01-24
+# Total terms: 112
 # ============================================================================
 
 schema_version: "1.0.0"
@@ -525,6 +525,29 @@ terms:
       System for choosing the right AI tool/tier for a given task.
       Routes simple queries to fast models, complex analysis to powerful models.
     related_terms: [the_triad, analysis_sets]
+
+  ever_was_always_been:
+    canonical_name: "Ever Was, Always Been"
+    category: original_invention
+    introduced:
+      version: "1.5.0"
+      date: "2026-01-24"
+      by: "Leonardo Lech"
+    definition: |
+      A scaffolding principle for integrating new features into a codebase.
+      A feature achieves "ever was, always been" status when it is so seamlessly
+      woven into documentation, tooling, onboarding, and configuration that new
+      agents perceive it as foundational rather than added. The goal is invisible
+      integration - the feature appears native, as if it always existed.
+    application: |
+      When adding a new subsystem (e.g., commit hygiene):
+      1. Update KERNEL.md (non-negotiables, boot protocol)
+      2. Register in SUBSYSTEM_INTEGRATION.md
+      3. Add to CLAUDE.md (commands, lookup table)
+      4. Add cross-references where related concepts appear
+      5. Verify with external validation (analyze.py)
+    antonym: '"bolted-on" - a feature obviously added later, creating cognitive load'
+    related_terms: [agent_school, alien_architecture, brain_body_architecture]
 
   # ---------------------------------------------------------------------------
   # Visualization
@@ -1365,6 +1388,343 @@ terms:
     implementation: "src/core/execution_flow.py"
     related_terms: [orphan_node, topology_reasoning]
 
+  # ---------------------------------------------------------------------------
+  # Codespace, Codome, Landscape, Topology (2026-01-23)
+  # ---------------------------------------------------------------------------
+
+  codespace:
+    canonical_name: "Codespace"
+    category: original_invention
+    introduced:
+      version: "0.5.0"
+      date: "2026-01-23"
+      by: "Leonardo Lech"
+    definition: |
+      The geometric space in which all code exists. NOT Euclidean.
+      Codespace has unique geometric properties:
+      - HYPERBOLIC: Exponentially expanding (hierarchies grow outward)
+      - FRACTAL: Self-similar at all scales
+      - NON-EUCLIDEAN: Distances don't add simply (A→B + B→C ≠ A→C)
+      - FOLDED: Layers intersect and overlap
+      - TUNNELED: Wormholes (events, callbacks) connect distant regions
+      - CAVERNOUS: Hidden complexity behind simple interfaces
+    key_insight: |
+      Codespace is ASYMMETRIC:
+      - DOWN: Hard bedrock (bits, qubits, physics) - cannot go below
+      - UP: Theoretically unlimited abstraction
+      The physical world is the FLOOR. We build UP from it, abstracting
+      complexity and increasing purpose alignment at each level.
+    not_to_be_confused_with:
+      - "GitHub Codespaces (cloud dev environment)"
+      - "Simple 3D Euclidean space"
+    related_terms: [codome, landscape, sixteen_levels]
+
+  codome:
+    canonical_name: "Codome"
+    category: original_invention
+    introduced:
+      version: "0.5.0"
+      date: "2026-01-23"
+      by: "Leonardo Lech"
+    definition: |
+      A bounded region of Codespace containing a single codebase with
+      defined boundaries. The "genome" of a codebase - its complete
+      genetic/structural information.
+
+      Defined by the Survey (Stage 0) which answers:
+      1. IDENTITY: What IS this system?
+      2. BOUNDARIES: Where does it START and END?
+      3. NATURE: What is the TEXTURE?
+      4. POLLUTION: What VIOLATES the physics?
+      5. ADAPTATION: How must instruments be calibrated?
+    etymology: |
+      Blend of "code" + "-ome" (suffix meaning "complete set of", as in
+      genome, proteome, microbiome). The codome is the complete structural
+      definition of a codebase.
+    related_terms: [codespace, landscape, survey]
+    spec_doc: "docs/specs/CODOME_BOUNDARY_DEFINITION.md"
+
+  landscape:
+    canonical_name: "Landscape"
+    category: original_invention
+    introduced:
+      version: "0.5.0"
+      date: "2026-01-23"
+      by: "Leonardo Lech"
+    definition: |
+      The navigable topological surface of a Codome. What humans traverse
+      when exploring code. The EXPERIENCE of code structure.
+
+      Landscape features:
+      - ELEVATION: Complexity height (peaks = god classes, valleys = clean code)
+      - GRADIENT: How fast complexity changes (cliffs = abstraction leaks)
+      - REGIONS: Bounded territories (modules, domains)
+      - PATHS: Dependency routes (how to get from A to B)
+      - HOLES: Topological voids (cycles, gaps)
+      - CAVES: Hidden complexity behind interfaces
+      - WORMHOLES: Non-local connections (events, callbacks)
+    key_distinction: |
+      TOPOLOGY = How we COMPUTE it (Betti numbers, homology, math)
+      LANDSCAPE = How we EXPERIENCE it (terrain, navigation, intuition)
+    related_terms: [topology, codome, codespace]
+    spec_doc: "docs/specs/CODOME_LANDSCAPE.md"
+
+  topology:
+    canonical_name: "Topology (Code)"
+    category: physics_metaphor
+    origin:
+      term: "Topology"
+      field: "mathematics"
+      etymology: "Greek 'topos' (place) + 'logos' (study)"
+      note: "Study of properties preserved under continuous deformation"
+    project_meaning: |
+      The mathematical structure of the code Landscape. Computed via
+      topological data analysis methods:
+
+      BETTI NUMBERS:
+      - b₀: Connected components (islands in the codome)
+      - b₁: Independent cycles (circular dependencies)
+      - b₂: Voids (architectural gaps)
+
+      EULER CHARACTERISTIC: χ = b₀ - b₁ + b₂
+
+      PERSISTENT HOMOLOGY: Features that persist across scales
+
+      HOMEOMORPHISM: Valid refactoring preserves topology
+    key_distinction: |
+      TOPOLOGY = How we COMPUTE it (math, invariants)
+      LANDSCAPE = How we EXPERIENCE it (terrain, navigation)
+    not_to_be_confused_with:
+      - "topology_reasoning.py (module that computes connectivity patterns)"
+      - "Network topology (physical network layout)"
+    related_terms: [landscape, betti_numbers, euler_characteristic]
+
+  archetype:
+    canonical_name: "Archetype"
+    category: original_invention
+    introduced:
+      version: "0.5.0"
+      date: "2026-01-23"
+      by: "Leonardo Lech"
+    definition: |
+      The organizational form of a Codome - its MACRO shape as a container.
+      Detected by Survey (Stage 0).
+
+      Values:
+      - MONOLITH: Single unified codebase
+      - MONOREPO: Multiple packages in one repository
+      - MICROSERVICES: Distributed service architecture
+      - LIBRARY: Reusable package for consumption
+      - CLI: Command-line tool
+    key_distinction: |
+      ARCHETYPE = What KIND of building (L10 Organization)
+      TOPOLOGY/LANDSCAPE = What's the TERRAIN inside (L7 System)
+
+      Archetype CONSTRAINS possible topologies:
+      - Monolith → Single connected landmass
+      - Microservices → Archipelago (islands)
+      - Monorepo → Continent with distinct regions
+    not_to_be_confused_with:
+      - "Topology (internal structure)"
+      - "Architecture patterns (MVC, DDD)"
+    related_terms: [topology, landscape, survey]
+
+  betti_numbers:
+    canonical_name: "Betti Numbers"
+    category: borrowed_theory
+    origin:
+      term: "Betti Numbers"
+      field: "algebraic topology"
+      named_after: "Enrico Betti"
+      year: 1871
+      formalized_by: "Henri Poincaré"
+    project_meaning: |
+      Topological invariants counting holes of different dimensions:
+
+      b₀ = Connected components (islands)
+           → b₀ = 1: Fully connected codebase
+           → b₀ > 1: Isolated islands exist
+
+      b₁ = Independent cycles (loops)
+           → b₁ = 0: No circular dependencies
+           → b₁ > 0: Cycles exist (potential problems)
+
+      b₂ = Voids (cavities)
+           → Architectural gaps
+
+      Health target: b₀ = 1, b₁ ≤ N/10 (where N = module count)
+    related_terms: [topology, euler_characteristic, persistent_homology]
+
+  euler_characteristic:
+    canonical_name: "Euler Characteristic"
+    category: borrowed_theory
+    origin:
+      term: "Euler Characteristic"
+      field: "topology"
+      named_after: "Leonhard Euler"
+      year: 1752
+      formula: "χ = V - E + F (vertices - edges + faces)"
+    project_meaning: |
+      Single number summarizing topological structure:
+
+      χ = b₀ - b₁ + b₂
+
+      For code:
+      - Healthy layered system: χ ≈ number of layers
+      - Problematic system: χ negative (more holes than components)
+    related_terms: [betti_numbers, topology]
+
+  persistent_homology:
+    canonical_name: "Persistent Homology"
+    category: borrowed_theory
+    origin:
+      term: "Persistent Homology"
+      field: "topological data analysis"
+      developed: "Early 2000s"
+      key_paper: "Edelsbrunner et al., 2002"
+    project_meaning: |
+      Technique tracking topological features across multiple scales.
+
+      At different scales (ε):
+      - ε = 0.1: Function-level dependencies
+      - ε = 0.5: Module-level patterns
+      - ε = 1.0: System-wide architecture
+
+      Features that PERSIST across scales = Real architecture
+      Features that appear at single scale = Noise
+
+      Used to separate architectural truth from implementation details.
+    related_terms: [betti_numbers, topology, landscape]
+
+  spatialization:
+    canonical_name: "Spatialization"
+    category: borrowed_theory
+    origin:
+      term: "Spatialization"
+      field: "information visualization / data science"
+      note: "Academic term for transforming semantic data into spatial representations"
+      references:
+        - "Graph spatialization in information visualization"
+        - "Visual metaphors for representing complex data"
+    project_meaning: |
+      The academic term for what the Standard Model of Code does:
+      transforming semantic code data into navigable spatial representations.
+
+      The Collider tool spatializes a codebase by:
+      1. Parsing code into a graph structure
+      2. Computing topological properties
+      3. Projecting into 3D space via force-directed layout
+      4. Applying visual encodings (color, size, shape)
+
+      The result is a "map" of code that can be navigated spatially.
+    key_insight: |
+      Standard Model of Code is a "meta-language with DSL characteristics"
+      that performs spatialization. It sits between raw code and human
+      understanding, transforming complex structures into navigable space.
+    related_terms: [landscape, visualization, meta_language]
+
+  meta_language:
+    canonical_name: "Meta-Language"
+    category: borrowed_theory
+    origin:
+      term: "Meta-language"
+      field: "linguistics / formal methods"
+      note: "A language used to describe or analyze another language"
+      references:
+        - "Tarski (1936) - distinction between object language and metalanguage"
+        - "Domain-Specific Languages in software engineering"
+    project_meaning: |
+      Classification of what the Standard Model of Code IS:
+      a meta-language for describing and analyzing code structure.
+
+      Like how:
+      - BNF is a meta-language for describing grammar
+      - UML is a meta-language for describing software design
+      - Mathematical notation is a meta-language for describing relations
+
+      Standard Model of Code is a meta-language for describing
+      the structural, semantic, and topological properties of codebases.
+
+      More precisely: "A meta-language with DSL characteristics" -
+      it has both the descriptive power of a meta-language and the
+      focused vocabulary of a domain-specific language.
+    not_to_be_confused_with:
+      - "Programming languages (these are object languages, not meta-languages)"
+      - "Natural language (too imprecise for formal analysis)"
+    related_terms: [spatialization, atom, eight_dimensions]
+
+  entity_stratification:
+    canonical_name: "Entity Stratification"
+    category: borrowed_theory
+    origin:
+      term: "Multi-level Modeling"
+      field: "software engineering / metamodeling"
+      references:
+        - "Atkinson & Kühne (2001) - The Essence of Multilevel Metamodeling"
+        - "Clabject concept in OCA, Melanee frameworks"
+    project_meaning: |
+      The principle that entities in the 16-level hierarchy are not
+      fixed particles at single levels, but FIELDS spanning multiple
+      levels with varying intensity.
+
+      Key concepts:
+      - CLABJECT: An entity that is simultaneously a class AND an instance
+        at different levels. A Service class (L4) is an instance of "Service
+        pattern" (L6) and a class for ServiceInstances (L3).
+
+      - POTENCY: How many levels down an entity's properties remain active.
+        Potency-2 means properties cascade 2 levels down.
+
+      - FIELD NATURE: Entities are wave functions, not particles. They have
+        "probability distributions" across levels, not fixed positions.
+
+      This resolves the apparent paradox: how can a Function be at L3
+      while also participating in L7 (System) patterns? Answer: it's a
+      field with different manifestations at each level.
+    key_insight: |
+      Entity stratification explains emergence: the whole (L7 System) is
+      more than the sum of its parts (L3 Functions) because entities
+      SPAN levels, creating cross-level correlations that pure aggregation
+      cannot capture.
+    related_terms: [sixteen_levels, holon, holarchy, emergence]
+
+  emergence:
+    canonical_name: "Emergence"
+    category: borrowed_theory
+    origin:
+      term: "Emergence"
+      field: "philosophy of science / complexity theory"
+      references:
+        - "Mill (1843) - British Emergentists"
+        - "Bedau (1997) - Weak vs Strong Emergence"
+        - "Holland (1998) - Emergence in Complex Adaptive Systems"
+    project_meaning: |
+      The principle that higher-level properties arise from but are not
+      reducible to lower-level components.
+
+      In the Standard Model:
+      - The PURPOSE of L7 (System) is emergent from L3 (Functions)
+      - NOT merely aggregated FROM the parts
+      - But ARISING THROUGH their interactions
+
+      Two types:
+      - WEAK EMERGENCE: Unpredictable from parts but realized through
+        their interactions. (Mainstream scientific view)
+      - STRONG EMERGENCE: Irreducible, with genuine downward causation.
+        (Controversial, minority position)
+
+      Our definition aligns with WEAK emergence: system-level purpose
+      emerges from organized interactions of lower-level components,
+      but is still grounded in those components.
+    key_insight: |
+      Each level transition in the 16-level hierarchy is an EMERGENCE
+      boundary. The purpose of a higher level is emergent from, not
+      merely aggregated from, its parts.
+    not_to_be_confused_with:
+      - "Aggregation (simple summing of properties)"
+      - "Composition (lifecycle coupling without new properties)"
+    related_terms: [sixteen_levels, entity_stratification, holon]
+
 # ============================================================================
 # MISSING BORROWED THEORIES (7 more)
 # ============================================================================
@@ -1645,14 +2005,24 @@ terms:
 # ============================================================================
 
 statistics:
-  total_terms: 106
+  total_terms: 111
   original_inventions: 35
   physics_metaphors: 18
-  borrowed_theories: 22
+  borrowed_theories: 27
   standard_cs: 31
   coverage: "100%"
 
 version_history:
+  - version: "1.1.0"
+    date: "2026-01-23"
+    author: "Leonardo Lech + Claude"
+    changes: |
+      Added 5 new borrowed_theory terms from Phase 10 research:
+      - spatialization: Academic term for what SMoC does
+      - meta_language: Classification of SMoC as a meta-language
+      - entity_stratification: Multi-level modeling concepts (clabjects, potency)
+      - emergence: Weak vs strong emergence, level transitions
+      - (existing terms updated with cross-references)
   - version: "1.0.0"
     date: "2026-01-21"
     author: "Leonardo Lech + Claude"
