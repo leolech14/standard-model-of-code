@@ -56,7 +56,10 @@ window.NODE_HELPERS = (function() {
         rank:           (n, C) => C.getInterval('centrality', n.pagerank || 0),
         ring:           (n, C) => C.get('ring', window.getNodeRing(n)),
 
-        // 6. EVOLUTION (Placeholders)
+        // 6. SEMANTIC PURPOSE (Stage 6.7 - PURPOSE = f(edges))
+        semanticRole:   (n, C) => C.get('semanticRole', n.semantic_role || 'unknown'),
+
+        // 7. EVOLUTION (Placeholders)
         churn:          (n, C) => C.getInterval('churn', Math.random() * 0.5),
         age:            (n, C) => C.getInterval('churn', 0.2)
     };

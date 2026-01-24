@@ -23,7 +23,7 @@ from src.core.file_enricher import FileEnricher
 from src.core.graph_framework import (
     build_nx_graph, find_entry_points, propagate_context, classify_node_role
 )
-from src.core.graph_metrics import compute_centrality_metrics
+from src.core.graph_metrics import compute_centrality_metrics, identify_critical_nodes
 from src.core.intent_extractor import build_node_intent_profile
 
 
@@ -1842,7 +1842,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # Stage 6.7: Semantic Purpose Analysis (PURPOSE = f(edges))
     print("\n🎯 Stage 6.7: Semantic Purpose Analysis...")
-    semantic_analysis = {'entry_points': [], 'node_context': {}, 'centrality': {}, 'role_distribution': {}}
+    semantic_analysis = {
+        'entry_points': [],
+        'node_context': {},
+        'centrality': {},
+        'role_distribution': {},
+        'critical_nodes': {},
+        'intent_summary': {}
+    }
     with StageTimer(perf_manager, "Stage 6.7: Semantic Purpose") as timer:
         try:
             # Build NetworkX graph from nodes/edges
@@ -1862,8 +1869,32 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             # Compute closeness centrality (Stage 6.5 already has betweenness/pagerank)
             centrality = compute_centrality_metrics(G)
 
-            # Enrich nodes with semantic roles and context
+            # Build centrality summary (top 10 by closeness + distribution stats)
+            closeness_values = [m.get('closeness', 0.0) for m in centrality.values()]
+            if closeness_values:
+                top_10_closeness = sorted(
+                    [(nid, m.get('closeness', 0.0)) for nid, m in centrality.items()],
+                    key=lambda x: x[1],
+                    reverse=True
+                )[:10]
+                semantic_analysis['centrality'] = {
+                    'top_10_closeness': [{'id': nid, 'score': round(score, 4)} for nid, score in top_10_closeness],
+                    'distribution': {
+                        'min': round(min(closeness_values), 4),
+                        'max': round(max(closeness_values), 4),
+                        'mean': round(sum(closeness_values) / len(closeness_values), 4),
+                        'computed_count': len(closeness_values)
+                    }
+                }
+
+            # Identify critical nodes (bridges, influential, coordinators)
+            critical_nodes = identify_critical_nodes(G, centrality, top_n=10)
+            semantic_analysis['critical_nodes'] = critical_nodes
+
+            # Enrich nodes with semantic roles, context, and critical flags
             role_counts = {'utility': 0, 'orchestrator': 0, 'hub': 0, 'leaf': 0}
+            intent_stats = {'with_docstring': 0, 'with_commits': 0, 'empty': 0}
+
             for node in nodes:
                 node_id = node.get('id')
                 if not node_id:
@@ -1880,6 +1911,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 node['semantic_role'] = semantic_role
                 role_counts[semantic_role] += 1
 
+                # Add critical node flags
+                node['is_bridge'] = node_id in critical_nodes.get('bridges', [])
+                node['is_influential'] = node_id in critical_nodes.get('influential', [])
+                node['is_coordinator'] = node_id in critical_nodes.get('coordinators', [])
+
                 # Add context propagation data
                 if node_id in node_context:
                     ctx = node_context[node_id]
@@ -1891,16 +1927,51 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     node['reachable_from_entry'] = False
                     node['depth_from_entry'] = -1
 
+                # Extract intent profile (docstring + commit history)
+                file_path = node.get('file_path', '')
+                source_code = node.get('body_source', '')
+                if file_path and (source_code or node.get('kind') in ('function', 'method', 'class')):
+                    intent_profile = build_node_intent_profile(
+                        node_id=node_id,
+                        file_path=file_path,
+                        source_code=source_code or '',
+                        repo_path=target
+                    )
+                    # Only store if we extracted something meaningful
+                    has_docstring = bool(intent_profile.get('docstring'))
+                    has_commits = bool(intent_profile.get('recent_commits'))
+                    if has_docstring or has_commits:
+                        node['intent_profile'] = {
+                            'has_docstring': has_docstring,
+                            'has_commits': has_commits,
+                        }
+                        if has_docstring:
+                            node['intent_profile']['docstring'] = intent_profile['docstring'][:200]
+                            intent_stats['with_docstring'] += 1
+                        if has_commits:
+                            node['intent_profile']['commit_intents'] = intent_profile.get('commit_intents', [])
+                            intent_stats['with_commits'] += 1
+                    else:
+                        intent_stats['empty'] += 1
+
             semantic_analysis['role_distribution'] = role_counts
+            semantic_analysis['intent_summary'] = {
+                'with_docstring': intent_stats['with_docstring'],
+                'with_commits': intent_stats['with_commits'],
+                'empty_profiles': intent_stats['empty'],
+                'total_processed': sum(intent_stats.values())
+            }
 
             timer.set_output(
                 entry_points=len(entry_points),
                 reachable=len(node_context),
-                roles=sum(role_counts.values())
+                roles=sum(role_counts.values()),
+                intents=intent_stats['with_docstring'] + intent_stats['with_commits']
             )
             print(f"   → {len(entry_points)} entry points detected")
             print(f"   → {len(node_context)} nodes reachable from entry")
             print(f"   → Roles: {role_counts['utility']} utility, {role_counts['orchestrator']} orchestrator, {role_counts['hub']} hub, {role_counts['leaf']} leaf")
+            print(f"   → Intent: {intent_stats['with_docstring']} with docstring, {intent_stats['with_commits']} with commits")
         except Exception as e:
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Semantic purpose analysis skipped: {e}")

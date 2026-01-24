@@ -29,7 +29,8 @@ window.VIS_STATE = (function() {
      */
     const CATEGORICAL_MODES = new Set([
         'tier', 'family', 'atom', 'ring', 'layer', 'role', 'roleCategory',
-        'subsystem', 'phase', 'fileType', 'file', 'state', 'visibility'
+        'subsystem', 'phase', 'fileType', 'file', 'state', 'visibility',
+        'semanticRole'  // PURPOSE = f(edges) - utility/orchestrator/hub/leaf
     ]);
 
     const INTERVAL_MODES = new Set([
@@ -105,6 +106,13 @@ window.VIS_STATE = (function() {
             sizeBy: 'degree',
             edgeBy: 'weight',
             special: 'flow'    // Triggers flow visualization
+        },
+        semanticRole: {
+            label: 'Purpose',
+            description: 'Semantic role from graph structure',
+            colorBy: 'semanticRole',
+            sizeBy: 'degree',
+            edgeBy: 'type'
         }
     };
 

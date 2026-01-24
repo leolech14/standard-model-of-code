@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import importlib.util
 import re
+import shutil
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, Union
@@ -105,4 +106,14 @@ def generate_outputs(
 
     json_path = write_llm_output(data, output_dir, filename=json_filename, normalize=False)
     html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
-    return {"llm": json_path, "html": html_path}
+
+    # Create stable filenames for automation (always available, always current)
+    output_dir = Path(output_dir)
+    stable_json = output_dir / "unified_analysis.json"
+    stable_html = output_dir / "collider_report.html"
+
+    # Copy to stable filenames (not symlink - works across filesystems)
+    shutil.copy2(json_path, stable_json)
+    shutil.copy2(html_path, stable_html)
+
+    return {"llm": json_path, "html": html_path, "stable_json": stable_json, "stable_html": stable_html}

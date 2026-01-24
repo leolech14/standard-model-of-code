@@ -111,6 +111,14 @@ const COLOR = (function () {
             'Private': { h: 0, c: 0.05, l: 0.55, label: 'Private', semantic: 'closed' },
             'Internal': { h: 280, c: 0.15, l: 0.60, label: 'Internal', semantic: 'module' }
         },
+        // SEMANTIC ROLES: From PURPOSE = f(edges) analysis (Stage 6.7)
+        semanticRole: {
+            'utility': { h: 190, c: 0.18, l: 0.65, label: 'Utility', semantic: 'servant' },       // Cyan - serves many
+            'orchestrator': { h: 280, c: 0.22, l: 0.60, label: 'Orchestrator', semantic: 'commander' }, // Purple - calls many
+            'hub': { h: 30, c: 0.26, l: 0.65, label: 'Hub', semantic: 'critical' },               // Orange - central junction
+            'leaf': { h: 220, c: 0.10, l: 0.55, label: 'Leaf', semantic: 'specialized' },         // Blue-gray - edge node
+            'unknown': { h: 0, c: 0.02, l: 0.45, label: 'Unknown', semantic: 'neutral' }
+        },
         fileType: {
             'js': { h: 60, c: 0.24, l: 0.70, label: 'JavaScript', semantic: 'code' },    // Yellow
             'ts': { h: 240, c: 0.22, l: 0.60, label: 'TypeScript', semantic: 'code' },    // Blue
