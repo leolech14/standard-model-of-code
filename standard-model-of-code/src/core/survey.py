@@ -67,6 +67,7 @@ DEFAULT_DIRECTORY_PATTERNS = [
     "node_modules/",
     "vendor/",
     ".vendor/",
+    ".repos_cache/",  # Test repository caches (calibration data)
     "lib/",
     "dist/",
     "build/",
@@ -144,14 +145,17 @@ class CodomeComposition:
 
     @property
     def total(self) -> int:
+        """Return total file count across all categories."""
         return (self.source_files + self.config_files + self.data_files +
                 self.doc_files + self.binary_files + self.other_files)
 
     @property
     def source_ratio(self) -> float:
+        """Return ratio of source files to total files (0.0 to 1.0)."""
         return self.source_files / self.total if self.total > 0 else 0.0
 
     def as_percentages(self) -> dict[str, float]:
+        """Return file type distribution as percentages."""
         t = self.total or 1
         return {
             "source": self.source_files / t,
@@ -309,33 +313,58 @@ def calculate_cci(
 
 @dataclass
 class SurveyResult:
-    """Complete survey results for a directory."""
+    """Complete Codome Definition (CodomeManifest).
+
+    This is the ontological definition of the codebase, answering:
+    - Q1: IDENTITY (what is this system?)
+    - Q2: BOUNDARIES (what's ours vs vendor?)
+    - Q3: NATURE (code/config/data ratios)
+    - Q4: POLLUTION (what shouldn't be here?)
+    - Q5: ADAPTATION (pipeline configuration)
+    """
     root_path: str
     scan_time_ms: float
 
-    # Counts
-    total_files: int = 0
-    total_dirs: int = 0
-    total_size_kb: float = 0.0
+    # Q1: IDENTITY - What IS this system?
+    identity: SystemIdentity = field(default_factory=SystemIdentity)
 
-    # Exclusions
+    # Q3: NATURE - Composition breakdown
+    composition: CodomeComposition = field(default_factory=CodomeComposition)
+
+    # Q4: POLLUTION - Detected issues
+    pollution_alerts: list[PollutionAlert] = field(default_factory=list)
+
+    # Q2: BOUNDARIES - Spatial boundaries (legacy names kept for compatibility)
     directory_exclusions: list[ExclusionMatch] = field(default_factory=list)
     file_exclusions: list[ExclusionMatch] = field(default_factory=list)
     minified_files: list[MinifiedFile] = field(default_factory=list)
+
+    # Counts (raw)
+    total_files: int = 0
+    total_dirs: int = 0
+    total_size_kb: float = 0.0
 
     # Estimates (after exclusions)
     estimated_source_files: int = 0
     estimated_nodes: int = 0  # Rough estimate: ~75 nodes per source file
 
-    # Recommendations
+    # Q5: ADAPTATION - Pipeline configuration
     recommended_excludes: list[str] = field(default_factory=list)
+    recommended_parsers: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
     # Codome Completeness Index (optional - populated after analysis comparison)
     cci: Optional[CCIMetrics] = None
 
+    # Aliases for ontological access
+    @property
+    def boundary_constraints(self) -> list[str]:
+        """Q2: Boundary constraints (alias for recommended_excludes)."""
+        return self.recommended_excludes
+
     @property
     def exclusion_count(self) -> int:
+        """Return total count of excluded directories, files, and minified artifacts."""
         return len(self.directory_exclusions) + len(self.file_exclusions) + len(self.minified_files)
 
     @property
@@ -344,6 +373,34 @@ class SurveyResult:
         if self.total_files == 0:
             return 1.0
         return self.estimated_source_files / self.total_files
+
+    @property
+    def pollution_level(self) -> str:
+        """Overall pollution assessment."""
+        high_count = sum(1 for p in self.pollution_alerts if p.severity == "HIGH")
+        medium_count = sum(1 for p in self.pollution_alerts if p.severity == "MEDIUM")
+        if high_count > 0:
+            return "HIGH"
+        elif medium_count > 2:
+            return "MEDIUM"
+        elif len(self.pollution_alerts) > 0:
+            return "LOW"
+        return "CLEAN"
+
+    @property
+    def boundary_rigidity(self) -> str:
+        """How rigid are the boundaries?"""
+        if len(self.recommended_excludes) > 10:
+            return "RIGID"
+        elif len(self.recommended_excludes) > 3:
+            return "MODERATE"
+        elif len(self.recommended_excludes) > 0:
+            return "PERMEABLE"
+        return "OPEN"
+
+
+# Alias for semantic clarity
+CodomeManifest = SurveyResult
 
 
 # ============================================================
@@ -496,6 +553,367 @@ def _get_pattern_reason(pattern: str) -> str:
 
 
 # ============================================================
+# IDENTITY DETECTION (Q1: What IS this system?)
+# ============================================================
+
+# Language detection by file extension
+LANGUAGE_EXTENSIONS = {
+    # Primary languages
+    ".py": "python",
+    ".js": "javascript",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".jsx": "javascript",
+    ".go": "go",
+    ".rs": "rust",
+    ".java": "java",
+    ".kt": "kotlin",
+    ".swift": "swift",
+    ".rb": "ruby",
+    ".php": "php",
+    ".cs": "csharp",
+    ".cpp": "cpp",
+    ".c": "c",
+    ".h": "c",
+    ".hpp": "cpp",
+    ".scala": "scala",
+    ".clj": "clojure",
+    ".ex": "elixir",
+    ".exs": "elixir",
+    ".erl": "erlang",
+    ".hs": "haskell",
+    ".ml": "ocaml",
+    ".lua": "lua",
+    ".r": "r",
+    ".R": "r",
+    ".jl": "julia",
+    ".dart": "dart",
+    ".vue": "vue",
+    ".svelte": "svelte",
+}
+
+# Framework detection markers
+FRAMEWORK_MARKERS = {
+    # Python frameworks
+    ("requirements.txt", "django"): "django",
+    ("requirements.txt", "flask"): "flask",
+    ("requirements.txt", "fastapi"): "fastapi",
+    ("pyproject.toml", "django"): "django",
+    ("pyproject.toml", "flask"): "flask",
+    ("pyproject.toml", "fastapi"): "fastapi",
+    # JavaScript/TypeScript frameworks
+    ("package.json", "next"): "nextjs",
+    ("package.json", "react"): "react",
+    ("package.json", "vue"): "vue",
+    ("package.json", "angular"): "angular",
+    ("package.json", "svelte"): "svelte",
+    ("package.json", "express"): "express",
+    ("package.json", "nestjs"): "nestjs",
+    ("package.json", "nuxt"): "nuxt",
+    # Go frameworks
+    ("go.mod", "gin"): "gin",
+    ("go.mod", "echo"): "echo",
+    ("go.mod", "fiber"): "fiber",
+    # Rust frameworks
+    ("Cargo.toml", "actix"): "actix",
+    ("Cargo.toml", "rocket"): "rocket",
+    ("Cargo.toml", "axum"): "axum",
+    # Ruby frameworks
+    ("Gemfile", "rails"): "rails",
+    ("Gemfile", "sinatra"): "sinatra",
+}
+
+# Archetype detection markers
+ARCHETYPE_MARKERS = {
+    # Monorepo markers
+    "pnpm-workspace.yaml": "monorepo",
+    "lerna.json": "monorepo",
+    "nx.json": "monorepo",
+    "turbo.json": "monorepo",
+    "rush.json": "monorepo",
+    # Library markers
+    "setup.py": "library",
+    "pyproject.toml": "library",  # weak - needs content check
+    "Cargo.toml": "library",      # weak - needs content check
+    # CLI markers
+    "bin/": "cli",
+    "cmd/": "cli",
+}
+
+
+def detect_identity(root: Path, exclude_dirs: list[str] = None) -> SystemIdentity:
+    """Detect the fundamental identity of the codebase (Q1).
+
+    Returns:
+        SystemIdentity with language, framework, and archetype
+    """
+    exclude_dirs = exclude_dirs or DEFAULT_DIRECTORY_PATTERNS
+    identity = SystemIdentity()
+
+    # Count files by language extension
+    lang_counts: dict[str, int] = {}
+    total_code_files = 0
+
+    for dirpath, dirnames, filenames in os.walk(root):
+        rel_dir = os.path.relpath(dirpath, root)
+
+        # Skip excluded directories
+        skip = False
+        for pattern in exclude_dirs:
+            if path_matches_pattern(rel_dir, pattern):
+                skip = True
+                dirnames.clear()
+                break
+        if skip:
+            continue
+
+        for filename in filenames:
+            ext = os.path.splitext(filename)[1].lower()
+            if ext in LANGUAGE_EXTENSIONS:
+                lang = LANGUAGE_EXTENSIONS[ext]
+                lang_counts[lang] = lang_counts.get(lang, 0) + 1
+                total_code_files += 1
+
+    # Determine primary and secondary languages
+    if lang_counts:
+        sorted_langs = sorted(lang_counts.items(), key=lambda x: x[1], reverse=True)
+        identity.primary_language = sorted_langs[0][0]
+        identity.secondary_languages = [l for l, _ in sorted_langs[1:4] if lang_counts[l] > total_code_files * 0.05]
+        identity.confidence = sorted_langs[0][1] / total_code_files if total_code_files > 0 else 0.0
+
+    # Detect framework from manifest files
+    identity.dominant_framework = _detect_framework(root)
+
+    # Detect archetype
+    identity.archetype = _detect_archetype(root)
+
+    return identity
+
+
+def _detect_framework(root: Path) -> str:
+    """Detect dominant framework from manifest files."""
+    manifest_files = {
+        "package.json": root / "package.json",
+        "requirements.txt": root / "requirements.txt",
+        "pyproject.toml": root / "pyproject.toml",
+        "go.mod": root / "go.mod",
+        "Cargo.toml": root / "Cargo.toml",
+        "Gemfile": root / "Gemfile",
+    }
+
+    for manifest_name, manifest_path in manifest_files.items():
+        if manifest_path.exists():
+            try:
+                content = manifest_path.read_text(encoding='utf-8', errors='ignore').lower()
+                for (m_file, marker), framework in FRAMEWORK_MARKERS.items():
+                    if m_file == manifest_name and marker in content:
+                        return framework
+            except (OSError, IOError):
+                continue
+
+    return "unknown"
+
+
+def _detect_archetype(root: Path) -> str:
+    """Detect project archetype (organizational structure)."""
+    # Check for explicit monorepo markers
+    for marker, archetype in ARCHETYPE_MARKERS.items():
+        if marker.endswith('/'):
+            if (root / marker.rstrip('/')).is_dir():
+                return archetype
+        else:
+            if (root / marker).exists():
+                # Strong monorepo markers
+                if archetype == "monorepo":
+                    return "monorepo"
+
+    # Check for packages/ or apps/ directories (monorepo indicator)
+    if (root / "packages").is_dir() or (root / "apps").is_dir():
+        return "monorepo"
+
+    # Check for microservices pattern (multiple service directories)
+    service_dirs = [d for d in root.iterdir() if d.is_dir() and
+                    any(d.name.endswith(s) for s in ['-service', '-api', '-worker', '-gateway'])]
+    if len(service_dirs) >= 3:
+        return "microservices"
+
+    # Check for library indicators
+    if (root / "setup.py").exists() or (root / "setup.cfg").exists():
+        return "library"
+
+    # Check pyproject.toml for library vs application
+    pyproject = root / "pyproject.toml"
+    if pyproject.exists():
+        try:
+            content = pyproject.read_text()
+            if "[project]" in content or "[tool.poetry]" in content:
+                # Has package definition - likely a library
+                if "dependencies" in content and "scripts" not in content:
+                    return "library"
+        except (OSError, IOError):
+            pass
+
+    # Check for CLI indicators
+    if (root / "bin").is_dir() or (root / "cmd").is_dir():
+        return "cli"
+
+    # Default to monolith
+    return "monolith"
+
+
+# ============================================================
+# COMPOSITION DETECTION (Q3: What is the TEXTURE?)
+# ============================================================
+
+# File type classification
+SOURCE_EXTENSIONS = {'.py', '.js', '.ts', '.tsx', '.jsx', '.go', '.rs', '.java', '.kt',
+                     '.swift', '.rb', '.php', '.cs', '.cpp', '.c', '.h', '.hpp', '.scala',
+                     '.clj', '.ex', '.exs', '.erl', '.hs', '.ml', '.lua', '.r', '.jl',
+                     '.dart', '.vue', '.svelte'}
+CONFIG_EXTENSIONS = {'.json', '.yaml', '.yml', '.toml', '.ini', '.cfg', '.conf', '.env',
+                     '.xml', '.properties'}
+DATA_EXTENSIONS = {'.csv', '.sql', '.graphql', '.gql', '.prisma', '.proto'}
+DOC_EXTENSIONS = {'.md', '.rst', '.txt', '.adoc', '.org'}
+BINARY_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.webp', '.bmp',
+                     '.woff', '.woff2', '.ttf', '.eot', '.otf', '.mp3', '.mp4', '.wav',
+                     '.pdf', '.zip', '.tar', '.gz', '.wasm', '.so', '.dll', '.exe'}
+
+
+def detect_composition(root: Path, exclude_dirs: list[str] = None) -> CodomeComposition:
+    """Detect the composition breakdown of the codebase (Q3).
+
+    Returns:
+        CodomeComposition with file type counts
+    """
+    exclude_dirs = exclude_dirs or DEFAULT_DIRECTORY_PATTERNS
+    composition = CodomeComposition()
+
+    for dirpath, dirnames, filenames in os.walk(root):
+        rel_dir = os.path.relpath(dirpath, root)
+
+        # Skip excluded directories
+        skip = False
+        for pattern in exclude_dirs:
+            if path_matches_pattern(rel_dir, pattern):
+                skip = True
+                dirnames.clear()
+                break
+        if skip:
+            continue
+
+        for filename in filenames:
+            ext = os.path.splitext(filename)[1].lower()
+
+            if ext in SOURCE_EXTENSIONS:
+                composition.source_files += 1
+            elif ext in CONFIG_EXTENSIONS:
+                composition.config_files += 1
+            elif ext in DATA_EXTENSIONS:
+                composition.data_files += 1
+            elif ext in DOC_EXTENSIONS:
+                composition.doc_files += 1
+            elif ext in BINARY_EXTENSIONS:
+                composition.binary_files += 1
+            else:
+                composition.other_files += 1
+
+    return composition
+
+
+# ============================================================
+# POLLUTION DETECTION (Q4: What VIOLATES the physics?)
+# ============================================================
+
+def detect_pollution(
+    root: Path,
+    exclude_dirs: list[str] = None,
+    minified_files: list[MinifiedFile] = None
+) -> list[PollutionAlert]:
+    """Detect pollution issues in the codebase (Q4).
+
+    Pollution types:
+    - vendor_in_src: Vendor code in source directories
+    - minified_unmarked: Minified files without .min. marker
+    - binary_in_source: Binary files in source directories
+    - generated_unmarked: Generated code without markers
+    - orphaned_config: Config files with no matching code
+
+    Returns:
+        List of PollutionAlert objects
+    """
+    exclude_dirs = exclude_dirs or DEFAULT_DIRECTORY_PATTERNS
+    alerts: list[PollutionAlert] = []
+
+    # Check for minified files without markers (already detected)
+    if minified_files:
+        for mf in minified_files:
+            if '.min.' not in mf.path and '.bundle.' not in mf.path:
+                alerts.append(PollutionAlert(
+                    path=mf.path,
+                    pollution_type="minified_unmarked",
+                    severity="MEDIUM",
+                    description=f"Minified file without .min. marker: {mf.reason}",
+                    recommendation="Rename to include .min. or exclude from analysis"
+                ))
+
+    # Check for vendor patterns in source directories
+    vendor_in_src_patterns = [
+        ("jquery", "jQuery library"),
+        ("lodash", "Lodash library"),
+        ("underscore", "Underscore library"),
+        ("moment", "Moment.js library"),
+        ("axios", "Axios library"),
+        ("d3.v", "D3.js library"),
+    ]
+
+    for dirpath, dirnames, filenames in os.walk(root):
+        rel_dir = os.path.relpath(dirpath, root)
+
+        # Skip excluded directories
+        skip = False
+        for pattern in exclude_dirs:
+            if path_matches_pattern(rel_dir, pattern):
+                skip = True
+                dirnames.clear()
+                break
+        if skip:
+            continue
+
+        # Only check in source-like directories
+        if not any(src in rel_dir for src in ['src', 'lib', 'app', 'core']):
+            continue
+
+        for filename in filenames:
+            rel_path = os.path.join(rel_dir, filename) if rel_dir != '.' else filename
+            filename_lower = filename.lower()
+
+            # Check for vendor patterns in filename
+            for pattern, desc in vendor_in_src_patterns:
+                if pattern in filename_lower:
+                    alerts.append(PollutionAlert(
+                        path=rel_path,
+                        pollution_type="vendor_in_src",
+                        severity="HIGH",
+                        description=f"{desc} found in source directory",
+                        recommendation="Move to vendor/ or node_modules/, or install via package manager"
+                    ))
+                    break
+
+            # Check for binary files in source directories
+            ext = os.path.splitext(filename)[1].lower()
+            if ext in BINARY_EXTENSIONS:
+                alerts.append(PollutionAlert(
+                    path=rel_path,
+                    pollution_type="binary_in_source",
+                    severity="LOW",
+                    description=f"Binary file ({ext}) in source directory",
+                    recommendation="Move to assets/ or public/ directory"
+                ))
+
+    return alerts
+
+
+# ============================================================
 # MINIFICATION DETECTION
 # ============================================================
 
@@ -624,7 +1042,16 @@ def run_survey(
     detect_minified: bool = True
 ) -> SurveyResult:
     """
-    Run a complete survey of a directory.
+    Run a complete Codome Definition survey of a directory.
+
+    This is the ONTOLOGICAL phase - it defines WHAT the codome IS before
+    any analysis begins. It answers 5 fundamental questions:
+
+    Q1. IDENTITY: What IS this system? (language, framework, archetype)
+    Q2. BOUNDARIES: Where does it START and END? (exclusions)
+    Q3. NATURE: What is the TEXTURE? (composition breakdown)
+    Q4. POLLUTION: What VIOLATES the physics? (misplaced files)
+    Q5. ADAPTATION: How must the INSTRUMENTS be calibrated? (parsers, thresholds)
 
     Args:
         path: Directory to survey
@@ -633,7 +1060,7 @@ def run_survey(
         detect_minified: Whether to run minification detection heuristics
 
     Returns:
-        SurveyResult with all findings and recommendations
+        SurveyResult (CodomeManifest) with complete ontological definition
     """
     start_time = time.time()
     root = Path(path).resolve()
@@ -659,20 +1086,35 @@ def run_survey(
             except OSError:
                 pass
 
-    # Scan for pattern-based exclusions
+    # Q2: BOUNDARIES - Scan for pattern-based exclusions
     dir_exclusions, file_exclusions = scan_for_exclusions(
         root, dir_patterns, file_patterns
     )
     result.directory_exclusions = dir_exclusions
     result.file_exclusions = file_exclusions
 
-    # Detect minified files
+    # Detect minified files (part of Q2)
     if detect_minified:
         excluded_dirs = [e.path for e in dir_exclusions]
         result.minified_files = detect_minified_files(
             root,
             exclude_dirs=excluded_dirs + (dir_patterns or DEFAULT_DIRECTORY_PATTERNS)
         )
+
+    # Build exclusion list for other detection functions
+    all_exclude_dirs = (dir_patterns or DEFAULT_DIRECTORY_PATTERNS) + [e.path for e in dir_exclusions]
+
+    # Q1: IDENTITY - What IS this system?
+    result.identity = detect_identity(root, all_exclude_dirs)
+
+    # Q3: NATURE - Composition breakdown
+    result.composition = detect_composition(root, all_exclude_dirs)
+
+    # Q4: POLLUTION - Detect issues
+    result.pollution_alerts = detect_pollution(root, all_exclude_dirs, result.minified_files)
+
+    # Q5: ADAPTATION - Determine recommended parsers
+    result.recommended_parsers = _get_recommended_parsers(result.identity)
 
     # Calculate estimates
     excluded_file_count = sum(e.file_count for e in dir_exclusions)
@@ -682,7 +1124,7 @@ def run_survey(
     result.estimated_source_files = max(0, result.total_files - excluded_file_count)
     result.estimated_nodes = result.estimated_source_files * 75  # Rough estimate
 
-    # Build recommendations
+    # Build recommendations (Q2 boundary constraints)
     result.recommended_excludes = []
     for excl in dir_exclusions:
         result.recommended_excludes.append(excl.path)
@@ -690,6 +1132,45 @@ def run_survey(
         result.recommended_excludes.append(excl.path)
     for mf in result.minified_files:
         result.recommended_excludes.append(mf.path)
+
+    # Calculate Codome Completeness Index (CCI)
+    # Model: Are we capturing source code while excluding non-source?
+    #
+    # Ground truth from composition detection:
+    #   SOURCE = composition.source_files (code files: .py, .js, .ts, etc.)
+    #   NON-SOURCE = total_files - source_files (config, docs, vendor, etc.)
+    #
+    # Our analysis plan:
+    #   WILL_ANALYZE = estimated_source_files (after exclusions)
+    #   WILL_EXCLUDE = excluded_file_count
+    #
+    # Classification:
+    #   TP = source files we're keeping (min of detected source and what we analyze)
+    #   FN = source files we might be excluding
+    #   TN = non-source files we correctly exclude
+    #   FP = non-source files we incorrectly include
+    #
+    source_detected = result.composition.source_files
+    non_source_detected = result.total_files - source_detected
+
+    # Conservative estimate: assume exclusions are accurate
+    # TP = source we keep (can't exceed detected source)
+    tp = min(result.estimated_source_files, source_detected)
+    # FN = source we lose to exclusions
+    fn = max(0, source_detected - result.estimated_source_files)
+    # TN = non-source correctly excluded
+    tn = min(excluded_file_count, non_source_detected)
+    # FP = non-source incorrectly included (spillover into analysis)
+    fp = max(0, result.estimated_source_files - source_detected)
+
+    # Only calculate CCI if we have meaningful data
+    if source_detected > 0 or excluded_file_count > 0:
+        result.cci = calculate_cci(
+            total_source_files=source_detected if source_detected > 0 else 1,
+            analyzed_source_files=tp,
+            total_vendor_files=non_source_detected if non_source_detected > 0 else 1,
+            analyzed_vendor_files=fp
+        )
 
     # Add warnings
     if result.estimated_nodes > 10000:
@@ -705,8 +1186,42 @@ def run_survey(
             "These will be excluded by default."
         )
 
+    if result.pollution_level == "HIGH":
+        result.warnings.append(
+            f"High pollution detected: {len(result.pollution_alerts)} issues found. "
+            "Review pollution alerts before analysis."
+        )
+
     result.scan_time_ms = (time.time() - start_time) * 1000
     return result
+
+
+def _get_recommended_parsers(identity: SystemIdentity) -> list[str]:
+    """Determine recommended parsers based on identity (Q5)."""
+    parsers = []
+
+    lang_to_parser = {
+        "python": "tree-sitter-python",
+        "javascript": "tree-sitter-javascript",
+        "typescript": "tree-sitter-typescript",
+        "go": "tree-sitter-go",
+        "rust": "tree-sitter-rust",
+        "java": "tree-sitter-java",
+        "ruby": "tree-sitter-ruby",
+        "php": "tree-sitter-php",
+        "csharp": "tree-sitter-c-sharp",
+        "cpp": "tree-sitter-cpp",
+        "c": "tree-sitter-c",
+    }
+
+    if identity.primary_language in lang_to_parser:
+        parsers.append(lang_to_parser[identity.primary_language])
+
+    for lang in identity.secondary_languages:
+        if lang in lang_to_parser and lang_to_parser[lang] not in parsers:
+            parsers.append(lang_to_parser[lang])
+
+    return parsers
 
 
 # ============================================================
@@ -768,53 +1283,101 @@ def generate_analysis_config(survey_result: SurveyResult) -> dict:
 # ============================================================
 
 def print_survey_report(result: SurveyResult, verbose: bool = False):
-    """Print a human-readable survey report."""
+    """Print a human-readable Codome Definition report.
+
+    This outputs a POSITIVE DEFINITION of the codome, not just exclusions.
+    The report answers the 5 ontological questions.
+    """
     print("\n" + "=" * 60)
-    print("COLLIDER SURVEY REPORT")
+    print("CODOME DEFINITION REPORT (Stage 0)")
     print("=" * 60)
     print(f"Path: {result.root_path}")
     print(f"Scan time: {result.scan_time_ms:.0f}ms")
     print()
 
-    print(f"Total files:     {result.total_files:,}")
-    print(f"Total dirs:      {result.total_dirs:,}")
-    print(f"Total size:      {result.total_size_kb/1024:.1f}MB")
+    # Q1: IDENTITY - What IS this system?
+    print("Q1: IDENTITY - What IS this system?")
+    print("-" * 40)
+    print(f"  System: {result.identity}")
+    print(f"  Primary language:  {result.identity.primary_language}")
+    if result.identity.secondary_languages:
+        print(f"  Secondary:         {', '.join(result.identity.secondary_languages)}")
+    print(f"  Framework:         {result.identity.dominant_framework}")
+    print(f"  Archetype:         {result.identity.archetype}")
+    print(f"  Confidence:        {result.identity.confidence:.0%}")
     print()
 
-    if result.directory_exclusions:
-        print("DIRECTORY EXCLUSIONS:")
-        for excl in result.directory_exclusions:
-            print(f"  - {excl.path}")
-            print(f"    Pattern: {excl.pattern}")
-            print(f"    Reason: {excl.reason}")
-            print(f"    Files: {excl.file_count:,}, Size: {excl.total_size_kb/1024:.1f}MB")
+    # Q2: BOUNDARIES - Where does it START and END?
+    print("Q2: BOUNDARIES - Where does it START and END?")
+    print("-" * 40)
+    print(f"  Total files:       {result.total_files:,}")
+    print(f"  Total dirs:        {result.total_dirs:,}")
+    print(f"  Total size:        {result.total_size_kb/1024:.1f}MB")
+    print()
+    print(f"  Included (OURS):   {result.estimated_source_files:,} files")
+    excluded = result.total_files - result.estimated_source_files
+    print(f"  Excluded (THEIRS): {excluded:,} files")
+    print(f"  Boundary rigidity: {result.boundary_rigidity}")
+    if verbose and result.directory_exclusions:
         print()
-
-    if result.minified_files and verbose:
-        print("MINIFIED FILES DETECTED:")
-        for mf in result.minified_files[:10]:  # Show first 10
-            print(f"  - {mf.path}")
-            print(f"    Reason: {mf.reason}")
-        if len(result.minified_files) > 10:
-            print(f"  ... and {len(result.minified_files) - 10} more")
-        print()
-
-    print("ESTIMATES (after exclusions):")
-    print(f"  Source files:  {result.estimated_source_files:,}")
-    print(f"  Est. nodes:    {result.estimated_nodes:,}")
-    print(f"  Signal/Noise:  {result.signal_to_noise_ratio:.1%}")
+        print("  Exclusion details:")
+        for excl in result.directory_exclusions[:5]:
+            print(f"    - {excl.path} ({excl.reason})")
+        if len(result.directory_exclusions) > 5:
+            print(f"    ... and {len(result.directory_exclusions) - 5} more")
     print()
 
+    # Q3: NATURE - What is the TEXTURE?
+    print("Q3: NATURE - What is the TEXTURE?")
+    print("-" * 40)
+    comp = result.composition
+    pcts = comp.as_percentages()
+    print(f"  Source files:  {comp.source_files:>5,} ({pcts['source']:>5.1%})")
+    print(f"  Config files:  {comp.config_files:>5,} ({pcts['config']:>5.1%})")
+    print(f"  Data files:    {comp.data_files:>5,} ({pcts['data']:>5.1%})")
+    print(f"  Doc files:     {comp.doc_files:>5,} ({pcts['docs']:>5.1%})")
+    print(f"  Binary files:  {comp.binary_files:>5,} ({pcts['binary']:>5.1%})")
+    print(f"  Other:         {comp.other_files:>5,} ({pcts['other']:>5.1%})")
+    print(f"  Signal ratio:  {comp.source_ratio:.1%}")
+    print()
+
+    # Q4: POLLUTION - What VIOLATES the physics?
+    print("Q4: POLLUTION - What VIOLATES the physics?")
+    print("-" * 40)
+    print(f"  Pollution level: {result.pollution_level}")
+    print(f"  Issues found:    {len(result.pollution_alerts)}")
+    if result.pollution_alerts:
+        for alert in result.pollution_alerts[:3]:
+            severity_icon = {"HIGH": "!!!", "MEDIUM": "!!", "LOW": "!"}.get(alert.severity, "?")
+            print(f"    [{severity_icon}] {alert.pollution_type}: {alert.path}")
+            if verbose:
+                print(f"        {alert.description}")
+                print(f"        -> {alert.recommendation}")
+        if len(result.pollution_alerts) > 3:
+            print(f"    ... and {len(result.pollution_alerts) - 3} more issues")
+    print()
+
+    # Q5: ADAPTATION - How must the INSTRUMENTS be calibrated?
+    print("Q5: ADAPTATION - How must the INSTRUMENTS be calibrated?")
+    print("-" * 40)
+    if result.recommended_parsers:
+        print(f"  Parsers: {', '.join(result.recommended_parsers)}")
+    print(f"  Est. nodes:        {result.estimated_nodes:,}")
+    print(f"  Signal/Noise:      {result.signal_to_noise_ratio:.1%}")
+    print()
+
+    # Warnings
     if result.warnings:
         print("WARNINGS:")
         for warning in result.warnings:
-            print(f"  ⚠️  {warning}")
+            print(f"  [!] {warning}")
         print()
 
     # CCI Metrics (if available)
     if result.cci:
         cci = result.cci
         print("CODOME COMPLETENESS INDEX (CCI):")
+        print("-" * 40)
         print(f"  CCI Score:     {cci.cci:.1f}% ({cci.verdict})")
         print(f"  Sensitivity:   {cci.sensitivity:.1%}  (Recall - found all source?)")
         print(f"  Specificity:   {cci.specificity:.1%}  (Excluded vendor?)")
@@ -827,6 +1390,14 @@ def print_survey_report(result: SurveyResult, verbose: bool = False):
                   f"TN={cci.true_negatives}, FN={cci.false_negatives}")
         print()
 
+    # Summary verdict
+    print("=" * 60)
+    print("CODOME DEFINITION COMPLETE")
+    print(f"  This is a {result.identity.archetype.upper()} codebase")
+    print(f"  Primary: {result.identity.primary_language}")
+    if result.identity.dominant_framework != "unknown":
+        print(f"  Framework: {result.identity.dominant_framework}")
+    print(f"  {result.estimated_source_files:,} source files ready for analysis")
     print("=" * 60)
 
 
