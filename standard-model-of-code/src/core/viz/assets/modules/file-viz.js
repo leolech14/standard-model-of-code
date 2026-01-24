@@ -1,15 +1,15 @@
 /**
  * FILE VIZ CONTROLLER
- * 
+ *
  * Thin orchestrator for file visualization modes.
  * Delegates to specialized modules:
  *   - FileColorModel: Color generation
  *   - LayoutForces: D3 physics manipulation
  *   - HullVisualizer: SDF-based boundary rendering
- * 
+ *
  * DESIGN PRINCIPLE: This module coordinates, it does NOT implement.
  * All implementation details live in the delegated modules.
- * 
+ *
  * @usage
  *   FILE_VIZ.setEnabled(true);
  *   FILE_VIZ.setMode('hulls');
@@ -74,8 +74,12 @@ const FILE_VIZ = (function () {
     function getColor(fileIdx, totalFiles, fileName, lightnessOverride = null) {
         const model = _ensureColorModel();
         if (!model) {
-            // Fallback if module not loaded
-            return `hsl(${(fileIdx * 137.5) % 360}, 70%, 55%)`;
+            // Strict fallback: use COLOR engine if available, else neutral gray
+            if (typeof COLOR !== 'undefined' && COLOR.toHex) {
+                const hue = (fileIdx * 137.5) % 360;
+                return COLOR.toHex({ h: hue, c: 0.18, l: 0.55 });
+            }
+            return '#888888';
         }
 
         const overrides = lightnessOverride ? { lightness: lightnessOverride } : {};

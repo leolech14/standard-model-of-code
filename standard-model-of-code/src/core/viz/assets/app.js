@@ -1134,6 +1134,54 @@ function initGraph(data) {
 
     window.Graph = Graph;
 
+    // =================================================================
+    // PROPERTY QUERY: Initialize unified property resolution system
+    // =================================================================
+    if (typeof initPropertyQuery === 'function') {
+        const Q = initPropertyQuery();
+
+        // Register refresh hook for epoch-based cache invalidation
+        if (typeof registerRenderRefresh === 'function') {
+            registerRenderRefresh(() => {
+                if (Graph) {
+                    // Force Graph to re-evaluate accessors
+                    const nc = Graph.nodeColor();
+                    if (nc) Graph.nodeColor(nc);
+                }
+            });
+        }
+
+        // Re-wire Graph accessors to use Property Query
+        // Q.node() / Q.edge() resolves: OVERRIDE → UPB → RAW → DEFAULT
+        Graph
+            .nodeColor(n => {
+                const color = Q.node(n, 'color');
+                return toColorNumber(color, 0x888888);
+            })
+            .nodeVal(n => {
+                const size = Q.node(n, 'size');
+                // Boundary nodes get 1.5x multiplier
+                const isBoundary = n.is_codome_boundary || n.kind === 'boundary';
+                return (isBoundary ? size * 1.5 : size) * APPEARANCE_STATE.nodeScale;
+            })
+            // Edge accessors: hybrid approach
+            // - Color uses existing getEdgeColor() (mode-dependent, complex)
+            // - Opacity/width can use Q.edge for overrides
+            .linkColor(e => {
+                if (GRADIENT_EDGES_ENABLED) return null;  // Gradient mode uses custom objects
+                // Use existing edge color system (mode-aware)
+                return toColorNumber(getEdgeColor(e), 0x666666);
+            })
+            .linkOpacity(e => {
+                if (GRADIENT_EDGES_ENABLED) return 0;  // Hidden when using gradient lines
+                // Q.edge handles overrides (e.g., slider), falls back to entity/default
+                const opacity = Q.edge(e, 'opacity');
+                return opacity ?? EDGE_DEFAULT_OPACITY;
+            });
+
+        console.log('[App] Property Query wired to Graph accessors (nodes + edges)');
+    }
+
     // FIX: Drift on resize
     // Updates Graph renderer size when window creates
     function onWindowResize() {

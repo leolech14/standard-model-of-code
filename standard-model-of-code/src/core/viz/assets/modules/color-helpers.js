@@ -94,6 +94,11 @@ window.COLOR_HELPERS = (function() {
     }
 
     function dimColor(hexColor, factor = 0.33) {
+        // OKLCH: Delegate to COLOR engine for perceptually uniform dimming
+        if (typeof COLOR !== 'undefined' && COLOR.interpolate) {
+            return COLOR.interpolate(hexColor, '#000000', factor);
+        }
+        // Fallback: raw RGB dimming when COLOR not available
         const hex = hexColor.replace('#', '');
         const r = Math.round(parseInt(hex.substr(0, 2), 16) * (1 - factor));
         const g = Math.round(parseInt(hex.substr(2, 2), 16) * (1 - factor));
@@ -133,7 +138,12 @@ window.COLOR_HELPERS = (function() {
         }
         const adjustedHue = hue + (COLOR_TWEAKS.hueShift || 0);
         const adjustedLightness = window.clampValue(lightness + (COLOR_TWEAKS.lightnessShift || 0), 0, 100);
-        return `hsl(${adjustedHue}, ${saturation}%, ${adjustedLightness}%)`;
+        // OKLCH: Route through COLOR engine for perceptually uniform output
+        if (typeof COLOR !== 'undefined' && COLOR.toHex) {
+            return COLOR.toHex({ h: adjustedHue, c: 0.18, l: adjustedLightness / 100 });
+        }
+        // Strict fallback: neutral gray
+        return '#888888';
     }
 
     // ═══════════════════════════════════════════════════════════════════════

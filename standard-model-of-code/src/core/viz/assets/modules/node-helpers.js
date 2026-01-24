@@ -151,13 +151,20 @@ window.NODE_HELPERS = (function() {
     function applyNodeColors(nodes) {
         const DM = window.DM;
         const fileBoundaries = DM ? DM.getFileBoundaries() : [];
+        const totalFiles = fileBoundaries.length;
+
         nodes.forEach(node => {
+            // PRE-COMPUTE file_color for UPB/Property Query resolution
+            // This ensures Q.node(n, 'color') works when colorBy='file'
+            if (node.fileIdx !== undefined && node.fileIdx >= 0 && totalFiles > 0) {
+                const fileInfo = fileBoundaries[node.fileIdx] || {};
+                const fileLabel = fileInfo.file || fileInfo.file_name || node.fileIdx;
+                node.file_color = window.getFileColor(node.fileIdx, totalFiles, fileLabel);
+            }
+
             if (node && node.isFileNode) {
                 if (!node.color) {
-                    const totalFiles = fileBoundaries.length;
-                    const fileInfo = fileBoundaries[node.fileIdx] || {};
-                    const fileLabel = fileInfo.file || fileInfo.file_name || node.fileIdx;
-                    node.color = window.getFileColor(node.fileIdx, totalFiles, fileLabel);
+                    node.color = node.file_color || window.getFileColor(node.fileIdx, totalFiles, '');
                 }
                 return;
             }

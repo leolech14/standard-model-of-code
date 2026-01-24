@@ -50,7 +50,13 @@ window.GROUPS_MODULE = (function() {
 
     function getNextGroupColor() {
         const hue = (window.GROUPS.length * 137.5) % 360;
-        return window.hslColor(hue, 65, 55);
+        // OKLCH: Use COLOR engine for perceptually uniform colors
+        if (typeof COLOR !== 'undefined' && COLOR.toHex) {
+            return COLOR.toHex({ h: hue, c: 0.20, l: 0.55 });
+        }
+        // Strict fallback: neutral gray (COLOR should always be loaded)
+        console.warn('[GROUPS] COLOR engine not loaded - using fallback');
+        return '#888888';
     }
 
     function getGroupById(groupId) {

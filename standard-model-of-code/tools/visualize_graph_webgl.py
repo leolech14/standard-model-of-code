@@ -23,7 +23,7 @@ except ImportError:
 def generate_webgl_html(json_source: Any, output_path: str):
     """
     Generates a standalone WebGL visualization HTML file.
-    
+
     Args:
         json_source: Path to the input JSON file or the data dict itself.
         output_path: Path where the output HTML file will be written.
@@ -273,15 +273,15 @@ def generate_webgl_html(json_source: Any, output_path: str):
         arch = data.get("architecture", {})
         graph_inf = arch.get("graph_inference", {})
         import_res = stats.get("import_resolution", {})
-        
+
         resolved = import_res.get("resolved", 0)
         unresolved = import_res.get("unresolved", 0)
         total_imports = resolved + unresolved
         edge_res_pct = (resolved / total_imports * 100) if total_imports > 0 else None
-        
+
         call_edges = sum(1 for e in edges if e.get("type") == "calls")
         call_ratio_pct = (call_edges / len(edges) * 100) if edges else None
-        
+
         orphan_count = sum(1 for n in nodes if n.get("in_degree", 0) == 0 and n.get("out_degree", 0) == 0)
         top_hub_count = sum(1 for n in nodes if (n.get("in_degree", 0) + n.get("out_degree", 0)) > 10)
 
@@ -471,7 +471,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
     def normalize_edge_endpoint(value):
         if isinstance(value, dict):
             value = value.get('id')
-        if value is None: 
+        if value is None:
             return None
         key = str(value).strip()
         if not key:
@@ -491,7 +491,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
                 markov = float(raw_markov) if raw_markov is not None else 0.0
             except (TypeError, ValueError):
                 markov = 0.0
-                
+
             graph_data['links'].append({
                 "source": src,
                 "target": tgt,
@@ -509,7 +509,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
     json_bytes = json.dumps(graph_data).encode('utf-8')
     compressed = gzip.compress(json_bytes)
     b64_payload = base64.b64encode(compressed).decode('utf-8')
-    
+
     print(f"Original: {len(json_bytes)/1024/1024:.2f} MB")
     print(f"Compressed: {len(compressed)/1024/1024:.2f} MB")
 
@@ -565,6 +565,11 @@ def generate_webgl_html(json_source: Any, output_path: str):
         "modules/upb/blenders.js",          # Blend modes (no deps)
         "modules/upb/bindings.js",          # Binding graph (needs scales, endpoints)
         "modules/upb/index.js",             # Public API (needs all above)
+        # Property Query System - unified property resolution
+        "modules/vis-schema.js",            # Visual property schema (no deps)
+        "modules/upb-defaults.js",          # Default UPB bindings (no deps)
+        "modules/property-query.js",        # Core resolution engine (needs schema)
+        "modules/property-query-init.js",   # Initialize & wire PQ (needs all above)
         "modules/control-bar.js",           # Visual mapping command bar (uses UPB)
         "modules/main.js",                  # Entry point + wiring
         "modules/circuit-breaker.js",       # UI control self-test (run with CIRCUIT.runAll())
@@ -643,5 +648,5 @@ if __name__ == "__main__":
     parser.add_argument("input_json", help="Path to LLM-oriented output JSON")
     parser.add_argument("output_html", help="Path to output HTML")
     args = parser.parse_args()
-    
+
     generate_webgl_html(args.input_json, args.output_html)
