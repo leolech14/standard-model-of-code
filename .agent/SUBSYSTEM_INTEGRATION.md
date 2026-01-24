@@ -1,7 +1,7 @@
 # Subsystem Integration Map
 
 > Canonical reference for how PROJECT_elements subsystems connect.
-> **Last validated:** 2026-01-23 via Gemini analysis
+> **Last validated:** 2026-01-24 via Laboratory Bridge integration
 
 ---
 
@@ -15,12 +15,12 @@
 │   SOURCE CODE                                                                │
 │        │                                                                     │
 │        ▼                                                                     │
-│   ┌─────────────┐                                                            │
-│   │  COLLIDER   │  ← Collapses wave function → particle of knowledge         │
-│   │ (Particle)  │                                                            │
-│   └─────┬───────┘                                                            │
-│         │                                                                    │
-│         ▼  unified_analysis.json                                             │
+│   ┌─────────────┐         ┌─────────────┐                                   │
+│   │  COLLIDER   │────────►│ LABORATORY  │  ← Scientist research tools       │
+│   │ (Particle)  │         │ (Particle)  │    atom_coverage, hypothesis_eval │
+│   └─────┬───────┘         └──────┬──────┘                                   │
+│         │                        │                                          │
+│         ▼  unified_analysis.json │  ExperimentResult                        │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
 │   │                    INTELLIGENCE LAYER (Wave)                         │   │
 │   │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐              │   │
@@ -30,6 +30,12 @@
 │   │         │                                     ▲                      │   │
 │   │         │  --verify mode                      │ External queries     │   │
 │   │         └─────────────────────────────────────┘                      │   │
+│   │         │                                                            │   │
+│   │         ▼                                                            │   │
+│   │  ┌──────────────────┐                                                │   │
+│   │  │ laboratory_bridge │◄──── Programmatic API to Scientist            │   │
+│   │  │ (Wave↔Particle)   │      run_laboratory(), measure_coverage()     │   │
+│   │  └──────────────────┘                                                │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │         │                                                                    │
 │         ▼  Tasks generated                                                   │
@@ -68,6 +74,8 @@
 | S6 | **BARE** | Engine | `.agent/tools/bare` | Background auto-refinement |
 | S7 | **Archive/Mirror** | Utility | `context-management/tools/archive/` | Cloud sync (GCS) |
 | S8 | **Commit Hygiene** | Guard | `.pre-commit-config.yaml`, `commitlint.config.js` | Enforce Conventional Commits |
+| S9 | **Laboratory** | Bridge | `standard-model-of-code/tools/research/laboratory.py` | Scientist facade (Particle-side API) |
+| S9b | **Laboratory Bridge** | Client | `context-management/tools/ai/laboratory_bridge.py` | Agent client (Wave-side caller) |
 
 ---
 
@@ -108,6 +116,8 @@
 | Git commit → BARE | post-commit hook | Shell script | ACTIVE |
 | analyze.py → Research | Auto-save to docs/research/ | File write | ACTIVE |
 | **Git commit ← Commit Hygiene** | pre-commit + commit-msg hooks | Block invalid commits | **ACTIVE** |
+| **analyze.py → Laboratory** | laboratory_bridge.py | Python import | **ACTIVE** |
+| **Laboratory → Scientist Tools** | subprocess with templates | CLI execution | **ACTIVE** |
 
 ### Proposed (from Gemini analysis)
 
@@ -187,6 +197,13 @@ For each subsystem, these are the key files to understand:
 - Install: `pre-commit install --hook-type commit-msg --hook-type pre-commit`
 - Kernel reference: `.agent/KERNEL.md` (Non-Negotiables #2)
 
+### Laboratory (S9)
+- Facade: `standard-model-of-code/tools/research/laboratory.py`
+- Client: `context-management/tools/ai/laboratory_bridge.py`
+- API: `run_experiment(ExperimentRequest) -> ExperimentResult`
+- Convenience: `measure_coverage()`, `evaluate_hypothesis()`
+- Output: Experiment artifacts in temp directories
+
 ---
 
 ## Integration Checklist
@@ -205,5 +222,6 @@ When adding a new subsystem:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.2.0 | 2026-01-24 | Added Laboratory Bridge (S9) - Wave↔Particle integration |
 | 1.1.0 | 2026-01-24 | Added Commit Hygiene (S8) - pre-commit + commitlint |
 | 1.0.0 | 2026-01-23 | Initial integration map (validated by Gemini analysis) |
