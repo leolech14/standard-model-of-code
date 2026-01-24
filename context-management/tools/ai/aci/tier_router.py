@@ -400,8 +400,75 @@ def route_query(query: str, force_tier: Optional[Tier] = None, use_semantic: boo
     )
 
 
+# =============================================================================
+# SET SANITIZATION (Phase 1: deterministic, fail-closed)
+# =============================================================================
+# Alias table maps invalid semantic matcher outputs to valid analysis_sets.yaml keys.
+# This prevents invalid sets from crowding out valid ones before the 5-set cap.
+SET_ALIASES = {
+    "data_access": "pipeline",
+    "infrastructure": "repo_tool",
+    "services": "pipeline",
+    "orchestration": "agent_tasks",
+    "gateways": "pipeline",
+    "presentation": "viz_core",
+    "controllers": "pipeline",
+    "api": "repo_tool",
+    "domain": "theory",
+    "entities": "schema",
+    "validators": "constraints",
+    "algorithms": "pipeline",
+}
+
+
+def sanitize_sets(
+    raw_sets: List[str],
+    valid_set_names: set,
+    max_sets: int = 5
+) -> tuple:
+    """
+    Deterministic set sanitization: alias, validate, dedupe, cap.
+
+    Applied BEFORE the set cap to prevent invalid sets from crowding out valid ones.
+
+    Args:
+        raw_sets: Sets from semantic matcher / profile
+        valid_set_names: Keys from analysis_sets.yaml
+        max_sets: Maximum sets to return (default 5)
+
+    Returns:
+        (sanitized_sets, dropped_sets) - dropped for logging
+    """
+    out = []
+    dropped = []
+    seen = set()
+
+    for s in (raw_sets or []):
+        # Step 1: Apply alias mapping
+        s2 = SET_ALIASES.get(s, s)
+
+        # Step 2: Validate against registry
+        if s2 not in valid_set_names:
+            dropped.append(s)
+            continue
+
+        # Step 3: Deduplicate
+        if s2 in seen:
+            continue
+
+        seen.add(s2)
+        out.append(s2)
+
+    # Step 4: Apply cap AFTER sanitization
+    return out[:max_sets], dropped
+
+
 def _merge_sets_ordered(priority_sets: List[str], secondary_sets: List[str]) -> List[str]:
-    """Merge two set lists, preserving order with priority_sets first."""
+    """Merge two set lists, preserving order with priority_sets first.
+
+    Note: This returns the RAW merged list. Sanitization happens separately
+    via sanitize_sets() after all sets are collected.
+    """
     seen = set()
     result = []
     for s in priority_sets:
@@ -412,7 +479,7 @@ def _merge_sets_ordered(priority_sets: List[str], secondary_sets: List[str]) -> 
         if s not in seen:
             seen.add(s)
             result.append(s)
-    return result[:5]  # Limit to 5 sets
+    return result  # No cap here - sanitize_sets handles it
 
 
 def tier_from_string(tier_str: str) -> Optional[Tier]:

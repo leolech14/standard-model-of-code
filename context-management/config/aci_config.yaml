@@ -67,28 +67,28 @@ intent_keywords:
     - "highest priority"
     - "blocked by"
     - "unblock"
-  
+
 # =============================================================================
 # AGENT CONTEXT INJECTION
 # =============================================================================
 agent_context:
   # Keywords that trigger agent context injection
+  # Phase 1: Removed high-false-positive single tokens (run, task, confidence)
+  # Using compound phrases for precision over recall
   trigger_keywords:
-    - "task"
-    - "sprint"
-    - "agent"
-    - "kernel"
-    - "bare"
+    - "agent task"
+    - "task registry"
+    - "current sprint"
+    - "sprint status"
+    - "kernel boot"
+    - "boot protocol"
+    - "bare protocol"
+    - "handoff protocol"
+    - "claim task"
+    - "confidence score"  # Specific to 4D metric, not natural language
     - "truths"
-    - "registry"
-    - "confidence"
-    - "4d"
-    - "claim"
-    - "run"
-    - "handoff"
-    - "boot"
-    - "protocol"
     - "manifest"
+    - "4d"
 
   # Injection levels
   levels:

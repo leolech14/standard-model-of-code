@@ -68,6 +68,8 @@ from .tier_router import (
     route_query,
     tier_from_string,
     format_routing_decision,
+    sanitize_sets,
+    SET_ALIASES,
 )
 
 from .context_optimizer import (
@@ -123,6 +125,8 @@ __all__ = [
     "route_query",
     "tier_from_string",
     "format_routing_decision",
+    "sanitize_sets",
+    "SET_ALIASES",
     # Context Optimizer
     "OptimizedContext",
     "load_repo_truths",

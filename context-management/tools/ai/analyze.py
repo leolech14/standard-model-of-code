@@ -126,6 +126,7 @@ try:
         optimize_context,
         format_context_summary,
         Tier,
+        sanitize_sets,
     )
     from aci.feedback_loop import log_aci_query, get_feedback_loop
     HAS_ACI = True
@@ -347,6 +348,116 @@ def auto_save_gemini_response(query: str, response_text: str, model: str, mode: 
         return ""
 
 
+# =============================================================================
+# PHASE 1: UNIFIED EXECUTION + PERPLEXITY MEMBRANE
+# =============================================================================
+
+def prepare_perplexity_query(query: str) -> str:
+    """
+    Prepare a clean query for Perplexity external search.
+
+    Phase 1 membrane: NO internal context injection.
+    Perplexity search is driven by user prompt only - any injected
+    repo context pollutes the search and causes hallucinated results.
+
+    Returns:
+        Clean query string for Perplexity API
+    """
+    return query.strip()
+
+
+def execute_analysis(
+    *,
+    client,
+    query: str,
+    context: str,
+    model: str,
+    mode: str = "standard",
+    system_prompt: str = None,
+    extra_context: str = None,
+    tier: str = None,
+    sets: list = None,
+) -> dict:
+    """
+    Unified execution point for all INTERNAL LLM calls.
+
+    This is the "always been" abstraction - all internal tiers funnel through here:
+    - LONG_CONTEXT: context from sets
+    - FLASH_DEEP: larger context, same path
+    - HYBRID: context + extra_context (external evidence)
+
+    Args:
+        client: Gemini API client
+        query: User's question
+        context: Internal codebase context
+        model: Model to use
+        mode: Analysis mode (standard, forensic, etc.)
+        system_prompt: Optional system prompt override
+        extra_context: External evidence (HYBRID injects here)
+        tier: Tier name for logging
+        sets: Set names for logging
+
+    Returns:
+        dict with 'text', 'usage', 'model', 'mode', 'saved_path'
+    """
+    # Build full context (internal + optional external evidence)
+    full_context = context
+    if extra_context:
+        full_context = f"{context}\n\n{extra_context}"
+
+    # Get system prompt from mode if not provided
+    if system_prompt is None:
+        system_prompt = MODES.get(mode, {}).get('prompt', '')
+
+    # Build the full prompt
+    full_prompt = f"{system_prompt}\n\nCODEBASE CONTEXT:\n{full_context}\n\nUSER QUERY: {query}"
+
+    _log_turn("user", query)
+    tier_label = f"[{tier}] " if tier else ""
+    print(f"\n{tier_label}--- Analyzing ---", file=sys.stderr)
+
+    def make_request():
+        return client.models.generate_content(
+            model=model,
+            contents=[Part.from_text(text=full_prompt)]
+        )
+
+    try:
+        response = retry_with_backoff(make_request)
+        response_text = response.text or ""
+
+        _log_turn("assistant", response_text)
+
+        # Auto-save
+        saved_path = auto_save_gemini_response(query, response_text, model, mode)
+
+        # Usage stats
+        usage = None
+        if response.usage_metadata:
+            usage = {
+                'input_tokens': response.usage_metadata.prompt_token_count,
+                'output_tokens': response.usage_metadata.candidates_token_count,
+            }
+            print("\n-----------------", file=sys.stderr)
+            print(f"Tokens Used: {usage['input_tokens']:,} Input, {usage['output_tokens']:,} Output", file=sys.stderr)
+            est = estimate_cost(usage['input_tokens'], usage['output_tokens'], model)
+            print(f"Estimated Cost: ${est:.4f}", file=sys.stderr)
+
+        return {
+            'text': response_text,
+            'usage': usage,
+            'model': model,
+            'mode': mode,
+            'saved_path': saved_path,
+            'tier': tier,
+            'sets': sets,
+        }
+
+    except Exception as e:
+        print(f"Error during generation: {e}", file=sys.stderr)
+        raise
+
+
 def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dict:
     """
     Resolve a set definition, expanding any 'includes' recursively.
@@ -455,7 +566,7 @@ def list_available_workflows() -> list:
     workflows_dir = PROJECT_ROOT / ".agent/workflows"
     if not workflows_dir.exists():
         return []
-    
+
     workflows = []
     for f in workflows_dir.glob("*.md"):
         # Parse frontmatter for description
@@ -471,7 +582,7 @@ def list_available_workflows() -> list:
                         desc = frontmatter.get('description', desc)
         except Exception:
             pass
-        
+
         workflows.append({
             'name': f.stem,
             'description': desc,
@@ -498,7 +609,7 @@ def print_briefing(analysis_sets: dict) -> None:
     print("\n" + "=" * 80)
     print("SYSTEM BRIEFING: AGENT ORIENTATION")
     print("=" * 80)
-    
+
     # 1. HSL Status (The Third Mirror)
     hsl = get_hsl_status()
     print(f"\n[1] HOLOGRAPHIC SOCRATIC LAYER (HSL)")
@@ -530,7 +641,7 @@ def print_briefing(analysis_sets: dict) -> None:
             core_sets.append(f"{name} ({tokens_str})")
         else:
             task_sets.append(f"{name} ({tokens_str})")
-            
+
     print(f"    Core: {', '.join(core_sets[:5])}...")
     print(f"    Task: {', '.join(task_sets[:5])}...")
     print(f"    (Use --list-sets for full details)")
@@ -619,15 +730,15 @@ def get_or_create_store(client, store_name: str) -> str:
     """Get existing store by name or create new one. Returns store resource name."""
     # List existing stores
     stores = list_file_search_stores(client)
-    
+
     matches = [s for s in stores if s.display_name == store_name]
 
     if len(matches) > 1:
         print(f"  WARNING: Multiple stores found with name '{store_name}'. Using the most recent.")
-        # Sort by create_time desc if possible, or just take first. 
+        # Sort by create_time desc if possible, or just take first.
         # API returns generic objects, assuming standard list order for now.
         return matches[0].name
-    
+
     if len(matches) == 1:
         print(f"  Found existing store: {matches[0].name}")
         return matches[0].name
@@ -651,7 +762,7 @@ def index_files_to_store(client, store_name: str, files: list, base_dir: Path) -
 
     for file_path in files:
         rel_path = str(file_path.relative_to(base_dir))
-        
+
         # Check for unsupported file types (YAML often fails in current API)
         if file_path.suffix.lower() in ['.yaml', '.yml']:
             print(f"  Skipping: {rel_path} (YAML files not fully supported)", flush=True)
@@ -673,7 +784,7 @@ def index_files_to_store(client, store_name: str, files: list, base_dir: Path) -
             # SDK Compatibility: failure to wait for operation can cause missing docs
             # If result is an Operation (has .result method), we should wait.
             if hasattr(result, 'result'):
-                result.result() 
+                result.result()
 
             stats['indexed'] += 1
             stats['files'].append(rel_path)
@@ -771,11 +882,11 @@ def delete_file_search_store(client, store_name: str) -> bool:
         # Otherwise, find by display name
         stores = list_file_search_stores(client)
         matches = [s for s in stores if s.display_name == store_name]
-        
+
         if not matches:
              print(f"  Store not found: {store_name}")
              return False
-        
+
         if len(matches) > 1:
              print(f"  WARNING: {len(matches)} stores found with name '{store_name}'.")
              print("  Please use the resource name (fileSearchStores/...) to be specific.")
@@ -832,7 +943,7 @@ def _find_doppler():
     import shutil
     if shutil.which("doppler"):
         return "doppler"
-    
+
     # Common locations on macOS/Linux
     candidates = [
         os.path.expanduser("~/.local/bin/doppler"),
@@ -857,7 +968,7 @@ def get_doppler_secret(key: str) -> str | None:
         )
         if result.returncode != 0:
             print(f"DEBUG: doppler command failed: {result.stderr}", flush=True)
-        
+
         if result.returncode == 0:
             return result.stdout.strip()
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
@@ -920,12 +1031,12 @@ def get_access_token():
 
 def list_local_files(base_dir, patterns=None, user_excludes=None):
     """List files from local filesystem matching patterns.
-    
+
     Includes security-sensitive exclusions by default to prevent secret leakage.
     """
     base_path = Path(base_dir)
     all_files = []
-    
+
     # SECURITY: Default excludes - prevents secret leakage
     default_excludes = [
         # Secrets and credentials
@@ -934,32 +1045,32 @@ def list_local_files(base_dir, patterns=None, user_excludes=None):
         "credentials*", "secrets*", "*secret*",
         ".gcloud", ".aws", ".ssh",
         "service-account*.json", "*-credentials.json",
-        
+
         # Build artifacts and caches
         "*.DS_Store", "__pycache__", "*.pyc", "*.pyo",
         ".git", "node_modules", ".npm", ".yarn",
         "*.zip", "*.tar", "*.gz", "*.rar",
         "*.lock", "package-lock.json", "yarn.lock",
         ".tools_venv", ".venv", "venv", "*.egg-info",
-        
+
         # Binary files
         "*.png", "*.jpg", "*.jpeg", "*.gif", "*.ico", "*.webp",
         "*.mp3", "*.mp4", "*.wav", "*.avi",
         "*.pdf", "*.doc", "*.docx", "*.xls", "*.xlsx",
         "*.so", "*.dylib", "*.dll", "*.exe",
-        
+
         # IDE and editor
         ".idea", ".vscode", "*.swp", "*.swo",
     ]
     excludes = default_excludes + (user_excludes or [])
-    
+
     def should_exclude(path):
         name = path.name
         try:
             rel_path = str(path.relative_to(base_path))
         except ValueError:
             rel_path = str(path)
-        
+
         for pattern in excludes:
             # Match against filename
             if fnmatch.fnmatch(name, pattern):
@@ -971,18 +1082,18 @@ def list_local_files(base_dir, patterns=None, user_excludes=None):
             if pattern in rel_path.split(os.sep):
                 return True
         return False
-    
+
     # Walk the directory (sorted for deterministic output)
     for root, dirs, files in os.walk(base_path):
         # Filter out excluded directories (modifies in-place)
         dirs[:] = sorted([d for d in dirs if not should_exclude(Path(root) / d)])
-        
+
         for file in sorted(files):
             file_path = Path(root) / file
             if should_exclude(file_path):
                 continue
             all_files.append(file_path)
-    
+
     # Filter by patterns if provided
     if patterns:
         filtered = []
@@ -993,7 +1104,7 @@ def list_local_files(base_dir, patterns=None, user_excludes=None):
                     filtered.append(f)
                     break
         return filtered
-    
+
     return all_files
 
 
@@ -1010,12 +1121,12 @@ def read_file_content(file_path, with_line_numbers=False):
             return f"[Binary or unreadable file: {file_path}]"
     except Exception as e:
         return f"[Error reading {file_path}: {e}]"
-    
+
     if with_line_numbers:
         lines = content.split('\n')
         numbered_lines = [f"{i+1:4d}: {line}" for i, line in enumerate(lines)]
         return '\n'.join(numbered_lines)
-    
+
     return content
 
 
@@ -1035,14 +1146,14 @@ def retry_with_backoff(func, max_retries=5, base_delay=1.0):
         except Exception as e:
             error_str = str(e).lower()
             is_rate_limit = any(x in error_str for x in ['429', 'rate limit', 'quota', 'resource exhausted'])
-            
+
             if not is_rate_limit or attempt == max_retries - 1:
                 raise
-            
+
             delay = base_delay * (2 ** attempt) + random.uniform(0, 1)
             print(f"  Rate limited. Retrying in {delay:.1f}s (attempt {attempt + 1}/{max_retries})...")
             time.sleep(delay)
-    
+
     raise Exception("Max retries exceeded")
 
 
@@ -1656,19 +1767,19 @@ def interactive_mode(client, model, context, system_prompt):
     print("Context loaded. Ask questions about the codebase.")
     print("Commands: 'exit' or Ctrl+C to quit, 'clear' to reset session")
     print("=" * 60)
-    
+
     # Try to create cache if context is substantial
     cache = None
     system_instruction = [Part.from_text(text=system_prompt)]
-    
-    # Heuristic: Cache if > 32k tokens (approx 128k chars). 
+
+    # Heuristic: Cache if > 32k tokens (approx 128k chars).
     # Vertex has min cache size limits (32k tokens).
     if len(context) > 130000:
        cache = create_cache(client, model, context)
-    
+
     # Initialize chat
     chat = client.chats.create(model=model, config=genai.types.GenerateContentConfig(system_instruction=system_instruction))
-    
+
     # Strategy selection
     if not cache:
         print("  (Standard Context Injection - Context too small for cache or cache failed)")
@@ -1680,16 +1791,16 @@ def interactive_mode(client, model, context, system_prompt):
         ]
     else:
         print("  (Using Cached Content Strategy)")
-        conversation_history = [] 
+        conversation_history = []
         # Context is in cache. We just append new messages.
-    
+
     total_input_tokens = 0
     total_output_tokens = 0
-    
+
     while True:
         try:
             user_input = input("\n> ").strip()
-            
+
             if not user_input:
                 continue
             if user_input.lower() in ['exit', 'quit', 'q']:
@@ -1708,38 +1819,38 @@ def interactive_mode(client, model, context, system_prompt):
                  conversation_history = []
                  print("History cleared.")
                  continue
-            
+
             # Add user message
             conversation_history.append(Content(role="user", parts=[Part.from_text(text=user_input)]))
             _log_turn("user", user_input)
 
             print("\nThinking...")
-            
+
             def make_request():
                 config = genai.types.GenerateContentConfig()
                 if cache:
                      config.cached_content = cache.name
-                
+
                 return client.models.generate_content(
                     model=model,
                     contents=conversation_history,
                     config=config
                 )
-            
+
             response = retry_with_backoff(make_request)
             print(f"\n{response.text}")
             _log_turn("assistant", response.text)
 
             # Add assistant response
             conversation_history.append(Content(role="model", parts=[Part.from_text(text=response.text)]))
-            
+
             if response.usage_metadata:
                 total_input_tokens += response.usage_metadata.prompt_token_count
                 total_output_tokens += response.usage_metadata.candidates_token_count
                 # Note: Cached content tokens are billed differently and may not show up in prompt_token_count
                 # in the same way, but this gives a proxy for "active" tokens.
                 print(f"\n[Turn: {response.usage_metadata.prompt_token_count} in, {response.usage_metadata.candidates_token_count} out | Session: {total_input_tokens:,} total in]")
-        
+
         except KeyboardInterrupt:
             print(f"\n\nSession stats: {total_input_tokens:,} input tokens, {total_output_tokens:,} output tokens")
             print("Goodbye!")
@@ -1763,7 +1874,7 @@ class SocraticValidator:
     """
     def __init__(self, semantic_config):
         self.laws = semantic_config.get('antimatter', [])
-        
+
     def validate(self, client, model, code_context: str, concept_role: str) -> dict:
         """
         Runs a Socratic critique on the code context against Antimatter Laws.
@@ -1775,18 +1886,18 @@ class SocraticValidator:
         prompt = f'''
         ACT AS: Socratic Supervisor (Senior Architect Auditor).
         TASK: Audit the following code candidate (Role: {concept_role}) for 'Antimatter' violations.
-        
+
         CODE CONTEXT:
         {code_context[:30000]} # Limit context for safety (approx 30k chars)
-        
+
         ANTIMATTER LAWS (Violations to detect):
         '''
-        
+
         for law in self.laws:
             prompt += f"- [{law['id']}] {law['name']}: {law['description']}\n  Check: {law['detection_prompt']}\n"
-            
+
         prompt += '''
-        
+
         OUTPUT FORMAT (JSON):
         {
           "compliant": boolean,
@@ -1800,7 +1911,7 @@ class SocraticValidator:
           "critique_summary": "One sentence summary of the audit."
         }
         '''
-        
+
         try:
             def make_request():
                 return client.models.generate_content(
@@ -1832,15 +1943,15 @@ def generate_hypotheses(domain_config):
     hypotheses = []
     definitions = domain_config.get('definitions', {})
     domain_scope = domain_config.get('scope', '')
-    
+
     for concept, details in definitions.items():
         desc = details.get('description', 'No description')
         invariants = details.get('invariants', [])
         anchors = details.get('anchors', [])  # NEW: File anchors for discovery
-        
+
         # Formulate the "claim"
         claim = f"Hypothesis: The concept '{concept}' is implemented according to strict invariants."
-        
+
         hypotheses.append({
             'concept': concept,
             'claim': claim,
@@ -1849,7 +1960,7 @@ def generate_hypotheses(domain_config):
             'anchors': anchors,  # Include anchors for verify_hypothesis
             'scope': domain_scope
         })
-    
+
     return hypotheses
 
 def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candidate_override=None):
@@ -1861,17 +1972,17 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
     """
     concept = hypothesis['concept']
     invariants = hypothesis['invariants']
-    
+
     print(f"Targeting Concept: {concept}")
-    
+
     # Phase A: Discovery
     candidate_files = set()
-    
+
     # Priority 1: Explicit candidate override
     if candidate_override:
         print(f"    [Explicit Candidate]: {candidate_override}")
         candidate_files.add(candidate_override)
-    
+
     # Priority 2: Use anchors from semantic_models.yaml (Robustified)
     anchors = hypothesis.get('anchors', [])
     if anchors and not candidate_override:
@@ -1892,18 +2003,18 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
                     for match in matches:
                         candidate_files.add(match)
                         print(f"      Found (Glob): {Path(match).name}")
-    
+
     # Priority 3: Fall back to File Search
     if not candidate_files and store_name:
          # Only run expensive search if absolutely needed
          pass # Logic remains...
-    
+
     if not candidate_files:
         print("    No candidates found.")
         return {'verified': False, 'reason': 'No candidates found'}
-    
+
     # ... (rest of function) ...
-    
+
     # Priority 3: Fall back to File Search (if no anchors or no matches)
     discovery_query = f"Find code that implements or represents the concept '{concept}'. List relevant classes or modules."
     if not candidate_files and store_name:
@@ -1917,23 +2028,23 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
                         fpath = fpath[7:]
                     if fpath:
                         candidate_files.add(fpath)
-    
+
     if not candidate_files:
         print("    No candidates found.")
         return {'verified': False, 'reason': 'No candidates found'}
-    
+
     print(f"    Found {len(candidate_files)} candidates: {', '.join([Path(f).name for f in list(candidate_files)[:3]])}...")
-    
+
     # Phase B: Deep Verification (Tier 1)
     files_context = ""
     valid_files = []
-    
+
     # Read first N files to build verification context
     for fpath in list(candidate_files)[:5]: # Limit to 5 files
         full_path = Path(fpath)
         if not full_path.is_absolute():
             full_path = PROJECT_ROOT / fpath
-        
+
         if full_path.exists():
             try:
                 content = read_file_content(full_path)
@@ -1946,24 +2057,24 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
         return {'verified': False, 'reason': 'Could not read files'}
 
     print(f"  Phase B: Verifying Invariants...")
-    
+
     prompt = f'''
     You are a Semantic Auditor. Your job is to verify if the code matches the Semantic Definition.
-    
+
     CONCEPT: {concept}
     DESCRIPTION: {hypothesis['description']}
-    
+
     INVARIANTS (MUST BE TRUE):
     {chr(10).join([f'- {i}' for i in invariants])}
-    
+
     CODEBASE CONTEXT:
     {files_context[:50000]}
-    
+
     TASK:
     1. Identify which classes/functions in the context correspond to '{concept}'.
     2. Check each against the invariants.
     3. Output a structured report.
-    
+
     FORMAT:
     ### Findings
     - **Entity**: [Name]
@@ -1971,7 +2082,7 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
     - **Evidence**: [Quote or reasoning]
     - **Deviation**: [If non-compliant, explain why]
     '''
-    
+
     def make_request():
         return vertex_client.models.generate_content(
             model=DEFAULT_MODEL,
@@ -1980,7 +2091,7 @@ def verify_hypothesis(dev_client, vertex_client, hypothesis, store_name, candida
 
     response = retry_with_backoff(make_request)
     analysis_result = response.text
-    
+
     # Phase C: Socratic Validation (Semantic Guardrails)
     print("  Phase C: Running Socratic Validator (Antimatter Check)...")
     try:
@@ -2005,15 +2116,15 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
     if domain not in models:
         print(f"Error: Domain '{domain}' not found in semantic_models.yaml")
         sys.exit(1)
-    
+
     domain_config = models[domain]
     store_name = store_name or f"collider-{domain}"
-    
+
     # Initialize Clients
     print("Initializing clients...")
     dev_client = create_developer_client() # Needed for File Search
     vertex_client, _ = create_client()     # Needed for Analysis
-    
+
     if index:
         if not dev_client:
              print("Error: Indexing requires GEMINI_API_KEY")
@@ -2024,12 +2135,12 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
             target_dir = PROJECT_ROOT / "standard-model-of-code/src/core"
         elif domain == 'theory':
             target_dir = PROJECT_ROOT / "standard-model-of-code/docs/theory"
-        
+
         if target_dir:
              store_res = get_or_create_store(dev_client, store_name)
              files = list_local_files(target_dir)
              index_files_to_store(dev_client, store_res, files, PROJECT_ROOT)
-    
+
     # Resolve store if needed (only if we are NOT using explicit candidate exclusively)
     store_resource_name = None
     if not candidate and dev_client:
@@ -2044,18 +2155,18 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
 
     hypotheses = generate_hypotheses(domain_config)
     print(f"\\nLoaded {len(hypotheses)} hypotheses for domain '{domain}'")
-    
+
     results = []
     for h in hypotheses:
         print("-" * 60)
         res = verify_hypothesis(dev_client, vertex_client, h, store_resource_name, candidate_override=candidate)
         results.append({'hypothesis': h, 'result': res})
         time.sleep(1)
-    
+
     # Output logic similar to refine_context
     output_content = f"# Validated Semantic Map: {domain.upper()}\\n\\n"
     output_content += f"Date: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n\\n"
-    
+
     for item in results:
         h = item['hypothesis']
         res = item['result']
@@ -2090,7 +2201,7 @@ class SocraticValidator:
     """
     def __init__(self, semantic_config):
         self.laws = semantic_config.get('antimatter', [])
-        
+
     def validate(self, client, model, code_context: str, concept_role: str) -> dict:
         """
         Runs a Socratic critique on the code context against Antimatter Laws.
@@ -2102,18 +2213,18 @@ class SocraticValidator:
         prompt = f'''
         ACT AS: Socratic Supervisor (Senior Architect Auditor).
         TASK: Audit the following code candidate (Role: {concept_role}) for 'Antimatter' violations.
-        
+
         CODE CONTEXT:
         {code_context[:30000]} # Limit context for safety (approx 30k chars)
-        
+
         ANTIMATTER LAWS (Violations to detect):
         '''
-        
+
         for law in self.laws:
             prompt += f"- [{law['id']}] {law['name']}: {law['description']}\n  Check: {law['detection_prompt']}\n"
-            
+
         prompt += '''
-        
+
         OUTPUT FORMAT (JSON):
         {
           "compliant": boolean,
@@ -2127,7 +2238,7 @@ class SocraticValidator:
           "critique_summary": "One sentence summary of the audit."
         }
         '''
-        
+
         try:
             def make_request():
                 return client.models.generate_content(
@@ -2162,15 +2273,15 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
     if domain not in models:
         print(f"Error: Domain '{domain}' not found in semantic_models.yaml")
         sys.exit(1)
-    
+
     domain_config = models[domain]
     store_name = store_name or f"collider-{domain}"
-    
+
     # Initialize Clients
     print("Initializing clients...")
     dev_client = create_developer_client() # Needed for File Search
     vertex_client, _ = create_client()     # Needed for Analysis
-    
+
     if index:
         if not dev_client:
              print("Error: Indexing requires GEMINI_API_KEY")
@@ -2181,12 +2292,12 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
             target_dir = PROJECT_ROOT / "standard-model-of-code/src/core"
         elif domain == 'theory':
             target_dir = PROJECT_ROOT / "standard-model-of-code/docs/theory"
-        
+
         if target_dir:
              store_res = get_or_create_store(dev_client, store_name)
              files = list_local_files(target_dir)
              index_files_to_store(dev_client, store_res, files, PROJECT_ROOT)
-    
+
     # Resolve store if needed (only if we are NOT using explicit candidate exclusively)
     store_resource_name = None
     if not candidate and dev_client:
@@ -2201,18 +2312,18 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
 
     hypotheses = generate_hypotheses(domain_config)
     print(f"\\nLoaded {len(hypotheses)} hypotheses for domain '{domain}'")
-    
+
     results = []
     for h in hypotheses:
         print("-" * 60)
         res = verify_hypothesis(dev_client, vertex_client, h, store_resource_name, candidate_override=candidate)
         results.append({'hypothesis': h, 'result': res})
         time.sleep(1)
-    
+
     # Output logic similar to refine_context
     output_content = f"# Validated Semantic Map: {domain.upper()}\\n\\n"
     output_content += f"Date: {time.strftime('%Y-%m-%d %H:%M:%S')}\\n\\n"
-    
+
     for item in results:
         h = item['hypothesis']
         res = item['result']
@@ -2221,7 +2332,7 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
             # Handle string analysis (from old logic) or dict (from new)
             analysis_text = res['analysis'].get('summary', str(res['analysis'])) if isinstance(res['analysis'], dict) else str(res['analysis'])
             output_content += analysis_text + "\\n\\n"
-            
+
             gr = res.get('guardrails', {})
             output_content += "### Semantic Guardrails (Antimatter Check)\\n"
             if gr.get('compliant'):
@@ -2238,10 +2349,10 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
     # Storing structured output for future query-the-query capabilities
     intelligence_dir = PROJECT_ROOT / "context-management/intelligence"
     intelligence_dir.mkdir(exist_ok=True)
-    
+
     timestamp = time.strftime('%Y%m%d_%H%M%S')
     json_output_path = intelligence_dir / f"socratic_audit_{domain}_{timestamp}.json"
-    
+
     # Generation tracking for meta-analysis awareness
     intelligence_data = {
         'timestamp': timestamp,
@@ -2256,12 +2367,12 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
         },
         'results': results
     }
-    
+
     with open(json_output_path, 'w') as f:
         json.dump(intelligence_data, f, indent=2, default=str)
-    
+
     print(f"\\n[Output Management] Intelligence stored at: {json_output_path}")
-    
+
     # GCS SYNC - Upload to cloud storage
     GCS_BUCKET = "gs://elements-archive-2026/intelligence"
     gcs_path = f"{GCS_BUCKET}/{domain}/socratic_audit_{domain}_{timestamp}.json"
@@ -2325,7 +2436,7 @@ Examples:
     parser.add_argument("--briefing", action="store_true", help="Print system briefing for agent orientation")
     # ACI (Adaptive Context Intelligence) arguments
     parser.add_argument("--aci", action="store_true", help="Enable Adaptive Context Intelligence (auto-select tier and context)")
-    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity", "flash_deep", "deep"], help="Force specific ACI tier (deep = flash_deep = 2M context)")
+    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity", "flash_deep", "deep", "hybrid"], help="Force specific ACI tier (deep = flash_deep = 2M context, hybrid = internal + external)")
     parser.add_argument("--aci-debug", action="store_true", help="Show detailed ACI routing decision")
     args = parser.parse_args()
 
@@ -2434,28 +2545,13 @@ Examples:
             else:
                 start_time = time.time()
                 try:
-                    # NEW: Use intelligent grounding with Gemini Flash
-                    print(f"[PERPLEXITY] Grounding query with local context...", file=sys.stderr)
-                    try:
-                        grounding_client, _ = create_client()  # Unpack (client, backend) tuple
-                        enriched_query = generate_grounded_perplexity_query(
-                            grounding_client, args.prompt, verbose=(args.aci_debug if hasattr(args, 'aci_debug') else False)
-                        )
-                        grounding_method = "intelligent (Gemini Flash)"
-                    except Exception as grounding_err:
-                        print(f"[PERPLEXITY] Gemini grounding failed ({grounding_err}), using basic enrichment", file=sys.stderr)
-                        enriched_query = enrich_query_for_perplexity(args.prompt, decision, analysis_sets)
-                        grounding_method = "basic (template)"
-
-                    # Show enrichment summary
-                    context_added = "---context---" in enriched_query or "LOCAL DEFINITIONS:" in enriched_query or "LOCAL CODEBASE CONTEXT:" in enriched_query
-                    if context_added:
-                        print(f"[PERPLEXITY] Context injected via {grounding_method}", file=sys.stderr)
-                    else:
-                        print(f"[PERPLEXITY] No matching local context found, using framed query", file=sys.stderr)
-
+                    # Phase 1 MEMBRANE: Clean query only - no internal context injection
+                    # Perplexity search is driven by user prompt only. Injecting repo
+                    # context pollutes the search and causes hallucinated results.
+                    clean_query = prepare_perplexity_query(args.prompt)
+                    print(f"[PERPLEXITY] Clean query ({len(clean_query)} chars) - membrane active", file=sys.stderr)
                     print(f"[PERPLEXITY] Executing research query...", file=sys.stderr)
-                    result = perplexity_research(enriched_query)
+                    result = perplexity_research(clean_query)
                     duration_ms = int((time.time() - start_time) * 1000)
 
                     # Display results (GREEN theme for Perplexity)
@@ -2682,11 +2778,108 @@ Please provide a thorough, comprehensive answer using the full context available
                 print("Falling back to LONG_CONTEXT tier.", file=sys.stderr)
                 decision = analyze_and_route(args.prompt, force_tier="long_context")
 
+        # TIER HYBRID: Internal + External synthesis
+        # Sequential: Perplexity (clean query) → Internal synthesis (with evidence)
+        if decision.tier == Tier.HYBRID:
+            print("[HYBRID] Internal + External synthesis tier selected.", file=sys.stderr)
+
+            # Get valid set names for sanitization
+            valid_set_names = set(analysis_sets.keys())
+
+            # Sanitize sets BEFORE any processing
+            sanitized_sets, dropped_sets = sanitize_sets(
+                decision.primary_sets, valid_set_names, max_sets=5
+            )
+            if dropped_sets:
+                print(f"[HYBRID] Dropped invalid sets: {dropped_sets}", file=sys.stderr)
+            if sanitized_sets != decision.primary_sets:
+                print(f"[HYBRID] Using sanitized sets: {sanitized_sets}", file=sys.stderr)
+
+            # Build internal context from sanitized sets
+            merged_patterns = []
+            merged_critical = []
+            for set_name in sanitized_sets:
+                set_def = analysis_sets.get(set_name, {})
+                merged_patterns.extend(set_def.get('patterns', []))
+                merged_critical.extend(set_def.get('critical_files', []))
+                for inc in set_def.get('includes', []):
+                    inc_def = analysis_sets.get(inc, {})
+                    merged_patterns.extend(inc_def.get('patterns', []))
+
+            # Collect files
+            hybrid_files = list_local_files(PROJECT_ROOT, list(set(merged_patterns)), None)
+            if len(hybrid_files) > args.max_files:
+                hybrid_files = hybrid_files[:args.max_files]
+
+            # Build context
+            hybrid_context, _ = build_context_from_files(
+                hybrid_files, PROJECT_ROOT,
+                with_line_numbers=True,
+                critical_files=list(set(merged_critical)),
+                positional_strategy='front-load'
+            )
+
+            # Phase 1: External research (CLEAN QUERY ONLY - membrane)
+            external_evidence = ""
+            if HAS_PERPLEXITY:
+                try:
+                    clean_query = prepare_perplexity_query(args.prompt)
+                    print(f"[HYBRID] External phase: Perplexity query ({len(clean_query)} chars)", file=sys.stderr)
+
+                    result = perplexity_research(clean_query, model="sonar-pro")
+                    if isinstance(result, dict):
+                        external_evidence = result.get('content', '')
+                    else:
+                        external_evidence = str(result)
+
+                    if external_evidence:
+                        print(f"[HYBRID] External evidence retrieved ({len(external_evidence)} chars)", file=sys.stderr)
+                except Exception as e:
+                    print(f"[HYBRID] External phase failed: {e}", file=sys.stderr)
+                    external_evidence = ""
+            else:
+                print("[HYBRID] Perplexity not available, proceeding with internal only", file=sys.stderr)
+
+            # Phase 2: Internal synthesis with external evidence
+            extra_context = ""
+            if external_evidence.strip():
+                extra_context = "=== EXTERNAL_EVIDENCE (Perplexity) ===\n" + external_evidence.strip()
+
+            # Create client and execute unified analysis
+            hybrid_client, _ = create_client()
+
+            result = execute_analysis(
+                client=hybrid_client,
+                query=args.prompt,
+                context=hybrid_context,
+                model=args.model,
+                mode=args.mode,
+                extra_context=extra_context if extra_context else None,
+                tier="HYBRID",
+                sets=sanitized_sets,
+            )
+
+            # Output result
+            print(result['text'])
+            sys.exit(0)
+
         # TIER 1 & 2: RAG and LONG_CONTEXT - Continue with normal flow
         # Override args.set with ACI-selected sets
         # Store ACI decision for later feedback logging
         aci_decision = decision
         aci_start_time = time.time()
+
+        # Sanitize sets before processing (Phase 1: deterministic)
+        if decision.primary_sets and not args.set:
+            valid_set_names = set(analysis_sets.keys())
+            sanitized_sets, dropped_sets = sanitize_sets(
+                decision.primary_sets, valid_set_names, max_sets=5
+            )
+            if dropped_sets:
+                print(f"[ACI] Dropped invalid sets: {dropped_sets}", file=sys.stderr)
+
+            # Use sanitized sets
+            decision.primary_sets[:] = sanitized_sets
 
         if decision.primary_sets and not args.set:
             # ACI returns multiple sets - merge them into a dynamic composite
@@ -2877,16 +3070,16 @@ Please provide a thorough, comprehensive answer using the full context available
         base_dir = PROJECT_ROOT / args.dir
     else:
         base_dir = PROJECT_ROOT
-    
+
     if not base_dir.exists():
         print(f"Error: Directory not found: {base_dir}")
         sys.exit(1)
-    
+
     print(f"Project Root: {PROJECT_ROOT}", file=sys.stderr)
     print(f"Analyzing:    {base_dir}", file=sys.stderr)
     print(f"Model:        {args.model}", file=sys.stderr)
     print(f"Mode:         {'INTERACTIVE' if args.interactive else args.mode.upper()}", file=sys.stderr)
-    
+
     # User excludes
     user_excludes = [p.strip() for p in args.exclude.split(",")] if args.exclude else None
 
@@ -2927,9 +3120,9 @@ Please provide a thorough, comprehensive answer using the full context available
             print(f"         This EXCEEDS the {MAX_CONTEXT_TOKENS:,} token context limit!", file=sys.stderr)
             print(f"         Consider using a smaller, more focused set.", file=sys.stderr)
             print(f"{'='*60}\n", file=sys.stderr)
-    
+
     selected_files = list_local_files(base_dir, patterns, user_excludes)
-    
+
     # Auto-inject architecture docs for architect mode
     if args.mode == 'architect':
         for doc_path in ARCHITECT_DOCS:
@@ -2937,16 +3130,16 @@ Please provide a thorough, comprehensive answer using the full context available
             if full_path.exists() and full_path not in selected_files:
                 selected_files.insert(0, full_path)
                 print(f"Auto-injected: {doc_path}")
-    
+
     # Limit files
     if len(selected_files) > args.max_files:
         print(f"\nWarning: Found {len(selected_files)} files, limiting to {args.max_files}")
         selected_files = selected_files[:args.max_files]
-    
+
     if not selected_files:
         print("No files matched your criteria.")
         sys.exit(1)
-    
+
     print(f"\nSelected {len(selected_files)} files:", file=sys.stderr)
     for f in selected_files[:5]:
         try:
@@ -3012,7 +3205,7 @@ Please provide a thorough, comprehensive answer using the full context available
 
     # Determine if line numbers should be added
     use_line_numbers = args.line_numbers or args.mode in ['forensic', 'interactive'] or args.interactive
-    
+
     # Build context
     print("\nBuilding context from local files...", file=sys.stderr)
     context, total_chars = build_context_from_files(
@@ -3054,7 +3247,7 @@ Please provide a thorough, comprehensive answer using the full context available
         if use_interactive:
             print("Review: Non-interactive environment detected. Disabling interactive mode.", file=sys.stderr)
             use_interactive = False
-    
+
     if not args.yes and IS_INTERACTIVE_ENV:
         mode_str = "INTERACTIVE" if use_interactive else "ONE-SHOT"
         confirm = input(f"\nProceed with {mode_str} mode? [Y/n] ")
@@ -3074,7 +3267,7 @@ Please provide a thorough, comprehensive answer using the full context available
     if args.set == 'archeology' or args.mode == 'trace':
         # Evolutionary Trace Mode
         print("\n--- Generating Evolutionary Trace (Generation 2) ---", file=sys.stderr)
-        
+
         trace_prompt = """
         You are an Archeological Code Analyst (Generation 2).
         Your task is to trace the evolution of the concept 'ATOM' through the provided legacy documentation.
@@ -3096,7 +3289,7 @@ Please provide a thorough, comprehensive answer using the full context available
         ## Analysis
         [Deep conceptual analysis of the drift]
         """
-        
+
         try:
              full_prompt = trace_prompt.format(context=context)
         except Exception:
@@ -3107,7 +3300,7 @@ Please provide a thorough, comprehensive answer using the full context available
                 model=args.model,
                 contents=[Part.from_text(text=full_prompt)]
             )
-        
+
         try:
             response = retry_with_backoff(make_request)
             print(response.text)
@@ -3135,7 +3328,7 @@ Please provide a thorough, comprehensive answer using the full context available
         if not INSIGHTS_PROMPT:
             print("Error: 'insights' prompt not found in prompts.yaml (or usage of insights_source failed)")
             sys.exit(1)
-        
+
         # Inject context into the prompt placeholder
         # Note: If context has braces, format might fail. TODO: Safe format or Template.
         try:
@@ -3145,7 +3338,7 @@ Please provide a thorough, comprehensive answer using the full context available
              full_prompt = INSIGHTS_PROMPT.replace("{context}", context)
 
         print("\n--- Generating Insights (JSON) ---", file=sys.stderr)
-        
+
         def make_request():
             return client.models.generate_content(
                 model=args.model,
@@ -3154,10 +3347,10 @@ Please provide a thorough, comprehensive answer using the full context available
                     response_mime_type="application/json"
                 )
             )
-        
+
         try:
             response = retry_with_backoff(make_request)
-            
+
             # Save or print
             if args.output:
                 with open(args.output, 'w') as f:
