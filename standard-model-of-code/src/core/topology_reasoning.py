@@ -238,10 +238,15 @@ class LandscapeHealthIndex:
         """b₁ = 0 is perfect (10), degrades as cycle ratio increases.
 
         Normalized by codebase size: cycle_ratio = b1 / nodes
-        - ratio < 0.5: excellent (score 8-10)
-        - ratio 0.5-1.0: good (score 6-8)
-        - ratio 1.0-2.0: moderate (score 4-6)
-        - ratio > 2.0: concerning (score 2-4)
+        Formula: score = 10.0 - log(1 + ratio) * 3.0
+
+        Approximate score ranges:
+        - ratio = 0.0: score 10.0 (no cycles)
+        - ratio = 0.5: score ~8.8 (healthy)
+        - ratio = 1.0: score ~7.9 (acceptable)
+        - ratio = 2.0: score ~6.7 (moderate concern)
+        - ratio = 5.0: score ~4.6 (high concern)
+        - ratio > 10:  score ~2.8 (severe)
 
         Uses logarithmic scaling to avoid harsh penalties for large codebases.
         """
