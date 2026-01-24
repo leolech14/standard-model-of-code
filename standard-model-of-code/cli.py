@@ -748,8 +748,7 @@ def main():
             b0=betti.b0,
             b1=betti.b1,
             elevations=elevations,
-            gradients=gradients,
-            alignment_data=alignment_data
+            gradients=gradients
         )
 
         lhi = LandscapeHealthIndex()
