@@ -1,0 +1,57 @@
+# TASK-021: Handle Gemini API Rate Limiting
+# Promoted from: OPP-066
+# Priority: P1
+
+id: TASK-021
+title: "Handle Gemini API Rate Limiting (429) - Fix Thundering Herd"
+promoted_from: OPP-066
+status: COMPLETE
+created: 2026-01-23
+started: 2026-01-23
+
+confidence:
+  factual: 98
+  alignment: 95
+  current: 95
+  onwards: 95
+  overall: 95
+
+root_cause: |
+  THUNDERING HERD: Multiple agents hitting API concurrently
+  - hsl-daemon: 6AM, 5min throttle, watches semantic_models.yaml
+  - socratic-audit: 6AM, 5min throttle, watches same files
+  - Manual session: analyze.py calls during development
+  - Result: 70 rate limit errors, ~$17-25 wasted
+
+emergency_state: |
+  DAEMONS RE-ENABLED (2026-01-23) after fix applied
+
+execution_plan:
+  - step: 1
+    action: "Add exponential backoff with jitter to analyze.py"
+    effort: LOW
+    code: "retry_with_backoff() at line 938-954 (already exists)"
+    status: VERIFIED
+  - step: 2
+    action: "Stagger daemon schedules (6AM vs 7AM)"
+    effort: LOW
+    result: "hsl-daemon=6AM, socratic-audit=7AM"
+    status: COMPLETE
+  - step: 3
+    action: "Increase throttle (300s -> 1800s)"
+    effort: LOW
+    result: "Both daemons now 30min throttle"
+    status: COMPLETE
+  - step: 4
+    action: "Test and re-enable daemons"
+    effort: LOW
+    result: "launchctl list shows exit code 0 for both"
+    status: COMPLETE
+
+validation:
+  - "analyze.py handles 429 gracefully (retries with backoff)"
+  - "Daemons run at staggered times"
+  - "No concurrent API hits"
+  - "Manual runs don't conflict with daemon runs"
+
+unblocks: OPP-065
