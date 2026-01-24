@@ -686,17 +686,28 @@ def main():
             compute_gradient
         )
         import json as json_module
+        import io
 
         target_path = Path(args.path).resolve()
         if not target_path.exists():
             print(f"Error: Path not found: {target_path}")
             sys.exit(1)
 
-        # Run analysis (silent mode - minimal output)
+        # Run analysis - suppress stdout when --json to avoid polluting JSON output
         temp_output = tempfile.mkdtemp(prefix="collider_grade_")
+        json_mode = getattr(args, 'json', False)
+        old_stdout = sys.stdout  # Always capture for cleanup
         try:
-            result = run_full_analysis(str(target_path), temp_output, options={"open_latest": False})
+            if json_mode:
+                # Redirect stdout to suppress analysis progress messages
+                sys.stdout = io.StringIO()
+            try:
+                result = run_full_analysis(str(target_path), temp_output, options={"open_latest": False})
+            finally:
+                if json_mode:
+                    sys.stdout = old_stdout
         except Exception as e:
+            sys.stdout = old_stdout
             print(f"Error: Analysis failed: {e}")
             sys.exit(1)
 
