@@ -224,6 +224,54 @@ def load_sets_config():
         return yaml.safe_load(f)
 
 
+def count_tokens(content: str, model: str = "gemini-2.0-flash") -> int:
+    """
+    Count tokens in content using Gemini API.
+
+    Args:
+        content: Text to count tokens for
+        model: Model to use for tokenization
+
+    Returns:
+        Token count, or -1 on error
+    """
+    try:
+        client = genai.Client()
+        result = client.models.count_tokens(model=model, contents=content)
+        return result.total_tokens
+    except Exception as e:
+        # Fallback: return -1 to signal error (caller will estimate)
+        return -1
+
+
+def validate_context_size(content: str, model: str, max_tokens: int = None) -> tuple:
+    """
+    Validate context size before sending to API.
+
+    Args:
+        content: Text content to validate
+        model: Model to validate for
+        max_tokens: Maximum allowed tokens (None = use model default)
+
+    Returns:
+        (is_valid, token_count) - is_valid is True if under limit
+    """
+    if max_tokens is None:
+        # Default limits per model
+        if "flash" in model.lower():
+            max_tokens = MAX_FLASH_DEEP_TOKENS
+        else:
+            max_tokens = MAX_CONTEXT_TOKENS
+
+    token_count = count_tokens(content, model)
+    if token_count < 0:
+        # Fallback: estimate ~4 chars per token
+        token_count = len(content) // 4
+
+    is_valid = token_count < max_tokens
+    return is_valid, token_count
+
+
 # Token limits per tier
 MAX_CONTEXT_TOKENS = 1_000_000       # Gemini 3 Pro (Long Context tier)
 MAX_FLASH_DEEP_TOKENS = 2_000_000    # Gemini 2.0 Flash (Flash Deep tier)
