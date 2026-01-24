@@ -180,12 +180,21 @@ ARCHITECT_DOCS = [
 ]
 
 # Load prompts and modes
+# Model versions (check for deprecation at https://ai.google.dev/models)
 if PROMPTS_CONFIG_PATH.exists():
     with open(PROMPTS_CONFIG_PATH) as f:
         _prompts_data = yaml.safe_load(f)
         PRICING = _prompts_data.get("pricing", {})
+        # DEFAULT_MODEL: Primary model for complex reasoning (best capability)
+        # Preferred: gemini-3-pro-preview (current flagship)
+        # Alternative: gemini-2.5-pro (stable, still supported)
         DEFAULT_MODEL = _prompts_data.get("default_model", "gemini-3-pro-preview")
+        # FAST_MODEL: Fast, cost-effective model for routine queries
+        # Current: gemini-2.0-flash-001
+        # Note: gemini-2.0-flash (base) deprecated 2026-03-31
         FAST_MODEL = _prompts_data.get("fast_model", "gemini-2.0-flash-001")
+        # FALLBACK_MODELS: Escalation chain if primary unavailable
+        # Order matters: tried left-to-right
         FALLBACK_MODELS = _prompts_data.get("fallback_models", ["gemini-2.5-pro", "gemini-2.0-flash-001"])
         MODES = _prompts_data.get("analysis_prompts", {}).get("modes", {})
         # Prefer "insights_source" for raw file analysis
@@ -199,9 +208,11 @@ if PROMPTS_CONFIG_PATH.exists():
         _VERTEX_PROJECT = _prompts_data.get("vertex_project")  # None = use gcloud config
         _VERTEX_LOCATION = _prompts_data.get("vertex_location", "us-central1")
 else:
+    # Fallback when config file is missing
+    # See above comments for model selection rationale
     PRICING = {}
-    DEFAULT_MODEL = "gemini-3-pro-preview"
-    FAST_MODEL = "gemini-2.0-flash-001"
+    DEFAULT_MODEL = "gemini-3-pro-preview"  # Best reasoning capability
+    FAST_MODEL = "gemini-2.0-flash-001"     # Cost-effective (deprecated 2026-03-31)
     FALLBACK_MODELS = ["gemini-2.5-pro", "gemini-2.0-flash-001"]
     MODES = {}
     INSIGHTS_PROMPT = None
@@ -224,7 +235,7 @@ def load_sets_config():
         return yaml.safe_load(f)
 
 
-def count_tokens(content: str, model: str = "gemini-2.0-flash") -> int:
+def count_tokens(content: str, model: str = "gemini-2.0-flash-001") -> int:
     """
     Count tokens in content using Gemini API.
 
@@ -280,6 +291,9 @@ INTERACTIVE_THRESHOLD = 50_000       # Auto-interactive above this
 # File Search configuration
 # NOTE: File Search requires the Gemini Developer API (ai.google.dev), not Vertex AI
 # Set GEMINI_API_KEY environment variable to use File Search features
+# File Search configuration uses Gemini 3 Pro for best semantic understanding
+# Gemini 3 Pro Preview: Best reasoning (up to 1M context tokens)
+# Check model availability: https://ai.google.dev/models
 FILE_SEARCH_MODEL = "gemini-3-pro-preview"  # Upgraded to Gemini 3 Pro (2026-01-23)
 FILE_SEARCH_CHUNK_SIZE = 512  # Tokens per chunk
 FILE_SEARCH_CHUNK_OVERLAP = 50  # Overlap tokens between chunks
@@ -303,6 +317,7 @@ def auto_save_gemini_response(query: str, response_text: str, model: str, mode: 
         query: Original query text
         response_text: Response text from Gemini
         model: Model used (e.g., "gemini-2.5-pro")
+            Note: gemini-2.0-flash (base) deprecated 2026-03-31
         mode: Analysis mode (e.g., "standard", "insights", "forensic")
 
     Returns:
@@ -1040,7 +1055,8 @@ def create_gemini_cache(content: str, model: str, display_name: str = "repopack_
 
     Args:
         content: Content to cache (RepoPack formatted)
-        model: Model name (e.g., 'gemini-2.0-flash')
+        model: Model name (e.g., 'gemini-2.0-flash-001')
+            Note: gemini-2.0-flash (base) deprecated 2026-03-31
         display_name: Human-readable cache name for tracking
 
     Returns:
