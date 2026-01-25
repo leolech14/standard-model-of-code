@@ -1050,6 +1050,137 @@
         .layout-btn {
             height: 32px;
         }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           GRIDSTACK PANEL CONTAINER - Bottom dock for modular controls
+           ═══════════════════════════════════════════════════════════════════ */
+        .panel-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 320px;
+            background: rgba(10, 10, 15, 0.95);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            padding: 8px;
+        }
+
+        .panel-container .grid-stack-item-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(40, 40, 50, 0.6);
+            cursor: move;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-header span {
+            opacity: 0.7;
+        }
+
+        .panel-collapse {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .panel-collapse:hover {
+            color: var(--text);
+        }
+
+        .panel-body {
+            padding: 10px 12px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .panel-body.collapsed {
+            display: none;
+        }
+
+        .panel-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .panel-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* Hidden panel state */
+        .gs-hidden {
+            display: none !important;
+        }
+
+        /* Gridstack overrides for dark theme */
+        .grid-stack > .grid-stack-item > .grid-stack-item-content {
+            inset: 4px;
+        }
+
+        .grid-stack > .grid-stack-item > .ui-resizable-se {
+            background: none;
+        }
+
+        .grid-stack > .grid-stack-item > .ui-resizable-se::after {
+            content: '';
+            position: absolute;
+            right: 4px;
+            bottom: 4px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--border);
+            border-bottom: 2px solid var(--border);
+        }
+
+        /* Panel-specific controls */
+        .panel-search {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 10px;
+            color: var(--text);
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+
+        .panel-search:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .panel-search::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Adjust graph container when panels are visible */
+        body.panels-open #3d-graph {
+            bottom: 320px;
+        }
+
+        body.panels-open #left-sidebar,
+        body.panels-open #right-sidebar {
+            bottom: 320px;
+        }
     </style>
 
     <script>
@@ -1062,6 +1193,10 @@
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
     <script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
     <script src="https://unpkg.com/pako@2.1.0/dist/pako.min.js"></script>
+    <!-- Gridstack.js for draggable/resizable panels -->
+    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-extra.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-all.js"></script>
 </head>
 
 <body>
@@ -1337,8 +1472,11 @@
             </div>
         </div>
 
-        <!-- APPEARANCE -->
-        <div class="section">
+        <!-- APPEARANCE (DEPRECATED 2026-01-25)
+             These legacy controls are orphaned - superseded by cfg-* controls in Node/Edge Config sections.
+             Hidden via scream test. Delete after validation confirms no console errors.
+             See: docs/ui/corpus/v1/analysis/gaps_report.md -->
+        <div class="section" style="display:none !important;" data-deprecated="2026-01-25">
             <div class="section-header" data-section="appearance">
                 <span>Appearance</span>
                 <span class="arrow">▼</span>
@@ -1502,6 +1640,360 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODULAR PANEL CONTAINER - Gridstack-based draggable panels
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="panel-container grid-stack">
+
+        <!-- FILTERING Panel -->
+        <div class="grid-stack-item" gs-id="filtering" gs-x="0" gs-y="0" gs-w="3" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Filtering</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="panel-search" id="panel-search-nodes" placeholder="Search nodes...">
+                    <div class="filter-group">
+                        <div class="filter-label">Quick Filters</div>
+                        <div class="chips" id="panel-filter-chips"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Hide Orphans</span>
+                        <div class="toggle" id="panel-toggle-orphans"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Hide Dead Code</span>
+                        <div class="toggle" id="panel-toggle-dead"></div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header">
+                            <span class="slider-label">Min Degree</span>
+                        </div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-filter-degree" min="0" max="20" value="0">
+                            <input type="number" id="panel-filter-degree-num" class="number-input" min="0" max="20" value="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECTION Panel -->
+        <div class="grid-stack-item" gs-id="selection" gs-x="3" gs-y="0" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Selection</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-group">
+                        <div class="filter-label">Mode</div>
+                        <div class="btn-grid btn-grid-3">
+                            <button class="btn active" data-selection-mode="single">Single</button>
+                            <button class="btn" data-selection-mode="multi">Multi</button>
+                            <button class="btn" data-selection-mode="lasso">Lasso</button>
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header">
+                            <span class="slider-label">K-Hop Expand</span>
+                        </div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-khop" min="1" max="5" value="1">
+                            <input type="number" id="panel-khop-num" class="number-input" min="1" max="5" value="1">
+                        </div>
+                    </div>
+                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
+                        <button class="btn" id="panel-select-expand">Expand</button>
+                        <button class="btn" id="panel-select-isolate">Isolate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAMERA Panel -->
+        <div class="grid-stack-item" gs-id="camera" gs-x="5" gs-y="0" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Camera</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="toggle-row">
+                        <span class="toggle-label">Auto Rotate</span>
+                        <div class="toggle" id="panel-auto-rotate"></div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header">
+                            <span class="slider-label">Rotate Speed</span>
+                        </div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-rotate-speed" min="0.1" max="3" step="0.1" value="1">
+                            <input type="number" id="panel-rotate-speed-num" class="number-input" min="0.1" max="3" step="0.1" value="1">
+                        </div>
+                    </div>
+                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
+                        <button class="btn" id="panel-cam-reset">Reset</button>
+                        <button class="btn" id="panel-cam-fit">Fit All</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCESSIBILITY Panel -->
+        <div class="grid-stack-item" gs-id="accessibility" gs-x="7" gs-y="0" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Accessibility</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-group">
+                        <div class="filter-label">Colorblind Mode</div>
+                        <select id="panel-colorblind" class="panel-search" style="margin-bottom: 0;">
+                            <option value="none">None</option>
+                            <option value="deuteranopia">Deuteranopia</option>
+                            <option value="protanopia">Protanopia</option>
+                            <option value="tritanopia">Tritanopia</option>
+                        </select>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">High Contrast</span>
+                        <div class="toggle" id="panel-high-contrast"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Reduced Motion</span>
+                        <div class="toggle" id="panel-reduced-motion"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPORT Panel -->
+        <div class="grid-stack-item" gs-id="export" gs-x="9" gs-y="0" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Export</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="btn-grid btn-grid-2">
+                        <button class="btn" id="panel-export-png">PNG</button>
+                        <button class="btn" id="panel-export-json">JSON</button>
+                        <button class="btn" id="panel-export-svg">SVG</button>
+                        <button class="btn" id="panel-export-embed">Embed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYSIS Panel (wider) -->
+        <div class="grid-stack-item" gs-id="analysis" gs-x="0" gs-y="2" gs-w="4" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Analysis</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="stats-item">
+                            <div class="value" id="panel-stat-visible">0</div>
+                            <div class="label">Visible</div>
+                        </div>
+                        <div class="stats-item">
+                            <div class="value" id="panel-stat-selected">0</div>
+                            <div class="label">Selected</div>
+                        </div>
+                        <div class="stats-item">
+                            <div class="value" id="panel-stat-edges">0</div>
+                            <div class="label">Edges</div>
+                        </div>
+                        <div class="stats-item">
+                            <div class="value" id="panel-stat-density">--</div>
+                            <div class="label">Density</div>
+                        </div>
+                    </div>
+                    <div class="toggle-row" style="margin-top: 8px;">
+                        <span class="toggle-label">Show Metrics Overlay</span>
+                        <div class="toggle" id="panel-toggle-metrics"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYOUT Panel -->
+        <div class="grid-stack-item" gs-id="layout-phys" gs-x="4" gs-y="2" gs-w="3" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Layout</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="btn-grid btn-grid-3" style="margin-bottom: 8px;">
+                        <button class="btn" id="panel-reheat">Reheat</button>
+                        <button class="btn" id="panel-freeze">Freeze</button>
+                        <button class="btn" id="panel-cool">Cool</button>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header">
+                            <span class="slider-label">Alpha Decay</span>
+                        </div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-alpha-decay" min="0" max="0.1" step="0.005" value="0.0228">
+                            <input type="number" id="panel-alpha-decay-num" class="number-input" min="0" max="0.1" step="0.005" value="0.0228">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW MODES Panel -->
+        <div class="grid-stack-item" gs-id="view-modes" gs-x="7" gs-y="2" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>View</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="btn-grid btn-grid-2">
+                        <button class="btn active" id="panel-view-3d">3D</button>
+                        <button class="btn" id="panel-view-2d">2D</button>
+                    </div>
+                    <div class="btn-grid btn-grid-2" style="margin-top: 8px;">
+                        <button class="btn active" data-panel-mode="atoms">Atoms</button>
+                        <button class="btn" data-panel-mode="files">Files</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NODE APPEARANCE Panel -->
+        <div class="grid-stack-item" gs-id="node-appear" gs-x="0" gs-y="4" gs-w="3" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Node Appearance</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-group">
+                        <div class="filter-label">Size Mode</div>
+                        <div class="btn-grid btn-grid-4">
+                            <button class="btn active" data-panel-size-mode="uniform">Uniform</button>
+                            <button class="btn" data-panel-size-mode="degree">Degree</button>
+                            <button class="btn" data-panel-size-mode="fanout">Fanout</button>
+                            <button class="btn" data-panel-size-mode="complexity">Complex</button>
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Node Size</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-node-size" min="0.2" max="4" step="0.1" value="1">
+                            <input type="number" id="panel-node-size-num" class="number-input" min="0.2" max="4" step="0.1" value="1">
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Node Opacity</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-node-opacity" min="0.1" max="1" step="0.05" value="1">
+                            <input type="number" id="panel-node-opacity-num" class="number-input" min="0.1" max="1" step="0.05" value="1">
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Label Size</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-label-size" min="0" max="3" step="0.1" value="1">
+                            <input type="number" id="panel-label-size-num" class="number-input" min="0" max="3" step="0.1" value="1">
+                        </div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Show Labels</span>
+                        <div class="toggle active" id="panel-toggle-labels"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Highlight Selected</span>
+                        <div class="toggle active" id="panel-toggle-highlight"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">3D Depth Shading</span>
+                        <div class="toggle active" id="panel-toggle-depth"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDGE APPEARANCE Panel -->
+        <div class="grid-stack-item" gs-id="edge-appear" gs-x="3" gs-y="4" gs-w="3" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Edge Appearance</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <div class="filter-group">
+                        <div class="filter-label">Edge Style</div>
+                        <div class="btn-grid btn-grid-3">
+                            <button class="btn active" data-panel-edge-style="solid">Solid</button>
+                            <button class="btn" data-panel-edge-style="dashed">Dashed</button>
+                            <button class="btn" data-panel-edge-style="particle">Particle</button>
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Edge Opacity</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-edge-opacity" min="0" max="1" step="0.05" value="0.6">
+                            <input type="number" id="panel-edge-opacity-num" class="number-input" min="0" max="1" step="0.05" value="0.6">
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Edge Width</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-edge-width" min="0.2" max="5" step="0.2" value="1.5">
+                            <input type="number" id="panel-edge-width-num" class="number-input" min="0.2" max="5" step="0.2" value="1.5">
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Curvature</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-edge-curve" min="0" max="1" step="0.05" value="0">
+                            <input type="number" id="panel-edge-curve-num" class="number-input" min="0" max="1" step="0.05" value="0">
+                        </div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-header"><span class="slider-label">Particle Speed</span></div>
+                        <div class="slider-controls">
+                            <input type="range" id="panel-particle-speed" min="0" max="0.05" step="0.005" value="0.01">
+                            <input type="number" id="panel-particle-speed-num" class="number-input" min="0" max="0.05" step="0.005" value="0.01">
+                        </div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Show Arrows</span>
+                        <div class="toggle" id="panel-toggle-arrows"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <span class="toggle-label">Gradient Colors</span>
+                        <div class="toggle active" id="panel-toggle-gradient"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL SETTINGS (toggle visibility, reset) -->
+        <div class="grid-stack-item" gs-id="panel-settings" gs-x="9" gs-y="2" gs-w="2" gs-h="2">
+            <div class="grid-stack-item-content">
+                <div class="panel-header">
+                    <span>Panels</span>
+                    <button class="panel-collapse">−</button>
+                </div>
+                <div class="panel-body">
+                    <button class="btn" id="panel-reset-layout" style="width: 100%; margin-bottom: 8px;">Reset Layout</button>
+                    <button class="btn" id="panel-toggle-dock" style="width: 100%;">Hide Panels</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Performance HUD -->

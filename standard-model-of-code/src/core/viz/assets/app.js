@@ -1724,6 +1724,21 @@ function setupControls(data) {
     if (typeof HUD !== 'undefined' && HUD.setupFade) HUD.setupFade();
     if (typeof DIMENSION !== 'undefined' && DIMENSION.setup) DIMENSION.setup();
 
+    // Initialize Gridstack-based modular panel system
+    if (typeof PANEL_SYSTEM !== 'undefined' && PANEL_SYSTEM.init) {
+        PANEL_SYSTEM.init();
+    }
+
+    // Load persisted filter state
+    if (typeof FILTER_STATE !== 'undefined' && FILTER_STATE.load) {
+        FILTER_STATE.load();
+    }
+
+    // Bind panel control handlers
+    if (typeof PANEL_HANDLERS !== 'undefined' && PANEL_HANDLERS.init) {
+        PANEL_HANDLERS.init();
+    }
+
     // Initialize Command Bar and Floating Panels
     initCommandBar();
 
@@ -1816,13 +1831,9 @@ function setupConfigControls() {
         if (Graph) Graph.nodeResolution(Math.round(val));
     }, 0);
 
-    // Label Size
-    bindSlider('cfg-label-size', 'cfg-label-size-val', (val) => {
-        APPEARANCE_STATE.labelSize = val;
-        if (Graph && APPEARANCE_STATE.showLabels) {
-            Graph.nodeLabel(node => val > 0.2 ? (node.name || node.id) : null);
-        }
-    });
+    // Label Size - DUPLICATE REMOVED 2026-01-25
+    // Canonical binding: sidebar.js:864 (_handleSliderChange case 'cfg-label-size')
+    // Removed to prevent double execution. See docs/ui/corpus/v1/analysis/gaps_report.md
 
     // Show Labels Toggle
     bindToggle('cfg-toggle-labels', APPEARANCE_STATE.showLabels, (active) => {
@@ -1830,11 +1841,8 @@ function setupConfigControls() {
         if (Graph) Graph.nodeLabel(node => active ? (node.name || node.id) : null);
     });
 
-    // Highlight Selected Toggle
-    bindToggle('cfg-toggle-highlight', APPEARANCE_STATE.highlightSelected, (active) => {
-        APPEARANCE_STATE.highlightSelected = active;
-        if (typeof updateSelectionVisuals === 'function') updateSelectionVisuals();
-    });
+    // Highlight Selected Toggle - DUPLICATE REMOVED 2026-01-25
+    // Canonical binding: sidebar.js:786 (_bindToggle 'cfg-toggle-highlight')
 
     // Pulse Animation Toggle
     bindToggle('cfg-toggle-pulse', false, (active) => {
@@ -1842,11 +1850,8 @@ function setupConfigControls() {
         console.log('[CONFIG] Pulse animation:', active ? 'ON' : 'OFF');
     });
 
-    // 3D Depth Shading Toggle
-    bindToggle('cfg-toggle-depth', true, (active) => {
-        APPEARANCE_STATE.depthShading = active;
-        console.log('[CONFIG] Depth shading:', active ? 'ON' : 'OFF');
-    });
+    // 3D Depth Shading Toggle - DUPLICATE REMOVED 2026-01-25
+    // Canonical binding: sidebar.js:801 (_bindToggle 'cfg-toggle-depth')
 
     // ═══════════════════════════════════════════════════════════════════
     // EDGE CONFIG - Enhanced with better visibility and flow animation
@@ -1902,19 +1907,11 @@ function setupConfigControls() {
     const gradientToggle = document.getElementById('cfg-toggle-gradient');
     if (gradientToggle && APPEARANCE_STATE.gradientEdges) gradientToggle.classList.add('active');
 
-    // Highlight Edges on Hover Toggle
-    bindToggle('cfg-toggle-edge-hover', true, (active) => {
-        APPEARANCE_STATE.edgeHoverHighlight = active;
-    });
+    // Highlight Edges on Hover Toggle - DUPLICATE REMOVED 2026-01-25
+    // Canonical binding: sidebar.js:826 (_bindToggle 'cfg-toggle-edge-hover')
 
-    // Show CODOME Boundaries Toggle
-    bindToggle('cfg-toggle-codome', SHOW_CODOME, (active) => {
-        SHOW_CODOME = active;
-        console.log('[CONFIG] CODOME boundaries:', SHOW_CODOME ? 'ON' : 'OFF');
-        // Re-render graph with updated filtering
-        const filtered = filterGraph(FULL_GRAPH, CURRENT_DENSITY, ACTIVE_DATAMAPS, VIS_FILTERS);
-        if (Graph) Graph.graphData(filtered);
-    });
+    // Show CODOME Boundaries Toggle - DUPLICATE REMOVED 2026-01-25
+    // Canonical binding: sidebar.js:833 (_bindToggle 'cfg-toggle-codome')
 
     // ═══════════════════════════════════════════════════════════════════
     // Section Collapse Handlers

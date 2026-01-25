@@ -47,7 +47,12 @@
         { name: 'CONTROL_BAR', module: typeof CONTROL_BAR !== 'undefined' ? CONTROL_BAR : null },
         // STARS module removed - nodes ARE the stars
         { name: 'HUD', module: typeof HUD !== 'undefined' ? HUD : null },
-        { name: 'DIMENSION', module: typeof DIMENSION !== 'undefined' ? DIMENSION : null }
+        { name: 'DIMENSION', module: typeof DIMENSION !== 'undefined' ? DIMENSION : null },
+        // Modular panel system
+        { name: 'EVENT_BUS', module: typeof EVENT_BUS !== 'undefined' ? EVENT_BUS : null },
+        { name: 'FILTER_STATE', module: typeof FILTER_STATE !== 'undefined' ? FILTER_STATE : null },
+        { name: 'PANEL_SYSTEM', module: typeof PANEL_SYSTEM !== 'undefined' ? PANEL_SYSTEM : null },
+        { name: 'PANEL_HANDLERS', module: typeof PANEL_HANDLERS !== 'undefined' ? PANEL_HANDLERS : null }
     ];
 
     const loaded = REQUIRED_MODULES.filter(m => m.module !== null);
@@ -170,6 +175,18 @@
         if (typeof DIMENSION !== 'undefined' && DIMENSION.setup) {
             DIMENSION.setup();
             console.log('[MAIN] DIMENSION module initialized');
+        }
+
+        // Initialize PANEL_SYSTEM (Gridstack-based modular panels)
+        if (typeof PANEL_SYSTEM !== 'undefined' && PANEL_SYSTEM.init) {
+            PANEL_SYSTEM.init();
+            console.log('[MAIN] PANEL_SYSTEM module initialized');
+        }
+
+        // Load saved FILTER_STATE
+        if (typeof FILTER_STATE !== 'undefined' && FILTER_STATE.load) {
+            FILTER_STATE.load();
+            console.log('[MAIN] FILTER_STATE loaded from localStorage');
         }
 
         console.log('[MAIN] Module initialization complete');

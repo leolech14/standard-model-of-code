@@ -784,7 +784,12 @@ window.SIDEBAR = (function () {
         });
 
         _bindToggle('cfg-toggle-highlight', (active) => {
-            // Handled by VIS_STATE or interactions
+            if (typeof APPEARANCE_STATE !== 'undefined') {
+                APPEARANCE_STATE.highlightSelected = active;
+            }
+            if (typeof updateSelectionVisuals === 'function') {
+                updateSelectionVisuals();
+            }
         });
 
         _bindToggle('cfg-toggle-pulse', (active) => {
@@ -794,7 +799,13 @@ window.SIDEBAR = (function () {
         });
 
         _bindToggle('cfg-toggle-depth', (active) => {
-            // 3D shading toggle
+            if (typeof APPEARANCE_STATE !== 'undefined') {
+                APPEARANCE_STATE.depthShading = active;
+            }
+            // Depth shading affects node material - trigger refresh if available
+            if (typeof refreshNodeMaterials === 'function') {
+                refreshNodeMaterials();
+            }
         });
 
         _bindToggle('cfg-toggle-arrows', (active) => {
@@ -809,6 +820,28 @@ window.SIDEBAR = (function () {
             if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.gradientEdges = active;
             if (typeof applyEdgeMode === 'function') applyEdgeMode();
             window.refreshGradientEdgeColors && window.refreshGradientEdgeColors();
+        });
+
+        // Edge hover highlight toggle
+        _bindToggle('cfg-toggle-edge-hover', (active) => {
+            if (typeof APPEARANCE_STATE !== 'undefined') {
+                APPEARANCE_STATE.edgeHoverHighlight = active;
+            }
+        });
+
+        // CODOME boundaries toggle
+        _bindToggle('cfg-toggle-codome', (active) => {
+            if (typeof SHOW_CODOME !== 'undefined') {
+                window.SHOW_CODOME = active;
+            }
+            console.log('[CONFIG] CODOME boundaries:', active ? 'ON' : 'OFF');
+            // Re-render graph with updated filtering
+            if (typeof filterGraph === 'function' && typeof FULL_GRAPH !== 'undefined' &&
+                typeof CURRENT_DENSITY !== 'undefined' && typeof ACTIVE_DATAMAPS !== 'undefined' &&
+                typeof VIS_FILTERS !== 'undefined' && typeof Graph !== 'undefined' && Graph) {
+                const filtered = filterGraph(FULL_GRAPH, CURRENT_DENSITY, ACTIVE_DATAMAPS, VIS_FILTERS);
+                Graph.graphData(filtered);
+            }
         });
     }
 
@@ -829,11 +862,17 @@ window.SIDEBAR = (function () {
                 if (typeof Graph !== 'undefined' && Graph) Graph.nodeResolution(val);
                 break;
             case 'cfg-label-size':
-                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier, 
-                // but we can trigger a re-render or update state.
+                if (typeof APPEARANCE_STATE !== 'undefined') {
+                    APPEARANCE_STATE.labelSize = val;
+                }
+                // Update labels if they're visible
+                if (typeof Graph !== 'undefined' && Graph &&
+                    typeof APPEARANCE_STATE !== 'undefined' && APPEARANCE_STATE.showLabels) {
+                    Graph.nodeLabel(n => val > 0.2 ? (n.name || n.id) : null);
+                }
                 break;
 
-            // Edge Config    
+            // Edge Config
             case 'cfg-edge-opacity':
                 if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.edgeOpacity = val;
                 if (typeof applyEdgeMode === 'function') applyEdgeMode();
