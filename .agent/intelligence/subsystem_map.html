@@ -284,16 +284,113 @@
             margin-top: 5px;
         }
 
-        /* ASCII Art Section */
+        /* ASCII Art Section - Editable Canvas */
+        .ascii-canvas-container {
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .canvas-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #333;
+            border-bottom: none;
+        }
+
+        .canvas-toolbar button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+
+        .canvas-toolbar button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .canvas-toolbar button.active {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .canvas-toolbar .status {
+            margin-left: auto;
+            color: #00ff88;
+            font-size: 0.85em;
+            padding: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .canvas-toolbar .status.show {
+            opacity: 1;
+        }
+
         .ascii-diagram {
             background: #000;
-            border-radius: 12px;
+            border-radius: 0 0 12px 12px;
             padding: 20px;
-            overflow-x: auto;
+            overflow: auto;
             font-size: 0.75em;
             line-height: 1.4;
             color: #00ff88;
-            margin-top: 30px;
+            border: 1px solid #333;
+            min-height: 400px;
+            max-height: 800px;
+            white-space: pre;
+            outline: none;
+            caret-color: #00d4ff;
+        }
+
+        .ascii-diagram:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .ascii-diagram::selection {
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        .char-palette {
+            display: none;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #333;
+        }
+
+        .char-palette.show {
+            display: flex;
+        }
+
+        .char-palette button {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+            color: #00ff88;
+            font-family: 'SF Mono', monospace;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .char-palette button:hover {
+            background: rgba(0, 212, 255, 0.3);
+            border-color: #00d4ff;
         }
 
         .legend {
@@ -579,10 +676,51 @@
             </table>
         </div>
 
-        <!-- ASCII System Diagram -->
+        <!-- ASCII System Diagram - EDITABLE CANVAS -->
         <div class="dataflow">
-            <h2>System Architecture (ASCII)</h2>
-            <pre class="ascii-diagram">
+            <h2>System Architecture (ASCII) - Live Canvas</h2>
+            <div class="ascii-canvas-container">
+                <div class="canvas-toolbar">
+                    <button onclick="copyToClipboard()" title="Copy to clipboard">Copy</button>
+                    <button onclick="downloadDiagram()" title="Download as .txt">Download</button>
+                    <button onclick="togglePalette()" title="Show character palette">Palette</button>
+                    <button onclick="resetDiagram()" title="Reset to original">Reset</button>
+                    <button onclick="clearCanvas()" title="Clear canvas">Clear</button>
+                    <span class="status" id="canvasStatus"></span>
+                </div>
+                <div class="char-palette" id="charPalette">
+                    <button onclick="insertChar('─')">─</button>
+                    <button onclick="insertChar('│')">│</button>
+                    <button onclick="insertChar('┌')">┌</button>
+                    <button onclick="insertChar('┐')">┐</button>
+                    <button onclick="insertChar('└')">└</button>
+                    <button onclick="insertChar('┘')">┘</button>
+                    <button onclick="insertChar('├')">├</button>
+                    <button onclick="insertChar('┤')">┤</button>
+                    <button onclick="insertChar('┬')">┬</button>
+                    <button onclick="insertChar('┴')">┴</button>
+                    <button onclick="insertChar('┼')">┼</button>
+                    <button onclick="insertChar('═')">═</button>
+                    <button onclick="insertChar('║')">║</button>
+                    <button onclick="insertChar('╔')">╔</button>
+                    <button onclick="insertChar('╗')">╗</button>
+                    <button onclick="insertChar('╚')">╚</button>
+                    <button onclick="insertChar('╝')">╝</button>
+                    <button onclick="insertChar('╠')">╠</button>
+                    <button onclick="insertChar('╣')">╣</button>
+                    <button onclick="insertChar('╦')">╦</button>
+                    <button onclick="insertChar('╩')">╩</button>
+                    <button onclick="insertChar('╬')">╬</button>
+                    <button onclick="insertChar('▲')">▲</button>
+                    <button onclick="insertChar('▼')">▼</button>
+                    <button onclick="insertChar('◄')">◄</button>
+                    <button onclick="insertChar('►')">►</button>
+                    <button onclick="insertChar('●')">●</button>
+                    <button onclick="insertChar('○')">○</button>
+                    <button onclick="insertChar('■')">■</button>
+                    <button onclick="insertChar('□')">□</button>
+                </div>
+                <pre class="ascii-diagram" id="asciiCanvas" contenteditable="true" spellcheck="false">
                                     ┌─────────────────────────────────────────────────────────────────┐
                                     │                        SOURCE CODE                               │
                                     └───────────────────────────────┬─────────────────────────────────┘
@@ -642,8 +780,8 @@
                                     ┌─────────────────────────────────────────────────────────────────┐
                                     │                        SOURCE CODE                               │
                                     │                      (loop closes)                               │
-                                    └─────────────────────────────────────────────────────────────────┘
-            </pre>
+                                    └─────────────────────────────────────────────────────────────────┘</pre>
+            </div>
         </div>
 
         <!-- Legend -->
@@ -690,5 +828,108 @@
             Generated 2026-01-24 | "The Collider keeps collapsing wave functions into knowledge."
         </p>
     </div>
+
+    <script>
+        // ASCII Canvas Controller
+        const STORAGE_KEY = 'project_elements_subsystem_diagram';
+        const canvas = document.getElementById('asciiCanvas');
+        const statusEl = document.getElementById('canvasStatus');
+        const paletteEl = document.getElementById('charPalette');
+
+        // Store original diagram for reset
+        const originalDiagram = canvas.innerText;
+
+        // Load saved diagram from localStorage
+        function loadSavedDiagram() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                canvas.innerText = saved;
+                showStatus('Loaded from local storage');
+            }
+        }
+
+        // Auto-save on edit
+        canvas.addEventListener('input', () => {
+            localStorage.setItem(STORAGE_KEY, canvas.innerText);
+            showStatus('Auto-saved');
+        });
+
+        // Show status message
+        function showStatus(msg) {
+            statusEl.textContent = msg;
+            statusEl.classList.add('show');
+            setTimeout(() => statusEl.classList.remove('show'), 2000);
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            navigator.clipboard.writeText(canvas.innerText).then(() => {
+                showStatus('Copied to clipboard!');
+            });
+        }
+
+        // Download as text file
+        function downloadDiagram() {
+            const blob = new Blob([canvas.innerText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'subsystem_architecture.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('Downloaded!');
+        }
+
+        // Toggle character palette
+        function togglePalette() {
+            paletteEl.classList.toggle('show');
+        }
+
+        // Insert character at cursor position
+        function insertChar(char) {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(document.createTextNode(char));
+                range.collapse(false);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                canvas.dispatchEvent(new Event('input'));
+            }
+            canvas.focus();
+        }
+
+        // Reset to original diagram
+        function resetDiagram() {
+            if (confirm('Reset to original diagram? Your changes will be lost.')) {
+                canvas.innerText = originalDiagram;
+                localStorage.removeItem(STORAGE_KEY);
+                showStatus('Reset to original');
+            }
+        }
+
+        // Clear canvas
+        function clearCanvas() {
+            if (confirm('Clear the entire canvas?')) {
+                canvas.innerText = '';
+                canvas.dispatchEvent(new Event('input'));
+                showStatus('Canvas cleared');
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 's') {
+                    e.preventDefault();
+                    showStatus('Auto-saved (always on)');
+                }
+            }
+        });
+
+        // Initialize
+        loadSavedDiagram();
+    </script>
 </body>
 </html>
