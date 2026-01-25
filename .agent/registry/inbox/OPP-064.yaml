@@ -1,0 +1,54 @@
+# OPP-064: Hierarchical Tree Layout for File View
+# Priority: P1 (Major Feature)
+# Source: User session 2026-01-23
+
+id: OPP-064
+title: "Hierarchical Tree Layout for File View"
+category: VISUALIZATION
+priority: P1
+created: 2026-01-23
+source: "User requirement - session 2026-01-23"
+
+context: |
+  Current File View uses force-directed graph layout.
+  User requires TRUE hierarchical tree layout where:
+  - Nodes organized by depth levels (Level 0 = root, Level 1, 2, 3...)
+  - Each level is a "thick layer" - visual stratification
+  - Navigation constrained: IN/DOWN (enter dir), OUT/UP (parent)
+  - Tree ramifies (branches) showing parent-child relationships
+
+design_constraints:
+  - Root at TOP (standard convention)
+  - Enter directory = go DOWN (deeper levels)
+  - Exit to parent = go UP (toward root)
+  - Thick visual layers per depth level
+  - d3-hierarchy compatible (Reingold-Tilford)
+
+external_validation: |
+  Perplexity research (2026-01-23) confirms:
+  - Universal convention: root at top, depth increases downward
+  - Consistent across: macOS Finder, Windows Explorer, VS Code, Unix tree, d3-hierarchy
+  - Source: docs/research/perplexity/docs/20260123_161804_*.md
+
+confidence:
+  factual: 95       # Perplexity validated classic > cone for navigation
+  alignment: 100    # Matches user mental model
+  current: 85       # We have file-tree-layout.js, need classic mode
+  onwards: 95       # Clear path to hybrid implementation
+  overall: 85       # PROMOTED from 70%
+
+refinery_needs:
+  - "Add classic tree mode to file-tree-layout.js (d3.cluster)"
+  - "Wire layout toggle to sidebar.js"
+
+research_validation:
+  date: "2026-01-23"
+  source: "Perplexity"
+  findings:
+    - "Classic tree outperforms Cone Tree for file navigation"
+    - "Hybrid approach (both layouts) is valid and has precedent"
+    - "d3.cluster() creates thick layers with even leaf spacing"
+  saved: "docs/research/perplexity/docs/20260123_170614_*.md"
+
+required_grade: "A+ (95%)"
+status: REFINED  # Promoted from UNREFINED

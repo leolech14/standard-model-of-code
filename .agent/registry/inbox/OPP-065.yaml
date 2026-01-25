@@ -1,0 +1,66 @@
+# OPP-065: Always-Green Continuous Refinement Pipeline
+# Priority: P0 (Critical Infrastructure)
+# Source: User vision 2026-01-23
+
+id: OPP-065
+title: "Always-Green Continuous Refinement Pipeline"
+category: INFRASTRUCTURE
+priority: P0
+created: 2026-01-23
+source: "User vision - always green, always updated, distilled, refined, purified"
+
+vision: |
+  A continuous refinement pipeline that:
+  - Watches for code/doc changes (HSL Daemon)
+  - Validates against Antimatter Laws (Socratic Audit)
+  - Auto-enriches task opportunities (Cloud Refinery)
+  - Auto-promotes at confidence thresholds (A=90%, A+=95%, A++=99%)
+  - Keeps repo in perpetual "green" state
+
+current_state:
+  hsl_daemon:
+    status: IDLE
+    blocker: "Missing GEMINI_API_KEY in LaunchAgent plist"
+  socratic_audit:
+    status: FAILED
+    blocker: "429 RESOURCE_EXHAUSTED (rate limited)"
+  cloud_refinery:
+    status: NOT_DEPLOYED
+    blocker: "Cloud Functions API not enabled on GCP"
+  auto_promote:
+    status: NOT_DEPLOYED
+    blocker: "Depends on Cloud Refinery"
+
+fix_sequence:
+  - step: 1
+    action: "Add GEMINI_API_KEY to LaunchAgent plists"
+    dependency: OPP-061
+    effort: LOW
+  - step: 2
+    action: "Implement rate limit handling in analyze.py"
+    effort: MEDIUM
+  - step: 3
+    action: "Enable Cloud Functions API on GCP"
+    effort: LOW
+  - step: 4
+    action: "Deploy auto_boost_function.py"
+    effort: MEDIUM
+  - step: 5
+    action: "Set up Cloud Scheduler for hourly trigger"
+    effort: LOW
+  - step: 6
+    action: "Sync local registry to GCS for cloud processing"
+    effort: MEDIUM
+
+confidence:
+  factual: 95
+  alignment: 100
+  current: 85
+  onwards: 100
+  overall: 85
+
+required_grade: "A+ (95%)"
+status: UNREFINED
+
+dependencies:
+  - OPP-061  # HSL Daemon fix (already at 95%)

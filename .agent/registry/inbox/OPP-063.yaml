@@ -1,0 +1,32 @@
+# OPP-063: GCS Mirror Verification (Post-Triage)
+# Priority: P1
+# Source: Emergency Triage Action 2026-01-23
+
+id: OPP-063
+title: "Verify GCS Mirror Post-Triage"
+category: INFRASTRUCTURE
+priority: P1
+created: 2026-01-23
+source: "Emergency triage - archived 695MB .repos_cache to GCS"
+
+context: |
+  .repos_cache (695MB, 32k files) was archived to GCS during emergency triage.
+  Goal: Verify artifact is retrievable and local exclusion works.
+
+confidence:
+  factual: 70
+  alignment: 100
+  current: 85
+  onwards: 90
+  overall: 70
+
+refinery_needs:
+  - "Confirm gsutil ls -L syntax for size verification"
+  - "Verify .gitignore exclusion patterns are correct"
+
+required_grade: "A (85%)"
+status: UNREFINED
+
+verification_commands:
+  - "gsutil ls -l gs://elements-archive-2026/calibration/"
+  - "find . -name '.repos_cache' -type d | wc -l  # Should be 0"

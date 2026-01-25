@@ -1,0 +1,537 @@
+# CODOME MANIFEST - Single Source of Truth
+# ==========================================
+# AUTO-GENERATED via parallel Haiku agents scanning the codebase
+# Last validated: 2026-01-23
+
+version: "1.0.0"
+project: "PROJECT_elements"
+description: "Standard Model of Code - Finding the basic constituents of computer programs"
+
+# =============================================================================
+# ARCHITECTURE: The Two Realms
+# =============================================================================
+realms:
+  particle:
+    name: "Particle (Collider)"
+    path: "standard-model-of-code/"
+    purpose: "Deterministic analysis - collapses code into knowledge"
+    entry_point: "standard-model-of-code/cli.py"
+    claude_md: "standard-model-of-code/CLAUDE.md"
+
+  wave:
+    name: "Wave (Context Management)"
+    path: "context-management/"
+    purpose: "AI reasoning, planning, research - field of potential"
+    entry_point: "context-management/tools/ai/analyze.py"
+    claude_md: "context-management/docs/AI_USER_GUIDE.md"
+
+  observer:
+    name: "Observer (.agent)"
+    path: ".agent/"
+    purpose: "Decides what to measure - task registry, intelligence"
+    manifest: ".agent/CODOME_MANIFEST.yaml"
+
+# =============================================================================
+# SPECS (30 Design Documents) - Auto-generated
+# =============================================================================
+specs:
+  AI_INTERFACE_SPEC:
+    path: "standard-model-of-code/docs/specs/AI_INTERFACE_SPEC.md"
+    purpose: "Communication grip layer for AI interface with Collider"
+
+  CODOME_BOUNDARY_DEFINITION:
+    path: "standard-model-of-code/docs/specs/CODOME_BOUNDARY_DEFINITION.md"
+    purpose: "Defines codome boundaries before measuring"
+
+  CODOME_COMPLETENESS_INDEX:
+    path: "standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md"
+    purpose: "Index for measuring codome completeness"
+
+  CODOME_HEALTH_INDEX:
+    path: "standard-model-of-code/docs/specs/CODOME_HEALTH_INDEX.md"
+    purpose: "Measures code quality and health metrics"
+
+  CODOME_LANDSCAPE:
+    path: "standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md"
+    purpose: "Topology-based terrain model for code navigation"
+
+  COMPLETENESS_ATTESTATION_PROTOCOL:
+    path: "standard-model-of-code/docs/specs/COMPLETENESS_ATTESTATION_PROTOCOL.md"
+    purpose: "Protocol to prove exhaustive discovery of code particles"
+
+  EXHAUSTIVE_CLASSIFICATION_MODEL:
+    path: "standard-model-of-code/docs/specs/EXHAUSTIVE_CLASSIFICATION_MODEL.md"
+    purpose: "Proves completeness by partitioning into signal and noise"
+
+  LANDSCAPE_IMPLEMENTATION_GUIDE:
+    path: "standard-model-of-code/docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md"
+    purpose: "Algorithms and pipeline integration for code landscape"
+
+  NODE_COUNT_GROUND_TRUTH:
+    path: "standard-model-of-code/docs/specs/NODE_COUNT_GROUND_TRUTH.md"
+    purpose: "Canonical node count specifications"
+
+  PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE:
+    path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE.md"
+    purpose: "Step-by-step guide for pipeline refactoring"
+
+  PIPELINE_REFACTOR_TASK_REGISTRY:
+    path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
+    purpose: "Task registry for pipeline refactor"
+
+  PIPELINE_STAGES:
+    path: "standard-model-of-code/docs/specs/PIPELINE_STAGES.md"
+    purpose: "Complete specification of Collider pipeline stages"
+
+  README:
+    path: "standard-model-of-code/docs/specs/README.md"
+    purpose: "Specifications directory overview"
+
+  REGISTRY_OF_REGISTRIES:
+    path: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
+    purpose: "Master index of all registries and collections"
+
+  SCALE_TRANSFORMS:
+    path: "standard-model-of-code/docs/specs/SCALE_TRANSFORMS.md"
+    purpose: "Warp functions for data distribution visualization"
+
+  T2_EXPANSION_PLAN:
+    path: "standard-model-of-code/docs/specs/T2_EXPANSION_PLAN.md"
+    purpose: "Plan to expand T2 atoms to 600+"
+
+  T2_EXPANSION_ROADMAP:
+    path: "standard-model-of-code/docs/specs/T2_EXPANSION_ROADMAP.md"
+    purpose: "Roadmap to scale T2 atoms to 1000+"
+
+  TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY:
+    path: "standard-model-of-code/docs/specs/TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY.md"
+    purpose: "Archived Tree-sitter task registry"
+
+  TREE_SITTER_INTEGRATION_SPEC:
+    path: "standard-model-of-code/docs/specs/TREE_SITTER_INTEGRATION_SPEC.md"
+    purpose: "Comprehensive Tree-sitter capabilities guide"
+
+  TREE_SITTER_POWER_INVENTORY:
+    path: "standard-model-of-code/docs/specs/TREE_SITTER_POWER_INVENTORY.md"
+    purpose: "Living checklist of Tree-sitter capabilities"
+
+  TREE_SITTER_TASK_REGISTRY:
+    path: "standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md"
+    purpose: "Master registry for Tree-sitter implementation"
+
+  TREE_SITTER_VALIDATION_REPORT:
+    path: "standard-model-of-code/docs/specs/TREE_SITTER_VALIDATION_REPORT.md"
+    purpose: "Evidence-based validation of Tree-sitter"
+
+  UI_LAYOUT_ARCHITECTURE:
+    path: "standard-model-of-code/docs/specs/UI_LAYOUT_ARCHITECTURE.md"
+    purpose: "Component positioning and spatial intelligence"
+
+  UI_REFACTOR_VISION:
+    path: "standard-model-of-code/docs/specs/UI_REFACTOR_VISION.md"
+    purpose: "Vision document for UI refactoring"
+
+  UI_SESSION_SUMMARY:
+    path: "standard-model-of-code/docs/specs/UI_SESSION_SUMMARY.md"
+    purpose: "Compact reference for UI layout work"
+
+  UNIVERSAL_PROPERTY_BINDER:
+    path: "standard-model-of-code/docs/specs/UNIVERSAL_PROPERTY_BINDER.md"
+    purpose: "Many-to-many binding between data and visual channels"
+
+  UPB_IMPLEMENTATION_PLAN:
+    path: "standard-model-of-code/docs/specs/UPB_IMPLEMENTATION_PLAN.md"
+    purpose: "RAG-validated plan for UPB implementation"
+
+  UPB_LEGACY_SPRAWL:
+    path: "standard-model-of-code/docs/specs/UPB_LEGACY_SPRAWL.md"
+    purpose: "Confidence-scored inventory of affected modules"
+
+  UPB_TASK_REGISTRY:
+    path: "standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md"
+    purpose: "Task registry for UPB"
+
+  VISUALIZATION_UI_SPEC:
+    path: "standard-model-of-code/docs/specs/VISUALIZATION_UI_SPEC.md"
+    purpose: "Technical spec for interactive visualization"
+
+# =============================================================================
+# CORE MODULES (47 Python files) - Auto-generated
+# =============================================================================
+core_modules:
+  type_registry:
+    path: "standard-model-of-code/src/core/type_registry.py"
+    purpose: "Canonical Type Registry - single source of truth for type system"
+
+  smart_extractor:
+    path: "standard-model-of-code/src/core/smart_extractor.py"
+    purpose: "Rich context extraction for LLM classification"
+
+  performance_predictor:
+    path: "standard-model-of-code/src/core/performance_predictor.py"
+    purpose: "Time type classification and cost estimation"
+
+  god_class_detector_lite:
+    path: "standard-model-of-code/src/core/god_class_detector_lite.py"
+    purpose: "Lightweight God Class detector for antimatter risk"
+
+  ir:
+    path: "standard-model-of-code/src/core/ir.py"
+    purpose: "ATOM Intermediate Representation for code graphs"
+
+  insights_engine:
+    path: "standard-model-of-code/src/core/insights_engine.py"
+    purpose: "Actionable insights and recommendations from classification"
+
+  report_generator:
+    path: "standard-model-of-code/src/core/report_generator.py"
+    purpose: "Technical reports from detected patterns"
+
+  roadmap_evaluator:
+    path: "standard-model-of-code/src/core/roadmap_evaluator.py"
+    purpose: "Evaluates codebase against architectural roadmaps"
+
+  semantic_cortex:
+    path: "standard-model-of-code/src/core/semantic_cortex.py"
+    purpose: "Business concepts extraction via ConceptExtractor"
+
+  topology_reasoning:
+    path: "standard-model-of-code/src/core/topology_reasoning.py"
+    purpose: "Visual shape analysis and topology classification"
+
+  data_management:
+    path: "standard-model-of-code/src/core/data_management.py"
+    purpose: "Unified data layer with schema integrity"
+
+  ollama_client:
+    path: "standard-model-of-code/src/core/ollama_client.py"
+    purpose: "Local LLM integration for component classification"
+
+  newman_suite:
+    path: "standard-model-of-code/src/core/newman_suite.py"
+    purpose: "Collider health check system with probes"
+
+  normalize_output:
+    path: "standard-model-of-code/src/core/normalize_output.py"
+    purpose: "Output normalization enforcing canonical contract"
+
+  universal_detector:
+    path: "standard-model-of-code/src/core/universal_detector.py"
+    purpose: "Universal pattern detection orchestrator"
+
+  output_generator:
+    path: "standard-model-of-code/src/core/output_generator.py"
+    purpose: "Unified JSON and HTML report generator"
+
+  stats_generator:
+    path: "standard-model-of-code/src/core/stats_generator.py"
+    purpose: "Comprehensive metrics and statistics"
+
+  observability:
+    path: "standard-model-of-code/src/core/observability.py"
+    purpose: "Per-stage performance tracking"
+
+  brain_download:
+    path: "standard-model-of-code/src/core/brain_download.py"
+    purpose: "LLM-optimized codebase summary generator"
+
+  file_enricher:
+    path: "standard-model-of-code/src/core/file_enricher.py"
+    purpose: "Metadata extraction for visualization"
+
+  analytics_engine:
+    path: "standard-model-of-code/src/core/analytics_engine.py"
+    purpose: "Shannon Entropy and Cyclomatic Complexity"
+
+  heuristic_classifier:
+    path: "standard-model-of-code/src/core/heuristic_classifier.py"
+    purpose: "Deterministic naming pattern classifier fallback"
+
+  graph_type_inference:
+    path: "standard-model-of-code/src/core/graph_type_inference.py"
+    purpose: "Infer node types from graph connections"
+
+  extract_orphans:
+    path: "standard-model-of-code/src/core/extract_orphans.py"
+    purpose: "Identify unreachable orphaned code"
+
+  generate_health_report:
+    path: "standard-model-of-code/src/core/generate_health_report.py"
+    purpose: "Codebase health and compliance report"
+
+  execution_flow:
+    path: "standard-model-of-code/src/core/execution_flow.py"
+    purpose: "Causality chains and orphan detection"
+
+  profile_loader:
+    path: "standard-model-of-code/src/core/profile_loader.py"
+    purpose: "Constraint field and dimension profile loading"
+
+  constraint_engine:
+    path: "standard-model-of-code/src/core/constraint_engine.py"
+    purpose: "Three-tier validation against constraint rules"
+
+  purpose_field:
+    path: "standard-model-of-code/src/core/purpose_field.py"
+    purpose: "Hierarchical purpose emergence detector"
+
+  purpose_emergence:
+    path: "standard-model-of-code/src/core/purpose_emergence.py"
+    purpose: "Emergent purpose at multiple levels"
+
+  purpose_intelligence:
+    path: "standard-model-of-code/src/core/purpose_intelligence.py"
+    purpose: "Q-scores with 6-metric intrinsic quality"
+
+  control_flow_analyzer:
+    path: "standard-model-of-code/src/core/control_flow_analyzer.py"
+    purpose: "Cyclomatic complexity and nesting depth"
+
+  pattern_matcher:
+    path: "standard-model-of-code/src/core/pattern_matcher.py"
+    purpose: "Tree-sitter AST pattern matching"
+
+  data_flow_analyzer:
+    path: "standard-model-of-code/src/core/data_flow_analyzer.py"
+    purpose: "Assignment and mutation tracking for purity"
+
+  scope_analyzer:
+    path: "standard-model-of-code/src/core/scope_analyzer.py"
+    purpose: "Lexical scope analysis for unused definitions"
+
+  edge_extractor:
+    path: "standard-model-of-code/src/core/edge_extractor.py"
+    purpose: "Call graph extraction from particles"
+
+  symbol_indexer:
+    path: "standard-model-of-code/src/core/symbol_indexer.py"
+    purpose: "Global symbol index for import resolution"
+
+  dimension_classifier:
+    path: "standard-model-of-code/src/core/dimension_classifier.py"
+    purpose: "Boundary, State, Lifecycle dimensions"
+
+  atom_loader:
+    path: "standard-model-of-code/src/core/atom_loader.py"
+    purpose: "Unified atom taxonomy from base to T2"
+
+  standard_model_enricher:
+    path: "standard-model-of-code/src/core/standard_model_enricher.py"
+    purpose: "Full Standard Model theory application"
+
+  atom_registry:
+    path: "standard-model-of-code/src/core/atom_registry.py"
+    purpose: "Canonical registry of all known atoms"
+
+  graph_analyzer:
+    path: "standard-model-of-code/src/core/graph_analyzer.py"
+    purpose: "Network analysis with NetworkX"
+
+  unified_analysis:
+    path: "standard-model-of-code/src/core/unified_analysis.py"
+    purpose: "Single activation entry for complete analysis"
+
+  tree_sitter_engine:
+    path: "standard-model-of-code/src/core/tree_sitter_engine.py"
+    purpose: "Universal engine for 160+ languages"
+
+  survey:
+    path: "standard-model-of-code/src/core/survey.py"
+    purpose: "CODOME definition - five ontological questions"
+
+  full_analysis:
+    path: "standard-model-of-code/src/core/full_analysis.py"
+    purpose: "Collider orchestrator for deterministic analysis"
+
+# =============================================================================
+# AI TOOLS (15 Python files) - Auto-generated
+# =============================================================================
+ai_tools:
+  analyze:
+    path: "context-management/tools/ai/analyze.py"
+    purpose: "ACI with token budgets and FILE SEARCH RAG"
+
+  loop:
+    path: "context-management/tools/ai/loop.py"
+    purpose: "Gemini → Perplexity → Gemini validation workflow"
+
+  perplexity_research:
+    path: "context-management/tools/ai/perplexity_research.py"
+    purpose: "Deep research with Perplexity Sonar API"
+
+  setup_rag:
+    path: "context-management/tools/ai/setup_rag.py"
+    purpose: "RAG setup for Vertex AI Agent Builder"
+
+  insights_generator:
+    path: "context-management/tools/ai/insights_generator.py"
+    purpose: "AI insights from Collider output"
+
+  repo_archaeologist:
+    path: "context-management/tools/ai/repo_archaeologist.py"
+    purpose: "Temporal evolution analysis"
+
+  present_architect:
+    path: "context-management/tools/ai/present_architect.py"
+    purpose: "Current state analysis with health metrics"
+
+  future_visionary:
+    path: "context-management/tools/ai/future_visionary.py"
+    purpose: "Future projection with roadmap"
+
+  observe_session:
+    path: "context-management/tools/ai/observe_session.py"
+    purpose: "Real-time session observer"
+
+  gemini_test_simple:
+    path: "context-management/tools/ai/gemini_test_simple.py"
+    purpose: "Simple Gemini test"
+
+  gemini_genai_test:
+    path: "context-management/tools/ai/gemini_genai_test.py"
+    purpose: "google-genai package test"
+
+  gemini_cache_demo:
+    path: "context-management/tools/ai/gemini_cache_demo.py"
+    purpose: "Gemini 2.0 Flash with GCS mirrored codebase"
+
+  list_models:
+    path: "context-management/tools/ai/list_models.py"
+    purpose: "List available Gemini models"
+
+  debug_models:
+    path: "context-management/tools/ai/debug_models.py"
+    purpose: "Debug models across GCP regions"
+
+  test_vertex_sdk:
+    path: "context-management/tools/ai/test_vertex_sdk.py"
+    purpose: "Test Vertex AI SDK connectivity"
+
+# =============================================================================
+# CONFIGS (5 YAML files) - Auto-generated
+# =============================================================================
+configs:
+  documentation_map:
+    path: "context-management/config/documentation_map.yaml"
+    purpose: "Maps docs to semantic concepts for drift detection"
+
+  analysis_sets:
+    path: "context-management/config/analysis_sets.yaml"
+    purpose: "Coherent codebase slices for AI analysis"
+
+  aci_config:
+    path: "context-management/config/aci_config.yaml"
+    purpose: "ACI tier routing thresholds and behavior"
+
+  prompts:
+    path: "context-management/config/prompts.yaml"
+    purpose: "Analysis prompts for AI tools"
+
+  semantic_models:
+    path: "context-management/config/semantic_models.yaml"
+    purpose: "Semantic truth map for Holographic-Socratic Layer"
+
+# =============================================================================
+# CANONICAL DOCUMENTATION
+# =============================================================================
+canonical_docs:
+  theory:
+    path: "standard-model-of-code/docs/MODEL.md"
+    covers: ["atoms", "roles", "dimensions", "layers", "scales"]
+
+  tool:
+    path: "standard-model-of-code/docs/COLLIDER.md"
+    covers: ["commands", "pipeline", "output format"]
+
+  glossary:
+    path: "standard-model-of-code/docs/GLOSSARY.yaml"
+    covers: ["term definitions", "conceptual vocabulary"]
+
+  ai_guide:
+    path: "context-management/docs/AI_USER_GUIDE.md"
+    covers: ["AI roles", "tiers", "workflow"]
+
+  agent_kernel:
+    path: "context-management/docs/operations/AGENT_KERNEL.md"
+    covers: ["non-negotiables", "session rules"]
+
+# =============================================================================
+# SCHEMAS
+# =============================================================================
+schemas:
+  atoms:
+    path: "standard-model-of-code/schema/fixed/atoms.json"
+    purpose: "Atom type definitions"
+
+  roles:
+    path: "standard-model-of-code/schema/fixed/roles.json"
+    purpose: "Role definitions (33 canonical)"
+
+  graph:
+    path: "standard-model-of-code/schema/graph.schema.json"
+    purpose: "Pipeline graph output format"
+
+  particle:
+    path: "standard-model-of-code/schema/particle.schema.json"
+    purpose: "Particle/node schema"
+
+# =============================================================================
+# AI TIERS
+# =============================================================================
+ai_tiers:
+  instant:
+    tier: 0
+    model: null
+    context: "cached truths"
+
+  rag:
+    tier: 1
+    model: "gemini-3-pro-preview"
+    context: "File Search indexed"
+
+  long_context:
+    tier: 2
+    model: "gemini-3-pro-preview"
+    context: "1M tokens"
+
+  perplexity:
+    tier: 3
+    model: "sonar-pro"
+    context: "Web + grounded local"
+
+  flash_deep:
+    tier: 4
+    model: "gemini-2.0-flash-001"
+    context: "2M tokens"
+
+# =============================================================================
+# RESEARCH OUTPUTS
+# =============================================================================
+research:
+  perplexity:
+    path: "standard-model-of-code/docs/research/perplexity/"
+    format: "YYYYMMDD_HHMMSS_topic.md"
+
+  gemini:
+    path: "standard-model-of-code/docs/research/gemini/"
+    subdirs: [docs, raw, sessions]
+
+  intelligence:
+    path: ".agent/intelligence/"
+    purpose: "Socratic audits, confidence reports"
+
+# =============================================================================
+# VISUALIZATION
+# =============================================================================
+visualization:
+  template: "standard-model-of-code/src/core/viz/assets/template.html"
+  styles: "standard-model-of-code/src/core/viz/assets/styles.css"
+  modules_dir: "standard-model-of-code/src/core/viz/assets/modules/"
+  module_count: 48
+
+# =============================================================================
+# VALIDATION
+# =============================================================================
+validation:
+  check_manifest: "python .agent/tools/validate_manifest.py"
+  flash_deep_audit: "python analyze.py --aci --tier deep 'Audit entire codebase'"

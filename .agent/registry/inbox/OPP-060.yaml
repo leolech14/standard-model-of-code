@@ -1,0 +1,64 @@
+# Opportunity: Autonomous Enrichment Pipeline MVP
+# Category: INFRASTRUCTURE / CLOUD
+# Risk Grade Target: A+ (90%+)
+
+id: OPP-060
+title: "Autonomous Enrichment Pipeline (AEP) MVP"
+category: INFRASTRUCTURE
+source: "User vision + AEP specification"
+
+description: |
+  Implement the Autonomous Enrichment Pipeline that runs on GCP:
+
+  1. Watches .agent/registry/inbox/ for new OPPs
+  2. Runs research loops (Gemini + Perplexity + Collider)
+  3. Fills knowledge gaps automatically
+  4. Computes 4D confidence scores
+  5. Auto-promotes to TASK when >= 85% (Grade A)
+  6. Maps steps at 85%+ confidence each
+
+  PRINCIPLE: A TASK means VALIDATED, READY TO EXECUTE.
+
+  MVP Scope:
+  - Local cron job (hourly) as Phase 1
+  - Uses existing analyze.py + loop.py infrastructure
+  - Writes enriched data back to registry
+
+evidence:
+  spec: ".agent/specs/AUTONOMOUS_ENRICHMENT_PIPELINE.md"
+  dependencies:
+    - TASK-019 (Gemini caching - required for efficiency)
+    - loop.py (Gemini → Perplexity → Gemini workflow)
+    - analyze.py (context loading)
+    - Collider (codebase analysis)
+
+confidence:
+  factual: 92       # Perplexity validated - aligns with production patterns
+  alignment: 100    # This IS the mission - autonomous intelligence
+  current: 80       # Requires TASK-019 first
+  onwards: 100      # Foundation for all future autonomy
+  overall: 80       # min() - blocked by TASK-019
+
+verdict: DEFER  # Needs TASK-019 completed first (80% current)
+
+validation:
+  perplexity:
+    date: "2026-01-23"
+    verdict: "VALIDATED - aligns with production AI/ML patterns"
+    key_findings:
+      - "Continuous enrichment loops - STANDARD"
+      - "Multi-stage validation - USED in production"
+      - "External validation via Perplexity - INNOVATIVE extension"
+    academic_foundations:
+      - "Autonomous agent orchestration (procedural reasoning)"
+      - "Tree-of-Thought and HTN (task decomposition)"
+      - "Self-optimizing pipelines (emerging frontier)"
+    research_saved: "standard-model-of-code/docs/research/perplexity/20260123_163500_autonomous_enrichment_pipeline_validation.md"
+
+blocked_by:
+  - TASK-019  # Gemini caching required for cost efficiency
+
+sprint_candidate: SPRINT-003
+
+created_at: "2026-01-23T16:30:00+00:00"
+created_by: "claude (from user vision)"

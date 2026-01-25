@@ -1,0 +1,131 @@
+# Sprint 003 - Context Refinery Foundation
+# Hierarchy: ROADMAP-main > P7 (AI Integration) > SPRINT-003
+# Status: PLANNING
+#
+# This sprint contains the Context Refinery/BARE-Live foundation work
+# that was originally planned for SPRINT-002 but moved when Pipeline
+# Refactor tasks were batch promoted.
+
+id: SPRINT-003
+title: "Context Refinery Foundation"
+description: |
+  Build the foundation of the Context Refinery - a RAG + Long Context hybrid
+  system that maps, refines, atomizes, and recompiles context on demand.
+
+  This is the META-SOLUTION that will improve all future AI-assisted work.
+
+  Philosophy: "We apply Collider logic to context: break the repository into
+  semantic units and reaggregate them as distilled matter for reasoning."
+
+# Parent references
+roadmap_id: ROADMAP-main
+phase_id: P7  # AI Integration
+
+# Sprint status
+status: COMPLETE
+
+# Principles
+principles:
+  - name: "Outside-In"
+    description: "Coarse-to-fine, map before detail"
+  - name: "Delta-First"
+    description: "Only reprocess what changed"
+  - name: "Atomization"
+    description: "Everything becomes a Node with ID"
+  - name: "Provenance"
+    description: "All outputs trace to inputs"
+  - name: "Autonomy with Governance"
+    description: "Discover freely, execute with gates"
+
+# Definition of Done
+dod:
+  - criterion: "RefineryNode schema defined"
+    status: DONE
+    evidence: ".agent/schema/refinery_node.schema.yaml"
+  - criterion: "Corpus inventory tool working"
+    status: DONE
+    evidence: "context-management/tools/refinery/corpus_inventory.py"
+  - criterion: "Boundary mapper using analysis_sets.yaml"
+    status: DONE
+    evidence: "context-management/tools/refinery/boundary_mapper.py"
+  - criterion: "Delta detector for incremental processing"
+    status: DONE
+    evidence: "context-management/tools/refinery/delta_detector.py"
+  - criterion: "Basic atom generator for one cluster"
+    status: DONE
+    evidence: "context-management/tools/refinery/atom_generator.py"
+  - criterion: "State/live.yaml global map produced"
+    status: DONE
+    evidence: "context-management/tools/refinery/state_synthesizer.py"
+
+# Task references
+tasks:
+  - TASK-019  # Gemini Context Caching (90% confidence, 9 steps mapped)
+
+# Opportunities to promote
+opportunities:
+  # These need to be created as OPPs first
+  - title: "Define RefineryNode schema"
+    confidence: 95  # Already exists!
+    status: DONE
+  - title: "Build corpus inventory tool"
+    confidence: 85
+  - title: "Build boundary mapper"
+    confidence: 85
+  - title: "Build delta detector"
+    confidence: 80
+  - title: "Build basic distiller/atomizer"
+    confidence: 75
+  - title: "Build global state synthesizer"
+    confidence: 75
+  # Added 2026-01-23 from Gemini Blueprint research
+  - id: OPP-058
+    title: "Implement Gemini Context Caching for FLASH_DEEP Tier"
+    confidence: 90
+    status: READY
+    source: "standard-model-of-code/docs/research/gemini/docs/20260123_gemini_long_context_blueprint.md"
+
+# Timing
+start_date: null  # Not started
+end_date: null
+
+# Metrics
+velocity:
+  planned: 6
+  completed: 6  # All DoD criteria met
+  carried_over: 0
+
+# Dependencies
+blocked_by:
+  - SPRINT-002  # Pipeline must stabilize first
+
+# Integration points
+integration:
+  BARE: "Refinery becomes BARE Phase 2"
+  ACI: "Consumes atoms for query routing"
+  HSL: "Triggers delta reprocessing"
+  AEP: "Autonomous Enrichment Pipeline - builds on this foundation"
+
+# Execution Chain (Critical Path)
+execution_chain:
+  - id: TASK-019
+    title: "Gemini Context Caching"
+    confidence: 90
+    status: READY
+    rationale: "Required for cost-efficient cloud processing"
+
+  - id: OPP-060
+    title: "Autonomous Enrichment Pipeline"
+    confidence: 80  # Will become 90+ when TASK-019 completes
+    status: BLOCKED_BY_TASK-019
+    rationale: "Uses caching for continuous enrichment loops"
+
+# The Vision (from this sprint forward)
+vision: |
+  TASK = VALIDATED, READY TO EXECUTE.
+  No more boost workflows. No more manual research.
+  The pipeline enriches automatically. Humans execute.
+
+# Metadata
+created_by: "claude (moved from SPRINT-002)"
+created_at: "2026-01-23T15:35:00+00:00"

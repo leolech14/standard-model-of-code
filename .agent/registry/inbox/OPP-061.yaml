@@ -1,0 +1,48 @@
+# OPP-061: HSL Local-First Reliability
+# Priority: P0 (Critical Path)
+# Source: context-management/docs/operations/DECISION_BRIEF_LOCAL_FIRST.md
+
+id: OPP-061
+title: "Fix HSL Daemon Locally"
+category: INFRASTRUCTURE
+priority: P0
+created: 2026-01-23
+source: DECISION_BRIEF_LOCAL_FIRST.md
+
+context: |
+  HSL daemon fails with exit code 1. Cloud deployment is blocked until local fix.
+  Goal: Achieve "Local Reliability" (Phase 1).
+
+confidence:
+  factual: 98
+  alignment: 95
+  current: 95
+  onwards: 95
+  overall: 95
+
+refinery_results:
+  forensic_finding: |
+    ROOT CAUSE: hsl_daemon.py line 197-203 calls analyze.py without Doppler.
+    - Daemon: subprocess.run([python, analyze.py, "--verify", "pipeline"])
+    - Missing: doppler run -- wrapper for GEMINI_API_KEY injection
+    - Result: analyze.py fails with exit code 1 (no API key)
+
+  external_validation: |
+    Perplexity research (2026-01-23) confirms Option C is best practice:
+    - launchd EnvironmentVariables is native, persistent, secure
+    - Avoids shell wrapper issues in daemon contexts
+    - Source: docs/research/perplexity/docs/20260123_161451_*.md
+
+  recommended_fix: |
+    Option C: Use launchd EnvironmentVariables plist
+    1. Fetch secrets: doppler run -- printenv GEMINI_API_KEY
+    2. Add to plist: <key>EnvironmentVariables</key><dict>...</dict>
+    3. In daemon: os.environ['GEMINI_API_KEY'] propagates to subprocess
+
+required_grade: "A+ (95%)"
+status: PROMOTED
+promoted_to: TASK-020
+promoted_date: 2026-01-23
+execution_result: COMPLETE
+refined_date: 2026-01-23
+promotion_eligible: true

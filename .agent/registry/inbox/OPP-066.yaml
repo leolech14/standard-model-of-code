@@ -1,0 +1,60 @@
+# OPP-066: Handle Gemini API Rate Limiting
+# Priority: P1
+# Source: TASK-020 execution revealed this blocker
+
+id: OPP-066
+title: "Handle Gemini API Rate Limiting (429)"
+category: INFRASTRUCTURE
+priority: P1
+created: 2026-01-23
+source: "TASK-020 execution - daemons run but API rate limited"
+
+context: |
+  After fixing Doppler injection (TASK-020), daemons now run successfully.
+  However, analyze.py --verify pipeline fails with 429 RESOURCE_EXHAUSTED.
+  Need rate limit handling or quota increase.
+
+error: |
+  google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED
+  {'error': {'code': 429, 'message': 'Resource exhausted.'}}
+
+root_cause: |
+  THUNDERING HERD: Multiple agents hitting API concurrently
+  - hsl-daemon: 6AM, 5min throttle, watches semantic_models.yaml
+  - socratic-audit: 6AM, 5min throttle, watches same files
+  - Manual session: analyze.py calls during development
+  - Result: 70 rate limit errors, ~$17-25 wasted
+
+emergency_action: |
+  DAEMONS DISABLED (2026-01-23 17:24) to stop bleeding
+  - launchctl unload com.elements.hsl-daemon.plist
+  - launchctl unload com.elements.socratic-audit.plist
+
+fix_plan:
+  - step: 1
+    action: "Add exponential backoff with jitter to analyze.py"
+    effort: LOW
+    code: "tenacity.retry with wait_exponential + wait_random"
+  - step: 2
+    action: "Stagger daemon schedules (6AM vs 7AM)"
+    effort: LOW
+  - step: 3
+    action: "Increase throttle (300s → 1800s)"
+    effort: LOW
+  - step: 4
+    action: "Reduce context size (200K → 50K tokens)"
+    effort: MEDIUM
+
+confidence:
+  factual: 98
+  alignment: 95
+  current: 95
+  onwards: 95
+  overall: 95
+
+required_grade: "A (85%)"
+status: PROMOTED
+promoted_to: TASK-021
+promoted_date: 2026-01-23
+blocks: OPP-065
+validated: 2026-01-23

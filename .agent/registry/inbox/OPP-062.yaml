@@ -1,0 +1,28 @@
+# OPP-062: BARE Phase 2 Implementation (CrossValidator)
+# Priority: P2
+# Source: context-management/docs/agent_school/AGENTKNOWLEDGEDUMP.md
+
+id: OPP-062
+title: "BARE Phase 2 - CrossValidator Implementation"
+category: INTELLIGENCE
+priority: P2
+created: 2026-01-23
+source: AGENTKNOWLEDGEDUMP.md
+
+context: |
+  Phase 1 (TruthValidator) is complete. Phase 2 detects code-docs drift.
+  Goal: Implement CrossValidator class for semantic drift detection.
+
+confidence:
+  factual: 40
+  alignment: 90
+  current: 35
+  onwards: 85
+  overall: 35
+
+refinery_needs:
+  - "Deep read semantic_models.yaml to understand Antimatter definitions"
+  - "Map CrossValidator logic to analyze.py"
+
+required_grade: "A+ (95%)"
+status: UNREFINED
