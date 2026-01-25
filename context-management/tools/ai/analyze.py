@@ -2482,6 +2482,84 @@ Examples:
         sys.exit(0)
 
     # =========================================================================
+    # RESEARCH SCHEMA HANDLERS
+    # =========================================================================
+    if args.list_research_schemas or args.describe_schema or args.research_capabilities:
+        if not HAS_RESEARCH_ENGINE:
+            print("Error: Research Engine not available. Check aci/research_engine.py", file=sys.stderr)
+            sys.exit(1)
+
+        engine = get_research_engine()
+
+        if args.list_research_schemas:
+            print("=" * 60)
+            print("AVAILABLE RESEARCH SCHEMAS")
+            print("=" * 60)
+            for schema in engine.list_schemas():
+                ext_marker = "[EXT]" if schema.get("has_external") else "     "
+                print(f"  {ext_marker} {schema['name']}")
+                print(f"         {schema['purpose']}")
+                print(f"         Runs: {schema['run_count']} | Strategy: {schema['synthesis']}")
+                print()
+            sys.exit(0)
+
+        if args.describe_schema:
+            desc = engine.describe_schema(args.describe_schema)
+            if "error" in desc:
+                print(f"Error: {desc['error']}", file=sys.stderr)
+                print(f"Available: {desc['available']}", file=sys.stderr)
+                sys.exit(1)
+            print(yaml.dump(desc, default_flow_style=False, allow_unicode=True))
+            sys.exit(0)
+
+        if args.research_capabilities:
+            caps = engine.get_capabilities()
+            print("=" * 60)
+            print("RESEARCH ENGINE CAPABILITIES")
+            print("=" * 60)
+            print(f"\nTiers: {', '.join(caps['tiers'])}")
+            print(f"Models: {', '.join(caps['models'])}")
+            print(f"Run Types: {', '.join(caps['run_types'])}")
+            print(f"Strategies: {', '.join(caps['synthesis_strategies'])}")
+            print(f"\nDefaults:")
+            for k, v in caps['defaults'].items():
+                print(f"  {k}: {v}")
+            print(f"\nCondition DSL:")
+            for k, v in caps['condition_dsl'].items():
+                print(f"  {k}: {v}")
+            if caps.get('validation_errors'):
+                print(f"\nValidation Errors: {caps['validation_errors']}")
+            sys.exit(0)
+
+    if args.research:
+        if not HAS_RESEARCH_ENGINE:
+            print("Error: Research Engine not available.", file=sys.stderr)
+            sys.exit(1)
+
+        engine = get_research_engine()
+        print(f"=" * 60)
+        print(f"RESEARCH SCHEMA: {args.research}")
+        print(f"=" * 60)
+        print(f"Query: {args.prompt[:80]}{'...' if len(args.prompt) > 80 else ''}")
+        print()
+
+        # Parse overrides if provided
+        overrides = {}
+        if args.override:
+            for ov in args.override:
+                if '=' in ov:
+                    key, val = ov.split('=', 1)
+                    overrides[key] = val
+
+        # Execute (dry run for now - actual execution pending)
+        result = engine.execute(args.research, args.prompt, overrides=overrides, dry_run=True)
+        print(f"Status: DRY RUN (execution pending)")
+        print(f"Planned runs: {len(result.decision_trace.get('planned_runs', []))}")
+        for run in result.decision_trace.get('planned_runs', []):
+            print(f"  - {run['name']} ({run['type']}) via {run['tier']}")
+        sys.exit(0)
+
+    # =========================================================================
     # ACI (Adaptive Context Intelligence) MODE
     # =========================================================================
     # Initialize ACI tracking variables for feedback logging
