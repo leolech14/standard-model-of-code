@@ -253,13 +253,12 @@
             TELEM._uniqueOut = TELEM._cap_outSet.size;
         }
 
-        const m = TELEM.end();
-
-        // Add per-source breakdown if requested
+        // Extract bySource BEFORE end() nulls it
+        let bySourceData = null;
         if (perSource && TELEM._cap_bySource && TELEM._cap_bySource.size > 0) {
-            m.bySource = {};
+            bySourceData = {};
             for (const [src, data] of TELEM._cap_bySource) {
-                m.bySource[src] = {
+                bySourceData[src] = {
                     events: data.events,
                     unique_oklch: data.okSet.size,
                     unique_output: data.outSet.size,
@@ -267,6 +266,13 @@
                     clipped: data.clipped
                 };
             }
+        }
+
+        const m = TELEM.end();
+
+        // Attach bySource after end() cleanup
+        if (bySourceData) {
+            m.bySource = bySourceData;
         }
 
         return m;
