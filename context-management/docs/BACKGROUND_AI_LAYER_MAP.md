@@ -376,6 +376,14 @@ TRIGGER: Manual (API quota required)
 | **Gemini Context Cache** | Internal | Repeated queries same context | Low | Fast |
 | **Perplexity** | External | Research grounding, citations | Medium | Medium |
 | **Collider** | Static | AST parsing, structure extraction | Free | Fast |
+| **Research Schemas** | Orchestration | Multi-query validation, consensus | Varies | Medium |
+
+**Research Schemas** orchestrate multiple queries across backends to produce validated answers:
+- `validation_trio`: Cross-model verification (detect hallucinations)
+- `depth_ladder`: Find optimal context size
+- `adversarial_pair`: Stress-test claims (thesis vs antithesis)
+
+Docs: `context-management/docs/RESEARCH_SCHEMAS.md`
 
 ---
 
@@ -531,6 +539,7 @@ python .agent/tools/boost_confidence.py --all
 | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` | BARE spec |
 | `.agent/specs/AUTONOMOUS_ENRICHMENT_PIPELINE.md` | AEP spec |
 | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | HSL spec |
+| `context-management/docs/RESEARCH_SCHEMAS.md` | Research Schema orchestration |
 | `.agent/SUBSYSTEM_INTEGRATION.md` | Integration map |
 | `ARCHITECTURE_MAP.md` | Full architecture |
 

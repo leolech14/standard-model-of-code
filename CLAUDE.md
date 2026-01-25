@@ -146,6 +146,8 @@ After ANY Perplexity query (MCP or otherwise), immediately save the response usi
 | Run tests | `cd standard-model-of-code && pytest tests/ -q` |
 | AI query | `.tools_venv/bin/python context-management/tools/ai/analyze.py "<query>" --set brain` |
 | **Socratic Audit** | `python context-management/tools/ai/analyze.py --verify pipeline` |
+| **Research Schemas** | `python analyze.py --research validation_trio "query"` |
+| List schemas | `python analyze.py --list-research-schemas` |
 | Mirror to GCS | `python context-management/tools/archive/archive.py mirror` |
 | Offload large files | `python context-management/tools/archive/archive.py offload` |
 
@@ -171,6 +173,21 @@ The 24/7 AI guardian that detects drift between documentation and implementation
 - **Docs**: `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`
 - **Output**: `context-management/reports/socratic_audit_*.md`
 
+### Research Schemas
+
+Reusable patterns that orchestrate multiple ACI queries with different configurations to produce validated, multi-perspective answers.
+
+| Schema | Purpose |
+|--------|---------|
+| `validation_trio` | Cross-model verification (detect hallucinations) |
+| `depth_ladder` | Find optimal context size |
+| `adversarial_pair` | Stress-test claims (thesis vs antithesis) |
+| `forensic_investigation` | Root cause analysis |
+| `quick_validate` | Fast sanity check |
+
+- **Config**: `context-management/config/research_schemas.yaml`
+- **Docs**: `context-management/docs/RESEARCH_SCHEMAS.md`
+- **Engine**: `context-management/tools/ai/aci/research_engine.py`
 
 ## Universal Property Binder (UPB)
 
@@ -191,11 +208,13 @@ The visualization intelligence layer - many-to-many binding between data and vis
 | Understand theory | `standard-model-of-code/docs/MODEL.md` |
 | Understand tool | `standard-model-of-code/docs/COLLIDER.md` |
 | Understand UPB | `standard-model-of-code/docs/specs/UNIVERSAL_PROPERTY_BINDER.md` |
+| Understand Research Schemas | `context-management/docs/RESEARCH_SCHEMAS.md` |
 | Modify atoms | `standard-model-of-code/src/patterns/ATOMS_TIER*.yaml` |
 | Modify classifier | `standard-model-of-code/src/core/atom_classifier.py` |
 | Modify pipeline | `standard-model-of-code/src/core/full_analysis.py` |
 | Edit visualization | `standard-model-of-code/src/core/viz/assets/*` |
 | Configure AI tool | `context-management/config/analysis_sets.yaml` |
+| Configure research schemas | `context-management/config/research_schemas.yaml` |
 | Configure archive | `context-management/tools/archive/config.yaml` |
 
 ## AI Config
