@@ -384,6 +384,7 @@ TRIGGER: Manual (API quota required)
 - `adversarial_pair`: Stress-test claims (thesis vs antithesis)
 
 Docs: `context-management/docs/RESEARCH_SCHEMAS.md`
+Engine: `context-management/tools/ai/aci/schema_orchestrator.py`
 
 ---
 
