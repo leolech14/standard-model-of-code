@@ -188,9 +188,11 @@ class ElevationModel:
         loc = metrics.get('loc', 50)
         mi = metrics.get('maintainability_index', 80)
 
-        # Component contributions
+        # Component contributions (use logarithmic scaling to prevent outliers)
         cc_elev = math.log(max(1, cc / 5)) if cc > 0 else 0
-        fo_elev = max(0, (fo - 8) ** 2) / 16 if fo > 8 else 0
+        # Fan-out: use log scaling to handle high fan-out gracefully
+        # log(1 + 816) ≈ 6.7 vs old quadratic (816)^2/16 = 41616
+        fo_elev = math.log1p(max(0, fo - 8)) if fo > 8 else 0
         loc_elev = math.log(loc / 100) if loc > 100 else 0
         mi_elev = -(mi - 80) / 20
 
@@ -203,6 +205,9 @@ class ElevationModel:
         )
 
         return max(0, total + 5)  # Baseline at 5
+
+# Note: Synthetic __codome__:: nodes are excluded from elevation calculation
+# as they represent boundary callers and would skew metrics.
 ```
 
 ---
