@@ -59,6 +59,24 @@
 | OC-007 | Unused variable warnings in sidebar.js (line 818, 828) | TypeScript lint | COSMETIC | Remove unused `active` vars |
 | OC-008 | `snapshot.py` has unused FieldDelta/sample functions | Dead code | TECH_DEBT | Wire up or remove |
 
+### RESOLVED (Fixed)
+
+> ACI correctness audit (2026-01-24). Discovered by Codex, fixed by Claude.
+
+| ID | Concern | Priority | Status |
+|----|---------|----------|--------|
+| OC-011 | ACI: HYBRID tier returned by routing but had no execution path in `analyze.py` (silent fall-through to internal-only) | HIGH | FIXED (`522d9e2`) |
+| OC-012 | ACI: invalid set names emitted by semantic matching could crowd out valid sets, causing silent context loss | HIGH | FIXED (`522d9e2`) |
+| OC-013 | Perplexity membrane missing: local repo context was injected into external search query, polluting retrieval | HIGH | FIXED (`522d9e2`) |
+| OC-014 | Agent context triggers too generic ("run", "task", "confidence") → false positives | MEDIUM | FIXED (`522d9e2`) |
+| OC-015 | ACI set cap applied before sanitization + FLASH_DEEP missing sanitization → valid sets dropped | MEDIUM | FIXED (`10e4001`) |
+
+**Commits:**
+- `522d9e2`: Phase 1 ACI correctness (set sanitization, HYBRID execution, Perplexity membrane, trigger refinement)
+- `10e4001`: Pre-cap removal + FLASH_DEEP sanitization (bundled with elevation fix)
+
+**Validation:** `--tier hybrid` smoke run + set sanitization debug + pytest (354 passed)
+
 ---
 
 ## Strategic Gaps (Phase Blockers)
