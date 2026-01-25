@@ -108,7 +108,7 @@ from .refinery import (
     YamlChunker,
 )
 
-from .research_engine import (
+from .schema_orchestrator import (
     ResearchEngine,
     ResearchSchema,
     RunConfig,
