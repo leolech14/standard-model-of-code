@@ -3,8 +3,8 @@ systems:
   tdj:
     broken_until: null
     failures: 0
-    last_success: '2026-01-26T02:56:44.672586+00:00'
+    last_success: '2026-01-26T06:45:18.396478+00:00'
   trigger_engine:
     broken_until: null
     failures: 0
-    last_success: '2026-01-26T02:56:44.834379+00:00'
+    last_success: '2026-01-26T06:45:18.465029+00:00'

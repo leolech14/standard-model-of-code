@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-26T03:21:43.325630",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "What is the simplest way for a software system to describe itself using its own theory/ontology? I have a codebase analysis tool (like a 'Standard Model of Code') that classifies code into atoms, roles, layers, dimensions. I want this tool to classify ITSELF - true self-reference/dogfooding. What's the minimal architecture for a self-describing system? Looking for: 1) Computer science concepts (reflection, metacircular evaluators, bootstrapping) 2) Practical patterns (how compilers compile themselves, how type systems type themselves) 3) The absolute simplest implementation approach",
+    "query_length": 589,
+    "checksum": "sha256:a1a4589a8299a96e36e831d16593c84cc3ed3a0ad2cb81cdfb59f4dd043ed441"
+  },
+  "response": {
+    "id": "cc2280e9-aace-4718-a250-41c681abb198",
+    "model": "sonar-pro",
+    "created": 1769408503,
+    "usage": {
+      "prompt_tokens": 124,
+      "completion_tokens": 870,
+      "total_tokens": 994,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.013,
+        "request_cost": 0.006,
+        "total_cost": 0.019
+      }
+    },
+    "citations": [
+      "https://arxiv.org/html/2511.05165v1",
+      "https://www.mirkosertic.de/blog/2021/04/scs-light-and-shadow/",
+      "https://vfunction.com/blog/what-is-software-architecture/",
+      "https://dl.acm.org/doi/10.1145/3129790.3129824"
+    ],
+    "search_results": [
+      {
+        "title": "Generating Software Architecture Description from Source Code ...",
+        "url": "https://arxiv.org/html/2511.05165v1",
+        "date": "2025-11-07",
+        "last_updated": "2026-01-25",
+        "snippet": "Software Architecture Descriptions (SADs) are essential for managing the inherent complexity of modern software systems. They enable high-level ...",
+        "source": "web"
+      },
+      {
+        "title": "Self-Contained Systems: A Practical Guide to Independent Software ...",
+        "url": "https://www.mirkosertic.de/blog/2021/04/scs-light-and-shadow/",
+        "date": "2021-04-07",
+        "last_updated": "2025-11-16",
+        "snippet": "This article provides a comprehensive analysis of Self-Contained Systems (SCS) architecture, examining both its technical and organizational ...",
+        "source": "web"
+      },
+      {
+        "title": "What is Software Architecture? A Comprehensive Guide - vFunction",
+        "url": "https://vfunction.com/blog/what-is-software-architecture/",
+        "date": "2025-07-28",
+        "last_updated": "2026-01-25",
+        "snippet": "Software architecture design determines how to build a software system that satisfies functional and non-functional requirements.",
+        "source": "web"
+      },
+      {
+        "title": "A domain model for self-adaptive software systems",
+        "url": "https://dl.acm.org/doi/10.1145/3129790.3129824",
+        "last_updated": "2025-03-26",
+        "snippet": "In this paper, we address this problem by introducing a domain model for self-adaptive software systems that encompasses both levels. Our model can be used to ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "# Self-Describing Systems: Theory and Practice\n\nSelf-describing systems fundamentally require **metacircular evaluation**—where a system uses its own representation language and rules to analyze itself. This is achieved through **reflection** (the ability to inspect and reason about your own structure) combined with **bootstrapping** (using the system's own mechanisms to build itself).\n\n## Core Computer Science Concepts\n\n**Reflection and Introspection** form the foundation. A self-describing system must expose its own structure as data that can be processed by the same analysis rules it applies to external code. In your case, this means your \"Standard Model of Code\" (atoms, roles, layers, dimensions) must be expressible in the same ontology it uses to classify code. When your tool analyzes itself, it should produce atoms, roles, layers, and dimensions describing its own components.\n\n**Metacircular evaluation** is the formal concept here. A metacircular interpreter is one that is written in the language it interprets—like a Lisp interpreter written in Lisp. For your system, this means your classification tool should be classifiable by itself using identical rules. The tool's source code becomes input to its own analysis engine.\n\n**Bootstrapping** refers to the process of using a minimal version of a system to build more sophisticated versions. Compilers that compile themselves (like GCC compiling C code to compile C) work by first having a basic compiler in place, then using it to compile an improved version. Your minimal approach would start with a hand-coded or external classification of your tool's core, then use that to generate increasingly refined self-descriptions.\n\n## Practical Patterns from Self-Compiling Systems\n\nCompiler self-compilation follows this pattern:\n1. Write a compiler in language X using a different tool or language\n2. Use that compiler to compile its own source code\n3. Verify the output matches expectations (bootstrapping verification)\n\nFor type systems, languages like Haskell and Scala demonstrate **type systems typing themselves**: the type checker is itself written in a typed language and must satisfy its own type constraints. This ensures consistency—the tool cannot violate rules it enforces on others.\n\n## Minimal Architecture for Self-Reference\n\nThe simplest implementation requires three layers:\n\n**Layer 1 - Base Ontology** (hand-coded initially): Define your atoms, roles, layers, and dimensions in a language-agnostic format (e.g., JSON schema, or abstract syntax). This is your \"seed\" definition—the bootstrap point.\n\n**Layer 2 - Analysis Engine**: Write the classification logic that takes source code and produces classifications using your ontology. Keep this engine simple and modular.\n\n**Layer 3 - Self-Application**: Point the analysis engine at its own source code. The output is a self-description in your ontology. Crucially, this self-description should match (or improve upon) your initial hand-coded Layer 1 definition.\n\nThe absolute minimal approach:\n\n1. **Define your ontology formally** (atoms, roles, layers, dimensions) as structured data\n2. **Implement one classifier function** that can parse any source code and map it to your ontology\n3. **Run this function on your ontology definition itself** and on the classifier source\n4. **Compare output**: The self-generated description should be consistent with your manual understanding\n5. **Iterate**: Use the self-generated description to refine the classifier, creating a virtuous cycle\n\nThis creates true dogfooding—your tool doesn't just describe code *like* itself, it actually describes its own code using identical mechanisms.\n\n## Implementation Considerations\n\nStart with a single, pure function: `classify(source_code) → description_in_ontology`. This function:\n- Takes source as input (whether external code or your own classifier)\n- Produces a structured output conforming to your ontology\n- Contains no special cases for \"self\" vs. \"other\" code\n\nIf your classifier can analyze Python and you write it in Python, applying it to itself is trivial. If it's written in a different language, you'll need a parser for that language as well.\n\nThe key insight: **avoid dual standards**. Don't have one set of rules for analyzing other code and another for analyzing yourself. Single, unified rules are what make self-description meaningful and testable."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}
