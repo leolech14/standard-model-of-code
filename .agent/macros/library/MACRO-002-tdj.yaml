@@ -38,11 +38,13 @@ tags:
 # =============================================================================
 
 trigger:
-  type: "schedule"
-  schedule: "0 6 * * *"  # Daily at 6 AM (aligns with HSL audit)
+  type: "on-demand"
+  schedule: "0 6 * * *"  # Optional daily refresh at 6 AM
 
-  # Event-based updates handled by drift_guard.py calling tdj.py --scan
-  # Do NOT run separate watchdog (AM001 violation risk)
+  # TDJ is ON-DEMAND - NOT run on every commit
+  # Why: 11ms generation time = instant when needed, no pre-computation required
+  # Manual: python context-management/tools/maintenance/tdj.py --scan
+  # Queries work on whatever data exists (stale is fine for temporal queries)
 
 # =============================================================================
 # PRECONDITIONS
@@ -92,7 +94,7 @@ steps:
         python3 context-management/tools/maintenance/tdj.py --scan
     output_var: "scan_result"
     on_failure: "stop"
-    expect: "Scan complete"
+    # Note: Use --quiet for silent operation in automation
 
   # --- STEP 2: Verify output ---
   - id: "verify_output"

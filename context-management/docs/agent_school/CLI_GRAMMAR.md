@@ -103,7 +103,12 @@ When uncertain which tool to use, describe what you want. Pattern matching resol
 
 ### Temporal Queries
 
+TDJ (Timestamp Daily Journal) is **on-demand** - generates in 11ms when needed.
+
 ```bash
+# Regenerate index (only if queries return stale data)
+./pe tdj scan
+
 # Recent files
 ./pe tdj recent 7
 

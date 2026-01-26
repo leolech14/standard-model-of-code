@@ -3,10 +3,12 @@
 # AUTOPILOT: Self-running repository orchestrator with circuit breakers
 #
 # This hook delegates to autopilot.py which handles:
-#   - TDJ (Timestamp Daily Journal) - temporal index update
-#   - Trigger Engine - macro execution
+#   - Trigger Engine - macro execution on commit patterns
 #   - Graceful degradation if systems fail
 #   - Circuit breakers to prevent cascade failures
+#
+# NOTE: TDJ (Timestamp Daily Journal) is ON-DEMAND only, not post-commit.
+#       Run manually: python context-management/tools/maintenance/tdj.py --scan
 #
 # To disable: .agent/tools/autopilot.py disable
 # To check status: .agent/tools/autopilot.py status
