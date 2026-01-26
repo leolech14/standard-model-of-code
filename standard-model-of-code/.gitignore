@@ -95,3 +95,4 @@ output.md/
 .collider_*/
 *.backup
 
+uv.lock
