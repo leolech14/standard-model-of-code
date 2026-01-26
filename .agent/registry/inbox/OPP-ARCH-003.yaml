@@ -1,0 +1,68 @@
+# Opportunity: Organize .agent/tools/ Directory
+id: OPP-ARCH-003
+title: "Organize 47 flat tools into logical subdirectories"
+status: pending
+priority: P1
+effort: M
+impact: MEDIUM
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  evidence:
+    - "47 files in flat directory"
+    - "21 task-related tools"
+    - "7 deck/card-related tools"
+    - "4 macro-related tools"
+    - "4 LOL-related tools"
+
+problem: |
+  .agent/tools/ has 47 files with no organization.
+  Hard to find related tools. No grouping by purpose.
+  Contrast with ACI module which is well-organized.
+
+current_structure: |
+  .agent/tools/
+  ├── 47 files (flat)
+  └── utils/ (only output_formatters.py)
+
+proposed_structure: |
+  .agent/tools/
+  ├── task/           # 21 task-related tools
+  │   ├── triage_inbox.py
+  │   ├── add_task_steps.py
+  │   ├── batch_promote.py
+  │   └── ...
+  ├── deck/           # 7 deck/card tools
+  │   ├── deal_cards.py
+  │   ├── deal_cards_ui.py
+  │   ├── play_card.py
+  │   └── ...
+  ├── macro/          # 4 macro tools
+  │   ├── macro_executor.py
+  │   ├── opp_generator.py
+  │   └── trigger_engine.py
+  ├── lol/            # 4 LOL tools
+  │   ├── lol_sync.py
+  │   ├── lol_unify.py
+  │   └── validate_lol.py
+  ├── utils/          # Shared utilities
+  │   ├── yaml_utils.py
+  │   └── output_formatters.py
+  └── standalone/     # Misc standalone tools
+      ├── autopilot.py
+      ├── concierge.py
+      └── ...
+
+solution: |
+  1. Create subdirectories: task/, deck/, macro/, lol/, standalone/
+  2. Move files to appropriate directories
+  3. Update any import statements
+  4. Update documentation references
+
+acceptance_criteria:
+  - No more than 10 files in root .agent/tools/
+  - Each subdirectory has related tools
+  - All imports still work
+  - All tools still executable
+
+tags: [organization, structure, maintainability]

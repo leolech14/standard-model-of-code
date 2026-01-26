@@ -1,0 +1,47 @@
+# Opportunity: Create Shared YAML Utilities
+id: OPP-ARCH-002
+title: "Create shared yaml_utils.py to eliminate 8x duplication"
+status: pending
+priority: P1
+effort: S
+impact: HIGH
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  evidence:
+    - "load_yaml() defined in 8 files"
+    - "save_yaml() defined in 8 files"
+    - "3 different YAML libraries used (yaml, pyyaml, ruamel.yaml)"
+
+problem: |
+  8 different files in .agent/tools/ each define their own load_yaml() and save_yaml().
+  No shared utilities exist. Each tool reinvents basic functions.
+  Inconsistent YAML handling across codebase.
+
+affected_files:
+  - .agent/tools/triage_inbox.py
+  - .agent/tools/autopilot.py
+  - .agent/tools/update_task_hierarchy.py
+  - .agent/tools/opp_generator.py
+  - .agent/tools/macro_executor.py
+  - .agent/tools/add_task_steps.py
+  - .agent/tools/batch_promote.py
+  - .agent/tools/trigger_engine.py
+
+solution: |
+  1. Create .agent/tools/utils/yaml_utils.py with:
+     - load_yaml(path) -> dict
+     - save_yaml(path, data) -> None
+     - Standardize on pyyaml (most common)
+
+  2. Update all 8 files to import from yaml_utils
+
+  3. Delete local definitions
+
+acceptance_criteria:
+  - yaml_utils.py exists with load_yaml and save_yaml
+  - All 8 files import from yaml_utils
+  - No local load_yaml/save_yaml definitions remain
+  - All tests pass
+
+tags: [duplication, utilities, refactor]

@@ -37,9 +37,11 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/deck/CARD-WLD-000.yaml,.yaml,observer,config,N/A,1786,2026-01-23T15:14:34.487610,e765a25f,tracked
 .agent/deck/DEPRECATED.md,.md,observer,doc,N/A,845,2026-01-26T01:21:22.704890,0f99a852,tracked
 .agent/docs/CONSOLIDATION_REPORT.md,.md,observer,doc,N/A,11478,2026-01-25T20:41:44.228540,1c63f7e2,tracked
+.agent/emergency/BACKGROUND-SERVICES-EMERGENCY-MAP.md,.md,observer,doc,N/A,16022,2026-01-26T03:57:15.199235,56b09c1c,new
 .agent/emergency/OBSERVER-GOVERNANCE-EMERGENCY-MAP.md,.md,observer,doc,N/A,20466,2026-01-26T03:47:19.210995,11ed222a,tracked
 .agent/emergency/PARTICLE-COLLIDER-EMERGENCY-MAP.md,.md,observer,doc,N/A,14730,2026-01-26T03:47:17.016572,0b5efbf0,tracked
-.agent/emergency/SYSTEM-CRYSTALLIZATION-INDEX.md,.md,observer,doc,N/A,16844,2026-01-26T03:48:34.430742,6303affd,tracked
+.agent/emergency/PURPOSE-COUNTER-ENGINEERING-ANALYSIS.md,.md,observer,doc,N/A,16385,2026-01-26T04:03:37.079659,3e54885c,new
+.agent/emergency/SYSTEM-CRYSTALLIZATION-INDEX.md,.md,observer,doc,N/A,16987,2026-01-26T03:57:50.043910,176df2f1,modified
 .agent/emergency/WAVE-AI-SUBSYSTEM-EMERGENCY-MAP.md,.md,observer,doc,N/A,13136,2026-01-26T03:39:39.760824,6358fd8e,tracked
 .agent/handoffs/HANDOFF_2026-01-26_PURPOSE_FIELD_SESSION.md,.md,observer,doc,N/A,8396,2026-01-26T03:21:11.729272,11974a86,tracked
 .agent/hooks/README.md,.md,observer,tool,D,1286,2026-01-25T23:52:57.196294,21ee7e13,tracked
@@ -47,12 +49,12 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/intelligence/AI_ENRICHMENT_CHALLENGE_REPORT.md,.md,observer,doc,N/A,5594,2026-01-23T08:44:43.295028,8215c5fd,tracked
 .agent/intelligence/EVOLUTION_PLAN.md,.md,observer,doc,N/A,6315,2026-01-26T03:38:15.729156,72336177,tracked
 .agent/intelligence/LEGACY_SPRAWL_MAP.md,.md,observer,doc,N/A,5923,2026-01-23T08:27:18.542517,c76a00f8,tracked
-.agent/intelligence/LOL.csv,.csv,observer,data,N/A,372044,2026-01-26T03:53:11.139055,7a33069d,modified
+.agent/intelligence/LOL.csv,.csv,observer,data,N/A,372046,2026-01-26T04:03:48.169002,45f6076e,modified
 .agent/intelligence/LOL.yaml,.yaml,observer,config,N/A,71695,2026-01-26T03:12:49.786500,626aeeb3,tracked
 .agent/intelligence/LOL_FORMAL_DEFINITION.md,.md,observer,doc,N/A,5348,2026-01-26T03:28:54.533199,3eb78de3,tracked
 .agent/intelligence/LOL_INBOX.csv,.csv,observer,data,N/A,702,2026-01-26T03:50:42.937129,8730fa0d,tracked
-.agent/intelligence/LOL_SMOC.csv,.csv,observer,data,N/A,479988,2026-01-26T03:50:43.949683,182f24cd,tracked
-.agent/intelligence/LOL_UNIFIED.csv,.csv,observer,data,N/A,673523,2026-01-26T03:50:44.210028,bb4d2a9a,tracked
+.agent/intelligence/LOL_SMOC.csv,.csv,observer,data,N/A,479988,2026-01-26T04:03:48.169481,182f24cd,tracked
+.agent/intelligence/LOL_UNIFIED.csv,.csv,observer,data,N/A,673523,2026-01-26T04:03:48.170132,bb4d2a9a,tracked
 .agent/intelligence/PRIORITY_MATRIX.md,.md,observer,doc,N/A,6941,2026-01-25T20:41:44.228842,2057ec28,tracked
 .agent/intelligence/REPO_HISTORY.jsonl,.jsonl,observer,data,N/A,9449487,2026-01-26T03:35:11.435840,854af48a,tracked
 .agent/intelligence/SELF_PORTRAIT.md,.md,observer,doc,N/A,9095,2026-01-25T20:41:44.229018,507c74ad,tracked
@@ -63,7 +65,7 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/intelligence/WAVE_PARTICLE_BALANCE.md,.md,observer,doc,N/A,5176,2026-01-23T18:56:02.506180,7d67f690,tracked
 .agent/intelligence/aci_feedback.yaml,.yaml,observer,config,N/A,7560,2026-01-25T20:41:44.229419,739498f6,tracked
 .agent/intelligence/autopilot_logs/autopilot_20260125.jsonl,.jsonl,observer,data,N/A,4517,2026-01-26T00:03:27.675593,91174011,tracked
-.agent/intelligence/autopilot_logs/autopilot_20260126.jsonl,.jsonl,observer,data,N/A,48102,2026-01-26T03:50:35.784032,6044f704,tracked
+.agent/intelligence/autopilot_logs/autopilot_20260126.jsonl,.jsonl,observer,data,N/A,50127,2026-01-26T04:06:17.903218,adee6d46,modified
 .agent/intelligence/boundary_analysis.json,.json,observer,data,N/A,14612,2026-01-26T02:32:13.457527,7d582596,tracked
 .agent/intelligence/centripetal_scan_log.txt,.txt,observer,data,N/A,11315,2026-01-23T16:18:19.995224,d7198450,tracked
 .agent/intelligence/centripetal_scans/20260123_161810_SUMMARY.md,.md,observer,data,N/A,1880,2026-01-23T16:18:19.995098,a1643154,tracked
@@ -96,7 +98,7 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/intelligence/session_summary_20260123_phase10_survey_cci.md,.md,observer,doc,N/A,19523,2026-01-23T11:42:01.977591,ead0b0e6,tracked
 .agent/intelligence/sos_map_compact.yaml,.yaml,observer,config,N/A,5100,2026-01-24T21:37:19.658883,e855021c,tracked
 .agent/intelligence/subsystem_map.html,.html,observer,data,N/A,42160,2026-01-24T21:30:15.468892,ce57db4a,tracked
-.agent/intelligence/tdj.jsonl,.jsonl,observer,data,N/A,7305840,2026-01-26T03:53:11.978224,678e7967,modified
+.agent/intelligence/tdj.jsonl,.jsonl,observer,data,N/A,1058716,2026-01-26T04:06:17.823906,74533d1a,modified
 .agent/intelligence/triage_reports/20260123_141045_triage.json,.json,observer,data,N/A,22703,2026-01-25T23:18:31.376546,2981fa1d,tracked
 .agent/intelligence/triage_reports/20260123_141124_triage.json,.json,observer,data,N/A,22703,2026-01-25T23:18:31.376662,7adcba96,tracked
 .agent/intelligence/triage_reports/20260123_141133_triage.json,.json,observer,data,N/A,8681,2026-01-25T23:18:31.376780,9a0f6971,tracked
@@ -112,7 +114,7 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/macros/library/MACRO-001-skeptical-audit.yaml,.yaml,observer,config,N/A,8983,2026-01-26T00:15:54.706546,d5200183,tracked
 .agent/macros/library/MACRO-002-tdj.yaml,.yaml,observer,config,N/A,5603,2026-01-25T23:15:10.432712,6bbe1416,tracked
 .agent/macros/schema/macro.schema.yaml,.yaml,observer,schema,N/A,5854,2026-01-25T22:13:16.906932,ec1570a9,tracked
-.agent/macros/trigger_state.yaml,.yaml,observer,config,N/A,138,2026-01-26T03:50:35.776990,3f88b17e,tracked
+.agent/macros/trigger_state.yaml,.yaml,observer,config,N/A,138,2026-01-26T04:06:17.896453,0c6fef73,modified
 .agent/manifest.yaml,.yaml,observer,config,N/A,2563,2026-01-25T03:36:00.414488,f64b84bb,tracked
 .agent/registry/INDEX.md,.md,observer,doc,N/A,6833,2026-01-26T00:03:27.676033,52aec357,tracked
 .agent/registry/METRICS.md,.md,observer,doc,N/A,2768,2026-01-25T02:48:22.433641,af5f4ea3,tracked
@@ -228,7 +230,7 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/sprints/SPRINT-002.yaml,.yaml,observer,config,N/A,3471,2026-01-24T16:49:07.836858,8f1b36fb,tracked
 .agent/sprints/SPRINT-003.yaml,.yaml,observer,config,N/A,4126,2026-01-24T03:27:41.536589,3da869ad,tracked
 .agent/state/autopilot_state.yaml,.yaml,observer,config,N/A,126,2026-01-25T23:52:20.186497,d8e7a50a,tracked
-.agent/state/circuit_breakers.yaml,.yaml,observer,config,N/A,234,2026-01-26T03:50:35.783841,9b24606b,tracked
+.agent/state/circuit_breakers.yaml,.yaml,observer,config,N/A,234,2026-01-26T04:06:17.903051,bceb245c,modified
 .agent/state/meters.yaml,.yaml,observer,config,N/A,58,2026-01-26T02:23:00.296538,37c2acea,tracked
 .agent/state/play_log.yaml,.yaml,observer,config,N/A,318,2026-01-26T01:42:49.119800,19ca5023,tracked
 .agent/state/session.yaml,.yaml,observer,config,N/A,738,2026-01-25T03:22:37.518397,8c5f8d80,tracked
@@ -277,7 +279,7 @@ path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
 .agent/tools/validate_lol.py,.py,observer,tool,D,10906,2026-01-26T01:52:11.435616,80f13699,tracked
 .agent/tools/validate_manifest.py,.py,observer,tool,D,6767,2026-01-23T15:30:04.214023,a301b11f,tracked
 .agent/tools/wave_particle_balance.py,.py,observer,tool,D,6291,2026-01-23T18:30:46.719150,d458ec2a,tracked
-.agent/tools/wire.py,.py,observer,tool,D,13404,2026-01-26T03:53:21.904629,3293803a,modified
+.agent/tools/wire.py,.py,observer,tool,D,13404,2026-01-26T04:03:48.171085,3293803a,tracked
 .claude/rules/body.md,.md,meta,doc,N/A,684,2026-01-23T06:16:19.742360,95bec06c,tracked
 .claude/rules/brain.md,.md,meta,doc,N/A,1075,2026-01-23T08:53:52.643349,f257720c,tracked
 .claude/settings.local.json,.json,meta,config,N/A,67,2026-01-23T13:59:16.165527,88c0f132,tracked
@@ -643,6 +645,7 @@ context-management/intelligence/socratic_audit_pipeline_20260125_232255.json,.js
 context-management/intelligence/socratic_audit_pipeline_20260125_235818.json,.json,wave,data,N/A,16803,2026-01-25T23:58:18.589101,699a722e,tracked
 context-management/intelligence/socratic_audit_pipeline_20260126_004300.json,.json,wave,data,N/A,16674,2026-01-26T00:43:00.857750,429be332,tracked
 context-management/intelligence/socratic_audit_pipeline_20260126_012849.json,.json,wave,data,N/A,16299,2026-01-26T01:28:49.816244,362e0186,tracked
+context-management/intelligence/socratic_audit_pipeline_20260126_035812.json,.json,wave,data,N/A,14365,2026-01-26T03:58:12.107298,480ce3fe,new
 context-management/intelligence/socratic_audit_theory_20260123_073613.json,.json,wave,data,N/A,5522,2026-01-25T23:18:31.505496,4bd56dee,tracked
 context-management/intelligence/state/live.yaml,.yaml,wave,config,N/A,1536,2026-01-24T03:34:52.948428,b4b8c5b2,tracked
 context-management/output/analysis_sets_report.md,.md,wave,doc,N/A,2609,2026-01-19T02:11:12.690457,2b25de8d,tracked
@@ -656,7 +659,7 @@ context-management/registry/REGISTRY.json,.json,wave,data,N/A,1271492,2026-01-26
 context-management/registry/REGISTRY_REPORT.md,.md,wave,doc,N/A,35834,2026-01-26T00:03:43.369428,9cebf5ab,tracked
 context-management/reports/context_bubble_analysis.html,.html,wave,data,N/A,13844,2026-01-22T13:21:04.552837,ea788a2a,tracked
 context-management/reports/gemini_onboarding_context.md,.md,wave,doc,N/A,3950,2026-01-21T05:11:15.234577,4e202495,tracked
-context-management/reports/socratic_audit_latest.md,.md,wave,doc,N/A,9634,2026-01-26T02:32:15.412368,64af6922,tracked
+context-management/reports/socratic_audit_latest.md,.md,wave,doc,N/A,7316,2026-01-26T04:05:30.312403,5a0b9c38,modified
 context-management/tests/test_aci_caching.py,.py,wave,test,N/A,5100,2026-01-25T03:34:06.106373,b7d4a332,tracked
 context-management/tools/activity_watcher.py,.py,wave,tool,D,7266,2026-01-23T18:08:12.540271,155fd97c,tracked
 context-management/tools/ai/aci/__init__.py,.py,wave,tool,D,5080,2026-01-25T23:18:31.514829,05a36dcc,tracked
@@ -763,7 +766,7 @@ evolution_report/evolution_timeline.html,.html,particle,data,N/A,11943,2026-01-2
 flash-ui (1).zip,.zip,meta,data,N/A,87126,2026-01-25T04:50:49.034576,af757bea,tracked
 html-asset.html,.html,meta,source,N/A,22998,2026-01-25T23:18:31.517771,4b94a627,tracked
 orphans_report.md,.md,meta,doc,N/A,17428,2026-01-25T23:18:31.517905,6f6f8e57,tracked
-pe,,meta,tool,D,10703,2026-01-26T03:52:54.150784,0dbaeeaa,tracked
+pe,,meta,tool,D,10703,2026-01-26T04:03:48.171235,0dbaeeaa,tracked
 project_elements_file_timestamps.csv,.csv,meta,data,N/A,7519670,2026-01-26T02:23:00.299161,195cffbf,tracked
 related/chrome-mcp/.DS_Store,,meta,data,N/A,6148,2025-12-06T01:41:58.711757,95429698,tracked
 related/chrome-mcp/README.md,.md,meta,doc,N/A,5847,2026-01-25T23:18:31.529450,2e21c738,tracked
@@ -2147,7 +2150,7 @@ standard-model-of-code/src/core/queries/typescript/roles.scm,.scm,particle,schem
 standard-model-of-code/src/core/queries/typescript/symbols.scm,.scm,particle,schema,N/A,1240,2026-01-21T19:13:53.068817,121addbe,tracked
 standard-model-of-code/src/core/registry/__init__.py,.py,particle,source,N/A,991,2026-01-26T01:34:20.718575,e33ac144,tracked
 standard-model-of-code/src/core/registry/pattern_registry.py,.py,particle,source,N/A,27558,2026-01-26T01:35:52.956012,0f67ba61,tracked
-standard-model-of-code/src/core/registry/registry_of_registries.py,.py,particle,source,N/A,4355,2026-01-26T01:35:53.304964,f2934b26,tracked
+standard-model-of-code/src/core/registry/registry_of_registries.py,.py,particle,source,N/A,4349,2026-01-26T04:03:48.171320,512ffb66,modified
 standard-model-of-code/src/core/registry/role_registry.py,.py,particle,source,N/A,7392,2026-01-20T19:52:27.399043,00e9ee58,tracked
 standard-model-of-code/src/core/registry/schema_registry.py,.py,particle,source,N/A,17298,2026-01-25T23:18:32.858826,d086d7da,tracked
 standard-model-of-code/src/core/registry/schema_repository.py,.py,particle,source,N/A,17326,2026-01-25T23:18:32.858960,1998d0be,tracked

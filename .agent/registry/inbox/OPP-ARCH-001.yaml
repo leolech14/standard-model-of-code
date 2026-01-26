@@ -1,0 +1,31 @@
+# Opportunity: Fix Duplicate SocraticValidator
+id: OPP-ARCH-001
+title: "Delete duplicate SocraticValidator class definition"
+status: pending
+priority: P0
+effort: XS
+impact: HIGH
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  file: "context-management/tools/ai/analyze.py"
+  evidence:
+    - "Line 1668: class SocraticValidator (first definition)"
+    - "Line 1995: class SocraticValidator (exact duplicate)"
+
+problem: |
+  The same class is defined twice in analyze.py.
+  Python uses the second definition, making lines 1668-1770 dead code.
+  This causes confusion and increases file size unnecessarily.
+
+solution: |
+  Delete lines 1668-1770 (the first SocraticValidator definition).
+  Keep lines 1995-2070 (the second definition that Python actually uses).
+  Run tests to verify no breakage.
+
+acceptance_criteria:
+  - Only one SocraticValidator class exists in analyze.py
+  - grep -n "class SocraticValidator" returns exactly 1 result
+  - All tests pass
+
+tags: [dead-code, duplicate, critical, quick-win]
