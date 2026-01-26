@@ -1513,15 +1513,192 @@ WHERE:
 
 ---
 
+## 14. OBSERVABILITY (Peircean Triad)
+
+### Complete Observability Axiom
+
+```
+AXIOM G (Observability Completeness):
+
+For a system S with PROJECTOME P = C ⊔ X:
+
+COMPLETE_OBSERVABILITY(S) ⟺
+  ∃ structural_observer : P → Manifest        ∧  [POM]
+  ∃ operational_observer : Pipeline → Metrics  ∧  [observability.py]
+  ∃ generative_observer : Dialogue → Trace        [observe_session.py]
+
+Absence of any observer leaves S partially blind.
+```
+
+### Peircean Mapping
+
+```
+PEIRCE CATEGORY          OBSERVER             CAPTURES
+───────────────────────────────────────────────────────────
+FIRSTNESS (potential)    (implicit in atoms)  Quality/possibility
+SECONDNESS (actual)      observability.py     Brute facts (latency, memory)
+THIRDNESS (interpretant) POM                  Mediated relationships
+TRIADIC CYCLE            observe_session.py   Interpretation in action
+```
+
+### Two Orthogonal Hierarchies
+
+```
+CRITICAL: Tarski and Scale are ORTHOGONAL axes.
+
+                         TARSKI HIERARCHY (Meta-level)
+                         L₀ Code    L₁ Meta    L₂ Theory
+    ┌───────────────────┼──────────┼──────────┼───────────
+S   │ L₁₂ Universe      │          │          │
+C   │ ...               │          │   POM spans this region
+A   │ L₃  Node          │ CODOME   │          │
+L   │ ...               │ entities │ observe_ │
+E   │ L₋₃ Bit           │          │ ability  │
+    └───────────────────┴──────────┴──────────┴───────────
+
+Observers span MULTIPLE scale levels at SINGLE Tarski level.
+```
+
+### Drift Detection
+
+```
+DRIFT EQUATION:
+  Δ𝒫(t) = 𝒫_human(t) - 𝒫_code(t)
+
+OBSERVABLE VIA:
+  𝒫_human(t) ← observe_session.py (session logs)
+  𝒫_code(t)  ← POM (manifest)
+
+Session logs = FOSSIL RECORD of 𝒫_human(t)
+POM = What SURVIVED crystallization
+Difference = Technical debt
+```
+
+---
+
+## 15. CONSUMER CLASSES (AI-Native)
+
+### Three Consumer Classes
+
+```
+AXIOM H1 (Consumer Partition):
+
+CONSUMER = { END_USER, DEVELOPER, AI_AGENT }
+
+WHERE:
+  END_USER   = Human using software product (needs UI)
+  DEVELOPER  = Human building/maintaining (needs clarity)
+  AI_AGENT   = Non-human consuming/operating (needs structure)
+
+This partition emerged circa 2023.
+```
+
+### Universal Consumer Property
+
+```
+AXIOM H2 (Universal Consumer):
+
+AI_AGENT ∈ Consumer(L₀) ∩ Consumer(L₁) ∩ Consumer(L₂)
+
+AI_AGENT consumes ALL Tarski levels.
+AI_AGENT is the UNIVERSAL consumer.
+```
+
+### Mediation Principle
+
+```
+AXIOM H3 (Optimization Target):
+
+OPTIMAL_DESIGN: Optimize for AI_AGENT consumption.
+AI_AGENT mediates for END_USER and DEVELOPER.
+
+Human interface = Natural language (L₁)
+Machine interface = Structured data (L₀, L₂)
+```
+
+### Stone Tool Principle
+
+```
+AXIOM H4 (Ergonomics Shift):
+
+Tools MAY be designed that humans cannot directly use.
+
+STONE_TOOL_TEST(tool) = "Can human use without AI mediation?"
+If FALSE → AI-native tool (valid design)
+
+Stone tools: Shaped for human HAND (grip, balance)
+AI-age tools: Shaped for AI "HAND" (parseability, typing)
+```
+
+### Collaboration Level Theorem
+
+```
+AXIOM H5 (Interface Level):
+
+Human-AI collaboration occurs at L₁ (CONTEXTOME).
+
+HUMAN operates: L₁ (natural language, intent)
+AI operates:    L₀ (code), L₂ (tools)
+AI bridges:     L₁ ↔ L₀, L₁ ↔ L₂
+
+Programming = CONTEXTOME curation at L₁
+Senior Engineer = Best at CONTEXT ENGINEERING
+```
+
+### The AMNESIAC State
+
+```
+NEW SYMMETRY STATE (AI-assisted failure mode):
+
+| State     | Code | Docs | Human Memory | Description |
+|-----------|------|------|--------------|-------------|
+| SYMMETRIC | ✓    | ✓    | ✓            | Healthy     |
+| ORPHAN    | ✓    | ✗    | ?            | No docs     |
+| PHANTOM   | ✗    | ✓    | ?            | No impl     |
+| DRIFT     | ✓    | ✓    | ?            | Disagree    |
+| AMNESIAC  | ✓    | ✓    | ✗            | NEW: Code + logs exist, no structural memory |
+
+AMNESIAC = Code exists ∧ Intent recorded ∧ Human has no structural knowledge
+
+Human remembers: "I asked for authentication"
+Human doesn't know: auth.py, UserModel, validate_token() exist
+
+Inverts traditional developer problem:
+  - Developer: Knows code, forgets to document (ORPHAN)
+  - AI-assisted: Knows intent, doesn't know code (AMNESIAC)
+```
+
+### Industry Validation
+
+```
+EMPIRICAL EVIDENCE (2025-2026):
+
+Google Agentic Infrastructure:
+  - ADK (Agent Development Kit): Frameworks for AI agents
+  - A2A (Agent-to-Agent): Communication protocols
+  - AP2 (Agent Payments Protocol): $60B+ financial rails
+
+Partners: Microsoft, SAP, Mastercard, Amex, PayPal
+
+VERDICT: Production infrastructure exists for AI_AGENT consumers.
+This is not theoretical. Industry has validated Axiom Group H.
+```
+
+---
+
 ## SEE ALSO
 
 - `GLOSSARY.md` — Term definitions
 - `TOPOLOGY_MAP.md` — Navigation guide
 - `MODEL.md` — Full theory
 - `PROJECTOME.md` — Universe definition
+- `specs/OBSERVABILITY_TRIAD.md` — Full Axiom G specification
+- `specs/AI_CONSUMER_CLASS.md` — Full Axiom H specification
+- `theory/THEORY_AXIOMS.md` — Formal axiom statements
 
 ---
 
 *Created: 2026-01-25*
-*Framework: Set theory + Graph theory + Category theory + Lattice theory*
+*Updated: 2026-01-26 (Added Axiom Groups G and H)*
+*Framework: Set theory + Graph theory + Category theory + Lattice theory + Semiotics*
 *Status: Formal specification for PROJECT_elements codespace*

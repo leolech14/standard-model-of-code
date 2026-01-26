@@ -704,11 +704,13 @@ NECESSARY, not merely useful. The proof uses Lawvere's Fixed-Point Theorem...
 
 ### SMoC Internal References
 
-- `CODESPACE_ALGEBRA.md` - Mathematical representation
+- `CODESPACE_ALGEBRA.md` - Mathematical representation (includes Axiom Groups G & H)
 - `THEORY.md` - Main theory document
-- `THEORY_AXIOMS.md` - Formal axiom extraction
-- `GLOSSARY.md` - Term definitions
+- `THEORY_AXIOMS.md` - Formal axiom extraction (all axiom groups A-H)
+- `GLOSSARY.md` - Term definitions (includes AMNESIAC state, Consumer Classes)
 - `TOPOLOGY_MAP.md` - Navigation guide
+- `specs/OBSERVABILITY_TRIAD.md` - Axiom Group G (Peircean observability)
+- `specs/AI_CONSUMER_CLASS.md` - Axiom Group H (Third consumer class)
 
 ---
 
@@ -721,6 +723,7 @@ NECESSARY, not merely useful. The proof uses Lawvere's Fixed-Point Theorem...
 | 2026-01-25 | Added Pairing Axiom and Duality sections |
 | 2026-01-25 | Added novelty assessment |
 | 2026-01-25 | Expanded to comprehensive documentation |
+| 2026-01-26 | Added references to Axiom Groups G and H |
 
 ---
 
