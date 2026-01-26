@@ -281,16 +281,35 @@ entries:
   fallback_used: false
   duration_ms: 6608
   error: null
+- timestamp: '2026-01-26T07:44:03.828372+00:00'
+  query: 'Validate the architecture opportunities. For each opportunity: 1) Is the
+    problem statement accurate? 2) Is the solution feasible? 3) Are dependencies correct?
+    4) Priority appropriate?'
+  intent: validate
+  complexity: complex
+  scope: internal
+  tier: long_context
+  sets_used:
+  - constraints
+  - research_validation
+  - tests
+  tokens_input: 3765
+  tokens_output: 1435
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 37288
+  error: null
 stats:
-  total_queries: 14
+  total_queries: 15
   by_tier:
     perplexity: 8
-    long_context: 6
+    long_context: 7
   by_intent:
     research: 2
     architecture: 7
     unknown: 1
-    validate: 3
+    validate: 4
     explain: 1
   success_rate: 1.0
-  avg_tokens: 39530
+  avg_tokens: 37145
