@@ -50,7 +50,13 @@ acceptance_criteria:
   - Each tool has purpose statement
   - Registry linked from LOL.yaml
 
-related_opportunities:
-  - OPP-ARCH-003  # Organizing tools into subdirs by subsystem
+blocks:
+  - OPP-ARCH-003  # Must complete mapping BEFORE reorganizing directories
 
-tags: [documentation, inventory, organization]
+validation_notes: |
+  AI Validation (2026-01-26) flagged:
+  - This should happen BEFORE OPP-ARCH-003 (directory reorganization)
+  - Cannot effectively move files without knowing which subsystem owns each
+  - Informs the directory structure decisions
+
+tags: [documentation, inventory, organization, prerequisite]

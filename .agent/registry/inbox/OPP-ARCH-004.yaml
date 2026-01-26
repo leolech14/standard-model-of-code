@@ -24,17 +24,28 @@ current_state: |
   Pattern 3: from ruamel.yaml import YAML (8 files)
 
 solution: |
-  1. Standardize on pyyaml (most common, pure Python)
+  1. FIRST: Audit which files need comment preservation:
+     - Check if any tool round-trips YAML (load → modify → save)
+     - Check if those files are human-edited configs
+     - If comments must be preserved: use ruamel.yaml as standard
+     - If not: use pyyaml (simpler, more common)
   2. Create shared yaml_utils.py (see OPP-ARCH-002)
-  3. Update all files to use standard import pattern
-  4. Document when ruamel.yaml is actually needed (preserving comments)
+  3. Implement both load_yaml and load_yaml_preserve_comments if needed
+  4. Update all files to use standard import pattern
 
 acceptance_criteria:
   - All files use same YAML library
   - Standard import pattern: "from .utils.yaml_utils import load_yaml, save_yaml"
-  - Document exceptions where ruamel is required
+  - Document exceptions where comment preservation is required
+  - No loss of YAML comments in human-facing config files
 
 dependencies:
   - OPP-ARCH-002  # yaml_utils.py must exist first
+
+validation_notes: |
+  AI Validation (2026-01-26) flagged:
+  - ruamel.yaml preserves comments during round-trip editing
+  - pyyaml strips comments - may destroy user annotations
+  - Must audit comment preservation needs BEFORE choosing library
 
 tags: [standardization, libraries, consistency]

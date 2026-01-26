@@ -54,15 +54,29 @@ proposed_structure: |
       └── ...
 
 solution: |
-  1. Create subdirectories: task/, deck/, macro/, lol/, standalone/
-  2. Move files to appropriate directories
-  3. Update any import statements
-  4. Update documentation references
+  1. FIRST: Complete OPP-ARCH-008 (tool mapping) to know where each file belongs
+  2. Grep codebase and shell scripts for references to moved files:
+     - grep -r ".agent/tools/" --include="*.sh" --include="*.yaml"
+     - Check CI/CD configs (.github/workflows, Makefile, etc.)
+  3. Create subdirectories: task/, deck/, macro/, lol/, standalone/
+  4. Move files to appropriate directories (based on TOOL_REGISTRY.yaml)
+  5. Update any import statements
+  6. Update documentation and shell script references
 
 acceptance_criteria:
   - No more than 10 files in root .agent/tools/
   - Each subdirectory has related tools
   - All imports still work
   - All tools still executable
+  - All shell scripts updated to use new paths
+
+dependencies:
+  - OPP-ARCH-008  # Must map tools to subsystems BEFORE moving them
+
+validation_notes: |
+  AI Validation (2026-01-26) flagged:
+  - Risk of breaking shell scripts/CI that invoke tools directly
+  - Must grep for path references before moving
+  - Need OPP-ARCH-008 completed first to inform directory structure
 
 tags: [organization, structure, maintainability]
