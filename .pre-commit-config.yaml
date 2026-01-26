@@ -52,11 +52,11 @@ repos:
     hooks:
       - id: ui-control-registry
         name: UI Control Registry Validation
-        entry: python standard-model-of-code/tools/validate_control_registry.py --audit
+        entry: python3 standard-model-of-code/tools/validate_control_registry.py --audit
         language: system
         files: template\.html$
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
 
   # ===========================================
   # Prevent Secrets from Being Committed
