@@ -410,3 +410,107 @@
     (return_statement
       (identifier) @_self
       (#eq? @_self "self"))))
+
+; -- PREDICATE --
+;    Boolean-returning functions
+
+; Predicate function (is_*, has_*, can_*, should_*)
+(function_definition
+  name: (identifier) @role.predicate.function
+  (#match? @role.predicate.function "^(is_|has_|can_|should_|matches|contains|exists)"))
+
+; -- REPORTER --
+;    Output/display functions
+
+; Print/report functions
+(function_definition
+  name: (identifier) @role.reporter.function
+  (#match? @role.reporter.function "^(print|report|display|show|log|dump|render)_"))
+
+; -- SCANNER --
+;    Search/scan functions
+
+; Scan/search functions
+(function_definition
+  name: (identifier) @role.scanner.function
+  (#match? @role.scanner.function "^(scan|search|find|locate|lookup|discover|resolve)_"))
+
+; -- EXTRACTOR --
+;    Data extraction
+
+; Extract functions
+(function_definition
+  name: (identifier) @role.extractor.function
+  (#match? @role.extractor.function "^(extract|collect|gather|pull|harvest)_"))
+
+; -- ENRICHER --
+;    Data enrichment/augmentation
+
+; Enrich functions
+(function_definition
+  name: (identifier) @role.enricher.function
+  (#match? @role.enricher.function "^(enrich|augment|annotate|enhance|decorate)"))
+
+; Enricher class
+(class_definition
+  name: (identifier) @role.enricher.class
+  (#match? @role.enricher.class "(Enricher|Augmenter|Annotator|Decorator)$"))
+
+; -- ENGINE --
+;    Core processing engines
+
+; Engine class
+(class_definition
+  name: (identifier) @role.internal.engine
+  (#match? @role.internal.engine "(Engine|Core|Kernel|Runtime)$"))
+
+; -- DETECTOR --
+;    Pattern/anomaly detection
+
+; Detector class
+(class_definition
+  name: (identifier) @role.internal.detector
+  (#match? @role.internal.detector "(Detector|Finder|Discoverer|Analyzer)$"))
+
+; -- LOADER --
+;    Data loading
+
+; Loader class
+(class_definition
+  name: (identifier) @role.internal.loader
+  (#match? @role.internal.loader "(Loader|Reader|Importer|Fetcher)$"))
+
+; Load function
+(function_definition
+  name: (identifier) @role.internal.load_func
+  (#match? @role.internal.load_func "^(load|import|fetch|read)_"))
+
+; -- NORMALIZER --
+;    Data normalization
+
+; Normalize function
+(function_definition
+  name: (identifier) @role.mapper.normalize
+  (#match? @role.mapper.normalize "^(normalize|standardize|clean|sanitize)_"))
+
+; -- DOMAIN CATCH-ALL --
+;    Generic domain classes (CamelCase with methods)
+
+; Class with compute/calculate method (domain computation)
+(class_definition
+  name: (identifier) @role.internal.compute_class
+  (#match? @role.internal.compute_class "^[A-Z]")
+  body: (block
+    (function_definition
+      name: (identifier) @_method
+      (#match? @_method "^(compute|calculate|evaluate)"))))
+
+; Class with property-like methods (short lowercase names)
+(class_definition
+  name: (identifier) @role.internal.domain_class
+  (#match? @role.internal.domain_class "^[A-Z][a-z]+[A-Z]")
+  body: (block
+    (decorated_definition
+      (decorator
+        (identifier) @_prop
+        (#eq? @_prop "property")))))

@@ -288,3 +288,6 @@
 {"timestamp": "2026-01-26T18:24:31.383660+00:00", "event": "post_commit_triggered", "details": {}}
 {"timestamp": "2026-01-26T18:24:31.521676+00:00", "event": "tdj_success", "details": {"output": ""}}
 {"timestamp": "2026-01-26T18:24:31.592420+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: c8a23854\u001b[0m\nMessage: chore: Sync agent state files\n\n- autopilot_logs: Session act...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}
+{"timestamp": "2026-01-26T18:24:59.512730+00:00", "event": "post_commit_triggered", "details": {}}
+{"timestamp": "2026-01-26T18:24:59.646135+00:00", "event": "tdj_success", "details": {"output": ""}}
+{"timestamp": "2026-01-26T18:24:59.717577+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: a492aa59\u001b[0m\nMessage: chore: Add Gemini research and sync agent state\n\nResearch ou...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}
