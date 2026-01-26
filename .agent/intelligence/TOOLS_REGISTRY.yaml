@@ -1,0 +1,281 @@
+# =============================================================================
+# TOOLS REGISTRY - Executable Component Connections
+# =============================================================================
+# Unlike LOL.yaml (documentation), this registry defines HOW to invoke
+# components and HOW they connect to each other via inputs/outputs.
+#
+# FORMAL DEFINITION:
+#   TOOL = (invoke, inputs, outputs, requires, connects_to)
+#   PIPELINE = ordered sequence of TOOLs where:
+#     ∀ adjacent (T1, T2): T1.outputs ∩ T2.inputs ≠ ∅
+#
+# Updated: 2026-01-26
+# =============================================================================
+
+version: "1.0.0"
+schema: "tool_registry_v1"
+
+# =============================================================================
+# TOOL DEFINITIONS
+# =============================================================================
+tools:
+
+  # ---------------------------------------------------------------------------
+  # PARTICLE REALM (Analysis)
+  # ---------------------------------------------------------------------------
+  collider:
+    id: T001
+    name: "Collider"
+    subsystem: S1
+    realm: particle
+
+    invoke:
+      method: cli
+      command: "./pe collider full {input_path} --output {output_dir}"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: input_path
+        type: path
+        description: "Directory or file to analyze"
+        required: true
+
+    outputs:
+      - name: unified_analysis.json
+        type: file
+        format: json
+        schema: "standard-model-of-code/schema/unified_analysis.schema.json"
+
+      - name: collider_report.html
+        type: file
+        format: html
+
+    requires:
+      - tree-sitter
+      - tree-sitter-python
+      - tree-sitter-javascript
+
+    status: degraded  # tree-sitter not working
+
+  # ---------------------------------------------------------------------------
+  purpose_field:
+    id: T002
+    name: "Purpose Field Detector"
+    subsystem: S1
+    realm: particle
+
+    invoke:
+      method: python_import
+      module: "standard-model-of-code.src.core.purpose_field"
+      function: "detect_purpose_field"
+
+    inputs:
+      - name: nodes
+        type: list
+        from: collider.unified_analysis.json.nodes
+
+      - name: edges
+        type: list
+        from: collider.unified_analysis.json.edges
+
+    outputs:
+      - name: purpose_field
+        type: object
+        contains:
+          - coherence_score
+          - purpose_entropy
+          - composite_purpose
+          - god_classes
+
+    requires: []
+    status: working
+
+    note: "Computed but not exported until Stage 3.7 runs"
+
+  # ---------------------------------------------------------------------------
+  # WAVE REALM (Intelligence)
+  # ---------------------------------------------------------------------------
+  pom:
+    id: T003
+    name: "Projectome Omniscience Module"
+    subsystem: null  # Not in S1-S13 yet!
+    realm: wave
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} --output {output_path}"
+      tool_path: "context-management/tools/pom/projectome_omniscience.py"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: unified_analysis.json
+        type: file
+        from: collider
+        required: false  # Can scan without Collider
+
+      - name: project_root
+        type: path
+        default: "."
+
+    outputs:
+      - name: pom_manifest.yaml
+        type: file
+        format: yaml
+        contains:
+          - totals.entities
+          - symmetry.symmetric
+          - symmetry.orphan
+          - symmetry.phantom
+          - symmetry.drift
+          - purpose_field.coverage
+          - purpose_field.coherence  # <- THE NUMBER WE WANT
+
+    requires: []
+    status: working
+
+    connects_to:
+      - charts  # POM output feeds charts
+
+  # ---------------------------------------------------------------------------
+  analyze:
+    id: T004
+    name: "AI Analysis Tool"
+    subsystem: S3
+    realm: wave
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} {query} --mode {mode}"
+      tool_path: "context-management/tools/ai/analyze.py"
+
+    inputs:
+      - name: query
+        type: string
+        required: true
+
+      - name: mode
+        type: enum
+        values: [standard, forensic, architect]
+        default: standard
+
+      - name: context_files
+        type: list
+        from: any
+
+    outputs:
+      - name: analysis_result
+        type: text
+        format: markdown
+
+    requires:
+      - GEMINI_API_KEY
+
+    status: working
+
+  # ---------------------------------------------------------------------------
+  # OBSERVER REALM (Visualization)
+  # ---------------------------------------------------------------------------
+  charts:
+    id: T005
+    name: "Purpose Field Charts"
+    subsystem: null  # NEW
+    realm: observer
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} --input {input} --output {output}"
+      tool_path: "context-management/tools/viz/purpose_charts.py"  # TO CREATE
+
+    inputs:
+      - name: unified_analysis.json
+        type: file
+        from: collider
+
+      - name: pom_manifest.yaml
+        type: file
+        from: pom
+        optional: true
+
+    outputs:
+      - name: purpose_charts.html
+        type: file
+        format: html
+
+    requires: []
+    status: not_implemented
+
+# =============================================================================
+# PIPELINES (Pre-defined tool chains)
+# =============================================================================
+pipelines:
+
+  full_analysis:
+    name: "Complete Analysis Pipeline"
+    description: "Analyze → Detect Purpose → Generate Manifest → Visualize"
+    steps:
+      - tool: collider
+        output_to: /tmp/collider_output
+
+      - tool: purpose_field
+        input_from: collider
+        note: "Runs as Stage 3.7 inside Collider"
+
+      - tool: pom
+        input_from: collider
+        output_to: /tmp/pom_manifest.yaml
+
+      - tool: charts
+        input_from: [collider, pom]
+        output_to: /tmp/purpose_charts.html
+
+    expected_outputs:
+      - unified_analysis.json
+      - pom_manifest.yaml
+      - purpose_charts.html
+
+  quick_coherence:
+    name: "Quick Coherence Check"
+    description: "Just measure coherence from existing data"
+    steps:
+      - tool: pom
+        input_from: existing_unified_analysis
+        output_to: /tmp/quick_coherence.yaml
+
+    expected_outputs:
+      - coherence value > 0
+
+# =============================================================================
+# CONNECTION GRAPH (What connects to what)
+# =============================================================================
+connections:
+  # Format: source.output -> target.input
+
+  - from: collider.unified_analysis.json
+    to: purpose_field.nodes
+
+  - from: collider.unified_analysis.json
+    to: pom.unified_analysis.json
+
+  - from: collider.unified_analysis.json
+    to: charts.unified_analysis.json
+
+  - from: pom.pom_manifest.yaml
+    to: charts.pom_manifest.yaml
+
+  - from: purpose_field.coherence_score
+    to: pom.purpose_field.coherence
+    via: unified_analysis.json  # Stage 3.7 exports it
+
+# =============================================================================
+# STATUS SUMMARY
+# =============================================================================
+status_summary:
+  working: [purpose_field, pom, analyze]
+  degraded: [collider]  # tree-sitter issue
+  not_implemented: [charts]
+
+  blockers:
+    collider:
+      issue: "tree-sitter not installed"
+      impact: "Cannot generate fresh unified_analysis.json"
+      fix: "pip install tree-sitter tree-sitter-python ..."

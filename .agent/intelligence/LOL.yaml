@@ -305,7 +305,47 @@ subsystem_components:
       - trigger_engine.py
 
 # =============================================================================
-# 6. SCHEMA FILES
+# 6. TOOLS REGISTRY (Executable Connections)
+# =============================================================================
+# Unlike the documentation-focused sections above, TOOLS_REGISTRY.yaml defines
+# HOW to invoke components and HOW they connect via inputs/outputs.
+#
+# This enables:
+#   - Pipelines: Chained tool execution
+#   - Dependencies: What each tool needs
+#   - Connections: Which outputs feed which inputs
+#
+tools_registry:
+  path: ".agent/intelligence/TOOLS_REGISTRY.yaml"
+  purpose: "Executable component connections"
+
+  tools:
+    - id: T001
+      name: collider
+      status: degraded  # tree-sitter issue
+
+    - id: T002
+      name: purpose_field
+      status: working
+
+    - id: T003
+      name: pom
+      status: working
+
+    - id: T004
+      name: analyze
+      status: working
+
+    - id: T005
+      name: charts
+      status: not_implemented
+
+  pipelines:
+    - name: full_analysis
+    - name: quick_coherence
+
+# =============================================================================
+# 7. SCHEMA FILES
 # =============================================================================
 schema_files:
   count: 11
