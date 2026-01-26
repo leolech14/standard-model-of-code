@@ -1,0 +1,65 @@
+macro_id: MACRO-001
+execution:
+  timestamp: '2026-01-26T18:22:13.127956+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 71
+  dry_run: false
+  reason: Not all success criteria met
+steps:
+- step_id: inventory_artifacts
+  tool: Bash
+  outcome: SUCCESS
+  output: "=== NEW FILES ===\n?? .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n\
+    ?? .agent/macros/logs/\n?? standard-model-of-code/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
+    \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
+    \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
+    \ M .agent/state/circuit_breakers.yaml\n M standard-model-of-code/src/core/dimension_classifier.py\n\
+    \ M standard-model-of-code/src/core/queries/python/roles.scm\n"
+  error: null
+  exit_code: 0
+- step_id: check_dead_code
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_integration
+  tool: Bash
+  outcome: FAILURE
+  output: ''
+  error: '/bin/sh: line 1: python: command not found
+
+    '
+  exit_code: 127
+- step_id: check_validation_theater
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_schema_bloat
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: generate_report
+  tool: Write
+  outcome: SUCCESS
+  output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260126.md
+  error: null
+variables:
+  session_artifacts: "=== NEW FILES ===\n?? .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n\
+    ?? .agent/macros/logs/\n?? standard-model-of-code/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
+    \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
+    \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
+    \ M .agent/state/circuit_breakers.yaml\n M standard-model-of-code/src/core/dimension_classifier.py\n\
+    \ M standard-model-of-code/src/core/queries/python/roles.scm\n"
+  dead_code_findings: Requires manual AI execution
+  validation_analysis: Requires manual AI execution
+  bloat_analysis: Requires manual AI execution
+  report_path: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260126.md
