@@ -1,0 +1,234 @@
+================================================================================
+ORPHANED UI CONTROLS - QUICK REFERENCE (46 total)
+================================================================================
+
+Generated: 2026-01-25
+Analyzed: 69 JavaScript modules + app.js + template.html
+Pattern: Zero handler references (getElementById, querySelector, addEventListener)
+
+================================================================================
+CATEGORY BREAKDOWN
+================================================================================
+
+Category                      Count    Effort    Priority   Notes
+─────────────────────────────────────────────────────────────────────────────
+Accessibility (a11y)            5      HIGH       LOW      Unstarted feature
+Camera Controls                 9      HIGH      MEDIUM    No bookmark system
+Config Display (num)           14     MEDIUM      HIGH     Quick polish win
+Filter UI                      10      HIGH      MEDIUM    Partial implementation
+Physics Display (num)           3      EASY       LOW      Duplicate of above
+Stats Display                   2      EASY       LOW      Simple update handlers
+Selection Actions               3      EASY      MEDIUM    Clear/invert buttons
+Miscellaneous                   3      VARY       LOW      Mixed types
+
+================================================================================
+ORPHANED CONTROLS (46) - GROUPED BY CATEGORY
+================================================================================
+
+[ACCESSIBILITY] - 5 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+a11y-focus-indicators       | Checkbox         | Show/hide focus indicators
+a11y-font-size              | Range slider     | Adjust font size (12-24)
+a11y-font-size-val          | Display element  | Current font size display
+a11y-large-text             | Checkbox         | Large text toggle
+a11y-screen-reader          | Checkbox         | Screen reader support
+Status: UNSTARTED - No module handles any a11y controls
+Action: Create a11y-manager.js OR remove from template
+
+[CAMERA CONTROLS] - 9 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+camera-auto-rotate          | Checkbox         | Enable/disable auto-rotation
+camera-bookmarks            | Dropdown select  | Load saved camera angles
+camera-reset                | Button           | Reset to default view
+camera-rotate-speed         | Range slider     | Rotation speed (0.1-5)
+camera-rotate-speed-val     | Display element  | Current rotation speed
+camera-save-bookmark        | Button           | Save current camera angle
+camera-zoom-fit             | Button           | Zoom to fit entire graph
+camera-zoom-in              | Button           | Zoom closer
+camera-zoom-out             | Button           | Zoom further
+Status: UNSTARTED - No camera manager module exists
+Action: Create camera-manager.js with bookmark persistence
+Impact: Limited UX (mouse pan/zoom only)
+
+[CONFIG DISPLAY NUMERIC] - 14 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+cfg-edge-curve-num          | Number input     | Display: edge curve value
+cfg-edge-opacity-num        | Number input     | Display: edge opacity value
+cfg-edge-width-num          | Number input     | Display: edge width value
+cfg-label-size-num          | Number input     | Display: label size value
+cfg-node-opacity-num        | Number input     | Display: node opacity value
+cfg-node-res-num            | Number input     | Display: node resolution value
+cfg-node-size-num           | Number input     | Display: node size value
+cfg-particle-count-num      | Number input     | Display: particle count value
+cfg-particle-speed-num      | Number input     | Display: particle speed value
+edge-opacity-num            | Number input     | Display: edge opacity (dup?)
+node-size-num               | Number input     | Display: node size (dup?)
+physics-center-num          | Number input     | Display: physics center value
+physics-charge-num          | Number input     | Display: physics charge value
+physics-link-num            | Number input     | Display: physics link distance
+Status: PARTIAL - Main sliders ARE handled in circuit-breaker.js
+Problem: Numeric displays not synced with slider changes
+Action: Add textContent sync handlers to circuit-breaker.js
+Effort: EASY - Add 14 lines to existing handlers
+Impact: HIGH - Visible polish issue
+
+[FILTER CONTROLS] - 10 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+filter-family-chips         | Chip container   | Show/select code families
+filter-hide-dead            | Checkbox         | Hide dead code nodes
+filter-hide-orphans         | Checkbox         | Hide orphan nodes
+filter-max-degree           | Range slider     | Max node degree filter
+filter-max-degree-val       | Display element  | Current max degree value
+filter-min-degree           | Range slider     | Min node degree filter
+filter-min-degree-val       | Display element  | Current min degree value
+filter-role-chips           | Chip container   | Show/select semantic roles
+filter-tier-chips           | Chip container   | Show/select atom tiers
+panel-filter-chips          | Chip display     | Show active filter chips
+Status: PARTIAL - filter-state.js exists but UI not wired
+Problem: Chip selectors have no click handlers
+Action: Implement in ui-manager.js or new filter-ui.js module
+Effort: MEDIUM - 2-3 hours for full implementation
+Impact: USER-FACING - Critical for usable filtering
+
+[PHYSICS DISPLAY] - 3 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+physics-center-num          | Number input     | Display: center force value
+physics-charge-num          | Number input     | Display: charge value
+physics-link-num            | Number input     | Display: link distance value
+Status: PARTIAL - Main sliders handled, displays missing
+Action: Same as Config Display (see above)
+Effort: EASY - Duplicate pattern
+Note: Subset of config display category
+
+[STATS/METRICS] - 2 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+stats-density               | Display element  | Graph density metric
+stats-files                 | Display element  | File count statistic
+Status: PARTIAL - Other stats (nodes, edges, entropy) ARE handled
+Problem: These two specific displays missing handlers
+Action: Add handlers in hud.js to update on data refresh
+Effort: EASY - <30 minutes
+
+[SELECTION/PANEL ACTIONS] - 3 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+panel-select-clear          | Button           | Clear all selections
+panel-select-invert         | Button           | Invert current selection
+selection-actions           | Container div    | Wrapper for action buttons
+Status: UNSTARTED - No click handlers
+Problem: User can't clear or invert selections
+Action: Add handlers in selection.js module
+Effort: EASY - 2 click handlers, ~5 minutes each
+Impact: MEDIUM - Useful workflow features
+
+[MISCELLANEOUS] - 3 CONTROLS
+──────────────────────────────────────────────────────────────────────────────
+perf-frame                  | Display element  | FPS/frame time display
+section-appearance          | Container div    | Section header for toggles
+toggle-labels               | Checkbox         | Toggle node label visibility
+Status: MIXED
+- toggle-labels: Found in app.js (dead code)
+- perf-frame: No handlers, just display
+- section-appearance: Container (styling only)
+Action: Determine if needed; implement or remove
+Effort: VARIES
+
+================================================================================
+QUICK TRIAGE
+================================================================================
+
+SHOULD REMOVE (reduce template clutter):
+  → a11y controls (if not planned for this release)
+  → All "future feature" items not in sprint
+
+SHOULD IMPLEMENT QUICKLY (2-3 hours):
+  → Numeric display sync (-num controls) - big polish win
+  → Selection action handlers (clear/invert) - small UX feature
+
+SHOULD IMPLEMENT LATER (under-prioritized features):
+  → Filter UI completeness - user-facing feature
+  → Stats display updates - minor metrics
+
+SHOULD BUILD NEW MODULE FOR:
+  → Camera controls (camera-manager.js) - needs persistence layer
+  → Accessibility (a11y-manager.js) - complex, low priority
+
+================================================================================
+MODULE HANDLER DISTRIBUTION
+================================================================================
+
+Which modules handle which categories?
+
+circuit-breaker.js (40 handlers) - Main config handler
+  ✓ Most appearance sliders
+  ✓ Most physics sliders
+  ✓ Some panel toggles
+  ✗ Missing numeric displays
+
+panel-handlers.js (23 handlers) - Panel-specific UI
+  ✓ Export buttons
+  ✓ Some panel toggles
+  ✗ Selection actions missing
+
+sidebar.js (19 handlers) - Sidebar controls
+  ✓ Screenshot, reset buttons
+  ✓ Some toggles
+  ✗ Camera controls missing
+
+filter-state.js (exists) - Filter logic
+  ✓ State management
+  ✗ UI bindings missing
+
+ui-manager.js (14 handlers) - General UI
+  ✓ Some filter handlers
+  ✓ Mode toggles
+  ✗ Filter chips not wired
+
+selection.js (exists) - Selection logic
+  ✓ State management
+  ✗ Action buttons missing
+
+================================================================================
+FILE REFERENCES
+================================================================================
+
+Template (HTML):
+  /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/template.html
+
+Modules (69 files):
+  /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/
+
+Key Handler Files:
+  circuit-breaker.js      - Appearance & physics
+  panel-handlers.js       - Panel actions
+  sidebar.js              - Sidebar controls
+  filter-state.js         - Filter logic
+  ui-manager.js           - General UI
+  selection.js            - Selection logic
+
+Legacy (dead code):
+  app.js                  - Only 1 match (toggle-labels)
+
+================================================================================
+ANALYSIS NOTES
+================================================================================
+
+Methodology:
+  1. Extracted 176 IDs from template.html
+  2. Searched 69 JS modules for handler bindings
+  3. Checked for getElementById, querySelector, addEventListener
+  4. Found 46 IDs with ZERO references in any module
+  5. Validated against app.js (legacy) - only toggle-labels matched
+
+Handler Pattern:
+  All handlers follow circuit-breaker pattern:
+  - addEventListener on element
+  - Update state object (APPEARANCE_STATE, etc.)
+  - Call updateVisualization()
+  - Missing: Update numeric displays
+
+Validation:
+  - All 46 confirmed zero references
+  - Not false positives
+  - Missing modules fully identified
+
+No false negatives found - comprehensive search completed.
