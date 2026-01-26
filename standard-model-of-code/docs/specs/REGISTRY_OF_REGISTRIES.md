@@ -370,5 +370,100 @@ Map language-specific AST nodes to canonical atoms.
 
 ---
 
-*Last updated: 2026-01-25*
+## 13. External Technology Stack
+
+External tools and libraries we depend on. Understanding boundaries is critical.
+
+| Tool | Category | Version | What It Provides | What It Does NOT Provide |
+|------|----------|---------|------------------|--------------------------|
+| **tree-sitter** | Parser | 0.20.x | AST parsing, query language (.scm), incremental updates | Semantic meaning, type inference, cross-file analysis |
+| **Three.js** | Renderer | 0.149.0 | 3D WebGL engine, scene graph, camera, lighting | Layout algorithms, graph abstractions |
+| **3d-force-graph** | Layout | 1.73.3 | Force-directed graph layout, node/edge rendering | Domain semantics, custom visual encodings |
+| **d3-force** | Physics | 3.x | Force simulation (charge, links, center) | 3D support (wrapped by 3d-force-graph) |
+
+### Tree-sitter Deep Dive
+
+Tree-sitter is our primary parsing technology. Critical to understand.
+
+| Aspect | Details |
+|--------|---------|
+| **Identity** | Incremental parsing library (C core, language bindings) |
+| **Source** | https://tree-sitter.github.io |
+| **We Use** | `tree-sitter` (core), `tree-sitter-python`, `tree-sitter-javascript`, `tree-sitter-typescript`, `tree-sitter-go`, `tree-sitter-rust` |
+| **Query Syntax** | S-expressions in `.scm` files (Scheme-like) |
+| **Our Query Files** | `src/core/queries/{language}/*.scm` |
+| **Our Query Count** | 40+ files across 5 languages |
+
+#### What Tree-sitter Provides
+
+| Capability | Description |
+|------------|-------------|
+| **AST Parsing** | Parses source code into concrete syntax tree |
+| **Incremental** | Re-parses only changed portions (fast) |
+| **Error Recovery** | Continues parsing despite syntax errors |
+| **Query Language** | Pattern matching on AST nodes via `.scm` files |
+| **Captures** | Named matches (`@name`) for extracting nodes |
+| **Predicates** | `#match?`, `#eq?` for filtering matches |
+
+#### What Tree-sitter Does NOT Provide
+
+| NOT Provided | We Provide Instead |
+|--------------|-------------------|
+| Semantic meaning | Our 33 roles, 8 dimensions |
+| Type inference | N/A (future: LSP integration) |
+| Cross-file analysis | Our edge extraction, call graph |
+| "Repository" concept | Our `roles.scm` patterns |
+| "Service" concept | Our `roles.scm` patterns |
+| Layer classification | Our `layer.scm` patterns |
+| Any domain knowledge | Our Standard Model theory |
+
+#### Coupling Assessment
+
+| Metric | Value | Risk |
+|--------|-------|------|
+| Files depending on tree-sitter | ~15 Python, 40+ .scm | High |
+| Fallback exists? | Yes (regex patterns) | Mitigated |
+| Could we swap it? | Difficult but possible | Medium |
+| Breaking change impact | Core classifier broken | High |
+
+### Rendering Stack Deep Dive
+
+```
+User Interaction
+      │
+      ▼
+┌─────────────────┐
+│ control-bar.js  │  ← Our UI controls
+│ file-viz.js     │  ← Our file visualization
+│ upb/*.js        │  ← Our property binding
+└────────┬────────┘
+         │ uses
+         ▼
+┌─────────────────┐
+│ 3d-force-graph  │  ← External: graph layout + rendering
+└────────┬────────┘
+         │ uses
+         ▼
+┌─────────────────┐
+│ Three.js        │  ← External: 3D WebGL engine
+└────────┬────────┘
+         │ uses
+         ▼
+┌─────────────────┐
+│ WebGL           │  ← Browser API
+└─────────────────┘
+```
+
+### Adding New External Dependencies
+
+Before adding any external tool:
+
+1. **Document in this section** - What does it provide? What doesn't it?
+2. **Assess coupling** - How deep will the dependency be?
+3. **Identify fallback** - What happens if it fails/disappears?
+4. **Version pin** - Lock to specific version in requirements
+
+---
+
+*Last updated: 2026-01-26*
 *Part of the Standard Model of Code project*
