@@ -169,7 +169,11 @@ def execute_macro(macro: dict, dry_run: bool = False) -> bool:
         print(f"{RED}Macro executor not found: {executor_path}{NC}")
         return False
 
-    cmd = ["python3", str(executor_path), "run", macro_id]
+    # Use Doppler for secrets (GEMINI_API_KEY etc)
+    cmd = [
+        "doppler", "run", "--project", "ai-tools", "--config", "dev", "--",
+        "python3", str(executor_path), "run", macro_id
+    ]
     if dry_run:
         cmd.append("--dry-run")
 
