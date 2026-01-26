@@ -101,6 +101,28 @@ S = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}
 | **WAVE** | `context-management/` | The field of potential. Context. AI tools. Planning happens here. |
 | **OBSERVER** | `.agent/` | The decision layer. Chooses what to measure. Tasks and governance live here. |
 
+### Phase States
+
+| Phase | Symbol | Definition | Example |
+|-------|--------|------------|---------|
+| **MODULE** | 1st-order | WHAT runs. Pure capability logic. Takes input, gives output. | `analyze.py`, Collider |
+| **AUTOMATION** | 2nd-order | WHEN it runs. Policy/triggers. Liquid phase - decides at runtime. | `autopilot.py`, `drift_guard.py` |
+| **INFRASTRUCTURE** | 0th-order | WHERE it exists. Solid phase - frozen automation decisions. | `Dockerfile`, `cloud_run_job.yaml` |
+| **CONFIG** | Slush | Parameters governing behavior. Semi-frozen. Tunable. | `aci_config.yaml` |
+
+**Phase Transition Model:**
+```
+Automation (Liquid) --[Build/Deploy]--> Infrastructure (Solid)
+```
+
+**Realms × Phases Matrix:**
+
+| Realm | Allowed Phases | Nature |
+|-------|----------------|--------|
+| **PARTICLE** | MODULE + CONFIG(frozen) | Deterministic |
+| **WAVE** | MODULE + CONFIG(liquid) | Probabilistic |
+| **OBSERVER** | AUTOMATION + INFRASTRUCTURE | Teleological |
+
 ### Domains
 
 | Term | Definition |
