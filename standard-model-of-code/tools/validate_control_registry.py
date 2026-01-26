@@ -29,6 +29,15 @@ except ImportError:
 REGISTRY_PATH = Path(__file__).parent.parent / "schema/viz/controls/CONTROL_REGISTRY.yaml"
 TEMPLATE_PATH = Path(__file__).parent.parent / "src/core/viz/assets/template.html"
 
+# Structural IDs to exclude from control validation
+# These are container/panel IDs, not interactive controls
+STRUCTURAL_IDS = {
+    '3d-graph', 'header', 'loader', 'toast', 'control-bar-container',
+    'filtering', 'selection', 'camera', 'accessibility', 'export',
+    'analysis', 'layout-phys', 'view-modes', 'panel-settings',
+    'node-appear', 'edge-appear'
+}
+
 
 def load_registry():
     """Load the control registry."""
@@ -97,7 +106,7 @@ def audit_template():
     template_ids = get_template_ids()
 
     # Find unauthorized controls in template
-    unauthorized = template_ids - authorized
+    unauthorized = template_ids - authorized - STRUCTURAL_IDS
     # Find authorized but not implemented
     missing = authorized - template_ids
 
@@ -106,6 +115,7 @@ def audit_template():
     print("=" * 60)
     print(f"Registry controls: {len(authorized)}")
     print(f"Template controls: {len(template_ids)}")
+    print(f"Structural (filtered): {len(template_ids & STRUCTURAL_IDS)}")
     print()
 
     if unauthorized:
