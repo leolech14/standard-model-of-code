@@ -14,7 +14,7 @@ For the COMPLETE List of Lists (LOL) covering ALL project inventories:
 See: .agent/intelligence/LOL.yaml
 
 Collider registries exposed here (runtime objects):
-- AtomRegistry: 3,644 atoms (110 canonical + 3,534 T2)
+- AtomRegistry: 3,525 atoms (80 core + 3,445 T2)
 - RoleRegistry: 33 canonical roles
 - TypeRegistry: 36 node types
 - PatternRegistry: 36 role detection patterns

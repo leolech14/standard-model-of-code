@@ -299,7 +299,7 @@ def run_pipeline(skip_collider: bool = False, dashboard_only: bool = False):
     else:
         stages.append(PipelineStage(
             "COLLIDER",
-            ["python3", str(COLLIDER_DIR / "collider"), "full", "..",
+            ["bash", str(COLLIDER_DIR / "collider"), "full", "..",
              "--output", str(COLLIDER_OUTPUT_DIR)],
             "Full SMoC analysis of entire project"
         ))

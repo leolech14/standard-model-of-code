@@ -1,0 +1,6 @@
+path,extension,domain,category,intel_model,size_bytes,modified,hash_short,status
+.collider-full/collider_report.html,.html,unknown,data,N/A,2066819,2026-01-26T03:03:35.019321,b5cb1087,new
+.collider-full/output_human-readable_project-elements_20260126_030334.html,.html,unknown,data,N/A,2066819,2026-01-26T03:03:35.019321,b5cb1087,new
+.collider-full/output_llm-oriented_project-elements_20260126_030334.json,.json,unknown,unknown,N/A,26657581,2026-01-26T03:03:34.762550,18ebee8a,new
+.collider-full/unified_analysis.json,.json,unknown,data,N/A,26657581,2026-01-26T03:03:34.762550,18ebee8a,new
+standard-model-of-code/uv.lock,.lock,particle,unknown,N/A,767248,2026-01-26T02:58:15.887826,20dff079,new

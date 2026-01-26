@@ -160,6 +160,9 @@ PROJECT ELEMENTS - Unified CLI
 
 EXPLICIT COMMANDS:
   ./pe status              System health overview
+  ./pe wire                Full pipeline (LOL→TDJ→Collider→SMoC→Unify)
+  ./pe wire --quick        Skip Collider (use cached)
+  ./pe wire --dashboard    Show health dashboard only
   ./pe ask "question"      Ask AI (Gemini) a question
   ./pe research "topic"    Deep research with validation
   ./pe deck [cmd]          Decision Deck (list|deal|route|show|play)
@@ -286,6 +289,11 @@ cmd_viz() {
     wait
 }
 
+cmd_wire() {
+    echo "=== WIRE - Grand Orchestrator ==="
+    python3 "$AGENT/tools/wire.py" "$@"
+}
+
 # Router
 case "${1:-help}" in
     help|--help|-h)
@@ -336,6 +344,10 @@ case "${1:-help}" in
         ;;
     viz|graph|see)
         cmd_viz
+        ;;
+    wire)
+        shift
+        cmd_wire "$@"
         ;;
     *)
         # Not a known command - try intent routing
