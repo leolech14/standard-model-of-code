@@ -1,0 +1,26 @@
+# Task promoted from opportunity OPP-ARCH-005
+# Created: 2026-01-26T07:48:54.045027+00:00
+
+id: TASK-069
+title: Audit and resolve 29 TODO/FIXME markers
+status: DISCOVERY
+description: '
+
+
+  ---
+
+  Promoted from: OPP-ARCH-005
+
+  Original urgency: MEDIUM'
+confidence:
+  factual: 70
+  alignment: 70
+  current: 70
+  onwards: 70
+  verdict: 70
+tracking:
+  created_at: '2026-01-26T07:48:54.045027+00:00'
+  promoted_from: OPP-ARCH-005
+related_to: []
+steps_completed: []
+output_artifacts: []

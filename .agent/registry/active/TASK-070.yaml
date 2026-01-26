@@ -1,0 +1,26 @@
+# Task promoted from opportunity OPP-ARCH-007
+# Created: 2026-01-26T07:48:54.076684+00:00
+
+id: TASK-070
+title: Identify and remove dead code (files not modified 30+ days)
+status: DISCOVERY
+description: '
+
+
+  ---
+
+  Promoted from: OPP-ARCH-007
+
+  Original urgency: MEDIUM'
+confidence:
+  factual: 70
+  alignment: 70
+  current: 70
+  onwards: 70
+  verdict: 70
+tracking:
+  created_at: '2026-01-26T07:48:54.076684+00:00'
+  promoted_from: OPP-ARCH-007
+related_to: []
+steps_completed: []
+output_artifacts: []

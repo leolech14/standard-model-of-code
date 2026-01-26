@@ -1,61 +1,84 @@
-# Opportunity: Refactor analyze.py God File
 id: OPP-ARCH-006
-title: "Split analyze.py (3,441 lines) into focused modules"
+title: Split analyze.py (3,441 lines) into focused modules
 status: pending
 priority: P2
 effort: L
 impact: HIGH
-
 source:
-  discovery: "Code Archaeology Session 2026-01-26"
-  file: "context-management/tools/ai/analyze.py"
+  discovery: Code Archaeology Session 2026-01-26
+  file: context-management/tools/ai/analyze.py
   evidence:
-    - "3,441 lines in single file"
-    - "Duplicate SocraticValidator class (OPP-ARCH-001)"
-    - "Multiple responsibilities in one file"
+  - 3,441 lines in single file
+  - Duplicate SocraticValidator class (OPP-ARCH-001)
+  - Multiple responsibilities in one file
+problem: 'analyze.py is a GOD FILE with 3,441 lines.
 
-problem: |
-  analyze.py is a GOD FILE with 3,441 lines.
   Contains: query routing, tier management, validation, formatting.
+
   Hard to navigate, test, or modify safely.
+
   Duplicate class definitions indicate copy-paste development.
 
-current_structure: |
-  analyze.py (3,441 lines)
+  '
+current_structure: 'analyze.py (3,441 lines)
+
   ├── CLI argument parsing
+
   ├── Query routing logic
+
   ├── Tier1/2/3/4 handlers
+
   ├── Context preparation
+
   ├── Output formatting
+
   ├── SocraticValidator (line 1668) ← DEAD CODE
+
   └── SocraticValidator (line 1995) ← ACTIVE
 
-proposed_structure: |
-  context-management/tools/ai/
+  '
+proposed_structure: 'context-management/tools/ai/
+
   ├── analyze.py           # CLI entry point only (~100 lines)
+
   ├── aci/
+
   │   ├── __init__.py      # Clean exports
+
   │   ├── router.py        # Query routing
+
   │   ├── tiers.py         # Tier1/2/3/4 handlers
+
   │   ├── formatter.py     # Output formatting
+
   │   └── validator.py     # SocraticValidator
+
   └── (existing aci modules)
 
-solution: |
-  1. First: Fix OPP-ARCH-001 (delete duplicate class)
+  '
+solution: '1. First: Fix OPP-ARCH-001 (delete duplicate class)
+
   2. Extract SocraticValidator to aci/validator.py
+
   3. Extract tier handlers to aci/tiers.py
+
   4. Extract formatting to aci/formatter.py
+
   5. Keep analyze.py as thin CLI entry point
+
   6. Update all imports
 
+  '
 acceptance_criteria:
-  - analyze.py < 200 lines
-  - Each extracted module has single responsibility
-  - All tests pass
-  - No circular imports
-
+- analyze.py < 200 lines
+- Each extracted module has single responsibility
+- All tests pass
+- No circular imports
 dependencies:
-  - OPP-ARCH-001  # Fix duplicate first
-
-tags: [refactor, god-file, modularization]
+- OPP-ARCH-001
+tags:
+- refactor
+- god-file
+- modularization
+promoted_to: TASK-074
+promoted_at: '2026-01-26T07:49:14.936893+00:00'

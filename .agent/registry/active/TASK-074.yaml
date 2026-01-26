@@ -1,0 +1,28 @@
+# Task promoted from opportunity OPP-ARCH-006
+# Created: 2026-01-26T07:49:14.936893+00:00
+
+id: TASK-074
+title: Split analyze.py (3,441 lines) into focused modules
+status: DISCOVERY
+description: '
+
+
+  ---
+
+  Promoted from: OPP-ARCH-006
+
+  Original urgency: MEDIUM'
+confidence:
+  factual: 70
+  alignment: 70
+  current: 70
+  onwards: 70
+  verdict: 70
+tracking:
+  created_at: '2026-01-26T07:49:14.936893+00:00'
+  promoted_from: OPP-ARCH-006
+related_to: []
+blocked_by:
+  - TASK-067  # Must delete duplicate SocraticValidator first
+steps_completed: []
+output_artifacts: []

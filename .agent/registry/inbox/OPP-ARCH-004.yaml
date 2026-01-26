@@ -1,51 +1,54 @@
-# Opportunity: Standardize YAML Library Usage
 id: OPP-ARCH-004
-title: "Standardize on pyyaml - eliminate 3 different YAML approaches"
+title: Standardize on pyyaml - eliminate 3 different YAML approaches
 status: pending
 priority: P1
 effort: S
 impact: MEDIUM
-
 source:
-  discovery: "Code Archaeology Session 2026-01-26"
+  discovery: Code Archaeology Session 2026-01-26
   evidence:
-    - "16 files: import yaml"
-    - "8 files: import yaml as pyyaml"
-    - "8 files: from ruamel.yaml import YAML"
+  - '16 files: import yaml'
+  - '8 files: import yaml as pyyaml'
+  - '8 files: from ruamel.yaml import YAML'
+problem: 'Three different YAML libraries/patterns used across codebase.
 
-problem: |
-  Three different YAML libraries/patterns used across codebase.
   Inconsistent behavior for edge cases (multiline strings, anchors).
+
   No standard approach for YAML handling.
 
-current_state: |
-  Pattern 1: import yaml (16 files)
+  '
+current_state: 'Pattern 1: import yaml (16 files)
+
   Pattern 2: import yaml as pyyaml (8 files)
+
   Pattern 3: from ruamel.yaml import YAML (8 files)
 
-solution: |
-  1. FIRST: Audit which files need comment preservation:
-     - Check if any tool round-trips YAML (load → modify → save)
-     - Check if those files are human-edited configs
-     - If comments must be preserved: use ruamel.yaml as standard
-     - If not: use pyyaml (simpler, more common)
-  2. Create shared yaml_utils.py (see OPP-ARCH-002)
-  3. Implement both load_yaml and load_yaml_preserve_comments if needed
-  4. Update all files to use standard import pattern
-
+  '
+solution: "1. FIRST: Audit which files need comment preservation:\n   - Check if any\
+  \ tool round-trips YAML (load → modify → save)\n   - Check if those files are human-edited\
+  \ configs\n   - If comments must be preserved: use ruamel.yaml as standard\n   -\
+  \ If not: use pyyaml (simpler, more common)\n2. Create shared yaml_utils.py (see\
+  \ OPP-ARCH-002)\n3. Implement both load_yaml and load_yaml_preserve_comments if\
+  \ needed\n4. Update all files to use standard import pattern\n"
 acceptance_criteria:
-  - All files use same YAML library
-  - Standard import pattern: "from .utils.yaml_utils import load_yaml, save_yaml"
-  - Document exceptions where comment preservation is required
-  - No loss of YAML comments in human-facing config files
-
+- All files use same YAML library
+- Standard import pattern: from .utils.yaml_utils import load_yaml, save_yaml
+- Document exceptions where comment preservation is required
+- No loss of YAML comments in human-facing config files
 dependencies:
-  - OPP-ARCH-002  # yaml_utils.py must exist first
+- OPP-ARCH-002
+validation_notes: 'AI Validation (2026-01-26) flagged:
 
-validation_notes: |
-  AI Validation (2026-01-26) flagged:
   - ruamel.yaml preserves comments during round-trip editing
+
   - pyyaml strips comments - may destroy user annotations
+
   - Must audit comment preservation needs BEFORE choosing library
 
-tags: [standardization, libraries, consistency]
+  '
+tags:
+- standardization
+- libraries
+- consistency
+promoted_to: TASK-073
+promoted_at: '2026-01-26T07:49:14.906232+00:00'

@@ -1,0 +1,28 @@
+# Task promoted from opportunity OPP-ARCH-004
+# Created: 2026-01-26T07:49:14.906232+00:00
+
+id: TASK-073
+title: Standardize on pyyaml - eliminate 3 different YAML approaches
+status: DISCOVERY
+description: '
+
+
+  ---
+
+  Promoted from: OPP-ARCH-004
+
+  Original urgency: MEDIUM'
+confidence:
+  factual: 70
+  alignment: 70
+  current: 70
+  onwards: 70
+  verdict: 70
+tracking:
+  created_at: '2026-01-26T07:49:14.906232+00:00'
+  promoted_from: OPP-ARCH-004
+related_to: []
+blocked_by:
+  - TASK-068  # Must create yaml_utils.py first
+steps_completed: []
+output_artifacts: []

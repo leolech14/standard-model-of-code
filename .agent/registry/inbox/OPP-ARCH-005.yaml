@@ -1,40 +1,39 @@
-# Opportunity: Audit TODO/FIXME Markers
 id: OPP-ARCH-005
-title: "Audit and resolve 29 TODO/FIXME markers"
+title: Audit and resolve 29 TODO/FIXME markers
 status: pending
 priority: P2
 effort: M
 impact: LOW
-
 source:
-  discovery: "Code Archaeology Session 2026-01-26"
+  discovery: Code Archaeology Session 2026-01-26
   evidence:
-    - "29 TODO/FIXME markers found in codebase"
-    - "Multilingual comments (Portuguese TODOs)"
-    - "Some reference unfinished work from unknown time"
+  - 29 TODO/FIXME markers found in codebase
+  - Multilingual comments (Portuguese TODOs)
+  - Some reference unfinished work from unknown time
+problem: '29 TODO/FIXME markers scattered across codebase.
 
-problem: |
-  29 TODO/FIXME markers scattered across codebase.
   Some are stale (work already done elsewhere).
+
   Some are in Portuguese suggesting different contributors.
+
   No tracking of which TODOs are actually important.
 
+  '
 notable_examples:
-  - "# TODO: Implementar clone de repo (Portuguese)"
-  - "# TODO: Replace with real detector call"
-  - "# TODO: Expandir com 50+ repositorios reais"
-
-solution: |
-  1. Run: grep -r "TODO\|FIXME" --include="*.py" | grep -v __pycache__
-  2. For each marker:
-     a. Is work still relevant? Delete if done
-     b. Is it a real task? Create opportunity
-     c. Is it a wish? Document or delete
-  3. Establish policy: TODOs must have ticket/opp reference
-
+- '# TODO: Implementar clone de repo (Portuguese)'
+- '# TODO: Replace with real detector call'
+- '# TODO: Expandir com 50+ repositorios reais'
+solution: "1. Run: grep -r \"TODO\\|FIXME\" --include=\"*.py\" | grep -v __pycache__\n\
+  2. For each marker:\n   a. Is work still relevant? Delete if done\n   b. Is it a\
+  \ real task? Create opportunity\n   c. Is it a wish? Document or delete\n3. Establish\
+  \ policy: TODOs must have ticket/opp reference\n"
 acceptance_criteria:
-  - Each TODO/FIXME either deleted or linked to opportunity
-  - No orphan TODOs older than 30 days
-  - Policy documented in CONTRIBUTING.md
-
-tags: [cleanup, technical-debt, audit]
+- Each TODO/FIXME either deleted or linked to opportunity
+- No orphan TODOs older than 30 days
+- Policy documented in CONTRIBUTING.md
+tags:
+- cleanup
+- technical-debt
+- audit
+promoted_to: TASK-069
+promoted_at: '2026-01-26T07:48:54.045027+00:00'
