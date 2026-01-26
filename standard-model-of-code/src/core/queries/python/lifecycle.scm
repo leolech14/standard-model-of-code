@@ -1,9 +1,6 @@
-; =============================================================================
 ; PYTHON D7_LIFECYCLE QUERIES - Lifecycle phase detection
-; =============================================================================
 ; Detects object lifecycle patterns for D7:LIFECYCLE dimension classification
 ; Values: create, use, destroy, manage
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; CREATE PHASE - Object instantiation and initialization
@@ -251,4 +248,3 @@
     (#eq? @_mod "socket")
     attribute: (identifier) @_method
     (#eq? @_method "socket"))) @lifecycle.create.socket
-

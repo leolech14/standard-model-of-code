@@ -1,9 +1,6 @@
-; =============================================================================
 ; JAVASCRIPT D4_BOUNDARY QUERIES - External boundary crossing detection
-; =============================================================================
 ; Detects I/O operations for D4:BOUNDARY dimension classification
 ; Values: internal, input, output, io
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; INPUT BOUNDARIES - Reading from external sources

@@ -1,11 +1,7 @@
-; =============================================================================
-; RUST BOUNDARY QUERY (D4_BOUNDARY)
+; RUST BOUNDARY (D4_BOUNDARY)
 ; Detects I/O patterns: Internal | Input | Output | I-O
-; =============================================================================
 
-; =============================================================================
-; INPUT PATTERNS
-; =============================================================================
+; -- INPUT --
 
 ; Function parameters
 (parameter) @boundary.input.param
@@ -55,9 +51,7 @@
     (#match? @_method "^(recv|try_recv|recv_timeout)$"))
   @boundary.input.channel)
 
-; =============================================================================
-; OUTPUT PATTERNS
-; =============================================================================
+; -- OUTPUT --
 
 ; Return expressions (explicit)
 (return_expression) @boundary.output.return

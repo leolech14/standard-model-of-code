@@ -1,13 +1,9 @@
-; =============================================================================
-; GO LAYER QUERY (D2_LAYER)
-; Tree-sitter-based Clean Architecture layer detection
-; =============================================================================
+; GO LAYER (D2_LAYER)
+
 ; Layers: Interface | Application | Core | Infrastructure | Test | Unknown
 
-; =============================================================================
-; INFRASTRUCTURE LAYER
-; Database, file I/O, external services, HTTP clients
-; =============================================================================
+; -- INFRASTRUCTURE --
+;    Database, file I/O, external services, HTTP clients
 
 ; Database operations (sql, gorm, sqlx)
 (call_expression
@@ -56,10 +52,8 @@
     (#match? @_obj "^(redis|cache|memcache)$"))
   @layer.infrastructure.cache)
 
-; =============================================================================
-; INTERFACE LAYER
-; HTTP handlers, gRPC, CLI
-; =============================================================================
+; -- INTERFACE --
+;    HTTP handlers, gRPC, CLI
 
 ; HTTP handlers (net/http, gin, echo, fiber, chi)
 (function_declaration
@@ -109,10 +103,8 @@
     (#match? @_obj "^(cobra|cli)$"))
   @layer.interface.cli)
 
-; =============================================================================
-; APPLICATION LAYER
-; Services, use cases, business logic orchestration
-; =============================================================================
+; -- APPLICATION --
+;    Services, use cases, business logic orchestration
 
 ; Service pattern
 (type_declaration
@@ -129,10 +121,8 @@
     type: (interface_type))
   @layer.application.service_interface)
 
-; =============================================================================
-; CORE/DOMAIN LAYER
-; Entities, value objects, domain logic
-; =============================================================================
+; -- CORE/DOMAIN --
+;    Entities, value objects, domain logic
 
 ; Domain entities
 (type_declaration
@@ -160,10 +150,8 @@
       (iota)))
   @layer.core.enum)
 
-; =============================================================================
-; TEST LAYER
-; Test files, fixtures, mocks
-; =============================================================================
+; -- TEST --
+;    Test files, fixtures, mocks
 
 ; Test functions
 (function_declaration

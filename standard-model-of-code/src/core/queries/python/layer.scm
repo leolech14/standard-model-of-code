@@ -1,13 +1,9 @@
-; =============================================================================
-; PYTHON LAYER QUERY (D2_LAYER)
-; Tree-sitter-based Clean Architecture layer detection
-; =============================================================================
+; PYTHON LAYER (D2_LAYER)
+
 ; Layers: Interface | Application | Core | Infrastructure | Test | Unknown
 
-; =============================================================================
-; INFRASTRUCTURE LAYER
-; Database, file I/O, external services, repositories
-; =============================================================================
+; -- INFRASTRUCTURE --
+;    Database, file I/O, external services, repositories
 
 ; SQLAlchemy / Database patterns
 (class_definition
@@ -68,10 +64,8 @@
     (#match? @_obj "^(redis|memcache|cache)$"))
   @layer.infrastructure.cache)
 
-; =============================================================================
-; INTERFACE LAYER
-; API endpoints, CLI, web handlers, presentation
-; =============================================================================
+; -- INTERFACE --
+;    API endpoints, CLI, web handlers, presentation
 
 ; FastAPI routes
 (decorated_definition
@@ -143,10 +137,8 @@
         (#match? @_resolver "^(resolver|mutation|query|field)$"))))
   @layer.interface.graphql)
 
-; =============================================================================
-; APPLICATION LAYER
-; Use cases, services, orchestration
-; =============================================================================
+; -- APPLICATION --
+;    Use cases, services, orchestration
 
 ; Service classes
 (class_definition
@@ -171,10 +163,8 @@
       (#match? @_method "^(execute|run|perform|handle)$")))
   @layer.application.usecase)
 
-; =============================================================================
-; CORE/DOMAIN LAYER
-; Entities, value objects, domain logic
-; =============================================================================
+; -- CORE/DOMAIN --
+;    Entities, value objects, domain logic
 
 ; Domain entities
 (class_definition
@@ -217,10 +207,8 @@
     (#match? @_base "^(ABC|Protocol)$"))
   @layer.core.abstract)
 
-; =============================================================================
-; TEST LAYER
-; Test files, fixtures, mocks
-; =============================================================================
+; -- TEST --
+;    Test files, fixtures, mocks
 
 ; Test functions
 (function_definition

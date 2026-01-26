@@ -1,12 +1,8 @@
-; =============================================================================
 ; JAVASCRIPT/TYPESCRIPT ROLES QUERY (D3_ROLE)
 ; Tree-sitter-based role detection via structural patterns
-; =============================================================================
 
-; =============================================================================
-; REPOSITORY PATTERN
-; CRUD-like classes with data access methods
-; =============================================================================
+; -- REPOSITORY --
+;    CRUD-like classes with data access methods
 
 ; Class with repository-like methods
 (class_declaration
@@ -23,10 +19,8 @@
     (identifier) @_base
     (#match? @_base "(Repository|Store|DAO|DataAccess)")))
 
-; =============================================================================
-; SERVICE PATTERN
-; Business logic coordinators
-; =============================================================================
+; -- SERVICE --
+;    Business logic coordinators
 
 ; Class with Service naming
 (class_declaration
@@ -41,10 +35,8 @@
       (#eq? @_dec "Injectable")))
   name: (identifier) @role.service.injectable)
 
-; =============================================================================
-; CONTROLLER PATTERN
-; HTTP/API request handlers
-; =============================================================================
+; -- CONTROLLER --
+;    HTTP/API request handlers
 
 ; Express route handlers
 (call_expression
@@ -69,10 +61,8 @@
   name: (identifier) @role.controller.naming
   (#match? @role.controller.naming "(Controller|Handler|Resource|Endpoint)$"))
 
-; =============================================================================
-; FACTORY PATTERN
-; Object creation methods that return new instances
-; =============================================================================
+; -- FACTORY --
+;    Object creation methods that return new instances
 
 ; Factory function pattern
 (function_declaration
@@ -99,10 +89,8 @@
   name: (property_identifier) @role.factory.static
   (#match? @role.factory.static "^(create|from|build)"))
 
-; =============================================================================
-; HANDLER PATTERN
-; Event/message processors
-; =============================================================================
+; -- HANDLER --
+;    Event/message processors
 
 ; Event handler function
 (function_declaration
@@ -123,10 +111,8 @@
   name: (identifier) @role.handler.class
   (#match? @role.handler.class "Handler$"))
 
-; =============================================================================
-; VALIDATOR PATTERN
-; Input validation
-; =============================================================================
+; -- VALIDATOR --
+;    Input validation
 
 ; Validator class
 (class_declaration
@@ -146,10 +132,8 @@
       object: (identifier) @_z
       (#eq? @_z "z"))))
 
-; =============================================================================
-; TRANSFORMER/MAPPER PATTERN
-; Data transformation
-; =============================================================================
+; -- TRANSFORMER/MAPPER --
+;    Data transformation
 
 ; Mapper class
 (class_declaration
@@ -169,10 +153,8 @@
   arguments: (arguments
     (arrow_function) @role.mapper.array_map))
 
-; =============================================================================
-; UTILITY PATTERN
-; General-purpose helpers
-; =============================================================================
+; -- UTILITY --
+;    General-purpose helpers
 
 ; Utility class
 (class_declaration
@@ -184,9 +166,7 @@
   declaration: (function_declaration
     name: (identifier) @role.utility.export))
 
-; =============================================================================
-; TEST/ASSERTER PATTERN
-; =============================================================================
+; -- TEST/ASSERTER --
 
 ; Jest/Mocha test function
 (call_expression
@@ -201,10 +181,8 @@
   name: (identifier) @role.asserter.class
   (#match? @role.asserter.class "(Test|Spec)$"))
 
-; =============================================================================
-; LIFECYCLE PATTERN
-; Initialization, cleanup
-; =============================================================================
+; -- LIFECYCLE --
+;    Initialization, cleanup
 
 ; Constructor
 (method_definition
@@ -216,10 +194,8 @@
   name: (property_identifier) @role.lifecycle.method
   (#match? @role.lifecycle.method "^(componentDidMount|componentWillUnmount|ngOnInit|ngOnDestroy|mounted|unmounted|created|destroyed|setup|teardown)$"))
 
-; =============================================================================
-; INTERNAL/DTO PATTERN
-; Data containers with minimal logic
-; =============================================================================
+; -- INTERNAL/DTO --
+;    Data containers with minimal logic
 
 ; NOTE: interface_declaration and type_alias_declaration are TypeScript-only
 ; They are handled in typescript/roles.scm which inherits from this file
@@ -230,10 +206,8 @@
   (#match? @role.internal.entity "^[A-Z][a-z]+([A-Z][a-z]+)*$")
   (#not-match? @role.internal.entity "(Service|Controller|Factory|Handler|Validator|Mapper|Utils?|Helper|Repository|Store)$"))
 
-; =============================================================================
-; GUARD PATTERN
-; Access control, permissions
-; =============================================================================
+; -- GUARD --
+;    Access control, permissions
 
 ; Guard class (NestJS pattern)
 (class_declaration
@@ -253,10 +227,8 @@
   name: (identifier) @role.guard.function
   (#match? @role.guard.function "^(check|has|can|isAllowed|require)"))
 
-; =============================================================================
-; EMITTER PATTERN
-; Event emission
-; =============================================================================
+; -- EMITTER --
+;    Event emission
 
 ; EventEmitter class extension
 (class_declaration
@@ -275,9 +247,7 @@
   name: (identifier) @role.emitter.naming
   (#match? @role.emitter.naming "(Emitter|Publisher|Producer|Broadcaster)$"))
 
-; =============================================================================
-; REACT COMPONENT PATTERN
-; =============================================================================
+; -- REACT COMPONENT --
 
 ; Function component (JSX return)
 (function_declaration
@@ -316,9 +286,7 @@
       property: (property_identifier) @_component
       (#match? @_component "^(Component|PureComponent)$"))))
 
-; =============================================================================
 ; HOOK PATTERN (React)
-; =============================================================================
 
 ; Custom hook function
 (function_declaration
@@ -331,9 +299,7 @@
   (#match? @role.hook.arrow "^use[A-Z]")
   value: (arrow_function))
 
-; =============================================================================
-; MIDDLEWARE PATTERN
-; =============================================================================
+; -- MIDDLEWARE --
 
 ; Express middleware signature (req, res, next)
 (function_declaration

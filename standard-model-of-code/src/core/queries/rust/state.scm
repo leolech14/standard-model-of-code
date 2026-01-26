@@ -1,11 +1,8 @@
-; =============================================================================
-; RUST STATE QUERY (D5_STATE)
-; Detects stateful vs stateless patterns
-; =============================================================================
+; RUST STATE (D5_STATE)
 
-; =============================================================================
-; STATEFUL PATTERNS
-; =============================================================================
+; Detects stateful vs stateless patterns
+
+; -- STATEFUL --
 
 ; Mutable references (&mut)
 (reference_type
@@ -51,9 +48,7 @@
 (assignment_expression) @state.stateful.assignment
 (compound_assignment_expr) @state.stateful.compound_assignment
 
-; =============================================================================
-; STATELESS PATTERNS
-; =============================================================================
+; -- STATELESS --
 
 ; Immutable bindings
 (let_declaration

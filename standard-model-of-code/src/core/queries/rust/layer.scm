@@ -1,13 +1,9 @@
-; =============================================================================
-; RUST LAYER QUERY (D2_LAYER)
-; Tree-sitter-based Clean Architecture layer detection
-; =============================================================================
+; RUST LAYER (D2_LAYER)
+
 ; Layers: Interface | Application | Core | Infrastructure | Test | Unknown
 
-; =============================================================================
-; INFRASTRUCTURE LAYER
-; Database, file I/O, external services, HTTP clients
-; =============================================================================
+; -- INFRASTRUCTURE --
+;    Database, file I/O, external services, HTTP clients
 
 ; Database operations (diesel, sqlx, sea-orm)
 (call_expression
@@ -59,10 +55,8 @@
     (#match? @_mod "^(redis|cached|moka)$"))
   @layer.infrastructure.cache)
 
-; =============================================================================
-; INTERFACE LAYER
-; HTTP handlers, CLI, API endpoints
-; =============================================================================
+; -- INTERFACE --
+;    HTTP handlers, CLI, API endpoints
 
 ; Actix-web handlers
 (attribute_item
@@ -111,10 +105,8 @@
     (#match? @_attr "^tonic$"))
   @layer.interface.grpc)
 
-; =============================================================================
-; APPLICATION LAYER
-; Services, use cases, business logic orchestration
-; =============================================================================
+; -- APPLICATION --
+;    Services, use cases, business logic orchestration
 
 ; Service pattern
 (struct_item
@@ -127,10 +119,8 @@
   (#match? @_type "(Service|UseCase|Interactor)$")
   @layer.application.service)
 
-; =============================================================================
-; CORE/DOMAIN LAYER
-; Entities, value objects, domain logic
-; =============================================================================
+; -- CORE/DOMAIN --
+;    Entities, value objects, domain logic
 
 ; Domain entities
 (struct_item
@@ -157,10 +147,8 @@
     (#match? @_attr "^(Serialize|Deserialize|Clone|Debug|PartialEq|Eq|Hash)$"))
   @layer.core.derive)
 
-; =============================================================================
-; TEST LAYER
-; Test files, fixtures, mocks
-; =============================================================================
+; -- TEST --
+;    Test files, fixtures, mocks
 
 ; Test functions
 (attribute_item

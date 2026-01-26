@@ -1,8 +1,5 @@
-; =============================================================================
 ; JAVASCRIPT DATA FLOW QUERIES - Assignment and mutation detection for D6:EFFECT
-; =============================================================================
 ; Used by data_flow_analyzer.py to detect value flow and state mutations.
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; SIMPLE ASSIGNMENT - x = value
@@ -32,7 +29,8 @@
   right: (_) @source) @assignment.destructure_array
 
 ; -----------------------------------------------------------------------------
-; VARIABLE DECLARATIONS
+; -- VARIABLE DECLARATIONS --
+
 ; -----------------------------------------------------------------------------
 
 ; let/const declaration
@@ -131,7 +129,8 @@
   (#match? @_func "^(setTimeout|setInterval|setImmediate|requestAnimationFrame)$")) @sideeffect.async
 
 ; -----------------------------------------------------------------------------
-; THIS MUTATIONS
+; -- THIS MUTATIONS --
+
 ; -----------------------------------------------------------------------------
 
 ; this.attr = value
@@ -146,7 +145,8 @@
     property: (property_identifier) @method.name)) @call.this_method
 
 ; -----------------------------------------------------------------------------
-; ARRAY MUTATIONS
+; -- ARRAY MUTATIONS --
+
 ; -----------------------------------------------------------------------------
 
 ; array.push(), array.pop(), etc.
@@ -156,7 +156,8 @@
     (#match? @_method "^(push|pop|shift|unshift|splice|reverse|sort|fill|copyWithin)$"))) @mutation.array_method
 
 ; -----------------------------------------------------------------------------
-; OBJECT/MAP/SET MUTATIONS
+; -- OBJECT/MAP/SET MUTATIONS --
+
 ; -----------------------------------------------------------------------------
 
 ; Object.assign(), Object.defineProperty()
@@ -180,7 +181,8 @@
     (#match? @_method "^(set|add|delete)$"))) @mutation.weak_collection
 
 ; -----------------------------------------------------------------------------
-; FOR LOOP VARIABLE BINDING
+; -- FOR LOOP VARIABLE BINDING --
+
 ; -----------------------------------------------------------------------------
 
 ; for (let i of arr)
@@ -228,7 +230,8 @@
     (spread_element))) @spread.call
 
 ; -----------------------------------------------------------------------------
-; ASYNC DATA FLOW
+; -- ASYNC DATA FLOW --
+
 ; -----------------------------------------------------------------------------
 
 ; await expression

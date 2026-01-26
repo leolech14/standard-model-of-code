@@ -1,9 +1,6 @@
-; =============================================================================
 ; PYTHON ATOM PATTERNS - Tree-sitter queries for structural atom detection
-; =============================================================================
 ; These patterns detect code atoms based on AST structure rather than regex.
 ; Captures use @atom.<type> naming for consistent extraction.
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; ENTITY - Domain objects with identity

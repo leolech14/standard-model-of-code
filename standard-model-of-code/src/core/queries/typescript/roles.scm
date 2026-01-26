@@ -1,16 +1,13 @@
-; =============================================================================
-; TYPESCRIPT ROLES QUERY (D3_ROLE)
+; TYPESCRIPT ROLES (D3_ROLE)
+
 ; TypeScript-specific patterns
-; =============================================================================
 
 ; NOTE: The query loader will first look for typescript-specific patterns,
 ; then fall back to javascript patterns. This file only contains patterns
 ; unique to TypeScript grammar.
 
-; =============================================================================
 ; INTERNAL/DTO PATTERN (TypeScript-specific)
 ; Data containers and type definitions
-; =============================================================================
 
 ; Interface (data shape definition)
 (interface_declaration
@@ -24,9 +21,7 @@
 (enum_declaration
   name: (identifier) @role.internal.enum)
 
-; =============================================================================
 ; CLASS PATTERNS (TypeScript syntax uses type_identifier)
-; =============================================================================
 
 ; Class with Service naming (TS uses type_identifier for class names)
 (class_declaration
@@ -88,9 +83,7 @@
   name: (type_identifier) @role.asserter.class
   (#match? @role.asserter.class "(Test|Spec)$"))
 
-; =============================================================================
 ; CLASS WITH INHERITANCE (TypeScript syntax)
-; =============================================================================
 
 ; Class extending repository base
 (class_declaration
@@ -108,9 +101,7 @@
       (identifier) @_base
       (#match? @_base "EventEmitter"))))
 
-; =============================================================================
 ; DECORATOR PATTERNS (TypeScript/NestJS)
-; =============================================================================
 
 ; Injectable decorator
 (class_declaration
@@ -144,16 +135,12 @@
       (#match? @_dec "^(Get|Post|Put|Delete|Patch|Query|Mutation)$")))
   name: (property_identifier) @role.controller.method)
 
-; =============================================================================
 ; REACT COMPONENT (TSX only - see tsx alias)
-; =============================================================================
 
 ; NOTE: JSX patterns (jsx_element) are only valid in TSX grammar
 ; They are handled via javascript/roles.scm when using tsx alias
 
-; =============================================================================
 ; HOOK PATTERN (React)
-; =============================================================================
 
 ; Custom hook function
 (function_declaration
@@ -166,9 +153,7 @@
   (#match? @role.hook.arrow "^use[A-Z]")
   value: (arrow_function))
 
-; =============================================================================
-; LIFECYCLE
-; =============================================================================
+; -- LIFECYCLE --
 
 ; Constructor
 (method_definition
@@ -180,9 +165,7 @@
   name: (property_identifier) @role.lifecycle.method
   (#match? @role.lifecycle.method "^(componentDidMount|componentWillUnmount|ngOnInit|ngOnDestroy|mounted|unmounted)$"))
 
-; =============================================================================
-; VALIDATOR/FACTORY FUNCTIONS
-; =============================================================================
+; -- VALIDATOR/FACTORY FUNCTIONS --
 
 ; Validation function
 (function_declaration

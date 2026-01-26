@@ -1,11 +1,8 @@
-; =============================================================================
-; TYPESCRIPT STATE QUERY (D5_STATE)
-; Detects stateful vs stateless patterns
-; =============================================================================
+; TYPESCRIPT STATE (D5_STATE)
 
-; =============================================================================
-; STATEFUL PATTERNS
-; =============================================================================
+; Detects stateful vs stateless patterns
+
+; -- STATEFUL --
 
 ; Class properties (instance state)
 (public_field_definition) @state.stateful.property
@@ -55,9 +52,7 @@
 (update_expression) @state.stateful.update
 (augmented_assignment_expression) @state.stateful.augmented_assignment
 
-; =============================================================================
-; STATELESS PATTERNS
-; =============================================================================
+; -- STATELESS --
 
 ; Const declarations (immutable)
 (lexical_declaration

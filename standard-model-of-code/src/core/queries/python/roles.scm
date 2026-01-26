@@ -1,12 +1,7 @@
-; =============================================================================
-; PYTHON ROLES QUERY (D3_ROLE)
-; Tree-sitter-based role detection via structural patterns
-; =============================================================================
+; PYTHON ROLES (D3_ROLE)
 
-; =============================================================================
-; REPOSITORY PATTERN
-; CRUD-like classes with data access methods
-; =============================================================================
+; -- REPOSITORY --
+;    CRUD-like classes with data access methods
 
 ; Class with repository-like methods (find_*, get_*, save_*, delete_*)
 (class_definition
@@ -23,10 +18,8 @@
     (identifier) @_base
     (#match? @_base "(Repository|Store|DAO|DataAccess)")))
 
-; =============================================================================
-; SERVICE PATTERN
-; Business logic coordinators
-; =============================================================================
+; -- SERVICE --
+;    Business logic coordinators
 
 ; Class with service naming
 (class_definition
@@ -41,10 +34,8 @@
   definition: (class_definition
     name: (identifier) @role.service.decorated))
 
-; =============================================================================
-; CONTROLLER PATTERN
-; HTTP/API request handlers
-; =============================================================================
+; -- CONTROLLER --
+;    HTTP/API request handlers
 
 ; FastAPI/Flask route decorators
 (decorated_definition
@@ -70,10 +61,8 @@
       attribute: (identifier) @_view
       (#match? @_view "(View|ViewSet|APIView)"))))
 
-; =============================================================================
-; FACTORY PATTERN
-; Object creation methods that return new instances
-; =============================================================================
+; -- FACTORY --
+;    Object creation methods that return new instances
 
 ; Function that creates and returns objects
 (function_definition
@@ -97,10 +86,8 @@
     name: (identifier) @role.factory.static
     (#match? @role.factory.static "^(create|from_|build)")))
 
-; =============================================================================
-; HANDLER PATTERN
-; Event/message processors
-; =============================================================================
+; -- HANDLER --
+;    Event/message processors
 
 ; Event handler functions
 (function_definition
@@ -116,10 +103,8 @@
       name: (identifier) @_handle
       (#match? @_handle "^handle"))))
 
-; =============================================================================
-; VALIDATOR PATTERN
-; Input validation
-; =============================================================================
+; -- VALIDATOR --
+;    Input validation
 
 ; Validator class
 (class_definition
@@ -138,10 +123,8 @@
     (identifier) @_base
     (#match? @_base "^(BaseModel|BaseSettings)$")))
 
-; =============================================================================
-; TRANSFORMER/MAPPER PATTERN
-; Data transformation
-; =============================================================================
+; -- TRANSFORMER/MAPPER --
+;    Data transformation
 
 ; Mapper class
 (class_definition
@@ -153,10 +136,8 @@
   name: (identifier) @role.mapper.function
   (#match? @role.mapper.function "^(map|convert|transform|serialize|deserialize|to_|from_)"))
 
-; =============================================================================
-; UTILITY PATTERN
-; General-purpose helpers
-; =============================================================================
+; -- UTILITY --
+;    General-purpose helpers
 
 ; Utility class
 (class_definition
@@ -170,9 +151,7 @@
     parameters: (parameters)
     (#not-match? @role.utility.module_func "^(test_|_)")))
 
-; =============================================================================
-; TEST/ASSERTER PATTERN
-; =============================================================================
+; -- TEST/ASSERTER --
 
 ; Test function
 (function_definition
@@ -195,10 +174,8 @@
   definition: (function_definition
     name: (identifier) @role.asserter.fixture))
 
-; =============================================================================
-; LIFECYCLE PATTERN
-; Initialization, cleanup, context managers
-; =============================================================================
+; -- LIFECYCLE --
+;    Initialization, cleanup, context managers
 
 ; Dunder lifecycle methods
 (function_definition
@@ -210,10 +187,8 @@
   name: (identifier) @role.lifecycle.setup
   (#match? @role.lifecycle.setup "^(setup|teardown|configure|initialize|dispose)"))
 
-; =============================================================================
-; INTERNAL/DTO PATTERN
-; Data containers with minimal logic
-; =============================================================================
+; -- INTERNAL/DTO --
+;    Data containers with minimal logic
 
 ; Dataclass
 (decorated_definition
@@ -246,10 +221,8 @@
       name: (identifier) @_init
       (#eq? @_init "__init__"))))
 
-; =============================================================================
-; GUARD PATTERN
-; Access control, permissions
-; =============================================================================
+; -- GUARD --
+;    Access control, permissions
 
 ; Guard/permission class
 (class_definition
@@ -261,10 +234,8 @@
   name: (identifier) @role.guard.function
   (#match? @role.guard.function "^(check_|has_|can_|is_allowed|require_)"))
 
-; =============================================================================
-; EMITTER PATTERN
-; Event emission
-; =============================================================================
+; -- EMITTER --
+;    Event emission
 
 ; Event emitter class
 (class_definition

@@ -1,11 +1,7 @@
-; =============================================================================
-; RUST LIFECYCLE QUERY (D7_LIFECYCLE)
+; RUST LIFECYCLE (D7_LIFECYCLE)
 ; Detects lifecycle phases: Create | Use | Destroy
-; =============================================================================
 
-; =============================================================================
-; CREATE PHASE
-; =============================================================================
+; -- CREATE --
 
 ; new() constructor pattern
 (function_item
@@ -34,9 +30,7 @@
 ; Struct expressions (instantiation)
 (struct_expression) @lifecycle.create.struct_init
 
-; =============================================================================
-; USE PHASE
-; =============================================================================
+; -- USE --
 
 ; Regular methods (not new/drop/create/close)
 (function_item
@@ -50,9 +44,7 @@
   (#not-match? @_name "^(new|drop|close)")
   @lifecycle.use.method)
 
-; =============================================================================
-; DESTROY PHASE
-; =============================================================================
+; -- DESTROY --
 
 ; Drop trait implementation
 (impl_item

@@ -1,11 +1,7 @@
-; =============================================================================
-; TYPESCRIPT BOUNDARY QUERY (D4_BOUNDARY)
+; TYPESCRIPT BOUNDARY (D4_BOUNDARY)
 ; Detects I/O patterns: Internal | Input | Output | I-O
-; =============================================================================
 
-; =============================================================================
-; INPUT PATTERNS
-; =============================================================================
+; -- INPUT --
 
 ; Function parameters
 (formal_parameters
@@ -49,9 +45,7 @@
     (#match? @_method "^(find|findOne|findMany|select|query|get)$"))
   @boundary.input.database)
 
-; =============================================================================
-; OUTPUT PATTERNS
-; =============================================================================
+; -- OUTPUT --
 
 ; Return statements
 (return_statement) @boundary.output.return

@@ -1,11 +1,7 @@
-; =============================================================================
-; GO BOUNDARY QUERY (D4_BOUNDARY)
+; GO BOUNDARY (D4_BOUNDARY)
 ; Detects I/O patterns: Internal | Input | Output | I-O
-; =============================================================================
 
-; =============================================================================
-; INPUT PATTERNS
-; =============================================================================
+; -- INPUT --
 
 ; Function parameters
 (parameter_declaration) @boundary.input.param
@@ -47,9 +43,7 @@
 ; Channel receive
 (receive_statement) @boundary.input.channel
 
-; =============================================================================
-; OUTPUT PATTERNS
-; =============================================================================
+; -- OUTPUT --
 
 ; Return statements
 (return_statement) @boundary.output.return

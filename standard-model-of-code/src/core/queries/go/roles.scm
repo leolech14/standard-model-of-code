@@ -1,12 +1,7 @@
-; =============================================================================
-; GO ROLES QUERY (D3_ROLE)
-; Tree-sitter-based role detection via structural patterns
-; =============================================================================
+; GO ROLES (D3_ROLE)
 
-; =============================================================================
-; REPOSITORY PATTERN
-; Data access structs with CRUD methods
-; =============================================================================
+; -- REPOSITORY --
+;    Data access structs with CRUD methods
 
 ; Struct with Repository/Store/DAO naming
 (type_declaration
@@ -24,10 +19,8 @@
   name: (field_identifier) @role.repository.method
   (#match? @role.repository.method "^(Find|Get|Save|Delete|Create|Update|List|Fetch)"))
 
-; =============================================================================
-; SERVICE PATTERN
-; Business logic coordinators
-; =============================================================================
+; -- SERVICE --
+;    Business logic coordinators
 
 ; Struct with Service naming
 (type_declaration
@@ -43,10 +36,8 @@
     type: (interface_type))
   (#match? @role.service.interface "Service$"))
 
-; =============================================================================
-; HANDLER PATTERN
-; HTTP/gRPC/event handlers
-; =============================================================================
+; -- HANDLER --
+;    HTTP/gRPC/event handlers
 
 ; Handler struct
 (type_declaration
@@ -65,10 +56,8 @@
   name: (field_identifier) @role.handler.method
   (#match? @role.handler.method "^Handle"))
 
-; =============================================================================
-; CONTROLLER PATTERN
-; Request controllers
-; =============================================================================
+; -- CONTROLLER --
+;    Request controllers
 
 ; Controller struct
 (type_declaration
@@ -77,10 +66,8 @@
     type: (struct_type))
   (#match? @role.controller.struct "Controller$"))
 
-; =============================================================================
-; FACTORY PATTERN
-; Constructor functions (New* pattern)
-; =============================================================================
+; -- FACTORY --
+;    Constructor functions (New* pattern)
 
 ; Constructor function (Go convention: NewXxx)
 (function_declaration
@@ -100,10 +87,8 @@
   name: (identifier) @role.factory.create
   (#match? @role.factory.create "^Create[A-Z]"))
 
-; =============================================================================
-; VALIDATOR PATTERN
-; Input validation
-; =============================================================================
+; -- VALIDATOR --
+;    Input validation
 
 ; Validator struct
 (type_declaration
@@ -122,10 +107,8 @@
   name: (field_identifier) @role.validator.method
   (#match? @role.validator.method "^(Validate|Check|Verify)"))
 
-; =============================================================================
-; MAPPER/CONVERTER PATTERN
-; Data transformation
-; =============================================================================
+; -- MAPPER/CONVERTER --
+;    Data transformation
 
 ; Mapper/Converter struct
 (type_declaration
@@ -144,10 +127,8 @@
   name: (field_identifier) @role.mapper.method
   (#match? @role.mapper.method "^(To[A-Z]|From[A-Z]|Convert|Map)"))
 
-; =============================================================================
-; MIDDLEWARE PATTERN
-; Request middleware
-; =============================================================================
+; -- MIDDLEWARE --
+;    Request middleware
 
 ; Middleware struct
 (type_declaration
@@ -161,10 +142,8 @@
   name: (identifier) @role.middleware.function
   (#match? @role.middleware.function "(Middleware|Interceptor)$"))
 
-; =============================================================================
-; UTILITY PATTERN
-; Helper functions and utilities
-; =============================================================================
+; -- UTILITY --
+;    Helper functions and utilities
 
 ; Utility package-level functions (common patterns)
 (function_declaration
@@ -178,10 +157,8 @@
     type: (struct_type))
   (#match? @role.utility.struct "(Utils?|Helper|Tools?)$"))
 
-; =============================================================================
-; TEST PATTERN
-; Test functions and benchmarks
-; =============================================================================
+; -- TEST --
+;    Test functions and benchmarks
 
 ; Test function (Go convention: Test*)
 (function_declaration
@@ -198,10 +175,8 @@
   name: (identifier) @role.asserter.example
   (#match? @role.asserter.example "^Example[A-Z]"))
 
-; =============================================================================
-; INTERNAL/DTO PATTERN
-; Data transfer objects and internal types
-; =============================================================================
+; -- INTERNAL/DTO --
+;    Data transfer objects and internal types
 
 ; Interface definition (behavioral contract)
 (type_declaration
@@ -224,10 +199,8 @@
     type: (struct_type))
   (#match? @role.internal.dto "(Request|Response|Req|Res|Input|Output|Params|Args|Options|Config)$"))
 
-; =============================================================================
-; GUARD PATTERN
-; Authorization and access control
-; =============================================================================
+; -- GUARD --
+;    Authorization and access control
 
 ; Auth/Guard struct
 (type_declaration
@@ -241,10 +214,8 @@
   name: (identifier) @role.guard.function
   (#match? @role.guard.function "^(Check|Has|Can|IsAllowed|Require|Authorize)"))
 
-; =============================================================================
-; EMITTER/PUBLISHER PATTERN
-; Event emission
-; =============================================================================
+; -- EMITTER/PUBLISHER --
+;    Event emission
 
 ; Publisher/Emitter struct
 (type_declaration
@@ -258,10 +229,8 @@
   name: (identifier) @role.emitter.function
   (#match? @role.emitter.function "^(Emit|Publish|Broadcast|Notify|Dispatch|Send)"))
 
-; =============================================================================
-; LIFECYCLE PATTERN
-; Initialization and cleanup
-; =============================================================================
+; -- LIFECYCLE --
+;    Initialization and cleanup
 
 ; Init function (Go special)
 (function_declaration
@@ -283,10 +252,8 @@
   name: (identifier) @role.lifecycle.function
   (#match? @role.lifecycle.function "^(Close|Shutdown|Cleanup|Dispose)"))
 
-; =============================================================================
-; ERROR PATTERN
-; Custom error types
-; =============================================================================
+; -- ERROR --
+;    Custom error types
 
 ; Error type (implements error interface pattern)
 (type_declaration
@@ -295,10 +262,8 @@
     type: (struct_type))
   (#match? @role.internal.error "Error$"))
 
-; =============================================================================
-; CLIENT PATTERN
-; External service clients
-; =============================================================================
+; -- CLIENT --
+;    External service clients
 
 ; Client struct
 (type_declaration

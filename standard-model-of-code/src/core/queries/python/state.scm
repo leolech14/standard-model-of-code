@@ -1,9 +1,6 @@
-; =============================================================================
 ; PYTHON D5_STATE QUERIES - Statefulness detection
-; =============================================================================
 ; Detects state maintenance patterns for D5:STATE dimension classification
 ; Values: stateless, stateful
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; STATEFUL INDICATORS - Instance/class state
@@ -209,4 +206,3 @@
         left: (identifier) @_attr
         (#match? @_attr "^_?instance$")
         right: (none))))) @state.singleton_pattern
-

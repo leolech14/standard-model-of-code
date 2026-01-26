@@ -1,7 +1,5 @@
-; =============================================================================
-; PYTHON IMPORTS QUERY
-; Captures import statements for cross-file symbol resolution
-; =============================================================================
+; -- PYTHON IMPORTS QUERY --
+;    Captures import statements for cross-file symbol resolution
 
 ; Basic import: import os, sys
 (import_statement
@@ -32,9 +30,7 @@
   module_name: (dotted_name)? @import.source_module
   (wildcard_import) @import.wildcard)
 
-; =============================================================================
 ; EXPORTS (Module-level definitions that can be imported)
-; =============================================================================
 
 ; Module-level function definitions
 (module

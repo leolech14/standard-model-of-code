@@ -1,13 +1,9 @@
-; =============================================================================
-; JAVASCRIPT LAYER QUERY (D2_LAYER)
-; Tree-sitter-based Clean Architecture layer detection
-; =============================================================================
+; JAVASCRIPT LAYER (D2_LAYER)
+
 ; Layers: Interface | Application | Core | Infrastructure | Test | Unknown
 
-; =============================================================================
-; INFRASTRUCTURE LAYER
-; Database, file I/O, external services, HTTP clients
-; =============================================================================
+; -- INFRASTRUCTURE --
+;    Database, file I/O, external services, HTTP clients
 
 ; Database/ORM patterns
 (call_expression
@@ -48,10 +44,8 @@
     (#match? @_obj "^(redis|cache|memcached)$"))
   @layer.infrastructure.cache)
 
-; =============================================================================
-; INTERFACE LAYER
-; API endpoints, routes, controllers, React components
-; =============================================================================
+; -- INTERFACE --
+;    API endpoints, routes, controllers, React components
 
 ; Express routes
 (call_expression
@@ -107,10 +101,8 @@
   (#match? @_key "^(Query|Mutation|Subscription)$")
   @layer.interface.graphql)
 
-; =============================================================================
-; APPLICATION LAYER
-; Services, use cases, business logic orchestration
-; =============================================================================
+; -- APPLICATION --
+;    Services, use cases, business logic orchestration
 
 ; Service classes
 (class_declaration
@@ -127,10 +119,8 @@
       (#match? @_method "^(execute|run|perform|handle)$")))
   @layer.application.usecase)
 
-; =============================================================================
-; CORE/DOMAIN LAYER
-; Entities, value objects, domain logic, types
-; =============================================================================
+; -- CORE/DOMAIN --
+;    Entities, value objects, domain logic, types
 
 ; TypeScript interfaces/types (domain models)
 (interface_declaration
@@ -153,10 +143,8 @@
 (enum_declaration
   @layer.core.enum)
 
-; =============================================================================
-; TEST LAYER
-; Test files, fixtures, mocks
-; =============================================================================
+; -- TEST --
+;    Test files, fixtures, mocks
 
 ; Test functions (describe/it/test)
 (call_expression

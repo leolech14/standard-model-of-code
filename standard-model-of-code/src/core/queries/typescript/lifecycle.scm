@@ -1,11 +1,7 @@
-; =============================================================================
-; TYPESCRIPT LIFECYCLE QUERY (D7_LIFECYCLE)
+; TYPESCRIPT LIFECYCLE (D7_LIFECYCLE)
 ; Detects lifecycle phases: Create | Use | Destroy
-; =============================================================================
 
-; =============================================================================
-; CREATE PHASE
-; =============================================================================
+; -- CREATE --
 
 ; Constructor
 (method_definition
@@ -48,9 +44,7 @@
   (#eq? @_name "componentDidMount")
   @lifecycle.create.component_mount)
 
-; =============================================================================
-; USE PHASE
-; =============================================================================
+; -- USE --
 
 ; Regular methods (default - use phase)
 (method_definition
@@ -64,9 +58,7 @@
   (#not-match? @_name "^(create|build|make|init|setup|destroy|dispose|cleanup|close|teardown)")
   @lifecycle.use.function)
 
-; =============================================================================
-; DESTROY PHASE
-; =============================================================================
+; -- DESTROY --
 
 ; Destructor-like methods
 (method_definition

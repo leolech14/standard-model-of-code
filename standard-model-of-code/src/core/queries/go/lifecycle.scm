@@ -1,11 +1,7 @@
-; =============================================================================
-; GO LIFECYCLE QUERY (D7_LIFECYCLE)
+; GO LIFECYCLE (D7_LIFECYCLE)
 ; Detects lifecycle phases: Create | Use | Destroy
-; =============================================================================
 
-; =============================================================================
-; CREATE PHASE
-; =============================================================================
+; -- CREATE --
 
 ; Constructor functions (New* pattern)
 (function_declaration
@@ -40,9 +36,7 @@
   (#eq? @_func "new")
   @lifecycle.create.new)
 
-; =============================================================================
-; USE PHASE
-; =============================================================================
+; -- USE --
 
 ; Regular methods (not create/destroy)
 (method_declaration
@@ -56,9 +50,7 @@
   (#not-match? @_name "^(New|Create|Build|Init|init|Close|Destroy|Shutdown|Stop|Release|Dispose|Cleanup)")
   @lifecycle.use.function)
 
-; =============================================================================
-; DESTROY PHASE
-; =============================================================================
+; -- DESTROY --
 
 ; Close methods/functions
 (function_declaration

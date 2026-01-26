@@ -1,9 +1,6 @@
-; =============================================================================
 ; JAVASCRIPT D5_STATE QUERIES - Statefulness detection
-; =============================================================================
 ; Detects state maintenance patterns for D5:STATE dimension classification
 ; Values: stateless, stateful
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; STATEFUL INDICATORS - Instance/this state
@@ -212,7 +209,8 @@
   (#eq? @_selector "selector")) @state.recoil_selector
 
 ; -----------------------------------------------------------------------------
-; SINGLETON/GLOBAL STATE
+; -- SINGLETON/GLOBAL STATE --
+
 ; -----------------------------------------------------------------------------
 
 ; window.X assignment (global browser state)

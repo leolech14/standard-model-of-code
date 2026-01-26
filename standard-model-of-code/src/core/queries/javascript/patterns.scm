@@ -1,8 +1,5 @@
-; =============================================================================
 ; JAVASCRIPT/TYPESCRIPT ATOM PATTERNS - Tree-sitter queries for atom detection
-; =============================================================================
 ; Detects React components, hooks, services, handlers, and other patterns.
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; REACT COMPONENT - UI components

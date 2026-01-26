@@ -1,8 +1,5 @@
-; =============================================================================
 ; PYTHON DATA FLOW QUERIES - Assignment and mutation detection for D6:EFFECT
-; =============================================================================
 ; Used by data_flow_analyzer.py to detect value flow and state mutations.
-; =============================================================================
 
 ; -----------------------------------------------------------------------------
 ; SIMPLE ASSIGNMENT - x = value
@@ -118,7 +115,8 @@
     attribute: (identifier) @method.name)) @call.self_method
 
 ; -----------------------------------------------------------------------------
-; LIST/DICT MUTATIONS
+; -- LIST/DICT MUTATIONS --
+
 ; -----------------------------------------------------------------------------
 
 ; list.append(), list.extend(), etc.
@@ -167,7 +165,8 @@
   value: (_) @walrus.value) @walrus
 
 ; -----------------------------------------------------------------------------
-; WITH STATEMENT BINDING
+; -- WITH STATEMENT BINDING --
+
 ; -----------------------------------------------------------------------------
 
 (with_statement

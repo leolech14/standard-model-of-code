@@ -1,22 +1,15 @@
-; =============================================================================
-; RUST ROLES QUERY (D3_ROLE)
-; Tree-sitter-based role detection via structural patterns
-; =============================================================================
+; RUST ROLES (D3_ROLE)
 
-; =============================================================================
-; REPOSITORY PATTERN
-; Data access structs with CRUD methods
-; =============================================================================
+; -- REPOSITORY --
+;    Data access structs with CRUD methods
 
 ; Struct with Repository/Store/DAO naming
 (struct_item
   (type_identifier) @role.repository.struct
   (#match? @role.repository.struct "(Repository|Store|Dao|Repo)$"))
 
-; =============================================================================
-; SERVICE PATTERN
-; Business logic coordinators
-; =============================================================================
+; -- SERVICE --
+;    Business logic coordinators
 
 ; Struct with Service naming
 (struct_item
@@ -28,10 +21,8 @@
   (type_identifier) @role.service.trait
   (#match? @role.service.trait "Service$"))
 
-; =============================================================================
-; HANDLER PATTERN
-; Request/event handlers
-; =============================================================================
+; -- HANDLER --
+;    Request/event handlers
 
 ; Handler struct
 (struct_item
@@ -53,20 +44,16 @@
   name: (identifier) @role.handler.async
   (#match? @role.handler.async "^(get|post|put|delete|patch)_"))
 
-; =============================================================================
-; CONTROLLER PATTERN
-; Request controllers
-; =============================================================================
+; -- CONTROLLER --
+;    Request controllers
 
 ; Controller struct
 (struct_item
   (type_identifier) @role.controller.struct
   (#match? @role.controller.struct "Controller$"))
 
-; =============================================================================
-; FACTORY PATTERN
-; Constructor functions
-; =============================================================================
+; -- FACTORY --
+;    Constructor functions
 
 ; new() constructor (Rust convention)
 (function_item
@@ -88,10 +75,8 @@
   name: (identifier) @role.factory.create
   (#match? @role.factory.create "^(create|make|build)_"))
 
-; =============================================================================
-; VALIDATOR PATTERN
-; Input validation
-; =============================================================================
+; -- VALIDATOR --
+;    Input validation
 
 ; Validator struct
 (struct_item
@@ -103,10 +88,8 @@
   name: (identifier) @role.validator.function
   (#match? @role.validator.function "^(validate|check|verify|is_)"))
 
-; =============================================================================
-; MAPPER/CONVERTER PATTERN
-; Data transformation
-; =============================================================================
+; -- MAPPER/CONVERTER --
+;    Data transformation
 
 ; Mapper/Converter struct
 (struct_item
@@ -118,10 +101,8 @@
   name: (identifier) @role.mapper.function
   (#match? @role.mapper.function "^(into_|to_|convert|transform)"))
 
-; =============================================================================
-; MIDDLEWARE PATTERN
-; Request middleware
-; =============================================================================
+; -- MIDDLEWARE --
+;    Request middleware
 
 ; Middleware struct
 (struct_item
@@ -133,10 +114,8 @@
   (type_identifier) @role.middleware.trait
   (#match? @role.middleware.trait "Middleware$"))
 
-; =============================================================================
-; UTILITY PATTERN
-; Helper functions and utilities
-; =============================================================================
+; -- UTILITY --
+;    Helper functions and utilities
 
 ; Utility module functions (common patterns)
 (function_item
@@ -148,20 +127,16 @@
   (type_identifier) @role.utility.struct
   (#match? @role.utility.struct "(Utils?|Helper|Tools?)$"))
 
-; =============================================================================
-; TEST PATTERN
-; Test functions
-; =============================================================================
+; -- TEST --
+;    Test functions
 
 ; Test function (test_ prefix convention)
 (function_item
   name: (identifier) @role.asserter.test
   (#match? @role.asserter.test "^test_"))
 
-; =============================================================================
-; INTERNAL/DTO PATTERN
-; Data transfer objects and internal types
-; =============================================================================
+; -- INTERNAL/DTO --
+;    Data transfer objects and internal types
 
 ; Trait definition (behavioral contract)
 (trait_item
@@ -176,10 +151,8 @@
   (type_identifier) @role.internal.dto
   (#match? @role.internal.dto "(Request|Response|Dto|Input|Output|Params|Args|Options|Config)$"))
 
-; =============================================================================
-; ERROR PATTERN
-; Custom error types
-; =============================================================================
+; -- ERROR --
+;    Custom error types
 
 ; Error struct
 (struct_item
@@ -191,10 +164,8 @@
   (type_identifier) @role.internal.error_enum
   (#match? @role.internal.error_enum "Error$"))
 
-; =============================================================================
-; GUARD PATTERN
-; Authorization and access control
-; =============================================================================
+; -- GUARD --
+;    Authorization and access control
 
 ; Guard struct
 (struct_item
@@ -206,10 +177,8 @@
   name: (identifier) @role.guard.function
   (#match? @role.guard.function "^(check_|has_|can_|is_allowed|require_|authorize)"))
 
-; =============================================================================
-; EMITTER/PUBLISHER PATTERN
-; Event emission
-; =============================================================================
+; -- EMITTER/PUBLISHER --
+;    Event emission
 
 ; Publisher/Emitter struct
 (struct_item
@@ -221,10 +190,8 @@
   name: (identifier) @role.emitter.function
   (#match? @role.emitter.function "^(emit|publish|broadcast|notify|dispatch|send)_"))
 
-; =============================================================================
-; LIFECYCLE PATTERN
-; Initialization and cleanup
-; =============================================================================
+; -- LIFECYCLE --
+;    Initialization and cleanup
 
 ; main function
 (function_item
@@ -236,10 +203,8 @@
   name: (identifier) @role.lifecycle.function
   (#match? @role.lifecycle.function "^(init|setup|teardown|cleanup|dispose|close|shutdown)"))
 
-; =============================================================================
-; CLIENT PATTERN
-; External service clients
-; =============================================================================
+; -- CLIENT --
+;    External service clients
 
 ; Client struct
 (struct_item

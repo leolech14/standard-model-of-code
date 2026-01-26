@@ -1,11 +1,7 @@
-; =============================================================================
-; JAVASCRIPT/TYPESCRIPT IMPORTS QUERY
-; Captures import/export statements for cross-file symbol resolution
-; =============================================================================
+; -- JAVASCRIPT/TYPESCRIPT IMPORTS QUERY --
+;    Captures import/export statements for cross-file symbol resolution
 
-; =============================================================================
 ; ES6 IMPORTS
-; =============================================================================
 
 ; Default import: import React from 'react'
 (import_statement
@@ -41,9 +37,7 @@
 (import_statement
   source: (string) @import.side_effect)
 
-; =============================================================================
-; COMMONJS IMPORTS
-; =============================================================================
+; -- COMMONJS IMPORTS --
 
 ; const x = require('module')
 (lexical_declaration
@@ -55,9 +49,7 @@
       arguments: (arguments
         (string) @import.cjs_source))))
 
-; =============================================================================
 ; ES6 EXPORTS
-; =============================================================================
 
 ; Named export: export function foo() {}
 (export_statement
@@ -99,9 +91,7 @@
       name: (identifier) @export.reexport))
   source: (string) @export.reexport_source)
 
-; =============================================================================
-; COMMONJS EXPORTS
-; =============================================================================
+; -- COMMONJS EXPORTS --
 
 ; module.exports = X
 (expression_statement

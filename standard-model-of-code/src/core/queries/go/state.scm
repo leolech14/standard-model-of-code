@@ -1,11 +1,8 @@
-; =============================================================================
-; GO STATE QUERY (D5_STATE)
-; Detects stateful vs stateless patterns
-; =============================================================================
+; GO STATE (D5_STATE)
 
-; =============================================================================
-; STATEFUL PATTERNS
-; =============================================================================
+; Detects stateful vs stateless patterns
+
+; -- STATEFUL --
 
 ; Struct fields
 (field_declaration) @state.stateful.struct_field
@@ -45,9 +42,7 @@
 ; Assignment
 (assignment_statement) @state.stateful.assignment
 
-; =============================================================================
-; STATELESS PATTERNS
-; =============================================================================
+; -- STATELESS --
 
 ; Value receivers (cannot modify original)
 (method_declaration
