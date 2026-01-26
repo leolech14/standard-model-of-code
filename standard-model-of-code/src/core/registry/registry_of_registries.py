@@ -2,11 +2,12 @@
 Registry of Registries (The "List of Lists")
 
 A central meta-registry that aggregates all system registries:
-- RoleRegistry (Roles)
-- TypeRegistry (Types)
-- PatternRegistry (Patterns)
-- SchemaRegistry (Schemas)
-- WorkflowRegistry (Workflows)
+- AtomRegistry (Atoms) - 3,644 atoms across 180 ecosystems
+- RoleRegistry (Roles) - 33 canonical roles
+- TypeRegistry (Types) - 36 node types
+- PatternRegistry (Patterns) - Role detection patterns
+- SchemaRegistry (Schemas) - 13 optimization schemas
+- WorkflowRegistry (Workflows) - 4 analysis workflows
 """
 
 from typing import Dict, Any, List, Optional
@@ -21,75 +22,91 @@ from .workflow_registry import get_workflow_registry, WorkflowRegistry
 try:
     from ..type_registry import get_registry as get_type_registry, TypeRegistry
 except ImportError:
-    # Handle case where type_registry might not be importable yet
     get_type_registry = None
     TypeRegistry = None
+
+# AtomRegistry is in parent core/ directory
+try:
+    from ..atom_registry import AtomRegistry
+    def get_atom_registry():
+        return AtomRegistry()
+except ImportError:
+    get_atom_registry = None
+    AtomRegistry = None
 
 
 class RegistryOfRegistries:
     """
     The Meta-Registry.
-    
+
     Acts as the single entry point for all system inventories.
     """
-    
+
     _instance: Optional['RegistryOfRegistries'] = None
-    
+
     def __init__(self):
         self._registries: Dict[str, Any] = {}
         self._initialize_defaults()
-        
+
     def _initialize_defaults(self):
         """Register the standard core registries."""
-        # 1. Roles
+        # 1. Atoms (the fundamental building blocks)
+        if get_atom_registry:
+            self.register("atoms", get_atom_registry())
+
+        # 2. Roles
         self.register("roles", get_role_registry())
-        
-        # 2. Patterns
+
+        # 3. Patterns
         self.register("patterns", get_pattern_registry())
-        
-        # 3. Schemas
+
+        # 4. Schemas
         self.register("schemas", get_schema_registry())
-        
-        # 4. Workflows
+
+        # 5. Workflows
         self.register("workflows", get_workflow_registry())
-        
-        # 5. Types (if available)
+
+        # 6. Types (if available)
         if get_type_registry:
             self.register("types", get_type_registry())
-            
+
     @classmethod
     def get_instance(cls) -> 'RegistryOfRegistries':
         """Get or create the singleton instance."""
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance
-        
+
     def register(self, name: str, registry: Any) -> None:
         """Register a new registry."""
         self._registries[name] = registry
-        
+
     def get(self, name: str) -> Optional[Any]:
         """Get a registry by name."""
         return self._registries.get(name.lower())
-        
+
     def list_registries(self) -> List[str]:
         """List names of all registered registries."""
         return sorted(list(self._registries.keys()))
-        
+
     def status_report(self) -> Dict[str, str]:
         """Get a status summary of all registries."""
         report = {}
         for name, reg in self._registries.items():
-            # Try specific counts if known
-            if hasattr(reg, 'count'):
+            # Handle specific registry types
+            if name == "atoms" and hasattr(reg, 'atoms'):
+                t0t1 = len(reg.atoms)
+                t2 = len(reg.t2_atoms)
+                report[name] = f"Active ({t0t1} canonical + {t2} T2 = {t0t1 + t2} total)"
+            elif name == "types" and hasattr(reg, 'all_types'):
+                report[name] = f"Active ({len(reg.all_types())} types)"
+            elif name == "roles" and hasattr(reg, 'count'):
+                report[name] = f"Active ({reg.count()} roles)"
+            elif hasattr(reg, 'count'):
                 count = reg.count() if callable(reg.count) else reg.count
                 report[name] = f"Active ({count} items)"
             elif hasattr(reg, 'list_all'):
                 report[name] = f"Active ({len(reg.list_all())} items)"
-            elif isinstance(reg, TypeRegistry):
-                report[name] = f"Active ({len(reg.all_types())} types)"
-            elif isinstance(reg, RoleRegistry):
-                report[name] = "Active (33 roles)"
             else:
                 report[name] = "Active"
         return report

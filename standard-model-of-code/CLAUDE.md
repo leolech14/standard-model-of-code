@@ -7,7 +7,7 @@
 | Theory | Standard Model of Code |
 | Tool | Collider |
 | Purpose | Find basic constituents of computer programs |
-| Atoms | 3,616 total (see breakdown below) |
+| Atoms | 3,644 total (110 canonical + 3,534 T2) |
 | Roles | 33 canonical, 29 implemented |
 | Pipeline | 28 stages (5 phases) |
 | **Node Count** | 1,179 core / 1,961 full (see `docs/specs/NODE_COUNT_GROUND_TRUTH.md`) |

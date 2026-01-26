@@ -30,17 +30,46 @@ pipeline:
 # REGISTRIES (Ground Truth)
 # =============================================================================
 registries:
+  # ==========================================================================
+  # REGISTRY OF REGISTRIES (ROR) - Collider Core Registries
+  # Source: standard-model-of-code/src/core/registry/registry_of_registries.py
+  # Validated: 2026-01-26
+  # ==========================================================================
+  ror:
+    path: "standard-model-of-code/src/core/registry/registry_of_registries.py"
+    count: 6
+    source: "get_meta_registry().status_report() (2026-01-26)"
+    members:
+      atoms:
+        count: 3644
+        breakdown: "110 canonical + 3534 T2"
+        ecosystems: 180
+        source: atom_registry.py
+      roles:
+        count: 33
+        source: role_registry.py
+      types:
+        count: 36
+        source: type_registry.py
+      patterns:
+        count: 36
+        source: pattern_registry.py
+      schemas:
+        count: 13
+        source: schema_registry.py
+      workflows:
+        count: 4
+        types: [standard, deep_scan, fast_lint, antimatter]
+        source: workflow_registry.py
+
+  # ==========================================================================
+  # AGENT REGISTRIES (Observer Domain)
+  # ==========================================================================
   task:
     path: ".agent/registry/"
     active_tasks: 25
     opportunities: 60
     source: INDEX.md (2026-01-25, auto-synced)
-
-  workflow:
-    path: "standard-model-of-code/src/core/registry/workflow_registry.py"
-    workflows: 4
-    types: [standard, deep_scan, fast_lint, antimatter]
-    source: workflow_registry.py (2026-01-25)
 
   research_schemas:
     path: "context-management/config/research_schemas.yaml"
