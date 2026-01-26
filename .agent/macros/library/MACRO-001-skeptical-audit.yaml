@@ -35,12 +35,11 @@ tags:
 # =============================================================================
 
 trigger:
-  type: "manual"
+  type: "post_commit"
+  commit_pattern: "feat(*)"
 
-  # Future: Could become post_commit for sessions that create new files
-  # trigger:
-  #   type: "post_commit"
-  #   commit_pattern: "feat(*): Add*"
+  # Was manual until 2026-01-25 when macro automation pipeline completed
+  # Reverted from: type: "manual"
 
 # =============================================================================
 # PRECONDITIONS
