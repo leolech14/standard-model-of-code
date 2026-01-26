@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+# PROJECT ELEMENTS - Unified CLI
+# Frictionless access to all tools
+#
+# Usage:
+#   ./pe help                    # Show all commands
+#   ./pe status                  # System health at a glance
+#   ./pe ask "question"          # Ask AI (auto-activates venv)
+#   ./pe collider <args>         # Run Collider
+#   ./pe tdj <cmd>               # Timestamp Daily Journal
+#   ./pe autopilot <cmd>         # Automation orchestrator
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="$SCRIPT_DIR/.tools_venv"
+COLLIDER="$SCRIPT_DIR/standard-model-of-code"
+TOOLS="$SCRIPT_DIR/context-management/tools"
+AGENT="$SCRIPT_DIR/.agent"
+
+# Auto-activate venv for Python tools
+run_python() {
+    if [ -f "$VENV/bin/python" ]; then
+        "$VENV/bin/python" "$@"
+    else
+        python3 "$@"
+    fi
+}
+
+# Commands
+cmd_help() {
+    cat << 'EOF'
+PROJECT ELEMENTS - Unified CLI
+
+QUICK ACCESS:
+  ./pe status              System health overview
+  ./pe ask "question"      Ask AI (Gemini) a question
+  ./pe research "topic"    Deep research via Perplexity
+
+COLLIDER (Code Analysis):
+  ./pe collider full <path>         Full analysis
+  ./pe collider full <path> --ai    With AI insights
+  ./pe collider symmetry <path>     Wave/Particle symmetry check
+
+AUTOMATION:
+  ./pe autopilot status    Automation system status
+  ./pe autopilot health    Deep health check
+  ./pe autopilot run       Run full automation cycle
+  ./pe autopilot disable   Pause automation
+
+TEMPORAL INDEX:
+  ./pe tdj summary         Project timeline
+  ./pe tdj recent 7        Files created in last 7 days
+  ./pe tdj modified 1      Files modified today
+  ./pe tdj stale 30        Untouched 30+ days
+
+MAINTENANCE:
+  ./pe boot                Run boot sequence
+  ./pe test                Run all tests
+
+LOCATIONS:
+  Collider:    standard-model-of-code/
+  AI Tools:    context-management/tools/ai/
+  Automation:  .agent/tools/
+  Config:      context-management/config/
+EOF
+}
+
+cmd_status() {
+    echo "=== PROJECT ELEMENTS STATUS ==="
+    echo ""
+
+    # Git status
+    echo "Git: $(git branch --show-current) | $(git status --short | wc -l | tr -d ' ') changes"
+
+    # Autopilot
+    if [ -f "$AGENT/tools/autopilot.py" ]; then
+        python3 "$AGENT/tools/autopilot.py" status 2>/dev/null | grep -E "^(Autopilot|Level|Systems:)" | head -5
+    fi
+
+    # TDJ summary
+    if [ -f "$TOOLS/maintenance/tdj.py" ]; then
+        echo ""
+        python3 "$TOOLS/maintenance/tdj.py" summary 2>/dev/null | head -6
+    fi
+}
+
+cmd_ask() {
+    if [ -z "$1" ]; then
+        echo "Usage: ./pe ask \"your question\""
+        exit 1
+    fi
+    run_python "$TOOLS/ai/analyze.py" "$@" --set brain
+}
+
+cmd_research() {
+    if [ -z "$1" ]; then
+        echo "Usage: ./pe research \"topic\""
+        exit 1
+    fi
+    run_python "$TOOLS/ai/analyze.py" "$@" --research validation_trio
+}
+
+cmd_collider() {
+    cd "$COLLIDER" && ./collider "$@"
+}
+
+cmd_autopilot() {
+    python3 "$AGENT/tools/autopilot.py" "$@"
+}
+
+cmd_tdj() {
+    python3 "$TOOLS/maintenance/tdj.py" "$@"
+}
+
+cmd_boot() {
+    bash "$TOOLS/maintenance/boot.sh"
+}
+
+cmd_test() {
+    cd "$COLLIDER" && pytest tests/ -q
+}
+
+# Router
+case "${1:-help}" in
+    help|--help|-h)
+        cmd_help
+        ;;
+    status)
+        cmd_status
+        ;;
+    ask)
+        shift
+        cmd_ask "$@"
+        ;;
+    research)
+        shift
+        cmd_research "$@"
+        ;;
+    collider)
+        shift
+        cmd_collider "$@"
+        ;;
+    autopilot)
+        shift
+        cmd_autopilot "$@"
+        ;;
+    tdj)
+        shift
+        cmd_tdj "$@"
+        ;;
+    boot)
+        cmd_boot
+        ;;
+    test)
+        cmd_test
+        ;;
+    *)
+        echo "Unknown command: $1"
+        echo "Run './pe help' for available commands"
+        exit 1
+        ;;
+esac
