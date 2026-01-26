@@ -324,6 +324,10 @@ case "${1:-help}" in
     test)
         cmd_test
         ;;
+    intel)
+        shift
+        run_python "$TOOLS/ai/intel.py" "$@"
+        ;;
     verify|audit)
         cmd_verify
         ;;
