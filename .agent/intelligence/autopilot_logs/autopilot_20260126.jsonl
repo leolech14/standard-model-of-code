@@ -228,3 +228,6 @@
 {"timestamp": "2026-01-26T07:37:33.655268+00:00", "event": "post_commit_triggered", "details": {}}
 {"timestamp": "2026-01-26T07:37:33.821909+00:00", "event": "tdj_success", "details": {"output": "Scanning /Users/lech/PROJECTS_all/PROJECT_elements...\nScan complete: 5425 files in 11ms\nOutput: /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/tdj.jsonl\n"}}
 {"timestamp": "2026-01-26T07:37:33.888582+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: 6dd4aa57\u001b[0m\nMessage: docs(archaeology): add code archaeology findings\n\nActual sig...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}
+{"timestamp": "2026-01-26T07:41:54.110432+00:00", "event": "post_commit_triggered", "details": {}}
+{"timestamp": "2026-01-26T07:41:54.242494+00:00", "event": "tdj_success", "details": {"output": "Scanning /Users/lech/PROJECTS_all/PROJECT_elements...\nScan complete: 5430 files in 10ms\nOutput: /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/tdj.jsonl\n"}}
+{"timestamp": "2026-01-26T07:41:54.315511+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: ad9cba28\u001b[0m\nMessage: chore: Sync all pending state and research\n\nState files:\n- L...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}

@@ -1,0 +1,56 @@
+# Opportunity: Document Tool-to-Subsystem Mapping
+id: OPP-ARCH-008
+title: "Create mapping of 47 tools to their owning subsystems"
+status: pending
+priority: P1
+effort: S
+impact: HIGH
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  evidence:
+    - "47 tools in .agent/tools/"
+    - "No documentation of which subsystem owns each"
+    - "Contrast with well-documented ACI module"
+
+problem: |
+  47 tools exist with no documentation of ownership.
+  When adding features: which tool to modify?
+  When debugging: which subsystem is responsible?
+  No single source of truth for tool inventory.
+
+current_state: |
+  .agent/tools/ has 47 files
+  Some clearly belong to subsystems (deck_*, task_*)
+  Some are ambiguous (autopilot.py - S6? S10?)
+  No formal mapping exists
+
+solution: |
+  1. Create .agent/specs/TOOL_REGISTRY.yaml:
+     ```yaml
+     tools:
+       - name: triage_inbox.py
+         subsystem: S5  # Task Registry
+         purpose: "Move tasks from inbox to active"
+       - name: deal_cards.py
+         subsystem: S10  # Enrichment
+         purpose: "Draw opportunity cards"
+     ```
+
+  2. For each of 47 tools:
+     a. Read docstring/code to understand purpose
+     b. Assign to one subsystem
+     c. Document purpose in <10 words
+
+  3. Add to LOL.yaml as authoritative reference
+
+acceptance_criteria:
+  - TOOL_REGISTRY.yaml exists
+  - All 47 tools mapped to subsystems
+  - Each tool has purpose statement
+  - Registry linked from LOL.yaml
+
+related_opportunities:
+  - OPP-ARCH-003  # Organizing tools into subdirs by subsystem
+
+tags: [documentation, inventory, organization]

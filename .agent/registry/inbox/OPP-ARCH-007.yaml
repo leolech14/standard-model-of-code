@@ -1,0 +1,47 @@
+# Opportunity: Audit and Remove Dead Code
+id: OPP-ARCH-007
+title: "Identify and remove dead code (files not modified 30+ days)"
+status: pending
+priority: P2
+effort: M
+impact: MEDIUM
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  evidence:
+    - "Files not modified in 30+ days"
+    - "Shell scripts mixed with Python tools"
+    - "One-time migration scripts still present"
+
+problem: |
+  Codebase contains files that may be dead:
+  - Old migration scripts (execute_cutting_phase1.sh)
+  - Duplicate functionality (shell + Python versions)
+  - Files not touched in development cycles
+
+  Dead code increases cognitive load and maintenance burden.
+
+potential_orphans:
+  - "standard-model-of-code/src/tools/extract_chat_insights.py"
+  - "standard-model-of-code/src/tools/dedupe_insights.py"
+  - "check_stale.sh"
+  - "release_task.sh"
+  - "execute_cutting_phase1.sh"
+  - "promote_opportunity.sh (has .py version)"
+
+solution: |
+  1. Run: find . -name "*.py" -mtime +30 | grep -v __pycache__
+  2. For each file:
+     a. Check if imported anywhere
+     b. Check git log for last meaningful change
+     c. If truly dead: delete
+     d. If uncertain: add deprecation notice
+  3. Document audit results
+
+acceptance_criteria:
+  - Each potential orphan verified
+  - Dead files deleted
+  - Uncertain files marked with deprecation notice
+  - No duplicate shell/python implementations
+
+tags: [cleanup, dead-code, maintenance]

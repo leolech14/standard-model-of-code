@@ -1,0 +1,40 @@
+# Opportunity: Standardize YAML Library Usage
+id: OPP-ARCH-004
+title: "Standardize on pyyaml - eliminate 3 different YAML approaches"
+status: pending
+priority: P1
+effort: S
+impact: MEDIUM
+
+source:
+  discovery: "Code Archaeology Session 2026-01-26"
+  evidence:
+    - "16 files: import yaml"
+    - "8 files: import yaml as pyyaml"
+    - "8 files: from ruamel.yaml import YAML"
+
+problem: |
+  Three different YAML libraries/patterns used across codebase.
+  Inconsistent behavior for edge cases (multiline strings, anchors).
+  No standard approach for YAML handling.
+
+current_state: |
+  Pattern 1: import yaml (16 files)
+  Pattern 2: import yaml as pyyaml (8 files)
+  Pattern 3: from ruamel.yaml import YAML (8 files)
+
+solution: |
+  1. Standardize on pyyaml (most common, pure Python)
+  2. Create shared yaml_utils.py (see OPP-ARCH-002)
+  3. Update all files to use standard import pattern
+  4. Document when ruamel.yaml is actually needed (preserving comments)
+
+acceptance_criteria:
+  - All files use same YAML library
+  - Standard import pattern: "from .utils.yaml_utils import load_yaml, save_yaml"
+  - Document exceptions where ruamel is required
+
+dependencies:
+  - OPP-ARCH-002  # yaml_utils.py must exist first
+
+tags: [standardization, libraries, consistency]
