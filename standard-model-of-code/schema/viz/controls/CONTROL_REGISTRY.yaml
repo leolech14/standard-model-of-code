@@ -1,0 +1,556 @@
+# UI Control Registry - Single Source of Truth
+# Authoritative registry for all UI controls in the Collider visualization system
+
+version: "1.0"
+last_updated: "2026-01-25"
+total_authorized: 160
+
+panels:
+  accessibility:
+    description: 'WCAG compliance and preferences'
+    controls:
+      - id: a11y-focus-indicators
+        type: control
+        status: IMPLEMENTED
+      - id: a11y-font-size
+        type: control
+        status: IMPLEMENTED
+      - id: a11y-font-size-val
+        type: control
+        status: IMPLEMENTED
+      - id: a11y-large-text
+        type: control
+        status: IMPLEMENTED
+      - id: a11y-screen-reader
+        type: control
+        status: IMPLEMENTED
+      - id: panel-colorblind
+        type: control
+        status: IMPLEMENTED
+      - id: panel-high-contrast
+        type: control
+        status: IMPLEMENTED
+      - id: panel-reduced-motion
+        type: control
+        status: IMPLEMENTED
+  accordion-sections:
+    description: 'Collapsible sections'
+    controls:
+      - id: section-actions
+        type: control
+        status: IMPLEMENTED
+      - id: section-appearance
+        type: control
+        status: IMPLEMENTED
+      - id: section-filters
+        type: control
+        status: IMPLEMENTED
+      - id: section-layout
+        type: control
+        status: IMPLEMENTED
+      - id: section-node-config
+        type: control
+        status: IMPLEMENTED
+      - id: section-physics
+        type: control
+        status: IMPLEMENTED
+  analysis:
+    description: 'Metrics and statistics'
+    controls:
+      - id: stat-edges
+        type: control
+        status: IMPLEMENTED
+      - id: stat-entropy
+        type: control
+        status: IMPLEMENTED
+      - id: stat-nodes
+        type: control
+        status: IMPLEMENTED
+      - id: stats-density
+        type: control
+        status: IMPLEMENTED
+      - id: stats-edges
+        type: control
+        status: IMPLEMENTED
+      - id: stats-files
+        type: control
+        status: IMPLEMENTED
+      - id: stats-nodes
+        type: control
+        status: IMPLEMENTED
+  camera:
+    description: '3D camera and view controls'
+    controls:
+      - id: camera-auto-rotate
+        type: control
+        status: IMPLEMENTED
+      - id: camera-bookmarks
+        type: control
+        status: IMPLEMENTED
+      - id: camera-reset
+        type: control
+        status: IMPLEMENTED
+      - id: camera-rotate-speed
+        type: control
+        status: IMPLEMENTED
+      - id: camera-rotate-speed-val
+        type: control
+        status: IMPLEMENTED
+      - id: camera-save-bookmark
+        type: control
+        status: IMPLEMENTED
+      - id: camera-zoom-fit
+        type: control
+        status: IMPLEMENTED
+      - id: camera-zoom-in
+        type: control
+        status: IMPLEMENTED
+      - id: camera-zoom-out
+        type: control
+        status: IMPLEMENTED
+  color-schemes:
+    description: 'Color scheme selection'
+    controls:
+      - id: section-color
+        type: control
+        status: IMPLEMENTED
+      - id: section-schemes
+        type: control
+        status: IMPLEMENTED
+  edge-config:
+    description: 'Edge visual properties'
+    controls:
+      - id: cfg-edge-curve
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-edge-curve-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-edge-opacity
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-edge-opacity-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-edge-width
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-edge-width-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-arrows
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-edge-hover
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-gradient
+        type: control
+        status: IMPLEMENTED
+      - id: edge-opacity
+        type: control
+        status: IMPLEMENTED
+      - id: edge-opacity-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-curve
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-curve-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-opacity
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-opacity-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-width
+        type: control
+        status: IMPLEMENTED
+      - id: panel-edge-width-num
+        type: control
+        status: IMPLEMENTED
+      - id: section-edge-config
+        type: control
+        status: IMPLEMENTED
+  filtering:
+    description: 'Data subset selection and search'
+    controls:
+      - id: filter-edges
+        type: control
+        status: IMPLEMENTED
+      - id: filter-family-chips
+        type: control
+        status: IMPLEMENTED
+      - id: filter-hide-dead
+        type: control
+        status: IMPLEMENTED
+      - id: filter-hide-orphans
+        type: control
+        status: IMPLEMENTED
+      - id: filter-max-degree
+        type: control
+        status: IMPLEMENTED
+      - id: filter-max-degree-val
+        type: control
+        status: IMPLEMENTED
+      - id: filter-min-degree
+        type: control
+        status: IMPLEMENTED
+      - id: filter-min-degree-val
+        type: control
+        status: IMPLEMENTED
+      - id: filter-rings
+        type: control
+        status: IMPLEMENTED
+      - id: filter-role-chips
+        type: control
+        status: IMPLEMENTED
+      - id: filter-tier-chips
+        type: control
+        status: IMPLEMENTED
+      - id: filter-tiers
+        type: control
+        status: IMPLEMENTED
+      - id: panel-filter-chips
+        type: control
+        status: IMPLEMENTED
+      - id: panel-filter-degree
+        type: control
+        status: IMPLEMENTED
+      - id: panel-filter-degree-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-search-nodes
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-dead
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-orphans
+        type: control
+        status: IMPLEMENTED
+  highlight-config:
+    description: 'Highlight and depth rendering'
+    controls:
+      - id: cfg-toggle-depth
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-highlight
+        type: control
+        status: IMPLEMENTED
+      - id: hover-panel
+        type: control
+        status: IMPLEMENTED
+      - id: panel-alpha-decay
+        type: control
+        status: IMPLEMENTED
+      - id: panel-alpha-decay-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-cool
+        type: control
+        status: IMPLEMENTED
+      - id: panel-export-embed
+        type: control
+        status: IMPLEMENTED
+      - id: panel-export-json
+        type: control
+        status: IMPLEMENTED
+      - id: panel-export-png
+        type: control
+        status: IMPLEMENTED
+      - id: panel-export-svg
+        type: control
+        status: IMPLEMENTED
+      - id: panel-freeze
+        type: control
+        status: IMPLEMENTED
+      - id: panel-particle-speed
+        type: control
+        status: IMPLEMENTED
+      - id: panel-particle-speed-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-reheat
+        type: control
+        status: IMPLEMENTED
+      - id: panel-reset-layout
+        type: control
+        status: IMPLEMENTED
+      - id: panel-stat-density
+        type: control
+        status: IMPLEMENTED
+      - id: panel-stat-edges
+        type: control
+        status: IMPLEMENTED
+      - id: panel-stat-selected
+        type: control
+        status: IMPLEMENTED
+      - id: panel-stat-visible
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-arrows
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-depth
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-dock
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-gradient
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-highlight
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-metrics
+        type: control
+        status: IMPLEMENTED
+      - id: panel-view-2d
+        type: control
+        status: IMPLEMENTED
+      - id: panel-view-3d
+        type: control
+        status: IMPLEMENTED
+  hover-info:
+    description: 'Hover information'
+    controls:
+      - id: hover-atom
+        type: control
+        status: IMPLEMENTED
+      - id: hover-family
+        type: control
+        status: IMPLEMENTED
+      - id: hover-file
+        type: control
+        status: IMPLEMENTED
+      - id: hover-kind
+        type: control
+        status: IMPLEMENTED
+      - id: hover-name
+        type: control
+        status: IMPLEMENTED
+      - id: hover-placeholder
+        type: control
+        status: IMPLEMENTED
+      - id: hover-ring
+        type: control
+        status: IMPLEMENTED
+      - id: hover-role
+        type: control
+        status: IMPLEMENTED
+      - id: hover-tier
+        type: control
+        status: IMPLEMENTED
+  label-config:
+    description: 'Label display settings'
+    controls:
+      - id: cfg-label-size
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-label-size-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-labels
+        type: control
+        status: IMPLEMENTED
+      - id: panel-label-size
+        type: control
+        status: IMPLEMENTED
+      - id: panel-label-size-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-toggle-labels
+        type: control
+        status: IMPLEMENTED
+      - id: toggle-labels
+        type: control
+        status: IMPLEMENTED
+  misc:
+    description: 'Other controls'
+    controls:
+      - id: btn-reset
+        type: control
+        status: IMPLEMENTED
+      - id: btn-screenshot
+        type: control
+        status: IMPLEMENTED
+  node-config:
+    description: 'Node visual properties'
+    controls:
+      - id: cfg-node-opacity
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-node-opacity-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-node-res
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-node-res-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-node-size
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-node-size-num
+        type: control
+        status: IMPLEMENTED
+      - id: node-size
+        type: control
+        status: IMPLEMENTED
+      - id: node-size-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-node-opacity
+        type: control
+        status: IMPLEMENTED
+      - id: panel-node-opacity-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-node-size
+        type: control
+        status: IMPLEMENTED
+      - id: panel-node-size-num
+        type: control
+        status: IMPLEMENTED
+  particle-config:
+    description: 'Particle effects'
+    controls:
+      - id: cfg-particle-count
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-particle-count-num
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-particle-speed
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-particle-speed-num
+        type: control
+        status: IMPLEMENTED
+  performance:
+    description: 'Performance metrics'
+    controls:
+      - id: perf-fps
+        type: control
+        status: IMPLEMENTED
+      - id: perf-frame
+        type: control
+        status: IMPLEMENTED
+      - id: perf-hud
+        type: control
+        status: IMPLEMENTED
+  physics:
+    description: 'Physics simulation controls'
+    controls:
+      - id: btn-freeze
+        type: control
+        status: IMPLEMENTED
+      - id: physics-center
+        type: control
+        status: IMPLEMENTED
+      - id: physics-center-num
+        type: control
+        status: IMPLEMENTED
+      - id: physics-charge
+        type: control
+        status: IMPLEMENTED
+      - id: physics-charge-num
+        type: control
+        status: IMPLEMENTED
+      - id: physics-link
+        type: control
+        status: IMPLEMENTED
+      - id: physics-link-num
+        type: control
+        status: IMPLEMENTED
+  selection:
+    description: 'Interactive element selection'
+    controls:
+      - id: panel-khop
+        type: control
+        status: IMPLEMENTED
+      - id: panel-khop-num
+        type: control
+        status: IMPLEMENTED
+      - id: panel-select-clear
+        type: control
+        status: IMPLEMENTED
+      - id: panel-select-expand
+        type: control
+        status: IMPLEMENTED
+      - id: panel-select-invert
+        type: control
+        status: IMPLEMENTED
+      - id: panel-select-isolate
+        type: control
+        status: IMPLEMENTED
+      - id: selection-actions
+        type: control
+        status: IMPLEMENTED
+      - id: selection-box
+        type: control
+        status: IMPLEMENTED
+      - id: selection-clear
+        type: control
+        status: IMPLEMENTED
+      - id: selection-count
+        type: control
+        status: IMPLEMENTED
+      - id: selection-list
+        type: control
+        status: IMPLEMENTED
+  special:
+    description: 'Special rendering modes'
+    controls:
+      - id: cfg-toggle-codome
+        type: control
+        status: IMPLEMENTED
+      - id: cfg-toggle-pulse
+        type: control
+        status: IMPLEMENTED
+  ui-structure:
+    description: 'UI layout elements'
+    controls:
+      - id: left-resize-handle
+        type: control
+        status: IMPLEMENTED
+      - id: left-sidebar
+        type: control
+        status: IMPLEMENTED
+      - id: loader-status
+        type: control
+        status: IMPLEMENTED
+      - id: right-resize-handle
+        type: control
+        status: IMPLEMENTED
+      - id: right-sidebar
+        type: control
+        status: IMPLEMENTED
+      - id: target-name
+        type: control
+        status: IMPLEMENTED
+  view-modes:
+    description: 'View switching'
+    controls:
+      - id: btn-2d
+        type: control
+        status: IMPLEMENTED
+      - id: view-mode-toggle
+        type: control
+        status: IMPLEMENTED
+
+governance:
+  rule: "No control may be added to template.html without FIRST being registered here with status AUTHORIZED"
+  workflow:
+    1_propose: "Add control with status: PROPOSED"
+    2_review: "Validate against design system, check for duplicates"
+    3_authorize: "Change status to AUTHORIZED"
+    4_implement: "Add to template.html"
+    5_wire: "Add handlers in panel-handlers.js"
+    6_validate: "Change status to IMPLEMENTED"
+  enforcement: "Pre-commit hook checks template.html IDs against registry"
