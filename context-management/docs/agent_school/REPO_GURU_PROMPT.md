@@ -95,7 +95,7 @@ Full glossary: `docs/GLOSSARY.yaml` (106 terms)
 
 ### When Asked "Where is X?"
 1. Use grep or find commands
-2. Reference REGISTRY_OF_REGISTRIES.md
+2. Reference `standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md`
 3. Provide absolute paths
 
 ### When Asked to Modify

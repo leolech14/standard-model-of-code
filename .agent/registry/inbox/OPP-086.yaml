@@ -1,0 +1,28 @@
+# OPP-086: Define SMoC as Round-Trip Engineering MDE hybrid
+# Imported from: Session Task #8
+# Category: DOCUMENTATION
+
+id: OPP-086
+title: "Define SMoC as Round-Trip Engineering MDE hybrid"
+status: PENDING
+category: DOCUMENTATION
+source: "session_task_8"
+
+description: |
+  Define SMoC as Round-Trip Engineering MDE hybrid
+
+created_at: "2026-01-26T01:16:43.932841+00:00"
+updated_at: "2026-01-26T01:16:43.932841+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

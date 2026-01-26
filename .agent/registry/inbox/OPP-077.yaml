@@ -1,0 +1,28 @@
+# OPP-077: Refine orphan detection entry point patterns
+# Imported from: Session Task #29
+# Category: GENERAL
+
+id: OPP-077
+title: "Refine orphan detection entry point patterns"
+status: PENDING
+category: GENERAL
+source: "session_task_29"
+
+description: |
+  Refine orphan detection entry point patterns
+
+created_at: "2026-01-26T01:16:43.913028+00:00"
+updated_at: "2026-01-26T01:16:43.913028+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

@@ -1,6 +1,8 @@
 # PROJECTOME - The Complete Project Contents
 
-> All contents of a software project: code + context.
+> **Status:** ACTIVE
+> **Created:** 2026-01-25
+> **Purpose:** All contents of a software project: code + context
 
 ## Definition
 
@@ -138,8 +140,8 @@ That's it.
 - `CONTEXTOME.md` — Non-executable content definition
 - `DOMAINS.md` — Vertical slices through both universes
 - `TOPOLOGY_MAP.md` — Master navigation guide
-- `CODOME_COMPLETENESS_INDEX.md` — Code measurement spec
-- `REGISTRY_OF_REGISTRIES.md` — Full enumeration
+- `../../standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` — Code measurement spec
+- `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` — Full enumeration
 
 ## Research Validation
 

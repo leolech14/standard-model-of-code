@@ -1,0 +1,209 @@
+# Macro Schema
+# =============
+# Defines recorded action patterns that can be auto-executed on triggers.
+#
+# A MACRO is: A successful action pattern, recorded and made repeatable.
+#
+# PRINCIPLE: If you do it twice manually, record it as a macro.
+#
+# Version: 1.0.0
+# Created: 2026-01-25
+
+# =============================================================================
+# MACRO DEFINITION
+# =============================================================================
+
+macro:
+  # --- IDENTITY ---
+  id: "MACRO-XXX"  # Unique macro ID
+  name: "Human-readable name"
+  version: "1.0.0"  # SemVer
+  status: "DRAFT"  # DRAFT | TESTED | PRODUCTION | DEPRECATED
+
+  # --- METADATA ---
+  created: "2026-01-25T21:00:00Z"
+  author: "agent_name | human"
+  description: |
+    What this macro does and why.
+  tags:
+    - "audit"
+    - "quality"
+
+  # --- TRIGGER ---
+  # What causes this macro to execute
+  trigger:
+    type: "manual"  # manual | schedule | event | file_change | post_commit
+
+    # For schedule type (cron expression)
+    schedule: null  # "0 6 * * *" = daily at 6 AM
+
+    # For event type
+    event:
+      source: null  # registry | git | ci
+      type: null    # task_promoted | opp_created | commit | pr_merged
+
+    # For file_change type
+    file_pattern: null  # "**/*.py" | "context-management/**"
+
+    # For post_commit type
+    commit_pattern: null  # "feat(*)" | "fix(*)"
+
+  # --- PRECONDITIONS ---
+  # Conditions that must be true before execution
+  preconditions:
+    - condition: "env.GEMINI_API_KEY is set"
+      required: true
+    - condition: "file .agent/registry exists"
+      required: true
+
+  # --- STEPS ---
+  # The recorded action pattern
+  steps:
+    - id: "step_1"
+      description: "What this step does"
+      tool: "Task | Bash | Grep | Read | Write | Glob"
+      params:
+        # Tool-specific parameters
+        key: "value"
+
+      # Variable capture
+      output_var: "result_name"
+
+      # Conditional execution
+      condition: null  # "previous_step.exit_code == 0"
+
+      # Error handling
+      on_failure: "stop | continue | retry"
+      retry_count: 3
+
+      # Expectation (for validation)
+      expect: null  # "output contains 'SUCCESS'"
+
+  # --- SUCCESS CRITERIA ---
+  # What constitutes a successful execution
+  success_criteria:
+    - "All steps completed"
+    - "Report file generated"
+    - "No HIGH severity issues found"
+
+  # --- OUTPUT ---
+  # What the macro produces
+  output:
+    type: "file | manifest | registry_update"
+    path: ".agent/intelligence/{macro_name}_{date}.md"
+    format: "markdown | yaml | json"
+
+  # --- EXECUTION HISTORY ---
+  # Automatically populated
+  executions: []
+    # - timestamp: "2026-01-25T21:00:00Z"
+    #   trigger: "manual"
+    #   outcome: "SUCCESS | FAILURE | PARTIAL"
+    #   duration_ms: 12500
+    #   report: "path/to/execution/report.md"
+
+# =============================================================================
+# FIELD DEFINITIONS
+# =============================================================================
+
+field_definitions:
+  status:
+    description: "Lifecycle stage of the macro"
+    enum:
+      - DRAFT       # Being developed, not ready for auto-execution
+      - TESTED      # Manually tested, ready for limited automation
+      - PRODUCTION  # Fully automated, runs on triggers
+      - DEPRECATED  # No longer in use, kept for reference
+
+  trigger.type:
+    description: "What causes execution"
+    enum:
+      - manual       # Explicitly invoked by human or agent
+      - schedule     # Cron-based timing
+      - event        # Registry or system event
+      - file_change  # File modification detected
+      - post_commit  # After git commit matching pattern
+
+  steps.tool:
+    description: "Which tool to invoke"
+    enum:
+      - Task         # Spawn subagent
+      - Bash         # Shell command
+      - Grep         # Pattern search
+      - Read         # File read
+      - Write        # File write
+      - Glob         # File pattern match
+      - WebFetch     # URL fetch
+      - AskUser      # Human input required
+
+  steps.on_failure:
+    description: "What to do if step fails"
+    enum:
+      - stop         # Halt macro execution
+      - continue     # Proceed to next step
+      - retry        # Retry with backoff
+
+# =============================================================================
+# INTEGRATION POINTS
+# =============================================================================
+
+integration:
+  # How macros connect to existing systems
+
+  task_registry:
+    description: "Macros can create/update tasks"
+    actions:
+      - "Create OPP from findings"
+      - "Update TASK confidence"
+      - "Archive completed tasks"
+
+  workflow_registry:
+    description: "Macros can invoke workflows"
+    actions:
+      - "Trigger standard analysis"
+      - "Run deep_scan workflow"
+
+  research_schemas:
+    description: "Macros can execute research"
+    actions:
+      - "Run validation_trio"
+      - "Execute forensic_investigation"
+
+  bare:
+    description: "BARE can execute production macros"
+    trigger_sources:
+      - post_commit_hook
+      - cron_scheduler
+      - event_bus
+
+# =============================================================================
+# EXAMPLE: Minimal Macro
+# =============================================================================
+
+example_minimal:
+  id: "MACRO-000"
+  name: "Health Check"
+  version: "1.0.0"
+  status: "PRODUCTION"
+
+  trigger:
+    type: "schedule"
+    schedule: "0 6 * * *"  # Daily at 6 AM
+
+  preconditions:
+    - condition: "git status is clean"
+      required: false
+
+  steps:
+    - id: "check_tests"
+      tool: "Bash"
+      params:
+        command: "cd standard-model-of-code && pytest tests/ -q"
+      expect: "exit_code == 0"
+
+  success_criteria:
+    - "Tests pass"
+
+  output:
+    type: "manifest"
+    path: ".agent/macros/logs/MACRO-000/{date}.manifest.yaml"

@@ -78,6 +78,36 @@
 | S9b | **Laboratory Bridge** | Client | `context-management/tools/ai/laboratory_bridge.py` | Agent client (Wave-side caller) |
 | S10 | **Cloud Automation** | Engine | `.agent/tools/cloud/` | Auto-boost opportunities via GCS + Cloud Function |
 | S11 | **Batch Grade** | Experiment | `standard-model-of-code/tools/batch_grade/` | Mass Collider validation on 999+ repos (RunPod) |
+| S12 | **Centripetal** | Utility | `.agent/tools/centripetal_scan.py` | Deep 12-round analysis cycles |
+| **S13** | **Macro Registry** | State | `.agent/macros/` | Recorded action patterns for automation |
+
+---
+
+## Macro System (S13) - NEW
+
+**Principle:** If you do it twice manually, record it as a macro.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MACRO LIFECYCLE                              │
+│                                                                 │
+│   MANUAL ──► RECORD ──► TEST ──► AUTOMATE                       │
+│   (agent)    (YAML)    (verify)  (trigger engine → BARE)        │
+│                                                                 │
+│   Artifacts:                                                    │
+│   ├── .agent/macros/schema/macro.schema.yaml                   │
+│   ├── .agent/macros/library/MACRO-XXX.yaml                     │
+│   └── .agent/macros/INDEX.md                                   │
+│                                                                 │
+│   First macro: MACRO-001 (Skeptical Audit)                     │
+│   Deck card:   CARD-AUD-001                                    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Integration Status:**
+- Task Registry: PLANNED (macros can create OPPs)
+- BARE: PLANNED (BARE can execute production macros)
+- Trigger Engine: NOT_IMPLEMENTED (needed for auto-execution)
 
 ---
 

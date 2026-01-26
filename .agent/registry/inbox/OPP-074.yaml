@@ -1,0 +1,28 @@
+# OPP-074: Document two-tier truth model Axioms vs Q-metrics
+# Imported from: Session Task #25
+# Category: HEALTH_MODEL
+
+id: OPP-074
+title: "Document two-tier truth model Axioms vs Q-metrics"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_25"
+
+description: |
+  Document two-tier truth model Axioms vs Q-metrics
+
+created_at: "2026-01-26T01:16:43.906534+00:00"
+updated_at: "2026-01-26T01:16:43.906534+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

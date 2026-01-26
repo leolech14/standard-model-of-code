@@ -1,0 +1,292 @@
+# MACRO-001: Skeptical Audit
+# ===========================
+# Systematic self-criticism to identify blind spots, dead code, and integration failures.
+#
+# TRIGGER: Manual (invoke after any session creating new code/schemas)
+# OUTPUT: .agent/intelligence/SKEPTICAL_AUDIT_{date}.md
+#
+# Version: 1.0.0
+# Created: 2026-01-25
+# Origin: Session a664013c-ad05-4d46-881e-d5cec97826ed (first manual execution)
+
+id: "MACRO-001"
+name: "Skeptical Audit"
+version: "1.0.0"
+status: "TESTED"  # Manually executed 2026-01-25, documented results
+
+created: "2026-01-25T21:30:00Z"
+author: "claude-opus-4-5 + leonardo.lech"
+description: |
+  Performs systematic self-criticism on a session's work to identify:
+  - Dead code (created but never called)
+  - Integration failures (components not connected)
+  - Validation theater (AI said "good" but missed problems)
+  - Schema bloat (duplicating existing patterns)
+  - Missing automation (manual processes that should be macros)
+
+tags:
+  - "audit"
+  - "quality"
+  - "self-criticism"
+  - "integration"
+
+# =============================================================================
+# TRIGGER
+# =============================================================================
+
+trigger:
+  type: "manual"
+
+  # Future: Could become post_commit for sessions that create new files
+  # trigger:
+  #   type: "post_commit"
+  #   commit_pattern: "feat(*): Add*"
+
+# =============================================================================
+# PRECONDITIONS
+# =============================================================================
+
+preconditions:
+  - condition: "GEMINI_API_KEY is set"
+    required: true
+    reason: "Need AI for deep analysis"
+
+  - condition: ".agent/registry exists"
+    required: true
+    reason: "Need registry context"
+
+  - condition: "Session created new files"
+    required: false
+    reason: "Most valuable when new code was created"
+
+# =============================================================================
+# INPUT
+# =============================================================================
+
+input:
+  # What information the macro needs to operate
+  session_artifacts:
+    description: "List of files created/modified in session"
+    source: "git status --short OR timestamp journal"
+
+  new_exports:
+    description: "New functions/classes exported"
+    source: "diff of __init__.py files"
+
+  validation_responses:
+    description: "AI validation outputs from session"
+    source: "research/gemini/docs/*_validation*.md"
+
+# =============================================================================
+# STEPS
+# =============================================================================
+
+steps:
+  # --- STEP 1: Inventory ---
+  - id: "inventory_artifacts"
+    description: "List all new artifacts from session"
+    tool: "Bash"
+    params:
+      command: |
+        echo "=== NEW FILES ===" && \
+        git status --short | grep "^??" | head -20 && \
+        echo "" && \
+        echo "=== MODIFIED FILES ===" && \
+        git status --short | grep "^ M\|^M " | head -20
+    output_var: "session_artifacts"
+    on_failure: "continue"
+
+  # --- STEP 2: Dead Code Check ---
+  - id: "check_dead_code"
+    description: "Verify new functions are called somewhere"
+    tool: "Task"
+    params:
+      subagent_type: "Explore"
+      prompt: |
+        Check if these new artifacts are actually USED:
+
+        {session_artifacts}
+
+        For each new Python file:
+        1. List exported functions/classes
+        2. Search for imports of those exports
+        3. Flag any that are NEVER imported/called
+
+        For each new YAML schema:
+        1. Identify what should execute it
+        2. Check if that executor exists
+        3. Flag schemas without executors
+
+        Output format:
+        | Artifact | Exported | Called By | Status |
+        |----------|----------|-----------|--------|
+    output_var: "dead_code_findings"
+    on_failure: "stop"
+
+  # --- STEP 3: Integration Check ---
+  - id: "check_integration"
+    description: "Verify components can be imported and connected"
+    tool: "Bash"
+    params:
+      command: |
+        cd context-management/tools/ai && \
+        python -c "
+        from aci import (
+            ACI_CONFIG,
+            analyze_query,
+            route_query,
+            HistoryLoader,
+            execute_research,
+        )
+        print('All imports OK')
+        "
+    expect: "All imports OK"
+    on_failure: "continue"
+    output_var: "integration_status"
+
+  # --- STEP 4: Validation Theater Check ---
+  - id: "check_validation_theater"
+    description: "Analyze if AI validation missed critical issues"
+    tool: "Task"
+    params:
+      subagent_type: "Explore"
+      prompt: |
+        Find all validation response files from today:
+        - standard-model-of-code/docs/research/gemini/docs/*validation*.md
+
+        For each validation:
+        1. What did the AI say was "good" or "valid"?
+        2. What concerns were mentioned but possibly ignored?
+        3. Was the SCHEMA validated or the SYSTEM?
+        4. What follow-up actions were recommended?
+
+        Output format:
+        | Validation | AI Said | Concerns Buried | Action Taken |
+        |------------|---------|-----------------|--------------|
+    output_var: "validation_analysis"
+    on_failure: "continue"
+
+  # --- STEP 5: Schema Bloat Check ---
+  - id: "check_schema_bloat"
+    description: "Detect overlap with existing configurations"
+    tool: "Task"
+    params:
+      subagent_type: "Explore"
+      prompt: |
+        Compare any new schemas/configs created today against existing:
+
+        Existing configs to check:
+        - context-management/config/aci_config.yaml
+        - context-management/config/research_schemas.yaml
+        - context-management/config/analysis_sets.yaml
+        - .agent/schema/*.yaml
+
+        For each new schema field:
+        1. Does it duplicate an existing field?
+        2. What's genuinely new?
+        3. Could existing schemas be extended instead?
+
+        Output format:
+        | New Field | Overlaps With | Redundancy % | Verdict |
+        |-----------|---------------|--------------|---------|
+    output_var: "bloat_analysis"
+    on_failure: "continue"
+
+  # --- STEP 6: Generate Report ---
+  - id: "generate_report"
+    description: "Compile findings into structured report"
+    tool: "Write"
+    params:
+      file_path: ".agent/intelligence/SKEPTICAL_AUDIT_{date}.md"
+      content: |
+        # SKEPTICAL AUDIT REPORT: {date}
+
+        > Generated by MACRO-001-skeptical-audit
+
+        ## Session Artifacts
+        {session_artifacts}
+
+        ## Dead Code Analysis
+        {dead_code_findings}
+
+        ## Integration Status
+        {integration_status}
+
+        ## Validation Theater Analysis
+        {validation_analysis}
+
+        ## Schema Bloat Analysis
+        {bloat_analysis}
+
+        ## Action Items
+        [To be filled based on severity]
+
+        ---
+        *Generated: {timestamp}*
+    output_var: "report_path"
+
+# =============================================================================
+# SUCCESS CRITERIA
+# =============================================================================
+
+success_criteria:
+  - "Report file generated"
+  - "Dead code findings documented"
+  - "Integration test executed"
+  - "All HIGH severity items have action plan"
+
+# =============================================================================
+# OUTPUT
+# =============================================================================
+
+output:
+  type: "file"
+  path: ".agent/intelligence/SKEPTICAL_AUDIT_{date}.md"
+  format: "markdown"
+
+  # Also produces
+  side_effects:
+    - "May create OPP-XXX for discovered issues"
+    - "May update task confidence scores"
+
+# =============================================================================
+# EXECUTION HISTORY
+# =============================================================================
+
+executions:
+  - timestamp: "2026-01-25T21:30:00Z"
+    trigger: "manual"
+    outcome: "SUCCESS"
+    duration_ms: ~180000  # ~3 minutes
+    report: ".agent/intelligence/SKEPTICAL_AUDIT_REPORT_20260125.md"
+    findings:
+      dead_code: 1  # history_loader.py
+      integration_failures: 4
+      validation_theater: 1
+      schema_bloat: "40%"
+    follow_up_created:
+      - "Wire history_loader to research_orchestrator"
+      - "Implement manifest persistence"
+
+# =============================================================================
+# FUTURE AUTOMATION PATH
+# =============================================================================
+
+automation_path:
+  current: "TESTED"
+  next_steps:
+    - step: "Add post-commit trigger for feat(*) commits"
+      effort: "1h"
+      blocks: "Need trigger engine"
+
+    - step: "Integrate with BARE for scheduled runs"
+      effort: "2h"
+      blocks: "Need BARE macro support"
+
+    - step: "Auto-create OPPs from findings"
+      effort: "1h"
+      blocks: "None"
+
+  target_state: "PRODUCTION"
+  target_trigger: "post_commit"
+  target_schedule: "After any session creating new code"

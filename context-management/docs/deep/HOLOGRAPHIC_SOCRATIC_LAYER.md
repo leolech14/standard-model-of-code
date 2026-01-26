@@ -10,7 +10,7 @@
 The Holographic-Socratic Layer is a **self-maintaining semantic validation system** that ensures codebase integrity against defined invariants (Antimatter Laws). Unlike static linters, it:
 
 1. **Reconstructs context** from any partial query
-2. **Questions continuously** via scheduled and file-triggered audits  
+2. **Questions continuously** via scheduled and file-triggered audits
 3. **Updates the single source of truth** with every run
 
 ## Architecture

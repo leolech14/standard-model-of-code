@@ -1,6 +1,10 @@
-version: '2026-01-23T08:24:23.069926+00:00'
-validated_by: BARE/TruthValidator
-confidence: 0.7
+version: '2026-01-25T21:45:00+00:00'
+validated_by: BARE/TruthValidator + Skeptical Audit
+confidence: 0.75
+
+# =============================================================================
+# CORE COUNTS
+# =============================================================================
 counts:
   files:
     python: 186
@@ -14,7 +18,171 @@ counts:
   functions: 341
   classes: 183
   source: grep_estimate
+
+# =============================================================================
+# PIPELINE
+# =============================================================================
 pipeline:
   stages: 18
   source: CLAUDE.md
-_note: Run './collider full . --output .collider' for richer data
+
+# =============================================================================
+# REGISTRIES (Ground Truth)
+# =============================================================================
+registries:
+  task:
+    path: ".agent/registry/"
+    active_tasks: 9
+    opportunities: 59
+    source: INDEX.md (2026-01-25)
+
+  workflow:
+    path: "standard-model-of-code/src/core/registry/workflow_registry.py"
+    workflows: 4
+    types: [standard, deep_scan, fast_lint, antimatter]
+    source: workflow_registry.py (2026-01-25)
+
+  research_schemas:
+    path: "context-management/config/research_schemas.yaml"
+    schemas: 12
+    types: [validation_trio, depth_ladder, adversarial_pair, forensic_investigation,
+            quick_validate, semantic_probe, cost_analyzer, claude_history_ingest,
+            mind_map_builder, gemini_deep, perplexity_grounding, hybrid_validation]
+    source: research_schemas.yaml (2026-01-25)
+
+  macro:
+    path: ".agent/macros/"
+    macros: 1
+    status: INITIALIZED
+    source: INDEX.md (2026-01-25)
+    note: "Recorded action patterns for automation"
+
+  deck:
+    path: ".agent/deck/"
+    cards: 9
+    types: [REG, RES, GIT, ANA, DOC, SES, WLD, AUD]
+    source: ls .agent/deck/ (2026-01-25)
+
+# =============================================================================
+# SUBSYSTEMS (From SOS_MAP)
+# =============================================================================
+subsystems:
+  count: 13  # S1-S9b + S10-S13
+  validated: true
+  source: SOS_MAP_TRUTH.md (2026-01-25)
+
+  list:
+    - id: S1
+      name: Collider
+      path: "standard-model-of-code/"
+      type: Engine
+
+    - id: S2
+      name: HSL
+      path: "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
+      type: Framework
+
+    - id: S3
+      name: analyze.py
+      path: "context-management/tools/ai/analyze.py"
+      type: Engine
+
+    - id: S4
+      name: Perplexity MCP
+      path: "context-management/tools/mcp/"
+      type: Utility
+
+    - id: S5
+      name: Task Registry
+      path: ".agent/registry/"
+      type: State
+
+    - id: S6
+      name: BARE
+      path: ".agent/tools/bare"
+      type: Engine
+
+    - id: S7
+      name: Archive
+      path: "context-management/tools/archive/"
+      type: Utility
+
+    - id: S8
+      name: Hygiene
+      path: ".pre-commit-config.yaml"
+      type: Guard
+
+    - id: S9
+      name: Laboratory
+      path: "standard-model-of-code/tools/research/laboratory.py"
+      type: Bridge
+
+    - id: S9b
+      name: Lab Bridge
+      path: "context-management/tools/ai/laboratory_bridge.py"
+      type: Client
+
+    - id: S10
+      name: AEP (Enrichment)
+      path: ".agent/tools/enrichment_orchestrator.py"
+      type: Engine
+
+    - id: S11
+      name: ACI Refinery
+      path: "context-management/tools/ai/aci/refinery.py"
+      type: Engine
+
+    - id: S12
+      name: Centripetal
+      path: ".agent/tools/centripetal_scan.py"
+      type: Utility
+
+    - id: S13
+      name: Macro Registry
+      path: ".agent/macros/"
+      type: State
+      added: "2026-01-25"
+      note: "Recorded patterns for automation"
+
+# =============================================================================
+# INTEGRATION STATUS
+# =============================================================================
+integrations:
+  active: 9
+  missing_critical: 1
+  gap_id: SG-004
+  gap_description: "S5 → S6 (BARE cannot poll tasks)"
+  source: SOS_MAP_TRUTH.md
+
+# =============================================================================
+# MACRO SYSTEM (NEW)
+# =============================================================================
+macro_system:
+  status: INITIALIZED
+  version: "1.0.0"
+  created: "2026-01-25"
+
+  artifacts:
+    schema: ".agent/macros/schema/macro.schema.yaml"
+    index: ".agent/macros/INDEX.md"
+    library: ".agent/macros/library/"
+    logs: ".agent/macros/logs/"
+
+  macros:
+    - id: MACRO-001
+      name: "Skeptical Audit"
+      status: TESTED
+      trigger: manual
+      card: CARD-AUD-001
+
+  integration_status:
+    task_registry: PLANNED
+    workflow_registry: PLANNED
+    bare: PLANNED
+    trigger_engine: NOT_IMPLEMENTED
+
+# =============================================================================
+# NOTES
+# =============================================================================
+_note: "Run './collider full . --output .collider' for richer data"
+_skeptical_audit: "Last run 2026-01-25, found dead code in history_loader.py"

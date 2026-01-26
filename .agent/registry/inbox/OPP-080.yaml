@@ -1,0 +1,28 @@
+# OPP-080: Add CLI debug flags explain-health no-override
+# Imported from: Session Task #32
+# Category: HEALTH_MODEL
+
+id: OPP-080
+title: "Add CLI debug flags explain-health no-override"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_32"
+
+description: |
+  Add CLI debug flags explain-health no-override
+
+created_at: "2026-01-26T01:16:43.919957+00:00"
+updated_at: "2026-01-26T01:16:43.919957+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

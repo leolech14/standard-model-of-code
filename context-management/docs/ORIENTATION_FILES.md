@@ -42,8 +42,7 @@ If you want the orientation folder to reflect only committed changes, commit fir
 | `docs/TOOL.md` | `TOOL.md` | Collider implementation guide |
 | `docs/theory/THEORY.md` | `THEORY.md` | Theoretical framework |
 | `docs/GLOSSARY.md` | `GLOSSARY.md` | Terminology definitions |
-| `docs/AGENT_CONTEXT.md` | `AGENT_CONTEXT.md` | Extended agent context |
-| `.agent/AGENT_INSTRUCTIONS.md` | `AGENT_INSTRUCTIONS.md` | Agent instructions |
+| `docs/operations/AGENT_KERNEL.md` | `AGENT_KERNEL.md` | Core agent rules and micro-loop |
 | `schema/*.json` | `*.json` | JSON schemas |
 | `docs/roadmaps/*.md` | `C1_*.md, C2_*.md, C3_*.md` | Roadmap documents |
 

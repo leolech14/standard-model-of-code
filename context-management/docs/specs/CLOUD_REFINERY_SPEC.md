@@ -350,7 +350,7 @@ python analyze.py --refinery --gate compile --sets "pipeline,tests,tasks"
 | `SUBSYSTEM_INTEGRATION.md` | Integration points |
 | `archive.py` | Ingestion mechanism |
 | `sync_registry.py` | Sync pattern reference |
-| `REGISTRY_OF_REGISTRIES.md` | What gets indexed |
+| `../../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` | What gets indexed |
 | `PROJECTOME_THEORY.md` | Theoretical foundation (semiotics, active inference) |
 | `ANALOGY_SCORING_METHODOLOGY.md` | Methodology for validating architectural analogies |
 

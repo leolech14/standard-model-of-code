@@ -1,0 +1,28 @@
+# OPP-076: Implement collider mcafee CLI command
+# Imported from: Session Task #28
+# Category: CLI
+
+id: OPP-076
+title: "Implement collider mcafee CLI command"
+status: PENDING
+category: CLI
+source: "session_task_28"
+
+description: |
+  Implement collider mcafee CLI command
+
+created_at: "2026-01-26T01:16:43.910414+00:00"
+updated_at: "2026-01-26T01:16:43.910414+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

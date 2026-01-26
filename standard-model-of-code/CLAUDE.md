@@ -54,6 +54,8 @@ See `docs/reports/ATOM_STATISTICAL_ANALYSIS.md` for full analysis.
 | Analyze codebase | `./collider full <path> --output <dir>` |
 | With AI insights | `./collider full <path> --ai-insights` |
 | Self-check | `./collider full . --output .collider` |
+| **Symmetry check** | `./collider symmetry <path> --docs <docs_path>` |
+| **Trace deviations** | `./collider deviations <path> --code-dir src --docs-dir docs` |
 | **Validate UI** | `python tools/validate_ui.py <html_path> --verbose` |
 | **Export to GraphRAG** | `python tools/export_graphrag.py <analysis.json> --output <dir>` |
 | Install | `pip install -e .` |

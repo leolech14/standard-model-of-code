@@ -1,7 +1,7 @@
 # Maintenance Tools
 
 **Status:** ACTIVE
-**Location:** `context-management/tools/maintenance/` and `context-management/tools/ai/`
+**Location:** `context-management/tools/maintenance/` (observability) and `context-management/tools/ai/` (semantic)
 
 ---
 
@@ -9,13 +9,21 @@
 
 The Maintenance Layer provides automated health checks and diagnostics for PROJECT_elements. These tools integrate into the boot sequence and can be run independently.
 
+### Architectural Note
+
+Tool placement follows semantic purpose:
+- **`tools/ai/`**: Tools that validate SEMANTIC boundaries (even if not AI-powered yet)
+- **`tools/maintenance/`**: Tools that provide OBSERVABILITY (diagnostics, metrics, status)
+
 ## Tools
 
 ### 1. Boundary Analyzer
 
 **Purpose:** Validates that declared boundaries (CODOME/CONTEXTOME/DOMAINS) match actual directory structure.
 
-**Location:** `context-management/tools/maintenance/boundary_analyzer.py`
+**Location:** `context-management/tools/ai/boundary_analyzer.py`
+
+> **Why in `tools/ai/`?** It validates *semantic architectural boundaries* - the conceptual CODOME/CONTEXTOME/DOMAINS model. Future versions may use AI for smarter boundary inference.
 
 ```bash
 # Full analysis with verbose output
@@ -57,7 +65,9 @@ python3 boundary_analyzer.py --threshold 80
 
 **Purpose:** Real-time observability for Gemini API usage, quotas, and error diagnosis.
 
-**Location:** `context-management/tools/ai/gemini_status.py`
+**Location:** `context-management/tools/maintenance/gemini_status.py`
+
+> **Why in `tools/maintenance/`?** It provides *observability* - tracking API calls, diagnosing errors, monitoring quotas. It doesn't use AI; it observes AI usage.
 
 ```bash
 # Show current status
@@ -194,12 +204,26 @@ Called automatically by `boot.sh` during agent initialization.
 | Reference | Location |
 |-----------|----------|
 | This doc | `context-management/docs/operations/MAINTENANCE_TOOLS.md` |
-| Boundary Analyzer | `context-management/tools/maintenance/boundary_analyzer.py` |
-| Gemini Status | `context-management/tools/ai/gemini_status.py` |
+| Boundary Analyzer | `context-management/tools/ai/boundary_analyzer.py` |
+| Gemini Status | `context-management/tools/maintenance/gemini_status.py` |
 | Boot Script | `context-management/tools/maintenance/boot.sh` |
 | Boundary Report | `.agent/intelligence/boundary_analysis.json` |
 | CODOME/CONTEXTOME specs | `context-management/docs/CODOME.md`, `CONTEXTOME.md` |
 | DOMAINS spec | `context-management/docs/DOMAINS.md` |
+
+### Placement Rationale
+
+```
+tools/ai/               <- SEMANTIC (validates conceptual models)
+├── boundary_analyzer.py   # Validates CODOME/CONTEXTOME/DOMAINS alignment
+├── analyze.py             # AI-powered queries
+└── aci/                   # Adaptive Context Intelligence
+
+tools/maintenance/      <- OBSERVABILITY (diagnostics, metrics)
+├── gemini_status.py       # API usage tracking
+├── boot.sh                # Initialization
+└── update_timestamps.sh   # File tracking
+```
 
 ---
 

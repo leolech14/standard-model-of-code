@@ -1,6 +1,8 @@
 # TOPOLOGY MAP - Navigation Through PROJECT_elements
 
-> The complete spatial model for navigating this repository.
+> **Status:** ACTIVE
+> **Created:** 2026-01-25
+> **Purpose:** Complete spatial model for navigating this repository
 
 ## The Universe
 
@@ -67,7 +69,7 @@ PROJECT_elements/
 | See all project contents | `PROJECTOME.md` |
 | Navigate by domain | `DOMAINS.md` |
 | See system connections | `.agent/SUBSYSTEM_INTEGRATION.md` |
-| Find all registries | `REGISTRY_OF_REGISTRIES.md` |
+| Find all registries | `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` |
 | Start AI analysis | `AI_USER_GUIDE.md` |
 | Run the Collider | `standard-model-of-code/CLAUDE.md` |
 

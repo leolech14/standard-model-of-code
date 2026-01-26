@@ -1,0 +1,37 @@
+# Auto-generated from inbox:OPP-082
+# Confidence: 70%
+# Generated: 2026-01-25T22:20:01.827936
+
+id: CARD-OPP-082
+title: Create pathogen impact inventory
+type: task
+source: inbox:OPP-082
+phase_gate:
+- DESIGNING
+- IMPLEMENTING
+description: 'Create pathogen impact inventory
+
+  '
+preconditions:
+- check: registry.OPP-082.exists
+  description: OPP-082 in registry
+cost:
+  tokens_estimate: 5K-20K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-082 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-082 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- session-import
+- needs-enrichment
+- health_model
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.827876+00:00'
+confidence: 0.7

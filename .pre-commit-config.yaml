@@ -46,6 +46,19 @@ repos:
         files: \.py$
 
   # ===========================================
+  # UI Control Registry Validation
+  # ===========================================
+  - repo: local
+    hooks:
+      - id: ui-control-registry
+        name: UI Control Registry Validation
+        entry: python standard-model-of-code/tools/validate_control_registry.py --audit
+        language: system
+        files: template\.html$
+        pass_filenames: false
+        stages: [commit]
+
+  # ===========================================
   # Prevent Secrets from Being Committed
   # (Disabled for now - enable after generating baseline)
   # ===========================================

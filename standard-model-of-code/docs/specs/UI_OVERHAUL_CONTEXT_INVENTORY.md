@@ -275,4 +275,3 @@ python tools/validate_ui.py .collider/collider_report.html
 # Check hardcoded colors
 grep -rE "(#[0-9a-fA-F]{6}|rgb\()" src/core/viz/assets/modules/
 ```
-

@@ -1,0 +1,28 @@
+# OPP-073: Map pathogen categories to health components
+# Imported from: Session Task #24
+# Category: HEALTH_MODEL
+
+id: OPP-073
+title: "Map pathogen categories to health components"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_24"
+
+description: |
+  Map pathogen categories to health components
+
+created_at: "2026-01-26T01:16:43.903996+00:00"
+updated_at: "2026-01-26T01:16:43.903996+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

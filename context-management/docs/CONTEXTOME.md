@@ -1,6 +1,8 @@
 # CONTEXTOME - The Context Universe
 
-> The complete set of non-executable content in a software project.
+> **Status:** ACTIVE
+> **Created:** 2026-01-25
+> **Purpose:** The complete set of non-executable content in a software project
 
 ## Definition
 
@@ -126,8 +128,8 @@ PROJECTOME = CODOME ⊔ CONTEXTOME
 - `PROJECTOME.md` — Complete project contents
 - `DOMAINS.md` — Vertical slices through both universes
 - `TOPOLOGY_MAP.md` — Master navigation guide
-- `CODOME_COMPLETENESS_INDEX.md` — Codome measurement
-- `REGISTRY_OF_REGISTRIES.md` — Full enumeration
+- `../../standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` — Codome measurement
+- `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` — Full enumeration
 
 ---
 

@@ -11,12 +11,12 @@
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| **Path Validity** | 10/10 | PASS |
-| **Coherence Score** | 88/100 | GOOD |
-| **Active Integrations** | 8 | OPERATIONAL |
+| **Path Validity** | 13/13 | PASS |
+| **Coherence Score** | 90/100 | GOOD |
+| **Active Integrations** | 9 | OPERATIONAL |
 | **Missing Integrations** | 1 (SG-004) | BLOCKING |
 | **Proposed Integrations** | 3 | PENDING |
-| **Unlisted Subsystems** | 3 | ACTION REQUIRED |
+| **Subsystems** | 13 | COMPLETE (S13 added 2026-01-25) |
 
 ---
 
@@ -36,8 +36,12 @@ All 10 documented subsystem paths verified against file system.
 | S8 | Hygiene | `.pre-commit-config.yaml` | YES | File |
 | S9 | Laboratory | `standard-model-of-code/tools/research/laboratory.py` | YES | File |
 | S9b | Lab Bridge | `context-management/tools/ai/laboratory_bridge.py` | YES | File |
+| S10 | AEP (Enrichment) | `.agent/tools/enrichment_orchestrator.py` | YES | File |
+| S11 | ACI Refinery | `context-management/tools/ai/aci/refinery.py` | YES | File |
+| S12 | Centripetal | `.agent/tools/centripetal_scan.py` | YES | File |
+| **S13** | **Macro Registry** | `.agent/macros/` | **YES** | **Directory** |
 
-**Verdict:** All paths VALID. No phantom references.
+**Verdict:** All paths VALID. No phantom references. S13 added 2026-01-25.
 
 ---
 

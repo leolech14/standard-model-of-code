@@ -1,6 +1,21 @@
-# DOMAINS - Vertical Slices Through the Projectome
+# DOMAINS - DEPRECATED
 
-> Cross-cuts through CODOME and CONTEXTOME that define functional areas.
+> **Status:** DEPRECATED (2026-01-25)
+> **Replaced By:** `CONCORDANCES.md`
+> **Reason:** "Domain" collides with DDD terminology. "Concordance" better captures
+> PURPOSE ALIGNMENT measurement between code and docs.
+
+---
+
+**⚠️ DO NOT USE THIS FILE. See `CONCORDANCES.md` for current terminology.**
+
+---
+
+# DOMAINS - Vertical Slices Through the Projectome (HISTORICAL)
+
+> **Status:** DEPRECATED
+> **Created:** 2026-01-25
+> **Purpose:** Cross-cuts through CODOME and CONTEXTOME that define functional areas
 
 ## Definition
 

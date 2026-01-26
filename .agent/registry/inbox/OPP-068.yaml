@@ -1,0 +1,28 @@
+# OPP-068: Decompose Q_purity into three components
+# Imported from: Session Task #19
+# Category: HEALTH_MODEL
+
+id: OPP-068
+title: "Decompose Q_purity into three components"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_19"
+
+description: |
+  Decompose Q_purity into three components
+
+created_at: "2026-01-26T01:16:43.892513+00:00"
+updated_at: "2026-01-26T01:16:43.892513+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

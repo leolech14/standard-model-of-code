@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-25T20:36:23.644507
+**Generated At**: 2026-01-25T22:19:04.003838
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -66,6 +66,25 @@
 | SYNCED | `.agent/intelligence/SOS_MAP_TRUTH.md` | 7814 | 7814 |
 | SYNCED | `.agent/intelligence/WAVE_PARTICLE_BALANCE.md` | 5176 | 5176 |
 | SYNCED | `.agent/intelligence/aci_feedback.yaml` | 7560 | 7560 |
+| SYNCED | `.agent/intelligence/boundary_analysis.json` | 14370 | 14370 |
+| SYNCED | `.agent/intelligence/centripetal_scan_log.txt` | 11315 | 11315 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_SUMMARY.md` | 1880 | 1880 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_complete_scan.json` | 13735 | 13735 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_01_macro.md` | 982 | 982 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_02_macro.md` | 1172 | 1172 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_03_macro.md` | 1014 | 1014 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_04_meso.md` | 1031 | 1031 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_05_meso.md` | 1015 | 1015 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_06_meso.md` | 1159 | 1159 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_07_micro.md` | 1012 | 1012 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_08_micro.md` | 881 | 881 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_09_micro.md` | 1001 | 1001 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_10_nano.md` | 1010 | 1010 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_11_nano.md` | 971 | 971 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161810_round_12_nano.md` | 1272 | 1272 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161829_round_01_macro.md` | 702 | 702 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161829_round_02_macro.md` | 869 | 869 |
+| SYNCED | `.agent/intelligence/centripetal_scans/20260123_161829_round_03_macro.md` | 716 | 716 |
 | SYNCED | `.agent/intelligence/chunks/aci_chunks.json` | 119621 | 119621 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_064434_batch_confidence.json` | 14948 | 14948 |
 | SYNCED | `.agent/intelligence/confidence_reports/20260123_080709_batch_confidence.json` | 15967 | 15967 |
@@ -162,6 +181,7 @@
 | SYNCED | `.agent/schema/refinery_node.schema.yaml` | 20893 | 20893 |
 | SYNCED | `.agent/schema/run.schema.yaml` | 3736 | 3736 |
 | SYNCED | `.agent/schema/task.schema.yaml` | 3238 | 3238 |
+| SYNCED | `.agent/schema/task_v2.schema.yaml` | 6964 | 6964 |
 | SYNCED | `.agent/specs/AUTONOMOUS_ENRICHMENT_PIPELINE.md` | 9305 | 9305 |
 | SYNCED | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` | 5302 | 5302 |
 | SYNCED | `.agent/specs/BACKGROUND_SERVICES_ONTOLOGY.md` | 5369 | 5369 |
@@ -182,8 +202,10 @@
 | SYNCED | `.agent/tools/check_stale.sh` | 698 | 698 |
 | SYNCED | `.agent/tools/claim_task.sh` | 2045 | 2045 |
 | SYNCED | `.agent/tools/cloud/auto_boost_function.py` | 9369 | 9369 |
+| SYNCED | `.agent/tools/cloud/check_status.sh` | 5602 | 5602 |
 | SYNCED | `.agent/tools/cloud/deploy.sh` | 3233 | 3233 |
 | SYNCED | `.agent/tools/cloud/sync_registry.py` | 7122 | 7122 |
+| SYNCED | `.agent/tools/concierge.py` | 9087 | 9087 |
 | SYNCED | `.agent/tools/confidence_validator.py` | 15326 | 15326 |
 | SYNCED | `.agent/tools/deal_cards.py` | 10029 | 10029 |
 | SYNCED | `.agent/tools/deal_cards_ui.py` | 11430 | 11430 |
@@ -212,7 +234,7 @@
 | SYNCED | `.gemini/context/body.md` | 936 | 936 |
 | SYNCED | `.gemini/context/brain.md` | 1010 | 1010 |
 | SYNCED | `.gitignore` | 3912 | 3912 |
-| SYNCED | `.pre-commit-config.yaml` | 2352 | 2352 |
+| SYNCED | `.pre-commit-config.yaml` | 2787 | 2787 |
 | SYNCED | `AGENTKNOWLEDGEDUMP.md` | 16116 | 16116 |
 | SYNCED | `AGENTS.md` | 1217 | 1217 |
 | SYNCED | `ARCHITECTURE_MAP.md` | 6115 | 6115 |
@@ -221,6 +243,7 @@
 | SYNCED | `GEMINI.md` | 1849 | 1849 |
 | CLOUD_ONLY | `Liabilities` | - | 156077 |
 | SYNCED | `PROJECT_MAP.md` | 3008 | 3008 |
+| SYNCED | `QUICK_START.md` | 689 | 689 |
 | SYNCED | `README.md` | 841 | 841 |
 | SYNCED | `architecture_report/architecture_data.json` | 6521 | 6521 |
 | SYNCED | `architecture_report/architecture_report.html` | 9748 | 9748 |
@@ -475,26 +498,3 @@
 | SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/tsconfig.json` | 542 | 542 |
 | SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/types.ts` | 1431 | 1431 |
 | SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/vite.config.ts` | 580 | 580 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_api_rest.py` | 14450 | 14450 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_engine_universal.py` | 21710 | 21710 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_engine_v5_treesitter.py` | 23482 | 23482 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_hadrons_engine.py` | 38533 | 38533 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v10_discovery_simple.py` | 16114 | 16114 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v10_full_circle.py` | 37213 | 37213 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v10_haiku_investigator.py` | 26969 | 26969 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v10_strategic_discovery.py` | 25803 | 25803 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v11_external_validation.py` | 18364 | 18364 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v11_robust.py` | 21072 | 21072 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v12_universal_patterns.py` | 28623 | 28623 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v2_optimized.py` | 49428 | 49428 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v3_universal.py` | 66783 | 66783 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v5_demo.py` | 21121 | 21121 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v6_final.py` | 21044 | 21044 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v6_treesitter_official.py` | 24416 | 24416 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v6_working.py` | 20924 | 20924 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v7_final_test.py` | 17784 | 17784 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v7_golden_validator.py` | 25860 | 25860 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v7_haiku.py` | 22045 | 22045 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v9_fixed.py` | 30984 | 30984 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v9_raw_haiku.py` | 34345 | 34345 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer_v9_universal.py` | 23818 | 23818 |

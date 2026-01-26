@@ -958,7 +958,7 @@ We rely on understanding concepts that we did not develop. We borrow knowledge f
 PLANES ← Semiotics: Syntactics/Semantics/Pragmatics (Morris, 1938)
        ← Three Worlds Theory (Karl Popper, 1972)
            └── World 1: Physical → P1 PHYSICAL
-           └── World 2: Mental 
+           └── World 2: Mental
            └── World 3: Abstract Objects → P3 SEMANTIC
        ← Levels of Abstraction (Floridi, 2008)
 ```
@@ -1121,7 +1121,7 @@ graph TD
 
         subgraph HOLON_A ["HOLON A: The System"]
             direction TB
-            
+
             subgraph MANIFOLD ["8D Manifold Space"]
                 SVC1([Service: Core]):::atom
                 ENT1(Entity: User):::atom
@@ -1131,7 +1131,7 @@ graph TD
 
         WORMHOLE(("INTERFACE<br/>WORMHOLE")):::wormhole
         SVC1 == "Contract" ==> WORMHOLE
-        
+
         PSI -.-> HOLON_A
     end
 ```
@@ -1218,29 +1218,29 @@ flowchart TB
         HUMBLE[We Don't Know]
         ANALOGIES[Power of Analogies]
     end
-    
+
     subgraph STRUCTURE ["STRUCTURAL FOUNDATION"]
         LEVELS[16 Levels]
         PLANES[3 Planes]
         ATOMS[200 Atoms]
     end
-    
+
     subgraph CLASSIFICATION ["CLASSIFICATION SYSTEM"]
         DIMS[8 Dimensions]
         ROLES[33 Roles]
         LENSES[8 Lenses]
     end
-    
+
     subgraph GEOMETRY ["GEOMETRIC MODEL"]
         OCTA[Octahedron]
         DUAL[Dual Nature]
     end
-    
+
     subgraph VALIDATION ["EMPIRICAL TESTING"]
         COVER[Coverage Stats]
         OPEN[Open Frontier]
     end
-    
+
     HUMBLE --> ANALOGIES
     ANALOGIES --> LEVELS
     ANALOGIES --> PLANES
@@ -1276,36 +1276,36 @@ flowchart TB
         L9[L9: Platform]
         L8[L8: Ecosystem]
     end
-    
+
     subgraph SYSTEM ["SYSTEMIC (L4-L7)"]
         L7[L7: System]
         L6[L6: Package]
         L5[L5: File]
         L4[L4: Container]
     end
-    
+
     subgraph SEMANTIC ["SEMANTIC (L1-L3)"]
         L3["L3: NODE ★ (The Atom)"]
         L2[L2: Block]
         L1[L1: Statement]
     end
-    
+
     subgraph SYNTACTIC ["SYNTACTIC (L0)"]
         L0[L0: Token]
     end
-    
+
     subgraph PHYSICAL ["PHYSICAL (L-3 to L-1)"]
         LM1[L-1: Character]
         LM2[L-2: Byte]
         LM3[L-3: Bit/Qubit]
     end
-    
+
     L12 --> L11 --> L10 --> L9 --> L8
     L8 --> L7 --> L6 --> L5 --> L4
     L4 --> L3 --> L2 --> L1
     L1 --> L0
     L0 --> LM1 --> LM2 --> LM3
-    
+
     style L3 fill:#e94560,stroke:#fff,color:#fff
     style LM3 fill:#533483,stroke:#fff,color:#fff
 ```
@@ -1390,7 +1390,7 @@ L12 UNIVERSE
 META-LEVEL      ← Epistemics, Lineage, Validation
      ↑
 THEORY-LEVEL    ← Planes, Levels, Lenses, Dimensions
-     ↑  
+     ↑
 DOMAIN-LEVEL    ← DDD, GoF, Clean Architecture
      ↑
 FOUNDATIONAL    ← Abstraction, Hierarchy, Graph
@@ -1643,7 +1643,7 @@ graph TD
 
         subgraph HOLON_A ["HOLON A: The System"]
             direction TB
-            
+
             subgraph MANIFOLD ["8D Manifold Space"]
                 SVC1([Service: Core]):::atom
                 ENT1(Entity: User):::atom
@@ -1653,7 +1653,7 @@ graph TD
 
         WORMHOLE(("INTERFACE<br/>WORMHOLE")):::wormhole
         SVC1 == "Contract" ==> WORMHOLE
-        
+
         PSI -.-> HOLON_A
     end
 ```
@@ -1909,7 +1909,7 @@ This appendix demonstrates the application of the Standard Model compared to oth
 class UserManager:
     def __init__(self, db):
         self.db = db
-    
+
     def create_user(self, name, email):
         if not "@" in email:
             raise ValueError("Invalid email")
@@ -2512,7 +2512,7 @@ graph TD
 
     subgraph UNIVERSE ["THE PURPOSE FIELD (L12 CANOPY)"]
         direction TB
-        
+
         %% THE PURPOSE FIELD
         PSI(("Ψ<br/>Global Purpose<br/>Integral"))
         style PSI fill:#533483,stroke:#fff,color:#fff
@@ -2520,31 +2520,31 @@ graph TD
         %% HOLON A
         subgraph HOLON_A ["HOLON A: The Core System"]
             direction TB
-            
+
             subgraph MANIFOLD_A ["8D Manifold Space"]
                 direction LR
-                
+
                 %% The Fractal Hierarchy
                 subgraph L9_APP ["L9 Application"]
                     SVC1([Service: Users]):::atom
                     SVC2([Service: Auth]):::atom
                 end
-                
+
                 subgraph L11_DOM ["L11 Domain"]
                     ENT1(Entity: User):::atom
                     ENT2(Entity: Token):::atom
                 end
-                
+
                 %% Fractal Connections
                 SVC1 -- orchestrates --> ENT1
                 SVC2 -- authenticates --> ENT1
                 SVC2 -- issues --> ENT2
-                
+
                 %% 8 Dimensions (Annotated)
                 D_AXIS["8D Coordinates<br/>[Role, State, Layer...]"]:::manifold
                 D_AXIS -.-> SVC1
             end
-            
+
             %% Holon Purpose
             P_A{{"Local Purpose:<br/>Manage Identity"}}:::purpose
             P_A -.-> SVC1
@@ -2555,14 +2555,14 @@ graph TD
              direction TB
              SVC_EXT([Service: Payment]):::atom
         end
-        
+
         %% THE WORMHOLE CONNECTION
         WORMHOLE_1(("INTERFACE<br/>WORMHOLE"))
         style WORMHOLE_1 fill:#fcd307,color:#000
-        
+
         SVC2 == "API Contract" ==> WORMHOLE_1
         WORMHOLE_1 == "HTTPS" ==> SVC_EXT
-        
+
         %% Field Integration
         PSI -.-> P_A
         PSI -.-> HOLON_B
@@ -2841,10 +2841,10 @@ It consists of **13 Semantic Levels** (L0-L12) and **3 Physical Levels** (L-1 to
 > **TERMINOLOGY NOTE:** The word "Atom" has two related meanings in Standard Code:
 > 1. **L3 Node (Semantic Atom):** The function/method—the smallest unit with meaning and behavior.
 > 2. **200 Atom Types (Classification Atoms):** The categories in D1 (WHAT dimension)—used to classify what kind of structure something IS.
-> 
+>
 > Think of it like chemistry: a "hydrogen atom" is both (1) an indivisible unit and (2) a type classification (element #1). Here, a function is both a Node (the unit) and has an Atom Type (e.g., "Function", "Method", "Lambda").
 >
-> **OCTAHEDRAL SHAPE:** Each atom is geometrically represented as an **octahedron** with 8 triangular faces—one for each dimension. See [OCTAHEDRAL_ATOM.md](./OCTAHEDRAL_ATOM.md).
+> **OCTAHEDRAL SHAPE:** Each atom is geometrically represented as an **octahedron** with 8 triangular faces—one for each dimension. *(Legacy visualization archived in `standard-model-of-code/.archive/docs_archive/legacy_theory/`)*
 
 ---
 
@@ -3366,7 +3366,7 @@ We rely on understanding concepts that we did not develop. We borrow knowledge f
 PLANES ← Semiotics: Syntactics/Semantics/Pragmatics (Morris, 1938)
        ← Three Worlds Theory (Karl Popper, 1972)
            └── World 1: Physical → P1 PHYSICAL
-           └── World 2: Mental 
+           └── World 2: Mental
            └── World 3: Abstract Objects → P3 SEMANTIC
        ← Levels of Abstraction (Floridi, 2008)
 ```
@@ -3582,7 +3582,7 @@ L12 UNIVERSE
 META-LEVEL      ← Epistemics, Lineage, Validation
      ↑
 THEORY-LEVEL    ← Planes, Levels, Lenses, Dimensions
-     ↑  
+     ↑
 DOMAIN-LEVEL    ← DDD, GoF, Clean Architecture
      ↑
 FOUNDATIONAL    ← Abstraction, Hierarchy, Graph
@@ -3794,12 +3794,12 @@ When new constructs appear:
 ## 8. CONCLUSION
 
 > **The 200 atoms achieve ~98% coverage across 5 mainstream languages.**
-> 
+>
 > With 5 proposed additions (comprehensions, macros, impl blocks, defer, imports),
 > the model reaches **effective 100% coverage** for Python, TypeScript, Java, Go, and Rust.
-> 
+>
 > The 7 unused atoms remain valid for C/C++ coverage.
-> 
+>
 > **This validates the model as a useful working set. It is not complete—it is useful.**
 
 ---
@@ -4070,7 +4070,7 @@ The 12 edges generate 12 cross-dimensional questions we can ask about any atom.
 
 > *"The octahedron is not the territory. It is the shape of our understanding."*
 
-**Version:** 2.1.0  
+**Version:** 2.1.0
 **Formalized:** 2025-12-26
 
 ---
@@ -4327,11 +4327,11 @@ python3 src/tools/coverage_scanner.py | grep "Total"
 ---
 
 > *"The map grows to match the territory. We are always running behind."*
-> 
+>
 > *"Somos cartógrafos humildes. O mapa cresce com o território. Sempre haverá mais território."*
 
 ---
 
-**Version:** 3.0.0  
-**Status:** Working Map (Open, Versioned, Humble)  
+**Version:** 3.0.0
+**Status:** Working Map (Open, Versioned, Humble)
 **Last Updated:** 2025-12-26

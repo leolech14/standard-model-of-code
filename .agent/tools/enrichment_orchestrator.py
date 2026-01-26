@@ -162,6 +162,10 @@ def main():
     print("\n[3/4] PROMOTE - Auto-promoting Grade A+ opportunities...")
     run_tool("batch_promote.py", ["--threshold", "85", "--auto"], args.dry_run)
 
+    # Step 4: Deal Cards (update Decision Deck)
+    print("\n[4/5] DEAL - Generating Decision Deck cards...")
+    run_tool("opp_to_deck.py", ["--threshold", "0.65", "--max-cards", "15"], args.dry_run)
+
     print("\n" + "=" * 60)
     print(f"ENRICHMENT COMPLETE: {datetime.now().isoformat()}")
     print("=" * 60)

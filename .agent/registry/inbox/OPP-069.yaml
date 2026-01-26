@@ -1,0 +1,28 @@
+# OPP-069: Add weighted PurityAlignmentScore
+# Imported from: Session Task #20
+# Category: HEALTH_MODEL
+
+id: OPP-069
+title: "Add weighted PurityAlignmentScore"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_20"
+
+description: |
+  Add weighted PurityAlignmentScore
+
+created_at: "2026-01-26T01:16:43.894590+00:00"
+updated_at: "2026-01-26T01:16:43.894590+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

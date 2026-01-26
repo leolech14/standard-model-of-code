@@ -1,10 +1,10 @@
 # GLOSSARY - PROJECT_elements
 
-> The definitive terminology reference for humans and AI agents.
-
-**Version:** 2.0.0
-**Date:** 2026-01-25
-**RFC 2119:** Terms MUST, SHOULD, MAY have normative meaning.
+> **Status:** ACTIVE
+> **Version:** 2.0.0
+> **Created:** 2026-01-25
+> **Purpose:** Definitive terminology reference for humans and AI agents
+> **RFC 2119:** Terms MUST, SHOULD, MAY have normative meaning
 
 ---
 
@@ -124,6 +124,22 @@ S = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}
 | S5 | **BARE** | Engine | Background Auto-Refinement Engine. Claims tasks, generates fixes, commits changes. The "hands" of the system. |
 | S6 | **Laboratory** | Bridge | Research API connecting Wave (AI) to Particle (Collider). Runs experiments programmatically. |
 | S7 | **Registry** | State | Task tracking system. Tasks are persistent, Runs are ephemeral. |
+| S13 | **Macro Registry** | State | Recorded action patterns for automation. "If you do it twice manually, record it as a macro." |
+
+---
+
+## MACROS (Recorded Patterns)
+
+| Term | Definition |
+|------|------------|
+| **Macro** | A recorded action pattern that can be auto-executed on triggers. Schema in `.agent/macros/schema/`. |
+| **Trigger** | What causes a macro to execute: manual, schedule, event, file_change, post_commit. |
+| **CARD-AUD-001** | Decision Deck card for invoking the Skeptical Audit (MACRO-001). |
+| **Skeptical Audit** | MACRO-001. Systematic self-criticism to find dead code, integration failures, validation theater. |
+
+**Principle:** If you do it twice manually, record it as a macro.
+
+**Index:** `.agent/macros/INDEX.md`
 
 ---
 
@@ -140,19 +156,21 @@ S = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}
 
 ### Roles (33 Canonical)
 
-| Category | Roles |
-|----------|-------|
-| Query | Query, Finder, Loader, Getter |
-| Command | Command, Creator, Mutator, Destroyer |
-| Factory | Factory, Builder |
-| Storage | Repository, Store, Cache |
-| Orchestration | Service, Controller, Manager |
-| Validation | Validator, Guard, Asserter |
-| Transform | Transformer, Mapper, Serializer |
-| Event | Handler, Listener, Subscriber |
-| Utility | Utility, Formatter, Helper |
-| Internal | Internal, Lifecycle |
-| Unknown | Unknown (fallback) |
+| Category | Roles | Count |
+|----------|-------|-------|
+| Query | Query, Finder, Loader, Getter | 4 |
+| Command | Command, Creator, Mutator, Destroyer | 4 |
+| Factory | Factory, Builder | 2 |
+| Storage | Repository, Store, Cache | 3 |
+| Orchestration | Service, Controller, Manager, Orchestrator | 4 |
+| Validation | Validator, Guard, Asserter | 3 |
+| Transform | Transformer, Mapper, Serializer, Parser | 4 |
+| Event | Handler, Listener, Subscriber, Emitter | 4 |
+| Utility | Utility, Formatter, Helper | 3 |
+| Internal | Internal, Lifecycle | 2 |
+| **Total** | | **33** |
+
+> Note: "Unknown" is a fallback label, not a canonical role.
 
 ---
 
@@ -325,20 +343,24 @@ Confidence = min(Factual, Alignment, Current, Onwards)
 
 | Field | Purpose |
 |-------|---------|
+| **hash** | SHA256 of (prompt + context) for deduplication |
 | **model** | name, provider, tier, temperature |
 | **context** | type, sources, tokens_est, truncation |
+| **lineage** | parent_schema, cache_hit, run_index |
 | **metrics** | input_tokens, output_tokens, latency_ms, cost_usd |
-| **quality** | confidence, completeness, specificity |
+| **quality** | confidence, **reason**, validation_method |
 | **result** | takeaway, key_findings |
 | **implications** | applies_to, documented_in, action_items |
 
 **Compact Format:**
 ```
 # QUERY MANIFEST
+hash: sha256:HASH
 model: MODEL | temp=T | tier=TIER
 context: TOKENSk from SOURCE
+lineage: schema=SCHEMA | run=N/M | cache=HIT_OR_MISS
 metrics: in=INk out=OUTk latency=Ts cost=$C
-quality: conf=C complete=C specific=S
+quality: conf=C | reason="WHY" | method=METHOD
 takeaway: "SUMMARY"
 documented_in: PATH
 ```

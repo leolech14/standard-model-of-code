@@ -1,0 +1,28 @@
+# OPP-078: Add normalization bounds contract per metric
+# Imported from: Session Task #30
+# Category: HEALTH_MODEL
+
+id: OPP-078
+title: "Add normalization bounds contract per metric"
+status: PENDING
+category: HEALTH_MODEL
+source: "session_task_30"
+
+description: |
+  Add normalization bounds contract per metric
+
+created_at: "2026-01-26T01:16:43.915340+00:00"
+updated_at: "2026-01-26T01:16:43.915340+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

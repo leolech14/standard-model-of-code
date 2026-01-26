@@ -417,4 +417,3 @@ Phase 4: Layout (CR#4, CR#5) ─────────────────
 | Pixels second | Control established |
 | DTE third | Infrastructure ready |
 | UI features fourth | They actually WORK |
-

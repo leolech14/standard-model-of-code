@@ -1,6 +1,8 @@
 # CODOME - The Code Universe
 
-> All executable code in a software project.
+> **Status:** ACTIVE
+> **Created:** 2026-01-25
+> **Purpose:** All executable code in a software project
 
 ## Definition
 
@@ -88,10 +90,10 @@ PROJECTOME = CODOME ⊔ CONTEXTOME
 
 | Doc | Purpose |
 |-----|---------|
-| `CODOME_COMPLETENESS_INDEX.md` | Measurement formulas |
-| `CODOME_HEALTH_INDEX.md` | Health scoring |
-| `CODOME_BOUNDARY_DEFINITION.md` | Inclusion/exclusion rules |
-| `CODOME_LANDSCAPE.md` | Topology visualization |
+| `../../standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` | Measurement formulas |
+| `../../standard-model-of-code/docs/specs/CODOME_HEALTH_INDEX.md` | Health scoring |
+| `../../standard-model-of-code/docs/specs/CODOME_BOUNDARY_DEFINITION.md` | Inclusion/exclusion rules |
+| `../../standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md` | Topology visualization |
 
 ## See Also
 

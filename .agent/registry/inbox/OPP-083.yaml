@@ -1,0 +1,28 @@
+# OPP-083: Select validate golden repos for regression
+# Imported from: Session Task #35
+# Category: TESTING
+
+id: OPP-083
+title: "Select validate golden repos for regression"
+status: PENDING
+category: TESTING
+source: "session_task_35"
+
+description: |
+  Select validate golden repos for regression
+
+created_at: "2026-01-26T01:16:43.926554+00:00"
+updated_at: "2026-01-26T01:16:43.926554+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

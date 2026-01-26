@@ -43,6 +43,14 @@ Shows: status, meters, options, P0 rules. Everything you need to start.
 | `docs/agent_school/WORKFLOWS.md` | Git, test, review procedures |
 | `docs/agent_school/DOD.md` | Full Definition of Done |
 | `docs/deep/INDEX.md` | Theory, architecture, research docs |
+| `.agent/macros/INDEX.md` | Macro Registry (recorded patterns) |
+
+## Quality Gate: Skeptical Audit
+
+After creating new code/schemas, play **CARD-AUD-001** or run **MACRO-001**:
+- Checks for dead code (created but never called)
+- Checks integration (components actually connected)
+- Detects validation theater (AI said "good" but missed issues)
 
 ## Emergency Contacts
 

@@ -33,9 +33,8 @@ See the canonical sources in **standard-model-of-code/**:
 | Constant | Value | Source |
 |:---|---:|:---|
 | Atoms | 167 (94 implemented) | Theory (`MODEL.md`) |
-| Roles | 29 (implemented) | Theory (`MODEL.md`) |
+| Roles | 33 canonical / 29 implemented | Theory (`MODEL.md`) |
 | Dimensions | 8 | Theory (`MODEL.md`) |
 | Hadrons | 96 (Canonical) | Data (`spectrometer_v12_minimal/HADRONS_96_FULL.md`) |
 | Continents | 5 (In-Repo) | Data (`spectrometer_v12_minimal/CONTINENTS_12.md`) |
 | Pipeline | 12 stages | Tool |
-

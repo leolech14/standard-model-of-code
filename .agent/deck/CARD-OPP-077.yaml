@@ -1,0 +1,36 @@
+# Auto-generated from inbox:OPP-077
+# Confidence: 70%
+# Generated: 2026-01-25T22:20:01.828450
+
+id: CARD-OPP-077
+title: Refine orphan detection entry point patterns
+type: task
+source: inbox:OPP-077
+phase_gate:
+- ANY
+description: 'Refine orphan detection entry point patterns
+
+  '
+preconditions:
+- check: registry.OPP-077.exists
+  description: OPP-077 in registry
+cost:
+  tokens_estimate: 5K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-077 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-077 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- session-import
+- needs-enrichment
+- general
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.828396+00:00'
+confidence: 0.7

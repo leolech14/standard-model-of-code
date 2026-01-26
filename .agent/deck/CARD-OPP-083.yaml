@@ -1,0 +1,37 @@
+# Auto-generated from inbox:OPP-083
+# Confidence: 70%
+# Generated: 2026-01-25T22:20:01.829483
+
+id: CARD-OPP-083
+title: Select validate golden repos for regression
+type: task
+source: inbox:OPP-083
+phase_gate:
+- IMPLEMENTING
+- VALIDATING
+description: 'Select validate golden repos for regression
+
+  '
+preconditions:
+- check: registry.OPP-083.exists
+  description: OPP-083 in registry
+cost:
+  tokens_estimate: 5K-10K
+  risk_level: low
+outcomes:
+  success:
+    description: OPP-083 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-083 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- session-import
+- needs-enrichment
+- testing
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.829419+00:00'
+confidence: 0.7

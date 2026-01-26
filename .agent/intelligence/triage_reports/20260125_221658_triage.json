@@ -1,0 +1,903 @@
+{
+  "generated_at": "2026-01-26T01:16:58.043135+00:00",
+  "summary": {
+    "total_opportunities": 54,
+    "total_active_tasks": 25,
+    "high_value": 1,
+    "low_value": 22,
+    "duplicates": 6,
+    "noise": 1
+  },
+  "scored": [
+    {
+      "id": "OPP-002",
+      "title": "Fix promote_opportunity.sh multiline bug",
+      "source": "BARE",
+      "scores": {
+        "factual": 70,
+        "alignment": 75,
+        "current": 70,
+        "onwards": 70,
+        "verdict": 70
+      }
+    },
+    {
+      "id": "OPP-004",
+      "title": "Document registry architecture",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 55,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-006",
+      "title": "Pipeline Refactor - Class-Based Stage Architecture",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 50,
+        "current": 65,
+        "onwards": 75,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-007",
+      "title": "Context Refinery: Continuous Context Refinement System",
+      "source": "RESEARCH",
+      "scores": {
+        "factual": 80,
+        "alignment": 80,
+        "current": 50,
+        "onwards": 75,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-059",
+      "title": "Sprawl Consolidation Infrastructure",
+      "source": "Sprawl analysis and consolidation session",
+      "scores": {
+        "factual": 100,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-060",
+      "title": "Autonomous Enrichment Pipeline (AEP) MVP",
+      "source": "User vision + AEP specification",
+      "scores": {
+        "factual": 100,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 65,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-061",
+      "title": "Fix HSL Daemon Locally",
+      "source": "DECISION_BRIEF_LOCAL_FIRST.md",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-062",
+      "title": "BARE Phase 2 - CrossValidator Implementation",
+      "source": "AGENTKNOWLEDGEDUMP.md",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-063",
+      "title": "Verify GCS Mirror Post-Triage",
+      "source": "Emergency triage - archived 695MB .repos_cache to GCS",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-064",
+      "title": "Hierarchical Tree Layout for File View",
+      "source": "User requirement - session 2026-01-23",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-065",
+      "title": "Always-Green Continuous Refinement Pipeline",
+      "source": "User vision - always green, always updated, distilled, refined, purified",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 65,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-066",
+      "title": "Handle Gemini API Rate Limiting (429)",
+      "source": "TASK-020 execution - daemons run but API rate limited",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-067",
+      "title": "Implement consolidated Health Model (H = T + E + Gd + A)",
+      "source": "session_task_18",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-068",
+      "title": "Decompose Q_purity into three components",
+      "source": "session_task_19",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-069",
+      "title": "Add weighted PurityAlignmentScore",
+      "source": "session_task_20",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 65,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-070",
+      "title": "Implement pathogen override for health scoring",
+      "source": "session_task_21",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-071",
+      "title": "Fix MISALIGNMENT reporting UNKNOWN vs CLEAN",
+      "source": "session_task_22",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-072",
+      "title": "Consolidate Pollution vs Pathogen terminology",
+      "source": "session_task_23",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-073",
+      "title": "Map pathogen categories to health components",
+      "source": "session_task_24",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-074",
+      "title": "Document two-tier truth model Axioms vs Q-metrics",
+      "source": "session_task_25",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-075",
+      "title": "Refactor cli.py main CC=181 God Function",
+      "source": "session_task_27",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-076",
+      "title": "Implement collider mcafee CLI command",
+      "source": "session_task_28",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-077",
+      "title": "Refine orphan detection entry point patterns",
+      "source": "session_task_29",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-078",
+      "title": "Add normalization bounds contract per metric",
+      "source": "session_task_30",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-079",
+      "title": "Add health regression harness golden repos",
+      "source": "session_task_31",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-080",
+      "title": "Add CLI debug flags explain-health no-override",
+      "source": "session_task_32",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-081",
+      "title": "Define Q-metric mathematical formulas",
+      "source": "session_task_33",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-082",
+      "title": "Create pathogen impact inventory",
+      "source": "session_task_34",
+      "scores": {
+        "factual": 55,
+        "alignment": 60,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-083",
+      "title": "Select validate golden repos for regression",
+      "source": "session_task_35",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-084",
+      "title": "Add Goodharts Law protection mechanism",
+      "source": "session_task_36",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-085",
+      "title": "Fix batch grading end-to-end",
+      "source": "session_task_37",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-086",
+      "title": "Define SMoC as Round-Trip Engineering MDE hybrid",
+      "source": "session_task_8",
+      "scores": {
+        "factual": 55,
+        "alignment": 50,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 50
+      }
+    },
+    {
+      "id": "OPP-003",
+      "title": "Consolidate research directories",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 70,
+        "alignment": 40,
+        "current": 50,
+        "onwards": 60,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-005",
+      "title": "Token System Refactoring - Remove Hardcoded Values from app.",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 65,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-010",
+      "title": "Create presets.yaml (NEW - Gap Fill)",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-015",
+      "title": "Update control-bar.js to delegate",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 55,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-016",
+      "title": "Integrate file-viz.js (NEW - Gap Fill)",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-017",
+      "title": "Integrate edge-system.js (NEW - Gap Fill)",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 55,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-018",
+      "title": "Wire UPB_BLENDERS in bindings.js",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-019",
+      "title": "Add minOutput/blendMode to endpoints.js TARGETS",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-020",
+      "title": "Add DATA.getRange() to data-manager.js",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-021",
+      "title": "Update control-bar.js to use DATA.getRange()",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-022",
+      "title": "Add minOutput support to scales.js",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 80,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 65,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-033",
+      "title": "Phase 5 Advanced Features: DEFERRED",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 60,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-034",
+      "title": "All preset properties mapped to token paths (NEEDS MAPPING)",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-042",
+      "title": "Edge cases documented (partial - need to verify filter inter",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-043",
+      "title": "No other code calls `HudLayoutManager`",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-044",
+      "title": "No localStorage keys used by this class that affect other fe",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-051",
+      "title": "Node colors render correctly",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-052",
+      "title": "Topology tooltip colors work",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-053",
+      "title": "Physics sliders adjust simulation",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-054",
+      "title": "Datamap toggles filter nodes",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-055",
+      "title": "Groups can be created/deleted",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    },
+    {
+      "id": "OPP-056",
+      "title": "Hover panel shows node info",
+      "source": "MIGRATION",
+      "scores": {
+        "factual": 55,
+        "alignment": 40,
+        "current": 70,
+        "onwards": 50,
+        "verdict": 40
+      }
+    }
+  ],
+  "duplicates": [
+    {
+      "opp_id": "OPP-059",
+      "opp_title": "Sprawl Consolidation Infrastructure",
+      "task_id": "TASK-059",
+      "task_title": "Sprawl Consolidation Infrastructure",
+      "similarity": 1.0,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-059.yaml"
+    },
+    {
+      "opp_id": "OPP-061",
+      "opp_title": "Fix HSL Daemon Locally",
+      "task_id": "TASK-061",
+      "task_title": "Fix HSL Daemon Locally",
+      "similarity": 1.0,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-061.yaml"
+    },
+    {
+      "opp_id": "OPP-064",
+      "opp_title": "Hierarchical Tree Layout for File View",
+      "task_id": "TASK-064",
+      "task_title": "Hierarchical Tree Layout for File View",
+      "similarity": 1.0,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-064.yaml"
+    },
+    {
+      "opp_id": "OPP-065",
+      "opp_title": "Always-Green Continuous Refinement Pipeline",
+      "task_id": "TASK-065",
+      "task_title": "Always-Green Continuous Refinement Pipeline",
+      "similarity": 1.0,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-065.yaml"
+    },
+    {
+      "opp_id": "OPP-066",
+      "opp_title": "Handle Gemini API Rate Limiting (429)",
+      "task_id": "TASK-021",
+      "task_title": "Handle Gemini API Rate Limiting (429) - Fix Thundering Herd",
+      "similarity": 0.7708333333333334,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-066.yaml"
+    },
+    {
+      "opp_id": "OPP-066",
+      "opp_title": "Handle Gemini API Rate Limiting (429)",
+      "task_id": "TASK-066",
+      "task_title": "Handle Gemini API Rate Limiting (429)",
+      "similarity": 1.0,
+      "opp_path": "/Users/lech/PROJECTS_all/PROJECT_elements/.agent/registry/inbox/OPP-066.yaml"
+    }
+  ],
+  "categories": {
+    "by_source": {
+      "BARE": [
+        "OPP-002"
+      ],
+      "MIGRATION": [
+        "OPP-003",
+        "OPP-004",
+        "OPP-005",
+        "OPP-006",
+        "OPP-010",
+        "OPP-015",
+        "OPP-016",
+        "OPP-017",
+        "OPP-018",
+        "OPP-019",
+        "OPP-020",
+        "OPP-021",
+        "OPP-022",
+        "OPP-033",
+        "OPP-034",
+        "OPP-042",
+        "OPP-043",
+        "OPP-044",
+        "OPP-051",
+        "OPP-052",
+        "OPP-053",
+        "OPP-054",
+        "OPP-055",
+        "OPP-056"
+      ],
+      "RESEARCH": [
+        "OPP-007"
+      ],
+      "Sprawl analysis and consolidation session": [
+        "OPP-059"
+      ],
+      "User vision + AEP specification": [
+        "OPP-060"
+      ],
+      "DECISION_BRIEF_LOCAL_FIRST.md": [
+        "OPP-061"
+      ],
+      "AGENTKNOWLEDGEDUMP.md": [
+        "OPP-062"
+      ],
+      "Emergency triage - archived 695MB .repos_cache to GCS": [
+        "OPP-063"
+      ],
+      "User requirement - session 2026-01-23": [
+        "OPP-064"
+      ],
+      "User vision - always green, always updated, distilled, refined, purified": [
+        "OPP-065"
+      ],
+      "TASK-020 execution - daemons run but API rate limited": [
+        "OPP-066"
+      ],
+      "session_task_18": [
+        "OPP-067"
+      ],
+      "session_task_19": [
+        "OPP-068"
+      ],
+      "session_task_20": [
+        "OPP-069"
+      ],
+      "session_task_21": [
+        "OPP-070"
+      ],
+      "session_task_22": [
+        "OPP-071"
+      ],
+      "session_task_23": [
+        "OPP-072"
+      ],
+      "session_task_24": [
+        "OPP-073"
+      ],
+      "session_task_25": [
+        "OPP-074"
+      ],
+      "session_task_27": [
+        "OPP-075"
+      ],
+      "session_task_28": [
+        "OPP-076"
+      ],
+      "session_task_29": [
+        "OPP-077"
+      ],
+      "session_task_30": [
+        "OPP-078"
+      ],
+      "session_task_31": [
+        "OPP-079"
+      ],
+      "session_task_32": [
+        "OPP-080"
+      ],
+      "session_task_33": [
+        "OPP-081"
+      ],
+      "session_task_34": [
+        "OPP-082"
+      ],
+      "session_task_35": [
+        "OPP-083"
+      ],
+      "session_task_36": [
+        "OPP-084"
+      ],
+      "session_task_37": [
+        "OPP-085"
+      ],
+      "session_task_8": [
+        "OPP-086"
+      ]
+    },
+    "by_urgency": {
+      "HIGH": [
+        "OPP-002",
+        "OPP-006",
+        "OPP-007"
+      ],
+      "MEDIUM": [
+        "OPP-003",
+        "OPP-005",
+        "OPP-010",
+        "OPP-016",
+        "OPP-018",
+        "OPP-019",
+        "OPP-020",
+        "OPP-021",
+        "OPP-022",
+        "OPP-033",
+        "OPP-059",
+        "OPP-060",
+        "OPP-061",
+        "OPP-062",
+        "OPP-063",
+        "OPP-064",
+        "OPP-065",
+        "OPP-066",
+        "OPP-067",
+        "OPP-068",
+        "OPP-069",
+        "OPP-070",
+        "OPP-071",
+        "OPP-072",
+        "OPP-073",
+        "OPP-074",
+        "OPP-075",
+        "OPP-076",
+        "OPP-077",
+        "OPP-078",
+        "OPP-079",
+        "OPP-080",
+        "OPP-081",
+        "OPP-082",
+        "OPP-083",
+        "OPP-084",
+        "OPP-085",
+        "OPP-086"
+      ],
+      "LOW": [
+        "OPP-004",
+        "OPP-015",
+        "OPP-017",
+        "OPP-034",
+        "OPP-042",
+        "OPP-043",
+        "OPP-044",
+        "OPP-051",
+        "OPP-052",
+        "OPP-053",
+        "OPP-054",
+        "OPP-055",
+        "OPP-056"
+      ]
+    },
+    "noise": [
+      "OPP-061"
+    ]
+  },
+  "recommendations": [
+    "PROMOTE: 1 opportunities score >= 70% (ready for promotion)",
+    "REVIEW: 31 opportunities score 50-69%",
+    "ARCHIVE: 22 opportunities score < 50% (low value)",
+    "DUPLICATES: 6 match existing tasks (archive)",
+    "NOISE: 1 appear to be checklist items"
+  ]
+}

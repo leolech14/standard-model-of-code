@@ -1,0 +1,28 @@
+# OPP-084: Add Goodharts Law protection mechanism
+# Imported from: Session Task #36
+# Category: GENERAL
+
+id: OPP-084
+title: "Add Goodharts Law protection mechanism"
+status: PENDING
+category: GENERAL
+source: "session_task_36"
+
+description: |
+  Add Goodharts Law protection mechanism
+
+created_at: "2026-01-26T01:16:43.928685+00:00"
+updated_at: "2026-01-26T01:16:43.928685+00:00"
+
+# Needs 4D confidence scoring
+confidence:
+  factual: 0.70
+  alignment: 0.70
+  current: 0.70
+  onwards: 0.70
+  overall: 0.70
+  needs_review: true
+
+tags:
+  - session-import
+  - needs-enrichment

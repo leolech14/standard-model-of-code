@@ -1,8 +1,9 @@
 # Standard Model of Code: Formal Axioms
 
-> **Status:** DRAFT - Pending Mathematical Validation
+> **Status:** VALIDATED (Gemini 3 Pro, 2026-01-25)
 > **Created:** 2026-01-25
 > **Purpose:** Extract core axioms for formal validation
+> **See Also:** `../../../context-management/docs/theory/FOUNDATIONS_INTEGRATION.md` for full proof
 
 ---
 
@@ -32,6 +33,28 @@ WHERE:
 ```
 
 **Claim:** Every artifact belongs to exactly one of C or X.
+
+### A1.1 Necessity of Partition (Lawvere)
+```
+THEOREM: P = C ⊔ X is MATHEMATICALLY NECESSARY, not arbitrary.
+
+PROOF (by Lawvere's Fixed-Point Theorem, 1969):
+  Let A = C (Codome - syntax)
+  Let B = {true, false} (meanings)
+  Let B^A = all interpretations of code
+
+  Negation ¬ : B → B has no fixed point (¬true ≠ true)
+
+  Lawvere: If ∃ surjection A → B^A, then ∀f:B→B has fixed point
+  Contrapositive: Since ¬ has no fixed point, no surjection C → B^C
+
+  ∴ Code cannot fully specify its own meaning
+  ∴ Meaning must come from external X (Contextome)
+  ∴ P = C ⊔ X is necessary for completeness ∎
+```
+
+**Validated:** Gemini 3 Pro (2026-01-25) - "The proof is VALID"
+**Novelty:** Application to software documentation necessity appears NOVEL
 
 ### A2. Cardinality Preservation
 ```
