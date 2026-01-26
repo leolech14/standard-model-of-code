@@ -374,12 +374,37 @@ Map language-specific AST nodes to canonical atoms.
 
 External tools and libraries we depend on. Understanding boundaries is critical.
 
-| Tool | Category | Version | What It Provides | What It Does NOT Provide |
-|------|----------|---------|------------------|--------------------------|
-| **tree-sitter** | Parser | 0.20.x | AST parsing, query language (.scm), incremental updates | Semantic meaning, type inference, cross-file analysis |
-| **Three.js** | Renderer | 0.149.0 | 3D WebGL engine, scene graph, camera, lighting | Layout algorithms, graph abstractions |
-| **3d-force-graph** | Layout | 1.73.3 | Force-directed graph layout, node/edge rendering | Domain semantics, custom visual encodings |
-| **d3-force** | Physics | 3.x | Force simulation (charge, links, center) | 3D support (wrapped by 3d-force-graph) |
+### Python Dependencies
+
+| Tool | Category | Version | What It Provides | What We Use It For |
+|------|----------|---------|------------------|-------------------|
+| **tree-sitter** | Parser | 0.20-0.21 | AST parsing, query language (.scm) | Role/dimension classification |
+| **tree-sitter-{lang}** | Grammar | 0.20.x | Language-specific grammars | Python, JS, TS, Go, Rust, Java |
+| **networkx** | Graph | 3.x | Graph algorithms, traversal | Call graph, PageRank, cycles |
+| **numpy** | Numeric | 1.24+ | Array operations, math | Metrics computation |
+| **matplotlib** | Viz | 3.7+ | 2D plotting (fallback) | Optional chart output |
+| **jinja2** | Template | 3.1+ | HTML templating | Report generation |
+| **chardet** | Encoding | 5.0+ | Character encoding detection | File reading robustness |
+| **jsonschema** | Validation | 4.0+ | JSON schema validation | Schema enforcement |
+| **rapidfuzz** | Matching | 3.0+ | Fuzzy string matching | Pattern matching |
+
+### JavaScript Dependencies (Visualization)
+
+| Tool | Category | Version | What It Provides | What We Use It For |
+|------|----------|---------|------------------|-------------------|
+| **Three.js** | Renderer | 0.149.0 | 3D WebGL engine | Scene rendering |
+| **3d-force-graph** | Layout | 1.73.3 | Force-directed graph | Node/edge layout |
+| **d3-force** | Physics | 3.x | Force simulation | Graph physics (via 3d-force-graph) |
+
+### Development Tools
+
+| Tool | Category | Purpose |
+|------|----------|---------|
+| **pytest** | Testing | Test runner |
+| **pytest-cov** | Coverage | Code coverage |
+| **black** | Formatting | Python formatter |
+| **isort** | Imports | Import sorting |
+| **mypy** | Types | Static type checking |
 
 ### Tree-sitter Deep Dive
 
