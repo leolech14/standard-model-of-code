@@ -34,6 +34,8 @@ window.PANEL_HANDLERS = (function() {
         _bindEdgeAppearanceControls();
         _bindPanelSettings();
         _bindAnalysisUpdates();
+        _bindNumericDisplayMirrors();
+        _bindMiscControls();
 
         console.log('[PANEL_HANDLERS] Panel controls bound');
     }
@@ -71,6 +73,107 @@ window.PANEL_HANDLERS = (function() {
         _bindPanelSlider('panel-filter-degree', 'panel-filter-degree-num', (val) => {
             if (typeof FILTER_STATE !== 'undefined') {
                 FILTER_STATE.setMinDegree(parseInt(val));
+            }
+        });
+
+        // === ORPHANED FILTER CONTROLS ===
+
+        // Hide orphans (alternate ID)
+        _bindPanelToggle('filter-hide-orphans', (active) => {
+            if (typeof FILTER_STATE !== 'undefined') {
+                FILTER_STATE.setHideOrphans(active);
+            }
+        });
+
+        // Hide dead code (alternate ID)
+        _bindPanelToggle('filter-hide-dead', (active) => {
+            if (typeof FILTER_STATE !== 'undefined') {
+                FILTER_STATE.setHideDeadCode(active);
+            }
+        });
+
+        // Degree range filters
+        _bindPanelSlider('filter-min-degree', 'filter-min-degree-val', (val) => {
+            if (typeof FILTER_STATE !== 'undefined') {
+                FILTER_STATE.setMinDegree(parseInt(val));
+            }
+        });
+
+        _bindPanelSlider('filter-max-degree', 'filter-max-degree-val', (val) => {
+            if (typeof FILTER_STATE !== 'undefined') {
+                FILTER_STATE.setMaxDegree(parseInt(val));
+            }
+        });
+
+        // Filter chip containers (dynamic population)
+        _bindFilterChips('filter-tier-chips', 'tier');
+        _bindFilterChips('filter-family-chips', 'family');
+        _bindFilterChips('filter-role-chips', 'role');
+
+        // Active filter chips display
+        if (typeof EVENT_BUS !== 'undefined') {
+            EVENT_BUS.on('filter:changed', _updateFilterChipsDisplay);
+        }
+    }
+
+    function _bindFilterChips(containerId, filterType) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // Populate chips based on available data
+        if (typeof Graph !== 'undefined' && Graph.graphData) {
+            const data = Graph.graphData();
+            const values = new Set();
+
+            data.nodes.forEach(node => {
+                if (filterType === 'tier' && node.tier) values.add(node.tier);
+                if (filterType === 'family' && node.family) values.add(node.family);
+                if (filterType === 'role' && node.semantic_role) values.add(node.semantic_role);
+            });
+
+            // Create chip elements
+            Array.from(values).sort().forEach(value => {
+                const chip = document.createElement('div');
+                chip.className = 'chip';
+                chip.textContent = value;
+                chip.dataset.value = value;
+                chip.dataset.type = filterType;
+
+                chip.addEventListener('click', () => {
+                    chip.classList.toggle('active');
+                    if (typeof FILTER_STATE !== 'undefined') {
+                        const activeChips = Array.from(container.querySelectorAll('.chip.active'))
+                            .map(c => c.dataset.value);
+                        FILTER_STATE.setFilter(filterType, activeChips);
+                    }
+                });
+
+                container.appendChild(chip);
+            });
+        }
+    }
+
+    function _updateFilterChipsDisplay() {
+        const display = document.getElementById('panel-filter-chips');
+        if (!display || typeof FILTER_STATE === 'undefined') return;
+
+        // Get active filters
+        const activeFilters = FILTER_STATE.getActiveFilters?.() || {};
+        display.innerHTML = '';
+
+        Object.entries(activeFilters).forEach(([type, values]) => {
+            if (Array.isArray(values) && values.length > 0) {
+                values.forEach(value => {
+                    const chip = document.createElement('div');
+                    chip.className = 'chip active';
+                    chip.textContent = `${type}: ${value}`;
+                    chip.addEventListener('click', () => {
+                        if (typeof FILTER_STATE !== 'undefined') {
+                            FILTER_STATE.removeFilter(type, value);
+                        }
+                    });
+                    display.appendChild(chip);
+                });
             }
         });
     }
@@ -114,6 +217,38 @@ window.PANEL_HANDLERS = (function() {
         document.getElementById('panel-select-isolate')?.addEventListener('click', () => {
             if (typeof SELECT !== 'undefined' && SELECT.isolate) {
                 SELECT.isolate();
+            }
+        });
+
+        // === ORPHANED SELECTION CONTROLS ===
+
+        // Clear selection
+        document.getElementById('panel-select-clear')?.addEventListener('click', () => {
+            window.selectedNodes = [];
+            if (typeof Graph !== 'undefined' && Graph.graphData) {
+                const data = Graph.graphData();
+                // Reset node colors/visibility
+                data.nodes.forEach(node => {
+                    if (node.__threeObj) {
+                        node.__threeObj.material.opacity = 1.0;
+                    }
+                });
+            }
+            if (typeof REFRESH !== 'undefined') REFRESH.throttled();
+            if (typeof EVENT_BUS !== 'undefined') EVENT_BUS.emit('selection:changed');
+        });
+
+        // Invert selection
+        document.getElementById('panel-select-invert')?.addEventListener('click', () => {
+            if (typeof Graph !== 'undefined' && Graph.graphData) {
+                const data = Graph.graphData();
+                const currentSelected = new Set((window.selectedNodes || []).map(n => n.id));
+
+                // Invert: select all nodes NOT currently selected
+                window.selectedNodes = data.nodes.filter(n => !currentSelected.has(n.id));
+
+                if (typeof REFRESH !== 'undefined') REFRESH.throttled();
+                if (typeof EVENT_BUS !== 'undefined') EVENT_BUS.emit('selection:changed');
             }
         });
     }
@@ -189,6 +324,114 @@ window.PANEL_HANDLERS = (function() {
                 Graph.zoomToFit(1000, 50);
             }
         });
+
+        // === ORPHANED CAMERA CONTROLS ===
+
+        // Auto-rotate (alternate ID)
+        _bindPanelToggle('camera-auto-rotate', (active) => {
+            if (typeof Graph !== 'undefined' && Graph.controls) {
+                Graph.controls().autoRotate = active;
+            }
+        });
+
+        // Rotate speed (alternate ID)
+        _bindPanelSlider('camera-rotate-speed', 'camera-rotate-speed-val', (val) => {
+            if (typeof Graph !== 'undefined' && Graph.controls) {
+                Graph.controls().autoRotateSpeed = parseFloat(val);
+            }
+        });
+
+        // Camera reset (alternate ID)
+        document.getElementById('camera-reset')?.addEventListener('click', () => {
+            if (typeof Graph !== 'undefined') {
+                Graph.cameraPosition({ x: 0, y: 0, z: 500 }, { x: 0, y: 0, z: 0 }, 1000);
+            }
+        });
+
+        // Zoom controls
+        document.getElementById('camera-zoom-in')?.addEventListener('click', () => {
+            if (typeof Graph !== 'undefined' && Graph.camera) {
+                const cam = Graph.camera();
+                const direction = new window.THREE.Vector3();
+                cam.getWorldDirection(direction);
+                cam.position.add(direction.multiplyScalar(50));
+            }
+        });
+
+        document.getElementById('camera-zoom-out')?.addEventListener('click', () => {
+            if (typeof Graph !== 'undefined' && Graph.camera) {
+                const cam = Graph.camera();
+                const direction = new window.THREE.Vector3();
+                cam.getWorldDirection(direction);
+                cam.position.add(direction.multiplyScalar(-50));
+            }
+        });
+
+        document.getElementById('camera-zoom-fit')?.addEventListener('click', () => {
+            if (typeof Graph !== 'undefined' && Graph.zoomToFit) {
+                Graph.zoomToFit(1000, 50);
+            }
+        });
+
+        // Camera bookmarks (basic implementation)
+        const bookmarkSelect = document.getElementById('camera-bookmarks');
+        const saveBookmarkBtn = document.getElementById('camera-save-bookmark');
+
+        if (saveBookmarkBtn) {
+            saveBookmarkBtn.addEventListener('click', () => {
+                if (typeof Graph !== 'undefined' && Graph.camera) {
+                    const cam = Graph.camera();
+                    const bookmark = {
+                        position: { x: cam.position.x, y: cam.position.y, z: cam.position.z },
+                        rotation: { x: cam.rotation.x, y: cam.rotation.y, z: cam.rotation.z },
+                        timestamp: Date.now()
+                    };
+
+                    // Store in localStorage
+                    const bookmarks = JSON.parse(localStorage.getItem('cameraBookmarks') || '[]');
+                    bookmarks.push(bookmark);
+                    localStorage.setItem('cameraBookmarks', JSON.stringify(bookmarks));
+
+                    // Update select dropdown
+                    _updateCameraBookmarksList();
+
+                    if (typeof TOAST !== 'undefined') {
+                        TOAST.show('Camera view saved');
+                    }
+                }
+            });
+        }
+
+        if (bookmarkSelect) {
+            bookmarkSelect.addEventListener('change', () => {
+                const index = parseInt(bookmarkSelect.value);
+                if (isNaN(index)) return;
+
+                const bookmarks = JSON.parse(localStorage.getItem('cameraBookmarks') || '[]');
+                const bookmark = bookmarks[index];
+                if (bookmark && typeof Graph !== 'undefined') {
+                    Graph.cameraPosition(bookmark.position, { x: 0, y: 0, z: 0 }, 1000);
+                }
+            });
+
+            // Load existing bookmarks
+            _updateCameraBookmarksList();
+        }
+    }
+
+    function _updateCameraBookmarksList() {
+        const select = document.getElementById('camera-bookmarks');
+        if (!select) return;
+
+        const bookmarks = JSON.parse(localStorage.getItem('cameraBookmarks') || '[]');
+        select.innerHTML = '<option value="">Select saved view...</option>';
+
+        bookmarks.forEach((bookmark, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `View ${index + 1} (${new Date(bookmark.timestamp).toLocaleTimeString()})`;
+            select.appendChild(option);
+        });
     }
 
     // =========================================================================
@@ -220,6 +463,44 @@ window.PANEL_HANDLERS = (function() {
             if (typeof FLOW !== 'undefined') {
                 active ? FLOW.disable() : FLOW.enable();
             }
+        });
+
+        // === ORPHANED A11Y CONTROLS (CRITICAL) ===
+
+        // Large text toggle
+        _bindPanelToggle('a11y-large-text', (active) => {
+            document.body.classList.toggle('large-text', active);
+            const scale = active ? 1.2 : 1.0;
+            document.documentElement.style.fontSize = (14 * scale) + 'px';
+        });
+
+        // Focus indicators toggle
+        _bindPanelToggle('a11y-focus-indicators', (active) => {
+            document.body.classList.toggle('show-focus-indicators', active);
+            if (active) {
+                document.body.style.setProperty('--focus-ring', '2px solid var(--accent)');
+            } else {
+                document.body.style.setProperty('--focus-ring', 'none');
+            }
+        });
+
+        // Screen reader support toggle
+        _bindPanelToggle('a11y-screen-reader', (active) => {
+            document.body.setAttribute('aria-live', active ? 'polite' : 'off');
+            // Enable additional ARIA labels on graph elements
+            if (typeof Graph !== 'undefined' && Graph.nodeLabel) {
+                if (active) {
+                    // Force label visibility for screen readers
+                    document.body.classList.add('sr-mode');
+                } else {
+                    document.body.classList.remove('sr-mode');
+                }
+            }
+        });
+
+        // Font size slider
+        _bindPanelSlider('a11y-font-size', 'a11y-font-size-val', (val) => {
+            document.documentElement.style.fontSize = val + 'px';
         });
     }
 
@@ -419,6 +700,24 @@ window.PANEL_HANDLERS = (function() {
         const maxEdges = n * (n - 1) / 2;
         const density = maxEdges > 0 ? (e / maxEdges * 100).toFixed(1) + '%' : '--';
         if (elDensity) elDensity.textContent = density;
+
+        // === ORPHANED STATS DISPLAYS ===
+
+        // Stats in header
+        const statsNodes = document.getElementById('stats-nodes');
+        const statsEdges = document.getElementById('stats-edges');
+        const statsFiles = document.getElementById('stats-files');
+        const statsDensity = document.getElementById('stats-density');
+
+        if (statsNodes) statsNodes.textContent = data.nodes.length;
+        if (statsEdges) statsEdges.textContent = data.links?.length || 0;
+        if (statsDensity) statsDensity.textContent = density;
+
+        // Count unique files
+        if (statsFiles) {
+            const uniqueFiles = new Set(data.nodes.map(n => n.file_path).filter(Boolean));
+            statsFiles.textContent = uniqueFiles.size;
+        }
     }
 
     // =========================================================================
@@ -588,6 +887,88 @@ window.PANEL_HANDLERS = (function() {
             clearTimeout(timer);
             timer = setTimeout(() => fn.apply(this, args), delay);
         };
+    }
+
+    // =========================================================================
+    // NUMERIC DISPLAY MIRRORS - Wire -num displays to sync with sliders
+    // =========================================================================
+
+    function _bindNumericDisplayMirrors() {
+        // Map slider IDs to their numeric display counterparts
+        const mirrorPairs = [
+            ['cfg-edge-opacity', 'cfg-edge-opacity-num'],
+            ['cfg-edge-width', 'cfg-edge-width-num'],
+            ['cfg-edge-curve', 'cfg-edge-curve-num'],
+            ['cfg-node-size', 'cfg-node-size-num'],
+            ['cfg-node-opacity', 'cfg-node-opacity-num'],
+            ['cfg-label-size', 'cfg-label-size-num'],
+            ['cfg-particle-speed', 'cfg-particle-speed-num'],
+            ['cfg-particle-count', 'cfg-particle-count-num'],
+            ['node-size', 'node-size-num'],
+            ['edge-opacity', 'edge-opacity-num'],
+            ['physics-charge', 'physics-charge-num'],
+            ['physics-link-distance', 'physics-link-num'],
+            ['cfg-node-res', 'cfg-node-res-num']
+        ];
+
+        mirrorPairs.forEach(([sliderId, numId]) => {
+            const slider = document.getElementById(sliderId);
+            const numDisplay = document.getElementById(numId);
+
+            if (slider && numDisplay) {
+                // Sync on slider input
+                slider.addEventListener('input', () => {
+                    numDisplay.textContent = slider.value;
+                });
+
+                // Initialize display
+                numDisplay.textContent = slider.value;
+            }
+        });
+
+        // Physics center (special case - may not have a main slider)
+        const physicsCenterNum = document.getElementById('physics-center-num');
+        if (physicsCenterNum && typeof PHYSICS_STATE !== 'undefined') {
+            physicsCenterNum.textContent = PHYSICS_STATE.centerStrength || '0';
+        }
+    }
+
+    // =========================================================================
+    // MISCELLANEOUS ORPHANED CONTROLS
+    // =========================================================================
+
+    function _bindMiscControls() {
+        // Toggle labels (legacy control)
+        _bindPanelToggle('toggle-labels', (active) => {
+            if (typeof Graph !== 'undefined') {
+                Graph.nodeLabel(n => active ? (n.name || n.id) : null);
+            }
+        });
+
+        // Performance frame counter
+        const perfFrame = document.getElementById('perf-frame');
+        if (perfFrame && typeof Graph !== 'undefined') {
+            // Update perf counter on render
+            let lastTime = performance.now();
+            setInterval(() => {
+                const now = performance.now();
+                const delta = now - lastTime;
+                lastTime = now;
+                perfFrame.textContent = delta.toFixed(1) + 'ms';
+            }, 100);
+        }
+
+        // Section appearance toggle (if it's meant to be collapsible)
+        const sectionAppearance = document.getElementById('section-appearance');
+        if (sectionAppearance) {
+            sectionAppearance.addEventListener('click', () => {
+                sectionAppearance.classList.toggle('collapsed');
+                const content = sectionAppearance.nextElementSibling;
+                if (content) {
+                    content.style.display = sectionAppearance.classList.contains('collapsed') ? 'none' : 'block';
+                }
+            });
+        }
     }
 
     return {
