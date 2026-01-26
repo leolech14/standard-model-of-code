@@ -283,11 +283,12 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('cfg-toggle-arrows');
                 if (!el) return { passed: false, error: 'Element not found' };
                 const isActiveNow = el.classList.contains('active');
+                const wasSet = typeof window._arrowsActiveBefore !== 'undefined';
                 return {
-                    passed: isActiveNow !== window._arrowsActiveBefore,
+                    passed: wasSet && isActiveNow !== window._arrowsActiveBefore,
                     expected: !window._arrowsActiveBefore,
                     actual: isActiveNow,
-                    stateExists: true
+                    stateExists: wasSet
                 };
             },
             cleanup: (el) => {
@@ -311,13 +312,17 @@ const CIRCUIT = (function() {
                 el.dispatchEvent(new Event('input', { bubbles: true }));
             },
             validate: () => {
-                // Use window.Graph explicitly (Graph is exposed at app.js:1111)
+                // Check both Graph.d3Force AND window.PHYSICS_STATE.charge binding
                 const G = window.Graph;
+                const physicsState = window.PHYSICS_STATE;
                 if (!G) {
                     return { passed: false, error: 'Graph not defined', stateExists: false };
                 }
                 if (!G.d3Force) {
                     return { passed: false, error: 'Graph.d3Force not available', stateExists: false };
+                }
+                if (!physicsState) {
+                    return { passed: false, error: 'PHYSICS_STATE not defined', stateExists: false };
                 }
                 try {
                     const chargeForce = G.d3Force('charge');
@@ -328,11 +333,14 @@ const CIRCUIT = (function() {
                     // Call it with dummy node to get actual strength
                     const strengthFn = chargeForce.strength();
                     const strength = typeof strengthFn === 'function' ? strengthFn({}, 0, []) : strengthFn;
+                    // Verify both Graph.d3Force and PHYSICS_STATE.charge match
+                    const graphOK = strength === -200;
+                    const stateOK = physicsState.charge === -200;
                     return {
-                        passed: strength === -200,
+                        passed: graphOK && stateOK,
                         expected: -200,
                         actual: strength,
-                        stateExists: true
+                        stateExists: graphOK && stateOK
                     };
                 } catch (e) {
                     return { passed: false, error: e.message, stateExists: false };
@@ -370,7 +378,7 @@ const CIRCUIT = (function() {
                 const transitionStarted = window.DIMENSION_TRANSITION === true ||
                                          window.DIMENSION_TRANSITION !== window._transitionBefore;
                 return {
-                    passed: transitionStarted || window.DIMENSION_TRANSITION === true,
+                    passed: transitionStarted,
                     expected: 'DIMENSION_TRANSITION = true (animation in progress)',
                     actual: window.DIMENSION_TRANSITION,
                     stateExists: typeof window.DIMENSION_TRANSITION !== 'undefined'
