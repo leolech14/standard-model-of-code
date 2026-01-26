@@ -1,0 +1,151 @@
+# Opportunity: ConAff Enhancement for Graph Type Inference
+# Source: Code archaeology + NeurIPS 2023 paper analysis
+# Created: 2026-01-26
+
+id: OPP-RESEARCH-001
+title: "Enhance graph_type_inference with Contextually Affinitive Neighborhood (ConAff)"
+type: research
+priority: P2  # Enhancement, not critical fix
+size: L  # Large - requires research, design, implementation, testing
+
+# Discovery Context
+source:
+  origin: code_archaeology
+  trigger: "Reviewed NeurIPS 2023 ConAff paper during purpose emergence audit"
+  related_files:
+    - standard-model-of-code/src/core/graph_type_inference.py
+    - standard-model-of-code/src/core/purpose_emergence.py
+    - standard-model-of-code/src/core/topology_reasoning.py
+
+# Problem Statement
+problem: |
+  Current graph_type_inference.py uses DIRECT neighbors only:
+  - "Who calls me?" -> I'm probably X
+  - "Who do I call?" -> I'm probably Y
+
+  This misses INDIRECT similarity:
+  - Two nodes that never interact but have similar relationship patterns
+  - Example: UserRepository and OrderRepository both call DB, called by Services
+  - They should be recognized as similar even without direct connection
+
+  The ConAff paper (NeurIPS 2023) solves this with:
+  1. k-reciprocal encoding (robust neighbor discovery)
+  2. Contextual affinity (similar patterns = similar purpose)
+  3. Progressive boundary filtering (handle noisy edges)
+
+# Proposed Solution
+solution:
+  approach: "Implement ConAff-style contextual similarity in graph_type_inference.py"
+
+  components:
+    - name: "k-Reciprocal Encoding"
+      description: |
+        Two nodes are reciprocally related if:
+        - A is in B's top-k neighbors AND B is in A's top-k neighbors
+        Encode this as a binary vector per node.
+      complexity: M
+
+    - name: "Contextual Affinity Distance"
+      description: |
+        Instead of raw cosine/euclidean distance:
+        - Compare k-reciprocal encoding vectors
+        - Nodes with similar relationship patterns are contextually similar
+        - Use Jaccard distance on reciprocal encodings
+      complexity: M
+
+    - name: "ConAff Neighborhood Discovery"
+      description: |
+        Replace simple top-k neighbors with:
+        - Build contextual k-NN graph
+        - Propagate messages to find higher-order relations
+        - Retrieve affinity-based neighbors
+      complexity: L
+
+    - name: "Progressive Boundary Filtering"
+      description: |
+        For nodes near cluster boundaries (ambiguous classification):
+        - Compute silhouette-like boundary ratio
+        - Progressively include harder samples as confidence grows
+        - Reduces noise accumulation
+      complexity: M
+
+  integration_points:
+    - file: "src/core/graph_type_inference.py"
+      function: "GraphTypeInference.infer_type()"
+      change: "Add contextual neighbor lookup before rule matching"
+
+    - file: "src/core/graph_type_inference.py"
+      function: "GraphTypeInference.build_graph_index()"
+      change: "Compute k-reciprocal encodings during index build"
+
+    - file: "src/core/full_analysis.py"
+      stage: "Stage 5"
+      change: "Pass iteration count for progressive filtering"
+
+# Expected Outcomes
+outcomes:
+  - metric: "Unknown role reduction"
+    current: "~20% Unknown after graph inference"
+    target: "~10% Unknown with ConAff enhancement"
+
+  - metric: "Cross-module similarity"
+    current: "Not detected (requires direct connection)"
+    target: "Detect analogous roles in disconnected components"
+
+  - metric: "Noise resilience"
+    current: "Single noisy edge can mislead inference"
+    target: "Boundary filtering reduces false positives"
+
+# Validation Plan
+validation:
+  - type: unit_test
+    description: "Test k-reciprocal encoding on known graph structures"
+
+  - type: integration_test
+    description: "Run full Collider with ConAff, compare Unknown rates"
+
+  - type: benchmark
+    description: "Compare role inference accuracy on labeled codebase"
+
+  - type: regression
+    description: "Ensure existing rules still work (ConAff is additive)"
+
+# Risks and Mitigations
+risks:
+  - risk: "Performance overhead from k-reciprocal computation"
+    severity: MEDIUM
+    mitigation: "Use sparse matrices, limit k to 10-20, cache encodings"
+
+  - risk: "ConAff designed for image features, may not translate to code graphs"
+    severity: MEDIUM
+    mitigation: "Start with k-reciprocal only, validate before full implementation"
+
+  - risk: "Breaks existing inference rules"
+    severity: LOW
+    mitigation: "ConAff is additive layer, existing rules preserved"
+
+# References
+references:
+  - title: "ConAff Paper"
+    url: "https://github.com/cly234/DeepClustering-ConNR"
+    type: paper
+
+  - title: "Existing implementation"
+    path: "standard-model-of-code/src/core/graph_type_inference.py"
+    type: code
+
+  - title: "Purpose Emergence docs"
+    path: "context-management/docs/deep/PURPOSE_EMERGENCE.md"
+    type: documentation
+
+# Confidence Scores (4D)
+confidence:
+  factual: 0.85      # ConAff paper is real, well-cited
+  alignment: 0.90    # Fits perfectly with "purpose from connections" philosophy
+  current: 0.80      # Implementation path is clear
+  onwards: 0.75      # Long-term value depends on Unknown reduction results
+
+# Status
+status: PROPOSED
+created_at: "2026-01-26T15:30:00Z"
+created_by: claude_agent
