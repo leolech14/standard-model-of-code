@@ -335,13 +335,18 @@ class TreeSitterDimensionClassifier:
             'emitter': 'Emitter',
             'lifecycle': 'Lifecycle',
             'internal': 'Internal',
-            # New roles
+            # Extended roles
             'query': 'Query',
             'processor': 'Processor',
             'parser': 'Parser',
             'accessor': 'Accessor',
             'adapter': 'Adapter',
             'builder': 'Builder',
+            'predicate': 'Predicate',
+            'reporter': 'Reporter',
+            'scanner': 'Scanner',
+            'extractor': 'Extractor',
+            'enricher': 'Enricher',
         }
 
         return {
