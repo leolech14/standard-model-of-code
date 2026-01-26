@@ -342,6 +342,11 @@ def _suggest_sets(intent: QueryIntent, needs_agent: bool, keywords: List[str]) -
         "atom": "research_atoms",
         "classifier": "classifiers",
         "schema": "schema",
+        "deck": "deck",
+        "card": "deck",
+        "meter": "deck_state",
+        "certified": "deck",
+        "governance": "deck",
     }
 
     for kw in keywords:

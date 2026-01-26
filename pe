@@ -44,7 +44,7 @@ has_ollama() {
 # Route via local LLM (ultrafast, ~100ms)
 route_via_ollama() {
     local input="$1"
-    local prompt="Classify this user intent into ONE word from: [status, analyze, fix, explain, recent, stale, test, commit, drift, ask]. Input: '$input'. Output only the category word, nothing else."
+    local prompt="Classify this user intent into ONE word from: [status, analyze, fix, explain, recent, stale, test, commit, drift, verify, sync, viz, ask]. Input: '$input'. Output only the category word, nothing else."
 
     local category=$(ollama run llama3.2:1b "$prompt" 2>/dev/null | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
 
@@ -58,6 +58,9 @@ route_via_ollama() {
         test)    cmd_test; return 0 ;;
         commit)  git status --short; return 0 ;;
         drift)   cd "$COLLIDER" && ./collider symmetry . --docs docs; return 0 ;;
+        verify)  cmd_verify; return 0 ;;
+        sync)    cmd_sync; return 0 ;;
+        viz)     cmd_viz; return 0 ;;
         ask)     run_python "$TOOLS/ai/analyze.py" "$input" --set brain; return 0 ;;
         *)       return 1 ;;
     esac
@@ -123,6 +126,24 @@ route_intent() {
         return 0
     fi
 
+    # VERIFY / AUDIT / VALIDATE patterns → HSL
+    if [[ "$lower" =~ (verify|audit|validate|check.*doc|socratic|hsl) ]]; then
+        cmd_verify
+        return 0
+    fi
+
+    # SYNC / MIRROR / BACKUP / CLOUD patterns → archive mirror
+    if [[ "$lower" =~ (sync|mirror|backup|cloud|push.*gcs|upload) ]]; then
+        cmd_sync
+        return 0
+    fi
+
+    # VISUALIZE / GRAPH / SEE / SHOW patterns → viz server
+    if [[ "$lower" =~ (visuali|graph|see.*code|show.*(graph|viz|3d)|open.*report) ]]; then
+        cmd_viz
+        return 0
+    fi
+
     # Pattern matching failed - try local LLM if available
     if has_ollama; then
         route_via_ollama "$input" && return 0
@@ -140,7 +161,12 @@ PROJECT ELEMENTS - Unified CLI
 EXPLICIT COMMANDS:
   ./pe status              System health overview
   ./pe ask "question"      Ask AI (Gemini) a question
+  ./pe research "topic"    Deep research with validation
+  ./pe deck [cmd]          Decision Deck (list|deal|route|show|play)
   ./pe collider <args>     Run Collider analysis
+  ./pe viz                 Start 3D visualization server
+  ./pe verify              Run HSL Socratic audit
+  ./pe sync                Mirror to cloud (GCS)
   ./pe autopilot <cmd>     Automation control
   ./pe tdj <cmd>           Temporal index queries
   ./pe boot                Run boot sequence
@@ -154,6 +180,9 @@ INTENT ROUTING (just type naturally):
   ./pe "check for stale code"        → tdj stale
   ./pe "run tests"                   → pytest
   ./pe "check drift"                 → symmetry check
+  ./pe "verify the docs"             → HSL audit
+  ./pe "sync to cloud"               → archive mirror
+  ./pe "show the graph"              → 3D visualization
 
 LOCATIONS:
   Collider:    standard-model-of-code/
@@ -197,6 +226,26 @@ cmd_research() {
     run_python "$TOOLS/ai/analyze.py" "$@" --research validation_trio
 }
 
+cmd_deck() {
+    # Decision Deck - certified moves for AI agents
+    case "${1:-list}" in
+        play)
+            shift
+            run_python "$TOOLS/ai/deck/play_card.py" "$@"
+            ;;
+        context)
+            shift
+            run_python "$TOOLS/ai/deck/deck_context.py" "$@"
+            ;;
+        health)
+            run_python "$TOOLS/ai/deck/deck_context.py" --health
+            ;;
+        *)
+            run_python "$TOOLS/ai/deck/deck_router.py" "$@"
+            ;;
+    esac
+}
+
 cmd_collider() {
     cd "$COLLIDER" && ./collider "$@"
 }
@@ -217,6 +266,26 @@ cmd_test() {
     cd "$COLLIDER" && pytest tests/ -q
 }
 
+cmd_verify() {
+    echo "=== HSL SOCRATIC AUDIT ==="
+    run_python "$TOOLS/ai/analyze.py" --verify pipeline
+}
+
+cmd_sync() {
+    echo "=== CLOUD MIRROR ==="
+    run_python "$TOOLS/archive/archive.py" mirror
+}
+
+cmd_viz() {
+    echo "=== STARTING VISUALIZATION ==="
+    cd "$COLLIDER" && python3 -m http.server 8080 --directory .collider 2>/dev/null &
+    echo "Server starting at http://localhost:8080/collider_report.html"
+    echo "Press Ctrl+C to stop"
+    sleep 1
+    open "http://localhost:8080/collider_report.html" 2>/dev/null || echo "Open browser to the URL above"
+    wait
+}
+
 # Router
 case "${1:-help}" in
     help|--help|-h)
@@ -232,6 +301,10 @@ case "${1:-help}" in
     research)
         shift
         cmd_research "$@"
+        ;;
+    deck|cards|moves)
+        shift
+        cmd_deck "$@"
         ;;
     collider)
         shift
@@ -251,10 +324,27 @@ case "${1:-help}" in
     test)
         cmd_test
         ;;
+    verify|audit)
+        cmd_verify
+        ;;
+    sync|mirror)
+        cmd_sync
+        ;;
+    viz|graph|see)
+        cmd_viz
+        ;;
     *)
         # Not a known command - try intent routing
         if route_intent "$@"; then
             exit 0
+        fi
+
+        # Check if there's a matching card before AI fallback
+        MATCHED_CARD=$(run_python "$TOOLS/ai/deck/deck_router.py" route "$*" 2>/dev/null | head -1)
+        if [[ "$MATCHED_CARD" == Matched:* ]]; then
+            echo "💡 TIP: Found certified move - $MATCHED_CARD"
+            echo "   Run: ./pe deck route \"$*\""
+            echo ""
         fi
 
         # Intent routing failed - fallback to AI as last resort

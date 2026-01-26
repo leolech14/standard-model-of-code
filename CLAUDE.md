@@ -2,21 +2,44 @@
 
 ## Start Here
 ```bash
-./concierge
+./pe boot              # Run boot sequence (shows available moves)
+./pe deck deal         # Show certified moves you can execute now
+./pe status            # System health check
 ```
+
+## Decision Deck (AI Governance)
+
+**Before improvising, check available certified moves:**
+```bash
+./pe deck deal              # Moves whose preconditions are satisfied
+./pe deck route "intent"    # Match your intent to a card
+./pe deck play CARD-ANA-001 # Execute the card
+./pe deck play CARD-ANA-001 --dry-run  # Preview first
+```
+
+Each card has: preconditions, steps, expected outcomes, rollback procedures.
+**Prefer selecting a card over free-form action when one matches your intent.**
 
 ## Rules (Priority 0)
 - Never leave uncommitted changes
 - Run tests before claiming done
 - Provide summary with rationale
+- **Check `./pe deck deal` before complex actions**
 
-## Commands
+## Commands (via ./pe)
 | Task | Command |
 |------|---------|
-| Analyze | `./collider full <path> --output <dir>` |
-| Test | `cd standard-model-of-code && pytest tests/ -q` |
-| AI Query | `doppler run -- python context-management/tools/ai/analyze.py "query"` |
-| Archive | `python context-management/tools/archive/archive.py mirror` |
+| **Deck** | `./pe deck [list|deal|route|show]` |
+| **Health** | `./pe status` |
+| **Analyze** | `./pe collider full <path> --output <dir>` |
+| **Test** | `./pe test` |
+| **AI Query** | `./pe ask "query"` |
+| **Research** | `./pe research "topic"` |
+| **Verify** | `./pe verify` (HSL audit) |
+| **Sync** | `./pe sync` (cloud mirror) |
+| **Viz** | `./pe viz` (3D graph) |
+
+See `context-management/docs/agent_school/CLI_GRAMMAR.md` for full CLI reference.
 
 ## Projectome (Navigation Topology)
 
@@ -37,6 +60,7 @@ P = C ⊔ X    (disjoint union - MECE partition)
 |-----|---------|
 | `context-management/docs/operations/AGENT_KERNEL.md` | Core rules, micro-loop |
 | `context-management/docs/agent_school/DOD.md` | Definition of Done |
+| `context-management/docs/agent_school/CLI_GRAMMAR.md` | ./pe CLI reference for AI agents |
 | `context-management/docs/agent_school/WORKFLOWS.md` | Git, commit, PR workflows |
 
 ## Domain Entry Points

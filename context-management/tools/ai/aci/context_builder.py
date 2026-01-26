@@ -213,8 +213,8 @@ def inject_agent_context(
     """
     injection_map = {
         "minimal": ["agent_kernel"],
-        "standard": ["agent_kernel", "agent_tasks"],
-        "full": ["agent_full"],
+        "standard": ["agent_kernel", "agent_tasks", "deck_state"],
+        "full": ["agent_full", "deck"],
     }
 
     to_inject = injection_map.get(inject_level, ["agent_kernel"])

@@ -1,177 +1,58 @@
-version: '2026-01-25T21:45:00+00:00'
-validated_by: BARE/TruthValidator + Skeptical Audit
-confidence: 0.75
+# =============================================================================
+# REPO TRUTHS - Validated Facts About This Repository
+# =============================================================================
+# This file contains DERIVED facts validated by BARE/TruthValidator.
+# For the complete inventory (List of Lists), see: LOL.yaml
+#
+# Updated: 2026-01-26
+# Validated by: BARE/TruthValidator + Skeptical Audit + ROR Session
+# =============================================================================
+
+version: "2026-01-26"
+confidence: 0.85
 
 # =============================================================================
-# CORE COUNTS
+# AUTHORITATIVE SOURCE
 # =============================================================================
-counts:
-  files:
-    python: 186
-    javascript: 98
-    yaml: 25
-    markdown: 212
-    json: 168
-    html: 42
-    css: 14
-  lines_of_code: 130787
-  functions: 341
-  classes: 183
-  source: grep_estimate
+# ALL inventory data now lives in LOL.yaml
+# This file contains only DERIVED metrics and integration status
 
-# =============================================================================
-# PIPELINE
-# =============================================================================
-pipeline:
-  stages: 18
-  source: CLAUDE.md
+lol:
+  path: ".agent/intelligence/LOL.yaml"
+  description: "List of Lists - the complete project inventory"
+  contains:
+    - collider_registries (6)
+    - agent_registries (6)
+    - context_registries (3)
+    - subsystems (13)
+    - subsystem_components (7)
+    - file_inventory
+    - pipeline_stages
+    - visualization
+    - documentation
+    - tools (15)
+    - hooks (2)
 
 # =============================================================================
-# REGISTRIES (Ground Truth)
+# QUICK REFERENCE (Derived from LOL.yaml)
 # =============================================================================
-registries:
-  # ==========================================================================
-  # REGISTRY OF REGISTRIES (ROR) - Collider Core Registries
-  # Source: standard-model-of-code/src/core/registry/registry_of_registries.py
-  # Validated: 2026-01-26
-  # ==========================================================================
-  ror:
-    path: "standard-model-of-code/src/core/registry/registry_of_registries.py"
-    count: 6
-    source: "get_meta_registry().status_report() (2026-01-26)"
-    members:
-      atoms:
-        count: 3644
-        breakdown: "110 canonical + 3534 T2"
-        ecosystems: 180
-        source: atom_registry.py
-      roles:
-        count: 33
-        source: role_registry.py
-      types:
-        count: 36
-        source: type_registry.py
-      patterns:
-        count: 36
-        source: pattern_registry.py
-      schemas:
-        count: 13
-        source: schema_registry.py
-      workflows:
-        count: 4
-        types: [standard, deep_scan, fast_lint, antimatter]
-        source: workflow_registry.py
-
-  # ==========================================================================
-  # AGENT REGISTRIES (Observer Domain)
-  # ==========================================================================
-  task:
-    path: ".agent/registry/"
-    active_tasks: 25
-    opportunities: 60
-    source: INDEX.md (2026-01-25, auto-synced)
-
-  research_schemas:
-    path: "context-management/config/research_schemas.yaml"
-    schemas: 12
-    types: [validation_trio, depth_ladder, adversarial_pair, forensic_investigation,
-            quick_validate, semantic_probe, cost_analyzer, claude_history_ingest,
-            mind_map_builder, gemini_deep, perplexity_grounding, hybrid_validation]
-    source: research_schemas.yaml (2026-01-25)
-
-  macro:
-    path: ".agent/macros/"
-    macros: 1
-    status: INITIALIZED
-    source: INDEX.md (2026-01-25)
-    note: "Recorded action patterns for automation"
-
-  deck:
-    path: ".agent/deck/"
-    cards: 9
-    types: [REG, RES, GIT, ANA, DOC, SES, WLD, AUD]
-    source: ls .agent/deck/ (2026-01-25)
-
-# =============================================================================
-# SUBSYSTEMS (From SOS_MAP)
-# =============================================================================
-subsystems:
-  count: 13  # S1-S9b + S10-S13
-  validated: true
-  source: SOS_MAP_TRUTH.md (2026-01-25)
-
-  list:
-    - id: S1
-      name: Collider
-      path: "standard-model-of-code/"
-      type: Engine
-
-    - id: S2
-      name: HSL
-      path: "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
-      type: Framework
-
-    - id: S3
-      name: analyze.py
-      path: "context-management/tools/ai/analyze.py"
-      type: Engine
-
-    - id: S4
-      name: Perplexity MCP
-      path: "context-management/tools/mcp/"
-      type: Utility
-
-    - id: S5
-      name: Task Registry
-      path: ".agent/registry/"
-      type: State
-
-    - id: S6
-      name: BARE
-      path: ".agent/tools/bare"
-      type: Engine
-
-    - id: S7
-      name: Archive
-      path: "context-management/tools/archive/"
-      type: Utility
-
-    - id: S8
-      name: Hygiene
-      path: ".pre-commit-config.yaml"
-      type: Guard
-
-    - id: S9
-      name: Laboratory
-      path: "standard-model-of-code/tools/research/laboratory.py"
-      type: Bridge
-
-    - id: S9b
-      name: Lab Bridge
-      path: "context-management/tools/ai/laboratory_bridge.py"
-      type: Client
-
-    - id: S10
-      name: AEP (Enrichment)
-      path: ".agent/tools/enrichment_orchestrator.py"
-      type: Engine
-
-    - id: S11
-      name: ACI Refinery
-      path: "context-management/tools/ai/aci/refinery.py"
-      type: Engine
-
-    - id: S12
-      name: Centripetal
-      path: ".agent/tools/centripetal_scan.py"
-      type: Utility
-
-    - id: S13
-      name: Macro Registry
-      path: ".agent/macros/"
-      type: State
-      added: "2026-01-25"
-      note: "Recorded patterns for automation"
+quick_counts:
+  atoms: 3644
+  roles: 33
+  types: 36
+  patterns: 36
+  schemas: 13
+  workflows: 4
+  subsystems: 13
+  tasks_active: 25
+  opportunities: 60
+  macros: 1
+  files_python: 314
+  files_js: 75
+  files_yaml: 207
+  files_md: 749
+  viz_modules: 64
+  pipeline_stages: 28
 
 # =============================================================================
 # INTEGRATION STATUS
@@ -184,42 +65,37 @@ integrations:
   source: SOS_MAP_TRUTH.md
 
 # =============================================================================
-# MACRO SYSTEM (NEW)
+# MACRO SYSTEM STATUS
 # =============================================================================
 macro_system:
   status: OPERATIONAL
   version: "2.0.0"
-  created: "2026-01-25"
-  implemented: "2026-01-25"
-
-  artifacts:
-    schema: ".agent/macros/schema/macro.schema.yaml"
-    index: ".agent/macros/INDEX.md"
-    library: ".agent/macros/library/"
-    logs: ".agent/macros/logs/"
-
+  macros_count: 1
+  trigger: post_commit
   tools:
-    macro_executor: ".agent/tools/macro_executor.py"
-    opp_generator: ".agent/tools/opp_generator.py"
-    trigger_engine: ".agent/tools/trigger_engine.py"
+    - macro_executor.py
+    - opp_generator.py
+    - trigger_engine.py
 
-  macros:
-    - id: MACRO-001
-      name: "Skeptical Audit"
-      status: TESTED
-      trigger: manual
-      card: CARD-AUD-001
+# =============================================================================
+# AUDIT TRAIL
+# =============================================================================
+audit:
+  last_skeptical_audit: "2026-01-25"
+  findings:
+    dead_code_archived:
+      - history_loader.py (469 LOC)
+      - task_v2.schema.yaml
+    location: "archive/dead_code/2026-01-25/"
 
-  integration_status:
-    task_registry: IMPLEMENTED
-    workflow_registry: PLANNED
-    bare: IMPLEMENTED
-    trigger_engine: IMPLEMENTED
-    post_commit_hook: WIRED
+  last_ror_validation: "2026-01-26"
+  ror_findings:
+    - "AtomRegistry was missing from ROR - added"
+    - "File counts were stale - updated in LOL.yaml"
+    - "LOL.yaml created as authoritative inventory"
 
 # =============================================================================
 # NOTES
 # =============================================================================
 _note: "Run './collider full . --output .collider' for richer data"
-_skeptical_audit: "Last run 2026-01-25, found dead code in history_loader.py"
-_cleanup: "2026-01-25: Archived history_loader.py (469 LOC) and task_v2.schema.yaml to archive/dead_code/"
+_lol_note: "LOL.yaml is now the single source of truth for all inventories"

@@ -1,0 +1,36 @@
+# Auto-generated from inbox:OPP-076
+# Confidence: 70%
+# Generated: 2026-01-25T22:20:01.828966
+
+id: CARD-OPP-076
+title: Implement collider mcafee CLI command
+type: task
+source: inbox:OPP-076
+phase_gate:
+- IMPLEMENTING
+description: 'Implement collider mcafee CLI command
+
+  '
+preconditions:
+- check: registry.OPP-076.exists
+  description: OPP-076 in registry
+cost:
+  tokens_estimate: 2K-5K
+  risk_level: low
+outcomes:
+  success:
+    description: OPP-076 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-076 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- session-import
+- needs-enrichment
+- cli
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.828901+00:00'
+confidence: 0.7

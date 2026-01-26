@@ -1,0 +1,63 @@
+# CARD-WLD-000: Wildcard Action
+# Escape hatch for actions outside the deck
+
+id: CARD-WLD-000
+title: "Wildcard Action"
+description: "Execute an action not covered by any card. Requires explicit justification. Use sparingly - high wildcard frequency suggests deck needs expansion."
+
+phase_gate: [ANY]
+
+preconditions:
+  - check: "no_suitable_card_exists"
+    description: "Must confirm no existing card covers this action"
+  - check: "justification_provided"
+    description: "Must explain why this action is necessary"
+
+steps:
+  - action: "State the intended action clearly"
+    description: "Describe what will be done"
+    checkpoint: false
+  - action: "Provide justification"
+    description: "Explain why no card covers this and why it's needed"
+    checkpoint: false
+  - action: "Execute the action"
+    description: "Perform the unconstrained action"
+    checkpoint: true
+  - action: "Log for pattern detection"
+    description: "Record wildcard use for deck improvement"
+    checkpoint: false
+
+outcomes:
+  success:
+    state_changes:
+      - "Action completed"
+      - "Wildcard logged to .agent/state/wildcard_log.yaml"
+      - "Pattern detected for potential new card"
+    meters:
+      reliability: -1
+      discovery: 1
+  failure:
+    state_changes:
+      - "Action failed"
+      - "Failure logged"
+    meters:
+      reliability: -2
+      debt: 1
+
+rollback:
+  possible: false
+  warning: "Wildcard actions may not have defined rollback - document manually"
+
+context_injection: []
+
+cost:
+  tokens_estimate: 0
+  risk_level: MEDIUM
+
+tags: [escape, wildcard, unconstrained, meta]
+
+# Usage tracking:
+# High-frequency wildcards with similar patterns should trigger:
+# 1. Review of wildcard_log.yaml
+# 2. Creation of new card to cover the pattern
+# 3. Reduction in wildcard necessity

@@ -309,9 +309,44 @@ analysis_sets:
   # AGENT SETS - .agent/ directory for ACI (Adaptive Context Intelligence)
   # ==========================================================================
 
+  # ==========================================================================
+  # DECISION DECK SETS - AI Governance System
+  # ==========================================================================
+
+  deck:
+    description: "Decision Deck cards and state (certified moves for AI agents)"
+    max_tokens: 50000
+    critical_files:
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+    positional_strategy: "front-load"
+    patterns:
+      - "context-management/tools/ai/deck/CARD-*.yaml"
+      - "context-management/tools/ai/deck/deck_router.py"
+      - "context-management/tools/ai/deck/play_card.py"
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+
+  deck_cards:
+    description: "All card definitions (no state, just definitions)"
+    max_tokens: 40000
+    patterns:
+      - "context-management/tools/ai/deck/CARD-*.yaml"
+
+  deck_state:
+    description: "Current deck state (meters + play history)"
+    max_tokens: 5000
+    critical_files:
+      - ".agent/state/meters.yaml"
+    positional_strategy: "front-load"
+    patterns:
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+      - ".agent/state/session.yaml"
+
   agent_session:
     description: "Active Decision Deck session state (real-time context)"
-    max_tokens: 10000
+    max_tokens: 15000
     critical_files:
       - ".agent/state/session.yaml"
       - ".agent/state/meters.yaml"
@@ -319,7 +354,9 @@ analysis_sets:
     patterns:
       - ".agent/state/session.yaml"
       - ".agent/state/meters.yaml"
-      - ".agent/deck/CARD-*.yaml"
+      - ".agent/state/play_log.yaml"
+    includes:
+      - deck_cards
 
   agent_kernel:
     description: "Agent boot protocol and manifest (~30k tokens)"

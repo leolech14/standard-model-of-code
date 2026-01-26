@@ -1,0 +1,59 @@
+# Auto-generated from inbox:OPP-060
+# Confidence: 8000%
+# Generated: 2026-01-25T22:20:01.826041
+
+id: CARD-OPP-060
+title: Autonomous Enrichment Pipeline (AEP) MVP
+type: task
+source: inbox:OPP-060
+phase_gate:
+- ANY
+description: 'Implement the Autonomous Enrichment Pipeline that runs on GCP:
+
+
+  1. Watches .agent/registry/inbox/ for new OPPs
+
+  2. Runs research loops (Gemini + Perplexity + Collider)
+
+  3. Fills knowledge gaps automatically
+
+  4. Computes 4D confidence scores
+
+  5. Auto-promotes to TASK when >= 85% (Grade A)
+
+  6. Maps steps at 85%+ confidence each
+
+
+  PRINCIPLE: A TASK means VALIDATED, READY TO EXECUTE.
+
+
+  MVP Scope:
+
+  - Local cron job (hourly) as Phase 1
+
+  - Uses existing analyze.py + loop.py infrastructure
+
+  - Writes enriched data back to registry
+
+  '
+preconditions:
+- check: registry.OPP-060.exists
+  description: OPP-060 in registry
+cost:
+  tokens_estimate: 5K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-060 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-060 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- infrastructure
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.825880+00:00'
+confidence: 80

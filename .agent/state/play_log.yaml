@@ -1,0 +1,14 @@
+- card_id: CARD-ANA-001
+  meter_changes:
+    discovery: 1
+    reliability: 1
+  outcome: success
+  steps_completed: 3
+  timestamp: '2026-01-26T01:27:44.354220'
+- card_id: CARD-ANA-001
+  meter_changes:
+    discovery: 1
+    reliability: 1
+  outcome: success
+  steps_completed: 3
+  timestamp: '2026-01-26T01:42:49.119027'

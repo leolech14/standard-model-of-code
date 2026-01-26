@@ -1,61 +1,58 @@
-# Validated Semantic Map: PIPELINE\n\nDate: 2026-01-25 23:58:18\n\n## Concept: Stage\n> A processing unit in the analysis pipeline.\n\n### Findings
+# Validated Semantic Map: PIPELINE\n\nDate: 2026-01-26 01:28:49\n\n## Concept: Stage\n> A processing unit in the analysis pipeline.\n\nBased on the provided codebase context and the Semantic Definition of the **Stage** concept, here is the audit report.
 
-- **Entity**: `BaseStage` (src/core/pipeline/base_stage.py)
+### Findings
+
+- **Entity**: `BaseStage` (`src/core/pipeline/base_stage.py`)
   - **Status**: **Compliant**
   - **Evidence**:
-    - **Inheritance**: Defined as `class BaseStage(ABC)`, serving as the base class required by the invariants.
-    - **Method Implementation**: Defines `@abstractmethod def execute(self, state: "CodebaseState") -> "CodebaseState"` matching the signature requirement.
-    - **Name Property**: Defines `@property @abstractmethod def name(self) -> str` matching the requirement.
-    - **Validation**: Includes `validate_input` and `validate_output` methods with default implementations (`return True`), matching the optional invariant.
+    - **Inheritance**: Defined as `class BaseStage(ABC)`, serving as the root for the inheritance invariant.
+    - **Execute Method**: Defines `@abstractmethod def execute(self, state: "CodebaseState") -> "CodebaseState":`, enforcing implementation in subclasses.
+    - **Name Property**: Defines `@property @abstractmethod def name(self) -> str:`, enforcing unique identifiers.
+    - **Validation**: Implements `validate_input` and `validate_output` with default returns of `True`, matching the invariant "May implement...".
+    - **Statelessness**: The class definition contains no instance state storage mechanisms, encouraging stateless usage.
 
-- **Entity**: `PipelineManager` (src/core/pipeline/manager.py)
-  - **Status**: **Compliant**
+- **Entity**: `PipelineManager` (`src/core/pipeline/manager.py`)
+  - **Status**: **Compliant** (as Orchestrator)
   - **Evidence**:
-    - **Usage of Concept**: Constructor accepts `stages: List[BaseStage]`, enforcing that all managed stages inherit from `BaseStage`.
-    - **Execution Loop**: In `run()`, it calls `stage.validate_input(state)`, `stage.execute(state)`, and `stage.validate_output(state)` in the correct order, respecting the Stage interface.
-    - **Identity**: Utilizes `stage.name` for logging and lookup (`run_stage`), respecting the unique identifier invariant.
+    - The manager correctly respects the Stage contract invariants during execution.
+    - It calls `stage.validate_input(state)` before execution.
+    - It calls `stage.execute(state)` to process the state.
+    - It calls `stage.validate_output(state)` after execution.
+    - It uses `stage.name` for logging and identification.
 
-- **Entity**: `run_full_analysis` (src/core/full_analysis.py)
-  - **Status**: **Deviating / Legacy**
-  - **Evidence**: The function implements analysis steps procedurally using comments (e.g., `# Stage 1: Base Analysis`) and `StageTimer` context managers, rather than instantiating classes inheriting from `BaseStage`.
-  - **Deviation**: While logically performing "stages", this implementation does not use the `Stage` Concept defined in the invariants. It represents a legacy or alternative execution path compared to the compliant `run_pipeline_analysis` function found in the same file.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM002]**: Architectural Drift: 'full_analysis.py' contains significant core domain logic (e.g., 'detect_js_imports', 'classify_disconnection', 'create_codome_boundaries') that belongs in the 'src.core' library (likely as Pipeline Stages or Strategies). The entry point script should merely orchestrate these components, not define them, violating separation of concerns. (Severity: HIGH)\n- 🔴 **[AM001]**: Context Myopia: The function 'detect_js_imports' directly accesses the file system ('open(full_path, ...)') to read content. This ignores the existing 'FileEnricher' abstraction and the 'CodebaseState' context (which likely already holds file content/AST), leading to redundant I/O and bypassing architectural data governance. (Severity: MEDIUM)\n\n## Concept: PipelineManager\n> Orchestrator that executes stages in sequence with timing.\n\n### Findings
-
-- **Entity**: `PipelineManager` (Class)
+- **Entity**: `run_full_analysis` logic (`src/core/full_analysis.py`)
+  - **Status**: **Non-Compliant** (Legacy Pattern)
+  - **Deviation**: This function implements analysis steps (e.g., `Stage 0: Survey`, `Stage 1: Base Analysis`) procedurally using imperative function calls and `StageTimer`, rather than instantiating classes inheriting from `BaseStage`.
+  - **Evidence**: Usage of `with StageTimer(perf_manager, "Stage 1: Base Analysis")` instead of `BaseStage` objects.
+  - **Note**: The file also contains `run_pipeline_analysis`, which appears to be the modern entry point utilizing the compliant `BaseStage` architecture via `create_default_pipeline`. The legacy function represents a deviation from the defined Stage architecture but co-exists with the new implementation.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM002]**: Architectural Drift: 'full_analysis.py' acts as a 'God Script', implementing core domain logic (e.g., 'create_codome_boundaries', 'classify_disconnection') as procedural functions. This violates the explicit architectural contract defined in 'base_stage.py' and 'manager.py', which mandates that analysis logic be encapsulated in 'BaseStage' subclasses and orchestrated by the 'PipelineManager'. (Severity: HIGH)\n- 🔴 **[AM001]**: Context Myopia: The functions 'detect_js_imports' and 'detect_class_instantiation' implement ad-hoc regex-based parsing within the entry script. This duplicates and ignores the likely existence of robust AST-based extractors in the referenced 'src.core.graph_framework' or 'edge_extractor.py', creating fragile, redundant logic outside the established 'Standard Model' context. (Severity: MEDIUM)\n- 🔴 **[AM004]**: Orphan Code (Logical): 'classify_disconnection' is defined as a standalone utility but not integrated into the visible flow of 'create_codome_boundaries' (which expects 'disconnection' data to already exist on nodes). Without being part of a unified Stage execution, this logic is architecturally disconnected. (Severity: LOW)\n\n## Concept: PipelineManager\n> Orchestrator that executes stages in sequence with timing.\n\n### Findings
+- **Entity**: `PipelineManager`
 - **Status**: **Compliant**
 - **Evidence**:
-    - **Accepts BaseStage list**: The `__init__` method signature defines `stages: List[BaseStage]` and assigns it to `self.stages`.
-    - **Executes in order via run(state)**: The `run` method iterates specifically through the list (`for stage in self.stages:`) and updates the state sequentially (`state = stage.execute(state)`).
-    - **Tracks timing**: The `run` method captures `start_time = time.perf_counter()` before execution and calculates `elapsed_ms` immediately after.
-    - **Callbacks**: The class accepts `on_stage_start` and `on_stage_complete` in `__init__` and invokes them at the appropriate times within the execution loop.
-- **Deviation**: None.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM002]**: Architectural Drift: The 'PipelineManager' (Core/Orchestration layer) uses raw 'print()' statements for warning logs. This violates layer boundaries by coupling core logic directly to standard output (CLI/Presentation layer) instead of using an abstract logging facility. (Severity: HIGH)\n- 🔴 **[AM004]**: Orphan Code: The 'perf_manager' dependency is injected via '__init__' and stored in 'self._perf_manager', but it is never utilized within the 'run' method or anywhere else in the class. The code manually implements timing logic that likely duplicates or ignores the intended functionality of the unused 'PerformanceManager'. (Severity: MEDIUM)\n\n## Concept: CodebaseState\n> Central state container passed between pipeline stages.\n\n### Findings
+  - **Accepts BaseStage list**: The `__init__` method signature specifies `stages: List[BaseStage]`.
+  - **Executes in order via run(state)**: The `run` method iterates through `self.stages` sequentially (`for stage in self.stages:`) and calls `stage.execute(state)`.
+  - **Tracks timing**: Inside the `run` loop, the code captures `start_time = time.perf_counter()` before execution and calculates `elapsed_ms` immediately after.
+  - **Callbacks**: The class accepts `on_stage_start` and `on_stage_complete` in `__init__` and invokes them at the appropriate times within the `run` loop.
+- **Deviation**: N/A\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM002]**: Architectural Drift (Layer Violation): The code utilizes `print()` statements within `src/core`, violating the separation of concerns between Domain Logic and the Presentation/Logging layer. Core components should emit events or use a logger, not write to stdout. (Severity: HIGH)\n- 🔴 **[AM004]**: Orphan Code (Unused Dependency): The `perf_manager` instance is injected via `__init__` and stored in `self._perf_manager`, but it is never referenced or used in `run()` or `run_stage()`, rendering it dead state. (Severity: MEDIUM)\n- 🔴 **[AM002]**: Architectural Drift (Inconsistent Role): The `run_stage` method directly calls `stage.execute()`, bypassing the validation checks (`validate_input`/`validate_output`) and observability hooks (`on_stage_start`/`complete`) that define the Manager's primary role, leading to unsafe execution paths. (Severity: MEDIUM)\n\n## Concept: CodebaseState\n> Central state container passed between pipeline stages.\n\n### Findings
 
-- **Entity**: `CodebaseState` (class)
+- **Entity**: `CodebaseState` (class in `src/core/data_management.py`)
 - **Status**: **Compliant**
 - **Evidence**:
-    - **Collections**: The class initializes `self.nodes` (Dict) and `self.edges` (List) in `__init__`.
-    - **O(1) Indexed Lookups**:
-        - Internal indices `_by_file`, `_by_ring`, `_by_kind`, and `_by_role` are initialized as `defaultdict(set)`.
-        - Public methods `get_by_file`, `get_by_ring`, `get_by_kind`, and `get_by_role` provide O(1) access via these indices.
-    - **Metadata Tracking**: `self.metadata` is initialized with `"layers_activated": []`.
-    - **Enrichment**: The method `enrich_node(self, node_id: str, layer_name: str, **attributes)` is present. It merges attributes into the node dictionary and updates the `layers_activated` list in metadata.
-- **Deviation**: None.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM004]**: The code imports 'UnifiedNode', 'UnifiedEdge', and 'UnifiedAnalysisOutput' from 'unified_analysis' but never references them. The implementation relies entirely on generic 'Any' types and duck-typing (e.g., 'hasattr(n, ...)') rather than these imported type definitions. (Severity: MEDIUM)\n- 🔴 **[AM002]**: The import logic for 'normalize_output' utilizes a try-except fallback block ('from normalize_output' vs 'from src.core.normalize_output'). This implies an ambiguous architectural context (module vs. script execution) and violates strict module resolution standards. (Severity: MEDIUM)\n- 🔴 **[AM001]**: The 'load_initial_graph' method manually re-implements object-to-dict conversion logic using 'vars()' and attribute checks, ignoring the 'asdict' utility explicitly imported from 'dataclasses' which is designed for this standard library purpose. (Severity: LOW)\n\n## Concept: Extractor\n> Component responsible for raw data ingestion.\n\n### Findings
-
+  - **Nodes/Edges Collections**: The class initializes `self.nodes` (Dict) and `self.edges` (List) in `__init__`.
+  - **O(1) Indexed Lookups**: The class maintains internal indices (`self._by_file`, `self._by_ring`, `self._by_kind`, `self._by_role`) which are populated in `load_initial_graph`. It provides accessor methods (`get_by_file`, `get_by_ring`, etc.) performing direct dictionary lookups.
+  - **Metadata Tracking**: `self.metadata` is initialized with `"layers_activated": []` in the constructor.
+  - **Enrichment**: The method `enrich_node(self, node_id: str, layer_name: str, **attributes)` is implemented to merge attributes into nodes and update the `layers_activated` metadata.
+- **Deviation**: None.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM001]**: The code imports 'asdict' from 'dataclasses' but ignores it in 'load_initial_graph', instead implementing a manual, fragile object-to-dict conversion strategy using 'hasattr' and 'vars'. This duplicates standard library functionality that was explicitly imported for this purpose. (Severity: MEDIUM)\n- 🔴 **[AM004]**: The classes 'UnifiedNode', 'UnifiedEdge', and 'UnifiedAnalysisOutput' are imported from 'unified_analysis' but never referenced in the code, creating orphan dependencies and suggesting a disconnect between the data management layer and the type definitions it is supposed to manage. (Severity: LOW)\n\n## Concept: Extractor\n> Component responsible for raw data ingestion.\n\n### Findings
 - **Entity**: `SmartExtractor` (in `src/core/smart_extractor.py`)
 - **Status**: **Compliant**
-- **Evidence**: The class explicitly defines its role as the "smart extraction layer that prepares data for the LLM classifier." It operates directly on file content (`file_path.read_text`) and AST (`ast.parse`), extracting structural elements like decorators, imports, and docstrings.
-- **Reasoning**: It adheres strictly to the invariants by gathering raw data and deferring the actual classification (the "complex semantic reasoning") to an external LLM, as evidenced by the `format_card_for_llm` method and the `heuristic_type` field which acts as a placeholder or simple guess rather than a final determination.
+- **Evidence**: The class methods `_enrich_from_source` and `_enrich_from_ast` operate directly on file content using `pathlib.read_text` and the `ast` module. The docstring defines its role as the "smart extraction layer that prepares data for the LLM classifier."
+- **Reasoning**: It adheres to the invariants by processing raw code/AST to package context (decorators, signatures, imports) without performing the classification itself. The `_infer_layer` method uses simple string matching against file paths, which counts as heuristic extraction rather than complex semantic reasoning.
 
-- **Entity**: `intent_extractor.py` (Module functions: `extract_readme_intent`, `extract_commit_intents`, etc.)
+- **Entity**: `IntentExtractor` (functions in `src/core/intent_extractor.py`)
 - **Status**: **Compliant**
-- **Evidence**: Functions operate on raw data sources: `extract_readme_intent` reads file text; `extract_commit_intents` parses raw `git log` subprocess output; `extract_docstring_intent` uses regex on source code.
-- **Reasoning**: While `classify_commit_intent` performs a form of classification, it relies on simple keyword matching (e.g., `if 'fix' in message...`), which is a syntactic heuristic rather than "complex semantic reasoning." This fits the scope of extracting metadata signals from raw inputs.
+- **Evidence**: Functions like `extract_readme_intent`, `extract_commit_intents`, and `extract_docstring_intent` ingest raw data via file I/O, `subprocess` (git), and Regex.
+- **Reasoning**: Although it contains a function named `classify_commit_intent`, the implementation relies on simple keyword lookup (e.g., if 'fix' in message), which is a mechanical extraction of metadata, not complex semantic reasoning.
 
-- **Entity**: `EdgeExtractionStrategy` and subclasses (in `src/core/edge_extractor.py`)
+- **Entity**: `EdgeExtractor` (strategies in `src/core/edge_extractor.py`)
 - **Status**: **Compliant**
-- **Evidence**: The strategies (`PythonEdgeStrategy`, `TreeSitterEdgeStrategy`, etc.) use either regex patterns on `body_source` or `tree_sitter` AST parsing to identify relationships.
-- **Reasoning**: The edge detection logic (`extract_edges`) is based on syntactic presence (calls, imports) and structural scope analysis. The resolution logic (`_find_target_particle`) uses name matching and file path heuristics, maintaining operation at the syntactic/structural level without deep semantic interpretation of the code's behavior.
-
-- **Entity**: `JSModuleResolver` (in `src/core/edge_extractor.py`)
-- **Status**: **Compliant**
-- **Evidence**: Uses `tree_sitter` to parse JavaScript/TypeScript content and traverses the AST to map imports and exports.
-- **Reasoning**: It tracks variable assignments and import statements (`window.X = ...`, `require(...)`) to resolve module paths. This is a structural extraction task essential for accurate data ingestion, adhering to the requirement of operating on ASTs.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM001]**: Context Myopia Violation in `intent_extractor.py`. The function `extract_docstring_intent` uses brittle Regular Expressions to parse Python docstrings, ignoring the robust, standard `ast.get_docstring` approach already implemented and available in the sibling module `smart_extractor.py`. This unnecessarily duplicates logic and lowers reliability. (Severity: HIGH)\n- 🔴 **[AM001]**: Context Myopia / Structural Confusion in `edge_extractor.py`. The import block for `scope_analyzer` uses a 'shotgun' approach (nested try/except blocks attempting multiple paths), indicating the component is unaware of the project's canonical structure. It attempts to guess the location of internal dependencies rather than adhering to a defined architectural layout. (Severity: MEDIUM)\n- 🔴 **[AM004]**: Orphan/Incomplete Code in `edge_extractor.py`. The file terminates abruptly in the middle of a method signature (`resolve_member_call`), rendering the module syntax-invalid and unusable. It defines complex logic (`JSModuleResolver`) that is not fully integrated or closed. (Severity: MEDIUM)\n\n
+- **Evidence**: The strategies (`PythonEdgeStrategy`, `TreeSitterEdgeStrategy`, etc.) and `JSModuleResolver` utilize Regex and Tree-sitter parsers to identify syntactic relationships (imports, calls).
+- **Reasoning**: The component focuses strictly on ingesting raw source to map structural dependencies. It resolves scopes and symbols based on syntax, avoiding any high-level semantic inference about the code's purpose.\n\n### Semantic Guardrails (Antimatter Check)\n**DETECTED LIABILITIES**:\n- 🔴 **[AM001]**: Context Myopia: The component implements a Python-exclusive extraction strategy (using the `ast` module) while the surrounding project context (`edge_extractor.py`) explicitly supports a polyglot environment (JavaScript/TypeScript via Tree-sitter). This extractor will silently fail to provide 'smart' features for any non-Python nodes in the graph, contradicting its generic role description. (Severity: HIGH)\n- 🔴 **[AM001]**: Context Myopia (Logic Duplication): The code re-implements docstring extraction logic (in `_enrich_from_ast`) which already exists in `intent_extractor.py`. It also hardcodes `LAYER_PATTERNS`, ignoring potential project-wide configuration or shared constants that would govern architectural layering definitions. (Severity: MEDIUM)\n\n

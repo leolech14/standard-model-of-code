@@ -205,14 +205,24 @@ if [ "$JSON_ONLY" = false ]; then
         echo ""
     fi
 
+    # Show Decision Deck - available certified moves
+    echo "=== DECISION DECK (Certified Moves) ==="
+    DECK_ROUTER="$REPO_ROOT/context-management/tools/ai/deck/deck_router.py"
+    if [ -f "$DECK_ROUTER" ]; then
+        python3 "$DECK_ROUTER" deal 2>/dev/null | head -15 || echo "  (deck not loaded)"
+    fi
+    echo ""
+
     echo "=== BOOT COMPLETE ==="
     echo ""
-    echo "Next steps:"
-    echo "1. Review context-management/docs/agent_school/ for workflows"
-    echo "2. Review standard-model-of-code/CLAUDE.md for tool details"
-    echo "3. Begin your task using: SCAN → PLAN → EXECUTE → VALIDATE → COMMIT"
+    echo "UNIFIED CLI: ./pe"
+    echo "  ./pe status          # Health check"
+    echo "  ./pe deck list       # Show all certified moves"
+    echo "  ./pe deck deal       # Show available moves (preconditions met)"
+    echo "  ./pe ask \"query\"     # AI query"
     echo ""
-    echo "Maintenance tools:"
-    echo "  python3 context-management/tools/maintenance/boundary_analyzer.py  # Boundary check"
-    echo "  python3 context-management/tools/ai/gemini_status.py               # API status"
+    echo "Next steps:"
+    echo "1. Run: ./pe deck deal  → See what moves are available"
+    echo "2. Select a card OR use intent routing: ./pe \"your task\""
+    echo "3. Follow: SCAN → PLAN → EXECUTE → VALIDATE → COMMIT"
 fi

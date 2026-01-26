@@ -1,0 +1,36 @@
+# Auto-generated from inbox:OPP-071
+# Confidence: 70%
+# Generated: 2026-01-25T22:20:01.830532
+
+id: CARD-OPP-071
+title: Fix MISALIGNMENT reporting UNKNOWN vs CLEAN
+type: task
+source: inbox:OPP-071
+phase_gate:
+- ANY
+description: 'Fix MISALIGNMENT reporting UNKNOWN vs CLEAN
+
+  '
+preconditions:
+- check: registry.OPP-071.exists
+  description: OPP-071 in registry
+cost:
+  tokens_estimate: 5K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-071 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-071 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- session-import
+- needs-enrichment
+- general
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.830482+00:00'
+confidence: 0.7

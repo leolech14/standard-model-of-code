@@ -1,0 +1,55 @@
+# CARD-RES-002: Research with Gemini
+# Deep analysis using Gemini models via analyze.py
+
+id: CARD-RES-002
+title: "Research with Gemini"
+description: "Conduct analysis using Gemini models. Use for codebase-aware queries, validation, and internal research."
+
+phase_gate: [DESIGNING, VALIDATING, ANY]
+
+preconditions:
+  - check: "query_defined"
+    description: "A clear analysis question must be formulated"
+  - check: "analysis_set_selected"
+    description: "Choose appropriate set (brain, agent_full, etc.)"
+
+steps:
+  - action: "python context-management/tools/ai/analyze.py 'QUERY' --set SET_NAME"
+    description: "Run Gemini analysis with appropriate set"
+    checkpoint: true
+  - action: "Review response for insights"
+    description: "Extract key findings and recommendations"
+  - action: "Save significant findings"
+    description: "Document in research folder if substantial"
+
+outcomes:
+  success:
+    state_changes:
+      - "Analysis response received"
+      - "Session logged to gemini/sessions/ if enabled"
+    unlocks: [CARD-DOC-001, CARD-REG-001]
+    meters:
+      discovery: 1
+      focus: 0
+  failure:
+    state_changes:
+      - "Rate limit or API error"
+      - "Retry suggested after cooldown"
+    meters:
+      discovery: -1
+
+rollback:
+  possible: false
+  warning: "API calls cannot be undone, tokens consumed"
+
+context_injection:
+  - path: "context-management/config/analysis_sets.yaml"
+    sections: ["Available sets"]
+  - path: "context-management/config/aci_config.yaml"
+    sections: ["Models"]
+
+cost:
+  tokens_estimate: 3000
+  risk_level: LOW
+
+tags: [research, gemini, analysis, internal]

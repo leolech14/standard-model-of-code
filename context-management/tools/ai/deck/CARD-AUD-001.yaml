@@ -1,0 +1,81 @@
+# CARD-AUD-001: Skeptical Audit
+# Play this card after sessions that create new code/schemas
+
+id: CARD-AUD-001
+title: "Run Skeptical Audit"
+description: "Systematic self-criticism to identify dead code, integration failures, and validation theater. Essential after any session creating new artifacts."
+
+phase_gate: [EXECUTING, VALIDATING]
+
+preconditions:
+  - check: "session_created_new_files"
+    description: "Session must have created or modified significant files"
+  - check: "GEMINI_API_KEY is set"
+    description: "Need AI for deep analysis"
+
+steps:
+  - action: "List session artifacts: git status --short"
+    description: "Inventory what was created/modified"
+    checkpoint: false
+
+  - action: "Execute MACRO-001-skeptical-audit"
+    description: "Run the skeptical audit macro (manual or via trigger)"
+    checkpoint: true
+
+  - action: "Review findings and create OPPs for HIGH severity issues"
+    description: "Convert findings to actionable opportunities"
+    checkpoint: true
+
+  - action: "Commit audit report"
+    description: "Save findings to .agent/intelligence/"
+    checkpoint: false
+
+outcomes:
+  success:
+    state_changes:
+      - "SKEPTICAL_AUDIT_{date}.md created in .agent/intelligence/"
+      - "Dead code identified and logged"
+      - "Integration failures documented"
+      - "OPPs created for findings"
+    unlocks: []
+    meters:
+      reliability: 2
+      discovery: 1
+      debt: -1  # Reduces debt by finding issues early
+
+  failure:
+    state_changes:
+      - "Audit incomplete"
+      - "Potential hidden issues remain"
+    meters:
+      reliability: -1
+      debt: 1
+
+rollback:
+  possible: true
+  steps:
+    - "Delete audit report"
+    - "Close OPPs created from findings"
+  warning: "Rollback means issues remain unaddressed"
+
+context_injection:
+  - path: ".agent/macros/library/MACRO-001-skeptical-audit.yaml"
+    sections: ["steps", "success_criteria"]
+  - path: ".agent/intelligence/SKEPTICAL_AUDIT_REPORT_20260125.md"
+    sections: ["EXECUTIVE SUMMARY"]
+
+cost:
+  tokens_estimate: 50000
+  risk_level: LOW
+
+tags: [audit, quality, self-criticism, macro, integration]
+
+# Linkage
+macro_ref: "MACRO-001-skeptical-audit"
+first_execution: "2026-01-25T21:30:00Z"
+
+# When to play this card:
+# - After any feature implementation session
+# - After creating new schemas or modules
+# - Before declaring a task "complete"
+# - As part of Definition of Done

@@ -1,0 +1,41 @@
+# Auto-generated from inbox:OPP-059
+# Confidence: 9000%
+# Generated: 2026-01-25T22:20:01.824134
+
+id: CARD-OPP-059
+title: Sprawl Consolidation Infrastructure
+type: task
+source: inbox:OPP-059
+phase_gate:
+- ANY
+description: "Infrastructure improvements for managing repository sprawl:\n\nCOMPLETED\
+  \ (2026-01-23):\n1. \u2705 Created SPRAWL_CONSOLIDATION_PLAN.md\n2. \u2705 Updated\
+  \ archive config with 4 large directories for GCS offload\n3. \u2705 Added 14MB\
+  \ timestamp CSV to .gitignore\n4. \u2705 Moved one-time reports to archive/reports/\n\
+  5. \u2705 Moved AGENTKNOWLEDGEDUMP.md to context-management/docs/agent_school/\n\
+  6. \u2705 Fixed validate_manifest.py exit code logic\n7. \u2705 Filtered __init__.py\
+  \ from orphan detection\n\nRESULT:\n- Manifest health: 100% (FULLY COHERENT)\n-\
+  \ Root .md files: 11 \u2192 6 (essential only)\n- Validator exit code: 0\n\nREMAINING:\n\
+  - Run GCS offload for large directories\n- Audit remaining 528 .md files for duplicates/stale\
+  \ content\n"
+preconditions:
+- check: registry.OPP-059.exists
+  description: OPP-059 in registry
+cost:
+  tokens_estimate: 5K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-059 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-059 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- infrastructure
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.824043+00:00'
+confidence: 90

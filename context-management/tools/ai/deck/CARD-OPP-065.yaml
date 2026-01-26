@@ -1,0 +1,32 @@
+# Auto-generated from inbox:OPP-065
+# Confidence: 8500%
+# Generated: 2026-01-25T22:20:01.824919
+
+id: CARD-OPP-065
+title: Always-Green Continuous Refinement Pipeline
+type: task
+source: inbox:OPP-065
+phase_gate:
+- ANY
+description: Always-Green Continuous Refinement Pipeline
+preconditions:
+- check: registry.OPP-065.exists
+  description: OPP-065 in registry
+cost:
+  tokens_estimate: 5K
+  risk_level: medium
+outcomes:
+  success:
+    description: OPP-065 completed
+    meters:
+      progress: 1
+      debt: 0
+  failure:
+    description: OPP-065 blocked or deferred
+    meters:
+      discovery: 1
+tags:
+- infrastructure
+auto_generated: true
+generated_at: '2026-01-26T01:20:01.824856+00:00'
+confidence: 85

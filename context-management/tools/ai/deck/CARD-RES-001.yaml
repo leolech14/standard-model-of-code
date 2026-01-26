@@ -1,0 +1,55 @@
+# CARD-RES-001: Research with Perplexity
+# Deep research using Perplexity sonar models
+
+id: CARD-RES-001
+title: "Research with Perplexity"
+description: "Conduct deep research on a topic using Perplexity AI. Auto-saves to docs/research/perplexity/. Use when external validation or academic grounding is needed."
+
+phase_gate: [DESIGNING, VALIDATING, ANY]
+
+preconditions:
+  - check: "query_defined"
+    description: "A clear research question must be formulated"
+  - check: "not_already_researched(query)"
+    description: "Check existing research files first"
+
+steps:
+  - action: "python context-management/tools/ai/perplexity_research.py --model sonar-deep-research --query 'QUERY'"
+    description: "Run Perplexity research with deep model"
+    checkpoint: true
+  - action: "Read output from docs/research/perplexity/"
+    description: "Review and extract key findings"
+  - action: "Summarize findings in response"
+    description: "Present research results to user"
+
+outcomes:
+  success:
+    state_changes:
+      - "Research saved to standard-model-of-code/docs/research/perplexity/"
+      - "New knowledge available for decision-making"
+    unlocks: [CARD-DOC-001, CARD-REG-001]
+    meters:
+      discovery: 2
+      focus: 0
+  failure:
+    state_changes:
+      - "API error logged"
+      - "Retry with different model suggested"
+    meters:
+      discovery: -1
+
+rollback:
+  possible: true
+  steps:
+    - "Delete generated research file if not useful"
+  warning: "API costs cannot be recovered"
+
+context_injection:
+  - path: "context-management/tools/ai/perplexity_research.py"
+    sections: ["--help output"]
+
+cost:
+  tokens_estimate: 5000
+  risk_level: LOW
+
+tags: [research, perplexity, validation, external]
