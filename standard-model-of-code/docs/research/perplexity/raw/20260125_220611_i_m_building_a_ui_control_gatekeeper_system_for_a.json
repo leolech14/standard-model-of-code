@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-25T22:06:11.379893",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "I'm building a UI control gatekeeper system for a code visualization tool. Validate these open concerns:\n\n1. REGISTRY-TEMPLATE MISMATCH: Registry has 160 controls, template has 176 elements. 16 are structural IDs (panel containers like 'filtering', 'camera', 'header'). Should the validator filter these out?\n\n2. HANDLER WIRING: 57 new controls added to HTML but JavaScript handlers may be missing. What's the best way to audit handler coverage?\n\n3. PRE-COMMIT ENFORCEMENT: Created validate_control_registry.py but not wired to git hooks. Is pre-commit the right enforcement point?\n\n4. GATEKEEPER PATTERN: Using CONTROL_REGISTRY.yaml as single source of truth with workflow PROPOSED → AUTHORIZED → IMPLEMENTED. Is this pattern sound for UI governance?\n\nRate each 1-10 severity and recommend actions.",
+    "query_length": 799,
+    "checksum": "sha256:337a252b7bdbec60521d8a1d929bc54abf325c5ba56c6c65f4c6391a87a52016"
+  },
+  "response": {
+    "id": "090a0628-b487-40d6-8642-500ff09ff9e6",
+    "model": "sonar-pro",
+    "created": 1769389571,
+    "usage": {
+      "prompt_tokens": 178,
+      "completion_tokens": 702,
+      "total_tokens": 880,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.011,
+        "request_cost": 0.006,
+        "total_cost": 0.017
+      }
+    },
+    "citations": [
+      "https://numerous.ai/blog/data-validation-best-practices",
+      "https://www.w3.org/WAI/tutorials/forms/validation/",
+      "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+      "https://dicksondata.com/6-software-validation-best-practices",
+      "https://designmodo.com/ux-form-validation/",
+      "https://flatfile.com/blog/the-beginners-guide-to-data-validation/",
+      "https://pscsoftware.com/best-practices-for-software-validation-key-techniques-and-verification-methods/"
+    ],
+    "search_results": [
+      {
+        "title": "The Best 10 Data Validation Best Practices in 2025",
+        "url": "https://numerous.ai/blog/data-validation-best-practices",
+        "date": "2025-02-19",
+        "last_updated": "2026-01-25",
+        "snippet": "Discover the top 10 data validation best practices for 2025 to ensure accuracy, consistency, and reliability in your data.",
+        "source": "web"
+      },
+      {
+        "title": "Validating Input | Web Accessibility Initiative (WAI)",
+        "url": "https://www.w3.org/WAI/tutorials/forms/validation/",
+        "date": "2025-01-01",
+        "last_updated": "2026-01-26",
+        "snippet": "Custom validation needs to notify users in an accessible way as described in the User Notifications part of this tutorial. Client-side validation alone does not ...",
+        "source": "web"
+      },
+      {
+        "title": "Input Validation - OWASP Cheat Sheet Series",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "date": "2021-01-01",
+        "last_updated": "2026-01-23",
+        "snippet": "This article is focused on providing clear, simple, actionable guidance for providing Input Validation security functionality in your applications.",
+        "source": "web"
+      },
+      {
+        "title": "6 Software Validation Best Practices for Regulated Industries",
+        "url": "https://dicksondata.com/6-software-validation-best-practices",
+        "date": "2020-06-24",
+        "last_updated": "2026-01-16",
+        "snippet": "In this article, we'll talk about the best practices for addressing these challenges, with a focus on highly regulated industries.",
+        "source": "web"
+      },
+      {
+        "title": "The Ultimate UX Design of Form Validation",
+        "url": "https://designmodo.com/ux-form-validation/",
+        "date": "2023-06-09",
+        "last_updated": "2025-02-14",
+        "snippet": "Form validation is the technical process where a web-form checks if the information provided by a user is correct.",
+        "source": "web"
+      },
+      {
+        "title": "Beginner's guide to data validation",
+        "url": "https://flatfile.com/blog/the-beginners-guide-to-data-validation/",
+        "date": "2024-06-04",
+        "last_updated": "2026-01-24",
+        "snippet": "Document your validation procedures, creating a trail of accountability and learning. Regularly monitor your data to keep data quality in check.",
+        "source": "web"
+      },
+      {
+        "title": "Best Practices for Software Validation: Key Techniques",
+        "url": "https://pscsoftware.com/best-practices-for-software-validation-key-techniques-and-verification-methods/",
+        "last_updated": "2026-01-22",
+        "snippet": "This article delves into the best practices for software validation, covering key techniques and verification methods necessary for successful project outcomes.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "### 1. REGISTRY-TEMPLATE MISMATCH\n**Severity: 8/10** – High risk of silent failures or orphaned UI elements, as mismatched registries can lead to unhandled controls breaking visualization functionality. This violates single-source-of-truth principles by allowing divergent HTML and registry states.[1][3]\n\n**Recommended actions:**\n- Yes, filter out the 16 structural IDs (e.g., 'filtering', 'camera', 'header') in the validator if they're explicitly non-interactive; define a predefined allowlist of structural elements in `validate_control_registry.py` to exclude them automatically.[1][3]\n- Add semantic validation to cross-check interactive controls only, flagging mismatches as errors with real-time reporting.[3]\n- Implement a diff report in the script outputting added/missing IDs for quick triage.\n\n### 2. HANDLER WIRING\n**Severity: 9/10** – Critical, as 57 unhandled controls risk runtime errors, poor UX, and security vulnerabilities (e.g., unvalidated inputs); client-side gaps undermine validation integrity.[3][2]\n\n**Recommended actions:**\n- Audit via static analysis: Parse HTML for new control IDs/classes, then grep/search JS for matching event handlers (e.g., `onclick`, `addEventListener`); use tools like ESLint with custom rules or a script to generate coverage matrix.[3]\n- Automate with a linter plugin or custom validator in `validate_control_registry.py` that scans JS files against registry/HTML, enforcing 100% handler coverage as a hard fail.[4]\n- Add client-side + server-side checks: Inline JS validation for UX, but require JS handler presence before commit.[3][2]\n\n### 3. PRE-COMMIT ENFORCEMENT\n**Severity: 7/10** – Medium-high, as unwired validation allows invalid changes to propagate, but pre-commit catches issues early without CI overhead; lacks enforcement now risks accumulating debt.[4][6]\n\n**Recommended actions:**\n- Yes, pre-commit is ideal: Install via `pre-commit` framework, add `validate_control_registry.py` to `.pre-commit-config.yaml` under a repo hook (e.g., local or Python stage); it runs fast on staged files.[4]\n- Wire it now: `pre-commit install` after config, test with `pre-commit run --all-files`; fallback to husky/git hooks if not Python-based repo.[6]\n- Document in README with bypass instructions (e.g., `--no-verify`) for emergencies, and monitor via logs.\n\n### 4. GATEKEEPER PATTERN\n**Severity: 6/10** – Medium, as the workflow (PROPOSED → AUTHORIZED → IMPLEMENTED) provides good governance via approval stages, aligning with role-based access and risk-based validation, but needs tooling for scale.[1][4]\n\n**Recommended actions:**\n- Pattern is sound: Retain CONTROL_REGISTRY.yaml as source of truth; enhance with YAML schema validation and state transitions enforced in CI/CD (e.g., only merge AUTHORIZED+).[1][4]\n- Add automation: GitHub Actions/PR labels for workflow states, auto-block merges on IMPLEMENTED-missing; integrate approval workflows for AUTHORIZED gate.[1]\n- Scale with risk-tiering: High-risk controls (e.g., new handlers) require multi-approver; low-risk auto-advance.[4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

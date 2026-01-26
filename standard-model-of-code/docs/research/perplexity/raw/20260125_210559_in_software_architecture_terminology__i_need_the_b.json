@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-25T21:05:59.278103",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "In software architecture terminology, I need the BEST word for this concept:\n\n'A vertical functional slice through both executable code AND documentation, defined by semantic purpose, where slices MAY OVERLAP (a file can belong to multiple slices)'\n\nConstraints:\n- NOT 'Module' (too code-specific)\n- NOT 'Realm' (already used for directory partitions)\n- NOT 'Layer' (implies horizontal, not vertical)\n\nCandidates: Domain, Sector, Facet, Vertical, Concern, Zone, Sphere, Aspect, Slice\n\nQuestions:\n1. Which term is most precise for this concept?\n2. Does 'Domain' collide badly with DDD (Domain-Driven Design) terminology?\n3. What would be clearest for non-native English speakers?\n4. Is there a better term from academic software engineering literature?",
+    "query_length": 751,
+    "checksum": "sha256:b695784a9e1c2a9d297a6681afca31fa4ccb2ce9bc752408561c3e7a9e79620e"
+  },
+  "response": {
+    "id": "4877212b-b063-4c92-94ca-0c3781c02ad6",
+    "model": "sonar-pro",
+    "created": 1769385959,
+    "usage": {
+      "prompt_tokens": 162,
+      "completion_tokens": 390,
+      "total_tokens": 552,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://en.wikipedia.org/wiki/Vertical_slice",
+      "https://www.milanjovanovic.tech/blog/vertical-slice-architecture-structuring-vertical-slices",
+      "https://www.bensampica.com/post/verticalslice/",
+      "https://systemshogun.com/p/introduction-to-vertical-slices-architecture",
+      "https://www.apitemplatepack.com/docs/introduction/vertical-slice/",
+      "https://www.baeldung.com/java-vertical-slice-architecture",
+      "https://www.jimmybogard.com/vertical-slice-architecture/",
+      "https://www.architecture-weekly.com/p/my-thoughts-on-vertical-slices-cqrs"
+    ],
+    "search_results": [
+      {
+        "title": "Vertical slice - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Vertical_slice",
+        "date": "2008-11-30",
+        "last_updated": "2026-01-16",
+        "snippet": "A vertical slice (VS) is a type of milestone, benchmark, or deadline, with emphasis on demonstrating progress across all components of a project.",
+        "source": "web"
+      },
+      {
+        "title": "Vertical Slice Architecture: Structuring Vertical Slices - Milan Jovanović",
+        "url": "https://www.milanjovanovic.tech/blog/vertical-slice-architecture-structuring-vertical-slices",
+        "date": "2024-06-01",
+        "last_updated": "2026-01-21",
+        "snippet": "At its core, a vertical slice represents a self-contained unit of functionality. It's a slice through the entire application stack. It ...",
+        "source": "web"
+      },
+      {
+        "title": "Vertical Slice Architecture - Ben Sampica",
+        "url": "https://www.bensampica.com/post/verticalslice/",
+        "date": "2021-10-25",
+        "last_updated": "2026-01-16",
+        "snippet": "It's called Vertical Slice Architecture (VSA) and I have really started to embrace it as the go-to way I organize my work.",
+        "source": "web"
+      },
+      {
+        "title": "Introduction to Vertical Slices Architecture - System Shogun",
+        "url": "https://systemshogun.com/p/introduction-to-vertical-slices-architecture",
+        "date": "2024-06-04",
+        "last_updated": "2025-09-05",
+        "snippet": "Vertical Slices Architecture organizes code by feature rather than by technical concern (such as controllers, services, repositories, etc.).",
+        "source": "web"
+      },
+      {
+        "title": "Vertical Slice Architecture | API Template Pack",
+        "url": "https://www.apitemplatepack.com/docs/introduction/vertical-slice/",
+        "last_updated": "2025-09-11",
+        "snippet": "The Vertical Slice Architecture (VSA) is a technique that helps developing maintainable applications by separating the application around Features, Activity or ...",
+        "source": "web"
+      },
+      {
+        "title": "Vertical Slice Architecture | Baeldung",
+        "url": "https://www.baeldung.com/java-vertical-slice-architecture",
+        "date": "2024-06-26",
+        "last_updated": "2026-01-14",
+        "snippet": "Vertical Slice Architecture was developed to tackle some issues associated with Layered Architecture by organizing the code by business capabilities.",
+        "source": "web"
+      },
+      {
+        "title": "Vertical Slice Architecture - Jimmy Bogard",
+        "url": "https://www.jimmybogard.com/vertical-slice-architecture/",
+        "date": "2018-04-19",
+        "last_updated": "2026-01-23",
+        "snippet": "In this style, my architecture is built around distinct requests, encapsulating and grouping all concerns from front-end to back.",
+        "source": "web"
+      },
+      {
+        "title": "My thoughts on Vertical Slices, CQRS, Semantic Diffusion and other ...",
+        "url": "https://www.architecture-weekly.com/p/my-thoughts-on-vertical-slices-cqrs",
+        "date": "2025-08-25",
+        "last_updated": "2026-01-23",
+        "snippet": "Vertical Slices in software architecture are pictured right now as the best thing since sliced bread. I won't try to hide that, like it.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Based on the search results provided, I can address your question about vertical slice terminology, though the results don't directly discuss alternative nomenclature for this concept.\n\n**\"Slice\" itself remains the most precise term for your concept**, as it's the established industry standard in software architecture literature[1][7]. The search results consistently use \"vertical slice\" to describe exactly what you're defining: a cross-sectional unit spanning multiple architectural layers organized by semantic purpose (feature or use case)[1][2][4].\n\nHowever, if you need an alternative to \"slice\" for your specific context:\n\n**\"Domain\" creates significant collision risk with DDD terminology.** The search results explicitly mention that Vertical Slice Architecture is \"influenced by\" and \"well-suited for\" Domain-Driven Design[6], where \"Domain\" has a precise, established meaning (a bounded context representing a business area). Using \"Domain\" for overlapping functional slices would create confusion with DDD's distinct concept.\n\n**\"Concern\" would be clearer for non-native English speakers** among your candidates, as it's more semantically transparent than abstract terms like \"Facet\" or \"Sphere.\" However, \"concern\" traditionally refers to singular aspects of functionality (as in \"separation of concerns\"), making it less ideal for describing composite units that span code *and* documentation.\n\n**From the academic software engineering perspective shown in these results**, the field has standardized on \"vertical slice\" precisely because alternatives proved ambiguous. The term's architectural explicitness—emphasizing the vertical (cross-layer) dimension—is what makes it superior to more generic options.\n\nYour overlapping-artifacts constraint (files belonging to multiple slices) isn't addressed in these sources, suggesting this may be a refinement beyond current standard terminology. In this case, you might consider \"**Vertical Context**\" or stick with \"**Slice**\" while explicitly documenting the overlapping-membership rule in your architecture guide."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

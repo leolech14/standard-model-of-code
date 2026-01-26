@@ -1,0 +1,91 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-25T21:10:13.566406",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Given that the ESSENTIAL NATURE of my concept is:\n\n'A PAIRED CORRESPONDENCE between executable code and documentation, with a health metric measuring their semantic alignment'\n\nWhat single English word best captures 'paired correspondence with measurable alignment'?\n\nCandidates to evaluate:\n1. Correspondence\n2. Coherence \n3. Pairing\n4. Binding\n5. Alignment\n6. Bundle\n7. Accord\n8. Nexus\n9. Coupling\n10. Concordance\n\nFor each: etymology, precision for this meaning, international clarity (non-native English speakers), existing technical usage that might collide.",
+    "query_length": 563,
+    "checksum": "sha256:86caa649d2fe368d2f62d553c99a938387c31a57c4dae1d7f6e67aa8c47680ad"
+  },
+  "response": {
+    "id": "c19603f6-a946-4253-a256-5bfca0c556ca",
+    "model": "sonar-pro",
+    "created": 1769386213,
+    "usage": {
+      "prompt_tokens": 125,
+      "completion_tokens": 897,
+      "total_tokens": 1022,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.013,
+        "request_cost": 0.006,
+        "total_cost": 0.02
+      }
+    },
+    "citations": [
+      "https://kinde.com/learn/ai-for-software-engineering/best-practice/executable-specs-turning-plain-english-into-running-systems/",
+      "https://genexus.blog/en_US/genexus-platform/executable-specifications-and-four-decades-of-genexus-vision/",
+      "https://emmanuelvalverderamos.substack.com/p/acceptance-testing-more-than-tests",
+      "https://dl.acm.org/doi/abs/10.1007/978-3-031-19756-7_10",
+      "https://en.wikipedia.org/wiki/Executable_and_Linkable_Format"
+    ],
+    "search_results": [
+      {
+        "title": "Kinde Executable Specs: Turning Plain English into Running Systems",
+        "url": "https://kinde.com/learn/ai-for-software-engineering/best-practice/executable-specs-turning-plain-english-into-running-systems/",
+        "date": "2021-11-05",
+        "last_updated": "2026-01-17",
+        "snippet": "Executable specifications are documents that describe the behavior of a system in a way that is both human-readable and machine-executable.",
+        "source": "web"
+      },
+      {
+        "title": "Executable Specifications and Four Decades of GeneXus Vision",
+        "url": "https://genexus.blog/en_US/genexus-platform/executable-specifications-and-four-decades-of-genexus-vision/",
+        "date": "2025-07-16",
+        "last_updated": "2025-10-25",
+        "snippet": "The idea is to align humans and machines through clear specifications that express intent, rather than focusing everything on source code. And ...",
+        "source": "web"
+      },
+      {
+        "title": "Acceptance Testing: More Than Tests, Executable Specifications",
+        "url": "https://emmanuelvalverderamos.substack.com/p/acceptance-testing-more-than-tests",
+        "date": "2025-04-14",
+        "last_updated": "2025-11-09",
+        "snippet": "Acceptance tests validate what truly matters: functionality from the user's point of view. Learn how executable specifications help align ...",
+        "source": "web"
+      },
+      {
+        "title": "Executable Documentation - ACM Digital Library",
+        "url": "https://dl.acm.org/doi/abs/10.1007/978-3-031-19756-7_10",
+        "date": "2022-10-22",
+        "last_updated": "2025-03-23",
+        "snippet": "We present executable documentation as a natural continuation of a long-term trend of documentation/code alignment that started with self-documenting code in ...",
+        "source": "web"
+      },
+      {
+        "title": "Executable and Linkable Format - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Executable_and_Linkable_Format",
+        "date": "2001-10-08",
+        "last_updated": "2025-12-09",
+        "snippet": "In computing, the Executable and Linkable Format is a common standard file format for executable files, object code, shared libraries, device drivers, ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Concordance** best captures \"paired correspondence with measurable alignment,\" as it denotes a precise, verifiable relationship between paired elements (like code and documentation), often with an explicit measure of agreement, such as semantic similarity scores in technical contexts.[1][3]\n\n### Evaluation of Candidates\nThe table below assesses each candidate based on etymology (historical roots), precision (fit for paired code-doc correspondence with a quantifiable health metric), international clarity (accessibility to non-native speakers), and potential technical collisions (conflicting established uses). Evaluations draw from linguistic roots and software contexts like executable specifications, where documentation and code must align verifiably.[1][2][3][4]\n\n| Candidate     | Etymology                          | Precision for Meaning                                                                 | International Clarity                  | Technical Collisions                                                                 |\n|---------------|------------------------------------|---------------------------------------------------------------------------------------|----------------------------------------|--------------------------------------------------------------------------------------|\n| **1. Correspondence** | Latin *correspondere* (respond together, match)[general knowledge] | High for pairing/matching, but lacks inherent measurability (too vague for \"health metric\"). | High (common, intuitive globally).    | Low; general term, no major software conflicts.                                      |\n| **2. Coherence**    | Latin *cohaerere* (stick together)[general knowledge] | Medium; implies logical consistency, but not specifically paired or measurable.       | High (widely understood).              | Medium; used in physics (coherent waves) and software (code coherence).              |\n| **3. Pairing**      | Old English *gepara* (make two equal)[general knowledge] | Low; denotes simple coupling, ignores correspondence/alignment metric.                | High (straightforward).                | Low; Bluetooth pairing, but not alignment-focused.                                   |\n| **4. Binding**      | Old English *bindan* (tie together)[general knowledge] | Medium; suggests tight linkage (e.g., data binding), but not semantic/metric-based.   | Medium (may confuse with legal ties). | High; programming (variable binding, UI data-binding).                               |\n| **5. Alignment**    | Old French *aligner* (line up)[general knowledge] | High for matching, fits \"health metric\" (e.g., alignment scores), but misses explicit pairing. | High (visual metaphor clear).         | Medium; machine learning (sequence alignment), DevOps (alignment practices).         |\n| **6. Bundle**       | Middle English *bundel* (collection)[general knowledge] | Low; implies packaging, not correspondence or measurement.                            | High (everyday term).                  | Medium; software bundling (e.g., npm bundles).                                       |\n| **7. Accord**       | Old French *acorder* (agree)[general knowledge] | Medium; suggests harmony, but informal and non-technical for metrics.                 | Medium (musical/legal connotations).   | Low; rare in tech.                                                                   |\n| **8. Nexus**        | Latin *nectere* (connect)[general knowledge] | Low; means central link, but abstract, no measurability.                              | Low (uncommon, formal).                | Medium; legal/tech (nexus of control in software architecture).                      |\n| **9. Coupling**     | Latin *copula* (link)[general knowledge] | Medium; common for code connections (loose coupling), but implies dependency over alignment. | Medium (technical tone).              | High; software engineering (coupling metrics like cohesion).[general knowledge]     |\n| **10. Concordance** | Latin *concordare* (agree together)[general knowledge] | **Highest**: Precise for paired textual/code agreement with quantitative measure (e.g., concordance coefficients in NLP for semantic alignment).[3] | Medium-high (cognates in Romance languages; clear in academic/tech use). | Low; NLP/stats (concordance lines/correlation), no direct code-doc collision—enhances fit for \"health metric.\"[1][3] |\n\n**Concordance** stands out for software contexts like executable specifications, where specs map to code steps with verifiable behavioral alignment—mirroring a measurable \"health\" between documentation and execution.[1][2][3] It avoids collisions with formats like ELF (Executable and Linkable Format).[5]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}
