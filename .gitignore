@@ -130,3 +130,4 @@ assets/
 .agent/state/session.yaml
 # TDJ generated data (recreate with: python tdj.py --scan)
 .agent/intelligence/tdj.jsonl
+unified_analysis.json

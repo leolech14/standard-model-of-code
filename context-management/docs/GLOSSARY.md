@@ -176,12 +176,29 @@ S = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}
 
 ## SYMMETRY STATES
 
-| State | Code | Docs | Definition |
-|-------|------|------|------------|
-| **SYMMETRIC** | ✓ | ✓ | Code and docs exist and match. Healthy. |
-| **ORPHAN** | ✓ | ✗ | Code exists without documentation. Tech debt. |
-| **PHANTOM** | ✗ | ✓ | Documentation exists without implementation. Spec not built. |
-| **DRIFT** | ✓ | ✓ | Both exist but disagree. Dangerous. |
+| State | Code | Docs | Human Memory | Definition |
+|-------|------|------|--------------|------------|
+| **SYMMETRIC** | ✓ | ✓ | ✓ | Code, docs, and understanding aligned. Healthy. |
+| **ORPHAN** | ✓ | ✗ | ? | Code exists without documentation. Traditional tech debt. |
+| **PHANTOM** | ✗ | ✓ | ? | Documentation exists without implementation. Spec not built. |
+| **DRIFT** | ✓ | ✓ | ? | Both exist but disagree. Dangerous. |
+| **AMNESIAC** | ✓ | ✓ | ✗ | Code and session logs exist, but human has no structural memory. AI-assisted failure mode. |
+
+---
+
+## CONSUMER CLASSES (Axiom Group H)
+
+| Consumer | Interface | Needs | Operates At |
+|----------|-----------|-------|-------------|
+| **END_USER** | GUI, voice | Usability | Output only |
+| **DEVELOPER** | Code, CLI | Clarity | L₀, L₁, L₂ |
+| **AI_AGENT** | Structured data | Parseability | L₀, L₁, L₂ (universal) |
+
+**Stone Tool Principle:** Tools MAY be designed that humans cannot directly use. AI mediates.
+
+**Collaboration Level:** Human-AI collaboration occurs at L₁ (CONTEXTOME). Programming = CONTEXTOME curation.
+
+**See:** `docs/specs/AI_CONSUMER_CLASS.md`
 
 ---
 

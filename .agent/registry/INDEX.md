@@ -1,7 +1,7 @@
 # Agent Task Registry - Dashboard
 
 > Quick view of all tasks and opportunities.
-> **Updated:** 2026-01-25
+> **Updated:** 2026-01-25 (auto-synced)
 > **Concerns:** See `standard-model-of-code/docs/OPEN_CONCERNS.md`
 
 ---
@@ -9,11 +9,12 @@
 ## Quick Stats
 
 ```
-Inbox:      59 opportunities (50 imported from legacy + 9 new)
-Active:     9 tasks (6 original + 3 Phase 10)
+Inbox:      60 opportunities (50 imported + 10 from macro audits)
+Active:     25 tasks (expanded during Phase 10 + session tasks)
 Batches:    1 (BATCH-010 Survey)
 Archived:   1 task
 Sprints:    1 active (SPRINT-001)
+Macros:     1 (MACRO-001 Skeptical Audit)
 Legacy:     10 registries CONSOLIDATED into unified system
 ```
 
@@ -189,9 +190,10 @@ These files are now **read-only reference**. All tasks have been migrated:
 
 | Field | Value |
 |-------|-------|
-| Registry Version | 3.0.1 |
-| Last Updated | 2026-01-23 |
+| Registry Version | 3.1.0 |
+| Last Updated | 2026-01-25 |
 | Consolidation | COMPLETE |
 | Tasks Imported | 50 |
-| Total Opportunities | 59 |
-| Total Active Tasks | 6 |
+| Total Opportunities | 60 |
+| Total Active Tasks | 25 |
+| Macro Registry | S13 OPERATIONAL |

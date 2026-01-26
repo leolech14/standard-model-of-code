@@ -32,9 +32,9 @@ pipeline:
 registries:
   task:
     path: ".agent/registry/"
-    active_tasks: 9
-    opportunities: 59
-    source: INDEX.md (2026-01-25)
+    active_tasks: 25
+    opportunities: 60
+    source: INDEX.md (2026-01-25, auto-synced)
 
   workflow:
     path: "standard-model-of-code/src/core/registry/workflow_registry.py"
@@ -158,15 +158,21 @@ integrations:
 # MACRO SYSTEM (NEW)
 # =============================================================================
 macro_system:
-  status: INITIALIZED
-  version: "1.0.0"
+  status: OPERATIONAL
+  version: "2.0.0"
   created: "2026-01-25"
+  implemented: "2026-01-25"
 
   artifacts:
     schema: ".agent/macros/schema/macro.schema.yaml"
     index: ".agent/macros/INDEX.md"
     library: ".agent/macros/library/"
     logs: ".agent/macros/logs/"
+
+  tools:
+    macro_executor: ".agent/tools/macro_executor.py"
+    opp_generator: ".agent/tools/opp_generator.py"
+    trigger_engine: ".agent/tools/trigger_engine.py"
 
   macros:
     - id: MACRO-001
@@ -176,13 +182,15 @@ macro_system:
       card: CARD-AUD-001
 
   integration_status:
-    task_registry: PLANNED
+    task_registry: IMPLEMENTED
     workflow_registry: PLANNED
-    bare: PLANNED
-    trigger_engine: NOT_IMPLEMENTED
+    bare: IMPLEMENTED
+    trigger_engine: IMPLEMENTED
+    post_commit_hook: WIRED
 
 # =============================================================================
 # NOTES
 # =============================================================================
 _note: "Run './collider full . --output .collider' for richer data"
 _skeptical_audit: "Last run 2026-01-25, found dead code in history_loader.py"
+_cleanup: "2026-01-25: Archived history_loader.py (469 LOC) and task_v2.schema.yaml to archive/dead_code/"

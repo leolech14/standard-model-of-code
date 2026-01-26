@@ -312,6 +312,86 @@ Bejan's Constructal Law is empirically validated but debated as mathematical axi
 
 ---
 
+## AXIOM GROUP G: Observability (Peircean Triad)
+
+### G1. Observability Completeness
+```
+COMPLETE_OBSERVABILITY(S) ⟺
+  ∃ structural_observer : P → Manifest        ∧  [POM]
+  ∃ operational_observer : Pipeline → Metrics  ∧  [observability.py]
+  ∃ generative_observer : Dialogue → Trace        [observe_session.py]
+```
+
+### G2. Peircean Correspondence
+```
+STRUCTURAL  ↔ Thirdness (mediation, interpretation)
+OPERATIONAL ↔ Secondness (brute fact, existence)
+GENERATIVE  ↔ Thirdness-in-action (interpretant being generated)
+```
+
+### G3. Minimal Triad
+```
+Two observers are insufficient for complete observability.
+The triad {STRUCTURAL, OPERATIONAL, GENERATIVE} is minimal.
+```
+
+**See:** `context-management/docs/specs/OBSERVABILITY_TRIAD.md`
+
+---
+
+## AXIOM GROUP H: Consumer Classes (AI-Native)
+
+### H1. Three Consumer Classes
+```
+CONSUMER = { END_USER, DEVELOPER, AI_AGENT }
+
+WHERE:
+  END_USER   = Human using software product (needs UI)
+  DEVELOPER  = Human building/maintaining (needs clarity)
+  AI_AGENT   = Non-human consuming/operating (needs structure)
+```
+
+### H2. Universal Consumer Property
+```
+AI_AGENT ∈ Consumer(L₀) ∩ Consumer(L₁) ∩ Consumer(L₂)
+
+AI_AGENT consumes ALL Tarski levels = UNIVERSAL consumer.
+```
+
+### H3. Mediation Principle
+```
+OPTIMAL_DESIGN: Optimize for AI_AGENT consumption.
+AI_AGENT mediates for END_USER and DEVELOPER.
+
+Human interface = Natural language (L₁)
+Machine interface = Structured data (L₀, L₂)
+```
+
+### H4. Stone Tool Principle
+```
+Tools MAY be designed that humans cannot directly use.
+
+STONE_TOOL_TEST(tool) = "Can human use without AI mediation?"
+If FALSE → AI-native tool (valid design)
+```
+
+### H5. Collaboration Level Theorem
+```
+Human-AI collaboration occurs at L₁ (CONTEXTOME).
+
+HUMAN operates: L₁ (natural language, intent)
+AI operates:    L₀ (code), L₂ (tools)
+AI bridges:     L₁ ↔ L₀, L₁ ↔ L₂
+
+Programming = CONTEXTOME curation at L₁
+```
+
+**See:** `context-management/docs/specs/AI_CONSUMER_CLASS.md`
+
+**Validated:** Gemini 3 Pro (2026-01-25) - "Genuine paradigm shift" (9/10)
+
+---
+
 ## VALIDATION TARGETS (Updated)
 
 | Axiom | Mathematical Field | Status | Source |
@@ -322,6 +402,8 @@ Bejan's Constructal Law is empirically validated but debated as mathematical axi
 | D1-D7 | Dynamical Systems | ✅ VALIDATED | Friston FEP |
 | E1-E2 | Thermodynamics | ⚠️ HEURISTIC | Bejan Constructal |
 | F1-F2 | Information Theory | ✅ VALIDATED | Tononi IIT |
+| G1-G3 | Semiotics | ✅ VALIDATED | Peirce Triadic |
+| H1-H5 | Software Engineering | ✅ VALIDATED | Gemini 3 Pro (9/10) |
 
 ---
 

@@ -1,6 +1,6 @@
 # Master File Registry
 
-**Generated At**: 2026-01-25T22:19:04.003838
+**Generated At**: 2026-01-25T23:52:35.113691
 
 | Status | File | Local Size | Cloud Size |
 |---|---|---|---|
@@ -43,15 +43,30 @@
 | SYNCED | `.agent/META_REGISTRY.yaml` | 2489 | 2489 |
 | SYNCED | `.agent/ROADMAP.yaml` | 8202 | 8202 |
 | SYNCED | `.agent/SPRAWL_CONSOLIDATION_PLAN.md` | 2707 | 2707 |
-| SYNCED | `.agent/SUBSYSTEM_INTEGRATION.md` | 13912 | 13912 |
+| SYNCED | `.agent/SUBSYSTEM_INTEGRATION.md` | 15720 | 15720 |
 | SYNCED | `.agent/agents/claude/todo.yaml` | 75 | 75 |
 | SYNCED | `.agent/agents/gemini/todo.yaml` | 75 | 75 |
 | SYNCED | `.agent/agents/grok/todo.yaml` | 73 | 73 |
 | SYNCED | `.agent/config/hue_wheel.yaml` | 1206 | 1206 |
 | SYNCED | `.agent/deck/CARD-ANA-001.yaml` | 1557 | 1557 |
+| SYNCED | `.agent/deck/CARD-AUD-001.yaml` | 2383 | 2383 |
 | SYNCED | `.agent/deck/CARD-DOC-001.yaml` | 1419 | 1419 |
 | SYNCED | `.agent/deck/CARD-GIT-001.yaml` | 1627 | 1627 |
-| SYNCED | `.agent/deck/CARD-REG-001.yaml` | 1822 | 1822 |
+| SYNCED | `.agent/deck/CARD-OPP-059.yaml` | 1440 | 1440 |
+| SYNCED | `.agent/deck/CARD-OPP-060.yaml` | 1210 | 1210 |
+| SYNCED | `.agent/deck/CARD-OPP-061.yaml` | 658 | 658 |
+| SYNCED | `.agent/deck/CARD-OPP-062.yaml` | 700 | 700 |
+| SYNCED | `.agent/deck/CARD-OPP-063.yaml` | 672 | 672 |
+| SYNCED | `.agent/deck/CARD-OPP-064.yaml` | 702 | 702 |
+| SYNCED | `.agent/deck/CARD-OPP-065.yaml` | 700 | 700 |
+| SYNCED | `.agent/deck/CARD-OPP-066.yaml` | 688 | 688 |
+| SYNCED | `.agent/deck/CARD-OPP-067.yaml` | 790 | 790 |
+| SYNCED | `.agent/deck/CARD-OPP-071.yaml` | 734 | 734 |
+| SYNCED | `.agent/deck/CARD-OPP-076.yaml` | 727 | 727 |
+| SYNCED | `.agent/deck/CARD-OPP-077.yaml` | 736 | 736 |
+| SYNCED | `.agent/deck/CARD-OPP-082.yaml` | 742 | 742 |
+| SYNCED | `.agent/deck/CARD-OPP-083.yaml` | 757 | 757 |
+| SYNCED | `.agent/deck/CARD-OPP-084.yaml` | 724 | 724 |
 | SYNCED | `.agent/deck/CARD-RES-001.yaml` | 1712 | 1712 |
 | SYNCED | `.agent/deck/CARD-RES-002.yaml` | 1614 | 1614 |
 | SYNCED | `.agent/deck/CARD-SES-001.yaml` | 4633 | 4633 |
@@ -63,7 +78,8 @@
 | SYNCED | `.agent/intelligence/LEGACY_SPRAWL_MAP.md` | 5923 | 5923 |
 | SYNCED | `.agent/intelligence/PRIORITY_MATRIX.md` | 6941 | 6941 |
 | SYNCED | `.agent/intelligence/SELF_PORTRAIT.md` | 9095 | 9095 |
-| SYNCED | `.agent/intelligence/SOS_MAP_TRUTH.md` | 7814 | 7814 |
+| SYNCED | `.agent/intelligence/SKEPTICAL_AUDIT_REPORT_20260125.md` | 18583 | 18583 |
+| SYNCED | `.agent/intelligence/SOS_MAP_TRUTH.md` | 8162 | 8162 |
 | SYNCED | `.agent/intelligence/WAVE_PARTICLE_BALANCE.md` | 5176 | 5176 |
 | SYNCED | `.agent/intelligence/aci_feedback.yaml` | 7560 | 7560 |
 | SYNCED | `.agent/intelligence/boundary_analysis.json` | 14370 | 14370 |
@@ -106,9 +122,15 @@
 | SYNCED | `.agent/intelligence/triage_reports/20260123_172546_triage.json` | 8133 | 8133 |
 | SYNCED | `.agent/intelligence/triage_reports/20260123_172553_triage.json` | 8133 | 8133 |
 | SYNCED | `.agent/intelligence/triage_reports/20260123_172808_triage.json` | 8133 | 8133 |
-| SYNCED | `.agent/intelligence/truths/repo_truths.yaml` | 405 | 405 |
+| SYNCED | `.agent/intelligence/triage_reports/20260125_221658_triage.json` | 20692 | 20692 |
+| SYNCED | `.agent/intelligence/truths/repo_truths.yaml` | 5089 | 5089 |
+| SYNCED | `.agent/macros/INDEX.md` | 6524 | 6524 |
+| SYNCED | `.agent/macros/library/MACRO-001-skeptical-audit.yaml` | 8992 | 8992 |
+| SYNCED | `.agent/macros/library/MACRO-002-tdj.yaml` | 5603 | 5603 |
+| SYNCED | `.agent/macros/schema/macro.schema.yaml` | 5854 | 5854 |
+| SYNCED | `.agent/macros/trigger_state.yaml` | 138 | 138 |
 | SYNCED | `.agent/manifest.yaml` | 2563 | 2563 |
-| SYNCED | `.agent/registry/INDEX.md` | 6718 | 6718 |
+| DRIFT_MODIFIED | `.agent/registry/INDEX.md` | 6833 | 6718 |
 | SYNCED | `.agent/registry/METRICS.md` | 2768 | 2768 |
 | SYNCED | `.agent/registry/README.md` | 4203 | 4203 |
 | SYNCED | `.agent/registry/SYMMETRY_SPRINT.yaml` | 7573 | 7573 |
@@ -173,6 +195,32 @@
 | SYNCED | `.agent/registry/inbox/OPP-064.yaml` | 2001 | 2001 |
 | SYNCED | `.agent/registry/inbox/OPP-065.yaml` | 1762 | 1762 |
 | SYNCED | `.agent/registry/inbox/OPP-066.yaml` | 1739 | 1739 |
+| SYNCED | `.agent/registry/inbox/OPP-067.yaml` | 634 | 634 |
+| SYNCED | `.agent/registry/inbox/OPP-068.yaml` | 586 | 586 |
+| SYNCED | `.agent/registry/inbox/OPP-069.yaml` | 565 | 565 |
+| SYNCED | `.agent/registry/inbox/OPP-070.yaml` | 604 | 604 |
+| SYNCED | `.agent/registry/inbox/OPP-071.yaml` | 585 | 585 |
+| SYNCED | `.agent/registry/inbox/OPP-072.yaml` | 601 | 601 |
+| SYNCED | `.agent/registry/inbox/OPP-073.yaml` | 598 | 598 |
+| SYNCED | `.agent/registry/inbox/OPP-074.yaml` | 613 | 613 |
+| SYNCED | `.agent/registry/inbox/OPP-075.yaml` | 580 | 580 |
+| SYNCED | `.agent/registry/inbox/OPP-076.yaml` | 559 | 559 |
+| SYNCED | `.agent/registry/inbox/OPP-077.yaml` | 588 | 588 |
+| SYNCED | `.agent/registry/inbox/OPP-078.yaml` | 598 | 598 |
+| SYNCED | `.agent/registry/inbox/OPP-079.yaml` | 592 | 592 |
+| SYNCED | `.agent/registry/inbox/OPP-080.yaml` | 604 | 604 |
+| SYNCED | `.agent/registry/inbox/OPP-081.yaml` | 577 | 577 |
+| SYNCED | `.agent/registry/inbox/OPP-082.yaml` | 562 | 562 |
+| SYNCED | `.agent/registry/inbox/OPP-083.yaml` | 585 | 585 |
+| SYNCED | `.agent/registry/inbox/OPP-084.yaml` | 570 | 570 |
+| SYNCED | `.agent/registry/inbox/OPP-085.yaml` | 540 | 540 |
+| SYNCED | `.agent/registry/inbox/OPP-086.yaml` | 610 | 610 |
+| SYNCED | `.agent/registry/inbox/OPP-087.yaml` | 340 | 340 |
+| SYNCED | `.agent/registry/inbox/OPP-088.yaml` | 373 | 373 |
+| SYNCED | `.agent/registry/inbox/OPP-089.yaml` | 369 | 369 |
+| SYNCED | `.agent/registry/inbox/OPP-090.yaml` | 348 | 348 |
+| SYNCED | `.agent/registry/inbox/OPP-091.yaml` | 453 | 453 |
+| SYNCED | `.agent/registry/inbox/OPP-092.yaml` | 411 | 411 |
 | SYNCED | `.agent/roadmaps/ROADMAP-main.yaml` | 2986 | 2986 |
 | SYNCED | `.agent/runs/RUN-20260122-194058-claude.yaml` | 2816 | 2816 |
 | SYNCED | `.agent/schema/card.schema.yaml` | 7373 | 7373 |
@@ -181,13 +229,14 @@
 | SYNCED | `.agent/schema/refinery_node.schema.yaml` | 20893 | 20893 |
 | SYNCED | `.agent/schema/run.schema.yaml` | 3736 | 3736 |
 | SYNCED | `.agent/schema/task.schema.yaml` | 3238 | 3238 |
-| SYNCED | `.agent/schema/task_v2.schema.yaml` | 6964 | 6964 |
+| DRIFT_MODIFIED | `.agent/schema/task_v2.schema.yaml` | 0 | 6964 |
 | SYNCED | `.agent/specs/AUTONOMOUS_ENRICHMENT_PIPELINE.md` | 9305 | 9305 |
 | SYNCED | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` | 5302 | 5302 |
 | SYNCED | `.agent/specs/BACKGROUND_SERVICES_ONTOLOGY.md` | 5369 | 5369 |
 | SYNCED | `.agent/specs/BARE_LIVE.md` | 19636 | 19636 |
 | SYNCED | `.agent/specs/CUTTING_PLAN.md` | 21627 | 21627 |
 | SYNCED | `.agent/specs/DECISION_DECK_LAYER.md` | 13999 | 13999 |
+| SYNCED | `.agent/specs/MACRO_AUTOMATION_IMPLEMENTATION_PLAN.md` | 10256 | 10256 |
 | SYNCED | `.agent/specs/SCALE_TERMINOLOGY.md` | 8983 | 8983 |
 | SYNCED | `.agent/specs/WAVE_PARTICLE_SYMMETRY.md` | 10308 | 10308 |
 | SYNCED | `.agent/sprints/SPRINT-001.yaml` | 1612 | 1612 |
@@ -209,12 +258,15 @@
 | SYNCED | `.agent/tools/confidence_validator.py` | 15326 | 15326 |
 | SYNCED | `.agent/tools/deal_cards.py` | 10029 | 10029 |
 | SYNCED | `.agent/tools/deal_cards_ui.py` | 11430 | 11430 |
-| SYNCED | `.agent/tools/enrichment_orchestrator.py` | 5547 | 5547 |
+| SYNCED | `.agent/tools/enrichment_orchestrator.py` | 5749 | 5749 |
 | SYNCED | `.agent/tools/execute_cutting_phase1.sh` | 6662 | 6662 |
 | SYNCED | `.agent/tools/fact_loader.py` | 8362 | 8362 |
 | SYNCED | `.agent/tools/import_legacy_tasks.py` | 16057 | 16057 |
 | SYNCED | `.agent/tools/industrial_triage.py` | 11038 | 11038 |
+| SYNCED | `.agent/tools/macro_executor.py` | 19273 | 19273 |
 | SYNCED | `.agent/tools/oklch_color.py` | 9757 | 9757 |
+| SYNCED | `.agent/tools/opp_generator.py` | 9953 | 9953 |
+| SYNCED | `.agent/tools/opp_to_deck.py` | 8946 | 8946 |
 | SYNCED | `.agent/tools/play_card.py` | 6712 | 6712 |
 | SYNCED | `.agent/tools/priority_matrix.py` | 16661 | 16661 |
 | SYNCED | `.agent/tools/promote_opportunity.py` | 4753 | 4753 |
@@ -224,8 +276,10 @@
 | SYNCED | `.agent/tools/size_normalizer.py` | 2821 | 2821 |
 | SYNCED | `.agent/tools/sprint.py` | 5803 | 5803 |
 | SYNCED | `.agent/tools/symmetry_check.py` | 11804 | 11804 |
+| SYNCED | `.agent/tools/sync_session_tasks.py` | 9624 | 9624 |
 | SYNCED | `.agent/tools/task_store.py` | 11387 | 11387 |
 | SYNCED | `.agent/tools/triage_inbox.py` | 13843 | 13843 |
+| SYNCED | `.agent/tools/trigger_engine.py` | 11980 | 11980 |
 | SYNCED | `.agent/tools/update_task_hierarchy.py` | 5661 | 5661 |
 | SYNCED | `.agent/tools/validate_manifest.py` | 6767 | 6767 |
 | SYNCED | `.agent/tools/wave_particle_balance.py` | 6291 | 6291 |
@@ -233,8 +287,8 @@
 | SYNCED | `.claude/rules/brain.md` | 1075 | 1075 |
 | SYNCED | `.gemini/context/body.md` | 936 | 936 |
 | SYNCED | `.gemini/context/brain.md` | 1010 | 1010 |
-| SYNCED | `.gitignore` | 3912 | 3912 |
-| SYNCED | `.pre-commit-config.yaml` | 2787 | 2787 |
+| SYNCED | `.gitignore` | 4001 | 4001 |
+| SYNCED | `.pre-commit-config.yaml` | 2792 | 2792 |
 | SYNCED | `AGENTKNOWLEDGEDUMP.md` | 16116 | 16116 |
 | SYNCED | `AGENTS.md` | 1217 | 1217 |
 | SYNCED | `ARCHITECTURE_MAP.md` | 6115 | 6115 |
@@ -444,57 +498,3 @@
 | SYNCED | `archive/scripts/test_existing_50_golden.py` | 8598 | 8598 |
 | SYNCED | `archive/scripts/test_real_repo.py` | 1851 | 1851 |
 | SYNCED | `archive/scripts/validation_dataset.py` | 21232 | 21232 |
-| SYNCED | `archive/scripts/verify_and_fix_canvas.py` | 8580 | 8580 |
-| CLOUD_ONLY | `archive/sessions/0-Defining` | - | 763534 |
-| LOCAL_ONLY | `archive/sessions/0-Defining Code Cosmology.md` | 763534 | - |
-| SYNCED | `archive/sessions/0-EXPANDED-MAP.md` | 200550 | 200550 |
-| CLOUD_ONLY | `archive/sessions/Collider` | - | 138742 |
-| LOCAL_ONLY | `archive/sessions/Collider Tool Review.md` | 138742 | - |
-| CLOUD_ONLY | `archive/sessions/Executive` | - | 7530 |
-| LOCAL_ONLY | `archive/sessions/Executive Summary & Roadmaps.md` | 7530 | - |
-| CLOUD_ONLY | `archive/sessions/Integrating` | - | 30534 |
-| LOCAL_ONLY | `archive/sessions/Integrating Foundational Theories.md` | 30534 | - |
-| SYNCED | `archive/sessions/mystery_groovy_file.groovy` | 12720 | 12720 |
-| SYNCED | `archive/spectrometer_audit_artifacts.zip` | 60287 | 60287 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_audit_report.md` | 13617 | 13617 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal/components.csv` | 7446 | 7446 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal/particles.csv` | 7563 | 7563 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal/report.md` | 7407 | 7407 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal/results.json` | 30742 | 30742 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal/stats.txt` | 816 | 816 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2/components.csv` | 21671 | 21671 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2/particles.csv` | 23424 | 23424 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2/report.md` | 9107 | 9107 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2/results.json` | 86478 | 86478 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2/stats.txt` | 852 | 852 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2/components.csv` | 39440 | 39440 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2/particles.csv` | 44071 | 44071 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2/report.md` | 9100 | 9100 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2/results.json` | 138373 | 138373 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2/stats.txt` | 858 | 858 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly/components.csv` | 1250 | 1250 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly/particles.csv` | 1445 | 1445 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly/report.md` | 1596 | 1596 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly/results.json` | 7527 | 7527 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly/stats.txt` | 784 | 784 |
-| SYNCED | `archive/spectrometer_audit_results/spectrometer_system_audit/output_truth/dddpy_real.truth.json` | 1346 | 1346 |
-| LOCAL_ONLY | `archive/spectrometer_benchmarks_legacy/axios` | 27021167 | - |
-| LOCAL_ONLY | `archive/spectrometer_benchmarks_legacy/express` | 11651146 | - |
-| CLOUD_ONLY | `archive/spectrometer_benchmarks_legacy/express/test/fixtures/%` | - | 3 |
-| CLOUD_ONLY | `archive/spectrometer_benchmarks_legacy/express/test/fixtures/snow` | - | 0 |
-| LOCAL_ONLY | `archive/spectrometer_benchmarks_legacy/lodash` | 57606156 | - |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/.gitignore` | 253 | 253 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/App.tsx` | 24022 | 24022 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/README.md` | 553 | 553 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components/CodeInput.tsx` | 4256 | 4256 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components/LabScene.tsx` | 25855 | 25855 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components/MermaidView.tsx` | 16310 | 16310 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components/StandardModelTable.tsx` | 22152 | 22152 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/data.ts` | 26120 | 26120 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/index.html` | 1960 | 1960 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/index.tsx` | 236 | 236 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/metadata.json` | 288 | 288 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/package.json` | 512 | 512 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/tsconfig.json` | 542 | 542 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/types.ts` | 1431 | 1431 |
-| SYNCED | `archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/vite.config.ts` | 580 | 580 |
