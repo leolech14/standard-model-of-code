@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-LOL Sync - Real-time Inventory Manager
-=======================================
+LOL (List of Lists) Sync - Real-time Inventory Manager
+=======================================================
 SMoC Role: Management/Inventory/D | daemon | orchestrator
 
 Maintains a CSV inventory of all PROJECT_elements entities with:
@@ -42,7 +42,7 @@ class Domain(Enum):
     PARTICLE = "particle"    # Collider, code analysis
     WAVE = "wave"            # Context, AI tools
     OBSERVER = "observer"    # .agent, task registry
-    META = "meta"            # LOL itself, truths
+    META = "meta"            # LOL (List of Lists) itself, truths
     UNKNOWN = "unknown"
 
 class Category(Enum):
@@ -467,7 +467,7 @@ def save_inbox(added: dict[str, Entity]):
 def print_stats(entities: dict[str, Entity]):
     """Print inventory statistics."""
     print("\n" + "=" * 60)
-    print("LOL INVENTORY STATISTICS")
+    print("LOL (List of Lists) INVENTORY STATISTICS")
     print("=" * 60)
 
     # By domain
@@ -518,7 +518,7 @@ def print_stats(entities: dict[str, Entity]):
 
 def watch_mode():
     """Daemon mode - continuously sync."""
-    print("LOL Sync - Watch Mode")
+    print("LOL (List of Lists) Sync - Watch Mode")
     print("Press Ctrl+C to stop\n")
 
     last_scan = None
@@ -580,7 +580,7 @@ def main():
         return
 
     # Default: one-shot sync
-    print("LOL Sync - Scanning repository...")
+    print("LOL (List of Lists) Sync - Scanning repository...")
 
     current, added, removed = sync_inventory()
 

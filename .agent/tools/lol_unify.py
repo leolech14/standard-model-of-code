@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-LOL Unify - Complete Self-Description Integration
-=================================================
+LOL (List of Lists) Unify - Complete Self-Description Integration
+==================================================================
 SMoC Role: Integration/Orchestrator/D | static | orchestrator
 
-Merges ALL self-description sources into a unified LOL inventory:
+Merges ALL self-description sources into a unified LOL (List of Lists) inventory:
 1. LOL.csv - Base inventory (domain, category, intel_model)
 2. Collider SMoC - Atom, role, layer, dimensions
 3. TDJ - Temporal dynamics (mtime, ctime, age)
@@ -59,7 +59,7 @@ def load_base_inventory() -> dict:
     elif LOL_CSV.exists():
         source = LOL_CSV
     else:
-        print("ERROR: No LOL inventory found")
+        print("ERROR: No LOL (List of Lists) inventory found")
         sys.exit(1)
 
     entities = {}
@@ -265,7 +265,7 @@ def save_unified(entities: dict, columns: list, path: Path):
 def print_stats(entities: dict):
     """Print unification statistics."""
     print("\n" + "=" * 60)
-    print("LOL UNIFIED STATISTICS")
+    print("LOL (List of Lists) UNIFIED STATISTICS")
     print("=" * 60)
 
     # Temporal distribution
@@ -307,11 +307,11 @@ def print_stats(entities: dict):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Unify all LOL data sources")
+    parser = argparse.ArgumentParser(description="Unify all LOL (List of Lists) data sources")
     parser.add_argument("--stats", action="store_true", help="Show statistics only")
     args = parser.parse_args()
 
-    print("LOL Unify - Creating complete self-description\n")
+    print("LOL (List of Lists) Unify - Creating complete self-description\n")
 
     # Load all sources
     entities = load_base_inventory()

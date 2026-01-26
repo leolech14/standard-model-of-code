@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-LOL + SMoC Merger
-=================
+LOL (List of Lists) + SMoC Merger
+==================================
 SMoC Role: Integration/Merger/D | static | orchestrator
 
-Merges Collider SMoC output with LOL.csv to create a self-describing inventory.
+Merges Collider SMoC output with LOL (List of Lists) CSV to create a self-describing inventory.
 This is the tool that makes PROJECT_elements eat its own dogfood.
 
 Usage:
@@ -221,7 +221,7 @@ def print_smoc_stats(file_smoc: dict):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Merge LOL with SMoC classifications")
+    parser = argparse.ArgumentParser(description="Merge LOL (List of Lists) with SMoC classifications")
     parser.add_argument("--collider", type=Path, help="Path to Collider JSON output")
     parser.add_argument("--stats", action="store_true", help="Show SMoC statistics")
     args = parser.parse_args()

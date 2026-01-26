@@ -1,4 +1,4 @@
-# LOL: Formal Mathematical Definition
+# LOL (List of Lists): Formal Mathematical Definition
 
 > The List of Lists as Universal Registry
 
