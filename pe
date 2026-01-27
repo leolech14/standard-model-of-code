@@ -464,6 +464,9 @@ case "${1:-help}" in
             changes)
                 python3 "$REPO_ROOT/context-management/tools/refinery/refinery_report.py" --changes
                 ;;
+            subsystems)
+                python3 "$REPO_ROOT/context-management/tools/refinery/subsystem_registry.py" --list
+                ;;
             *)
                 echo "Usage: ./pe refinery <command>"
                 echo ""
@@ -474,11 +477,13 @@ case "${1:-help}" in
                 echo "  report           Activity report (what happened while you were away)"
                 echo "  library          Organized library view of all knowledge"
                 echo "  changes          Recent activity log"
+                echo "  subsystems       Show refinery component architecture"
                 echo ""
                 echo "Examples:"
                 echo "  ./pe refinery search 'Communication Fabric'"
                 echo "  ./pe refinery report"
                 echo "  ./pe refinery library"
+                echo "  ./pe refinery subsystems"
                 ;;
         esac
         ;;
