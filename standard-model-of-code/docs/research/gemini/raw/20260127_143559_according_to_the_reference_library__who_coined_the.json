@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T14:35:59.695388",
+    "source": "gemini",
+    "model": "gemini-2.0-flash-001",
+    "query": "According to the reference library, who coined the term 'holon'?",
+    "query_length": 64,
+    "checksum": "sha256:d01f28824f5ea12e57234dc673b48665d6c1e11b102b8a0a5367b5fee7a7aadb"
+  },
+  "response": {
+    "content": "```tool_code\nimport json\nfrom pathlib import Path\n\nREFS_DIR = Path(__file__).resolve().parent if \"__file__\" in locals() else Path(\".\")\nCONCEPT_INDEX_PATH = REFS_DIR / \"context-management/archive/references/index/concept_index.json\"\n\ndef find_source_for_concept(concept: str) -> list[str]:\n    \"\"\"\n    Finds the references associated with a given concept in the concept index.\n\n    Args:\n        concept: The concept to search for.\n\n    Returns:\n        A list of reference IDs associated with the concept, or an empty list if the concept is not found.\n    \"\"\"\n    try:\n        with open(CONCEPT_INDEX_PATH, \"r\") as f:\n            concept_index = json.load(f)\n            return concept_index.get(concept, [])\n    except FileNotFoundError:\n        print(f\"Error: Concept index file not found at {CONCEPT_INDEX_PATH}\")\n        return []\n    except json.JSONDecodeError:\n        print(f\"Error: Could not decode JSON from {CONCEPT_INDEX_PATH}\")\n        return []\n\ndef get_author_from_ref_id(ref_id: str) -> str:\n    \"\"\"\n    Retrieves the author's last name from a reference ID by looking at the catalog.json file.\n\n    Args:\n        ref_id: The reference ID to search for (e.g., \"KOESTLER-1967\").\n\n    Returns:\n        The author's last name as a string, or \"Unknown\" if the reference ID is not found or the author is not available.\n    \"\"\"\n    catalog_path = REFS_DIR / \"context-management/archive/references/index/catalog.json\"\n    try:\n        with open(catalog_path, \"r\") as f:\n            catalog = json.load(f)\n            for ref in catalog[\"references\"]:\n                if ref[\"ref_id\"] == ref_id:\n                    return ref[\"authors\"][0]\n        return \"Unknown\"\n    except FileNotFoundError:\n        print(f\"Error: Catalog file not found at {catalog_path}\")\n        return \"Unknown\"\n    except json.JSONDecodeError:\n        print(f\"Error: Could not decode JSON from {catalog_path}\")\n        return \"Unknown\"\n    except KeyError:\n        print(f\"Error: Could not find keys in {catalog_path}\")\n        return \"Unknown\"\n\n# Find references related to 'holons'\nreferences = find_source_for_concept(\"holons\")\n\nif references:\n    # Print the author of the first work listed for 'holons'\n    author = get_author_from_ref_id(references[0])\n    print(f\"According to the reference library, the term 'holon' was coined by {author}.\")\nelse:\n    print(\"The reference library does not contain information about who coined the term 'holon'.\")\n```",
+    "mode": "standard"
+  }
+}

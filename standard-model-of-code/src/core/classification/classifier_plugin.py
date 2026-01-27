@@ -39,7 +39,7 @@ class ClassifierPlugin(ServicePlugin):
         super().__init__(
             name='universal-classifier',
             version='2.0.0',
-            dependencies=['roles', 'patterns', 'atoms']
+            dependencies=['patterns', 'roles', 'atoms']  # What UniversalClassifier actually uses
         )
         self._classifier: Optional[UniversalClassifier] = None
 
