@@ -1,0 +1,143 @@
+{
+  "dataset_name": "PROJECT_elements",
+  "summary": "This codebase utilizes a well-defined structure for managing code, context, and AI analysis. It emphasizes repeatability, testing, and documentation to ensure consistent and governed interactions between different components, with a heavy reliance on command-line interfaces for agent interaction.",
+  "shannon": {
+    "sources": [
+      "User (via CLI)",
+      "AI models (Gemini, Vertex AI)",
+      "Collider engine",
+      "Filesystem",
+      "Cloud storage (GCS)"
+    ],
+    "channels": [
+      "CLI commands (./pe)",
+      "Python scripts",
+      "File system (read/write)",
+      "Network (API calls to AI services, GCS sync)",
+      "Inter-process communication (pytest)"
+    ],
+    "messages": [
+      "CLI commands and arguments",
+      "Code analysis reports (output.md)",
+      "AI queries and responses",
+      "Test results",
+      "File contents",
+      "Configuration data (YAML, JSON)",
+      "Logs and metrics"
+    ],
+    "receivers": [
+      "User (via CLI output)",
+      "AI models",
+      "Collider engine",
+      "Testing framework (pytest)",
+      "Cloud storage",
+      "Documentation generation tools",
+      "Visualization tools"
+    ],
+    "noise_sources": [
+      "API rate limits",
+      "Network errors",
+      "AI model inconsistencies",
+      "Stale data",
+      "Configuration errors",
+      "Human error (typos in CLI commands)",
+      "Outdated documentation"
+    ],
+    "redundancy_mechanisms": [
+      "Test suites",
+      "Rollback procedures for certified moves",
+      "Cloud mirror (GCS sync)",
+      "Retry logic with exponential backoff for AI API calls",
+      "Dry-run mode for card execution"
+    ],
+    "entropy": [
+      "High: AI queries, free-form actions",
+      "Low: Predefined CLI commands, card executions, structured reports"
+    ]
+  },
+  "semiotics": {
+    "icons": [
+      "Traffic-light indicators in health status reports",
+      "3D graph visualization (via ./pe viz)",
+      "Mermaid diagrams representing the project architecture",
+      "HTML visualization outputs"
+    ],
+    "indices": [
+      "Logs and traces (timestamps, EVAL_LOG.md)",
+      "Metrics (node/edge counts, dead code %)",
+      "File paths indicating location and purpose",
+      "Git history and commit messages",
+      "Test results indicating code quality"
+    ],
+    "symbols": [
+      "CLI commands (./pe deck deal, ./pe ask)",
+      "Card names (CARD-ANA-001)",
+      "Analysis set names (brain_core, body, theory)",
+      "Configuration keys (GEMINI_API_KEY)",
+      "File extensions indicating file type",
+      "Code style conventions (type hints, docstrings)",
+      "Environment variables",
+      "Directory structure"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Testing loop: Code changes -> Tests -> Results -> Code changes",
+      "AI analysis loop: Query -> Analysis -> Report -> User action -> Subsequent query",
+      "Context update loop: Analysis results -> Context modification -> Improved analysis",
+      "Card execution loop: Preconditions check -> Card execution -> Outcome verification -> Rollback if needed"
+    ],
+    "control_signals": [
+      "CLI commands triggering specific actions",
+      "Configuration settings controlling analysis behavior",
+      "Card preconditions determining card executability",
+      "Test results triggering code modifications",
+      "Analysis mode flags influencing AI analysis style"
+    ],
+    "homeostasis": [
+      "Rules enforcing code style and testing practices",
+      "Definition of Done (DOD) ensuring consistent quality",
+      "Regular health checks via `./pe status`",
+      "Prioritizing certified 'card' moves over free-form actions"
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Commands (./pe deck deal - requests a list of available actions)",
+      "Queries (./pe ask \"query\" - seeks information)",
+      "Declarations (documentation stating facts)",
+      "Directives (rules instructing the AI agent)"
+    ],
+    "context_dependencies": [
+      "Meaning of commands depends on the current state of the system (e.g., available cards depend on satisfied preconditions)",
+      "Interpretation of AI queries depends on the analysis set and mode",
+      "Validity of HTML outputs depends on recent regeneration"
+    ],
+    "implicit_conventions": [
+      "Following the rules defined in .claude/rules/",
+      "Using the defined directory structure",
+      "Committing changes only after running tests",
+      "Using a standard set of CLI flags and arguments"
+    ],
+    "implicature": [
+      "The emphasis on card selection implies that free-form actions should be avoided when a suitable card is available.",
+      "The inclusion of rollback procedures in card definitions implies a concern for potential negative consequences of actions.",
+      "The frequency of regenerate outputs implies code and artifacts change frequently."
+    ]
+  },
+  "key_findings": [
+    "The system is heavily reliant on codified actions ('cards') and prioritizes those over free-form activities.",
+    "There is a strong emphasis on reproducibility, verification, and rollback, indicating a safety-critical or high-stakes environment.",
+    "The project aims to manage complexity by partitioning the system into well-defined components (Brain, Body, Storage) and enforcing strict rules for each."
+  ],
+  "recommendations": [
+    "Improve the discoverability of card preconditions to streamline the card selection process.",
+    "Implement automated checks for stale data to prevent analysis based on outdated information."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:20:29.996086",
+    "dataset_file": "/tmp/comm-analysis-datasets/07_project_configs.txt",
+    "char_count": 10582,
+    "token_estimate": 2645
+  }
+}

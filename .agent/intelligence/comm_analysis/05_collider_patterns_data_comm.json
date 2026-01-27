@@ -1,0 +1,123 @@
+{
+  "dataset_name": "Standard Model of Code Patterns Analysis",
+  "summary": "This JSON analyzes a set of YAML, JSON, and markdown files from the Standard Model of Code project, focusing on communication patterns found within the code definitions, security concerns, and language mappings. The analysis identifies various communication patterns across layers (core, standard library, and ecosystems) and categorizes them based on Shannon's information theory, semiotics, cybernetics, and pragmatics.",
+  "shannon": {
+    "sources": [
+      "YAML configuration files (ATOMS_TIER0_CORE.yaml, ATOMS_TIER1_STDLIB.yaml, ATOMS_TIER2_ECOSYSTEM.yaml, ATOMS_T2_CLOUD.yaml, ATOMS_T2_FRONTEND.yaml, ATOMS_T2_GAPS.yaml)",
+      "JSON file (atoms.json)",
+      "Markdown files (INTEGRATION_SUMMARY.md, README.md)"
+    ],
+    "channels": [
+      "YAML structure",
+      "JSON structure",
+      "Object property settings (e.g., `setProperty` in Java)",
+      "Parameter passing",
+      "Variable assignment"
+    ],
+    "messages": [
+      "Atom definitions (id, symbol, name, description, dimensions, traits, capabilities)",
+      "Architectural types (Entity, ValueObject, UseCase, etc.)",
+      "Code mappings (java, python, typescript, go)",
+      "Exclusion patterns (directory_patterns, file_patterns)",
+      "Security rules and recommendations (SQL injection, XSS, etc.)",
+      "Configuration settings (e.g., `debug=True`)",
+      "Workflow definitions and operational instructions (shell commands, service calls)"
+    ],
+    "receivers": [
+      "Code analysis tools (Semgrep, ESLint)",
+      "Developers using the Standard Model of Code",
+      "Runtime environment",
+      "LLMs - Large Language Models",
+      "Package Managers",
+      "Cloud Orchestration Systems",
+      "CI/CD Pipelines"
+    ],
+    "noise_sources": [
+      "Minified code",
+      "Bundled code",
+      "Generated code",
+      "Vendor code",
+      "Cache directories",
+      "Virtual environments",
+      "IDE/Editor configuration files",
+      "Lock files"
+    ],
+    "redundancy_mechanisms": [
+      "None explicitly defined",
+      "File Exclusions"
+    ],
+    "entropy": [
+      "Low: Exclusion patterns, language mappings, core syntax atoms.",
+      "High: Ecosystem specific atoms (T2), Security rules (since the application must defend against various known attack vectors).",
+      "Medium: Standard library (T1) atoms."
+    ]
+  },
+  "semiotics": {
+    "icons": [],
+    "indices": [
+      "Log entries",
+      "Trace data",
+      "Metrics based on code analysis",
+      "File paths used for exclusion patterns",
+      "Scoring of architectural types (RPBL)"
+    ],
+    "symbols": [
+      "Atom IDs (e.g., C1_IntLiteral, T1_IO_FILE, T2_UI_REACT_COMPONENT)",
+      "Atom symbols (e.g., Int, File, React)",
+      "Configuration settings (e.g., enabled, secure, version)",
+      "Layer names (domain, application, infrastructure, presentation)",
+      "RPBL scores"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Automated code analysis and rule enforcement through tools (Semgrep, ESLint)",
+      "Adaptive intelligence layer for refining exclusion patterns",
+      "Quality assessment using RPBL scoring"
+    ],
+    "control_signals": [
+      "Configuration settings to enable/disable security features",
+      "Exclusion patterns to filter out irrelevant code",
+      "Rules that define valid code structures and relationships"
+    ],
+    "homeostasis": [
+      "Maintaining code quality through automated analysis",
+      "Enforcing architectural constraints through rule validation"
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Declaring types of code Atoms",
+      "Validating code architecture through canonical types",
+      "Excluding irrelevant files from analysis",
+      "Providing security recommendations",
+      "Providing configuration instructions"
+    ],
+    "context_dependencies": [
+      "Interpretation of atom IDs depends on the tier (core syntax, standard library, ecosystem)",
+      "Meaning of patterns varies based on the ecosystem (React, Pandas, Cloud)",
+      "Severity of security rules depends on the deployment environment (development vs. production)"
+    ],
+    "implicit_conventions": [
+      "Atoms represent well-known code constructs.",
+      "Specific file paths indicate standard locations for dependencies, build outputs, etc.",
+      "Certain code patterns signify potential security vulnerabilities.",
+      "Tier numbers 0, 1, 2 represent core, standard library, and ecosystem, respectively."
+    ]
+  },
+  "key_findings": [
+    "The codebase uses a layered approach to define code elements, ranging from core syntax to ecosystem-specific components.",
+    "Security vulnerabilities are identified based on specific code patterns, enabling proactive threat mitigation.",
+    "The integration of different theoretical frameworks provides a holistic view of code communication and system behavior."
+  ],
+  "recommendations": [
+    "Enhance error handling for noise sources to minimize signal degradation.",
+    "Implement automated feedback mechanisms based on cybernetic principles to optimize code quality and security continuously."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:19:33.737969",
+    "dataset_file": "/tmp/comm-analysis-datasets/05_collider_patterns_data.txt",
+    "char_count": 1499381,
+    "token_estimate": 374845
+  }
+}

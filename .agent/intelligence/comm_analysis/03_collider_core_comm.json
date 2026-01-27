@@ -1,0 +1,134 @@
+{
+  "dataset_name": "standard-model-of-code",
+  "summary": "This analysis explores a software codebase (Collider) through the lens of communication theory, focusing on information flow, sign systems, and control mechanisms. The codebase implements various stages of code analysis, suggesting complex communication patterns within the system and between the system and its users or other components.",
+  "shannon": {
+    "sources": [
+      "Code files (generate code)",
+      "Configuration files (define parameters)",
+      "User input (CLI arguments)",
+      "External databases or APIs (data sources)",
+      "Git history (commit messages)",
+      "Docstrings (explicit intent)",
+      "Comments (developer intent)"
+    ],
+    "channels": [
+      "Function calls",
+      "Class inheritance",
+      "Import statements",
+      "Data flow (assignment, mutation)",
+      "Control flow (conditional branches)",
+      "API calls (network transmission)",
+      "File I/O (disk transmission)"
+    ],
+    "messages": [
+      "Code atoms (literals, variables, expressions)",
+      "Control signals (triggers from configuration files)",
+      "Data structures (lists, dictionaries)",
+      "Domain Events (objects representing state changes)"
+    ],
+    "receivers": [
+      "Functions/methods (consume information)",
+      "Classes/modules (aggregate information)",
+      "LLMs (as an analytical engine)",
+      "Users (interpreting reports/visualizations)",
+      "Logging systems (record events)",
+      "Testing frameworks (check expected behavior)"
+    ],
+    "noise_sources": [
+      "Syntax errors (corrupt parsing)",
+      "Incorrect type hints (corrupt classification)",
+      "Irrelevant comments (obscure meaning)",
+      "Ambiguous naming conventions (obscure function)",
+      "Network latency (delay API responses)"
+    ],
+    "redundancy_mechanisms": [
+      "Function parameters (ensure data types)",
+      "Error handling (try/except blocks)",
+      "Type annotations (validate variable types)",
+      "Input validation (check data constraints)",
+      "Redundant variable definitions",
+      "Logging (record execution flow)",
+      "Design patterns (stable code with repeat patterns) "
+    ],
+    "entropy": [
+      "HIGH: Node-to-node transitions (wide variety of callees - broad or ill-defined purpose)",
+      "HIGH: Different files in code with many kinds and types of code objects.",
+      "LOW: Standard-defined code elements, which might be bits or primitives."
+    ]
+  },
+  "semiotics": {
+    "icons": [
+      "Class diagrams (class structure)",
+      "Data flow diagrams (data transformation)",
+      "Architectural diagrams (layer organization)",
+      "Color-coded code visualizations (type assignments)",
+      "Progress bars showing stage completions ( pipeline feedback)",
+      "Traffic light indicators in LLM output ( health)"
+    ],
+    "indices": [
+      "Log files (function executions)",
+      "Traces (latency measurements)",
+      "Memory usage metrics (performance)",
+      "Cyclomatic Complexity values ( branch density)",
+      "Halstead Metrics (Volume, Difficulty)",
+      "Code coverage reports (test coverage)"
+    ],
+    "symbols": [
+      "Configuration files (key-value pairs, hierarchies)",
+      "Ontology of Atomic design elements",
+      "DDD/Clean Architecture patterns",
+      "File taxonomy",
+      "Configuration"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Test-driven development (TDD): Tests inform code changes (stabilizing loop)",
+      "Error handling: try/except informs corrective actions (corrective loop)",
+      "Automated code style checking: Linter feedback informs code style (corrective loop)",
+      "LLM-based code review feedback: LLM recommendations in turn may be integrated back in code"
+    ],
+    "control_signals": [
+      "Configuration parameters (feature flags, thresholds)",
+      "Data validation routines (input sanitization)",
+      "Role assignments based on type and topology (policy enforcement)",
+      "Error handling routines trigger fallback scenarios"
+    ],
+    "homeostasis": [
+      "Enforcing Clean Architecture rules stabilizes structure over time",
+      "Maintaining high Cohesion metrics increases system stability",
+      "Balancing Responsibility across Components stabilizes maintainability",
+      "Low fanout metrics indicate lower Coupling"
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Warnings during code generation (inform of potential problems)",
+      "Error messages during program execution (signal system failure)",
+      "Configuration settings (direct action to configure environment",
+      "Log entries (record event and action taken)",
+      "Code comments (explain intent to humans and machine systems"
+    ],
+    "context_dependencies": [
+      "The meaning of a Role changes given the domain (e.g., 'Service' can be very different in a Game vs. FinTech app)",
+      "The purpose of a function depends on where in a codebase where it resides",
+      "The meaning of a metric is dependent on the architectural style"
+    ],
+    "implicit_conventions": []
+  },
+  "key_findings": [
+    "The codebase exhibits clear communication patterns, with explicit and implicit conventions governing the flow of information, actions, and control.",
+    "The architecture aims to manage complexity through well-defined boundaries, role assignments, and standardized processes, which directly relates to the reliability of communication and action.",
+    "The reliance on heuristics and inference signifies a need for further refinement of the analysis techniques, improving communication quality by reducing noise and ambiguity."
+  ],
+  "recommendations": [
+    "Improve accuracy of analysis (better comms quality) through standardized roles, enforced constraints, and explicit API/module contracts.",
+    "Address the inherent noise and ambiguity by incorporating explicit validation mechanisms for automatically detected code/patterns."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:19:07.185314",
+    "dataset_file": "/tmp/comm-analysis-datasets/03_collider_core.txt",
+    "char_count": 1481049,
+    "token_estimate": 370262
+  }
+}

@@ -37,6 +37,8 @@ LOL_SYNC = SCRIPT_DIR / "lol_sync.py"
 LOL_SMOC_MERGER = SCRIPT_DIR / "lol_smoc_merger.py"
 LOL_UNIFY = SCRIPT_DIR / "lol_unify.py"
 SYMMETRY_CHECK = SCRIPT_DIR / "symmetry_check.py"
+COMM_FABRIC = REPO_ROOT / ".agent" / "intelligence" / "comms" / "fabric.py"
+REFINERY_SCRIPT = REPO_ROOT / "context-management" / "tools" / "ai" / "aci" / "refinery.py"
 
 # Output paths
 LOL_CSV = INTELLIGENCE_DIR / "LOL.csv"
@@ -44,6 +46,7 @@ LOL_SMOC_CSV = INTELLIGENCE_DIR / "LOL_SMOC.csv"
 LOL_UNIFIED_CSV = INTELLIGENCE_DIR / "LOL_UNIFIED.csv"
 TDJ_PATH = INTELLIGENCE_DIR / "tdj.jsonl"
 COLLIDER_OUTPUT_DIR = REPO_ROOT / ".collider-full"
+CHUNKS_DIR = INTELLIGENCE_DIR / "chunks"
 
 
 class PipelineStage:
@@ -247,15 +250,47 @@ def print_dashboard():
         age = collider_output_age_minutes()
         print(f"\n    Collider age: {age:.0f} minutes")
 
+    # Communication Fabric metrics
+    comm_history = INTELLIGENCE_DIR / "comms" / "state_history.jsonl"
+    if comm_history.exists():
+        try:
+            with open(comm_history) as f:
+                lines = f.readlines()
+                if lines:
+                    latest = json.loads(lines[-1])
+                    print(f"\n## COMMUNICATION FABRIC")
+                    print(f"    F (Latency):      {latest.get('F', 0):.2f} hours")
+                    print(f"    MI (Alignment):   {latest.get('MI', 0):.4f}")
+                    print(f"    N (Noise):        {latest.get('N', 0):.4f}")
+                    print(f"    SNR:              {latest.get('SNR', 0):.4f}")
+                    print(f"    R_auto:           {latest.get('R_auto', 0):.4f}")
+                    print(f"    R_manual:         {latest.get('R_manual', 0):.4f}")
+                    print(f"    ΔH (Entropy):     {latest.get('dH', 0):.4f}")
+                    margin = latest.get('margin', 0)
+                    tier = latest.get('tier', 'N/A')
+                    stability = "STABLE" if margin > 0 else "UNSTABLE"
+                    print(f"    Stability:        {stability} (margin: {margin:+.4f})")
+                    print(f"    Health Tier:      {tier}")
+        except Exception:
+            pass
+
     # Recommendations
     print(f"\n## STATUS")
     issues = []
-    if knots.get('knot_score', 0) >= 8:
-        issues.append("🔴 CRITICAL: Knot score >= 8 (high coupling)")
-    if purpose.get('god_class_count', 0) > 50:
-        issues.append("🔴 CRITICAL: >50 god classes (SRP violations)")
-    if purpose.get('alignment_health') == 'CRITICAL':
-        issues.append("🟡 WARNING: Purpose alignment is CRITICAL")
+    try:
+        if knots.get('knot_score', 0) >= 8:
+            issues.append("🔴 CRITICAL: Knot score >= 8 (high coupling)")
+        if purpose.get('god_class_count', 0) > 50:
+            issues.append("🔴 CRITICAL: >50 god classes (SRP violations)")
+        if purpose.get('alignment_health') == 'CRITICAL':
+            issues.append("🟡 WARNING: Purpose alignment is CRITICAL")
+    except NameError:
+        pass  # Collider data not loaded
+    try:
+        if latest.get('margin', 1) <= 0:
+            issues.append("🔴 CRITICAL: Communication Fabric UNSTABLE")
+    except NameError:
+        pass  # Comm Fabric data not loaded
 
     if issues:
         for issue in issues:
@@ -319,6 +354,65 @@ def run_pipeline(skip_collider: bool = False, dashboard_only: bool = False):
         "Merge all sources (temporal, symmetry, purpose)"
     ))
 
+    # Stage 6: Communication Fabric
+    stages.append(PipelineStage(
+        "COMM_FABRIC",
+        ["python3", str(COMM_FABRIC), "--record"],
+        "Record Communication Fabric state vector (F, MI, N, SNR, R, ΔH)"
+    ))
+
+    # Stage 7-9: Refinery (Knowledge Consolidation)
+    # Ensure chunks directory exists
+    CHUNKS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Cleanup any temp files from failed runs
+    for temp_file in CHUNKS_DIR.glob("*.tmp"):
+        temp_file.unlink()
+
+    # Check convergence (skip if knowledge hasn't changed)
+    skip_refinery = False
+    metadata_file = CHUNKS_DIR / "metadata.json"
+    if metadata_file.exists():
+        try:
+            with open(metadata_file) as f:
+                prev_metadata = json.load(f)
+
+            # Get current git SHA
+            current_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"],
+                cwd=str(REPO_ROOT),
+                text=True
+            ).strip()
+
+            # If same SHA, knowledge hasn't changed
+            if prev_metadata.get("git_sha") == current_sha:
+                print(f"  ⊘ Refinery skipped (knowledge converged at SHA {current_sha[:8]})")
+                skip_refinery = True
+        except Exception:
+            pass  # If check fails, proceed with refinery
+
+    if not skip_refinery:
+        stages.append(PipelineStage(
+            "REFINERY_AGENT",
+            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / ".agent"),
+             "--export", str(CHUNKS_DIR / "agent_chunks.json")],
+            "Atomize .agent/ directory (tools, intelligence, registry)"
+        ))
+
+        stages.append(PipelineStage(
+            "REFINERY_CORE",
+            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "standard-model-of-code" / "src" / "core"),
+             "--export", str(CHUNKS_DIR / "core_chunks.json")],
+            "Atomize Collider core (pipeline, analysis, graph)"
+        ))
+
+        stages.append(PipelineStage(
+            "REFINERY_ACI",
+            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "context-management" / "tools" / "ai" / "aci"),
+             "--export", str(CHUNKS_DIR / "aci_chunks.json")],
+            "Atomize ACI tools (refinery, research, tier router)"
+        ))
+
     # Execute pipeline
     total_start = time.time()
     results = []
@@ -346,6 +440,38 @@ def run_pipeline(skip_collider: bool = False, dashboard_only: bool = False):
                 break
 
     total_duration = time.time() - total_start
+
+    # Track chunk generation metadata
+    try:
+        chunk_stats = {}
+        for chunk_name in ["agent", "core", "aci"]:
+            chunk_file = CHUNKS_DIR / f"{chunk_name}_chunks.json"
+            if chunk_file.exists():
+                with open(chunk_file) as f:
+                    data = json.load(f)
+                    chunk_stats[chunk_name] = {
+                        "chunks": data.get("node_count", 0),
+                        "tokens": data.get("total_tokens", 0)
+                    }
+
+        if chunk_stats:
+            metadata = {
+                "timestamp": datetime.now().isoformat(),
+                "git_sha": subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"],
+                    cwd=str(REPO_ROOT),
+                    text=True
+                ).strip(),
+                "chunks": chunk_stats,
+                "total_chunks": sum(s["chunks"] for s in chunk_stats.values()),
+                "total_tokens": sum(s["tokens"] for s in chunk_stats.values()),
+            }
+
+            with open(CHUNKS_DIR / "metadata.json", 'w') as f:
+                json.dump(metadata, f, indent=2)
+
+    except Exception as e:
+        print(f"  ⚠ Warning: Failed to generate chunk metadata: {e}")
 
     # Summary
     print("\n" + "=" * 70)

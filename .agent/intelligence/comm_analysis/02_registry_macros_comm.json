@@ -1,0 +1,139 @@
+{
+  "dataset_name": "agent_task_registry",
+  "summary": "This dataset consists of markdown files, yaml files, and shell scripts detailing an AI-powered agent's task registry and associated processes. The agent manages opportunities, tasks, sprints, and macros, emphasizing automation, validation, and a structured approach to code analysis and refinement.",
+  "shannon": {
+    "sources": [
+      "HUMAN (manual creation)",
+      "BARE (Background Auto-Refinement Engine)",
+      "RESEARCH (Perplexity/Gemini research findings)",
+      "WATCHER (File system watchers)",
+      "EXTERNAL (External feedback)",
+      "MACRO (Automated audit outputs)",
+      "MIGRATION (Legacy system import)"
+    ],
+    "channels": [
+      "Filesystem (YAML files in specific directories)",
+      "Shell scripts (for task manipulation)",
+      "API calls (to Gemini/Perplexity)",
+      "Internal python data structures",
+      "Launchd plists"
+    ],
+    "messages": [
+      "OPPORTUNITIES (OPP-XXX.yaml - potential tasks)",
+      "TASKS (TASK-XXX.yaml - work items)",
+      "SPRINTS (SPRINT-XXX.yaml - collections of tasks)",
+      "MACROS (MACRO-XXX.yaml - automated action sequences)",
+      "Reports (.md files - validation findings, audit results)",
+      "System state (circuit_breakers.yaml)",
+      "Metrics (METRICS.md)",
+      "Log messages (console and files)"
+    ],
+    "receivers": [
+      "HUMAN (developers, reviewers)",
+      "BARE (Background Auto-Refinement Engine)",
+      "ACI (AI query interface)",
+      "HSL (Holographic Socratic Layer)",
+      "The autopilot and other assistant agents"
+    ],
+    "noise_sources": [
+      "Stale data",
+      "Duplicate code",
+      "Broken dependencies (tree-sitter)",
+      "Rate limiting (Gemini API)",
+      "Inconsistent data formats",
+      "Multilingual comments and documentation",
+      "Organic growth (code sprawl, design drift)"
+    ],
+    "redundancy_mechanisms": [
+      "GCS mirroring for backups",
+      "Atomic filesystem operations for task locking",
+      "4D confidence scoring to validate claims",
+      "Manual verification"
+    ],
+    "entropy": [
+      "High: Variety of YAML libraries, duplication of logic, unstructured folder organization, varying coding standards",
+      "Low: Tool registry defining clear categories, specific workflow steps"
+    ]
+  },
+  "semiotics": {
+    "icons": [
+      "Checkmarks and cross marks",
+      "Directory diagrams"
+    ],
+    "indices": [
+      "Log files (activity)",
+      "timestamps (mtime/ctime)",
+      "confidence scores (evidence-based)",
+      "Git commit hashes",
+      "File paths (related_to)",
+      "Line numbers in code analysis"
+    ],
+    "symbols": [
+      "Task IDs (TASK-XXX)",
+      "Opportunity IDs (OPP-XXX)",
+      "Sprint IDs (SPRINT-XXX)",
+      "Macro IDs (MACRO-XXX)",
+      "Status codes (READY, COMPLETE, ARCHIVED)",
+      "Category codes (PIPELINE, VISUALIZATION)",
+      "File extensions (.yaml, .md, .py, .sh)",
+      "Version numbers (3.1.0)",
+      "4D scoring dimensions (Factual, Alignment, Current, Onwards)",
+      "Doppler for secret/API key injection",
+      "Launchd plist structure",
+      "Directory structure .agent/registry/"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Opportunity \u2192 Task \u2192 Execution \u2192 Result \u2192 Macro (pattern recording)",
+      "Code change \u2192 Analysis \u2192 Socratic Audit \u2192 Task creation \u2192 Code fix \u2192 Code change (continuous improvement)",
+      "Drift detection (HSL) -> Manual analysis -> Correction (re-analysis)"
+    ],
+    "control_signals": [
+      "promote_opportunity.py (Inbox \u2192 Active)",
+      "claim_task.sh (Active \u2192 Claimed)",
+      "release_task.sh (Claimed \u2192 Active/Archive)",
+      "auto_boost_function.py (Autonomous Enrichment Pipeline)"
+    ],
+    "homeostasis": [
+      "Always-Green Continuous Refinement Pipeline (OPP-065)",
+      "The balance between structured tasks and unstructured opportunities",
+      "Prioritization of tasks through grading"
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Declare: LaunchAgents enable background running.",
+      "Request: Add GEMINI_API_KEY to LaunchAgent plists (OPP-061)",
+      "Acknowledge: Rate limit errors before discovery (OPP-066)",
+      "Decide: Daemons disabled to stop bleeding (OPP-066)"
+    ],
+    "context_dependencies": [
+      "Confidence scores depend on AI validation and external research.",
+      "Task status is highly dependent on the progress of related tasks.",
+      "Code quality interpretations may rely on understanding the system's history."
+    ],
+    "implicit_conventions": [
+      "YAML file format for task definitions.",
+      "Markdown format for reports.",
+      "Filename naming conventions (TASK-XXX.yaml, OPP-XXX.yaml)",
+      "4D confidence scoring with min() function",
+      "Critical/High/Medium priority scales with specific workflow patterns"
+    ]
+  },
+  "key_findings": [
+    "The system exhibits characteristics of organic growth, leading to inconsistencies in code structure, utility usage, and documentation.",
+    "Automated processes, while present in design, are often hampered by infrastructure issues (e.g., non-running daemons) and integration gaps, hindering autonomous behavior.",
+    "The 4D confidence scoring system provides a structured approach to assess task readiness, but its effective use relies on reliable AI validation and integration with the task registry."
+  ],
+  "recommendations": [
+    "Prioritize infrastructure fixes (e.g., dependency management, daemon configuration) to enable core automated workflows and prevent downstream issues.",
+    "Enforce architectural consistency by establishing clear component boundaries, standardizing code formatting, and implementing a shared utilities module for common tasks."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:18:48.357236",
+    "dataset_file": "/tmp/comm-analysis-datasets/02_registry_macros.txt",
+    "char_count": 314852,
+    "token_estimate": 78713
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "dataset_name": "Standard Model of Code",
+  "summary": "This JSON provides a comprehensive analysis of the communication patterns in the provided codebase, mapping them to Shannon's Information Theory, Semiotics, Cybernetics, and Pragmatics.  It identifies sources and receivers of information, the types of messages exchanged, feedback loops, and implicit assumptions embedded within the code and documentation, providing a structured overview of communication aspects.",
+  "shannon": {
+    "sources": [
+      "Deterministic computation (collider)",
+      "Human input (Human Signoff, Initial labeling)",
+      "AI systems (Gemini, Perplexity, ChatGPT)",
+      "File system (Checking for file existence, timestamps)",
+      "AST Parsing",
+      "Network analysis (calculating node degrees, centrality)"
+    ],
+    "channels": [
+      "File system (YAML, JSON, Markdown files)",
+      "Command-line interface",
+      "API calls (Perplexity)",
+      "Code itself (functions calling other functions)",
+      "Console output (logging, error messages)",
+      "Human-readable reports and documentation"
+    ],
+    "messages": [
+      "File contents (code, data, configurations)",
+      "Metrics (coverage, complexity, security)",
+      "Human signoff decisions",
+      "AI audit reports",
+      "Falsification reports",
+      "Configuration settings",
+      "Error messages and warnings",
+      "Prompts and responses to AI systems",
+      "Graph structure (nodes and edges)",
+      "Decision Records"
+    ],
+    "receivers": [
+      "Deterministic code (evaluating conditions)",
+      "Human reviewers (interpreting reports)",
+      "AI systems (processing data)",
+      "The program's own modules (importing data)",
+      "Monitoring systems",
+      "Other tools (ingesting unified_analysis.json)"
+    ],
+    "noise_sources": [
+      "Untested assumptions in AI prompts",
+      "Inaccurate Semgrep rules (leading to security skew)",
+      "Incomplete AST mappings (leading to 'Unknown' classifications)",
+      "Dynamic imports and reflection (obfuscating dependencies)",
+      "Untracked human bias during labeling",
+      "Stale locks (concurrent access)",
+      "Inaccurate measurement contracts or tooling",
+      "Non-deterministic metrics or randomness"
+    ],
+    "redundancy_mechanisms": [
+      "Human review and signoff",
+      "AI audit reports (multi-AI validation)",
+      "CI/CD integration with quality gates",
+      "Reproducibility protocols (metadata capture, deterministic runs)",
+      "Version control (git)",
+      "External context validation (Perplexity)"
+    ],
+    "entropy": [
+      "Messages involving human intention or creative tasks (e.g., creating prompts) have high entropy.",
+      "Messages containing raw data or measurements (e.g., `summary.csv`, `coverage.json`) have medium entropy.",
+      "Messages containing fixed metadata (e.g., `cli_args` in `run_metadata.json`) have low entropy."
+    ]
+  },
+  "semiotics": {
+    "icons": [
+      "Diagrams visualizing the collider pipeline and atom/role relationships",
+      "Visual topology classifications (Causal Map, ATOM COVERAGE CAUSAL MAP)",
+      "Glyphs and icons in the GUI, such as TestFramework or entrypoint",
+      "Folder structures"
+    ],
+    "indices": [
+      "Log files and error messages indicating system behavior",
+      "Metrics quantifying code characteristics (complexity, coverage)",
+      "Filenames and paths indicating file type and location",
+      "Stack traces showing call sequences",
+      "Timestamps indicating creation and modification dates",
+      "Git SHAs linking code to specific commits",
+      "LLM and Tool version in audit metadata"
+    ],
+    "symbols": [
+      "Configuration file settings (analysis_sets.yaml, semantic_models.yaml)",
+      "Programming language keywords and syntax",
+      "Atom IDs and names (LOG.FNC.M, ORG.AGG.M)",
+      "Claim levels (L1, L2, L3)",
+      "Hard gate identifiers (G1, G2, G3, G4, G5)",
+      "Tool names and script identifiers (collider, analyze.py)",
+      "MCP Tool Names",
+      "Naming conventions"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Human review and adjustment of code based on CI/CD results",
+      "AI code audits providing input for code refinement",
+      "The Socratic method utilized by the AI agent, including external context and evidence.",
+      "Hard gates and Veto Conditions preventing improper claim promotion",
+      "Data validation in multiple stages of pipeline",
+      "Post-Pilot feedback"
+    ],
+    "control_signals": [
+      "CLI arguments (e.g., --output, --set, --mode)",
+      "Configuration file settings (e.g., atom tiers, Semgrep rules)",
+      "AI audit results (promoting or blocking claim advancement)",
+      "Quality gates (e.g., meeting metric thresholds)",
+      "Tier-based allocation of LLM"
+    ],
+    "homeostasis": [
+      "Maintaining code quality through automated audits and enforced conventions",
+      "Maintaining data privacy by redacting sensitive information",
+      "Limiting model scope to prevent data exfiltration",
+      "Maintaining consistent metadata with capture blocks",
+      "Maintaining architecture"
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Promises (to meet documentation and code quality standards)",
+      "Assertions (of claim levels and confidence scores)",
+      "Directives (to install and configure tools)",
+      "Requests (for AI analysis and external context)",
+      "Commitments (to reproduce results)"
+    ],
+    "context_dependencies": [
+      "Interpretation of metrics (e.g., 'Unknown' rate)",
+      "Definition of 'credible falsification'",
+      "Scope boundaries for AI systems (internal vs. external)",
+      "Meaning of T2 atoms (% semantic coverage != quality metric)",
+      "Interpretation of unknown atoms (classifier gaps)",
+      "Claim Level (impact and provenance)",
+      "Operational Definitions"
+    ],
+    "implicit_conventions": [
+      "Atoms must align with programming grammar",
+      "Always include D1 atom",
+      "Atoms and Roles should be orthogonal dimensions",
+      "Claims should mirror findings",
+      "External is advisory",
+      "Functional code has Semgrep blind spots",
+      "Claims should be limited to the repo",
+      "The best model is physics not data"
+    ]
+  },
+  "key_findings": [
+    "The system relies on a carefully orchestrated multi-AI validation process with hard gates and soft votes.",
+    "Hard Gates and Metrics decide",
+    "Privacy, Scope and Code flow constraints limit the power of the AI"
+  ],
+  "recommendations": [
+    "Formalize and enforce the AI_ORCHESTRATION_PROTOCOL to ensure consistent and reliable multi-AI validation.",
+    "Regularly audit the effectiveness of existing hard gates and soft votes, adjusting them as needed to maintain a balance between rigor and efficiency."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:21:00.634924",
+    "dataset_file": "/tmp/comm-analysis-datasets/09_collider_docs_research.txt",
+    "char_count": 1498353,
+    "token_estimate": 374588
+  }
+}

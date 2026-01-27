@@ -1,0 +1,1008 @@
+{
+  "analyzed_at": "2026-01-26T19:21:00.635491",
+  "dataset_count": 9,
+  "analyses": [
+    {
+      "dataset_name": "01_intelligence_layer",
+      "error": "JSON parse error: Unterminated string starting at: line 109 column 7 (char 4644)",
+      "raw_response": "```json\n{\n  \"dataset_name\": \"PROJECT_elements Codebase Analysis\",\n  \"summary\": \"This JSON provides a communication systems analysis of the PROJECT_elements codebase based on provided documentation. It identifies communication patterns from different theoretical frameworks, offering key findings and recommendations for improvement.\",\n  \"shannon\": {\n    \"sources\": [\n      \"Code files (Python, JavaScript, TypeScript, YAML, etc.) - Send code structure, functions, data flow information\",\n      \"Commit messages - Transmit information about code changes and features\",\n      \"Configuration files (YAML, JSON) - Provide information about system settings and dependencies\",\n      \"AI models (Gemini, etc.) - Enrich and interpret code, propose changes\",\n      \"Logs and Metrics - Provide performance and error tracking information\"\n    ],\n    \"channels\": [\n      \"File system - Reading and writing code, configs, and data\",\n      \"Git repository - Transport commit messages and file changes\",\n      \"API calls to AI models - Exchange requests and responses\",\n      \"Internal function calls - Transfer data and control within tools\",\n      \"Cloud Storage (GCS) - Store and retrieve data for distribution\"\n    ],\n    \"messages\": [\n      \"Code as a sequence of instructions\",\n      \"Commit messages describing changes\",\n      \"Configuration parameters (strings, numbers, booleans)\",\n      \"Structured data in JSON or YAML\",\n      \"Audit results\",\n      \"Model recommendations\",\n      \"Telemetry data\"\n    ],\n    \"receivers\": [\n      \"Humans (developers, reviewers) - Read code, documentation, reports\",\n      \"AI models - Receive code to analyze, configure themselves\",\n      \"Scripts and tools - Consume and process data\",\n      \"Monitoring Systems - Observability data\",\n      \"Automated pipelines - Depend on outputs for subsequent actions\",\n      \"Task Registry - Stores tasks\"\n    ],\n    \"noise_sources\": [\n      \"Inconsistent coding styles (style drift)\",\n      \"Duplicated code and configurations\",\n "
+    },
+    {
+      "dataset_name": "agent_task_registry",
+      "summary": "This dataset consists of markdown files, yaml files, and shell scripts detailing an AI-powered agent's task registry and associated processes. The agent manages opportunities, tasks, sprints, and macros, emphasizing automation, validation, and a structured approach to code analysis and refinement.",
+      "shannon": {
+        "sources": [
+          "HUMAN (manual creation)",
+          "BARE (Background Auto-Refinement Engine)",
+          "RESEARCH (Perplexity/Gemini research findings)",
+          "WATCHER (File system watchers)",
+          "EXTERNAL (External feedback)",
+          "MACRO (Automated audit outputs)",
+          "MIGRATION (Legacy system import)"
+        ],
+        "channels": [
+          "Filesystem (YAML files in specific directories)",
+          "Shell scripts (for task manipulation)",
+          "API calls (to Gemini/Perplexity)",
+          "Internal python data structures",
+          "Launchd plists"
+        ],
+        "messages": [
+          "OPPORTUNITIES (OPP-XXX.yaml - potential tasks)",
+          "TASKS (TASK-XXX.yaml - work items)",
+          "SPRINTS (SPRINT-XXX.yaml - collections of tasks)",
+          "MACROS (MACRO-XXX.yaml - automated action sequences)",
+          "Reports (.md files - validation findings, audit results)",
+          "System state (circuit_breakers.yaml)",
+          "Metrics (METRICS.md)",
+          "Log messages (console and files)"
+        ],
+        "receivers": [
+          "HUMAN (developers, reviewers)",
+          "BARE (Background Auto-Refinement Engine)",
+          "ACI (AI query interface)",
+          "HSL (Holographic Socratic Layer)",
+          "The autopilot and other assistant agents"
+        ],
+        "noise_sources": [
+          "Stale data",
+          "Duplicate code",
+          "Broken dependencies (tree-sitter)",
+          "Rate limiting (Gemini API)",
+          "Inconsistent data formats",
+          "Multilingual comments and documentation",
+          "Organic growth (code sprawl, design drift)"
+        ],
+        "redundancy_mechanisms": [
+          "GCS mirroring for backups",
+          "Atomic filesystem operations for task locking",
+          "4D confidence scoring to validate claims",
+          "Manual verification"
+        ],
+        "entropy": [
+          "High: Variety of YAML libraries, duplication of logic, unstructured folder organization, varying coding standards",
+          "Low: Tool registry defining clear categories, specific workflow steps"
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Checkmarks and cross marks",
+          "Directory diagrams"
+        ],
+        "indices": [
+          "Log files (activity)",
+          "timestamps (mtime/ctime)",
+          "confidence scores (evidence-based)",
+          "Git commit hashes",
+          "File paths (related_to)",
+          "Line numbers in code analysis"
+        ],
+        "symbols": [
+          "Task IDs (TASK-XXX)",
+          "Opportunity IDs (OPP-XXX)",
+          "Sprint IDs (SPRINT-XXX)",
+          "Macro IDs (MACRO-XXX)",
+          "Status codes (READY, COMPLETE, ARCHIVED)",
+          "Category codes (PIPELINE, VISUALIZATION)",
+          "File extensions (.yaml, .md, .py, .sh)",
+          "Version numbers (3.1.0)",
+          "4D scoring dimensions (Factual, Alignment, Current, Onwards)",
+          "Doppler for secret/API key injection",
+          "Launchd plist structure",
+          "Directory structure .agent/registry/"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Opportunity \u2192 Task \u2192 Execution \u2192 Result \u2192 Macro (pattern recording)",
+          "Code change \u2192 Analysis \u2192 Socratic Audit \u2192 Task creation \u2192 Code fix \u2192 Code change (continuous improvement)",
+          "Drift detection (HSL) -> Manual analysis -> Correction (re-analysis)"
+        ],
+        "control_signals": [
+          "promote_opportunity.py (Inbox \u2192 Active)",
+          "claim_task.sh (Active \u2192 Claimed)",
+          "release_task.sh (Claimed \u2192 Active/Archive)",
+          "auto_boost_function.py (Autonomous Enrichment Pipeline)"
+        ],
+        "homeostasis": [
+          "Always-Green Continuous Refinement Pipeline (OPP-065)",
+          "The balance between structured tasks and unstructured opportunities",
+          "Prioritization of tasks through grading"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Declare: LaunchAgents enable background running.",
+          "Request: Add GEMINI_API_KEY to LaunchAgent plists (OPP-061)",
+          "Acknowledge: Rate limit errors before discovery (OPP-066)",
+          "Decide: Daemons disabled to stop bleeding (OPP-066)"
+        ],
+        "context_dependencies": [
+          "Confidence scores depend on AI validation and external research.",
+          "Task status is highly dependent on the progress of related tasks.",
+          "Code quality interpretations may rely on understanding the system's history."
+        ],
+        "implicit_conventions": [
+          "YAML file format for task definitions.",
+          "Markdown format for reports.",
+          "Filename naming conventions (TASK-XXX.yaml, OPP-XXX.yaml)",
+          "4D confidence scoring with min() function",
+          "Critical/High/Medium priority scales with specific workflow patterns"
+        ]
+      },
+      "key_findings": [
+        "The system exhibits characteristics of organic growth, leading to inconsistencies in code structure, utility usage, and documentation.",
+        "Automated processes, while present in design, are often hampered by infrastructure issues (e.g., non-running daemons) and integration gaps, hindering autonomous behavior.",
+        "The 4D confidence scoring system provides a structured approach to assess task readiness, but its effective use relies on reliable AI validation and integration with the task registry."
+      ],
+      "recommendations": [
+        "Prioritize infrastructure fixes (e.g., dependency management, daemon configuration) to enable core automated workflows and prevent downstream issues.",
+        "Enforce architectural consistency by establishing clear component boundaries, standardizing code formatting, and implementing a shared utilities module for common tasks."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:18:48.357236",
+        "dataset_file": "/tmp/comm-analysis-datasets/02_registry_macros.txt",
+        "char_count": 314852,
+        "token_estimate": 78713
+      }
+    },
+    {
+      "dataset_name": "standard-model-of-code",
+      "summary": "This analysis explores a software codebase (Collider) through the lens of communication theory, focusing on information flow, sign systems, and control mechanisms. The codebase implements various stages of code analysis, suggesting complex communication patterns within the system and between the system and its users or other components.",
+      "shannon": {
+        "sources": [
+          "Code files (generate code)",
+          "Configuration files (define parameters)",
+          "User input (CLI arguments)",
+          "External databases or APIs (data sources)",
+          "Git history (commit messages)",
+          "Docstrings (explicit intent)",
+          "Comments (developer intent)"
+        ],
+        "channels": [
+          "Function calls",
+          "Class inheritance",
+          "Import statements",
+          "Data flow (assignment, mutation)",
+          "Control flow (conditional branches)",
+          "API calls (network transmission)",
+          "File I/O (disk transmission)"
+        ],
+        "messages": [
+          "Code atoms (literals, variables, expressions)",
+          "Control signals (triggers from configuration files)",
+          "Data structures (lists, dictionaries)",
+          "Domain Events (objects representing state changes)"
+        ],
+        "receivers": [
+          "Functions/methods (consume information)",
+          "Classes/modules (aggregate information)",
+          "LLMs (as an analytical engine)",
+          "Users (interpreting reports/visualizations)",
+          "Logging systems (record events)",
+          "Testing frameworks (check expected behavior)"
+        ],
+        "noise_sources": [
+          "Syntax errors (corrupt parsing)",
+          "Incorrect type hints (corrupt classification)",
+          "Irrelevant comments (obscure meaning)",
+          "Ambiguous naming conventions (obscure function)",
+          "Network latency (delay API responses)"
+        ],
+        "redundancy_mechanisms": [
+          "Function parameters (ensure data types)",
+          "Error handling (try/except blocks)",
+          "Type annotations (validate variable types)",
+          "Input validation (check data constraints)",
+          "Redundant variable definitions",
+          "Logging (record execution flow)",
+          "Design patterns (stable code with repeat patterns) "
+        ],
+        "entropy": [
+          "HIGH: Node-to-node transitions (wide variety of callees - broad or ill-defined purpose)",
+          "HIGH: Different files in code with many kinds and types of code objects.",
+          "LOW: Standard-defined code elements, which might be bits or primitives."
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Class diagrams (class structure)",
+          "Data flow diagrams (data transformation)",
+          "Architectural diagrams (layer organization)",
+          "Color-coded code visualizations (type assignments)",
+          "Progress bars showing stage completions ( pipeline feedback)",
+          "Traffic light indicators in LLM output ( health)"
+        ],
+        "indices": [
+          "Log files (function executions)",
+          "Traces (latency measurements)",
+          "Memory usage metrics (performance)",
+          "Cyclomatic Complexity values ( branch density)",
+          "Halstead Metrics (Volume, Difficulty)",
+          "Code coverage reports (test coverage)"
+        ],
+        "symbols": [
+          "Configuration files (key-value pairs, hierarchies)",
+          "Ontology of Atomic design elements",
+          "DDD/Clean Architecture patterns",
+          "File taxonomy",
+          "Configuration"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Test-driven development (TDD): Tests inform code changes (stabilizing loop)",
+          "Error handling: try/except informs corrective actions (corrective loop)",
+          "Automated code style checking: Linter feedback informs code style (corrective loop)",
+          "LLM-based code review feedback: LLM recommendations in turn may be integrated back in code"
+        ],
+        "control_signals": [
+          "Configuration parameters (feature flags, thresholds)",
+          "Data validation routines (input sanitization)",
+          "Role assignments based on type and topology (policy enforcement)",
+          "Error handling routines trigger fallback scenarios"
+        ],
+        "homeostasis": [
+          "Enforcing Clean Architecture rules stabilizes structure over time",
+          "Maintaining high Cohesion metrics increases system stability",
+          "Balancing Responsibility across Components stabilizes maintainability",
+          "Low fanout metrics indicate lower Coupling"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Warnings during code generation (inform of potential problems)",
+          "Error messages during program execution (signal system failure)",
+          "Configuration settings (direct action to configure environment",
+          "Log entries (record event and action taken)",
+          "Code comments (explain intent to humans and machine systems"
+        ],
+        "context_dependencies": [
+          "The meaning of a Role changes given the domain (e.g., 'Service' can be very different in a Game vs. FinTech app)",
+          "The purpose of a function depends on where in a codebase where it resides",
+          "The meaning of a metric is dependent on the architectural style"
+        ],
+        "implicit_conventions": []
+      },
+      "key_findings": [
+        "The codebase exhibits clear communication patterns, with explicit and implicit conventions governing the flow of information, actions, and control.",
+        "The architecture aims to manage complexity through well-defined boundaries, role assignments, and standardized processes, which directly relates to the reliability of communication and action.",
+        "The reliance on heuristics and inference signifies a need for further refinement of the analysis techniques, improving communication quality by reducing noise and ambiguity."
+      ],
+      "recommendations": [
+        "Improve accuracy of analysis (better comms quality) through standardized roles, enforced constraints, and explicit API/module contracts.",
+        "Address the inherent noise and ambiguity by incorporating explicit validation mechanisms for automatically detected code/patterns."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:19:07.185314",
+        "dataset_file": "/tmp/comm-analysis-datasets/03_collider_core.txt",
+        "char_count": 1481049,
+        "token_estimate": 370262
+      }
+    },
+    {
+      "dataset_name": "standard-model-of-code",
+      "summary": "This codebase consists of various tools and scripts designed to analyze, classify, and improve software codebases using the Standard Model of Code. The primary communication patterns involve analyzing code structure, extracting insights from chat transcripts, and generating visualizations to understand and improve code quality and architecture.",
+      "shannon": {
+        "sources": [
+          "Code files",
+          "Chat transcripts",
+          "Configuration files",
+          "Git repositories"
+        ],
+        "channels": [
+          "File system (reading and writing files)",
+          "Standard output (console)",
+          "Network (cloning repositories)"
+        ],
+        "messages": [
+          "Code components (functions, classes, modules)",
+          "Role classifications",
+          "Design pattern occurrences",
+          "Redundancy signals",
+          "Actionable insights",
+          "Analysis results (JSON)",
+          "Visualizations (HTML)",
+          "Reports (Markdown)"
+        ],
+        "receivers": [
+          "Analysis tools",
+          "Reporting tools",
+          "Visualization tools",
+          "Human analysts (developers)"
+        ],
+        "noise_sources": [
+          "Code complexity",
+          "Ambiguous naming conventions",
+          "Incomplete code documentation",
+          "Parse errors",
+          "Classification errors",
+          "Network failures (during cloning)",
+          "File system errors",
+          "Version control inconsistencies",
+          "Low-confidence classifications"
+        ],
+        "redundancy_mechanisms": [
+          "Duplication detection",
+          "Error handling",
+          "Logging",
+          "Deduplication insights",
+          "Configuration checking",
+          "File existence checks"
+        ],
+        "entropy": [
+          "High entropy: Chat transcripts (unstructured conversations)",
+          "High entropy: Source code (complex logic and dependencies)",
+          "Low entropy: Configuration files (well-defined structure)",
+          "Low entropy: Classification results (structured data)"
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Visualizations of code structure (graphs)",
+          "Diagrams of conversation flows",
+          "Progress bars",
+          "Emojis in reports (e.g., \u2705, \u274c, \u26a0\ufe0f)",
+          "ASCII timeline representation of chat transcripts"
+        ],
+        "indices": [
+          "Log files",
+          "Performance metrics (execution time, memory usage)",
+          "Call traces",
+          "File size",
+          "Code coverage",
+          "Line numbers in reports"
+        ],
+        "symbols": [
+          "File extensions",
+          "Programming language keywords",
+          "Function names",
+          "Class names",
+          "Variable names",
+          "Configuration options",
+          "Standard Model terminology (atoms, roles, layers)",
+          "Regular expressions",
+          "Unique IDs (e.g., in semantic IDs)"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Learning from low-confidence classifications to improve accuracy",
+          "Benchmarking against known codebases to validate performance",
+          "Checking of code against rules in antimatter analysis, suggesting improvements",
+          "Reporting of code-quality, triggering refactoring (human-in-the-loop)"
+        ],
+        "control_signals": [
+          "Analysis results triggering pattern updates",
+          "Validation results triggering code refactoring",
+          "User annotations correcting classifications",
+          "Command-line arguments controlling tool behavior",
+          "Configuration settings adjusting analysis parameters"
+        ],
+        "homeostasis": [
+          "Maintaining accuracy by learning from validation data",
+          "Maintaining architectural consistency by detecting antimatter violations",
+          "Maintaining high code quality by highlighting redundancy and over-engineering",
+          "Configuration settings and default parameters to stabilize system"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Analysis tools providing insights and recommendations",
+          "Reporting tools communicating findings to developers",
+          "Scripts automating tasks (e.g., cloning repositories)",
+          "Error messages indicating problems",
+          "Progress updates indicating progress"
+        ],
+        "context_dependencies": [
+          "Meaning of code components depends on the programming language",
+          "Interpretation of chat transcripts depends on the conversational context",
+          "Relevance of design patterns depends on the application architecture",
+          "Significance of metric depends on codebase goals"
+        ],
+        "implicit_conventions": [
+          "Code should be well-documented",
+          "Dependencies should be explicitly declared",
+          "Code should adhere to architectural principles",
+          "Validation benchmarks should be reproducible",
+          "Results should be reported clearly and concisely"
+        ]
+      },
+      "key_findings": [
+        "The codebase uses automated analysis and validation techniques to classify and improve software codebases.",
+        "Automated learning (identification of frequent, yet unclassified patterns) and rule management (antimatter evaluations) are important mechanisms to self-improve.",
+        "Communication in this system is not just about transmitting data, but also about facilitating understanding, triggering action, and driving continuous improvement."
+      ],
+      "recommendations": [
+        "Enhance the visualization tools to provide more intuitive and actionable insights.",
+        "Improve the robustness of the analysis tools to handle complex and malformed codebases."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:19:15.601135",
+        "dataset_file": "/tmp/comm-analysis-datasets/04_collider_app_tools.txt",
+        "char_count": 201373,
+        "token_estimate": 50343
+      }
+    },
+    {
+      "dataset_name": "Standard Model of Code Patterns Analysis",
+      "summary": "This JSON analyzes a set of YAML, JSON, and markdown files from the Standard Model of Code project, focusing on communication patterns found within the code definitions, security concerns, and language mappings. The analysis identifies various communication patterns across layers (core, standard library, and ecosystems) and categorizes them based on Shannon's information theory, semiotics, cybernetics, and pragmatics.",
+      "shannon": {
+        "sources": [
+          "YAML configuration files (ATOMS_TIER0_CORE.yaml, ATOMS_TIER1_STDLIB.yaml, ATOMS_TIER2_ECOSYSTEM.yaml, ATOMS_T2_CLOUD.yaml, ATOMS_T2_FRONTEND.yaml, ATOMS_T2_GAPS.yaml)",
+          "JSON file (atoms.json)",
+          "Markdown files (INTEGRATION_SUMMARY.md, README.md)"
+        ],
+        "channels": [
+          "YAML structure",
+          "JSON structure",
+          "Object property settings (e.g., `setProperty` in Java)",
+          "Parameter passing",
+          "Variable assignment"
+        ],
+        "messages": [
+          "Atom definitions (id, symbol, name, description, dimensions, traits, capabilities)",
+          "Architectural types (Entity, ValueObject, UseCase, etc.)",
+          "Code mappings (java, python, typescript, go)",
+          "Exclusion patterns (directory_patterns, file_patterns)",
+          "Security rules and recommendations (SQL injection, XSS, etc.)",
+          "Configuration settings (e.g., `debug=True`)",
+          "Workflow definitions and operational instructions (shell commands, service calls)"
+        ],
+        "receivers": [
+          "Code analysis tools (Semgrep, ESLint)",
+          "Developers using the Standard Model of Code",
+          "Runtime environment",
+          "LLMs - Large Language Models",
+          "Package Managers",
+          "Cloud Orchestration Systems",
+          "CI/CD Pipelines"
+        ],
+        "noise_sources": [
+          "Minified code",
+          "Bundled code",
+          "Generated code",
+          "Vendor code",
+          "Cache directories",
+          "Virtual environments",
+          "IDE/Editor configuration files",
+          "Lock files"
+        ],
+        "redundancy_mechanisms": [
+          "None explicitly defined",
+          "File Exclusions"
+        ],
+        "entropy": [
+          "Low: Exclusion patterns, language mappings, core syntax atoms.",
+          "High: Ecosystem specific atoms (T2), Security rules (since the application must defend against various known attack vectors).",
+          "Medium: Standard library (T1) atoms."
+        ]
+      },
+      "semiotics": {
+        "icons": [],
+        "indices": [
+          "Log entries",
+          "Trace data",
+          "Metrics based on code analysis",
+          "File paths used for exclusion patterns",
+          "Scoring of architectural types (RPBL)"
+        ],
+        "symbols": [
+          "Atom IDs (e.g., C1_IntLiteral, T1_IO_FILE, T2_UI_REACT_COMPONENT)",
+          "Atom symbols (e.g., Int, File, React)",
+          "Configuration settings (e.g., enabled, secure, version)",
+          "Layer names (domain, application, infrastructure, presentation)",
+          "RPBL scores"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Automated code analysis and rule enforcement through tools (Semgrep, ESLint)",
+          "Adaptive intelligence layer for refining exclusion patterns",
+          "Quality assessment using RPBL scoring"
+        ],
+        "control_signals": [
+          "Configuration settings to enable/disable security features",
+          "Exclusion patterns to filter out irrelevant code",
+          "Rules that define valid code structures and relationships"
+        ],
+        "homeostasis": [
+          "Maintaining code quality through automated analysis",
+          "Enforcing architectural constraints through rule validation"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Declaring types of code Atoms",
+          "Validating code architecture through canonical types",
+          "Excluding irrelevant files from analysis",
+          "Providing security recommendations",
+          "Providing configuration instructions"
+        ],
+        "context_dependencies": [
+          "Interpretation of atom IDs depends on the tier (core syntax, standard library, ecosystem)",
+          "Meaning of patterns varies based on the ecosystem (React, Pandas, Cloud)",
+          "Severity of security rules depends on the deployment environment (development vs. production)"
+        ],
+        "implicit_conventions": [
+          "Atoms represent well-known code constructs.",
+          "Specific file paths indicate standard locations for dependencies, build outputs, etc.",
+          "Certain code patterns signify potential security vulnerabilities.",
+          "Tier numbers 0, 1, 2 represent core, standard library, and ecosystem, respectively."
+        ]
+      },
+      "key_findings": [
+        "The codebase uses a layered approach to define code elements, ranging from core syntax to ecosystem-specific components.",
+        "Security vulnerabilities are identified based on specific code patterns, enabling proactive threat mitigation.",
+        "The integration of different theoretical frameworks provides a holistic view of code communication and system behavior."
+      ],
+      "recommendations": [
+        "Enhance error handling for noise sources to minimize signal degradation.",
+        "Implement automated feedback mechanisms based on cybernetic principles to optimize code quality and security continuously."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:19:33.737969",
+        "dataset_file": "/tmp/comm-analysis-datasets/05_collider_patterns_data.txt",
+        "char_count": 1499381,
+        "token_estimate": 374845
+      }
+    },
+    {
+      "source": "src/core/file.py::Service.method",
+      "target": "src/core/other.py::Repository.query",
+      "edge_type": "calls",
+      "weight": 1.0,
+      "confidence": 0.95,
+      "resolution": "resolved_internal",
+      "file_path": "src/core/file.py",
+      "line": 42,
+      "markov_weight": 0.33,
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:20:19.423553",
+        "dataset_file": "/tmp/comm-analysis-datasets/06_context_management.txt",
+        "char_count": 1142299,
+        "token_estimate": 285574
+      }
+    },
+    {
+      "dataset_name": "PROJECT_elements",
+      "summary": "This codebase utilizes a well-defined structure for managing code, context, and AI analysis. It emphasizes repeatability, testing, and documentation to ensure consistent and governed interactions between different components, with a heavy reliance on command-line interfaces for agent interaction.",
+      "shannon": {
+        "sources": [
+          "User (via CLI)",
+          "AI models (Gemini, Vertex AI)",
+          "Collider engine",
+          "Filesystem",
+          "Cloud storage (GCS)"
+        ],
+        "channels": [
+          "CLI commands (./pe)",
+          "Python scripts",
+          "File system (read/write)",
+          "Network (API calls to AI services, GCS sync)",
+          "Inter-process communication (pytest)"
+        ],
+        "messages": [
+          "CLI commands and arguments",
+          "Code analysis reports (output.md)",
+          "AI queries and responses",
+          "Test results",
+          "File contents",
+          "Configuration data (YAML, JSON)",
+          "Logs and metrics"
+        ],
+        "receivers": [
+          "User (via CLI output)",
+          "AI models",
+          "Collider engine",
+          "Testing framework (pytest)",
+          "Cloud storage",
+          "Documentation generation tools",
+          "Visualization tools"
+        ],
+        "noise_sources": [
+          "API rate limits",
+          "Network errors",
+          "AI model inconsistencies",
+          "Stale data",
+          "Configuration errors",
+          "Human error (typos in CLI commands)",
+          "Outdated documentation"
+        ],
+        "redundancy_mechanisms": [
+          "Test suites",
+          "Rollback procedures for certified moves",
+          "Cloud mirror (GCS sync)",
+          "Retry logic with exponential backoff for AI API calls",
+          "Dry-run mode for card execution"
+        ],
+        "entropy": [
+          "High: AI queries, free-form actions",
+          "Low: Predefined CLI commands, card executions, structured reports"
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Traffic-light indicators in health status reports",
+          "3D graph visualization (via ./pe viz)",
+          "Mermaid diagrams representing the project architecture",
+          "HTML visualization outputs"
+        ],
+        "indices": [
+          "Logs and traces (timestamps, EVAL_LOG.md)",
+          "Metrics (node/edge counts, dead code %)",
+          "File paths indicating location and purpose",
+          "Git history and commit messages",
+          "Test results indicating code quality"
+        ],
+        "symbols": [
+          "CLI commands (./pe deck deal, ./pe ask)",
+          "Card names (CARD-ANA-001)",
+          "Analysis set names (brain_core, body, theory)",
+          "Configuration keys (GEMINI_API_KEY)",
+          "File extensions indicating file type",
+          "Code style conventions (type hints, docstrings)",
+          "Environment variables",
+          "Directory structure"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Testing loop: Code changes -> Tests -> Results -> Code changes",
+          "AI analysis loop: Query -> Analysis -> Report -> User action -> Subsequent query",
+          "Context update loop: Analysis results -> Context modification -> Improved analysis",
+          "Card execution loop: Preconditions check -> Card execution -> Outcome verification -> Rollback if needed"
+        ],
+        "control_signals": [
+          "CLI commands triggering specific actions",
+          "Configuration settings controlling analysis behavior",
+          "Card preconditions determining card executability",
+          "Test results triggering code modifications",
+          "Analysis mode flags influencing AI analysis style"
+        ],
+        "homeostasis": [
+          "Rules enforcing code style and testing practices",
+          "Definition of Done (DOD) ensuring consistent quality",
+          "Regular health checks via `./pe status`",
+          "Prioritizing certified 'card' moves over free-form actions"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Commands (./pe deck deal - requests a list of available actions)",
+          "Queries (./pe ask \"query\" - seeks information)",
+          "Declarations (documentation stating facts)",
+          "Directives (rules instructing the AI agent)"
+        ],
+        "context_dependencies": [
+          "Meaning of commands depends on the current state of the system (e.g., available cards depend on satisfied preconditions)",
+          "Interpretation of AI queries depends on the analysis set and mode",
+          "Validity of HTML outputs depends on recent regeneration"
+        ],
+        "implicit_conventions": [
+          "Following the rules defined in .claude/rules/",
+          "Using the defined directory structure",
+          "Committing changes only after running tests",
+          "Using a standard set of CLI flags and arguments"
+        ],
+        "implicature": [
+          "The emphasis on card selection implies that free-form actions should be avoided when a suitable card is available.",
+          "The inclusion of rollback procedures in card definitions implies a concern for potential negative consequences of actions.",
+          "The frequency of regenerate outputs implies code and artifacts change frequently."
+        ]
+      },
+      "key_findings": [
+        "The system is heavily reliant on codified actions ('cards') and prioritizes those over free-form activities.",
+        "There is a strong emphasis on reproducibility, verification, and rollback, indicating a safety-critical or high-stakes environment.",
+        "The project aims to manage complexity by partitioning the system into well-defined components (Brain, Body, Storage) and enforcing strict rules for each."
+      ],
+      "recommendations": [
+        "Improve the discoverability of card preconditions to streamline the card selection process.",
+        "Implement automated checks for stale data to prevent analysis based on outdated information."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:20:29.996086",
+        "dataset_file": "/tmp/comm-analysis-datasets/07_project_configs.txt",
+        "char_count": 10582,
+        "token_estimate": 2645
+      }
+    },
+    {
+      "dataset_name": "standard-model-of-code",
+      "summary": "This analysis examines the communication patterns within a software codebase and its documentation, focusing on how analogies and theoretical frameworks are used to define and validate the system's architecture. The system leverages concepts from information theory, semiotics, cybernetics, and pragmatics to create a comprehensive model of code, context, and their interaction.",
+      "shannon": {
+        "sources": [
+          "Codome (executable code)",
+          "Contextome (documentation, specifications)",
+          "Collider (static analysis tool)",
+          "Cloud Refinery (semantic processing engine)",
+          "Gates (query interface)",
+          "Human Developers",
+          "AI Agents"
+        ],
+        "channels": [
+          "Code execution",
+          "Documentation read/write",
+          "API calls to Collider",
+          "Data flow within Cloud Refinery",
+          "Query requests to Gates",
+          "Human-machine interfaces"
+        ],
+        "messages": [
+          "Code artifacts",
+          "Documentation text",
+          "Analysis results (JSON)",
+          "Refined knowledge (Projectome)",
+          "Queries and responses",
+          "Purpose Vectors"
+        ],
+        "receivers": [
+          "Cloud Refinery",
+          "Human developers",
+          "AI agents",
+          "Gates",
+          "Projectome itself (for continuous learning)"
+        ],
+        "noise_sources": [
+          "Ambiguous code",
+          "Outdated documentation",
+          "Misinterpretations by Cloud Refinery",
+          "Incoherent design",
+          "Drift between human intent and code behavior",
+          "Technical debt"
+        ],
+        "redundancy_mechanisms": [
+          "Documentation",
+          "Code comments",
+          "Analogies (for explanation)",
+          "Testing",
+          "Multiple layers of the Cloud Refinery distillation process",
+          "Governance and validation rules",
+          "Observability triad (structural, operational, generative)"
+        ],
+        "entropy": [
+          "High: Raw code (L0), where meaning is implicit and requires processing.",
+          "Low: Purpose field (L5), where distilled knowledge represents high information density and focused intent."
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Wave-particle duality analogy",
+          "Diagrams of information flow",
+          "Visualizations of the Projectome"
+        ],
+        "indices": [
+          "Logs and traces from code execution",
+          "Metrics from the Collider",
+          "Scores from the 4D Hotness framework",
+          "Technical debt as an integral",
+          "Performance metrics related to flow resistance"
+        ],
+        "symbols": [
+          "Code syntax",
+          "Naming conventions",
+          "Configuration files",
+          "Mathematical equations",
+          "The PROJECTOME = CODOME + CONTEXTOME equation",
+          "L0-L12 level designations",
+          "The Purpose Vector P"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Cloud Refinery continuously refining the Projectome",
+          "Perception-Action loop (Collider -> Refinery -> Gates -> Project)",
+          "Developer modifying code and documentation based on understanding",
+          "AI agents consuming the Projectome and potentially triggering changes",
+          "Gradient descent on Incoherence as purpose evolves (d\ud835\udcab/dt = -\u2207Incoherence(\ud835\udd6e))"
+        ],
+        "control_signals": [
+          "Gate queries to the Cloud Refinery",
+          "Developer commits to the codebase",
+          "AI agent actions based on Projectome knowledge",
+          "Governance rules applied to code and documentation",
+          "Purpose vectors guiding system evolution"
+        ],
+        "homeostasis": [
+          "The Projectome strives to maintain coherence between code and context.",
+          "The system seeks to minimize free energy (surprise) as described by the Free Energy Principle.",
+          "Efforts to reduce technical debt."
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Committing code (asserting functionality)",
+          "Writing documentation (explaining functionality)",
+          "Defining axioms (establishing fundamental truths)",
+          "Proposing analogies (suggesting interpretations)",
+          "Validating axioms (conveying confidence)",
+          "Querying the Projectome (requesting information)"
+        ],
+        "context_dependencies": [
+          "The meaning of code depends on the associated documentation.",
+          "The interpretation of the Projectome depends on the consumer (human or AI).",
+          "The relevance of an analogy depends on the audience's familiarity with the source domain.",
+          "The purpose of an entity depends on its role in its parent."
+        ],
+        "implicit_conventions": [
+          "A validated theory enables stakeholders to share a unified understanding of the code, fostering better collaboration.",
+          "New code/documentation must align with existing Projectome to minimize deviation from global coherence."
+        ]
+      },
+      "key_findings": [
+        "The codebase relies heavily on analogies as a communication tool, using the 4D Hotness methodology to validate these analogies and ensure their rigor.",
+        "The Projectome theory provides a comprehensive framework for understanding the relationship between code and context, emphasizing the importance of integrating both for effective communication and system comprehension.",
+        "The system is designed with AI agents as primary consumers, influencing the architectural choices and communication paradigms, which requires a shift in design optimization."
+      ],
+      "recommendations": [
+        "Continuously monitor and refine the 4D Hotness scores of existing analogies to ensure their ongoing relevance and validity.",
+        "Develop tools and processes to automatically detect and mitigate drift between human intent and code behavior, reducing technical debt and maintaining Projectome coherence."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:20:41.655380",
+        "dataset_file": "/tmp/comm-analysis-datasets/08_collider_docs_deep.txt",
+        "char_count": 31227,
+        "token_estimate": 7806
+      }
+    },
+    {
+      "dataset_name": "Standard Model of Code",
+      "summary": "This JSON provides a comprehensive analysis of the communication patterns in the provided codebase, mapping them to Shannon's Information Theory, Semiotics, Cybernetics, and Pragmatics.  It identifies sources and receivers of information, the types of messages exchanged, feedback loops, and implicit assumptions embedded within the code and documentation, providing a structured overview of communication aspects.",
+      "shannon": {
+        "sources": [
+          "Deterministic computation (collider)",
+          "Human input (Human Signoff, Initial labeling)",
+          "AI systems (Gemini, Perplexity, ChatGPT)",
+          "File system (Checking for file existence, timestamps)",
+          "AST Parsing",
+          "Network analysis (calculating node degrees, centrality)"
+        ],
+        "channels": [
+          "File system (YAML, JSON, Markdown files)",
+          "Command-line interface",
+          "API calls (Perplexity)",
+          "Code itself (functions calling other functions)",
+          "Console output (logging, error messages)",
+          "Human-readable reports and documentation"
+        ],
+        "messages": [
+          "File contents (code, data, configurations)",
+          "Metrics (coverage, complexity, security)",
+          "Human signoff decisions",
+          "AI audit reports",
+          "Falsification reports",
+          "Configuration settings",
+          "Error messages and warnings",
+          "Prompts and responses to AI systems",
+          "Graph structure (nodes and edges)",
+          "Decision Records"
+        ],
+        "receivers": [
+          "Deterministic code (evaluating conditions)",
+          "Human reviewers (interpreting reports)",
+          "AI systems (processing data)",
+          "The program's own modules (importing data)",
+          "Monitoring systems",
+          "Other tools (ingesting unified_analysis.json)"
+        ],
+        "noise_sources": [
+          "Untested assumptions in AI prompts",
+          "Inaccurate Semgrep rules (leading to security skew)",
+          "Incomplete AST mappings (leading to 'Unknown' classifications)",
+          "Dynamic imports and reflection (obfuscating dependencies)",
+          "Untracked human bias during labeling",
+          "Stale locks (concurrent access)",
+          "Inaccurate measurement contracts or tooling",
+          "Non-deterministic metrics or randomness"
+        ],
+        "redundancy_mechanisms": [
+          "Human review and signoff",
+          "AI audit reports (multi-AI validation)",
+          "CI/CD integration with quality gates",
+          "Reproducibility protocols (metadata capture, deterministic runs)",
+          "Version control (git)",
+          "External context validation (Perplexity)"
+        ],
+        "entropy": [
+          "Messages involving human intention or creative tasks (e.g., creating prompts) have high entropy.",
+          "Messages containing raw data or measurements (e.g., `summary.csv`, `coverage.json`) have medium entropy.",
+          "Messages containing fixed metadata (e.g., `cli_args` in `run_metadata.json`) have low entropy."
+        ]
+      },
+      "semiotics": {
+        "icons": [
+          "Diagrams visualizing the collider pipeline and atom/role relationships",
+          "Visual topology classifications (Causal Map, ATOM COVERAGE CAUSAL MAP)",
+          "Glyphs and icons in the GUI, such as TestFramework or entrypoint",
+          "Folder structures"
+        ],
+        "indices": [
+          "Log files and error messages indicating system behavior",
+          "Metrics quantifying code characteristics (complexity, coverage)",
+          "Filenames and paths indicating file type and location",
+          "Stack traces showing call sequences",
+          "Timestamps indicating creation and modification dates",
+          "Git SHAs linking code to specific commits",
+          "LLM and Tool version in audit metadata"
+        ],
+        "symbols": [
+          "Configuration file settings (analysis_sets.yaml, semantic_models.yaml)",
+          "Programming language keywords and syntax",
+          "Atom IDs and names (LOG.FNC.M, ORG.AGG.M)",
+          "Claim levels (L1, L2, L3)",
+          "Hard gate identifiers (G1, G2, G3, G4, G5)",
+          "Tool names and script identifiers (collider, analyze.py)",
+          "MCP Tool Names",
+          "Naming conventions"
+        ]
+      },
+      "cybernetics": {
+        "feedback_loops": [
+          "Human review and adjustment of code based on CI/CD results",
+          "AI code audits providing input for code refinement",
+          "The Socratic method utilized by the AI agent, including external context and evidence.",
+          "Hard gates and Veto Conditions preventing improper claim promotion",
+          "Data validation in multiple stages of pipeline",
+          "Post-Pilot feedback"
+        ],
+        "control_signals": [
+          "CLI arguments (e.g., --output, --set, --mode)",
+          "Configuration file settings (e.g., atom tiers, Semgrep rules)",
+          "AI audit results (promoting or blocking claim advancement)",
+          "Quality gates (e.g., meeting metric thresholds)",
+          "Tier-based allocation of LLM"
+        ],
+        "homeostasis": [
+          "Maintaining code quality through automated audits and enforced conventions",
+          "Maintaining data privacy by redacting sensitive information",
+          "Limiting model scope to prevent data exfiltration",
+          "Maintaining consistent metadata with capture blocks",
+          "Maintaining architecture"
+        ]
+      },
+      "pragmatics": {
+        "speech_acts": [
+          "Promises (to meet documentation and code quality standards)",
+          "Assertions (of claim levels and confidence scores)",
+          "Directives (to install and configure tools)",
+          "Requests (for AI analysis and external context)",
+          "Commitments (to reproduce results)"
+        ],
+        "context_dependencies": [
+          "Interpretation of metrics (e.g., 'Unknown' rate)",
+          "Definition of 'credible falsification'",
+          "Scope boundaries for AI systems (internal vs. external)",
+          "Meaning of T2 atoms (% semantic coverage != quality metric)",
+          "Interpretation of unknown atoms (classifier gaps)",
+          "Claim Level (impact and provenance)",
+          "Operational Definitions"
+        ],
+        "implicit_conventions": [
+          "Atoms must align with programming grammar",
+          "Always include D1 atom",
+          "Atoms and Roles should be orthogonal dimensions",
+          "Claims should mirror findings",
+          "External is advisory",
+          "Functional code has Semgrep blind spots",
+          "Claims should be limited to the repo",
+          "The best model is physics not data"
+        ]
+      },
+      "key_findings": [
+        "The system relies on a carefully orchestrated multi-AI validation process with hard gates and soft votes.",
+        "Hard Gates and Metrics decide",
+        "Privacy, Scope and Code flow constraints limit the power of the AI"
+      ],
+      "recommendations": [
+        "Formalize and enforce the AI_ORCHESTRATION_PROTOCOL to ensure consistent and reliable multi-AI validation.",
+        "Regularly audit the effectiveness of existing hard gates and soft votes, adjusting them as needed to maintain a balance between rigor and efficiency."
+      ],
+      "_metadata": {
+        "analyzed_at": "2026-01-26T19:21:00.634924",
+        "dataset_file": "/tmp/comm-analysis-datasets/09_collider_docs_research.txt",
+        "char_count": 1498353,
+        "token_estimate": 374588
+      }
+    }
+  ]
+}

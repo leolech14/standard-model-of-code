@@ -1,0 +1,138 @@
+{
+  "dataset_name": "standard-model-of-code",
+  "summary": "This analysis examines the communication patterns within a software codebase and its documentation, focusing on how analogies and theoretical frameworks are used to define and validate the system's architecture. The system leverages concepts from information theory, semiotics, cybernetics, and pragmatics to create a comprehensive model of code, context, and their interaction.",
+  "shannon": {
+    "sources": [
+      "Codome (executable code)",
+      "Contextome (documentation, specifications)",
+      "Collider (static analysis tool)",
+      "Cloud Refinery (semantic processing engine)",
+      "Gates (query interface)",
+      "Human Developers",
+      "AI Agents"
+    ],
+    "channels": [
+      "Code execution",
+      "Documentation read/write",
+      "API calls to Collider",
+      "Data flow within Cloud Refinery",
+      "Query requests to Gates",
+      "Human-machine interfaces"
+    ],
+    "messages": [
+      "Code artifacts",
+      "Documentation text",
+      "Analysis results (JSON)",
+      "Refined knowledge (Projectome)",
+      "Queries and responses",
+      "Purpose Vectors"
+    ],
+    "receivers": [
+      "Cloud Refinery",
+      "Human developers",
+      "AI agents",
+      "Gates",
+      "Projectome itself (for continuous learning)"
+    ],
+    "noise_sources": [
+      "Ambiguous code",
+      "Outdated documentation",
+      "Misinterpretations by Cloud Refinery",
+      "Incoherent design",
+      "Drift between human intent and code behavior",
+      "Technical debt"
+    ],
+    "redundancy_mechanisms": [
+      "Documentation",
+      "Code comments",
+      "Analogies (for explanation)",
+      "Testing",
+      "Multiple layers of the Cloud Refinery distillation process",
+      "Governance and validation rules",
+      "Observability triad (structural, operational, generative)"
+    ],
+    "entropy": [
+      "High: Raw code (L0), where meaning is implicit and requires processing.",
+      "Low: Purpose field (L5), where distilled knowledge represents high information density and focused intent."
+    ]
+  },
+  "semiotics": {
+    "icons": [
+      "Wave-particle duality analogy",
+      "Diagrams of information flow",
+      "Visualizations of the Projectome"
+    ],
+    "indices": [
+      "Logs and traces from code execution",
+      "Metrics from the Collider",
+      "Scores from the 4D Hotness framework",
+      "Technical debt as an integral",
+      "Performance metrics related to flow resistance"
+    ],
+    "symbols": [
+      "Code syntax",
+      "Naming conventions",
+      "Configuration files",
+      "Mathematical equations",
+      "The PROJECTOME = CODOME + CONTEXTOME equation",
+      "L0-L12 level designations",
+      "The Purpose Vector P"
+    ]
+  },
+  "cybernetics": {
+    "feedback_loops": [
+      "Cloud Refinery continuously refining the Projectome",
+      "Perception-Action loop (Collider -> Refinery -> Gates -> Project)",
+      "Developer modifying code and documentation based on understanding",
+      "AI agents consuming the Projectome and potentially triggering changes",
+      "Gradient descent on Incoherence as purpose evolves (d\ud835\udcab/dt = -\u2207Incoherence(\ud835\udd6e))"
+    ],
+    "control_signals": [
+      "Gate queries to the Cloud Refinery",
+      "Developer commits to the codebase",
+      "AI agent actions based on Projectome knowledge",
+      "Governance rules applied to code and documentation",
+      "Purpose vectors guiding system evolution"
+    ],
+    "homeostasis": [
+      "The Projectome strives to maintain coherence between code and context.",
+      "The system seeks to minimize free energy (surprise) as described by the Free Energy Principle.",
+      "Efforts to reduce technical debt."
+    ]
+  },
+  "pragmatics": {
+    "speech_acts": [
+      "Committing code (asserting functionality)",
+      "Writing documentation (explaining functionality)",
+      "Defining axioms (establishing fundamental truths)",
+      "Proposing analogies (suggesting interpretations)",
+      "Validating axioms (conveying confidence)",
+      "Querying the Projectome (requesting information)"
+    ],
+    "context_dependencies": [
+      "The meaning of code depends on the associated documentation.",
+      "The interpretation of the Projectome depends on the consumer (human or AI).",
+      "The relevance of an analogy depends on the audience's familiarity with the source domain.",
+      "The purpose of an entity depends on its role in its parent."
+    ],
+    "implicit_conventions": [
+      "A validated theory enables stakeholders to share a unified understanding of the code, fostering better collaboration.",
+      "New code/documentation must align with existing Projectome to minimize deviation from global coherence."
+    ]
+  },
+  "key_findings": [
+    "The codebase relies heavily on analogies as a communication tool, using the 4D Hotness methodology to validate these analogies and ensure their rigor.",
+    "The Projectome theory provides a comprehensive framework for understanding the relationship between code and context, emphasizing the importance of integrating both for effective communication and system comprehension.",
+    "The system is designed with AI agents as primary consumers, influencing the architectural choices and communication paradigms, which requires a shift in design optimization."
+  ],
+  "recommendations": [
+    "Continuously monitor and refine the 4D Hotness scores of existing analogies to ensure their ongoing relevance and validity.",
+    "Develop tools and processes to automatically detect and mitigate drift between human intent and code behavior, reducing technical debt and maintaining Projectome coherence."
+  ],
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:20:41.655380",
+    "dataset_file": "/tmp/comm-analysis-datasets/08_collider_docs_deep.txt",
+    "char_count": 31227,
+    "token_estimate": 7806
+  }
+}

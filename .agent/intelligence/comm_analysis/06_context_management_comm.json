@@ -1,0 +1,17 @@
+{
+  "source": "src/core/file.py::Service.method",
+  "target": "src/core/other.py::Repository.query",
+  "edge_type": "calls",
+  "weight": 1.0,
+  "confidence": 0.95,
+  "resolution": "resolved_internal",
+  "file_path": "src/core/file.py",
+  "line": 42,
+  "markov_weight": 0.33,
+  "_metadata": {
+    "analyzed_at": "2026-01-26T19:20:19.423553",
+    "dataset_file": "/tmp/comm-analysis-datasets/06_context_management.txt",
+    "char_count": 1142299,
+    "token_estimate": 285574
+  }
+}
