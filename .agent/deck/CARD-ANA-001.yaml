@@ -12,6 +12,13 @@ preconditions:
     description: "Collider must be installed (pip install -e .)"
   - check: "target_path_exists"
     description: "Target codebase path must exist"
+  # Fabric-aware preconditions (soft warnings, don't block)
+  - check: "fabric.safe_for_analysis"
+    description: "Noise level acceptable for quality analysis"
+    hard_fail: false  # Warn but don't block
+  - check: "fabric.mi_adequate"
+    description: "Documentation alignment sufficient"
+    hard_fail: false
 
 steps:
   - action: "./collider full <path> --output <dir>"

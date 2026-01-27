@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-083
 # Confidence: 70%
-# Generated: 2026-01-25T22:20:01.829483
+# Generated: 2026-01-27T01:14:31.902664
 
 id: CARD-OPP-083
 title: Select validate golden repos for regression
@@ -33,5 +33,5 @@ tags:
 - needs-enrichment
 - testing
 auto_generated: true
-generated_at: '2026-01-26T01:20:01.829419+00:00'
+generated_at: '2026-01-27T04:14:31.902612+00:00'
 confidence: 0.7
