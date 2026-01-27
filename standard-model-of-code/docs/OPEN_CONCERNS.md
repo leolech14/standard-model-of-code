@@ -32,7 +32,7 @@
 | Documentation Files | - | 1,550 | HIGH VOLUME |
 | Stale Docs (>30d) | <20% | **44%** (678) | YELLOW |
 | TODOs/FIXMEs | <100 | **915** | RED |
-| Glossary Files | 1 | **5** | RED (fragmented) |
+| Glossary Files | 1 authoritative | 2 (md+yaml) | GREEN (complementary, not fragmented) |
 
 ---
 

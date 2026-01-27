@@ -216,11 +216,19 @@ Automation (Liquid) --[Build/Deploy]--> Infrastructure (Solid)
 | **DEVELOPER** | Code, CLI | Clarity | L₀, L₁, L₂ |
 | **AI_AGENT** | Structured data | Parseability | L₀, L₁, L₂ (universal) |
 
-**Stone Tool Principle:** Tools MAY be designed that humans cannot directly use. AI mediates.
+**Stone Tool Principle (Axiom H4):** Tools MAY be designed that humans cannot directly use. AI mediates.
+
+**Stone Tool Test:** "Can a human use this tool directly, without AI mediation?" If NO → AI-native tool (valid design).
+
+**TOOL_UNIVERSE:** Complete tool taxonomy:
+- **TOOLOME** (Development Tools): Shape the CODOME. Human-usable. (formatters, linters)
+- **STONE_TOOLS** (Analysis Tools): Observe the CODOME. AI-native. (unified_analysis.json, POM YAML)
 
 **Collaboration Level:** Human-AI collaboration occurs at L₁ (CONTEXTOME). Programming = CONTEXTOME curation.
 
-**See:** `docs/specs/AI_CONSUMER_CLASS.md`
+**See:**
+- `docs/specs/AI_CONSUMER_CLASS.md` (Stone Tool full spec)
+- `docs/deep/THEORY_AMENDMENT_2026-01.md` (TOOLOME integration)
 
 ---
 
@@ -423,6 +431,21 @@ documented_in: PATH
 
 ---
 
+---
+
+## RELATED FILES
+
+| File | Purpose | Location |
+|------|---------|----------|
+| **GLOSSARY.yaml** | Machine-readable version (122 terms with provenance) | `standard-model-of-code/docs/` |
+| **GLOSSARY_QUICK.md** | 10-term quick reference for Day 1 onboarding | This directory |
+| **MODEL.md** | Theory source for physics metaphors | `standard-model-of-code/docs/` |
+
+**Note:** This file (GLOSSARY.md) is the authoritative human-readable glossary. GLOSSARY.yaml provides the same terms in machine-readable format with attribution and category metadata.
+
+---
+
 *Created: 2026-01-25*
+*Updated: 2026-01-27 (added related files section)*
 *Sources: Gemini analysis, Perplexity validation, legacy glossary, MODEL.md*
 *Structure: RFC 2119 compliant, AI-agent optimized*
