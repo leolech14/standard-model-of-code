@@ -1,0 +1,116 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T06:19:16.011851",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "I'm building a 3D code visualization using Three.js and 3d-force-graph library. I need to implement a smooth animated transition between two visualization modes in ONE unified graph:\n\nMode A (Atoms): Shows ~3000 nodes (functions, classes) with call/import edges\nMode B (Files): Shows ~266 file nodes connected to folder nodes\n\nThe atoms LIVE INSIDE files. I want:\n1. File nodes always visible as container/parent nodes\n2. Atom nodes fade in/out with opacity animation\n3. When atoms fade out, file-to-file edges appear (cross-file dependencies)\n4. Force layout should handle both layers (files as clusters, atoms inside)\n5. Smooth 500-1000ms transition with easing\n\nWhat are the best techniques for:\n- Animated node opacity in 3d-force-graph?\n- Maintaining force layout stability during transitions?\n- Hierarchical/nested force layouts (atoms clustered inside file nodes)?\n- Edge opacity animation synchronized with node transitions?\n\nSpecifically for the 3d-force-graph library (https://github.com/vasturiano/3d-force-graph), what APIs support this? nodeOpacity? nodeVisibility? Custom Three.js materials?",
+    "query_length": 1105,
+    "checksum": "sha256:9a7b111129140a91d83e482d4d7e4b2ccb95c66d246c8b77c13ef89946ec8b92"
+  },
+  "response": {
+    "id": "af88b7c3-c9a5-4c43-a612-e3723fa08a10",
+    "model": "sonar-pro",
+    "created": 1769505555,
+    "usage": {
+      "prompt_tokens": 242,
+      "completion_tokens": 963,
+      "total_tokens": 1205,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.014,
+        "request_cost": 0.006,
+        "total_cost": 0.021
+      }
+    },
+    "citations": [
+      "https://github.com/vasturiano/3d-force-graph",
+      "https://github.com/vasturiano/three-forcegraph",
+      "https://www.youtube.com/watch?v=cJ6NdluzEG8",
+      "https://vasturiano.github.io/3d-force-graph/",
+      "https://dev.to/gilfink/creating-a-force-graph-using-react-d3-and-pixijs-182n",
+      "https://d3js.org/d3-force/simulation",
+      "https://g6.antv.antgroup.com/en/manual/layout/d3-force-layout",
+      "https://www.youtube.com/watch?v=QGJbJAopX-s"
+    ],
+    "search_results": [
+      {
+        "title": "3D force-directed graph component using ThreeJS/WebGL - GitHub",
+        "url": "https://github.com/vasturiano/3d-force-graph",
+        "date": "2017-02-27",
+        "last_updated": "2025-10-25",
+        "snippet": "A web component to represent a graph data structure in a 3-dimensional space using a force-directed iterative layout. Uses ThreeJS/WebGL for 3D rendering.",
+        "source": "web"
+      },
+      {
+        "title": "vasturiano/three-forcegraph: Force-directed graph as a ThreeJS 3d ...",
+        "url": "https://github.com/vasturiano/three-forcegraph",
+        "date": "2017-12-30",
+        "last_updated": "2025-08-23",
+        "snippet": "A ThreeJS WebGL class to represent a graph data structure in a 3-dimensional space using a force-directed iterative layout.",
+        "source": "web"
+      },
+      {
+        "title": "Visualize Data with a Force Directed Graph - D3.js - FreeCodeCamp",
+        "url": "https://www.youtube.com/watch?v=cJ6NdluzEG8",
+        "date": "2018-03-25",
+        "last_updated": "2025-08-04",
+        "snippet": "... node. Find the rules directly from ... Svelte Data Visualization Tutorial | Animated Graphics Using SVG + D3.js + Svelte Transitions.",
+        "source": "web"
+      },
+      {
+        "title": "3D Force-Directed Graph - GitHub Pages",
+        "url": "https://vasturiano.github.io/3d-force-graph/",
+        "last_updated": "2026-01-21",
+        "snippet": "A web component to represent a graph data structure in a 3-dimensional space using a force-directed iterative layout.",
+        "source": "web"
+      },
+      {
+        "title": "Creating a Force Graph using React, D3 and PixiJS - DEV Community",
+        "url": "https://dev.to/gilfink/creating-a-force-graph-using-react-d3-and-pixijs-182n",
+        "date": "2021-03-07",
+        "last_updated": "2025-09-20",
+        "snippet": "In this post I'll explain how you can combine both D3 and PixiJS to create almost the same force graph but in a different way which will enable you to support ...",
+        "source": "web"
+      },
+      {
+        "title": "Force simulations | D3 by Observable",
+        "url": "https://d3js.org/d3-force/simulation",
+        "date": "2024-11-01",
+        "last_updated": "2026-01-25",
+        "snippet": "A force simulation implements a velocity Verlet numerical integrator for simulating physical forces on particles (nodes).",
+        "source": "web"
+      },
+      {
+        "title": "D3 Force-Directed Layout - G6",
+        "url": "https://g6.antv.antgroup.com/en/manual/layout/d3-force-layout",
+        "last_updated": "2026-01-27",
+        "snippet": "You can adjust the attraction and repulsion between nodes; You can set the ideal length of edges; You can fix the positions of important nodes. Animation effect ...",
+        "source": "web"
+      },
+      {
+        "title": "Graph Visualization with 3D and React with Michael Hunger",
+        "url": "https://www.youtube.com/watch?v=QGJbJAopX-s",
+        "date": "2020-06-18",
+        "last_updated": "2026-01-10",
+        "snippet": "We're exploring the 3d-force graph visualization library, also the 2d and #react variants to show how to do efficient graph visualizations ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "To implement smooth animated transitions between Mode A (atoms) and Mode B (files) in a unified 3d-force-graph, use the library's built-in opacity APIs combined with timed updates to `nodeVisibility`, `nodeOpacity`, and `linkOpacity`. Maintain layout stability via force simulation controls and hierarchical positioning.[1][2]\n\n### Animated Node Opacity\nSet `nodeOpacity(val)` (0-1 range) for global atom node fading, or use per-node opacity via `nodeThreeObject(fn)` returning custom Three.js materials (e.g., `MeshBasicMaterial` with animated `transparent: true` and `opacity` tweened via `TWEEN.js` or `gsap`). For Mode A→B:\n```javascript\n// Fade atoms out\ngraph.nodeOpacity(0); // Global fade (500ms internal refresh)\n```\nSynchronize with `requestAnimationFrame` loop for 500-1000ms easing (use `d3.easeCubicOut`). Custom materials enable individual atom opacity tied to `node.isAtom` flag.[1][2]\n\n### Force Layout Stability During Transitions\nPause/reduce simulation velocity with `d3VelocityDecay(0.9)` (high decay stabilizes) and `d3AlphaTarget(0)` to halt cooling, preventing jitter. Pre-position atoms inside file clusters before visibility toggle:\n```javascript\ngraph.d3VelocityDecay(0.85); // Stabilize\ngraph.d3AlphaTarget(0.01);   // Slow decay\n```\nAfter transition, reset `d3AlphaTarget(0)` and `d3VelocityDecay(0.6)` for resumed clustering. Use `nodePositionUpdate(fn)` to enforce atom positions relative to parent files during sim.[1][2]\n\n### Hierarchical/Nested Force Layouts (Atoms in Files)\n- **Position atoms inside files**: On init, set atom `x/y/z` offsets relative to parent file (e.g., `atom.x = file.x + random(-r, r)` where `r` is file radius). Use `nodeVal(fn)` to size files larger (`val: file.atomCount * scale`).[1]\n- **Clustering forces**: Enable `dagMode: 'radial'` or custom forces via `forceEngine` (d3 sim), adding `collide` force to keep atoms within file bounds. Treat files as fixed \"super-nodes\" with higher `nodeVal` for repulsion dominance.[2][6]\n- **Always-visible files**: Set `graph.nodeVisibility(node => !node.isAtom || mode === 'B')` so files persist.[1]\n\n### Edge Opacity Animation (Synchronized)\nAnimate `linkOpacity(0→1)` for file-file edges as atoms fade:\n```javascript\nconst duration = 750;\nconst start = Date.now();\nfunction animate() {\n  const progress = Math.min(1, (Date.now() - start) / duration);\n  const eased = d3.easeCubicOut(progress); // Easing\n  graph.nodeOpacity(1 - eased);     // Atoms out\n  graph.linkOpacity(eased * 0.8);   // File edges in (filter via link.isFileEdge)\n  if (progress < 1) requestAnimationFrame(animate);\n}\n```\nFilter edges with `linkVisibility(fn)` (e.g., `link => link.isFileEdge || mode === 'A'`). Sync via shared `progress` value.[1][2]\n\n### Complete Transition Function\n```javascript\nasync function transitionToMode(newMode) {\n  graph.pauseAnimation(); // Freeze sim\n  await new Promise(resolve => {\n    const start = Date.now();\n    const animate = () => {\n      const t = Math.min(1, (Date.now() - start) / 800);\n      const opacity = 1 - d3.easeCubicInOut(t);\n      graph.nodeOpacity(newMode === 'atoms' ? opacity : 1 - opacity);\n      graph.linkOpacity(newMode === 'files' ? t * 0.3 : 1 - t);\n      if (t < 1) requestAnimationFrame(animate);\n      else resolve();\n    };\n    animate();\n  });\n  graph.nodeVisibility(node => \n    newMode === 'atoms' || node.isFile // Toggle atoms\n  );\n  graph.resumeAnimation();\n  graph.zoomToFit(400); // Refit view\n}\n```\n**Tips**: Precompute hierarchies (`node.parentFileId`). For perf with 3000+ atoms, use `nodeResolution(6)` and LOD (custom `nodeThreeObject` with instanced meshes). Test on demo at vasturiano.github.io/3d-force-graph.[1][4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

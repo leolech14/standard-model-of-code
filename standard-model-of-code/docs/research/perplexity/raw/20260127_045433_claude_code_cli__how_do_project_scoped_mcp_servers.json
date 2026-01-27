@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T04:54:33.413478",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Code CLI: How do project-scoped MCP servers work in ~/.claude.json?\n\nI see this structure:\n```json\n{\n  \"mcpServers\": { ... global servers ... },\n  \"projects\": {\n    \"/Users/me/my-project\": {\n      \"mcpServers\": { ... project-specific servers ... }\n    }\n  }\n}\n```\n\nQuestions:\n1. When I run `claude mcp add --scope project myserver -- command args`, does it write to ~/.claude.json under projects.{cwd} or to .mcp.json in the project root?\n2. What is the difference between 'local' scope and 'project' scope for MCP?\n3. If I have a server in both global mcpServers and projects.{path}.mcpServers, which takes precedence?\n4. How do I properly clean up old project-scoped servers for projects that no longer exist?\n5. Is there a `claude mcp remove` command and does it handle project scope correctly?",
+    "query_length": 804,
+    "checksum": "sha256:7bc612b797d4063de66a335b0b3cf6b95beb0746f0bfaddd31151d84a7355251"
+  },
+  "response": {
+    "id": "a2985eca-15dc-43b0-9ff3-d316fcf303c3",
+    "model": "sonar-pro",
+    "created": 1769500473,
+    "usage": {
+      "prompt_tokens": 205,
+      "completion_tokens": 468,
+      "total_tokens": 673,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.014
+      }
+    },
+    "citations": [
+      "https://code.claude.com/docs/en/mcp",
+      "https://developer.sailpoint.com/docs/extensibility/mcp/integrations/claude-code/",
+      "https://github.com/anthropics/claude-code/issues/5963",
+      "https://www.youtube.com/watch?v=DfWHX7kszQI",
+      "https://docs.endor.dev/cli/mcp/claude-code/",
+      "https://liblab.com/docs/mcp/howto-connect-mcp-to-claude",
+      "https://scottspence.com/posts/configuring-mcp-tools-in-claude-code",
+      "https://docs.trunk.io/ci-autopilot/overview/use-mcp-server/configuration/claude-code-cli"
+    ],
+    "search_results": [
+      {
+        "title": "Connect Claude Code to tools via MCP",
+        "url": "https://code.claude.com/docs/en/mcp",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-22",
+        "snippet": "Project-scoped servers enable team collaboration by storing configurations in a .mcp.json file at your project's root directory. This file is designed to be ...",
+        "source": "web"
+      },
+      {
+        "title": "Set Up MCP with Claude Code | SailPoint Developer Community",
+        "url": "https://developer.sailpoint.com/docs/extensibility/mcp/integrations/claude-code/",
+        "date": "2025-09-09",
+        "last_updated": "2026-01-26",
+        "snippet": "Step-by-step guide to integrate your MCP Server with Claude Code for terminal-based development workflows.",
+        "source": "web"
+      },
+      {
+        "title": "Project scope MCP servers not displayed in claude mcp list command",
+        "url": "https://github.com/anthropics/claude-code/issues/5963",
+        "date": "2025-08-17",
+        "last_updated": "2025-10-21",
+        "snippet": "Method 1: Used claude mcp add --scope project to add servers via CLI · Method 2: Manually created .mcp.json with three MCP server configurations ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code MCP: How to Add MCP Servers (Complete Guide)",
+        "url": "https://www.youtube.com/watch?v=DfWHX7kszQI",
+        "date": "2025-07-21",
+        "last_updated": "2026-01-27",
+        "snippet": "Access ALL video resources & get personalized help in my community: ...",
+        "source": "web"
+      },
+      {
+        "title": "Configure Claude Code | Endor Documentation",
+        "url": "https://docs.endor.dev/cli/mcp/claude-code/",
+        "last_updated": "2025-10-01",
+        "snippet": "Claude Code supports both global and project-scoped MCP configurations. ... Add MCP server using the command line: Terminal window. claude mcp add endor ...",
+        "source": "web"
+      },
+      {
+        "title": "Connect Claude to an MCP Server | Generate SDKs for your ... - liblab",
+        "url": "https://liblab.com/docs/mcp/howto-connect-mcp-to-claude",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-26",
+        "snippet": "This guide explains how to connect an MCP server to Claude, enabling you to interact with your API using natural language.",
+        "source": "web"
+      },
+      {
+        "title": "Configuring MCP Tools in Claude Code - The Better Way",
+        "url": "https://scottspence.com/posts/configuring-mcp-tools-in-claude-code",
+        "date": "2025-03-29",
+        "last_updated": "2025-07-25",
+        "snippet": "Claude Code's default approach for configuring MCP tools is through a CLI wizard ( claude mcp add ). You run a command, and it walks you through setting up ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code (CLI) | docs - Trunk Platform",
+        "url": "https://docs.trunk.io/ci-autopilot/overview/use-mcp-server/configuration/claude-code-cli",
+        "date": "2025-09-11",
+        "last_updated": "2026-01-22",
+        "snippet": "Run the following command to add the MCP server configuration. If you want to only enable it for yourself, use --scope user instead.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Based on the search results, I can answer some of your questions, though the results don't contain complete information about all aspects of ~/.claude.json's internal structure.\n\n## Project-Scoped MCP Server Storage\n\n**When you run `claude mcp add --scope project`, it writes to `.mcp.json` in the project root, not to ~/.claude.json.**[1] Project-scoped servers are stored in a `.mcp.json` file designed to be checked into version control, ensuring all team members have access to the same MCP tools.[1] This is fundamentally different from local-scoped servers, which are stored in `~/.claude.json` in your home directory.[1]\n\n## Local vs. Project Scope\n\nThe key differences are:\n\n- **Local scope** (default): Stores configurations in `~/.claude.json` and is personal to you in the current project.[6] Use this for personal servers, experimental configurations, or sensitive credentials specific to one project.[1]\n\n- **Project scope**: Stores configurations in `.mcp.json` at your project root and is shared with your team via version control.[1] Use this for team-shared servers, project-specific tools, or services required for collaboration.[1]\n\nAdditionally, there is a **user scope** available via `--scope user`, which stores configurations globally in `~/.claude.json` and makes servers available across all your projects.[1][4]\n\n## Precedence for Duplicate Servers\n\nIf you have a server configured at multiple scopes with the same name, **local-scoped servers take precedence first, followed by project-scoped servers, and finally user-scoped servers.**[1] This design ensures that personal configurations can override shared ones when needed.\n\n## Cleanup and Removal Commands\n\nThe search results do not contain information about removing project-scoped servers, how to clean up configurations for defunct projects, or whether a `claude mcp remove` command exists. You may need to consult the official Claude Code documentation or community resources for guidance on these administrative tasks.\n\n## Important Note on Project-Scoped Servers\n\nFor security, Claude Code will **prompt for approval before using project-scoped servers** from `.mcp.json` files, ensuring you maintain control over which MCP servers can access your project.[5]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

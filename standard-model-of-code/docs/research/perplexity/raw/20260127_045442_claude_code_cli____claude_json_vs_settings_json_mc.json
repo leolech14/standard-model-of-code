@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T04:54:42.264251",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Code CLI ~/.claude.json vs settings.json mcpServers configuration difference 2025 2026",
+    "query_length": 93,
+    "checksum": "sha256:25c4381d7a4f9749990b2c992911517b3dafef82ca859e3c5e9e4f2700670c5c"
+  },
+  "response": {
+    "id": "b0ca1523-2653-4617-8131-481e748e87f2",
+    "model": "sonar-pro",
+    "created": 1769500482,
+    "usage": {
+      "prompt_tokens": 22,
+      "completion_tokens": 703,
+      "total_tokens": 725,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.011,
+        "request_cost": 0.006,
+        "total_cost": 0.017
+      }
+    },
+    "citations": [
+      "https://www.eesel.ai/blog/claude-code-configuration",
+      "https://blakecrosley.com/guide/claude-code",
+      "https://www.anthropic.com/engineering/claude-code-best-practices",
+      "https://www.jitendrazaa.com/blog/ai/claude-code-complete-guide-2026-from-basics-to-advanced-mcp-2/",
+      "https://codewithmukesh.com/blog/claude-code-for-beginners/",
+      "https://github.com/Cranot/claude-code-guide",
+      "https://www.whytryai.com/p/claude-code-beginner-guide"
+    ],
+    "search_results": [
+      {
+        "title": "A practical guide to Claude Code configuration in 2025 - eesel AI",
+        "url": "https://www.eesel.ai/blog/claude-code-configuration",
+        "date": "2025-11-15",
+        "last_updated": "2026-01-26",
+        "snippet": "Claude Code can read and write files directly in your project, run shell commands to execute scripts or check your git status, and even ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code CLI: The Definitive Technical Reference - Blake Crosley",
+        "url": "https://blakecrosley.com/guide/claude-code",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-27",
+        "snippet": "Complete Claude Code CLI guide: installation, configuration, subagents, MCP integrations, hooks, skills, remote execution, IDE integration, ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code: Best practices for agentic coding - Anthropic",
+        "url": "https://www.anthropic.com/engineering/claude-code-best-practices",
+        "date": "2025-04-18",
+        "last_updated": "2026-01-27",
+        "snippet": "A blog post covering tips and tricks that have proven effective for using Claude Code across various codebases, languages, and environments.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code Complete Guide 2026: From Basics to Advanced MCP ...",
+        "url": "https://www.jitendrazaa.com/blog/ai/claude-code-complete-guide-2026-from-basics-to-advanced-mcp-2/",
+        "date": "2026-01-25",
+        "last_updated": "2026-01-27",
+        "snippet": "Master Claude Code in 2026: Complete guide covering installation, MCP servers, subagents, Git workflows, IDE integrations, and advanced configurations.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code Tutorial for Beginners - Complete 2026 Guide to AI ...",
+        "url": "https://codewithmukesh.com/blog/claude-code-for-beginners/",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-27",
+        "snippet": "Learn Claude Code from scratch in 15 minutes. Step-by-step installation, CLAUDE.md setup, Plan Mode mastery, and honest comparison with ...",
+        "source": "web"
+      },
+      {
+        "title": "The Complete Claude Code CLI Guide - GitHub",
+        "url": "https://github.com/Cranot/claude-code-guide",
+        "date": "2025-07-29",
+        "last_updated": "2025-09-21",
+        "snippet": "Claude Code is an agentic AI coding assistant that lives in your terminal. It understands your codebase, edits files directly, runs commands, and helps you ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code for the Rest of Us: Setup Guide - Why Try AI",
+        "url": "https://www.whytryai.com/p/claude-code-beginner-guide",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-27",
+        "snippet": "It's the most flexible version of Claude Code, works directly with your local files and folders, and gives you the best baseline understanding.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**The `~/.claude.json` file stores runtime state, OAuth tokens, and MCP server connections, while `settings.json` (in `~/.claude/`, `.claude/`, or `.claude/settings.local.json`) configures Claude Code CLI behaviors like permissions, models, and tools.**[2][4]\n\n### Key Differences\n| File | Location Options | Primary Purpose | MCP Servers Role | Scope & Overrides |\n|------|------------------|-----------------|------------------|-------------------|\n| **`~/.claude.json`** | User home (`~/.claude.json`) | Runtime state (e.g., OAuth tokens, active sessions, MCP connections) | Stores configured MCP server details (added via `claude mcp add` or manual edits); acts as persistent state for integrations like external tools/databases[1][2] | Global user state; not overridden by project files (N/A in hierarchy)[2] |\n| **`settings.json`** | User: `~/.claude/settings.json`<br>Project: `.claude/settings.json` (team/shared, git-tracked)<br>Local: `.claude/settings.local.json` (personal, gitignored) | Technical settings (e.g., permissions via \"allow\"/\"deny\", model selection, output style, hooks, excluded commands)[1][2][4] | References or enables MCP via permissions/tools; does not store server state—use for allowlisting MCP actions (e.g., \"mcpServers\" for trusted plugins)[1][2] | Hierarchical: Project/local overrides user; CLI flags override all[2][4] |\n\n**Configuration hierarchy (2026 updates):** Enterprise > User (`~/.claude/settings.json`) > Project (`.claude/settings.json`) > Local (`.claude/settings.local.json`) > CLI flags; `~/.claude.json` is separate for state[MCP integrations expanded to 3,000+ services].[2][4]\n\n### MCP Servers Configuration\n- **In `~/.claude.json`**: Holds runtime MCP data (e.g., server URLs, auth); managed via CLI like `claude mcp add` for plugins connecting to databases/project tools. Essential for persistence across sessions.[1][2]\n- **In `settings.json`**: Defines permissions for MCP use (e.g., `\"allow\": [\"mcp:database-read\"]`); no direct server storage—focuses on safe execution modes like \"default\" (prompts) or \"acceptEdits\".[1][2][3]\n- **Example settings.json snippet** (project `.claude/settings.json`):[2]\n  ```\n  {\n    \"permissions\": {\n      \"allow\": [\"mcp:*\", \"edit\", \"bash:git\"],\n      \"deny\": [\"docker\"]\n    },\n    \"mcpServers\": { /* Optional refs/allowlist */ }\n  }\n  ```\n- **Best practice**: Use `~/.claude.json` for MCP state, `settings.json` for team permissions; add `.claude/settings.local.json` to `.gitignore` for personal MCP tweaks.[2][4]\n\n**Note**: No 2025-2026 changes alter this core split; v2.1+ adds MCP auto-search but retains file roles.[2] For full MCP setup, run `claude mcp` or `/mcp` in-session.[4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T04:54:22.020239",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Code CLI MCP server configuration: What is the exact precedence and relationship between these three config files?\n\n1. ~/.claude/settings.json (has mcpServers key)\n2. ~/.claude.json (has mcpServers at root level AND nested under projects.{path}.mcpServers)\n3. ~/.config/claude/mcp.json (has mcpServers key)\n\nSpecifically:\n- Which file does `claude mcp add --scope user` write to?\n- Which file does `claude mcp add --scope project` write to?\n- Does Claude Code read from all three? What's the merge order?\n- Is ~/.config/claude/mcp.json for Claude Desktop only, or does Claude Code CLI also read it?\n- If the same server name exists in multiple files, which one wins?\n- Are the mcpServers in settings.json redundant with ~/.claude.json?\n\nI need to know which file is canonical for Claude Code CLI specifically (not Claude Desktop).",
+    "query_length": 837,
+    "checksum": "sha256:3252f49e11bb19e0806f5e8a7d699fe10573dd9f9f4808a6a212d4a814558b29"
+  },
+  "response": {
+    "id": "a1737824-7eb9-46ad-9549-91bebe37cc1e",
+    "model": "sonar-pro",
+    "created": 1769500462,
+    "usage": {
+      "prompt_tokens": 202,
+      "completion_tokens": 748,
+      "total_tokens": 950,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.011,
+        "request_cost": 0.006,
+        "total_cost": 0.018
+      }
+    },
+    "citations": [
+      "https://github.com/anthropics/claude-code/issues/3098",
+      "https://www.claudelog.com/faqs/where-are-claude-code-global-settings/",
+      "https://inventivehq.com/knowledge-base/claude/where-configuration-files-are-stored",
+      "https://code.claude.com/docs/en/settings",
+      "https://code.claude.com/docs/en/mcp",
+      "https://scottspence.com/posts/configuring-mcp-tools-in-claude-code",
+      "https://shipyard.build/blog/claude-code-cheat-sheet/",
+      "https://www.anthropic.com/engineering/claude-code-best-practices"
+    ],
+    "search_results": [
+      {
+        "title": "MCP Configuration Inconsistency: CLI-managed vs File-based configs",
+        "url": "https://github.com/anthropics/claude-code/issues/3098",
+        "date": "2025-07-06",
+        "last_updated": "2025-10-03",
+        "snippet": "CLI-managed MCP servers should be stored in discoverable configuration files following the same pattern as other Claude Code settings.",
+        "source": "web"
+      },
+      {
+        "title": "Where Are Claude Code Global Settings Files Located - ClaudeLog",
+        "url": "https://www.claudelog.com/faqs/where-are-claude-code-global-settings/",
+        "date": "2026-01-19",
+        "last_updated": "2025-11-01",
+        "snippet": "Global Configuration Files - Claude Code uses a hierarchy of configuration files with different scopes and priorities: · Flexible Configuration ...",
+        "source": "web"
+      },
+      {
+        "title": "Where Claude Code Stores Configuration Files | Inventive HQ",
+        "url": "https://inventivehq.com/knowledge-base/claude/where-configuration-files-are-stored",
+        "date": "2026-01-01",
+        "last_updated": "2026-01-27",
+        "snippet": "Complete reference guide to Claude Code configuration file locations. Learn where settings, credentials, session history, MCP servers, and custom commands ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code settings - Claude Code Docs",
+        "url": "https://code.claude.com/docs/en/settings",
+        "date": "2026-01-26",
+        "last_updated": "2026-01-26",
+        "snippet": "The settings.json file is our official mechanism for configuring Claude Code through hierarchical settings: ... List of specific MCP servers from .mcp.json files ...",
+        "source": "web"
+      },
+      {
+        "title": "Connect Claude Code to tools via MCP",
+        "url": "https://code.claude.com/docs/en/mcp",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-22",
+        "snippet": "Claude Code supports environment variable expansion in .mcp.json files, allowing teams to share configurations while maintaining flexibility for machine- ...",
+        "source": "web"
+      },
+      {
+        "title": "Configuring MCP Tools in Claude Code - The Better Way",
+        "url": "https://scottspence.com/posts/configuring-mcp-tools-in-claude-code",
+        "date": "2025-03-29",
+        "last_updated": "2025-07-25",
+        "snippet": "Claude Code's default approach for configuring MCP tools is through a CLI wizard ( claude mcp add ). You run a command, and it walks you through setting up ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code CLI Cheatsheet: config, commands, prompts, + best ...",
+        "url": "https://shipyard.build/blog/claude-code-cheat-sheet/",
+        "date": "2026-01-20",
+        "last_updated": "2026-01-27",
+        "snippet": "#Settings files ... Claude Code uses hierarchical settings stored in JSON files: User settings: ~/.claude/settings.json (applies to all projects) ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code: Best practices for agentic coding - Anthropic",
+        "url": "https://www.anthropic.com/engineering/claude-code-best-practices",
+        "date": "2025-04-18",
+        "last_updated": "2026-01-27",
+        "snippet": "A blog post covering tips and tricks that have proven effective for using Claude Code across various codebases, languages, and environments.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Claude Code CLI uses a hierarchical MCP server configuration system with `~/.claude.json` as the canonical user-global file (highest priority for global settings), `.claude/mcp.json` or `.mcp.json` for project scope, and `~/.claude/settings.json` primarily for other settings (not the main MCP store). Precedence prioritizes local/project scopes over user/global, with merges adding or overriding from least to most specific.[1][3][4][5]**\n\n### CLI Write Locations\n- **`claude mcp add --scope user`**: Writes to `~/.claude.json` at the root level under `mcpServers` (user-global scope); this is the primary user CLI-managed file, though some versions store internally without creating files (inconsistent behavior noted).[1][3]\n- **`claude mcp add --scope project`**: Writes to `.claude/mcp.json` or `.mcp.json` in the project root (project-local scope).[1][3]\n\n### Reading and Merge Order\nClaude Code CLI reads from all relevant files in this **precedence order** (most specific/highest priority first, overriding conflicts):\n1. **Project-local**: `.mcp.json` or `.claude/mcp.json` (or `.claude.json` nested under `projects.{path}.mcpServers` for multi-project).[1][3][4]\n2. **User-global**: `~/.claude.json` (`mcpServers` at root).[3][4]\n3. **Fallback/other**: `~/.claude/settings.json` (`mcpServers` key, lowest for MCP).[1][4]\n\n- **Merge behavior**: Settings merge with more specific scopes overriding broader ones; same server name in multiple files uses the highest-precedence (e.g., project beats user).[4][5]\n- **All three read?** Yes, CLI reads all applicable ones per the hierarchy (not just Desktop-specific).[1][3][4]\n\n### Specific Files\n- **`~/.config/claude/mcp.json`**: Not standard for CLI; appears Desktop-specific or non-canonical (no CLI mentions; CLI uses `~/.claude.json` or `~/.claude/`).[1][3] CLI does not read it as primary.\n- **`mcpServers` in `~/.claude/settings.json`**: Somewhat redundant/legacy for MCP (CLI favors `~/.claude.json` for MCP); treated as lower-priority global fallback.[1][4]\n- **`~/.claude.json` project nesting**: Supports per-project overrides (`projects.{path}.mcpServers`), but project-local `.mcp.json` takes precedence.[1][3]\n\n**Canonical for CLI**: `~/.claude.json` (user) and `.mcp.json`/`.claude/mcp.json` (project); edit directly for transparency, as CLI `add` may not always create files.[1][6]\n\n| Scope | Primary File | CLI `mcp add` Target | Precedence Rank |\n|-------|--------------|----------------------|-----------------|\n| **User-global** | `~/.claude.json` (`mcpServers`) | `--scope user` | 2 |\n| **Project-local** | `.mcp.json` or `.claude/mcp.json` | `--scope project` | 1 (highest) |\n| **Settings fallback** | `~/.claude/settings.json` (`mcpServers`) | N/A | 3 (lowest) |[1][3][4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

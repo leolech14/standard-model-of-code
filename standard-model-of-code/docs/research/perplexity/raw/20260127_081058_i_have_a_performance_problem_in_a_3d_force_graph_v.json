@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T08:10:58.514556",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "I have a performance problem in a 3d-force-graph visualization:\n\n- 3248 nodes, 9493 edges\n- Running at 12-20 FPS (should be 60 FPS)\n- Multiple requestAnimationFrame loops running concurrently\n- One loop calls Graph.refresh() indirectly via REFRESH.throttled() every frame\n- Another loop updates node colors via Graph.nodeColor() accessor\n- Material.transparent is set to true on 3500+ Three.js meshes\n\nWhat are the proven fixes for:\n1. Preventing multiple RAF loops from stacking?\n2. Efficient material opacity updates without traverse() every frame?\n3. Should materials ALWAYS have transparent:true or only when opacity < 1?\n4. How to batch Graph accessor updates (nodeColor, nodeVal, linkOpacity)?\n5. Is there a better pattern than calling REFRESH every frame?\n\nLooking for WebGL/Three.js best practices, ideally from production graph visualization libraries.",
+    "query_length": 861,
+    "checksum": "sha256:9cfdbf82c099457f8b173600fcb7e32c4d23152c5fcd5ab9d345b2221ff1da56"
+  },
+  "response": {
+    "id": "560d1af8-dd88-4eb8-8099-a63022b57caf",
+    "model": "sonar-pro",
+    "created": 1769512258,
+    "usage": {
+      "prompt_tokens": 188,
+      "completion_tokens": 503,
+      "total_tokens": 691,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.008,
+        "request_cost": 0.006,
+        "total_cost": 0.014
+      }
+    },
+    "citations": [
+      "https://github.com/vasturiano/3d-force-graph",
+      "https://blog.tomsawyer.com/advanced-techniques-in-threejs-graph-visualization",
+      "https://forum.babylonjs.com/t/force-directed-graph-for-large-particle-simulation/18892",
+      "https://vasturiano.github.io/3d-force-graph/",
+      "https://discourse.threejs.org/t/how-to-optimize-performance-in-threejs/42769",
+      "https://dev.to/didof/optimizing-threejs-4-key-techniques-4lad",
+      "https://discourse.threejs.org/t/want-to-increase-my-page-speed-by-optimizing-three-js-code/86976"
+    ],
+    "search_results": [
+      {
+        "title": "3D force-directed graph component using ThreeJS/WebGL - GitHub",
+        "url": "https://github.com/vasturiano/3d-force-graph",
+        "date": "2017-02-27",
+        "last_updated": "2025-10-25",
+        "snippet": "This method can be used together with pauseAnimation for performance optimization purposes. cameraPosition([{x,y,z}], [lookAt], [ms]), Getter/setter for the ...",
+        "source": "web"
+      },
+      {
+        "title": "Three.js Graph Visualization | Tom Sawyer Software",
+        "url": "https://blog.tomsawyer.com/advanced-techniques-in-threejs-graph-visualization",
+        "date": "2024-12-04",
+        "last_updated": "2026-01-22",
+        "snippet": "Performance Optimization. Optimizing performance is crucial for handling large datasets in Three.js graph visualization. As the size and ...",
+        "source": "web"
+      },
+      {
+        "title": "Force Directed Graph for Large Particle Simulation - Babylon.js Forum",
+        "url": "https://forum.babylonjs.com/t/force-directed-graph-for-large-particle-simulation/18892",
+        "date": "2021-03-04",
+        "last_updated": "2025-12-05",
+        "snippet": "Hello Babylon community. I'd like to implement a force directed graph in Babylon similar to d3-force-graph. It needs to be super efficient ...",
+        "source": "web"
+      },
+      {
+        "title": "3D Force-Directed Graph - GitHub Pages",
+        "url": "https://vasturiano.github.io/3d-force-graph/",
+        "last_updated": "2026-01-21",
+        "snippet": "3D force-directed graph component using ThreeJS/WebGL. ... This method can be used together with pauseAnimation for performance optimization purposes.",
+        "source": "web"
+      },
+      {
+        "title": "How to optimize performance in Threejs? - Questions - three.js forum",
+        "url": "https://discourse.threejs.org/t/how-to-optimize-performance-in-threejs/42769",
+        "date": "2022-09-21",
+        "last_updated": "2026-01-25",
+        "snippet": "How to optimize performance with Threejs? Is it ok to use multiple stars objects to increase the dynamic of the starlit sky? I highly ...",
+        "source": "web"
+      },
+      {
+        "title": "Optimizing Three.js: 4 Key Techniques - DEV Community",
+        "url": "https://dev.to/didof/optimizing-threejs-4-key-techniques-4lad",
+        "date": "2024-11-29",
+        "last_updated": "2025-10-27",
+        "snippet": "js scenes to your site (as I do on didof.dev), you'll need optimizations. Here are three practical techniques to keep performance in check.",
+        "source": "web"
+      },
+      {
+        "title": "Want to increase my page speed by optimizing three js code",
+        "url": "https://discourse.threejs.org/t/want-to-increase-my-page-speed-by-optimizing-three-js-code/86976",
+        "date": "2025-09-14",
+        "last_updated": "2025-09-14",
+        "snippet": "My page speed score is quite low when I include my 3D model/scene. The model is already optimized (compressed to around 67 KB with Draco/Meshopt) ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Use `pauseAnimation()` and `resumeAnimation()` from 3d-force-graph to consolidate RAF loops into a single render cycle, eliminating concurrent loops.** This freezes the simulation when static views suffice and resumes only when needed, directly addressing stacked RAF calls including `Graph.refresh()` and node color updates.[1][4]\n\n**For efficient material opacity updates, avoid `traverse()` every frame; instead, use instanced rendering or uniform buffers in Three.js, and batch accessor changes like `nodeColor()`, `nodeVal()`, and `linkOpacity()` via a single throttled update before `refresh()`.** Custom shaders with uniforms for opacity/color avoid per-mesh updates on 3500+ transparent meshes, while 3d-force-graph accessors should be set once per tick rather than per-frame to minimize rebuilds.[1][6]\n\n**Set `material.transparent = true` only when opacity < 1; otherwise, use `opacity = 1` without transparency to skip expensive alpha blending.** Transparency enables sorting/blending but incurs high GPU cost—reserve it for semi-transparent nodes/links only.[5][6]\n\n**Batch graph accessor updates by queuing changes in simulation callbacks like `onEngineTick()` and applying them throttled (e.g., every 100-500ms) via a single `Graph.nodeColor(fn)` or `refresh()` call, avoiding per-frame refreshes.** Replace constant `REFRESH.throttled()` with cooldown-based ticks using `cooldownTime()` or `d3ReheatSimulation()` for physics-driven updates only when layout changes.[1]\n\n**Core WebGL/Three.js best practices from graph viz libraries:**\n- **LOD (Level of Detail):** Simplify distant nodes/links (e.g., lower `linkResolution`, point sprites vs. meshes).[2]\n- **Disable interactions:** Set `enablePointerInteraction(false)` for max perf on large graphs (3248 nodes).[1]\n- **Physics tuning:** Increase `d3VelocityDecay` (e.g., 0.6+), use `ngraphPhysics` for faster sims, or `pauseAnimation()` post-cooldown.[1]\n- **Instancing:** Migrate to `InstancedMesh` for nodes/links to handle 10k+ edges at 60 FPS without per-object draw calls.[6]\n- **No per-frame refreshes:** Use `onEngineStop` callback for final layout freeze, avoiding constant RAF overload.[1]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

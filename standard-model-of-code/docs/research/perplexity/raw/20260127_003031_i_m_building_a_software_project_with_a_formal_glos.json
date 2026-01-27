@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T00:30:31.296825",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "I'm building a software project with a formal glossary for AI agents and human developers. We have a terminology problem with three overlapping concepts:\n\n1. REALM - Physical directory partition (like packages/modules). Files belong to exactly ONE realm. Works well.\n\n2. DOMAIN - Originally defined mathematically as 'vertical functional slice across codebase'. Properties:\n   - Should contain both code AND documentation\n   - Can OVERLAP (mathematical 'cover' not 'partition')\n   - But in practice: all domains are contained within single realms (no cross-cutting)\n   - One domain (Theory) has docs but NO code, violating its own definition\n   - Term marked deprecated in one file, still used in main glossary\n\n3. CONCORDANCE - Proposed replacement emphasizing PURPOSE ALIGNMENT between code and docs, with measurable similarity score.\n\nIn software architecture and Domain-Driven Design literature:\n- How is 'domain' typically defined?\n- Is there precedent for separating physical organization (realm/module) from semantic organization (domain/bounded context)?\n- When terminology conflicts arise in technical glossaries, what's the recommended resolution approach?\n- Is 'concordance' a standard term or would it confuse developers familiar with DDD?\n\nI need to pick ONE clear approach. What do software architecture experts recommend?",
+    "query_length": 1336,
+    "checksum": "sha256:98dfa0bb6e713989a9e5c16a46141de18893a4a554c6ce7b12ceda48a776fe71"
+  },
+  "response": {
+    "id": "1c3ca153-79a7-4676-b960-2885e9109ac9",
+    "model": "sonar-pro",
+    "created": 1769484631,
+    "usage": {
+      "prompt_tokens": 264,
+      "completion_tokens": 713,
+      "total_tokens": 977,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.011,
+        "request_cost": 0.006,
+        "total_cost": 0.017
+      }
+    },
+    "citations": [
+      "https://en.wikipedia.org/wiki/Domain-driven_design",
+      "https://redis.io/glossary/domain-driven-design-ddd/",
+      "https://www.geeksforgeeks.org/system-design/domain-driven-design-ddd/",
+      "https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/best-practice-an-introduction-to-domain-driven-design",
+      "https://sensiolabs.com/blog/2024/understanding-domain-driven-design",
+      "https://martinfowler.com/bliki/DomainDrivenDesign.html"
+    ],
+    "search_results": [
+      {
+        "title": "Domain-driven design",
+        "url": "https://en.wikipedia.org/wiki/Domain-driven_design",
+        "date": "2007-11-16",
+        "last_updated": "2026-01-16",
+        "snippet": "Domain-driven design (DDD) is a software design approach that focuses on modeling software to match a domain according to input from that domain's experts.",
+        "source": "web"
+      },
+      {
+        "title": "Domain-Driven Design (DDD)",
+        "url": "https://redis.io/glossary/domain-driven-design-ddd/",
+        "date": "2025-06-30",
+        "last_updated": "2026-01-26",
+        "snippet": "Domain-Driven Design (DDD) is a software development philosophy that emphasizes the importance of understanding and modeling the business domain.",
+        "source": "web"
+      },
+      {
+        "title": "Domain-Driven Design (DDD)",
+        "url": "https://www.geeksforgeeks.org/system-design/domain-driven-design-ddd/",
+        "date": "2025-07-12",
+        "last_updated": "2026-01-26",
+        "snippet": "Domain-Driven Design (DDD) is a method that prioritizes understanding and modeling the specific problem area where a software system ...",
+        "source": "web"
+      },
+      {
+        "title": "Best Practice - An Introduction To Domain-Driven Design",
+        "url": "https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/best-practice-an-introduction-to-domain-driven-design",
+        "date": "2016-01-22",
+        "last_updated": "2025-12-18",
+        "snippet": "Domain-Driven Design (DDD) is a collection of principles and patterns that help developers craft elegant object systems.",
+        "source": "web"
+      },
+      {
+        "title": "Understanding Domain-Driven Design: A Practical ...",
+        "url": "https://sensiolabs.com/blog/2024/understanding-domain-driven-design",
+        "date": "2024-10-21",
+        "last_updated": "2025-11-17",
+        "snippet": "Domain-Driven Design (DDD) offers a structured way to tackle this challenge by emphasizing the importance of business logic and domain knowledge ...",
+        "source": "web"
+      },
+      {
+        "title": "Domain Driven Design",
+        "url": "https://martinfowler.com/bliki/DomainDrivenDesign.html",
+        "date": "2020-04-22",
+        "last_updated": "2026-01-25",
+        "snippet": "Domain-Driven Design is an approach to software development that centers the development on programming a domain model that has a rich understanding of the ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**In Domain-Driven Design (DDD) literature, \"domain\" refers to the specific business problem area or subject matter (e.g., banking with accounts and transactions) that software models, distinct from physical code organization.[1][3][5]**\n\n### Standard Definition of \"Domain\" in DDD and Software Architecture\nDDD defines **domain** as the core subject area or problem space the software addresses, modeled through collaboration with domain experts to create a domain model reflecting business concepts, entities, and rules. This emphasizes a **ubiquitous language** shared by developers, experts, and stakeholders, ensuring code aligns semantically with business needs.[1][2][3] It is not a physical structure but a conceptual one, often partitioned into **bounded contexts**—logical boundaries where a specific model and language apply consistently, allowing independent evolution and reducing overlap confusion.[1][2][3]\n\n### Precedent for Separating Physical Organization (e.g., Realm/Module) from Semantic Organization (e.g., Domain/Bounded Context)\nYes, DDD explicitly separates these: physical structures like directories, packages, or modules organize code files (your **REALM**), while **domains** and **bounded contexts** provide semantic partitioning across the codebase. Bounded contexts act as \"vertical slices\" with their own models, enabling overlap via **context mapping** (e.g., shared kernels or partnerships) without requiring physical co-location. This aligns with your DOMAIN properties (overlapping cover, functional slices), but DDD prioritizes semantic alignment over strict physical containment.[1][2][3]\n\n### Resolving Terminology Conflicts in Technical Glossaries\nDDD experts recommend establishing a **ubiquitous language** as the primary resolution: collaboratively define terms with stakeholders, deprecate inconsistent usages, and enforce consistency through the domain model and documentation. When conflicts arise (e.g., deprecated terms or violations like your Theory domain lacking code), audit against business intent, partition into bounded contexts to isolate ambiguities, and iterate via domain expert feedback. Mark deprecated terms clearly and migrate to precise alternatives.[1][2]\n\n### \"Concordance\" as a Term\n**Concordance** is not a standard DDD or software architecture term; it typically means textual agreement or indexing (e.g., Bible concordances) and risks confusion for DDD-familiar developers, who associate similar ideas with ubiquitous language or context alignment rather than measurable similarity scores.[1][2][3]\n\n### Recommended Approach: Pick Bounded Context from DDD\nAdopt **bounded context** as your single clear term for semantic organization (replacing DOMAIN and CONCORDANCE). It directly matches your needs—overlapping functional slices with code/docs alignment, measurable via ubiquitous language consistency—while distinguishing from physical **REALM** partitions. Deprecate DOMAIN globally, audit exceptions (e.g., Theory as a documentation-only context), and define in your glossary:\n\n| Term          | Type          | Definition                                                                 | Key Properties                  |\n|---------------|---------------|----------------------------------------------------------------------------|---------------------------------|\n| **Realm**    | Physical     | Directory/module partition; files belong to exactly one.                   | Non-overlapping, file-centric. |\n| **Bounded Context** | Semantic | Functional slice across code/docs with aligned purpose/language.          | Overlapping OK; ubiquitous language; context mapping for integration.[1][2][3] |\n\nThis follows DDD best practices for clarity, scalability, and expert consensus, avoiding reinvention.[1][2][3]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

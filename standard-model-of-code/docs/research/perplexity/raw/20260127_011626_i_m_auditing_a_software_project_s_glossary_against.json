@@ -1,0 +1,124 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T01:16:26.181821",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "I'm auditing a software project's glossary against Domain-Driven Design (DDD) conventions. Here are the key terms we use:\n\n**Physical Organization:**\n- REALM (Particle/Wave/Observer) - Directory partitions\n- PROJECTOME - The complete set of all files\n- CODOME - All executable code\n- CONTEXTOME - All non-executable content (docs, configs)\n\n**Semantic Organization:**\n- DOMAIN - Vertical functional slice (we're killing this)\n- CONCORDANCE - Purpose alignment between code and docs\n- BOUNDED CONTEXT - Considering adopting from DDD\n\n**Code Classification:**\n- ATOM - Basic code unit type (167 types like Entity, Repository, Service, Factory)\n- ROLE - Functional purpose (Controller, Validator, Transformer)\n- DIMENSION - Classification axis (Kind, Layer, Lifecycle, State, Effect, Boundary)\n\n**Process:**\n- COLLIDER - Static analysis pipeline (physics metaphor)\n- WAVE/PARTICLE duality - Planning vs Implementation\n- OBSERVER - Decision/governance layer\n\n**Which of these terms conflict with or redefine established DDD/software architecture terminology?**\n\nSpecifically:\n1. Does 'Entity', 'Repository', 'Service', 'Factory' in our ATOM taxonomy clash with DDD's specific definitions?\n2. Is 'Aggregate' a DDD term we should be careful with?\n3. Does 'Layer' conflict with DDD's layered architecture?\n4. Are there other DDD terms (Value Object, Domain Event, Application Service, etc.) that we might accidentally misuse?\n\nI need to know which terms are SAFE (no DDD meaning), CAUTION (DDD meaning exists but ours is compatible), and DANGER (DDD meaning conflicts with ours).",
+    "query_length": 1572,
+    "checksum": "sha256:0e47c9fe700026fe1c5952108bde23368295b0a9f12be90056a5c29e0886b355"
+  },
+  "response": {
+    "id": "111cd61b-5147-4dae-9767-6ce4c79a3054",
+    "model": "sonar-pro",
+    "created": 1769487386,
+    "usage": {
+      "prompt_tokens": 353,
+      "completion_tokens": 816,
+      "total_tokens": 1169,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.001,
+        "output_tokens_cost": 0.012,
+        "request_cost": 0.006,
+        "total_cost": 0.019
+      }
+    },
+    "citations": [
+      "https://www.dddcommunity.org/resources/ddd_terms/",
+      "https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/best-practice-an-introduction-to-domain-driven-design",
+      "https://domain-driven-software.com/an-introduction-to-domain-driven-design-ddd-1025bce518c2",
+      "https://martinfowler.com/bliki/DomainDrivenDesign.html",
+      "https://www.fabrizioduroni.it/blog/post/2021/06/06/ddd-dictionary",
+      "https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf",
+      "https://www.rst.software/blog/introduction-to-domain-driven-design-ddd-glossary",
+      "https://gist.github.com/marc0der/48a768e874a29950cdf5a4a0dd32fed6",
+      "https://bytebytego.com/guides/key-terms-in-domain-driven-design/"
+    ],
+    "search_results": [
+      {
+        "title": "Glossary of Domain-Driven Design Terms",
+        "url": "https://www.dddcommunity.org/resources/ddd_terms/",
+        "date": "2009-04-22",
+        "last_updated": "2025-09-13",
+        "snippet": "[[Core Domain]] The distinctive part of the model, central to the user's goals, that differentiates the application and makes it valuable. [[ ...",
+        "source": "web"
+      },
+      {
+        "title": "Best Practice - An Introduction To Domain-Driven Design",
+        "url": "https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/best-practice-an-introduction-to-domain-driven-design",
+        "date": "2016-01-22",
+        "last_updated": "2025-12-18",
+        "snippet": "These domain experts use company- or industry-standard terminology. In DDD, this vocabulary is called the Ubiquitous Language. As developers, you want to ...",
+        "source": "web"
+      },
+      {
+        "title": "Domain-Driven Design (DDD): Core Concepts and Benefits",
+        "url": "https://domain-driven-software.com/an-introduction-to-domain-driven-design-ddd-1025bce518c2",
+        "date": "2024-11-07",
+        "last_updated": "2024-11-09",
+        "snippet": "Domain-Driven Design (DDD) is a software development approach that places an emphasis on deep understanding and alignment between software ...",
+        "source": "web"
+      },
+      {
+        "title": "Domain Driven Design",
+        "url": "https://martinfowler.com/bliki/DomainDrivenDesign.html",
+        "date": "2020-04-22",
+        "last_updated": "2026-01-25",
+        "snippet": "Domain-Driven Design is an approach to software development that centers the development on programming a domain model that has a rich understanding of the ...",
+        "source": "web"
+      },
+      {
+        "title": "A Domain Driven Design dictionary for newbies",
+        "url": "https://www.fabrizioduroni.it/blog/post/2021/06/06/ddd-dictionary",
+        "date": "2021-06-06",
+        "last_updated": "2026-01-26",
+        "snippet": "DDD is a set of tools that help an organization to model software around its business model. Generally speaking a company CAN'T be the best at everything.",
+        "source": "web"
+      },
+      {
+        "title": "Domain-‐Driven Design Reference",
+        "url": "https://www.domainlanguage.com/wp-content/uploads/2016/05/DDD_Reference_2015-03.pdf",
+        "last_updated": "2025-04-12",
+        "snippet": "by E Evans · 2015 · Cited by 140 — Domain experts should object to terms or structures that are awkward or inadequate to convey domain understanding; developers should watch for ambiguity or ...",
+        "source": "web"
+      },
+      {
+        "title": "Introduction to domain driven design (DDD) + glossary",
+        "url": "https://www.rst.software/blog/introduction-to-domain-driven-design-ddd-glossary",
+        "date": "2025-04-08",
+        "last_updated": "2026-01-13",
+        "snippet": "Explore the essential domain-driven design (DDD) glossary. Demystify key concepts and empower your software development.",
+        "source": "web"
+      },
+      {
+        "title": "Domain Driven Design rules file",
+        "url": "https://gist.github.com/marc0der/48a768e874a29950cdf5a4a0dd32fed6",
+        "snippet": "Always use domain terminology in code. Quick Decision Guide: When in doubt: Ask \"Does this serve the business domain or technical infrastructure?\" Domain wins.",
+        "source": "web"
+      },
+      {
+        "title": "Key Terms in Domain-Driven Design",
+        "url": "https://bytebytego.com/guides/key-terms-in-domain-driven-design/",
+        "date": "2024-11-01",
+        "last_updated": "2025-11-07",
+        "snippet": "Key Terms in Domain-Driven Design · The composition of domain objects: · The life cycle of domain objects: · Behavior of domain objects: · Related Guides.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "### Terms from Your Glossary Classified Against DDD\n\nYour project's terms largely use unique nomenclature (e.g., REALM, PROJECTOME, CODOME, CONTEXTOME, CONCORDANCE, ATOM, ROLE, DIMENSION, COLLIDER, WAVE/PARTICLE duality, OBSERVER), which have **no established DDD meanings** and are thus **SAFE** for use without conflict[1][2][3][4][5][6][7][8][9]. \n\n**DOMAIN** aligns closely with DDD's general concept of a problem space but is explicitly being retired in your project, avoiding any issues[1][2][3].  \n**BOUNDED CONTEXT** matches DDD exactly (a boundary delimiting a model's applicability, enabling independent evolution), so if adopting, ensure **CAUTION**—your usage must align precisely to avoid confusion[1][3][5].\n\n#### Specific Questions Answered\n\n1. **ATOM types including 'Entity', 'Repository', 'Service', 'Factory'**: These directly match core DDD **tactical patterns**, where:\n   - **Entity**: An object defined by identity and continuity, not just attributes[1][2][3][4].\n   - **Repository**: A mechanism to access/save Aggregate Roots, abstracting persistence[1][2].\n   - **Service** (Domain Service): Encapsulates domain operations not fitting Entities/Value Objects[2][3].\n   - **Factory**: Encapsulates complex object creation[1].\n   \n   **DANGER** if your ATOM definitions diverge (e.g., if your Entity lacks identity focus or Repository isn't Aggregate-centric), as this redefines DDD building blocks. Limit to DDD-compatible meanings for **CAUTION**[1][2][3][4].\n\n2. **'Aggregate'**: Yes, a key DDD term—an Entity cluster with an Aggregate Root enforcing consistency/transaction boundaries[1][2][3][4]. Not in your listed terms, but **DANGER** if introduced unless matching DDD exactly (e.g., avoid using for general grouping).\n\n3. **'Layer' in DIMENSION**: Conflicts with DDD's **Layered Architecture** (separating concerns, e.g., Domain Layer for model logic, isolating from infrastructure)[1]. Your multi-axis classification (Kind, Layer, etc.) risks confusion. **DANGER** unless \"Layer\" explicitly mirrors DDD layers; otherwise, rename for safety.\n\n4. **Other DDD terms at risk of misuse**:\n   | Term              | DDD Meaning Summary                                                                 | Classification if Used in Your Project |\n   |-------------------|-------------------------------------------------------------------------------------|---------------------------------------|\n   | **Value Object** | Immutable object defined by attributes (no identity)[1][2][3][4].                  | **DANGER**—ATOM types could clash if not identity-less. |\n   | **Domain Event** | Object signaling domain change (e.g., for integration)[1][3].                       | **DANGER**—No overlap now, but future use must match. |\n   | **Application Service** | Orchestrates use cases (not pure domain logic; contrasts Domain Service)[2][3].    | **CAUTION**—Distinguishable from your ROLE/Service if prefixed. |\n   | **Ubiquitous Language** | Shared domain vocabulary across team/experts[2][3][7][8].                          | **DANGER**—Your CONCORDANCE is similar but distinct; avoid if expanding. |\n\n#### Recommendations\n- **SAFE** terms dominate your glossary, preserving uniqueness.\n- For **CAUTION/DANGER** items, audit definitions against DDD (e.g., via Evans' book[1][6]) or prefix (e.g., \"OurAtomEntity\") to namespace.\n- No conflicts in physics-themed terms (COLLIDER, etc.), as DDD focuses on domain modeling, not processes[1][2][3][4]."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

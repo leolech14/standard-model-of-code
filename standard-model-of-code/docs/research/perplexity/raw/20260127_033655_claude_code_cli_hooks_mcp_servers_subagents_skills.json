@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T03:36:55.307216",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Code CLI hooks MCP servers subagents skills configuration best practices",
+    "query_length": 79,
+    "checksum": "sha256:aaba17da06e02bea349d95186733859676681cc204c497ef41545304de5ae16e"
+  },
+  "response": {
+    "id": "19eebc79-4985-4497-8387-efbdc6efd113",
+    "model": "sonar-pro",
+    "created": 1769495815,
+    "usage": {
+      "prompt_tokens": 13,
+      "completion_tokens": 732,
+      "total_tokens": 745,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.011,
+        "request_cost": 0.006,
+        "total_cost": 0.017
+      }
+    },
+    "citations": [
+      "https://www.datacamp.com/tutorial/claude-code-hooks",
+      "https://code.claude.com/docs/en/hooks",
+      "https://code.claude.com/docs/en/hooks-guide",
+      "https://www.builder.io/blog/claude-code",
+      "https://shipyard.build/blog/claude-code-cheat-sheet/",
+      "https://github.com/karanb192/claude-code-hooks",
+      "https://docs.gitbutler.com/features/ai-integration/claude-code-hooks",
+      "https://www.youtube.com/watch?v=CEODfvJLIGQ"
+    ],
+    "search_results": [
+      {
+        "title": "Claude Code Hooks: A Practical Guide to Workflow Automation",
+        "url": "https://www.datacamp.com/tutorial/claude-code-hooks",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-27",
+        "snippet": "Claude Code provides two ways to set up hooks: through the interactive /hooks command or by editing configuration files directly. Let's start ...",
+        "source": "web"
+      },
+      {
+        "title": "Hooks reference - Claude Code Docs",
+        "url": "https://code.claude.com/docs/en/hooks",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-25",
+        "snippet": "Configuration. Claude Code hooks are configured in your settings files: ~/.claude/settings.json - User settings. .claude/settings.json - Project settings.",
+        "source": "web"
+      },
+      {
+        "title": "Get started with Claude Code hooks",
+        "url": "https://code.claude.com/docs/en/hooks-guide",
+        "date": "2026-01-22",
+        "last_updated": "2026-01-24",
+        "snippet": "​. Prerequisites · ​. Step 1: Open hooks configuration · ​. Step 2: Add a matcher · ​. Step 3: Add the hook · ​. Step 4: Save your configuration · ​. Step 5: Verify ...",
+        "source": "web"
+      },
+      {
+        "title": "How I use Claude Code (+ my best tips) - Builder.io",
+        "url": "https://www.builder.io/blog/claude-code",
+        "date": "2025-07-11",
+        "last_updated": "2026-01-26",
+        "snippet": "You can also use the interactive /hooks command in Claude Code to configure hooks through a menu interface, which is often easier than editing ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code CLI Cheatsheet: config, commands, prompts, + best ...",
+        "url": "https://shipyard.build/blog/claude-code-cheat-sheet/",
+        "date": "2026-01-20",
+        "last_updated": "2026-01-27",
+        "snippet": "Claude Code CLI cheatsheet with commands, configuration, and best practices ... Configure hooks. /mcp, Manage MCP servers. /agents, Manage ...",
+        "source": "web"
+      },
+      {
+        "title": "karanb192/claude-code-hooks: A growing collection of ... - GitHub",
+        "url": "https://github.com/karanb192/claude-code-hooks",
+        "date": "2026-01-25",
+        "snippet": "Configuration Reference. See the official Claude Code hooks documentation for: All hook events and their lifecycles; Input/output JSON formats ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code Hooks - GitButler Docs",
+        "url": "https://docs.gitbutler.com/features/ai-integration/claude-code-hooks",
+        "date": "2025-11-04",
+        "last_updated": "2026-01-27",
+        "snippet": "First, you need to install the GitButler CLI, which can be done in your General settings. ... Hooks in Claude Code are defined in one of your settings files.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code Hooks: MUST KNOW to Keep Claude Agent in Control!",
+        "url": "https://www.youtube.com/watch?v=CEODfvJLIGQ",
+        "date": "2025-08-14",
+        "last_updated": "2026-01-27",
+        "snippet": "Master Claude Code Hooks: Complete Tutorial for Custom Rules & Automation Learn how to supercharge your Claude Code development workflow ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Claude Code CLI hooks** automate workflows by running shell commands at specific events (e.g., **PreToolUse**, **PostToolUse**) and are configured via the interactive `/hooks` command or JSON files like `~/.claude/settings.json` (global), `.claude/settings.json` (project), or `.claude/settings.local.json` (local, uncommitted).[1][2][3][4]\n\n**MCP servers** are managed with the `/mcp` slash command in Claude Code CLI, which handles connections to Model Context Protocol (MCP) servers for enhanced capabilities like external tools or data access.[5]\n\n**Subagents** trigger hooks such as **SubagentStop** when tasks complete, allowing post-processing like logging or validation alongside main agent events.[3]\n\n**Skills** refer to slash commands (e.g., `/hooks`, `/agents`) and custom configurations that extend Claude Code's functionality, often auto-generated by asking Claude to build project-specific setups.[4][5]\n\n### Configuration Structure\nHooks use this JSON format in settings files:\n\n```json\n\"hooks\": {\n  \"PostToolUse\": [\n    {\n      \"matcher\": \"Write|Edit\",\n      \"hooks\": [\n        {\n          \"type\": \"command\",\n          \"command\": \"python -m black .\",\n          \"timeout\": 30\n        }\n      ]\n    }\n  ]\n}\n```\n\n- **Matcher**: Specifies triggers (e.g., `\"Write(*.py)\"` for Python files, `\"Bash\"` for shell tools, or `*` for all).[3][5]\n- Environment variables: `$CLAUDE_PROJECT_DIR` (project root), `$CLAUDE_ENV_FILE` (persist vars), `$CLAUDE_PLUGIN_ROOT` (plugins).[2]\n- Reload: Run `/hooks` or restart Claude Code.[1][3]\n\n### Best Practices\n- **Start interactive**: Use `/hooks` for beginners to select events, matchers, and commands step-by-step (e.g., log Bash commands with `jq`).[1][3][4]\n- **Scope appropriately**: Global for cross-project (e.g., notifications), project-specific for codebases (e.g., auto-format).[1][2][5]\n- **Automation examples**:\n  | Use Case | Event | Matcher | Command |\n  |----------|--------|---------|---------|\n  | Auto-format | PostToolUse | Write\\|Edit | `prettier --write .`[3][4] |\n  | Log commands | PreToolUse | Bash | `jq ... >> log.txt`[3] |\n  | Type check | PostToolUse | Write(*.ts) | `tsc --noEmit`[4] |\n  | Notifications | Notification | * | `say 'Task complete'`[1] |\n- **Advanced**:\n  - Block risky actions in **PreToolUse** (e.g., deny prod file edits).[3]\n  - Combine with plugins: Hooks merge automatically.[2]\n  - Setup hooks: Load context on `--init` via **Setup** event with `additionalContext`.[2]\n  - Test: Verify with `/hooks` and trigger events.[3]\n- **Enterprise**: Use `allowManagedHooksOnly` policy to restrict user hooks.[2]\n- **Avoid pitfalls**: Set timeouts to prevent hangs; use regex matchers precisely; check remote vs. local with `$CLAUDE_CODE_REMOTE`.[2][5]\n\nFor full event lifecycles and JSON I/O, consult official docs.[2][6]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}
