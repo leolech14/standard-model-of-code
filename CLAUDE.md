@@ -52,7 +52,7 @@ P = C ⊔ X    (disjoint union - MECE partition)
 | **CODOME** | All executable code | `context-management/docs/CODOME.md` |
 | **CONTEXTOME** | All non-executable content | `context-management/docs/CONTEXTOME.md` |
 | **PROJECTOME** | Complete project contents | `context-management/docs/PROJECTOME.md` |
-| **DOMAINS** | Vertical slices through both | `context-management/docs/DOMAINS.md` |
+| **CONCORDANCES** | Semantic groupings with alignment scores | `context-management/docs/CONCORDANCES.md` |
 | **GLOSSARY** | All terminology | `context-management/docs/GLOSSARY.md` |
 
 ## Essential Docs
@@ -63,11 +63,15 @@ P = C ⊔ X    (disjoint union - MECE partition)
 | `context-management/docs/agent_school/CLI_GRAMMAR.md` | ./pe CLI reference for AI agents |
 | `context-management/docs/agent_school/WORKFLOWS.md` | Git, commit, PR workflows |
 
-## Domain Entry Points
-| Domain | File |
-|--------|------|
+## Concordance Entry Points
+| Concordance | File |
+|-------------|------|
 | Collider (analysis engine) | `standard-model-of-code/CLAUDE.md` |
 | Context (AI tools) | `context-management/docs/deep/AI_USER_GUIDE.md` |
 
 ## Deep Docs
 Theory, architecture, research: `context-management/docs/deep/`
+
+| Doc | Purpose |
+|-----|---------|
+| `context-management/docs/deep/THEORY_AMENDMENT_2026-01.md` | A1:Tools, A2:Dark Matter, A3:Confidence extensions |

@@ -99,7 +99,7 @@ PROJECTOME = CODOME ⊔ CONTEXTOME
 
 - `CONTEXTOME.md` — Non-executable content definition
 - `PROJECTOME.md` — Complete project contents
-- `DOMAINS.md` — Vertical slices through both universes
+- `CONCORDANCES.md` — Purpose-aligned regions across both universes
 - `TOPOLOGY_MAP.md` — Master navigation guide
 - `standard-model-of-code/docs/COLLIDER.md` — Analysis tool
 

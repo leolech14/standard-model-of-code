@@ -24,9 +24,9 @@ PROJECTOME (all project contents)
     └── All content that informs
 ```
 
-## Domains: The Cross-Cut
+## Concordances: The Cross-Cut
 
-**Domains** are vertical slices through both universes. Each domain has code (Codome) AND context (Contextome):
+**Concordances** are purpose-aligned regions across both universes. Each concordance has code (Codome) AND context (Contextome):
 
 ```
             │ CODOME          │ CONTEXTOME
@@ -45,21 +45,22 @@ AI Tools    │ analyze.py      │ analysis_sets.yaml
             │ aci/*.py        │ prompts.yaml
 ```
 
-**A Domain is defined by the relationship between its code and its context.**
+**A Concordance is defined by the PURPOSE ALIGNMENT between its code and its context.**
 
-### Domain Symmetry
+### Concordance Health
 
-For any domain D:
-- `D.code` ⊂ Codome (the executable implementation)
-- `D.context` ⊂ Contextome (the specs, configs, docs)
-- `D.symmetry` = how well D.code matches D.context
+For any concordance C:
+- `C.code` ⊂ Codome (the executable implementation)
+- `C.context` ⊂ Contextome (the specs, configs, docs)
+- `C.score` = how well C.code aligns with C.context on PURPOSE
 
 ```
-Domain Health = f(code_exists, context_exists, they_match)
+Concordance Score = f(code_exists, context_exists, purposes_align)
 
-Perfect:    Code ←→ Context  (documented and implemented)
-Orphan:     Code ←→ ∅        (undocumented code)
-Phantom:    ∅    ←→ Context  (unimplemented spec)
+Concordant:  Code ←→ Context  (purposes agree)
+Unvoiced:    Code ←→ ∅        (code purpose not documented)
+Unrealized:  ∅    ←→ Context  (doc purpose not implemented)
+Discordant:  Code ←/→ Context (purposes disagree)
 ```
 
 ## Contextome Boundary
@@ -126,7 +127,7 @@ PROJECTOME = CODOME ⊔ CONTEXTOME
 
 - `CODOME.md` — Executable code definition
 - `PROJECTOME.md` — Complete project contents
-- `DOMAINS.md` — Vertical slices through both universes
+- `CONCORDANCES.md` — Purpose-aligned regions across both universes
 - `TOPOLOGY_MAP.md` — Master navigation guide
 - `../../standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` — Codome measurement
 - `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` — Full enumeration
@@ -134,4 +135,4 @@ PROJECTOME = CODOME ⊔ CONTEXTOME
 ---
 
 *Updated: 2026-01-25*
-*Corrected: Domains are cross-cuts, not separate universes*
+*Corrected: Concordances are purpose-aligned regions, not separate universes*

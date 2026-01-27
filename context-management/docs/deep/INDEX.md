@@ -13,7 +13,7 @@ PROJECTOME = CODOME + CONTEXTOME
 | **CODOME** | `../CODOME.md` — All executable code |
 | **CONTEXTOME** | `../CONTEXTOME.md` — All non-executable content |
 | **PROJECTOME** | `../PROJECTOME.md` — Complete project contents |
-| **DOMAINS** | `../DOMAINS.md` — Vertical slices through both |
+| **CONCORDANCES** | `../CONCORDANCES.md` — Purpose-aligned regions |
 | **TOPOLOGY MAP** | `../TOPOLOGY_MAP.md` — Master navigation guide |
 | **GLOSSARY** | `../GLOSSARY.md` — Definitive terminology reference |
 
@@ -32,6 +32,7 @@ PROJECTOME = CODOME + CONTEXTOME
 |-----|----------|
 | Standard Model of Code | `standard-model-of-code/docs/MODEL.md` |
 | **Codespace Algebra** | `../CODESPACE_ALGEBRA.md` — Mathematical formalization |
+| **Ontological Foundations** | `ONTOLOGICAL_FOUNDATIONS.md` — Axioms, category theory, semiotics, fundamentality |
 | Wave-Particle Symmetry | `.agent/specs/WAVE_PARTICLE_SYMMETRY.md` |
 | Decision Deck | `.agent/specs/DECISION_DECK_LAYER.md` |
 

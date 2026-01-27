@@ -23,7 +23,7 @@ Where:
 - **A** = Set of atoms (semantic types)
 - **R** = Set of realms (directory partitions)
 - **L** = Set of levels (hierarchy)
-- **D** = Set of domains (overlapping regions)
+- **C** = Set of concordances (purpose-aligned regions)
 - **σ** = Classification function (nodes → atoms)
 - **ρ** = Realm function (files → realms)
 - **λ** = Level function (entities → levels)
@@ -214,33 +214,34 @@ Wave ∩ Observer = ∅
 
 ---
 
-## 7. DOMAIN ALGEBRA (Covers)
+## 7. CONCORDANCE ALGEBRA (Covers)
 
 ### The Cover
 
 ```
-D = {D₁, D₂, ..., Dₘ}        Set of domains
+C = {C₁, C₂, ..., Cₘ}        Set of concordances
 
-⋃ᵢ Dᵢ = P                    Coverage (all files covered)
-Dᵢ ∩ Dⱼ ≠ ∅ (allowed)       Overlap permitted
+⋃ᵢ Cᵢ = P                    Coverage (all files covered)
+Cᵢ ∩ Cⱼ ≠ ∅ (allowed)       Overlap permitted
+κ(Cᵢ) → [0,1]               Each concordance has alignment score
 ```
 
-### Domain Membership
+### Concordance Membership
 
 ```
-μ: P → 𝒫(D)                  File → set of domains it belongs to
+μ: P → 𝒫(C)                  File → set of concordances it belongs to
 
-|μ(f)| ≥ 1                   Every file in at least one domain
-|μ(f)| > 1 possible          File can be in multiple domains
+|μ(f)| ≥ 1                   Every file in at least one concordance
+|μ(f)| > 1 possible          File can serve multiple purposes
 ```
 
-### Current Domains
+### Current Concordances
 
 ```
-D = {Pipeline, Visualization, Governance, AI_Tools, Theory, Archive, Research}
+C = {Pipeline, Visualization, Governance, AI_Tools, Theory, Archive, Research}
 
-Pipeline = {f ∈ P | concerns(f, "analysis")}
-Visualization = {f ∈ P | concerns(f, "rendering")}
+Pipeline = {f ∈ P | purpose(f, "analysis")}
+Visualization = {f ∈ P | purpose(f, "rendering")}
 ...
 ```
 
@@ -268,9 +269,9 @@ DRIFT(c, x)     ⟺ ∃c ∈ C, ∃x ∈ X: documents(x, c) ∧ ¬matches(x, c)
 ### Symmetry Score
 
 ```
-symmetry(D) = |SYMMETRIC| / (|SYMMETRIC| + |ORPHAN| + |PHANTOM| + |DRIFT|)
+concordance(C) = |CONCORDANT| / (|CONCORDANT| + |UNVOICED| + |UNREALIZED| + |DISCORDANT|)
 
-Target: symmetry(D) > 0.9 for healthy domain
+Target: concordance(C) > 0.9 for healthy concordance
 ```
 
 ---
@@ -280,14 +281,14 @@ Target: symmetry(D) > 0.9 for healthy domain
 ### Codespace Tuple
 
 ```
-𝕮 = (P, G, σ, ρ_realm, ρ_domain, λ, S, κ)
+𝕮 = (P, G, σ, ρ_realm, μ_conc, λ, S, κ)
 
 Where:
   P = (C, X)                 Universe partition
   G = (N, E, T)              Typed graph
   σ: N → A                   Classification
   ρ_realm: P → R             Realm assignment
-  ρ_domain: P → 𝒫(D)         Domain membership
+  μ_conc: P → 𝒫(C)           Concordance membership
   λ: Entity → L              Level assignment
   S: C × X → State           Symmetry relation
   κ: N → [0,1]               Confidence
@@ -1467,7 +1468,7 @@ Static Structure:
   P = Universe partition (Codome ⊔ Contextome)
   G = Code graph (nodes, edges)
   σ = Classification (atoms)
-  ρ = Realm/Domain assignment
+  ρ = Realm assignment, μ = Concordance membership
   λ = Level assignment
 
 Dynamic Properties:

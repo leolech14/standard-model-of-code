@@ -3,7 +3,7 @@
 # Part of the Holographic-Socratic Layer: validates that code matches documentation.
 
 # =============================================================================
-# DOMAIN: PIPELINE (How code is analyzed)
+# CONCORDANCE: PIPELINE (How code is analyzed)
 # =============================================================================
 pipeline:
   scope: "standard-model-of-code/src/core/**"
@@ -49,7 +49,7 @@ pipeline:
       anchors:
         - file: "standard-model-of-code/src/core/data_management.py"
           pattern: "class CodebaseState"
-    
+
     Extractor:
       description: "Component responsible for raw data ingestion."
       role: "Source"
@@ -61,7 +61,7 @@ pipeline:
           pattern: "class *Extractor"
 
 # =============================================================================
-# DOMAIN: THEORY (The Standard Model concepts)
+# CONCORDANCE: THEORY (The Standard Model concepts)
 # =============================================================================
 theory:
   scope: "standard-model-of-code/docs/theory/**"
@@ -77,7 +77,7 @@ theory:
           pattern: "properties"
         - file: "standard-model-of-code/src/core/atom_registry.py"
           pattern: "class AtomRegistry"
-    
+
     Dimension:
       description: "An axis of the 8D semantic space."
       invariants:
@@ -87,7 +87,7 @@ theory:
           pattern: "class D*"
 
 # =============================================================================
-# DOMAIN: ARCHITECTURE (Code organization)
+# CONCORDANCE: ARCHITECTURE (Code organization)
 # =============================================================================
 architecture:
   scope: "context-management/**"

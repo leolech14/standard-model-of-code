@@ -21,7 +21,7 @@
 │    │  Analyzed by: COLLIDER      │    │  Analyzed by: ACI            │     │
 │    └──────────────────────────────┘    └──────────────────────────────┘     │
 │                                                                              │
-│    ════════════════════ DOMAINS (vertical slices) ════════════════════      │
+│    ═══════════════ CONCORDANCES (purpose-aligned regions) ═══════════════   │
 │                                                                              │
 │    Pipeline ──────┼─── src/core/*.py ──────┼─── docs/specs/PIPELINE*.md     │
 │    Visualization ─┼─── viz/assets/*.js ────┼─── docs/specs/UI*.md           │
@@ -62,7 +62,7 @@ PROJECT_elements/
 │       ├── CODOME.md
 │       ├── CONTEXTOME.md
 │       ├── PROJECTOME.md
-│       ├── DOMAINS.md
+│       ├── CONCORDANCES.md
 │       └── TOPOLOGY_MAP.md     ← YOU ARE HERE
 │
 └── .agent/                     ← "Observer" - decides what to do next
@@ -79,7 +79,7 @@ PROJECT_elements/
 | Understand the CODOME | `CODOME.md` |
 | Understand the CONTEXTOME | `CONTEXTOME.md` |
 | See all project contents | `PROJECTOME.md` |
-| Navigate by domain | `DOMAINS.md` |
+| Navigate by concordance | `CONCORDANCES.md` |
 | See system connections | `.agent/SUBSYSTEM_INTEGRATION.md` |
 | Find all registries | `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` |
 | Start AI analysis | `AI_USER_GUIDE.md` |
@@ -92,7 +92,7 @@ PROJECT_elements/
 | `CODOME.md` | Executable code | What runs |
 | `CONTEXTOME.md` | Non-executable content | What informs |
 | `PROJECTOME.md` | Complete contents | The union |
-| `DOMAINS.md` | Cross-cuts | Vertical slices |
+| `CONCORDANCES.md` | Cross-cuts | Purpose-aligned regions |
 
 ## Realm Physics
 
@@ -127,7 +127,7 @@ IF F is non-executable (docs, config, data):
 Every file belongs to exactly one. No exceptions.
 ```
 
-## Domain Symmetry States
+## Concordance States
 
 ```
 SYMMETRIC   Code ←→ Context    Healthy
@@ -143,7 +143,7 @@ DRIFT       Code ←/→ Context   Out of sync
 | CODOME | Collider | `./collider full <path>` |
 | CONTEXTOME | ACI (analyze.py) | `python analyze.py "query"` |
 | PROJECTOME | Registry of Registries | Manual inspection |
-| DOMAINS | HSL | `python analyze.py --verify` |
+| CONCORDANCES | HSL | `python analyze.py --verify` |
 
 ## Theory Layer
 

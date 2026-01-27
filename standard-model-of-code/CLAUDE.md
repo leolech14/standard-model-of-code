@@ -9,7 +9,7 @@
 | Purpose | Find basic constituents of computer programs |
 | Atoms | 3,525 total (80 core + 3,445 T2 mined) |
 | Roles | 33 canonical, 29 implemented |
-| Pipeline | 28 stages (5 phases) |
+| Pipeline | 29 stages (5 phases) |
 | **Node Count** | 1,179 core / 1,961 full (see `docs/specs/NODE_COUNT_GROUND_TRUTH.md`) |
 | Body Coverage | ~36% nodes have `body_source` |
 
@@ -46,6 +46,8 @@ See `docs/reports/ATOM_STATISTICAL_ANALYSIS.md` for full analysis.
 | **Landscape Implementation** | `docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` | Algorithms, pipeline integration, health index |
 | **Node Count Ground Truth** | `docs/specs/NODE_COUNT_GROUND_TRUTH.md` | Canonical scope definitions, expected counts |
 | **Open Concerns** | `docs/OPEN_CONCERNS.md` | Active issues, tech debt, session logs |
+| **Theory Amendment** | `../context-management/docs/deep/THEORY_AMENDMENT_2026-01.md` | A1:Tools, A2:Dark Matter, A3:Confidence |
+| **Ontological Foundations** | `../context-management/docs/deep/ONTOLOGICAL_FOUNDATIONS.md` | Axioms, category theory, semiotics, fundamentality stances |
 
 ## Commands
 
@@ -123,6 +125,7 @@ See `tools/visualize_graph_webgl.py` for the generation logic.
 | **Query Loader** | `src/core/queries/__init__.py` |
 | **Edge Extractor** | `src/core/edge_extractor.py` |
 | **Codome Boundaries** | `src/core/full_analysis.py:165-298` |
+| **Level Classifier** | `src/core/level_classifier.py` |
 | Module pattern | `docs/specs/VISUALIZATION_UI_SPEC.md#state-unification-pattern` |
 
 ## Output Files

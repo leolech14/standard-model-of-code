@@ -2,13 +2,13 @@
 
 **Last Updated:** 2026-01-26
 **Status:** AUTHORITATIVE (Single concerns tracker)
-**Scope:** All domains (Particle, Wave, Observer, UI, Theory)
+**Scope:** All areas (Particle, Wave, Observer, UI, Theory)
 
 ---
 
 ## Executive Summary (2026-01-25)
 
-| Domain | Critical | High | Medium | Low | Blocked |
+| Area | Critical | High | Medium | Low | Blocked |
 |--------|:--------:|:----:|:------:|:---:|:-------:|
 | **Collider (Particle)** | 1 | 2 | 4 | 2 | 1 |
 | **Context (Wave)** | 0 | 2 | 1 | 1 | 0 |

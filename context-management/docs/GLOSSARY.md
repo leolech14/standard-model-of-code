@@ -45,10 +45,11 @@ REALMS (Partition)
 P = Particle ⊔ Wave ⊔ Observer
     (directories are mutually exclusive)
 
-DOMAINS (Cover)
+CONCORDANCES (Cover)
 ──────────────────────────────────────────────────────────
-⋃ Dᵢ = P            Domains cover everything
-Dᵢ ∩ Dⱼ ≠ ∅         Overlap allowed (a file can be in multiple domains)
+⋃ Cᵢ = P            Concordances cover everything
+Cᵢ ∩ Cⱼ ≠ ∅         Overlap allowed (a file can serve multiple purposes)
+κ(Cᵢ) → [0,1]       Each concordance has an alignment score
 
 CLASSIFICATION (Function)
 ──────────────────────────────────────────────────────────
@@ -123,15 +124,15 @@ Automation (Liquid) --[Build/Deploy]--> Infrastructure (Solid)
 | **WAVE** | MODULE + CONFIG(liquid) | Probabilistic |
 | **OBSERVER** | AUTOMATION + INFRASTRUCTURE | Teleological |
 
-### Domains
+### Concordances
 
 | Term | Definition |
 |------|------------|
-| **DOMAIN** | A vertical slice through CODOME and CONTEXTOME. Every domain has code AND docs. |
-| **Pipeline** | Domain: Collider stages, analysis logic. Code in `src/core/`, docs in `docs/specs/`. |
-| **Visualization** | Domain: 3D graph rendering. Code in `viz/assets/`, docs in UI specs. |
-| **Governance** | Domain: Task registry, confidence scoring. Code in `.agent/tools/`, docs in `.agent/specs/`. |
-| **AI Tools** | Domain: analyze.py, ACI, research. Code in `tools/ai/`, docs in `config/`. |
+| **CONCORDANCE** | A semantic grouping with measured purpose alignment between code and docs. Score ∈ [0,1]. |
+| **Pipeline** | Concordance: Collider stages, analysis logic. Code in `src/core/`, docs in `docs/specs/`. |
+| **Visualization** | Concordance: 3D graph rendering. Code in `viz/assets/`, docs in UI specs. |
+| **Governance** | Concordance: Task registry, confidence scoring. Code in `.agent/tools/`, docs in `.agent/specs/`. |
+| **AI Tools** | Concordance: analyze.py, ACI, research. Code in `tools/ai/`, docs in `config/`. |
 
 ---
 
@@ -343,7 +344,7 @@ Classification  roles.json              ──► unified_analysis.json
 PROJECTOME = CODOME ⊔ CONTEXTOME     (partition)
 CODOME     = all executable code
 CONTEXTOME = all non-executable content
-DOMAINS    = vertical slices (cover, may overlap)
+CONCORDANCES = purpose-aligned regions (cover, may overlap)
 REALMS     = Particle | Wave | Observer (partition by directory)
 
 σ: Nodes → Atoms                     (classification function)
@@ -423,7 +424,7 @@ documented_in: PATH
 | `CODOME.md` | Executable universe definition |
 | `CONTEXTOME.md` | Non-executable universe definition |
 | `PROJECTOME.md` | Complete contents definition |
-| `DOMAINS.md` | Vertical slice definitions |
+| `CONCORDANCES.md` | Purpose-aligned region definitions |
 | `TOPOLOGY_MAP.md` | Master navigation guide |
 | `.agent/SUBSYSTEM_INTEGRATION.md` | System connections |
 | `standard-model-of-code/docs/MODEL.md` | Full theory |

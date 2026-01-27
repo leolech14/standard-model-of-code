@@ -30,7 +30,7 @@ PROJECTOME = CODOME ∪ CONTEXTOME
 │    │  "What runs"        │    │  "What informs"     │           │
 │    └─────────────────────┘    └─────────────────────┘           │
 │                                                                  │
-│    ─────────────── DOMAINS (cross-cuts) ───────────────         │
+│    ─────────────── CONCORDANCES (purpose-aligned) ─────────────  │
 │                                                                  │
 │    Pipeline ──────┼── code ──────────┼── specs                  │
 │    Visualization ─┼── modules/*.js ──┼── UI_SPEC.md             │
@@ -47,7 +47,7 @@ PROJECTOME = CODOME ∪ CONTEXTOME
 | **Projectome** | All project contents | "project files", "repo contents" |
 | **Codome** | All executable code | "codebase", "source code" |
 | **Contextome** | All non-executable content | "documentation", "metadata" |
-| **Domain** | Vertical slice through Codome + Contextome | "module", "feature", "bounded context" |
+| **Concordance** | Purpose-aligned region across Codome + Contextome | "module", "feature", "bounded context" |
 
 ## Why New Terms?
 
@@ -75,19 +75,19 @@ The -ome terms provide:
 
 *Excludes: .venv, node_modules, __pycache__, .git*
 
-## Domains
+## Concordances
 
-| Domain | Codome Files | Contextome Files |
-|--------|--------------|------------------|
+| Concordance | Codome Files | Contextome Files |
+|-------------|--------------|------------------|
 | Pipeline | src/core/*.py | docs/specs/PIPELINE*.md |
 | Visualization | viz/assets/*.js | docs/specs/UI*.md |
 | Governance | .agent/tools/*.py | .agent/registry/*.yaml |
 | AI Tools | tools/ai/*.py | config/*.yaml |
 | Theory | (N/A) | docs/MODEL.md |
 
-## Domain Symmetry
+## Concordance Health
 
-A healthy domain has both code AND context that match:
+A healthy concordance has both code AND context that align on purpose:
 
 ```
 Symmetry States:
@@ -98,7 +98,7 @@ PHANTOM     ∅    ←→ Context    Spec without implementation
 DRIFT       Code ←/→ Context   Both exist, they disagree
 ```
 
-**Domain Health = Symmetric / (Symmetric + Orphan + Phantom + Drift)**
+**Concordance Score = Concordant / (Concordant + Unvoiced + Unrealized + Discordant)**
 
 ## Operations
 
@@ -138,7 +138,7 @@ That's it.
 
 - `CODOME.md` — Executable code definition
 - `CONTEXTOME.md` — Non-executable content definition
-- `DOMAINS.md` — Vertical slices through both universes
+- `CONCORDANCES.md` — Purpose-aligned regions across both universes
 - `TOPOLOGY_MAP.md` — Master navigation guide
 - `../../standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` — Code measurement spec
 - `../../standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` — Full enumeration
@@ -152,4 +152,4 @@ Perplexity research confirming terminology value:
 ---
 
 *Created: 2026-01-25*
-*Model: 2 universes (Codome + Contextome) + N domains (cross-cuts)*
+*Model: 2 universes (Codome + Contextome) + N concordances (purpose-aligned regions)*
