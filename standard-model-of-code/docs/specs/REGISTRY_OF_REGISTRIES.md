@@ -12,7 +12,8 @@
 | **Contextome** | 18 | ~700 | Docs, configs, AI artifacts |
 | **Visualization** | 14 | ~200 | UI, 3D rendering, controls |
 | **Governance** | 12 | ~160 | Tasks, sprints, confidence |
-| **TOTAL** | **86** | **~5,160** | Full project universe |
+| **Logistics** | 4 | ~1,200 | Waybills, parcels, batch context |
+| **TOTAL** | **90** | **~6,360** | Full project universe |
 
 See also:
 - **Codome**: Measured by Collider pipeline → `unified_analysis.json`
@@ -155,6 +156,10 @@ The visualization intelligence layer has its own taxonomy.
 | 12 | Antimatter Detection | Find violations |
 | 13 | Report Generation | Create output.md |
 | 14 | Visualization | Generate HTML |
+| 15 | Ingestion Monitoring | Mint Parcel IDs / Waybills |
+| 16 | Refinement Tracking | Pass parent_id to RefineryNodes |
+| 17 | Batch Consolidation | Link copresence via Batch ID |
+| 18 | Logistics Export | Final provenance-aware JSON |
 
 ---
 
@@ -608,5 +613,24 @@ Tools we built ourselves. Organized by purpose.
 
 ---
 
-*Last updated: 2026-01-26*
+## 15. Logistics & Provenance Registries
+
+| Registry | Count | Location | Description |
+|----------|-------|----------|-------------|
+| **Waybills** | **~100+** | `logistics_demo.json` | Active tracking manifests |
+| **Parcels** | **~1,000+** | (embedded in chunks) | Self-describing data objects |
+| **Batch IDs** | **varies** | `waybill.route.context` | Copresence identifiers |
+| **Logistics Theory** | **1** | `intelligence/concepts/THEORY_DATA_LOGISTICS.md` | The Physics of Code |
+
+### Logistics Artifacts
+
+| File | Purpose | Location |
+|------|---------|----------|
+| `pipeline.py` | Pipeline Orchestrator | `context-management/tools/refinery/` |
+| `refinery.py` | Logistics-aware Chunker | `context-management/tools/ai/aci/` |
+| `corpus_inventory.py` | Ingestion Scanner | `context-management/tools/refinery/` |
+
+---
+
+*Last updated: 2026-01-27*
 *Part of the Standard Model of Code project*

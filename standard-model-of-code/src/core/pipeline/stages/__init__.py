@@ -1,7 +1,7 @@
 """
 Pipeline Stages for Collider.
 
-27 stages organized into 5 phases:
+28 stages organized into 5 phases:
 
 PHASE 1: EXTRACTION (Stages 0-2)
     0. SurveyStage - Pre-analysis intelligence
@@ -38,6 +38,7 @@ PHASE 5: OUTPUT (Stages 9-12)
     10. TopologyReasoningStage - Graph shape
     11. SemanticCortexStage - Concepts/themes
     11b. AIInsightsStage - LLM analysis
+    11.5. ManifestWriterStage - Provenance & integrity (MEASURED CODOME)
     12. OutputGenerationStage - JSON/HTML/MD
 """
 
@@ -76,6 +77,7 @@ from .roadmap_evaluation import RoadmapEvaluationStage
 from .topology_reasoning import TopologyReasoningStage
 from .semantic_cortex import SemanticCortexStage
 from .ai_insights import AIInsightsStage
+from .manifest_writer import ManifestWriterStage
 from .output_generation import OutputGenerationStage
 
 
@@ -111,6 +113,7 @@ __all__ = [
     "TopologyReasoningStage",
     "SemanticCortexStage",
     "AIInsightsStage",
+    "ManifestWriterStage",
     "OutputGenerationStage",
 ]
 
@@ -147,5 +150,6 @@ STAGE_ORDER = [
     "topology_reasoning",
     "semantic_cortex",
     "ai_insights",
+    "manifest_writer",  # Stage 11.5: Provenance before output
     "output_generation",
 ]

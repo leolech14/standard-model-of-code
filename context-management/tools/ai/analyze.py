@@ -60,6 +60,7 @@ ACI Tiers:
   - RAG (Tier 1): File Search for targeted lookups (~5s)
   - LONG_CONTEXT (Tier 2): Full context Gemini reasoning (~60s)
   - PERPLEXITY (Tier 3): External web research (~30s)
+  - GRAPH_RAG (Tier 5): Knowledge Graph reasoning (Neo4j) (~10s)
 
 IMPORTANT: This script requires the .tools_venv virtual environment.
 """
@@ -146,13 +147,22 @@ try:
 except ImportError:
     HAS_RESEARCH_ENGINE = False
 
+# Import Graph Engine for GraphRAG
+try:
+    from graph_engine import GraphEngine
+    HAS_GRAPH_ENGINE = True
+except ImportError:
+    HAS_GRAPH_ENGINE = False
+    HAS_GRAPH_ENGINE = False
+
 # Import Industrial UI for styled output
 try:
-    from industrial_ui import GeminiUI, Colors as C
+    from industrial_ui import GeminiUI, ContextUI, Colors as C
     HAS_INDUSTRIAL_UI = True
 except ImportError:
     HAS_INDUSTRIAL_UI = False
     GeminiUI = None  # type: ignore
+    ContextUI = None  # type: ignore
     C = None  # type: ignore
 
 # Import Perplexity research for Tier 3 queries
@@ -166,6 +176,78 @@ except ImportError:
 SETS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/analysis_sets.yaml"
 PROMPTS_CONFIG_PATH = PROJECT_ROOT / "context-management/config/prompts.yaml"
 SEMANTIC_MODELS_PATH = PROJECT_ROOT / "context-management/config/semantic_models.yaml"
+
+# =============================================================================
+# STONE TOOL OUTPUT CONTRACT (AI-first structured output)
+# =============================================================================
+# See: context-management/docs/specs/ANALYZE_OUTPUT_CONTRACT.md
+
+from dataclasses import dataclass, field, asdict
+from typing import List, Dict, Any, Optional
+import hashlib
+from datetime import datetime
+import uuid
+
+# Optional GraphRAG
+try:
+    from graph_rag import GraphRAGService
+except ImportError:
+    GraphRAGService = None
+
+@dataclass
+class ContextManifest:
+    """Manifest of what context was actually seen (for auditability)."""
+    bundle_hash: str = ""
+    token_estimate: int = 0
+    char_count: int = 0
+    truncated: bool = False
+    limits: Dict[str, int] = field(default_factory=lambda: {"max_files": 50, "max_tokens": 200000})
+    injections: List[Dict[str, Any]] = field(default_factory=list)
+    files_included: List[Dict[str, Any]] = field(default_factory=list)
+    files_excluded: List[Dict[str, Any]] = field(default_factory=list)
+
+@dataclass
+class AnalyzeResult:
+    """Structured output for Stone Tool contract."""
+    run_id: str = ""
+    query: str = ""
+    mode: str = "standard"
+    models: Dict[str, str] = field(default_factory=dict)
+    aci: Dict[str, Any] = field(default_factory=dict)
+    graph_rag: Dict[str, Any] = field(default_factory=dict)  # New field
+    context: ContextManifest = field(default_factory=ContextManifest)
+    external: Dict[str, Any] = field(default_factory=lambda: {"requested": False, "queries": [], "results": []})
+    answer: Dict[str, Any] = field(default_factory=lambda: {"summary": "", "body": "", "citations": [], "confidence": 0.0})
+    actions: List[Dict[str, Any]] = field(default_factory=list)
+    artifacts: List[Dict[str, Any]] = field(default_factory=list)
+    timing: Dict[str, int] = field(default_factory=lambda: {"total_ms": 0, "context_build_ms": 0, "model_call_ms": 0})
+    cost: Dict[str, Any] = field(default_factory=lambda: {"input_tokens": 0, "output_tokens": 0, "estimated_usd": 0.0})
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary, handling nested dataclasses."""
+        result = asdict(self)
+        return result
+
+    def to_json(self, indent: int = 2) -> str:
+        """Convert to JSON string."""
+        return json.dumps(self.to_dict(), indent=indent, default=str)
+
+    @staticmethod
+    def generate_run_id() -> str:
+        """Generate unique run ID: ISO timestamp + short hash."""
+        ts = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        short_hash = hashlib.sha256(f"{ts}{random.random()}".encode()).hexdigest()[:6]
+        return f"{ts}__{short_hash}"
+
+def compute_bundle_hash(files: List[Path]) -> str:
+    """Compute SHA256 hash of file contents for reproducibility."""
+    hasher = hashlib.sha256()
+    for f in sorted(files):
+        try:
+            hasher.update(f.read_bytes())
+        except Exception:
+            pass
+    return f"sha256:{hasher.hexdigest()[:16]}"
 
 # --- Environment Detection ---
 # Detect if running in an interactive terminal or a headless agent/CI environment
@@ -225,7 +307,7 @@ else:
     # Fallback when config file is missing
     # See above comments for model selection rationale
     PRICING = {}
-    DEFAULT_MODEL = "gemini-3-pro-preview"  # Best reasoning capability
+    DEFAULT_MODEL = "gemini-2.0-flash-001"  # Best reasoning capability
     FAST_MODEL = "gemini-2.0-flash-001"     # Cost-effective (deprecated 2026-03-31)
     FALLBACK_MODELS = ["gemini-2.5-pro", "gemini-2.0-flash-001"]
     MODES = {}
@@ -2133,9 +2215,11 @@ Examples:
   %(prog)s --interactive --set constraints
   %(prog)s --list-sets
   %(prog)s --recommend "how does classification work"
+  %(prog)s --graph "Find circular dependencies between modules"
         """
     )
     parser.add_argument("prompt", nargs='?', default="Analyze this codebase", help="The question or instruction for the AI")
+    parser.add_argument("--graph", action="store_true", help="Execute query against the Code Graph (GraphRAG)")
     parser.add_argument("--dir", help="Directory to analyze (relative to PROJECT_ROOT)")
     parser.add_argument("--file", help="Specific file(s) to include (comma separated)")
     parser.add_argument("--set", help="Analysis Set (use --list-sets to see available)")
@@ -2145,7 +2229,8 @@ Examples:
     parser.add_argument("--exclude", help="Additional exclude patterns (comma separated)")
     parser.add_argument("--yes", "-y", action="store_true", help="Skip confirmation")
     parser.add_argument("--output", "-o", help="Output file path (for insights mode)")
-    parser.add_argument("--max-files", type=int, default=50, help="Maximum files to include")
+    parser.add_argument("--max-files", type=int, default=500,
+                        help="Max files (default 500). TOKEN budget (1M) is the real constraint, not file count.")
     parser.add_argument("--line-numbers", "-n", action="store_true", help="Include line numbers in file content")
     # v2 arguments
     parser.add_argument("--list-sets", action="store_true", help="List available analysis sets and exit")
@@ -2172,6 +2257,20 @@ Examples:
     parser.add_argument("--describe-schema", metavar="NAME", help="Show detailed schema description")
     parser.add_argument("--research-capabilities", action="store_true", help="Show all research engine capabilities")
     parser.add_argument("--override", action="append", metavar="KEY=VALUE", help="Override schema parameter (e.g., runs[0].token_budget=200000)")
+    # Stone Tool Output Contract (AI-first ergonomics)
+    parser.add_argument("--output-format", choices=["md", "json", "bundle"], default="md",
+                        help="Output format: md (human), json (structured), bundle (full artifacts)")
+    parser.add_argument("--emit-manifest", action="store_true",
+                        help="Include context manifest in output (files seen, truncation, injections)")
+    parser.add_argument("--manifest-only", action="store_true",
+                        help="Emit ONLY the manifest (no model call) - for debugging context selection")
+    parser.add_argument("--bundle-dir", metavar="DIR",
+                        help="Directory for bundle output (required with --output-format bundle)")
+    # Injection control
+    parser.add_argument("--no-inject", action="append", metavar="TYPE", default=[],
+                        help="Disable specific injection (critical_files, architect, agent_kernel)")
+    parser.add_argument("--explain-context", action="store_true",
+                        help="Show detailed context assembly breakdown before running")
     args = parser.parse_args()
 
     # Load config early for --list-sets and --recommend
@@ -2265,12 +2364,73 @@ Examples:
                     key, val = ov.split('=', 1)
                     overrides[key] = val
 
-        # Execute (dry run for now - actual execution pending)
-        result = engine.execute(args.research, args.prompt, overrides=overrides, dry_run=True)
-        print(f"Status: DRY RUN (execution pending)")
-        print(f"Planned runs: {len(result.decision_trace.get('planned_runs', []))}")
-        for run in result.decision_trace.get('planned_runs', []):
-            print(f"  - {run['name']} ({run['type']}) via {run['tier']}")
+        # Execute research schema
+        print("Executing research schema...")
+        print()
+        result = engine.execute(args.research, args.prompt, overrides=overrides, dry_run=False)
+
+        # Display results
+        print("=" * 60)
+        print("RESEARCH RESULTS")
+        print("=" * 60)
+        print()
+
+        # Summary metrics
+        print(f"Runs executed: {len(result.sources_used)}")
+        print(f"Agreement score: {result.agreement_score:.2f}")
+        print(f"Total latency: {result.total_latency_ms}ms")
+        print()
+
+        # Individual run results
+        for run_result in result.run_results:
+            status = "✓" if run_result.success else "✗"
+            if run_result.skipped:
+                status = "○"
+            print(f"[{status}] {run_result.name} ({run_result.latency_ms}ms)")
+            if run_result.citations:
+                print(f"    Citations: {len(run_result.citations)}")
+        print()
+
+        # Consensus answer
+        print("=" * 60)
+        print("SYNTHESIS")
+        print("=" * 60)
+        print()
+        print(result.consensus_answer)
+
+        # Citations
+        if result.citations:
+            print()
+            print("=" * 60)
+            print("CITATIONS")
+            print("=" * 60)
+            for cite in result.citations[:10]:  # Limit to 10
+                print(f"  - {cite}")
+
+        sys.exit(0)
+
+    # --- GraphRAG Mode ---
+    if args.graph or (args.tier and args.tier.lower() == "graph_rag"):
+        if not GraphRAGService:
+            print("Error: GraphRAG module not found or missing dependencies (neo4j).")
+            sys.exit(1)
+
+        print(f"Initializing Graph Intelligence (Model: {args.model})...")
+        
+        try:
+            service = GraphRAGService()
+            print(f"Executing GraphRAG Query: {args.prompt}")
+            print("-" * 60)
+            
+            response = service.query(args.prompt)
+            print(f"\n{response}\n")
+            
+            service.close()
+            
+        except Exception as e:
+            print(f"\nError executing graph query: {e}")
+            sys.exit(1)
+            
         sys.exit(0)
 
     # =========================================================================
@@ -2951,9 +3111,12 @@ Please provide a thorough, comprehensive answer using the full context available
                 selected_files.insert(0, full_path)
                 print(f"Auto-injected: {doc_path}")
 
-    # Limit files
+    # Limit files (track pre-limit count for transparency reporting)
+    total_files_before_limit = len(selected_files)
     if len(selected_files) > args.max_files:
-        print(f"\nWarning: Found {len(selected_files)} files, limiting to {args.max_files}")
+        # Only print warning if not using --explain-context (which shows this better)
+        if not args.explain_context:
+            print(f"\nWarning: Found {len(selected_files)} files, limiting to {args.max_files}", file=sys.stderr)
         selected_files = selected_files[:args.max_files]
 
     if not selected_files:
@@ -3038,6 +3201,108 @@ Please provide a thorough, comprehensive answer using the full context available
     print(f"Context size: ~{estimated_tokens:,} tokens ({total_chars:,} chars)", file=sys.stderr)
     if use_line_numbers:
         print("Line numbers: enabled", file=sys.stderr)
+
+    # =========================================================================
+    # CONTEXT TRANSPARENCY (--explain-context)
+    # =========================================================================
+    if args.explain_context and HAS_INDUSTRIAL_UI and ContextUI:
+        ctx_ui = ContextUI()
+
+        # Show query and routing
+        tier_name = args.tier.upper() if args.tier else "LONG_CONTEXT"
+        ctx_ui.injection_header(args.prompt[:80], tier_name, args.model)
+
+        # Build full query config for transparency
+        query_config = {
+            # Model
+            "model": args.model,
+            "model_default": DEFAULT_MODEL,
+            # Tier
+            "tier": tier_name.lower(),
+            "tier_default": "auto" if args.aci else "long_context",
+            # Mode
+            "mode": args.mode,
+            "mode_default": "standard",
+            # Files (500 is high because TOKEN budget is the real constraint)
+            "max_files": args.max_files,
+            "max_files_default": 500,
+            # Context
+            "max_tokens": MAX_CONTEXT_TOKENS,
+            # Features
+            "line_numbers": use_line_numbers,
+            "backend": BACKEND,
+            # ACI
+            "aci_enabled": args.aci if hasattr(args, 'aci') else False,
+        }
+
+        # Add set config if using a set
+        if args.set and args.set in analysis_sets:
+            query_config["set_name"] = args.set
+            # Get raw set config (before resolution)
+            raw_set = analysis_sets[args.set]
+            query_config["set_config"] = {
+                "description": raw_set.get("description", ""),
+                "max_tokens": raw_set.get("max_tokens"),
+                "auto_interactive": raw_set.get("auto_interactive", False),
+                "critical_files": raw_set.get("critical_files", []),
+                "positional_strategy": raw_set.get("positional_strategy"),
+                "includes": raw_set.get("includes", []),
+                "patterns": raw_set.get("patterns", []),
+            }
+
+        # Show the full query schema first
+        ctx_ui.query_schema(query_config)
+
+        # Show sets used
+        sets_used = [args.set] if args.set else (args.file.split(",") if args.file else ["(all)"])
+        ctx_ui.sets_used(sets_used, merged=False)
+
+        # Show files included with token estimates
+        files_info = []
+        for f in selected_files[:20]:  # Show first 20
+            try:
+                rel_path = str(f.relative_to(PROJECT_ROOT))
+                file_size = f.stat().st_size if f.exists() else 0
+                est_tokens = file_size // 4
+                files_info.append({"path": rel_path, "tokens": est_tokens})
+            except Exception:
+                files_info.append({"path": str(f), "tokens": 0})
+        ctx_ui.files_included(files_info, show_tokens=True, max_show=15)
+
+        # Show files excluded (if truncation occurred)
+        if len(selected_files) < total_files_before_limit:
+            excluded_files = []
+            for i in range(total_files_before_limit - len(selected_files)):
+                excluded_files.append({"path": f"(file {len(selected_files) + i + 1})", "reason": "max_files_cutoff"})
+            ctx_ui.files_excluded(excluded_files[:5])
+
+        # Show injections
+        injections = []
+        if set_critical_files:
+            injections.append({
+                "type": "critical_files",
+                "files": set_critical_files,
+                "strategy": set_positional_strategy or "none",
+                "tokens": len(set_critical_files) * 5000  # Rough estimate
+            })
+        if injections:
+            ctx_ui.injections(injections)
+
+        # Show the CRITICAL limiting factor analysis
+        # This answers: "Why was my context truncated? Files or tokens?"
+        ctx_ui.limiting_factor(
+            files_used=len(selected_files),
+            files_limit=args.max_files,
+            tokens_used=estimated_tokens,
+            tokens_limit=MAX_CONTEXT_TOKENS
+        )
+
+        # Show truncation warning if applicable
+        was_truncated = len(selected_files) < total_files_before_limit
+        ctx_ui.truncation_warning(was_truncated, total_files_before_limit, len(selected_files))
+
+        ctx_ui.footer()
+        print()  # Blank line after report
 
     # Token limit warnings
     if estimated_tokens > MAX_CONTEXT_TOKENS:

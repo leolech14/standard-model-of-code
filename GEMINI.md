@@ -8,6 +8,7 @@
 |------------|------|---------|
 | **Body** | `standard-model-of-code/` | Collider engine - parses code |
 | **Brain** | `context-management/` | AI tools, cloud mirror |
+| **Logistics** | `context-management/tools/refinery/` | Ingestion, Provenance, Physics |
 
 ## Commands
 
@@ -23,6 +24,9 @@ python context-management/tools/ai/analyze.py --verify pipeline
 
 # Tests
 cd standard-model-of-code && pytest tests/ -q
+
+# Logistics Pipeline
+python3 context-management/tools/refinery/pipeline.py /path/to/repo
 ```
 
 ## Coding Style
@@ -41,6 +45,7 @@ cd standard-model-of-code && pytest tests/ -q
 | Atom schemas | `standard-model-of-code/schema/*.yaml` |
 | AI tools | `context-management/tools/ai/` |
 | Theory docs | `standard-model-of-code/docs/` |
+| Logistics Theory | `context-management/intelligence/concepts/THEORY_DATA_LOGISTICS.md` |
 
 ## Rules
 

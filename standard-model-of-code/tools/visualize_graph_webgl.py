@@ -521,6 +521,7 @@ def generate_webgl_html(json_source: Any, output_path: str):
     MODULE_ORDER = [
         "performance.js",                   # Performance subsystem (existing)
         "modules/utils.js",                 # Pure utility functions (zero deps)
+        "modules/aquarela.js",              # Dynamic Ink Background (foundation)
         "modules/event-bus.js",             # Pub/sub for decoupled communication (zero deps)
         "modules/registry.js",              # Command/element registry (zero deps)
         "modules/perf-monitor.js",          # FPS/frame monitoring (zero deps)

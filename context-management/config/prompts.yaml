@@ -346,16 +346,26 @@ vertex_location: "us-central1"
 # =============================================================================
 # MODEL CONFIGURATION
 # =============================================================================
-# Gemini 3 Pro (Preview) - Latest flagship model (Nov 2025)
-default_model: "gemini-3-pro-preview"
+# Default model - gemini-2.5-flash for reliability (4x higher rate limits)
+# Use --model gemini-3-pro-preview explicitly for flagship reasoning when needed
+default_model: "gemini-2.5-flash"
 
-# Fast model for simple queries
+# Fast model for simple queries (lowest latency)
 fast_model: "gemini-2.0-flash-001"
+
+# Available models (use with --model flag):
+#   gemini-3-pro-preview   - Flagship reasoning (1M ctx, expensive, rate-limited)
+#   gemini-2.5-flash       - Balanced default (fast, reliable, good reasoning)
+#   gemini-2.5-pro         - Previous flagship (stable, 1M context)
+#   gemini-2.0-flash-001   - Legacy fast (cheapest, fastest, simpler tasks)
+#   gemini-3-flash-preview - New fast model (cost-effective, still preview)
 
 # Fallback chain if primary model unavailable
 fallback_models:
-  - "gemini-2.5-pro"
-  - "gemini-2.0-flash-001"
+  - "gemini-3-pro-preview"   # Flagship - try when quota allows
+  - "gemini-2.5-pro"         # Previous flagship - stable
+  - "gemini-3-flash-preview" # New fast preview
+  - "gemini-2.0-flash-001"   # Legacy fast - always available
 
 # =============================================================================
 # PRICING (per 1M tokens)

@@ -23,7 +23,7 @@
  * 16. app.js              - Legacy monolith (shrinking)
  */
 
-;(function() {
+; (function () {
     'use strict';
 
     // =========================================================================
@@ -126,14 +126,18 @@
 
     /**
      * Initialize all modules with data
-     * NOTE: Currently unused - app.js calls module inits directly in setupControls()
-     * Kept for potential future centralization
-     * @deprecated Use direct module init calls instead
+     * Central entry point for wiring and state synchronization.
      */
-    window.initializeModules = function(data) {
+    window.initializeModules = function (data) {
         console.log('[MAIN] Initializing modules with data...');
 
-        // Initialize DATA module
+        // Initialize AQUARELA (background)
+        if (typeof AQUARELA !== 'undefined' && AQUARELA.init) {
+            AQUARELA.init();
+            console.log('[MAIN] AQUARELA background initialized');
+        }
+
+        // Initialize DATA module (DataManager + Legend)
         if (typeof DATA !== 'undefined' && DATA.init) {
             DATA.init(data);
             console.log('[MAIN] DATA module initialized');
@@ -145,10 +149,22 @@
             console.log('[MAIN] LEGEND module initialized');
         }
 
+        // Initialize Global Settings
+        if (typeof SETTINGS !== 'undefined' && SETTINGS.init) {
+            SETTINGS.init();
+            console.log('[MAIN] SETTINGS module initialized');
+        }
+
         // Initialize SIDEBAR
         if (typeof SIDEBAR !== 'undefined' && SIDEBAR.init) {
             SIDEBAR.init();
             console.log('[MAIN] SIDEBAR module initialized');
+        }
+
+        // Initialize UI Manager (Unified interface)
+        if (typeof UIManager !== 'undefined' && UIManager.init) {
+            UIManager.init(data);
+            console.log('[MAIN] UIManager module initialized');
         }
 
         // Initialize PANELS command bar
@@ -163,7 +179,11 @@
             console.log('[MAIN] LAYOUT module initialized (Ctrl+Shift+L for debug overlay)');
         }
 
-        // STARS module removed - nodes ARE the stars
+        // Initialize SELECTION Modal
+        if (typeof SELECT !== 'undefined' && SELECT.initSelectionModal) {
+            SELECT.initSelectionModal();
+            console.log('[MAIN] SELECT modal initialized');
+        }
 
         // Initialize HUD (fade behavior)
         if (typeof HUD !== 'undefined' && HUD.setupFade) {
@@ -183,6 +203,12 @@
             console.log('[MAIN] PANEL_SYSTEM module initialized');
         }
 
+        // Bind panel control handlers
+        if (typeof PANEL_HANDLERS !== 'undefined' && PANEL_HANDLERS.init) {
+            PANEL_HANDLERS.init();
+            console.log('[MAIN] PANEL_HANDLERS module initialized');
+        }
+
         // Load saved FILTER_STATE
         if (typeof FILTER_STATE !== 'undefined' && FILTER_STATE.load) {
             FILTER_STATE.load();
@@ -195,7 +221,7 @@
     /**
      * Global refresh function that uses the throttled refresher
      */
-    window.moduleRefresh = function() {
+    window.moduleRefresh = function () {
         if (typeof REFRESH !== 'undefined') {
             REFRESH.throttled();
         } else if (typeof Graph !== 'undefined' && Graph) {
@@ -207,7 +233,7 @@
     // MODULE HEALTH CHECK
     // =========================================================================
 
-    window.checkModuleHealth = function() {
+    window.checkModuleHealth = function () {
         console.log('=== MODULE HEALTH CHECK ===');
         REQUIRED_MODULES.forEach(({ name, module }) => {
             const status = module ? 'OK' : 'MISSING';

@@ -58,7 +58,9 @@ SOFTWARE CONSUMERS:
 | Bronze Age | Human hand → Metal | Human grip (improved) |
 | Industrial | Human hand → Lever/Wheel | Human operation |
 | Digital | Human finger → GUI | Human perception |
-| **AI Age** | Human voice → AI → Tool | **AI parsing** |
+| **AI Age** | Human → AI → Tool | **AI parsing** |
+
+**Note:** The medium of human-AI interaction is unspecified (text, voice, gesture, etc.). What matters is the **architecture**: AI as intermediary between human intent and tool operation.
 
 ### 2.2 The Discontinuity
 
@@ -89,6 +91,52 @@ AI-AGE TOOL ERGONOMICS:
 | unified_analysis.json | ✗ No | AI agent |
 
 When the answer is "No" - you've crossed into AI-native tooling.
+
+### 2.4 Integration with TOOLOME
+
+The complete Tool taxonomy distinguishes two categories:
+
+```
+TOOL_UNIVERSE
+│
+├── TOOLOME (Development Tools)
+│   ├── Formatters, linters, type checkers, bundlers
+│   ├── Shape the CODOME during development
+│   └── Stone Tool Test: PASS (human-usable)
+│
+└── STONE_TOOLS (Analysis Tools)
+    ├── Collider outputs, observability data, GraphRAG exports
+    ├── Observe the CODOME for AI consumption
+    └── Stone Tool Test: FAIL (AI-native)
+```
+
+| Category | Purpose | Human-Usable | Examples |
+|----------|---------|--------------|----------|
+| **TOOLOME** | Shape code | Yes | Black, ESLint, TypeScript |
+| **STONE_TOOLS** | Analyze code | No (AI mediates) | unified_analysis.json, POM YAML |
+
+**See:** `docs/deep/THEORY_AMENDMENT_2026-01.md` (Amendment 1: Tools as Objects)
+
+### 2.5 Avoiding Infinite Recursion
+
+A naive reading creates a loop: "AI uses tool → tool outputs for AI → AI uses tool..."
+
+**Resolution:** Every Stone Tool chain must terminate at a human:
+
+```
+VALID:   Human → AI → StoneTool → AI → Human (terminal consumer)
+INVALID: AI → StoneTool → AI → StoneTool → AI → ... (no terminal)
+```
+
+Stone Tools are **intermediate artifacts**, not final deliverables. The value chain:
+
+1. Human expresses intent (L₁)
+2. AI translates to tool invocation
+3. Stone Tool produces structured output (AI-readable)
+4. AI interprets output
+5. **Human receives insight** (natural language, visualization, action)
+
+Step 5 is mandatory. Without it, we have infinite recursion with no value extraction.
 
 ---
 

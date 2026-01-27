@@ -850,7 +850,7 @@ const ANIM = (function () {
 
         if (typeof showModeToast === 'function') {
             const modeLabel = toLayer === 'unified' ? 'UNIFIED' :
-                            toLayer === 'atom' ? 'ATOMS' : 'FILES';
+                toLayer === 'atom' ? 'ATOMS' : 'FILES';
             showModeToast(`${modeLabel} view`);
         }
     }
@@ -905,6 +905,8 @@ const ANIM = (function () {
         get staggerPatterns() { return Object.keys(STAGGER_PATTERNS); },
         get currentLayout() { return _currentLayout; },
         get isAnimating() { return _animationId !== null; },
+        get animationId() { return _animationId; },
+        get layoutTime() { return _layoutTime; },
         get owner() { return _owner; },
 
         // Layout presets
@@ -920,6 +922,10 @@ const ANIM = (function () {
 // are managed by app.js (separate animation system) - not duplicated here
 Object.defineProperty(window, 'LAYOUT_PRESETS', { get: () => ANIM.presets, configurable: true });
 Object.defineProperty(window, 'STAGGER_PATTERNS', { get: () => ANIM.staggerPatterns, configurable: true });
+Object.defineProperty(window, 'CURRENT_LAYOUT', { get: () => ANIM.currentLayout, configurable: true });
+Object.defineProperty(window, 'LAYOUT_ANIMATION_ID', { get: () => ANIM.animationId, configurable: true });
+Object.defineProperty(window, 'LAYOUT_TIME', { get: () => ANIM.layoutTime, configurable: true });
+Object.defineProperty(window, 'CURRENT_STAGGER_PATTERN', { get: () => ANIM.staggerPattern, configurable: true });
 
 function applyLayoutPreset(presetKey, animate) {
     ANIM.applyLayout(presetKey, animate);

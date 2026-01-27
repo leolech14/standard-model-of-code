@@ -23,8 +23,8 @@ Part of: MODULE_CONVERSION_INVENTORY.md (Priority 1)
 """
 
 from typing import Dict, Any, Optional
-from ..plugin import ServicePlugin
-from .universal_classifier import UniversalClassifier
+from src.core.plugin import ServicePlugin
+from src.core.classification.universal_classifier import UniversalClassifier
 
 
 class ClassifierPlugin(ServicePlugin):

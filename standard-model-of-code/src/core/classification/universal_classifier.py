@@ -5,50 +5,14 @@ Uses RoleRegistry for canonical classification.
 """
 import re
 from typing import Dict, Any, Optional, List
-try:
-    from core.classification.ddd_mappings import DDD_BASE_CLASS_MAPPINGS
-except ImportError:
-    try:
-        from classification.ddd_mappings import DDD_BASE_CLASS_MAPPINGS
-    except ImportError:
-        # Fallback for direct execution
-        from ddd_mappings import DDD_BASE_CLASS_MAPPINGS
-try:
-    from core.type_registry import normalize_type
-except ImportError:
-    try:
-        from type_registry import normalize_type
-    except ImportError:
-        def normalize_type(t): return t
 
-try:
-    from core.registry.pattern_registry import get_pattern_registry
-    # New: Role Registry for validation
-    from core.registry.role_registry import get_role_registry
-except ImportError:
-    try:
-        from registry.pattern_registry import get_pattern_registry
-        from registry.role_registry import get_role_registry
-    except ImportError:
-        def get_pattern_registry(): return None
-        def get_role_registry(): return None
-
-try:
-    from core.atom_registry import AtomRegistry
-except ImportError:
-    try:
-        from atom_registry import AtomRegistry
-    except ImportError:
-        AtomRegistry = None  # type: ignore
-
-# Tree-sitter dimension classifier for D3_ROLE (roles.scm queries)
-try:
-    from core.dimension_classifier import TreeSitterDimensionClassifier
-except ImportError:
-    try:
-        from dimension_classifier import TreeSitterDimensionClassifier
-    except ImportError:
-        TreeSitterDimensionClassifier = None  # type: ignore
+from src.core.classification.ddd_mappings import DDD_BASE_CLASS_MAPPINGS
+from src.core.type_registry import normalize_type
+from src.core.registry.pattern_registry import get_pattern_registry
+from src.core.registry.role_registry import get_role_registry
+from src.core.atom_registry import AtomRegistry
+from src.core.dimension_classifier import TreeSitterDimensionClassifier
+TreeSitterDimensionClassifier = None  # type: ignore
 
 
 class UniversalClassifier:

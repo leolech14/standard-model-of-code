@@ -412,7 +412,7 @@ const FILE_VIZ = (function () {
 
         // File graph
         buildFileGraph,
-        buildUnifiedGraph: function() {
+        buildUnifiedGraph: function () {
             const dm = typeof DM !== 'undefined' ? DM : (typeof DATA !== 'undefined' ? DATA : null);
             if (!dm || !dm.getUnifiedGraph) return null;
             return dm.getUnifiedGraph();
@@ -421,6 +421,16 @@ const FILE_VIZ = (function () {
         // Getters
         isEnabled,
         getMode,
+        get graph() { return _fileGraph; },
+        get nodePositions() {
+            const positions = new Map();
+            if (_fileGraph && _fileGraph.nodes) {
+                _fileGraph.nodes.forEach(n => {
+                    positions.set(n.id, { x: n.x, y: n.y, z: n.z });
+                });
+            }
+            return positions;
+        },
         getFileGraph,
         getExpandedFiles,
 
@@ -438,9 +448,17 @@ if (typeof window !== 'undefined') {
     // Backward compat aliases
     window.drawFileBoundaries = FILE_VIZ.drawFileBoundaries;
     window.getColorForMapping = FILE_VIZ.getColor;
-    // Global getter for EXPANDED_FILES (read-only, like SELECTED_NODE_IDS)
+    // Global getters for backward compatibility
     Object.defineProperty(window, 'EXPANDED_FILES', {
         get: () => FILE_VIZ.getExpandedFiles(),
+        configurable: true
+    });
+    Object.defineProperty(window, 'FILE_GRAPH', {
+        get: () => FILE_VIZ.graph,
+        configurable: true
+    });
+    Object.defineProperty(window, 'FILE_NODE_POSITIONS', {
+        get: () => FILE_VIZ.nodePositions,
         configurable: true
     });
 }

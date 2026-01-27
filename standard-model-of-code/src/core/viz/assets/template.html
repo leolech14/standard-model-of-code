@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <title>Collider v{{VERSION}}</title>
     <style>
+        {
+                {
+                STYLES
+            }
+        }
+
         /* ═══════════════════════════════════════════════════════════════════
            COLLIDER UI - Dual Sidebar Layout
            ═══════════════════════════════════════════════════════════════════ */
@@ -20,13 +26,13 @@
             --surface: rgba(15, 15, 22, 0.85);
             --surface-hover: rgba(25, 25, 35, 0.9);
             --border: rgba(255, 255, 255, 0.08);
-            --border-accent: rgba(74, 158, 255, 0.3);
-            --text: rgba(255, 255, 255, 0.9);
-            --text-dim: rgba(255, 255, 255, 0.5);
-            --text-muted: rgba(255, 255, 255, 0.3);
-            --accent: #4a9eff;
-            --accent-dim: rgba(74, 158, 255, 0.15);
-            --accent-glow: rgba(74, 158, 255, 0.25);
+            --border-accent: rgba(100, 120, 150, 0.3);
+            --text: rgba(220, 220, 225, 0.9);
+            --text-dim: rgba(220, 220, 225, 0.5);
+            --text-muted: rgba(220, 220, 225, 0.3);
+            --accent: #667788;
+            --accent-dim: rgba(100, 120, 150, 0.15);
+            --accent-glow: none;
             --green: #5a9a70;
             --yellow: #a09060;
             --red: #b07070;
@@ -997,7 +1003,7 @@
         #selection-box {
             position: fixed;
             border: 1px solid var(--accent);
-            background: rgba(74, 158, 255, 0.1);
+            background: rgba(100, 120, 150, 0.1);
             pointer-events: none;
             z-index: 50;
             display: none;
@@ -1132,15 +1138,15 @@
         }
 
         /* Gridstack overrides for dark theme */
-        .grid-stack > .grid-stack-item > .grid-stack-item-content {
+        .grid-stack>.grid-stack-item>.grid-stack-item-content {
             inset: 4px;
         }
 
-        .grid-stack > .grid-stack-item > .ui-resizable-se {
+        .grid-stack>.grid-stack-item>.ui-resizable-se {
             background: none;
         }
 
-        .grid-stack > .grid-stack-item > .ui-resizable-se::after {
+        .grid-stack>.grid-stack-item>.ui-resizable-se::after {
             content: '';
             position: absolute;
             right: 4px;
@@ -1191,11 +1197,12 @@
     <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
     <script src="https://unpkg.com/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
-    <script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
-    <script src="https://unpkg.com/pako@2.1.0/dist/pako.min.js"></script>
+    <script src="assets/modules/circuit-breaker.js"></script>
+    <script src="assets/modules/settings-panel.js"></script>
+    <script src="assets/modules/main.js"></script>
     <!-- Gridstack.js for draggable/resizable panels -->
-    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack.min.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-extra.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-extra.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-all.js"></script>
 </head>
 
@@ -1240,10 +1247,6 @@
             </button>
         </div>
 
-        <!-- MAPPING CONTROL (Docked) -->
-        <div class="section prime" id="control-bar-container">
-            <!-- Injected by control-bar.js -->
-        </div>
 
         <!-- NODE CONFIG - PRIME POSITION -->
         <div class="section prime">
@@ -1674,7 +1677,8 @@
                         </div>
                         <div class="slider-controls">
                             <input type="range" id="panel-filter-degree" min="0" max="20" value="0">
-                            <input type="number" id="panel-filter-degree-num" class="number-input" min="0" max="20" value="0">
+                            <input type="number" id="panel-filter-degree-num" class="number-input" min="0" max="20"
+                                value="0">
                         </div>
                     </div>
                     <div class="control-group">
@@ -1768,7 +1772,8 @@
                     <!-- 2. Rotation speed slider -->
                     <div class="control-group">
                         <label>Rotation Speed</label>
-                        <input type="range" id="camera-rotate-speed" min="0.1" max="5" step="0.1" value="1" class="slider">
+                        <input type="range" id="camera-rotate-speed" min="0.1" max="5" step="0.1" value="1"
+                            class="slider">
                         <span class="slider-value" id="camera-rotate-speed-val">1.0</span>
                     </div>
 
@@ -1849,7 +1854,8 @@
                     <div class="filter-group">
                         <div class="filter-label">UI Font Size</div>
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <input type="range" id="a11y-font-size" min="12" max="24" value="14" class="slider" style="flex: 1;">
+                            <input type="range" id="a11y-font-size" min="12" max="24" value="14" class="slider"
+                                style="flex: 1;">
                             <span class="slider-value" id="a11y-font-size-val">14px</span>
                         </div>
                     </div>
@@ -1928,7 +1934,8 @@
                         </div>
                         <div class="slider-controls">
                             <input type="range" id="panel-alpha-decay" min="0" max="0.1" step="0.005" value="0.0228">
-                            <input type="number" id="panel-alpha-decay-num" class="number-input" min="0" max="0.1" step="0.005" value="0.0228">
+                            <input type="number" id="panel-alpha-decay-num" class="number-input" min="0" max="0.1"
+                                step="0.005" value="0.0228">
                         </div>
                     </div>
                 </div>
@@ -1976,21 +1983,24 @@
                         <div class="slider-header"><span class="slider-label">Node Size</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-node-size" min="0.2" max="4" step="0.1" value="1">
-                            <input type="number" id="panel-node-size-num" class="number-input" min="0.2" max="4" step="0.1" value="1">
+                            <input type="number" id="panel-node-size-num" class="number-input" min="0.2" max="4"
+                                step="0.1" value="1">
                         </div>
                     </div>
                     <div class="slider-row">
                         <div class="slider-header"><span class="slider-label">Node Opacity</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-node-opacity" min="0.1" max="1" step="0.05" value="1">
-                            <input type="number" id="panel-node-opacity-num" class="number-input" min="0.1" max="1" step="0.05" value="1">
+                            <input type="number" id="panel-node-opacity-num" class="number-input" min="0.1" max="1"
+                                step="0.05" value="1">
                         </div>
                     </div>
                     <div class="slider-row">
                         <div class="slider-header"><span class="slider-label">Label Size</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-label-size" min="0" max="3" step="0.1" value="1">
-                            <input type="number" id="panel-label-size-num" class="number-input" min="0" max="3" step="0.1" value="1">
+                            <input type="number" id="panel-label-size-num" class="number-input" min="0" max="3"
+                                step="0.1" value="1">
                         </div>
                     </div>
                     <div class="toggle-row">
@@ -2029,28 +2039,32 @@
                         <div class="slider-header"><span class="slider-label">Edge Opacity</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-edge-opacity" min="0" max="1" step="0.05" value="0.6">
-                            <input type="number" id="panel-edge-opacity-num" class="number-input" min="0" max="1" step="0.05" value="0.6">
+                            <input type="number" id="panel-edge-opacity-num" class="number-input" min="0" max="1"
+                                step="0.05" value="0.6">
                         </div>
                     </div>
                     <div class="slider-row">
                         <div class="slider-header"><span class="slider-label">Edge Width</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-edge-width" min="0.2" max="5" step="0.2" value="1.5">
-                            <input type="number" id="panel-edge-width-num" class="number-input" min="0.2" max="5" step="0.2" value="1.5">
+                            <input type="number" id="panel-edge-width-num" class="number-input" min="0.2" max="5"
+                                step="0.2" value="1.5">
                         </div>
                     </div>
                     <div class="slider-row">
                         <div class="slider-header"><span class="slider-label">Curvature</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-edge-curve" min="0" max="1" step="0.05" value="0">
-                            <input type="number" id="panel-edge-curve-num" class="number-input" min="0" max="1" step="0.05" value="0">
+                            <input type="number" id="panel-edge-curve-num" class="number-input" min="0" max="1"
+                                step="0.05" value="0">
                         </div>
                     </div>
                     <div class="slider-row">
                         <div class="slider-header"><span class="slider-label">Particle Speed</span></div>
                         <div class="slider-controls">
                             <input type="range" id="panel-particle-speed" min="0" max="0.05" step="0.005" value="0.01">
-                            <input type="number" id="panel-particle-speed-num" class="number-input" min="0" max="0.05" step="0.005" value="0.01">
+                            <input type="number" id="panel-particle-speed-num" class="number-input" min="0" max="0.05"
+                                step="0.005" value="0.01">
                         </div>
                     </div>
                     <div class="toggle-row">
@@ -2073,7 +2087,10 @@
                     <button class="panel-collapse">−</button>
                 </div>
                 <div class="panel-body">
-                    <button class="btn" id="panel-reset-layout" style="width: 100%; margin-bottom: 8px;">Reset Layout</button>
+                    <button class="btn active" id="panel-open-settings"
+                        style="width: 100%; margin-bottom: 8px; border-color: var(--accent);">Global Settings</button>
+                    <button class="btn" id="panel-reset-layout" style="width: 100%; margin-bottom: 8px;">Reset
+                        Layout</button>
                     <button class="btn" id="panel-toggle-dock" style="width: 100%;">Hide Panels</button>
                 </div>
             </div>

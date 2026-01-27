@@ -111,4 +111,4 @@ graph TD
     WW --> XX;
     YY --> ZZ;
     AAA --> BBB;
-    BBB --> End[Unified Analysis Output\nJSON Knowledge Bundle\nHTML Report];
+    BBB --> End[**LEGACY** Unified Analysis Output\nJSON Knowledge Bundle (Deprecated)\nHTML Report];

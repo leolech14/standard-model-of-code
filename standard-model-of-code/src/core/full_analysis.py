@@ -1152,16 +1152,16 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         exclude_paths.extend(extra_excludes)
         print(f"   → Added {len(extra_excludes)} extra exclusions from --exclude flag")
 
-    from unified_analysis import analyze
-    from standard_model_enricher import enrich_with_standard_model
-    from purpose_field import detect_purpose_field
-    from purpose_emergence import compute_pi2, compute_pi3, compute_pi4
-    from execution_flow import detect_execution_flow
+    from src.core.unified_analysis import analyze
+    from src.core.standard_model_enricher import enrich_with_standard_model
+    from src.core.purpose_field import detect_purpose_field
+    from src.core.purpose_emergence import compute_pi2, compute_pi3, compute_pi4
+    from src.core.execution_flow import detect_execution_flow
 
-    from performance_predictor import predict_performance
-    from roadmap_evaluator import RoadmapEvaluator
-    from topology_reasoning import TopologyClassifier
-    from semantic_cortex import ConceptExtractor
+    from src.core.performance_predictor import predict_performance
+    from src.core.roadmap_evaluator import RoadmapEvaluator
+    from src.core.topology_reasoning import TopologyClassifier
+    from src.core.semantic_cortex import ConceptExtractor
     # NOTE: standard_output_generator removed - consolidated into unified outputs
 
     # Stage 1: Base analysis

@@ -9,8 +9,8 @@ Exports:
     - ClassifierPlugin: Hub-connected service wrapper
 """
 
-from .universal_classifier import UniversalClassifier
-from .classifier_plugin import ClassifierPlugin, get_classifier_from_hub
+from src.core.classification.universal_classifier import UniversalClassifier
+from src.core.classification.classifier_plugin import ClassifierPlugin, get_classifier_from_hub
 
 __all__ = [
     'UniversalClassifier',

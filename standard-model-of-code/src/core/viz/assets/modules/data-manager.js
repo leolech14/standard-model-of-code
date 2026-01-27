@@ -16,7 +16,7 @@
  *   DATA.getTierCounts()                // Cached aggregation
  */
 
-const DATA = (function() {
+const DATA = (function () {
     'use strict';
 
     // =========================================================================
@@ -147,11 +147,6 @@ const DATA = (function() {
         // Initialize legend
         _legend = new LegendManager();
         _legend.init(raw.nodes, raw.links);
-
-        // Set global Legend reference
-        if (typeof Legend !== 'undefined') {
-            Legend = _legend;
-        }
 
         console.log('%c[DATA] Initialized', 'color: #4ade80; font-weight: bold',
             `${raw.nodes.length} nodes, ${raw.links.length} edges, ${raw.fileBoundaries.length} files`);
@@ -845,6 +840,15 @@ const DATA = (function() {
         // Legend reference
         get legend() { return _legend; },
 
+        // Manager instance
+        get manager() {
+            if (!this._managerInstance) {
+                this._managerInstance = new DataManager();
+                if (raw.nodes.length > 0) this._managerInstance.init(raw);
+            }
+            return this._managerInstance;
+        },
+
         // Color access (convenience)
         get color() { return COLOR; }
     };
@@ -908,13 +912,13 @@ class DataManager {
     selfTest() { return DATA.selfTest(); }
 
     // Internal methods
-    _buildAllIndexes() {}
-    _buildNodeIndex() {}
-    _buildSemanticIndexes() {}
-    _buildEdgeIndexes() {}
-    _buildFileIndex() {}
-    _buildMarkovIndex() {}
-    _invalidateCache() {}
+    _buildAllIndexes() { }
+    _buildNodeIndex() { }
+    _buildSemanticIndexes() { }
+    _buildEdgeIndexes() { }
+    _buildFileIndex() { }
+    _buildMarkovIndex() { }
+    _invalidateCache() { }
     _endpointId(link, side) {
         if (!link) return '';
         let value = link[side];
@@ -951,4 +955,12 @@ function runDmParity(dm, data) {
         const icon = c.pass ? '✓' : '✗';
         console.log(`  ${icon} ${c.name}: DM=${c.dm}, Raw=${c.old}`);
     });
+}
+
+// Global Registry for backward compatibility
+if (typeof window !== 'undefined') {
+    window.DATA = DATA;
+    window.DataManager = DataManager;
+    Object.defineProperty(window, 'DM', { get: () => DATA.manager, configurable: true });
+    Object.defineProperty(window, 'Legend', { get: () => DATA.legend, configurable: true });
 }

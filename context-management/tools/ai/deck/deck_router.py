@@ -17,8 +17,16 @@ See: docs/research/perplexity/20260123_150543_*.md for theoretical background.
 import re
 import yaml
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 from dataclasses import dataclass, field
+
+# Fabric bridge for system health awareness
+try:
+    from fabric_bridge import get_bridge, check_fabric_precondition, ActionRisk
+    FABRIC_BRIDGE_AVAILABLE = True
+except ImportError:
+    FABRIC_BRIDGE_AVAILABLE = False
+    ActionRisk = None
 
 # Intent patterns for routing natural language to cards
 INTENT_PATTERNS = {
@@ -59,6 +67,12 @@ INTENT_PATTERNS = {
         r"check.*(?:docs|drift|symmetry)",
         r"hsl",
         r"socratic",
+    ],
+    "CARD-SYS-001": [
+        r"(?:clean|cleanup|deduplicate|consolidate).*config",
+        r"(?:remove|delete).*(?:duplicate|redundant).*config",
+        r"config.*(?:audit|cleanup|maintenance)",
+        r"mcp.*(?:cleanup|dedup|consolidate)",
     ],
     "CARD-WLD-000": [
         r"wildcard",
@@ -104,21 +118,35 @@ class Card:
             tags=data.get("tags", []),
         )
 
-    def check_preconditions(self, state: Dict[str, Any]) -> tuple[bool, List[str]]:
+    def check_preconditions(self, state: Dict[str, Any]) -> Tuple[bool, List[str]]:
         """Check if all preconditions are satisfied. Returns (ok, failures)."""
         failures = []
+        warnings = []
+
         for pre in self.preconditions:
             check = pre.get("check", "")
+
             # Simple file existence checks
             if "files_must_exist" in pre:
                 for file_path in pre["files_must_exist"]:
                     if not Path(file_path).exists():
                         failures.append(f"Missing file: {file_path}")
+
+            # Fabric preconditions (fabric.stability_ok, fabric.noise_acceptable, etc.)
+            if check.startswith("fabric.") and FABRIC_BRIDGE_AVAILABLE:
+                passed, detail = check_fabric_precondition(check)
+                if not passed:
+                    # Check if it's a hard fail or soft warning
+                    if pre.get("hard_fail", True):
+                        failures.append(f"Fabric check failed: {pre.get('description', check)} ({detail})")
+                    else:
+                        warnings.append(f"Fabric warning: {pre.get('description', check)} ({detail})")
+
             # State checks (simplified - extend as needed)
-            if check and not state.get(check, True):
+            elif check and not check.startswith("fabric.") and not state.get(check, True):
                 failures.append(f"Precondition failed: {pre.get('description', check)}")
 
-        return len(failures) == 0, failures
+        return len(failures) == 0, failures + warnings
 
     def to_prompt(self) -> str:
         """Generate a prompt-friendly representation of this card."""
@@ -233,10 +261,13 @@ class DeckRouter:
 
         return "\n".join(lines)
 
-    def deal(self, state: Optional[Dict[str, Any]] = None) -> str:
+    def deal(self, state: Optional[Dict[str, Any]] = None, include_fabric: bool = True) -> str:
         """
         'Deal' available cards - show what moves are currently valid.
         This is the Game Master's main function.
+
+        Now includes Communication Fabric awareness - agents see system health
+        when deciding which card to play.
         """
         available = self.get_available_cards(state)
 
@@ -246,6 +277,38 @@ class DeckRouter:
             "",
         ]
 
+        # Add fabric context if available
+        if include_fabric and FABRIC_BRIDGE_AVAILABLE:
+            bridge = get_bridge()
+            fabric_state = bridge.get_state()
+
+            lines.append("## System Health")
+            lines.append(f"Tier: {fabric_state.health_tier} | Risk: {fabric_state.risk_level.value.upper()}")
+
+            if fabric_state.warnings:
+                lines.append("")
+                lines.append("### Warnings")
+                for w in fabric_state.warnings[:3]:  # Limit to top 3
+                    lines.append(f"- {w}")
+
+            if fabric_state.recommendations:
+                lines.append("")
+                lines.append("### Recommendations")
+                for r in fabric_state.recommendations[:2]:  # Limit to top 2
+                    lines.append(f"- {r}")
+
+            lines.append("")
+
+            # Filter cards if system is stressed
+            if fabric_state.risk_level.value == "blocked":
+                available = [c for c in available if c.cost.get("risk_level", "MEDIUM").upper() == "LOW"]
+                lines.append("**NOTE: System BLOCKED - only LOW risk cards available**")
+                lines.append("")
+            elif fabric_state.risk_level.value == "risky":
+                lines.append("**NOTE: System stressed - prefer LOW/MEDIUM risk cards**")
+                lines.append("")
+
+        lines.append("## Available Cards")
         for card in sorted(available, key=lambda c: c.id):
             risk = card.cost.get("risk_level", "?")
             lines.append(f"- [{card.id}] {card.title} (Risk: {risk})")
@@ -295,6 +358,27 @@ def main():
             print(card.to_prompt())
         else:
             print(f"Card not found: {card_id}")
+
+    elif command == "fabric" or command == "health":
+        # Show fabric context for agent decision-making
+        if FABRIC_BRIDGE_AVAILABLE:
+            from fabric_bridge import get_bridge
+            bridge = get_bridge()
+            print(bridge.get_fabric_context())
+
+            print("## Precondition Checks")
+            checks = [
+                "fabric.stability_ok",
+                "fabric.noise_acceptable",
+                "fabric.safe_for_refactor",
+                "fabric.safe_for_analysis",
+            ]
+            for check in checks:
+                passed, detail = bridge.check_precondition(check)
+                status = "PASS" if passed else "FAIL"
+                print(f"  {check}: {status}")
+        else:
+            print("Fabric bridge not available")
 
     else:
         # Treat as intent

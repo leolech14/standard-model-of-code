@@ -320,17 +320,228 @@ entries:
   fallback_used: false
   duration_ms: 5506
   error: null
+- timestamp: '2026-01-27T02:21:25.038488+00:00'
+  query: what is the stone tool principle
+  intent: explain
+  complexity: simple
+  scope: internal
+  tier: rag
+  sets_used:
+  - theory
+  - docs_core
+  - pipeline
+  tokens_input: 213613
+  tokens_output: 504
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 22576
+  error: null
+- timestamp: '2026-01-27T02:22:31.401905+00:00'
+  query: what are the main organizational problems or sprawl issues in this codebase
+    - where is documentation fragmented or duplicated
+  intent: debug
+  complexity: complex
+  scope: internal
+  tier: long_context
+  sets_used:
+  - theory
+  - schema
+  - pipeline
+  - classifiers
+  - tests
+  tokens_input: 213626
+  tokens_output: 1269
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 32775
+  error: null
+- timestamp: '2026-01-27T02:23:27.043956+00:00'
+  query: analyze the documentation coverage for Stone Tool Principle and TOOLOME -
+    where is it documented, are there gaps or duplications, and is it properly cross-referenced
+    in the theory
+  intent: locate
+  complexity: simple
+  scope: internal
+  tier: rag
+  sets_used:
+  - pipeline
+  - classifiers
+  - theory
+  tokens_input: 213641
+  tokens_output: 1181
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 37119
+  error: null
+- timestamp: '2026-01-27T02:29:08.915429+00:00'
+  query: where is the Stone Tool Principle documented and how does it integrate with
+    TOOLOME
+  intent: architecture
+  complexity: simple
+  scope: internal
+  tier: long_context
+  sets_used:
+  - pipeline
+  - theory
+  - architecture_review
+  tokens_input: 213610
+  tokens_output: 602
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 22377
+  error: null
+- timestamp: '2026-01-27T03:31:07.830549+00:00'
+  query: what files define atoms
+  intent: explain
+  complexity: simple
+  scope: internal
+  tier: rag
+  sets_used:
+  - theory
+  - docs_core
+  - pipeline
+  tokens_input: 213599
+  tokens_output: 548
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 35351
+  error: null
+- timestamp: '2026-01-27T04:45:40.660233+00:00'
+  query: what is stone tool
+  intent: explain
+  complexity: simple
+  scope: internal
+  tier: rag
+  sets_used:
+  - theory
+  - docs_core
+  - pipeline
+  tokens_input: 213790
+  tokens_output: 495
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 20331
+  error: null
+- timestamp: '2026-01-27T05:01:16.055509+00:00'
+  query: 'Create a comprehensive map of this project. Include: 1) Project purpose
+    2) Key components and their relationships 3) Documentation structure 4) Theory
+    vs Implementation alignment 5) Known issues and g'
+  intent: implement
+  complexity: simple
+  scope: hybrid
+  tier: flash_deep
+  sets_used:
+  - pipeline
+  - classifiers
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  tokens_input: 484631
+  tokens_output: 1190
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 31391
+  error: null
+- timestamp: '2026-01-27T05:22:37.271455+00:00'
+  query: "I just implemented new mouse controls for the Collider visualization:\n\n\
+    - LEFT + DRAG = Area select (marquee box)\n- RIGHT + DRAG = Rotate around center\
+    \  \n- SPACE + LEFT + DRAG = Pan\n- MIDDLE SCROLL = Z"
+  intent: implement
+  complexity: simple
+  scope: internal
+  tier: flash_deep
+  sets_used:
+  - domain
+  - entities
+  - theory
+  - pipeline
+  - architecture_review
+  - agent_full
+  - visualization
+  - classifiers
+  - agent_kernel
+  - agent_tasks
+  - viz_core
+  tokens_input: 867692
+  tokens_output: 1040
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 40113
+  error: null
+- timestamp: '2026-01-27T14:52:57.489351+00:00'
+  query: 'Create a comprehensive UI PROJECTOME - a complete map of the visualization
+    system:
+
+
+    1. LIST ALL 58 MODULES: name, purpose (1 sentence), dependencies, lines of code
+
+    2. ARCHITECTURE LAYERS: Group module'
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: flash_deep
+  sets_used:
+  - pipeline
+  - classifiers
+  - infrastructure
+  - data_access
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  - viz_core
+  tokens_input: 939381
+  tokens_output: 996
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 48296
+  error: null
+- timestamp: '2026-01-27T15:44:43.892421+00:00'
+  query: Evaluate the repository root structure after cleanup. Provide a confidence
+    score (0-100) based on the Concepts/Objects architecture.
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: long_context
+  sets_used:
+  - repo_tool
+  - pipeline
+  - agent_kernel
+  - agent_tasks
+  - theory
+  tokens_input: 928518
+  tokens_output: 1531
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 44478
+  error: null
 stats:
-  total_queries: 16
+  total_queries: 26
   by_tier:
     perplexity: 9
-    long_context: 7
+    long_context: 10
+    rag: 4
+    flash_deep: 3
   by_intent:
     research: 2
-    architecture: 7
+    architecture: 10
     unknown: 1
     validate: 4
-    explain: 1
+    explain: 4
     task: 1
+    debug: 1
+    locate: 1
+    implement: 2
   success_rate: 1.0
-  avg_tokens: 34842
+  avg_tokens: 194594

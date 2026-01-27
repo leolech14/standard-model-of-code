@@ -16,7 +16,7 @@
  * Requires: Gridstack.js CDN loaded in HTML
  */
 
-window.PANEL_SYSTEM = (function() {
+window.PANEL_SYSTEM = (function () {
     'use strict';
 
     let _grid = null;
@@ -28,19 +28,19 @@ window.PANEL_SYSTEM = (function() {
     // Must match gs-id attributes in template.html panel-container
     const DEFAULT_LAYOUT = [
         // Row 0: Core controls
-        { id: 'filtering',      x: 0,  y: 0, w: 3, h: 2 },
-        { id: 'selection',      x: 3,  y: 0, w: 2, h: 2 },
-        { id: 'camera',         x: 5,  y: 0, w: 2, h: 2 },
-        { id: 'accessibility',  x: 7,  y: 0, w: 2, h: 2 },
-        { id: 'export',         x: 9,  y: 0, w: 3, h: 2 },
+        { id: 'filtering', x: 0, y: 0, w: 3, h: 2 },
+        { id: 'selection', x: 3, y: 0, w: 2, h: 2 },
+        { id: 'camera', x: 5, y: 0, w: 2, h: 2 },
+        { id: 'accessibility', x: 7, y: 0, w: 2, h: 2 },
+        { id: 'export', x: 9, y: 0, w: 3, h: 2 },
         // Row 2: Layout and analysis
-        { id: 'analysis',       x: 0,  y: 2, w: 4, h: 2 },
-        { id: 'layout-phys',    x: 4,  y: 2, w: 3, h: 2 },
-        { id: 'view-modes',     x: 7,  y: 2, w: 2, h: 2 },
-        { id: 'panel-settings', x: 9,  y: 2, w: 3, h: 2 },
+        { id: 'analysis', x: 0, y: 2, w: 4, h: 2 },
+        { id: 'layout-phys', x: 4, y: 2, w: 3, h: 2 },
+        { id: 'view-modes', x: 7, y: 2, w: 2, h: 2 },
+        { id: 'panel-settings', x: 9, y: 2, w: 3, h: 2 },
         // Row 4: Appearance controls
-        { id: 'node-appear',    x: 0,  y: 4, w: 3, h: 2 },
-        { id: 'edge-appear',    x: 3,  y: 4, w: 3, h: 2 }
+        { id: 'node-appear', x: 0, y: 4, w: 3, h: 2 },
+        { id: 'edge-appear', x: 3, y: 4, w: 3, h: 2 }
     ];
 
     /**
@@ -180,6 +180,15 @@ window.PANEL_SYSTEM = (function() {
                 }
             });
         });
+
+        // Bind Global Settings Button (if present)
+        const settingsBtn = document.getElementById('panel-open-settings');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                if (typeof SETTINGS !== 'undefined') SETTINGS.open();
+                else console.warn('SETTINGS module not loaded');
+            });
+        }
     }
 
     /**

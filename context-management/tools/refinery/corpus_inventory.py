@@ -16,6 +16,7 @@ import sys
 import json
 import hashlib
 import argparse
+import uuid  # Added for logistics
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any
@@ -160,6 +161,10 @@ def scan_corpus(root: Path, quick: bool = False) -> Dict[str, Any]:
             stat = path.stat()
             size = stat.st_size
 
+            # Mint Parcel ID (Input ID)
+            parcel_id = f"pcl_{uuid.uuid4().hex[:12]}"
+            ingest_time = int(datetime.now().timestamp())
+
             # Skip very large files (>1MB) for detailed processing
             if size > 1_000_000:
                 lang = get_language(path)
@@ -171,7 +176,14 @@ def scan_corpus(root: Path, quick: bool = False) -> Dict[str, Any]:
                     "size_bytes": size,
                     "lines": 0,
                     "content_hash": "sha256:skipped_large",
-                    "modified_at": datetime.fromtimestamp(stat.st_mtime).isoformat()
+                    "modified_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    # Logistics
+                    "parcel_id": parcel_id,
+                    "waybill": {
+                        "id": parcel_id,
+                        "status": "ingested",
+                        "route": [f"ingested:{ingest_time}"]
+                    }
                 }
             else:
                 # Read file for line count and hash
@@ -193,7 +205,14 @@ def scan_corpus(root: Path, quick: bool = False) -> Dict[str, Any]:
                     "size_bytes": size,
                     "lines": lines,
                     "content_hash": content_hash,
-                    "modified_at": datetime.fromtimestamp(stat.st_mtime).isoformat()
+                    "modified_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    # Logistics
+                    "parcel_id": parcel_id,
+                    "waybill": {
+                        "id": parcel_id,
+                        "status": "ingested",
+                        "route": [f"ingested:{ingest_time}"]
+                    }
                 }
                 total_lines += lines
 

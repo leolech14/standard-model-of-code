@@ -90,15 +90,15 @@ const EDGE = (function () {
     // Pre-computed hex colors for OKLCH interpolation (COLOR engine)
     const PALETTE_HEX = {
         tier: {
-            T0: '#4a90d9',      // Blue (h:210, s:70, l:55)
-            T1: '#9966cc',      // Purple (h:280, s:65, l:50)
-            T2: '#e68a00',      // Orange (h:30, s:80, l:50)
-            UNKNOWN: '#666666'  // Gray
+            T0: '#6a7a8a',      // Gray-Blue
+            T1: '#7a6a8a',      // Gray-Purple
+            T2: '#8a7a6a',      // Gray-Orange
+            UNKNOWN: '#555555'  // Dark Gray
         },
         flow: {
-            cold: '#3d6a99',    // Blue (h:220, s:60, l:45)
-            warm: '#d9a620',    // Yellow (h:45, s:85, l:50)
-            hot: '#e63946'      // Red (h:0, s:90, l:55)
+            cold: '#5a6a7a',    // Muted Cold
+            warm: '#7a7a5a',    // Muted Warm
+            hot: '#8a5a5a'      // Muted Hot
         },
         depth: {
             shallow: '#66b3b3', // Cyan (h:180, s:50, l:65)
@@ -106,9 +106,9 @@ const EDGE = (function () {
             deep: '#b3267a'     // Magenta (h:320, s:80, l:40)
         },
         semantic: {
-            similar: '#40bf80',   // Green (h:150, s:60, l:50)
-            related: '#4d99b3',   // Cyan (h:200, s:65, l:48)
-            different: '#d94073'  // Pink (h:340, s:75, l:50)
+            similar: '#5a7a6a',   // Muted Green
+            related: '#5a6a7a',   // Muted Cyan
+            different: '#7a5a6a'  // Muted Pink
         }
     };
 
@@ -275,9 +275,9 @@ const EDGE = (function () {
                 color = COLOR.interpolate(PALETTE_HEX.tier.T1, PALETTE_HEX.tier.T2, (avgTier - 1) / 2);
             }
 
-            // Highlight tier transitions (edges crossing tiers)
+            // Muted transition color
             if (srcTier !== tgtTier) {
-                return COLOR.toHex({ h: 45, c: 0.25, l: 0.55 });  // Bright saturated yellow for transitions
+                return COLOR.toHex({ h: 45, c: 0.05, l: 0.45 });
             }
             return color;
         }

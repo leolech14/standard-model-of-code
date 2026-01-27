@@ -74,12 +74,9 @@ const CONTROL_BAR = (function () {
     function createUI() {
         if (_container) return _container;
 
-        const dockContainer = document.getElementById('control-bar-container');
-        _isDocked = !!dockContainer;
-
         _container = document.createElement('div');
         _container.id = 'control-bar';
-        _container.className = _isDocked ? 'control-bar docked' : 'control-bar';
+        _container.className = 'control-bar floating';
 
         // Scope Section
         const scopeHTML = `
@@ -225,15 +222,18 @@ const CONTROL_BAR = (function () {
 
         _container.innerHTML = `
             <div class="control-bar-inner">
-                ${scopeHTML}
-                ${sourceHTML}
-                ${arrowHTML}
-                ${targetHTML}
-                ${scaleHTML}
-                ${actionsHTML}
-                ${groupsHTML}
+                <div class="cb-drag-handle">::</div>
+                <div class="cb-content">
+                    ${scopeHTML}
+                    ${sourceHTML}
+                    ${arrowHTML}
+                    ${targetHTML}
+                    ${scaleHTML}
+                    ${actionsHTML}
+                </div>
                 ${toggleHTML}
             </div>
+            ${groupsHTML}
         `;
 
         // Add styles
@@ -242,11 +242,7 @@ const CONTROL_BAR = (function () {
         // Attach event listeners
         attachListeners();
 
-        if (_isDocked) {
-            dockContainer.appendChild(_container);
-        } else {
-            document.body.appendChild(_container);
-        }
+        document.body.appendChild(_container);
 
         _visible = true;
 
@@ -259,51 +255,53 @@ const CONTROL_BAR = (function () {
         const style = document.createElement('style');
         style.id = 'control-bar-styles';
         style.textContent = `
-            /* BASE STYLES */
-            .control-bar {
-                font-family: 'SF Mono', 'Consolas', monospace;
-            }
-
-            /* FLOATING MODE */
-            .control-bar:not(.docked) {
+            /* PREMIUM FLOATING STYLES */
+            .control-bar.floating {
                 position: fixed;
-                bottom: 16px;
+                bottom: 24px;
                 left: 50%;
                 transform: translateX(-50%);
-                max-width: 900px;
-                width: calc(100% - 48px);
-                z-index: 9999;
-                background: linear-gradient(180deg, rgba(28, 30, 35, 0.95) 0%, rgba(22, 24, 28, 0.98) 100%);
-                backdrop-filter: blur(12px);
-                border: 1px solid rgba(100, 105, 115, 0.15);
-                border-radius: 12px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-                transition: transform 0.3s ease, opacity 0.3s ease;
+                min-width: 800px;
+                max-width: 95vw;
+                z-index: 10000;
+                background: linear-gradient(135deg, rgba(20, 22, 28, 0.9) 0%, rgba(30, 32, 40, 0.95) 100%);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                box-shadow: 
+                    0 10px 40px rgba(0, 0, 0, 0.6),
+                    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                padding: 4px;
             }
 
-            .control-bar:not(.docked) .control-bar-inner {
+            .control-bar.minimized {
+                transform: translate(-50%, calc(100% - 40px));
+                opacity: 0.8;
+                filter: grayscale(0.5);
+            }
+
+            .control-bar-inner {
                 display: flex;
                 align-items: center;
-                gap: 16px;
-                padding: 12px 20px;
-                overflow-x: auto;
-            }
-
-            /* DOCKED MODE */
-            .control-bar.docked {
-                position: static;
-                width: 100%;
-                background: transparent;
-                border: none;
-                box-shadow: none;
-                padding: 0;
-            }
-
-            .control-bar.docked .control-bar-inner {
-                display: flex;
-                flex-direction: column;
                 gap: 12px;
-                padding: 0;
+                padding: 10px 16px;
+            }
+
+            .cb-drag-handle {
+                cursor: grab;
+                color: rgba(255, 255, 255, 0.2);
+                font-size: 14px;
+                padding: 0 8px;
+                user-select: none;
+            }
+
+            .cb-content {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                flex: 1;
             }
 
             /* SHARED COMPONENTS */
@@ -311,124 +309,112 @@ const CONTROL_BAR = (function () {
                 display: flex;
                 flex-direction: column;
                 gap: 4px;
-                width: 100%; /* Full width when docked */
             }
 
             .control-section label {
                 font-size: 9px;
-                font-weight: 600;
-                color: rgba(140, 145, 155, 0.6);
+                font-weight: 700;
+                color: rgba(255, 255, 255, 0.4);
                 text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            .row-group {
-                display: flex;
-                gap: 6px;
-                align-items: center;
+                letter-spacing: 1.2px;
+                margin-left: 2px;
             }
 
             .cb-select {
-                background: rgba(35, 38, 45, 0.85);
-                border: 1px solid rgba(100, 105, 115, 0.2);
-                border-radius: 6px;
-                color: #c8ccd5;
-                padding: 6px 10px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                color: #fff;
+                padding: 8px 12px;
                 font-size: 11px;
                 font-family: inherit;
                 cursor: pointer;
-                transition: all 0.2s;
-                flex: 1;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                min-width: 140px;
             }
 
             .cb-select:hover {
-                background: rgba(45, 48, 55, 0.9);
-                border-color: rgba(120, 125, 135, 0.35);
-            }
-            
-            .cb-select:focus {
-                outline: none;
-                border-color: var(--accent, #4a9eff);
-            }
-
-            .full-width {
-                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.2);
             }
 
             .cb-btn {
-                background: rgba(50, 55, 65, 0.6);
-                border: 1px solid rgba(100, 105, 115, 0.2);
-                border-radius: 6px;
-                color: #b0b5c0;
-                padding: 6px 12px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                color: rgba(255, 255, 255, 0.7);
+                padding: 8px 16px;
                 font-size: 11px;
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.2s;
                 text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
-            .actions-section {
-                width: 100%;
-            }
+
             .cb-btn:hover {
-                background: rgba(65, 70, 80, 0.75);
+                background: rgba(255, 255, 255, 0.1);
                 color: #fff;
             }
 
             .cb-btn-primary {
-                background: var(--accent-dim, rgba(74, 158, 255, 0.15));
-                color: var(--accent, #4a9eff);
-                border-color: var(--accent, #4a9eff);
+                background: var(--accent, #4a9eff);
+                color: #000;
+                border-color: transparent;
+                box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
             }
 
             .cb-btn-primary:hover {
-                background: var(--accent, #4a9eff);
-                color: #000;
+                background: #fff;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(74, 158, 255, 0.4);
             }
 
-            .cb-btn-small {
-                padding: 4px 8px;
-                min-width: 30px;
+            .arrow-section {
+                opacity: 0.3;
+                font-size: 18px;
+                padding-top: 12px;
             }
 
-            .cb-badge {
-                font-size: 10px;
-                color: #666;
-                min-width: 15px;
-                text-align: center;
-            }
-
-            /* GROUP CHIPS */
             .groups-section {
-                flex-direction: row;
+                padding: 8px 16px;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                display: flex;
+                gap: 8px;
                 flex-wrap: wrap;
-                gap: 4px;
+                background: rgba(0, 0, 0, 0.1);
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
             }
 
             .group-chip {
-                display: inline-flex;
+                display: flex;
                 align-items: center;
-                gap: 4px;
+                gap: 6px;
                 background: rgba(255, 255, 255, 0.05);
-                border-radius: 10px;
-                padding: 2px 8px;
+                border-radius: 12px;
+                padding: 4px 10px;
                 font-size: 10px;
-                cursor: default;
                 border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: background 0.2s;
             }
 
-            .group-color {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
+            .group-chip:hover {
+                background: rgba(255, 255, 255, 0.1);
             }
 
-            .group-remove {
-                margin-left: 4px;
+            .cb-toggle {
+                background: none;
+                border: none;
+                color: rgba(255, 255, 255, 0.3);
                 cursor: pointer;
-                opacity: 0.5;
+                padding: 8px;
+                transition: all 0.3s;
             }
-            .group-remove:hover { opacity: 1; }
+
+            .cb-toggle:hover {
+                color: #fff;
+            }
         `;
 
         document.head.appendChild(style);

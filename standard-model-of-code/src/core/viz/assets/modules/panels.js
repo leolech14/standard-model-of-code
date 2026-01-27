@@ -11,7 +11,7 @@
  *   PANELS.initCommandBar()   // Wire up command bar buttons
  */
 
-const PANELS = (function() {
+const PANELS = (function () {
     'use strict';
 
     // =========================================================================
@@ -347,18 +347,19 @@ const PANELS = (function() {
     };
 })();
 
-// Backward compatibility - _activePanelId is managed by app.js
+// Backward compatibility - _activePanelId is managed by module
 function openPanel(panelId) { PANELS.open(panelId); }
 function closePanel(panelId) { PANELS.close(panelId); }
 function togglePanel(panelId) { PANELS.toggle(panelId); }
 function initCommandBar() { PANELS.initCommandBar(); }
+Object.defineProperty(window, '_activePanelId', { get: () => PANELS.activePanelId, configurable: true });
 // HudLayoutManager - app.js owns this, not duplicated here
 
 // ════════════════════════════════════════════════════════════════════════
 // PANEL DRAG & RESIZE - Make panels movable and resizable
 // ════════════════════════════════════════════════════════════════════════
 
-const PANEL_DRAG = (function() {
+const PANEL_DRAG = (function () {
     'use strict';
 
     const _panels = new Map();

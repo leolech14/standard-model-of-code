@@ -29,6 +29,7 @@ import json
 import logging
 import re
 import time
+import uuid  # Added for parcel IDs
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
@@ -44,17 +45,20 @@ CHUNK_REGISTRY_DIR = Path(__file__).parent.parent.parent.parent / "intelligence"
 
 @dataclass
 class RefineryNode:
-    """Atomic chunk with full metadata."""
+    """Atomic chunk with full metadata and logistics waybill."""
     content: str                    # The chunk text
     source_file: str                # Origin file path
     chunk_id: str                   # Unique ID (SHA256-based)
     chunk_type: str                 # Type: function, class, section, config_block, etc.
-    relevance_score: float = 0.0   # 0.0-1.0 relevance score
-    start_line: int = 0            # Line number in source (if applicable)
-    end_line: int = 0              # End line number
+    relevance_score: float = 0.0    # 0.0-1.0 relevance score
+    start_line: int = 0             # Line number in source (if applicable)
+    end_line: int = 0               # End line number
     metadata: Dict[str, Any] = field(default_factory=dict)  # Additional metadata
     created_at: float = field(default_factory=time.time)
     embedding: List[float] = field(default_factory=list)  # Vector embedding (384-dim for MiniLM)
+    
+    # Fundamental Logistics ("The Mail")
+    waybill: Dict[str, Any] = field(default_factory=dict) # Tracking info {parcel_id, parent_id, route}
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to JSON-serializable dict."""
@@ -450,22 +454,33 @@ class Refinery:
         # Clamp to 0.0 - 1.0
         return max(0.0, min(1.0, score))
 
-    def process_file(self, file_path: str, use_cache: bool = True) -> List[RefineryNode]:
+    def process_file(
+        self, 
+        file_path: str, 
+        use_cache: bool = True,
+        parent_parcel_id: str = None,
+        batch_id: str = None
+    ) -> List[RefineryNode]:
         """
         Atomize a file into RefineryNodes.
 
         Args:
             file_path: Path to file to process
             use_cache: Whether to use/update cache
+            parent_parcel_id: ID of the input Parcel (from Scanner)
+            batch_id: ID of the processing batch (for copresence tracking)
 
         Returns:
             List of RefineryNode objects
         """
         file_path = str(Path(file_path).resolve())
 
-        # Check cache
+        # Check cache (Skip logic for now if we want to enforce new waybills? 
+        # Ideally cache key should include parent_parcel_id, but keeping simple for now)
         if use_cache and file_path in self._chunk_cache:
             logger.info(f"Cache hit for {file_path}")
+            # TODO: Should probably update the waybill of cached items? 
+            # For now, just return cached.
             return self._chunk_cache[file_path]
 
         # Get appropriate chunker
@@ -486,6 +501,29 @@ class Refinery:
 
             chunk_id = self._generate_chunk_id(file_path, content)
             relevance = self._score_relevance(content, chunk_type)
+            
+            # Mint new Parcel ID for this chunk (Sub-parcel)
+            parcel_id = f"pcl_{uuid.uuid4().hex[:12]}"
+            
+            # Create Structured Waybill
+            # Event: "chunking"
+            # Context: "who was in the room?" -> The Batch
+            waybill = {
+                "parcel_id": parcel_id,
+                "parent_id": parent_parcel_id or "orphaned_ingest",
+                "route": [
+                    {
+                        "event": "chunked",
+                        "timestamp": int(time.time()),
+                        "agent": "refinery.py",
+                        "context": {
+                            "source_file": Path(file_path).name,
+                            "batch_id": batch_id or "single_run"
+                            # In a real system, we'd list other_parcels here too
+                        }
+                    }
+                ]
+            }
 
             node = RefineryNode(
                 content=content,
@@ -498,7 +536,8 @@ class Refinery:
                 metadata={
                     'file_type': Path(file_path).suffix,
                     'file_name': Path(file_path).name,
-                }
+                },
+                waybill=waybill
             )
             nodes.append(node)
 

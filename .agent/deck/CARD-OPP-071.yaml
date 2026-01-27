@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-071
 # Confidence: 70%
-# Generated: 2026-01-27T01:14:31.903653
+# Generated: 2026-01-27T04:31:13.747384
 
 id: CARD-OPP-071
 title: Fix MISALIGNMENT reporting UNKNOWN vs CLEAN
@@ -32,5 +32,5 @@ tags:
 - needs-enrichment
 - general
 auto_generated: true
-generated_at: '2026-01-27T04:14:31.903599+00:00'
+generated_at: '2026-01-27T07:31:13.747331+00:00'
 confidence: 0.7

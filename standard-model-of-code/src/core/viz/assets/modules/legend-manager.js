@@ -13,7 +13,7 @@
  *   LEGEND.subscribe(callback)          // React to legend changes
  */
 
-const LEGEND = (function() {
+const LEGEND = (function () {
     'use strict';
 
     // =========================================================================
@@ -277,7 +277,13 @@ const LEGEND = (function() {
         dimensions,
 
         // Computed counts
-        get counts() { return _counts; }
+        get counts() { return _counts; },
+
+        // Singleton instance (delegated to DATA if available)
+        get instance() {
+            if (typeof DATA !== 'undefined' && DATA.legend) return DATA.legend;
+            return null;
+        }
     };
 })();
 
@@ -320,22 +326,25 @@ class LegendManager {
     }
 }
 
-// Global Legend instance - defined by app.js (not duplicated here to avoid redeclaration)
-// Legend is accessed as a global variable provided by app.js
+// Legend is accessed as a global variable provided by app.js (or DATA module)
+if (typeof window !== 'undefined') {
+    window.LEGEND = LEGEND;
+    window.LegendManager = LegendManager;
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BACKWARD COMPATIBILITY SHIMS
 // ═══════════════════════════════════════════════════════════════════════════
 
 // renderLegendSection calls LEGEND.renderSection with Legend (global) as source
-window.renderLegendSection = function(containerId, dimension, stateSet, onUpdate) {
+window.renderLegendSection = function (containerId, dimension, stateSet, onUpdate) {
     LEGEND.renderSection(containerId, dimension, stateSet, onUpdate);
 };
 
 // renderAllLegends uses VIS_FILTERS and refreshGraph from app.js globals
 // Includes 100ms debounce to prevent DOM thrashing during rapid updates
 let _legendDebounceTimer = null;
-window.renderAllLegends = function() {
+window.renderAllLegends = function () {
     if (_legendDebounceTimer) clearTimeout(_legendDebounceTimer);
     _legendDebounceTimer = setTimeout(() => {
         _legendDebounceTimer = null;

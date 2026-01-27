@@ -10,7 +10,7 @@
  *   PANEL_HANDLERS.init()  // Initialize all panel bindings
  */
 
-window.PANEL_HANDLERS = (function() {
+window.PANEL_HANDLERS = (function () {
     'use strict';
 
     let _bound = false;
@@ -121,11 +121,19 @@ window.PANEL_HANDLERS = (function() {
         if (!container) return;
 
         // Populate chips based on available data
-        if (typeof Graph !== 'undefined' && Graph.graphData) {
+        // Use DATA module if available (pre-graph initialization)
+        let dataNodes = [];
+        if (typeof DATA !== 'undefined' && DATA.getNodes) {
+            dataNodes = DATA.getNodes();
+        } else if (typeof Graph !== 'undefined' && Graph && Graph.graphData) {
             const data = Graph.graphData();
+            dataNodes = data.nodes || [];
+        }
+
+        if (dataNodes.length > 0) {
             const values = new Set();
 
-            data.nodes.forEach(node => {
+            dataNodes.forEach(node => {
                 if (filterType === 'tier' && node.tier) values.add(node.tier);
                 if (filterType === 'family' && node.family) values.add(node.family);
                 if (filterType === 'role' && node.semantic_role) values.add(node.semantic_role);
@@ -255,7 +263,7 @@ window.PANEL_HANDLERS = (function() {
 
     function _expandSelectionToNeighbors(kHop) {
         // Basic k-hop expansion using graph data
-        if (typeof Graph === 'undefined' || !Graph.graphData) return;
+        if (typeof Graph === 'undefined' || !Graph || !Graph.graphData) return;
 
         const data = Graph.graphData();
         const selectedIds = new Set(window.selectedNodes?.map(n => n.id) || []);
@@ -679,7 +687,7 @@ window.PANEL_HANDLERS = (function() {
     }
 
     function _updateAnalysisStats() {
-        if (typeof Graph === 'undefined' || !Graph.graphData) return;
+        if (typeof Graph === 'undefined' || !Graph || !Graph.graphData) return;
 
         const data = Graph.graphData();
         const visibleNodes = data.nodes.filter(n => n.__threeObj?.visible !== false);
@@ -883,7 +891,7 @@ window.PANEL_HANDLERS = (function() {
 
     function _debounce(fn, delay) {
         let timer = null;
-        return function(...args) {
+        return function (...args) {
             clearTimeout(timer);
             timer = setTimeout(() => fn.apply(this, args), delay);
         };

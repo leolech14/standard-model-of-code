@@ -51,8 +51,7 @@ function decompressPayload(payload) {
 
 let FULL_GRAPH = null;
 let Graph = null;
-let DM = null;  // DataManager instance - initialized in initGraph()
-let Legend = null;  // LegendManager instance - initialized in initGraph()
+// DM, Legend - provided by main.js getters to DATA/LEGEND modules
 let CURRENT_DENSITY = 1; // Default: show all nodes
 let SHOW_CODOME = false; // Default: hide CODOME boundary nodes
 let ACTIVE_DATAMAPS = new Set();
@@ -770,25 +769,24 @@ function initFallback2D(container, graphData, fullData) {
 
 function initGraph(data) {
     // =================================================================
-    // DATA MANAGER: Self-test + parity checks
+    // MODULES: Centralized initialization via main.js orchestration
     // =================================================================
-    DM = new DataManager();
-    DM.init(data);
-    window.DM = DM;
-    DM.selfTest();
-    runDmParity(DM, data);
+    if (typeof initializeModules === 'function') {
+        initializeModules(data);
+    } else {
+        // Fallback for standalone mode
+        DM = new DataManager();
+        DM.init(data);
+        window.DM = DM;
+        if (typeof SIDEBAR !== 'undefined' && SIDEBAR.populateFilterChips) {
+            SIDEBAR.populateFilterChips(data);
+        }
+    }
 
     // =================================================================
     // HUD STATS: Populate header and stats panel with graph data
     // =================================================================
     updateHudStats(data);
-
-    // =================================================================
-    // SIDEBAR: Populate filter chips from loaded data
-    // =================================================================
-    if (typeof SIDEBAR !== 'undefined' && SIDEBAR.populateFilterChips) {
-        SIDEBAR.populateFilterChips(data);
-    }
 
     // =================================================================
     // SIDEBAR: Apply deferred view mode (files mode if saved in localStorage)
@@ -1735,35 +1733,8 @@ function buildHybridGraph(data) {
 }
 
 function setupControls(data) {
-    // Initialize the Unified UI Manager
-    UIManager.init(data);
-
-    // Initialize modules that require data/DOM to be ready
-    // (SIDEBAR.init() is called earlier in DOMContentLoaded)
-    if (typeof LAYOUT !== 'undefined' && LAYOUT.init) LAYOUT.init();
-    if (typeof HUD !== 'undefined' && HUD.setupFade) HUD.setupFade();
-    if (typeof DIMENSION !== 'undefined' && DIMENSION.setup) DIMENSION.setup();
-
-    // Initialize Gridstack-based modular panel system
-    if (typeof PANEL_SYSTEM !== 'undefined' && PANEL_SYSTEM.init) {
-        PANEL_SYSTEM.init();
-    }
-
-    // Load persisted filter state
-    if (typeof FILTER_STATE !== 'undefined' && FILTER_STATE.load) {
-        FILTER_STATE.load();
-    }
-
-    // Bind panel control handlers
-    if (typeof PANEL_HANDLERS !== 'undefined' && PANEL_HANDLERS.init) {
-        PANEL_HANDLERS.init();
-    }
-
-    // Initialize Command Bar and Floating Panels
-    initCommandBar();
-
-    // Initialize Selection Detail Modal
-    initSelectionModal();
+    // initializeModules(data) is already called in initGraph()
+    // This section only handles legacy app.js specific UI bindings
 
     // Initialize Node & Edge Config Controls (PRIME SECTIONS)
     setupConfigControls();

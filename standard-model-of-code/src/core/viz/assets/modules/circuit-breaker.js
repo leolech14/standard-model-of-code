@@ -40,7 +40,7 @@
  * @see CLAUDE.md - UI Controls section
  */
 
-const CIRCUIT = (function() {
+const CIRCUIT = (function () {
     'use strict';
 
     // Test results storage
@@ -376,7 +376,7 @@ const CIRCUIT = (function() {
                 // DIMENSION_TRANSITION is set true immediately on click, then false after 3s animation
                 // We check that clicking triggered the transition (flag went true or animation completed)
                 const transitionStarted = window.DIMENSION_TRANSITION === true ||
-                                         window.DIMENSION_TRANSITION !== window._transitionBefore;
+                    window.DIMENSION_TRANSITION !== window._transitionBefore;
                 return {
                     passed: transitionStarted,
                     expected: 'DIMENSION_TRANSITION = true (animation in progress)',
@@ -502,7 +502,7 @@ const CIRCUIT = (function() {
                 const el = document.querySelector('[data-selection-mode="single"]');
                 return { passed: el?.classList.contains('active'), expected: 'active', actual: el?.classList.contains('active') ? 'active' : 'inactive', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Selection mode button should toggle active class'
         },
         {
@@ -564,7 +564,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-select-expand');
                 return { passed: !!el && !el.disabled, expected: 'clickable', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Expand button should exist and be clickable'
         },
         {
@@ -579,7 +579,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-select-isolate');
                 return { passed: !!el && !el.disabled, expected: 'clickable', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Isolate button should exist and be clickable'
         },
 
@@ -626,7 +626,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-cam-reset');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Camera reset button should call Graph.cameraPosition()'
         },
         {
@@ -641,7 +641,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-cam-fit');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Fit all button should call Graph.zoomToFit()'
         },
 
@@ -705,7 +705,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-export-png');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'PNG export button should capture canvas and download'
         },
         {
@@ -720,7 +720,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-export-json');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'JSON export button should export Graph.graphData() as JSON'
         },
         {
@@ -735,7 +735,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-export-svg');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'SVG export button exists (WebGL canvas limitation noted)'
         },
         {
@@ -750,7 +750,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-export-embed');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Embed code button should copy iframe code to clipboard'
         },
 
@@ -767,7 +767,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-stat-visible');
                 return { passed: !!el, expected: 'exists', actual: el ? el.textContent : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Visible count display should show current visible node count'
         },
         {
@@ -782,7 +782,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-stat-selected');
                 return { passed: !!el, expected: 'exists', actual: el ? el.textContent : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Selected count display should show current selection count'
         },
         {
@@ -797,7 +797,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-stat-edges');
                 return { passed: !!el, expected: 'exists', actual: el ? el.textContent : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Edge count display should show current edge count'
         },
         {
@@ -812,7 +812,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-stat-density');
                 return { passed: !!el, expected: 'exists', actual: el ? el.textContent : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Density display should show graph density percentage'
         },
         {
@@ -844,7 +844,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-reheat');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Reheat button should call Graph.d3ReheatSimulation()'
         },
         {
@@ -859,7 +859,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-freeze');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Freeze button should disable d3 forces'
         },
         {
@@ -874,7 +874,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-cool');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Cool button should set Graph.cooldownTicks(100)'
         },
         {
@@ -906,7 +906,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-view-3d');
                 return { passed: el?.classList.contains('active'), expected: 'active', actual: el?.classList.contains('active') ? 'active' : 'inactive', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: '3D button should set IS_3D=true and switch dimension'
         },
         {
@@ -937,7 +937,7 @@ const CIRCUIT = (function() {
                 const el = document.querySelector('[data-panel-mode="atoms"]');
                 return { passed: el?.classList.contains('active'), expected: 'active', actual: el?.classList.contains('active') ? 'active' : 'inactive', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Atoms button should set GRAPH_MODE="atoms"'
         },
         {
@@ -970,7 +970,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-reset-layout');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Reset layout button should call PANEL_SYSTEM.resetLayout()'
         },
         {
@@ -985,7 +985,7 @@ const CIRCUIT = (function() {
                 const el = document.getElementById('panel-toggle-dock');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Toggle dock button should hide/show panel-container'
         },
 
@@ -1000,11 +1000,11 @@ const CIRCUIT = (function() {
             statePath: 'UPB',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof UPB !== 'undefined' && UPB.VERSION, expected: 'UPB defined', actual: typeof UPB !== 'undefined' ? UPB.VERSION : 'undefined', stateExists: typeof UPB !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'UPB module should be loaded via upb/index.js'
         },
         {
@@ -1014,11 +1014,11 @@ const CIRCUIT = (function() {
             statePath: 'UPB_BINDINGS',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof UPB_BINDINGS !== 'undefined' && UPB_BINDINGS.defaultGraph, expected: 'UPB_BINDINGS defined', actual: typeof UPB_BINDINGS !== 'undefined' ? 'loaded' : 'undefined', stateExists: typeof UPB_BINDINGS !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'UPB_BINDINGS module should be loaded via upb/bindings.js'
         },
         {
@@ -1028,11 +1028,11 @@ const CIRCUIT = (function() {
             statePath: 'UPB_SCALES',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof UPB_SCALES !== 'undefined' && typeof UPB_SCALES.applyScale === 'function', expected: 'applyScale function', actual: typeof UPB_SCALES?.applyScale, stateExists: typeof UPB_SCALES !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'UPB_SCALES module should be loaded via upb/scales.js'
         },
         {
@@ -1042,11 +1042,11 @@ const CIRCUIT = (function() {
             statePath: 'UPB_ENDPOINTS',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof UPB_ENDPOINTS !== 'undefined' && UPB_ENDPOINTS.SOURCES, expected: 'SOURCES defined', actual: typeof UPB_ENDPOINTS?.SOURCES, stateExists: typeof UPB_ENDPOINTS !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'UPB_ENDPOINTS module should be loaded via upb/endpoints.js'
         },
 
@@ -1061,11 +1061,11 @@ const CIRCUIT = (function() {
             statePath: 'EVENT_BUS',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof EVENT_BUS !== 'undefined' && typeof EVENT_BUS.emit === 'function', expected: 'emit function', actual: typeof EVENT_BUS?.emit, stateExists: typeof EVENT_BUS !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'EVENT_BUS module should be loaded via event-bus.js'
         },
         {
@@ -1075,11 +1075,11 @@ const CIRCUIT = (function() {
             statePath: 'FILTER_STATE',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof FILTER_STATE !== 'undefined' && typeof FILTER_STATE.apply === 'function', expected: 'apply function', actual: typeof FILTER_STATE?.apply, stateExists: typeof FILTER_STATE !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'FILTER_STATE module should be loaded via filter-state.js'
         },
         {
@@ -1089,11 +1089,11 @@ const CIRCUIT = (function() {
             statePath: 'PANEL_SYSTEM',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof PANEL_SYSTEM !== 'undefined' && typeof PANEL_SYSTEM.init === 'function', expected: 'init function', actual: typeof PANEL_SYSTEM?.init, stateExists: typeof PANEL_SYSTEM !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'PANEL_SYSTEM module should be loaded via panel-system.js'
         },
         {
@@ -1103,11 +1103,11 @@ const CIRCUIT = (function() {
             statePath: 'PANEL_HANDLERS',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof PANEL_HANDLERS !== 'undefined' && typeof PANEL_HANDLERS.init === 'function', expected: 'init function', actual: typeof PANEL_HANDLERS?.init, stateExists: typeof PANEL_HANDLERS !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'PANEL_HANDLERS module should be loaded via panel-handlers.js'
         },
 
@@ -1122,11 +1122,11 @@ const CIRCUIT = (function() {
             statePath: 'GridStack',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof GridStack !== 'undefined', expected: 'GridStack defined', actual: typeof GridStack, stateExists: typeof GridStack !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'GridStack should be loaded from CDN in template.html'
         },
         {
@@ -1137,12 +1137,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('.panel-container.grid-stack');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Panel container with grid-stack class should exist in template.html'
         },
         {
@@ -1153,12 +1153,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: '9 panels',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const items = document.querySelectorAll('.grid-stack-item');
                 return { passed: items.length >= 9, expected: '>= 9', actual: items.length, stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'At least 9 grid-stack-item panels should exist'
         },
 
@@ -1173,12 +1173,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: 'd3Force',
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('physics-link-distance');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Link distance slider should exist'
         },
         {
@@ -1188,12 +1188,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: 'd3Force',
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('physics-link-strength');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Link strength slider should exist'
         },
         {
@@ -1203,12 +1203,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: 'd3Force',
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('physics-gravity');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Gravity slider should exist'
         },
         {
@@ -1218,12 +1218,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: 'd3Force',
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('physics-collision');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Collision radius slider should exist'
         },
         {
@@ -1233,12 +1233,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.labelSize',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-node-label');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Node label size slider should exist'
         },
         {
@@ -1248,12 +1248,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.bloomStrength',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-bloom-strength');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Bloom strength slider should exist'
         },
         {
@@ -1263,12 +1263,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.bloomRadius',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-bloom-radius');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Bloom radius slider should exist'
         },
         {
@@ -1278,12 +1278,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.particleCount',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-particle-count');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Particle count slider should exist'
         },
         {
@@ -1293,12 +1293,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.particleWidth',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-particle-width');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Particle width slider should exist'
         },
         {
@@ -1308,12 +1308,12 @@ const CIRCUIT = (function() {
             statePath: 'APPEARANCE_STATE.particleSpeed',
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.getElementById('cfg-particle-speed');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Particle speed slider should exist'
         },
 
@@ -1328,11 +1328,11 @@ const CIRCUIT = (function() {
             statePath: 'COLOR',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof COLOR !== 'undefined' && typeof COLOR.getNodeColor === 'function', expected: 'getNodeColor function', actual: typeof COLOR?.getNodeColor, stateExists: typeof COLOR !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'COLOR module should be loaded via color-engine.js'
         },
         {
@@ -1342,11 +1342,11 @@ const CIRCUIT = (function() {
             statePath: 'DATA',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof DATA !== 'undefined' && typeof DATA.getNodes === 'function', expected: 'getNodes function', actual: typeof DATA?.getNodes, stateExists: typeof DATA !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'DATA module should be loaded via data-manager.js'
         },
         {
@@ -1356,11 +1356,11 @@ const CIRCUIT = (function() {
             statePath: 'SELECT',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof SELECT !== 'undefined' && typeof SELECT.clear === 'function', expected: 'clear function', actual: typeof SELECT?.clear, stateExists: typeof SELECT !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'SELECT module should be loaded via selection.js'
         },
         {
@@ -1370,11 +1370,11 @@ const CIRCUIT = (function() {
             statePath: 'ANIM',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof ANIM !== 'undefined' && typeof ANIM.applyLayout === 'function', expected: 'applyLayout function', actual: typeof ANIM?.applyLayout, stateExists: typeof ANIM !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'ANIM module should be loaded via animation.js'
         },
         {
@@ -1384,11 +1384,11 @@ const CIRCUIT = (function() {
             statePath: 'LEGEND',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof LEGEND !== 'undefined' && typeof LEGEND.render === 'function', expected: 'render function', actual: typeof LEGEND?.render, stateExists: typeof LEGEND !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'LEGEND module should be loaded via legend-manager.js'
         },
         {
@@ -1398,11 +1398,11 @@ const CIRCUIT = (function() {
             statePath: 'REFRESH',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof REFRESH !== 'undefined' && typeof REFRESH.throttled === 'function', expected: 'throttled function', actual: typeof REFRESH?.throttled, stateExists: typeof REFRESH !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'REFRESH module should be loaded via refresh-throttle.js'
         },
         {
@@ -1412,11 +1412,11 @@ const CIRCUIT = (function() {
             statePath: 'EDGE',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof EDGE !== 'undefined' && typeof EDGE.setMode === 'function', expected: 'setMode function', actual: typeof EDGE?.setMode, stateExists: typeof EDGE !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'EDGE module should be loaded via edge-system.js'
         },
         {
@@ -1426,11 +1426,11 @@ const CIRCUIT = (function() {
             statePath: 'FILE_VIZ',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof FILE_VIZ !== 'undefined' && typeof FILE_VIZ.setMode === 'function', expected: 'setMode function', actual: typeof FILE_VIZ?.setMode, stateExists: typeof FILE_VIZ !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'FILE_VIZ module should be loaded via file-viz.js'
         },
         {
@@ -1440,11 +1440,11 @@ const CIRCUIT = (function() {
             statePath: 'CONTROL_BAR',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof CONTROL_BAR !== 'undefined' && typeof CONTROL_BAR.toggle === 'function', expected: 'toggle function', actual: typeof CONTROL_BAR?.toggle, stateExists: typeof CONTROL_BAR !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'CONTROL_BAR module should be loaded via control-bar.js'
         },
         {
@@ -1454,11 +1454,11 @@ const CIRCUIT = (function() {
             statePath: 'SIDEBAR',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof SIDEBAR !== 'undefined' && typeof SIDEBAR.init === 'function', expected: 'init function', actual: typeof SIDEBAR?.init, stateExists: typeof SIDEBAR !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'SIDEBAR module should be loaded via sidebar.js'
         },
         {
@@ -1468,11 +1468,11 @@ const CIRCUIT = (function() {
             statePath: 'HUD',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof HUD !== 'undefined' && typeof HUD.setupFade === 'function', expected: 'setupFade function', actual: typeof HUD?.setupFade, stateExists: typeof HUD !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'HUD module should be loaded via hud.js'
         },
         {
@@ -1482,11 +1482,11 @@ const CIRCUIT = (function() {
             statePath: 'DIMENSION',
             graphMethod: null,
             expected: 'loaded',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 return { passed: typeof DIMENSION !== 'undefined' && typeof DIMENSION.setup === 'function', expected: 'setup function', actual: typeof DIMENSION?.setup, stateExists: typeof DIMENSION !== 'undefined' };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'DIMENSION module should be loaded via dimension.js'
         },
 
@@ -1502,12 +1502,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="force"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Force layout button should exist'
         },
         {
@@ -1518,12 +1518,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="radial"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Radial layout button should exist'
         },
         {
@@ -1534,12 +1534,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="tree"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Tree layout button should exist'
         },
         {
@@ -1550,12 +1550,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="grid"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Grid layout button should exist'
         },
         {
@@ -1566,12 +1566,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="sphere"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Sphere layout button should exist'
         },
         {
@@ -1582,12 +1582,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-layout="spiral"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Spiral layout button should exist'
         },
 
@@ -1603,12 +1603,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="tier"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Tier color preset button should exist'
         },
         {
@@ -1619,12 +1619,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="role"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Role color preset button should exist'
         },
         {
@@ -1635,12 +1635,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="family"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Family color preset button should exist'
         },
         {
@@ -1651,12 +1651,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="file"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'File color preset button should exist'
         },
         {
@@ -1667,12 +1667,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="degree"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Degree color preset button should exist'
         },
         {
@@ -1683,12 +1683,12 @@ const CIRCUIT = (function() {
             statePath: null,
             graphMethod: null,
             expected: 'exists',
-            trigger: () => {},
+            trigger: () => { },
             validate: () => {
                 const el = document.querySelector('[data-color="complexity"]');
                 return { passed: !!el, expected: 'exists', actual: el ? 'exists' : 'missing', stateExists: true };
             },
-            cleanup: () => {},
+            cleanup: () => { },
             fix: 'Complexity color preset button should exist'
         }
     ];
@@ -1900,6 +1900,7 @@ const CIRCUIT = (function() {
         diagnose,
         inventory,
         inventoryJSON,
+        getRegistry: () => TESTS,
         get isRunning() { return _running; },
         TESTS
     };

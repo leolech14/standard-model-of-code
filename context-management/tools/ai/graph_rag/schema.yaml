@@ -1,0 +1,58 @@
+# GraphRAG Schema Definition
+# Defines the ontology for the Contextome Knowledge Graph
+
+version: "1.0"
+
+nodes:
+  CodeEntity:
+    description: "A structural unit of code (function, class, module)."
+    properties:
+      id: "Unique identifier (e.g., file path or qualified name)"
+      name: "Simple name"
+      type: "Type of entity (function, class, etc.)"
+      
+  Chunk:
+    description: "A semantic chunk of text/code for embedding."
+    properties:
+      id: "Unique hash"
+      content: "Text content"
+      embedding: "384-dimensional vector (all-MiniLM-L6-v2)"
+      
+  Paper:
+    description: "An academic paper or theoretical foundation."
+    properties:
+      id: "Citation key (e.g., REF-040)"
+      title: "Paper title"
+      author: "Primary author"
+      year: "Publication year"
+
+  Concept:
+    description: "A theoretical concept defined in papers and implemented in code."
+    properties:
+      name: "Concept name (e.g., purpose_field_dynamics)"
+
+relationships:
+  VALIDATES:
+    source: Paper
+    target: Concept
+    description: "Paper provides theoretical validation for a concept."
+    
+  DEFINES:
+    source: Paper
+    target: Concept
+    description: "Paper introduces/defines a concept."
+    
+  IMPLEMENTS:
+    source: CodeEntity
+    target: Concept
+    description: "Code entity physically implements a theoretical concept."
+    
+  CONTAINS:
+    source: CodeEntity
+    target: Chunk
+    description: "Code entity contains this semantic chunk."
+    
+  CITES:
+    source: Paper
+    target: Paper
+    description: "Academic citation reference."

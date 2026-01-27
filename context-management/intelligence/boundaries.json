@@ -2,12 +2,12 @@
   "meta": {
     "tool": "boundary_mapper",
     "version": "1.0.0",
-    "mapped_at": "2026-01-24T03:30:49.433946",
+    "mapped_at": "2026-01-27T05:15:20.614960",
     "source": "/Users/lech/PROJECTS_all/PROJECT_elements/context-management/config/analysis_sets.yaml"
   },
   "summary": {
-    "boundaries": 34,
-    "total_files_mapped": 5902
+    "boundaries": 38,
+    "total_files_mapped": 10043
   },
   "boundaries": [
     {
@@ -15,7 +15,7 @@
       "type": "boundary",
       "name": "archive",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:6555978428726b04dd0237f814cc30e45d11064bed1f195a4a8e3db4677ca288",
+      "content_hash": "sha256:52f36e5d98f38344399ff43a76275dd0ff2d2d0e481789318cc274b282588703",
       "summary": "Historical snapshots and large reference datasets (Read-Only)",
       "region_name": "archive",
       "include_patterns": [
@@ -94,17 +94,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.591688",
-        "updated_at": "2026-01-24T03:30:48.591688",
-        "last_analyzed_at": "2026-01-24T03:30:48.591688"
+        "created_at": "2026-01-27T05:15:18.449951",
+        "updated_at": "2026-01-27T05:15:18.449951",
+        "last_analyzed_at": "2026-01-27T05:15:18.449951"
       },
       "metadata": {
         "max_tokens": 1000000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 1043,
-        "total_bytes": 1407769095,
-        "total_lines": 22675817,
+        "file_count": 1029,
+        "total_bytes": 1404381634,
+        "total_lines": 22672141,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -114,7 +114,7 @@
       "type": "boundary",
       "name": "repo_docs",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:54b70ed3ea510998905875f6a80f922753be4e61a7028a0f5aea3963e7a78a88",
+      "content_hash": "sha256:2fc5cf5a9a8c8e5304630812d5f7d5a775bf2c1913a280da8e6b99e7724d35c8",
       "summary": "The 'Map' \u2013 Design specs, user guides, and theory docs",
       "region_name": "repo_docs",
       "include_patterns": [
@@ -128,30 +128,44 @@
           "FILE-context-management_docs_AI_USER_GUIDE_md",
           "FILE-context-management_docs_ASSET_INVENTORY_md",
           "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_CODESPACE_ALGEBRA_md",
+          "FILE-context-management_docs_CODOME_md",
           "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_CONCORDANCES_md",
+          "FILE-context-management_docs_CONTEXTOME_md",
           "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
           "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_DOMAINS_DEPRECATED_md",
           "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_GLOSSARY_md",
+          "FILE-context-management_docs_GLOSSARY_QUICK_md",
           "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
           "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
           "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
           "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_PROJECTOME_md",
           "FILE-context-management_docs_README_md",
           "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
           "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_RESEARCH_SCHEMAS_md",
           "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
           "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
           "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_TOPOLOGY_MAP_md",
           "FILE-context-management_docs_WORKFLOW_FACTORY_md",
           "FILE-standard-model-of-code_docs_COLLIDER_md",
           "FILE-standard-model-of-code_docs_COMPETITIVE_ANALYSIS_md",
           "FILE-standard-model-of-code_docs_KNOWLEDGE_TREE_md",
           "FILE-standard-model-of-code_docs_MODEL_md",
           "FILE-standard-model-of-code_docs_OPEN_CONCERNS_md",
+          "FILE-standard-model-of-code_docs_ORPHANED_CONTROLS_INDEX_md",
+          "FILE-standard-model-of-code_docs_ORPHANED_CONTROLS_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_POSSIBILITIES_md",
           "FILE-standard-model-of-code_docs_PURPOSE_INTELLIGENCE_md",
           "FILE-standard-model-of-code_docs_README_md",
           "FILE-standard-model-of-code_docs_RESEARCH_DIRECTIONS_md",
           "FILE-standard-model-of-code_docs_RESEARCH_TO_IMPLEMENTATION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_SESSION_CONCERNS_20260125_md",
           "FILE-standard-model-of-code_docs_SPRAWL_CONSOLIDATION_PLAN_md",
           "FILE-standard-model-of-code_docs_THEORY_EXPANSION_2026_md"
         ]
@@ -174,17 +188,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.597282",
-        "updated_at": "2026-01-24T03:30:48.597282",
-        "last_analyzed_at": "2026-01-24T03:30:48.597282"
+        "created_at": "2026-01-27T05:15:18.467152",
+        "updated_at": "2026-01-27T05:15:18.467152",
+        "last_analyzed_at": "2026-01-27T05:15:18.467152"
       },
       "metadata": {
         "max_tokens": 200000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 30,
-        "total_bytes": 360322,
-        "total_lines": 9641,
+        "file_count": 44,
+        "total_bytes": 542264,
+        "total_lines": 15063,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -230,9 +244,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.597723",
-        "updated_at": "2026-01-24T03:30:48.597723",
-        "last_analyzed_at": "2026-01-24T03:30:48.597723"
+        "created_at": "2026-01-27T05:15:18.467757",
+        "updated_at": "2026-01-27T05:15:18.467757",
+        "last_analyzed_at": "2026-01-27T05:15:18.467757"
       },
       "metadata": {
         "max_tokens": 50000,
@@ -250,7 +264,7 @@
       "type": "boundary",
       "name": "docs_core",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:8bc1ce8d1d4d28d45eb00e3aeae92e8ab9bbefa3f6770571dea5f9c30f3f309d",
+      "content_hash": "sha256:c0b8bbcf5e1e95f2e5622784d67fb4d3acf2efc87a872cca7a21707eda64590a",
       "summary": "Core documentation and specs (excluding archive/agent)",
       "region_name": "docs_core",
       "include_patterns": [
@@ -265,10 +279,14 @@
           "FILE-standard-model-of-code_docs_KNOWLEDGE_TREE_md",
           "FILE-standard-model-of-code_docs_MODEL_md",
           "FILE-standard-model-of-code_docs_OPEN_CONCERNS_md",
+          "FILE-standard-model-of-code_docs_ORPHANED_CONTROLS_INDEX_md",
+          "FILE-standard-model-of-code_docs_ORPHANED_CONTROLS_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_POSSIBILITIES_md",
           "FILE-standard-model-of-code_docs_PURPOSE_INTELLIGENCE_md",
           "FILE-standard-model-of-code_docs_README_md",
           "FILE-standard-model-of-code_docs_RESEARCH_DIRECTIONS_md",
           "FILE-standard-model-of-code_docs_RESEARCH_TO_IMPLEMENTATION_ROADMAP_md",
+          "FILE-standard-model-of-code_docs_SESSION_CONCERNS_20260125_md",
           "FILE-standard-model-of-code_docs_SPRAWL_CONSOLIDATION_PLAN_md",
           "FILE-standard-model-of-code_docs_THEORY_EXPANSION_2026_md",
           "FILE-standard-model-of-code_docs_specs_AI_INTERFACE_SPEC_md",
@@ -278,16 +296,19 @@
           "FILE-standard-model-of-code_docs_specs_CODOME_LANDSCAPE_md",
           "FILE-standard-model-of-code_docs_specs_COMPLETENESS_ATTESTATION_PROTOCOL_md",
           "FILE-standard-model-of-code_docs_specs_EXHAUSTIVE_CLASSIFICATION_MODEL_md",
+          "FILE-standard-model-of-code_docs_specs_HEALTH_MODEL_CONSOLIDATED_md",
           "FILE-standard-model-of-code_docs_specs_LANDSCAPE_IMPLEMENTATION_GUIDE_md",
           "FILE-standard-model-of-code_docs_specs_NODE_COUNT_GROUND_TRUTH_md",
           "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE_md",
           "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_TASK_REGISTRY_md",
           "FILE-standard-model-of-code_docs_specs_PIPELINE_STAGES_md",
+          "FILE-standard-model-of-code_docs_specs_PROPERTY_QUERY_DATA_FLOW_md",
           "FILE-standard-model-of-code_docs_specs_README_md",
           "FILE-standard-model-of-code_docs_specs_REGISTRY_OF_REGISTRIES_md",
           "FILE-standard-model-of-code_docs_specs_SCALE_INOUT_TOPOLOGY_md",
           "FILE-standard-model-of-code_docs_specs_SCALE_TRANSFORMS_md",
           "FILE-standard-model-of-code_docs_specs_SEMANTIC_INDEXER_IMPLEMENTATION_md",
+          "FILE-standard-model-of-code_docs_specs_STATISTICAL_ANALYSIS_CONSOLIDATION_md",
           "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_PLAN_md",
           "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_ROADMAP_md",
           "FILE-standard-model-of-code_docs_specs_TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY_md",
@@ -295,14 +316,14 @@
           "FILE-standard-model-of-code_docs_specs_TREE_SITTER_POWER_INVENTORY_md",
           "FILE-standard-model-of-code_docs_specs_TREE_SITTER_TASK_REGISTRY_md",
           "FILE-standard-model-of-code_docs_specs_TREE_SITTER_VALIDATION_REPORT_md",
+          "FILE-standard-model-of-code_docs_specs_UI_ARCHITECTURE_VALIDATION_CONSOLIDATED_md",
+          "FILE-standard-model-of-code_docs_specs_UI_CONTROLS_SCHEMA_md",
           "FILE-standard-model-of-code_docs_specs_UI_LAYOUT_ARCHITECTURE_md",
+          "FILE-standard-model-of-code_docs_specs_UI_OVERHAUL_CONTEXT_INVENTORY_md",
+          "FILE-standard-model-of-code_docs_specs_UI_REFACTOR_IMPLEMENTATION_LOGIC_md",
           "FILE-standard-model-of-code_docs_specs_UI_REFACTOR_VISION_md",
           "FILE-standard-model-of-code_docs_specs_UI_SESSION_SUMMARY_md",
-          "FILE-standard-model-of-code_docs_specs_UNIVERSAL_PROPERTY_BINDER_md",
-          "FILE-standard-model-of-code_docs_specs_UPB_IMPLEMENTATION_PLAN_md",
-          "FILE-standard-model-of-code_docs_specs_UPB_LEGACY_SPRAWL_md",
-          "FILE-standard-model-of-code_docs_specs_UPB_TASK_REGISTRY_md",
-          "FILE-standard-model-of-code_docs_specs_VISUALIZATION_UI_SPEC_md"
+          "FILE-standard-model-of-code_docs_specs_UNIVERSAL_PROPERTY_BINDER_md"
         ]
       },
       "confidence": {
@@ -323,17 +344,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.603765",
-        "updated_at": "2026-01-24T03:30:48.603765",
-        "last_analyzed_at": "2026-01-24T03:30:48.603765"
+        "created_at": "2026-01-27T05:15:18.478970",
+        "updated_at": "2026-01-27T05:15:18.478970",
+        "last_analyzed_at": "2026-01-27T05:15:18.478970"
       },
       "metadata": {
         "max_tokens": 150000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 43,
-        "total_bytes": 649373,
-        "total_lines": 18791,
+        "file_count": 54,
+        "total_bytes": 861120,
+        "total_lines": 23933,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -343,7 +364,7 @@
       "type": "boundary",
       "name": "repo_theory",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:c8e4a4ef5bca646812bbcbf4d268d412d463c697dec8ad696fbb85701fd352f5",
+      "content_hash": "sha256:76475b2642fc6e1a2b65cfe9355042ec1a9b1ce9dca99210cb0fecf59dc6113c",
       "summary": "The 'Source of Truth' \u2013 Core schemas, dimensions, and model definitions",
       "region_name": "repo_theory",
       "include_patterns": [
@@ -364,6 +385,7 @@
           "FILE-standard-model-of-code_schema_profiles_architecture_clean_onion_yaml",
           "FILE-standard-model-of-code_schema_profiles_dimensions_fp_strict_yaml",
           "FILE-standard-model-of-code_schema_profiles_dimensions_oop_conventional_yaml",
+          "FILE-standard-model-of-code_schema_viz_controls_CONTROL_REGISTRY_yaml",
           "FILE-standard-model-of-code_src_core_atom_registry_py"
         ]
       },
@@ -385,17 +407,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.605962",
-        "updated_at": "2026-01-24T03:30:48.605962",
-        "last_analyzed_at": "2026-01-24T03:30:48.605962"
+        "created_at": "2026-01-27T05:15:18.482667",
+        "updated_at": "2026-01-27T05:15:18.482667",
+        "last_analyzed_at": "2026-01-27T05:15:18.482667"
       },
       "metadata": {
         "max_tokens": 100000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 10,
-        "total_bytes": 88367,
-        "total_lines": 2021,
+        "file_count": 11,
+        "total_bytes": 103055,
+        "total_lines": 2565,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -405,7 +427,7 @@
       "type": "boundary",
       "name": "repo_tool",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:cca3f6e846dce536f7d88cd892beef7c03ea89efa7e6e01c77bd23747450b2f0",
+      "content_hash": "sha256:26f5d837be38f6005369c30c5a207f211cceb160e9863a4d52e4a0f822320c97",
       "summary": "The 'Engine' \u2013 Collider logic, analysis pipeline, and AI tools",
       "region_name": "repo_tool",
       "include_patterns": [
@@ -417,19 +439,20 @@
       "relationships": {
         "contains": [
           "FILE-context-management_tools_ai_analyze_py",
+          "FILE-context-management_tools_ai_boundary_analyzer_py",
           "FILE-context-management_tools_ai_debug_models_py",
-          "FILE-context-management_tools_ai_future_visionary_py",
           "FILE-context-management_tools_ai_gemini_cache_demo_py",
           "FILE-context-management_tools_ai_gemini_genai_test_py",
+          "FILE-context-management_tools_ai_gemini_status_py",
           "FILE-context-management_tools_ai_gemini_test_simple_py",
           "FILE-context-management_tools_ai_industrial_ui_py",
           "FILE-context-management_tools_ai_insights_generator_py",
+          "FILE-context-management_tools_ai_intel_py",
+          "FILE-context-management_tools_ai_laboratory_bridge_py",
           "FILE-context-management_tools_ai_list_models_py",
           "FILE-context-management_tools_ai_loop_py",
           "FILE-context-management_tools_ai_observe_session_py",
           "FILE-context-management_tools_ai_perplexity_research_py",
-          "FILE-context-management_tools_ai_present_architect_py",
-          "FILE-context-management_tools_ai_repo_archaeologist_py",
           "FILE-context-management_tools_ai_setup_rag_py",
           "FILE-context-management_tools_ai_test_vertex_sdk_py",
           "FILE-standard-model-of-code_src_core_classification_ddd_mappings_py",
@@ -455,17 +478,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.609351",
-        "updated_at": "2026-01-24T03:30:48.609351",
-        "last_analyzed_at": "2026-01-24T03:30:48.609351"
+        "created_at": "2026-01-27T05:15:18.487005",
+        "updated_at": "2026-01-27T05:15:18.487005",
+        "last_analyzed_at": "2026-01-27T05:15:18.487005"
       },
       "metadata": {
         "max_tokens": 150000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 19,
-        "total_bytes": 388223,
-        "total_lines": 10072,
+        "file_count": 20,
+        "total_bytes": 421287,
+        "total_lines": 10524,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -557,9 +580,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.611586",
-        "updated_at": "2026-01-24T03:30:48.611586",
-        "last_analyzed_at": "2026-01-24T03:30:48.611586"
+        "created_at": "2026-01-27T05:15:18.489324",
+        "updated_at": "2026-01-27T05:15:18.489324",
+        "last_analyzed_at": "2026-01-27T05:15:18.489324"
       },
       "metadata": {
         "max_tokens": 200000,
@@ -617,9 +640,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.612453",
-        "updated_at": "2026-01-24T03:30:48.612453",
-        "last_analyzed_at": "2026-01-24T03:30:48.612453"
+        "created_at": "2026-01-27T05:15:18.490419",
+        "updated_at": "2026-01-27T05:15:18.490419",
+        "last_analyzed_at": "2026-01-27T05:15:18.490419"
       },
       "metadata": {
         "max_tokens": 50000,
@@ -637,7 +660,7 @@
       "type": "boundary",
       "name": "viz_core",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:da2b73b85ef054436e8a9e37daf1987604bce5fc2718727f745f22689b378785",
+      "content_hash": "sha256:3be72e768996fbb54adf9b9615087eb54c81aab342ed36d9d2a7066aa1e697ae",
       "summary": "Visualization core (control bar, data manager, template)",
       "region_name": "viz_core",
       "include_patterns": [
@@ -649,28 +672,24 @@
       "exclude_patterns": [],
       "relationships": {
         "contains": [
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_AxialLayout_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_CodomeHUD_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_HolarchyMapper_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_InteractionManager_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_SettingsPanel_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_TowerRenderer_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_animation_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_circuit-breaker_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-contract-test_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_color-engine_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_color-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-telemetry_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_control-bar_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_core_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_data-manager_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_datamap_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_dimension_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_edge-system_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_event-bus_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_file-color-model_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-tree-layout_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_file-viz_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_filter-state_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_flow_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_groups_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_hardware-info_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_hover_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_hud_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_hull-visualizer_js",
@@ -681,10 +700,13 @@
           "FILE-standard-model-of-code_src_core_viz_assets_modules_main_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_node-accessors_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_node-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_panel-handlers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_panel-system_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_panels_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_perf-monitor_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_physics_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_pipeline-navigator_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_property-query-init_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_property-query_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_refresh-throttle_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_registry_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_report_js",
@@ -696,8 +718,9 @@
           "FILE-standard-model-of-code_src_core_viz_assets_modules_tooltips_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_ui-builders_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_ui-manager_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_unlit-nodes_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_upb-defaults_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_utils_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_vis-schema_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_vis-state_js"
         ]
       },
@@ -719,17 +742,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.621988",
-        "updated_at": "2026-01-24T03:30:48.621988",
-        "last_analyzed_at": "2026-01-24T03:30:48.621988"
+        "created_at": "2026-01-27T05:15:18.505041",
+        "updated_at": "2026-01-27T05:15:18.505041",
+        "last_analyzed_at": "2026-01-27T05:15:18.505041"
       },
       "metadata": {
         "max_tokens": 100000,
         "auto_interactive": true,
         "includes": [],
         "file_count": 54,
-        "total_bytes": 950630,
-        "total_lines": 24354,
+        "total_bytes": 1094326,
+        "total_lines": 27729,
         "critical_files": [
           "standard-model-of-code/src/core/viz/assets/template.html"
         ],
@@ -741,14 +764,17 @@
       "type": "boundary",
       "name": "theory",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:fbfb10f218d1a86cb68396d6a9e064fc72be145da9e901daff4a99101ca2363c",
+      "content_hash": "sha256:46afef7d95c0113592e9c40c52f8c09041791ab718e3a6c0c302d2f0d18c334a",
       "summary": "Theoretical framework and documentation",
       "region_name": "theory",
       "include_patterns": [
         "standard-model-of-code/docs/MODEL.md",
         "standard-model-of-code/docs/COLLIDER.md",
         "standard-model-of-code/docs/specs/*.md",
-        "context-management/docs/*.md"
+        "standard-model-of-code/docs/theory/*.md",
+        "context-management/docs/*.md",
+        "context-management/docs/specs/*.md",
+        "context-management/docs/deep/*.md"
       ],
       "exclude_patterns": [],
       "relationships": {
@@ -757,52 +783,52 @@
           "FILE-context-management_docs_AI_USER_GUIDE_md",
           "FILE-context-management_docs_ASSET_INVENTORY_md",
           "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_CODESPACE_ALGEBRA_md",
+          "FILE-context-management_docs_CODOME_md",
           "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_CONCORDANCES_md",
+          "FILE-context-management_docs_CONTEXTOME_md",
           "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
           "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_DOMAINS_DEPRECATED_md",
           "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_GLOSSARY_md",
+          "FILE-context-management_docs_GLOSSARY_QUICK_md",
           "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
           "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
           "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
           "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_PROJECTOME_md",
           "FILE-context-management_docs_README_md",
           "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
           "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_RESEARCH_SCHEMAS_md",
           "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
           "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
           "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_TOPOLOGY_MAP_md",
           "FILE-context-management_docs_WORKFLOW_FACTORY_md",
+          "FILE-context-management_docs_deep_AI_USER_GUIDE_md",
+          "FILE-context-management_docs_deep_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_deep_HOLOGRAPHIC_SOCRATIC_LAYER_md",
+          "FILE-context-management_docs_deep_INDEX_md",
+          "FILE-context-management_docs_deep_ONTOLOGICAL_FOUNDATIONS_md",
+          "FILE-context-management_docs_deep_PURPOSE_EMERGENCE_md",
+          "FILE-context-management_docs_deep_RESEARCH_SCHEMAS_md",
+          "FILE-context-management_docs_deep_THEORY_AMENDMENT_2026-01_md",
+          "FILE-context-management_docs_specs_AI_CONSUMER_CLASS_md",
+          "FILE-context-management_docs_specs_ANALYZE_OUTPUT_CONTRACT_md",
+          "FILE-context-management_docs_specs_CLOUD_REFINERY_SPEC_md",
+          "FILE-context-management_docs_specs_OBSERVABILITY_TRIAD_md",
+          "FILE-context-management_docs_specs_ONBOARDING_REDESIGN_SPEC_md",
+          "FILE-context-management_docs_specs_ONBOARDING_REFACTOR_CHANGELOG_md",
+          "FILE-context-management_docs_specs_PROJECTOME_OMNISCIENCE_MODULE_md",
+          "FILE-context-management_docs_specs_PURPOSE_FIELD_INTEGRATION_SPEC_md",
           "FILE-standard-model-of-code_docs_COLLIDER_md",
           "FILE-standard-model-of-code_docs_MODEL_md",
           "FILE-standard-model-of-code_docs_specs_AI_INTERFACE_SPEC_md",
           "FILE-standard-model-of-code_docs_specs_CODOME_BOUNDARY_DEFINITION_md",
-          "FILE-standard-model-of-code_docs_specs_CODOME_COMPLETENESS_INDEX_md",
-          "FILE-standard-model-of-code_docs_specs_CODOME_HEALTH_INDEX_md",
-          "FILE-standard-model-of-code_docs_specs_CODOME_LANDSCAPE_md",
-          "FILE-standard-model-of-code_docs_specs_COMPLETENESS_ATTESTATION_PROTOCOL_md",
-          "FILE-standard-model-of-code_docs_specs_EXHAUSTIVE_CLASSIFICATION_MODEL_md",
-          "FILE-standard-model-of-code_docs_specs_LANDSCAPE_IMPLEMENTATION_GUIDE_md",
-          "FILE-standard-model-of-code_docs_specs_NODE_COUNT_GROUND_TRUTH_md",
-          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE_md",
-          "FILE-standard-model-of-code_docs_specs_PIPELINE_REFACTOR_TASK_REGISTRY_md",
-          "FILE-standard-model-of-code_docs_specs_PIPELINE_STAGES_md",
-          "FILE-standard-model-of-code_docs_specs_README_md",
-          "FILE-standard-model-of-code_docs_specs_REGISTRY_OF_REGISTRIES_md",
-          "FILE-standard-model-of-code_docs_specs_SCALE_INOUT_TOPOLOGY_md",
-          "FILE-standard-model-of-code_docs_specs_SCALE_TRANSFORMS_md",
-          "FILE-standard-model-of-code_docs_specs_SEMANTIC_INDEXER_IMPLEMENTATION_md",
-          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_PLAN_md",
-          "FILE-standard-model-of-code_docs_specs_T2_EXPANSION_ROADMAP_md",
-          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY_md",
-          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_INTEGRATION_SPEC_md",
-          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_POWER_INVENTORY_md",
-          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_TASK_REGISTRY_md",
-          "FILE-standard-model-of-code_docs_specs_TREE_SITTER_VALIDATION_REPORT_md",
-          "FILE-standard-model-of-code_docs_specs_UI_LAYOUT_ARCHITECTURE_md",
-          "FILE-standard-model-of-code_docs_specs_UI_REFACTOR_VISION_md",
-          "FILE-standard-model-of-code_docs_specs_UI_SESSION_SUMMARY_md",
-          "FILE-standard-model-of-code_docs_specs_UNIVERSAL_PROPERTY_BINDER_md",
-          "FILE-standard-model-of-code_docs_specs_UPB_IMPLEMENTATION_PLAN_md"
+          "FILE-standard-model-of-code_docs_specs_CODOME_COMPLETENESS_INDEX_md"
         ]
       },
       "confidence": {
@@ -823,20 +849,21 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.624471",
-        "updated_at": "2026-01-24T03:30:48.624471",
-        "last_analyzed_at": "2026-01-24T03:30:48.624471"
+        "created_at": "2026-01-27T05:15:18.513152",
+        "updated_at": "2026-01-27T05:15:18.513152",
+        "last_analyzed_at": "2026-01-27T05:15:18.513152"
       },
       "metadata": {
         "max_tokens": 200000,
         "auto_interactive": true,
         "includes": [],
-        "file_count": 53,
-        "total_bytes": 756583,
-        "total_lines": 21625,
+        "file_count": 94,
+        "total_bytes": 1376048,
+        "total_lines": 37956,
         "critical_files": [
           "standard-model-of-code/docs/MODEL.md",
-          "standard-model-of-code/docs/COLLIDER.md"
+          "standard-model-of-code/docs/COLLIDER.md",
+          "context-management/docs/specs/AI_CONSUMER_CLASS.md"
         ],
         "positional_strategy": "sandwich"
       }
@@ -846,7 +873,7 @@
       "type": "boundary",
       "name": "schema",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:1118ca2fbbfe8b3fd67d283c85071a04bcc640ffa7608f6432f468cb3f017b6f",
+      "content_hash": "sha256:43cc7ac3b2ae60432adc7e7de274da1203da7b2681dd3d682d59d0cfedaf0296",
       "summary": "All schema definitions (atoms, roles, dimensions)",
       "region_name": "schema",
       "include_patterns": [
@@ -880,6 +907,7 @@
           "FILE-standard-model-of-code_schema_profiles_dimensions_oop_conventional_yaml",
           "FILE-standard-model-of-code_schema_surfaces_surface_manifest_json",
           "FILE-standard-model-of-code_schema_surfaces_viz_surface_json",
+          "FILE-standard-model-of-code_schema_viz_controls_CONTROL_REGISTRY_yaml",
           "FILE-standard-model-of-code_schema_viz_tokens_appearance_tokens_json",
           "FILE-standard-model-of-code_schema_viz_tokens_controls_tokens_json",
           "FILE-standard-model-of-code_schema_viz_tokens_layout_tokens_json",
@@ -911,17 +939,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.629810",
-        "updated_at": "2026-01-24T03:30:48.629810",
-        "last_analyzed_at": "2026-01-24T03:30:48.629810"
+        "created_at": "2026-01-27T05:15:18.520696",
+        "updated_at": "2026-01-27T05:15:18.520696",
+        "last_analyzed_at": "2026-01-27T05:15:18.520696"
       },
       "metadata": {
         "max_tokens": 60000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 34,
-        "total_bytes": 328774,
-        "total_lines": 12496,
+        "file_count": 35,
+        "total_bytes": 349118,
+        "total_lines": 13152,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -969,17 +997,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.630548",
-        "updated_at": "2026-01-24T03:30:48.630548",
-        "last_analyzed_at": "2026-01-24T03:30:48.630548"
+        "created_at": "2026-01-27T05:15:18.521790",
+        "updated_at": "2026-01-27T05:15:18.521790",
+        "last_analyzed_at": "2026-01-27T05:15:18.521790"
       },
       "metadata": {
         "max_tokens": 120000,
         "auto_interactive": true,
         "includes": [],
         "file_count": 5,
-        "total_bytes": 229678,
-        "total_lines": 5761,
+        "total_bytes": 231572,
+        "total_lines": 5814,
         "critical_files": [
           "standard-model-of-code/src/core/full_analysis.py"
         ],
@@ -1028,17 +1056,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.631465",
-        "updated_at": "2026-01-24T03:30:48.631465",
-        "last_analyzed_at": "2026-01-24T03:30:48.631465"
+        "created_at": "2026-01-27T05:15:18.522598",
+        "updated_at": "2026-01-27T05:15:18.522598",
+        "last_analyzed_at": "2026-01-27T05:15:18.522598"
       },
       "metadata": {
         "max_tokens": 80000,
         "auto_interactive": false,
         "includes": [],
         "file_count": 5,
-        "total_bytes": 94241,
-        "total_lines": 2230,
+        "total_bytes": 102643,
+        "total_lines": 2458,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1074,9 +1102,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.631482",
-        "updated_at": "2026-01-24T03:30:48.631482",
-        "last_analyzed_at": "2026-01-24T03:30:48.631482"
+        "created_at": "2026-01-27T05:15:18.522608",
+        "updated_at": "2026-01-27T05:15:18.522608",
+        "last_analyzed_at": "2026-01-27T05:15:18.522608"
       },
       "metadata": {
         "max_tokens": 200000,
@@ -1127,9 +1155,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.631487",
-        "updated_at": "2026-01-24T03:30:48.631487",
-        "last_analyzed_at": "2026-01-24T03:30:48.631487"
+        "created_at": "2026-01-27T05:15:18.522613",
+        "updated_at": "2026-01-27T05:15:18.522613",
+        "last_analyzed_at": "2026-01-27T05:15:18.522613"
       },
       "metadata": {
         "max_tokens": 200000,
@@ -1151,7 +1179,7 @@
       "type": "boundary",
       "name": "brain",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:2b2c3fdbb8003c25b0ea3e9606735291bf418fc7364aa16bc27f2d7c8f6d44fe",
+      "content_hash": "sha256:d3ead938dd262ff6b864a457a31041312a84ad98ab7fee71f0e0277dfc5c830d",
       "summary": "[LARGE] Full context-management directory",
       "region_name": "brain",
       "include_patterns": [
@@ -1166,33 +1194,44 @@
           "FILE-context-management_config_analysis_sets_yaml",
           "FILE-context-management_config_documentation_map_yaml",
           "FILE-context-management_config_prompts_yaml",
+          "FILE-context-management_config_query_manifest_schema_yaml",
+          "FILE-context-management_config_research_schemas_yaml",
           "FILE-context-management_config_semantic_models_yaml",
           "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
           "FILE-context-management_docs_AI_USER_GUIDE_md",
           "FILE-context-management_docs_ASSET_INVENTORY_md",
           "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_CODESPACE_ALGEBRA_md",
+          "FILE-context-management_docs_CODOME_md",
           "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_CONCORDANCES_md",
+          "FILE-context-management_docs_CONTEXTOME_md",
           "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
           "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_DOMAINS_DEPRECATED_md",
           "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_GLOSSARY_md",
+          "FILE-context-management_docs_GLOSSARY_QUICK_md",
           "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
           "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
           "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
           "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_PROJECTOME_md",
           "FILE-context-management_docs_README_md",
           "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
           "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_RESEARCH_SCHEMAS_md",
           "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
           "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
           "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_TOPOLOGY_MAP_md",
           "FILE-context-management_docs_WORKFLOW_FACTORY_md",
           "FILE-context-management_docs_agent_school_AGENTKNOWLEDGEDUMP_md",
           "FILE-context-management_docs_agent_school_AGENT_ANTI_PATTERNS_md",
-          "FILE-context-management_docs_agent_school_AGENT_BOOT_md",
+          "FILE-context-management_docs_agent_school_CLI_GRAMMAR_md",
           "FILE-context-management_docs_agent_school_DOD_md",
-          "FILE-context-management_docs_agent_school_INDEX_md",
-          "FILE-context-management_docs_agent_school_REPO_FACTS_md",
           "FILE-context-management_docs_agent_school_REPO_GURU_PROMPT_md",
+          "FILE-context-management_docs_agent_school_TUTORIAL_md",
           "FILE-context-management_docs_agent_school_WORKFLOWS_md",
           "FILE-context-management_docs_archive_AUTOMATED_TASK_GENERATION_md",
           "FILE-context-management_docs_archive_CLEANUP_PLAN_md",
@@ -1200,18 +1239,7 @@
           "FILE-context-management_docs_archive_END_TO_END_VERIFICATION_md",
           "FILE-context-management_docs_archive_GENERATED_TASKS_md",
           "FILE-context-management_docs_archive_GITHUB_ANALYSIS_PLAN_md",
-          "FILE-context-management_docs_archive_ROADMAP_10_OF_10_md",
-          "FILE-context-management_docs_archive_SESSION_COMPLETION_SUMMARY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_GLOSSARY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_HIERARCHY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_README_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_0_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_md",
-          "FILE-context-management_docs_operations_AGENT_INITIATION_md",
-          "FILE-context-management_docs_operations_AGENT_KERNEL_md",
-          "FILE-context-management_docs_operations_CASE_AGAINST_PREMATURE_CLOUD_md",
-          "FILE-context-management_docs_operations_DECISION_BRIEF_LOCAL_FIRST_md",
-          "FILE-context-management_docs_operations_HSL_DAEMON_SETUP_md"
+          "FILE-context-management_docs_archive_GLOSSARY_GAP_MAP_2026-01-25_md"
         ]
       },
       "confidence": {
@@ -1232,17 +1260,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.660773",
-        "updated_at": "2026-01-24T03:30:48.660773",
-        "last_analyzed_at": "2026-01-24T03:30:48.660773"
+        "created_at": "2026-01-27T05:15:18.588930",
+        "updated_at": "2026-01-27T05:15:18.588930",
+        "last_analyzed_at": "2026-01-27T05:15:18.588930"
       },
       "metadata": {
         "max_tokens": 150000,
         "auto_interactive": true,
         "includes": [],
-        "file_count": 165,
-        "total_bytes": 2502304,
-        "total_lines": 60173,
+        "file_count": 296,
+        "total_bytes": 11022089,
+        "total_lines": 258917,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1252,7 +1280,7 @@
       "type": "boundary",
       "name": "body",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:a0b3c9fcdbd45befc4abd6b4a9e590ce81a0123e914d32879c19a51d56839a2b",
+      "content_hash": "sha256:462e689307e82f35df303bc7fb855c037461ea64fd7724378e444d30c167e66b",
       "summary": "[EXCEEDS LIMIT] Full src - use 'pipeline' or 'classifiers' instead",
       "region_name": "body",
       "include_patterns": [
@@ -1267,12 +1295,14 @@
           "FILE-standard-model-of-code_src_core_atom_loader_py",
           "FILE-standard-model-of-code_src_core_atom_registry_py",
           "FILE-standard-model-of-code_src_core_brain_download_py",
+          "FILE-standard-model-of-code_src_core_chart_viewer_py",
           "FILE-standard-model-of-code_src_core_classification_ddd_mappings_py",
           "FILE-standard-model-of-code_src_core_classification_universal_classifier_py",
           "FILE-standard-model-of-code_src_core_constraint_engine_py",
           "FILE-standard-model-of-code_src_core_control_flow_analyzer_py",
           "FILE-standard-model-of-code_src_core_data_flow_analyzer_py",
           "FILE-standard-model-of-code_src_core_data_management_py",
+          "FILE-standard-model-of-code_src_core_deviation_tracker_py",
           "FILE-standard-model-of-code_src_core_dimension_classifier_py",
           "FILE-standard-model-of-code_src_core_edge_extractor_py",
           "FILE-standard-model-of-code_src_core_execution_flow_py",
@@ -1290,6 +1320,7 @@
           "FILE-standard-model-of-code_src_core_insights_engine_py",
           "FILE-standard-model-of-code_src_core_intent_extractor_py",
           "FILE-standard-model-of-code_src_core_ir_py",
+          "FILE-standard-model-of-code_src_core_level_classifier_py",
           "FILE-standard-model-of-code_src_core_newman_suite_py",
           "FILE-standard-model-of-code_src_core_normalize_output_py",
           "FILE-standard-model-of-code_src_core_observability_py",
@@ -1307,10 +1338,7 @@
           "FILE-standard-model-of-code_src_core_pipeline_manager_py",
           "FILE-standard-model-of-code_src_core_pipeline_snapshot_py",
           "FILE-standard-model-of-code_src_core_pipeline_stages___init___py",
-          "FILE-standard-model-of-code_src_core_pipeline_stages_ai_insights_py",
-          "FILE-standard-model-of-code_src_core_pipeline_stages_base_analysis_py",
-          "FILE-standard-model-of-code_src_core_pipeline_stages_codome_boundary_py",
-          "FILE-standard-model-of-code_src_core_pipeline_stages_constraint_validation_py"
+          "FILE-standard-model-of-code_src_core_pipeline_stages_ai_insights_py"
         ]
       },
       "confidence": {
@@ -1331,17 +1359,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.684322",
-        "updated_at": "2026-01-24T03:30:48.684322",
-        "last_analyzed_at": "2026-01-24T03:30:48.684322"
+        "created_at": "2026-01-27T05:15:18.674085",
+        "updated_at": "2026-01-27T05:15:18.674085",
+        "last_analyzed_at": "2026-01-27T05:15:18.674085"
       },
       "metadata": {
         "max_tokens": 3500000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 131,
-        "total_bytes": 1490903,
-        "total_lines": 40193,
+        "file_count": 138,
+        "total_bytes": 1613383,
+        "total_lines": 43695,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1351,7 +1379,7 @@
       "type": "boundary",
       "name": "viz",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:c32c50ed28719517b855e7e7e086e8fb097a88311d8f09dce9753a3de71e95ac",
+      "content_hash": "sha256:df5a01be7fac50796201b14946d290c1fa5ecee84914aaa5c453054761117b4b",
       "summary": "[EXCEEDS LIMIT] Full viz - use 'viz_core' instead",
       "region_name": "viz",
       "include_patterns": [
@@ -1389,27 +1417,27 @@
           "FILE-standard-model-of-code_src_core_viz_assets_app_js",
           "FILE-standard-model-of-code_src_core_viz_assets_app_js_backup",
           "FILE-standard-model-of-code_src_core_viz_assets_archive_deprecated_organic-hulls_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_cloud-refinement-thread_md",
           "FILE-standard-model-of-code_src_core_viz_assets_cmd-btn_css",
           "FILE-standard-model-of-code_src_core_viz_assets_docs_EXTRACTION_PLAN_md",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_AxialLayout_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_CodomeHUD_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_EXPANDED-THEORY_md",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_HolarchyMapper_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_InteractionManager_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_SettingsPanel_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_TowerRenderer_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_animation_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_circuit-breaker_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-contract-test_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_color-engine_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_color-helpers_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_color-telemetry_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_control-bar_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_core_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_data-manager_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_datamap_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_dimension_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_edge-system_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_event-bus_js",
           "FILE-standard-model-of-code_src_core_viz_assets_modules_file-color-model_js",
-          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-tree-layout_js"
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_file-viz_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_filter-state_js",
+          "FILE-standard-model-of-code_src_core_viz_assets_modules_flow_js"
         ]
       },
       "confidence": {
@@ -1430,17 +1458,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:48.699490",
-        "updated_at": "2026-01-24T03:30:48.699490",
-        "last_analyzed_at": "2026-01-24T03:30:48.699490"
+        "created_at": "2026-01-27T05:15:18.690187",
+        "updated_at": "2026-01-27T05:15:18.690187",
+        "last_analyzed_at": "2026-01-27T05:15:18.690187"
       },
       "metadata": {
         "max_tokens": 3200000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 104,
-        "total_bytes": 3179006,
-        "total_lines": 41887,
+        "file_count": 105,
+        "total_bytes": 3359008,
+        "total_lines": 45669,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1450,7 +1478,7 @@
       "type": "boundary",
       "name": "complete",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:c9149d73c5af48468c2832d601ca178d7f2aa3be39f53b17bec08fa425668135",
+      "content_hash": "sha256:26fc3be3786151067fa54641270241510e1c0ed04fd69fe6cfa4cffa84e308eb",
       "summary": "[DANGEROUS] Entire repo (excluding archive) - will exceed any context window",
       "region_name": "complete",
       "include_patterns": [
@@ -1469,33 +1497,44 @@
           "FILE-context-management_config_analysis_sets_yaml",
           "FILE-context-management_config_documentation_map_yaml",
           "FILE-context-management_config_prompts_yaml",
+          "FILE-context-management_config_query_manifest_schema_yaml",
+          "FILE-context-management_config_research_schemas_yaml",
           "FILE-context-management_config_semantic_models_yaml",
           "FILE-context-management_docs_ACI_DATASET_MANAGEMENT_md",
           "FILE-context-management_docs_AI_USER_GUIDE_md",
           "FILE-context-management_docs_ASSET_INVENTORY_md",
           "FILE-context-management_docs_BACKGROUND_AI_LAYER_MAP_md",
+          "FILE-context-management_docs_CODESPACE_ALGEBRA_md",
+          "FILE-context-management_docs_CODOME_md",
           "FILE-context-management_docs_COLLIDER_ARCHITECTURE_md",
+          "FILE-context-management_docs_CONCORDANCES_md",
+          "FILE-context-management_docs_CONTEXTOME_md",
           "FILE-context-management_docs_DATA_LAYER_REFACTORING_MAP_md",
           "FILE-context-management_docs_DOCS_REORG_TASK_REGISTRY_md",
+          "FILE-context-management_docs_DOMAINS_DEPRECATED_md",
           "FILE-context-management_docs_EVAL_LOG_md",
+          "FILE-context-management_docs_GLOSSARY_md",
+          "FILE-context-management_docs_GLOSSARY_QUICK_md",
           "FILE-context-management_docs_HOLOGRAPHIC_DEPLOYMENT_MANUAL_md",
           "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
           "FILE-context-management_docs_INFALLIBLE_PLAN_DOCS_CLEANUP_md",
           "FILE-context-management_docs_ORIENTATION_FILES_md",
+          "FILE-context-management_docs_PROJECTOME_md",
           "FILE-context-management_docs_README_md",
           "FILE-context-management_docs_REPOSITORY_AUDIT_2026-01-19_md",
           "FILE-context-management_docs_REPOSITORY_CONTEXT_SYSTEM_md",
+          "FILE-context-management_docs_RESEARCH_SCHEMAS_md",
           "FILE-context-management_docs_STORAGE_ARCHITECTURE_md",
           "FILE-context-management_docs_TIMELINE_ANALYSIS_md",
           "FILE-context-management_docs_TOOL_md",
+          "FILE-context-management_docs_TOPOLOGY_MAP_md",
           "FILE-context-management_docs_WORKFLOW_FACTORY_md",
           "FILE-context-management_docs_agent_school_AGENTKNOWLEDGEDUMP_md",
           "FILE-context-management_docs_agent_school_AGENT_ANTI_PATTERNS_md",
-          "FILE-context-management_docs_agent_school_AGENT_BOOT_md",
+          "FILE-context-management_docs_agent_school_CLI_GRAMMAR_md",
           "FILE-context-management_docs_agent_school_DOD_md",
-          "FILE-context-management_docs_agent_school_INDEX_md",
-          "FILE-context-management_docs_agent_school_REPO_FACTS_md",
           "FILE-context-management_docs_agent_school_REPO_GURU_PROMPT_md",
+          "FILE-context-management_docs_agent_school_TUTORIAL_md",
           "FILE-context-management_docs_agent_school_WORKFLOWS_md",
           "FILE-context-management_docs_archive_AUTOMATED_TASK_GENERATION_md",
           "FILE-context-management_docs_archive_CLEANUP_PLAN_md",
@@ -1503,18 +1542,7 @@
           "FILE-context-management_docs_archive_END_TO_END_VERIFICATION_md",
           "FILE-context-management_docs_archive_GENERATED_TASKS_md",
           "FILE-context-management_docs_archive_GITHUB_ANALYSIS_PLAN_md",
-          "FILE-context-management_docs_archive_ROADMAP_10_OF_10_md",
-          "FILE-context-management_docs_archive_SESSION_COMPLETION_SUMMARY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_GLOSSARY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_HIERARCHY_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_README_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_0_md",
-          "FILE-context-management_docs_archive_legacy_schema_2025_theory_v2_md",
-          "FILE-context-management_docs_operations_AGENT_INITIATION_md",
-          "FILE-context-management_docs_operations_AGENT_KERNEL_md",
-          "FILE-context-management_docs_operations_CASE_AGAINST_PREMATURE_CLOUD_md",
-          "FILE-context-management_docs_operations_DECISION_BRIEF_LOCAL_FIRST_md",
-          "FILE-context-management_docs_operations_HSL_DAEMON_SETUP_md"
+          "FILE-context-management_docs_archive_GLOSSARY_GAP_MAP_2026-01-25_md"
         ]
       },
       "confidence": {
@@ -1535,17 +1563,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.421716",
-        "updated_at": "2026-01-24T03:30:49.421716",
-        "last_analyzed_at": "2026-01-24T03:30:49.421716"
+        "created_at": "2026-01-27T05:15:20.598899",
+        "updated_at": "2026-01-27T05:15:20.598899",
+        "last_analyzed_at": "2026-01-27T05:15:20.598899"
       },
       "metadata": {
         "max_tokens": 10000000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 3976,
-        "total_bytes": 62628634,
-        "total_lines": 1593559,
+        "file_count": 7862,
+        "total_bytes": 127442198,
+        "total_lines": 3178091,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1589,17 +1617,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.421970",
-        "updated_at": "2026-01-24T03:30:49.421970",
-        "last_analyzed_at": "2026-01-24T03:30:49.421970"
+        "created_at": "2026-01-27T05:15:20.599225",
+        "updated_at": "2026-01-27T05:15:20.599225",
+        "last_analyzed_at": "2026-01-27T05:15:20.599225"
       },
       "metadata": {
         "max_tokens": 30000,
         "auto_interactive": false,
         "includes": [],
         "file_count": 3,
-        "total_bytes": 11270,
-        "total_lines": 419,
+        "total_bytes": 10932,
+        "total_lines": 400,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1609,7 +1637,7 @@
       "type": "boundary",
       "name": "tests",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:282d8c20ed559d29340c921a7ddb3cee836b9e67d707ab37a2828dac6de2f0ef",
+      "content_hash": "sha256:2aea84458b026f9b3bd0545dad34fd80d82092c6249310ed775a295520aa9608",
       "summary": "Test files for validation",
       "region_name": "tests",
       "include_patterns": [
@@ -1625,9 +1653,11 @@
           "FILE-standard-model-of-code_tests_test_data_flow_analyzer_py",
           "FILE-standard-model-of-code_tests_test_domain_separation_guardrails_py",
           "FILE-standard-model-of-code_tests_test_entrypoint_expansion_py",
+          "FILE-standard-model-of-code_tests_test_graph_type_inference_py",
           "FILE-standard-model-of-code_tests_test_identity_matcher_py",
           "FILE-standard-model-of-code_tests_test_import_resolution_py",
           "FILE-standard-model-of-code_tests_test_insights_engine_py",
+          "FILE-standard-model-of-code_tests_test_level_classifier_py",
           "FILE-standard-model-of-code_tests_test_output_generator_py",
           "FILE-standard-model-of-code_tests_test_parse_errors_py",
           "FILE-standard-model-of-code_tests_test_pattern_matcher_py",
@@ -1662,17 +1692,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.422797",
-        "updated_at": "2026-01-24T03:30:49.422797",
-        "last_analyzed_at": "2026-01-24T03:30:49.422797"
+        "created_at": "2026-01-27T05:15:20.600346",
+        "updated_at": "2026-01-27T05:15:20.600346",
+        "last_analyzed_at": "2026-01-27T05:15:20.600346"
       },
       "metadata": {
         "max_tokens": 150000,
         "auto_interactive": true,
         "includes": [],
-        "file_count": 24,
-        "total_bytes": 187508,
-        "total_lines": 5529,
+        "file_count": 26,
+        "total_bytes": 211217,
+        "total_lines": 6203,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1682,7 +1712,7 @@
       "type": "boundary",
       "name": "research_core",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:5779895a38265d65bf8498e9d32000fabb5fd98bfa78294d9a793996595b1995",
+      "content_hash": "sha256:7542549ff1f393b9affe631e32c9382700ac0afd2bcae630f78028d48b888a98",
       "summary": "Core research artifacts (investigation + protocol)",
       "region_name": "research_core",
       "include_patterns": [
@@ -1698,22 +1728,32 @@
           "FILE-standard-model-of-code_docs_reports_ARCHITECTURE_ANTI_PATTERN_INVESTIGATION_md",
           "FILE-standard-model-of-code_docs_reports_ARCHITECTURE_DEBT_REGISTRY_md",
           "FILE-standard-model-of-code_docs_reports_ATOM_STATISTICAL_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_reports_CIRCUIT_BREAKER_ANALYSIS_INDEX_md",
+          "FILE-standard-model-of-code_docs_reports_CIRCUIT_BREAKER_COMPLETENESS_ANALYSIS_md",
+          "FILE-standard-model-of-code_docs_reports_CIRCUIT_BREAKER_FIXES_REQUIRED_md",
           "FILE-standard-model-of-code_docs_reports_CIRCUIT_BREAKER_RECONNAISSANCE_md",
           "FILE-standard-model-of-code_docs_reports_DEEP_CHALLENGE_2026-01-19_md",
           "FILE-standard-model-of-code_docs_reports_DESIGN_TOKEN_SYSTEM_AUDIT_md",
           "FILE-standard-model-of-code_docs_reports_DOCS_IMPROVEMENT_TASK_REGISTRY_md",
+          "FILE-standard-model-of-code_docs_reports_DOCUMENTATION_HEALTH_ASSESSMENT_20260125_md",
           "FILE-standard-model-of-code_docs_reports_FACT_RECONCILIATION_2026-01-19_md",
           "FILE-standard-model-of-code_docs_reports_FRONTEND_BACKEND_GAP_ANALYSIS_md",
           "FILE-standard-model-of-code_docs_reports_GAPS_ANALYSIS_2026-01-19_md",
+          "FILE-standard-model-of-code_docs_reports_GHOST_EXORCISM_PLAN_md",
           "FILE-standard-model-of-code_docs_reports_INFALLIBLE_PLAN_TAXONOMY_COMPLETION_md",
+          "FILE-standard-model-of-code_docs_reports_JAVASCRIPT_RUNTIME_ERROR_SCAN_20260125_md",
           "FILE-standard-model-of-code_docs_reports_MODULARIZATION_TASKS_md",
           "FILE-standard-model-of-code_docs_reports_MODULARIZATION_WORKFLOW_md",
+          "FILE-standard-model-of-code_docs_reports_ORPHANED_UI_CONTROLS_AUDIT_md",
+          "FILE-standard-model-of-code_docs_reports_ORPHANED_UI_CONTROLS_WIRING_REPORT_md",
           "FILE-standard-model-of-code_docs_reports_README_md",
+          "FILE-standard-model-of-code_docs_reports_SCHEMA_AUDIT_md",
           "FILE-standard-model-of-code_docs_reports_SIDEBAR_REFACTOR_TASK_REGISTRY_md",
           "FILE-standard-model-of-code_docs_reports_TAXONOMY_GAP_REPORT_md",
           "FILE-standard-model-of-code_docs_reports_THESIS_CONSTRAINT_VALIDATION_md",
           "FILE-standard-model-of-code_docs_reports_TOKEN_SYSTEM_TASK_REGISTRY_md",
           "FILE-standard-model-of-code_docs_reports_TOKEN_SYSTEM_VERIFICATION_PROTOCOL_md",
+          "FILE-standard-model-of-code_docs_reports_UI_WIRING_NEXT_STEPS_md",
           "FILE-standard-model-of-code_docs_research_AI_ORCHESTRATION_PROTOCOL_md",
           "FILE-standard-model-of-code_docs_research_ATOM_COVERAGE_INVESTIGATION_md",
           "FILE-standard-model-of-code_docs_research_ATOM_COVERAGE_PHASE2_PROTOCOL_md",
@@ -1722,20 +1762,16 @@
           "FILE-standard-model-of-code_docs_research_CODOME_SURVEY_SPEC_md",
           "FILE-standard-model-of-code_docs_research_CONTEXT_WINDOW_RESEARCH_JAN22_md",
           "FILE-standard-model-of-code_docs_research_DECISION_TEMPLATE_md",
+          "FILE-standard-model-of-code_docs_research_DTE_SEMANTIC_MATCHING_RESEARCH_md",
           "FILE-standard-model-of-code_docs_research_GPT-52-PRO-REPLY_md",
           "FILE-standard-model-of-code_docs_research_GRAPHRAG_LANDSCAPE_md",
           "FILE-standard-model-of-code_docs_research_HOLLO_REPO_MAP_md",
           "FILE-standard-model-of-code_docs_research_HYPOTHESES_L2_md",
           "FILE-standard-model-of-code_docs_research_HYPOTHESES_L2_FORMAL_md",
           "FILE-standard-model-of-code_docs_research_MEASUREMENT_CONTRACT_md",
+          "FILE-standard-model-of-code_docs_research_MULTI_PARALLEL_VALIDATION_REPORT_md",
           "FILE-standard-model-of-code_docs_research_ORPHAN_TAXONOMY_md",
-          "FILE-standard-model-of-code_docs_research_PERPLEXITY_RESEARCH_JAN21_md",
-          "FILE-standard-model-of-code_docs_research_PURPOSE_ONTOLOGY_md",
-          "FILE-standard-model-of-code_docs_research_PURPOSE_ONTOLOGY_VISUALS_md",
-          "FILE-standard-model-of-code_docs_research_SESSION_DUMP_2026-01-23_md",
-          "FILE-standard-model-of-code_docs_research_TASK_EVALUATION_JAN21_md",
-          "FILE-standard-model-of-code_docs_research_TREE_SITTER_SCOPE_ANALYSIS_md",
-          "FILE-standard-model-of-code_docs_research_WORKFLOW_99_VALIDATION_md"
+          "FILE-standard-model-of-code_docs_research_PERPLEXITY_RESEARCH_JAN21_md"
         ]
       },
       "confidence": {
@@ -1756,17 +1792,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.424341",
-        "updated_at": "2026-01-24T03:30:49.424341",
-        "last_analyzed_at": "2026-01-24T03:30:49.424341"
+        "created_at": "2026-01-27T05:15:20.602651",
+        "updated_at": "2026-01-27T05:15:20.602651",
+        "last_analyzed_at": "2026-01-27T05:15:20.602651"
       },
       "metadata": {
         "max_tokens": 100000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 44,
-        "total_bytes": 835198,
-        "total_lines": 20906,
+        "file_count": 57,
+        "total_bytes": 988358,
+        "total_lines": 25509,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1776,7 +1812,7 @@
       "type": "boundary",
       "name": "research_tools",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:fbd85082d88a380dc2741573f1dce0bc18a8f029c76a1e4ec745873c70434913",
+      "content_hash": "sha256:bb29acd82ffa22f9275839eebada8867cd98ddcbfb628dff9f600a4184f94abf",
       "summary": "Research tooling (coverage, inventory, corpus runner)",
       "region_name": "research_tools",
       "include_patterns": [
@@ -1794,6 +1830,7 @@
           "FILE-standard-model-of-code_tools_research_atom_coverage_py",
           "FILE-standard-model-of-code_tools_research_atom_inventory_py",
           "FILE-standard-model-of-code_tools_research_evaluate_hypotheses_py",
+          "FILE-standard-model-of-code_tools_research_laboratory_py",
           "FILE-standard-model-of-code_tools_research_regenerate_results_py",
           "FILE-standard-model-of-code_tools_research_run_corpus_py",
           "FILE-standard-model-of-code_tools_research_summarize_corpus_py",
@@ -1818,17 +1855,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.425025",
-        "updated_at": "2026-01-24T03:30:49.425025",
-        "last_analyzed_at": "2026-01-24T03:30:49.425025"
+        "created_at": "2026-01-27T05:15:20.603282",
+        "updated_at": "2026-01-27T05:15:20.603282",
+        "last_analyzed_at": "2026-01-27T05:15:20.603282"
       },
       "metadata": {
         "max_tokens": 80000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 11,
-        "total_bytes": 133705,
-        "total_lines": 4504,
+        "file_count": 12,
+        "total_bytes": 148166,
+        "total_lines": 4916,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -1884,9 +1921,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.426263",
-        "updated_at": "2026-01-24T03:30:49.426263",
-        "last_analyzed_at": "2026-01-24T03:30:49.426263"
+        "created_at": "2026-01-27T05:15:20.604407",
+        "updated_at": "2026-01-27T05:15:20.604407",
+        "last_analyzed_at": "2026-01-27T05:15:20.604407"
       },
       "metadata": {
         "max_tokens": 150000,
@@ -1930,9 +1967,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.426283",
-        "updated_at": "2026-01-24T03:30:49.426283",
-        "last_analyzed_at": "2026-01-24T03:30:49.426283"
+        "created_at": "2026-01-27T05:15:20.604419",
+        "updated_at": "2026-01-27T05:15:20.604419",
+        "last_analyzed_at": "2026-01-27T05:15:20.604419"
       },
       "metadata": {
         "max_tokens": 200000,
@@ -1982,9 +2019,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.426289",
-        "updated_at": "2026-01-24T03:30:49.426289",
-        "last_analyzed_at": "2026-01-24T03:30:49.426289"
+        "created_at": "2026-01-27T05:15:20.604424",
+        "updated_at": "2026-01-27T05:15:20.604424",
+        "last_analyzed_at": "2026-01-27T05:15:20.604424"
       },
       "metadata": {
         "max_tokens": 200000,
@@ -1999,6 +2036,276 @@
         "total_lines": 0,
         "critical_files": [],
         "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-deck",
+      "type": "boundary",
+      "name": "deck",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:1c1852aea50e88fc14e2e9c5c6fc3efe9275b7936618a4b1658398685bdec948",
+      "summary": "Decision Deck cards and state (certified moves for AI agents)",
+      "region_name": "deck",
+      "include_patterns": [
+        "context-management/tools/ai/deck/CARD-*.yaml",
+        "context-management/tools/ai/deck/deck_router.py",
+        "context-management/tools/ai/deck/play_card.py",
+        ".agent/state/meters.yaml",
+        ".agent/state/play_log.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_state_meters_yaml",
+          "FILE-_agent_state_play_log_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-ANA-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-AUD-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-DOC-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-GIT-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-059_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-060_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-061_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-062_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-063_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-064_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-065_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-066_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-067_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-071_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-076_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-077_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-082_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-083_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-084_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-RES-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-RES-002_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-SES-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-WLD-000_yaml",
+          "FILE-context-management_tools_ai_deck_deck_router_py",
+          "FILE-context-management_tools_ai_deck_play_card_py"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-27T05:15:20.605766",
+        "updated_at": "2026-01-27T05:15:20.605766",
+        "last_analyzed_at": "2026-01-27T05:15:20.605766"
+      },
+      "metadata": {
+        "max_tokens": 50000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 27,
+        "total_bytes": 53587,
+        "total_lines": 1848,
+        "critical_files": [
+          ".agent/state/meters.yaml",
+          ".agent/state/play_log.yaml"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-deck_cards",
+      "type": "boundary",
+      "name": "deck_cards",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:7fc8bf8a43fef6e8f46f7837103f35f2aab4677c70624e107619b373a2c2d268",
+      "summary": "All card definitions (no state, just definitions)",
+      "region_name": "deck_cards",
+      "include_patterns": [
+        "context-management/tools/ai/deck/CARD-*.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-context-management_tools_ai_deck_CARD-ANA-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-AUD-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-DOC-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-GIT-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-059_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-060_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-061_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-062_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-063_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-064_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-065_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-066_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-067_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-071_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-076_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-077_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-082_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-083_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-OPP-084_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-RES-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-RES-002_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-SES-001_yaml",
+          "FILE-context-management_tools_ai_deck_CARD-WLD-000_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-27T05:15:20.606413",
+        "updated_at": "2026-01-27T05:15:20.606413",
+        "last_analyzed_at": "2026-01-27T05:15:20.606413"
+      },
+      "metadata": {
+        "max_tokens": 40000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 23,
+        "total_bytes": 28711,
+        "total_lines": 1100,
+        "critical_files": [],
+        "positional_strategy": null
+      }
+    },
+    {
+      "id": "BOUNDARY-deck_state",
+      "type": "boundary",
+      "name": "deck_state",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:48bd8be7c327d44ff891efe4183d5f12bdae96164fa475a1ac0e26be5e61bf38",
+      "summary": "Current deck state (meters + play history)",
+      "region_name": "deck_state",
+      "include_patterns": [
+        ".agent/state/meters.yaml",
+        ".agent/state/play_log.yaml",
+        ".agent/state/session.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_state_meters_yaml",
+          "FILE-_agent_state_play_log_yaml",
+          "FILE-_agent_state_session_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-27T05:15:20.606655",
+        "updated_at": "2026-01-27T05:15:20.606655",
+        "last_analyzed_at": "2026-01-27T05:15:20.606655"
+      },
+      "metadata": {
+        "max_tokens": 5000,
+        "auto_interactive": false,
+        "includes": [],
+        "file_count": 3,
+        "total_bytes": 1114,
+        "total_lines": 50,
+        "critical_files": [
+          ".agent/state/meters.yaml"
+        ],
+        "positional_strategy": "front-load"
+      }
+    },
+    {
+      "id": "BOUNDARY-agent_session",
+      "type": "boundary",
+      "name": "agent_session",
+      "source_path": "context-management/config/analysis_sets.yaml",
+      "content_hash": "sha256:48bd8be7c327d44ff891efe4183d5f12bdae96164fa475a1ac0e26be5e61bf38",
+      "summary": "Active Decision Deck session state (real-time context)",
+      "region_name": "agent_session",
+      "include_patterns": [
+        ".agent/state/session.yaml",
+        ".agent/state/meters.yaml",
+        ".agent/state/play_log.yaml"
+      ],
+      "exclude_patterns": [],
+      "relationships": {
+        "contains": [
+          "FILE-_agent_state_meters_yaml",
+          "FILE-_agent_state_play_log_yaml",
+          "FILE-_agent_state_session_yaml"
+        ]
+      },
+      "confidence": {
+        "factual": 100,
+        "alignment": 90,
+        "current": 95,
+        "onwards": 85,
+        "composite": 85
+      },
+      "dimensions": {
+        "D1_WHAT": "Boundary",
+        "D2_LAYER": "Meta",
+        "D3_ROLE": "Container",
+        "D4_BOUNDARY": "Internal",
+        "D5_STATE": "Stateless",
+        "D6_EFFECT": "Pure",
+        "D7_LIFECYCLE": "Singleton",
+        "D8_TRUST": 95
+      },
+      "timestamps": {
+        "created_at": "2026-01-27T05:15:20.606744",
+        "updated_at": "2026-01-27T05:15:20.606744",
+        "last_analyzed_at": "2026-01-27T05:15:20.606744"
+      },
+      "metadata": {
+        "max_tokens": 15000,
+        "auto_interactive": false,
+        "includes": [
+          "deck_cards"
+        ],
+        "file_count": 3,
+        "total_bytes": 1114,
+        "total_lines": 50,
+        "critical_files": [
+          ".agent/state/session.yaml",
+          ".agent/state/meters.yaml"
+        ],
+        "positional_strategy": "front-load"
       }
     },
     {
@@ -2041,17 +2348,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.426797",
-        "updated_at": "2026-01-24T03:30:49.426797",
-        "last_analyzed_at": "2026-01-24T03:30:49.426797"
+        "created_at": "2026-01-27T05:15:20.607433",
+        "updated_at": "2026-01-27T05:15:20.607433",
+        "last_analyzed_at": "2026-01-27T05:15:20.607433"
       },
       "metadata": {
         "max_tokens": 30000,
         "auto_interactive": false,
         "includes": [],
         "file_count": 3,
-        "total_bytes": 21297,
-        "total_lines": 588,
+        "total_bytes": 27734,
+        "total_lines": 694,
         "critical_files": [
           ".agent/KERNEL.md"
         ],
@@ -2063,7 +2370,7 @@
       "type": "boundary",
       "name": "agent_tasks",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:92c807179fa4d71736b7e32164c4a213e8b233af1319c483d065a00744e75c8b",
+      "content_hash": "sha256:8fc1bd016af7134332b243cb347907a2e78c1bd09fc81c95a9e6ff259e63a0d7",
       "summary": "Active tasks, sprints, and registry (~50k tokens)",
       "region_name": "agent_tasks",
       "include_patterns": [
@@ -2077,31 +2384,12 @@
       "relationships": {
         "contains": [
           "FILE-_agent_registry_INDEX_md",
-          "FILE-_agent_registry_active_TASK-002_yaml",
-          "FILE-_agent_registry_active_TASK-003_yaml",
-          "FILE-_agent_registry_active_TASK-004_yaml",
-          "FILE-_agent_registry_active_TASK-005_yaml",
-          "FILE-_agent_registry_active_TASK-006_yaml",
-          "FILE-_agent_registry_active_TASK-007_yaml",
-          "FILE-_agent_registry_active_TASK-008_yaml",
-          "FILE-_agent_registry_active_TASK-009_yaml",
-          "FILE-_agent_registry_active_TASK-010_yaml",
-          "FILE-_agent_registry_active_TASK-011_yaml",
-          "FILE-_agent_registry_active_TASK-012_yaml",
-          "FILE-_agent_registry_active_TASK-013_yaml",
-          "FILE-_agent_registry_active_TASK-014_yaml",
-          "FILE-_agent_registry_active_TASK-015_yaml",
           "FILE-_agent_registry_active_TASK-016_yaml",
-          "FILE-_agent_registry_active_TASK-017_yaml",
-          "FILE-_agent_registry_active_TASK-018_yaml",
-          "FILE-_agent_registry_active_TASK-019_yaml",
-          "FILE-_agent_registry_active_TASK-020_yaml",
-          "FILE-_agent_registry_active_TASK-021_yaml",
-          "FILE-_agent_registry_active_TASK-059_yaml",
-          "FILE-_agent_registry_active_TASK-061_yaml",
-          "FILE-_agent_registry_active_TASK-064_yaml",
           "FILE-_agent_registry_active_TASK-065_yaml",
-          "FILE-_agent_registry_active_TASK-066_yaml",
+          "FILE-_agent_registry_active_TASK-069_yaml",
+          "FILE-_agent_registry_active_TASK-070_yaml",
+          "FILE-_agent_registry_active_TASK-072_yaml",
+          "FILE-_agent_registry_active_TASK-074_yaml",
           "FILE-_agent_sprints_SPRINT-001_yaml",
           "FILE-_agent_sprints_SPRINT-002_yaml",
           "FILE-_agent_sprints_SPRINT-003_yaml"
@@ -2125,17 +2413,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.430828",
-        "updated_at": "2026-01-24T03:30:49.430828",
-        "last_analyzed_at": "2026-01-24T03:30:49.430828"
+        "created_at": "2026-01-27T05:15:20.609504",
+        "updated_at": "2026-01-27T05:15:20.609504",
+        "last_analyzed_at": "2026-01-27T05:15:20.609504"
       },
       "metadata": {
         "max_tokens": 50000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 29,
-        "total_bytes": 49143,
-        "total_lines": 1605,
+        "file_count": 10,
+        "total_bytes": 20461,
+        "total_lines": 658,
         "critical_files": [
           ".agent/registry/INDEX.md"
         ],
@@ -2180,17 +2468,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.431117",
-        "updated_at": "2026-01-24T03:30:49.431117",
-        "last_analyzed_at": "2026-01-24T03:30:49.431117"
+        "created_at": "2026-01-27T05:15:20.609745",
+        "updated_at": "2026-01-27T05:15:20.609745",
+        "last_analyzed_at": "2026-01-27T05:15:20.609745"
       },
       "metadata": {
         "max_tokens": 40000,
         "auto_interactive": false,
         "includes": [],
         "file_count": 1,
-        "total_bytes": 405,
-        "total_lines": 20,
+        "total_bytes": 3274,
+        "total_lines": 101,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -2200,7 +2488,7 @@
       "type": "boundary",
       "name": "agent_specs",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:3cc90321ee370315a52198486e88c1e236caa44a57b32d0bd26dd38e96de666c",
+      "content_hash": "sha256:c98fbeeec78d763025008bbcd2c098616df6b75457176a6f2282b487ec50eb0d",
       "summary": "BARE spec, workflows, schemas (~60k tokens)",
       "region_name": "agent_specs",
       "include_patterns": [
@@ -2219,9 +2507,15 @@
           "FILE-_agent_schema_task_schema_yaml",
           "FILE-_agent_specs_AUTONOMOUS_ENRICHMENT_PIPELINE_md",
           "FILE-_agent_specs_BACKGROUND_AUTO_REFINEMENT_ENGINE_md",
+          "FILE-_agent_specs_BACKGROUND_SERVICES_ONTOLOGY_md",
+          "FILE-_agent_specs_BARE_IMPLEMENTATION_ROADMAP_md",
           "FILE-_agent_specs_BARE_LIVE_md",
           "FILE-_agent_specs_CUTTING_PLAN_md",
           "FILE-_agent_specs_DECISION_DECK_LAYER_md",
+          "FILE-_agent_specs_INTERNAL_API_md",
+          "FILE-_agent_specs_MACRO_AUTOMATION_IMPLEMENTATION_PLAN_md",
+          "FILE-_agent_specs_SCALE_TERMINOLOGY_md",
+          "FILE-_agent_specs_SUBSYSTEM_CITIZENSHIP_md",
           "FILE-_agent_specs_WAVE_PARTICLE_SYMMETRY_md"
         ]
       },
@@ -2243,17 +2537,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.433166",
-        "updated_at": "2026-01-24T03:30:49.433166",
-        "last_analyzed_at": "2026-01-24T03:30:49.433166"
+        "created_at": "2026-01-27T05:15:20.613986",
+        "updated_at": "2026-01-27T05:15:20.613986",
+        "last_analyzed_at": "2026-01-27T05:15:20.613986"
       },
       "metadata": {
         "max_tokens": 60000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 12,
-        "total_bytes": 128716,
-        "total_lines": 4042,
+        "file_count": 18,
+        "total_bytes": 177214,
+        "total_lines": 5760,
         "critical_files": [
           ".agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md"
         ],
@@ -2291,14 +2585,15 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.433185",
-        "updated_at": "2026-01-24T03:30:49.433185",
-        "last_analyzed_at": "2026-01-24T03:30:49.433185"
+        "created_at": "2026-01-27T05:15:20.614020",
+        "updated_at": "2026-01-27T05:15:20.614020",
+        "last_analyzed_at": "2026-01-27T05:15:20.614020"
       },
       "metadata": {
         "max_tokens": 150000,
         "auto_interactive": true,
         "includes": [
+          "agent_session",
           "agent_kernel",
           "agent_tasks",
           "agent_intelligence",
@@ -2308,6 +2603,7 @@
         "total_bytes": 0,
         "total_lines": 0,
         "critical_files": [
+          ".agent/state/session.yaml",
           ".agent/KERNEL.md",
           ".agent/registry/INDEX.md"
         ],
@@ -2319,7 +2615,7 @@
       "type": "boundary",
       "name": "aci_core",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:f2de051264e457e3b0f4d8930bd903ae632ebf05c0a9742d309dd949f13af64a",
+      "content_hash": "sha256:1181d121627e68b4f2809995528f041b1d0beed27f50d21ec7257919ef781154",
       "summary": "ACI module source code - the curriculum compiler",
       "region_name": "aci_core",
       "include_patterns": [
@@ -2331,13 +2627,15 @@
         "contains": [
           "FILE-context-management_config_aci_config_yaml",
           "FILE-context-management_tools_ai_aci___init___py",
-          "FILE-context-management_tools_ai_aci_cache_registry_py",
-          "FILE-context-management_tools_ai_aci_context_optimizer_py",
-          "FILE-context-management_tools_ai_aci_feedback_loop_py",
-          "FILE-context-management_tools_ai_aci_query_analyzer_py",
+          "FILE-context-management_tools_ai_aci_context_builder_py",
+          "FILE-context-management_tools_ai_aci_context_cache_py",
+          "FILE-context-management_tools_ai_aci_feedback_store_py",
+          "FILE-context-management_tools_ai_aci_intent_parser_py",
+          "FILE-context-management_tools_ai_aci_refinery_py",
           "FILE-context-management_tools_ai_aci_repopack_py",
-          "FILE-context-management_tools_ai_aci_semantic_matcher_py",
-          "FILE-context-management_tools_ai_aci_tier_router_py"
+          "FILE-context-management_tools_ai_aci_research_orchestrator_py",
+          "FILE-context-management_tools_ai_aci_semantic_finder_py",
+          "FILE-context-management_tools_ai_aci_tier_orchestrator_py"
         ]
       },
       "confidence": {
@@ -2358,20 +2656,20 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.433622",
-        "updated_at": "2026-01-24T03:30:49.433622",
-        "last_analyzed_at": "2026-01-24T03:30:49.433622"
+        "created_at": "2026-01-27T05:15:20.614593",
+        "updated_at": "2026-01-27T05:15:20.614593",
+        "last_analyzed_at": "2026-01-27T05:15:20.614593"
       },
       "metadata": {
         "max_tokens": 30000,
         "auto_interactive": false,
         "includes": [],
-        "file_count": 9,
-        "total_bytes": 94171,
-        "total_lines": 2827,
+        "file_count": 11,
+        "total_bytes": 160564,
+        "total_lines": 4744,
         "critical_files": [
-          "context-management/tools/ai/aci/tier_router.py",
-          "context-management/tools/ai/aci/context_optimizer.py"
+          "context-management/tools/ai/aci/tier_orchestrator.py",
+          "context-management/tools/ai/aci/context_builder.py"
         ],
         "positional_strategy": "front-load"
       }
@@ -2381,13 +2679,13 @@
       "type": "boundary",
       "name": "aci_siblings",
       "source_path": "context-management/config/analysis_sets.yaml",
-      "content_hash": "sha256:d6fad5b19cae936b98022da6ee8ede534683e08dbe8a402d3c49cde440f618fb",
+      "content_hash": "sha256:754b60f42f8e14dfb39a471b236a9a9eb7bb16f494c92e4c1be96d6ba681a97d",
       "summary": "ACI sibling subsystems (HSL, Perplexity, analyze.py)",
       "region_name": "aci_siblings",
       "include_patterns": [
         "context-management/tools/ai/analyze.py",
         "context-management/tools/ai/perplexity_research.py",
-        "context-management/tools/hsl_daemon.py",
+        "context-management/tools/drift_guard.py",
         "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
       ],
       "exclude_patterns": [],
@@ -2396,7 +2694,7 @@
           "FILE-context-management_docs_HOLOGRAPHIC_SOCRATIC_LAYER_md",
           "FILE-context-management_tools_ai_analyze_py",
           "FILE-context-management_tools_ai_perplexity_research_py",
-          "FILE-context-management_tools_hsl_daemon_py"
+          "FILE-context-management_tools_drift_guard_py"
         ]
       },
       "confidence": {
@@ -2417,17 +2715,17 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.433827",
-        "updated_at": "2026-01-24T03:30:49.433827",
-        "last_analyzed_at": "2026-01-24T03:30:49.433827"
+        "created_at": "2026-01-27T05:15:20.614817",
+        "updated_at": "2026-01-27T05:15:20.614817",
+        "last_analyzed_at": "2026-01-27T05:15:20.614817"
       },
       "metadata": {
         "max_tokens": 50000,
         "auto_interactive": false,
         "includes": [],
         "file_count": 4,
-        "total_bytes": 160319,
-        "total_lines": 4106,
+        "total_bytes": 167159,
+        "total_lines": 4275,
         "critical_files": [],
         "positional_strategy": null
       }
@@ -2471,9 +2769,9 @@
         "D8_TRUST": 95
       },
       "timestamps": {
-        "created_at": "2026-01-24T03:30:49.433941",
-        "updated_at": "2026-01-24T03:30:49.433941",
-        "last_analyzed_at": "2026-01-24T03:30:49.433941"
+        "created_at": "2026-01-27T05:15:20.614948",
+        "updated_at": "2026-01-27T05:15:20.614948",
+        "last_analyzed_at": "2026-01-27T05:15:20.614948"
       },
       "metadata": {
         "max_tokens": 100000,
@@ -2483,11 +2781,11 @@
           "aci_siblings"
         ],
         "file_count": 3,
-        "total_bytes": 36630,
-        "total_lines": 1006,
+        "total_bytes": 37053,
+        "total_lines": 1037,
         "critical_files": [
-          "context-management/tools/ai/aci/tier_router.py",
-          "context-management/tools/ai/aci/context_optimizer.py",
+          "context-management/tools/ai/aci/tier_orchestrator.py",
+          "context-management/tools/ai/aci/context_builder.py",
           "context-management/config/aci_config.yaml"
         ],
         "positional_strategy": "sandwich"

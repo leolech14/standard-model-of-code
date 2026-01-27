@@ -1,6 +1,6 @@
 # Open Concerns & Development Tracker
 
-**Last Updated:** 2026-01-26
+**Last Updated:** 2026-01-27 (Post-Consolidation)
 **Status:** AUTHORITATIVE (Single concerns tracker)
 **Scope:** All areas (Particle, Wave, Observer, UI, Theory)
 
@@ -10,14 +10,14 @@
 
 | Area | Critical | High | Medium | Low | Blocked |
 |--------|:--------:|:----:|:------:|:---:|:-------:|
-| **Collider (Particle)** | 1 | 2 | 4 | 2 | 1 |
+| **Collider (Particle)** | 1 | 2 | 4 | **3** | 1 |
 | **Context (Wave)** | 0 | 2 | 1 | 1 | 0 |
 | **Agent (Observer)** | 0 | 1 | 2 | 1 | 0 |
-| **UI (Visualization)** | 0 | 2 | 3 | 2 | 1 |
-| **Infrastructure** | **2** | **1** | 0 | 0 | 0 |
+| **UI (Visualization)** | 0 | 2 | **4** | 2 | 1 |
+| **Infrastructure** | **2** | **2** | 0 | 0 | 0 |
 | **Documentation** | 0 | **2** | 1 | 0 | 0 |
 | **Theory** | 0 | **3** | 0 | 0 | 0 |
-| **TOTAL** | **3** | **13** | **11** | **6** | **2** |
+| **TOTAL** | **3** | **14** | **12** | **7** | **2** |
 
 ### Validated Metrics (2026-01-25)
 
@@ -73,7 +73,9 @@
 | OC-010 | ~~88 skipped tests unexplained~~ | ~~40% of test suite skipped~~ | **INVALIDATED** (2026-01-25) | Only 2 skips, 354 passed (100% pass rate) |
 | OC-002 | **Pipeline snapshot lacks per-stage node counts** | Navigator shows timing but not deltas | ENHANCEMENT | Instrument `snapshot.py` per-stage |
 | OC-003 | **Pyright type errors in full_analysis.py** | ~10 type issues | TECH_DEBT | Policy: `# type: ignore` if fix >30 min |
-
+| OC-003 | **Pyright type errors in full_analysis.py** | ~10 type issues | TECH_DEBT | Policy: `# type: ignore` if fix >30 min |
+| OC-016 | **Legacy Artifacts (Post-Neo4j)** | `unified_analysis.json` & HTML reports are obsolete | CONFIRMED | Deprecate JSON generation; remove HTML reports |
+| OC-020 | **Bridge Dependency on Legacy JSON** | `collider_to_neo4j.py` reads deprecated `unified_analysis.json` | CRITICAL | Rewrite bridge to stream directly or shard output |
 ### MEDIUM PRIORITY
 
 | ID | Concern | Impact | Status | Action |
@@ -81,14 +83,18 @@
 | OC-004 | Physics behavior differs between Atom/File views | File view has `forceCenter(0,0,0)`, Atom doesn't | INVESTIGATE | Reproduce: toggle views, compare forces |
 | OC-005 | Node count variance (2787→2807→2809) | ~0.7% drift between runs | MONITORING | Track in CI, establish baseline |
 | OC-006 | Pipeline Navigator stage names mismatch | `stage_2_5` vs `stage_2.5` format | COSMETIC | Update `build_pipeline_snapshot()` |
-
+| OC-006 | Pipeline Navigator stage names mismatch | `stage_2_5` vs `stage_2.5` format | COSMETIC | Update `build_pipeline_snapshot()` |
+| OC-017 | **God Object: Color Engine** | `color-engine.js` Degree=434 | ARCHITECTURE | Refactor into standalone service/library |
+| OC-019 | **God Object: AI Analyst** | `analyze.py` is 3.4k lines monolithic script | TECH_DEBT | Split into `aci/`, `search/`, `cli/` modules |
+| OC-021 | **Documentation Sprawl Risk** | 14k files generated without lifecycle management | GOVERNANCE | Implement `doc_guard` or auto-archive policy |
 ### LOW PRIORITY
 
 | ID | Concern | Impact | Status | Action |
 |----|---------|--------|--------|--------|
 | OC-007 | Unused variable warnings in sidebar.js (line 818, 828) | TypeScript lint | COSMETIC | Remove unused `active` vars |
 | OC-008 | `snapshot.py` has unused FieldDelta/sample functions | Dead code | TECH_DEBT | Wire up or remove |
-
+| OC-008 | `snapshot.py` has unused FieldDelta/sample functions | Dead code | TECH_DEBT | Wire up or remove |
+| OC-018 | **Ambiguous Internal Nodes** | 1,257 `Internal` nodes blur Ashby analysis | METRIC_FIDELITY | Refine Schema: split Locic/State/Helper |
 ### RESOLVED (Fixed)
 
 > ACI correctness audit (2026-01-24). Discovered by Codex, fixed by Claude.

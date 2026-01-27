@@ -10,11 +10,8 @@ Applies the full Standard Model theory to particles:
 import json
 from pathlib import Path
 from typing import Dict, List, Any, Optional
-from classification.universal_classifier import UniversalClassifier
-try:
-    from core.registry import get_role_registry
-except ImportError:
-    from registry import get_role_registry
+from src.core.classification.universal_classifier import UniversalClassifier
+from src.core.registry.role_registry import get_role_registry
 
 
 class StandardModelEnricher:
