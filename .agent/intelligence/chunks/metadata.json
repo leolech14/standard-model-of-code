@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-01-27T06:55:19.280655",
+  "git_sha": "8bd0ceb9c23bb017fada173f1160aadccf7a6525",
+  "chunks": {
+    "agent": {
+      "chunks": 1952,
+      "tokens": 218774
+    },
+    "core": {
+      "chunks": 598,
+      "tokens": 289702
+    },
+    "aci": {
+      "chunks": 108,
+      "tokens": 29979
+    }
+  },
+  "total_chunks": 2658,
+  "total_tokens": 538455
+}

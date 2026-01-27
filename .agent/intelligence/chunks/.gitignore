@@ -1,0 +1,7 @@
+# Chunk cache files (regenerated automatically)
+cache.yaml
+*.tmp
+
+# Keep the actual chunks for git tracking
+!*_chunks.json
+!metadata.json
