@@ -1,0 +1,6 @@
+{"timestamp": "2026-01-27T06:25:59.724139", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
+{"timestamp": "2026-01-27T06:26:55.225859", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
+{"timestamp": "2026-01-27T06:31:42.411322", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
+{"timestamp": "2026-01-27T06:32:45.281791", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
+{"timestamp": "2026-01-27T06:37:57.638704", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
+{"timestamp": "2026-01-27T06:55:19.024396", "severity": "WARNING", "type": "noise_high", "message": "Noise level high (0.6850 > 0.5)", "metric": "N", "value": 0.685, "threshold": 0.5}
