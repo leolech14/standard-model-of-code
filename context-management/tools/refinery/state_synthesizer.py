@@ -17,7 +17,7 @@ import yaml
 import argparse
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 # ============================================================================
 # CONFIGURATION
@@ -43,6 +43,50 @@ def load_if_exists(path: Path) -> Dict[str, Any]:
         with open(path, 'r') as f:
             return json.load(f)
     return {}
+
+
+def count_unique_files(boundaries_data: Dict[str, Any]) -> Optional[int]:
+    """
+    Count unique files across all boundaries (accounting for overlap).
+
+    NOTE: This uses the "contains" relationship which may be truncated
+    for large boundaries. For more accurate count, we'd need to expand
+    all patterns again, but that's expensive. This gives a rough estimate.
+    """
+    all_files = set()
+    for boundary in boundaries_data.get("boundaries", []):
+        # Each boundary has a "contains" relationship list (may be truncated)
+        files = boundary.get("relationships", {}).get("contains", [])
+        all_files.update(files)
+
+    # If we got very few unique files but high total_mapped, the contains
+    # lists are likely truncated - return None to signal unreliable data
+    if len(all_files) < 1000 and boundaries_data.get("summary", {}).get("total_files_mapped", 0) > 5000:
+        return None
+
+    return len(all_files)
+
+
+def calculate_overlap_factor(boundaries_data: Dict[str, Any], corpus_data: Dict[str, Any]) -> Any:
+    """
+    Calculate overlap factor (average boundaries per file).
+
+    overlap_factor = total_files_mapped / unique_files
+    1.0 = no overlap (each file in exactly one boundary)
+    2.0 = average file appears in 2 boundaries
+
+    Returns None if data is unreliable (truncated contains lists).
+    """
+    total_mapped = boundaries_data.get("summary", {}).get("total_files_mapped", 0)
+    unique = count_unique_files(boundaries_data)
+
+    if unique is None:
+        return None  # Unreliable data
+
+    if unique == 0:
+        return 0.0
+
+    return round(total_mapped / unique, 2)
 
 
 def synthesize_state() -> Dict[str, Any]:
@@ -92,6 +136,8 @@ def synthesize_state() -> Dict[str, Any]:
             "count": len(boundaries.get("boundaries", [])),
             "names": [b["region_name"] for b in boundaries.get("boundaries", [])],
             "total_files_mapped": boundaries.get("summary", {}).get("total_files_mapped", 0),
+            "unique_files": count_unique_files(boundaries),
+            "overlap_factor": calculate_overlap_factor(boundaries, corpus),
             "last_mapped": boundaries.get("meta", {}).get("mapped_at")
         },
 

@@ -548,10 +548,13 @@ class Refinery:
                     logger.warning(f"Reached max_files limit ({max_files})")
                     break
 
-                # Skip hidden files and common excludes
-                if any(part.startswith('.') for part in file_path.parts):
-                    continue
-                if 'node_modules' in str(file_path) or '__pycache__' in str(file_path):
+                # Skip by exact path part matching (not substring)
+                # This prevents false positives like skipping "docs/__pycache__explain.md"
+                skip_dirs = {'.git', '.venv', '.tools_venv', '__pycache__', 'node_modules',
+                            '.pytest_cache', '.mypy_cache', '.tox', 'dist', 'build', '.eggs'}
+
+                # Check if any path part exactly matches a skip directory
+                if any(part in skip_dirs for part in file_path.parts):
                     continue
 
                 nodes = self.process_file(str(file_path))
@@ -561,8 +564,56 @@ class Refinery:
         logger.info(f"Processed {file_count} files, {len(all_nodes)} total chunks")
         return all_nodes
 
+    def _validate_chunks(self, nodes: List[RefineryNode]) -> None:
+        """
+        Validate chunks before writing to prevent corruption.
+
+        Raises:
+            ValueError: If validation fails
+        """
+        if not nodes:
+            raise ValueError("No chunks to export")
+
+        for i, chunk in enumerate(nodes):
+            # Required fields
+            if not chunk.content:
+                raise ValueError(f"Chunk {i}: Empty content")
+            if not chunk.source_file:
+                raise ValueError(f"Chunk {i}: Missing source_file")
+            if not chunk.chunk_id:
+                raise ValueError(f"Chunk {i}: Missing chunk_id")
+            if not chunk.chunk_type:
+                raise ValueError(f"Chunk {i}: Missing chunk_type")
+
+            # Reasonable bounds
+            if chunk.token_estimate > 100000:
+                raise ValueError(f"Chunk {i}: Too large ({chunk.token_estimate} tokens)")
+            if chunk.token_estimate < 0:
+                raise ValueError(f"Chunk {i}: Negative token count")
+
+            # Relevance in range
+            if not (0 <= chunk.relevance_score <= 1.0):
+                raise ValueError(f"Chunk {i}: Invalid relevance {chunk.relevance_score}")
+
+            # Line numbers valid
+            if chunk.start_line < 0 or chunk.end_line < 0:
+                raise ValueError(f"Chunk {i}: Invalid line numbers")
+            if chunk.end_line < chunk.start_line:
+                raise ValueError(f"Chunk {i}: end_line < start_line")
+
+        # Sanity check total
+        total_tokens = sum(c.token_estimate for c in nodes)
+        if total_tokens > 10_000_000:
+            raise ValueError(f"Total tokens unreasonable: {total_tokens:,}")
+
+        logger.info(f"Validation passed: {len(nodes)} chunks, {total_tokens:,} tokens")
+
     def export_to_json(self, nodes: List[RefineryNode], output_path: str):
-        """Export nodes to JSON file."""
+        """Export nodes to JSON file with validation."""
+
+        # Validate before writing
+        self._validate_chunks(nodes)
+
         data = {
             'exported_at': time.time(),
             'node_count': len(nodes),
@@ -573,10 +624,27 @@ class Refinery:
         output_path_obj = Path(output_path)
         output_path_obj.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_path_obj, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2)
+        # Atomic write (temp → verify → rename)
+        temp_path = output_path_obj.with_suffix('.tmp')
 
-        logger.info(f"Exported {len(nodes)} nodes to {output_path}")
+        try:
+            with open(temp_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2)
+
+            # Verify JSON is valid
+            with open(temp_path, 'r', encoding='utf-8') as f:
+                json.load(f)
+
+            # Commit (atomic on POSIX)
+            temp_path.rename(output_path_obj)
+
+            logger.info(f"Exported {len(nodes)} nodes to {output_path}")
+
+        except Exception as e:
+            # Cleanup on failure
+            if temp_path.exists():
+                temp_path.unlink()
+            raise RuntimeError(f"Export failed: {e}") from e
 
     def filter_by_relevance(
         self,
