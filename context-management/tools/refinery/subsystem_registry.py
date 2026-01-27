@@ -222,6 +222,26 @@ SUBSYSTEMS = [
         healthy=True,
         issues=[]
     ),
+
+    # ========================================================================
+    # PROCESSING LAYER - Reference Library
+    # ========================================================================
+
+    Subsystem(
+        name="reference_analyzer",
+        module_path="context-management/tools/refinery/reference_analyzer.py",
+        purpose="Process academic reference library (analyze refs, build indexes, extract hierarchies)",
+        layer="Processing",
+        dependencies=["indexer"],
+        status=SubsystemStatus.PARTIAL,
+        lines_of_code=250,
+        last_modified="2026-01-27",
+        inputs=["archive/references/metadata/*.json", "archive/references/txt/*.txt"],
+        outputs=["index/search_index.json", "metadata/*_analysis.json", "holon hierarchies"],
+        functions=["scan_pending_analyses()", "build_fulltext_index()", "filter_image_artifacts()", "generate_analysis_batch()"],
+        healthy=True,
+        issues=["Holon extraction not yet implemented", "56/65 refs still need LLM analysis"]
+    ),
 ]
 
 
