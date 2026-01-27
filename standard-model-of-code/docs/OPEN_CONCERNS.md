@@ -1,8 +1,8 @@
 # Open Concerns & Development Tracker
 
-**Last Updated:** 2026-01-25
+**Last Updated:** 2026-01-26
 **Status:** AUTHORITATIVE (Single concerns tracker)
-**Scope:** All domains (Particle, Wave, Observer, UI)
+**Scope:** All domains (Particle, Wave, Observer, UI, Theory)
 
 ---
 
@@ -16,7 +16,8 @@
 | **UI (Visualization)** | 0 | 2 | 3 | 2 | 1 |
 | **Infrastructure** | **2** | **1** | 0 | 0 | 0 |
 | **Documentation** | 0 | **2** | 1 | 0 | 0 |
-| **TOTAL** | **3** | **10** | **11** | **6** | **2** |
+| **Theory** | 0 | **3** | 0 | 0 | 0 |
+| **TOTAL** | **3** | **13** | **11** | **6** | **2** |
 
 ### Validated Metrics (2026-01-25)
 
@@ -26,7 +27,7 @@
 | Wave-Particle Symmetry | 90 (Gold) | **81 (Silver)** | YELLOW |
 | Test Pass Rate | >95% | **100%** (354/354) | GREEN |
 | Node Count (Full+Tests) | 2,353 | 2,509 | GREEN (+6.6%) |
-| Reachability | >60% | 29.3% | RED (strategic blocker) |
+| Reachability | >60% | **99.8%** (2530/2536) | GREEN (was 29.3% - stale data) |
 | Tree-sitter | Pinned | `>=0.20.0,<0.22` | GREEN |
 | Documentation Files | - | 1,550 | HIGH VOLUME |
 | Stale Docs (>30d) | <20% | **44%** (678) | YELLOW |
@@ -386,6 +387,33 @@ Before marking any tool "complete":
 
 ---
 
+## Active Theory Development
+
+> Extensions to Standard Model of Code under active development.
+
+### Theory Amendment (January 2026)
+
+**Status:** PROPOSED → VALIDATED → IMPLEMENTATION PENDING
+**Document:** `context-management/docs/deep/THEORY_AMENDMENT_2026-01.md`
+
+| Amendment | Core Insight | Evidence | Implementation |
+|-----------|--------------|----------|----------------|
+| **A1: Tools as Objects** | CODOME = f(CODE, TOOLS) | Research: 22.5% lower smells with TypeScript | Stage 0.5: Toolchain Discovery |
+| **A2: Dark Matter** | Invisible dependencies are real | Data: 14.7% dark edges (1,076 of 7,330) | Stage 6.9: Dark Matter Analysis |
+| **A3: Confidence Dimension** | Uncertainty is information | Data: 36.8% low confidence nodes | Stage 8.7: Confidence Aggregation |
+
+**Completed:**
+- ManifestWriterStage (Stage 11.5) - provenance capture
+- OverallUnderstandingQuery - meta-analysis with dark matter + confidence
+- Research validation for all three amendments
+
+**Pending:**
+- [ ] Stage 0.5: Toolchain Discovery (detects formatters, linters, bundlers)
+- [ ] Stage 6.9: Dark Matter Stage (classifies invisible edges)
+- [ ] Stage 8.7: Confidence Aggregation (per-node uncertainty scores)
+
+---
+
 ## Strategic Gaps (Phase Blockers)
 
 > These block roadmap progress, not just code quality.
@@ -394,7 +422,7 @@ Before marking any tool "complete":
 
 | ID | Gap | Blocks | Status | Path Forward |
 |----|-----|--------|--------|--------------|
-| SG-001 | **Reachability bottleneck (29.3%)** | Phase 3-4 | BLOCKING | Expand entrypoint detection, improve call resolution |
+| SG-001 | ~~Reachability bottleneck (29.3%)~~ | Phase 3-4 | **RESOLVED** | Was stale data; actual reachability is 99.8% (2530/2536 nodes) |
 | SG-002 | **Phase 2 (Resolution) not started** | Phase 3 | NOT_STARTED | Call resolver improvements, import strictness |
 | SG-003 | **Health Model A-component** | Phase 5 | UNIMPLEMENTED | Formula exists (H=10×(0.25T+0.25E+0.25Gd+0.25A)), alignment scoring missing |
 | SG-004 | **Task Registry → BARE loop** | Auto-refinement | PROPOSED | P1-Critical in SUBSYSTEM_INTEGRATION.md, needs tasks.yaml polling |
@@ -473,17 +501,19 @@ python -c "import tree_sitter; print('OK')"
 | Full+Tests node count | 2,353 | 2,509 | +6.6% | GREEN |
 | Pipeline stages | 27 | 24 | -11% | CHECK |
 | Test pass rate | >95% | **100%** (354/354) | +5% | GREEN |
-| Reachability | >60% | 29.3% | -50% | RED (strategic blocker) |
+| Reachability | >60% | **99.8%** | +66% | GREEN (was stale data) |
 
 ---
 
 ## Next Session Priorities
 
-1. **HIGH-003: Consolidate 5 glossaries → 1** - Single source of truth for terminology
-2. **HIGH-004: Triage 915 TODOs** - Convert to tasks, delete obsolete, or mark permanent
-3. **Task #26: Refactor run_full_analysis (CC=217)** - God Function must die
-4. **Task #37: Fix batch grading** - Re-run with `collider full` not `grade`
-5. **Create src/core/stats/ subsystem** - Per Perplexity research recommendation
+1. **Theory Amendment A1: Toolchain Discovery** - Stage 0.5 implementation (tools shape code)
+2. **Theory Amendment A2: Dark Matter** - Stage 6.9 implementation (invisible edges)
+3. **Theory Amendment A3: Confidence** - Stage 8.7 implementation (uncertainty modeling)
+4. **HIGH-003: Consolidate 5 glossaries → 1** - Single source of truth for terminology
+5. **HIGH-004: Triage 915 TODOs** - Convert to tasks, delete obsolete, or mark permanent
+6. **Task #26: Refactor run_full_analysis (CC=217)** - God Function must die
+7. **Task #37: Fix batch grading** - Re-run with `collider full` not `grade`
 
 ---
 
