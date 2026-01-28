@@ -4,8 +4,8 @@
 # Updated: 2026-01-27
 
 domains:
-  - name: Pipeline
-    description: "29-stage analysis pipeline"
+  - name: Collider_Pipeline
+    description: "28-stage code analysis pipeline (Codome processing)"
     codome:
       paths:
         - standard-model-of-code/src/core/full_analysis.py
@@ -16,14 +16,33 @@ domains:
       paths:
         - standard-model-of-code/docs/specs/PIPELINE_STAGES.md
         - standard-model-of-code/docs/COLLIDER.md
-      canonical: standard-model-of-code/docs/specs/PIPELINE_STAGES.md
+      canonical: standard-model-of-code/src/core/pipeline/stages/__init__.py
     registries:
       - standard-model-of-code/src/core/pipeline/stages/__init__.py
     health_checks:
       - code_exists: true
       - context_exists: true
-      - references_resolve: unknown
-      - counts_match: false  # 28 vs 18 drift
+      - references_resolve: true
+      - counts_match: true  # 28 stages verified 2026-01-27
+
+  - name: Refinery_Pipeline
+    description: "8-stage context atomization pipeline (Contextome processing)"
+    codome:
+      paths:
+        - context-management/tools/ai/aci/refinery.py
+      entrypoints:
+        - refinery.py::Refinery.process_file()
+    contextome:
+      paths:
+        - context-management/docs/specs/REFINERY_PIPELINE_STAGES.md
+      canonical: context-management/tools/ai/aci/refinery.py
+    registries:
+      - context-management/tools/ai/aci/refinery.py
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: true  # 8 stages verified 2026-01-27
 
   - name: Visualization
     description: "3D force-directed graph UI"
