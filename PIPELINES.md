@@ -1,5 +1,8 @@
 # PIPELINES - Disambiguation
 
+**📍 Governance:** [DECISIONS](./DECISIONS.md) | [ROADMAP](./ROADMAP.md) | [Quality Gates](./QUALITY_GATES.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml)
+
 **Critical:** PROJECT_elements has TWO major pipelines. Always specify which one.
 
 ---

@@ -1,8 +1,11 @@
 # QUALITY GATES - Automated Integrity Checks
 
+**📍 Governance:** [DECISIONS](./DECISIONS.md) | [ROADMAP](./ROADMAP.md) | [Definition of Done](./DEFINITION_OF_DONE.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml) | [PIPELINES.md](./PIPELINES.md)
+
 **Purpose:** Mechanical gates that prevent drift and enforce canonical registries
 **Authority:** ChatGPT 5.2 Pro audit + "prevent unfinished" strategy
-**Updated:** 2026-01-27
+**Updated:** 2026-01-28
 
 ---
 

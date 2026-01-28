@@ -1,8 +1,11 @@
 # DEFINITION OF DONE - v1 Core
 
+**📍 Governance:** [DECISIONS](./DECISIONS.md) | [ROADMAP](./ROADMAP.md) | [Quality Gates](./QUALITY_GATES.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml) | [PIPELINES.md](./PIPELINES.md)
+
 **Purpose:** Clear finish line that prevents "almost done" forever
 **Authority:** ChatGPT 5.2 Pro audit recommendations
-**Updated:** 2026-01-27
+**Updated:** 2026-01-28
 
 ---
 

@@ -1,7 +1,10 @@
 # DECISIONS - Locked Canonical Choices
 
+**📍 Governance:** [ROADMAP](./ROADMAP.md) | [Quality Gates](./QUALITY_GATES.md) | [Definition of Done](./DEFINITION_OF_DONE.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml) | [PIPELINES.md](./PIPELINES.md)
+
 **Purpose:** Prevent drift by documenting immutable architectural decisions
-**Updated:** 2026-01-27
+**Updated:** 2026-01-28
 **Authority:** Based on ChatGPT 5.2 Pro audit + repository analysis
 
 ---
