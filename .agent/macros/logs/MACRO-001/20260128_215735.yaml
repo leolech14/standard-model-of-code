@@ -1,0 +1,51 @@
+macro_id: MACRO-001
+execution:
+  timestamp: '2026-01-28T21:57:35.877781+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 48
+  dry_run: false
+  reason: Not all success criteria met
+steps:
+- step_id: inventory_artifacts
+  tool: Bash
+  outcome: SUCCESS
+  output: "=== NEW FILES ===\n?? context-management/experiments/refinery-platform/context-management/experiments/refinery-platform/app/api/v1/activity/\n\
+    \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n"
+  error: null
+  exit_code: 0
+- step_id: check_dead_code
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_integration
+  tool: Bash
+  outcome: FAILURE
+  output: ''
+  error: '/bin/sh: line 1: python: command not found
+
+    '
+  exit_code: 127
+- step_id: check_validation_theater
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_schema_bloat
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: generate_report
+  tool: Write
+  outcome: SUCCESS
+  output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260128.md
+  error: null
+variables:
+  session_artifacts: "=== NEW FILES ===\n?? context-management/experiments/refinery-platform/context-management/experiments/refinery-platform/app/api/v1/activity/\n\
+    \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n"
+  dead_code_findings: Requires manual AI execution
+  validation_analysis: Requires manual AI execution
+  bloat_analysis: Requires manual AI execution
+  report_path: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260128.md
