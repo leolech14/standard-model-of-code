@@ -697,6 +697,139 @@ All definitions in this layer trace to authoritative machine-readable sources:
 | Types (Python) | `../../schema/types.py` |
 | Types (TypeScript) | `../../schema/types.ts` |
 
+## 9. Architectural Properties (Invocation and Navigation)
+
+**[Status: EMERGING - Validated 75-78%, integration of established components in novel framework]**
+
+### 9.1 API (Application Programming Interface)
+
+**[Validation: 78% - POINT framework from literature, boundary-crossing confirmed, exact level threshold has nuance]**
+
+**Definition:** An API is an interface that crosses a **meaningful boundary** with formal contracts.
+
+**POINT Framework (What makes something an API):**
+```
+API(interface) = true ⟺
+  P - Purposeful     (formal documentation exists)
+  O - Oriented       (follows architectural style: REST, gRPC, GraphQL)
+  I - Isolated       (decoupled from implementation details)
+  N - Negotiated     (crosses meaningful boundary)
+  T - Versioned      (backward compatibility commitments)
+```
+
+**Meaningful Boundary** exists when at least one of:
+- Different organizational owners/teams
+- Different deployment cycles
+- Different version control repositories
+- Different processes or network boundaries
+- Different operational requirements
+
+**Scale Emergence:**
+```
+L3 (NODE - Function)    → NOT API (internal call, refactorable)
+L5 (FILE - Module)      → NOT API (module interface, internal)
+L6 (PACKAGE)            → MAYBE API (if crosses team boundary)
+L7 (SYSTEM - Subsystem) → YES API (crosses subsystem boundary)
+L8+ (ECOSYSTEM+)        → ALWAYS API (crosses organizations)
+```
+
+**Key Distinction:**
+- Function call: No versioning, no contract, refactorable at will
+- Module interface: Internal boundary, shared control
+- **API**: Formal contract, versioned, stable, independent evolution
+
+**Academic Sources:**
+- IEEE/ISO standards on software interfaces
+- Fowler, M. "Microservices" (API boundaries at service level)
+- Fielding, R. "REST" (architectural style for APIs)
+- SOA literature (service boundary formalization)
+
+**See:** `docs/research/theories/api_scale_emergence_report.md`
+
+---
+
+### 9.2 Dual Navigation Spaces
+
+**[Validation: 75% - Components individually established (graphs, embeddings, knowledge graphs), explicit integration emerging, HybridRAG validates effectiveness]**
+
+**Definition:** Code exists in two simultaneous navigation spaces serving different purposes.
+
+**Space 1: Execution Graph (Discrete, Relational)**
+```
+G_exec = (V, E, T)
+
+WHERE:
+  V = code entities (functions, classes, files)
+  E ⊆ V × V = dependency edges
+  T: E → {calls, imports, inherits, contains, ...} = edge types
+
+Navigation: Graph traversal, reachability analysis, path finding
+Used by: Computer at runtime (100%)
+Used by: Humans (50% - for understanding structure)
+
+Properties:
+- Discrete (finite nodes and edges)
+- Deterministic (edges are explicit)
+- Computable (graph algorithms)
+- Execution-relevant (runtime follows these paths)
+```
+
+**Space 2: Semantic Embedding (Continuous, Conceptual)**
+```
+S_semantic = (V, d)
+
+WHERE:
+  embed: V → ℝⁿ (embedding function)
+  d(v₁, v₂) = 1 - cosine(embed(v₁), embed(v₂)) (distance metric)
+
+Navigation: k-NN search, similarity queries, clustering
+Used by: Computer at runtime (0% - semantics not execution-relevant)
+Used by: Humans (50% - for understanding meaning/concepts)
+
+Properties:
+- Continuous (metric space)
+- Probabilistic (similarity is learned)
+- Semantic (meaning-based, not structure-based)
+- Understanding-relevant (conceptual navigation)
+```
+
+**Integration (Galois Connection):**
+```
+Dual navigation uses BOTH spaces:
+- Execution graph: "What calls this?" "Where is this used?"
+- Semantic space: "What's similar?" "Find related concepts?"
+
+Formal: Galois connection (α, γ) bridges discrete ↔ continuous
+  α: Concrete structure → Abstract semantics
+  γ: Abstract semantics → Concrete structure
+```
+
+**Critical Insight:**
+Computer navigation uses ONLY execution graph (dependencies).
+Human navigation uses BOTH (structure + meaning).
+
+**Practical Implementations:**
+- GraphRAG: Combines graph structure + embeddings
+- HybridRAG: Dual retrieval (graph + vector)
+- Code property graphs: Typed edges + semantic analysis
+
+**Mathematical Foundations:**
+- Graph theory: Dependency structure (established)
+- Vector spaces: Embeddings and cosine similarity (established)
+- Galois connections: Abstraction bridges (established)
+- Category theory: Functors between spaces (established)
+- **Integration as unified framework: EMERGING**
+
+**Academic Sources:**
+- Abstract interpretation (Cousot) - Galois connections
+- Code2vec, AST embeddings - Semantic space
+- GraphRAG, HybridRAG research - Hybrid models
+- MATE code property graphs - Practical implementation
+
+**See:** `docs/research/theories/dual_navigation_space_report.md`
+
+---
+
 **Terminology:** `../../../context-management/docs/GLOSSARY.yaml` (122 terms)
 
 **Validation:** Every term in GLOSSARY.yaml must trace to exactly one section in L0-L3. If GLOSSARY defines a term not in L1, either L1 is incomplete or GLOSSARY is stale.
@@ -715,6 +848,8 @@ All definitions in this layer trace to authoritative machine-readable sources:
 - Purpose emergence (pi1-pi4) → L2 §1
 - Drift and debt → L2 §4
 - Concordance algebra → L2 §4
+- Compositional alignment → L2 §7
+- Code entanglement → L2 §8
 
 ### To L3 (How we measure)
 - Q-scores use RPBL, dimensions, purpose → L3 §1

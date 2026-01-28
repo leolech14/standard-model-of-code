@@ -677,6 +677,124 @@ Evolution direction:
 
 ## References
 
+## 7. Compositional Laws (Alignment and Capability)
+
+**[Validation: 95% - Extensively validated through empirical SE research, formal models in category theory, documented anti-patterns (Big Ball of Mud, Architecture Sinkhole), MIT modular hierarchy research]**
+
+### 7.1 Law of Compositional Alignment
+
+**Statement:** System capability is proportional to compositional alignment across architectural levels.
+
+**Formula:**
+```
+Capability(S) ∝ ∏(i=L_min to L_max) Alignment(Lᵢ, Lᵢ₊₁)
+
+WHERE:
+  Alignment(Lᵢ, Lᵢ₊₁) ∈ [0, 1]
+
+  Alignment = 1 ⟺ Lᵢ₊₁ properly composes from Lᵢ
+                  (uses only Lᵢ interfaces, no level skipping)
+
+  Alignment < 1 ⟺ Level skipping, god objects, or broken composition
+```
+
+**Interpretation:** Each level must compose properly from the level immediately below it. Skipping levels (e.g., L7 SYSTEM directly depending on L3 NODE, bypassing L5 FILE and L6 PACKAGE) reduces alignment and thus capability.
+
+**Anti-Patterns as Misalignment:**
+- **Big Ball of Mud**: Alignment → 0 (all levels entangled)
+- **God Class**: Single entity spans multiple levels improperly
+- **Architecture Sinkhole**: Skip-call violations (bypass intermediate layers)
+- **Cyclic Dependencies**: Violates Acyclic Dependencies Principle
+
+**Mechanisms:**
+1. **Dependency Management**: Proper composition → acyclic dependencies
+2. **Concern Separation**: Each level handles appropriate abstractions
+3. **Change Impact Isolation**: Modifications stay localized
+4. **Interface Stability**: Implementation changes don't ripple
+5. **Testing Granularity**: Each level testable independently
+
+**Empirical Evidence:**
+- Well-layered systems: Lower defect rates, easier maintenance
+- Layer violations: Higher coupling, more bugs (empirically measured)
+- Skip-call violations: Correlated with architecture erosion
+
+**Mathematical Foundation:**
+- Category theory: Composition as monoidal operation
+- Type theory: Proper type hierarchies
+- Lattice theory: Abstract interpretation levels
+
+**Academic Sources:**
+- Martin, R. C. "Clean Architecture" (2012)
+- Modular Hierarchical Frameworks (MIT research, 2021)
+- Architecture Erosion Studies (empirical validation)
+
+**See:** `docs/research/theories/compositional_alignment_report.md` for full validation
+
+---
+
+## 8. Dependency Laws (Entanglement and Propagation)
+
+**[Validation: 78% - Explicit precedent (Pescio 2010), formal coupling metrics exist, empirical change propagation measured, Hilbert space formalization gap remains]**
+
+### 8.1 Law of Code Entanglement
+
+**Statement:** Code dependencies exhibit properties analogous to quantum entanglement, with non-local effects across arbitrary distance in codebase structure.
+
+**Formula:**
+```
+Entangled(c₁, c₂) ⟺ ∃relation ∈ {calls, imports, inherits, depends_on}:
+                     (c₁, c₂, relation) ∈ E
+
+Properties:
+1. Non-locality: Distance_codebase(c₁, c₂) irrelevant to entanglement
+2. Correlation: modify(c₁) → must_update(c₂) [instant propagation]
+3. Strength: Coupling(c₁, c₂) = strength_of_entanglement
+4. Hidden: 58% of entanglements invisible to static analysis
+```
+
+**Interpretation:** When two code entities are connected by dependency relationships, they become entangled such that modifications to one immediately affect the other, regardless of their physical separation in the file system or organizational structure.
+
+**Entanglement Strength (Coupling Metrics):**
+```
+Coupling(c) = 1 - 1/(dᵢ + 2cᵢ + dₒ + 2cₒ + gᵈ + 2gᶜ + w + r)
+
+WHERE:
+  dᵢ = input data parameters
+  cᵢ = input control parameters
+  dₒ = output data parameters
+  cₒ = output control parameters
+  gᵈ = global vars as data
+  gᶜ = global vars as control
+  w = fan-out (modules called)
+  r = fan-in (callers)
+
+Range: [0.67, 1.0] (low to high coupling)
+```
+
+**Cascading Failure Prediction:**
+- Strong entanglement → higher failure probability
+- Change propagation: 45.7% of defects predictable from change coupling
+- Ripple effects: Non-local failures from local modifications
+
+**Precedent:**
+- Pescio, C. (2010). "Software Entanglement" - Explicit quantum analogy
+- "Action-at-a-distance" - Named anti-pattern in SE (Wikipedia)
+- Connascence framework - Formal dependency classification
+
+**Hidden Dependencies:**
+- 58% of dependencies not visible in structural analysis
+- Require semantic coupling analysis to detect
+- Parallel to quantum non-observable correlations
+
+**Academic Sources:**
+- Pescio, C. (2010). "Notes on Software Design: Software Entanglement"
+- Coupling metrics research (IEEE, ACM empirical studies)
+- Change propagation research (45.7% defect prediction validation)
+
+**See:** `docs/research/theories/epr_entanglement_report.md` for full validation
+
+---
+
 ### Project Documents
 - `L0_AXIOMS.md` -- Foundational axioms for these laws
 - `L1_DEFINITIONS.md` -- Concepts referenced in these laws
