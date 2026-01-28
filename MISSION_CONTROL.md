@@ -1,5 +1,5 @@
-# 🎛️ PROJECT_elements DASHBOARD
-## One-Page Status View
+# 🎛️ PROJECT_elements - MISSION CONTROL
+## Strategic Command & Control Panel
 
 **Last Updated:** 2026-01-28 18:07
 **Git SHA:** f0314e2d
@@ -147,8 +147,8 @@
 
 ## 🔗 RELATED DOCUMENTS
 
-- **REPO_CENSUS.md** - Full statistical breakdown
-- **CONSOLIDATION_MATRIX.md** - Decision framework + action plan
+- **INTELLIGENCE_BRIEF.md** - Full statistical breakdown
+- **OPERATIONS_PLAN.md** - Decision framework + action plan
 - **governance/QUALITY_GATES.md** - Integrity checks (G1-G8)
 - **governance/DEFINITION_OF_DONE.md** - v1 release criteria
 - **context-management/reports/refinery/docs_audit_latest.md** - Latest audit
@@ -158,8 +158,8 @@
 ## 🚀 QUICK ACTIONS
 
 ```bash
-# Update this dashboard
-bash /tmp/repo_census.sh > REPO_CENSUS_$(date +%Y%m%d).md
+# Update intelligence brief
+bash /tmp/repo_census.sh > INTELLIGENCE_BRIEF_$(date +%Y%m%d).md
 
 # Run docs audit
 python3 context-management/tools/refinery/docs_audit.py
@@ -176,15 +176,15 @@ find . -type f -mtime +90 | wc -l
 
 ---
 
-## 📊 DASHBOARD PHILOSOPHY
+## 📊 COMMAND PHILOSOPHY
 
-**This dashboard shows THREE NUMBERS:**
+**This panel shows THREE NUMBERS:**
 1. **What EXISTS** (19K files, 13GB)
 2. **What's ACTIVE** (25% modified in 30 days)
 3. **What's the TARGET** (1K files, 1GB)
 
-**The gap between 1 and 3 is your work.**
+**The gap between 1 and 3 is your mission.**
 
 ---
 
-**Update this dashboard weekly. Watch the numbers shrink.**
+**Update this panel weekly. Watch the numbers shrink.**
