@@ -134,6 +134,13 @@ try:
 except ImportError:
     HAS_ACI = False
 
+# Import Context Filters (Phase 1)
+try:
+    from context_filters import apply_filters, estimate_tokens_fast, validate_filters
+    HAS_FILTERS = True
+except ImportError:
+    HAS_FILTERS = False
+
 # Import Research Engine (multi-configuration orchestration)
 try:
     from aci import (
@@ -578,13 +585,13 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
     if set_name in resolved:
         # Circular dependency protection
         return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': '',
-                'critical_files': [], 'positional_strategy': None}
+                'critical_files': [], 'positional_strategy': None, 'filters': {}}
 
     resolved.add(set_name)
 
     if set_name not in analysis_sets:
         return {'patterns': [], 'max_tokens': 0, 'auto_interactive': False, 'description': f'Unknown set: {set_name}',
-                'critical_files': [], 'positional_strategy': None}
+                'critical_files': [], 'positional_strategy': None, 'filters': {}}
 
     set_def = analysis_sets[set_name]
     patterns = list(set_def.get('patterns', []))
@@ -593,6 +600,7 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
     description = set_def.get('description', '')
     critical_files = list(set_def.get('critical_files', []))
     positional_strategy = set_def.get('positional_strategy', None)
+    filters = dict(set_def.get('filters', {}))  # Phase 1: extract filters
 
     # Resolve includes
     for included_set in set_def.get('includes', []):
@@ -607,6 +615,10 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
         # Parent strategy takes precedence over included
         if not positional_strategy and included.get('positional_strategy'):
             positional_strategy = included['positional_strategy']
+        # Merge filters (parent filters take precedence)
+        for filter_key, filter_val in included.get('filters', {}).items():
+            if filter_key not in filters:
+                filters[filter_key] = filter_val
 
     # Remove duplicates while preserving order
     seen = set()
@@ -622,7 +634,8 @@ def resolve_set(set_name: str, analysis_sets: dict, resolved: set = None) -> dic
         'auto_interactive': auto_interactive,
         'description': description,
         'critical_files': critical_files,
-        'positional_strategy': positional_strategy
+        'positional_strategy': positional_strategy,
+        'filters': filters  # Phase 1: include filters in response
     }
 
 
@@ -1208,6 +1221,30 @@ def list_local_files(base_dir, patterns=None, user_excludes=None):
         return filtered
 
     return all_files
+
+
+def list_and_filter_files(base_dir, patterns=None, user_excludes=None, filters=None, verbose=False):
+    """
+    List files and apply intelligent filters (Phase 1).
+
+    Args:
+        base_dir: Base directory to search
+        patterns: Glob patterns to match
+        user_excludes: Additional exclude patterns (security)
+        filters: Dict of filter configurations (exclude_patterns, max_age_days, etc.)
+        verbose: Print filter statistics
+
+    Returns:
+        List of Path objects after filtering
+    """
+    # Step 1: Get files matching patterns (with security excludes)
+    files = list_local_files(base_dir, patterns, user_excludes)
+
+    # Step 2: Apply intelligent filters if provided
+    if filters and HAS_FILTERS:
+        files = apply_filters(files, filters, base_dir=Path(base_dir), verbose=verbose)
+
+    return files
 
 
 def read_file_content(file_path, with_line_numbers=False):

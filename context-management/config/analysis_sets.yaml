@@ -200,11 +200,70 @@ analysis_sets:
       - theory
 
   # ==========================================================================
+  # FILTERED SETS - Smart context selection (Phase 1)
+  # ==========================================================================
+
+  brain_active:
+    description: "Active context-management files only (excludes archive, experiments)"
+    max_tokens: 150000
+    auto_interactive: true
+    filters:
+      exclude_patterns:
+        - "**/archive/**"
+        - "**/experiments/**"
+        - "**/legacy/**"
+        - "**/deprecated/**"
+      max_age_days: 90
+      max_file_size_kb: 500
+    patterns:
+      - "context-management/tools/**/*.py"
+      - "context-management/docs/*.md"
+      - "context-management/docs/specs/*.md"
+      - "context-management/docs/operations/*.md"
+      - "context-management/config/*.yaml"
+
+  recent_30d:
+    description: "Files modified in last 30 days (active surface)"
+    max_tokens: 100000
+    filters:
+      max_age_days: 30
+      sort_by: "mtime"
+      limit: 100
+    patterns:
+      - "**/*.py"
+      - "**/*.md"
+      - "**/*.yaml"
+
+  recent_7d:
+    description: "Files modified in last 7 days (hot zone)"
+    max_tokens: 50000
+    filters:
+      max_age_days: 7
+      sort_by: "mtime"
+      limit: 50
+    patterns:
+      - "**/*.py"
+      - "**/*.md"
+      - "**/*.yaml"
+
+  docs_active:
+    description: "Active documentation only (<100KB, no archive)"
+    max_tokens: 80000
+    filters:
+      exclude_patterns:
+        - "**/archive/**"
+        - "**/legacy/**"
+      max_file_size_kb: 100
+    patterns:
+      - "**/*.md"
+
+  # ==========================================================================
   # LEGACY SETS - Kept for compatibility but with warnings
+  # WARNING: These sets can exceed quota - use filtered versions above
   # ==========================================================================
 
   brain:
-    description: "[LARGE] Full context-management directory"
+    description: "[DEPRECATED] Use brain_active instead - includes archive (8M+ tokens)"
     max_tokens: 150000
     auto_interactive: true
     patterns:
