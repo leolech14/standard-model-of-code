@@ -136,10 +136,22 @@ except ImportError:
 
 # Import Context Filters (Phase 1)
 try:
-    from context_filters import apply_filters, estimate_tokens_fast, validate_filters
+    from context_filters import apply_filters, validate_filters
     HAS_FILTERS = True
 except ImportError:
     HAS_FILTERS = False
+
+# Import Token Estimator (Phase 3)
+try:
+    from token_estimator import (
+        estimate_tokens_smart,
+        check_budget,
+        format_budget_report,
+        get_file_token_breakdown
+    )
+    HAS_TOKEN_ESTIMATOR = True
+except ImportError:
+    HAS_TOKEN_ESTIMATOR = False
 
 # Import Research Engine (multi-configuration orchestration)
 try:
@@ -2275,6 +2287,8 @@ Examples:
     parser.add_argument("--output", "-o", help="Output file path (for insights mode)")
     parser.add_argument("--max-files", type=int, default=500,
                         help="Max files (default 500). TOKEN budget (1M) is the real constraint, not file count.")
+    parser.add_argument("--force", "-f", action="store_true",
+                        help="Force query even if token budget exceeded (may hit quota)")
     parser.add_argument("--line-numbers", "-n", action="store_true", help="Include line numbers in file content")
     # v2 arguments
     parser.add_argument("--list-sets", action="store_true", help="List available analysis sets and exit")
@@ -3170,6 +3184,38 @@ Please provide a thorough, comprehensive answer using the full context available
     if not selected_files:
         print("No files matched your criteria.")
         sys.exit(1)
+
+    # PHASE 3: Token budget check BEFORE building context
+    if HAS_TOKEN_ESTIMATOR and set_def.get('max_tokens'):
+        budget_result = check_budget(
+            selected_files,
+            max_budget=set_def['max_tokens'],
+            warn_threshold=0.85,
+            force=getattr(args, 'force', False)
+        )
+
+        # Print budget report if there's a warning
+        if budget_result.get('warning'):
+            print(f"\n{format_budget_report(budget_result)}", file=sys.stderr)
+
+            # If over budget and not forced, block
+            if not budget_result['allowed']:
+                print("\n⚠️  BUDGET EXCEEDED - Options:", file=sys.stderr)
+                print("  1. Use filtered set: --set brain_active (not brain)", file=sys.stderr)
+                print("  2. Reduce files: --max-files 50", file=sys.stderr)
+                print("  3. Force anyway: --force (may hit quota)\n", file=sys.stderr)
+
+                # Show which files are using the most tokens
+                breakdown = get_file_token_breakdown(selected_files, top_n=5)
+                print("Top 5 files by token count:", file=sys.stderr)
+                for item in breakdown:
+                    try:
+                        rel_path = Path(item['file']).relative_to(PROJECT_ROOT)
+                    except ValueError:
+                        rel_path = item['file']
+                    print(f"  {item['tokens']:>8,} tokens - {rel_path}", file=sys.stderr)
+
+                sys.exit(1)
 
     print(f"\nSelected {len(selected_files)} files:", file=sys.stderr)
     for f in selected_files[:5]:
