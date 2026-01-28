@@ -67,6 +67,29 @@ subsystems:
     validators:
       - ./pe status
 
+  - name: TEMPORAL_INTELLIGENCE
+    description: "File popularity tracking + temporal analytics (S15)"
+    root_dirs:
+      code: standard-model-of-code/scripts
+      context: .agent/intelligence
+    entrypoints:
+      - standard-model-of-code/scripts/generate_repo_timestamps.py
+      - standard-model-of-code/scripts/file_popularity_tracker.py
+    canonical_docs:
+      - .agent/intelligence/TOOLS_REGISTRY.yaml
+    generated_outputs:
+      - project_elements_file_timestamps.csv (TDJ - centralized)
+      - .file_popularity/ (reports)
+      - "**/*.metadata.json" (decentralized - future)
+    status: active
+    maturity: beta
+    validators:
+      - python file_popularity_tracker.py --dead-only
+    feeds:
+      - WAVE (Refinery Stage 5.5 - relevance boost)
+      - AI_Tools (analyze.py - context selection)
+      - OBSERVER (archive decisions)
+
   - name: ARCHIVE
     description: "Historical snapshots + deprecated experiments"
     root_dirs:

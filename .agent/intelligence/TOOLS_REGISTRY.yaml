@@ -93,6 +93,102 @@ tools:
     note: "Computed but not exported until Stage 3.7 runs"
 
   # ---------------------------------------------------------------------------
+  timestamp_daily_journal:
+    id: T002.5
+    name: "Timestamp Daily Journal (TDJ)"
+    subsystem: OBSERVER
+    realm: observer
+    type: deterministic_script
+
+    invoke:
+      method: cli
+      command: "python3 standard-model-of-code/scripts/generate_repo_timestamps.py"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: repo_root
+        type: path
+        default: "."
+
+    outputs:
+      - name: project_elements_file_timestamps.csv
+        type: file
+        format: csv
+        schema: "path,size_bytes,birth_epoch,birth_iso,modified_epoch,modified_iso"
+
+    requires: []
+    status: working
+
+    note: "Foundation for temporal analysis - records all file creation/modification times"
+
+  # ---------------------------------------------------------------------------
+  file_popularity_tracker:
+    id: T002.7
+    name: "File Popularity Tracker"
+    subsystem: OBSERVER
+    realm: observer
+    type: deterministic_script
+
+    invoke:
+      method: cli
+      command: "python3 standard-model-of-code/scripts/file_popularity_tracker.py --output {output_dir}"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: project_elements_file_timestamps.csv
+        type: file
+        from: timestamp_daily_journal
+        required: true
+
+    outputs:
+      - name: file_popularity_report.json
+        type: file
+        format: json
+        contains:
+          - total_files
+          - dead_files (created but never modified)
+          - dead_percentage
+          - top_10_popular (by modification frequency)
+          - session_patterns (peak days, hours)
+
+      - name: file_popularity_report.md
+        type: file
+        format: markdown
+
+      - name: dead_files.txt
+        type: file
+        format: text
+        description: "List of files created but never modified (candidates for archive)"
+
+      - name: popular_files.txt
+        type: file
+        format: text
+        description: "Top 50 most-modified files"
+
+    requires:
+      - timestamp_daily_journal
+
+    status: implemented
+
+    connects_to:
+      - analyze  # Feeds popularity data as context
+      - charts   # Can visualize as graph (node size = popularity)
+
+    note: |
+      The 'Big City' omniscience tool.
+      When repo is too large to know everything, this identifies:
+      - What's actually being used (popular)
+      - What's forgotten (dead files)
+      - When work happens (session patterns)
+      - What's latest (temporal resolution)
+
+      Use cases:
+      - Archive dead files automatically
+      - Prioritize refactoring on popular files
+      - Understand collaboration patterns
+      - Resolve 'which is latest?' conflicts via modification time
+
+  # ---------------------------------------------------------------------------
   # WAVE REALM (Intelligence)
   # ---------------------------------------------------------------------------
   pom:
