@@ -1,8 +1,17 @@
 ---
+# GENERATED FILE - DO NOT EDIT BY HAND
+# Source: ATOMS_TIER*.yaml files (canonical registries)
+# Generator: Manual regeneration 2026-01-27
+# Git SHA: TBD
+#
+# This file is AUTO-GENERATED from the canonical YAML atom registries.
+# To update counts, modify the source YAML files and regenerate.
+---
+
 project: Standard Model of Code
-version: 1.0.0
-generated: 2026-01-19
-description: Master index of all defined Atoms across 3 Tiers.
+version: 2.0.0
+generated: 2026-01-27
+description: Master index of all defined Atoms across 3 Tiers + Mined subtiers.
 
 tiers:
   - tier: 0
@@ -10,22 +19,49 @@ tiers:
     description: Universal language constructs (If, Loop, Function).
     file: ATOMS_TIER0_CORE.yaml
     status: verified
-    count: 43
+    count: 42  # CORRECTED from 43 (source: actual YAML count)
 
   - tier: 1
     name: Standard Library
     description: Built-in runtime capabilities (IO, Net, Math).
     file: ATOMS_TIER1_STDLIB.yaml
     status: generated
-    count: 24
+    count: 21  # CORRECTED from 24 (source: actual YAML count)
 
   - tier: 2
     name: Ecosystems
     description: High-level framework patterns (React, Pandas, Cloud).
-    file: ATOMS_TIER2_ECOSYSTEM.yaml
+    files:
+      base: ATOMS_TIER2_ECOSYSTEM.yaml
+      mined:
+        - ATOMS_T2_PYTHON.yaml
+        - ATOMS_T2_JAVASCRIPT.yaml
+        - ATOMS_T2_JAVA.yaml
+        - ATOMS_T2_CLOUD.yaml
+        - ATOMS_T2_FRONTEND.yaml
+        - ATOMS_T2_GAPS.yaml
+        - ATOMS_T2_OTHER.yaml
     status: generated
-    count: 17
+    count_base: 17
+    count_mined: 3514  # 3530 before deduplication, 3514 after
+    count_total: 3531
+
+# TOTALS (from actual YAML files)
+total_atoms: 3594  # T0(42) + T1(21) + T2(3531)
+total_unique: 3594  # After removing 16 duplicates on 2026-01-27
+
+# DRIFT DETECTION
+# Last verified: 2026-01-27
+# Method: Counted atoms in all YAML files
+# Discrepancy found: Index claimed T0=43 T1=24, actual is T0=42 T1=21
+# Resolution: Index corrected to match canonical YAML sources
 
 total_coverage:
   phases: [DATA, LOGIC, ORGANIZATION, EXECUTION]
-  families: [IO, NET, ASYNC, DATA, MATH, SYS, UI, WEB, DATA_ENG, ML, CLOUD]
+  families: [IO, NET, ASYNC, DATA, MATH, SYS, UI, WEB, DATA_ENG, ML, CLOUD, EXT]
+
+# Verification
+verification_date: 2026-01-27
+verified_by: ChatGPT 5.2 Pro audit + manual count
+duplicates_removed: 16
+uniqueness_status: PASS
