@@ -80,6 +80,7 @@
 | S11 | **Batch Grade** | Experiment | `standard-model-of-code/tools/batch_grade/` | Mass Collider validation on 999+ repos (RunPod) |
 | S12 | **Centripetal** | Utility | `.agent/tools/centripetal_scan.py` | Deep 12-round analysis cycles |
 | **S13** | **Macro Registry** | State | `.agent/macros/` | Recorded action patterns for automation |
+| **S14** | **GraphRAG** | Engine | `context-management/tools/ai/graph_rag/` | Graph-structured reasoning over knowledge graph |
 
 ---
 
