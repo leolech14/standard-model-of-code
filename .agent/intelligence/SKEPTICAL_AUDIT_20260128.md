@@ -4,45 +4,40 @@
 
 ## Session Artifacts
 === NEW FILES ===
-?? .agent/macros/logs/MACRO-001/20260128_111302.yaml
-?? .agent/macros/logs/MACRO-001/20260128_112050.yaml
-?? context-management/docs/theory/TOPOLOGICAL_BOUNDARIES.md
-?? context-management/tools/ops/lizard_daemon.py
-?? context-management/tools/ops/self_analysis.py
-?? standard-model-of-code/docs/research/gemini/docs/20260128_102958_list_the_files_in_standard_model_of_code_src_core.md
-?? standard-model-of-code/docs/research/gemini/docs/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.md
-?? standard-model-of-code/docs/research/gemini/docs/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.md
-?? standard-model-of-code/docs/research/gemini/raw/20260128_102958_list_the_files_in_standard_model_of_code_src_core.json
-?? standard-model-of-code/docs/research/gemini/raw/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.json
-?? standard-model-of-code/docs/research/gemini/raw/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.json
-?? standard-model-of-code/docs/research/gemini/sessions/20260128_092646_describe_the_architecture_of_the_edge_ex.json
-?? standard-model-of-code/docs/research/gemini/sessions/20260128_102958_list_the_files_in_standard_model_of_code.json
-?? standard-model-of-code/docs/research/gemini/sessions/20260128_110657_analyze_the_role_and_atoms_of_the_refine.json
-?? standard-model-of-code/docs/research/gemini/sessions/20260128_113515_we_have_two_dashboard_implementations___.json
-?? standard-model-of-code/docs/research/gemini/sessions/20260128_113821_full_standard_model_of_code_src_core___o.json
-?? standard-model-of-code/src/core/igt_metrics.py
+?? .agent/macros/logs/MACRO-001/20260128_185302.yaml
+?? "context-management/experiments/refinery-dashboard/cloud-refinery-console (5).zip"
+?? context-management/experiments/refinery-dashboard/reference_design/
+?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md
+?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md
+?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md
+?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json
+?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json
+?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json
 
 === MODIFIED FILES ===
  M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md
- M .agent/intelligence/THEORY_SECTION_GRAPH.json
- M .agent/intelligence/TOOLS_REGISTRY.yaml
  M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl
- M .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json
- M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json
- M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json
- M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json
  M .agent/macros/library/MACRO-001-skeptical-audit.yaml
  M .agent/macros/trigger_state.yaml
  M .agent/state/circuit_breakers.yaml
- M DOMAINS.yaml
- M SUBSYSTEMS.yaml
- M context-management/config/documentation_map.yaml
- M context-management/config/refinery_config.yaml
- M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html
- M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html
- M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html
- M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json
- M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json
+ M standard-model-of-code/docs/core/__init__.md
+ M standard-model-of-code/docs/core/analytics_engine.md
+ M standard-model-of-code/docs/core/atom_loader.md
+ M standard-model-of-code/docs/core/atom_registry.md
+ M standard-model-of-code/docs/core/brain_download.md
+ M standard-model-of-code/docs/core/chart_viewer.md
+ M standard-model-of-code/docs/core/classification/__init__.md
+ M standard-model-of-code/docs/core/classification/classifier_plugin.md
+ M standard-model-of-code/docs/core/classification/ddd_mappings.md
+ M standard-model-of-code/docs/core/classification/universal_classifier.md
+ M standard-model-of-code/docs/core/constraint_engine.md
+ M standard-model-of-code/docs/core/constraint_plugin.md
+ M standard-model-of-code/docs/core/control_flow_analyzer.md
+ M standard-model-of-code/docs/core/data_flow_analyzer.md
+ M standard-model-of-code/docs/core/data_management.md
 
 
 ## Dead Code Analysis
@@ -61,4 +56,4 @@ Requires manual AI execution
 [To be filled based on severity]
 
 ---
-*Generated: 2026-01-28T16:22:42.574583+00:00*
+*Generated: 2026-01-28T19:37:52.202466+00:00*

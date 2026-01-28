@@ -14,5 +14,5 @@
 - **ID**: `PARCEL-PIPELINE-STAGES-TOPOLOGY_REASONING.PY`
 - **Source**: `Codome://pipeline/stages/topology_reasoning.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.689379Z`
+- **Generated**: `2026-01-28T19:17:39.166925Z`
 - **Status**: REFINED

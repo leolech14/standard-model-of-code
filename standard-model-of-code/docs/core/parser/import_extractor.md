@@ -27,5 +27,5 @@
 - **ID**: `PARCEL-PARSER-IMPORT_EXTRACTOR.PY`
 - **Source**: `Codome://parser/import_extractor.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.692332Z`
+- **Generated**: `2026-01-28T19:17:39.169392Z`
 - **Status**: REFINED

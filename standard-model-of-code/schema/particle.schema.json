@@ -111,6 +111,10 @@
     "purpose_intelligence": {
       "$ref": "#/$defs/purpose_intelligence",
       "description": "Quality scores measuring how well the holon serves its purpose"
+    },
+    "waybill": {
+      "$ref": "#/$defs/waybill",
+      "description": "Advanced Logistics provenance and auditable integrity data"
     }
   },
   "$defs": {
@@ -729,6 +733,75 @@
           "minimum": 0,
           "maximum": 1,
           "description": "I(H) = weighted combination of the five metrics"
+        }
+      }
+    },
+    "waybill": {
+      "type": "object",
+      "required": [
+        "parcel_id",
+        "route"
+      ],
+      "properties": {
+        "parcel_id": {
+          "type": "string",
+          "description": "Unique identifier for this data parcel"
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "Identifier of the parent parcel (for lineage)"
+        },
+        "batch_id": {
+          "type": "string",
+          "description": "Temporal anchor for the pipeline execution"
+        },
+        "merkle_root": {
+          "type": "string",
+          "description": "S_root: Cryptographic root of the batch (Phase 28)"
+        },
+        "context_vector": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "description": "V_pos: High-dimensional semantic coordinate (Phase 28)"
+        },
+        "refinery_signature": {
+          "type": "string",
+          "description": "E_sig: Auditable signature of the refinery engine (Phase 28)"
+        },
+        "route": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/route_event"
+          },
+          "description": "Chain of custody events"
+        }
+      }
+    },
+    "route_event": {
+      "type": "object",
+      "required": [
+        "event",
+        "timestamp",
+        "agent"
+      ],
+      "properties": {
+        "event": {
+          "type": "string",
+          "description": "Type of event (extracted, classified, refined, etc.)"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Unix timestamp of the event"
+        },
+        "agent": {
+          "type": "string",
+          "description": "The tool or engine that performed the action"
+        },
+        "context": {
+          "type": "object",
+          "description": "Event-specific metadata"
         }
       }
     }

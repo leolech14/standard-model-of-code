@@ -21,5 +21,5 @@
 - **ID**: `PARCEL-INTENT_EXTRACTOR.PY`
 - **Source**: `Codome://intent_extractor.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.687768Z`
+- **Generated**: `2026-01-28T19:17:39.165586Z`
 - **Status**: REFINED

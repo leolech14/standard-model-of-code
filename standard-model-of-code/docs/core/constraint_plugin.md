@@ -17,5 +17,5 @@
 - **ID**: `PARCEL-CONSTRAINT_PLUGIN.PY`
 - **Source**: `Codome://constraint_plugin.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.687965Z`
+- **Generated**: `2026-01-28T19:17:39.165740Z`
 - **Status**: REFINED

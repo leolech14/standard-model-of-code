@@ -14,5 +14,5 @@
 - **ID**: `PARCEL-PIPELINE-STAGES-MARKOV_MATRIX.PY`
 - **Source**: `Codome://pipeline/stages/markov_matrix.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.691068Z`
+- **Generated**: `2026-01-28T19:17:39.168526Z`
 - **Status**: REFINED

@@ -14,5 +14,5 @@
 - **ID**: `PARCEL-PIPELINE-STAGES-DATA_FLOW_ANALYSIS.PY`
 - **Source**: `Codome://pipeline/stages/data_flow_analysis.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.690996Z`
+- **Generated**: `2026-01-28T19:17:39.168463Z`
 - **Status**: REFINED

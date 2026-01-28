@@ -20,5 +20,5 @@
 - **ID**: `PARCEL-GRAPH_TYPE_INFERENCE.PY`
 - **Source**: `Codome://graph_type_inference.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.687005Z`
+- **Generated**: `2026-01-28T19:17:39.164598Z`
 - **Status**: REFINED

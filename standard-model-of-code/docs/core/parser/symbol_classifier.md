@@ -19,5 +19,5 @@
 - **ID**: `PARCEL-PARSER-SYMBOL_CLASSIFIER.PY`
 - **Source**: `Codome://parser/symbol_classifier.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.691924Z`
+- **Generated**: `2026-01-28T19:17:39.169156Z`
 - **Status**: REFINED

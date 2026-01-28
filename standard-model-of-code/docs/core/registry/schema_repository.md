@@ -20,5 +20,5 @@
 - **ID**: `PARCEL-REGISTRY-SCHEMA_REPOSITORY.PY`
 - **Source**: `Codome://registry/schema_repository.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.693239Z`
+- **Generated**: `2026-01-28T19:17:39.170371Z`
 - **Status**: REFINED

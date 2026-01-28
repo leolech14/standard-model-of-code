@@ -10,6 +10,8 @@
 
 ### Functions
 - **`classify_disconnection`**: Classify WHY a node appears disconnected in the dependency graph.
+- **`calculate_merkle_root`**: Calculate a simple cryptographic root for a list of items.
+- **`generate_refinery_signature`**: Generate a signature for the current refinery engine instance.
 - **`detect_js_imports`**: detect_js_imports (Task #6):
 - **`detect_class_instantiation`**: detect_class_instantiation (Task #7):
 - **`create_codome_boundaries`**: Create synthetic codome boundary nodes and inferred edges.
@@ -34,5 +36,5 @@
 - **ID**: `PARCEL-FULL_ANALYSIS.PY`
 - **Source**: `Codome://full_analysis.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.686923Z`
+- **Generated**: `2026-01-28T19:17:39.164523Z`
 - **Status**: REFINED

@@ -18,5 +18,5 @@
 - **ID**: `PARCEL-HEURISTIC_CLASSIFIER.PY`
 - **Source**: `Codome://heuristic_classifier.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.686756Z`
+- **Generated**: `2026-01-28T19:17:39.164356Z`
 - **Status**: REFINED

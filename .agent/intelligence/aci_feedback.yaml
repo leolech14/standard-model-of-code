@@ -646,13 +646,47 @@ entries:
   fallback_used: false
   duration_ms: 22262
   error: null
+- timestamp: '2026-01-28T19:42:59.596928+00:00'
+  query: 'We just experienced a 666,333 line artifact commit incident:
+
+
+    WHAT HAPPENED:
+
+    - Collider test runs generated 630K lines of JSON/HTML
+
+    - Vendor libraries (35K lines) bundled in reports
+
+    - All committed to'
+  intent: implement
+  complexity: simple
+  scope: internal
+  tier: flash_deep
+  sets_used:
+  - validators
+  - constraints
+  - tests
+  - pipeline
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  - classifiers
+  - agent_kernel
+  - agent_tasks
+  tokens_input: 688496
+  tokens_output: 303
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 24546
+  error: null
 stats:
-  total_queries: 31
+  total_queries: 32
   by_tier:
     perplexity: 10
     long_context: 12
     rag: 4
-    flash_deep: 5
+    flash_deep: 6
   by_intent:
     research: 3
     architecture: 14
@@ -662,6 +696,6 @@ stats:
     task: 1
     debug: 1
     locate: 1
-    implement: 2
+    implement: 3
   success_rate: 1.0
-  avg_tokens: 216939
+  avg_tokens: 231675

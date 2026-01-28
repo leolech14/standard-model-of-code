@@ -18,5 +18,5 @@
 - **ID**: `PARCEL-REGISTRY-ROLE_REGISTRY.PY`
 - **Source**: `Codome://registry/role_registry.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.693106Z`
+- **Generated**: `2026-01-28T19:17:39.170194Z`
 - **Status**: REFINED

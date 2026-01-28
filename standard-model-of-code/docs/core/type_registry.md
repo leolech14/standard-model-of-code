@@ -22,5 +22,5 @@
 - **ID**: `PARCEL-TYPE_REGISTRY.PY`
 - **Source**: `Codome://type_registry.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.686452Z`
+- **Generated**: `2026-01-28T19:17:39.164028Z`
 - **Status**: REFINED

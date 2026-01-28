@@ -14,5 +14,5 @@
 - **ID**: `PARCEL-PIPELINE-STAGES-CONSTRAINT_VALIDATION.PY`
 - **Source**: `Codome://pipeline/stages/constraint_validation.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.689836Z`
+- **Generated**: `2026-01-28T19:17:39.167357Z`
 - **Status**: REFINED

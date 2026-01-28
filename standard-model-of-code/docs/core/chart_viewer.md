@@ -16,5 +16,5 @@
 - **ID**: `PARCEL-CHART_VIEWER.PY`
 - **Source**: `Codome://chart_viewer.py`
 - **Refinery**: `SelfAnalysis-v1.0`
-- **Generated**: `2026-01-28T17:50:51.688469Z`
+- **Generated**: `2026-01-28T19:17:39.166079Z`
 - **Status**: REFINED

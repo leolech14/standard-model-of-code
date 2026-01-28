@@ -117,6 +117,43 @@ def classify_disconnection(node: Dict[str, Any], in_deg: int, out_deg: int) -> O
             'suggested_action': 'OK - instantiated at runtime'
         }
 
+# =============================================================================
+# LOGISTICS HELPERS: Cryptographic Integrity & Provenance (Phase 28)
+# =============================================================================
+
+def calculate_merkle_root(items: List[str]) -> str:
+    """
+    Calculate a simple cryptographic root for a list of items.
+    Ensures deterministic output via sorting.
+    """
+    if not items:
+        return hashlib.sha256(b"").hexdigest()
+    
+    # Deterministic order
+    sorted_items = sorted(items)
+    
+    # Simple binary-concatenation approach for Merkle-like root
+    hashes = [hashlib.sha256(item.encode()).hexdigest() for item in sorted_items]
+    
+    while len(hashes) > 1:
+        if len(hashes) % 2 != 0:
+            hashes.append(hashes[-1])
+        
+        new_hashes = []
+        for i in range(0, len(hashes), 2):
+            combined = hashes[i] + hashes[i+1]
+            new_hashes.append(hashlib.sha256(combined.encode()).hexdigest())
+        hashes = new_hashes
+        
+    return hashes[0]
+
+def generate_refinery_signature() -> str:
+    """Generate a signature for the current refinery engine instance."""
+    engine_id = "standard-model-of-code-v4.0.0-smoc"
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d")
+    return hashlib.sha256(f"{engine_id}-{timestamp}".encode()).hexdigest()[:16]
+
+
     # 4. Cross-language boundary (JS files analyzed but called from HTML/other)
     if any(file_lower.endswith(ext) for ext in ['.js', '.jsx', '.ts', '.tsx', '.vue', '.svelte']):
         return {
@@ -1108,6 +1145,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if timing_enabled or verbose_timing:
         print("Performance Tracking: ENABLED")
     print("=" * 60)
+
+    # Initialize Logistics (Phase 28)
+    batch_id = f"batch_{hashlib.sha256(str(time.time()).encode()).hexdigest()[:8]}"
+    refinery_signature = generate_refinery_signature()
+    merkle_root = "UNSET" # Will be calculated after nodes are finalized
 
     # =========================================================================
     # STAGE 0: SURVEY - Pre-Analysis Intelligence (Phase 10)
@@ -2404,15 +2446,33 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 11.5: Manifest Writer") as timer:
         try:
             # Capturing provenance and integrity data for "Measured Codome"
-            # This generates a signed record of the analysis run
+            # Calculate Merkle Root once all nodes are finalized
+            merkle_root = calculate_merkle_root([n.get('id', n.get('name', '')) for n in nodes])
+            
             manifest = {
-                "schema_version": "manifest.v1",
+                "schema_version": "manifest.v2",
                 "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+                "batch_id": batch_id,
+                "waybill": {
+                    "parcel_id": f"pcl_{hashlib.sha256(merkle_root.encode()).hexdigest()[:12]}",
+                    "batch_id": batch_id,
+                    "merkle_root": merkle_root,
+                    "refinery_signature": refinery_signature,
+                    "context_vector": [0.0] * 32, # Placeholder for Phase 28 semantic vector
+                    "route": [
+                        {
+                            "event": "manifest_signed",
+                            "timestamp": time.time(),
+                            "agent": "full_analysis.py",
+                            "context": {"stage": "11.5"}
+                        }
+                    ]
+                },
                 "input": {
                     "target_path": str(Path(target_path).resolve()),
                     "node_count": len(nodes),
                     "edge_count": len(edges),
-                    "inventory_hash": hashlib.sha256(str(sorted([n.get('id', '') for n in nodes])).encode()).hexdigest()[:16]
+                    "merkle_root": merkle_root
                 },
                 "pipeline": {
                     "stages_executed": [s.stage_name for s in perf_manager.stages] if (perf_manager and hasattr(perf_manager, 'stages')) else [],
@@ -2492,6 +2552,27 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             # Add performance data INSIDE timer but BEFORE write (includes stages 1-11)
             if timing_enabled or verbose_timing:
                 full_output['pipeline_performance'] = perf_manager.to_dict()
+
+            # Attach Waybills to individual nodes (Phase 28)
+            print(f"   → Attaching waybills to {len(nodes)} particles...")
+            for node in nodes:
+                node_id = node.get('id', node.get('name', 'unknown'))
+                node['waybill'] = {
+                    "parcel_id": f"pcl_{hashlib.sha256(f'{node_id}-{batch_id}'.encode()).hexdigest()[:12]}",
+                    "parent_id": f"pcl_{hashlib.sha256(merkle_root.encode()).hexdigest()[:12]}",
+                    "batch_id": batch_id,
+                    "merkle_root": merkle_root,
+                    "refinery_signature": refinery_signature,
+                    "context_vector": [0.0] * 32,
+                    "route": [
+                        {
+                            "event": "refined",
+                            "timestamp": time.time(),
+                            "agent": "full_analysis.py",
+                            "context": {"batch": batch_id}
+                        }
+                    ]
+                }
 
             from src.core.output_generator import generate_outputs
             outputs = generate_outputs(full_output, out_path, target_name=target.name)
