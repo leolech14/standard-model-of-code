@@ -792,9 +792,6 @@ def main():
 
         sys.exit(0)
 
-    elif args.command == "audit":
-        from src.core.audit_runner import run_full_audit
-        sys.exit(run_full_audit(target_path=args.path, output_dir=args.output))
 
     elif args.command == "full":
         from src.core.full_analysis import run_full_analysis

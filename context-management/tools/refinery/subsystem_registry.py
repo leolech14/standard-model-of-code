@@ -30,9 +30,12 @@ from enum import Enum
 import importlib.util
 import sys
 
+import yaml
+
 # Paths
 REFINERY_DIR = Path(__file__).parent
 PROJECT_ROOT = REFINERY_DIR.parent.parent.parent
+CONFIG_PATH = PROJECT_ROOT / "context-management" / "config" / "registries" / "REFINERY_INTERNAL.yaml"
 
 
 class SubsystemStatus(Enum):
@@ -47,35 +50,26 @@ class SubsystemStatus(Enum):
 class Subsystem:
     """
     Complete description of a Refinery subsystem.
-
-    This is the DEFINITIVE record of what subsystems exist.
     """
-    # Identity
-    name: str                    # Subsystem name (scanner, chunker, etc.)
-    module_path: str             # Python module path
-    purpose: str                 # One-line description
-
-    # Classification
-    layer: str                   # Input, Processing, Synthesis, Query, Output
-    dependencies: List[str]      # Other subsystems it depends on
-
-    # Status
-    status: SubsystemStatus      # WORKING, PARTIAL, MISSING, DEPRECATED
-    lines_of_code: int           # Approximate size
-    last_modified: str           # ISO timestamp
-
-    # Functionality
-    inputs: List[str]            # What it consumes
-    outputs: List[str]           # What it produces
-    functions: List[str]         # Key functions it provides
-
-    # Health
-    healthy: bool = True         # Is it working?
-    issues: List[str] = None     # Known problems
+    name: str
+    module_path: str
+    purpose: str
+    layer: str
+    dependencies: List[str]
+    status: SubsystemStatus
+    lines_of_code: int
+    last_modified: str
+    inputs: List[str]
+    outputs: List[str]
+    functions: List[str]
+    healthy: bool = True
+    issues: List[str] = None
 
     def __post_init__(self):
         if self.issues is None:
             self.issues = []
+        if isinstance(self.status, str):
+            self.status = SubsystemStatus(self.status)
 
     def load(self) -> Any:
         """Dynamically load the subsystem module."""
@@ -97,204 +91,34 @@ class Subsystem:
         return module
 
 
-# ============================================================================
-# SUBSYSTEM REGISTRY - THE DEFINITIVE LIST
-# ============================================================================
-
-SUBSYSTEMS = [
-
-    # ========================================================================
-    # INPUT LAYER - Discovery
-    # ========================================================================
-
-    Subsystem(
-        name="scanner",
-        module_path="context-management/tools/refinery/corpus_inventory.py",
-        purpose="Discover all files, classify, map boundaries, detect changes",
-        layer="Input",
-        dependencies=[],
-        status=SubsystemStatus.PARTIAL,
-        lines_of_code=300,
-        last_modified="2026-01-24",
-        inputs=["File system"],
-        outputs=["corpus_inventory.json", "boundaries.json", "delta_report.json"],
-        functions=["scan_files()", "classify_files()", "map_boundaries()", "detect_deltas()"],
-        healthy=True,
-        issues=["Currently split across 3 files (corpus_inventory, boundary_mapper, delta_detector)"]
-    ),
-
-    # ========================================================================
-    # PROCESSING LAYER - Atomization
-    # ========================================================================
-
-    Subsystem(
-        name="chunker",
-        module_path="context-management/tools/ai/aci/refinery.py",
-        purpose="Break files into semantic chunks with validation",
-        layer="Processing",
-        dependencies=["scanner"],
-        status=SubsystemStatus.WORKING,
-        lines_of_code=800,
-        last_modified="2026-01-27",
-        inputs=["File content"],
-        outputs=["agent_chunks.json", "core_chunks.json", "aci_chunks.json"],
-        functions=["chunk_file()", "validate_chunks()", "export_with_validation()"],
-        healthy=True,
-        issues=[]
-    ),
-
-    # ========================================================================
-    # PROCESSING LAYER - Indexing
-    # ========================================================================
-
-    Subsystem(
-        name="indexer",
-        module_path="context-management/tools/refinery/indexer.py",
-        purpose="Build search indexes (text, vector, metadata) for fast queries",
-        layer="Processing",
-        dependencies=["chunker"],
-        status=SubsystemStatus.MISSING,
-        lines_of_code=0,
-        last_modified=None,
-        inputs=["*_chunks.json"],
-        outputs=["text_index.json", "vector_index.npy", "metadata_index.json"],
-        functions=["build_text_index()", "build_vector_index()", "update_incremental()"],
-        healthy=False,
-        issues=["Not implemented - currently brute-force search through JSON"]
-    ),
-
-    # ========================================================================
-    # QUERY LAYER - Retrieval
-    # ========================================================================
-
-    Subsystem(
-        name="querier",
-        module_path="context-management/tools/refinery/query_chunks.py",
-        purpose="Search and retrieve relevant chunks with ranking",
-        layer="Query",
-        dependencies=["indexer"],
-        status=SubsystemStatus.PARTIAL,
-        lines_of_code=165,
-        last_modified="2026-01-27",
-        inputs=["Query string", "Indexes"],
-        outputs=["Ranked search results"],
-        functions=["text_search()", "semantic_search()", "rank_results()"],
-        healthy=True,
-        issues=["Text search works, semantic search not implemented (no indexer)"]
-    ),
-
-    # ========================================================================
-    # SYNTHESIS LAYER - Consolidation
-    # ========================================================================
-
-    Subsystem(
-        name="synthesizer",
-        module_path="context-management/tools/refinery/state_synthesizer.py",
-        purpose="Consolidate all outputs into single coherent state (live.yaml)",
-        layer="Synthesis",
-        dependencies=["scanner", "chunker", "indexer"],
-        status=SubsystemStatus.WORKING,
-        lines_of_code=300,
-        last_modified="2026-01-27",
-        inputs=["corpus_inventory.json", "boundaries.json", "chunks/*.json"],
-        outputs=["live.yaml", "atoms (future)"],
-        functions=["synthesize_state()", "calculate_health()", "generate_atoms()"],
-        healthy=True,
-        issues=["Should absorb atom_generator.py (currently separate)"]
-    ),
-
-    # ========================================================================
-    # OUTPUT LAYER - Observability
-    # ========================================================================
-
-    Subsystem(
-        name="reporter",
-        module_path="context-management/tools/refinery/refinery_report.py",
-        purpose="Generate human-readable reports (activity, library, changes)",
-        layer="Output",
-        dependencies=["synthesizer", "querier"],
-        status=SubsystemStatus.WORKING,
-        lines_of_code=230,
-        last_modified="2026-01-27",
-        inputs=["live.yaml", "chunks/*.json", "watcher logs"],
-        outputs=["Activity reports", "Library views", "Change logs"],
-        functions=["activity_report()", "library_view()", "changes_log()"],
-        healthy=True,
-        issues=[]
-    ),
-
-    # ========================================================================
-    # PROCESSING LAYER - Reference Library
-    # ========================================================================
-
-    Subsystem(
-        name="reference_analyzer",
-        module_path="context-management/tools/refinery/reference_analyzer.py",
-        purpose="Process academic reference library (analyze refs, build indexes, extract hierarchies)",
-        layer="Processing",
-        dependencies=["indexer"],
-        status=SubsystemStatus.PARTIAL,
-        lines_of_code=250,
-        last_modified="2026-01-27",
-        inputs=["archive/references/metadata/*.json", "archive/references/txt/*.txt"],
-        outputs=["index/search_index.json", "metadata/*_analysis.json", "holon hierarchies"],
-        functions=["scan_pending_analyses()", "build_fulltext_index()", "filter_image_artifacts()", "generate_analysis_batch()"],
-        healthy=True,
-        issues=["Holon extraction not yet implemented", "56/65 refs still need LLM analysis"]
-    ),
-]
+def load_registry() -> List[Subsystem]:
+    """Load subsystems from YAML."""
+    if not CONFIG_PATH.exists():
+        print(f"Warning: {CONFIG_PATH} not found. Using empty registry.")
+        return []
+    
+    with open(CONFIG_PATH, 'r') as f:
+        data = yaml.safe_load(f)
+        
+    subsystems = []
+    for s_data in data.get('subsystems', []):
+        subsystems.append(Subsystem(**s_data))
+    return subsystems
 
 
-# Legacy subsystems (to be consolidated or removed)
-DEPRECATED_SUBSYSTEMS = [
-    Subsystem(
-        name="boundary_mapper",
-        module_path="context-management/tools/refinery/boundary_mapper.py",
-        purpose="Map analysis_sets.yaml to boundaries (SHOULD BE IN SCANNER)",
-        layer="Input",
-        dependencies=[],
-        status=SubsystemStatus.DEPRECATED,
-        lines_of_code=230,
-        last_modified="2026-01-24",
-        inputs=["analysis_sets.yaml"],
-        outputs=["boundaries.json"],
-        functions=["map_boundaries()"],
-        healthy=True,
-        issues=["Should merge into scanner.py"]
-    ),
+def load_deprecated() -> List[Dict[str, str]]:
+    """Load deprecated subsystems summary."""
+    if not CONFIG_PATH.exists():
+        return []
+    with open(CONFIG_PATH, 'r') as f:
+        data = yaml.safe_load(f)
+    return data.get('deprecated_subsystems', [])
 
-    Subsystem(
-        name="delta_detector",
-        module_path="context-management/tools/refinery/delta_detector.py",
-        purpose="Detect file changes (SHOULD BE IN SCANNER)",
-        layer="Input",
-        dependencies=[],
-        status=SubsystemStatus.DEPRECATED,
-        lines_of_code=240,
-        last_modified="2026-01-24",
-        inputs=["File system"],
-        outputs=["delta_report.json"],
-        functions=["detect_deltas()"],
-        healthy=True,
-        issues=["Should merge into scanner.py"]
-    ),
 
-    Subsystem(
-        name="atom_generator",
-        module_path="context-management/tools/refinery/atom_generator.py",
-        purpose="Generate boundary atoms (SHOULD BE IN SYNTHESIZER)",
-        layer="Synthesis",
-        dependencies=["scanner"],
-        status=SubsystemStatus.DEPRECATED,
-        lines_of_code=390,
-        last_modified="2026-01-24",
-        inputs=["boundaries.json"],
-        outputs=["atoms_*.json"],
-        functions=["generate_atoms()"],
-        healthy=True,
-        issues=["Redundant - atoms are just boundary aggregations"]
-    ),
-]
+SUBSYSTEMS = load_registry()
+# For the CLI compatibility, we'll keep a list of objects or summaries
+DEPRECATED_SUBSYSTEMS = load_deprecated()
+
 
 
 # ============================================================================
@@ -429,9 +253,9 @@ def print_registry():
     if DEPRECATED_SUBSYSTEMS:
         print("## DEPRECATED (To Be Consolidated)")
         print()
-        for subsystem in DEPRECATED_SUBSYSTEMS:
-            print(f"  🔄 {subsystem.name}")
-            print(f"     Reason: {subsystem.issues[0] if subsystem.issues else 'N/A'}")
+        for s_info in DEPRECATED_SUBSYSTEMS:
+            print(f"  🔄 {s_info.get('name')}")
+            print(f"     Reason: {s_info.get('reason', 'N/A')}")
             print()
 
     print("=" * 70)

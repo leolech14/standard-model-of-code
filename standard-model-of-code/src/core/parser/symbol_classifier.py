@@ -4,6 +4,7 @@ Symbol Classifier
 Classifies code symbols (functions, classes, methods) into semantic roles.
 Part of the TreeSitterUniversalEngine decomposition (GOD_CLASS_DECOMPOSITION).
 """
+print("   DEBUG: Loading symbol_classifier.py...")
 from dataclasses import dataclass, field
 from typing import List, Tuple, Optional
 from enum import Enum

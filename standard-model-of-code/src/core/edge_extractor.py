@@ -1025,6 +1025,7 @@ def get_strategy_for_file(file_path: str) -> EdgeExtractionStrategy:
 # =============================================================================
 
 def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: Optional[str] = None) -> List[Dict]:
+    print(f"\n   [EDGE] Starting edge extraction for {len(particles)} particles and {len(results)} results...")
     """
     Extract call relationships from particles and raw imports.
     Creates edges: {source, target, edge_type, file_path, line}

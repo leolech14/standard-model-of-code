@@ -706,6 +706,57 @@ The concordance system is not "inspired by" category theory -- it **IS** a stand
 
 ---
 
+## AXIOM GROUP I: Recursive Intelligence (The Godelian Triad)
+
+### I1. Triadic Necessity Axiom
+
+```
+A Projectome P is Semantic-Complete ⟺ {C, X, R} exists.
+
+WHERE:
+  C (Codome)     = Object Level ( mute instruction )
+  X (Contextome) = Meta Level   ( semantic description )
+  R (Refinery)   = Observer    ( computational witness )
+```
+
+**Interpretation:** Per Gödel’s Incompleteness Theorem, a system cannot fully describe or prove its own meaning from within. Complete intelligence requires a stable triad where each component provides the "outside perspective" for another.
+
+### I2. Cross-Observability (Necessity of Peerage)
+
+```
+- X observes C via ψ_X  (The Meta-Layer describes the Object-Layer)
+- R observes C via parsing (The Witness maps the implementation)
+- R updates X via synthesis (The Witness refines the description)
+- C manifests X via R (The Object-Layer realizes the Meta-Intent)
+```
+
+**Role of the Refinery:** The Refinery is the **Tarski Metalanguage Processor**. It is the only component that sits ontologically "Offshore" enough to perform the mapping between mute code and semantic intent.
+
+### I3. Peerage Knowledge
+The three components "know" each other not through direct coupling, but through **Structural Concordance**. They are semantically co-present in the Unified Knowledge Graph.
+
+---
+
+## AXIOM GROUP J: Information Topology (Space & Reflection)
+
+### J1. Location-Invariance Axiom
+
+```
+∀e ∈ P: Semantic_Truth(e) is invariant under change of physical location.
+```
+
+**Interpretation:** The coordinate system of the Standard Model is **ontological** (Role/Layer/Dimension/Domain), not physical. Whether a system (like the Refinery) runs locally or "offshore" (GCS) is an implementation detail. Information Truth is determined by a node's topological position in the Knowledge Graph, not its geographical coordinates.
+
+### J2. Axiom of Recursive Self-Ingestion
+
+```
+∀s ∈ Subsystems: s can consume source(s) as Context.
+```
+
+**Interpretation:** A subsystem can process its own definition to achieve "Self-Awareness" in the context of the Projectome. This ensures that the system has no "Godelian blind spots." By refining its own implementation, the Refinery achieves total coverage of the **active Projectome**.
+
+---
+
 ## VALIDATION RESULTS
 
 ### Axiom Group D (Purpose Field): ✅ VALIDATED

@@ -1,0 +1,85 @@
+macro_id: MACRO-001
+execution:
+  timestamp: '2026-01-27T12:10:28.107793+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 84
+  dry_run: false
+  reason: Not all success criteria met
+steps:
+- step_id: inventory_artifacts
+  tool: Bash
+  outcome: SUCCESS
+  output: "=== NEW FILES ===\n?? .agent/deck/CARD-SYS-001.yaml\n?? .agent/intelligence/REFINERY_NATURAL_SUBSYSTEMS.md\n\
+    ?? .agent/intelligence/REFINERY_SUBSYSTEM_MAP.md\n?? .agent/intelligence/RESEARCH_INVENTORY.md\n\
+    ?? .agent/intelligence/SKEPTICAL_AUDIT_20260127.md\n?? .agent/intelligence/WHEN_YOU_RETURN.md\n\
+    ?? .agent/intelligence/autopilot_logs/autopilot_20260127.jsonl\n?? .agent/intelligence/chunks/.gitignore\n\
+    ?? .agent/intelligence/chunks/agent_chunks.json\n?? .agent/intelligence/chunks/core_chunks.json\n\
+    ?? .agent/intelligence/chunks/metadata.json\n?? .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json\n\
+    ?? .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
+    ?? .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
+    ?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n?? .agent/macros/logs/MACRO-001/20260126_183330.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260126_183756.yaml\n?? .agent/macros/logs/MACRO-001/20260127_022725.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260127_041705.yaml\n?? .agent/macros/logs/MACRO-001/20260127_052311.yaml\n\
+    \n=== MODIFIED FILES ===\n M .agent/deck/CARD-OPP-059.yaml\n M .agent/deck/CARD-OPP-060.yaml\n\
+    \ M .agent/deck/CARD-OPP-061.yaml\n M .agent/deck/CARD-OPP-062.yaml\n M .agent/deck/CARD-OPP-063.yaml\n\
+    \ M .agent/deck/CARD-OPP-064.yaml\n M .agent/deck/CARD-OPP-065.yaml\n M .agent/deck/CARD-OPP-066.yaml\n\
+    \ M .agent/deck/CARD-OPP-067.yaml\n M .agent/deck/CARD-OPP-071.yaml\n M .agent/deck/CARD-OPP-076.yaml\n\
+    \ M .agent/deck/CARD-OPP-077.yaml\n M .agent/deck/CARD-OPP-082.yaml\n M .agent/deck/CARD-OPP-083.yaml\n\
+    \ M .agent/deck/CARD-OPP-084.yaml\n M .agent/intelligence/LOL.csv\n M .agent/intelligence/LOL_INBOX.csv\n\
+    \ M .agent/intelligence/LOL_SMOC.csv\n M .agent/intelligence/LOL_UNIFIED.csv\n\
+    \ M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n"
+  error: null
+  exit_code: 0
+- step_id: check_dead_code
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_integration
+  tool: Bash
+  outcome: FAILURE
+  output: ''
+  error: '/bin/sh: line 1: python: command not found
+
+    '
+  exit_code: 127
+- step_id: check_validation_theater
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_schema_bloat
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: generate_report
+  tool: Write
+  outcome: SUCCESS
+  output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260127.md
+  error: null
+variables:
+  session_artifacts: "=== NEW FILES ===\n?? .agent/deck/CARD-SYS-001.yaml\n?? .agent/intelligence/REFINERY_NATURAL_SUBSYSTEMS.md\n\
+    ?? .agent/intelligence/REFINERY_SUBSYSTEM_MAP.md\n?? .agent/intelligence/RESEARCH_INVENTORY.md\n\
+    ?? .agent/intelligence/SKEPTICAL_AUDIT_20260127.md\n?? .agent/intelligence/WHEN_YOU_RETURN.md\n\
+    ?? .agent/intelligence/autopilot_logs/autopilot_20260127.jsonl\n?? .agent/intelligence/chunks/.gitignore\n\
+    ?? .agent/intelligence/chunks/agent_chunks.json\n?? .agent/intelligence/chunks/core_chunks.json\n\
+    ?? .agent/intelligence/chunks/metadata.json\n?? .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json\n\
+    ?? .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
+    ?? .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
+    ?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n?? .agent/macros/logs/MACRO-001/20260126_183330.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260126_183756.yaml\n?? .agent/macros/logs/MACRO-001/20260127_022725.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260127_041705.yaml\n?? .agent/macros/logs/MACRO-001/20260127_052311.yaml\n\
+    \n=== MODIFIED FILES ===\n M .agent/deck/CARD-OPP-059.yaml\n M .agent/deck/CARD-OPP-060.yaml\n\
+    \ M .agent/deck/CARD-OPP-061.yaml\n M .agent/deck/CARD-OPP-062.yaml\n M .agent/deck/CARD-OPP-063.yaml\n\
+    \ M .agent/deck/CARD-OPP-064.yaml\n M .agent/deck/CARD-OPP-065.yaml\n M .agent/deck/CARD-OPP-066.yaml\n\
+    \ M .agent/deck/CARD-OPP-067.yaml\n M .agent/deck/CARD-OPP-071.yaml\n M .agent/deck/CARD-OPP-076.yaml\n\
+    \ M .agent/deck/CARD-OPP-077.yaml\n M .agent/deck/CARD-OPP-082.yaml\n M .agent/deck/CARD-OPP-083.yaml\n\
+    \ M .agent/deck/CARD-OPP-084.yaml\n M .agent/intelligence/LOL.csv\n M .agent/intelligence/LOL_INBOX.csv\n\
+    \ M .agent/intelligence/LOL_SMOC.csv\n M .agent/intelligence/LOL_UNIFIED.csv\n\
+    \ M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n"
+  dead_code_findings: Requires manual AI execution
+  validation_analysis: Requires manual AI execution
+  bloat_analysis: Requires manual AI execution
+  report_path: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260127.md

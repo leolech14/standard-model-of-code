@@ -55,7 +55,6 @@ tools:
       - tree-sitter-python
       - tree-sitter-javascript
 
-    status: degraded  # tree-sitter not working
 
   # ---------------------------------------------------------------------------
   purpose_field:
@@ -299,6 +298,43 @@ tools:
 
     requires: []
     status: not_implemented
+ 
+  # ---------------------------------------------------------------------------
+  # DESIGN REALM (Generative UI)
+  # ---------------------------------------------------------------------------
+  flash-ui:
+    id: T006
+    name: "Flash UI (Generative Component Engine)"
+    subsystem: DESIGN
+    realm: design
+    type: generative_script
+
+    invoke:
+      method: cli
+      command: "doppler run -- npx -y tsx scripts/flash-ui.ts"
+      cwd: "PROJECTS_all/PROJECT_ui-ux/aquarela-ui"
+
+    inputs:
+      - name: reference_image
+        type: file
+        format: png
+        description: "Visual design inspiration"
+
+      - name: prompt
+        type: string
+        description: "Functional/style requirements"
+
+    outputs:
+      - name: GeneratedSidebar.tsx
+        type: file
+        format: react_component
+
+    requires:
+      - GEMINI_API_KEY
+      - DYNAMIC_DESIGN_SYSTEM (Aquarela)
+
+    status: working
+    note: "Uses Gemini 3 Pro to evolve UI from visual references into functional React modules."
 
 # =============================================================================
 # PIPELINES (Pre-defined tool chains)
@@ -365,13 +401,7 @@ connections:
 # =============================================================================
 # STATUS SUMMARY
 # =============================================================================
-status_summary:
-  working: [purpose_field, pom, analyze]
-  degraded: [collider]  # tree-sitter issue
+  working: [purpose_field, pom, analyze, flash-ui, collider]
   not_implemented: [charts]
 
-  blockers:
-    collider:
-      issue: "tree-sitter not installed"
-      impact: "Cannot generate fresh unified_analysis.json"
-      fix: "pip install tree-sitter tree-sitter-python ..."
+  blockers: {}

@@ -1,0 +1,139 @@
+macro_id: MACRO-001
+execution:
+  timestamp: '2026-01-27T22:41:55.164771+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 80
+  dry_run: false
+  reason: Not all success criteria met
+steps:
+- step_id: inventory_artifacts
+  tool: Bash
+  outcome: SUCCESS
+  output: '=== NEW FILES ===
+
+    ?? .agent/concierge_cli
+
+    ?? .agent/deck/CARD-SYS-001.yaml
+
+    ?? .agent/docs/AGENTKNOWLEDGEDUMP.md
+
+    ?? .agent/docs/AUDIT_MANIFEST.md
+
+    ?? .agent/intelligence/ARQUITETURA_UNIVERSAL.md
+
+    ?? .agent/intelligence/CONSOLIDATED_FINDINGS.md
+
+    ?? .agent/intelligence/ENERGIA_CONTEXTUAL.md
+
+    ?? .agent/intelligence/ENSAIO_DECOMPOSICAO_SUBSISTEMAS.md
+
+    ?? .agent/intelligence/EXECUTION_ROADMAP_ALL_3.md
+
+    ?? .agent/intelligence/GRAPHRAG_INTEGRATION_FINAL.md
+
+    ?? .agent/intelligence/GRAPHRAG_QUICKSTART.md
+
+    ?? .agent/intelligence/GRAPHRAG_REVISED_PLAN.md
+
+    ?? .agent/intelligence/INTEGRATION_GAPS.md
+
+    ?? .agent/intelligence/MATEMATICA_DECOMPOSICAO.md
+
+    ?? .agent/intelligence/MEGACHECKPOINT_20260127.md
+
+    ?? .agent/intelligence/ONDE_PROCURAR_TEORIA.md
+
+    ?? .agent/intelligence/ONTOLOGIA_SISTEMAS_FLUXO.md
+
+    ?? .agent/intelligence/READY_TO_EXECUTE.md
+
+    ?? .agent/intelligence/REFINERY_NATURAL_SUBSYSTEMS.md
+
+    ?? .agent/intelligence/REFINERY_SUBSYSTEM_MAP.md
+
+
+    === MODIFIED FILES ===
+
+    '
+  error: null
+  exit_code: 0
+- step_id: check_dead_code
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_integration
+  tool: Bash
+  outcome: FAILURE
+  output: ''
+  error: '/bin/sh: line 1: python: command not found
+
+    '
+  exit_code: 127
+- step_id: check_validation_theater
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_schema_bloat
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: generate_report
+  tool: Write
+  outcome: SUCCESS
+  output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260127.md
+  error: null
+variables:
+  session_artifacts: '=== NEW FILES ===
+
+    ?? .agent/concierge_cli
+
+    ?? .agent/deck/CARD-SYS-001.yaml
+
+    ?? .agent/docs/AGENTKNOWLEDGEDUMP.md
+
+    ?? .agent/docs/AUDIT_MANIFEST.md
+
+    ?? .agent/intelligence/ARQUITETURA_UNIVERSAL.md
+
+    ?? .agent/intelligence/CONSOLIDATED_FINDINGS.md
+
+    ?? .agent/intelligence/ENERGIA_CONTEXTUAL.md
+
+    ?? .agent/intelligence/ENSAIO_DECOMPOSICAO_SUBSISTEMAS.md
+
+    ?? .agent/intelligence/EXECUTION_ROADMAP_ALL_3.md
+
+    ?? .agent/intelligence/GRAPHRAG_INTEGRATION_FINAL.md
+
+    ?? .agent/intelligence/GRAPHRAG_QUICKSTART.md
+
+    ?? .agent/intelligence/GRAPHRAG_REVISED_PLAN.md
+
+    ?? .agent/intelligence/INTEGRATION_GAPS.md
+
+    ?? .agent/intelligence/MATEMATICA_DECOMPOSICAO.md
+
+    ?? .agent/intelligence/MEGACHECKPOINT_20260127.md
+
+    ?? .agent/intelligence/ONDE_PROCURAR_TEORIA.md
+
+    ?? .agent/intelligence/ONTOLOGIA_SISTEMAS_FLUXO.md
+
+    ?? .agent/intelligence/READY_TO_EXECUTE.md
+
+    ?? .agent/intelligence/REFINERY_NATURAL_SUBSYSTEMS.md
+
+    ?? .agent/intelligence/REFINERY_SUBSYSTEM_MAP.md
+
+
+    === MODIFIED FILES ===
+
+    '
+  dead_code_findings: Requires manual AI execution
+  validation_analysis: Requires manual AI execution
+  bloat_analysis: Requires manual AI execution
+  report_path: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260127.md

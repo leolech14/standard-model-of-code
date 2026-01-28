@@ -30,6 +30,7 @@ class StatsGenerator:
         }
 
     def generate_comprehensive_stats(self, analysis_results: List[Dict]) -> Dict[str, Any]:
+        print(f"   [STATS] Entered generate_comprehensive_stats with {len(analysis_results)} results")
         """Generate comprehensive statistics from analysis results"""
         start_time = time.time()
 
@@ -43,6 +44,8 @@ class StatsGenerator:
         languages = set()
 
         for result in analysis_results:
+            file_path = result.get('file_path', 'unknown')
+            print(f"      [STATS] Processing {file_path}")
             if 'particles' in result:
                 files_analyzed += 1
                 languages.add(result.get('language', 'unknown'))

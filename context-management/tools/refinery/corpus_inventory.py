@@ -144,9 +144,21 @@ def scan_corpus(root: Path, quick: bool = False) -> Dict[str, Any]:
     total_bytes = 0
     total_lines = 0
 
-    print(f"Scanning corpus from: {root}")
+    print(f"Commencing Ingestion Ritual for: {root}")
+    print(f"  [1] Categorization (Identity): Minting Parcel IDs...")
+    print(f"  [2] Description (Waybill):     Attaching provenance tracking...")
+    print(f"  [3] Preservation:              Treating source as immutable read-only...")
 
-    for path in root.rglob('*'):
+    print(f"  [3] Preservation:              Treating source as immutable read-only...")
+
+    if root.is_file():
+        paths = [root]
+        root_base = root.parent
+    else:
+        paths = root.rglob('*')
+        root_base = root
+
+    for path in paths:
         if not path.is_file():
             continue
 
@@ -157,7 +169,7 @@ def scan_corpus(root: Path, quick: bool = False) -> Dict[str, Any]:
             continue
 
         try:
-            rel_path = str(path.relative_to(root))
+            rel_path = str(path.relative_to(root_base))
             stat = path.stat()
             size = stat.st_size
 

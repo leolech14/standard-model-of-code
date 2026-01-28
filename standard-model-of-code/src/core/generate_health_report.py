@@ -103,6 +103,8 @@ def generate_report():
         lines.append("3. **Enforce Boundaries:** Address the 1000+ violations by strictly defining Layer permissions (e.g., Domain cannot import Infrastructure).")
 
         # Write to file
+        # COLLIDER HEALTH REPORT GENERATOR
+        print("   DEBUG: Parsing generate_health_report.py...")
         output_path = '../CODEBASE_HEALTH_REPORT_2026-01-20.md'
         with open(output_path, 'w') as f:
             f.write('\n'.join(lines))

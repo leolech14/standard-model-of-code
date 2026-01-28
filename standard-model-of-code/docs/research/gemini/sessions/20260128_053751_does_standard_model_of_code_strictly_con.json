@@ -1,0 +1,16 @@
+{
+  "session_start": "2026-01-28 05:37:16",
+  "session_end": "2026-01-28 05:37:51",
+  "model": "gemini-2.5-flash",
+  "total_tokens_in": 0,
+  "total_tokens_out": 0,
+  "turn_count": 1,
+  "turns": [
+    {
+      "timestamp": 1769589436.804119,
+      "timestamp_str": "2026-01-28 05:37:16",
+      "role": "user",
+      "content": "Does standard-model-of-code strictly contain only executable code (Codome), or does it include Contextome elements as well? Verify against Axiom A1."
+    }
+  ]
+}

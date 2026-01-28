@@ -4,6 +4,9 @@ Python AST Parser
 Extracts symbols from Python source code using the built-in AST module.
 Part of the TreeSitterUniversalEngine decomposition (GOD_CLASS_DECOMPOSITION).
 """
+print("   DEBUG: Loading python_parser.py...")
+
+import os
 import ast
 from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field

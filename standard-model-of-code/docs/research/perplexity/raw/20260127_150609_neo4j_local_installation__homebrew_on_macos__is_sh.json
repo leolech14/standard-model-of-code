@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-27T15:06:09.597354",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Neo4j local installation (Homebrew on macOS) is showing authentication rate limit error after too many failed login attempts. Error: 'Neo.ClientError.Security.AuthenticationRateLimit: The client has provided incorrect authentication details too many times in a row.'\n\nHow to properly reset Neo4j password and clear authentication lockout? Need exact commands for:\n1. Stop Neo4j service\n2. Clear auth database\n3. Reset to default password\n4. Restart service\n5. Verify connection works\n\nVersion: Neo4j 2025.12.1 (latest Homebrew)\nOS: macOS (Apple Silicon)\nInstall location: /opt/homebrew/Cellar/neo4j/",
+    "query_length": 599,
+    "checksum": "sha256:fea44029c45eb1833bb189142ad1336c0ac779968c63d11874d064a59e7f7b38"
+  },
+  "response": {
+    "id": "21c50e6b-6fea-4e84-90af-34988f7112d2",
+    "model": "sonar-pro",
+    "created": 1769537169,
+    "usage": {
+      "prompt_tokens": 139,
+      "completion_tokens": 427,
+      "total_tokens": 566,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://community.neo4j.com/t/neo-clienterror-security-authenticationratelimit-the-client-has-provided-incorrect-authentication-details-too-many-times-in-a-row/28844",
+      "https://community.neo4j.com/t/set-or-adjust-authenticationratelimit-in-neo4j-enterprise/52545",
+      "https://github.com/neo4j/neo4j/issues/13456",
+      "https://github.com/neo4j/neo4j/issues/12904",
+      "https://community.neo4j.com/t/neo-clienterror-security-authenticationratelimit/2707",
+      "https://leanjavaengineering.wordpress.com/2015/04/16/neo4j-2-2-authentication-and-adding-extra-users/",
+      "https://groups.google.com/g/neo4j/c/TWU99Atvr8k"
+    ],
+    "search_results": [
+      {
+        "title": "Neo.ClientError.Security.AuthenticationRateLimit: The client has ...",
+        "url": "https://community.neo4j.com/t/neo-clienterror-security-authenticationratelimit-the-client-has-provided-incorrect-authentication-details-too-many-times-in-a-row/28844",
+        "date": "2020-11-11",
+        "last_updated": "2025-10-19",
+        "snippet": "The client has provided incorrect authentication details too many times in a row. tried :server change-password and the response as Password change.",
+        "source": "web"
+      },
+      {
+        "title": "Set or adjust AuthenticationRateLimit in neo4j enterprise? - General",
+        "url": "https://community.neo4j.com/t/set-or-adjust-authenticationratelimit-in-neo4j-enterprise/52545",
+        "date": "2022-02-25",
+        "last_updated": "2026-01-07",
+        "snippet": "I'm apparently locked out of neo4J enterprise, with the following complaint: Neo.ClientError.Security.AuthenticationRateLimit: The client has provided ...",
+        "source": "web"
+      },
+      {
+        "title": "The client has provided incorrect authentication details too many ...",
+        "url": "https://github.com/neo4j/neo4j/issues/13456",
+        "date": "2024-05-09",
+        "last_updated": "2025-05-30",
+        "snippet": "Hello, I am a new user for neo4j, I've installed it from scratch, I have set username and password in values.yaml file and when I try to ...",
+        "source": "web"
+      },
+      {
+        "title": "Neo.ClientError.Security.AuthenticationRateLimit #12904 - GitHub",
+        "url": "https://github.com/neo4j/neo4j/issues/12904",
+        "date": "2022-07-03",
+        "last_updated": "2025-04-27",
+        "snippet": "Hello! Please make sure that you don't have another process that tries to connect with the wrong credentials (for example an open neo4j browser).",
+        "source": "web"
+      },
+      {
+        "title": "Neo.ClientError.Security.AuthenticationRateLimit - Operations",
+        "url": "https://community.neo4j.com/t/neo-clienterror-security-authenticationratelimit/2707",
+        "date": "2019-04-12",
+        "last_updated": "2025-01-28",
+        "snippet": "Connection broken with error code: \"Neo.ClientError.Security.AuthenticationRateLimit\" message: \"Too many failed authentication requests.",
+        "source": "web"
+      },
+      {
+        "title": "Neo4j 2.2 Authentication and adding extra users",
+        "url": "https://leanjavaengineering.wordpress.com/2015/04/16/neo4j-2-2-authentication-and-adding-extra-users/",
+        "date": "2015-04-16",
+        "last_updated": "2026-01-24",
+        "snippet": "The API includes rate limiting via RateLimitedAuthenticationStrategy to prevent brute-force repeated logon attempts from being processed.",
+        "source": "web"
+      },
+      {
+        "title": "Neo4j: The client has provided incorrect authentication details too ...",
+        "url": "https://groups.google.com/g/neo4j/c/TWU99Atvr8k",
+        "date": "2019-10-21",
+        "last_updated": "2025-10-02",
+        "snippet": "I have tried restarting the server, then I removed auth files in folder \"DATADIR/dbms\", still facing the same issue. How do I fix this? Thanks in advance.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "The **authentication rate limit** in Neo4j is a security mechanism that locks out access after multiple failed login attempts[6]. To resolve this on macOS with Homebrew, you'll need to stop the service, clear the authentication database, and restart.\n\n## Step-by-step commands for macOS (Homebrew)\n\n**1. Stop Neo4j service**\n\n```bash\nbrew services stop neo4j\n```\n\nOr if that doesn't work, use:\n\n```bash\nlaunchctl stop homebrew.mxcl.neo4j\n```\n\n**2. Clear authentication database**\n\nNavigate to the Neo4j data directory and remove the authentication files:\n\n```bash\nrm -rf /opt/homebrew/var/neo4j/data/dbms/auth*\n```\n\nThis removes the locked-out authentication state[1][7].\n\n**3. Start Neo4j service**\n\n```bash\nbrew services start neo4j\n```\n\n**4. Reset to default credentials**\n\nOnce Neo4j restarts, it will reinitialize with default credentials (username: `neo4j`, password: `neo4j`). You can then connect:\n\n```bash\ncypher-shell -u neo4j -p neo4j\n```\n\n**5. Change the password immediately**\n\nWhen you first connect, Neo4j will prompt you to change the default password:\n\n```\n:server change-password\n```\n\nFollow the prompts to set a new password[1].\n\n**6. Verify connection**\n\nTest the connection with your new credentials:\n\n```bash\ncypher-shell -u neo4j -p your_new_password\n```\n\n## Additional troubleshooting\n\nIf you still encounter the rate limit error, check that **no other processes are attempting to connect with incorrect credentials**[4]. For example, close any open Neo4j browser windows that might be retrying old credentials. You can also verify Neo4j is running properly with:\n\n```bash\nbrew services list\n```\n\nIf Neo4j appears to have crashed, check the logs:\n\n```bash\ncat /opt/homebrew/var/log/neo4j/neo4j.log\n```"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

@@ -16,16 +16,22 @@ class PythonASTExtractor:
         particles = []
         depth_metrics = {}
         try:
+            print(f"      [AST:Python] Parsing {file_path}")
             tree = ast.parse(content)
+            print(f"      [AST:Python] Parsed successfully. Node type: {type(tree)}")
             
             if include_depth_metrics:
+                print(f"      [AST:Python] Measuring depth...")
                 depth_metrics = self._measure_ast_depth(tree)
+                print(f"      [AST:Python] Depth measured: {depth_metrics}")
             
             lines = content.splitlines()
             
             # Use recursive or iterative based on depth/preference
             # For now, default to recursive as it's cleaner, unless depth is huge
+            print(f"      [AST:Python] Starting recursive extraction...")
             particles = self._extract_recursive(tree, file_path, lines)
+            print(f"      [AST:Python] Extraction complete. {len(particles)} particles.")
             
         except Exception as e:
             # Fallback or empty if parse fails

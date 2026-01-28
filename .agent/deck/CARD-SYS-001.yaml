@@ -1,0 +1,79 @@
+# CARD-SYS-001: System Configuration Audit & Cleanup
+# Systematically identify and rectify configuration inconsistencies, redundancies, and deprecations
+
+id: CARD-SYS-001
+title: "System Configuration Audit & Cleanup"
+description: "Audit configuration files for inconsistencies, duplicates, deprecated entries, or misconfigurations. Establish canonical sources, remove redundancies, and validate no regressions. Maintains system stability and adherence to project standards."
+
+phase_gate: [ANY]
+
+preconditions:
+  - check: "config_scope_defined"
+    description: "Specific config files or directories targeted for audit are identified"
+  - check: "canonical_source_known"
+    description: "Canonical sources or desired states for configs are established"
+  - check: "backups_created"
+    description: "All config files have timestamped backups before modifications"
+
+steps:
+  - action: "Define scope and canonical sources"
+    description: "List target config files, identify duplication patterns, establish which file is canonical"
+    checkpoint: false
+  - action: "Create timestamped backups"
+    description: "Backup all config files with format: {filename}.backup-YYYYMMDD-HHMMSS"
+    checkpoint: true
+  - action: "Scan for issues"
+    description: "Use grep/diff/validators to detect duplicates, deprecated entries, inconsistencies"
+    checkpoint: false
+  - action: "Analyze and plan cleanup"
+    description: "Review findings, propose deduplication strategy, identify what to remove/consolidate"
+    checkpoint: false
+  - action: "Implement changes"
+    description: "Apply modifications: remove duplicates, delete deprecated entries, consolidate to canonical source"
+    checkpoint: true
+  - action: "Validate system integrity"
+    description: "Run tests, pre-commit hooks, health checks to ensure no regressions"
+    checkpoint: true
+  - action: "Document changes"
+    description: "Update relevant docs (ARCHITECTURE_MAP, component READMEs) if canonical patterns changed"
+    checkpoint: false
+
+outcomes:
+  success:
+    state_changes:
+      - "Config files clean and consistent"
+      - "No duplicates or deprecated entries"
+      - "Canonical sources established"
+      - "System passes all validation checks"
+    unlocks: []
+    meters:
+      reliability: 3
+      debt: -2
+      focus: 1
+  failure:
+    state_changes:
+      - "Regressions detected during validation"
+      - "System functionality broken"
+    meters:
+      reliability: -2
+      debt: 1
+
+rollback:
+  possible: true
+  steps:
+    - "Restore all config files from timestamped backups"
+    - "Verify system returns to pre-cleanup state"
+    - "Run validation checks to confirm rollback success"
+  warning: "Always create backups before executing this card"
+
+context_injection:
+  - path: "~/.claude/settings.json"
+    sections: ["affected config files"]
+  - path: "config schemas"
+    sections: ["canonical patterns"]
+
+cost:
+  tokens_estimate: 500
+  risk_level: LOW
+
+tags: [configuration, maintenance, cleanup, deduplication, technical-debt]

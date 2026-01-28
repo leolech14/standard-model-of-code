@@ -80,6 +80,7 @@ research_schemas:
   # USE WHEN: You need high confidence in an answer
   # COST: ~$0.50 (3 API calls)
   # TIME: ~90s (parallel) or ~180s (sequential)
+  # FORMULA: Query → [Reasoning, Fast, External] → Consensus(min_agreement=2/3)
   # ---------------------------------------------------------------------------
   validation_trio:
     description: "Cross-model verification: Run same query through 3 configurations"
@@ -137,6 +138,7 @@ research_schemas:
   # USE WHEN: Calibrating token budgets or testing context sensitivity
   # COST: ~$0.80 (4 API calls at increasing sizes)
   # TIME: ~120s
+  # FORMULA: Query → [10K, 50K, 150K, 500K] → QualityGradient(metrics) → OptimalBudget
   # ---------------------------------------------------------------------------
   depth_ladder:
     description: "Test answer quality at increasing context depths"
@@ -201,6 +203,7 @@ research_schemas:
   # USE WHEN: Testing robustness of a claim or hypothesis
   # COST: ~$0.40 (2 API calls + synthesis)
   # TIME: ~90s
+  # FORMULA: Claim → [Advocate(support), Skeptic(contradict)] → Dialectic(thesis, antithesis, synthesis)
   # ---------------------------------------------------------------------------
   adversarial_pair:
     description: "Generate opposing perspectives, then reconcile"
@@ -247,6 +250,7 @@ research_schemas:
   # USE WHEN: Debugging complex issues
   # COST: ~$0.60 (4 specialized runs)
   # TIME: ~150s
+  # FORMULA: Issue → [Structural, Behavioral, Dependency, Historical] → Triangulate(hypotheses) → RootCause
   # ---------------------------------------------------------------------------
   forensic_investigation:
     description: "Investigate issue from multiple angles"
@@ -309,6 +313,7 @@ research_schemas:
   # USE WHEN: Need precise confidence score for a claim
   # COST: ~$0.50 (4 evidence-gathering runs)
   # TIME: ~120s
+  # FORMULA: Claim → [Direct, Indirect, Counter, External] → Bayesian(prior=0.5, weights) → Confidence%
   # ---------------------------------------------------------------------------
   confidence_calibration:
     description: "Calibrate confidence through evidence classification"
@@ -378,6 +383,7 @@ research_schemas:
   # USE WHEN: Exploring a concept across the scale hierarchy
   # COST: ~$0.40 (3 runs at different levels)
   # TIME: ~90s
+  # FORMULA: Concept → [L3_Node, L5_Module, L7_System] → Hierarchical(cross_level_flows) → ScaleMap
   # ---------------------------------------------------------------------------
   semantic_probe:
     description: "Probe concept at different abstraction levels"
@@ -430,6 +436,7 @@ research_schemas:
   # USE WHEN: Mining past conversations for insights, decisions, patterns
   # COST: ~$0.30 (1 large context load + synthesis)
   # TIME: ~120s (depends on history size)
+  # FORMULA: JSONL → [HistoryLoad(1M), CrossReference(repo)] → Triangulate(decisions, insights, drift)
   # ---------------------------------------------------------------------------
   claude_history_ingest:
     description: "Load Claude Code JSONL history into long context for mining"
@@ -525,6 +532,7 @@ research_schemas:
   # USE WHEN: Creating visual/structural representation of knowledge
   # COST: ~$0.50 (multi-pass extraction)
   # TIME: ~180s
+  # FORMULA: History → [ExtractEntities, ExtractRelations, ClusterAnalysis] → Hierarchical(graph, clusters, gaps)
   # ---------------------------------------------------------------------------
   mind_map_builder:
     description: "Build knowledge graph/mind map from conversation history"
@@ -626,6 +634,7 @@ research_schemas:
   # USE WHEN: Developing or validating theoretical frameworks
   # COST: ~$1.00 (4 runs: 2 internal + 2 external)
   # TIME: ~180s
+  # FORMULA: Framework → [InternalAnalysis, ControlTheory, Academic, NovelExtension] → Dialectic(validation, gaps, roadmap)
   # ---------------------------------------------------------------------------
   theoretical_discussion:
     description: "Deep discussion of theoretical frameworks with multi-perspective critique"
@@ -728,6 +737,7 @@ research_schemas:
   # USE WHEN: Analyzing or extending the Communication Fabric framework
   # COST: ~$0.80 (3 specialized runs)
   # TIME: ~150s
+  # FORMULA: Target → [Metrics(F,MI,N,SNR,R,ΔH), LoopAnalysis, ChannelMap] → Triangulate(risk, recommendations)
   # ---------------------------------------------------------------------------
   communication_fabric:
     description: "Analyze codebase through Communication Fabric lens"
@@ -827,6 +837,7 @@ research_schemas:
   # USE WHEN: Need quick validation without full trio
   # COST: ~$0.15 (2 cheap runs)
   # TIME: ~30s
+  # FORMULA: Query → [Primary(theory), Verify(pipeline)] → Consensus(min=2/2)
   # ---------------------------------------------------------------------------
   quick_validate:
     description: "Fast validation with minimal cost"
@@ -863,6 +874,7 @@ research_schemas:
   # ---------------------------------------------------------------------------
   # USE WHEN: Asking about theoretical underpinnings of SMoC
   # COVERAGE: 82 academic works, 5.4M tokens, 856 captioned figures
+  # FORMULA: Query → [Search(82_papers, 500K)] → Consensus(cite_REF-XXX)
   # ---------------------------------------------------------------------------
   foundations:
     description: "Query the intellectual foundations reference library"
@@ -882,8 +894,44 @@ research_schemas:
         system_prompt: "You have access to the complete SMoC reference library with 82 academic works. Cite specific references (REF-XXX) and quote relevant passages."
 
     synthesis:
-      strategy: "direct"
+      strategy: "consensus"
       output_format: "markdown"
+
+  # ---------------------------------------------------------------------------
+  # PERPLEXITY_OPTIMIZED: Power user query pattern (2026-01-28 Discovery)
+  # ---------------------------------------------------------------------------
+  # USE WHEN: Need comprehensive external research with maximum quality
+  # COST: ~$0.70 | TIME: ~120s
+  # FORMULA: Query(structured) → [Perplexity(15-80 sources), Validation(repo)] → Synthesis(score%)
+  # ---------------------------------------------------------------------------
+  perplexity_optimized:
+    description: "Comprehensive external research using power user patterns (103% better retrieval)"
+    purpose: "Maximum quality Perplexity research with repo validation"
+    recommended_for: ["Academic validation", "Industry standards", "Multi-perspective synthesis"]
+
+    runs:
+      - name: "perplexity_research"
+        type: "external"
+        tier: "perplexity"
+        model: "sonar-pro"
+        temperature: 0.2
+
+      - name: "repo_validation"
+        type: "internal"
+        model: "gemini-3-pro-preview"
+        tier: "long_context"
+        sets: ["theory", "docs_core"]
+        token_budget: 100000
+        temperature: 0.2
+
+    synthesis:
+      strategy: "triangulation"
+      min_sources_required: 15
+      distinct_sources_required: true
+      output_format: "structured"
+
+    tags: [external, perplexity, optimized, comprehensive]
+    created: 2026-01-28
 
 # =============================================================================
 # EXTERNAL MEMBRANE ENFORCEMENT
@@ -966,3 +1014,219 @@ guardrails:
 # scope_not: "INTERNAL"               # Scope must NOT be this
 # complexity_gte: 3                   # Complexity >= threshold
 # intent_in: ["EXPLAIN", "ANALYZE"]   # Intent must match
+
+# =============================================================================
+# DETERMINISTIC IMPLEMENTATION WORKFLOW (Session 2026-01-27 Discovery)
+# =============================================================================
+
+  deterministic_implementation:
+    description: >
+      Convert vague requirements → deterministically executable tasks.
+      Discovered: Specific query structure → specific implementation.
+      Use when: Need copy-paste ready code, exact costs, step-by-step execution.
+    formula: "Requirement → [Perplexity(production_patterns), Gemini(repo_alignment)] → Triangulate(if confidence≥95%) → ExecutableSpec"
+
+    runs:
+      - name: "perplexity_production_patterns"
+        type: external
+        tier: perplexity
+        temperature: 0.1
+        system_prompt: >
+          You are a production systems engineer.
+          Provide EXACT specifications:
+          - Precise numbers (not ranges)
+          - Copy-paste commands (not concepts)
+          - Specific costs (to cents)
+          - Timeline in hours
+          NO theory or abstractions. Only actionable implementation.
+
+      - name: "gemini_repository_alignment"
+        type: internal
+        tier: long_context
+        sets: ["agent_kernel", "brain"]
+        token_budget: 50000
+        temperature: 0.2
+        system_prompt: >
+          Validate implementation plan against ACTUAL codebase.
+          Check: What exists, what needs creation, integration points.
+          Report: Confidence scores (Factual, Alignment, Current, Onwards).
+
+    synthesis:
+      strategy: "triangulation"
+      description: >
+        1. Perplexity provides production patterns (external validation)
+        2. Gemini validates against repo (internal fit)
+        3. Iterate if confidence <95%
+        4. Generate task with step-by-step instructions
+
+      distinct_sources_required: true
+      confidence_threshold: 0.95
+
+      output_schema:
+        type: task_specification
+        includes:
+          - exact_commands: ["bash", "cypher", "python"]
+          - exact_parameters: {no_ranges: true, specific_values: true}
+          - costs: {precision: "cents", breakdown: true}
+          - timeline: {unit: "hours", calendar_days: true}
+          - validation_criteria: {measurable: true, thresholds: true}
+          - code_artifacts: {copy_paste_ready: true, tested: false}
+          - confidence_scores: {dimensions: 4, minimum: 95}
+
+    example_query: >
+      Complete GraphRAG implementation for production:
+      CURRENT: Neo4j 5,284 nodes (code + chunks + papers)
+      TARGET: 15-30 communities, hybrid retrieval
+      COST: Calculate for 5.3M tokens batch processing
+      Provide: EXACT Cypher commands, Python code, Docker config
+      NO abstractions - only executable specifications
+
+    tags: [implementation, production, deterministic, executable]
+    created: 2026-01-27
+    validated_by: session_2026-01-27_graphrag
+
+    # ---------------------------------------------------------------------------
+    # PERPLEXITY_OPTIMIZED: Power user query pattern (2026-01-28 Discovery)
+    # ---------------------------------------------------------------------------
+    # USE WHEN: Need comprehensive external research with maximum quality
+    # BASED ON: Meta-research on optimal Perplexity querying (60+ sources)
+    # COST: ~$0.70 (structured query + high-quality synthesis)
+    # TIME: ~120s
+    # OPTIMIZATION: 103% better retrieval through query decomposition
+    # ---------------------------------------------------------------------------
+    perplexity_optimized:
+      description: "Comprehensive external research using validated power user patterns"
+      purpose: "Maximum quality external research - implements Perplexity best practices"
+      formula: "Query(structured) → [Perplexity(15-80_sources, synthesis), InternalValidation(repo)] → Triangulate(validation_score%, recommendations)"
+      recommended_for:
+        - "Academic literature validation"
+        - "Industry standards research"
+        - "Multi-perspective synthesis"
+        - "Authoritative source gathering (60-80 sources expected)"
+
+      # POWER USER PRINCIPLES (from meta-research):
+      # 1. Structure enables sophistication (103% improvement)
+      # 2. Explicit context prevents misalignment
+      # 3. Source quality constraints work (steer toward IEEE/ACM)
+      # 4. Synthesis ≠ summary (must explicitly request)
+      # 5. Iteration compounds value
+
+      runs:
+        - name: "primary_research"
+          description: "Comprehensive structured query with quality constraints"
+          type: "external"
+          tier: "perplexity"
+          model: "sonar-pro"
+          temperature: 0.2
+          system_prompt: |
+            RESEARCH CONTEXT & OBJECTIVE:
+            {context}
+
+            PRIMARY RESEARCH QUESTION:
+            {question}
+
+            SUB-QUESTIONS REQUIRING INVESTIGATION:
+            {sub_questions}
+
+            EVIDENCE STANDARDS & SOURCE QUALITY:
+            - Prioritize: IEEE, ACM, ISO standards, peer-reviewed journals, established academic conferences
+            - Include: Industry whitepapers from recognized authorities (AWS, Google Cloud, Microsoft)
+            - Avoid: Blog posts without citations, marketing materials, Wikipedia (use only for background)
+            - Verify: For every factual claim, cite the source making the claim and how it supports it
+
+            SOURCE SCOPE & DIVERSITY:
+            - Temporal: Focus on 2015-2026 (adjust for field maturity)
+            - Geographic: Include international perspectives, not just US/Europe
+            - Diversity: Represent multiple schools of thought (6-8 distinct perspectives minimum)
+            - Counter-evidence: Explicitly seek arguments AGAINST conventional wisdom
+
+            SYNTHESIS REQUIREMENTS:
+            Synthesize findings by:
+            1. Areas of clear consensus (what do most sources agree on?)
+            2. Genuine disagreements (where do sources diverge and WHY?)
+            3. Evidence gaps (what's missing or uncertain?)
+            4. Methodological quality (which sources have strongest evidence?)
+            5. Implications (what does this mean for theory/practice?)
+
+            DO NOT just summarize sources - INTEGRATE findings across sources.
+
+            OUTPUT FORMAT:
+            1. Executive Summary (3-5 sentences)
+            2. Foundational Concepts (established knowledge)
+            3. Areas of Consensus (what's agreed upon)
+            4. Genuine Disagreements (with causes explained)
+            5. Emerging Work (2024-2026 recent developments)
+            6. Quality Assessment (methodological rigor of evidence)
+            7. Counter-Evidence (strongest arguments against)
+            8. Synthesis & Recommendations
+            9. Citation List (organized by topic, with annotations)
+
+            VERIFICATION REQUIREMENTS:
+            - Every major claim needs citation
+            - For citations: Author(s), Year, Venue, How it supports the claim
+            - Flag: Contradictions between sources, limitations, uncertainties
+            - Distinguish: Correlation vs. causation, necessary vs. sufficient conditions
+
+            NEGATIVE SPECIFICATIONS:
+            Do NOT:
+            - Make causal claims without causal evidence
+            - Ignore published critiques of major studies
+            - Present opinion as fact
+            - Use vague attribution ("some researchers argue")
+            - Cite sources without verifying they support the claim
+
+        - name: "validation_pass"
+          description: "Validate findings against internal repo knowledge"
+          type: "internal"
+          model: "gemini-3-pro-preview"
+          tier: "long_context"
+          sets: ["theory", "docs_core"]
+          token_budget: 100000
+          temperature: 0.2
+          system_prompt: |
+            Cross-reference the external research findings against our repository.
+
+            For each major finding:
+            1. Does it align with or contradict our existing theory?
+            2. Can we find examples in our codebase?
+            3. What would change if we integrated this finding?
+
+            Identify:
+            - CONFIRMATIONS: External research confirms our approach
+            - CONTRADICTIONS: External research challenges our approach
+            - EXTENSIONS: External research suggests new directions
+            - GAPS: What external research doesn't address
+
+      synthesis:
+        strategy: "triangulation"
+        output_format: "structured"
+        fields:
+          - executive_summary: "3-5 sentence synthesis"
+          - consensus_findings: "What sources agree on"
+          - disagreements_explained: "Where sources diverge and why"
+          - quality_assessment: "Methodological rigor evaluation"
+          - counter_evidence: "Strongest arguments against"
+          - validation_score: "0-100% how much literature supports hypothesis"
+          - integration_recommendation: "Should we integrate these findings? How?"
+          - source_count: "Number of authoritative sources cited"
+          - citations_by_topic: "Organized citation list"
+          - repo_alignment: "How findings relate to our codebase"
+
+        # Quality metrics
+        min_sources_required: 15  # Perplexity optimized queries should get 15+ sources
+        distinct_sources_required: true
+        citation_verification: true
+
+      # TEMPLATE VARIABLES (inject via --var syntax):
+      # python analyze.py --research perplexity_optimized \
+      #   --var context="We are developing X for Y purpose" \
+      #   --var question="Main research question?" \
+      #   --var sub_questions="1. Sub Q1\n2. Sub Q2\n3. Sub Q3" \
+      #   "Additional instructions here"
+
+      tags: [external, perplexity, optimized, power_user, comprehensive]
+      created: 2026-01-28
+      validated_by: session_2026-01-28_meta_research
+      optimization_basis: "Meta-research on Perplexity query optimization (60+ sources)"
+      expected_sources: "15-80 authoritative sources"
+      expected_cost_usd: "0.50-0.80"

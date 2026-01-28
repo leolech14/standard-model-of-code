@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+print("   DEBUG: Parsing graph_analyzer.py...")
 """
 🔬 GRAPH PATTERN ANALYZER
 Network analysis for codebase architecture using NetworkX.

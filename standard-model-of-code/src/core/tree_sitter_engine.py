@@ -369,7 +369,7 @@ class TreeSitterUniversalEngine:
                  particles = self._extract_particles_tree_sitter(content, language, file_path)
                  # print(f"DEBUG: Tree-sitter success. {len(particles)} particles.")
              except Exception as e:
-                 print(f"DEBUG: Tree-sitter failed: {e}")
+                 # print(f"DEBUG: Tree-sitter failed: {e}")
                  # Fallback to regex
                  particles = self._extract_particles(content, language, file_path)
         elif language == 'python':
@@ -460,34 +460,46 @@ class TreeSitterUniversalEngine:
 
     def _extract_particles_tree_sitter(self, content: str, language: str, file_path: str) -> List[Dict]:
         """Extract particles using Tree-sitter for JS/TS/JSX/TSX."""
-        import tree_sitter
-        import tree_sitter_python
-        import tree_sitter_go
+        try:
+            import tree_sitter
+            import tree_sitter_python
+        except ImportError:
+            raise ValueError("Core tree-sitter components (tree-sitter, tree-sitter-python) are required.")
 
         # Optional imports - may not be installed
         try:
             import tree_sitter_javascript
             import tree_sitter_typescript
             import tree_sitter_rust
-            has_js_ts_rust = True
+            import tree_sitter_go
+            has_optional = True
         except ImportError:
-            has_js_ts_rust = False
+            has_optional = False
 
         # Map extensions to (language_object, parser_name)
         ts_supported_languages = {
             ".py": (tree_sitter_python.language(), "python"),
-            ".go": (tree_sitter_go.language(), "go"),
         }
 
+        # Add Go if available
+        try:
+            import tree_sitter_go
+            ts_supported_languages[".go"] = (tree_sitter_go.language(), "go")
+        except ImportError:
+            pass
+
         # Add JS/TS/Rust if available
-        if has_js_ts_rust:
-            ts_supported_languages.update({
-                ".js": (tree_sitter_javascript.language(), "javascript"),
-                ".jsx": (tree_sitter_javascript.language(), "javascript"),
-                ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
-                ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
-                ".rs": (tree_sitter_rust.language(), "rust"),
-            })
+        if has_optional:
+            try:
+                ts_supported_languages.update({
+                    ".js": (tree_sitter_javascript.language(), "javascript"),
+                    ".jsx": (tree_sitter_javascript.language(), "javascript"),
+                    ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
+                    ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
+                    ".rs": (tree_sitter_rust.language(), "rust"),
+                })
+            except (ImportError, AttributeError):
+                pass
 
         ext = Path(file_path).suffix
         lang_obj, parser_name = ts_supported_languages.get(ext, (None, None))
@@ -835,15 +847,24 @@ class TreeSitterUniversalEngine:
                 ignore_patterns.add(excl)
                 ignore_patterns.add(excl.rstrip('/'))
 
+        # HOT SKIP LIST
+        HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
         for root, dirs, files in os.walk(path):
+            print(f"   [WALK] Root: {root} ({len(dirs)} dirs, {len(files)} files)")
+            # Prune dirnames in-place
+            dirs[:] = [d for d in dirs if d not in HOT_SKIP]
+
             root_path = Path(root)
 
             # Skip ignored directories (modify dirs in-place to prevent descent)
             if should_ignore_path(root_path, ignore_patterns, path):
+                print(f"   [WALK] Skipping ignored directory: {root}")
                 dirs[:] = []  # Don't descend into this directory
                 continue
 
             for file in files:
+                print(f"      [WALK] Found file: {file}")
                 file_path = root_path / file
 
                 # Skip ignored files
@@ -855,9 +876,18 @@ class TreeSitterUniversalEngine:
                 if extensions and ext not in extensions:
                     continue
 
+                # Only analyze if the extension is supported by the Tree-sitter parser
                 if ext in self.supported_languages:
-                    results.append(self.analyze_file(str(file_path)))
+                    print(f"      [AST] Analyzing {file_path}")
+                    try:
+                        results.append(self.analyze_file(str(file_path)))
+                    except Exception as e:
+                        print(f"      [AST] ❌ CRASH analyzing {file_path}: {e}")
+                        import traceback
+                        traceback.print_exc()
 
+        print(f"   DEBUG: analyze_directory walk completed. Found {len(results)} file results.")
+        print("   DEBUG: analyze_directory loop finished. returning {} results.".format(len(results)))
         return results
 
     def _extract_particles(self, content: str, language: str, file_path: str) -> List[Dict]:

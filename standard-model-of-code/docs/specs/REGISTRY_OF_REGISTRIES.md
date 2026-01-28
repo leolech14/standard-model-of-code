@@ -22,16 +22,15 @@ See also:
 
 ---
 
-## Philosophy
+## The High-Order Holarchy (ROR, LOL, SOS)
 
-Every classification system in this project is a **Registry**. Registries are:
-- **Enumerable**: You can list all members
-- **Stable**: Changes are tracked and versioned
-- **Documented**: Each item has metadata
+To prevent architectural drift and ensure totality, three specialized registries maintain the project's self-awareness:
 
-This document is the **meta-registry** - the registry of all registries.
-
----
+| Registry | Role | Domain | Mathematical Analog |
+|----------|------|--------|---------------------|
+| **[LOL](file://.agent/intelligence/LOL.yaml)** | **Topological Totality** | Inventory of all entities (Files, Tools, Tasks). | Universal Set (U) |
+| **[ROR](file://standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md)** | **Structural Index** | Meta-index of all plural collections and taxonomies. | Power Set (P(U)) |
+| **[SOS](file://standard-model-of-code/docs/specs/FRONTEND_SUBSYSTEM_REGISTRY.md)** | **Functional Anatomy** | Biological/Physiological mapping of subsystems. | Partition (P) |
 
 ## 1. Core Ontological Registries
 

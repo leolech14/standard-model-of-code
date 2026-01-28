@@ -8,27 +8,44 @@
 ?? .agent/deck/CARD-SYS-001.yaml
 ?? .agent/docs/AGENTKNOWLEDGEDUMP.md
 ?? .agent/docs/AUDIT_MANIFEST.md
-?? .agent/intelligence/DIRECTORY_STATS.csv
-?? .agent/intelligence/DOCS_INDEX.csv
-?? .agent/intelligence/FILESYSTEM_TREE.md
-?? .agent/intelligence/FILE_INDEX.csv
-?? .agent/intelligence/INDEX_PROPOSED.md
-?? .agent/intelligence/LARGEST_FILES.md
-?? .agent/intelligence/README_MAPPING_PACK.md
-?? .agent/intelligence/SKEPTICAL_AUDIT_20260128.md
-?? .agent/intelligence/THEORY_CONCEPT_ATLAS.csv
 ?? .agent/intelligence/THEORY_SECTION_GRAPH.json
-?? .agent/intelligence/THEORY_SECTION_REGISTRY.csv
-?? .agent/intelligence/ZIP_COMPARISON.md
 ?? .agent/intelligence/autopilot_logs/autopilot_20260127.jsonl
+?? .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl
 ?? .agent/intelligence/concepts/
 ?? .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json
 ?? .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json
+?? .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json
+?? .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json
+?? .agent/macros/logs/MACRO-001/20260126_182536.yaml
+?? .agent/macros/logs/MACRO-001/20260126_183330.yaml
+?? .agent/macros/logs/MACRO-001/20260126_183756.yaml
+?? .agent/macros/logs/MACRO-001/20260127_022725.yaml
+?? .agent/macros/logs/MACRO-001/20260127_041705.yaml
+?? .agent/macros/logs/MACRO-001/20260127_052311.yaml
+?? .agent/macros/logs/MACRO-001/20260127_081723.yaml
+?? .agent/macros/logs/MACRO-001/20260127_113454.yaml
 
 === MODIFIED FILES ===
+ M .agent/META_REGISTRY.yaml
+ M .agent/deck/CARD-OPP-059.yaml
+ M .agent/deck/CARD-OPP-060.yaml
+ M .agent/deck/CARD-OPP-061.yaml
+ M .agent/deck/CARD-OPP-062.yaml
+ M .agent/deck/CARD-OPP-063.yaml
+ M .agent/deck/CARD-OPP-064.yaml
+ M .agent/deck/CARD-OPP-065.yaml
+ M .agent/deck/CARD-OPP-066.yaml
+ M .agent/deck/CARD-OPP-067.yaml
+ M .agent/deck/CARD-OPP-071.yaml
+ M .agent/deck/CARD-OPP-076.yaml
+ M .agent/deck/CARD-OPP-077.yaml
+ M .agent/deck/CARD-OPP-082.yaml
+ M .agent/deck/CARD-OPP-083.yaml
+ M .agent/deck/CARD-OPP-084.yaml
+ M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md
+ M .agent/intelligence/TOOLS_REGISTRY.yaml
+ M .agent/intelligence/aci_feedback.yaml
  M .agent/macros/library/MACRO-001-skeptical-audit.yaml
- M .agent/macros/trigger_state.yaml
- M .agent/state/circuit_breakers.yaml
 
 
 ## Dead Code Analysis
@@ -47,4 +64,4 @@ Requires manual AI execution
 [To be filled based on severity]
 
 ---
-*Generated: 2026-01-28T02:20:23.670894+00:00*
+*Generated: 2026-01-28T08:29:31.529053+00:00*

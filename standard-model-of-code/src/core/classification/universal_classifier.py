@@ -184,6 +184,7 @@ class UniversalClassifier:
         return_type: str = "",
         docstring: str = "",
     ) -> Dict[str, Any]:
+        # print(f"         [Classify] {name} ({symbol_kind}) in {file_path}")
         evidence_line = (evidence or "").strip()
         base_classes = base_classes or []
         decorators = decorators or []
@@ -543,6 +544,7 @@ class UniversalClassifier:
         # =====================================================================
         # D1_WHAT: Atom Type (T0/T1 base + T2 ecosystem detection)
         # =====================================================================
+        print(f"DEBUG: Deriving D1_WHAT for {name} ({role})...")
         # Start with base atom type
         if role == "Test":
             dims["D1_WHAT"] = "QUALITY.TST.A"
@@ -553,6 +555,7 @@ class UniversalClassifier:
 
         # T2 Ecosystem Detection: Override with specific T2 atom if detected
         if self.atom_registry:
+            print(f"DEBUG: Checking AtomRegistry for {name}...")
             file_path_orig = particle.get("file_path", "")
 
             # Read file content for ecosystem detection (imports are at file level)
@@ -564,7 +567,7 @@ class UniversalClassifier:
                 file_content = body  # Fallback to body if can't read file
 
             ecosystem = self.atom_registry.detect_ecosystem(file_path_orig, content=file_content)
-            # print(f"DEBUG: T2 check for {particle.get('name')} in {file_path_orig}: ecosystem={ecosystem}")
+            print(f"DEBUG: T2 check for {particle.get('name')} in {file_path_orig}: ecosystem={ecosystem}")
             if ecosystem:
                 # Always propagate file-level ecosystem to particle
                 dims["D1_ECOSYSTEM"] = ecosystem
@@ -625,6 +628,7 @@ class UniversalClassifier:
 
         ts_role_result = None
         if self.ts_role_classifier and body:
+            print(f"DEBUG: Deriving D3_ROLE for {name} using tree-sitter...")
             file_path_orig = particle.get("file_path", "")
             language = 'python'  # default
             if file_path_orig.endswith(('.js', '.jsx')):
@@ -637,6 +641,7 @@ class UniversalClassifier:
                 name=particle.get("name", ""),
                 language=language
             )
+            print(f"DEBUG: D3_ROLE result for {particle.get('name')}: {ts_role_result}")
 
         if ts_role_result and ts_role_result.get('confidence', 0) >= 70:
             # Tier 0 succeeded with high confidence

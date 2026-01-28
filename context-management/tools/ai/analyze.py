@@ -148,11 +148,14 @@ except ImportError:
     HAS_RESEARCH_ENGINE = False
 
 # Import Graph Engine for GraphRAG
+# Ensure we can find packages in context-management/services/
+sys.path.append(str(PROJECT_ROOT / "context-management" / "services"))
+sys.path.append(str(PROJECT_ROOT / "context-management" / "tools" / "ai"))
+
 try:
     from graph_engine import GraphEngine
     HAS_GRAPH_ENGINE = True
 except ImportError:
-    HAS_GRAPH_ENGINE = False
     HAS_GRAPH_ENGINE = False
 
 # Import Industrial UI for styled output
@@ -190,9 +193,13 @@ import uuid
 
 # Optional GraphRAG
 try:
-    from graph_rag import GraphRAGService
+    # Handle hyphenated directory by importing from sys.path directly
+    from graph_rag.graph_rag_service import GraphRAGService
 except ImportError:
-    GraphRAGService = None
+    try:
+        from context_management.services.graph_rag import GraphRAGService
+    except ImportError:
+        GraphRAGService = None
 
 @dataclass
 class ContextManifest:
@@ -2248,7 +2255,7 @@ Examples:
     parser.add_argument("--briefing", action="store_true", help="Print system briefing for agent orientation")
     # ACI (Adaptive Context Intelligence) arguments
     parser.add_argument("--aci", action="store_true", help="Enable Adaptive Context Intelligence (auto-select tier and context)")
-    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity", "flash_deep", "deep", "hybrid"], help="Force specific ACI tier (deep = flash_deep = 2M context, hybrid = internal + external)")
+    parser.add_argument("--tier", choices=["instant", "rag", "long_context", "perplexity", "flash_deep", "deep", "hybrid", "graph", "graph_rag"], help="Force specific ACI tier (deep = flash_deep = 2M context, hybrid = internal + external)")
     parser.add_argument("--aci-debug", action="store_true", help="Show detailed ACI routing decision")
     # Research Schema arguments (multi-configuration orchestration)
     parser.add_argument("--research", metavar="SCHEMA", help="Execute a predefined research schema (use --list-research-schemas)")
@@ -3406,6 +3413,39 @@ Please provide a thorough, comprehensive answer using the full context available
             print(f"Error during generation: {e}", file=sys.stderr)
             sys.exit(1)
 
+        sys.exit(0)
+
+    elif args.tier in ('graph', 'graph_rag'):
+        # =========================================================================
+        # GRAPH RAG TIER (Neo4j)
+        # =========================================================================
+        if not GraphRAGService:
+             print("Error: GraphRAGService not available (check imports/dependencies).", file=sys.stderr)
+             sys.exit(1)
+
+        print(f"\n[{args.tier.upper()}] Querying Unified Knowledge Graph...", file=sys.stderr)
+        
+        try:
+            service = GraphRAGService()
+            answer = service.query(args.prompt)
+            service.close()
+
+            print("\nGRAPH ANSWER:")
+            print("-" * 40)
+            print(answer)
+            print("-" * 40)
+
+            # Auto-save
+            auto_save_gemini_response(
+                query=args.prompt or "graph query",
+                response_text=answer,
+                model="graph-rag-s14",
+                mode="graph"
+            )
+        except Exception as e:
+            print(f"GraphRAG Error: {e}", file=sys.stderr)
+            sys.exit(1)
+        
         sys.exit(0)
 
     elif args.mode == 'insights':

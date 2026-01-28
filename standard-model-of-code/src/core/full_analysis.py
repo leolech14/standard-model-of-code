@@ -1172,9 +1172,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         # Pass survey exclusions to unified analysis (Phase 10 integration)
         if exclude_paths:
             analysis_options['exclude_paths'] = exclude_paths
+        print("   DEBUG: Calling unified_analysis.analyze...")
         result = analyze(str(target), output_dir=str(resolved_output_dir), write_output=False, **analysis_options)
+        print("   DEBUG: analyze() call returned.")
         nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
         edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
+        print(f"   DEBUG: Extracted {len(nodes)} nodes and {len(edges)} edges from base result.")
         unified_stats = getattr(result, 'stats', {}) if hasattr(result, 'stats') else result.get('stats', {})
         unified_classification = getattr(result, 'classification', {}) if hasattr(result, 'classification') else result.get('classification', {})
         unified_auto_discovery = getattr(result, 'auto_discovery', {}) if hasattr(result, 'auto_discovery') else result.get('auto_discovery', {})
@@ -1188,8 +1191,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # Stage 2: Standard Model enrichment
     print("\n🧬 Stage 2: Standard Model Enrichment...")
+    print("   DEBUG: Calling enrich_with_standard_model...")
     with StageTimer(perf_manager, "Stage 2: Standard Model Enrichment") as timer:
         nodes = enrich_with_standard_model(nodes)
+        print("   DEBUG: enrich_with_standard_model() returned.")
         rpbl_count = sum(1 for n in nodes if n.get('rpbl'))
 
         # Flatten RPBL scores for UPB binding (P4-05/07/08)

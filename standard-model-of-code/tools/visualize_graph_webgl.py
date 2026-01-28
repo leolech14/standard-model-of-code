@@ -624,25 +624,13 @@ def generate_webgl_html(json_source: Any, output_path: str):
     # INJECTION
     print("Generating HTML...")
 
-    # Unescape Python f-string escaping in app.js:
-    # - {{ }} → { } (double braces to single)
-    # - \\\\ → \\ (double backslashes to single, for regex patterns)
-    # Do this BEFORE injecting into template
-    app_js_unescaped = app_js.replace("{{", "{").replace("}}", "}")
-    app_js_unescaped = app_js_unescaped.replace("\\\\", "\\")
-    # Replace the PAYLOAD placeholder in app.js with the actual payload
-    app_js_unescaped = app_js_unescaped.replace('"{PAYLOAD}"', f'"{b64_payload}"')
+    # Inject the PAYLOAD into app_js
+    app_js_injected = app_js.replace('"{PAYLOAD}"', f'"{b64_payload}"')
 
-    # MANGLED PLACEHOLDER FIX: Template has split braces
-    mangled_styles = """            {
-                {
-                STYLES
-            }
-        }"""
-    html_content = template.replace(mangled_styles, styles)
+    # Replace placeholders in template
+    html_content = template
     html_content = html_content.replace("{{STYLES}}", styles)
-    html_content = html_content.replace("{ { APP_JS } }", app_js_unescaped)
-    html_content = html_content.replace("{{APP_JS}}", app_js_unescaped)
+    html_content = html_content.replace("{{APP_JS}}", app_js_injected)
     html_content = html_content.replace("{{VERSION}}", str(version))
     # Note: {{PAYLOAD}} in template is already replaced via app_js_unescaped
 

@@ -360,15 +360,22 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     Returns:
         UnifiedAnalysisOutput with consistent schema
     """
+    print("   DEBUG: Importing TreeSitterUniversalEngine...")
     from tree_sitter_engine import TreeSitterUniversalEngine
+    print("   DEBUG: Importing StatsGenerator...")
     from stats_generator import StatsGenerator
+    print("   DEBUG: Imports complete.")
 
     start_time = time.time()
+    import signal
+    def signal_handler(sig, frame):
+        print(f"\n   🛑 RECEIVED SIGNAL {sig}. Terminating...")
+        sys.exit(0)
+    
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    
     target = Path(target_path).resolve()
-
-    print(f"🔬 COLLIDER UNIFIED ANALYSIS")
-    print(f"   Target: {target}")
-    print(f"=" * 60)
 
     # =========================================================================
     # STAGE 1: AST PARSE → Raw Particles
@@ -381,13 +388,28 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     if exclude_paths:
         print(f"   → Excluding {len(exclude_paths)} paths from survey")
 
-    if target.is_file():
-        results = [ts_engine.analyze_file(str(target))]
-    else:
-        results = ts_engine.analyze_directory(str(target), exclude_paths=exclude_paths)
+    print("   DEBUG: Starting AST Parsing stage...")
+    try:
+        if target.is_file():
+            results = [ts_engine.analyze_file(str(target))]
+        else:
+            print("   DEBUG: Starting ts_engine.analyze_directory...")
+            results = ts_engine.analyze_directory(str(target), exclude_paths=exclude_paths)
+            print("   DEBUG: ts_engine.analyze_directory returned successfully.")
 
-    raw_particle_count = sum(len(r.get('particles', [])) for r in results)
-    print(f"   → {raw_particle_count} particles extracted")
+        print("   DEBUG: Results list size: {}".format(len(results)))
+    finally:
+        print("   DEBUG: Exiting STAGE 1 block (normal or abnormal).")
+    import psutil, os
+    process = psutil.Process(os.getpid())
+    mem_mb = process.memory_info().rss / (1024 * 1024)
+    print(f"   DEBUG: Memory usage after Stage 1: {mem_mb:.2f} MB")
+    
+    particles_total = 0
+    for r in results:
+        particles_total += len(r.get('particles', []))
+    print(f"   DEBUG: Summing particles... Total: {particles_total}")
+    raw_particle_count = particles_total
 
     # =========================================================================
     # STAGE 2: RPBL CLASSIFICATION
@@ -404,8 +426,11 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     # STAGE 3: AUTO PATTERN DISCOVERY
     # =========================================================================
     print("\n🔍 Stage 3: Auto Pattern Discovery...")
+    print("   DEBUG: Initializing StatsGenerator...")
     stats_gen = StatsGenerator()
+    print("   DEBUG: Calling generate_comprehensive_stats...")
     comprehensive = stats_gen.generate_comprehensive_stats(results)
+    print("   DEBUG: Stats generated successfully.")
 
     particles = comprehensive.get('particles', [])
     auto_discovery = comprehensive.get('auto_discovery', {})
@@ -620,6 +645,7 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
 
 
 def _emit_file_nodes(particles: List[Dict], results: List[Dict]) -> tuple:
+    print(f"   DEBUG: Entering _emit_file_nodes with {len(particles)} particles and {len(results)} results...")
     """Ensure file-level nodes exist for all scanned Python files."""
     existing_ids = set()
     for p in particles:

@@ -455,7 +455,12 @@ def scan_for_exclusions(
     # Track already-matched directories to avoid duplicate counting
     matched_dirs = set()
 
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place to avoid descending into hot-skip directories
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         rel_dir = os.path.relpath(dirpath, root)
         depth = rel_dir.count(os.sep) if rel_dir != '.' else 0
 
@@ -654,7 +659,13 @@ def detect_identity(root: Path, exclude_dirs: list[str] = None) -> SystemIdentit
     lang_counts: dict[str, int] = {}
     total_code_files = 0
 
+    # HOT SKIP LIST
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         rel_dir = os.path.relpath(dirpath, root)
 
         # Skip excluded directories
@@ -788,7 +799,13 @@ def detect_composition(root: Path, exclude_dirs: list[str] = None) -> CodomeComp
     exclude_dirs = exclude_dirs or DEFAULT_DIRECTORY_PATTERNS
     composition = CodomeComposition()
 
+    # HOT SKIP LIST
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         rel_dir = os.path.relpath(dirpath, root)
 
         # Skip excluded directories
@@ -866,7 +883,13 @@ def detect_pollution(
         ("d3.v", "D3.js library"),
     ]
 
+    # HOT SKIP LIST
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         rel_dir = os.path.relpath(dirpath, root)
 
         # Skip excluded directories
@@ -935,7 +958,13 @@ def detect_minified_files(
 
     minified = []
 
+    # HOT SKIP LIST
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         rel_dir = os.path.relpath(dirpath, root)
 
         # Skip excluded directories
@@ -1076,8 +1105,15 @@ def run_survey(
         scan_time_ms=0
     )
 
+    # HOT SKIP LIST: Patterns to ignore instantly (hardcoded for baseline performance)
+    HOT_SKIP = {".git", "node_modules", "archive", "experiments", ".collider", ".venv", "venv", "__pycache__"}
+
     # Count totals first (quick pass)
     for dirpath, dirnames, filenames in os.walk(root):
+        # Prune dirnames in-place to avoid descending into hot-skip directories
+        # This is a massive optimization for repos with large archives/vendor dirs
+        dirnames[:] = [d for d in dirnames if d not in HOT_SKIP]
+
         result.total_dirs += len(dirnames)
         result.total_files += len(filenames)
         for fn in filenames:

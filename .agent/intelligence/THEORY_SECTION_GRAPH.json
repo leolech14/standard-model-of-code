@@ -1,0 +1,1500 @@
+{
+  "source_file": "context-management/docs/theory/THEORY.md",
+  "generated": "2026-01-27",
+  "nodes": [
+    {
+      "id": "humble_beginning",
+      "order": "1.0",
+      "topic": "epistemic_stance",
+      "depends_on": [],
+      "provides": [
+        "epistemic_humility",
+        "map_not_territory"
+      ],
+      "status": "stable",
+      "version": "3.0.0"
+    },
+    {
+      "id": "what_this_is_not",
+      "order": "1.1",
+      "topic": "negative_definition",
+      "depends_on": [
+        "humble_beginning"
+      ],
+      "provides": [
+        "boundaries"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "what_this_is",
+      "order": "1.2",
+      "topic": "positive_definition",
+      "depends_on": [
+        "what_this_is_not"
+      ],
+      "provides": [
+        "purpose",
+        "versioned_model"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "operating_principles",
+      "order": "1.3",
+      "topic": "principles",
+      "depends_on": [
+        "what_this_is"
+      ],
+      "provides": [
+        "open_world",
+        "unknown_first_class",
+        "provisional_certainty",
+        "humble_science"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "problem_of_software",
+      "order": "2.0",
+      "topic": "motivation",
+      "depends_on": [
+        "operating_principles"
+      ],
+      "provides": [
+        "problem_statement",
+        "fragmented_knowledge"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_question",
+      "order": "2.1",
+      "topic": "",
+      "depends_on": [
+        "problem_of_software"
+      ],
+      "provides": [
+        "central_question"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "why_no_one_before",
+      "order": "2.2",
+      "topic": "",
+      "depends_on": [
+        "the_question"
+      ],
+      "provides": [
+        "three_planes_intro"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "power_of_analogies",
+      "order": "3.0",
+      "topic": "methodology",
+      "depends_on": [
+        "why_no_one_before"
+      ],
+      "provides": [
+        "universal_analogy",
+        "tudo_e_uma_analogia"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "analogies_we_use",
+      "order": "3.1",
+      "topic": "",
+      "depends_on": [
+        "power_of_analogies"
+      ],
+      "provides": [
+        "analogy_table"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "why_analogies_work",
+      "order": "3.2",
+      "topic": "",
+      "depends_on": [
+        "analogies_we_use"
+      ],
+      "provides": [
+        "isomorphism",
+        "computation_universal"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "fractal_nature",
+      "order": "3.3",
+      "topic": "fractal_architecture",
+      "depends_on": [
+        "why_analogies_work"
+      ],
+      "provides": [
+        "fractal_principle",
+        "mipo_cycle",
+        "as_above_so_below"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "layers_of_abstraction",
+      "order": "4.0",
+      "topic": "hierarchy",
+      "depends_on": [
+        "fractal_nature"
+      ],
+      "provides": [
+        "layer_concept",
+        "abstraction_ladder"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "inheritance_chain",
+      "order": "4.1",
+      "topic": "",
+      "depends_on": [
+        "layers_of_abstraction"
+      ],
+      "provides": [
+        "intellectual_lineage"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "sixteen_levels",
+      "order": "4.2",
+      "topic": "",
+      "depends_on": [
+        "inheritance_chain"
+      ],
+      "provides": [
+        "L-3_to_L12",
+        "abstraction_scale",
+        "token_as_zero"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "three_bodies",
+      "order": "5.0",
+      "topic": "planes_of_existence",
+      "depends_on": [
+        "sixteen_levels"
+      ],
+      "provides": [
+        "three_planes",
+        "physical_virtual_semantic"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "three_planes",
+      "order": "5.1",
+      "topic": "",
+      "depends_on": [
+        "three_bodies"
+      ],
+      "provides": [
+        "plane_definitions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "flow_between_planes",
+      "order": "5.2",
+      "topic": "",
+      "depends_on": [
+        "three_planes"
+      ],
+      "provides": [
+        "encoding",
+        "interpretation"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "converging_to_entity",
+      "order": "5.3",
+      "topic": "",
+      "depends_on": [
+        "flow_between_planes"
+      ],
+      "provides": [
+        "node_as_fundamental",
+        "node_L3"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "periodic_table",
+      "order": "6.0",
+      "topic": "atom_organization",
+      "depends_on": [
+        "converging_to_entity"
+      ],
+      "provides": [
+        "200_atoms",
+        "4_phases",
+        "22_families"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_200_atoms",
+      "order": "6.1",
+      "topic": "",
+      "depends_on": [
+        "periodic_table"
+      ],
+      "provides": [
+        "atom_inventory",
+        "phases_families"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "why_organization_works",
+      "order": "6.2",
+      "topic": "",
+      "depends_on": [
+        "the_200_atoms"
+      ],
+      "provides": [
+        "coverage_validation"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_33_roles",
+      "order": "6.3",
+      "topic": "",
+      "depends_on": [
+        "why_organization_works"
+      ],
+      "provides": [
+        "role_taxonomy",
+        "33_roles"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "octahedral_atom",
+      "order": "7.0",
+      "topic": "geometric_model",
+      "depends_on": [
+        "the_33_roles"
+      ],
+      "provides": [
+        "octahedron_shape",
+        "8_faces"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "why_octahedron",
+      "order": "7.1",
+      "topic": "",
+      "depends_on": [
+        "octahedral_atom"
+      ],
+      "provides": [
+        "geometry_justification"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "eight_dimensions",
+      "order": "7.2",
+      "topic": "",
+      "depends_on": [
+        "why_octahedron"
+      ],
+      "provides": [
+        "D1_to_D8",
+        "dimension_definitions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "dual_dimensions",
+      "order": "7.3",
+      "topic": "",
+      "depends_on": [
+        "eight_dimensions"
+      ],
+      "provides": [
+        "dualities",
+        "opposite_faces"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "dual_nature",
+      "order": "7.4",
+      "topic": "",
+      "depends_on": [
+        "dual_dimensions"
+      ],
+      "provides": [
+        "epistemic_ontological",
+        "lens_dimension_duality"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "eight_lenses",
+      "order": "7.4.1",
+      "topic": "",
+      "depends_on": [
+        "dual_nature"
+      ],
+      "provides": [
+        "R1_to_R8",
+        "lens_definitions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "lens_dimension_question",
+      "order": "7.4.2",
+      "topic": "",
+      "depends_on": [
+        "eight_lenses",
+        "eight_dimensions"
+      ],
+      "provides": [
+        "open_question_lenses_dimensions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "relationships",
+      "order": "8.0",
+      "topic": "edge_types",
+      "depends_on": [
+        "octahedral_atom"
+      ],
+      "provides": [
+        "edge_taxonomy",
+        "code_as_graph"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "edge_types",
+      "order": "8.1",
+      "topic": "",
+      "depends_on": [
+        "relationships"
+      ],
+      "provides": [
+        "5_edge_categories"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "graph_of_code",
+      "order": "8.2",
+      "topic": "",
+      "depends_on": [
+        "edge_types"
+      ],
+      "provides": [
+        "graph_model"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "validation",
+      "order": "9.0",
+      "topic": "empirical_testing",
+      "depends_on": [
+        "graph_of_code"
+      ],
+      "provides": [
+        "validation_approach",
+        "empirical_evidence"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "empirical_coverage",
+      "order": "9.1",
+      "topic": "",
+      "depends_on": [
+        "validation"
+      ],
+      "provides": [
+        "language_coverage_stats"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "what_validated",
+      "order": "9.2",
+      "topic": "",
+      "depends_on": [
+        "empirical_coverage"
+      ],
+      "provides": [
+        "confirmed_hypotheses"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "what_not_validated",
+      "order": "9.3",
+      "topic": "",
+      "depends_on": [
+        "what_validated"
+      ],
+      "provides": [
+        "limitations",
+        "open_questions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "open_frontier",
+      "order": "10.0",
+      "topic": "unknown",
+      "depends_on": [
+        "what_not_validated"
+      ],
+      "provides": [
+        "frontier_acknowledgment",
+        "epistemic_closure"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "what_not_mapped",
+      "order": "10.1",
+      "topic": "",
+      "depends_on": [
+        "open_frontier"
+      ],
+      "provides": [
+        "gap_inventory"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_98_percent_problem",
+      "order": "10.2",
+      "topic": "",
+      "depends_on": [
+        "what_not_mapped"
+      ],
+      "provides": [
+        "junk_code_hypothesis"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_invitation",
+      "order": "10.3",
+      "topic": "",
+      "depends_on": [
+        "the_98_percent_problem"
+      ],
+      "provides": [
+        "open_contribution"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "taxonomy",
+      "order": "11.0",
+      "topic": "classification_patterns",
+      "depends_on": [
+        "open_frontier"
+      ],
+      "provides": [
+        "classification_system",
+        "pattern_recognition"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "classification_sources",
+      "order": "11.1",
+      "topic": "",
+      "depends_on": [
+        "taxonomy"
+      ],
+      "provides": [
+        "confidence_by_source"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "confidence_levels",
+      "order": "11.2",
+      "topic": "",
+      "depends_on": [
+        "classification_sources"
+      ],
+      "provides": [
+        "confidence_thresholds"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "pattern_types",
+      "order": "11.3",
+      "topic": "",
+      "depends_on": [
+        "confidence_levels"
+      ],
+      "provides": [
+        "prefix_suffix_path_patterns"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "lineage",
+      "order": "12.0",
+      "topic": "intellectual_inheritance",
+      "depends_on": [
+        "taxonomy"
+      ],
+      "provides": [
+        "epistemic_contract",
+        "concept_provenance"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "foundational_lineages",
+      "order": "12.1",
+      "topic": "",
+      "depends_on": [
+        "lineage"
+      ],
+      "provides": [
+        "concept_ancestry"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "novel_contributions",
+      "order": "12.2",
+      "topic": "",
+      "depends_on": [
+        "foundational_lineages"
+      ],
+      "provides": [
+        "original_synthesis"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "bibliography",
+      "order": "12.3",
+      "topic": "",
+      "depends_on": [
+        "novel_contributions"
+      ],
+      "provides": [
+        "primary_sources"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "atlas",
+      "order": "13.0",
+      "topic": "visualizations",
+      "depends_on": [
+        "lineage"
+      ],
+      "provides": [
+        "diagrams",
+        "scientific_analogies",
+        "unification_table"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_holon",
+      "order": "13.1",
+      "topic": "",
+      "depends_on": [
+        "atlas"
+      ],
+      "provides": [
+        "system_as_universe"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "scientific_analogies",
+      "order": "13.2",
+      "topic": "",
+      "depends_on": [
+        "the_holon"
+      ],
+      "provides": [
+        "physics_code_mapping",
+        "astronomy_code_mapping"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "unification_table",
+      "order": "13.3",
+      "topic": "",
+      "depends_on": [
+        "scientific_analogies"
+      ],
+      "provides": [
+        "grand_synthesis"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "dependency_graph",
+      "order": "13.4",
+      "topic": "",
+      "depends_on": [
+        "unification_table"
+      ],
+      "provides": [
+        "concept_flow_visualization"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "layers_visualization",
+      "order": "13.5",
+      "topic": "",
+      "depends_on": [
+        "dependency_graph"
+      ],
+      "provides": [
+        "abstraction_stack"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "concept_atlas",
+      "order": "14.0",
+      "topic": "prerequisites",
+      "depends_on": [
+        "atlas"
+      ],
+      "provides": [
+        "47_concepts",
+        "learning_path",
+        "glossary"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "concept_inventory",
+      "order": "14.1",
+      "topic": "",
+      "depends_on": [
+        "concept_atlas"
+      ],
+      "provides": [
+        "concept_count"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "spatial_relationships",
+      "order": "14.2",
+      "topic": "",
+      "depends_on": [
+        "concept_inventory"
+      ],
+      "provides": [
+        "parallel",
+        "contains",
+        "above_below"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "learning_path",
+      "order": "14.3",
+      "topic": "",
+      "depends_on": [
+        "spatial_relationships"
+      ],
+      "provides": [
+        "phases_of_learning"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "essential_glossary",
+      "order": "14.4",
+      "topic": "",
+      "depends_on": [
+        "learning_path"
+      ],
+      "provides": [
+        "definitions"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "cosmology",
+      "order": "15.0",
+      "topic": "global_topology",
+      "depends_on": [
+        "concept_atlas"
+      ],
+      "provides": [
+        "manifold",
+        "holon",
+        "purpose_field"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_manifold",
+      "order": "15.1",
+      "topic": "",
+      "depends_on": [
+        "cosmology"
+      ],
+      "provides": [
+        "8d_manifold"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "the_holon_cosmology",
+      "order": "15.2",
+      "topic": "",
+      "depends_on": [
+        "the_manifold"
+      ],
+      "provides": [
+        "holon_definition"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "grand_formula",
+      "order": "15.3",
+      "topic": "",
+      "depends_on": [
+        "the_holon_cosmology"
+      ],
+      "provides": [
+        "unification_formula"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "natural_law",
+      "order": "16.0",
+      "topic": "pancomputationalism",
+      "depends_on": [
+        "cosmology"
+      ],
+      "provides": [
+        "constructal_law",
+        "biological_isomorphism"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "pancomputationalism",
+      "order": "16.1",
+      "topic": "",
+      "depends_on": [
+        "natural_law"
+      ],
+      "provides": [
+        "universe_as_computer"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "constructal_law",
+      "order": "16.2",
+      "topic": "",
+      "depends_on": [
+        "pancomputationalism"
+      ],
+      "provides": [
+        "flow_evolution"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "biological_isomorphism",
+      "order": "16.3",
+      "topic": "",
+      "depends_on": [
+        "constructal_law"
+      ],
+      "provides": [
+        "dna_code_parallel"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_8_atlas",
+      "order": "8.0",
+      "topic": "",
+      "depends_on": [
+        "part_7_future"
+      ],
+      "provides": [
+        "unified_theory",
+        "visualizations"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_4_structure",
+      "order": "4.0",
+      "topic": "",
+      "depends_on": [
+        "part_3_taxonomy"
+      ],
+      "provides": [
+        "er_diagram",
+        "matrix_representation"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "sixteen_levels",
+      "order": "1.1.2",
+      "topic": "",
+      "depends_on": [
+        "three_planes"
+      ],
+      "provides": [
+        "L-3_to_L12"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "ontology",
+      "order": "1.1",
+      "topic": "what_exists",
+      "depends_on": [
+        "operating_principles"
+      ],
+      "provides": [],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_2_relationships",
+      "order": "2.0",
+      "topic": "",
+      "depends_on": [
+        "ontology"
+      ],
+      "provides": [
+        "edge_types",
+        "structural_edges",
+        "semantic_edges"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_3_taxonomy",
+      "order": "3.0",
+      "topic": "",
+      "depends_on": [
+        "part_2_relationships"
+      ],
+      "provides": [
+        "classification_sources",
+        "confidence_levels",
+        "patterns"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_5_cosmology",
+      "order": "5.0",
+      "topic": "",
+      "depends_on": [
+        "part_4_structure"
+      ],
+      "provides": [
+        "manifold",
+        "holon",
+        "purpose_field"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_6_natural_law",
+      "order": "6.0",
+      "topic": "",
+      "depends_on": [
+        "part_5_cosmology"
+      ],
+      "provides": [
+        "pancomputationalism",
+        "constructal_law"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_7_future",
+      "order": "7.0",
+      "topic": "",
+      "depends_on": [
+        "part_6_natural_law"
+      ],
+      "provides": [
+        "impulse_paradigm",
+        "junk_code_hypothesis"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_9_lineage",
+      "order": "9.0",
+      "topic": "",
+      "depends_on": [
+        "part_8_atlas"
+      ],
+      "provides": [
+        "intellectual_inheritance",
+        "sources"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_10_concept_atlas",
+      "order": "10.0",
+      "topic": "",
+      "depends_on": [
+        "part_9_lineage"
+      ],
+      "provides": [
+        "47_concepts",
+        "glossary"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_11_validation",
+      "order": "11.0",
+      "topic": "",
+      "depends_on": [
+        "part_10_concept_atlas"
+      ],
+      "provides": [
+        "empirical_evidence",
+        "coverage_stats"
+      ],
+      "status": "",
+      "version": ""
+    },
+    {
+      "id": "part_12_octahedral_atom",
+      "order": "12.0",
+      "topic": "",
+      "depends_on": [
+        "part_11_validation"
+      ],
+      "provides": [
+        "octahedron_geometry",
+        "8_dimensions"
+      ],
+      "status": "",
+      "version": ""
+    }
+  ],
+  "edges": [
+    {
+      "from": "humble_beginning",
+      "to": "what_this_is_not",
+      "type": "depends_on"
+    },
+    {
+      "from": "what_this_is_not",
+      "to": "what_this_is",
+      "type": "depends_on"
+    },
+    {
+      "from": "what_this_is",
+      "to": "operating_principles",
+      "type": "depends_on"
+    },
+    {
+      "from": "operating_principles",
+      "to": "problem_of_software",
+      "type": "depends_on"
+    },
+    {
+      "from": "problem_of_software",
+      "to": "the_question",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_question",
+      "to": "why_no_one_before",
+      "type": "depends_on"
+    },
+    {
+      "from": "why_no_one_before",
+      "to": "power_of_analogies",
+      "type": "depends_on"
+    },
+    {
+      "from": "power_of_analogies",
+      "to": "analogies_we_use",
+      "type": "depends_on"
+    },
+    {
+      "from": "analogies_we_use",
+      "to": "why_analogies_work",
+      "type": "depends_on"
+    },
+    {
+      "from": "why_analogies_work",
+      "to": "fractal_nature",
+      "type": "depends_on"
+    },
+    {
+      "from": "fractal_nature",
+      "to": "layers_of_abstraction",
+      "type": "depends_on"
+    },
+    {
+      "from": "layers_of_abstraction",
+      "to": "inheritance_chain",
+      "type": "depends_on"
+    },
+    {
+      "from": "inheritance_chain",
+      "to": "sixteen_levels",
+      "type": "depends_on"
+    },
+    {
+      "from": "sixteen_levels",
+      "to": "three_bodies",
+      "type": "depends_on"
+    },
+    {
+      "from": "three_bodies",
+      "to": "three_planes",
+      "type": "depends_on"
+    },
+    {
+      "from": "three_planes",
+      "to": "flow_between_planes",
+      "type": "depends_on"
+    },
+    {
+      "from": "flow_between_planes",
+      "to": "converging_to_entity",
+      "type": "depends_on"
+    },
+    {
+      "from": "converging_to_entity",
+      "to": "periodic_table",
+      "type": "depends_on"
+    },
+    {
+      "from": "periodic_table",
+      "to": "the_200_atoms",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_200_atoms",
+      "to": "why_organization_works",
+      "type": "depends_on"
+    },
+    {
+      "from": "why_organization_works",
+      "to": "the_33_roles",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_33_roles",
+      "to": "octahedral_atom",
+      "type": "depends_on"
+    },
+    {
+      "from": "octahedral_atom",
+      "to": "why_octahedron",
+      "type": "depends_on"
+    },
+    {
+      "from": "why_octahedron",
+      "to": "eight_dimensions",
+      "type": "depends_on"
+    },
+    {
+      "from": "eight_dimensions",
+      "to": "dual_dimensions",
+      "type": "depends_on"
+    },
+    {
+      "from": "dual_dimensions",
+      "to": "dual_nature",
+      "type": "depends_on"
+    },
+    {
+      "from": "dual_nature",
+      "to": "eight_lenses",
+      "type": "depends_on"
+    },
+    {
+      "from": "eight_lenses",
+      "to": "lens_dimension_question",
+      "type": "depends_on"
+    },
+    {
+      "from": "eight_dimensions",
+      "to": "lens_dimension_question",
+      "type": "depends_on"
+    },
+    {
+      "from": "octahedral_atom",
+      "to": "relationships",
+      "type": "depends_on"
+    },
+    {
+      "from": "relationships",
+      "to": "edge_types",
+      "type": "depends_on"
+    },
+    {
+      "from": "edge_types",
+      "to": "graph_of_code",
+      "type": "depends_on"
+    },
+    {
+      "from": "graph_of_code",
+      "to": "validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "validation",
+      "to": "empirical_coverage",
+      "type": "depends_on"
+    },
+    {
+      "from": "empirical_coverage",
+      "to": "what_validated",
+      "type": "depends_on"
+    },
+    {
+      "from": "what_validated",
+      "to": "what_not_validated",
+      "type": "depends_on"
+    },
+    {
+      "from": "what_not_validated",
+      "to": "open_frontier",
+      "type": "depends_on"
+    },
+    {
+      "from": "open_frontier",
+      "to": "what_not_mapped",
+      "type": "depends_on"
+    },
+    {
+      "from": "what_not_mapped",
+      "to": "the_98_percent_problem",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_98_percent_problem",
+      "to": "the_invitation",
+      "type": "depends_on"
+    },
+    {
+      "from": "open_frontier",
+      "to": "taxonomy",
+      "type": "depends_on"
+    },
+    {
+      "from": "taxonomy",
+      "to": "classification_sources",
+      "type": "depends_on"
+    },
+    {
+      "from": "classification_sources",
+      "to": "confidence_levels",
+      "type": "depends_on"
+    },
+    {
+      "from": "confidence_levels",
+      "to": "pattern_types",
+      "type": "depends_on"
+    },
+    {
+      "from": "taxonomy",
+      "to": "lineage",
+      "type": "depends_on"
+    },
+    {
+      "from": "lineage",
+      "to": "foundational_lineages",
+      "type": "depends_on"
+    },
+    {
+      "from": "foundational_lineages",
+      "to": "novel_contributions",
+      "type": "depends_on"
+    },
+    {
+      "from": "novel_contributions",
+      "to": "bibliography",
+      "type": "depends_on"
+    },
+    {
+      "from": "lineage",
+      "to": "atlas",
+      "type": "depends_on"
+    },
+    {
+      "from": "atlas",
+      "to": "the_holon",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_holon",
+      "to": "scientific_analogies",
+      "type": "depends_on"
+    },
+    {
+      "from": "scientific_analogies",
+      "to": "unification_table",
+      "type": "depends_on"
+    },
+    {
+      "from": "unification_table",
+      "to": "dependency_graph",
+      "type": "depends_on"
+    },
+    {
+      "from": "dependency_graph",
+      "to": "layers_visualization",
+      "type": "depends_on"
+    },
+    {
+      "from": "atlas",
+      "to": "concept_atlas",
+      "type": "depends_on"
+    },
+    {
+      "from": "concept_atlas",
+      "to": "concept_inventory",
+      "type": "depends_on"
+    },
+    {
+      "from": "concept_inventory",
+      "to": "spatial_relationships",
+      "type": "depends_on"
+    },
+    {
+      "from": "spatial_relationships",
+      "to": "learning_path",
+      "type": "depends_on"
+    },
+    {
+      "from": "learning_path",
+      "to": "essential_glossary",
+      "type": "depends_on"
+    },
+    {
+      "from": "concept_atlas",
+      "to": "cosmology",
+      "type": "depends_on"
+    },
+    {
+      "from": "cosmology",
+      "to": "the_manifold",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_manifold",
+      "to": "the_holon_cosmology",
+      "type": "depends_on"
+    },
+    {
+      "from": "the_holon_cosmology",
+      "to": "grand_formula",
+      "type": "depends_on"
+    },
+    {
+      "from": "cosmology",
+      "to": "natural_law",
+      "type": "depends_on"
+    },
+    {
+      "from": "natural_law",
+      "to": "pancomputationalism",
+      "type": "depends_on"
+    },
+    {
+      "from": "pancomputationalism",
+      "to": "constructal_law",
+      "type": "depends_on"
+    },
+    {
+      "from": "constructal_law",
+      "to": "biological_isomorphism",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_7_future",
+      "to": "part_8_atlas",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_3_taxonomy",
+      "to": "part_4_structure",
+      "type": "depends_on"
+    },
+    {
+      "from": "three_planes",
+      "to": "sixteen_levels",
+      "type": "depends_on"
+    },
+    {
+      "from": "operating_principles",
+      "to": "ontology",
+      "type": "depends_on"
+    },
+    {
+      "from": "ontology",
+      "to": "part_2_relationships",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_2_relationships",
+      "to": "part_3_taxonomy",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_4_structure",
+      "to": "part_5_cosmology",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_5_cosmology",
+      "to": "part_6_natural_law",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_6_natural_law",
+      "to": "part_7_future",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_8_atlas",
+      "to": "part_9_lineage",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_9_lineage",
+      "to": "part_10_concept_atlas",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_10_concept_atlas",
+      "to": "part_11_validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "part_11_validation",
+      "to": "part_12_octahedral_atom",
+      "type": "depends_on"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+print("   DEBUG: Parsing analytics_engine.py...")
 """
-ANALYTICS ENGINE
+# COLLIDER ANALYTICS ENGINE
 ================
 
 Statistical analysis algorithms for the "Nerd Layer" of code analysis.

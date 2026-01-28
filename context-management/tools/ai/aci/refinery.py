@@ -33,7 +33,24 @@ import uuid  # Added for parcel IDs
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
-from typing import List, Tuple, Dict, Any
+from pathlib import Path
+from typing import List, Tuple, Dict, Any, Optional
+from ai.aci.schema import RefineryNode  # Shared Schema
+
+try:
+    from ai.aci.refinery.publishers.neo4j_publisher import Neo4jPublisher
+except ImportError:
+    Neo4jPublisher = None
+
+
+# Import ACI Semantic Logic
+try:
+    from ai.aci.semantic_finder import compute_semantic_distance, SemanticMatch, SemanticTarget
+except ImportError:
+    # Fallback for circular imports or path issues during standalone runs
+    compute_semantic_distance = None
+    SemanticMatch = Any
+    SemanticTarget = Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -43,34 +60,6 @@ logger = logging.getLogger(__name__)
 CHUNK_REGISTRY_DIR = Path(__file__).parent.parent.parent.parent / "intelligence" / "chunks"
 
 
-@dataclass
-class RefineryNode:
-    """Atomic chunk with full metadata and logistics waybill."""
-    content: str                    # The chunk text
-    source_file: str                # Origin file path
-    chunk_id: str                   # Unique ID (SHA256-based)
-    chunk_type: str                 # Type: function, class, section, config_block, etc.
-    relevance_score: float = 0.0    # 0.0-1.0 relevance score
-    start_line: int = 0             # Line number in source (if applicable)
-    end_line: int = 0               # End line number
-    metadata: Dict[str, Any] = field(default_factory=dict)  # Additional metadata
-    created_at: float = field(default_factory=time.time)
-    embedding: List[float] = field(default_factory=list)  # Vector embedding (384-dim for MiniLM)
-    
-    # Fundamental Logistics ("The Mail")
-    waybill: Dict[str, Any] = field(default_factory=dict) # Tracking info {parcel_id, parent_id, route}
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to JSON-serializable dict."""
-        return asdict(self)
-
-    @property
-    def token_estimate(self) -> int:
-        """Rough token count estimate (chars / 4)."""
-        return len(self.content) // 4
-
-    def __repr__(self) -> str:
-        return f"RefineryNode({self.chunk_type}:{self.chunk_id[:8]}... {self.token_estimate}tok)"
 
 
 class EmbeddingEngine:
@@ -181,6 +170,8 @@ class PythonChunker(FileChunker):
         'class': re.compile(r'^class\s+(\w+)', re.MULTILINE),
         'function': re.compile(r'^(?:async\s+)?def\s+(\w+)', re.MULTILINE),
         'import_block': re.compile(r'^(?:import|from)\s+.+$', re.MULTILINE),
+        'constant': re.compile(r'^([A-Z_][A-Z0-9_]*)\s*=', re.MULTILINE),
+        'variable': re.compile(r'^([a-z_][a-z0-9_]*)\s*=', re.MULTILINE),
     }
 
     def chunk(self) -> List[Tuple[str, str, int, int]]:
@@ -234,6 +225,16 @@ class PythonChunker(FileChunker):
                 if func_match:
                     current_def = func_match.group(1)
                     current_type = 'function'
+                    current_start = i
+                    buffer = [line]
+                    continue
+
+                # Check for constant/variable
+                const_match = self.PATTERNS['constant'].match(line)
+                var_match = self.PATTERNS['variable'].match(line)
+                if const_match or var_match:
+                    current_def = (const_match or var_match).group(1)
+                    current_type = 'constant' if const_match else 'variable'
                     current_start = i
                     buffer = [line]
                     continue
@@ -379,12 +380,35 @@ class Refinery:
     5. Export to JSON
     """
 
-    def __init__(self, cache_dir: Path = CHUNK_REGISTRY_DIR, enable_embeddings: bool = False):
+    def __init__(self, cache_dir: Path = CHUNK_REGISTRY_DIR, enable_embeddings: bool = False, context_depth: str = "medium", config: dict = None):
         self.cache_dir = cache_dir
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self._chunk_cache: Dict[str, List[RefineryNode]] = {}
         self.enable_embeddings = enable_embeddings
         self._embedding_engine = EmbeddingEngine() if enable_embeddings else None
+        
+        # Layer 2 Parametric Config
+        self.config = config or {}
+        refinery_cfg = self.config.get('refinery', {})
+        
+        # Context Depth: shallow | medium | deep
+        self.context_depth = refinery_cfg.get('context_depth', context_depth)
+        logger.info(f"⚙️ Refinery initialized with context_depth='{self.context_depth}'")
+        
+        # Threshold Overrides (Paramilitary Controls)
+        threshold_high = refinery_cfg.get('threshold_high', 0.6)
+        threshold_low = refinery_cfg.get('threshold_low', 0.3)
+        attention_mode = refinery_cfg.get('attention_mode', 'laminar')
+        logger.info(f"🛡️ Attention Gear: mode='{attention_mode}', thresholds=({threshold_low}, {threshold_high})")
+        
+        # Initialize Graph Publisher (The Unification)
+        self.publisher = None
+        if Neo4jPublisher:
+            try:
+                self.publisher = Neo4jPublisher()
+            except Exception as e:
+                logger.warning(f"Failed to init Neo4jPublisher: {e}")
+
 
     def _get_chunker(self, file_path: str) -> FileChunker:
         """Get appropriate chunker for file type."""
@@ -454,12 +478,67 @@ class Refinery:
         # Clamp to 0.0 - 1.0
         return max(0.0, min(1.0, score))
 
+    def _apply_attention_gate(
+        self, 
+        node: RefineryNode, 
+        semantic_match: Optional[SemanticMatch]
+    ) -> float:
+        """
+        Apply semantic attention gate to a node.
+        
+        Uses compute_semantic_distance to boost relevance based on query intent.
+        Adjusts thresholds based on flow type (Laminar vs Turbulent).
+        """
+        if not semantic_match or not semantic_match.targets or not compute_semantic_distance:
+            return node.relevance_score
+
+        # 1. Compute distance to matched targets
+        # We need to map RefineryNode to a "particle" dict for compute_semantic_distance
+        particle = {
+            "dimensions": {
+                "D1_WHAT": node.chunk_type,
+                "D2_LAYER": node.metadata.get("layer", "Unknown"),
+                "D3_ROLE": node.metadata.get("role", "Unknown"),
+            }
+        }
+        
+        min_dist = 1.0
+        for target in semantic_match.targets:
+            target_particle = {
+                "dimensions": {
+                    "D2_LAYER": target.layer or "Unknown",
+                    "D3_ROLE": target.roles[0] if target.roles else "Unknown",
+                }
+            }
+            dist = compute_semantic_distance(particle, target_particle)
+            min_dist = min(min_dist, dist)
+
+        # 2. Boost relevance (Similarity = 1 - Distance)
+        similarity = 1.0 - min_dist
+        boosted_score = node.relevance_score + (similarity * 0.3)
+        
+        # 3. Flow-based Thresholding
+        # Turbulent flow (mixed) allows broader retention (lower threshold)
+        # Laminar flow (coherent) is strict (higher threshold)
+        refinery_cfg = self.config.get('refinery', {})
+        threshold_high = refinery_cfg.get('threshold_high', 0.6)
+        threshold_low = refinery_cfg.get('threshold_low', 0.3)
+        
+        base_threshold = 0.5
+        if semantic_match.context_flow == "turbulent":
+            base_threshold = threshold_low
+        elif semantic_match.context_flow == "laminar":
+            base_threshold = threshold_high
+            
+        return max(0.0, min(1.0, boosted_score)) if boosted_score >= base_threshold else 0.0
+
     def process_file(
         self, 
         file_path: str, 
         use_cache: bool = True,
         parent_parcel_id: str = None,
-        batch_id: str = None
+        batch_id: str = None,
+        semantic_match: Optional[SemanticMatch] = None
     ) -> List[RefineryNode]:
         """
         Atomize a file into RefineryNodes.
@@ -498,6 +577,16 @@ class Refinery:
         for content, chunk_type, start_line, end_line in raw_chunks:
             if not content.strip():
                 continue
+
+            # Context Depth Filtering (Layer 2)
+            if self.context_depth == "shallow":
+                if chunk_type not in ('class', 'h1', 'h2'):
+                    continue
+            elif self.context_depth == "medium":
+                # Filter out low-level noise in medium mode
+                if chunk_type in ('constant', 'variable', 'h4', 'h5', 'h6', 'paragraph'):
+                     continue
+            # 'deep' mode allows all chunks
 
             chunk_id = self._generate_chunk_id(file_path, content)
             relevance = self._score_relevance(content, chunk_type)
@@ -539,7 +628,12 @@ class Refinery:
                 },
                 waybill=waybill
             )
-            nodes.append(node)
+            
+            # Apply Attention Gate
+            node.relevance_score = self._apply_attention_gate(node, semantic_match)
+            
+            if node.relevance_score > 0:
+                nodes.append(node)
 
         # Generate embeddings if enabled
         if self.enable_embeddings and self._embedding_engine and nodes:
@@ -554,6 +648,20 @@ class Refinery:
         # Update cache
         if use_cache:
             self._chunk_cache[file_path] = nodes
+
+        # Phase 9: The Gap Bridge (Publication)
+        if self.publisher and nodes:
+             # We need to extract parcel_id and batch_id from the first node's waybill, 
+             # or passed args.
+             # Nodes generated have waybill populated.
+             if nodes[0].waybill:
+                 pid = nodes[0].waybill.get("parcel_id")
+                 # Batch ID is nested in waybill->route->context->batch_id but 
+                 # we can also use the passed batch_id arg.
+                 # Let's use the passed batch_id for robust logs, defaulting to waybill context if needed.
+                 bid = batch_id or "unknown_batch" 
+                 
+                 self.publisher.publish_atoms(nodes, pid, bid)
 
         return nodes
 
@@ -625,7 +733,7 @@ class Refinery:
                 raise ValueError(f"Chunk {i}: Missing chunk_type")
 
             # Reasonable bounds
-            if chunk.token_estimate > 100000:
+            if chunk.token_estimate > 200000:
                 raise ValueError(f"Chunk {i}: Too large ({chunk.token_estimate} tokens)")
             if chunk.token_estimate < 0:
                 raise ValueError(f"Chunk {i}: Negative token count")

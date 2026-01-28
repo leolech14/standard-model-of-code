@@ -56,7 +56,7 @@ brain:
 # ARCHIVE
 # =============================================================================
 archive:
-  local: "archive/"
+  local: "standard-model-of-code/archive/"
   gcs: "gs://elements-archive-2026/"
   agent_cuts: "archive/agent_cuts/"
 
@@ -68,3 +68,11 @@ docs:
   tool: "standard-model-of-code/docs/COLLIDER.md"
   registries: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
   integration: ".agent/SUBSYSTEM_INTEGRATION.md"
+# =============================================================================
+# HIGH-ORDER REGISTRIES
+# =============================================================================
+meta:
+  ror: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"  # Registry of Registries
+  lol: ".agent/intelligence/LOL.yaml"                                # List of Lists (Authoritative)
+  sos: "standard-model-of-code/docs/specs/FRONTEND_SUBSYSTEM_REGISTRY.md" # System of Systems
+  subsystems: "context-management/config/registries/SUBSYSTEMS.yaml"  # Subsystems Registry

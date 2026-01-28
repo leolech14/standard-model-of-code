@@ -526,16 +526,136 @@ entries:
   fallback_used: false
   duration_ms: 44478
   error: null
+- timestamp: '2026-01-28T02:30:55.304575+00:00'
+  query: Discuss the implementation of the 'Attention Mechanism' gate in Refinery.py
+    to filter 'Turbulent Flow' data blobs. Use logic from semantic_finder.py (compute_semantic_distance).
+    Also, provide a Perple
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: long_context
+  sets_used:
+  - pipeline
+  - algorithms
+  - services
+  - theory
+  - architecture_review
+  tokens_input: 99781
+  tokens_output: 1616
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 26181
+  error: null
+- timestamp: '2026-01-28T03:25:05.311758+00:00'
+  query: 'We''re designing a File Popularity Tracker that analyzes file modification
+    history to identify:
+
+    - Dead files (created but never modified)
+
+    - Popular files (frequently modified)
+
+    - Session patterns
+
+    - Temp'
+  intent: architecture
+  complexity: complex
+  scope: external
+  tier: flash_deep
+  sets_used:
+  - infrastructure
+  - data_access
+  - pipeline
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  - classifiers
+  - deck
+  tokens_input: 695812
+  tokens_output: 430
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 26022
+  error: null
+- timestamp: '2026-01-28T04:39:22.241465+00:00'
+  query: What does the Standard Model of Code theory say about architectural deployment
+    models, invocation contexts, or how code manifests as services vs tools vs libraries?
+    Search theory documents, THEORY_IND
+  intent: research
+  complexity: simple
+  scope: external
+  tier: perplexity
+  sets_used:
+  - domain
+  - entities
+  - theory
+  - agent_kernel
+  - agent_tasks
+  tokens_input: 43
+  tokens_output: 303
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 5642
+  error: null
+- timestamp: '2026-01-28T05:43:10.869144+00:00'
+  query: I have created a Data Topology Map (DATA_TOPOLOGY_MAP.md) describing the
+    flow from Local Disk (Source) to GCS Bucket (Mirror) to Cloud Run (Compute) and
+    finally to Neo4j (Graph Store). I'm looking for
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: long_context
+  sets_used:
+  - pipeline
+  - classifiers
+  - repo_tool
+  - agent_kernel
+  - agent_tasks
+  tokens_input: 268938
+  tokens_output: 2575
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 40060
+  error: null
+- timestamp: '2026-01-28T08:07:48.692723+00:00'
+  query: "The user discovered a TRINITY pattern in our architecture:\n\nTRINITY 1\
+    \ (Repo Facilities):\n- TOOL (deterministic scripts we run)\n- SERVICE (background\
+    \ daemons)  \n- LIBRARY (reusable modules)\n\nTRINITY 2 "
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: flash_deep
+  sets_used:
+  - pipeline
+  - classifiers
+  - services
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  - agent_kernel
+  - agent_tasks
+  tokens_input: 601151
+  tokens_output: 314
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 22262
+  error: null
 stats:
-  total_queries: 26
+  total_queries: 31
   by_tier:
-    perplexity: 9
-    long_context: 10
+    perplexity: 10
+    long_context: 12
     rag: 4
-    flash_deep: 3
+    flash_deep: 5
   by_intent:
-    research: 2
-    architecture: 10
+    research: 3
+    architecture: 14
     unknown: 1
     validate: 4
     explain: 4
@@ -544,4 +664,4 @@ stats:
     locate: 1
     implement: 2
   success_rate: 1.0
-  avg_tokens: 194594
+  avg_tokens: 216939
