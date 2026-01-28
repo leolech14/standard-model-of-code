@@ -1,7 +1,7 @@
 version: 1.0.0
 generated_by: mine_semgrep.py
 source: semgrep-rules
-atom_count: 1766
+atom_count: 1750
 atoms:
 - id: EXT.RAILS.SEC.001
   name: Request Env
@@ -5525,34 +5525,6 @@ atoms:
   source_rules:
   - node-knex-sqli
   tier: T2
-- id: EXT.SEQUEL.SEC.001
-  name: Database Sequelize Query
-  ecosystem: sequelize
-  category: security
-  description: 'Avoiding SQL string concatenation: untrusted input concatenated with
-    raw SQL query can result in SQL Injection. Data replacement or data binding should
-    be used. See https://sequelize.org/master/manual'
-  patterns:
-  - $DATABASE.sequelize.query($SQL + $VALUE, ...)
-  - $DATABASE.sequelize.query(`...${...}...`, ...)
-  source_rules:
-  - sequelize-raw-query
-  tier: T2
-- id: EXT.SEQUEL.SEC.002
-  name: Query
-  ecosystem: sequelize
-  category: security
-  description: 'Avoiding SQL string concatenation: untrusted input concatenated with
-    raw SQL query can result in SQL Injection. Data replacement or data binding should
-    be used. See https://sequelize.org/master/manual'
-  patterns:
-  - $DB.query($QUERY, ...)
-  - $DATABASE.sequelize.query($SQL + $VALUE, ...)
-  - $DATABASE.sequelize.query(`...${...}...`, ...)
-  source_rules:
-  - sequelize-sqli
-  - sequelize-raw-query
-  tier: T2
 - id: EXT.SEQUEL.SEC.003
   name: Sequelize Literal
   ecosystem: sequelize
@@ -9709,54 +9681,6 @@ atoms:
   source_rules:
   - unsafe-argon2-config
   tier: T2
-- id: EXT.CRYPTO.SEC.001
-  name: Argon Argon2Id
-  ecosystem: cryptography
-  category: security
-  description: Prefer Argon2id where possible. Per RFC9016, section 4 IETF recommends
-    selecting Argon2id unless you can guarantee an adversary has no direct access
-    to the computing environment.
-  patterns:
-  - '{type: $ARGON.argon2id}'
-  source_rules:
-  - unsafe-argon2-config
-  tier: T2
-- id: EXT.CRYPTO.SEC.002
-  name: Cipher Getinstance
-  ecosystem: cryptography
-  category: security
-  description: Usage of RSA without OAEP (Optimal Asymmetric Encryption Padding) may
-    weaken encryption. This could lead to sensitive data exposure. Instead, use RSA
-    with `OAEPWithMD5AndMGF1Padding` instead.
-  patterns:
-  - $VAR = $CIPHER.getInstance($MODE)
-  source_rules:
-  - rsa-padding-set
-  tier: T2
-- id: EXT.CRYPTO.SEC.003
-  name: Getinstance
-  ecosystem: cryptography
-  category: security
-  description: Usage of RSA without OAEP (Optimal Asymmetric Encryption Padding) may
-    weaken encryption. This could lead to sensitive data exposure. Instead, use RSA
-    with `OAEPWithMD5AndMGF1Padding` instead.
-  patterns:
-  - $VAR = $CIPHER.getInstance($MODE)
-  source_rules:
-  - rsa-padding-set
-  tier: T2
-- id: EXT.CRYPTO.SEC.004
-  name: Scala Util Random
-  ecosystem: cryptography
-  category: security
-  description: Flags the use of a predictable random value from `scala.util.Random`.
-    This can lead to vulnerabilities when used in security contexts, such as in a
-    CSRF token, password reset token, or any other secre
-  patterns:
-  - import scala.util.Random
-  source_rules:
-  - insecure-random
-  tier: T2
 - id: EXT.CRYPTO.SEC.005
   name: Modes Ctr
   ecosystem: cryptography
@@ -13165,34 +13089,6 @@ atoms:
   - <apex:outputText...value="{!...CurrentPage.parameters.$URL_PARAM}"...escape="false".../>
   source_rules:
   - xss-from-unescaped-url-param
-  tier: T2
-- id: EXT.LIBXML.SEC.001
-  name: Http Request
-  ecosystem: libxml2
-  category: security
-  description: The application is using an XML parser that has not been safely configured.
-    This might lead to XML External Entity (XXE) vulnerabilities when parsing user-controlled
-    input. An attacker can include doc
-  patterns:
-  - '($REQ : *http.Request).$FIELD'
-  - '($REQ : http.Request).$FIELD'
-  source_rules:
-  - libxml2-xxe-taint
-  tier: T2
-- id: EXT.LIBXML.SEC.002
-  name: Gin Context
-  ecosystem: libxml2
-  category: security
-  description: The application is using an XML parser that has not been safely configured.
-    This might lead to XML External Entity (XXE) vulnerabilities when parsing user-controlled
-    input. An attacker can include doc
-  patterns:
-  - '($CONTEXT : gin.Context).$FIELD'
-  - '($CONTEXT : gin.Context).Request.URL.Query().Get(...)'
-  - '($CONTEXT : *gin.Context).Request.URL.Query().Get(...)'
-  - '($CONTEXT : *gin.Context).$FIELD'
-  source_rules:
-  - libxml2-xxe-taint
   tier: T2
 - id: EXT.LIBXML.SEC.003
   name: Request Url Query
@@ -20126,78 +20022,6 @@ atoms:
   source_rules:
   - pymysql-sqli
   tier: T2
-- id: EXT.PSYCOP.SEC.001
-  name: Cursor Execute
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.execute($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
-- id: EXT.PSYCOP.SEC.002
-  name: Execute
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.execute($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
-- id: EXT.PSYCOP.SEC.003
-  name: Cursor Executemany
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.executemany($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
-- id: EXT.PSYCOP.SEC.004
-  name: Executemany
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.executemany($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
-- id: EXT.PSYCOP.SEC.005
-  name: Cursor Mogrify
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.mogrify($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
-- id: EXT.PSYCOP.SEC.006
-  name: Mogrify
-  ecosystem: psycopg2
-  category: security
-  description: Detected SQL statement that is tainted by `event` object. This could
-    lead to SQL injection if the variable is user-controlled and not properly sanitized.
-    In order to prevent SQL injection, use paramet
-  patterns:
-  - $CURSOR.mogrify($QUERY,...)
-  source_rules:
-  - psycopg-sqli
-  tier: T2
 - id: EXT.CLICK.BEST.001
   name: Click Echo
   ecosystem: click
@@ -20481,30 +20305,6 @@ atoms:
   - pyramid.authentication.$FUNC($...PARAMS)
   source_rules:
   - pyramid-authtkt-cookie-httponly-unsafe-default
-  tier: T2
-- id: EXT.PYCRYP.SEC.001
-  name: Aes New
-  ecosystem: pycrypto
-  category: security
-  description: 'Potential empty AES encryption key. Using an empty key in AES encryption
-    can result in weak encryption and may allow attackers to easily decrypt sensitive
-    data. Ensure that a strong, non-empty key is '
-  patterns:
-  - AES.new("",...)
-  source_rules:
-  - empty-aes-key
-  tier: T2
-- id: EXT.PYCRYP.SEC.002
-  name: New
-  ecosystem: pycrypto
-  category: security
-  description: 'Potential empty AES encryption key. Using an empty key in AES encryption
-    can result in weak encryption and may allow attackers to easily decrypt sensitive
-    data. Ensure that a strong, non-empty key is '
-  patterns:
-  - AES.new("",...)
-  source_rules:
-  - empty-aes-key
   tier: T2
 - id: EXT.JINJA2.SEC.001
   name: Jinja2 Environment
