@@ -18,6 +18,32 @@ Principle: **One concept, one definition, one location.**
 
 ---
 
+## 0. The Three Realms (PROJECT_elements Trinity)
+
+**Status:** VALIDATED 2026-01-28 (harsh MECE testing)
+
+> The architecture is organized around three mutually exclusive, collectively exhaustive realms.
+
+| Realm | Directory | Purpose | Pipeline | Nature |
+|-------|-----------|---------|----------|--------|
+| **PARTICLE** | standard-model-of-code/ | Analyze structure | Collider (28 stages) | Deterministic |
+| **WAVE** | context-management/ | Understand semantics | Refinery (8 stages) | Probabilistic |
+| **OBSERVER** | .agent/ | Coordinate actions | Autopilot/Wire/Watcher | Reactive |
+
+**Key properties:**
+- **Mutually Exclusive:** Each component belongs to exactly one realm
+- **Collectively Exhaustive:** All active components covered (ARCHIVE is passive)
+- **Fundamental:** Not derived from other principles
+
+**Metaphors:**
+- PARTICLE = Body (physical measurement)
+- WAVE = Brain (conceptual understanding)
+- OBSERVER = Governance (meta-coordination)
+
+**See:** [TRINITY_PRINCIPLE.md](../../context-management/docs/theory/TRINITY_PRINCIPLE.md)
+
+---
+
 ## 1. The Three Planes (Popper's Three Worlds)
 
 The Standard Model recognizes three fundamental planes of existence:
