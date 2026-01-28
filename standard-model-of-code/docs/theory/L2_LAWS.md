@@ -1,8 +1,10 @@
 # L2: Laws of the Standard Model of Code
 
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L1: Definitions](./L1_DEFINITIONS.md) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md)
+
 **Layer:** 2 (Dynamic Behavior)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** `L0_AXIOMS.md`, `L1_DEFINITIONS.md`
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -694,3 +696,15 @@ Evolution direction:
 
 *This is Layer 2. Every behavioral law lives here.*
 *For foundational axioms, see L0. For entity definitions, see L1. For measurement, see L3.*
+
+---
+
+## Navigation
+
+**📍 Up:** [Theory Index](./THEORY_INDEX.md)
+**⬅️ Previous:** [L1: Definitions](./L1_DEFINITIONS.md)
+**➡️ Next:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations
+**🔙 Foundation:** [L0: Axioms](./L0_AXIOMS.md)
+
+**Specialized Laws:**
+- [ORPHAN_SEMANTICS.md](../../context-management/docs/theory/ORPHAN_SEMANTICS.md) - Detailed L2 law on connectivity

@@ -1,8 +1,10 @@
 # L1: Definitions of the Standard Model of Code
 
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L0: Axioms](./L0_AXIOMS.md) | **Next:** [L2: Laws →](./L2_LAWS.md)
+
 **Layer:** 1 (Complete Enumeration)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** `L0_AXIOMS.md`
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -697,3 +699,12 @@ All definitions in this layer trace to authoritative machine-readable sources:
 
 *This is Layer 1. Every concept exists here, defined exactly once.*
 *For WHY these exist, see L0. For HOW they behave, see L2. For HOW we measure, see L3.*
+
+---
+
+## Navigation
+
+**📍 Up:** [Theory Index](./THEORY_INDEX.md)
+**⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md) - Foundation these definitions build on
+**➡️ Next:** [L2: Laws](./L2_LAWS.md) - How these definitions behave
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) → [L0: Axioms](./L0_AXIOMS.md)

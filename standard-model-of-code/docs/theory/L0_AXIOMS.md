@@ -1,5 +1,7 @@
 # L0: Axioms of the Standard Model of Code
 
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md)
+
 **Layer:** 0 (Bedrock)
 **Status:** VALIDATED
 **Depends on:** Nothing (this is the foundation)
@@ -800,3 +802,15 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 
 *This is Layer 0. Everything else depends on this.*
 *All axioms are either validated against academic literature or explicitly marked as heuristic.*
+
+---
+
+## Navigation
+
+**📍 Up:** [Theory Index](./THEORY_INDEX.md)
+**➡️ Next:** [L1: Definitions](./L1_DEFINITIONS.md) - Terms derived from these axioms
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations that validate these axioms
+
+**See also:**
+- [THEORY_AXIOMS.md](./THEORY_AXIOMS.md) - Formal proof framework
+- [STANDARD_MODEL_COMPLETE.md](./STANDARD_MODEL_COMPLETE.md) - All layers integrated

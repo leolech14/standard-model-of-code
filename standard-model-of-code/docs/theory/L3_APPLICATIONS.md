@@ -1,8 +1,10 @@
 # L3: Applications of the Standard Model of Code
 
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Laws](./L2_LAWS.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
+
 **Layer:** 3 (Measurement & Implementation)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** `L0_AXIOMS.md`, `L1_DEFINITIONS.md`, `L2_LAWS.md`
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md), [L2_LAWS.md](./L2_LAWS.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -789,3 +791,20 @@ Every Standard Model measurement has three components:
 
 *This is Layer 3. Every measurement and application lives here.*
 *For axioms, see L0. For definitions, see L1. For behavioral laws, see L2.*
+
+---
+
+## Navigation
+
+**📍 Up:** [Theory Index](./THEORY_INDEX.md)
+**⬅️ Previous:** [L2: Laws](./L2_LAWS.md)
+**🔄 LOOP CLOSURE:** [↺ L0: Axioms](./L0_AXIOMS.md) - Applications validate axioms
+
+**Theory closure achieved:** L3 implementations provide empirical validation of L0 axioms, completing the epistemological loop.
+
+**Full pathway:**
+1. [L0: Axioms](./L0_AXIOMS.md) - Foundational truths
+2. [L1: Definitions](./L1_DEFINITIONS.md) - Entities that exist
+3. [L2: Laws](./L2_LAWS.md) - How they behave
+4. [L3: Applications](./L3_APPLICATIONS.md) - How we measure (you are here)
+5. **Loop:** Measurements validate axioms → [L0](./L0_AXIOMS.md)
