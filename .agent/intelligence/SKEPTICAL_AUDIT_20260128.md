@@ -5,39 +5,30 @@
 ## Session Artifacts
 === NEW FILES ===
 ?? .agent/macros/logs/MACRO-001/20260128_185302.yaml
+?? .agent/macros/logs/MACRO-001/20260128_193752.yaml
+?? context-management/experiments/context-management/
 ?? "context-management/experiments/refinery-dashboard/cloud-refinery-console (5).zip"
 ?? context-management/experiments/refinery-dashboard/reference_design/
+?? context-management/experiments/refinery-platform/
+?? context-management/viz/
 ?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md
 ?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md
 ?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md
+?? standard-model-of-code/docs/research/gemini/docs/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.md
 ?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json
 ?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json
 ?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json
+?? standard-model-of-code/docs/research/gemini/raw/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.json
 ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json
 ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json
 ?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json
+?? standard-model-of-code/package-lock.json
+?? standard-model-of-code/package.json
 
 === MODIFIED FILES ===
- M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md
  M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl
- M .agent/macros/library/MACRO-001-skeptical-audit.yaml
  M .agent/macros/trigger_state.yaml
  M .agent/state/circuit_breakers.yaml
- M standard-model-of-code/docs/core/__init__.md
- M standard-model-of-code/docs/core/analytics_engine.md
- M standard-model-of-code/docs/core/atom_loader.md
- M standard-model-of-code/docs/core/atom_registry.md
- M standard-model-of-code/docs/core/brain_download.md
- M standard-model-of-code/docs/core/chart_viewer.md
- M standard-model-of-code/docs/core/classification/__init__.md
- M standard-model-of-code/docs/core/classification/classifier_plugin.md
- M standard-model-of-code/docs/core/classification/ddd_mappings.md
- M standard-model-of-code/docs/core/classification/universal_classifier.md
- M standard-model-of-code/docs/core/constraint_engine.md
- M standard-model-of-code/docs/core/constraint_plugin.md
- M standard-model-of-code/docs/core/control_flow_analyzer.md
- M standard-model-of-code/docs/core/data_flow_analyzer.md
- M standard-model-of-code/docs/core/data_management.md
 
 
 ## Dead Code Analysis
@@ -56,4 +47,4 @@ Requires manual AI execution
 [To be filled based on severity]
 
 ---
-*Generated: 2026-01-28T19:37:52.202466+00:00*
+*Generated: 2026-01-28T20:26:08.458419+00:00*

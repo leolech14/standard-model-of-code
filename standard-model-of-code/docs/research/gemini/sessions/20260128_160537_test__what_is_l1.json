@@ -1,0 +1,22 @@
+{
+  "session_start": "2026-01-28 16:05:07",
+  "session_end": "2026-01-28 16:05:37",
+  "model": "gemini-2.0-flash-001",
+  "total_tokens_in": 842681,
+  "total_tokens_out": 55,
+  "turn_count": 2,
+  "turns": [
+    {
+      "timestamp": 1769627107.112247,
+      "timestamp_str": "2026-01-28 16:05:07",
+      "role": "user",
+      "content": "Test: What is L1?"
+    },
+    {
+      "timestamp": 1769627137.5837219,
+      "timestamp_str": "2026-01-28 16:05:37",
+      "role": "assistant",
+      "content": "```\ntest: <class 'str'>: \"L1 is one of the Tarski meta-levels. At this level, the primary consumer is the HUMAN alongside the AI_AGENT as the levels are shared between them. It provides natural language documentation.\"\n```\n"
+    }
+  ]
+}

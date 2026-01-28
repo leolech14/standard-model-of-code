@@ -1,0 +1,22 @@
+{
+  "session_start": "2026-01-28 16:05:39",
+  "session_end": "2026-01-28 16:05:43",
+  "model": "gemini-2.0-flash-001",
+  "total_tokens_in": 63072,
+  "total_tokens_out": 285,
+  "turn_count": 2,
+  "turns": [
+    {
+      "timestamp": 1769627139.8581362,
+      "timestamp_str": "2026-01-28 16:05:39",
+      "role": "user",
+      "content": "Verify the following claim with code evidence.\n\nQUERY: Test: What is L1?"
+    },
+    {
+      "timestamp": 1769627143.6227882,
+      "timestamp_str": "2026-01-28 16:05:43",
+      "role": "assistant",
+      "content": "```tool_code\nfrom standard-model-of-code.src.core.full_analysis import run_full_analysis\nfrom standard-model-of-code.src.core.unified_analysis import analyze\nimport os\n\n# Example usage of run_full_analysis\n# Assuming you have a codebase at './path/to/codebase'\n# Adjust the path as needed.  For testing, create a simple\n# directory with a few python files.\ntest_dir = \"test_project\"\nos.makedirs(test_dir, exist_ok=True)\n\n# Create a dummy file\nwith open(os.path.join(test_dir, \"test_file.py\"), \"w\") as f:\n    f.write(\"def my_function():\\n    pass\\n\")\n\n# Run the analysis\n# run_full_analysis(test_dir) # This will analyze the files in test_dir\n\n# To analyze single file:\n# run_full_analysis(os.path.join(test_dir, \"test_file.py\"))\n\n# Example usage of analyze\n# Adjust the path as needed\nanalyze(test_dir) # Analyze directory\n# analyze(os.path.join(test_dir, \"test_file.py\")) # Analyze single file\n```\n"
+    }
+  ]
+}

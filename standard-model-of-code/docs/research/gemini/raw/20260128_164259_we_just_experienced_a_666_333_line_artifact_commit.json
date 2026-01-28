@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-28T16:42:59.595175",
+    "source": "gemini",
+    "model": "gemini-2.0-flash-001",
+    "query": "We just experienced a 666,333 line artifact commit incident:\n\nWHAT HAPPENED:\n- Collider test runs generated 630K lines of JSON/HTML\n- Vendor libraries (35K lines) bundled in reports\n- All committed to git (bloated repo)\n- Had to clean up with massive deletion\n\nOUR FIX:\n1. Updated .gitignore to exclude:\n   - .collider-*/ (all output variants)\n   - collider_pipeline_files/libs/ (vendor code)\n   - .tmp_*/ (temp files)\n\n2. Created BEST_PRACTICES.md documenting:\n   - Never commit build artifacts\n   - Never commit vendor code\n   - Check file sizes before commit\n   - Use .gitignore patterns\n\n3. Added Quality Gate G9:\n   - Rule: No files >1MB committed\n   - Check: Scan for artifacts\n   - Pre-commit hook to prevent\n\nQUESTIONS:\n1. Is our .gitignore comprehensive enough?\n2. Are there other common artifact patterns we missed?\n3. Is 1MB the right threshold for pre-commit rejection?\n4. Should we use git-lfs for large legitimate files?\n5. What do mature repos do to prevent this?\n\nValidate our approach - are we covering all the bases?",
+    "query_length": 1034,
+    "checksum": "sha256:76efd11c7890c390c0e812602292c9c804dadeec604161001e43cdf30902f8b7"
+  },
+  "response": {
+    "content": "```json\n{\n  \"query_id\": \"gemini_20260213_114500\",\n  \"timestamp\": \"2026-02-13T11:45:00\",\n  \"depth_level\": 0,\n  \"parent_query_id\": null,\n  \"topic\": \"artifact_commit_incident\",\n  \"source\": \"gemini\",\n  \"model\": \"gemini-3-pro-preview\",\n  \"query\": \"We just experienced a 666,333 line artifact commit incident:\\n\\nWHAT HAPPENED:\\n- Collider test runs generated 630K lines of JSON/HTML\\n- Vendor libraries (35K lines) bundled in reports\\n- All committed to git (bloated repo)\\n- Had to clean up with massive deletion\\n\\nOUR FIX:\\n1. Updated .gitignore to exclude:\\n   - .collider-*/ (all output variants)\\n   - collider_pipeline_files/libs/ (vendor code)\\n   - .tmp_*/ (temp files)\\n\\n2. Created BEST_PRACTICES.md documenting:\\n   - Never commit build artifacts\\n   - Never commit vendor code\\n   - Check file sizes before commit\\n   - Use .gitignore patterns\\n\\n3. Add",
+    "mode": "flash_deep"
+  }
+}
