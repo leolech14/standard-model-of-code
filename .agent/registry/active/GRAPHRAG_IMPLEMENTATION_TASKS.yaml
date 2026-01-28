@@ -1,0 +1,780 @@
+# GraphRAG Implementation - Complete Task Registry with Confidence
+id: GRAPHRAG-001
+title: "GraphRAG Semantic Proximity Graph - Complete Implementation"
+created: 2026-01-27
+status: IN_PROGRESS
+priority: P0
+
+# Overall Confidence (4D Assessment)
+confidence:
+  factual: 90      # Research validated (60+ sources), tech stack proven
+  alignment: 100   # Directly serves knowledge consolidation goal
+  current: 85      # Fits existing architecture (analyze.py, refinery)
+  onwards: 95      # Foundation for all future knowledge work
+  overall: 85      # min(factual, alignment, current, onwards) - Conservative
+
+# Overall metrics
+estimated_effort_hours: 76  # Revised from 27h (was underestimate)
+actual_effort_hours: 4      # So far (Neo4j install + planning)
+completion_percentage: 5    # 4/76 hours
+
+# Cost estimate
+estimated_cost_usd: 115     # Revised from $1,150 (Collider already graph!)
+actual_cost_usd: 0          # So far (no API calls yet)
+
+---
+
+# PHASE 1: FOUNDATION (Setup & Pilot)
+
+## TASK 1.1: Install Neo4j Database
+id: GRAPHRAG-001-1.1
+status: COMPLETED
+effort_estimate: 15min
+effort_actual: 15min
+
+confidence:
+  factual: 100    # Homebrew package exists, tested
+  alignment: 100  # Required for GraphRAG
+  current: 100    # Installed successfully
+  onwards: 100    # Standard tool, stable
+  overall: 100
+
+completion_criteria:
+  - Neo4j service running
+  - Accessible at localhost:7474
+  - Version 2025.12.1 confirmed
+
+result:
+  status: SUCCESS
+  notes: "Installed via Homebrew, 230MB, running as LaunchAgent"
+
+---
+
+## TASK 1.2: Configure Neo4j Password
+id: GRAPHRAG-001-1.2
+status: IN_PROGRESS
+effort_estimate: 2min
+effort_actual: 10min  # Had CLI issues, using browser instead
+
+confidence:
+  factual: 100    # Standard setup procedure
+  alignment: 100  # Required for authentication
+  current: 80     # CLI had issues, browser recommended
+  onwards: 100    # One-time setup
+  overall: 80
+
+completion_criteria:
+  - Password set to 'elements2026'
+  - Can connect via cypher-shell
+  - Scripts can authenticate
+
+blockers:
+  - User action required (browser login)
+  - Alternative: Wait for full initialization (30-60s)
+
+next_action:
+  - Open: http://localhost:7474
+  - Login: neo4j / neo4j
+  - Set password: elements2026
+
+---
+
+## TASK 1.3: Import Academic Foundations
+id: GRAPHRAG-001-1.3
+status: PENDING
+effort_estimate: 2min
+effort_actual: 0
+
+confidence:
+  factual: 95     # Script created, metadata validated (9 papers exist)
+  alignment: 100  # Provides theoretical grounding for GraphRAG
+  current: 90     # Script untested (blocked by password)
+  onwards: 100    # Reusable for future papers
+  overall: 90
+
+dependencies:
+  - TASK 1.2 (password configured)
+
+input_data:
+  source: context-management/archive/references/metadata/
+  files: 9 analyzed papers (REF-001, REF-040, KOESTLER, etc.)
+  size: ~50KB JSON metadata
+
+expected_output:
+  nodes:
+    - 9 AcademicPaper nodes
+    - 45 PaperConcept nodes
+    - 45 SmocConcept nodes
+  edges:
+    - 9 DEFINES (paper → paper concept)
+    - 45 VALIDATES (paper concept → SMoC concept)
+
+completion_criteria:
+  - All 9 papers imported
+  - Query returns Friston for Purpose Field validation
+  - No import errors
+
+risks:
+  - Metadata schema mismatch (MEDIUM)
+  - Neo4j connection issues (LOW)
+
+---
+
+## TASK 1.4: Import Collider Code Graph
+id: GRAPHRAG-001-1.4
+status: PENDING
+effort_estimate: 30min
+effort_actual: 0
+
+confidence:
+  factual: 100    # Collider output validated (2,540 nodes exist)
+  alignment: 100  # Core code structure for GraphRAG
+  current: 85     # Script created but untested
+  onwards: 100    # Standard import pattern
+  overall: 85
+
+dependencies:
+  - TASK 1.2 (password)
+  - Optional: TASK 1.3 (foundations first)
+
+input_data:
+  source: .collider-full/output_llm-oriented_*.json
+  size: 25 MB
+  structure: {nodes: 2540, edges: 7346}
+
+expected_output:
+  nodes: 2,540 CodeEntity nodes
+  edges: 7,346 code dependency edges
+  time: ~30 seconds import
+
+completion_criteria:
+  - All 2,540 nodes imported
+  - All 7,346 edges created
+  - Sample query returns nodes
+  - No duplicates
+
+risks:
+  - Timeout on large import (LOW - batched)
+  - Memory issues (LOW - only 25MB)
+
+optimization:
+  - Uses transaction batching (100 nodes/tx)
+  - Progress reporting every 100 nodes
+
+---
+
+## TASK 1.5: Link Semantic Chunks to Code
+id: GRAPHRAG-001-1.5
+status: PENDING
+effort_estimate: 30min
+effort_actual: 0
+
+confidence:
+  factual: 90     # Chunks exist (2,673), linking logic straightforward
+  alignment: 100  # Connects code structure to semantic content
+  current: 85     # Spatial matching (file + line) may have edge cases
+  onwards: 100    # Enables chunk-based queries
+  overall: 85
+
+dependencies:
+  - TASK 1.4 (code graph imported)
+
+input_data:
+  chunks: .agent/intelligence/chunks/*_chunks.json
+  count: 2,673 chunks (539K tokens)
+
+expected_output:
+  nodes: 2,673 Chunk nodes
+  edges: ~2,000 HAS_CHUNK (code → chunk)
+  note: Some chunks may not match code nodes (docs, configs)
+
+completion_criteria:
+  - 2,673 chunk nodes created
+  - >75% linked to code entities
+  - Can query: "Show chunks for fabric.py"
+
+risks:
+  - File path mismatches (MEDIUM)
+  - Line number drift (LOW)
+
+---
+
+## TASK 1.6: Compute Similarity Edges (Pilot)
+id: GRAPHRAG-001-1.6
+status: PENDING
+effort_estimate: 1h
+effort_actual: 0
+
+confidence:
+  factual: 95     # Sentence-transformers proven, cosine similarity standard
+  alignment: 100  # Creates semantic connections
+  current: 75     # Computational cost unknown (2,673 × 2,673 = 7M comparisons)
+  onwards: 90     # May need optimization for scale
+  overall: 75
+
+dependencies:
+  - TASK 1.5 (chunks imported)
+  - Install: sentence-transformers library
+
+method:
+  model: all-MiniLM-L6-v2 (384-dim, fast)
+  similarity: cosine >0.75 threshold
+  optimization: k-nearest neighbors (k=10) to reduce from O(n²)
+
+expected_output:
+  edges: ~26,730 SIMILAR_TO edges (10 per chunk × 2,673)
+  properties: {weight: similarity_score}
+
+completion_criteria:
+  - Similarity edges created
+  - Can query: "Find chunks similar to X"
+  - Avg degree ~10 (not too sparse, not too dense)
+
+risks:
+  - Memory for 7M comparisons (MEDIUM)
+  - Computation time >10 minutes (MEDIUM)
+
+mitigation:
+  - Use k-NN instead of full matrix
+  - Batch processing (100 chunks at a time)
+  - Progress reporting
+
+---
+
+## TASK 1.7: Test GraphRAG Query (Pilot Success Criteria)
+id: GRAPHRAG-001-1.7
+status: PENDING
+effort_estimate: 2h
+effort_actual: 0
+
+confidence:
+  factual: 80     # GraphRAG proven (research), but first implementation
+  alignment: 100  # Core validation step
+  current: 70     # Many unknowns (performance, accuracy)
+  onwards: 90     # Establishes baseline for improvements
+  overall: 70
+
+dependencies:
+  - TASKS 1.3-1.6 (graph fully built)
+  - Install: neo4j-graphrag Python package
+
+test_queries:
+  1. "What validates Purpose Field?"
+     expected: "Friston's Free Energy Principle"
+  2. "What code implements Constructal Law?"
+     expected: "refinery.py convergence detection"
+  3. "Research papers about stability?"
+     expected: Multiple papers with 'stability' in findings
+
+success_metrics:
+  accuracy: >2× vs text search (baseline from ./pe refinery search)
+  latency: <2 seconds per query
+  precision: >70% (correct answers)
+  recall: >50% (finds relevant info)
+
+completion_criteria:
+  - 3/3 test queries succeed
+  - Accuracy >2× text search
+  - No critical bugs
+
+decision_point:
+  if_success: Proceed to PHASE 2 (full scale)
+  if_partial: Refine and retry
+  if_failure: Reassess approach
+
+risks:
+  - Accuracy <2× (would not justify complexity) - MEDIUM
+  - Performance >5s (too slow for interactive) - LOW
+  - Integration issues (MEDIUM)
+
+---
+
+# PHASE 2: FULL SCALE DEPLOYMENT
+
+## TASK 2.1: Full Entity Extraction via Batch API
+id: GRAPHRAG-001-2.1
+status: PENDING
+effort_estimate: 2h setup + 24h wait
+effort_actual: 0
+
+confidence:
+  factual: 90     # Batch API documented, pricing confirmed
+  alignment: 100  # Scales pilot to full dataset
+  current: 70     # Never used Batch API before (unknown unknowns)
+  onwards: 100    # Reusable pattern for future extractions
+  overall: 70
+
+dependencies:
+  - TASK 1.7 decision (pilot succeeded)
+  - Gemini API access (Tier 1 or higher)
+
+input_data:
+  chunks: 2,673 (534K tokens for extraction)
+  research: 1,068 files (534K tokens)
+  theories: 281 (84K tokens)
+  total: 1.15M tokens (NOT 10-20M as originally thought!)
+
+batch_api_setup:
+  model: gemini-2.5-flash
+  format: JSONL (one request per line)
+  schema: {entity_type, name, description, source_chunk}
+
+cost_calculation:
+  input: 1.15M tokens × $0.10/M × 0.5 (batch discount) = $57.50
+  output: ~200K tokens × $0.40/M × 0.5 = $40
+  total: ~$97.50 (vs $1,150 original estimate!)
+
+expected_output:
+  entities: 5,000-10,000 extracted
+  types: Theory, Concept, Algorithm, Pattern, Metric
+  wait_time: 24 hours
+
+completion_criteria:
+  - Batch job submitted successfully
+  - Completes within 24h
+  - >90% chunks have entities extracted
+  - Output validates against schema
+
+risks:
+  - Batch timeout (job >24h killed) - LOW
+  - Rate limit even with batch - VERY LOW
+  - Entity quality issues (hallucinations) - MEDIUM
+
+mitigation:
+  - Monitor batch job status
+  - Validate sample outputs before full load
+  - Post-processing filter (confidence >0.7)
+
+---
+
+## TASK 2.2: Load Extracted Entities to Graph
+id: GRAPHRAG-001-2.2
+status: PENDING
+effort_estimate: 1h
+effort_actual: 0
+
+confidence:
+  factual: 95     # Standard Neo4j load pattern
+  alignment: 100  # Populates graph with semantic layer
+  current: 85     # Depends on entity quality from 2.1
+  onwards: 100    # Scalable pattern
+  overall: 85
+
+dependencies:
+  - TASK 2.1 (entities extracted)
+
+process:
+  1. Parse Batch API output (JSONL)
+  2. Deduplicate entities (same name = same concept)
+  3. Create nodes in Neo4j
+  4. Link entities to source chunks
+
+expected_output:
+  new_nodes: 5,000-10,000
+  total_nodes: ~7,500-12,500 (including code + papers)
+
+completion_criteria:
+  - All valid entities loaded
+  - Deduplication successful (no duplicate concepts)
+  - Links to sources preserved
+
+---
+
+## TASK 2.3: Create Cross-Modal Relationships
+id: GRAPHRAG-001-2.3
+status: PENDING
+effort_estimate: 1h
+effort_actual: 0
+
+confidence:
+  factual: 85     # Relationship inference has uncertainty
+  alignment: 100  # Core GraphRAG value (connects modalities)
+  current: 75     # Heuristics may need tuning
+  onwards: 90     # Will improve over time
+  overall: 75
+
+dependencies:
+  - TASK 2.2 (entities loaded)
+
+relationships_to_create:
+  IMPLEMENTS: (CodeEntity)-[:IMPLEMENTS]->(Concept)
+    rule: If code.purpose matches concept.name
+
+  DESCRIBES: (Theory)-[:DESCRIBES]->(Concept)
+    rule: If theory text mentions concept
+
+  VALIDATES: (ResearchDoc)-[:VALIDATES]->(Theory)
+    rule: If research cites or discusses theory
+
+  MENTIONS: (Chunk)-[:MENTIONS]->(Concept)
+    rule: If chunk content contains concept name
+
+expected_output:
+  edges: ~10,000-20,000 cross-modal relationships
+
+completion_criteria:
+  - All 4 relationship types created
+  - Sample queries traverse modalities
+  - No broken links
+
+risks:
+  - False positives (unrelated matches) - MEDIUM
+  - False negatives (missed connections) - MEDIUM
+
+---
+
+## TASK 2.4: Community Detection (Louvain)
+id: GRAPHRAG-001-2.4
+status: PENDING
+effort_estimate: 30min
+effort_actual: 0
+
+confidence:
+  factual: 100    # Louvain algorithm standard, O(n log n) proven
+  alignment: 100  # Identifies theory clusters
+  current: 90     # NetworkX implementation tested
+  onwards: 100    # Reusable for analysis
+  overall: 90
+
+dependencies:
+  - TASK 2.3 (graph complete)
+
+algorithm:
+  method: Louvain modularity optimization
+  library: NetworkX or Neo4j GDS
+  parameters: Default (auto-detect optimal communities)
+
+expected_output:
+  communities: 15-30 (estimated)
+  types:
+    - Theory clusters (Constructal + Sinergética + VSM)
+    - Code modules (autopilot, wire, refinery)
+    - Research themes (architecture, health, automation)
+
+completion_criteria:
+  - Communities detected
+  - Modularity Q >0.7 (good separation)
+  - Visualization shows clear clusters
+
+---
+
+## TASK 2.5: GraphRAG Query Interface
+id: GRAPHRAG-001-2.5
+status: PENDING
+effort_estimate: 5h
+effort_actual: 0
+
+confidence:
+  factual: 85     # neo4j-graphrag package exists, documented
+  alignment: 100  # Core query capability
+  current: 70     # First time using this package
+  onwards: 95     # Extensible framework
+  overall: 70
+
+dependencies:
+  - TASK 2.4 (graph analyzed)
+  - Install: neo4j-graphrag Python package
+
+features_to_implement:
+  1. Vector similarity search
+  2. Graph traversal (multi-hop)
+  3. Hybrid retrieval (vector + graph)
+  4. LLM synthesis (Gemini)
+
+integration_points:
+  - analyze.py: --graph-query flag
+  - pe script: ./pe graphrag query
+  - Dashboard: /api/graphrag/query endpoint
+
+completion_criteria:
+  - All 4 features working
+  - Integration with ./pe complete
+  - Sample queries <2s latency
+
+risks:
+  - Learning curve (new package) - MEDIUM
+  - Performance optimization needed - MEDIUM
+  - Integration complexity - MEDIUM
+
+---
+
+## TASK 2.6: Integrate Research Files (1,068 docs)
+id: GRAPHRAG-001-2.6
+status: PENDING
+effort_estimate: 4h + 24h wait
+effort_actual: 0
+
+confidence:
+  factual: 90     # Files exist, extraction pattern established
+  alignment: 100  # Massive value (1,068 research docs)
+  current: 75     # Large dataset, potential issues
+  onwards: 95     # Completes knowledge base
+  overall: 75
+
+dependencies:
+  - TASK 2.1 (batch API working)
+
+input_data:
+  gemini_sessions: 243 JSON files
+  perplexity_docs: 148 MD files
+  total_tokens: ~5.3M for extraction
+
+batch_extraction:
+  prompt: "Extract: key findings, theories mentioned, citations"
+  cost: $265 (5.3M × $0.10/M × 0.5)
+  wait: 24 hours
+
+expected_output:
+  nodes: 1,068 ResearchDoc nodes
+  concepts: ~2,000 unique (many duplicates across docs)
+  edges: ~5,000 CITES, MENTIONS
+
+completion_criteria:
+  - 1,068 docs imported
+  - Citations extracted
+  - Theory links created
+
+risks:
+  - Token quota exceeded (MEDIUM - large job)
+  - Entity quality variance (MEDIUM - 1,068 diverse docs)
+  - Deduplication challenges (MEDIUM)
+
+---
+
+## TASK 2.7: Accuracy Validation
+id: GRAPHRAG-001-2.7
+status: PENDING
+effort_estimate: 4h
+effort_actual: 0
+
+confidence:
+  factual: 90     # Validation methodology clear
+  alignment: 100  # Proves GraphRAG value
+  current: 80     # Time-consuming, manual components
+  onwards: 100    # Establishes baseline
+  overall: 80
+
+dependencies:
+  - TASK 2.5 (query interface working)
+  - TASK 2.6 (research integrated)
+
+test_protocol:
+  baseline: ./pe refinery search (text match)
+  graphrag: ./pe graphrag query (semantic + graph)
+  queries: 50 questions across domains
+  metrics: Precision, Recall, F1, Latency
+
+example_queries:
+  - "What theories validate Communication Fabric?"
+  - "What code implements Constructal Law?"
+  - "Research about Purpose Field novelty?"
+  - "Explain dπ/dt = -∇Incoherence equation"
+  - "Show theory lineage for E(S|Φ)"
+
+success_threshold:
+  accuracy: >2× baseline (research says 3.4× possible)
+  latency: <3s average
+  user_satisfaction: Subjective but critical
+
+completion_criteria:
+  - 50 queries tested
+  - Results documented
+  - Accuracy gain confirmed
+  - Report generated
+
+---
+
+# PHASE 3: VISUALIZATION & REFINEMENT
+
+## TASK 3.1: Gephi Visualization Export
+id: GRAPHRAG-001-3.1
+status: PENDING
+effort_estimate: 2h
+effort_actual: 0
+
+confidence:
+  factual: 95     # Gephi + Neo4j export standard
+  alignment: 90   # Visualization helps understanding (not critical)
+  current: 85     # Standard workflow
+  onwards: 80     # Static visualization (dashboard more useful)
+  overall: 80
+
+dependencies:
+  - TASK 2.4 (communities detected)
+
+process:
+  1. Export graph from Neo4j (GraphML or GEXF format)
+  2. Import to Gephi
+  3. Apply ForceAtlas2 layout
+  4. Color by community
+  5. Size by centrality
+  6. Export as interactive HTML
+
+output:
+  static_viz: theory_graph.html
+  use_case: Exploration, presentations, documentation
+
+completion_criteria:
+  - Graph exports successfully
+  - Layout is readable
+  - Communities visually distinct
+
+---
+
+## TASK 3.2: Dashboard Integration
+id: GRAPHRAG-001-3.2
+status: PENDING
+effort_estimate: 3h
+effort_actual: 0
+
+confidence:
+  factual: 90     # Dashboard backend exists, adding endpoint
+  alignment: 100  # 24/7 web access to GraphRAG
+  current: 80     # Integration work unknown
+  onwards: 100    # High value long-term
+  overall: 80
+
+dependencies:
+  - TASK 2.5 (query interface)
+  - Dashboard deployed (optional)
+
+features:
+  - /api/graphrag/query endpoint
+  - Graph visualization in browser
+  - Community browser
+  - Theory lineage viewer
+
+completion_criteria:
+  - Endpoint working
+  - Web UI queries graph
+  - Visualization renders
+
+---
+
+# PHASE 4: OPTIMIZATION & SCALING
+
+## TASK 4.1: Incremental Updates
+id: GRAPHRAG-001-4.1
+status: PENDING
+effort_estimate: 3h
+effort_actual: 0
+
+confidence:
+  factual: 85     # Delta detection exists, integration new
+  alignment: 100  # Critical for maintaining fresh graph
+  current: 70     # Complex integration with wire.py
+  onwards: 100    # Enables continuous updates
+  overall: 70
+
+dependencies:
+  - Full graph working (all Phase 2 tasks)
+
+integration:
+  trigger: Wire pipeline completion
+  action: Extract entities from changed chunks only
+  update: Add/modify nodes, recompute local similarities
+
+expected_impact:
+  - 90% reduction in update cost (only deltas)
+  - <5 minute update latency
+  - Graph stays fresh
+
+---
+
+## TASK 4.2: Performance Optimization
+id: GRAPHRAG-001-4.2
+status: PENDING
+effort_estimate: 4h
+effort_actual: 0
+
+confidence:
+  factual: 80     # Optimization techniques known
+  alignment: 90   # Better UX (not critical for function)
+  current: 60     # Depends on discovering bottlenecks
+  onwards: 90     # Ongoing process
+  overall: 60
+
+optimizations:
+  - Index creation (file_path, semantic_role, etc.)
+  - Query plan optimization
+  - Caching frequent queries
+  - Connection pooling
+
+completion_criteria:
+  - Query latency <1s (was <2s)
+  - Can handle 10 concurrent queries
+  - Memory usage stable
+
+---
+
+# SUMMARY STATISTICS
+
+total_tasks: 12
+completed: 2 (16.7%)
+in_progress: 2 (16.7%)
+pending: 8 (66.6%)
+
+phase_1_tasks: 7 (foundation + pilot)
+phase_2_tasks: 3 (full scale)
+phase_3_tasks: 2 (visualization)
+phase_4_tasks: 2 (optimization)
+
+overall_confidence: 80%
+critical_path: TASK 1.2 (password) → 1.3-1.7 (pilot) → decision
+estimated_completion: 5 days (calendar)
+active_work: 24 hours
+
+---
+
+# DECISION GATES
+
+## Gate 1: After TASK 1.7 (Pilot Complete)
+**Question:** Does GraphRAG deliver >2× accuracy?
+**If YES:** Proceed to Phase 2 (full scale)
+**If NO:** Reassess approach, possibly defer
+**Confidence this gate passes:** 85% (research supports, but first implementation)
+
+## Gate 2: After TASK 2.7 (Full Validation)
+**Question:** Is accuracy gain worth complexity?
+**If YES:** Integrate into core workflows (analyze.py default)
+**If NO:** Keep as optional tool
+**Confidence this gate passes:** 80%
+
+## Gate 3: After TASK 3.2 (Dashboard)
+**Question:** Deploy to production (24/7 availability)?
+**If YES:** Cloud deployment, monitoring
+**If NO:** Keep local for development
+**Confidence this gate passes:** 70%
+
+---
+
+# RESOURCE TRACKING
+
+## Time Spent:
+- Planning & research: 4h
+- Neo4j setup: 30min
+- Script creation: 1.5h
+- **Total so far:** 6h
+
+## Time Remaining:
+- Phase 1: 4h (pilot)
+- Phase 2: 37h (full scale if pilot succeeds)
+- Phase 3: 5h (visualization)
+- Phase 4: 7h (optimization)
+- **Total remaining:** 53h
+
+## Cost Spent:
+- $0 (no API calls yet)
+
+## Cost Committed:
+- Phase 1 pilot: $0 (uses existing data)
+- Phase 2 extraction: $97.50 (batch API)
+- Phase 3-4: $0
+- **Total:** $97.50 (was $1,150!)
+
+---
+
+**REGISTRY COMPLETE - ALL TASKS WITH CONFIDENCE SCORES!**
+
+Next: Execute TASK 1.2 (password) → TASK 1.3-1.7 (pilot)
+

@@ -1,0 +1,22 @@
+{
+  "session_start": "2026-01-27 19:33:17",
+  "session_end": "2026-01-27 19:33:25",
+  "model": "gemini-2.5-flash",
+  "total_tokens_in": 676,
+  "total_tokens_out": 491,
+  "turn_count": 2,
+  "turns": [
+    {
+      "timestamp": 1769553197.466676,
+      "timestamp_str": "2026-01-27 19:33:17",
+      "role": "user",
+      "content": "Summarize the high-level repository file structure and key subsystems"
+    },
+    {
+      "timestamp": 1769553205.8093078,
+      "timestamp_str": "2026-01-27 19:33:25",
+      "role": "assistant",
+      "content": "The repository is structured around two primary, high-level subsystems, each residing in its own top-level directory:\n\n### High-Level Repository File Structure\n\n*   **`standard-model-of-code/`**: Contains the core code parsing engine (\"Collider\"), its associated schemas, and documentation.\n*   **`context-management/`**: Houses AI tools, cloud integration, and data logistics components.\n\n### Key Subsystems\n\n1.  **Standard Model of Code (The Body)**\n    *   **Purpose:** This is the \"Collider engine\" responsible for parsing code and identifying its \"basic constituents.\" It acts as the core code analysis component.\n    *   **Key Locations:**\n        *   `standard-model-of-code/src/core/`: The heart of the Collider engine.\n        *   `standard-model-of-code/schema/*.yaml`: Defines the \"Atom schemas\" or structures for parsed code elements.\n        *   `standard-model-of-code/docs/`: Contains \"Theory docs\" related to the code model.\n\n2.  **Context Management (The Brain)**\n    *   **Purpose:** Manages AI capabilities, cloud interactions (\"cloud mirror\"), and the broader data/context pipeline.\n    *   **Key Locations:**\n        *   **AI Tools (`context-management/tools/ai/`):** Contains utilities for AI queries and \"Socratic Verification\" (an \"Antimatter Law Check\" for detecting documentation/implementation drift).\n        *   **Refinery (Logistics) (`context-management/tools/refinery/`):** Handles data ingestion, provenance tracking, and \"Physics\" within a \"Logistics Pipeline.\" It has its own theoretical documentation (`context-management/intelligence/concepts/THEORY_DATA_LOGISTICS.md`).\n        *   **Holographic-Socratic Layer:** An AI-powered guardian (utilizing AI tools from `context-management/tools/ai/` and configurations from `context-management/config/semantic_models.yaml`) that continuously detects drift between documentation and implementation.\n\nIn essence, `standard-model-of-code` is the engine that understands the code's structure, while `context-management` leverages AI to derive insights, manage data flow, and ensure consistency across the project."
+    }
+  ]
+}
