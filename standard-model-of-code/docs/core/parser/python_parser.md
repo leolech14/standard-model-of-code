@@ -1,13 +1,16 @@
 # Python Parser
 
 > **Mirror**: [`parser/python_parser.py`](../../../src/core/parser/python_parser.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`PythonSymbol`**: No docstring
+- **`PythonASTParser`**: No docstring
+- **`Visitor`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/parser/python_parser.py)
+### Functions
+- **`parse_python`**: Convenience function to parse Python content.

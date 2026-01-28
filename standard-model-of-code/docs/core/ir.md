@@ -1,13 +1,17 @@
 # Ir
 
 > **Mirror**: [`ir.py`](../../../src/core/ir.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`EdgeType`**: No docstring
+- **`Component`**: No docstring
+- **`Edge`**: No docstring
+- **`Graph`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/ir.py)
+### Functions
+- **`edges_from_internal_edges_list`**: Convert the `internal_edges` summary from DependencyAnalyzer to Edge IR.

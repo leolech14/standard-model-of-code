@@ -15,7 +15,7 @@ class RefineryNode:
     metadata: Dict[str, Any] = field(default_factory=dict)  # Additional metadata
     created_at: float = field(default_factory=time.time)
     embedding: List[float] = field(default_factory=list)  # Vector embedding (384-dim for MiniLM)
-    
+
     # Fundamental Logistics ("The Mail")
     waybill: Dict[str, Any] = field(default_factory=dict) # Tracking info {parcel_id, parent_id, route}
 

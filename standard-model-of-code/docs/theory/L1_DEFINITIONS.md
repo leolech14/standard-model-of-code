@@ -27,7 +27,7 @@ Principle: **One concept, one definition, one location.**
 | Realm | Directory | Purpose | Pipeline | Nature |
 |-------|-----------|---------|----------|--------|
 | **PARTICLE** | standard-model-of-code/ | Analyze structure | Collider (28 stages) | Deterministic |
-| **WAVE** | context-management/ | Understand semantics | Refinery (8 stages) | Probabilistic |
+| **WAVE** | context-management/ | Understand semantics | Refinery (4 stages) | Probabilistic |
 | **OBSERVER** | .agent/ | Coordinate actions | Autopilot/Wire/Watcher | Reactive |
 
 **Key properties:**
@@ -165,7 +165,7 @@ CODOME (C) = {f ∈ P | executable(f)}
 - Build artifacts (dist/, out/) → Generated (not source)
 - Binaries (.exe, .so, .dll) → Not parseable
 
-**Analyzed by:** Collider pipeline (29 stages, deterministic, no AI required)
+**Analyzed by:** Collider pipeline (28 stages, deterministic, no AI required)
 
 **Metrics:**
 - Node count (functions + classes + modules)

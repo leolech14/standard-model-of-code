@@ -1,13 +1,14 @@
 # Classifier Plugin
 
 > **Mirror**: [`classification/classifier_plugin.py`](../../../src/core/classification/classifier_plugin.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ClassifierPlugin`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/classification/classifier_plugin.py)
+### Functions
+- **`get_classifier_from_hub`**: Get classifier service from hub (backward compatibility helper).

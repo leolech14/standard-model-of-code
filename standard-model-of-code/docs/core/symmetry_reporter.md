@@ -1,13 +1,18 @@
 # Symmetry Reporter
 
 > **Mirror**: [`symmetry_reporter.py`](../../../src/core/symmetry_reporter.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ConfidenceBuckets`**: No docstring
+- **`SymmetryMetrics`**: No docstring
+- **`SymmetryReport`**: No docstring
+- **`SymmetryAnalyzer`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/symmetry_reporter.py)
+### Functions
+- **`get_tier`**: Determine tier from symmetry score.
+- **`run_symmetry_analysis`**: Run symmetry analysis and return formatted output.

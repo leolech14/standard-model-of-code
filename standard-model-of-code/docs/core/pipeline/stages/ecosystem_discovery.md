@@ -1,13 +1,11 @@
 # Ecosystem Discovery
 
 > **Mirror**: [`pipeline/stages/ecosystem_discovery.py`](../../../src/core/pipeline/stages/ecosystem_discovery.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/pipeline/stages/ecosystem_discovery.py)
+### Classes
+- **`EcosystemDiscoveryStage`**: No docstring

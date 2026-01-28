@@ -93,7 +93,7 @@ subsystems:
   - name: ARCHIVE
     description: "Historical snapshots + deprecated experiments"
     root_dirs:
-      code: archive/
+      code: standard-model-of-code/archive/
       context: standard-model-of-code/docs/archive/
     entrypoints: []
     canonical_docs: []

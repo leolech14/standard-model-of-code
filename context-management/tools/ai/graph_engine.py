@@ -10,7 +10,7 @@ class GraphEngine:
             user = os.environ.get("NEO4J_USER", "neo4j")
             password = os.environ.get("NEO4J_PASSWORD", "password")
             auth = (user, password)
-            
+
         self.driver = GraphDatabase.driver(uri, auth=auth)
         self.model = model
         # Use provided client or create one
@@ -30,21 +30,21 @@ class GraphEngine:
         schema = self._get_schema_summary()
         prompt = f"""
         You are a Cypher expert. Convert the following natural language query into a READ-ONLY Cypher query for Neo4j.
-        
+
         Schema:
         {schema}
-        
+
         User Query: "{user_query}"
-        
+
         Rules:
         1. Return ONLY the Cypher query. No markdown, no explanations.
         2. Use MATCH, RETURN, ORDER BY, LIMIT.
         3. Do NOT use CREATE, MERGE, DELETE, SET.
         4. If asking for specific files/functions, use CONTAINS or exact match on 'id' property.
-        
+
         Cypher:
         """
-        
+
         response = self.client.models.generate_content(
             model=self.model,
             contents=[Part.from_text(text=prompt)]
@@ -54,7 +54,7 @@ class GraphEngine:
     def query(self, user_query):
         cypher = self.nl_to_cypher(user_query)
         print(f"\n[Generated Cypher]: {cypher}\n")
-        
+
         try:
             with self.driver.session() as session:
                 result = session.run(cypher)

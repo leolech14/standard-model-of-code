@@ -28,7 +28,7 @@ class GraphAnalytics:
         3. High complexity nodes (high degree centrality)
         """
         print("\n--- GRAPH ANALYTICS: SPRAWL DETECTION ---")
-        
+
         # 1. Total Counts
         counts = self.run_query("""
         MATCH (n:CodeNode)
@@ -54,7 +54,7 @@ class GraphAnalytics:
         # 3. God Objects (High fan-out/fan-in)
         god_objects = self.run_query("""
         MATCH (n:CodeNode)
-        WITH n, 
+        WITH n,
              size([(n)-->() | 1]) as out_degree,
              size([()-->(n) | 1]) as in_degree
         WHERE out_degree > 20 OR in_degree > 20
@@ -67,12 +67,12 @@ class GraphAnalytics:
             print(f"  - {obj['n.id']}: In={obj['in_degree']}, Out={obj['out_degree']}")
 
         # 4. Community Detection (Label Propagation - Basic Simulation/Heuristic if GDS not installed)
-        # Note: GDS (Graph Data Science) library might not be available. 
+        # Note: GDS (Graph Data Science) library might not be available.
         # We can simulate basic clustering by looking for dense connections or just listing node types.
-        
+
         # Let's check for 'islands' - small components
         # This is hard without GDS or complex traversal, but we can check nodes with low connectivity
-        
+
         print("\nAnalysis Complete.")
 
 def main():

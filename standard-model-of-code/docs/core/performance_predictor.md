@@ -1,13 +1,17 @@
 # Performance Predictor
 
 > **Mirror**: [`performance_predictor.py`](../../../src/core/performance_predictor.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`TimeType`**: No docstring
+- **`PerformanceNode`**: No docstring
+- **`PerformanceProfile`**: No docstring
+- **`PerformancePredictor`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/performance_predictor.py)
+### Functions
+- **`predict_performance`**: Convenience function to predict performance.

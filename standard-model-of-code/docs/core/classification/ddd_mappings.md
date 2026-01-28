@@ -1,13 +1,9 @@
 # Ddd Mappings
 
 > **Mirror**: [`classification/ddd_mappings.py`](../../../src/core/classification/ddd_mappings.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/classification/ddd_mappings.py)

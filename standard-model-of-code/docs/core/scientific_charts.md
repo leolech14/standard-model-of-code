@@ -1,13 +1,15 @@
 # Scientific Charts
 
 > **Mirror**: [`scientific_charts.py`](../../../src/core/scientific_charts.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ChartSpec`**: No docstring
+- **`ChartEngine`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/scientific_charts.py)
+### Functions
+- **`generate_charts`**: Generate all charts from analysis file.

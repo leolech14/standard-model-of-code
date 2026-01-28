@@ -1,13 +1,19 @@
 # Topology Reasoning
 
 > **Mirror**: [`topology_reasoning.py`](../../../src/core/topology_reasoning.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`BettiNumbers`**: No docstring
+- **`ElevationResult`**: No docstring
+- **`ElevationModel`**: No docstring
+- **`LandscapeProfile`**: No docstring
+- **`LandscapeHealthIndex`**: No docstring
+- **`TopologyClassifier`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/topology_reasoning.py)
+### Functions
+- **`compute_gradient`**: Compute gradient along a dependency edge.

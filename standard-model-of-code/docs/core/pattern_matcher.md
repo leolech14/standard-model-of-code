@@ -1,13 +1,18 @@
 # Pattern Matcher
 
 > **Mirror**: [`pattern_matcher.py`](../../../src/core/pattern_matcher.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`AtomMatch`**: No docstring
+- **`PatternMatcher`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/pattern_matcher.py)
+### Functions
+- **`_get_tree_sitter`**: Lazy load tree-sitter module.
+- **`_get_language`**: Lazy load language module.
+- **`detect_atoms`**: Module-level function to detect atoms.
+- **`detect_atoms_in_file`**: Detect atoms in a file.

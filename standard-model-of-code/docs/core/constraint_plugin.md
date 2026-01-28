@@ -1,13 +1,14 @@
 # Constraint Plugin
 
 > **Mirror**: [`constraint_plugin.py`](../../../src/core/constraint_plugin.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ConstraintPlugin`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/constraint_plugin.py)
+### Functions
+- **`get_constraint_engine_from_hub`**: Get constraint engine from hub (backward compatibility).

@@ -26,7 +26,7 @@ class PythonSymbol:
     return_type: str = ""
     docstring: str = ""
     body_source: str = ""
-    
+
     def to_dict(self) -> dict:
         return {
             "name": self.name,
@@ -44,60 +44,60 @@ class PythonSymbol:
 
 class PythonASTParser:
     """Parses Python source code using the AST module."""
-    
+
     # Maximum depth before switching to iterative traversal
     MAX_RECURSIVE_DEPTH = 500
-    
+
     def __init__(self):
         self.symbols: List[PythonSymbol] = []
         self.lines: List[str] = []
-    
+
     def parse(self, content: str) -> List[PythonSymbol]:
         """Parse Python content and extract all symbols."""
         self.symbols = []
         self.lines = content.splitlines()
-        
+
         try:
             tree = ast.parse(content)
         except SyntaxError:
             return []
-        
+
         # Measure depth to choose traversal strategy
         depth = self._measure_depth(tree)
-        
+
         if depth < self.MAX_RECURSIVE_DEPTH:
             self._extract_recursive(tree)
         else:
             self._extract_iterative(tree)
-        
+
         return self.symbols
-    
+
     def _measure_depth(self, tree: ast.AST) -> int:
         """Measure AST depth without recursion."""
         max_depth = 0
         stack = [(tree, 0)]
-        
+
         while stack:
             node, depth = stack.pop()
             max_depth = max(max_depth, depth)
-            
+
             for child in ast.iter_child_nodes(node):
                 stack.append((child, depth + 1))
-        
+
         return max_depth
-    
+
     def _extract_recursive(self, tree: ast.AST, parent: str = ""):
         """Recursive extraction for normal-depth trees."""
-        
+
         class Visitor(ast.NodeVisitor):
             def __init__(self_v, parser, parent_name):
                 self_v.parser = parser
                 self_v.parent = parent_name
-            
+
             def visit_ClassDef(self_v, node: ast.ClassDef):
                 symbol = self_v.parser._extract_class(node, self_v.parent)
                 self_v.parser.symbols.append(symbol)
-                
+
                 # Visit methods with class as parent
                 for child in node.body:
                     if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -105,30 +105,30 @@ class PythonASTParser:
                         self_v.parser.symbols.append(method_symbol)
                     elif isinstance(child, ast.ClassDef):
                         Visitor(self_v.parser, node.name).visit(child)
-            
+
             def visit_FunctionDef(self_v, node: ast.FunctionDef):
                 if not self_v.parent:  # Only top-level functions
                     symbol = self_v.parser._extract_function(node, "")
                     self_v.parser.symbols.append(symbol)
-            
+
             def visit_AsyncFunctionDef(self_v, node: ast.AsyncFunctionDef):
                 if not self_v.parent:
                     symbol = self_v.parser._extract_function(node, "")
                     self_v.parser.symbols.append(symbol)
-        
+
         Visitor(self, parent).visit(tree)
-    
+
     def _extract_iterative(self, tree: ast.AST):
         """Iterative extraction for deep trees (avoids recursion limits)."""
         stack = [(tree, "")]
-        
+
         while stack:
             node, parent = stack.pop()
-            
+
             if isinstance(node, ast.ClassDef):
                 symbol = self._extract_class(node, parent)
                 self.symbols.append(symbol)
-                
+
                 # Add children with class as parent
                 for child in reversed(node.body):
                     if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
@@ -136,16 +136,16 @@ class PythonASTParser:
                         self.symbols.append(method_symbol)
                     elif isinstance(child, ast.ClassDef):
                         stack.append((child, node.name))
-            
+
             elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 if not parent:  # Only top-level
                     symbol = self._extract_function(node, "")
                     self.symbols.append(symbol)
-            
+
             elif isinstance(node, ast.Module):
                 for child in reversed(node.body):
                     stack.append((child, parent))
-    
+
     def _extract_class(self, node: ast.ClassDef, parent: str) -> PythonSymbol:
         """Extract a class symbol."""
         return PythonSymbol(
@@ -158,7 +158,7 @@ class PythonASTParser:
             base_classes=self._get_base_classes(node),
             docstring=self._get_docstring(node),
         )
-    
+
     def _extract_function(self, node, parent: str) -> PythonSymbol:
         """Extract a function/method symbol."""
         return PythonSymbol(
@@ -173,7 +173,7 @@ class PythonASTParser:
             docstring=self._get_docstring(node),
             body_source=self._get_body_source(node),
         )
-    
+
     def _get_decorators(self, node) -> List[str]:
         """Extract decorator names."""
         decorators = []
@@ -188,7 +188,7 @@ class PythonASTParser:
                 elif isinstance(dec.func, ast.Attribute):
                     decorators.append(self._get_attribute_name(dec.func))
         return decorators
-    
+
     def _get_attribute_name(self, node: ast.Attribute) -> str:
         """Get full attribute name like pytest.mark.parametrize."""
         parts = [node.attr]
@@ -199,7 +199,7 @@ class PythonASTParser:
         if isinstance(current, ast.Name):
             parts.append(current.id)
         return '.'.join(reversed(parts))
-    
+
     def _get_base_classes(self, node: ast.ClassDef) -> List[str]:
         """Extract base class names."""
         bases = []
@@ -209,22 +209,22 @@ class PythonASTParser:
             elif isinstance(base, ast.Attribute):
                 bases.append(self._get_attribute_name(base))
         return bases
-    
+
     def _get_params(self, node) -> List[Dict[str, str]]:
         """Extract function parameters with types and defaults."""
         params = []
         args = node.args
-        
+
         # Calculate defaults offset
         defaults_offset = len(args.args) - len(args.defaults)
-        
+
         for i, arg in enumerate(args.args):
             param = {"name": arg.arg}
-            
+
             # Type annotation
             if arg.annotation:
                 param["type"] = ast.unparse(arg.annotation) if hasattr(ast, 'unparse') else ""
-            
+
             # Default value
             default_idx = i - defaults_offset
             if default_idx >= 0 and default_idx < len(args.defaults):
@@ -232,19 +232,19 @@ class PythonASTParser:
                     param["default"] = ast.unparse(args.defaults[default_idx]) if hasattr(ast, 'unparse') else "..."
                 except:
                     param["default"] = "..."
-            
+
             params.append(param)
-        
+
         # *args
         if args.vararg:
             params.append({"name": f"*{args.vararg.arg}"})
-        
+
         # **kwargs
         if args.kwarg:
             params.append({"name": f"**{args.kwarg.arg}"})
-        
+
         return params
-    
+
     def _get_return_type(self, node) -> str:
         """Extract return type annotation."""
         if node.returns:
@@ -253,16 +253,16 @@ class PythonASTParser:
             except:
                 return ""
         return ""
-    
+
     def _get_docstring(self, node) -> str:
         """Extract docstring from function or class."""
         return ast.get_docstring(node) or ""
-    
+
     def _get_body_source(self, node) -> str:
         """Extract body source code."""
         if not self.lines:
             return ""
-        
+
         try:
             start = node.lineno - 1
             end = getattr(node, 'end_lineno', start + 1)
@@ -282,11 +282,11 @@ if __name__ == "__main__":
     test_code = '''
 class UserRepository(BaseRepository):
     """Repository for User entities."""
-    
+
     def get_by_id(self, user_id: int) -> Optional[User]:
         """Get user by ID."""
         return self.session.query(User).get(user_id)
-    
+
     def save(self, user: User) -> User:
         """Save user to database."""
         self.session.add(user)
@@ -300,10 +300,10 @@ def create_user(name: str, email: str) -> User:
 def sample_user():
     return User(name="Test", email="test@example.com")
 '''
-    
+
     parser = PythonASTParser()
     symbols = parser.parse(test_code)
-    
+
     print("Extracted symbols:")
     for sym in symbols:
         parent_str = f" (in {sym.parent})" if sym.parent else ""

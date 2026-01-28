@@ -1,13 +1,11 @@
 # Stage 0 Survey
 
 > **Mirror**: [`pipeline/stages/stage_0_survey.py`](../../../src/core/pipeline/stages/stage_0_survey.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/pipeline/stages/stage_0_survey.py)
+### Classes
+- **`SurveyStage`**: No docstring

@@ -1,13 +1,20 @@
 # Dimension Classifier
 
 > **Mirror**: [`dimension_classifier.py`](../../../src/core/dimension_classifier.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`BoundaryType`**: No docstring
+- **`StateType`**: No docstring
+- **`LifecyclePhase`**: No docstring
+- **`LayerType`**: No docstring
+- **`TreeSitterDimensionClassifier`**: No docstring
+- **`RegexDimensionClassifier`**: No docstring
+- **`DimensionClassifier`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/dimension_classifier.py)
+### Functions
+- **`classify_all_dimensions`**: Classify all 3 missing dimensions for a list of nodes.

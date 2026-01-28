@@ -10,7 +10,7 @@
 
 | Command | Purpose |
 |---------|---------|
-| `./collider full <path>` | Complete 18-stage analysis |
+| `./collider full <path>` | Complete 28-stage analysis |
 | `./collider full <path> --output <dir>` | Custom output directory |
 | `./collider full <path> --ai-insights` | With LLM enrichment |
 
@@ -84,22 +84,28 @@
 | 1 | Base Analysis | AST, initial nodes |
 | 2 | Standard Model | atom classification |
 | 2.5 | Ecosystem Discovery | framework detection |
-| 2.7 | Octahedral Dimensions | 8D vectors |
+| 2.7 | Dimension Classification | 8D vectors |
+| 2.8 | Scope Analysis | lexical scope |
+| 2.9 | Control Flow | complexity metrics |
+| 2.10 | Pattern Detection | framework patterns |
+| 2.11 | Data Flow Analysis | D6:EFFECT |
 | 3 | Purpose Field | layers, π emergence |
 | 3.5 | Organelle Purpose (π₃) | container purpose labels |
 | 3.6 | System Purpose (π₄) | file-level purpose labels |
-| 4 | Execution Flow | reachable_set, orphans |
+| 4 | Edge Extraction | call relationships |
 | 5 | Markov Transitions | state matrix |
 | 6 | Knot/Cycle Detection | cycles, knots |
 | 6.5 | Graph Analytics | centrality, clustering |
 | 6.6 | Statistical Metrics | distributions |
-| 7 | Data Flow | data movement graph |
+| 6.8 | Codome Boundary | external callers |
+| 7 | Data Flow Macro | sources and sinks |
 | 8 | Performance Prediction | hotspots |
 | 8.5 | Constraint Validation | profile checks |
 | **8.6** | **Purpose Intelligence** | **Q-scores (quality metrics)** |
 | 9 | Roadmap Evaluation | maturity score |
-| 10 | Visual Reasoning | topology shape |
+| 10 | Topology Reasoning | graph shape |
 | 11 | Semantic Cortex | high-level patterns |
+| 11.5 | Manifest Writer | provenance & integrity |
 | 11b | AI Insights (optional) | LLM analysis |
 | 12 | Consolidated Output | JSON, HTML, MD |
 
@@ -120,6 +126,12 @@ Computes Q-scores measuring how well each holon serves its purpose:
 **Output:** Each node receives `purpose_intelligence` object with Q-scores.
 
 **Full specification:** [PURPOSE_INTELLIGENCE.md](PURPOSE_INTELLIGENCE.md)
+
+### Manifest Writer Stage (11.5)
+
+The **Manifest Writer** stage generates a cryptographically signed provenance record of the entire analysis. This ensures the integrity of the "Measured Codome" and creates a immutable chain of custody for the generated intelligence.
+
+**Output:** `manifest.json` (signed)
 
 ---
 
@@ -188,7 +200,7 @@ This is **meta-analysis** — AI analyzing an analysis.
 | Graph generation | `src/core/unified_analysis.py` |
 | Report generator | `src/core/brain_download.py` |
 | Atom loader | `src/core/atom_loader.py` |
-| Atom classifier | `src/patterns/atom_classifier.py` |
+| Atom classifier | `src/core/classification/universal_classifier.py` |
 | Role assignment | `src/core/heuristic_classifier.py` |
 | Topology classifier | `src/core/topology_reasoning.py` |
 | HTML generator | `tools/visualize_graph_webgl.py` |
@@ -201,7 +213,7 @@ This is **meta-analysis** — AI analyzing an analysis.
 | T0 atoms (42) | `src/patterns/ATOMS_TIER0_CORE.yaml` |
 | T1 atoms (21) | `src/patterns/ATOMS_TIER1_STDLIB.yaml` |
 | T2 atoms (17) | `src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml` |
-| Role definitions | `schema/fixed/roles.json` |
+| Role definitions | `../schema/fixed/roles.json` |
 
 ### Tree-sitter Query Infrastructure
 

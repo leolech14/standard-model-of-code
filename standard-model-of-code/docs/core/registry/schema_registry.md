@@ -1,13 +1,17 @@
 # Schema Registry
 
 > **Mirror**: [`registry/schema_registry.py`](../../../src/core/registry/schema_registry.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`SchemaCategory`**: No docstring
+- **`Effort`**: No docstring
+- **`OptimizationSchema`**: No docstring
+- **`SchemaRegistry`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/registry/schema_registry.py)
+### Functions
+- **`get_schema_registry`**: Get the singleton schema registry.

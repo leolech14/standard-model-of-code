@@ -1,13 +1,13 @@
 # Self Proof
 
 > **Mirror**: [`validation/self_proof.py`](../../../src/core/validation/self_proof.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/validation/self_proof.py)
+### Classes
+- **`ReachabilityDiagnostics`**: No docstring
+- **`ProofResult`**: No docstring
+- **`SelfProofValidator`**: No docstring

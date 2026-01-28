@@ -23,13 +23,13 @@ graph TD
         O2[dashboard/]:::scatter --> Archive
         O3[related/]:::scatter --> Archive
         O4[temporal_dashboard/]:::scatter --> Archive
-        
+
         D1[architecture_report/]:::debt --> Reports(context-management/reports)
         D2[evolution_report/]:::debt --> Reports
         D3[roadmap_report/]:::debt --> Reports
-        
+
         F1[unified_analysis.json 29MB]:::scatter --> Data(context-management/data)
-        
+
         M1[PROJECT_MAP.md]:::debt --> Inventory(ARCHITECTURE_INVENTORY.md)
         M2[AGENTS.md]:::debt --> Docs(context-management/docs)
         M3[CLAUDE.md]:::debt --> Docs

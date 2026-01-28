@@ -36,7 +36,7 @@ class ClassifiedSymbol:
     decorators: List[str] = field(default_factory=list)
     base_classes: List[str] = field(default_factory=list)
     docstring: str = ""
-    
+
     def to_dict(self) -> dict:
         return {
             "name": self.name,
@@ -62,26 +62,26 @@ DDD_BASE_CLASS_MAPPINGS = {
     "AbstractEntity": "Entity",
     "ValueObject": "ValueObject",
     "BaseValueObject": "ValueObject",
-    
+
     # Aggregates
     "AggregateRoot": "AggregateRoot",
     "BaseAggregateRoot": "AggregateRoot",
-    
+
     # Repositories
     "Repository": "Repository",
     "BaseRepository": "Repository",
     "AbstractRepository": "Repository",
-    
+
     # Commands & Queries
     "Command": "Command",
     "BaseCommand": "Command",
     "Query": "Query",
     "BaseQuery": "Query",
-    
+
     # Services
     "DomainService": "DomainService",
     "ApplicationService": "Service",
-    
+
     # Configuration
     "BaseSettings": "Configuration",
     "Settings": "Configuration",
@@ -96,7 +96,7 @@ DECORATOR_MAPPINGS = {
     "abstractmethod": "Specification",
     "pytest.fixture": "Fixture",
     "fixture": "Fixture",
-    
+
     # FastAPI/Flask
     "get": "Controller",
     "post": "Controller",
@@ -105,11 +105,11 @@ DECORATOR_MAPPINGS = {
     "patch": "Controller",
     "route": "Controller",
     "api": "Controller",
-    
+
     # Django
     "login_required": "Controller",
     "permission_required": "Policy",
-    
+
     # Testing
     "test": "Test",
     "pytest.mark": "Test",
@@ -120,7 +120,7 @@ DECORATOR_MAPPINGS = {
 
 class SymbolClassifier:
     """Classifies code symbols based on names, inheritance, and decorators."""
-    
+
     # Prefix patterns for function classification
     PREFIX_PATTERNS = {
         'test_': ('Test', 90),
@@ -151,7 +151,7 @@ class SymbolClassifier:
         'from_': ('Factory', 80),
         '_': ('Internal', 70),
     }
-    
+
     # Suffix patterns for class classification
     SUFFIX_PATTERNS = {
         'Service': ('Service', 90),
@@ -178,7 +178,7 @@ class SymbolClassifier:
         'Config': ('Configuration', 80),
         'Settings': ('Configuration', 80),
     }
-    
+
     # Dunder method mappings
     DUNDER_MAPPINGS = {
         '__init__': ('Lifecycle', 95),
@@ -196,7 +196,7 @@ class SymbolClassifier:
         '__enter__': ('Lifecycle', 90),
         '__exit__': ('Lifecycle', 90),
     }
-    
+
     def classify(
         self,
         name: str,
@@ -210,25 +210,25 @@ class SymbolClassifier:
         """Classify a symbol based on all available evidence."""
         decorators = decorators or []
         base_classes = base_classes or []
-        
+
         # Try classification in order of confidence
         role, confidence = self._classify_by_inheritance(base_classes)
-        
+
         if confidence < 90:
             dec_role, dec_conf = self._classify_by_decorators(decorators)
             if dec_conf > confidence:
                 role, confidence = dec_role, dec_conf
-        
+
         if confidence < 85:
             name_role, name_conf = self._classify_by_name(name, kind)
             if name_conf > confidence:
                 role, confidence = name_role, name_conf
-        
+
         if confidence < 70:
             ev_role, ev_conf = self._classify_by_evidence(evidence)
             if ev_conf > confidence:
                 role, confidence = ev_role, ev_conf
-        
+
         return ClassifiedSymbol(
             name=name,
             kind=kind,
@@ -240,7 +240,7 @@ class SymbolClassifier:
             base_classes=base_classes,
             evidence=evidence,
         )
-    
+
     def _classify_by_inheritance(self, base_classes: List[str]) -> Tuple[str, float]:
         """Classify by DDD base class inheritance (highest confidence)."""
         for base in base_classes:
@@ -249,7 +249,7 @@ class SymbolClassifier:
             if simple_name in DDD_BASE_CLASS_MAPPINGS:
                 return (DDD_BASE_CLASS_MAPPINGS[simple_name], 99)
         return ("Unknown", 0)
-    
+
     def _classify_by_decorators(self, decorators: List[str]) -> Tuple[str, float]:
         """Classify by decorator patterns."""
         for dec in decorators:
@@ -257,61 +257,61 @@ class SymbolClassifier:
             simple_name = dec.split('.')[-1].lower()
             if simple_name in DECORATOR_MAPPINGS:
                 return (DECORATOR_MAPPINGS[simple_name], 90)
-            
+
             # Check partial matches
             for pattern, role in DECORATOR_MAPPINGS.items():
                 if pattern in dec.lower():
                     return (role, 85)
-        
+
         return ("Unknown", 0)
-    
+
     def _classify_by_name(self, name: str, kind: SymbolKind) -> Tuple[str, float]:
         """Classify by naming conventions."""
         name_lower = name.lower()
         short_name = name.split('.')[-1] if '.' in name else name
         short_lower = short_name.lower()
-        
+
         # Check dunder methods
         if short_lower in self.DUNDER_MAPPINGS:
             return self.DUNDER_MAPPINGS[short_lower]
-        
+
         # Check prefix patterns
         for prefix, (role, conf) in self.PREFIX_PATTERNS.items():
             if short_lower.startswith(prefix):
                 return (role, conf)
-        
+
         # Check suffix patterns (case-insensitive)
         for suffix, (role, conf) in self.SUFFIX_PATTERNS.items():
             if short_name.endswith(suffix) or short_lower.endswith(suffix.lower()):
                 return (role, conf)
-        
+
         # Default based on kind
         if kind == SymbolKind.CLASS:
             return ("DTO", 50)
         elif kind == SymbolKind.FUNCTION:
             return ("Utility", 50)
-        
+
         return ("Unknown", 0)
-    
+
     def _classify_by_evidence(self, evidence: str) -> Tuple[str, float]:
         """Classify by code evidence (body patterns)."""
         if not evidence:
             return ("Unknown", 0)
-        
+
         evidence_lower = evidence.lower()
-        
+
         # Database patterns
         if any(x in evidence_lower for x in ['select', 'insert', 'update ', 'delete from']):
             return ("Repository", 75)
-        
+
         # HTTP patterns
         if any(x in evidence_lower for x in ['request', 'response', 'http', 'json']):
             return ("Controller", 70)
-        
+
         # Validation patterns
         if any(x in evidence_lower for x in ['raise', 'assert', 'error', 'exception']):
             return ("Validator", 65)
-        
+
         return ("Unknown", 0)
 
 
@@ -333,7 +333,7 @@ def classify_symbol(
 if __name__ == "__main__":
     # Test the classifier
     classifier = SymbolClassifier()
-    
+
     tests = [
         ("UserRepository", SymbolKind.CLASS, [], []),
         ("get_user_by_id", SymbolKind.FUNCTION, [], []),
@@ -341,7 +341,7 @@ if __name__ == "__main__":
         ("test_user_login", SymbolKind.FUNCTION, ["pytest.fixture"], []),
         ("__init__", SymbolKind.METHOD, [], []),
     ]
-    
+
     print("Symbol Classification Tests:")
     for name, kind, decorators, bases in tests:
         result = classifier.classify(name, kind, "test.py", 1, decorators=decorators, base_classes=bases)

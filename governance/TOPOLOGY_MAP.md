@@ -51,7 +51,7 @@ All data processed is wrapped in a **Waybill** for provenance. These live as JSO
 The `verify_symmetry.py` tool acts as a local governor, ensuring that the **Codome** (Implementation) and **Contextome** (Documentation) do not drift apart. It verifies the high-order registries (ROR, LOL, SOS) against the physical file system.
 
 ### 2.4 Purpose Extraction (π₁-π₄)
-The ultimate goal of the data flow is to refine raw characters into **Purpose**. 
+The ultimate goal of the data flow is to refine raw characters into **Purpose**.
 - **π₁**: Syntax/Structure
 - **π₂**: Semantics/Connectivity
 - **π₃**: Functional Intent

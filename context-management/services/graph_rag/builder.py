@@ -13,7 +13,7 @@ class GraphBuilder:
     """
     Manages the structural construction and indexing of the Knowledge Graph in Neo4j.
     """
-    
+
     def __init__(self, uri=None, user=None, password=None):
         if not GraphDatabase:
             logger.warning("Neo4j driver not found. GraphBuilder disabled.")
@@ -23,7 +23,7 @@ class GraphBuilder:
         self.uri = uri or os.environ.get("NEO4J_URI", "bolt://localhost:7687")
         self.user = user or os.environ.get("NEO4J_USER", "neo4j")
         self.password = password or os.environ.get("NEO4J_PASSWORD", "elements2026")
-        
+
         try:
             self.driver = GraphDatabase.driver(self.uri, auth=(self.user, self.password))
             self.verify_connection()
@@ -57,7 +57,7 @@ class GraphBuilder:
             "CREATE CONSTRAINT code_id_unique IF NOT EXISTS FOR (c:CodeEntity) REQUIRE c.id IS UNIQUE",
             "CREATE CONSTRAINT chunk_id_unique IF NOT EXISTS FOR (c:Chunk) REQUIRE c.id IS UNIQUE",
             "CREATE CONSTRAINT paper_id_unique IF NOT EXISTS FOR (p:Paper) REQUIRE p.id IS UNIQUE",
-            
+
             # Lookup Indices
             "CREATE INDEX code_name IF NOT EXISTS FOR (c:CodeEntity) ON (c.name)",
             "CREATE INDEX chunk_content IF NOT EXISTS FOR (c:Chunk) ON (c.content)",
@@ -82,7 +82,7 @@ class GraphBuilder:
                     logger.info(f"Executed: {q[:50]}...")
                 except Exception as e:
                     logger.warning(f"Index creation failed: {e}")
-            
+
             try:
                 session.run(vector_query)
                 logger.info("Vector index created/verified.")

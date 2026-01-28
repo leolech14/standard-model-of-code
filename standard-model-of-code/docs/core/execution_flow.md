@@ -1,13 +1,19 @@
 # Execution Flow
 
 > **Mirror**: [`execution_flow.py`](../../../src/core/execution_flow.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`FlowType`**: No docstring
+- **`FlowNode`**: No docstring
+- **`CausalityChain`**: No docstring
+- **`IntegrationError`**: No docstring
+- **`ExecutionFlow`**: No docstring
+- **`ExecutionFlowDetector`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/execution_flow.py)
+### Functions
+- **`detect_execution_flow`**: Convenience function to detect execution flow.

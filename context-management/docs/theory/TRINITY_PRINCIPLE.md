@@ -157,10 +157,21 @@ Outputs: Graph, Chunks
 - Different orphan semantics
 - Different analysis needs
 
-### Trichotomy (Non-MECE): Tool / Service / Library
-- Execution patterns
-- Overlapping categories
-- Useful taxonomy, not partition
+### Infrastructure: Tool / Library / Service
+- **Parallel Mapping**: 
+    - **PARTICLE** ↔ **Tool** (The Engine: Collider CLI)
+    - **WAVE** ↔ **Library** (The Intelligence: Refinery/ACI logic)
+    - **OBSERVER** ↔ **Service** (The Governance: Autopilot/Watcher services)
+- **Status**: VALIDATED. These represent the *dominant execution mode* of each realm. Even when a file can be executed as a tool (e.g., `refinery.py`), its primary architectural role is as a Library of wave-forms.
+
+---
+
+## TRANSVERSAL SUBSYSTEMS (The Gradients)
+
+### S15: Temporal Intelligence
+- **Status**: TRANSVERSAL
+- **Nature**: Measures physical change (PARTICLE), creates semantic relevance (WAVE), and informs governance (OBSERVER).
+- **Rule**: Transversal subsystems are not "Realms" but "Dimensions" that traverse them. S15 is the **Time Dimension** of the Standard Model.
 
 ---
 
@@ -171,7 +182,7 @@ Outputs: Graph, Chunks
 | **Directory** | standard-model-of-code/ | context-management/ | .agent/ |
 | **Purpose** | Analyze structure | Understand semantics | Coordinate actions |
 | **Input** | Codome (.py, .js) | Contextome (.md, .yaml) | Events |
-| **Process** | Collider (28 stages) | Refinery (8 stages) | Autopilot/Wire/Watcher |
+| **Process** | Collider (28 stages) | Refinery (4 stages) | Autopilot/Wire/Watcher |
 | **Output** | Graph (nodes, edges) | Chunks (semantic atoms) | Tasks, decisions |
 | **Nature** | Deterministic | Probabilistic | Reactive |
 | **Dominant tool type** | CLI tools | Libraries + Tools | Services |

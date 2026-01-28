@@ -16,4 +16,3 @@
 | [ ] | Legacy Report Dirs | `*_report/` | Move to `reports/` | Low | PASS | ✓ 3 dirs |
 | [ ] | Redundant Map | `PROJECT_MAP.md` | Delete | Low | PASS | ✓ exists |
 | [ ] | Dead-Letter Attention | `semantic_finder.py` | Integrate into `Refinery` | High | PASS | ✓ Logic found |
-

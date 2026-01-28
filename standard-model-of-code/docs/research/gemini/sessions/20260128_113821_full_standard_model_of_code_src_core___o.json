@@ -1,0 +1,16 @@
+{
+  "session_start": "2026-01-28 11:37:46",
+  "session_end": "2026-01-28 11:38:21",
+  "model": "gemini-2.5-flash",
+  "total_tokens_in": 0,
+  "total_tokens_out": 0,
+  "turn_count": 1,
+  "turns": [
+    {
+      "timestamp": 1769611066.585619,
+      "timestamp_str": "2026-01-28 11:37:46",
+      "role": "user",
+      "content": "full standard-model-of-code/src/core --output .collider_igt_test"
+    }
+  ]
+}

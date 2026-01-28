@@ -1,13 +1,15 @@
 # Role Registry
 
 > **Mirror**: [`registry/role_registry.py`](../../../src/core/registry/role_registry.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`Role`**: No docstring
+- **`RoleRegistry`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/registry/role_registry.py)
+### Functions
+- **`get_role_registry`**: Get the singleton role registry.

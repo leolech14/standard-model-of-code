@@ -12612,11 +12612,11 @@ window.SIDEBAR = (function () {
                 if (typeof Graph !== 'undefined' && Graph) Graph.nodeResolution(val);
                 break;
             case 'cfg-label-size':
-                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier, 
+                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier,
                 // but we can trigger a re-render or update state.
                 break;
 
-            // Edge Config    
+            // Edge Config
             case 'cfg-edge-opacity':
                 if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.edgeOpacity = val;
                 if (typeof applyEdgeMode === 'function') applyEdgeMode();
@@ -15683,7 +15683,7 @@ const CONTROL_BAR = (function () {
                 background: rgba(45, 48, 55, 0.9);
                 border-color: rgba(120, 125, 135, 0.35);
             }
-            
+
             .cb-select:focus {
                 outline: none;
                 border-color: var(--accent, #4a9eff);
@@ -21056,7 +21056,7 @@ function drawContainmentSpheres(_data) {
     });
     FILE_CONTAINMENT.spheres = [];
 
-    // ONLY DRAW IF: 
+    // ONLY DRAW IF:
     // 1. File Mode is ON
     // 2. We are NOT in Flow Mode (Flow is exclusive)
     // 3. Hulls button is active (explicit user choice)

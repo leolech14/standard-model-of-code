@@ -37,7 +37,7 @@ Currently, `PROJECT_elements` is in a state of **Active Drift** (Dynamic Entropy
 -   **Total Particles (Files)**: ~850.
 
 ## 4. The Unified Field Theory
-The Projectome is not just a file list; it is a **Topology of Purpose**. 
+The Projectome is not just a file list; it is a **Topology of Purpose**.
 Every file must have a **Waybill** linking it to a **Concordance**. If a file exists without a purpose-aligned partner (e.g., code without specs, or specs without code), it is considered **"Dark Matter"** (Shadow Debt) in the Projectome.
 
 ---

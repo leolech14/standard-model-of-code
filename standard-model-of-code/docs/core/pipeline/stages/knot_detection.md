@@ -1,13 +1,11 @@
 # Knot Detection
 
 > **Mirror**: [`pipeline/stages/knot_detection.py`](../../../src/core/pipeline/stages/knot_detection.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/pipeline/stages/knot_detection.py)
+### Classes
+- **`KnotDetectionStage`**: No docstring

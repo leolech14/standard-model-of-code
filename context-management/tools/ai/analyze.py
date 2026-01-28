@@ -2423,21 +2423,21 @@ Examples:
             sys.exit(1)
 
         print(f"Initializing Graph Intelligence (Model: {args.model})...")
-        
+
         try:
             service = GraphRAGService()
             print(f"Executing GraphRAG Query: {args.prompt}")
             print("-" * 60)
-            
+
             response = service.query(args.prompt)
             print(f"\n{response}\n")
-            
+
             service.close()
-            
+
         except Exception as e:
             print(f"\nError executing graph query: {e}")
             sys.exit(1)
-            
+
         sys.exit(0)
 
     # =========================================================================
@@ -3424,7 +3424,7 @@ Please provide a thorough, comprehensive answer using the full context available
              sys.exit(1)
 
         print(f"\n[{args.tier.upper()}] Querying Unified Knowledge Graph...", file=sys.stderr)
-        
+
         try:
             service = GraphRAGService()
             answer = service.query(args.prompt)
@@ -3445,7 +3445,7 @@ Please provide a thorough, comprehensive answer using the full context available
         except Exception as e:
             print(f"GraphRAG Error: {e}", file=sys.stderr)
             sys.exit(1)
-        
+
         sys.exit(0)
 
     elif args.mode == 'insights':

@@ -4,7 +4,7 @@ Architectural Symmetry Validator (Holonic Edition)
 ==================================================
 Part of Phase 8: Systematic Architectural Enforcement
 
-Checks for symmetry between Codome (Code) and Contextome (Docs) 
+Checks for symmetry between Codome (Code) and Contextome (Docs)
 based on existing meta-registries:
 - .agent/META_REGISTRY.yaml
 - context-management/config/documentation_map.yaml
@@ -40,7 +40,7 @@ def validate_meta_registry():
     print("\n--- [ Meta-Registry Symmetry Check ] ---")
     data = load_yaml(META_REGISTRY)
     if not data: return
-    
+
     # Check Body/Brain/Archive roots
     categories = ["body", "brain", "archive"]
     for cat in categories:
@@ -50,7 +50,7 @@ def validate_meta_registry():
             if root:
                 status = "OK" if check_path(root) else "FAIL"
                 print(f"[{status}] Universe: {cat:7} | Root: {root}")
-            
+
             entry = data[cat].get("entry") or data[cat].get("pipeline")
             if entry:
                 status = "OK" if check_path(entry) else "FAIL"
@@ -67,12 +67,12 @@ def validate_holarchy_symmetry():
     print("\n--- [ High-Order Holarchy Consistency (ROR/LOL/SOS) ] ---")
     data = load_yaml(META_REGISTRY)
     if not data or "meta" not in data: return
-    
+
     meta = data["meta"]
     lol_path = PROJECT_ROOT / meta["lol"]
     ror_path = PROJECT_ROOT / meta["ror"]
     sos_path = PROJECT_ROOT / meta["sos"]
-    
+
     # Check if SOS references S1 (Collider) consistent with LOL
     if check_path(meta["lol"]) and check_path(meta["sos"]):
         with open(sos_path, 'r') as f:
@@ -81,7 +81,7 @@ def validate_holarchy_symmetry():
                 print("[OK] SOS correctly references S1 (Collider) via LOL.")
             else:
                 print("[FAIL] SOS reference to LOL Subsystem S1 for S1 is missing or incorrect.")
-                
+
     # Check if ROR contains the High-Order Holarchy table
     if check_path(meta["ror"]):
         with open(ror_path, 'r') as f:
@@ -95,21 +95,21 @@ def validate_doc_map_symmetry():
     print("\n--- [ Holonic Symmetry Score (Doc Map) ] ---")
     data = load_yaml(DOC_MAP)
     docs = data.get("documentation", {})
-    
+
     total_checks = 0
     passed_checks = 0
-    
+
     for doc_path, meta in docs.items():
         doc_exists = check_path(doc_path)
         validates = meta.get("validates_against", [])
-        
+
         status = "OK  " if doc_exists else "FAIL"
         print(f"[{status}] Doc: {doc_path}")
-        
+
         if doc_exists:
             passed_checks += 1
         total_checks += 1
-        
+
         for v_path in validates:
             v_exists = check_path(v_path)
             v_status = "✓" if v_exists else "✗"
@@ -126,26 +126,26 @@ def validate_subsystems_symmetry():
     data = load_yaml(META_REGISTRY)
     if not data or "meta" not in data or "subsystems" not in data["meta"]:
         return
-    
+
     sub_path = PROJECT_ROOT / data["meta"]["subsystems"]
     sub_registry = load_yaml(sub_path)
     if not sub_registry: return
-    
+
     subsystems = sub_registry.get("subsystems", [])
-    
+
     for sub in subsystems:
         name = sub.get("name")
         root_dirs = sub.get("root_dirs", {})
         code_root = root_dirs.get("code")
         context_root = root_dirs.get("context")
-        
+
         status = "OK  "
         code_exists = check_path(code_root) if code_root else False
         context_exists = check_path(context_root) if context_root else False
-        
+
         if not code_exists or not context_exists:
             status = "FAIL"
-            
+
         print(f"[{status}] Subsystem: {name:15}")
         print(f"  {'✓' if code_exists else '✗'} Code:    {code_root}")
         print(f"  {'✓' if context_exists else '✗'} Context: {context_root}")

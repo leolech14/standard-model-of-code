@@ -1,13 +1,15 @@
 # Data Management
 
 > **Mirror**: [`data_management.py`](../../../src/core/data_management.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`CodebaseState`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/data_management.py)
+### Functions
+- **`validate_node`**: Validate a node dict. Returns (errors, warnings).
+- **`validate_edge`**: Validate an edge dict. Returns (errors, warnings).

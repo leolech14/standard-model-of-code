@@ -105,8 +105,8 @@ class HeuristicClassifier:
         '_utils': 'Utility',
         '_manager': 'Service',
         '_processor': 'Service',
-        '_parser': 'Utility',
-        '_serializer': 'Mapper',
+        '_parser': 'Parser',
+        '_serializer': 'Serializer',
         '_deserializer': 'Mapper',
         '_converter': 'Mapper',
         '_adapter': 'Mapper',
@@ -118,18 +118,8 @@ class HeuristicClassifier:
         # Java conventions (camelCase)
         'Service': 'Service',
         'Repository': 'Repository',
-        'Controller': 'Controller',
         'Handler': 'Handler',
-        'Factory': 'Factory',
-        'Builder': 'Builder',
-        'Mapper': 'Mapper',
-        'Validator': 'Validator',
-        'Factory': 'Factory',
-        'Service': 'Service',
-        'Impl': 'Internal',
-        # Go conventions
-        'Handler': 'Handler',
-        'Guard': 'Service',
+        'Guard': 'Guard',
     }
     
     # Java/TypeScript prefix patterns (for polyglot support)
@@ -153,7 +143,6 @@ class HeuristicClassifier:
         'Benchmark': 'Asserter',  # BenchmarkSort
         'Example': 'Asserter',    # ExampleSort
         # Angular/NestJS
-        'ng': 'Service',      # ngOnInit
         '@Injectable': 'Service',
         '@Component': 'Controller',
         '@Pipe': 'Mapper',

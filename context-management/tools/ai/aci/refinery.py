@@ -386,21 +386,21 @@ class Refinery:
         self._chunk_cache: Dict[str, List[RefineryNode]] = {}
         self.enable_embeddings = enable_embeddings
         self._embedding_engine = EmbeddingEngine() if enable_embeddings else None
-        
+
         # Layer 2 Parametric Config
         self.config = config or {}
         refinery_cfg = self.config.get('refinery', {})
-        
+
         # Context Depth: shallow | medium | deep
         self.context_depth = refinery_cfg.get('context_depth', context_depth)
         logger.info(f"⚙️ Refinery initialized with context_depth='{self.context_depth}'")
-        
+
         # Threshold Overrides (Paramilitary Controls)
         threshold_high = refinery_cfg.get('threshold_high', 0.6)
         threshold_low = refinery_cfg.get('threshold_low', 0.3)
         attention_mode = refinery_cfg.get('attention_mode', 'laminar')
         logger.info(f"🛡️ Attention Gear: mode='{attention_mode}', thresholds=({threshold_low}, {threshold_high})")
-        
+
         # Initialize Graph Publisher (The Unification)
         self.publisher = None
         if Neo4jPublisher:
@@ -479,13 +479,13 @@ class Refinery:
         return max(0.0, min(1.0, score))
 
     def _apply_attention_gate(
-        self, 
-        node: RefineryNode, 
+        self,
+        node: RefineryNode,
         semantic_match: Optional[SemanticMatch]
     ) -> float:
         """
         Apply semantic attention gate to a node.
-        
+
         Uses compute_semantic_distance to boost relevance based on query intent.
         Adjusts thresholds based on flow type (Laminar vs Turbulent).
         """
@@ -501,7 +501,7 @@ class Refinery:
                 "D3_ROLE": node.metadata.get("role", "Unknown"),
             }
         }
-        
+
         min_dist = 1.0
         for target in semantic_match.targets:
             target_particle = {
@@ -516,25 +516,25 @@ class Refinery:
         # 2. Boost relevance (Similarity = 1 - Distance)
         similarity = 1.0 - min_dist
         boosted_score = node.relevance_score + (similarity * 0.3)
-        
+
         # 3. Flow-based Thresholding
         # Turbulent flow (mixed) allows broader retention (lower threshold)
         # Laminar flow (coherent) is strict (higher threshold)
         refinery_cfg = self.config.get('refinery', {})
         threshold_high = refinery_cfg.get('threshold_high', 0.6)
         threshold_low = refinery_cfg.get('threshold_low', 0.3)
-        
+
         base_threshold = 0.5
         if semantic_match.context_flow == "turbulent":
             base_threshold = threshold_low
         elif semantic_match.context_flow == "laminar":
             base_threshold = threshold_high
-            
+
         return max(0.0, min(1.0, boosted_score)) if boosted_score >= base_threshold else 0.0
 
     def process_file(
-        self, 
-        file_path: str, 
+        self,
+        file_path: str,
         use_cache: bool = True,
         parent_parcel_id: str = None,
         batch_id: str = None,
@@ -554,11 +554,11 @@ class Refinery:
         """
         file_path = str(Path(file_path).resolve())
 
-        # Check cache (Skip logic for now if we want to enforce new waybills? 
+        # Check cache (Skip logic for now if we want to enforce new waybills?
         # Ideally cache key should include parent_parcel_id, but keeping simple for now)
         if use_cache and file_path in self._chunk_cache:
             logger.info(f"Cache hit for {file_path}")
-            # TODO: Should probably update the waybill of cached items? 
+            # TODO: Should probably update the waybill of cached items?
             # For now, just return cached.
             return self._chunk_cache[file_path]
 
@@ -590,10 +590,10 @@ class Refinery:
 
             chunk_id = self._generate_chunk_id(file_path, content)
             relevance = self._score_relevance(content, chunk_type)
-            
+
             # Mint new Parcel ID for this chunk (Sub-parcel)
             parcel_id = f"pcl_{uuid.uuid4().hex[:12]}"
-            
+
             # Create Structured Waybill
             # Event: "chunking"
             # Context: "who was in the room?" -> The Batch
@@ -628,10 +628,10 @@ class Refinery:
                 },
                 waybill=waybill
             )
-            
+
             # Apply Attention Gate
             node.relevance_score = self._apply_attention_gate(node, semantic_match)
-            
+
             if node.relevance_score > 0:
                 nodes.append(node)
 
@@ -651,16 +651,16 @@ class Refinery:
 
         # Phase 9: The Gap Bridge (Publication)
         if self.publisher and nodes:
-             # We need to extract parcel_id and batch_id from the first node's waybill, 
+             # We need to extract parcel_id and batch_id from the first node's waybill,
              # or passed args.
              # Nodes generated have waybill populated.
              if nodes[0].waybill:
                  pid = nodes[0].waybill.get("parcel_id")
-                 # Batch ID is nested in waybill->route->context->batch_id but 
+                 # Batch ID is nested in waybill->route->context->batch_id but
                  # we can also use the passed batch_id arg.
                  # Let's use the passed batch_id for robust logs, defaulting to waybill context if needed.
-                 bid = batch_id or "unknown_batch" 
-                 
+                 bid = batch_id or "unknown_batch"
+
                  self.publisher.publish_atoms(nodes, pid, bid)
 
         return nodes

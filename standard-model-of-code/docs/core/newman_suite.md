@@ -1,13 +1,12 @@
 # Newman Suite
 
 > **Mirror**: [`newman_suite.py`](../../../src/core/newman_suite.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/newman_suite.py)
+### Classes
+- **`ProbeResult`**: No docstring
+- **`NewmanSuite`**: No docstring

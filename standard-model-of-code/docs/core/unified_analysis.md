@@ -1,13 +1,19 @@
 # Unified Analysis
 
 > **Mirror**: [`unified_analysis.py`](../../../src/core/unified_analysis.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`UnifiedNode`**: No docstring
+- **`UnifiedEdge`**: No docstring
+- **`UnifiedAnalysisOutput`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/unified_analysis.py)
+### Functions
+- **`create_unified_output`**: Create a unified output from analysis results.
+- **`analyze`**: 🎯 SINGLE ENTRY POINT for all Collider analysis.
+- **`analyze.signal_handler`**: No docstring
+- **`_emit_file_nodes`**: No docstring

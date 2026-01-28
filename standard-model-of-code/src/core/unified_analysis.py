@@ -371,10 +371,10 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     def signal_handler(sig, frame):
         print(f"\n   🛑 RECEIVED SIGNAL {sig}. Terminating...")
         sys.exit(0)
-    
+
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
-    
+
     target = Path(target_path).resolve()
 
     # =========================================================================
@@ -404,7 +404,7 @@ def analyze(target_path: str, output_dir: Optional[str] = None, **options) -> Un
     process = psutil.Process(os.getpid())
     mem_mb = process.memory_info().rss / (1024 * 1024)
     print(f"   DEBUG: Memory usage after Stage 1: {mem_mb:.2f} MB")
-    
+
     particles_total = 0
     for r in results:
         particles_total += len(r.get('particles', []))

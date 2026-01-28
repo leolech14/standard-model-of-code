@@ -1702,6 +1702,7 @@ graph TD
 12. **[Part XII: The Universal Fractal](#part-xii-the-universal-fractal)** (M-I-P-O Cycle)
 13. **[Part XIII: The Hermetic Code](#part-xiii-the-hermetic-code)** (As Above, So Below)
 14. **[Part XV: The Theory of Dependencies](#part-xv-the-theory-of-dependencies)** (The Pipeline Law)
+15. **[Part XXI: Information Graph Theory (IGT)](#part-xxi-information-graph-theory-igt)** (Stability & Orphans)
 
 ### SECTION D: THE PRACTICE
 *The application of theory.*
@@ -1813,6 +1814,36 @@ The SMC is fundamentally Graph-Native. `unified_analysis.json` *is* a graph.
 The "Spectrometer" tool in the SMC effectively performs spectral graph theory—analyzing the eigenvalues of the adjacency matrix to find "eigen-behaviors" (fundamental patterns of flow) in the codebase. This allows detection of:
 *   **Hubs:** High-degree nodes (Utilities).
 *   **Bridges:** Nodes connecting disconnected clusters (Adapters/Facades).
+
+## 12. Information Graph Theory (IGT)
+**Core Concept:** Measuring the stability and semantic integrity of the code graph.
+
+### The Theory
+IGT extends classical Graph Theory by introducing **Miller's Law (7 ± 2)** and **Ontological Severity** into the topology of code. It focuses on how much "work" a human brain must do to hold a specific sub-graph in memory.
+
+**1. Structural Stability Index ($\sigma$):**
+A measure of how well a system is subdivided. Based on the **Branching Factor ($B_f$)**.
+- **The Ideal ($B_f = 7$):** Perfect cognitive density. $\sigma = 1.0$.
+- **The Tangle ($B_f > 12$):** Over-complexity. $\sigma \rightarrow 0$.
+- **The Void ($B_f < 3$):** Over-abstraction. $\sigma \rightarrow 0$.
+
+**2. Type-Aware Orphan Taxonomy:**
+Not all disconnected nodes are "Dead Code." IGT distinguishes between:
+- **Critical Orphans:** Isolated logic Atoms (e.g., a function used nowhere).
+- **Contextual Orphans:** Supporting artifacts (e.g., a research doc in `/archive/`).
+- **Input/Global Orphans:** Entry points that are naturally "source-less".
+
+### The SMC Correlation
+The SMC integrates IGT as the **Verification Layer**. 
+- **$\sigma$ (Stability)** is calculated at every directory level to flag "Cognitive Debt".
+- **Orphan Severity** scores allow the HSL (Holographic Socratic Layer) to prioritize which "Antimatter" to investigate first.
+
+### Mathematical Mapping
+| IGT Concept | SMC Equivalent | Validation Score |
+|-------------|----------------|------------------|
+| Branching Factor ($B_f$) | Output of Directory Scanner | Target: $7 \pm 2$ |
+| Stability Index ($\sigma$) | Topological Health Score | Target: $> 0.8$ |
+| Orphan Severity | Ontological Distance from Entry | Target: $0$ (for Atoms) |
 
 ---
 

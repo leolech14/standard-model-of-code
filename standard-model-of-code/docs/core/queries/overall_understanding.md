@@ -1,13 +1,18 @@
 # Overall Understanding
 
 > **Mirror**: [`queries/overall_understanding.py`](../../../src/core/queries/overall_understanding.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`OverallUnderstandingQuery`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/queries/overall_understanding.py)
+### Functions
+- **`load_json`**: Load JSON file safely.
+- **`safe_get`**: Get nested value using dot notation.
+- **`first_path`**: Try multiple paths, return first non-None value.
+- **`render_markdown`**: Render query result as markdown.
+- **`main`**: CLI entry point.

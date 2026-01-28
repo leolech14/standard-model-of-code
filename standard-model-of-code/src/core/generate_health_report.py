@@ -8,7 +8,7 @@ def generate_report():
     try:
         # Load JSON from stdin
         data = json.load(sys.stdin)
-        
+
         # Extract metrics
         stats = data.get('stats', {})
         kpis = data.get('kpis', {})
@@ -17,7 +17,7 @@ def generate_report():
         purpose = data.get('purpose_field', {})
         exec_flow = data.get('execution_flow', {})
         orphans = exec_flow.get('orphans', [])
-        
+
         # Determine Status
         # Handle violations (could be int or list)
         violations_raw = purpose.get('violations', [])
@@ -27,7 +27,7 @@ def generate_report():
             violations = len(violations_raw)
         cycles = knots.get('cycles_detected', 0)
         orphan_count = len(orphans)
-        
+
         status = "HEALTHY"
         if violations > 500 or cycles > 0:
             status = "AT RISK"
@@ -44,7 +44,7 @@ def generate_report():
         lines.append(f"")
         lines.append(f"---")
         lines.append(f"")
-        
+
         lines.append("## 1. Executive Summary")
         lines.append(f"The `full_analysis.py` scan of the codebase reveals a **{status}** state.")
         lines.append(f"While the system is functional (100% analysis coverage), it exhibits significant architectural drift from the Standard Model of Code. The presence of **{cycles} dependency loops** and **{orphan_count} dead files** indicates a need for structural hygiene.")
@@ -53,7 +53,7 @@ def generate_report():
         lines.append("## 2. Standard Model Compliance")
         lines.append("This section measures adherence to the 8-Dimensional Octahedral Theory.")
         lines.append("")
-        
+
         theory = data.get('theory_completeness', {})
         if isinstance(theory, dict):
             score = theory.get('overall_score', 0)
@@ -80,14 +80,14 @@ def generate_report():
             lines.append("- *Cycle details available in full JSON output.*")
         else:
             lines.append("No cycles detected. The graph is acyclic (DAG). ✅")
-        
+
         lines.append("")
         lines.append("### B. The Orphanage (Dead Code)")
         lines.append(f"**{orphan_count} files** ({kpis.get('orphan_percent', 0)}% of codebase) are unreachable from known entry points (Main or Test).")
         lines.append(f"- **Risk:** High (Cognitive Load, Maintenance Burden)")
         lines.append(f"- **Action:** Safe to Delete (after verification)")
         lines.append("")
-        
+
         lines.append("## 4. Operational Metrics")
         lines.append(f"- **Total Nodes:** {counts.get('nodes', 0)}")
         lines.append(f"- **Total Edges:** {counts.get('edges', 0)}")
@@ -108,9 +108,9 @@ def generate_report():
         output_path = '../CODEBASE_HEALTH_REPORT_2026-01-20.md'
         with open(output_path, 'w') as f:
             f.write('\n'.join(lines))
-            
+
         print(f"Successfully generated report at {os.path.abspath(output_path)}")
-        
+
     except Exception as e:
         import traceback
         traceback.print_exc(file=sys.stderr)

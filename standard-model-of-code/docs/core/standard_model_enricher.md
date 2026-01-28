@@ -1,13 +1,15 @@
 # Standard Model Enricher
 
 > **Mirror**: [`standard_model_enricher.py`](../../../src/core/standard_model_enricher.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`StandardModelEnricher`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/standard_model_enricher.py)
+### Functions
+- **`get_standard_model_enricher`**: Get or create the singleton enricher instance.
+- **`enrich_with_standard_model`**: Convenience function to enrich particles with Standard Model.

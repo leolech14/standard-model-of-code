@@ -1,13 +1,12 @@
 # Atom Registry
 
 > **Mirror**: [`atom_registry.py`](../../../src/core/atom_registry.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/atom_registry.py)
+### Classes
+- **`AtomDefinition`**: No docstring
+- **`AtomRegistry`**: No docstring

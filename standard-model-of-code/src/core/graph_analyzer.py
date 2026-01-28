@@ -104,13 +104,13 @@ def load_graph(path: str | Path) -> "nx.DiGraph":
     """Load graph.json into a NetworkX DiGraph."""
     if nx is None:
         raise ImportError("NetworkX not installed. Run: pip install networkx")
-    
+
     path = Path(path)
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    
+
     G = nx.DiGraph()
-    
+
     # Add nodes from components
     components = data.get("components", {})
     for node_id, info in components.items():
@@ -121,7 +121,7 @@ def load_graph(path: str | Path) -> "nx.DiGraph":
             file=info.get("file", ""),
             role=info.get("role"),
         )
-    
+
     # Add edges - try multiple possible formats
     edges = data.get("edges", data.get("relationships", []))
     edge_count = 0
@@ -139,7 +139,7 @@ def load_graph(path: str | Path) -> "nx.DiGraph":
                        kind=rel.get("kind") or rel.get("edge_type", "calls"),
                        family=rel.get("family", "Dependency"))
             edge_count += 1
-    
+
     print(f"   Loaded {len(G.nodes)} nodes, {edge_count} edges")
     return G
 
@@ -147,22 +147,22 @@ def load_graph(path: str | Path) -> "nx.DiGraph":
 def find_bottlenecks(G: "nx.DiGraph", top_n: int = 20, sample_size: int = 500) -> list[NodeStats]:
     """
     Find bottleneck nodes using betweenness centrality.
-    
+
     High betweenness = many shortest paths go through this node.
     These are coupling hotspots / God Functions.
-    
+
     Uses sampling for large graphs (>1000 nodes) for performance.
     """
     if nx is None:
         return []
-    
+
     # Sample for large graphs
     k = min(sample_size, len(G.nodes)) if len(G.nodes) > 1000 else None
     bc = nx.betweenness_centrality(G, k=k, normalized=True)
-    
+
     # Sort by centrality
     sorted_nodes = sorted(bc.items(), key=lambda x: x[1], reverse=True)[:top_n]
-    
+
     results = []
     for node_id, centrality in sorted_nodes:
         info = G.nodes.get(node_id, {})
@@ -185,13 +185,13 @@ def find_bottlenecks(G: "nx.DiGraph", top_n: int = 20, sample_size: int = 500) -
 def find_pagerank(G: "nx.DiGraph", top_n: int = 20) -> list[NodeStats]:
     """
     Rank nodes by PageRank (importance based on incoming links).
-    
+
     High PageRank = many important nodes depend on this one.
     Uses power iteration method (no scipy required).
     """
     if nx is None:
         return []
-    
+
     try:
         # Try scipy-based first (faster for large graphs)
         pr = nx.pagerank(G, alpha=0.85)
@@ -201,9 +201,9 @@ def find_pagerank(G: "nx.DiGraph", top_n: int = 20) -> list[NodeStats]:
     except Exception:
         # If graph has issues, return empty
         return []
-    
+
     sorted_nodes = sorted(pr.items(), key=lambda x: x[1], reverse=True)[:top_n]
-    
+
     results = []
     for node_id, rank in sorted_nodes:
         info = G.nodes.get(node_id, {})
@@ -226,52 +226,52 @@ def find_pagerank(G: "nx.DiGraph", top_n: int = 20) -> list[NodeStats]:
 def find_communities_leiden(G: "nx.DiGraph", resolution: float = 1.0) -> dict[int, list[str]]:
     """
     Detect communities using the Leiden algorithm (preferred).
-    
+
     Leiden is an improvement over Louvain that guarantees connected communities
     and typically finds higher quality partitions.
-    
+
     Args:
         G: NetworkX directed graph
         resolution: Higher values = more smaller communities
-    
+
     Returns dict: community_id -> list of node IDs.
     """
     if not HAS_LEIDEN:
         print("   ⚠️  Leiden not available, falling back to Louvain")
         return find_communities_louvain(G)
-    
+
     # Convert NetworkX to igraph
     # igraph works with integer node IDs, so we need a mapping
     node_list = list(G.nodes())
     node_to_idx = {node: i for i, node in enumerate(node_list)}
-    
+
     # Create igraph from edges
-    edges = [(node_to_idx[u], node_to_idx[v]) for u, v in G.edges() 
+    edges = [(node_to_idx[u], node_to_idx[v]) for u, v in G.edges()
              if u in node_to_idx and v in node_to_idx]
-    
+
     ig_graph = ig.Graph(n=len(node_list), edges=edges, directed=False)
-    
+
     # Run Leiden algorithm with Modularity optimization
     partition = leidenalg.find_partition(
-        ig_graph, 
+        ig_graph,
         leidenalg.ModularityVertexPartition,
         seed=42  # reproducible
     )
-    
+
     # Convert back to our format: community_id -> [node_ids]
     communities = {}
     for comm_id, members in enumerate(partition):
         node_ids = [node_list[idx] for idx in members]
         if node_ids:  # skip empty communities
             communities[comm_id] = node_ids
-    
+
     return communities
 
 
 def find_communities_louvain(G: "nx.DiGraph") -> dict[int, list[str]]:
     """
     Detect communities using Louvain algorithm (fallback).
-    
+
     Returns dict: community_id -> list of node IDs.
     """
     if community_louvain is None:
@@ -281,29 +281,29 @@ def find_communities_louvain(G: "nx.DiGraph") -> dict[int, list[str]]:
         for i, component in enumerate(nx.connected_components(undirected)):
             communities[i] = list(component)
         return communities
-    
+
     # Louvain works on undirected graphs
     undirected = G.to_undirected()
     partition = community_louvain.best_partition(undirected)
-    
+
     # Invert: community_id -> [nodes]
     communities = {}
     for node, comm_id in partition.items():
         if comm_id not in communities:
             communities[comm_id] = []
         communities[comm_id].append(node)
-    
+
     return communities
 
 
 def find_communities(G: "nx.DiGraph", algorithm: str = "auto") -> dict[int, list[str]]:
     """
     Detect communities using the best available algorithm.
-    
+
     Args:
         G: NetworkX directed graph
         algorithm: "leiden", "louvain", or "auto" (default, uses Leiden if available)
-    
+
     Returns dict: community_id -> list of node IDs.
     """
     if algorithm == "leiden" or (algorithm == "auto" and HAS_LEIDEN):
@@ -315,12 +315,12 @@ def find_communities(G: "nx.DiGraph", algorithm: str = "auto") -> dict[int, list
 def find_bridges(G: "nx.DiGraph", limit: int = 50) -> list[tuple[str, str]]:
     """
     Find bridge edges whose removal would disconnect the graph.
-    
+
     These are critical coupling points - potential refactoring targets.
     """
     if nx is None:
         return []
-    
+
     # Bridges only defined for undirected graphs
     undirected = G.to_undirected()
     bridges = list(nx.bridges(undirected))
@@ -330,12 +330,12 @@ def find_bridges(G: "nx.DiGraph", limit: int = 50) -> list[tuple[str, str]]:
 def shortest_path(G: "nx.DiGraph", source: str, target: str) -> list[str]:
     """
     Find shortest path between two nodes.
-    
+
     Accepts either full ID or just function name (will search).
     """
     if nx is None:
         return []
-    
+
     # Resolve partial names to full IDs
     def resolve(name):
         if name in G.nodes:
@@ -348,13 +348,13 @@ def shortest_path(G: "nx.DiGraph", source: str, target: str) -> list[str]:
             if info.get("name") == name:
                 return node_id
         return None
-    
+
     src = resolve(source)
     tgt = resolve(target)
-    
+
     if not src or not tgt:
         return []
-    
+
     try:
         return nx.shortest_path(G, src, tgt)
     except nx.NetworkXNoPath:
@@ -364,19 +364,19 @@ def shortest_path(G: "nx.DiGraph", source: str, target: str) -> list[str]:
 def suggest_refactoring_cuts(G: "nx.DiGraph", top_n: int = 10) -> list[dict]:
     """
     Suggest edges to remove that would best decouple the graph.
-    
+
     Uses edge betweenness: edges that appear on many shortest paths.
     Removing these would create more isolated clusters.
     """
     if nx is None:
         return []
-    
+
     # Sample for performance
     k = min(200, len(G.nodes)) if len(G.nodes) > 500 else None
     eb = nx.edge_betweenness_centrality(G, k=k, normalized=True)
-    
+
     sorted_edges = sorted(eb.items(), key=lambda x: x[1], reverse=True)[:top_n]
-    
+
     results = []
     for (src, tgt), centrality in sorted_edges:
         src_name = G.nodes.get(src, {}).get("name", src)
@@ -389,34 +389,34 @@ def suggest_refactoring_cuts(G: "nx.DiGraph", top_n: int = 10) -> list[dict]:
             "centrality": centrality,
             "recommendation": f"Consider extracting {tgt_name} or introducing interface"
         })
-    
+
     return results
 
 
 def analyze_full(graph_path: str | Path, top_n: int = 20) -> GraphAnalysisResult:
     """Run full analysis on a graph."""
     G = load_graph(graph_path)
-    
+
     result = GraphAnalysisResult(
         node_count=len(G.nodes),
         edge_count=len(G.edges),
     )
-    
+
     print(f"📊 Analyzing graph: {result.node_count} nodes, {result.edge_count} edges")
-    
+
     print("🔍 Finding bottlenecks (betweenness centrality)...")
     result.bottlenecks = find_bottlenecks(G, top_n=top_n)
-    
+
     print("📈 Computing PageRank...")
     result.top_pagerank = find_pagerank(G, top_n=top_n)
-    
+
     print("🧩 Detecting communities...")
     result.communities = find_communities(G)
     print(f"   Found {len(result.communities)} communities")
-    
+
     print("🌉 Finding bridge edges...")
     result.bridges = find_bridges(G)
-    
+
     return result
 
 
@@ -436,10 +436,10 @@ def generate_report(result: GraphAnalysisResult, output_path: str | Path = None)
         "| Rank | Function | File | In | Out | Centrality |",
         "|-----:|----------|------|---:|----:|-----------:|",
     ]
-    
+
     for i, node in enumerate(result.bottlenecks[:15], 1):
         lines.append(f"| {i} | `{node.name}` | {node.file} | {node.in_degree} | {node.out_degree} | {node.betweenness:.4f} |")
-    
+
     lines.extend([
         "",
         "---",
@@ -451,10 +451,10 @@ def generate_report(result: GraphAnalysisResult, output_path: str | Path = None)
         "| Rank | Function | File | PageRank |",
         "|-----:|----------|------|--------:|",
     ])
-    
+
     for i, node in enumerate(result.top_pagerank[:15], 1):
         lines.append(f"| {i} | `{node.name}` | {node.file} | {node.pagerank:.6f} |")
-    
+
     lines.extend([
         "",
         "---",
@@ -466,12 +466,12 @@ def generate_report(result: GraphAnalysisResult, output_path: str | Path = None)
         "| Community | Size | Sample Members |",
         "|----------:|-----:|----------------|",
     ])
-    
+
     for comm_id in sorted(result.communities.keys(), key=lambda k: len(result.communities[k]), reverse=True)[:10]:
         members = result.communities[comm_id]
         sample = [m.split("|")[-2] if "|" in m else m[:30] for m in members[:3]]
         lines.append(f"| {comm_id} | {len(members)} | {', '.join(sample)} |")
-    
+
     if result.bridges:
         lines.extend([
             "",
@@ -486,34 +486,34 @@ def generate_report(result: GraphAnalysisResult, output_path: str | Path = None)
             src_short = src.split("|")[-2] if "|" in src else src[:30]
             tgt_short = tgt.split("|")[-2] if "|" in tgt else tgt[:30]
             lines.append(f"- `{src_short}` → `{tgt_short}`")
-    
+
     report = "\n".join(lines)
-    
+
     if output_path:
         Path(output_path).write_text(report, encoding="utf-8")
         print(f"📝 Report saved to: {output_path}")
-    
+
     return report
 
 
 # CLI entry point
 if __name__ == "__main__":
     import sys
-    
+
     if len(sys.argv) < 2:
         print("Usage: python graph_analyzer.py <graph.json> [--report output.md]")
         sys.exit(1)
-    
+
     graph_path = sys.argv[1]
     output_path = None
-    
+
     if "--report" in sys.argv:
         idx = sys.argv.index("--report")
         if idx + 1 < len(sys.argv):
             output_path = sys.argv[idx + 1]
-    
+
     result = analyze_full(graph_path)
     report = generate_report(result, output_path)
-    
+
     if not output_path:
         print(report)

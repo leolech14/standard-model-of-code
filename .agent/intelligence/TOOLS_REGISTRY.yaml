@@ -298,7 +298,99 @@ tools:
 
     requires: []
     status: not_implemented
- 
+
+  # ---------------------------------------------------------------------------
+  # REFINERY (Intelligence Pipeline)
+  # ---------------------------------------------------------------------------
+  refinery_pipeline:
+    id: T007
+    name: "Refinement Pipeline"
+    subsystem: WAVE
+    realm: wave
+    invoke:
+      method: cli
+      command: "python3 context-management/tools/refinery/pipeline.py {source_path}"
+    inputs:
+      - name: source_path
+        type: path
+        required: true
+    outputs:
+      - name: parcels
+        type: list
+        format: json
+    status: implemented
+
+  corpus_inventory:
+    id: T008
+    name: "Corpus Inventory"
+    subsystem: WAVE
+    realm: wave
+    invoke:
+      method: cli
+      command: "python3 context-management/tools/refinery/corpus_inventory.py {dir}"
+    status: implemented
+
+  # ---------------------------------------------------------------------------
+  # ACI (Adaptive Context Intelligence)
+  # ---------------------------------------------------------------------------
+  aci_refinery:
+    id: T009
+    name: "ACI Refinery"
+    subsystem: WAVE
+    realm: wave
+    invoke:
+      method: python_import
+      module: "context-management.tools.ai.aci.refinery"
+      class: "Refinery"
+    status: implemented
+
+  semantic_finder:
+    id: T010
+    name: "Semantic Finder"
+    subsystem: WAVE
+    realm: wave
+    invoke:
+      method: python_import
+      module: "context-management.tools.ai.aci.semantic_finder"
+    status: working
+
+  intent_parser:
+    id: T011
+    name: "Intent Parser"
+    subsystem: WAVE
+    realm: wave
+    invoke:
+      method: python_import
+      module: "context-management.tools.ai.aci.intent_parser"
+    status: working
+
+  # ---------------------------------------------------------------------------
+  # DECK (Governance)
+  # ---------------------------------------------------------------------------
+  deck_router:
+    id: T012
+    name: "Decision Deck Router"
+    subsystem: OBSERVER
+    realm: observer
+    invoke:
+      method: cli
+      command: "python3 context-management/tools/ai/deck/deck_router.py"
+    status: implemented
+
+  play_card:
+    id: T013
+    name: "Decision Card Player"
+    subsystem: OBSERVER
+    realm: observer
+    invoke:
+      method: cli
+      command: "python3 context-management/tools/ai/deck/play_card.py {card_id}"
+    inputs:
+      - name: card_id
+        type: string
+        required: true
+    status: implemented
+
   # ---------------------------------------------------------------------------
   # DESIGN REALM (Generative UI)
   # ---------------------------------------------------------------------------

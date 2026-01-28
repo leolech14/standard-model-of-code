@@ -1,13 +1,14 @@
 # Token Resolver
 
 > **Mirror**: [`viz/token_resolver.py`](../../../src/core/viz/token_resolver.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`TokenResolver`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/viz/token_resolver.py)
+### Functions
+- **`get_resolver`**: Get the singleton token resolver instance.

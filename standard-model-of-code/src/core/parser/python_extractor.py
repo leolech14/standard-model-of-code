@@ -19,24 +19,24 @@ class PythonASTExtractor:
             print(f"      [AST:Python] Parsing {file_path}")
             tree = ast.parse(content)
             print(f"      [AST:Python] Parsed successfully. Node type: {type(tree)}")
-            
+
             if include_depth_metrics:
                 print(f"      [AST:Python] Measuring depth...")
                 depth_metrics = self._measure_ast_depth(tree)
                 print(f"      [AST:Python] Depth measured: {depth_metrics}")
-            
+
             lines = content.splitlines()
-            
+
             # Use recursive or iterative based on depth/preference
             # For now, default to recursive as it's cleaner, unless depth is huge
             print(f"      [AST:Python] Starting recursive extraction...")
             particles = self._extract_recursive(tree, file_path, lines)
             print(f"      [AST:Python] Extraction complete. {len(particles)} particles.")
-            
+
         except Exception as e:
             # Fallback or empty if parse fails
             pass
-            
+
         return particles, depth_metrics
 
     def _measure_ast_depth(self, tree: ast.AST) -> Dict[str, int]:
@@ -58,7 +58,7 @@ class PythonASTExtractor:
         particles: List[Dict[str, Any]] = []
         class_stack: List[str] = []
         func_stack: List[str] = []
-        
+
         # Capture self for closure usage in Visitor
         classifier = self.classifier
         extractor = self
@@ -99,7 +99,7 @@ class PythonASTExtractor:
                 func_name = getattr(node, "name", "") or ""
                 line_no = getattr(node, "lineno", 0) or 0
                 end_line_no = getattr(node, "end_lineno", line_no) or line_no
-                
+
                 if class_stack:
                     full_name = f"{class_stack[-1]}.{func_name}"
                     parent = class_stack[-1]
@@ -114,7 +114,7 @@ class PythonASTExtractor:
                     kind = "function"
 
                 decorators = extractor._get_decorators(node)
-                
+
                 # Extract lossless fields
                 body_source = extractor._get_function_body(node, lines)
                 params = extractor._get_function_params(node)
@@ -212,28 +212,28 @@ class PythonASTExtractor:
             args = getattr(node, "args", None)
             if not args:
                 return params
-            
+
             defaults = args.defaults or []
             num_defaults = len(defaults)
             num_args = len(args.args)
-            
+
             for i, arg in enumerate(args.args):
                 param = {"name": arg.arg}
                 if arg.annotation:
                     param["type"] = ast.unparse(arg.annotation)
-                
+
                 default_idx = i - (num_args - num_defaults)
                 if default_idx >= 0 and default_idx < len(defaults):
                     param["default"] = ast.unparse(defaults[default_idx])
-                
+
                 params.append(param)
-            
+
             if args.vararg:
                 param = {"name": f"*{args.vararg.arg}"}
                 if args.vararg.annotation:
                     param["type"] = ast.unparse(args.vararg.annotation)
                 params.append(param)
-            
+
             if args.kwarg:
                 param = {"name": f"**{args.kwarg.arg}"}
                 if args.kwarg.annotation:

@@ -754,7 +754,7 @@ class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
 
 class PythonTreeSitterStrategy(TreeSitterEdgeStrategy):
     """Tree-sitter based Python call extraction."""
-    
+
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_python:
@@ -766,7 +766,7 @@ class PythonTreeSitterStrategy(TreeSitterEdgeStrategy):
             except Exception:
                 parser = None
         super().__init__(parser, 'python')
-    
+
     def get_call_node_types(self) -> Set[str]:
         return {'call'}
 
@@ -958,7 +958,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
 
 class TypeScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
     """Tree-sitter based TypeScript/TSX call extraction."""
-    
+
     def __init__(self):
         parser = None
         if TREE_SITTER_AVAILABLE and tree_sitter_typescript:
@@ -970,10 +970,10 @@ class TypeScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
             except Exception:
                 parser = None
         super().__init__(parser, 'typescript')
-    
+
     def get_call_node_types(self) -> Set[str]:
         return {'call_expression', 'new_expression'}
-    
+
     def extract_callee_name(self, node: Any, source_bytes: bytes) -> Optional[str]:
         if node.type == 'new_expression':
             constructor = node.child_by_field_name('constructor')
@@ -998,21 +998,21 @@ def get_strategy_for_file(file_path: str) -> EdgeExtractionStrategy:
             if strategy.parser:
                 return strategy
         return PythonEdgeStrategy()  # Regex fallback
-    
+
     if file_path.endswith('.js') or file_path.endswith('.jsx'):
         if TREE_SITTER_AVAILABLE and tree_sitter_javascript:
             strategy = JavaScriptTreeSitterStrategy()
             if strategy.parser:
                 return strategy
         return JavascriptEdgeStrategy()  # Regex fallback
-    
+
     if file_path.endswith('.ts') or file_path.endswith('.tsx'):
         if TREE_SITTER_AVAILABLE and tree_sitter_typescript:
             strategy = TypeScriptTreeSitterStrategy()
             if strategy.parser:
                 return strategy
         return TypeScriptEdgeStrategy()  # Regex fallback
-    
+
     if file_path.endswith('.go'):
         return GoEdgeStrategy()
     if file_path.endswith('.rs'):
@@ -1167,7 +1167,7 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
     for p in particles:
         file_path = p.get('file_path', '')
         strategy = get_strategy_for_file(file_path)
-        
+
         # Use strategy to extract body-level edges
         body_edges = strategy.extract_edges(p, particle_by_name)
         edges.extend(body_edges)

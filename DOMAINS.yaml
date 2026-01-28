@@ -42,7 +42,7 @@ domains:
       - code_exists: true
       - context_exists: true
       - references_resolve: true
-      - counts_match: true  # 8 stages verified 2026-01-27
+      - counts_match: true  # 4 stages verified 2026-01-27
 
   - name: Visualization
     description: "3D force-directed graph UI"

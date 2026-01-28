@@ -1,13 +1,11 @@
 # Purpose Field
 
 > **Mirror**: [`pipeline/stages/purpose_field.py`](../../../src/core/pipeline/stages/purpose_field.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/pipeline/stages/purpose_field.py)
+### Classes
+- **`PurposeFieldStage`**: No docstring

@@ -22,10 +22,10 @@ class Neo4jPublisher:
         self.uri = os.getenv("NEO4J_URI", uri)
         user = os.getenv("NEO4J_USER", "neo4j")
         password = os.getenv("NEO4J_PASSWORD", "password") # Default dev password
-        
+
         self.auth = auth if auth else (user, password)
         self.driver = None
-        
+
         try:
             self.driver = GraphDatabase.driver(self.uri, auth=self.auth)
             self._verify_connectivity()
@@ -46,12 +46,12 @@ class Neo4jPublisher:
     def publish_atoms(self, atoms: List[RefineryNode], parcel_id: str, batch_id: str):
         """
         Transacts a list of atoms into the graph.
-        
+
         Graph Schema:
         - (:Atom {id, type, content, ...})
         - (:Parcel {id})
         - (:Batch {id})
-        
+
         Edges:
         - (Atom)-[:BELONGS_TO]->(Parcel)
         - (Atom)-[:GENERATED_IN]->(Batch)
@@ -70,7 +70,7 @@ class Neo4jPublisher:
                 session.execute_write(self._ingest_atoms, atoms, parcel_id, batch_id)
                 elapsed = time.time() - start_time
                 logger.info(f"Published {len(atoms)} atoms to Neo4j (Batch: {batch_id})")
-                
+
                 # S16: Telemetry Node
                 self.publish_telemetry(batch_id, len(atoms), elapsed)
             except Exception as e:
@@ -83,13 +83,13 @@ class Neo4jPublisher:
         """
         if not self.driver:
             return
-            
+
         with self.driver.session() as session:
             try:
                 session.execute_write(
-                    self._create_telemetry_node, 
-                    batch_id, 
-                    atoms_count, 
+                    self._create_telemetry_node,
+                    batch_id,
+                    atoms_count,
                     duration_seconds
                 )
                 logger.info(f"Telemetry recorded: Batch {batch_id}, {atoms_count} atoms, {duration_seconds:.2f}s")
@@ -153,14 +153,13 @@ class Neo4jPublisher:
             a.relevance = atom_data.relevance,
             a.embedding = atom_data.embedding,
             a.updated_at = timestamp()
-            
+
         WITH a
         MATCH (p:Parcel {id: $parcel_id})
         MATCH (b:Batch {id: $batch_id})
-        
+
         MERGE (a)-[:BELONGS_TO]->(p)
         MERGE (a)-[:GENERATED_IN]->(b)
         """
-        
-        tx.run(query, atoms=atom_dicts, parcel_id=parcel_id, batch_id=batch_id)
 
+        tx.run(query, atoms=atom_dicts, parcel_id=parcel_id, batch_id=batch_id)

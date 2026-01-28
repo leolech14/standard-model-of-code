@@ -1,13 +1,13 @@
 # Chart Viewer
 
 > **Mirror**: [`chart_viewer.py`](../../../src/core/chart_viewer.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
 
-## References
-*   [Source Code](../../../src/core/chart_viewer.py)
+### Functions
+- **`encode_image`**: Encode image to base64 data URI.
+- **`generate_chart_viewer`**: Generate HTML viewer for charts.

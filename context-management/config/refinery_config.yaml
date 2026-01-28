@@ -4,10 +4,10 @@
 pipeline:
   # The Attention Mechanism Signal
   query: "What are the core constituents of the Standard Model of Code?"
-  
+
   # Processing Limits
   max_files: 50
-  
+
   # Performance / Cost Controls
   use_cache: true
   batch_mode: true
@@ -15,10 +15,10 @@ pipeline:
 refinery:
   # Context Depth: shallow (docs), medium (structural), deep (full AST)
   context_depth: "deep"
-  
+
   # Attention Mode: laminar (high purity), turbulent (high discovery)
   attention_mode: "laminar"
-  
+
   # Thresholds (Overrides for Laminar/Turbulent defaults)
   threshold_high: 0.6
   threshold_low: 0.3

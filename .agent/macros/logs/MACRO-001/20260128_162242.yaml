@@ -1,0 +1,105 @@
+macro_id: MACRO-001
+execution:
+  timestamp: '2026-01-28T16:22:42.484130+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 90
+  dry_run: false
+  reason: Not all success criteria met
+steps:
+- step_id: inventory_artifacts
+  tool: Bash
+  outcome: SUCCESS
+  output: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_111302.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260128_112050.yaml\n?? context-management/docs/theory/TOPOLOGICAL_BOUNDARIES.md\n\
+    ?? context-management/tools/ops/lizard_daemon.py\n?? context-management/tools/ops/self_analysis.py\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_102958_list_the_files_in_standard_model_of_code_src_core.md\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.md\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.md\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_102958_list_the_files_in_standard_model_of_code_src_core.json\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.json\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_092646_describe_the_architecture_of_the_edge_ex.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_102958_list_the_files_in_standard_model_of_code.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_110657_analyze_the_role_and_atoms_of_the_refine.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_113515_we_have_two_dashboard_implementations___.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_113821_full_standard_model_of_code_src_core___o.json\n\
+    ?? standard-model-of-code/src/core/igt_metrics.py\n\n=== MODIFIED FILES ===\n\
+    \ M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n M .agent/intelligence/THEORY_SECTION_GRAPH.json\n\
+    \ M .agent/intelligence/TOOLS_REGISTRY.yaml\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n\
+    \ M .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json\n\
+    \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
+    \ M .agent/state/circuit_breakers.yaml\n M DOMAINS.yaml\n M SUBSYSTEMS.yaml\n\
+    \ M context-management/config/documentation_map.yaml\n M context-management/config/refinery_config.yaml\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
+    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
+    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n"
+  error: null
+  exit_code: 0
+- step_id: check_dead_code
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_integration
+  tool: Bash
+  outcome: FAILURE
+  output: ''
+  error: '/bin/sh: line 1: python: command not found
+
+    '
+  exit_code: 127
+- step_id: check_validation_theater
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: check_schema_bloat
+  tool: Task
+  outcome: SKIPPED
+  output: Requires manual AI execution
+  error: null
+- step_id: generate_report
+  tool: Write
+  outcome: SUCCESS
+  output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260128.md
+  error: null
+variables:
+  session_artifacts: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_111302.yaml\n\
+    ?? .agent/macros/logs/MACRO-001/20260128_112050.yaml\n?? context-management/docs/theory/TOPOLOGICAL_BOUNDARIES.md\n\
+    ?? context-management/tools/ops/lizard_daemon.py\n?? context-management/tools/ops/self_analysis.py\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_102958_list_the_files_in_standard_model_of_code_src_core.md\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.md\n\
+    ?? standard-model-of-code/docs/research/gemini/docs/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.md\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_102958_list_the_files_in_standard_model_of_code_src_core.json\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.json\n\
+    ?? standard-model-of-code/docs/research/gemini/raw/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_092646_describe_the_architecture_of_the_edge_ex.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_102958_list_the_files_in_standard_model_of_code.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_110657_analyze_the_role_and_atoms_of_the_refine.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_113515_we_have_two_dashboard_implementations___.json\n\
+    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_113821_full_standard_model_of_code_src_core___o.json\n\
+    ?? standard-model-of-code/src/core/igt_metrics.py\n\n=== MODIFIED FILES ===\n\
+    \ M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n M .agent/intelligence/THEORY_SECTION_GRAPH.json\n\
+    \ M .agent/intelligence/TOOLS_REGISTRY.yaml\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n\
+    \ M .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
+    \ M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json\n\
+    \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
+    \ M .agent/state/circuit_breakers.yaml\n M DOMAINS.yaml\n M SUBSYSTEMS.yaml\n\
+    \ M context-management/config/documentation_map.yaml\n M context-management/config/refinery_config.yaml\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
+    \ M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
+    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
+    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n"
+  dead_code_findings: Requires manual AI execution
+  validation_analysis: Requires manual AI execution
+  bloat_analysis: Requires manual AI execution
+  report_path: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260128.md

@@ -141,7 +141,9 @@
             "variable_declarator": "DAT.VAR.A",
             "if_statement": "LOG.CTL.A",
             "for_statement": "LOG.CTL.A",
-            "import_declaration": "ORG.MOD.O"
+            "import_declaration": "ORG.MOD.O",
+            "array_type": "ORG.TYP.O",
+            "array_initializer": "DAT.COL.A"
         },
         "python": {
             "class_definition": "ORG.AGG.M",
@@ -150,7 +152,13 @@
             "if_statement": "LOG.CTL.A",
             "for_statement": "LOG.CTL.A",
             "import_statement": "ORG.MOD.O",
-            "import_from_statement": "ORG.MOD.O"
+            "import_from_statement": "ORG.MOD.O",
+            "list": "DAT.COL.A",
+            "dictionary": "DAT.COL.A",
+            "set": "DAT.COL.A",
+            "tuple": "DAT.COL.A",
+            "with_statement": "EXE.IO.O",
+            "decorator": "EXE.MET.O"
         },
         "typescript": {
             "class_declaration": "ORG.AGG.M",
@@ -159,7 +167,11 @@
             "if_statement": "LOG.CTL.A",
             "for_statement": "LOG.CTL.A",
             "import_statement": "ORG.MOD.O",
-            "interface_declaration": "ORG.AGG.M"
+            "interface_declaration": "ORG.AGG.M",
+            "type_alias_declaration": "ORG.TYP.O",
+            "array_type": "ORG.TYP.O",
+            "array": "DAT.COL.A",
+            "object": "DAT.COL.A"
         },
         "go": {
             "type_declaration": "ORG.AGG.M",
@@ -167,7 +179,12 @@
             "short_var_declaration": "DAT.VAR.A",
             "if_statement": "LOG.CTL.A",
             "for_statement": "LOG.CTL.A",
-            "import_declaration": "ORG.MOD.O"
+            "import_declaration": "ORG.MOD.O",
+            "array_type": "ORG.TYP.O",
+            "slice_type": "ORG.TYP.O",
+            "map_type": "ORG.TYP.O",
+            "chan_type": "EXE.WRK.O",
+            "go_statement": "EXE.WRK.O"
         }
     }
 }

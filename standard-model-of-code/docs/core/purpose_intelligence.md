@@ -1,13 +1,24 @@
 # Purpose Intelligence
 
 > **Mirror**: [`purpose_intelligence.py`](../../../src/core/purpose_intelligence.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`PurposeIntelligence`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/purpose_intelligence.py)
+### Functions
+- **`compute_Q_alignment`**: Q_alignment: Rule adherence score.
+- **`compute_Q_coherence`**: Q_coherence: Focus via entropy of atom categories.
+- **`compute_Q_density`**: Q_density: Signal-to-noise ratio.
+- **`compute_Q_completeness`**: Q_completeness: Expected children present.
+- **`compute_Q_simplicity`**: Q_simplicity: Inverse of complexity.
+- **`compute_Q_purity`**: Q_purity: Behavior matches classified dimensions.
+- **`compute_intrinsic_quality`**: Compute I(H) - the intrinsic quality of a holon.
+- **`propagate_quality`**: Q(H) = w_parts × Avg(Q_children) + w_intrinsic × I(H)
+- **`compute_purpose_intelligence`**: Compute full Purpose Intelligence for a node.
+- **`compute_codebase_intelligence`**: Compute Purpose Intelligence for an entire codebase.
+- **`enrich_nodes_with_intelligence`**: Add purpose_intelligence fields to nodes.

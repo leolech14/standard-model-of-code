@@ -1,13 +1,16 @@
 # Symbol Classifier
 
 > **Mirror**: [`parser/symbol_classifier.py`](../../../src/core/parser/symbol_classifier.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`SymbolKind`**: No docstring
+- **`ClassifiedSymbol`**: No docstring
+- **`SymbolClassifier`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/parser/symbol_classifier.py)
+### Functions
+- **`classify_symbol`**: Convenience function to classify a symbol.

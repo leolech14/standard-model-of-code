@@ -1,13 +1,20 @@
 # Deviation Tracker
 
 > **Mirror**: [`deviation_tracker.py`](../../../src/core/deviation_tracker.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`SourceLocation`**: No docstring
+- **`GitBlame`**: No docstring
+- **`MistakeEvidence`**: No docstring
+- **`Deviation`**: No docstring
+- **`DeviationReport`**: No docstring
+- **`DeviationTracker`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/deviation_tracker.py)
+### Functions
+- **`diagnose_mistake`**: Analyze the deviation and explain what went wrong.
+- **`main`**: CLI entry point.

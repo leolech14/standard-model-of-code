@@ -1,13 +1,15 @@
 # Registry Of Registries
 
 > **Mirror**: [`registry/registry_of_registries.py`](../../../src/core/registry/registry_of_registries.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`RegistryOfRegistries`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/registry/registry_of_registries.py)
+### Functions
+- **`get_atom_registry`**: No docstring
+- **`get_meta_registry`**: Get the meta-registry singleton.

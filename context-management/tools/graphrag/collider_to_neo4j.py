@@ -32,7 +32,7 @@ def import_data(driver, file_path):
 
     nodes = data.get("nodes", [])
     edges = data.get("edges", [])
-    
+
     # Sanitize data
     print("Sanitizing data for Neo4j compatibility...")
     nodes = [sanitize_properties(n) for n in nodes]
@@ -82,7 +82,7 @@ def import_data(driver, file_path):
 def main():
     file_path = get_latest_collider_file()
     print(f"Connecting to Neo4j at {NEO4J_URI} as {NEO4J_USER}...")
-    
+
     try:
         driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
         driver.verify_connectivity()

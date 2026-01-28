@@ -1,13 +1,17 @@
 # Graph Type Inference
 
 > **Mirror**: [`graph_type_inference.py`](../../../src/core/graph_type_inference.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`InferenceRule`**: No docstring
+- **`GraphTypeInference`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/graph_type_inference.py)
+### Functions
+- **`get_role_registry`**: No docstring
+- **`infer_from_structure`**: Infer type from node's own structural properties.
+- **`apply_graph_inference`**: Apply graph-based type inference to reduce unknowns.

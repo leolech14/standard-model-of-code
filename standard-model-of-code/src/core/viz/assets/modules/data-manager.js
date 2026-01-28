@@ -704,9 +704,31 @@ const DATA = (function () {
 
         // Merge into unified graph
         const allNodes = [...raw.nodes, ...fileNodes];
-        const allLinks = [...raw.links, ...fileLinks];
 
-        _unifiedGraph = { nodes: allNodes, links: allLinks, fileNodes: fileNodes, fileLinks: fileLinks };
+        // NEW: Build containment edges (File -> Atom)
+        const containmentLinks = [];
+        raw.nodes.forEach(n => {
+            if (n._parentFileId) {
+                containmentLinks.push({
+                    source: n._parentFileId,
+                    target: n.id,
+                    _edgeLayer: 'containment',
+                    _viewOpacity: 0.0,
+                    type: 'contains_atom',
+                    weight: 1
+                });
+            }
+        });
+
+        const allLinks = [...raw.links, ...fileLinks, ...containmentLinks];
+
+        _unifiedGraph = {
+            nodes: allNodes,
+            links: allLinks,
+            fileNodes: fileNodes,
+            fileLinks: fileLinks,
+            containmentLinks: containmentLinks
+        };
 
         console.log('[DATA] Unified graph built:', allNodes.length, 'nodes (' + raw.nodes.length + ' atoms +', fileNodes.length, 'files),', allLinks.length, 'edges');
 

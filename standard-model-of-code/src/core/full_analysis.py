@@ -25,6 +25,7 @@ from src.core.graph_framework import (
 )
 from src.core.graph_metrics import compute_centrality_metrics, identify_critical_nodes
 from src.core.intent_extractor import build_node_intent_profile
+from src.core.igt_metrics import StabilityCalculator, OrphanClassifier
 
 
 # =============================================================================
@@ -154,11 +155,17 @@ def classify_disconnection(node: Dict[str, Any], in_deg: int, out_deg: int) -> O
             }
 
     # 8. Default: Truly unreachable (likely dead code)
+    # ENHANCED: Apply IGT Orphan Severity
+    igt_severity = OrphanClassifier.classify_severity(name, node.get('type', 'file'), file_path)
+    
     return {
         'reachability_source': 'unreachable',
         'connection_gap': connection_gap,
         'isolation_confidence': 0.85,
-        'suggested_action': 'REVIEW - likely dead code'
+        'suggested_action': 'REVIEW - likely dead code',
+        'igt_severity': igt_severity['score'],
+        'igt_label': igt_severity['label'],
+        'is_true_orphan': igt_severity['is_problem']
     }
 
 
@@ -2390,14 +2397,55 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 timer.set_status("FAIL", str(e))
                 print(f"   ⚠️ AI insights generation failed: {e}")
 
-    # Build pipeline snapshot for Pipeline Navigator (before output generation)
-    # This converts PerformanceManager timing to the format expected by pipeline-navigator.js
-    full_output['pipeline_snapshot'] = build_pipeline_snapshot(
-        perf_manager,
-        nodes,
-        edges,
-        str(target)
-    )
+    # Stage 13: Information Graph Theory (IGT) Metrics
+    print("\n📈 Stage 13: IGT Metrics...")
+    igt_results = {}
+    with StageTimer(perf_manager, "Stage 13: IGT Metrics") as timer:
+        try:
+            # 1. Directory Stability
+            dir_structure = defaultdict(list)
+            for f in full_output.get('file_boundaries', []):
+                p = Path(f['file'])
+                parent = str(p.parent)
+                dir_structure[parent].append(p.name)
+            
+            stability_report = StabilityCalculator.analyze_directories(dir_structure)
+            
+            # 2. Type-Aware Orphan Analysis
+            orphans_data = []
+            for o_id in exec_flow.orphans:
+                # Find the node in the nodes list
+                o_node = next((n for n in nodes if n.get('id') == o_id), None)
+                if o_node:
+                    orphans_data.append({
+                        'id': o_id,
+                        'type': o_node.get('type', 'file'),
+                        'path': o_node.get('file_path', '')
+                    })
+            
+            classified_orphans = OrphanClassifier.filter_true_orphans(orphans_data)
+            
+            igt_results = {
+                'directory_stability': stability_report,
+                'classified_orphans': classified_orphans,
+                'avg_stability': sum(s['stability_index'] for s in stability_report.values()) / len(stability_report) if stability_report else 1.0,
+                'critical_orphans_count': sum(1 for o in classified_orphans if o['is_problem'])
+            }
+            
+            full_output['igt'] = igt_results
+            full_output['kpis']['igt_stability_index'] = round(igt_results['avg_stability'], 3)
+            full_output['kpis']['critical_orphans'] = igt_results['critical_orphans_count']
+            
+            timer.set_output(
+                avg_stability=igt_results['avg_stability'],
+                critical_orphans=igt_results['critical_orphans_count']
+            )
+            print(f"   → Average Directory Stability: {igt_results['avg_stability']:.3f}")
+            print(f"   → Critical Orphans: {igt_results['critical_orphans_count']}")
+            
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ IGT analysis failed: {e}")
 
     # Stage 12: Write consolidated outputs
     print("\n📦 Stage 12: Generating Consolidated Outputs...")

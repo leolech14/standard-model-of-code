@@ -1,13 +1,17 @@
 # Constraint Engine
 
 > **Mirror**: [`constraint_engine.py`](../../../src/core/constraint_engine.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ViolationTier`**: No docstring
+- **`Violation`**: No docstring
+- **`ConstraintRule`**: No docstring
+- **`ConstraintEngine`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/constraint_engine.py)
+### Functions
+- **`validate_graph`**: Convenience function to validate a graph with specified profiles.

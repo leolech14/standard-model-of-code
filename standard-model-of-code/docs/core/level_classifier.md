@@ -1,13 +1,19 @@
 # Level Classifier
 
 > **Mirror**: [`level_classifier.py`](../../../src/core/level_classifier.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
 
-## References
-*   [Source Code](../../../src/core/level_classifier.py)
+### Functions
+- **`classify_level`**: Assign a holarchy level to a node based on its `kind` field.
+- **`_infer_level_from_properties`**: Infer level from node properties when kind doesn't map directly.
+- **`classify_level_batch`**: Assign holarchy levels to all nodes in a batch.
+- **`infer_package_levels`**: Promote directory-grouping nodes to L6 (PACKAGE) based on
+- **`compute_level_statistics`**: Compute the distribution of nodes across holarchy levels.
+- **`compute_zone_statistics`**: Compute the distribution of nodes across zones.
+- **`get_level_info`**: Get full information about a holarchy level.
+- **`format_level_summary`**: Format a human-readable summary of level distribution.

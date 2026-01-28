@@ -35,4 +35,3 @@ Every data entity entering the **Refinery** must undergo the following mechanica
 | `corpus_inventory.py` | Identity & Preservation | Scans files, mints IDs, treats FS as read-only. |
 | `pipeline.py` | Description | Initializes Batch IDs and orchestrates Waybills. |
 | `refinery.py` | Action | Applies Semantic Gates to filter Flows. |
-

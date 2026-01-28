@@ -1,13 +1,18 @@
 # Graph Framework
 
 > **Mirror**: [`graph_framework.py`](../../../src/core/graph_framework.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
 
-## References
-*   [Source Code](../../../src/core/graph_framework.py)
+### Functions
+- **`build_nx_graph`**: Build NetworkX DiGraph from Collider analysis output.
+- **`compute_degree_metrics`**: Compute in-degree and out-degree for each node.
+- **`classify_node_role`**: Classify architectural role from degree metrics.
+- **`find_entry_points`**: Find likely entry points (nodes with 0 in-degree or special names).
+- **`propagate_context`**: Propagate context via BFS from root nodes downstream.
+- **`get_node_neighborhood`**: Get the local neighborhood of a node.
+- **`analyze_graph`**: Complete graph analysis pipeline.

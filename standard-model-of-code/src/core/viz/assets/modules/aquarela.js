@@ -1,6 +1,6 @@
 /**
  * AQUARELA - Dynamic Ink Background System
- * 
+ *
  * Creates a subtle, animated background with organic movement
  * inspired by watercolor/ink diffusion.
  */

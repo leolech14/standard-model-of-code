@@ -13735,11 +13735,11 @@ window.SIDEBAR = (function () {
                 if (typeof Graph !== 'undefined' && Graph) Graph.nodeResolution(val);
                 break;
             case 'cfg-label-size':
-                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier, 
+                // Note: 3d-force-graph doesn't have a direct dynamic label size multiplier,
                 // but we can trigger a re-render or update state.
                 break;
 
-            // Edge Config    
+            // Edge Config
             case 'cfg-edge-opacity':
                 if (typeof APPEARANCE_STATE !== 'undefined') APPEARANCE_STATE.edgeOpacity = val;
                 if (typeof applyEdgeMode === 'function') applyEdgeMode();
@@ -17392,7 +17392,7 @@ const CONTROL_BAR = (function () {
                 background: rgba(45, 48, 55, 0.9);
                 border-color: rgba(120, 125, 135, 0.35);
             }
-            
+
             .cb-select:focus {
                 outline: none;
                 border-color: var(--accent, #4a9eff);

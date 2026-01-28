@@ -14,12 +14,12 @@ class GraphRAGService:
     Service Tier 5: Graph-Structured Retrieval & Reasoning.
     Orchestrates queries against the Neo4j Knowledge Graph.
     """
-    
+
     def __init__(self):
         self.uri = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
         self.user = os.environ.get("NEO4J_USER", "neo4j")
         self.password = os.environ.get("NEO4J_PASSWORD", "elements2026")
-        
+
         if GraphDatabase:
             try:
                 self.driver = GraphDatabase.driver(self.uri, auth=(self.user, self.password))
@@ -194,36 +194,36 @@ class GraphRAGService:
         """
         # Simple extraction of potential keywords (naive)
         keywords = [w for w in question.split() if len(w) > 4]
-        
+
         # Cypher: Find concepts or papers matching keywords, expand 2 hops
         cypher = """
         MATCH (start)
         WHERE (start:Concept OR start:Paper OR start:CodeEntity)
-          AND (toLower(start.name) CONTAINS toLower($keyword) 
+          AND (toLower(start.name) CONTAINS toLower($keyword)
                OR toLower(start.title) CONTAINS toLower($keyword))
-        
+
         CALL apoc.path.subgraphAll(start, {
             maxLevel: 2,
             limit: 100
         })
         YIELD nodes, relationships
-        
+
         RETURN nodes, relationships
         LIMIT 10
         """
-        
+
         # Cypher: Find concepts or papers matching keywords, expand 2 hops
         fallback_cypher = """
         MATCH (start)-[r]-(neighbor)
         WHERE (start:SmocConcept OR start:AcademicPaper OR start:CodeEntity OR start:Chunk OR start:Atom)
-          AND (toLower(start.name) CONTAINS toLower($keyword) 
+          AND (toLower(start.name) CONTAINS toLower($keyword)
                OR toLower(start.title) CONTAINS toLower($keyword)
                OR toLower(start.file_path) CONTAINS toLower($keyword)
                OR toLower(start.id) CONTAINS toLower($keyword))
         RETURN start, r, neighbor
         LIMIT 100
         """
-        
+
         results = []
         with self.driver.session() as session:
             for kw in keywords:
@@ -234,14 +234,14 @@ class GraphRAGService:
                         start = record["start"]
                         neighbor = record["neighbor"]
                         rel = record["r"]
-                        
+
                         # Format: [Paper] 'Title' --VALIDATES--> [Concept] 'Name'
                         s_label = list(start.labels)[0]
                         n_label = list(neighbor.labels)[0]
                         s_name = start.get("name") or start.get("title") or start.get("id")
                         n_name = neighbor.get("name") or neighbor.get("title") or start.get("id")
                         r_type = rel.type
-                        
+
                         line = f"[{s_label}] '{s_name}' --{r_type}--> [{n_label}] '{n_name}'"
                         results.append(line)
                 except Exception as e:

@@ -1,13 +1,16 @@
 # Pattern Registry
 
 > **Mirror**: [`registry/pattern_registry.py`](../../../src/core/registry/pattern_registry.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`RolePattern`**: No docstring
+- **`PatternRegistry`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/registry/pattern_registry.py)
+### Functions
+- **`get_role_registry`**: No docstring
+- **`get_pattern_registry`**: Get the singleton pattern registry.

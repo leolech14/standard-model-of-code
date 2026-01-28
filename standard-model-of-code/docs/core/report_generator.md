@@ -1,13 +1,19 @@
 # Report Generator
 
 > **Mirror**: [`report_generator.py`](../../../src/core/report_generator.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ComponentRow`**: No docstring
+- **`ReportGenerator`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/report_generator.py)
+### Functions
+- **`_posix`**: No docstring
+- **`_safe_rel`**: No docstring
+- **`_stable_id`**: No docstring
+- **`_group_key`**: No docstring
+- **`_mermaid_id`**: No docstring

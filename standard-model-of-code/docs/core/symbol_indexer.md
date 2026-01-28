@@ -1,13 +1,18 @@
 # Symbol Indexer
 
 > **Mirror**: [`symbol_indexer.py`](../../../src/core/symbol_indexer.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ExportedSymbol`**: No docstring
+- **`ImportedSymbol`**: No docstring
+- **`SymbolIndex`**: No docstring
+- **`SymbolIndexer`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/symbol_indexer.py)
+### Functions
+- **`get_symbol_indexer`**: Get the singleton SymbolIndexer instance.
+- **`index_codebase`**: Index an entire codebase.

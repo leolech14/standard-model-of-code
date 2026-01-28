@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class GraphRAGService:
     """
     Graph Retrieval-Augmented Generation Service (S14).
-    
+
     Provides the intelligence layer for querying the Unified Graph (Refinery + Collider).
     """
 
@@ -16,10 +16,10 @@ class GraphRAGService:
         self.uri = os.getenv("NEO4J_URI", uri)
         user = os.getenv("NEO4J_USER", "neo4j")
         password = os.getenv("NEO4J_PASSWORD", "password")
-        
+
         self.auth = auth if auth else (user, password)
         self._driver = None
-        
+
         try:
             self._driver = GraphDatabase.driver(self.uri, auth=self.auth)
             self._driver.verify_connectivity()
@@ -31,7 +31,7 @@ class GraphRAGService:
     def query(self, question: str) -> str:
         """
         Main entry point for GraphRAG queries.
-        
+
         1. Vector Search (if embeddings available)
         2. Graph Traversal (Expansion)
         3. Context Synthesis
@@ -41,7 +41,7 @@ class GraphRAGService:
 
         # TODO: Implement full embedding logic or call EmbeddingEngine
         # For now, we rely on text search via Cypher if no vector index
-        
+
         context = self._naive_text_search(question)
         return context
 
@@ -57,12 +57,12 @@ class GraphRAGService:
         ORDER BY a.relevance DESC
         LIMIT 5
         """
-        
+
         results = []
         with self._driver.session() as session:
             result = session.run(query, term=term)
             results = [record["content"] for record in result]
-            
+
         return "\n---\n".join(results) if results else "No graph context found."
 
     def close(self):

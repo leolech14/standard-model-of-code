@@ -1,13 +1,17 @@
 # Profile Loader
 
 > **Mirror**: [`profile_loader.py`](../../../src/core/profile_loader.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`ArchitectureProfile`**: No docstring
+- **`DimensionProfile`**: No docstring
+- **`ProfileLoader`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/profile_loader.py)
+### Functions
+- **`get_profile_loader`**: Get the singleton ProfileLoader instance.
+- **`get_default_profiles`**: Get default architecture and dimension profiles.

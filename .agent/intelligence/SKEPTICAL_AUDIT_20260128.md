@@ -4,48 +4,45 @@
 
 ## Session Artifacts
 === NEW FILES ===
-?? .agent/concierge_cli
-?? .agent/deck/CARD-SYS-001.yaml
-?? .agent/docs/AGENTKNOWLEDGEDUMP.md
-?? .agent/docs/AUDIT_MANIFEST.md
-?? .agent/intelligence/THEORY_SECTION_GRAPH.json
-?? .agent/intelligence/autopilot_logs/autopilot_20260127.jsonl
-?? .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl
-?? .agent/intelligence/concepts/
-?? .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json
-?? .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json
-?? .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json
-?? .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json
-?? .agent/macros/logs/MACRO-001/20260126_182536.yaml
-?? .agent/macros/logs/MACRO-001/20260126_183330.yaml
-?? .agent/macros/logs/MACRO-001/20260126_183756.yaml
-?? .agent/macros/logs/MACRO-001/20260127_022725.yaml
-?? .agent/macros/logs/MACRO-001/20260127_041705.yaml
-?? .agent/macros/logs/MACRO-001/20260127_052311.yaml
-?? .agent/macros/logs/MACRO-001/20260127_081723.yaml
-?? .agent/macros/logs/MACRO-001/20260127_113454.yaml
+?? .agent/macros/logs/MACRO-001/20260128_111302.yaml
+?? .agent/macros/logs/MACRO-001/20260128_112050.yaml
+?? context-management/docs/theory/TOPOLOGICAL_BOUNDARIES.md
+?? context-management/tools/ops/lizard_daemon.py
+?? context-management/tools/ops/self_analysis.py
+?? standard-model-of-code/docs/research/gemini/docs/20260128_102958_list_the_files_in_standard_model_of_code_src_core.md
+?? standard-model-of-code/docs/research/gemini/docs/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.md
+?? standard-model-of-code/docs/research/gemini/docs/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.md
+?? standard-model-of-code/docs/research/gemini/raw/20260128_102958_list_the_files_in_standard_model_of_code_src_core.json
+?? standard-model-of-code/docs/research/gemini/raw/20260128_110657_analyze_the_role_and_atoms_of_the_refinery_class_i.json
+?? standard-model-of-code/docs/research/gemini/raw/20260128_113515_we_have_two_dashboard_implementations___1__fastapi.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_092646_describe_the_architecture_of_the_edge_ex.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_102958_list_the_files_in_standard_model_of_code.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_110657_analyze_the_role_and_atoms_of_the_refine.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_113515_we_have_two_dashboard_implementations___.json
+?? standard-model-of-code/docs/research/gemini/sessions/20260128_113821_full_standard_model_of_code_src_core___o.json
+?? standard-model-of-code/src/core/igt_metrics.py
 
 === MODIFIED FILES ===
- M .agent/META_REGISTRY.yaml
- M .agent/deck/CARD-OPP-059.yaml
- M .agent/deck/CARD-OPP-060.yaml
- M .agent/deck/CARD-OPP-061.yaml
- M .agent/deck/CARD-OPP-062.yaml
- M .agent/deck/CARD-OPP-063.yaml
- M .agent/deck/CARD-OPP-064.yaml
- M .agent/deck/CARD-OPP-065.yaml
- M .agent/deck/CARD-OPP-066.yaml
- M .agent/deck/CARD-OPP-067.yaml
- M .agent/deck/CARD-OPP-071.yaml
- M .agent/deck/CARD-OPP-076.yaml
- M .agent/deck/CARD-OPP-077.yaml
- M .agent/deck/CARD-OPP-082.yaml
- M .agent/deck/CARD-OPP-083.yaml
- M .agent/deck/CARD-OPP-084.yaml
  M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md
+ M .agent/intelligence/THEORY_SECTION_GRAPH.json
  M .agent/intelligence/TOOLS_REGISTRY.yaml
- M .agent/intelligence/aci_feedback.yaml
+ M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl
+ M .agent/intelligence/confidence_reports/20260126_233146_batch_confidence.json
+ M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json
+ M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json
+ M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json
  M .agent/macros/library/MACRO-001-skeptical-audit.yaml
+ M .agent/macros/trigger_state.yaml
+ M .agent/state/circuit_breakers.yaml
+ M DOMAINS.yaml
+ M SUBSYSTEMS.yaml
+ M context-management/config/documentation_map.yaml
+ M context-management/config/refinery_config.yaml
+ M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html
+ M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html
+ M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html
+ M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json
+ M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json
 
 
 ## Dead Code Analysis
@@ -64,4 +61,4 @@ Requires manual AI execution
 [To be filled based on severity]
 
 ---
-*Generated: 2026-01-28T08:29:31.529053+00:00*
+*Generated: 2026-01-28T16:22:42.574583+00:00*

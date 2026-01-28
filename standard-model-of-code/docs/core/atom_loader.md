@@ -1,13 +1,19 @@
 # Atom Loader
 
 > **Mirror**: [`atom_loader.py`](../../../src/core/atom_loader.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
 
-## References
-*   [Source Code](../../../src/core/atom_loader.py)
+### Functions
+- **`load_yaml_atoms`**: Load atoms from a YAML file.
+- **`load_json_atoms`**: Load atoms from atoms.json.
+- **`infer_phase_family`**: Infer phase and family from atom ID pattern.
+- **`_infer_mined_phase_family`**: Infer phase and family for mined T2 atoms based on ecosystem and category.
+- **`build_unified_taxonomy`**: Build unified taxonomy from all atom sources.
+- **`_add_atom`**: Add atom to taxonomy structure.
+- **`get_unified_taxonomy`**: Get or build unified taxonomy (cached).
+- **`print_summary`**: Print summary of loaded atoms.

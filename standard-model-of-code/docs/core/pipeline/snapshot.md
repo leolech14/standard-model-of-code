@@ -1,13 +1,18 @@
 # Snapshot
 
 > **Mirror**: [`pipeline/snapshot.py`](../../../src/core/pipeline/snapshot.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`FieldDelta`**: No docstring
+- **`StageSnapshot`**: No docstring
+- **`PipelineSnapshot`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/pipeline/snapshot.py)
+### Functions
+- **`capture_node_fields`**: Get all field names present across nodes.
+- **`compute_field_deltas`**: Compute what fields were added/changed between two states.
+- **`get_sample_node`**: Get a representative sample node for preview.

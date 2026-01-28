@@ -1,13 +1,14 @@
 # File Enricher
 
 > **Mirror**: [`file_enricher.py`](../../../src/core/file_enricher.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`FileEnricher`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/file_enricher.py)
+### Functions
+- **`enrich_file_boundaries`**: Convenience function to enrich file boundaries.

@@ -96,10 +96,10 @@ def load_registry() -> List[Subsystem]:
     if not CONFIG_PATH.exists():
         print(f"Warning: {CONFIG_PATH} not found. Using empty registry.")
         return []
-    
+
     with open(CONFIG_PATH, 'r') as f:
         data = yaml.safe_load(f)
-        
+
     subsystems = []
     for s_data in data.get('subsystems', []):
         subsystems.append(Subsystem(**s_data))

@@ -2,13 +2,13 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * SETTINGS PANEL MODULE
  * ═══════════════════════════════════════════════════════════════════════════
- * 
+ *
  * Provides a comprehensive Settings Modal for:
  * 1. General: Navigation & Mouse controls
  * 2. Appearance: Theme, Density, Normalization
  * 3. Controls: Registry of all UI controls (from CIRCUIT)
  * 4. Analysis: AI/Analyzer Config
- * 
+ *
  * @module SETTINGS
  */
 const SETTINGS = (function () {
@@ -88,7 +88,7 @@ const SETTINGS = (function () {
                             <span id="settings-header-title">General Settings</span>
                             <button class="settings-close">×</button>
                         </div>
-                        
+
                         <!-- TAB: GENERAL -->
                         <div class="settings-pane active" id="pane-general">
                             <div class="settings-group">
@@ -429,7 +429,7 @@ const SETTINGS = (function () {
             .settings-close:hover { color: #fff; }
             .settings-pane { display: none; padding: 20px; overflow-y: auto; height: 100%; }
             .settings-pane.active { display: block; }
-            
+
             .settings-group { margin-bottom: 30px; }
             .settings-group-title {
                 font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
@@ -441,7 +441,7 @@ const SETTINGS = (function () {
                 margin-bottom: 12px; font-size: 13px;
             }
             .settings-desc { font-size: 12px; color: #666; margin-bottom: 10px; }
-            
+
             .registry-list { max-height: 300px; overflow-y: auto; border: 1px solid #333; }
             .registry-item {
                 display: flex; padding: 8px; border-bottom: 1px solid #333;

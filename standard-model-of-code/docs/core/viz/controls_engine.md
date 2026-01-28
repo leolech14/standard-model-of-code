@@ -1,13 +1,11 @@
 # Controls Engine
 
 > **Mirror**: [`viz/controls_engine.py`](../../../src/core/viz/controls_engine.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/viz/controls_engine.py)
+### Classes
+- **`ControlsEngine`**: No docstring

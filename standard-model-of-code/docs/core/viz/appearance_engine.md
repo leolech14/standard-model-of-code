@@ -1,13 +1,11 @@
 # Appearance Engine
 
 > **Mirror**: [`viz/appearance_engine.py`](../../../src/core/viz/appearance_engine.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/viz/appearance_engine.py)
+### Classes
+- **`AppearanceEngine`**: No docstring

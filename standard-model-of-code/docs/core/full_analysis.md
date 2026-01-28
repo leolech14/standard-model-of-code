@@ -1,13 +1,31 @@
 # Full Analysis
 
 > **Mirror**: [`full_analysis.py`](../../../src/core/full_analysis.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
 
-## References
-*   [Source Code](../../../src/core/full_analysis.py)
+### Functions
+- **`classify_disconnection`**: Classify WHY a node appears disconnected in the dependency graph.
+- **`detect_js_imports`**: detect_js_imports (Task #6):
+- **`detect_class_instantiation`**: detect_class_instantiation (Task #7):
+- **`create_codome_boundaries`**: Create synthetic codome boundary nodes and inferred edges.
+- **`_resolve_output_dir`**: Resolve the canonical output directory.
+- **`_find_latest_html`**: Return newest output_human-readable_*.html in output_dir, if any.
+- **`_open_file`**: Open a file path with the OS default handler.
+- **`_manual_open_command`**: Return a manual open command for the current OS.
+- **`build_file_index`**: Build a file-centric index of atoms for hybrid navigation.
+- **`build_file_boundaries`**: Build file boundary data for visualization.
+- **`_calculate_theory_completeness`**: Calculate theory completeness metrics for the analysis output.
+- **`compute_markov_matrix`**: Compute Markov transition matrix from call graph.
+- **`detect_knots`**: Detect dependency knots (cycles) and tangles in the graph.
+- **`detect_knots.find_cycle`**: No docstring
+- **`compute_data_flow`**: Analyze data flow patterns across the codebase.
+- **`_generate_ai_insights`**: Generate AI insights using Vertex AI Gemini.
+- **`build_pipeline_snapshot`**: Build pipeline_snapshot from PerformanceManager for Pipeline Navigator UI.
+- **`build_pipeline_snapshot.normalize_stage_name`**: Convert 'Stage 1: Base Analysis' to 'stage_1'.
+- **`run_pipeline_analysis`**: Run analysis using the new Pipeline architecture.
+- **`run_full_analysis`**: Run complete analysis with all theoretical frameworks.

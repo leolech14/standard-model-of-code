@@ -60,20 +60,20 @@ def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dr
     if config_path:
         logger.info(f"⚙️ Loading Parametric Config from: {config_path}")
         config = load_config(config_path)
-    
+
     # Merge Logic: CLI arg > Config File > Default
     p_config = config.get('pipeline', {})
     r_config = config.get('refinery', {})
-    
+
     active_query = query or p_config.get('query')
     max_files = p_config.get('max_files', 10)
     context_depth = r_config.get('context_depth', 'medium')
-    
+
     # Batch Identity (The "Room")
     batch_id = f"batch_{uuid.uuid4().hex[:8]}"
     logger.info(f"🆔 BATCH ID: {batch_id} (Copresence Context)")
     logger.info(f"📊 CONFIG: query='{active_query}', max_files={max_files}, depth={context_depth}")
-    
+
     # PHASE 0: ATTENTION SIGNAL
     match_signal = None
     if active_query:
@@ -84,13 +84,13 @@ def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dr
     # PHASE 1: INGESTION
     logger.info("--- PHASE 1: INGESTION (Minting Parcels) ---")
     inventory = corpus_inventory.scan_corpus(root_path, quick=False)
-    
+
     total_files = inventory['summary']['total_files']
     logger.info(f"✅ Ingested {total_files} files with Waybills.")
 
     # PHASE 2: REFINEMENT
     logger.info("--- PHASE 2: REFINEMENT (Processing Parcels) ---")
-    
+
     refinery = Refinery(config=config)
     all_chunks = []
     processed_count = 0
@@ -101,14 +101,14 @@ def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dr
 
         file_path = root_path / file_entry['path']
         parcel_id = file_entry.get('parcel_id')
-        
+
         # Fundamental Check: No Parcel ID? No Processing.
         if not parcel_id:
             logger.error(f"❌ REJECTED {file_entry['path']}: No Parcel ID (Waybill Missing)")
             continue
 
         logger.info(f"Processing Parcel {parcel_id} ({file_entry['path']})...")
-        
+
         chunks = refinery.process_file(
             str(file_path),
             use_cache=False,  # Force reprocessing to apply new logistics
@@ -116,14 +116,14 @@ def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dr
             batch_id=batch_id,
             semantic_match=match_signal
         )
-        
+
         all_chunks.extend(chunks)
         processed_count += 1
 
     # EXPORT
     output_file = root_path / "context-management/intelligence/chunks/logistics_demo.json"
     refinery.export_to_json(all_chunks, str(output_file))
-    
+
     logger.info(f"🏁 Pipeline Complete. Exported {len(all_chunks)} tracked chunks to {output_file}")
 
 if __name__ == "__main__":
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     parser.add_argument("directory", help="Directory to process")
     parser.add_argument("--query", help="Query to drive the attention mechanism gate")
     parser.add_argument("--config", help="Path to refinery_config.yaml")
-    
+
     args = parser.parse_args()
-    
+
     run_pipeline(args.directory, query=args.query, config_path=args.config)

@@ -1,13 +1,14 @@
 # Event Bus
 
 > **Mirror**: [`event_bus.py`](../../../src/core/event_bus.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`EventBus`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/event_bus.py)
+### Functions
+- **`get_event_bus`**: Get or create global EventBus singleton.

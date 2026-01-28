@@ -208,6 +208,9 @@ let APPEARANCE_STATE = {
     colorMode: 'tier',
     sizeMode: 'fanout',
     edgeMode: 'type',
+    edgeStyle: 'solid',
+    particleSpeed: 0.01,
+    particleCount: 4,
     // Amplifier: Power law exponent for visual contrast
     // γ=1 linear, γ>1 amplifies differences, γ<1 compresses
     amplifier: 1.0,
@@ -1671,36 +1674,9 @@ function setupConfigControls() {
  */
 function applyEdgeStyle(style) {
     if (!Graph) return;
-    const opacity = APPEARANCE_STATE.edgeOpacity || 0.4;
-    const speed = APPEARANCE_STATE.particleSpeed || 0.01;
-    const count = APPEARANCE_STATE.particleCount || 0;
-
-    switch (style) {
-        case 'solid':
-            Graph.linkLineDash(null);
-            Graph.linkOpacity(opacity);
-            Graph.linkDirectionalParticles(count);
-            break;
-        case 'dashed':
-            Graph.linkLineDash([4, 4]);
-            Graph.linkOpacity(opacity);
-            Graph.linkDirectionalParticles(count);
-            break;
-        case 'particle':
-            // Particle mode: dim lines, bright particles for flow effect
-            Graph.linkLineDash(null);
-            Graph.linkOpacity(Math.max(0.1, opacity * 0.3));
-            Graph.linkDirectionalParticles(Math.max(4, count));
-            Graph.linkDirectionalParticleSpeed(speed);
-            Graph.linkDirectionalParticleWidth(3);
-            Graph.linkDirectionalParticleColor(link => {
-                // Use source node color for particles
-                if (link.source && typeof link.source === 'object') {
-                    return link.source.__threeObj?.material?.color?.getStyle() || '#00d4ff';
-                }
-                return '#00d4ff';
-            });
-            break;
+    // DELEGATE TO EDGE SYSTEM: Avoid circular property overwrites (Haiku Audit Fix)
+    if (typeof applyEdgeMode === 'function') {
+        applyEdgeMode();
     }
 }
 

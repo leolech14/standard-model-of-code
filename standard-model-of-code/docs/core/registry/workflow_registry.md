@@ -1,13 +1,16 @@
 # Workflow Registry
 
 > **Mirror**: [`registry/workflow_registry.py`](../../../src/core/registry/workflow_registry.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`Workflow`**: No docstring
+- **`WorkflowRegistry`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/registry/workflow_registry.py)
+### Functions
+- **`get_workflow_registry`**: Get the workflow registry singleton.
+- **`_register_default_workflows`**: Register the standard pipeline workflows.

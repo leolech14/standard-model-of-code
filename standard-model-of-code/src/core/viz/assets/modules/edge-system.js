@@ -118,6 +118,8 @@ const EDGE = (function () {
     const MAX_WIDTH = 2.2;
     const BASE_WIDTH = 1.0;
     const DASH_PATTERN = [5, 5];   // Dashed line pattern for inferred edges
+    const CONTAINMENT_DASH = [2, 2]; // Fine dots for containment
+    const CONTAINMENT_COLOR = '#aaaaaa'; // Neutral structural gray
 
     // =========================================================================
     // STATE
@@ -385,6 +387,10 @@ const EDGE = (function () {
         }
 
         // Default: type-based coloring
+        if (link._edgeLayer === 'containment') {
+            return CONTAINMENT_COLOR;
+        }
+
         return typeof COLOR !== 'undefined' ?
             COLOR.get('edgeType', edgeKey) : '#666666';
     }
@@ -435,6 +441,11 @@ const EDGE = (function () {
 
         if (typeof Graph === 'undefined' || !Graph) return;
 
+        const style = (typeof APPEARANCE_STATE !== 'undefined') ? APPEARANCE_STATE.edgeStyle : 'solid';
+        const globalOpacity = (typeof APPEARANCE_STATE !== 'undefined' && typeof APPEARANCE_STATE.edgeOpacity === 'number')
+            ? APPEARANCE_STATE.edgeOpacity
+            : DEFAULT_OPACITY;
+
         Graph.linkColor(link => {
             const color = getColor(link);
             return typeof toColorNumber === 'function' ?
@@ -442,16 +453,18 @@ const EDGE = (function () {
         });
 
         Graph.linkOpacity(link => {
-            const overrideOpacity = (typeof APPEARANCE_STATE !== 'undefined' &&
-                typeof APPEARANCE_STATE.edgeOpacity === 'number')
-                ? APPEARANCE_STATE.edgeOpacity
-                : null;
-            const baseOpacity = (overrideOpacity !== null)
-                ? overrideOpacity
-                : (link.opacity ?? DEFAULT_OPACITY);
+            // Base opacity from APPEARANCE_STATE or link data
+            let opacity = globalOpacity;
 
             // Inferred edges have lower base opacity
-            let opacity = isInferredEdge(link) ? INFERRED_OPACITY : baseOpacity;
+            if (isInferredEdge(link)) {
+                opacity = INFERRED_OPACITY;
+            }
+
+            // Particle mode dimming: dim lines, bright particles
+            if (style === 'particle') {
+                opacity = Math.max(0.1, opacity * 0.3);
+            }
 
             // File mode dimming
             const fileMode = typeof window !== 'undefined' && window.fileMode;
@@ -470,17 +483,38 @@ const EDGE = (function () {
             return opacity * layerOpacity;
         });
 
-        // Apply dashed line pattern to inferred CODOME edges
+        // Apply dashed line pattern based on style or inferred status
         if (typeof Graph.linkLineDash === 'function') {
-            Graph.linkLineDash(link => getLineDash(link));
+            Graph.linkLineDash(link => {
+                if (style === 'dashed') return [4, 4];
+                if (link._edgeLayer === 'containment') return CONTAINMENT_DASH;
+                return getLineDash(link); // handles inferred edges
+            });
         }
 
-        // Don't override width in flow mode
+        // Handle particles for 'particle' style
+        if (typeof Graph.linkDirectionalParticles === 'function') {
+            const pCount = (typeof APPEARANCE_STATE !== 'undefined') ? (APPEARANCE_STATE.particleCount || 4) : 0;
+            const pSpeed = (typeof APPEARANCE_STATE !== 'undefined') ? (APPEARANCE_STATE.particleSpeed || 0.01) : 0.01;
+
+            if (style === 'particle') {
+                Graph.linkDirectionalParticles(pCount);
+                Graph.linkDirectionalParticleSpeed(pSpeed);
+                Graph.linkDirectionalParticleWidth(2.5);
+                Graph.linkDirectionalParticleColor(link => {
+                    const color = getColor(link);
+                    return color || '#00d4ff';
+                });
+            } else {
+                Graph.linkDirectionalParticles(0);
+            }
+        }
+
+        // Width management
         const flowMode = typeof window !== 'undefined' && window.flowMode;
         if (!flowMode) {
             Graph.linkWidth(link => {
                 const baseWidth = getWidth(link);
-                // Respect APPEARANCE_STATE.edgeWidth multiplier if set
                 const widthMultiplier = (typeof APPEARANCE_STATE !== 'undefined' &&
                     typeof APPEARANCE_STATE.edgeWidth === 'number')
                     ? APPEARANCE_STATE.edgeWidth

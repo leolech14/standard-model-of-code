@@ -1,13 +1,15 @@
 # Ollama Client
 
 > **Mirror**: [`ollama_client.py`](../../../src/core/ollama_client.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`OllamaConfig`**: No docstring
+- **`OllamaClient`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/ollama_client.py)
+### Functions
+- **`classify_component_with_ollama`**: Convenience function to classify a single component using Ollama.

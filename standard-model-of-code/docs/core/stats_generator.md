@@ -1,13 +1,11 @@
 # Stats Generator
 
 > **Mirror**: [`stats_generator.py`](../../../src/core/stats_generator.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
-
-## References
-*   [Source Code](../../../src/core/stats_generator.py)
+### Classes
+- **`StatsGenerator`**: No docstring

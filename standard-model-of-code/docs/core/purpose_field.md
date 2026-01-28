@@ -1,13 +1,17 @@
 # Purpose Field
 
 > **Mirror**: [`purpose_field.py`](../../../src/core/purpose_field.py)
-> **Role**: Contextome Stub (Auto-generated)
+> **Role**: Core Component
 
 ## Purpose
-*Theory explanation pending...*
+*(Auto-generated summary based on code structure)*
 
 ## Architecture
-This document validates the logic in the corresponding code file.
+### Classes
+- **`Layer`**: No docstring
+- **`PurposeNode`**: No docstring
+- **`PurposeField`**: No docstring
+- **`PurposeFieldDetector`**: No docstring
 
-## References
-*   [Source Code](../../../src/core/purpose_field.py)
+### Functions
+- **`detect_purpose_field`**: Convenience function to detect purpose field.
