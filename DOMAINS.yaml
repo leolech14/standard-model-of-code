@@ -26,7 +26,7 @@ domains:
       - counts_match: true  # 28 stages verified 2026-01-27
 
   - name: Refinery_Pipeline
-    description: "8-stage context atomization pipeline (Contextome processing)"
+    description: "4-stage context atomization pipeline (Contextome processing)"
     codome:
       paths:
         - context-management/tools/ai/aci/refinery.py
@@ -169,6 +169,8 @@ drift_detected:
     issue: "ATOMS_UNIVERSAL_INDEX.yaml claims T0=43 T1=24, registry has T0=42 T1=21"
     severity: P0
     fix: "Regenerate index from YAML sources"
+    status: RESOLVED (2026-01-28)
+    resolution: "Index regenerated with correct counts (commit a3021c1)"
 
   - domain: Governance
     issue: "KERNEL.md deleted, broken references in .agent/registry/INDEX.md"
