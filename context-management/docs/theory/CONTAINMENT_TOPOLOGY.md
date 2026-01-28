@@ -178,12 +178,13 @@ Implementation: Already built (unified graph + crossfade)
 
 ## 4. MEASUREMENTS
 
-### Root Fan-Out
+### Root Fan-Out (Branching Factor B_f)
 
 **Definition:** Number of immediate children of root R
 
+**Notation:**
 ```
-fanout(R) = |immediate_children(R)|
+B_f(R) = fanout(R) = |immediate_children(R)|
 
 Can measure:
   fanout_dirs(R) = |subdirectories(R)|
