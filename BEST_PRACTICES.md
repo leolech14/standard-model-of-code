@@ -6,6 +6,39 @@
 
 ---
 
+## ⚠️ MATURITY NOTICE
+
+**This document is INCOMPLETE and will remain so until Refinery maturity.**
+
+> Only after our code and documentation get mapped fully through the Refinery will we be able to reason on the totality of the good practices we implemented.
+
+**Current Status:** Early lessons captured (incident-driven)
+
+**What we have:**
+- Specific incident learnings (666K artifact commit)
+- Immediate prevention measures (.gitignore, Gate G9)
+- Reactive solutions to problems encountered
+
+**What we need before "best practices" is complete:**
+- ✅ Refinery Pipeline fully mature (mapping all code + docs)
+- ✅ Temporal Intelligence operational (file popularity, dead code detection)
+- ✅ Multiple incident cycles (not just one)
+- ✅ Pattern synthesis across experiences
+- ✅ Validated practices (tried and proven)
+
+**Timeline:** Write comprehensive best practices AFTER:
+1. Refinery processes entire codebase (complete mapping)
+2. Temporal Intelligence identifies all dead code
+3. File Popularity Tracker validates what's actually used
+4. We've experienced enough incidents to see patterns
+5. Practices have been tested and refined
+
+**For now:** This is a living incident log + immediate prevention guide.
+
+**Later:** Synthesize into canonical best practices when mature.
+
+---
+
 ## 🚫 NEVER COMMIT
 
 ### 1. Build Artifacts (Collider Outputs)
