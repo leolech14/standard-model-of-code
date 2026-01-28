@@ -5,7 +5,7 @@
 
 domains:
   - name: Collider_Pipeline
-    description: "28-stage code analysis pipeline (Codome processing)"
+    description: "32-stage code analysis pipeline (Codome processing)"
     codome:
       paths:
         - standard-model-of-code/src/core/full_analysis.py
@@ -23,10 +23,10 @@ domains:
       - code_exists: true
       - context_exists: true
       - references_resolve: true
-      - counts_match: true  # 28 stages verified 2026-01-27
+      - counts_match: true  # 32 stages verified 2026-01-28
 
   - name: Refinery_Pipeline
-    description: "8-stage context atomization pipeline (Contextome processing)"
+    description: "4-stage context atomization pipeline (Contextome processing)"
     codome:
       paths:
         - context-management/tools/ai/aci/refinery.py
@@ -42,7 +42,7 @@ domains:
       - code_exists: true
       - context_exists: true
       - references_resolve: true
-      - counts_match: true  # 8 stages verified 2026-01-27
+      - counts_match: true  # 4 stages verified 2026-01-28
 
   - name: Visualization
     description: "3D force-directed graph UI"

@@ -14,3 +14,10 @@
 ### Functions
 - **`get_role_registry`**: No docstring
 - **`get_pattern_registry`**: Get the singleton pattern registry.
+
+## Waybill
+- **ID**: `PARCEL-REGISTRY-PATTERN_REGISTRY.PY`
+- **Source**: `Codome://registry/pattern_registry.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.693173Z`
+- **Status**: REFINED

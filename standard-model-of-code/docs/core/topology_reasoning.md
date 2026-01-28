@@ -17,3 +17,10 @@
 
 ### Functions
 - **`compute_gradient`**: Compute gradient along a dependency edge.
+
+## Waybill
+- **ID**: `PARCEL-TOPOLOGY_REASONING.PY`
+- **Source**: `Codome://topology_reasoning.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.683242Z`
+- **Status**: REFINED

@@ -15,3 +15,10 @@
 
 ### Functions
 - **`get_schema_registry`**: Get the singleton schema registry.
+
+## Waybill
+- **ID**: `PARCEL-REGISTRY-SCHEMA_REGISTRY.PY`
+- **Source**: `Codome://registry/schema_registry.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.692951Z`
+- **Status**: REFINED

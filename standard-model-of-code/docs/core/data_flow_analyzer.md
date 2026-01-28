@@ -42,3 +42,10 @@
 - **`analyze_function_purity.visit`**: No docstring
 - **`analyze_function_purity.visit`**: No docstring
 - **`get_data_flow_summary`**: Get summary statistics for a data flow graph.
+
+## Waybill
+- **ID**: `PARCEL-DATA_FLOW_ANALYZER.PY`
+- **Source**: `Codome://data_flow_analyzer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687104Z`
+- **Status**: REFINED

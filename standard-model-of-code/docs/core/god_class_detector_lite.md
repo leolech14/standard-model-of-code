@@ -10,3 +10,10 @@
 ### Classes
 - **`GodClassMetrics`**: No docstring
 - **`GodClassDetectorLite`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-GOD_CLASS_DETECTOR_LITE.PY`
+- **Source**: `Codome://god_class_detector_lite.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684246Z`
+- **Status**: REFINED

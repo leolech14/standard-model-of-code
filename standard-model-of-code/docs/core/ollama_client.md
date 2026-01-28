@@ -13,3 +13,10 @@
 
 ### Functions
 - **`classify_component_with_ollama`**: Convenience function to classify a single component using Ollama.
+
+## Waybill
+- **ID**: `PARCEL-OLLAMA_CLIENT.PY`
+- **Source**: `Codome://ollama_client.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684011Z`
+- **Status**: REFINED

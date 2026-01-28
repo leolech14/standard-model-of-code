@@ -11,3 +11,10 @@
 - **`ReferenceKind`**: No docstring
 - **`WaveNode`**: No docstring
 - **`WaveExtractor`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-WAVE_EXTRACTOR.PY`
+- **Source**: `Codome://wave_extractor.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686305Z`
+- **Status**: REFINED

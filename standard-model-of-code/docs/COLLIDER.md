@@ -10,7 +10,7 @@
 
 | Command | Purpose |
 |---------|---------|
-| `./collider full <path>` | Complete 28-stage analysis |
+| `./collider full <path>` | Complete 32-stage analysis |
 | `./collider full <path> --output <dir>` | Custom output directory |
 | `./collider full <path> --ai-insights` | With LLM enrichment |
 
@@ -77,36 +77,41 @@
 
 ---
 
-## 3. PIPELINE (19 Stages)
+## 3. PIPELINE (32 Stages)
 
 | Stage | Name | Produces |
 |-------|------|----------|
+| 0 | Survey | Exclusions, estimates |
 | 1 | Base Analysis | AST, initial nodes |
-| 2 | Standard Model | atom classification |
-| 2.5 | Ecosystem Discovery | framework detection |
-| 2.7 | Dimension Classification | 8D vectors |
-| 2.8 | Scope Analysis | lexical scope |
-| 2.9 | Control Flow | complexity metrics |
-| 2.10 | Pattern Detection | framework patterns |
-| 2.11 | Data Flow Analysis | D6:EFFECT |
-| 3 | Purpose Field | layers, π emergence |
-| 3.5 | Organelle Purpose (π₃) | container purpose labels |
-| 3.6 | System Purpose (π₄) | file-level purpose labels |
-| 4 | Edge Extraction | call relationships |
-| 5 | Markov Transitions | state matrix |
-| 6 | Knot/Cycle Detection | cycles, knots |
-| 6.5 | Graph Analytics | centrality, clustering |
-| 6.6 | Statistical Metrics | distributions |
-| 6.8 | Codome Boundary | external callers |
-| 7 | Data Flow Macro | sources and sinks |
-| 8 | Performance Prediction | hotspots |
-| 8.5 | Constraint Validation | profile checks |
-| **8.6** | **Purpose Intelligence** | **Q-scores (quality metrics)** |
-| 9 | Roadmap Evaluation | maturity score |
-| 10 | Topology Reasoning | graph shape |
-| 11 | Semantic Cortex | high-level patterns |
-| 11.5 | Manifest Writer | provenance & integrity |
-| 11b | AI Insights (optional) | LLM analysis |
+| 2 | Standard Model | Atom classification |
+| 2.5 | Ecosystem Discovery | Framework detection |
+| 2.6 | Holarchy Level | L-3..L12 levels |
+| 2.7 | Octahedral Dimensions | 8D coordinates |
+| 2.8 | Scope Analysis | Unused/shadowed refs |
+| 2.9 | Control Flow | Cyclomatic complexity |
+| 2.10 | Pattern Detection | Core atom types |
+| 2.11 | Data Flow | D6:EFFECT (purity) |
+| 3 | Purpose Field | Layers, π emergence |
+| 3.5 | Organelle Purpose (π₃) | Container purpose |
+| 3.6 | System Purpose (π₄) | File-level purpose |
+| 3.7 | Purpose Coherence | Coherence scores |
+| 4 | Execution Flow | Degree, reachability |
+| 5 | Markov Transitions | Probabilistic edges |
+| 6 | Knot/Cycle Detection | Knots, back-edges |
+| 6.5 | Graph Analytics | Hubs, centrality |
+| 6.6 | Statistical Metrics | Entropy, distributions |
+| 6.7 | Semantic Purpose | Role inference |
+| 6.8 | Codome Boundary | External callers |
+| 7 | Data Flow Macro | Sources and sinks |
+| 8 | Performance Prediction| Hotspots, bottleneck |
+| 8.5 | Constraint Validation | Policy violations |
+| 8.6 | Purpose Intelligence | Q-scores (ROI) |
+| 9 | Roadmap Evaluation | Maturiy scores |
+| 10 | Topology Reasoning | Graph shape (Star, Mesh) |
+| 11 | Semantic Cortex | Domain concepts |
+| 11.5 | Manifest Writer | Provenance & integrity |
+| 11b | AI Insights | LLM analysis (optional) |
+| 13 | IGT Metrics | Stability, orphans |
 | 12 | Consolidated Output | JSON, HTML, MD |
 
 ### Purpose Intelligence Stage (8.6)
@@ -195,25 +200,25 @@ This is **meta-analysis** — AI analyzing an analysis.
 
 | Task | File |
 |------|------|
-| CLI entry | `cli.py` |
-| Pipeline orchestrator | `src/core/full_analysis.py` |
-| Graph generation | `src/core/unified_analysis.py` |
-| Report generator | `src/core/brain_download.py` |
-| Atom loader | `src/core/atom_loader.py` |
-| Atom classifier | `src/core/classification/universal_classifier.py` |
-| Role assignment | `src/core/heuristic_classifier.py` |
-| Topology classifier | `src/core/topology_reasoning.py` |
-| HTML generator | `tools/visualize_graph_webgl.py` |
+| CLI entry | [../cli.py](../cli.py) |
+| Pipeline orchestrator | [../src/core/full_analysis.py](../src/core/full_analysis.py) |
+| Graph generation | [../src/core/unified_analysis.py](../src/core/unified_analysis.py) |
+| Report generator | [../src/core/brain_download.py](../src/core/brain_download.py) |
+| Atom loader | [../src/core/atom_loader.py](../src/core/atom_loader.py) |
+| Atom classifier | [../src/core/classification/universal_classifier.py](../src/core/classification/universal_classifier.py) |
+| Role assignment | [../src/core/heuristic_classifier.py](../src/core/heuristic_classifier.py) |
+| Topology classifier | [../src/core/topology_reasoning.py](../src/core/topology_reasoning.py) |
+| HTML generator | [../tools/visualize_graph_webgl.py](../tools/visualize_graph_webgl.py) |
 
 ### Configuration
 
 | Task | File |
 |------|------|
-| Base atoms (14) | `src/patterns/atoms.json` |
-| T0 atoms (42) | `src/patterns/ATOMS_TIER0_CORE.yaml` |
-| T1 atoms (21) | `src/patterns/ATOMS_TIER1_STDLIB.yaml` |
-| T2 atoms (17) | `src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml` |
-| Role definitions | `../schema/fixed/roles.json` |
+| Base atoms (14) | [../src/patterns/atoms.json](../src/patterns/atoms.json) |
+| T0 atoms (42) | [../src/patterns/ATOMS_TIER0_CORE.yaml](../src/patterns/ATOMS_TIER0_CORE.yaml) |
+| T1 atoms (21) | [../src/patterns/ATOMS_TIER1_STDLIB.yaml](../src/patterns/ATOMS_TIER1_STDLIB.yaml) |
+| T2 atoms (17) | [../src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml](../src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml) |
+| Role definitions | [../schema/fixed/roles.json](../schema/fixed/roles.json) |
 
 ### Tree-sitter Query Infrastructure
 
@@ -228,7 +233,7 @@ External `.scm` query files for tree-sitter parsing. Replaces inline queries.
 | Rust | symbols | Structs, traits, impls |
 | _fallback | symbols | Generic patterns |
 
-**Location:** `src/core/queries/<language>/<type>.scm`
+**Location:** `../src/core/queries/<language>/<type>.scm`
 
 **Usage:**
 ```python
@@ -246,13 +251,13 @@ symbols = get_symbols_query('python')
 
 | Task | File |
 |------|------|
-| HTML template | `src/core/viz/assets/template.html` |
-| Styles | `src/core/viz/assets/styles.css` |
-| Main application | `src/core/viz/assets/app.js` |
-| Control Bar | `src/core/viz/assets/modules/control-bar.js` |
-| File Visualization | `src/core/viz/assets/modules/file-viz.js` |
-| Edge System | `src/core/viz/assets/modules/edge-system.js` |
-| Animation | `src/core/viz/assets/modules/animation.js` |
+| HTML template | [../src/core/viz/assets/template.html](../src/core/viz/assets/template.html) |
+| Styles | [../src/core/viz/assets/styles.css](../src/core/viz/assets/styles.css) |
+| Main application | [../src/core/viz/assets/app.js](../src/core/viz/assets/app.js) |
+| Control Bar | [../src/core/viz/assets/modules/control-bar.js](../src/core/viz/assets/modules/control-bar.js) |
+| File Visualization | [../src/core/viz/assets/modules/file-viz.js](../src/core/viz/assets/modules/file-viz.js) |
+| Edge System | [../src/core/viz/assets/modules/edge-system.js](../src/core/viz/assets/modules/edge-system.js) |
+| Animation | [../src/core/viz/assets/modules/animation.js](../src/core/viz/assets/modules/animation.js) |
 
 ---
 

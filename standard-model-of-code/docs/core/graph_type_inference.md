@@ -15,3 +15,10 @@
 - **`get_role_registry`**: No docstring
 - **`infer_from_structure`**: Infer type from node's own structural properties.
 - **`apply_graph_inference`**: Apply graph-based type inference to reduce unknowns.
+
+## Waybill
+- **ID**: `PARCEL-GRAPH_TYPE_INFERENCE.PY`
+- **Source**: `Codome://graph_type_inference.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687005Z`
+- **Status**: REFINED

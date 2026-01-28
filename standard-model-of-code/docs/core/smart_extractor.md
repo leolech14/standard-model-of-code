@@ -13,3 +13,10 @@
 
 ### Functions
 - **`format_card_for_llm`**: Format a ComponentCard as a prompt for LLM classification.
+
+## Waybill
+- **ID**: `PARCEL-SMART_EXTRACTOR.PY`
+- **Source**: `Codome://smart_extractor.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687572Z`
+- **Status**: REFINED

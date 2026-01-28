@@ -9,3 +9,10 @@
 ## Architecture
 ### Classes
 - **`AppearanceEngine`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-VIZ-APPEARANCE_ENGINE.PY`
+- **Source**: `Codome://viz/appearance_engine.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.692574Z`
+- **Status**: REFINED

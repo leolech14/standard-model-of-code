@@ -16,3 +16,10 @@
 - **`_get_language`**: Lazy load language module.
 - **`detect_atoms`**: Module-level function to detect atoms.
 - **`detect_atoms_in_file`**: Detect atoms in a file.
+
+## Waybill
+- **ID**: `PARCEL-PATTERN_MATCHER.PY`
+- **Source**: `Codome://pattern_matcher.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684813Z`
+- **Status**: REFINED

@@ -29,3 +29,10 @@
 - **`build_pipeline_snapshot.normalize_stage_name`**: Convert 'Stage 1: Base Analysis' to 'stage_1'.
 - **`run_pipeline_analysis`**: Run analysis using the new Pipeline architecture.
 - **`run_full_analysis`**: Run complete analysis with all theoretical frameworks.
+
+## Waybill
+- **ID**: `PARCEL-FULL_ANALYSIS.PY`
+- **Source**: `Codome://full_analysis.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686923Z`
+- **Status**: REFINED

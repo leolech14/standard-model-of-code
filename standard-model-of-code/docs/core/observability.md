@@ -16,3 +16,10 @@
 - **`observe_stage`**: Decorator for wrapping stage functions with timing.
 - **`observe_stage.decorator`**: No docstring
 - **`decorator.wrapper`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-OBSERVABILITY.PY`
+- **Source**: `Codome://observability.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685871Z`
+- **Status**: REFINED

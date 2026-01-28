@@ -16,3 +16,10 @@
 - **`first_path`**: Try multiple paths, return first non-None value.
 - **`render_markdown`**: Render query result as markdown.
 - **`main`**: CLI entry point.
+
+## Waybill
+- **ID**: `PARCEL-QUERIES-OVERALL_UNDERSTANDING.PY`
+- **Source**: `Codome://queries/overall_understanding.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.691587Z`
+- **Status**: REFINED

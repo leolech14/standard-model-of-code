@@ -29,3 +29,10 @@
 - **`_find_in_ancestors`**: Find a definition with given name in ancestor scopes.
 - **`analyze_scopes`**: Analyze scopes in a parsed tree.
 - **`get_scope_summary`**: Get summary statistics for a scope graph.
+
+## Waybill
+- **ID**: `PARCEL-SCOPE_ANALYZER.PY`
+- **Source**: `Codome://scope_analyzer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687501Z`
+- **Status**: REFINED

@@ -15,3 +15,10 @@
 
 ### Functions
 - **`detect_purpose_field`**: Convenience function to detect purpose field.
+
+## Waybill
+- **ID**: `PARCEL-PURPOSE_FIELD.PY`
+- **Source**: `Codome://purpose_field.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684668Z`
+- **Status**: REFINED

@@ -13,3 +13,10 @@
 
 ### Functions
 - **`get_role_registry`**: Get the singleton role registry.
+
+## Waybill
+- **ID**: `PARCEL-REGISTRY-ROLE_REGISTRY.PY`
+- **Source**: `Codome://registry/role_registry.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.693106Z`
+- **Status**: REFINED

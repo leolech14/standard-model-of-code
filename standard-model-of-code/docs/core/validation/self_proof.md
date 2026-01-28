@@ -11,3 +11,10 @@
 - **`ReachabilityDiagnostics`**: No docstring
 - **`ProofResult`**: No docstring
 - **`SelfProofValidator`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-VALIDATION-SELF_PROOF.PY`
+- **Source**: `Codome://validation/self_proof.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.693379Z`
+- **Status**: REFINED

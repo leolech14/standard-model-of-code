@@ -706,7 +706,7 @@ class ResearchEngine:
         return results
 
     def _execute_single_run(self, run: RunConfig, query: str) -> RunResult:
-        """Execute a single research run."""
+        """Execute a single research run - ACTUALLY EXECUTE."""
         import time
         start_time = time.time()
 
@@ -716,29 +716,31 @@ class ResearchEngine:
             if run.system_prompt:
                 full_query = f"{run.system_prompt.strip()}\n\nQUERY: {query}"
 
-            # For external runs, the query should be sanitized
-            if run.type == RunType.EXTERNAL:
-                full_query = self._prepare_external_query(full_query)
+            # Route based on run type
+            if run.type == RunType.INTERNAL:
+                result = self._execute_internal_run(run, full_query)
+            elif run.type == RunType.EXTERNAL:
+                result = self._execute_external_run(run, full_query)
+            else:
+                raise ValueError(f"Unknown run type: {run.type}")
 
-            # This will be replaced with actual API call
-            # For now, return a placeholder that the CLI will fill
+            # Convert to RunResult
+            latency_ms = int((time.time() - start_time) * 1000)
+
             return RunResult(
                 name=run.name,
                 success=True,
-                answer="[PENDING EXECUTION]",
-                model_used=run.model,
+                answer=result.get("answer", ""),
+                model_used=result.get("model", run.model),
                 tier_used=run.tier,
                 run_type=run.type.value,
-                tokens_in=0,
-                tokens_out=0,
-                latency_ms=int((time.time() - start_time) * 1000),
-                citations=[],
+                tokens_in=result.get("tokens_in", 0),
+                tokens_out=result.get("tokens_out", 0),
+                latency_ms=latency_ms,
+                citations=result.get("citations", []),
                 metadata={
                     "sets": run.sets if run.type == RunType.INTERNAL else [],
-                    "token_budget": run.token_budget if run.type == RunType.INTERNAL else 0,
                     "temperature": run.temperature,
-                    "system_prompt": run.system_prompt[:100] if run.system_prompt else "",
-                    "full_query": full_query,
                 },
             )
         except Exception as e:
@@ -755,6 +757,127 @@ class ResearchEngine:
                 citations=[],
                 error=str(e),
             )
+
+    def _execute_internal_run(self, run: RunConfig, query: str) -> Dict:
+        """Execute internal run using Gemini with repo context."""
+        import sys
+        import subprocess
+        from pathlib import Path
+
+        # Call analyze.py as subprocess (reuse existing logic)
+        # This avoids duplicating the complex context loading logic
+        # __file__ = context-management/tools/ai/aci/research_orchestrator.py
+        # parent x3 = context-management/
+        aci_dir = Path(__file__).parent  # aci/
+        ai_dir = aci_dir.parent           # ai/
+        tools_dir = ai_dir.parent          # tools/
+        analyze_script = ai_dir / "analyze.py"  # ai/analyze.py
+
+        # Build command
+        cmd = [
+            sys.executable,
+            str(analyze_script),
+        ]
+
+        # Add model if specified
+        if run.model:
+            cmd.extend(["--model", run.model])
+
+        # Add sets
+        if run.sets:
+            # analyze.py accepts single set only - use first one
+            # TODO: Support multiple sets if analyze.py adds that feature
+            cmd.extend(["--set", run.sets[0]])
+
+        # Add query
+        cmd.append(query)
+
+        # Execute
+        import time
+        start = time.time()
+
+        # Debug: Print command
+        print(f"[DEBUG] Executing: {' '.join(cmd)}", file=sys.stderr)
+
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=300
+        )
+
+        latency_ms = int((time.time() - start) * 1000)
+
+        # Debug: Print result
+        print(f"[DEBUG] Return code: {result.returncode}", file=sys.stderr)
+        if result.stderr:
+            print(f"[DEBUG] Stderr: {result.stderr[:500]}", file=sys.stderr)
+
+        if result.returncode != 0:
+            raise RuntimeError(f"analyze.py failed (code {result.returncode}): {result.stderr[:500]}")
+
+        # Parse output (analyze.py returns text response)
+        answer = result.stdout.strip()
+
+        # Extract token counts from stderr if available
+        # (analyze.py logs "Tokens Used: X Input, Y Output")
+        tokens_in = 0
+        tokens_out = 0
+        for line in result.stderr.split('\n'):
+            if 'Tokens Used:' in line:
+                # Parse "Tokens Used: 100000 Input, 1000 Output"
+                parts = line.split(':')[1].strip().split(',')
+                if len(parts) >= 2:
+                    tokens_in = int(parts[0].split()[0])
+                    tokens_out = int(parts[1].split()[0])
+
+        return {
+            "answer": answer,
+            "model": run.model,
+            "tokens_in": tokens_in,
+            "tokens_out": tokens_out,
+            "latency_ms": latency_ms,
+            "citations": []
+        }
+
+    def _execute_external_run(self, run: RunConfig, query: str) -> Dict:
+        """Execute external run using Perplexity."""
+        import sys
+        from pathlib import Path
+
+        # Import perplexity_research module
+        perplexity_module = Path(__file__).parent.parent / "perplexity_research.py"
+        sys.path.insert(0, str(perplexity_module.parent))
+
+        try:
+            from perplexity_research import research as perplexity_research
+        except ImportError as e:
+            raise RuntimeError(f"Cannot import perplexity_research: {e}")
+
+        # Sanitize query for external use
+        clean_query = self._prepare_external_query(query)
+
+        # Execute
+        import time
+        start = time.time()
+
+        result = perplexity_research(
+            query=clean_query,
+            model=run.model if run.model else "sonar-pro",
+            timeout=300
+        )
+
+        latency_ms = int((time.time() - start) * 1000)
+
+        # Map Perplexity result to standard format
+        return {
+            "answer": result.get("content", ""),
+            "citations": result.get("citations", []),
+            "tokens_in": result.get("usage", {}).get("prompt_tokens", 0),
+            "tokens_out": result.get("usage", {}).get("completion_tokens", 0),
+            "latency_ms": latency_ms,
+            "model": run.model
+        }
 
     def _prepare_external_query(self, query: str) -> str:
         """Prepare query for external tier (membrane enforcement)."""

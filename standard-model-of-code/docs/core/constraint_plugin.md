@@ -12,3 +12,10 @@
 
 ### Functions
 - **`get_constraint_engine_from_hub`**: Get constraint engine from hub (backward compatibility).
+
+## Waybill
+- **ID**: `PARCEL-CONSTRAINT_PLUGIN.PY`
+- **Source**: `Codome://constraint_plugin.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687965Z`
+- **Status**: REFINED

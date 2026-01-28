@@ -14,3 +14,10 @@
 
 ### Functions
 - **`parse_python`**: Convenience function to parse Python content.
+
+## Waybill
+- **ID**: `PARCEL-PARSER-PYTHON_PARSER.PY`
+- **Source**: `Codome://parser/python_parser.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.692226Z`
+- **Status**: REFINED

@@ -11,3 +11,10 @@
 - **`BasePlugin`**: No docstring
 - **`ServicePlugin`**: No docstring
 - **`EventDrivenPlugin`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-PLUGIN-BASE_PLUGIN.PY`
+- **Source**: `Codome://plugin/base_plugin.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.691507Z`
+- **Status**: REFINED

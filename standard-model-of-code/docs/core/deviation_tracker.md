@@ -18,3 +18,10 @@
 ### Functions
 - **`diagnose_mistake`**: Analyze the deviation and explain what went wrong.
 - **`main`**: CLI entry point.
+
+## Waybill
+- **ID**: `PARCEL-DEVIATION_TRACKER.PY`
+- **Source**: `Codome://deviation_tracker.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688300Z`
+- **Status**: REFINED

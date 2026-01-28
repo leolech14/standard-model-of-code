@@ -11,3 +11,10 @@
 ### Functions
 - **`encode_image`**: Encode image to base64 data URI.
 - **`generate_chart_viewer`**: Generate HTML viewer for charts.
+
+## Waybill
+- **ID**: `PARCEL-CHART_VIEWER.PY`
+- **Source**: `Codome://chart_viewer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688469Z`
+- **Status**: REFINED

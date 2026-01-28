@@ -22,3 +22,10 @@
 - **`analyze_function_complexity.visit`**: No docstring
 - **`get_complexity_rating`**: Get human-readable complexity rating.
 - **`get_nesting_rating`**: Get human-readable nesting rating.
+
+## Waybill
+- **ID**: `PARCEL-CONTROL_FLOW_ANALYZER.PY`
+- **Source**: `Codome://control_flow_analyzer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686535Z`
+- **Status**: REFINED

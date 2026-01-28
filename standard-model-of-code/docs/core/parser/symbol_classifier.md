@@ -14,3 +14,10 @@
 
 ### Functions
 - **`classify_symbol`**: Convenience function to classify a symbol.
+
+## Waybill
+- **ID**: `PARCEL-PARSER-SYMBOL_CLASSIFIER.PY`
+- **Source**: `Codome://parser/symbol_classifier.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.691924Z`
+- **Status**: REFINED

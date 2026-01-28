@@ -136,10 +136,66 @@ class OrphanClassifier:
             })
         return classified
 
-def compute_igt_summary(nodes: List[Dict], edges: List[Dict]) -> Dict[str, Any]:
-    """Helper to compute overall IGT scores for a graph."""
-    # This will be used in full_analysis.py
-    pass
+def compute_igt_summary(nodes: List[Dict], edges: List[Dict], files: List[Dict] = None) -> Dict[str, Any]:
+    """Computes overall Information Graph Theory (IGT) status for the graph.
+    
+    This function consolidates directory stability and orphan severity into a 
+    single structural health report.
+    """
+    from collections import defaultdict
+    
+    # 1. Directory Stability Analysis
+    dir_structure = defaultdict(list)
+    file_list = files or []
+    
+    # If no explicit files list, try to find file-type nodes
+    if not file_list:
+        file_list = [n for n in nodes if n.get('type') == 'file' or n.get('kind') == 'file']
+        
+    for f in file_list:
+        p = f.get('file') or f.get('file_path') or f.get('path')
+        if not p: continue
+        
+        path_obj = os.path.normpath(p)
+        parent = os.path.dirname(path_obj) or "."
+        name = os.path.basename(path_obj)
+        dir_structure[parent].append(name)
+        
+    stability_report = StabilityCalculator.analyze_directories(dir_structure)
+    
+    # 2. Orphan Severity Analysis
+    # We assume 'orphans' identification happens externally (e.g. via ExecutionFlow)
+    # but here we can identify nodes with 0 in-degree.
+    node_ids = {n.get('id') for n in nodes if n.get('id')}
+    targets = {e.get('target') for e in edges if e.get('target')}
+    orphan_ids = node_ids - targets
+    
+    orphans_data = []
+    for o_id in orphan_ids:
+        o_node = next((n for n in nodes if n.get('id') == o_id), None)
+        if o_node:
+            orphans_data.append({
+                'id': o_id,
+                'type': o_node.get('type') or o_node.get('kind', 'file'),
+                'path': o_node.get('file_path') or o_node.get('path', '')
+            })
+            
+    classified_orphans = OrphanClassifier.filter_true_orphans(orphans_data)
+    
+    # 3. Aggregate Metrics
+    avg_stability = sum(s['stability_index'] for s in stability_report.values()) / len(stability_report) if stability_report else 1.0
+    critical_orphans = [o for o in classified_orphans if o['is_problem']]
+    
+    return {
+        "directory_stability": stability_report,
+        "classified_orphans": classified_orphans,
+        "metrics": {
+            "avg_stability": round(avg_stability, 3),
+            "critical_orphan_count": len(critical_orphans),
+            "total_orphan_count": len(classified_orphans),
+            "igt_health": round(avg_stability * (1.0 - (len(critical_orphans) / max(1, len(nodes)) * 10)), 3) # Heuristic health
+        }
+    }
 
 if __name__ == "__main__":
     # 1. Test Stability Calculator

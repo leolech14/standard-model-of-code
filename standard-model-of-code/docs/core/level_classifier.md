@@ -17,3 +17,10 @@
 - **`compute_zone_statistics`**: Compute the distribution of nodes across zones.
 - **`get_level_info`**: Get full information about a holarchy level.
 - **`format_level_summary`**: Format a human-readable summary of level distribution.
+
+## Waybill
+- **ID**: `PARCEL-LEVEL_CLASSIFIER.PY`
+- **Source**: `Codome://level_classifier.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684171Z`
+- **Status**: REFINED

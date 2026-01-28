@@ -1,0 +1,22 @@
+{
+  "session_start": "2026-01-28 15:31:29",
+  "session_end": "2026-01-28 15:32:01",
+  "model": "gemini-2.0-flash-001",
+  "total_tokens_in": 839696,
+  "total_tokens_out": 114,
+  "turn_count": 2,
+  "turns": [
+    {
+      "timestamp": 1769625089.976268,
+      "timestamp_str": "2026-01-28 15:31:29",
+      "role": "user",
+      "content": "What are L0 axioms?"
+    },
+    {
+      "timestamp": 1769625121.07127,
+      "timestamp_str": "2026-01-28 15:32:01",
+      "role": "assistant",
+      "content": "```json\n{\n  \"answer\": \"L0 axioms define the foundational principles of the Standard Model of Code. They are the irreducible mathematical foundation that structures, and all subsequent derivations must adhere to.\",\n  \"references\": [\n    {\n      \"filename\": \"standard-model-of-code/docs/MODEL.md\",\n      \"link\": \"standard-model-of-code/docs/MODEL.md#L0 Axioms\",\n      \"type\": \"link\"\n    }\n  ]\n}\n```\n"
+    }
+  ]
+}

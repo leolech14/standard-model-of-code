@@ -17,3 +17,10 @@
 - **`is_valid_type`**: Check if a type is in the canonical set.
 - **`get_all_types`**: Get all canonical type IDs.
 - **`get_layer`**: Get the layer a type belongs to.
+
+## Waybill
+- **ID**: `PARCEL-TYPE_REGISTRY.PY`
+- **Source**: `Codome://type_registry.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686452Z`
+- **Status**: REFINED

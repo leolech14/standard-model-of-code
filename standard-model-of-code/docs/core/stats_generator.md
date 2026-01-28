@@ -9,3 +9,10 @@
 ## Architecture
 ### Classes
 - **`StatsGenerator`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-STATS_GENERATOR.PY`
+- **Source**: `Codome://stats_generator.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684597Z`
+- **Status**: REFINED

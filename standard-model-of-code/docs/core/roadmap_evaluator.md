@@ -11,3 +11,10 @@
 - **`Capability`**: No docstring
 - **`Roadmap`**: No docstring
 - **`RoadmapEvaluator`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-ROADMAP_EVALUATOR.PY`
+- **Source**: `Codome://roadmap_evaluator.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685495Z`
+- **Status**: REFINED

@@ -50,6 +50,14 @@ class LifecyclePhase(Enum):
     DESTROY = "destroy"      # Cleanup: __del__, close, dispose, cleanup
 
 
+class IntentType(Enum):
+    """D9: How clear is the programmer's intent?"""
+    DOCUMENTED = "Documented"      # Has docstring
+    IMPLICIT = "Implicit"          # Clear name, no docstring
+    AMBIGUOUS = "Ambiguous"        # Cryptic name, no docstring
+    CONTRADICTORY = "Contradictory" # Docstring mismatch with name (heuristic)
+
+
 class LayerType(Enum):
     """D2: Clean Architecture layer classification."""
     INTERFACE = "Interface"        # API endpoints, CLI, web handlers
@@ -789,23 +797,80 @@ class DimensionClassifier:
         # Fallback to regex (uses body, name, and path)
         return self._regex_classifier.classify_layer(body, name, file_path)
 
+    def classify_intent(self, node: Dict[str, Any]) -> IntentType:
+        """
+        Classify D9_INTENT: How clear is the programmer's intent?
+        """
+        name = node.get('name', '')
+        # Try metadata first, then root level
+        docstring = node.get('metadata', {}).get('docstring', '') or node.get('docstring', '') or ''
+        
+        if docstring and len(docstring.strip()) > 5:
+            # Check for contradiction (very naive heuristic)
+            name_lower = name.lower()
+            doc_lower = docstring.lower()
+            
+            # If doc says 'get' but name says 'delete'
+            if 'get' in doc_lower and ('delete' in name_lower or 'remove' in name_lower):
+                return IntentType.CONTRADICTORY
+            if 'delete' in doc_lower and ('get' in name_lower or 'find' in name_lower):
+                return IntentType.CONTRADICTORY
+                
+            return IntentType.DOCUMENTED
+            
+        # No docstring - check name clarity
+        if len(name) < 3 or name.lower() in ['tmp', 'temp', 'obj', 'data', 'x', 'y', 'z']:
+            return IntentType.AMBIGUOUS
+            
+        return IntentType.IMPLICIT
+
+    def classify_language_dimension(self, node: Dict[str, Any]) -> str:
+        """
+        Classify D10_LANGUAGE: Ranganathan Matter facet.
+        """
+        file_path = node.get('file_path', '')
+        if not file_path:
+            return "Unknown"
+            
+        ext = Path(file_path).suffix.lower()
+        mapping = {
+            '.py': 'Python',
+            '.js': 'JavaScript',
+            '.jsx': 'JavaScriptReact',
+            '.ts': 'TypeScript',
+            '.tsx': 'TypeScriptReact',
+            '.go': 'Go',
+            '.rs': 'Rust',
+            '.java': 'Java',
+            '.cpp': 'C++',
+            '.c': 'C',
+            '.html': 'HTML',
+            '.css': 'CSS',
+            '.yaml': 'YAML',
+            '.json': 'JSON',
+            '.md': 'Markdown'
+        }
+        return mapping.get(ext, ext[1:].title() if ext else "Unknown")
+
     def classify_all(self, node: Dict[str, Any]) -> Dict[str, str]:
         """
-        Classify D4_BOUNDARY, D5_STATE, D7_LIFECYCLE for a node.
+        Classify D4_BOUNDARY, D5_STATE, D7_LIFECYCLE, D9_INTENT, D10_LANGUAGE for a node.
 
         Returns:
-            Dict with 'boundary', 'state', 'lifecycle' string values
+            Dict with 'boundary', 'state', 'lifecycle', 'intent', 'language' string values
         """
         return {
             'boundary': self.classify_boundary(node).value,
             'state': self.classify_state(node).value,
             'lifecycle': self.classify_lifecycle(node).value,
+            'intent': self.classify_intent(node).value,
+            'language': self.classify_language_dimension(node)
         }
 
 
 def classify_all_dimensions(nodes: List[Dict[str, Any]]) -> int:
     """
-    Classify all 3 missing dimensions for a list of nodes.
+    Classify all octahedral dimensions for a list of nodes.
     Modifies nodes in-place.
 
     Args:
@@ -820,16 +885,22 @@ def classify_all_dimensions(nodes: List[Dict[str, Any]]) -> int:
     for node in nodes:
         dims = classifier.classify_all(node)
 
-        # Add to node
+        # Add to node flat structure
         node['boundary'] = dims['boundary']
         node['state'] = dims['state']
         node['lifecycle'] = dims['lifecycle']
+        node['intent'] = dims['intent']
+        node['language_dim'] = dims['language']
 
-        # Also add to dimensions sub-dict if it exists
-        if 'dimensions' in node and isinstance(node['dimensions'], dict):
-            node['dimensions']['boundary'] = dims['boundary']
-            node['dimensions']['state'] = dims['state']
-            node['dimensions']['lifecycle'] = dims['lifecycle']
+        # Also add to dimensions sub-dict (schema-aligned keys)
+        if 'dimensions' not in node or not isinstance(node['dimensions'], dict):
+            node['dimensions'] = {}
+            
+        node['dimensions']['D4_BOUNDARY'] = dims['boundary']
+        node['dimensions']['D5_STATE'] = dims['state']
+        node['dimensions']['D7_LIFECYCLE'] = dims['lifecycle']
+        node['dimensions']['D9_INTENT'] = dims['intent']
+        node['dimensions']['D10_LANGUAGE'] = dims['language']
 
         count += 1
 

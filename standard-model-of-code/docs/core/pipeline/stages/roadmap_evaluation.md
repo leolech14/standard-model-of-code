@@ -9,3 +9,10 @@
 ## Architecture
 ### Classes
 - **`RoadmapEvaluationStage`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-PIPELINE-STAGES-ROADMAP_EVALUATION.PY`
+- **Source**: `Codome://pipeline/stages/roadmap_evaluation.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.689513Z`
+- **Status**: REFINED

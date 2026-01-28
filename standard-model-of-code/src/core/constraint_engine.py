@@ -278,6 +278,75 @@ class ConstraintEngine:
 
         return violations
 
+    def _check_antimatter_laws(
+        self,
+        source_node: Dict[str, Any],
+        target_node: Dict[str, Any],
+        edge: Dict[str, Any],
+    ) -> List[Violation]:
+        """
+        Implement fundamental Antimatter Laws for architectural integrity.
+        
+        AM001: Layer Skip Violation
+        AM002: Reverse Layer Dependency
+        """
+        violations = []
+        source_id = source_node.get('id', source_node.get('name', 'unknown'))
+        target_id = target_node.get('id', target_node.get('name', 'unknown'))
+        source_layer = str(source_node.get('layer', '')).upper()
+        target_layer = str(target_node.get('layer', '')).upper()
+        
+        if not source_layer or not target_layer or source_layer == 'UNKNOWN' or target_layer == 'UNKNOWN':
+            return violations
+            
+        hierarchy = self.arch_profile.layer_hierarchy
+        if not hierarchy or len(hierarchy) < 2:
+            return violations
+            
+        try:
+            # Hierarchy is ordered from top (Interface/Presentation) to bottom (Infrastructure/DB)
+            # Index 0 is the "highest" layer.
+            source_idx = hierarchy.index(source_layer)
+            target_idx = hierarchy.index(target_layer)
+            
+            # AM002: Reverse Layer Dependency (Bottom calling Top)
+            # E.g., Infrastructure (index 3) calling Application (index 1)
+            if target_idx < source_idx:
+                # Exception: Infrastructure calling Domain is often allowed in Onion/Hexagonal
+                # but in strict Classic Layered it might be a violation.
+                # Here we implement the strict Antimatter law.
+                violations.append(Violation(
+                    rule_id='AM002',
+                    tier=ViolationTier.A,
+                    node_id=source_id,
+                    reason=f"Antimatter Law AM002 (ReverseLayerDependency): {source_layer} attempting to call higher layer {target_layer}",
+                    confidence=1.0,
+                    edge_source=source_id,
+                    edge_target=target_id,
+                    details={'law': 'ReverseLayerDependency', 'src': source_layer, 'tgt': target_layer}
+                ))
+                
+            # AM001: Layer Skip Violation (Top calling Bottom+2)
+            # E.g., Presentation (index 0) calling Domain (index 2) directly, skipping Application (index 1).
+            elif target_idx > source_idx + 1:
+                skipped_layers = hierarchy[source_idx + 1 : target_idx]
+                violations.append(Violation(
+                    rule_id='AM001',
+                    tier=ViolationTier.A,
+                    node_id=source_id,
+                    reason=f"Antimatter Law AM001 (LayerSkipViolation): {source_layer} calling {target_layer} while skipping {', '.join(skipped_layers)}",
+                    confidence=1.0,
+                    edge_source=source_id,
+                    edge_target=target_id,
+                    details={'law': 'LayerSkipViolation', 'skipped': skipped_layers}
+                ))
+                
+        except (ValueError, IndexError):
+            # One of the layers is not in the hierarchy, skip strict checking
+            pass
+            
+        return violations
+
     def validate_edge(
         self,
         source_node: Dict[str, Any],
@@ -290,10 +359,15 @@ class ConstraintEngine:
         Checks layer dependency violations based on architecture profile.
         """
         violations = []
+        
+        # 1. Check fundamental Antimatter Laws (AM001, AM002)
+        violations.extend(self._check_antimatter_laws(source_node, target_node, edge))
+        
+        # 2. Check profile-specific forbidden dependencies (Tier B)
         source_id = source_node.get('id', source_node.get('name', 'unknown'))
         target_id = target_node.get('id', target_node.get('name', 'unknown'))
-        source_layer = source_node.get('layer', '').upper()
-        target_layer = target_node.get('layer', '').upper()
+        source_layer = str(source_node.get('layer', '')).upper()
+        target_layer = str(target_node.get('layer', '')).upper()
 
         # Skip if layers unknown
         if not source_layer or not target_layer or source_layer == 'UNKNOWN' or target_layer == 'UNKNOWN':

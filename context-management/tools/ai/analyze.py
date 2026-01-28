@@ -2396,6 +2396,10 @@ Examples:
             print(f"[{status}] {run_result.name} ({run_result.latency_ms}ms)")
             if run_result.citations:
                 print(f"    Citations: {len(run_result.citations)}")
+            if not run_result.success and run_result.error:
+                print(f"    Error: {run_result.error[:200]}")
+            if run_result.skipped and run_result.skipped_reason:
+                print(f"    Skipped: {run_result.skipped_reason}")
         print()
 
         # Consensus answer

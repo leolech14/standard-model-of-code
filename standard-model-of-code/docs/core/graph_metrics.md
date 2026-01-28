@@ -15,3 +15,10 @@
 - **`compute_cluster_metrics`**: Compute metrics for each detected cluster.
 - **`find_architectural_layers`**: Identify architectural layers based on distance from entry.
 - **`analyze_all_metrics`**: Complete Phase 3 analysis pipeline.
+
+## Waybill
+- **ID**: `PARCEL-GRAPH_METRICS.PY`
+- **Source**: `Codome://graph_metrics.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685227Z`
+- **Status**: REFINED

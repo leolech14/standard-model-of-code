@@ -16,3 +16,10 @@
 - **`write_llm_output`**: No docstring
 - **`write_html_report`**: No docstring
 - **`generate_outputs`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-OUTPUT_GENERATOR.PY`
+- **Source**: `Codome://output_generator.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688142Z`
+- **Status**: REFINED

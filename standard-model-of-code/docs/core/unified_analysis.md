@@ -17,3 +17,10 @@
 - **`analyze`**: 🎯 SINGLE ENTRY POINT for all Collider analysis.
 - **`analyze.signal_handler`**: No docstring
 - **`_emit_file_nodes`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-UNIFIED_ANALYSIS.PY`
+- **Source**: `Codome://unified_analysis.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684335Z`
+- **Status**: REFINED

@@ -11,10 +11,18 @@
 - **`BoundaryType`**: No docstring
 - **`StateType`**: No docstring
 - **`LifecyclePhase`**: No docstring
+- **`IntentType`**: No docstring
 - **`LayerType`**: No docstring
 - **`TreeSitterDimensionClassifier`**: No docstring
 - **`RegexDimensionClassifier`**: No docstring
 - **`DimensionClassifier`**: No docstring
 
 ### Functions
-- **`classify_all_dimensions`**: Classify all 3 missing dimensions for a list of nodes.
+- **`classify_all_dimensions`**: Classify all octahedral dimensions for a list of nodes.
+
+## Waybill
+- **ID**: `PARCEL-DIMENSION_CLASSIFIER.PY`
+- **Source**: `Codome://dimension_classifier.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686234Z`
+- **Status**: REFINED

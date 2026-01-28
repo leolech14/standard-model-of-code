@@ -13,3 +13,10 @@
 ### Functions
 - **`get_role_registry`**: No docstring
 - **`apply_heuristics`**: Apply heuristic classification to particles during pipeline.
+
+## Waybill
+- **ID**: `PARCEL-HEURISTIC_CLASSIFIER.PY`
+- **Source**: `Codome://heuristic_classifier.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686756Z`
+- **Status**: REFINED

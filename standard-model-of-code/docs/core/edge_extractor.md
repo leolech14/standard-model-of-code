@@ -48,3 +48,10 @@
 - **`get_proof_edges`**: Filter edges for proof metrics calculation.
 - **`get_edge_resolution_summary`**: Summarize edge resolution status by edge type.
 - **`get_import_resolution_diagnostics`**: Summarize import resolution diagnostics.
+
+## Waybill
+- **ID**: `PARCEL-EDGE_EXTRACTOR.PY`
+- **Source**: `Codome://edge_extractor.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684453Z`
+- **Status**: REFINED

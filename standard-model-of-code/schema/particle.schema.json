@@ -558,7 +558,13 @@
           "description": "Number of outgoing dependencies"
         },
         "topology_role": {
-          "enum": ["orphan", "root", "leaf", "hub", "internal"],
+          "enum": [
+            "orphan",
+            "root",
+            "leaf",
+            "hub",
+            "internal"
+          ],
           "description": "Structural position in dependency graph"
         },
         "betweenness_centrality": {
@@ -596,7 +602,11 @@
           "description": "Why this node exists without standard edges"
         },
         "connection_gap": {
-          "enum": ["isolated", "no_incoming", "no_outgoing"],
+          "enum": [
+            "isolated",
+            "no_incoming",
+            "no_outgoing"
+          ],
           "description": "What kind of disconnection this is"
         },
         "isolation_confidence": {
@@ -622,7 +632,15 @@
         "pi2_purpose": {
           "type": "string",
           "description": "π₂ Molecular Purpose - emergent from composition (effect + boundary + topology)",
-          "examples": ["Retrieve", "Transform", "Persist", "Intake", "Emit", "Compute", "Process"]
+          "examples": [
+            "Retrieve",
+            "Transform",
+            "Persist",
+            "Intake",
+            "Emit",
+            "Compute",
+            "Process"
+          ]
         },
         "pi2_confidence": {
           "type": "number",
@@ -633,7 +651,13 @@
         "pi3_purpose": {
           "type": "string",
           "description": "π₃ Organelle Purpose - emergent from child π₂ distribution (containers only)",
-          "examples": ["Repository", "Processor", "Gateway", "Scattered", "Mixed(Retrieve+Persist)"]
+          "examples": [
+            "Repository",
+            "Processor",
+            "Gateway",
+            "Scattered",
+            "Mixed(Retrieve+Persist)"
+          ]
         },
         "pi3_confidence": {
           "type": "number",
@@ -644,7 +668,13 @@
         "pi4_purpose": {
           "type": "string",
           "description": "π₄ System Purpose - emergent from file-level π₃ distribution",
-          "examples": ["DataAccess", "Processing", "IOBoundary", "Utility", "MixedResponsibility"]
+          "examples": [
+            "DataAccess",
+            "Processing",
+            "IOBoundary",
+            "Utility",
+            "MixedResponsibility"
+          ]
         },
         "pi4_confidence": {
           "type": "number",

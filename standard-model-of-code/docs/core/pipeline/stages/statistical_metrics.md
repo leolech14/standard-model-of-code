@@ -9,3 +9,10 @@
 ## Architecture
 ### Classes
 - **`StatisticalMetricsStage`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-PIPELINE-STAGES-STATISTICAL_METRICS.PY`
+- **Source**: `Codome://pipeline/stages/statistical_metrics.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.689642Z`
+- **Status**: REFINED

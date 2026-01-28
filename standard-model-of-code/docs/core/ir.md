@@ -15,3 +15,10 @@
 
 ### Functions
 - **`edges_from_internal_edges_list`**: Convert the `internal_edges` summary from DependencyAnalyzer to Edge IR.
+
+## Waybill
+- **ID**: `PARCEL-IR.PY`
+- **Source**: `Codome://ir.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686018Z`
+- **Status**: REFINED

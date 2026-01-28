@@ -21,3 +21,10 @@
 - **`parse_with_timeout.target`**: No docstring
 - **`load_colliderignore`**: Load .colliderignore patterns from a directory.
 - **`should_ignore_path`**: Check if a path should be ignored based on patterns.
+
+## Waybill
+- **ID**: `PARCEL-TREE_SITTER_ENGINE.PY`
+- **Source**: `Codome://tree_sitter_engine.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.683925Z`
+- **Status**: REFINED

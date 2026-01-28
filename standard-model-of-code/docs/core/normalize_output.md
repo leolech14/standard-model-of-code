@@ -27,3 +27,10 @@
 - **`normalize_output`**: Apply all output-normalization steps in-place.
 - **`validate_contract`**: Validate output contract; returns (errors, warnings).
 - **`validate_contract.check_confidence_fields`**: No docstring
+
+## Waybill
+- **ID**: `PARCEL-NORMALIZE_OUTPUT.PY`
+- **Source**: `Codome://normalize_output.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687641Z`
+- **Status**: REFINED

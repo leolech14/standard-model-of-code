@@ -18,3 +18,10 @@
 - **`compute_pi4`**: π₄ = System Purpose (file/package level)
 - **`compute_purpose`**: Compute purpose at specified level.
 - **`analyze_purpose_distribution`**: Analyze the distribution of purposes across a codebase.
+
+## Waybill
+- **ID**: `PARCEL-PURPOSE_EMERGENCE.PY`
+- **Source**: `Codome://purpose_emergence.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685345Z`
+- **Status**: REFINED

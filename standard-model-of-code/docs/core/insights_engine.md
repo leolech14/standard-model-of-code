@@ -16,3 +16,10 @@
 
 ### Functions
 - **`generate_insights`**: Convenience function to generate insights.
+
+## Waybill
+- **ID**: `PARCEL-INSIGHTS_ENGINE.PY`
+- **Source**: `Codome://insights_engine.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688212Z`
+- **Status**: REFINED

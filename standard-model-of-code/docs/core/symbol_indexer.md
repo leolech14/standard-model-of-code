@@ -16,3 +16,10 @@
 ### Functions
 - **`get_symbol_indexer`**: Get the singleton SymbolIndexer instance.
 - **`index_codebase`**: Index an entire codebase.
+
+## Waybill
+- **ID**: `PARCEL-SYMBOL_INDEXER.PY`
+- **Source**: `Codome://symbol_indexer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685716Z`
+- **Status**: REFINED

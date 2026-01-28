@@ -25,3 +25,10 @@
 - **`suggest_refactoring_cuts`**: Suggest edges to remove that would best decouple the graph.
 - **`analyze_full`**: Run full analysis on a graph.
 - **`generate_report`**: Generate markdown report from analysis results.
+
+## Waybill
+- **ID**: `PARCEL-GRAPH_ANALYZER.PY`
+- **Source**: `Codome://graph_analyzer.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688064Z`
+- **Status**: REFINED

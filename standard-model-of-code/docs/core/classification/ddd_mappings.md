@@ -7,3 +7,10 @@
 *(Auto-generated summary based on code structure)*
 
 ## Architecture
+
+## Waybill
+- **ID**: `PARCEL-CLASSIFICATION-DDD_MAPPINGS.PY`
+- **Source**: `Codome://classification/ddd_mappings.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688802Z`
+- **Status**: REFINED

@@ -10,6 +10,7 @@ import sys
 import os
 from pathlib import Path
 import json
+from datetime import datetime
 
 # Add project root to path
 project_root = str(Path(__file__).parent.parent.parent.parent.resolve())
@@ -59,8 +60,11 @@ def run_self_analysis():
         doc_rel = Path(rel_path_str).with_suffix(".md")
         doc_path = docs_root / doc_rel
         
-        if doc_path.exists():
-            print(f"Updating {doc_path}...")
+        if True: # Always ensure doc exists
+            if not doc_path.parent.exists():
+                doc_path.parent.mkdir(parents=True, exist_ok=True)
+                
+            print(f"Propagating to {doc_path}...")
             
             # Generate Content
             # Debug: print first particle keys to ensure schema
@@ -92,6 +96,13 @@ def run_self_analysis():
                      doc = f.get('docstring') or "No docstring"
                      summary = doc.splitlines()[0] if doc else "No docstring"
                      content += f"- **`{f.get('name')}`**: {summary}\n"
+
+            content += "\n## Waybill\n"
+            content += f"- **ID**: `PARCEL-{rel_path_str.upper().replace('/', '-')}`\n"
+            content += f"- **Source**: `Codome://{rel_path_str}`\n"
+            content += f"- **Refinery**: `SelfAnalysis-v1.0`\n"
+            content += f"- **Generated**: `{datetime.utcnow().isoformat()}Z`\n"
+            content += f"- **Status**: REFINED\n"
 
             with open(doc_path, 'w') as f:
                 f.write(content)

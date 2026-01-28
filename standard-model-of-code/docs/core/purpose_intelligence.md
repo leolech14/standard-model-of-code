@@ -22,3 +22,10 @@
 - **`compute_purpose_intelligence`**: Compute full Purpose Intelligence for a node.
 - **`compute_codebase_intelligence`**: Compute Purpose Intelligence for an entire codebase.
 - **`enrich_nodes_with_intelligence`**: Add purpose_intelligence fields to nodes.
+
+## Waybill
+- **ID**: `PARCEL-PURPOSE_INTELLIGENCE.PY`
+- **Source**: `Codome://purpose_intelligence.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684094Z`
+- **Status**: REFINED

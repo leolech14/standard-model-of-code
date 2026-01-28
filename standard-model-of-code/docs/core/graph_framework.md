@@ -16,3 +16,10 @@
 - **`propagate_context`**: Propagate context via BFS from root nodes downstream.
 - **`get_node_neighborhood`**: Get the local neighborhood of a node.
 - **`analyze_graph`**: Complete graph analysis pipeline.
+
+## Waybill
+- **ID**: `PARCEL-GRAPH_FRAMEWORK.PY`
+- **Source**: `Codome://graph_framework.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.684525Z`
+- **Status**: REFINED

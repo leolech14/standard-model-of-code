@@ -33,3 +33,10 @@
 - **`load_exclusion_config`**: Load exclusion configuration from YAML file.
 - **`generate_analysis_config`**: Generate an analysis configuration from survey results.
 - **`print_survey_report`**: Print a human-readable Codome Definition report.
+
+## Waybill
+- **ID**: `PARCEL-SURVEY.PY`
+- **Source**: `Codome://survey.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.683714Z`
+- **Status**: REFINED

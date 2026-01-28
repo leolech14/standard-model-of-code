@@ -15,3 +15,10 @@
 
 ### Functions
 - **`predict_performance`**: Convenience function to predict performance.
+
+## Waybill
+- **ID**: `PARCEL-PERFORMANCE_PREDICTOR.PY`
+- **Source**: `Codome://performance_predictor.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.685951Z`
+- **Status**: REFINED

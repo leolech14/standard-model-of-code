@@ -17,3 +17,10 @@
 
 ### Functions
 - **`detect_execution_flow`**: Convenience function to detect execution flow.
+
+## Waybill
+- **ID**: `PARCEL-EXECUTION_FLOW.PY`
+- **Source**: `Codome://execution_flow.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687417Z`
+- **Status**: REFINED

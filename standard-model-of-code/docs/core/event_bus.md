@@ -12,3 +12,10 @@
 
 ### Functions
 - **`get_event_bus`**: Get or create global EventBus singleton.
+
+## Waybill
+- **ID**: `PARCEL-EVENT_BUS.PY`
+- **Source**: `Codome://event_bus.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.686678Z`
+- **Status**: REFINED

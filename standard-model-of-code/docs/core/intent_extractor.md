@@ -16,3 +16,10 @@
 - **`extract_issue_references`**: Extract issue/PR references from commit message.
 - **`build_node_intent_profile`**: Build comprehensive intent profile for a node.
 - **`analyze_intent_coverage`**: Analyze intent coverage across all nodes.
+
+## Waybill
+- **ID**: `PARCEL-INTENT_EXTRACTOR.PY`
+- **Source**: `Codome://intent_extractor.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.687768Z`
+- **Status**: REFINED

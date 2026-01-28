@@ -428,6 +428,313 @@ tools:
     status: working
     note: "Uses Gemini 3 Pro to evolve UI from visual references into functional React modules."
 
+  # ---------------------------------------------------------------------------
+  # WAVE & OBSERVER RECOVERY (Haiku Audit Phase 25)
+  # ---------------------------------------------------------------------------
+  boundary_analyzer:
+    id: T014
+    name: "Boundary Analyzer"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 context-management/tools/ai/boundary_analyzer.py"}
+    status: working
+
+  gemini_status:
+    id: T015
+    name: "Gemini Quota Status"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 context-management/tools/maintenance/gemini_status.py"}
+    status: working
+
+  boot_script:
+    id: T016
+    name: "Agent Boot Orchestrator"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "bash context-management/tools/maintenance/boot.sh"}
+    status: working
+
+  extract_sections:
+    id: T017
+    name: "Markdown Section Extractor"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/extract_sections.py"}
+    status: working
+
+  measure_subdivision_stability:
+    id: T018
+    name: "Subdivision Stability Scorer"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/measure_subdivision_stability.py"}
+    status: working
+
+  version_compare:
+    id: T019
+    name: "Semantic Version Comparator"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/version_compare.py"}
+    status: working
+
+  analyze_latest_activity:
+    id: T020
+    name: "Temporal Activity Analyzer"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/analyze_latest_activity.py"}
+    status: working
+
+  output_parity:
+    id: T021
+    name: "Output Parity Checker"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/output_parity.py"}
+    status: working
+
+  theory_coverage:
+    id: T022
+    name: "Theoretical Coverage Auditor"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/theory_coverage.py"}
+    status: working
+
+  verify_polyglot:
+    id: T023
+    name: "Polyglot AST Verifier"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/verify_polyglot.py"}
+    status: working
+
+  theory_cataloger:
+    id: T024
+    name: "Theory Cataloger"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/theory_cataloger.py"}
+    status: working
+
+  centripetal_scan:
+    id: T025
+    name: "Centripetal Dependency Scanner"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/centripetal_scan.py"}
+    status: working
+
+  oklch_color:
+    id: T026
+    name: "OKLCH Color Space Converter"
+    subsystem: DESIGN
+    realm: design
+    invoke: {method: cli, command: "python3 .agent/tools/oklch_color.py"}
+    status: working
+
+  collider_to_neo4j:
+    id: T027
+    name: "Graph Persistence Bridge (Neo4j)"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/collider_to_neo4j.py"}
+    status: implemented
+
+  triage_inbox:
+    id: T028
+    name: "Operational Triage Inbox"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/triage_inbox.py"}
+    status: working
+
+  priority_matrix:
+    id: T029
+    name: "Calculated Priority Matrix"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/priority_matrix.py"}
+    status: working
+
+  autopilot:
+    id: T030
+    name: "Autopilot Execution Engine"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/autopilot.py"}
+    status: implemented
+
+  confidence_validator:
+    id: T031
+    name: "Semantic Confidence Validator"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/confidence_validator.py"}
+    status: working
+
+  task_store:
+    id: T032
+    name: "Persistent Task Store"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/task_store.py"}
+    status: implemented
+
+  sync_session_tasks:
+    id: T033
+    name: "Session Task Synchronizer"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/sync_session_tasks.py"}
+    status: working
+
+  fact_loader:
+    id: T034
+    name: "Axiomatic Fact Loader"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/fact_loader.py"}
+    status: working
+
+  import_legacy_tasks:
+    id: T035
+    name: "Legacy Task Importer"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/import_legacy_tasks.py"}
+    status: working
+
+  session_manager:
+    id: T036
+    name: "Agent Session Manager"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/session_manager.py"}
+    status: implemented
+
+  lol_smoc_merger:
+    id: T037
+    name: "LOL/SMoC Ontology Merger"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/lol_smoc_merger.py"}
+    status: working
+
+  size_normalizer:
+    id: T038
+    name: "Vector Size Normalizer"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/size_normalizer.py"}
+    status: working
+
+  lol_sync:
+    id: T039
+    name: "Contextome LOL Sync"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/lol_sync.py"}
+    status: working
+
+  update_task_hierarchy:
+    id: T040
+    name: "Ontological Task Updater"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/update_task_hierarchy.py"}
+    status: working
+
+  audit_unicode:
+    id: T041
+    name: "Unicode Integrity Auditor"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/audit_unicode.py"}
+    status: working
+
+  wire:
+    id: T042
+    name: "Subsystem Wiring Validator"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/wire.py"}
+    status: implemented
+
+  validate_manifest:
+    id: T043
+    name: "Manifest Integrity Validator"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/validate_manifest.py"}
+    status: working
+
+  graphrag_query:
+    id: T044
+    name: "GraphRAG Semantic Query"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/graphrag_query.py"}
+    status: implemented
+
+  industrial_triage:
+    id: T045
+    name: "Industrial Triage Engine"
+    subsystem: OBSERVER
+    realm: observer
+    invoke: {method: cli, command: "python3 .agent/tools/industrial_triage.py"}
+    status: working
+
+  lol_unify:
+    id: T046
+    name: "Ontology Unification Tool"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/lol_unify.py"}
+    status: working
+
+  enrichment_orchestrator:
+    id: T047
+    name: "Semantic Enrichment Orchestrator"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/enrichment_orchestrator.py"}
+    status: implemented
+
+  wave_particle_balance:
+    id: T048
+    name: "Symmetry Equilibrium Scorer"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/wave_particle_balance.py"}
+    status: working
+
+  validate_lol:
+    id: T049
+    name: "LOL Definition Validator"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/validate_lol.py"}
+    status: working
+
+  import_academic_foundations:
+    id: T050
+    name: "Academic Ontology Importer"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/import_academic_foundations.py"}
+    status: working
+
+  semantic_compressor:
+    id: T051
+    name: "Semantic Context Compressor"
+    subsystem: WAVE
+    realm: wave
+    invoke: {method: cli, command: "python3 .agent/tools/semantic_compressor.py"}
+    status: working
+
 # =============================================================================
 # PIPELINES (Pre-defined tool chains)
 # =============================================================================

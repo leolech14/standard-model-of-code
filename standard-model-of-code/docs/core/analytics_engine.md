@@ -16,3 +16,10 @@
 - **`compute_node_metrics`**: Compute all metrics for a single node.
 - **`compute_codebase_entropy`**: Compute entropy statistics for a field across all nodes.
 - **`compute_all_metrics`**: Compute all statistical metrics for a codebase.
+
+## Waybill
+- **ID**: `PARCEL-ANALYTICS_ENGINE.PY`
+- **Source**: `Codome://analytics_engine.py`
+- **Refinery**: `SelfAnalysis-v1.0`
+- **Generated**: `2026-01-28T17:50:51.688649Z`
+- **Status**: REFINED
