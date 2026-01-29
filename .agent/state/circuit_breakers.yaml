@@ -7,7 +7,7 @@ systems:
   trigger_engine:
     broken_until: null
     failures: 0
-    last_success: '2026-01-28T22:36:54.031450+00:00'
+    last_success: '2026-01-29T00:29:04.635979+00:00'
   enrichment:
     failures: 0
     last_success: '2026-01-28T07:08:34.399157+00:00'
