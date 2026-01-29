@@ -735,6 +735,62 @@ tools:
     invoke: {method: cli, command: "python3 .agent/tools/semantic_compressor.py"}
     status: working
 
+  # ---------------------------------------------------------------------------
+  # EXTERNAL AI MODELS (Hugging Face, etc.)
+  # ---------------------------------------------------------------------------
+  trellis_2:
+    id: T052
+    name: "TRELLIS.2 (Image to 3D)"
+    subsystem: DESIGN
+    realm: design
+    type: external_api
+
+    invoke:
+      method: python_import
+      module: "gradio_client"
+      client: "microsoft/TRELLIS.2"
+
+    inputs:
+      - name: image
+        type: file
+        format: png|jpg
+        description: "2D image to convert to 3D"
+        required: true
+
+      - name: seed
+        type: int
+        default: 0
+
+      - name: resolution
+        type: enum
+        values: [512, 1024, 1536]
+        default: 1024
+
+    outputs:
+      - name: model_3d_html
+        type: html
+        description: "3D model preview"
+
+      - name: glb_file
+        type: file
+        format: glb
+        description: "Extracted 3D model"
+
+    requires:
+      - gradio_client
+      - HUGGINGFACE_API_KEY (optional for public spaces)
+
+    status: working
+
+    docs: "~/vault/ai-models/huggingface/trellis-2.md"
+    setup: "docs/HUGGINGFACE_SETUP.md"
+    reference: "docs/AI_MODELS_REFERENCE.md"
+
+    note: |
+      Microsoft TRELLIS.2 - Gradio Space for Image to 3D generation.
+      Converts 2D images into 3D GLB models with texture.
+      API docs in vault, secrets in Doppler (ai-tools/dev).
+
 # =============================================================================
 # PIPELINES (Pre-defined tool chains)
 # =============================================================================
@@ -800,7 +856,7 @@ connections:
 # =============================================================================
 # STATUS SUMMARY
 # =============================================================================
-  working: [purpose_field, pom, analyze, flash-ui, collider]
+status_summary:
+  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2]
   not_implemented: [charts]
-
   blockers: {}

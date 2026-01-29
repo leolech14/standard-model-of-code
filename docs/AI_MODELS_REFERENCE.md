@@ -2,6 +2,8 @@
 
 Quick reference for AI model integrations used in this project.
 
+**Registry:** `.agent/intelligence/TOOLS_REGISTRY.yaml` (T052)
+
 ## Storage Location
 
 All AI model API documentation is stored in:
