@@ -545,6 +545,12 @@ executions:
   duration_ms: 46
   dry_run: false
   reason: Not all success criteria met
+- timestamp: '2026-01-29T01:02:41.858478+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 53
+  dry_run: false
+  reason: Not all success criteria met
 automation_path:
   current: TESTED
   next_steps:
