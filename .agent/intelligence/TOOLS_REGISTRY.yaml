@@ -736,6 +736,65 @@ tools:
     status: working
 
   # ---------------------------------------------------------------------------
+  # DOCSINTEL (Documentation Intelligence)
+  # ---------------------------------------------------------------------------
+  docsintel:
+    id: T053
+    name: "DocsIntel (Documentation Intelligence)"
+    subsystem: OBSERVER
+    realm: observer
+    type: mcp_orchestration
+
+    description: |
+      Umbrella layer for intelligent access to provider documentation via MCP servers.
+      Provides structured access to Anthropic, GCP, AWS, and other provider docs.
+
+    invoke:
+      method: mcp
+      servers:
+        - anthropic-docs  # Search Anthropic documentation
+        - context7        # 100+ framework docs (React, Next.js, etc.)
+        - docs-mcp-server # Self-index any URL
+
+    inputs:
+      - name: query
+        type: string
+        description: "Documentation search query"
+        required: true
+
+      - name: provider
+        type: enum
+        values: [anthropic, gcp, aws, react, nextjs, any]
+        default: any
+
+    outputs:
+      - name: documentation_result
+        type: text
+        format: markdown
+        description: "Retrieved documentation with citations"
+
+    requires:
+      - mcp_servers_configured
+      - claude_desktop_restart
+
+    status: installed
+    location: "context-management/tools/docsintel/"
+
+    files:
+      - DOCSINTEL.md      # Architecture & usage
+      - POSITIONING.md    # Ontological analysis (why orthogonal to L-scale)
+      - providers.yaml    # Provider registry
+      - install.sh        # Installation script
+
+    connects_to:
+      - analyze  # Feeds provider context to AI analysis
+
+    note: |
+      The L-scale (L-3 to L12) is Codome-specific. DocsIntel operates on
+      external Contextome, making it orthogonal to the level hierarchy.
+      Position: OBSERVER.Ingestor (Miller's taxonomy)
+
+  # ---------------------------------------------------------------------------
   # EXTERNAL AI MODELS (Hugging Face, etc.)
   # ---------------------------------------------------------------------------
   trellis_2:
@@ -857,6 +916,6 @@ connections:
 # STATUS SUMMARY
 # =============================================================================
 status_summary:
-  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2]
+  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel]
   not_implemented: [charts]
   blockers: {}

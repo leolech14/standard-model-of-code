@@ -1,0 +1,130 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:37:17.909285",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "julianoczkowski anthropic-docs-mcp-ts install npm github",
+    "query_length": 56,
+    "checksum": "sha256:f7679933e9021fbbd854dea2d6a8b168686b9269115c24746f9c48bd464ff9fd"
+  },
+  "response": {
+    "id": "ad85d929-edb6-4715-972d-a6d69bc6b0f9",
+    "model": "sonar-pro",
+    "created": 1769715437,
+    "usage": {
+      "prompt_tokens": 16,
+      "completion_tokens": 472,
+      "total_tokens": 488,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://lobehub.com/de/mcp/julianoczkowski-anthropic-docs-mcp-ts",
+      "https://www.youtube.com/watch?v=ebgdlgAEi28",
+      "https://github.com/madhukarkumar/anthropic-mcp-servers",
+      "https://github.com/julianoczkowski/anthropic-docs-mcp-ts",
+      "https://lobehub.com/mcp/julianoczkowski-anthropic-docs-mcp-ts?activeTab=deployment",
+      "https://github.com/modelcontextprotocol/typescript-sdk",
+      "https://lobechat.com/discover/mcp/julianoczkowski-anthropic-docs-mcp-ts?hl=bg-BG",
+      "https://github.com/anthropics/anthropic-sdk-typescript",
+      "https://github.com/modelcontextprotocol",
+      "https://github.com/anthropics/anthropic-sdk-typescript/issues/714"
+    ],
+    "search_results": [
+      {
+        "title": "Anthropic Docs MCP Server | MCP Servers · LobeHub",
+        "url": "https://lobehub.com/de/mcp/julianoczkowski-anthropic-docs-mcp-ts",
+        "date": "2025-09-29",
+        "last_updated": "2025-10-12",
+        "snippet": "A Model Context Protocol (MCP) server that provides comprehensive search and retrieval capabilities for Claude and Anthropic documentation, optimized for MCP ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic's MCP: AI-Powered GitHub Integration in Minutes! (No ...",
+        "url": "https://www.youtube.com/watch?v=ebgdlgAEi28",
+        "date": "2024-11-25",
+        "last_updated": "2025-07-21",
+        "snippet": "In this video, we're diving into Anthropic's groundbreaking Model Context Protocol (MCP), the new standard that's set to revolutionize how ...",
+        "source": "web"
+      },
+      {
+        "title": "madhukarkumar/anthropic-mcp-servers: Model Context Protocol ...",
+        "url": "https://github.com/madhukarkumar/anthropic-mcp-servers",
+        "date": "2025-02-22",
+        "last_updated": "2025-10-25",
+        "snippet": "This repository is a collection of reference implementations for the Model Context Protocol (MCP), as well as references to community built servers and ...",
+        "source": "web"
+      },
+      {
+        "title": "julianoczkowski/anthropic-docs-mcp-ts: A Model Context ... - GitHub",
+        "url": "https://github.com/julianoczkowski/anthropic-docs-mcp-ts",
+        "snippet": "A Model Context Protocol (MCP) server that provides comprehensive search and retrieval capabilities for Claude and Anthropic documentation, optimized for MCP ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Docs MCP Server - LobeHub",
+        "url": "https://lobehub.com/mcp/julianoczkowski-anthropic-docs-mcp-ts?activeTab=deployment",
+        "snippet": "一个Model Context Protocol (MCP) 服务器，提供全面的搜索和检索功能，支持Claude 和Anthropic 文档，优化用于MCP 开发、API、示例和模板。",
+        "source": "web"
+      },
+      {
+        "title": "modelcontextprotocol/typescript-sdk - GitHub",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+        "date": "2024-09-24",
+        "last_updated": "2025-10-30",
+        "snippet": "The Model Context Protocol (MCP) allows applications to provide context for LLMs in a standardized way, separating the concerns of providing context from the ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Docs MCP Server - Lobe Chat",
+        "url": "https://lobechat.com/discover/mcp/julianoczkowski-anthropic-docs-mcp-ts?hl=bg-BG",
+        "snippet": "MCP is a protocol for exposing tools to large language models (LLMs). Grep's new MCP server provides an endpoint that searches public GitHub repositories.",
+        "source": "web"
+      },
+      {
+        "title": "Access to Anthropic's safety-first language model APIs in TypeScript",
+        "url": "https://github.com/anthropics/anthropic-sdk-typescript",
+        "date": "2023-01-30",
+        "last_updated": "2025-10-22",
+        "snippet": "This library provides convenient access to the Anthropic REST API from server-side TypeScript or JavaScript.",
+        "source": "web"
+      },
+      {
+        "title": "Model Context Protocol - GitHub",
+        "url": "https://github.com/modelcontextprotocol",
+        "date": "2025-11-01",
+        "last_updated": "2025-11-02",
+        "snippet": "The Model Context Protocol (MCP) is an open protocol that enables seamless integration between LLM applications and external data sources and tools.",
+        "source": "web"
+      },
+      {
+        "title": "MCP support? · Issue #714 · anthropics/anthropic-sdk-typescript",
+        "url": "https://github.com/anthropics/anthropic-sdk-typescript/issues/714",
+        "date": "2025-03-10",
+        "last_updated": "2025-07-31",
+        "snippet": "I have a code here to connect to Playwright MCP programmatically. However, Claude always answers: \"I apologize, but I am not able to directly access websites.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "To install the **julianoczkowski/anthropic-docs-mcp-ts** MCP server (a Model Context Protocol tool for searching and retrieving Claude/Anthropic documentation), use NPM globally and configure it in your IDE.[1][4]\n\n### Installation via NPM\nRun one of these commands in your terminal (requires Node.js >= v18.0.0):\n```\nnpm install -g @julianoczkowski/anthropic-docs-mcp-ts\n```\nor with sudo on Unix-like systems:\n```\nsudo npm install -g @julianoczkowski/anthropic-docs-mcp-ts\n```\n[1]\n\nVerify installation:\n```\nanthropic-docs-mcp --help\n```\n[1]\n\n### GitHub Repository\nSource code and details: **https://github.com/julianoczkowski/anthropic-docs-mcp-ts** (MIT licensed).[4]\n\n### IDE Configuration\n#### Cursor (~/.cursor/mcp.json)\nAdd this to your config:\n```json\n{\n  \"mcpServers\": {\n    \"anthropic-docs\": {\n      \"command\": \"anthropic-docs-mcp\",\n      \"args\": [\"--transport\", \"stdio\"]\n    }\n  }\n}\n```\n[1]\n\n#### VS Code (with MCP extension)\nAdd to your MCP config:\n```json\n{\n  \"servers\": {\n    \"anthropic-docs\": {\n      \"type\": \"stdio\",\n      \"command\": \"anthropic-docs-mcp\",\n      \"args\": [\"--transport\", \"stdio\"]\n    }\n  }\n}\n```\n[1]\n\n### Tools Provided\nOnce set up, use these in your LLM conversations:\n- **`search_anthropic_docs`**: Search docs by query (e.g., `{\"query\": \"MCP server development\", \"max_results\": 3}`).[1]\n- **`fetch_doc`**: Fetch/clean a doc page (e.g., `{\"url\": \"https://docs.claude.com/en/docs/agents-and-tools/mcp-connector\", \"max_chars\": 2000}`).[1]\n\nFor issues (e.g., tools not appearing), re-run the global install and test the command.[1] The repo is listed in MCP server collections.[3]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

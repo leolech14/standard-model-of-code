@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T13:52:54.219599",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic API developer tier builder program higher rate limits individual not enterprise 2026",
+    "query_length": 94,
+    "checksum": "sha256:2b8cb10311df85ab56fa4a6a3a43ced54c793386ab7939f49867524cd38d9cca"
+  },
+  "response": {
+    "id": "04f44df2-6c05-4ba7-864d-7dfe97ebce11",
+    "model": "sonar-pro",
+    "created": 1769705574,
+    "usage": {
+      "prompt_tokens": 16,
+      "completion_tokens": 271,
+      "total_tokens": 287,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.004,
+        "request_cost": 0.006,
+        "total_cost": 0.01
+      }
+    },
+    "citations": [
+      "https://www.aifreeapi.com/en/posts/claude-api-quota-tiers-limits",
+      "https://www.datastudios.org/post/claude-opus-4-5-pricing-subscription-tiers-api-rates-and-feature-access-in-early-2026",
+      "https://hackceleration.com/anthropic-review/",
+      "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+      "https://www.cometapi.com/the-guide-to-claude-opus-4--4-5-api-pricing-in-2026/",
+      "https://pricepertoken.com/pricing-page/provider/anthropic",
+      "https://www.glbgpt.com/hub/claude-ai-pricing-2026-the-ultimate-guide-to-plans-api-costs-and-limits/",
+      "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+      "https://platform.claude.com/docs/en/about-claude/pricing"
+    ],
+    "search_results": [
+      {
+        "title": "Claude API Quota Tiers and Limits Explained: Complete Guide 2026",
+        "url": "https://www.aifreeapi.com/en/posts/claude-api-quota-tiers-limits",
+        "date": "2026-01-09",
+        "last_updated": "2026-01-28",
+        "snippet": "Anthropic's Claude API uses a 4-tier usage system that determines how many requests you can make and how much you can spend each month. Each ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Opus 4.5 Pricing: Subscription Tiers, API Rates, and Feature ...",
+        "url": "https://www.datastudios.org/post/claude-opus-4-5-pricing-subscription-tiers-api-rates-and-feature-access-in-early-2026",
+        "date": "2026-01-02",
+        "last_updated": "2026-01-28",
+        "snippet": "Claude Opus 4.5 Pricing: Subscription Tiers, API Rates, and Feature Access in Early 2026 ... Anthropic API with usage-based billing. API ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude Review 2026: Complete API Test & Real ROI",
+        "url": "https://hackceleration.com/anthropic-review/",
+        "date": "2025-11-03",
+        "last_updated": "2026-01-26",
+        "snippet": "The three-tier system offers flexibility: Haiku at $1/$5 per MTok is extremely competitive for high-volume tasks, Sonnet at $3/$15 hits the ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing Explained: Subscription Plans & API Costs",
+        "url": "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-22",
+        "snippet": "Notably, Anthropic priced its plans with competition in mind: the Pro tier matches the $20 market norm, and Max was introduced to directly rival ChatGPT's $200 ...",
+        "source": "web"
+      },
+      {
+        "title": "The Guide to Claude Opus 4 & 4.5 API Pricing in 2026 - CometAPI",
+        "url": "https://www.cometapi.com/the-guide-to-claude-opus-4--4-5-api-pricing-in-2026/",
+        "date": "2026-01-04",
+        "last_updated": "2026-01-29",
+        "snippet": "In late 2025, Anthropic disrupted its own pricing tier with the release of Claude Opus 4.5, dramatically undercutting its predecessor, ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic API Pricing (Updated 2026) – All Models & Token Costs",
+        "url": "https://pricepertoken.com/pricing-page/provider/anthropic",
+        "date": "2026-01-16",
+        "last_updated": "2026-01-29",
+        "snippet": "Complete Anthropic API pricing guide for 2026. Compare all models with per-token costs, context lengths, and pricing examples.",
+        "source": "web"
+      },
+      {
+        "title": "Claude AI Pricing 2026: The Ultimate Guide to Plans, API Costs, and ...",
+        "url": "https://www.glbgpt.com/hub/claude-ai-pricing-2026-the-ultimate-guide-to-plans-api-costs-and-limits/",
+        "date": "2026-01-27",
+        "last_updated": "2026-01-29",
+        "snippet": "In 2026, Claude AI pricing consists of three main tiers: a Free plan, a $20/month Proplan, and Max plans starting at $100/month.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing in 2026 for Individuals, Organizations, and Developers",
+        "url": "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+        "date": "2026-01-18",
+        "last_updated": "2026-01-27",
+        "snippet": "Anthropic offers Team and Enterprise plans for organizations that need collaboration features, advanced controls, and scalable AI integration.",
+        "source": "web"
+      },
+      {
+        "title": "Pricing - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "date": "2025-04-29",
+        "last_updated": "2026-01-29",
+        "snippet": "This page provides detailed pricing information for Anthropic's models and features. All prices are in USD. For the most current pricing information, please ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Based on the current Claude API tier system, **Tier 2 (Build)** is the appropriate developer tier for individual developers and small teams seeking higher rate limits without enterprise commitment[1].\n\nTier 2 requires a $40 cumulative deposit and provides:\n\n- **1,000 RPM** (requests per minute)\n- **450,000 ITPM** (input tokens per minute) for Claude Sonnet\n- **90,000 OTPM** (output tokens per minute)\n- **$500 monthly spend limit** with up to $500 per transaction[1]\n\nThis tier is designed for development teams and small production applications, including CI/CD pipelines, internal tools serving 5-50 users, and MVPs for customer validation[1]. It represents a 20x increase in request rate compared to Tier 1 ($5 deposit, 50 RPM)[1].\n\nIf your usage grows beyond Tier 2's capabilities, **Tier 3 (Scale)** at $200 deposit offers double the rate limits (2,000 RPM and 800,000 ITPM for Sonnet) and is positioned for production applications serving hundreds to thousands of daily active users[1].\n\nThere is no separate \"builder program\"—Anthropic's tier system itself serves as the progression path for individual developers to scale their usage with matching rate limits and cost controls[1]."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

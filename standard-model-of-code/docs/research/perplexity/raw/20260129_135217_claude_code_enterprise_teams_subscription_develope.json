@@ -1,0 +1,118 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T13:52:17.528082",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Code enterprise Teams subscription developer AI coding January 2026",
+    "query_length": 74,
+    "checksum": "sha256:7368524785d32f3010ed2e6149f3441a96a4492462adcaa9bd3ad3b35d4220bd"
+  },
+  "response": {
+    "id": "5f8d6d9f-2dae-4d0b-b77a-dbb77cfe5c05",
+    "model": "sonar-pro",
+    "created": 1769705537,
+    "usage": {
+      "prompt_tokens": 13,
+      "completion_tokens": 307,
+      "total_tokens": 320,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.005,
+        "request_cost": 0.006,
+        "total_cost": 0.011
+      }
+    },
+    "citations": [
+      "https://o-mega.ai/articles/claude-code-pricing-2026-costs-plans-and-alternatives",
+      "https://blog.promptlayer.com/claude-code-pricing-how-to-save-money/",
+      "https://help.apiyi.com/en/claude-code-subscription-purchase-guide-en.html",
+      "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+      "https://claude.com/pricing",
+      "https://northflank.com/blog/claude-code-vs-cursor-comparison",
+      "https://intuitionlabs.ai/pdfs/claude-pricing-explained-subscription-plans-api-costs.pdf",
+      "https://juma.ai/blog/claude-pricing"
+    ],
+    "search_results": [
+      {
+        "title": "Claude Code Pricing 2026: Costs, Plans & Top Alternatives | Articles",
+        "url": "https://o-mega.ai/articles/claude-code-pricing-2026-costs-plans-and-alternatives",
+        "date": "2026-01-20",
+        "last_updated": "2026-01-29",
+        "snippet": "A Standard team seat is ~$25/user/mo (annual) and adds management features, while a Premium seat is ~$150/user/mo. Premium seats include Claude ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude code pricing: How to save money - PromptLayer Blog",
+        "url": "https://blog.promptlayer.com/claude-code-pricing-how-to-save-money/",
+        "date": "2026-01-03",
+        "last_updated": "2026-01-29",
+        "snippet": "The standard subscription options include multiple tiers: the Pro plan, priced at $20 per month (or $17 if you choose annual billing), and the ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code Monthly Subscription Purchase Guide",
+        "url": "https://help.apiyi.com/en/claude-code-subscription-purchase-guide-en.html",
+        "date": "2026-01-11",
+        "last_updated": "2026-01-29",
+        "snippet": "$20 monthly or $200 annually (save $40) · 5x free tier usage, supports Claude Sonnet 4.5 · Suitable for light development, learning, and small ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing in 2026 for Individuals, Organizations, and Developers",
+        "url": "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+        "date": "2026-01-18",
+        "last_updated": "2026-01-27",
+        "snippet": "The Pro plan costs $17 per month with an annual subscription ($20 billed monthly if paid monthly). It includes all Free plan features and adds ...",
+        "source": "web"
+      },
+      {
+        "title": "Pricing - Claude",
+        "url": "https://claude.com/pricing",
+        "date": "2000-01-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Explore Claude pricing plans and API costs. Choose from Free, Pro, Max, Team, or Enterprise options to get started with Claude.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code vs Cursor: Complete comparison guide in 2026 | Blog",
+        "url": "https://northflank.com/blog/claude-code-vs-cursor-comparison",
+        "date": "2025-08-13",
+        "last_updated": "2026-01-29",
+        "snippet": "Free Plan: Limited daily messages (varies by demand) · Pro Plan: $20/month - approximately 45 messages every 5 hours · Max Plan: $100/month (5x ...",
+        "source": "web"
+      },
+      {
+        "title": "[PDF] Claude Pricing Explained: Subscription Plans & API Costs",
+        "url": "https://intuitionlabs.ai/pdfs/claude-pricing-explained-subscription-plans-api-costs.pdf",
+        "date": "2025-12-01",
+        "last_updated": "2026-01-29",
+        "snippet": "... subscription fees, making the subscription worthwhile to cap expenses. For teams, Anthropic notes Claude Code typically costs $100–$200 per ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing: In-Depth Guide [2026] | Juma (Team-GPT)",
+        "url": "https://juma.ai/blog/claude-pricing",
+        "date": "2025-12-17",
+        "last_updated": "2026-01-26",
+        "snippet": "Pro: $20/mo. Team: $30/mo if billed monthly and $25 if billed annually, comes with a minimum of 5 members. Enterprise: Custom price.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "# Claude Code Enterprise & Team Plans for Developers\n\nClaude offers **Team and Enterprise subscription tiers** designed for collaborative development work, with Claude Code access available at specific pricing levels.\n\n## Team Plans\n\nThe **Team plan requires a minimum of 5 members** and comes in two seat types[4]:\n\n- **Standard Seat**: $25/user/month (annual) or $30/user/month (month-to-month)[4]. This includes core collaboration features like chat, projects, increased usage capacity, admin controls, SSO, domain capture, centralized billing, and integrations with Microsoft 365 and Slack[4].\n\n- **Premium Seat**: $150/user/month[4]. This adds **Claude Code access** and early access to new collaboration features, making it suitable for technical teams requiring development tools[4].\n\n## Enterprise Plan\n\nThe **Enterprise tier has custom pricing** and includes governance features such as SSO, audit logs, fine-grained roles, and the largest context windows[1]. Enterprise pricing typically starts around $50,000 annually[6], though exact costs are negotiated based on organizational needs.\n\n## Claude Code Availability\n\nClaude Code is **not included in the Standard team seat**—it requires either a Premium team seat ($150/user/month) or an individual Pro subscription ($17/month annual, $20/month monthly)[1][4]. For teams using Claude Code at scale, the annual Team Standard seat cost of $300/year can pay for itself within a few months when distributed across multiple developers[7]."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

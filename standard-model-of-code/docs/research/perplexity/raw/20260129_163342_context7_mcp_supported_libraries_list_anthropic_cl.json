@@ -1,0 +1,118 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:33:42.557352",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Context7 MCP supported libraries list Anthropic Claude API documentation",
+    "query_length": 72,
+    "checksum": "sha256:ac69f2924f19732247dc97c42620c572b6ee6f761a7b9e5ae1da4aca63cb8b7c"
+  },
+  "response": {
+    "id": "d0a71f1d-9706-47fc-92c0-5013e72920ff",
+    "model": "sonar-pro",
+    "created": 1769715222,
+    "usage": {
+      "prompt_tokens": 11,
+      "completion_tokens": 274,
+      "total_tokens": 285,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.004,
+        "request_cost": 0.006,
+        "total_cost": 0.01
+      }
+    },
+    "citations": [
+      "https://agentsfera.ai/integrations/context7",
+      "https://mcpshowcase.com/p/mcp-server-directory/context7-mcp-server",
+      "https://www.npmjs.com/package/@upstash/context7-mcp",
+      "https://mcp.aibase.com/server/1916342143112945666",
+      "https://glama.ai/mcp/servers/@upstash/context7-mcp/schema",
+      "https://github.com/upstash/context7",
+      "https://hub.docker.com/mcp/server/context7",
+      "https://upstash.com/blog/context7-mcp"
+    ],
+    "search_results": [
+      {
+        "title": "Context7 MCP Integration - Agentsfera",
+        "url": "https://agentsfera.ai/integrations/context7",
+        "date": "2024-01-01",
+        "last_updated": "2025-11-09",
+        "snippet": "Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries. You MUST call this function before 'get-library- ...",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP Server - MCP Showcase",
+        "url": "https://mcpshowcase.com/p/mcp-server-directory/context7-mcp-server",
+        "date": "2025-08-07",
+        "last_updated": "2026-01-14",
+        "snippet": "This MCP server provides access to Context7, a comprehensive documentation service by Upstash that maintains up-to-date documentation for popular libraries and ...",
+        "source": "web"
+      },
+      {
+        "title": "@upstash/context7-mcp - npm",
+        "url": "https://www.npmjs.com/package/@upstash/context7-mcp",
+        "date": "2026-01-08",
+        "last_updated": "2025-09-18",
+        "snippet": "Context7 MCP provides the following tools that LLMs can use: resolve-library-id : Resolves a general library name into a Context7-compatible ...",
+        "source": "web"
+      },
+      {
+        "title": "context7-mcp - AIBase",
+        "url": "https://mcp.aibase.com/server/1916342143112945666",
+        "date": "2025-04-28",
+        "last_updated": "2025-11-15",
+        "snippet": "Context7 MCP supports library documentation for all major programming languages, including JavaScript/TypeScript, Python, Java, Go, etc. The documentation ...",
+        "source": "web"
+      },
+      {
+        "title": "Schema | Context7 MCP - Glama",
+        "url": "https://glama.ai/mcp/servers/@upstash/context7-mcp/schema",
+        "date": "2026-01-02",
+        "last_updated": "2026-01-09",
+        "snippet": "View the complete schema definition for Context7 MCP. Explore data structures, field types, and relationships used in this MCP implementation.",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP Server -- Up-to-date code documentation for ... - GitHub",
+        "url": "https://github.com/upstash/context7",
+        "date": "2025-03-26",
+        "last_updated": "2026-01-29",
+        "snippet": "Context7 MCP provides the following tools that LLMs can use: resolve-library-id : Resolves a general library name into a Context7-compatible library ID.",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP Server - Docker Hub",
+        "url": "https://hub.docker.com/mcp/server/context7",
+        "date": "2025-05-05",
+        "last_updated": "2026-01-28",
+        "snippet": "Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries.",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP: Up-to-Date Docs for Any Cursor Prompt | Upstash Blog",
+        "url": "https://upstash.com/blog/context7-mcp",
+        "date": "2025-04-11",
+        "last_updated": "2026-01-28",
+        "snippet": "The Context7 MCP - a direct integration with Cursor, Windsurf, or any LLM client that supports the Model Context Protocol (MCP).",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Context7 MCP is a comprehensive documentation service by Upstash that maintains up-to-date documentation for popular libraries and frameworks[2], but the search results do not provide a specific list of all supported libraries.\n\nThe available information indicates that **Context7 MCP supports library documentation for all major programming languages, including JavaScript/TypeScript, Python, Java, Go, and others**[4]. The service can resolve library names to standardized identifiers through its `resolve-library-id` tool, which suggests broad library coverage across the ecosystem[3][6].\n\nTo discover which specific libraries are supported, you would need to:\n\n- Use the **`resolve-library-id` tool** by providing a library name, which returns matching libraries with their Context7-compatible IDs[1][3]\n- Access the Context7 documentation service directly through one of the supported integrations (Cursor, Claude, Copilot Coding Agent, or other LLM clients that support the Model Context Protocol)[2][3]\n\nAn example of accessing documentation is using the slash syntax format: `/org/project` (such as `/mongodb/docs` or `/vercel/next.js`)[3][6].\n\nThe search results do not contain a comprehensive published list of all supported libraries. For the complete, up-to-date list of supported libraries, you would need to consult the Context7 service directly or check the Upstash documentation portal."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

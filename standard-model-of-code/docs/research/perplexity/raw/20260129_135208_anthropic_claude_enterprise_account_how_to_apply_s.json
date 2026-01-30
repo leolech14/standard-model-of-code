@@ -1,0 +1,136 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T13:52:08.413426",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic Claude enterprise account how to apply sign up process business requirements 2026",
+    "query_length": 91,
+    "checksum": "sha256:d9a63fcb23c04ccd0dfe63d92f53d2262a24a82e73d299febac478860ef30a04"
+  },
+  "response": {
+    "id": "7d8374e8-fe45-466f-ad5a-564547789593",
+    "model": "sonar-pro",
+    "created": 1769705528,
+    "usage": {
+      "prompt_tokens": 16,
+      "completion_tokens": 499,
+      "total_tokens": 515,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.014
+      }
+    },
+    "citations": [
+      "https://techcrunch.com/2025/08/20/anthropic-bundles-claude-code-into-enterprise-plans/",
+      "https://www.apideck.com/blog/how-to-get-your-claude-anthropic-api-key",
+      "https://www.youtube.com/watch?v=RBT2iQ7yVvY",
+      "https://www.chaterimo.com/en/blog/how-to-anthropic-api-account/",
+      "https://claude.com/pricing/enterprise",
+      "https://juma.ai/blog/claude-pricing",
+      "https://www.anthropic.com",
+      "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+      "https://www.anthropic.com/news/introducing-anthropic-labs",
+      "https://releasebot.io/updates/anthropic/claude"
+    ],
+    "search_results": [
+      {
+        "title": "Anthropic bundles Claude Code into enterprise plans - TechCrunch",
+        "url": "https://techcrunch.com/2025/08/20/anthropic-bundles-claude-code-into-enterprise-plans/",
+        "date": "2025-08-20",
+        "last_updated": "2025-08-20",
+        "snippet": "Anthropic on Wednesday announced a new subscription offering that will incorporate Claude Code into Claude for Enterprise.",
+        "source": "web"
+      },
+      {
+        "title": "How to Get Your Claude (Anthropic) API Key - Apideck",
+        "url": "https://www.apideck.com/blog/how-to-get-your-claude-anthropic-api-key",
+        "date": "2025-08-30",
+        "last_updated": "2026-01-29",
+        "snippet": "Navigate to console.anthropic.com and click the \"Sign up\" or “Continue with Google” button. You'll need to register using your email address.",
+        "source": "web"
+      },
+      {
+        "title": "How to Open/Create a Claude AI Account (2026) - YouTube",
+        "url": "https://www.youtube.com/watch?v=RBT2iQ7yVvY",
+        "date": "2025-04-07",
+        "last_updated": "2025-08-25",
+        "snippet": "In this video I'm going to walk you through the entire process of creating a Claude AI account. I'll guide you step by step.",
+        "source": "web"
+      },
+      {
+        "title": "How to Create Anthropic API Account for AI Chatbot in 2026?",
+        "url": "https://www.chaterimo.com/en/blog/how-to-anthropic-api-account/",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-28",
+        "snippet": "A detailed guide on setting up an Anthropic (Claude) API account, obtaining an API key, and linking it with your Chaterimo account or other ...",
+        "source": "web"
+      },
+      {
+        "title": "Enterprise plan | Claude",
+        "url": "https://claude.com/pricing/enterprise",
+        "date": "2024-08-15",
+        "last_updated": "2026-01-29",
+        "snippet": "Turn everyone into an expert · Connect to your most important tools · Create research reports in minutes · Bring ideas to life with artifacts.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing: In-Depth Guide [2026] | Juma (Team-GPT)",
+        "url": "https://juma.ai/blog/claude-pricing",
+        "date": "2025-12-17",
+        "last_updated": "2026-01-26",
+        "snippet": "Although Anthropic doesn't disclose the price for its Enterprise plan, according to some users, it is set at $60 per seat for a minimum of ...",
+        "source": "web"
+      },
+      {
+        "title": "Home \\ Anthropic",
+        "url": "https://www.anthropic.com",
+        "date": "2025-10-15",
+        "last_updated": "2026-01-28",
+        "snippet": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude API Pricing 2026: Complete Cost Breakdown",
+        "url": "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+        "date": "2026-01-12",
+        "last_updated": "2026-01-29",
+        "snippet": "Complete Claude API pricing breakdown: Opus 4.5 ($5/$25), Sonnet 4.5 ($3/$15), Haiku 4.5 ($1/$5) per million tokens.",
+        "source": "web"
+      },
+      {
+        "title": "Introducing Labs - Anthropic",
+        "url": "https://www.anthropic.com/news/introducing-anthropic-labs",
+        "date": "2026-01-13",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+        "source": "web"
+      },
+      {
+        "title": "Claude by Anthropic - Release Notes - January 2026 Latest Updates",
+        "url": "https://releasebot.io/updates/anthropic/claude",
+        "date": "2026-01-16",
+        "last_updated": "2026-01-29",
+        "snippet": "Browse the Anthropic Claude changelog on Releasebot to see the full history of release notes.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "To apply for an **Anthropic Claude Enterprise account**, organizations must contact Anthropic's sales team directly, as there is no self-service sign-up process—unlike individual or Team plans.[5][6] This custom plan is designed for large-scale business use, including features like secure data integrations, admin controls, audit logs, and Claude Code bundling.[1][5]\n\n### Sign-Up Process\n1. Visit the official Claude pricing page at claude.com/pricing/enterprise or Anthropic's main site (anthropic.com), where the Enterprise section explicitly states **\"Contact sales\"** to initiate application.[5][7]\n2. Submit a sales inquiry via the contact form, providing details about your organization, intended use cases (e.g., productivity gains, codebase integrations, or enterprise-scale AI), team size, and security needs.[5][6]\n3. Anthropic's sales team reviews the application, which may involve additional verification for high-volume or enterprise use (typically 2-5 business days, longer for complex cases).[2]\n4. Upon approval, access the Anthropic Console (console.anthropic.com) to configure billing, API keys, usage limits, and integrations. Enterprise options include invoice billing, granular spending controls, and scalability for intense usage.[1][2][5]\n\nNote: General account creation (for API or individual use) starts at console.anthropic.com with email/Google sign-up and use-case description, but Enterprise requires sales escalation.[2][4]\n\n### Business Requirements\n- **Minimum scale**: Custom pricing, often cited as ~$60 per seat with a minimum of 70 users and 12-month contract (totaling ~$50,000 minimum), though exact terms are negotiated.[6]\n- **Target organizations**: Large enterprises needing advanced features like company knowledge integration, GitHub connectivity, artifacts for collaborative workspaces, terminal-based coding agents, and 25-100% productivity boosts.[1][5]\n- **Other needs**: Responsible AI usage commitment, payment method (credit card or invoice), and alignment with security policies. High-volume applicants face extra review.[2][5]\n- Pricing is undisclosed publicly and varies; contact sales for quotes.[5][6]\n\nFor developers building products, use the Anthropic API instead (separate plans via console).[5] If search results lack 2026-specific updates, verify directly with Anthropic sales, as enterprise details evolve.[1][10]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

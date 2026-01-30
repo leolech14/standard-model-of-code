@@ -1,0 +1,390 @@
+# Coordinate System Test Matrix
+# Date: 2026-01-29
+# Purpose: Validate candidate configurations against diverse artifacts
+
+version: "1.0.0"
+
+# ==============================================================================
+# CODOME ARTIFACTS (C-scale applies, M₀ level)
+# ==============================================================================
+codome:
+
+  # Core levels
+  - id: code-01
+    path: standard-model-of-code/src/core/level_classifier.py
+    type: Python module
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Module containing code classification logic
+
+  - id: code-02
+    path: standard-model-of-code/src/core/collider.py
+    type: Python module
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+
+  - id: code-03
+    path: context-management/tools/ai/analyze.py
+    type: Python script
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+
+  - id: code-04
+    path: "**/utils.py"
+    type: Utility module
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+
+  # Function level
+  - id: code-05
+    path: level_classifier.py::classify_level
+    type: Function
+    expected_config_a:
+      c_level: C3
+      m_level: M₀
+      notes: Individual function within module
+
+  - id: code-06
+    path: collider.py::main
+    type: Function
+    expected_config_a:
+      c_level: C3
+      m_level: M₀
+
+  # Class level
+  - id: code-07
+    path: "**/parser.py::Parser"
+    type: Class
+    expected_config_a:
+      c_level: C4
+      m_level: M₀
+
+  # Package level
+  - id: code-08
+    path: standard-model-of-code/src/core/
+    type: Python package
+    expected_config_a:
+      c_level: C6
+      m_level: M₀
+
+  # System level
+  - id: code-09
+    path: standard-model-of-code/
+    type: System (Collider)
+    expected_config_a:
+      c_level: C7
+      m_level: M₀
+
+  - id: code-10
+    path: context-management/
+    type: System (Refinery)
+    expected_config_a:
+      c_level: C7
+      m_level: M₀
+
+  # Web/UI code
+  - id: code-11
+    path: "**/*.tsx"
+    type: React component
+    expected_config_a:
+      c_level: C4
+      m_level: M₀
+      notes: Components are class-equivalent
+
+  - id: code-12
+    path: "**/*.css"
+    type: Stylesheet
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Treated as module-level (styling rules)
+
+  # SQL
+  - id: code-13
+    path: "**/*.sql"
+    type: SQL script
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+
+  # Config-as-code
+  - id: code-14
+    path: "**/docker-compose.yaml"
+    type: Docker compose
+    expected_config_a:
+      c_level: C6
+      m_level: M₀
+      notes: Executable orchestration config
+
+  - id: code-15
+    path: "**/Dockerfile"
+    type: Dockerfile
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+
+# ==============================================================================
+# CONTEXTOME ARTIFACTS (C-scale N/A, M₁+ levels)
+# ==============================================================================
+contextome:
+
+  # Project documentation
+  - id: ctx-01
+    path: README.md
+    type: Root readme
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: C7 (describes whole system)
+
+  - id: ctx-02
+    path: standard-model-of-code/README.md
+    type: System readme
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: C7 (describes Collider system)
+
+  - id: ctx-03
+    path: CHANGELOG.md
+    type: Changelog
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: C7 (describes system changes)
+
+  # Theory documents (M₂ - meta-meta)
+  - id: ctx-04
+    path: standard-model-of-code/docs/theory/L0_AXIOMS.md
+    type: Theory axioms
+    expected_config_a:
+      c_level: null
+      m_level: M₂
+      about_c: null (describes theory itself)
+      notes: Meta-meta level - describes how we describe code
+
+  - id: ctx-05
+    path: standard-model-of-code/docs/theory/L1_DEFINITIONS.md
+    type: Theory definitions
+    expected_config_a:
+      c_level: null
+      m_level: M₂
+
+  - id: ctx-06
+    path: context-management/docs/theory/FUNDAMENTAL_INSIGHT_L_SCALE_SCOPE.md
+    type: Theory insight
+    expected_config_a:
+      c_level: null
+      m_level: M₂
+      notes: Interpretive axiom - L0.5 in current notation
+
+  # Tool documentation (M₁)
+  - id: ctx-07
+    path: context-management/tools/docintel/DOCINTEL.md
+    type: Tool documentation
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: describes DocsIntel system
+
+  - id: ctx-08
+    path: context-management/tools/docintel/POSITIONING.md
+    type: Positioning analysis
+    expected_config_a:
+      c_level: null
+      m_level: M₂
+      notes: Meta-document about how to position tools
+
+  # Configuration (M₁)
+  - id: ctx-09
+    path: context-management/tools/docintel/providers.yaml
+    type: Provider registry
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: describes providers for DocsIntel
+
+  - id: ctx-10
+    path: "**/package.json"
+    type: NPM manifest
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: C6 (describes package)
+      notes: Metadata, not executable
+
+  - id: ctx-11
+    path: "**/pyproject.toml"
+    type: Python project config
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+
+  # Research/notes
+  - id: ctx-12
+    path: context-management/tools/docintel/RESEARCH.md
+    type: Research notes
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+
+  # This exploration pack (M₂+)
+  - id: ctx-13
+    path: context-management/docs/theory/exploration/PROPOSAL.md
+    type: Theory proposal
+    expected_config_a:
+      c_level: null
+      m_level: M₃
+      notes: Meta-meta-meta - proposes changes to how we describe descriptions
+
+# ==============================================================================
+# OBSERVER REALM ARTIFACTS
+# ==============================================================================
+observer:
+
+  - id: obs-01
+    path: .agent/AGENT_KERNEL.md
+    type: Agent kernel
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      realm: OBSERVER
+      notes: Coordinates agent behavior
+
+  - id: obs-02
+    path: .agent/state/circuit_breakers.yaml
+    type: Agent state
+    expected_config_a:
+      c_level: null
+      m_level: M₀
+      notes: Runtime state, treated as object-level data
+
+  - id: obs-03
+    path: .agent/macros/*.yaml
+    type: Agent macros
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      notes: Macro definitions (meta-level instructions)
+
+# ==============================================================================
+# EDGE CASES
+# ==============================================================================
+edge_cases:
+
+  # Generated code
+  - id: edge-01
+    path: "**/generated/*.py"
+    type: Generated code
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Still code, just machine-written
+
+  # Vendor/third-party
+  - id: edge-02
+    path: "**/node_modules/**"
+    type: Vendor code
+    expected_config_a:
+      c_level: varies
+      m_level: M₀
+      notes: External code, may exclude from analysis
+
+  # Tests
+  - id: edge-03
+    path: "**/test_*.py"
+    type: Test module
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      about_c: describes other code (tested module)
+      notes: Tests are code that describes behavior of other code
+
+  # Binaries
+  - id: edge-04
+    path: "**/*.wasm"
+    type: WebAssembly binary
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Compiled code, lower visibility but still code
+
+  # Mixed files
+  - id: edge-05
+    path: "**/*.mdx"
+    type: MDX (markdown + JSX)
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Contains executable code, treated as code
+
+  # Jupyter notebooks
+  - id: edge-06
+    path: "**/*.ipynb"
+    type: Jupyter notebook
+    expected_config_a:
+      c_level: C5
+      m_level: M₀
+      notes: Contains code cells, treated as executable
+
+# ==============================================================================
+# EXTERNAL ARTIFACTS (Outside Projectome)
+# ==============================================================================
+external:
+
+  - id: ext-01
+    path: https://docs.anthropic.com/
+    type: External documentation
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      about_c: external (describes Anthropic API)
+      notes: DocsIntel ingests this
+
+  - id: ext-02
+    path: https://cloud.google.com/docs/
+    type: External documentation
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+
+  - id: ext-03
+    path: "npm packages (context7)"
+    type: External indexed knowledge
+    expected_config_a:
+      c_level: null
+      m_level: M₁
+      notes: Pre-indexed by Context7 MCP
+
+# ==============================================================================
+# VALIDATION RULES
+# ==============================================================================
+validation:
+
+  rules:
+    - name: code_has_c_level
+      condition: "type in CODOME implies c_level is not null"
+
+    - name: contextome_no_c_level
+      condition: "type in CONTEXTOME implies c_level is null"
+
+    - name: all_have_m_level
+      condition: "all artifacts have m_level defined"
+
+    - name: m0_is_object
+      condition: "m_level = M₀ implies artifact is object-level (code or data)"
+
+    - name: theory_is_m2_plus
+      condition: "theory documents have m_level >= M₂"
+
+  expected_results:
+    total_artifacts: 35
+    codome_count: 15
+    contextome_count: 13
+    observer_count: 3
+    edge_cases: 6
+    external_count: 3

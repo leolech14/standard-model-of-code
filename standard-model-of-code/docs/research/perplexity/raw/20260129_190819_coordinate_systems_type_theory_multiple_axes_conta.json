@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T19:08:19.078573",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "coordinate systems type theory multiple axes containment vs abstraction orthogonal dimensions software architecture",
+    "query_length": 115,
+    "checksum": "sha256:33c95a2be3b6733f1ff2c166d1291e9bdfdb737eda79ebe1003f5599eceafc0f"
+  },
+  "response": {
+    "id": "94fb7cf1-c3ca-4a3e-90fb-bff468dfef16",
+    "model": "sonar-pro",
+    "created": 1769724499,
+    "usage": {
+      "prompt_tokens": 13,
+      "completion_tokens": 515,
+      "total_tokens": 528,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.008,
+        "request_cost": 0.006,
+        "total_cost": 0.014
+      }
+    },
+    "citations": [
+      "https://fileadmin.cs.lth.se/serg/old-serg-dok/docs-serg/194_nosa_99_final_2.pdf",
+      "https://www.freecodecamp.org/news/orthogonality-in-software-engineering/",
+      "https://en.wikipedia.org/wiki/Orthogonality_(programming)",
+      "https://tdan.com/dimensions-of-data-architecture/10849"
+    ],
+    "search_results": [
+      {
+        "title": "[PDF] A Taxonomy of Orthogonal Properties of Software Architectures",
+        "url": "https://fileadmin.cs.lth.se/serg/old-serg-dok/docs-serg/194_nosa_99_final_2.pdf",
+        "last_updated": "2025-08-06",
+        "snippet": "The main difference between [3] and the TOPSA is that the. TOPSA suggests that an architecture can be described by three orthogonal dimensions, while [3] ...",
+        "source": "web"
+      },
+      {
+        "title": "Orthogonality in Software Engineering - freeCodeCamp",
+        "url": "https://www.freecodecamp.org/news/orthogonality-in-software-engineering/",
+        "date": "2020-01-18",
+        "last_updated": "2026-01-28",
+        "snippet": "Orthogonality is a software design principle for writing components in a way that changing one component doesn't affect other components.",
+        "source": "web"
+      },
+      {
+        "title": "Orthogonality (programming) - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Orthogonality_(programming)",
+        "date": "2009-04-16",
+        "last_updated": "2025-09-08",
+        "snippet": "Orthogonality in a programming language means that a relatively small set of primitive constructs can be combined in a relatively small number of ways.",
+        "source": "web"
+      },
+      {
+        "title": "Dimensions of Data Architecture - TDAN.com",
+        "url": "https://tdan.com/dimensions-of-data-architecture/10849",
+        "date": "2009-07-01",
+        "last_updated": "2025-09-09",
+        "snippet": "Dimensions are orthogonally independent ways of looking at a particular measure. A business looks at sales by region, period, product and ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Orthogonality in software architecture** refers to designing systems with independent dimensions or axes—such as abstraction levels, aggregation scales, and property types—that can vary without unintended side effects, much like perpendicular coordinates in geometry or type theory where types are disjoint and composable.[1][2][3]\n\nThis approach contrasts **containment** (hierarchical nesting, e.g., modules encapsulating subcomponents within fixed boundaries) with **abstraction** (generalizing across levels without embedding details).[1][4] In the **TOPSA framework**, architectures are modeled along **three orthogonal dimensions**:\n\n- **Abstraction level**: From concrete implementation details to high-level conceptual views; raising it does not force changes in other dimensions.[1]\n- **Aggregation level**: Scaling from individual elements (e.g., code lines) to system-wide structures; independent of abstraction.[1]\n- **Property types**: Qualities like performance or modularity, combinable arbitrarily due to orthogonality.[1]\n\nThese dimensions enable precise descriptions, process-independent analysis (forward/reverse engineering), and representation flexibility.[1]\n\n| Concept | Containment (Hierarchical) | Abstraction (Layered/Independent) |\n|---------|----------------------------|-----------------------------------|\n| **Structure** | Nested scopes (e.g., classes containing subclasses); changes propagate inward.[2] | Independent layers (e.g., data flow from OLTP to OLAP cubes); bridges impedance mismatches.[4] |\n| **Change Impact** | Affects enclosed elements; tight coupling risks ripple effects.[2] | Isolated changes; loose coupling preserves orthogonality.[2][3] |\n| **Example** | Arrays inside structures in C (non-orthogonal exceptions).[3] | Multiple axes like region/product/period for sales analysis; views remain independent.[4] |\n\n**Benefits in software architecture** include easier debugging (isolate one axis), simpler APIs (few primitives combine orthogonally), and compact designs without side effects—strong cohesion within components and loose coupling between them.[2][3] In data architecture, orthogonal perspectives (e.g., admin/user/requirements views) form multi-dimensional \"cubes\" for analysis, extensible beyond three axes visually.[4]\n\nLimitations: Pure orthogonality can complicate systems (e.g., CISC vs. successful RISC CPUs), and real-world combinations may correlate despite theoretical independence.[1][3] This draws from type theory's orthogonal types (no overlap, safe composition) applied to architectural axes.[1][3]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

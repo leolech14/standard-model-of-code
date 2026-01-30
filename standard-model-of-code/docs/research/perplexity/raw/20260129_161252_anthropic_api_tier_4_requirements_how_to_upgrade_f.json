@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:12:52.586138",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic API Tier 4 requirements how to upgrade from tier 2 3 deposit spend",
+    "query_length": 76,
+    "checksum": "sha256:e13e5b044bc2a0eebb5549322d06e608f8a86c8dc453297058fd9cd6a871fc08"
+  },
+  "response": {
+    "id": "681fd173-df45-4029-b2fd-be7ea6ef3fcd",
+    "model": "sonar-pro",
+    "created": 1769713972,
+    "usage": {
+      "prompt_tokens": 18,
+      "completion_tokens": 379,
+      "total_tokens": 397,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://www.aifreeapi.com/en/posts/claude-api-quota-tiers-limits",
+      "https://community.clay.com/x/support/wxh39xgxdmsg/understanding-anthropic-api-tier-requirements-for",
+      "https://platform.claude.com/docs/en/api/service-tiers",
+      "https://obot.ai/resources/learning-center/claude-api/",
+      "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+      "https://www.nops.io/blog/anthropic-api-pricing/",
+      "https://www.finout.io/blog/anthropic-api-pricing",
+      "https://platform.claude.com/docs/en/api/rate-limits",
+      "https://www.anthropic.com/news/claude-4"
+    ],
+    "search_results": [
+      {
+        "title": "Claude API Quota Tiers and Limits Explained: Complete Guide 2026",
+        "url": "https://www.aifreeapi.com/en/posts/claude-api-quota-tiers-limits",
+        "date": "2026-01-09",
+        "last_updated": "2026-01-29",
+        "snippet": "Each tier, from Tier 1 starting at a $5 deposit to Tier 4 at $400+, comes with different rate limits measured in requests per minute (RPM), ...",
+        "source": "web"
+      },
+      {
+        "title": "Understanding Anthropic API Tier Requirements for Sonnet 4.0",
+        "url": "https://community.clay.com/x/support/wxh39xgxdmsg/understanding-anthropic-api-tier-requirements-for",
+        "date": "2025-06-22",
+        "last_updated": "2025-09-27",
+        "snippet": "To use Sonnet 4.0 reliably, your Anthropic key should support around 400,000–450,000 tokens per min. If you were recently upgraded, it may take ...",
+        "source": "web"
+      },
+      {
+        "title": "Service tiers - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/api/service-tiers",
+        "date": "2025-01-12",
+        "last_updated": "2026-01-29",
+        "snippet": "Your organization has sufficient priority tier capacity output tokens per minute. Anthropic counts usage against Priority Tier capacity as follows: Input Tokens.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude API: A Practical Guide - Obot MCP Gateway",
+        "url": "https://obot.ai/resources/learning-center/claude-api/",
+        "date": "2024-10-07",
+        "last_updated": "2026-01-28",
+        "snippet": "Build Tier 4: Requires a 400 deposit with a 14-day wait period, allowing up to 5,000 of usage per month. Scale tier: This is a custom tier with ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude API Pricing 2026: Complete Cost Breakdown",
+        "url": "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+        "date": "2026-01-12",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic's API uses tiered rate limits (requests per minute, tokens per minute, tokens per day) that vary significantly between tiers.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic API Pricing: The 2026 Guide - nOps",
+        "url": "https://www.nops.io/blog/anthropic-api-pricing/",
+        "date": "2025-11-20",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude Sonnet 4.5 is Anthropic's most capable mid-tier model in the Claude 4 line, designed for agentic workflows, complex reasoning, and ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic API Pricing: Complete Guide and Cost Optimization ...",
+        "url": "https://www.finout.io/blog/anthropic-api-pricing",
+        "date": "2025-09-01",
+        "last_updated": "2026-01-28",
+        "snippet": "Anthropic enforces two sets of controls to prevent runaway costs: Usage tiers – caps on monthly spend, with deposits required to raise limits.",
+        "source": "web"
+      },
+      {
+        "title": "Rate limits - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/api/rate-limits",
+        "date": "2025-08-07",
+        "last_updated": "2026-01-29",
+        "snippet": "Tier 4, $400, $5,000. Monthly Invoicing, N/A, N/A. Credit Purchase shows the cumulative credit purchases (excluding tax) required to advance to that tier. You ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing Claude 4 - Anthropic",
+        "url": "https://www.anthropic.com/news/claude-4",
+        "date": "2025-05-22",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude Opus 4 is the world's best coding model, with sustained performance on complex, long-running tasks and agent workflows.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Anthropic API Tier 4 requires a cumulative $400 deposit (prepaid credit purchase, excluding tax), unlocking maximum self-service rate limits like 4,000 RPM, up to 2,000,000 ITPM (4,000,000 for Haiku), 400,000-800,000 OTPM, and a $5,000 monthly spend limit, plus beta access to the 1M token context window for certain models.[1][8]**\n\n**Upgrading from Tier 2 or 3 involves purchasing additional prepaid credits to reach the $400 cumulative total, with a 14-day wait period after the deposit for Tier 4 activation.[1][4][8]**\n- Tier 2 typically requires around a $5-$100 cumulative deposit (exact varies), with lower limits like reduced RPM/ITPM and ~$100-$500 monthly spend.[1]\n- Tier 3 requires a $200 deposit (7-day wait), offering ~2,000 RPM, 800,000+ ITPM, and $1,000 monthly spend; upgrade when hitting these limits or needing Tier 4 features.[1][4]\n- Process: Log into the Claude Console (platform.claude.com), add prepaid credits via \"Credit Purchase\" to hit $400 cumulative; tiers advance automatically upon qualification, but monitor for wait times and approval.[1][4][8]\n- Tip: Use shorter `max_tokens` (e.g., 500 vs. 4096) to optimize rate limiting via Anthropic's token bucket algorithm.[1]\n\nFor limits beyond Tier 4 or custom enterprise plans (e.g., higher capacity), contact Anthropic sales through the Console.[1][4] Sources note slight variations in deposit/wait details, with [1] and [8] (official docs) being most authoritative.[1][4][8]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

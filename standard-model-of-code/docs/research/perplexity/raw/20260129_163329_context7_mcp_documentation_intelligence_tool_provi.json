@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:33:29.495593",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Context7 MCP documentation intelligence tool provider docs",
+    "query_length": 58,
+    "checksum": "sha256:d77980399a06369be57c01181b4d8610254ce85c2896bfc4fb264688e68dd73b"
+  },
+  "response": {
+    "id": "21268554-8c5b-4516-8163-609c9e033951",
+    "model": "sonar-pro",
+    "created": 1769715209,
+    "usage": {
+      "prompt_tokens": 8,
+      "completion_tokens": 588,
+      "total_tokens": 596,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.009,
+        "request_cost": 0.006,
+        "total_cost": 0.015
+      }
+    },
+    "citations": [
+      "https://upstash.com/blog/context7-mcp",
+      "https://apidog.com/blog/context7-mcp-server/",
+      "https://developers.openai.com/codex/mcp/",
+      "https://github.com/upstash/context7",
+      "https://www.npmjs.com/package/@upstash/context7-mcp",
+      "https://www.youtube.com/watch?v=-ls0D-rtET4",
+      "https://habr.com/ru/articles/933678/",
+      "https://www.pulsemcp.com/servers/upstash-context7",
+      "https://vc.ru/ai/2012617-context7-mcp-ai-pomoshchnik-po-kodu"
+    ],
+    "search_results": [
+      {
+        "title": "Context7 MCP: Up-to-Date Docs for Any Cursor Prompt",
+        "url": "https://upstash.com/blog/context7-mcp",
+        "date": "2026-01-01",
+        "last_updated": "2026-01-28",
+        "snippet": "The Context7 MCP uses the Model Context Protocol, Anthropic's Model Context Protocol, an open standard that lets LLMs talk to external tools ...",
+        "source": "web"
+      },
+      {
+        "title": "How to Install and Use Context7 MCP Server",
+        "url": "https://apidog.com/blog/context7-mcp-server/",
+        "date": "2025-04-24",
+        "last_updated": "2026-01-28",
+        "snippet": "This article explains how to set up and use Context7 for accurate code suggestions, ensuring developers avoid outdated APIs and improve productivity.",
+        "source": "web"
+      },
+      {
+        "title": "Model Context Protocol",
+        "url": "https://developers.openai.com/codex/mcp/",
+        "date": "2025-01-01",
+        "last_updated": "2026-01-29",
+        "snippet": "OpenAI Docs MCP: Search and read OpenAI developer docs. Context7: Connect to up-to-date developer documentation. Figma Local and Remote: Access your Figma ...",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP Server -- Up-to-date code documentation for ...",
+        "url": "https://github.com/upstash/context7",
+        "date": "2025-03-26",
+        "last_updated": "2026-01-29",
+        "snippet": "Context7 MCP pulls up-to-date, version-specific documentation and code examples straight from the source — and places them directly into your prompt ...",
+        "source": "web"
+      },
+      {
+        "title": "upstash/context7-mcp",
+        "url": "https://www.npmjs.com/package/@upstash/context7-mcp",
+        "date": "2025-09-05",
+        "last_updated": "2025-09-18",
+        "snippet": "Context7 MCP pulls up-to-date, version-specific documentation and code examples straight from the source — and places them directly into your ...",
+        "source": "web"
+      },
+      {
+        "title": "Context 7 MCP: Get Documentation Instantly + VS Code ...",
+        "url": "https://www.youtube.com/watch?v=-ls0D-rtET4",
+        "date": "2025-04-21",
+        "last_updated": "2026-01-29",
+        "snippet": "In this quick video, I'll show you how to install Context 7 - a MCP server that automatically fetches the latest documentation for APIs and ...",
+        "source": "web"
+      },
+      {
+        "title": "MCP Сервера. Статья первая. Context7",
+        "url": "https://habr.com/ru/articles/933678/",
+        "date": "2025-08-04",
+        "last_updated": "2026-01-22",
+        "snippet": "Context7 MCP Server — мощный инструмент для интеграции актуальной документации в AI-ассистенты. Наш пример с добавлением поддержки VBA ...",
+        "source": "web"
+      },
+      {
+        "title": "Official Context7 (Documentation Database) MCP Server",
+        "url": "https://www.pulsemcp.com/servers/upstash-context7",
+        "date": "2025-05-25",
+        "last_updated": "2026-01-29",
+        "snippet": "Connects to Context7.com's documentation database to provide up-to-date library and framework documentation with intelligent project ranking and customizable ...",
+        "source": "web"
+      },
+      {
+        "title": "Context7 MCP: Ваш AI-помощник по коду наконец-то ...",
+        "url": "https://vc.ru/ai/2012617-context7-mcp-ai-pomoshchnik-po-kodu",
+        "date": "2025-05-27",
+        "last_updated": "2025-12-30",
+        "snippet": "Context7 MCP Server решает проблему устаревших AI-советов, обеспечивает актуальность кода, экономит время, улучшает обучение разработчиков.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Context7 MCP** is a documentation intelligence tool developed by Upstash that integrates with AI coding assistants (like Cursor, Claude, VS Code, and others) via Anthropic's **Model Context Protocol (MCP)** to fetch and inject the latest, version-specific library documentation and code examples directly into prompts.[1][2][4]\n\n### How It Works\nWhen you include phrases like **\"use context7\"** in a prompt (e.g., \"Create a FastAPI CRUD API. use context7\"), the MCP server:\n- Detects the referenced library or framework (e.g., FastAPI, Next.js).[1][2]\n- Retrieves the most recent official docs, filtering by topic if specified (e.g., \"routing\").[1][4]\n- Injects relevant content into the AI's context for accurate, up-to-date responses, avoiding reliance on outdated training data.[1][2]\n\nExample prompts:[2]\n- \"Write a MongoDB aggregation pipeline. use context7\"\n- \"implement basic authentication with supabase. use library /supabase/supabase\"\n\nYou can skip detection by using exact **Context7-compatible library IDs** (e.g., `/vercel/next.js`, `/mongodb/docs`).[4][5]\n\n### Installation and Setup\nContext7 runs as an MCP server, installable locally (via npx/Docker) or remotely (HTTP with API key).[3][4][5]\n- **Cursor (local)**: Add to `mcpServers` config: `{ \"command\": \"npx\", \"args\": [\"-y\", \"@upstash/context7-mcp\", \"--api-key\", \"YOUR_API_KEY\"] }`[5]\n- **OpenAI Codex CLI**: `codex mcp add context7 -- npx -y @upstash/context7-mcp`[3]\n- **VS Code**: Use `npx -y @upstash/context7-mcp` via MCP server settings; restart VS Code after adding.[6]\n- **Remote HTTP**: `\"url\": \"https://mcp.context7.com/mcp\"`, with `CONTEXT7_API_KEY` header (OAuth option available).[4][5]\n- Supports Windsurf, Augment Code, Trae, Copilot Coding Agent, and more.[4][5][6]\n\nKey tools include `query-docs` (fetches docs by library ID and query) and `resolve-library-id`.[4]\n\n### Automation Tips\nAdd rules to auto-invoke without \"use context7\":[4]\n- **Cursor**: In Settings > Rules: \"Always use Context7 MCP when I need library/API documentation...\"\n- **Claude**: In CLAUDE.md file.\n\nFree tier available; npm package: `@upstash/context7-mcp`.[4][5][8] For full GitHub repo and library IDs, see Upstash's documentation.[4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

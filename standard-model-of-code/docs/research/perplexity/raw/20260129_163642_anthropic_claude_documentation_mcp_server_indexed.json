@@ -1,0 +1,136 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:36:42.466602",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic Claude documentation MCP server indexed RAG searchable",
+    "query_length": 64,
+    "checksum": "sha256:250d20db878da2d55ee1249ad5467861c18b841a05edbc467f5c13b773fc18f2"
+  },
+  "response": {
+    "id": "8194273c-6507-4fce-973c-fc7b8edb2057",
+    "model": "sonar-pro",
+    "created": 1769715402,
+    "usage": {
+      "prompt_tokens": 10,
+      "completion_tokens": 252,
+      "total_tokens": 262,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.004,
+        "request_cost": 0.006,
+        "total_cost": 0.01
+      }
+    },
+    "citations": [
+      "https://www.anthropic.com/engineering/claude-code-best-practices",
+      "https://www.anthropic.com/learn/build-with-claude",
+      "https://www.anthropic.com/engineering/desktop-extensions",
+      "https://platform.claude.com/docs/en/agents-and-tools/remote-mcp-servers",
+      "https://platform.claude.com/docs/en/agents-and-tools/mcp-connector",
+      "https://docs.omni.co/ai/mcp/claude-desktop",
+      "https://lobehub.com/mcp/julianoczkowski-anthropic-docs-mcp-ts",
+      "https://www.anthropic.com/news/model-context-protocol",
+      "https://modelcontextprotocol.io/docs/develop/build-server",
+      "https://modelcontextprotocol.io/docs/develop/connect-local-servers"
+    ],
+    "search_results": [
+      {
+        "title": "Claude Code: Best practices for agentic coding - Anthropic",
+        "url": "https://www.anthropic.com/engineering/claude-code-best-practices",
+        "date": "2025-04-18",
+        "last_updated": "2026-01-29",
+        "snippet": "Use Claude with MCP. Claude Code functions as both an MCP server and client. As a client, it can connect to any number of MCP servers to access ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Academy: Claude API Development Guide",
+        "url": "https://www.anthropic.com/learn/build-with-claude",
+        "date": "2025-03-25",
+        "last_updated": "2026-01-27",
+        "snippet": "Set up MCP in Claude Desktop · Use Anthropic's ready-made MCP servers · Use MCP with Claude Code · Set up remote MCP servers · Connect remote MCP servers from the ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Desktop Extensions: One-click MCP server installation for ...",
+        "url": "https://www.anthropic.com/engineering/desktop-extensions",
+        "date": "2025-06-26",
+        "last_updated": "2026-01-29",
+        "snippet": "Desktop Extensions make installing MCP servers as easy as clicking a button. We share the technical architecture and tips for creating good extensions.",
+        "source": "web"
+      },
+      {
+        "title": "Remote MCP servers - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/remote-mcp-servers",
+        "date": "2025-11-01",
+        "last_updated": "2026-01-27",
+        "snippet": "The remote MCP servers listed below are third-party services designed to work with the Claude API. These servers are not owned, operated, or endorsed by ...",
+        "source": "web"
+      },
+      {
+        "title": "MCP connector - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/mcp-connector",
+        "date": "2025-11-20",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude's Model Context Protocol (MCP) connector feature enables you to connect to remote MCP servers directly from the Messages API without a separate MCP ...",
+        "source": "web"
+      },
+      {
+        "title": "Using the MCP Server in Claude Desktop - Omni Docs",
+        "url": "https://docs.omni.co/ai/mcp/claude-desktop",
+        "date": "2026-01-29",
+        "last_updated": "2026-01-29",
+        "snippet": "In Claude Desktop, navigate to Settings > Developer. Click Edit Config. If you haven't previously added an MCP Server to Claude Desktop, clicking this button ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Docs MCP Server - LobeHub",
+        "url": "https://lobehub.com/mcp/julianoczkowski-anthropic-docs-mcp-ts",
+        "date": "2025-11-27",
+        "last_updated": "2026-01-22",
+        "snippet": "A Model Context Protocol (MCP) server that provides comprehensive search and retrieval capabilities for Claude and Anthropic documentation, ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing the Model Context Protocol - Anthropic",
+        "url": "https://www.anthropic.com/news/model-context-protocol",
+        "date": "2024-11-25",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude 3.5 Sonnet is adept at quickly building MCP server implementations, making it easy for organizations and individuals to rapidly connect ...",
+        "source": "web"
+      },
+      {
+        "title": "Build an MCP server - Model Context Protocol",
+        "url": "https://modelcontextprotocol.io/docs/develop/build-server",
+        "date": "2026-01-27",
+        "last_updated": "2026-01-28",
+        "snippet": "Get started building your own server to use in Claude for Desktop and other clients ... Documentation · Specification · Registry · Community. Get started. What is ...",
+        "source": "web"
+      },
+      {
+        "title": "Connect to local MCP servers - Model Context Protocol",
+        "url": "https://modelcontextprotocol.io/docs/develop/connect-local-servers",
+        "date": "2026-01-28",
+        "last_updated": "2026-01-29",
+        "snippet": "Learn how to extend Claude Desktop with local MCP servers to enable file system access and other powerful integrations.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "There is an **Anthropic Docs MCP Server** available that provides searchable access to Claude and Anthropic documentation through the Model Context Protocol[7]. This server enables comprehensive search and retrieval capabilities optimized for MCP development, API resources, examples, and templates[7].\n\nTo use this server, you can add it to your Claude Desktop configuration. The server is referenced as `julianoczkowski-anthropic-docs-mcp-ts` and can be configured in your `mcpServers` settings with the following command-line arguments[7]:\n\n```\n\"julianoczkowski-anthropic-docs-mcp-ts\": {\n  \"args\": [\"--transport\", \"stdio\"],\n  \"command\": \"anthropic-docs-mcp\"\n}\n```\n\nOnce configured and running, Claude will automatically have access to indexed Anthropic documentation and can retrieve information from it during conversations[9]. You can prompt Claude to search the documentation by referring to the server by name or asking questions about specific topics[6].\n\nThis MCP server functions as a **retrieval-augmented generation (RAG)** tool, allowing Claude to search through and cite relevant documentation when answering your questions about Anthropic's APIs, Claude capabilities, and related resources[7]."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

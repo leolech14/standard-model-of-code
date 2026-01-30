@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:30:33.788601",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "\"intelligence-provider\" Claude Anthropic tool",
+    "query_length": 45,
+    "checksum": "sha256:58948d226f990e8951de3166e6dd3f51467191699efb3cb4df170f7f872c0dde"
+  },
+  "response": {
+    "id": "d5e07abf-ab86-4565-a9f3-593935a0946c",
+    "model": "sonar-pro",
+    "created": 1769715033,
+    "usage": {
+      "prompt_tokens": 8,
+      "completion_tokens": 309,
+      "total_tokens": 317,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.005,
+        "request_cost": 0.006,
+        "total_cost": 0.011
+      }
+    },
+    "citations": [
+      "https://www.techradar.com/pro/claude-turns-your-ai-chats-into-a-control-room-for-real-work-run-slack-figma-and-more-without-needing-to-switch-apps",
+      "https://www.anthropic.com/news/introducing-claude",
+      "https://www.anthropic.com/news/claude-4",
+      "https://saleshive.com/vendors/claude-anthropic/",
+      "https://platform.claude.com/docs/en/intro",
+      "https://www.anthropic.com/engineering/advanced-tool-use",
+      "https://claude.ai"
+    ],
+    "search_results": [
+      {
+        "title": "Claude just became a real productivity hub — you can now run tools ...",
+        "url": "https://www.techradar.com/pro/claude-turns-your-ai-chats-into-a-control-room-for-real-work-run-slack-figma-and-more-without-needing-to-switch-apps",
+        "date": "2026-01-27",
+        "last_updated": "2026-01-29",
+        "snippet": "A creative team can draft a concept, assign tasks, build the deck, and send updates from a single Claude chat. The big idea of the assistant ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing Claude - Anthropic",
+        "url": "https://www.anthropic.com/news/introducing-claude",
+        "date": "2023-03-14",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude can help with use cases including summarization, search, creative and collaborative writing, Q&A, coding, and more. Early customers ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing Claude 4 - Anthropic",
+        "url": "https://www.anthropic.com/news/claude-4",
+        "date": "2025-05-22",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude Opus 4 is the world's best coding model, with sustained performance on complex, long-running tasks and agent workflows.",
+        "source": "web"
+      },
+      {
+        "title": "Claude (Anthropic) Reviews, Pricing & Features (2026) - SalesHive",
+        "url": "https://saleshive.com/vendors/claude-anthropic/",
+        "date": "2025-12-16",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude by Anthropic is an enterprise AI assistant and coding copilot with long-context LLMs, strong safety controls, and rich connectors for Slack and more.",
+        "source": "web"
+      },
+      {
+        "title": "Intro to Claude - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/intro",
+        "date": "2025-11-01",
+        "last_updated": "2026-01-28",
+        "snippet": "Claude is a highly performant, trustworthy, and intelligent AI platform built by Anthropic. Claude excels at tasks involving language, reasoning, analysis, ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing advanced tool use on the Claude Developer Platform",
+        "url": "https://www.anthropic.com/engineering/advanced-tool-use",
+        "date": "2025-11-24",
+        "last_updated": "2026-01-29",
+        "snippet": "We've added three new beta features that let Claude discover, learn, and execute tools dynamically. Here's how they work. The future of AI ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude.ai",
+        "url": "https://claude.ai",
+        "last_updated": "2025-03-12",
+        "snippet": "Claude is a next generation AI assistant built by Anthropic and trained to be safe, accurate, and secure to help you do your best work. · Create with Claude.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Based on the search results, Claude is an **AI assistant and large language model** created by Anthropic that functions as an intelligent tool for various workplace and creative tasks[1][4][5].\n\nClaude's core capabilities include:\n\n- **Text and code processing**: Summarization, Q&A, creative writing, coding, debugging, and data extraction[2][5]\n- **Visual analysis**: Processing and analyzing images to generate text and code[5]\n- **Tool integration**: Claude can interact with external applications through the Model Context Protocol (MCP Apps), including Slack, Asana, Figma, and analytics dashboards, allowing users to draft messages, edit diagrams, and update timelines without switching between apps[1]\n- **Advanced reasoning**: Extended thinking with tool use capabilities, parallel tool execution, and improved memory for maintaining continuity across tasks[3]\n\nClaude is available through multiple access points: consumer subscriptions (Free, Pro, Max), business plans (Team, Enterprise), native desktop and mobile apps, and an API for developers[4]. The platform is designed to reduce friction in digital workflows by consolidating multiple applications into a single conversational interface, positioning Claude as a \"control room\" for modern work rather than just a sidekick tool[1].\n\nRecent updates include **Claude 4** (with Opus and Sonnet variants), which represents significant improvements in coding capability, reasoning, and agentic task performance—Claude Opus 4 is described as \"the world's best coding model\"[3]."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:10:23.696522",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Sonnet 1M context how to enable request beta flag opt-in 2026",
+    "query_length": 68,
+    "checksum": "sha256:208b59808fafe1e1c24945de53ba5be68151e8ed64dd1f4ba6921eb8871ffd96"
+  },
+  "response": {
+    "id": "ed191a98-1140-44af-a1ee-bff20233c0db",
+    "model": "sonar-pro",
+    "created": 1769713823,
+    "usage": {
+      "prompt_tokens": 19,
+      "completion_tokens": 477,
+      "total_tokens": 496,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://cline.bot/blog/two-ways-to-advantage-of-claude-sonnet-4s-1m-context-window-in-cline",
+      "https://www.infoq.com/news/2025/08/claude-sonnet-4/",
+      "https://aws.amazon.com/about-aws/whats-new/2025/08/anthropic-claude-sonnet-bedrock-expanded-context-window/",
+      "https://forum.cursor.com/t/cursor-automatically-invokes-claude-4-5-long-context-mode-context-1m-2025-08-07-increasing-costs-and-hitting-bedrock-rate-limits/139092",
+      "https://www.elvex.com/blog/context-length-comparison-ai-models-2026"
+    ],
+    "search_results": [
+      {
+        "title": "Two Ways to Advantage of Claude Sonnet 4's 1M Context ... - Cline",
+        "url": "https://cline.bot/blog/two-ways-to-advantage-of-claude-sonnet-4s-1m-context-window-in-cline",
+        "date": "2025-08-13",
+        "last_updated": "2026-01-28",
+        "snippet": "Claude Sonnet 4 now supports 1 million tokens of context – a 5x increase from the previous 200K limit. This isn't just a bigger number; ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Sonnet 4 Expands to 1 Million Token Context Window - InfoQ",
+        "url": "https://www.infoq.com/news/2025/08/claude-sonnet-4/",
+        "date": "2025-08-22",
+        "last_updated": "2026-01-28",
+        "snippet": "Anthropic has upgraded Claude Sonnet 4 to support a context length of up to 1 million tokens, a fivefold increase over its previous limit.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic's Claude Sonnet 4 in Amazon Bedrock Expanded Context ...",
+        "url": "https://aws.amazon.com/about-aws/whats-new/2025/08/anthropic-claude-sonnet-bedrock-expanded-context-window/",
+        "date": "2025-08-12",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic's Claude Sonnet 4 in Amazon Bedrock is launching today with a significantly expanded context window in public preview.",
+        "source": "web"
+      },
+      {
+        "title": "Cursor automatically invokes Claude 4.5 long-context mode (context ...",
+        "url": "https://forum.cursor.com/t/cursor-automatically-invokes-claude-4-5-long-context-mode-context-1m-2025-08-07-increasing-costs-and-hitting-bedrock-rate-limits/139092",
+        "date": "2025-10-27",
+        "last_updated": "2026-01-29",
+        "snippet": "While having access to the 1M context window is a much welcome feature, it should be on-demand and invoked only with user consent. Enabling it ...",
+        "source": "web"
+      },
+      {
+        "title": "Context Length Comparison: Leading AI Models in 2026 - Elvex",
+        "url": "https://www.elvex.com/blog/context-length-comparison-ai-models-2026",
+        "date": "2026-01-16",
+        "last_updated": "2026-01-29",
+        "snippet": "Claude Opus 4.5 commands $25 per 1M input tokens for its reliable 200K context. GPT 5.2 prices at $1.50 per 1M input tokens with 400K context.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Claude Sonnet 4's 1M token context window is enabled via the beta header `\"anthropic_beta\": [\"context-1m-2025-08-07\"]` in API requests to Anthropic, Amazon Bedrock, or compatible clients like Cursor.[2][3][4]**\n\nNo separate \"request beta flag opt-in\" process exists beyond including this header; it's available in public beta/preview for higher-tier Anthropic API users or Bedrock regions like US West (Oregon).[1][2][3] Usage automatically applies higher pricing for prompts over 200K tokens (e.g., input doubles to $6/MTok, output to $22.50/MTok) and stricter rate limits, even for smaller prompts in some integrations.[1][3][4]\n\n### How to Enable It\n- **Direct Anthropic API or OpenRouter/Cline**: Add the header to your API call. Example in code:\n  ```\n  {\n    \"model\": \"claude-sonnet-4-2025-...\",  // Or latest Sonnet 4 variant\n    \"messages\": [...],\n    \"anthropic_beta\": [\"context-1m-2025-08-07\"]\n  }\n  ```\n  Requires Tier 4 access on Anthropic.[1]\n- **Amazon Bedrock**: Available in public preview (US East/Virginia, Ohio, West/Oregon); same header invokes it.[3][4]\n- **Cursor IDE**: Automatically enabled for Claude Sonnet 4/4.5 via Bedrock (since ~Oct 2025), adding higher costs/rate limits without user control—users report it as a bug and request opt-out settings.[4]\n\n### Key Considerations\n- **Availability**: Public beta since August 2025; no 2026-specific changes noted.[1][2][3]\n- **Limitations**: Higher compute costs, potential focus issues on very large contexts, and separate quotas.[2][4]\n- **Alternatives**: Stick to 200K default by omitting the header; prompt caching/batching can cut costs.[1]\n\nSearch results reference **Claude Sonnet 4** (not earlier versions) and do not cover a distinct \"Claude Sonnet 1M context\" model.[1][2][3][4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

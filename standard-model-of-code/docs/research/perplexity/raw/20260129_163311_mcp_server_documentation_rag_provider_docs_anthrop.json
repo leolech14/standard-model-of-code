@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:33:11.539121",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "MCP server documentation RAG provider docs Anthropic Google Cloud AWS indexed search 2026",
+    "query_length": 89,
+    "checksum": "sha256:b5d8469c3e84726ca53ee2774958f16b0bf53f879d28b78cbe8f49f698fd6701"
+  },
+  "response": {
+    "id": "e4e382bd-89cf-4595-aa2c-dca5c8fa32ff",
+    "model": "sonar-pro",
+    "created": 1769715191,
+    "usage": {
+      "prompt_tokens": 18,
+      "completion_tokens": 265,
+      "total_tokens": 283,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.004,
+        "request_cost": 0.006,
+        "total_cost": 0.01
+      }
+    },
+    "citations": [
+      "https://pub.towardsai.net/anthropics-new-rag-approach-e0c24a68893b",
+      "https://www.tigerdata.com/blog/how-to-build-rag-system-with-claude-on-aws",
+      "https://simonwillison.net/2025/Jan/24/anthropics-new-citations-api/",
+      "https://www.elastic.co/search-labs/blog/rag-playground-bedrock-anthropic-models",
+      "https://www.meilisearch.com/blog/rag-tools",
+      "https://www.anthropic.com/news/contextual-retrieval",
+      "https://dev.to/pavanbelagatti/learn-how-to-build-reliable-rag-applications-in-2026-1b7p",
+      "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "https://www.anthropic.com/research"
+    ],
+    "search_results": [
+      {
+        "title": "Anthropic's New RAG Approach - by Barhoumi Mosbeh - Towards AI",
+        "url": "https://pub.towardsai.net/anthropics-new-rag-approach-e0c24a68893b",
+        "date": "2024-09-29",
+        "last_updated": "2025-03-31",
+        "snippet": "RAG connects an LLM directly to an organization's knowledge base, enabling relevant data retrieval without the need for model retraining.",
+        "source": "web"
+      },
+      {
+        "title": "How to Build a RAG System With Anthropic Claude on AWS",
+        "url": "https://www.tigerdata.com/blog/how-to-build-rag-system-with-claude-on-aws",
+        "date": "2025-03-11",
+        "last_updated": "2026-01-29",
+        "snippet": "In this guide, we'll show you how to build a RAG system in JavaScript using Anthropic's Claude Sonnet-3.5, Bedrock embedding models, and pgvector to manage ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic's new Citations API",
+        "url": "https://simonwillison.net/2025/Jan/24/anthropics-new-citations-api/",
+        "date": "2025-01-24",
+        "last_updated": "2026-01-29",
+        "snippet": "The core of the Retrieval Augmented Generation (RAG) pattern is to take a user's question, retrieve portions of documents that might be relevant ...",
+        "source": "web"
+      },
+      {
+        "title": "Elastic Playground: RAG with Bedrock Anthropic & Elasticsearch",
+        "url": "https://www.elastic.co/search-labs/blog/rag-playground-bedrock-anthropic-models",
+        "date": "2024-07-10",
+        "last_updated": "2026-01-24",
+        "snippet": "Explore Elastic's Playground and learn how to use it to experiment with RAG applications using Bedrock Anthropic Models & Elasticsearch.",
+        "source": "web"
+      },
+      {
+        "title": "10 Best RAG Tools and Platforms: Full Comparison [2026]",
+        "url": "https://www.meilisearch.com/blog/rag-tools",
+        "date": "2025-08-18",
+        "last_updated": "2026-01-29",
+        "snippet": "Discover 10 of the best RAG tools alongside their key features, pricing, pros and cons (based on real users), integrations, and more.",
+        "source": "web"
+      },
+      {
+        "title": "Contextual Retrieval in AI Systems - Anthropic",
+        "url": "https://www.anthropic.com/news/contextual-retrieval",
+        "date": "2024-09-19",
+        "last_updated": "2026-01-29",
+        "snippet": "In this post, we outline a method that dramatically improves the retrieval step in RAG. The method is called “Contextual Retrieval” and uses two sub-techniques.",
+        "source": "web"
+      },
+      {
+        "title": "Learn How to Build Reliable RAG Applications in 2026!",
+        "url": "https://dev.to/pavanbelagatti/learn-how-to-build-reliable-rag-applications-in-2026-1b7p",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-19",
+        "snippet": "This guide walks through a practical step-by-step workflow to build a Retrieval-Augmented Generation (RAG) document chat: upload documents, ...",
+        "source": "web"
+      },
+      {
+        "title": "Effective context engineering for AI agents - Anthropic",
+        "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "date": "2025-09-29",
+        "last_updated": "2026-01-29",
+        "snippet": "In this post, we'll explore the emerging art of context engineering and offer a refined mental model for building steerable, effective agents.",
+        "source": "web"
+      },
+      {
+        "title": "Research - Anthropic",
+        "url": "https://www.anthropic.com/research",
+        "date": "2025-12-18",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic is an AI safety and research company that's working to build reliable, interpretable, and steerable AI systems.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "I don't have search results that directly address MCP server documentation, RAG provider docs across Anthropic, Google Cloud, and AWS, or indexed search capabilities as of 2026. The search results provided focus on RAG (Retrieval-Augmented Generation) systems and Anthropic's specific approaches to RAG implementation, but they don't cover the comprehensive multi-provider documentation comparison you're asking about.\n\nTo properly answer your query, I would need search results that include:\n\n- **MCP (Model Context Protocol) server documentation** and its role in RAG systems\n- **Comparative documentation** from Anthropic, Google Cloud, and AWS on RAG providers\n- **Indexed search capabilities** and how they're implemented across these platforms in 2026\n\nIf you're looking for information about building RAG systems, the search results do show that [Anthropic has introduced a Citations API][3] and **Contextual Retrieval methods** to improve RAG reliability[6], and that AWS Bedrock provides access to Anthropic's models for building RAG systems[2]. However, this doesn't fully address your specific multi-provider documentation search question.\n\nCould you clarify what specific aspect of RAG documentation or MCP server capabilities you're most interested in? This would help me provide a more targeted answer."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

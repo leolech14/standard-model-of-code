@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:34:36.724817",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "docs-mcp-server arabold add custom documentation index Anthropic Claude API",
+    "query_length": 75,
+    "checksum": "sha256:b9b4efcceed06e9d3c4dfa7ed1a1df27e64af225c1b10151f7c67f44e2abe51a"
+  },
+  "response": {
+    "id": "521b66cc-ae7e-4b5f-8d25-d1b4374e61c1",
+    "model": "sonar-pro",
+    "created": 1769715276,
+    "usage": {
+      "prompt_tokens": 14,
+      "completion_tokens": 486,
+      "total_tokens": 500,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://platform.claude.com/docs/en/api/overview",
+      "https://www.anthropic.com/learn/build-with-claude",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html",
+      "https://platform.claude.com/docs/en/home",
+      "https://www.anthropic.com/research/economic-index-primitives",
+      "https://www.anthropic.com/research/economic-index-geography",
+      "https://www.postman.com/postman/anthropic-apis/documentation/dhus72s/claude-api",
+      "https://docs.spring.io/spring-ai/reference/api/chat/anthropic-chat.html",
+      "https://anthropic-tools.readthedocs.io",
+      "https://docs.aimlapi.com/api-references/text-models-llm/anthropic/claude-4-sonnet"
+    ],
+    "search_results": [
+      {
+        "title": "API Overview - Claude API Docs - Claude Console",
+        "url": "https://platform.claude.com/docs/en/api/overview",
+        "date": "2023-06-01",
+        "last_updated": "2026-01-29",
+        "snippet": "The Claude API is a RESTful API at https://api.anthropic.com that provides programmatic access to Claude models. The primary API is the Messages API ( POST /v1/ ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Academy: Claude API Development Guide",
+        "url": "https://www.anthropic.com/learn/build-with-claude",
+        "date": "2025-03-25",
+        "last_updated": "2026-01-27",
+        "snippet": "Learn to build applications with Claude's API. Find detailed documentation, integration guides, code examples, and best practices for developing with our AI ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude Messages API - Amazon Bedrock",
+        "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html",
+        "date": "2023-05-31",
+        "last_updated": "2026-01-04",
+        "snippet": "This topic shows how to use the Anthropic Claude messages API with the base inference operations (InvokeModel or InvokeModelWithResponseStream).",
+        "source": "web"
+      },
+      {
+        "title": "Documentation - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/home",
+        "date": "2025-11-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Explore Anthropic's educational courses and projects. ... See replicable code samples and implementations. ... Deployable applications built with our API.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Economic Index: new building blocks for understanding AI ...",
+        "url": "https://www.anthropic.com/research/economic-index-primitives",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-29",
+        "snippet": "By contrast, our own API data finds that Claude is 50% successful at tasks that take nearly twice as long (around 3.5 hours), and on Claude ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Economic Index: Tracking AI's role in the US and global ...",
+        "url": "https://www.anthropic.com/research/economic-index-geography",
+        "date": "2025-09-15",
+        "last_updated": "2026-01-29",
+        "snippet": "We find that API users are significantly more likely to automate tasks with Claude ... Index, the latest version of Claude was Sonnet 3.6.) ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude API | Documentation | Postman API Network",
+        "url": "https://www.postman.com/postman/anthropic-apis/documentation/dhus72s/claude-api",
+        "snippet": "The Claude API provides developers with access to advanced conversational AI capabilities developed by Anthropic. It offers endpoints for tasks such as message ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Chat :: Spring AI Reference",
+        "url": "https://docs.spring.io/spring-ai/reference/api/chat/anthropic-chat.html",
+        "date": "2023-06-01",
+        "last_updated": "2026-01-26",
+        "snippet": "Anthropic's Skills API extends Claude's capabilities with specialized, pre-packaged abilities for document generation. Skills enable Claude to create actual ...",
+        "source": "web"
+      },
+      {
+        "title": "Welcome to anthropic-tools' documentation! — anthropic-tools ...",
+        "url": "https://anthropic-tools.readthedocs.io",
+        "last_updated": "2025-07-27",
+        "snippet": "Welcome to anthropic-tools' documentation! . The anthropic-tools library simplifies the usage of Anthropics's tool use feature.",
+        "source": "web"
+      },
+      {
+        "title": "Claude 4 Sonnet | AI/ML API Documentation",
+        "url": "https://docs.aimlapi.com/api-references/text-models-llm/anthropic/claude-4-sonnet",
+        "date": "2025-12-02",
+        "last_updated": "2026-01-28",
+        "snippet": "Anthropic. Claude 4 Sonnet. This documentation is valid for the following list of our models: anthropic/claude-sonnet-4. claude-sonnet-4. claude ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**MCP (likely \"Model Context Protocol\") servers in Anthropic's Claude ecosystem allow connecting external tools and data sources, such as custom documentation indexes, directly to Claude models via Claude Desktop, Claude Code, or the Messages API.** [2]\n\nTo add a **custom documentation index** to an MCP server (e.g., \"docs-mcp-server\") for use with the **Anthropic Claude API**:\n\n- **Set up MCP in Claude Desktop or Claude Code**: Install Claude Code via `npm install -g @anthropic-ai/claude-code`, then configure MCP servers through the app settings. Anthropic provides ready-made MCP servers as starting points.[2]\n- **Use or create a custom MCP server**: Extend \"docs-mcp-server\" (or similar) to index your documentation. This involves running a local/remote MCP server that exposes your docs as a searchable tool/endpoint. Connect remote MCP servers explicitly from the Messages API using tool calls in `POST /v1/messages`.[1][2]\n- **Integration steps from Anthropic docs**:\n  1. **Prepare your index**: Use tools like those in Anthropic's RAG guides (e.g., Voyage AI embeddings, LlamaIndex, or MongoDB) to create a vector index of your custom docs.[2]\n  2. **Implement MCP server**: Follow \"Set up MCP in Claude Desktop,\" \"Use Anthropic's ready-made MCP servers,\" or \"Contribute to MCP on GitHub\" for arabold/custom setups. The server acts as a bridge, serving indexed docs via standardized MCP protocols.[2]\n  3. **Connect to Claude API**: In Messages API requests, reference the MCP server/tools in the `tools` parameter. Claude can then query your custom index during conversations.[1][2]\n- **Example workflow**: Start with Anthropic's MCP guides for remote servers, then add your docs index endpoint. Test in Claude Console Workbench before API integration.[1][2]\n\nFor full implementation, refer to Anthropic Academy's MCP section under \"Get started with MCP\" and GitHub contributions, as these cover arabold/custom server configs and API connections.[2] No direct \"arabold\" reference appears, but it likely refers to a specific/custom MCP server variant for docs. If search results lack code specifics, check Anthropic's latest Cookbook for MCP + RAG examples.[2]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

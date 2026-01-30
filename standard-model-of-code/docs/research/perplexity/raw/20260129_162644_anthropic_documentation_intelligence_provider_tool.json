@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T16:26:44.703514",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic documentation intelligence-provider tools API account management",
+    "query_length": 74,
+    "checksum": "sha256:a6093425f81011333544b567bae44a7af80668d9faf910797af80dd7af3893bb"
+  },
+  "response": {
+    "id": "6e980795-03f3-4a2d-aa21-a9bf8978d4b8",
+    "model": "sonar-pro",
+    "created": 1769714804,
+    "usage": {
+      "prompt_tokens": 9,
+      "completion_tokens": 478,
+      "total_tokens": 487,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://github.com/anthropics/anthropic-sdk-python",
+      "https://api-docs.deepseek.com/guides/anthropic_api",
+      "https://platform.claude.com/docs/en/api/overview",
+      "https://zapier.com/blog/claude-api/",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html",
+      "https://platform.claude.com/docs/en/home",
+      "https://www.anthropic.com/learn/build-with-claude",
+      "https://www.postman.com/postman/anthropic-apis/documentation/dhus72s/claude-api",
+      "https://www.anthropic.com/claude/sonnet",
+      "https://platform.claude.com/docs/en/api/client-sdks"
+    ],
+    "search_results": [
+      {
+        "title": "anthropics/anthropic-sdk-python - GitHub",
+        "url": "https://github.com/anthropics/anthropic-sdk-python",
+        "date": "2023-01-17",
+        "last_updated": "2025-10-29",
+        "snippet": "Documentation. The REST API documentation can be found on docs.anthropic.com. The full API of this library can be found in api.md. Installation. # install ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic API - DeepSeek API Docs",
+        "url": "https://api-docs.deepseek.com/guides/anthropic_api",
+        "last_updated": "2026-01-29",
+        "snippet": "To meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format. With simple configuration, you can integrate ...",
+        "source": "web"
+      },
+      {
+        "title": "API Overview - Claude API Docs - Claude Console",
+        "url": "https://platform.claude.com/docs/en/api/overview",
+        "date": "2023-06-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic provides official SDKs that simplify API integration by handling authentication, request formatting, error handling, and more. Benefits: Automatic ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude API: How to get a key and use the API - Zapier",
+        "url": "https://zapier.com/blog/claude-api/",
+        "date": "2024-07-08",
+        "last_updated": "2026-01-29",
+        "snippet": "In this guide, I'll give you a step-by-step tutorial on how to get a Claude API key, call the API, and get the responses where you want them.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude Messages API - Amazon Bedrock",
+        "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html",
+        "date": "2023-05-31",
+        "last_updated": "2026-01-04",
+        "snippet": "This section provides inference parameters and code examples for using the Anthropic Claude Messages API.",
+        "source": "web"
+      },
+      {
+        "title": "Documentation - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/home",
+        "date": "2025-11-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Learn about changes and new features in Claude Code. Learning resources. Anthropic Courses.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Academy: Claude API Development Guide",
+        "url": "https://www.anthropic.com/learn/build-with-claude",
+        "date": "2025-03-25",
+        "last_updated": "2026-01-27",
+        "snippet": "Learn to build applications with Claude's API. Find detailed documentation, integration guides, code examples, and best practices for developing with our AI ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude API | Documentation | Postman API Network",
+        "url": "https://www.postman.com/postman/anthropic-apis/documentation/dhus72s/claude-api",
+        "snippet": "The Claude API provides developers with access to advanced conversational AI capabilities developed by Anthropic.",
+        "source": "web"
+      },
+      {
+        "title": "Claude Sonnet 4.5 - Anthropic",
+        "url": "https://www.anthropic.com/claude/sonnet",
+        "date": "2025-09-29",
+        "last_updated": "2026-01-28",
+        "snippet": "Sonnet 4.5 is the best model in the world for agents, coding, and computer use. It's also our most accurate and detailed model for long-running tasks, ...",
+        "source": "web"
+      },
+      {
+        "title": "Client SDKs - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/api/client-sdks",
+        "date": "2025-11-01",
+        "last_updated": "2026-01-28",
+        "snippet": "This page includes brief installation instructions and links to the open-source GitHub repositories for Anthropic's Client SDKs.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Anthropic's official documentation for their API, including **tools**, **intelligence-provider** features (via tool use in the Messages API), and **account management** (primarily API key handling), is hosted at [docs.anthropic.com](https://docs.anthropic.com), with client SDK details on GitHub and the Claude Console.[1][3][6][10]\n\n### Key Documentation Locations\n- **Core API Reference**: Full REST API specs, including the Messages endpoint for tool calls (e.g., `tools` parameter with `input_schema`, `name`, and `description`), authentication via `x-api-key` header, and versioning (e.g., `anthropic-version: 2023-06-01` or later).[1][3][4]\n- **Python SDK**: Install via `pip install anthropic`; initialize client with `ANTHROPIC_API_KEY` environment variable. Supports synchronous/async tool execution, batch listing, and custom HTTP requests for undocumented endpoints.[1]\n- **Account Management**: Generate/manage API keys through the [Claude Console](https://console.anthropic.com) (login required); keys are passed as `api_key` in SDKs or `x-api-key` header in raw requests. No direct API for key creation/revocation documented—handle via console.[3][4]\n- **Tools and Intelligence Features**: Tools are defined in `messages.create()` calls; Claude automatically invokes them in iterations if specified. Supports `tool_choice` modes like `auto`, `none`, or `tool`. Full details in Messages API reference.[1][3]\n- **Additional Resources**:\n  - Client SDKs overview: [platform.claude.com/docs/en/api/client-sdks](https://platform.claude.com/docs/en/api/client-sdks).[10]\n  - Tutorials and examples: [Anthropic Academy](https://www.anthropic.com/learn/build-with-claude).[7]\n  - Third-party compatibility (e.g., DeepSeek, AWS Bedrock): Maps to Anthropic format but with limitations on fields like images/documents.[2][5]\n\nFor complete references, start at [docs.anthropic.com](https://docs.anthropic.com) and [console.anthropic.com/docs](https://console.anthropic.com/docs).[3][6]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T23:05:58.650181",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "\"Claude Code\" \"Max subscription\" 1M context \"not available\" OR \"not yet available\" subscription vs API tier mismatch",
+    "query_length": 116,
+    "checksum": "sha256:88c17fb3a4099693c4d2e71cc10bac056bfa216e12e3b18b2eff213019f06a78"
+  },
+  "response": {
+    "id": "4056052a-6ff3-4a05-b97d-103bed5ae459",
+    "model": "sonar-pro",
+    "created": 1769738758,
+    "usage": {
+      "prompt_tokens": 28,
+      "completion_tokens": 395,
+      "total_tokens": 423,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://github.com/anthropics/claude-code/issues/5644",
+      "https://www.youtube.com/watch?v=Kxnlh2rVYVE",
+      "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+      "https://github.com/anthropics/claude-code/issues/15057",
+      "https://www.anthropic.com/news/claude-sonnet-4-5"
+    ],
+    "search_results": [
+      {
+        "title": "Feature Request: Enable 1M Context Window for Claude Code #5644",
+        "url": "https://github.com/anthropics/claude-code/issues/5644",
+        "date": "2025-08-12",
+        "last_updated": "2025-10-18",
+        "snippet": "Thank you for the excellent news about the 1M token context window being available on the API. This is a welcome and powerful change. We would ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code: 1 Million Tokens + Unlimited Agents ... - YouTube",
+        "url": "https://www.youtube.com/watch?v=Kxnlh2rVYVE",
+        "date": "2025-12-13",
+        "last_updated": "2026-01-26",
+        "snippet": "... Max plan → Set a $50 limit and turn off auto ... Keywords claude code tips, claude code 1 million tokens, sonnet 4.5 1m context ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing Explained: Subscription Plans & API Costs",
+        "url": "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-22",
+        "snippet": "This report provides a comprehensive analysis of all Claude subscription plans and API pricing tiers. It covers historical context and recent changes (e.g. the ...",
+        "source": "web"
+      },
+      {
+        "title": "[BUG] Sonnet 1M context window unavailable on Max 20x subscription",
+        "url": "https://github.com/anthropics/claude-code/issues/15057",
+        "date": "2025-12-22",
+        "snippet": "Max 20x subscribers should have access to the 1M token context window for Sonnet, as we did previously. ... Steps to reproduce. Open Claude Code ( ...",
+        "source": "web"
+      },
+      {
+        "title": "Introducing Claude Sonnet 4.5 - Anthropic",
+        "url": "https://www.anthropic.com/news/claude-sonnet-4-5",
+        "date": "2025-09-29",
+        "last_updated": "2026-01-29",
+        "snippet": "\"Imagine with Claude\" is available to Max subscribers for the next five days. ... A 1M context configuration achieves 78.2%, but we report ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**The 1M token context window for Claude Sonnet models (e.g., sonnet[1m] or claude-sonnet-4-20250514[1m]) is not available to Claude Code users on Max subscriptions, including 20x tiers, despite being accessible via the API for qualifying tiers.**[1][4]\n\nUsers attempting `/model sonnet[1m]` in Claude Code with Max subscriptions encounter API Error 400: \"The long context beta is not yet available for this subscription.\"[1] This limitation persists as of mid-October 2025 for Max 20x users, who previously had access but now face restrictions, prompting bug reports and feature requests.[1][4]\n\nAnthropic limits public beta access to the Claude Developer Platform for customers with **Tier 4 and custom rate limits**, plus some Max 20x users—excluding most subscription-based Claude Code access.[1] Max plans provide higher usage limits, early feature access, and Claude Code CLI support, but do not guarantee all API capabilities like 1M context, creating a **subscription vs. API tier mismatch**.[3][1]\n\nTo use 1M context:\n- Switch to an **API key** from the Console (pay-as-you-go), where it's available (e.g., set limits like $50 and select sonnet[1m]). Costs rise for inputs >200K tokens ($6/MTok input, $22.50/MTok output for Sonnet).[2][3][1]\n- Workflow suggestion: Use Max for daily coding (/login with subscription), then /logout, /login with API key for 1M tasks, and switch back.[1]\n\nThis gap frustrates Max users ($200/month), some considering cancellation or alternatives like Gemini CLI, as it forces toolchain splits for large codebases.[1] No resolution noted in results up to late 2025.[1][4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

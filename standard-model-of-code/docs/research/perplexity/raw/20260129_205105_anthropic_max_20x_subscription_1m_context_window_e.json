@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T20:51:05.935780",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic Max 20x subscription 1M context window eligibility requirements 2025 2026",
+    "query_length": 83,
+    "checksum": "sha256:a566bc22fd261935b0568222aa5be0b2af1d60e5c87b3565630f64e67956bab2"
+  },
+  "response": {
+    "id": "3feb58ca-5f25-4b5e-8697-1b044e1eee38",
+    "model": "sonar-pro",
+    "created": 1769730665,
+    "usage": {
+      "prompt_tokens": 20,
+      "completion_tokens": 404,
+      "total_tokens": 424,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.006,
+        "request_cost": 0.006,
+        "total_cost": 0.012
+      }
+    },
+    "citations": [
+      "https://support.claude.com/en/articles/11049741-what-is-the-max-plan",
+      "https://www.sentisight.ai/how-much-cost-claude-cowork/",
+      "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+      "https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/",
+      "https://help.apiyi.com/en/claude-cowork-pricing-limits-guide-en.html",
+      "https://www.glbgpt.com/hub/claude-ai-plans-2026/"
+    ],
+    "search_results": [
+      {
+        "title": "What is the Max plan? | Claude Help Center",
+        "url": "https://support.claude.com/en/articles/11049741-what-is-the-max-plan",
+        "date": "2025-01-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Max 5x: $100 per month. Max 20x: $200 per month. Note: These prices are for web subscriptions only. Mobile pricing may vary ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Cowork Cost: Pro at $20 vs Max at $100-$200 - SentiSight.ai",
+        "url": "https://www.sentisight.ai/how-much-cost-claude-cowork/",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-29",
+        "snippet": "For users needing higher usage limits, the Max 5x plan runs $100/month while the Max 20x plan costs $200/month. All tiers grant access to ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing Explained: Subscription Plans & API Costs",
+        "url": "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-22",
+        "snippet": "A complete guide to Anthropic Claude pricing. Learn about subscription plans (Pro, Max, Team) and per-token API costs for models like Opus 4.5 and Sonnet.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic unveils new rate limits to curb Claude Code power users",
+        "url": "https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/",
+        "date": "2025-07-28",
+        "last_updated": "2026-01-29",
+        "snippet": "The new rate limits will go into effect August 28 for subscribers to Anthropic's $20-per-month Pro plan, as well as its $100- and $200-per-month ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Cowork Pricing Explained: $100 or $200 ... - APIYI",
+        "url": "https://help.apiyi.com/en/claude-cowork-pricing-limits-guide-en.html",
+        "date": "2026-01-14",
+        "last_updated": "2026-01-28",
+        "snippet": "Max Plan subscription required: $100/month (5x) or $200/month (20x), no standalone subscription option; Same features across tiers: The only ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude AI Plans 2026: The Ultimate Pricing & Features Guide",
+        "url": "https://www.glbgpt.com/hub/claude-ai-plans-2026/",
+        "date": "2026-01-07",
+        "last_updated": "2026-01-11",
+        "snippet": "Max Ultimate ($200/mo): This tier provides 20x the usage of Pro, effectively removing the concept of “limits” for individual users. It grants “ ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**The Anthropic Max 20x subscription ($200/month) is available to any individual user via web or mobile app, with no specific eligibility requirements beyond payment and a standard account.**[1][2][3][5]\n\nIt provides 20 times the usage limits of the Pro plan ($20/month), ideal for heavy users, with weekly limits across all models and Sonnet models resetting every 7 days.[1][2][4] Pricing is monthly only, prorated on upgrades, and web-only at $200 (mobile may vary); no free trial, minimum commitment, or sharing with teams.[1][2][5]\n\n**Context window details**: No search results confirm a **1M context window** eligibility tied to Max 20x for 2025-2026. Max plans offer higher usage and features like conversation memory or early access, but context windows are model-specific (e.g., Sonnet/Opus), not explicitly expanded to 1M tokens for this tier.[3]\n\n**Claude Cowork access** (requiring Max): Needs latest Claude Desktop app on macOS (Windows soon), stable internet, and Max 5x ($100) or 20x—no Pro/Team/Enterprise support yet.[2][5] Pro users access basic Cowork since January 16, 2026, but hit limits faster.[2]\n\n| Tier | Price (web, monthly) | Usage Multiplier vs Pro | Best For |\n|------|----------------------|--------------------------|----------|\n| Max 5x | $100 | 5x | Moderate heavy use |\n| **Max 20x** | **$200** | **20x (~900+ messages/5 hours)** | **Full-time, intensive work** |[1][2][4][5]\n\nUpgrades from Pro/Max 5x are prorated; credits apply if switching from annual Pro with matching billing address.[1] No educational/nonprofit discounts announced.[5]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

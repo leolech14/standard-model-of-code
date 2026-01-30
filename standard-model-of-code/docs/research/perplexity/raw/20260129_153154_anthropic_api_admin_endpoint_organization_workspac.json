@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T15:31:54.986582",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Anthropic API admin endpoint organization workspace billing info account details 2026",
+    "query_length": 85,
+    "checksum": "sha256:5f3191e33397d7f2c4ec2c13e5cfd13f60d55c4bb60ad2a6bac36056a29891a6"
+  },
+  "response": {
+    "id": "8a51c0f8-a34d-4cf5-a280-6f689838fdfa",
+    "model": "sonar-pro",
+    "created": 1769711514,
+    "usage": {
+      "prompt_tokens": 14,
+      "completion_tokens": 449,
+      "total_tokens": 463,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.007,
+        "request_cost": 0.006,
+        "total_cost": 0.013
+      }
+    },
+    "citations": [
+      "https://www.token.security/blog/why-anthropics-new-compliance-api-is-a-game-changer-for-secure-agentic-ai-access",
+      "https://ai-consciousness.org/anthropics-claude-opus-4-5-system-prompt-as-of-january-2026/",
+      "https://platform.claude.com/docs/en/build-with-claude/workspaces",
+      "https://platform.claude.com/docs/en/release-notes/overview",
+      "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+      "https://github.com/danny-avila/LibreChat/issues/10655",
+      "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+      "https://www.youtube.com/watch?v=2w75E9cQPUM"
+    ],
+    "search_results": [
+      {
+        "title": "Why Anthropic's new Compliance API is a Game-Changer for ...",
+        "url": "https://www.token.security/blog/why-anthropics-new-compliance-api-is-a-game-changer-for-secure-agentic-ai-access",
+        "date": "2025-08-21",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic's new Compliance API gives enterprises clear visibility into AI agent activity, MCP usage, data access, and endpoint behavior.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic's Claude Opus 4.5 System Prompt – as of January 2026",
+        "url": "https://ai-consciousness.org/anthropics-claude-opus-4-5-system-prompt-as-of-january-2026/",
+        "date": "2026-01-20",
+        "last_updated": "2026-01-29",
+        "snippet": "Below is Anthropic's most recent system prompt for Claude Opus 4.5, one of several key factors that guides Claude's behavior. According to ...",
+        "source": "web"
+      },
+      {
+        "title": "Workspaces - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/build-with-claude/workspaces",
+        "date": "2025-01-01",
+        "last_updated": "2026-01-29",
+        "snippet": "Programmatically manage workspaces using the Admin API. Admin API endpoints require an Admin API key (starting with sk-ant-admin..",
+        "source": "web"
+      },
+      {
+        "title": "Claude Developer Platform - Claude API Docs",
+        "url": "https://platform.claude.com/docs/en/release-notes/overview",
+        "date": "2026-01-12",
+        "last_updated": "2026-01-27",
+        "snippet": "The console will be available at both URLs until January 12, 2026. After that date, console.anthropic.com will automatically redirect to platform.claude.com.",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Claude API Pricing 2026: Complete Cost Breakdown",
+        "url": "https://www.metacto.com/blogs/anthropic-api-pricing-a-full-breakdown-of-costs-and-integration",
+        "date": "2026-01-12",
+        "last_updated": "2026-01-29",
+        "snippet": "Anthropic's Claude 4.5 API pricing introduces significant cost reductions and powerful optimization features. From $1 to $75 per million tokens, ...",
+        "source": "web"
+      },
+      {
+        "title": "Support Anthropic API for Custom Endpoints in Agents or ... - GitHub",
+        "url": "https://github.com/danny-avila/LibreChat/issues/10655",
+        "date": "2025-11-24",
+        "snippet": "Problem. I'm trying to restrict access to certain Claude models (Opus) to admin users only while allowing regular users to access only Sonnet ...",
+        "source": "web"
+      },
+      {
+        "title": "Anthropic Economic Index report: Economic primitives",
+        "url": "https://www.anthropic.com/research/anthropic-economic-index-january-2026-report",
+        "date": "2026-01-15",
+        "last_updated": "2026-01-28",
+        "snippet": "This report introduces new metrics of AI usage to provide a rich portrait of interactions with Claude in November 2025, just prior to the ...",
+        "source": "web"
+      },
+      {
+        "title": "How to Get Your Claude API Key in 2026 - YouTube",
+        "url": "https://www.youtube.com/watch?v=2w75E9cQPUM",
+        "date": "2026-01-19",
+        "last_updated": "2026-01-29",
+        "snippet": "Learn how to get a Claude API key so you can connect Anthropic's Claude to automation tools like Zapier, Cursor, and other third-party apps.",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Anthropic's Admin API provides endpoints for managing organizations and workspaces (e.g., creating, listing, archiving workspaces, and handling members), but search results do not document specific admin endpoints for retrieving **organization workspace billing info or account details**.[3]\n\n## Available Admin API Endpoints for Organizations/Workspaces[3]\nThese require an **Admin API key** (starting with `sk-ant-admin-`):\n- **Create workspace**: `POST /v1/organizations/workspaces`\n  ```\n  curl --request POST \"https://api.anthropic.com/v1/organizations/workspaces\" \\\n  --header \"anthropic-version: 2023-06-01\" \\\n  --header \"x-api-key: $ANTHROPIC_ADMIN_KEY\" \\\n  --data '{\"name\": \"Production\"}'\n  ```\n- **List workspaces**: `GET /v1/organizations/workspaces?limit=10&include_archived=false`\n- **Archive workspace**: `POST /v1/organizations/workspaces/{workspace_id}/archive`\n- **Manage members**: `POST/POST/DELETE /v1/organizations/workspaces/{workspace_id}/members/{user_id}` (add, update role, remove)\n\n**Usage tracking** is available via endpoints like those grouping by `workspace_id` (default workspace shows `null` for `workspace_id`), but no billing/account details are specified.[3]\n\n## Related Features (Not Admin/Billing Endpoints)\n- **Compliance API**: Provides real-time programmatic access to Claude **usage data**, customer content, MCP servers, local data storage, and agent activity for enterprises (requires integration; enables monitoring but not billing).[1]\n- **Pricing info**: Claude 4.5 API ranges from $1–$75 per million tokens with tiered rate limits; no admin retrieval endpoint documented.[5]\n- **Organization ID**: Available via `anthropic-organization-id` response header on all API calls.[4]\n\nNo 2026-specific admin billing endpoints appear in results; check Anthropic's official docs at platform.claude.com for updates, as console redirects there post-January 12, 2026.[3][4]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-01-29T13:51:28.984812",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Claude Max subscription 1 million token context window access limitations January 2026",
+    "query_length": 86,
+    "checksum": "sha256:0c00aea075ad888e02f7a3f13670f309290f41ac01118b284dc33607f84ba980"
+  },
+  "response": {
+    "id": "d54f9d41-c972-40e4-9926-bf2666cadc36",
+    "model": "sonar-pro",
+    "created": 1769705488,
+    "usage": {
+      "prompt_tokens": 16,
+      "completion_tokens": 354,
+      "total_tokens": 370,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.0,
+        "output_tokens_cost": 0.005,
+        "request_cost": 0.006,
+        "total_cost": 0.011
+      }
+    },
+    "citations": [
+      "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+      "https://www.youtube.com/watch?v=Kxnlh2rVYVE",
+      "https://pub.towardsai.net/why-your-expensive-claude-subscription-is-actually-a-steal-02f10893940c",
+      "https://www.glbgpt.com/hub/claude-ai-pricing-2026-the-ultimate-guide-to-plans-api-costs-and-limits/",
+      "https://www.glbgpt.com/hub/claude-ai-plans-2026/",
+      "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+      "https://forum.cursor.com/t/cursor-200-vs-claude-max-cursor-usage-limits-and-trade-offs/148298"
+    ],
+    "search_results": [
+      {
+        "title": "Claude Pricing in 2026 for Individuals, Organizations, and Developers",
+        "url": "https://www.finout.io/blog/claude-pricing-in-2026-for-individuals-organizations-and-developers",
+        "date": "2026-01-18",
+        "last_updated": "2026-01-27",
+        "snippet": "Total: $45/month. They also enable prompt caching to improve performance and reduce costs. With 1 million tokens written and 3 million read from ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Code: 1 Million Tokens + Unlimited Agents ... - YouTube",
+        "url": "https://www.youtube.com/watch?v=Kxnlh2rVYVE",
+        "date": "2025-12-13",
+        "last_updated": "2026-01-26",
+        "snippet": "... instead of Max plan → Set a $50 limit and turn off auto-reload → Tell Claude to use Haiku 4.5 for heavy lifting → Get full projects done for a",
+        "source": "web"
+      },
+      {
+        "title": "Why your “expensive” Claude subscription is actually a steal",
+        "url": "https://pub.towardsai.net/why-your-expensive-claude-subscription-is-actually-a-steal-02f10893940c",
+        "date": "2026-01-26",
+        "snippet": "Input tokens: $3 per million tokens (what you send to Claude); Output tokens: $15 per million tokens (what Claude sends back). That output ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude AI Pricing 2026: The Ultimate Guide to Plans, API Costs, and ...",
+        "url": "https://www.glbgpt.com/hub/claude-ai-pricing-2026-the-ultimate-guide-to-plans-api-costs-and-limits/",
+        "date": "2026-01-27",
+        "last_updated": "2026-01-29",
+        "snippet": "In 2026, Claude AI pricing consists of three main tiers: a Free plan, a $20/month Proplan, and Max plans starting at $100/month.",
+        "source": "web"
+      },
+      {
+        "title": "Claude AI Plans 2026: The Ultimate Pricing & Features Guide",
+        "url": "https://www.glbgpt.com/hub/claude-ai-plans-2026/",
+        "date": "2026-01-07",
+        "last_updated": "2026-01-11",
+        "snippet": "Standard Token Rates: The flagship Claude Sonnet 4.5 is priced at $3 per million input tokens and $15 per million output tokens. This 1:5 ...",
+        "source": "web"
+      },
+      {
+        "title": "Claude Pricing Explained: Subscription Plans & API Costs",
+        "url": "https://intuitionlabs.ai/articles/claude-pricing-plans-api-costs",
+        "date": "2026-01-21",
+        "last_updated": "2026-01-22",
+        "snippet": "Long-Context (1M Token) Pricing. In mid 2025, Anthropic introduced support for up to 1 million token context windows in the Claude Sonnet series (4.0/4.5).",
+        "source": "web"
+      },
+      {
+        "title": "Cursor $200 vs. Claude Max + Cursor: Usage Limits and Trade-offs",
+        "url": "https://forum.cursor.com/t/cursor-200-vs-claude-max-cursor-usage-limits-and-trade-offs/148298",
+        "date": "2026-01-08",
+        "last_updated": "2026-01-29",
+        "snippet": "I also find the ability to use Claude Sonnet with a 1-million-token context window inside Cursor extremely powerful. In Claude Code, I am ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "**Claude Max subscription users ($100–$200/month) have access to the 1 million token context window on models like Sonnet 4.5, with no explicit access limitations beyond overall usage quotas that are 5x or 20x higher than Pro.**[1][2][4][5][6][7]\n\nThis feature supports advanced tasks like spawning numerous sub-agents (up to 178 tested in one case) or handling large codebases and conversations within the 1M token limit.[2][7] Max includes priority access during peak times, persistent memory across chats, and early feature previews, distinguishing it from lower tiers like Pro ($20/month, limited usage).[1][5][6]\n\n**Key limitations and considerations:**\n- **Usage quotas**: Higher than Pro but not unlimited; exact token/request caps vary by Max tier ($100 base or $200 for 20x Pro usage).[1][4][6]\n- **API alternative**: 1M context is available via pay-per-use API (e.g., $3/M input tokens under 200K, doubling beyond), often cheaper for light use with spending limits like $50/month, bypassing subscription quotas.[2][3][4]\n- **Cost traps**: API inputs over 200K tokens double in price ($6/M input, $22.50/M output); subscriptions like Max cap costs for heavy users (e.g., $200 vs. $3,650+ API).[3][4]\n- No sources indicate January 2026-specific changes; pricing and features align with 2026 guides.[1][4][5]\n\nFor power users, Max provides reliable 1M access without per-token billing risks.[1][4][6]"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}
