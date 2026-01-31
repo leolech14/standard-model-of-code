@@ -736,6 +736,83 @@ tools:
     status: working
 
   # ---------------------------------------------------------------------------
+  # DOCUMENT PROCESSING (Academic Papers)
+  # ---------------------------------------------------------------------------
+  docling_granite:
+    id: T054
+    name: "Docling-Granite Document Processor"
+    subsystem: WAVE
+    realm: wave
+    type: external_tool
+
+    description: |
+      IBM Granite-Docling-258M: Vision-language model for academic paper processing.
+      Converts PDFs to structured Markdown/JSON preserving:
+      - Table topology
+      - Equations (LaTeX)
+      - Images with coordinates
+      - Reading order
+      Replaces manual PDF extraction for reference library.
+
+    invoke:
+      method: python_module
+      command: "python -m context_management.tools.docling_processor process --file {input_pdf}"
+      cwd: "${PROJECT_ROOT}"
+      batch_command: "python -m context_management.tools.docling_processor process"
+
+    inputs:
+      - name: input_pdf
+        type: path
+        format: pdf
+        description: "Academic paper PDF to process (or omit for batch)"
+        required: false
+
+    outputs:
+      - name: "{basename}.md"
+        type: file
+        format: markdown
+        description: "Structured markdown with preserved layout"
+
+      - name: "{basename}.json"
+        type: file
+        format: json
+        description: "DocTags structured output for RAG"
+
+      - name: "{basename}_chunks.json"
+        type: file
+        format: json
+        description: "RefineryNode chunks for RAG/Neo4j"
+
+      - name: "manifest.json"
+        type: file
+        format: json
+        description: "Batch manifest with processing results"
+
+    requires:
+      - docling>=2.71.0
+      - docling-ibm-models
+      - docling-core
+      - tqdm
+      - pyyaml
+
+    connects_to:
+      - reference_analyzer
+      - import_academic_foundations
+      - refinery  # Chunks as RefineryNodes
+
+    deprecates:
+      - description: "Manual PDF text extraction workflow"
+        previous_method: "Unknown/manual txt/ extraction"
+
+    status: working
+    note: |
+      Implemented 2026-01-31 with full batch processing.
+      Features: 4-tier fallback, Parcel/Waybill tracking, HybridChunker.
+      82 papers (~575MB) in context-management/archive/references/pdf/
+      Config: context-management/config/docling_config.yaml
+      Docs: context-management/tools/docling_processor/README.md
+
+  # ---------------------------------------------------------------------------
   # DOCSINTEL (Documentation Intelligence)
   # ---------------------------------------------------------------------------
   docsintel:

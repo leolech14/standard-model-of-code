@@ -38,11 +38,48 @@ class AnalysisJob:
 class ReferenceAnalyzer:
     """Systematic reference library processor."""
 
-    def __init__(self):
+    def __init__(self, use_docling: bool = False):
         self.refs_dir = REFS_DIR
         self.metadata_dir = self.refs_dir / "metadata"
         self.txt_dir = self.refs_dir / "txt"
         self.index_dir = self.refs_dir / "index"
+        self.use_docling = use_docling
+        self.docling_dir = self.refs_dir / "docling_output"
+
+    def get_text_content(self, ref_id: str) -> Optional[str]:
+        """
+        Get text content for a reference, using docling output if available.
+
+        Returns markdown from docling_output if use_docling=True and available,
+        otherwise falls back to txt/ directory.
+
+        Searches in order:
+        1. docling_output/single/<ref_id>/<ref_id>.md (single file processing)
+        2. docling_output/<batch_id>/successful/<ref_id>.md (batch processing)
+        3. docling_output/<batch_id>/partial/<ref_id>.md (fallback results)
+        """
+        if self.use_docling and self.docling_dir.exists():
+            # Check single file output first: docling_output/single/<ref_id>/<ref_id>.md
+            single_path = self.docling_dir / "single" / ref_id / f"{ref_id}.md"
+            if single_path.exists():
+                return single_path.read_text(encoding='utf-8', errors='ignore')
+
+            # Check batch directories
+            for batch_dir in self.docling_dir.iterdir():
+                if not batch_dir.is_dir() or batch_dir.name in ['single', 'latest']:
+                    continue
+                # Check in successful/ and partial/ directories
+                for status_dir in ['successful', 'partial']:
+                    md_path = batch_dir / status_dir / f"{ref_id}.md"
+                    if md_path.exists():
+                        return md_path.read_text(encoding='utf-8', errors='ignore')
+
+        # Fall back to txt/
+        txt_file = self.txt_dir / f"{ref_id}.txt"
+        if txt_file.exists():
+            return txt_file.read_text(encoding='utf-8', errors='ignore')
+
+        return None
 
     def scan_pending_analyses(self) -> List[str]:
         """Find all refs with stub metadata (need LLM analysis)."""
@@ -185,27 +222,31 @@ class ReferenceAnalyzer:
         Generate batch analysis request for multiple refs.
 
         Creates a JSON file for batch processing via LLM API.
+        Uses docling output if use_docling=True, otherwise txt/.
         """
         batch_requests = []
 
         for ref_id in ref_ids:
-            txt_file = self.txt_dir / f"{ref_id}.txt"
-            if not txt_file.exists():
+            # Use new get_text_content method (supports docling)
+            text = self.get_text_content(ref_id)
+            if not text:
                 continue
 
-            # Load text (first 50K chars for analysis)
-            text = txt_file.read_text(encoding="utf-8", errors="ignore")[:50000]
+            # First 50K chars for analysis
+            text = text[:50000]
 
             batch_requests.append({
                 "ref_id": ref_id,
                 "text_sample": text,
+                "source": "docling" if self.use_docling else "txt",
                 "instruction": "Analyze this academic work for SMoC relevance. Generate JSON with: summary, smoc_relevance_summary, key_smoc_concepts, important_equations, cross_references, priority_tier."
             })
 
         output_file.write_text(json.dumps(batch_requests, indent=2))
 
+        source_type = "docling" if self.use_docling else "txt"
         print(f"✓ Batch analysis file created: {output_file}")
-        print(f"  Refs: {len(batch_requests)}")
+        print(f"  Refs: {len(batch_requests)} (source: {source_type})")
         print(f"  Next: Feed to LLM batch API")
 
     def status_report(self) -> Dict:
@@ -284,9 +325,9 @@ def cmd_filter_artifacts():
     print(f"Artifacts: {total_artifacts:,} ({100*total_artifacts/total_all:.1f}%)")
 
 
-def cmd_batch_prepare(tier: int = 2):
+def cmd_batch_prepare(tier: int = 2, use_docling: bool = False):
     """Prepare batch analysis file for a priority tier."""
-    analyzer = ReferenceAnalyzer()
+    analyzer = ReferenceAnalyzer(use_docling=use_docling)
     pending = analyzer.scan_pending_analyses()
     tiers = analyzer.prioritize_refs(pending)
 
@@ -296,21 +337,30 @@ def cmd_batch_prepare(tier: int = 2):
         print(f"No pending Tier {tier} refs")
         return
 
-    output_file = analyzer.refs_dir / f"batch_tier{tier}_analysis.json"
+    suffix = "_docling" if use_docling else ""
+    output_file = analyzer.refs_dir / f"batch_tier{tier}{suffix}_analysis.json"
     analyzer.generate_analysis_batch(refs_to_analyze, output_file)
 
 
 def main():
     import sys
 
+    # Check for --use-docling flag
+    use_docling = "--use-docling" in sys.argv
+    if use_docling:
+        sys.argv.remove("--use-docling")
+
     if len(sys.argv) < 2:
-        print("Usage: python3 reference_analyzer.py <command>")
+        print("Usage: python3 reference_analyzer.py <command> [options]")
         print()
         print("Commands:")
         print("  status            - Show analysis status")
         print("  build-index       - Build full-text search index")
         print("  filter-artifacts  - Analyze image artifact ratio")
         print("  batch-prepare <tier> - Prepare batch analysis file")
+        print()
+        print("Options:")
+        print("  --use-docling     - Use docling_output/ instead of txt/")
         return
 
     cmd = sys.argv[1]
@@ -323,7 +373,7 @@ def main():
         cmd_filter_artifacts()
     elif cmd == "batch-prepare":
         tier = int(sys.argv[2]) if len(sys.argv) > 2 else 2
-        cmd_batch_prepare(tier)
+        cmd_batch_prepare(tier, use_docling=use_docling)
     else:
         print(f"Unknown command: {cmd}")
 
