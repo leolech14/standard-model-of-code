@@ -1,7 +1,10 @@
+> **ARCHIVED** - Canonical roadmap: `governance/ROADMAP.md`
+> This is a vision document from early development.
+
 # Standard Model of Code: Roadmap to 10/10
 
-> **Current Score**: 9/10  
-> **Target**: 10/10  
+> **Current Score**: 9/10
+> **Target**: 10/10
 > **Purpose**: Give AI a structural/architectural understanding of code, not just text prediction
 
 ---
@@ -26,7 +29,7 @@ The Standard Model of Code is a **semantic scaffold for AI** - a way to give any
 ## Three Parallel Workstreams
 
 ### Workstream A: Visualization & Communication
-**Status**: In Progress  
+**Status**: In Progress
 **Purpose**: Create intuitive visual representations of the topology
 
 - [ ] Complete all 10 focused section images
@@ -35,11 +38,11 @@ The Standard Model of Code is a **semantic scaffold for AI** - a way to give any
 - [ ] Create animated/interactive version
 
 ### Workstream B: Theory Integration
-**Status**: In Progress  
+**Status**: In Progress
 **Purpose**: Research and integrate foundational theories
 
 - [x] Koestler's Holons
-- [x] Popper's Three Worlds  
+- [x] Popper's Three Worlds
 - [x] Ranganathan's Faceted Classification
 - [x] Shannon's Information Theory
 - [x] Clean Architecture
@@ -50,7 +53,7 @@ The Standard Model of Code is a **semantic scaffold for AI** - a way to give any
 - [x] Zachman Framework - Documented, deferred (enterprise focus)
 
 ### Workstream C: Complete to 10/10
-**Status**: Priority 1  
+**Status**: Priority 1
 **Purpose**: Add the 3 missing components
 
 | Component | Description | Priority |
@@ -162,8 +165,8 @@ A machine-readable schema that any AI/tool can consume to understand particles.
       "type": "object",
       "properties": {
         "D1_WHAT": { "type": "string", "description": "Atom type" },
-        "D2_LAYER": { 
-          "type": "string", 
+        "D2_LAYER": {
+          "type": "string",
           "enum": ["Interface", "Application", "Core", "Infrastructure", "Test"]
         },
         "D3_ROLE": {
@@ -301,7 +304,7 @@ Use ground truth to improve Collider's classification accuracy.
 The Standard Model of Code is not just for humans—it's **primarily for AI**.
 
 ### The Problem
-When codebases reach medium size, AI loses coherent understanding. 
+When codebases reach medium size, AI loses coherent understanding.
 It sees code as TEXT (tokens to predict) rather than ARCHITECTURE (structure to understand).
 
 ### The Solution
@@ -314,7 +317,7 @@ The Standard Model provides a **semantic scaffold** that gives AI:
 ### The Vision
 > "CODE IS NOT TEXT. CODE IS ARCHITECTURE."
 
-With this model, an AI can think about your application as an **engineer/architect**, 
+With this model, an AI can think about your application as an **engineer/architect**,
 not as a **writer/typist**.
 ```
 

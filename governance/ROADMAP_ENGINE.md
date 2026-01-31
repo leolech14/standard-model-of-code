@@ -1,3 +1,6 @@
+> **SUBSYSTEM ROADMAP** - Canonical project roadmap: `governance/ROADMAP.md`
+> This documents the development engine, not the project roadmap.
+
 # SMOC Development Roadmap
 
 **North Star:** Self-proving ASAP (proof_score ≥ 80%, phantoms = 0)
