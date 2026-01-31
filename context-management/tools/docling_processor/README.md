@@ -25,7 +25,7 @@ python -m context_management.tools.docling_processor process
 
 # Process single file
 python -m context_management.tools.docling_processor process \
-    --file context-management/archive/references/pdf/FRISTON_2019_FreeEnergyPrincipleParticularPhysics.pdf
+    --file context-management/library/references/pdf/FRISTON_2019_FreeEnergyPrincipleParticularPhysics.pdf
 
 # Check status
 python -m context_management.tools.docling_processor status
@@ -39,8 +39,8 @@ python -m context_management.tools.docling_processor resume --batch latest
 Edit `context-management/config/docling_config.yaml`:
 
 ```yaml
-input_dir: "context-management/archive/references/pdf"
-output_dir: "context-management/archive/references/docling_output"
+input_dir: "context-management/library/references/pdf"
+output_dir: "context-management/library/references/docling_output"
 enable_ocr: true
 enable_table_structure: true
 enable_fallbacks: true
@@ -137,10 +137,10 @@ python -m context_management.tools.docling_processor validate
 
 # 2. Test single file
 python -m context_management.tools.docling_processor process \
-    --file context-management/archive/references/pdf/FRISTON_2019_FreeEnergyPrincipleParticularPhysics.pdf
+    --file context-management/library/references/pdf/FRISTON_2019_FreeEnergyPrincipleParticularPhysics.pdf
 
 # 3. Check output
-cat context-management/archive/references/docling_output/latest/manifest.json | jq '.summary'
+cat context-management/library/references/docling_output/latest/manifest.json | jq '.summary'
 
 # 4. Full batch (all 82 papers)
 python -m context_management.tools.docling_processor process

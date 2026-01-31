@@ -46,7 +46,7 @@ def load_config(config_path: str) -> dict:
     with open(path, 'r') as f:
         return yaml.safe_load(f)
 
-def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dry_run: bool = False):
+def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dry_run: bool = False, max_files: int = 10):
     """
     Run the full logistics pipeline.
     """
@@ -66,7 +66,7 @@ def run_pipeline(source_dir: str, query: str = None, config_path: str = None, dr
     r_config = config.get('refinery', {})
 
     active_query = query or p_config.get('query')
-    max_files = p_config.get('max_files', 10)
+    max_files = max_files or p_config.get('max_files', 10)
     context_depth = r_config.get('context_depth', 'medium')
 
     # Batch Identity (The "Room")
@@ -132,7 +132,8 @@ if __name__ == "__main__":
     parser.add_argument("directory", help="Directory to process")
     parser.add_argument("--query", help="Query to drive the attention mechanism gate")
     parser.add_argument("--config", help="Path to refinery_config.yaml")
+    parser.add_argument("--max-files", type=int, default=10, help="Max files to process")
 
     args = parser.parse_args()
 
-    run_pipeline(args.directory, query=args.query, config_path=args.config)
+    run_pipeline(args.directory, query=args.query, config_path=args.config, max_files=args.max_files)

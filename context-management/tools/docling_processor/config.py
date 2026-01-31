@@ -15,8 +15,8 @@ import yaml
 
 # Default paths relative to project root
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-DEFAULT_INPUT_DIR = PROJECT_ROOT / "context-management/archive/references/pdf"
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "context-management/archive/references/docling_output"
+DEFAULT_INPUT_DIR = PROJECT_ROOT / "context-management/library/references/pdf"
+DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "context-management/library/references/docling_output"
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "context-management/config/docling_config.yaml"
 
 

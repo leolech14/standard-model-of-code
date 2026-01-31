@@ -8,8 +8,8 @@
 # =============================================================================
 
 # Paths (relative paths resolved from project root)
-input_dir: "context-management/archive/references/pdf"
-output_dir: "context-management/archive/references/docling_output"
+input_dir: "context-management/library/references/pdf"
+output_dir: "context-management/library/references/docling_output"
 
 # =============================================================================
 # OCR AND TABLE SETTINGS

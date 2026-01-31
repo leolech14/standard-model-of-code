@@ -20,7 +20,7 @@ from datetime import datetime
 
 # Paths
 REFINERY_DIR = Path(__file__).parent
-REFS_DIR = REFINERY_DIR.parent.parent / "archive/references"
+REFS_DIR = REFINERY_DIR.parent.parent / "library/references"
 PROJECT_ROOT = REFINERY_DIR.parent.parent.parent
 
 

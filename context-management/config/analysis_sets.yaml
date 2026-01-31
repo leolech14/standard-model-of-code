@@ -30,11 +30,13 @@
 
 analysis_sets:
   # --- BOX 1: THE ARCHIVE (Historical/Reference) ---
+  # WARNING: archive/ directory does not exist - set is non-functional
+  # TODO: Create archive/ directory or remove this set
   archive:
-    description: "Historical snapshots and large reference datasets (Read-Only)"
+    description: "[BROKEN] Historical snapshots - archive/ directory does not exist"
     max_tokens: 1000000
     patterns:
-      - "archive/**"
+      - "archive/**"  # STALE: directory does not exist
 
   # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
   # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
@@ -84,10 +86,12 @@ analysis_sets:
       - "context-management/tools/ai/*.py"
 
   # --- BOX 5: THE PAST (Archeology) ---
+  # WARNING: archive/ directory does not exist - set is non-functional
   archeology:
-    description: "The Geologic Record (Generation 2 Analysis)"
+    description: "[BROKEN] The Geologic Record - archive/ directory does not exist"
     max_tokens: 200000  # Reduced from 300k - 200k is effective limit
     patterns:
+      # STALE: archive/ directory does not exist
       - "archive/docs_smc_2026-01-19/**"
       - "archive/docs_registry_2026-01-19/**"
       - "archive/orphaned_src_2025/**"
@@ -222,6 +226,8 @@ analysis_sets:
       - "context-management/docs/operations/*.md"
       - "context-management/config/*.yaml"
 
+  # NOTE: ** patterns require explicit base directories for fnmatch
+  # The list_local_files function uses os.walk, not glob.glob
   recent_30d:
     description: "Files modified in last 30 days (active surface)"
     max_tokens: 100000
@@ -230,9 +236,13 @@ analysis_sets:
       sort_by: "mtime"
       limit: 100
     patterns:
-      - "**/*.py"
-      - "**/*.md"
-      - "**/*.yaml"
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "standard-model-of-code/src/**/*.py"
+      - "context-management/tools/**/*.py"
+      - "standard-model-of-code/docs/**/*.md"
+      - "context-management/docs/**/*.md"
+      - ".agent/**/*.yaml"
+      - "context-management/config/**/*.yaml"
 
   recent_7d:
     description: "Files modified in last 7 days (hot zone)"
@@ -242,9 +252,12 @@ analysis_sets:
       sort_by: "mtime"
       limit: 50
     patterns:
-      - "**/*.py"
-      - "**/*.md"
-      - "**/*.yaml"
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "standard-model-of-code/src/**/*.py"
+      - "context-management/tools/**/*.py"
+      - "standard-model-of-code/docs/**/*.md"
+      - "context-management/docs/**/*.md"
+      - ".agent/**/*.yaml"
 
   docs_active:
     description: "Active documentation only (<100KB, no archive)"
@@ -255,7 +268,11 @@ analysis_sets:
         - "**/legacy/**"
       max_file_size_kb: 100
     patterns:
-      - "**/*.md"
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "standard-model-of-code/docs/**/*.md"
+      - "context-management/docs/**/*.md"
+      - "governance/**/*.md"
+      - ".agent/**/*.md"
 
   # ==========================================================================
   # LEGACY SETS - Kept for compatibility but with warnings
@@ -530,12 +547,12 @@ analysis_sets:
     auto_interactive: true
     critical_files:
       - "context-management/docs/theory/INTELLECTUAL_FOUNDATIONS.md"
-      - "context-management/archive/references/index/catalog.json"
-      - "context-management/archive/references/index/concept_index.json"
+      - "context-management/library/references/index/catalog.json"
+      - "context-management/library/references/index/concept_index.json"
     positional_strategy: "sandwich"
     patterns:
-      - "context-management/archive/references/txt/*.txt"
-      - "context-management/archive/references/metadata/*.json"
+      - "context-management/library/references/txt/*.txt"
+      - "context-management/library/references/metadata/*.json"
       - "context-management/docs/theory/INTELLECTUAL_FOUNDATIONS.md"
       - "context-management/docs/theory/REFERENCE_LIBRARY.md"
       - "context-management/docs/theory/AUTHOR_CORPUS.md"
