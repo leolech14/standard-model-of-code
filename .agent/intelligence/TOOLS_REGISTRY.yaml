@@ -861,6 +861,111 @@ tools:
     status: working
 
   # ---------------------------------------------------------------------------
+  # SPIRAL INTELLIGENCE (Multi-Pass Codebase Understanding)
+  # ---------------------------------------------------------------------------
+  spiral_intel:
+    id: T055
+    name: "Cerebras Spiral Intelligence"
+    subsystem: WAVE
+    realm: wave
+    type: iterative_analyzer
+
+    description: |
+      Multi-pass iterative codebase understanding using Cerebras (3000 t/s).
+      Each pass builds on previous, spiraling upward in confidence.
+
+      Passes:
+        P1: Surface scan (65%) - all files, self-context
+        P2: Gap filling (75%) - low-quality files, neighbor context
+        P3: Dependency resolution (85%) - cross-reference validation
+        P4: Subsystem synthesis (92%) - architectural understanding
+        P5: Unified model (97%) - complete codebase intelligence
+
+      4D Confidence Model:
+        - factual: How accurate?
+        - alignment: How well does it fit?
+        - current: Is it up to date?
+        - onwards: Will it remain valid?
+        - overall: min(factual, alignment, current, onwards)
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} {command}"
+      tool_path: "context-management/tools/ai/cerebras_spiral_intel.py"
+      cwd: "${PROJECT_ROOT}"
+      commands:
+        - spiral           # Full spiral (P1 → P2 → P3)
+        - "spiral --parallel -w 20"  # Fast parallel mode
+        - "pass --level 1" # Run specific pass
+        - "pass --level 2"
+        - "pass --level 3"
+        - status           # Show status + lap stats
+        - laps             # Detailed lap history
+        - export           # Export unified model
+
+    inputs:
+      - name: command
+        type: enum
+        values: [spiral, pass, status, laps, export]
+        required: true
+
+      - name: parallel
+        type: flag
+        description: "Use parallel workers"
+
+      - name: workers
+        type: int
+        default: 20
+        description: "Number of parallel workers"
+
+      - name: level
+        type: int
+        values: [1, 2, 3, 4, 5]
+        description: "Pass level for 'pass' command"
+
+    outputs:
+      - name: file_intel.json
+        type: file
+        format: json
+        location: "context-management/data/intel/spiral/"
+        description: "Per-file intelligence (5K+ entries, ~12MB)"
+
+      - name: spiral_state.json
+        type: file
+        format: json
+        location: "context-management/data/intel/spiral/"
+        description: "State + lap history"
+
+      - name: unified_model.json
+        type: file
+        format: json
+        description: "Exported unified model"
+
+    requires:
+      - CEREBRAS_API_KEY
+
+    connects_to:
+      - cerebras_enricher  # Alternative fast enrichment
+      - collider           # Complements structural analysis
+      - refinery_pipeline  # Feeds context refinement
+
+    lap_stats:
+      p1_complete:
+        files: 5455
+        duration: "325s"
+        rate: "16.8/sec"
+        confidence: "49.7%"
+        workers: 20
+
+    status: working
+    registered_in: "REG-014 (REGISTRY_OF_REGISTRIES.yaml)"
+
+    note: |
+      Formalized 2026-01-31. Parallel mode achieves ~17 files/sec with 20 workers.
+      P1 complete: 5,455 files analyzed in 5.4 minutes.
+      Next: P2 (gap filling) to raise confidence to 75-85%.
+
+  # ---------------------------------------------------------------------------
   # DOCUMENT PROCESSING (Academic Papers)
   # ---------------------------------------------------------------------------
   docling_granite:
@@ -1118,6 +1223,6 @@ connections:
 # STATUS SUMMARY
 # =============================================================================
 status_summary:
-  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper]
+  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper, spiral_intel, docling_granite]
   not_implemented: [charts]
   blockers: {}
