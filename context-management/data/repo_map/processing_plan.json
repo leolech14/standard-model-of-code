@@ -1,38 +1,38 @@
 {
-  "created_at": "2026-01-31T02:35:45.327624",
+  "created_at": "2026-01-31T04:01:03.403279",
   "summary": {
-    "total_files": 3304,
-    "total_tokens": 8977182,
-    "total_cost_usd": 5.39,
-    "total_time_min": 137.7,
+    "total_files": 3333,
+    "total_tokens": 9043399,
+    "total_cost_usd": 5.44,
+    "total_time_min": 138.9,
     "rate_limit_note": "Cerebras: 3000 req/min, but burst limited to ~30/sec"
   },
   "batches": [
     {
       "name": "python_code",
       "priority": 1,
-      "files": 415,
-      "estimated_tokens": 952706,
-      "estimated_cost_usd": 0.57,
-      "estimated_time_min": 17.3,
+      "files": 417,
+      "estimated_tokens": 963660,
+      "estimated_cost_usd": 0.58,
+      "estimated_time_min": 17.4,
       "task": "D1-D8 classification + docstring extraction"
     },
     {
       "name": "config_files",
       "priority": 2,
-      "files": 1322,
-      "estimated_tokens": 3469741,
-      "estimated_cost_usd": 2.08,
-      "estimated_time_min": 55.1,
+      "files": 1341,
+      "estimated_tokens": 3516146,
+      "estimated_cost_usd": 2.11,
+      "estimated_time_min": 55.9,
       "task": "Purpose extraction + dependency mapping"
     },
     {
       "name": "documentation",
       "priority": 3,
-      "files": 1281,
-      "estimated_tokens": 3283190,
-      "estimated_cost_usd": 1.97,
-      "estimated_time_min": 53.4,
+      "files": 1289,
+      "estimated_tokens": 3292048,
+      "estimated_cost_usd": 1.98,
+      "estimated_time_min": 53.7,
       "task": "Summary extraction + topic tagging"
     },
     {

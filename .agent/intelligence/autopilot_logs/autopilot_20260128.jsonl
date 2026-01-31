@@ -88,3 +88,5 @@
 {"timestamp": "2026-01-29T01:50:55.256685+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: 3d49e2e6\u001b[0m\nMessage: feat: Register Hugging Face TRELLIS.2 in tool registry\n\nAdde...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}
 {"timestamp": "2026-01-29T01:57:59.511754+00:00", "event": "post_commit_triggered", "details": {}}
 {"timestamp": "2026-01-29T01:57:59.600784+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: 27f78c33\u001b[0m\nMessage: docs: Add dashboard testing guide and quick reference\n\nTESTI...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}
+{"timestamp": "2026-01-29T02:08:17.496394+00:00", "event": "post_commit_triggered", "details": {}}
+{"timestamp": "2026-01-29T02:08:17.591081+00:00", "event": "trigger_engine_success", "details": {"type": "post-commit", "output": "\n\u001b[1;33mChecking commit: 522966f0\u001b[0m\nMessage: feat: Add automated dashboard installation and testing scrip...\n\u001b[0;32mNo macros triggered.\u001b[0m\n"}}

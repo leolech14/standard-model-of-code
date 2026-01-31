@@ -152,3 +152,24 @@ context-management/data/intel/file_intel_cache.json
 # Embedded git repos (benchmarks)
 context-management/library/spectrometer_benchmarks_legacy/axios/
 context-management/library/spectrometer_benchmarks_legacy/lodash/
+
+# =============================================================================
+# CONSOLIDATION PATTERNS (2026-01-31)
+# Added by TASK-100 / BATCH-CONSOLIDATION-2026-01-31
+# =============================================================================
+
+# Research ephemeral data (keep docs/, ignore raw/ and sessions/)
+**/research/raw/
+**/research/sessions/
+
+# Agent ephemeral outputs (regenerated per session)
+.agent/intelligence/autopilot_logs/
+.agent/intelligence/confidence_reports/
+.agent/macros/logs/
+
+# Tool-generated inventories (regenerate with generate_file_inventory.py)
+tools/*.csv
+
+# Large reference files (stored in gs://elements-archive-2026/large-files/)
+swebok-v4.pdf
+SMC_THEORY_COMPLETE*.zip

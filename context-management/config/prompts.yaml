@@ -346,9 +346,9 @@ vertex_location: "us-central1"
 # =============================================================================
 # MODEL CONFIGURATION
 # =============================================================================
-# Default model - gemini-2.5-flash for reliability (4x higher rate limits)
-# Use --model gemini-3-pro-preview explicitly for flagship reasoning when needed
-default_model: "gemini-2.5-flash"
+# Default model - gemini-3-pro-preview for flagship reasoning capability
+# Alternative: gemini-2.5-flash (4x higher rate limits, lower cost)
+default_model: "gemini-3-pro-preview"
 
 # Fast model for simple queries (lowest latency)
 fast_model: "gemini-2.0-flash-001"

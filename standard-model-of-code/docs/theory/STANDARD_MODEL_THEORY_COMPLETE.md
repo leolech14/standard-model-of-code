@@ -1,3 +1,8 @@
+---
+title: "Theory Document"
+format: html
+---
+
 # Standard Model of Code: Theory Index
 
 **Status:** ACTIVE | CANONICAL
@@ -13,7 +18,7 @@ The **Standard Model of Code** is a formal framework for understanding software 
 
 ### The Core Insight
 
-> Code is not ambiguous. 100% of code structure can be classified **deterministically, WITHOUT AI**. Information is encoded in topology, frameworks, and genealogy.
+> Code structure is largely deterministic. The majority of structural classification can be performed through static analysis without AI. Information is encoded in topology, frameworks, and genealogy.
 
 The Standard Model provides:
 - **Atoms**: 3,525 classified types (80 core structural + 3,445 ecosystem-specific)
@@ -1044,11 +1049,11 @@ The concordance system is not "inspired by" category theory -- it **IS** a stand
 
 ## VALIDATION RESULTS
 
-### Axiom Group D (Purpose Field): ✅ VALIDATED
+### Axiom Group D (Purpose Field): ⚡ INSPIRED BY
 
 **Supporting Framework:** Free Energy Principle (Friston et al., 2021)
 
-Our axiom `d𝒫/dt = -∇Incoherence(𝕮)` directly maps to Friston's formulation of gradient descent on variational free energy.
+Our illustrative form `d𝒫/dt = -∇Incoherence(𝕮)` is written in the same **gradient-flow** style as Friston's formulation (a useful analogy, not a derivation).
 
 | SMoC Axiom | Friston's FEP |
 |------------|---------------|
@@ -1057,17 +1062,17 @@ Our axiom `d𝒫/dt = -∇Incoherence(𝕮)` directly maps to Friston's formulat
 | Purpose field 𝒫 | Internal states tracking external states |
 | Crystallization | Markov blanket (conditional independence) |
 
-**Verdict:** Mathematically well-formed. Aligns with established physics of random dynamical systems.
+**Verdict:** Mathematically well-formed as a gradient-flow heuristic. The connection to FEP is analogical, not a claim of physical validation.
 
 **Academic Sources:**
 - Friston, K. (2022). "The Free Energy Principle Made Simpler." arXiv:2201.06387
 - Ramstead, M. et al. (2021). "On Bayesian Mechanics." Interface Focus 13(3).
 
-### Axiom Group F (Emergence): ✅ VALIDATED
+### Axiom Group F (Emergence): ⚡ INSPIRED BY
 
 **Supporting Framework:** Integrated Information Theory (Tononi)
 
-Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` aligns with IIT's Φ (integrated information).
+Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` is **inspired by** integrated-information ideas; it is *not* IIT's Φ and should be treated as an engineering signal.
 
 | SMoC Axiom | Tononi's IIT |
 |------------|--------------|
@@ -1075,7 +1080,7 @@ Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` al
 | "Whole > parts" | "Above and beyond its parts" |
 | Emergence signal | Causal emergence in IIT 4.0 |
 
-**Verdict:** Mathematically valid. Supported by rigorous category-theoretic formalization in IIT literature.
+**Verdict:** Mathematically well-defined as a mutual-information ratio. Any connection to IIT's Φ is analogical; this is not a formal equivalence proof.
 
 **Academic Source:** Tononi, G. et al. (2020). "Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms." Consciousness & Cognition.
 
@@ -1097,9 +1102,9 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 | A (Set Structure) | Set Theory | ✅ VALIDATED | Lawvere (1969), standard partitions |
 | B (Graph) | Graph Theory | ✅ STANDARD | Directed graphs, reachability |
 | C (Levels) | Order Theory | ✅ STANDARD | Total orders, lattices |
-| D (Purpose) | Dynamical Systems | ✅ VALIDATED | Friston FEP (2022) |
+| D (Purpose) | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (2022) - analogous |
 | E (Constructal) | Thermodynamics | ⚠️ HEURISTIC | Bejan (2008) - empirical |
-| F (Emergence) | Information Theory | ✅ VALIDATED | Tononi IIT (2020) |
+| F (Emergence) | Information Theory | ⚡ INSPIRED BY | Tononi IIT (2020) - analogous |
 | G (Observability) | Semiotics | ✅ VALIDATED | Peirce triadic structure |
 | H (Consumer Classes) | Software Engineering | ✅ VALIDATED | Gemini 3 Pro assessment (9/10) |
 
@@ -3143,7 +3148,7 @@ SMoC membrane model:
 
 **The realization:**
 
-> "Wait. Code is not ambiguous. 100% of code structure is deterministic. We don't NEED AI to classify atoms -- tree-sitter gives us the AST. What we need AI for is PURPOSE (why code exists), not WHAT (what code is)."
+> "Wait. Code structure is largely deterministic. A majority of structural classification can be performed through static analysis (e.g., parsing the AST). What we need AI for is PURPOSE (why code exists), not WHAT (what code is)."
 
 **After:** Deterministic 29-stage pipeline. AI optional (Stage 11b only). Atoms come from AST, not LLM inference.
 

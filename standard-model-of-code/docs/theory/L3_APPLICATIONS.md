@@ -610,7 +610,7 @@ SMoC membrane model:
 
 **The realization:**
 
-> "Wait. Code is not ambiguous. 100% of code structure is deterministic. We don't NEED AI to classify atoms -- tree-sitter gives us the AST. What we need AI for is PURPOSE (why code exists), not WHAT (what code is)."
+> "Wait. Code structure is largely deterministic. A majority of structural classification can be performed through static analysis (e.g., parsing the AST). What we need AI for is PURPOSE (why code exists), not WHAT (what code is)."
 
 **After:** Deterministic 29-stage pipeline. AI optional (Stage 11b only). Atoms come from AST, not LLM inference.
 

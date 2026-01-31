@@ -680,22 +680,263 @@ entries:
   fallback_used: false
   duration_ms: 24546
   error: null
+- timestamp: '2026-01-30T06:00:23.429061+00:00'
+  query: Best practices for context window management in LLM applications 2026, including
+    RAG vs long context tradeoffs
+  intent: research
+  complexity: complex
+  scope: external
+  tier: perplexity
+  sets_used:
+  - services
+  - orchestration
+  - theory
+  tokens_input: 22
+  tokens_output: 700
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 18199
+  error: null
+- timestamp: '2026-01-30T07:39:31.575812+00:00'
+  query: Does the current codebase architecture comply with the Theory Canon? specifically
+    check 'standard-model-of-code/docs/theory/THEORY_COMPLETE_ALL.md'
+  intent: architecture
+  complexity: simple
+  scope: external
+  tier: perplexity
+  sets_used:
+  - validators
+  - constraints
+  - domain
+  - entities
+  - theory
+  - pipeline
+  - architecture_review
+  tokens_input: 29
+  tokens_output: 236
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 3291
+  error: null
+- timestamp: '2026-01-30T07:40:50.291199+00:00'
+  query: Does the current codebase architecture comply with the Theory Canon? Check
+    if Pipeline stages in src/core follow the invariants defined in the Theory.
+  intent: architecture
+  complexity: complex
+  scope: hybrid
+  tier: long_context
+  sets_used:
+  - constraints
+  - pipeline
+  - theory
+  - architecture_review
+  tokens_input: 1008079
+  tokens_output: 1273
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 41287
+  error: null
+- timestamp: '2026-01-31T03:05:43.100911+00:00'
+  query: 'Where should I store comprehensive HuggingFace capability documentation
+    in the PROJECT_elements repo? Looking at the existing structure with docs/, governance/,
+    standard-model-of-code/docs/research/. '
+  intent: research
+  complexity: complex
+  scope: hybrid
+  tier: perplexity
+  sets_used:
+  - infrastructure
+  - data_access
+  - domain
+  - entities
+  - theory
+  - deck
+  tokens_input: 42
+  tokens_output: 236
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 26562
+  error: null
+- timestamp: '2026-01-31T06:49:38.932683+00:00'
+  query: 'Comprehensive list of all common file formats organized by category (documents,
+    images, video, audio, code, data, archives, 3D models, fonts, etc). Include MIME
+    types and typical extensions. Focus on '
+  intent: implement
+  complexity: simple
+  scope: internal
+  tier: perplexity
+  sets_used:
+  - pipeline
+  - data_access
+  - infrastructure
+  - classifiers
+  tokens_input: 54
+  tokens_output: 1357
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 8773
+  error: null
+- timestamp: '2026-01-31T07:05:02.662535+00:00'
+  query: Best practices for adding SQLite caching layer to AST-based code analysis
+    tools. How do tools like tree-sitter, Sourcegraph, and language servers handle
+    incremental parsing and file change detection?
+  intent: research
+  complexity: complex
+  scope: hybrid
+  tier: perplexity
+  sets_used:
+  - controllers
+  - api
+  - theory
+  tokens_input: 36
+  tokens_output: 865
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 8405
+  error: null
+- timestamp: '2026-01-31T07:05:24.508057+00:00'
+  query: How do modern code intelligence tools implement incremental graph analysis?
+    Patterns for tracking node/edge changes, delta computation, and avoiding full
+    graph rebuilds. Examples from CodeQL, Semantic
+  intent: implement
+  complexity: complex
+  scope: hybrid
+  tier: perplexity
+  sets_used:
+  - pipeline
+  - theory
+  - classifiers
+  tokens_input: 40
+  tokens_output: 648
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 6561
+  error: null
+- timestamp: '2026-01-31T07:05:57.204959+00:00'
+  query: Database schema design for storing code analysis graphs. Best SQLite schema
+    for nodes (functions/classes), edges (calls/imports), and file metadata. How to
+    store AST node properties efficiently?
+  intent: architecture
+  complexity: complex
+  scope: internal
+  tier: perplexity
+  sets_used:
+  - infrastructure
+  - data_access
+  - pipeline
+  - theory
+  - architecture_review
+  - schema
+  tokens_input: 36
+  tokens_output: 880
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 6648
+  error: null
+- timestamp: '2026-01-31T09:36:00.546903+00:00'
+  query: how does the chunker service work in the Application layer?
+  intent: architecture
+  complexity: moderate
+  scope: internal
+  tier: long_context
+  sets_used:
+  - pipeline
+  - theory
+  - architecture_review
+  tokens_input: 17846
+  tokens_output: 717
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 14570
+  error: null
+- timestamp: '2026-01-31T10:31:55.934212+00:00'
+  query: how does chunking work
+  intent: architecture
+  complexity: simple
+  scope: internal
+  tier: long_context
+  sets_used:
+  - pipeline
+  - theory
+  - architecture_review
+  tokens_input: 17839
+  tokens_output: 602
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 30058
+  error: null
+- timestamp: '2026-01-31T21:27:43.118479+00:00'
+  query: 'COMPREHENSIVE DATABASE INTEGRATION ANALYSIS FOR COLLIDER
+
+
+    Context: Collider is an AST-based code analysis tool that currently has NO persistent
+    database. All caching is in-memory. We want to add SQLit'
+  intent: architecture
+  complexity: simple
+  scope: external
+  tier: long_context
+  sets_used:
+  - infrastructure
+  - data_access
+  - agent_kernel
+  - agent_tasks
+  - pipeline
+  - theory
+  - architecture_review
+  tokens_input: 64152
+  tokens_output: 2050
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 38489
+  error: null
+- timestamp: '2026-01-31T22:56:41.816419+00:00'
+  query: 'Based on the SMC theory (L0 Axioms, L1 Definitions, L2 Laws), what are the
+    implementation gaps? Specifically: 1) Axiom E2 defines four flow substances (static,
+    runtime, change, human) but Collider onl'
+  intent: implement
+  complexity: simple
+  scope: internal
+  tier: long_context
+  sets_used:
+  - tests
+  - agent_kernel
+  - agent_tasks
+  - pipeline
+  - classifiers
+  tokens_input: 74448
+  tokens_output: 1905
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 35192
+  error: null
 stats:
-  total_queries: 32
+  total_queries: 44
   by_tier:
-    perplexity: 10
-    long_context: 12
+    perplexity: 17
+    long_context: 17
     rag: 4
     flash_deep: 6
   by_intent:
-    research: 3
-    architecture: 14
+    research: 6
+    architecture: 20
     unknown: 1
     validate: 4
     explain: 4
     task: 1
     debug: 1
     locate: 1
-    implement: 3
+    implement: 6
   success_rate: 1.0
-  avg_tokens: 231675
+  avg_tokens: 195364

@@ -1,8 +1,11 @@
 # QUALITY GATES - Automated Integrity Checks
 
+**📍 Governance:** [DECISIONS](./DECISIONS.md) | [ROADMAP](./ROADMAP.md) | [Definition of Done](./DEFINITION_OF_DONE.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml) | [PIPELINES.md](./PIPELINES.md)
+
 **Purpose:** Mechanical gates that prevent drift and enforce canonical registries
 **Authority:** ChatGPT 5.2 Pro audit + "prevent unfinished" strategy
-**Updated:** 2026-01-27
+**Updated:** 2026-01-28
 
 ---
 
@@ -196,6 +199,51 @@ Misleading validation artifacts (2):
     → Add header: Status: PARTIAL (3/10 passed)
 
 Fix: Rename OR add status header
+```
+
+---
+
+---
+
+### G9: No Artifacts Committed ❌
+
+**Rule:** No generated files, vendor code, or temp files in git.
+
+**Check:**
+```bash
+python tools/verify_no_artifacts.py
+# Scans for:
+# - Files >1MB
+# - output_*.json, collider_report.html
+# - libs/ directories (vendor code)
+# - .collider-*/, .tmp_*/ directories
+```
+
+**Threshold:** 0 violations allowed
+
+**Current status:** ❌ INCIDENT RESOLVED
+
+**Incident (2026-01-28):**
+- 666,333 lines of artifacts committed
+  - 630K: Collider test outputs (.collider-verify/)
+  - 35K: Vendor libs (collider_pipeline_files/libs/)
+  - 1K: Temp files (.tmp_verify/)
+- Cleaned in commit 34097ee
+
+**Prevention:**
+1. ✅ Updated .gitignore (covers .collider-*, libs/, .tmp_*)
+2. ✅ Created BEST_PRACTICES.md
+3. ⏸️ TODO: verify_no_artifacts.py script
+4. ⏸️ TODO: Pre-commit hook (reject files >1MB)
+
+**Failure example:**
+```
+❌ GATE FAILED: G9 No Artifacts
+Large files detected:
+  - .collider-verify/output_llm-oriented_*.json (601,457 lines)
+  - collider_pipeline_files/libs/bootstrap/ (vendor code)
+
+Fix: Add to .gitignore, git rm --cached, recommit
 ```
 
 ---

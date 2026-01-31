@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-077
 # Confidence: 70%
-# Generated: 2026-01-28T04:08:34.365582
+# Generated: 2026-01-31T03:52:50.287841
 
 id: CARD-OPP-077
 title: Refine orphan detection entry point patterns
@@ -32,5 +32,5 @@ tags:
 - needs-enrichment
 - general
 auto_generated: true
-generated_at: '2026-01-28T07:08:34.365533+00:00'
+generated_at: '2026-01-31T06:52:50.287777+00:00'
 confidence: 0.7

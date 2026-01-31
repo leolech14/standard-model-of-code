@@ -231,6 +231,108 @@ def main():
         help="Additional paths to exclude from analysis (can be repeated)"
     )
 
+    # Database options (Phase 30)
+    full_parser.add_argument(
+        "--db",
+        default=None,
+        metavar="PATH",
+        help="Database path (enables persistence, default: .collider/collider.db)"
+    )
+    full_parser.add_argument(
+        "--no-db",
+        action="store_true",
+        help="Disable database persistence (JSON output only)"
+    )
+    full_parser.add_argument(
+        "--db-backend",
+        choices=["sqlite", "postgres", "duckdb"],
+        default="sqlite",
+        help="Database backend (default: sqlite)"
+    )
+    full_parser.add_argument(
+        "--incremental",
+        action="store_true",
+        default=True,
+        help="Enable incremental analysis - skip unchanged files (default: on)"
+    )
+    full_parser.add_argument(
+        "--no-incremental",
+        action="store_true",
+        help="Disable incremental analysis - re-analyze all files"
+    )
+    full_parser.add_argument(
+        "--search",
+        action="store_true",
+        help="Enable Tantivy full-text search indexing (beta)"
+    )
+    full_parser.add_argument(
+        "--analytics",
+        action="store_true",
+        help="Enable DuckDB analytics export (beta)"
+    )
+    full_parser.add_argument(
+        "--list-features",
+        action="store_true",
+        help="List all database features and exit"
+    )
+
+    # ==========================================
+    # QUERY Command - Database Search
+    # ==========================================
+    query_parser = subparsers.add_parser(
+        "query",
+        help="Search analysis history and compare runs",
+        description="Query the Collider database for nodes, runs, and comparisons."
+    )
+    query_parser.add_argument(
+        "search",
+        nargs="?",
+        default=None,
+        help="Search term to find nodes (name, file path, or role)"
+    )
+    query_parser.add_argument(
+        "--history",
+        action="store_true",
+        help="Show analysis run history"
+    )
+    query_parser.add_argument(
+        "--compare",
+        nargs=2,
+        metavar=("RUN1", "RUN2"),
+        help="Compare two analysis runs"
+    )
+    query_parser.add_argument(
+        "--run",
+        default=None,
+        help="Specific run ID to query (default: latest)"
+    )
+    query_parser.add_argument(
+        "--project",
+        default=".",
+        help="Project path to query (default: current directory)"
+    )
+    query_parser.add_argument(
+        "--db",
+        default=None,
+        help="Database path (default: .collider/collider.db)"
+    )
+    query_parser.add_argument(
+        "--limit",
+        type=int,
+        default=20,
+        help="Max results to return (default: 20)"
+    )
+    query_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output results as JSON"
+    )
+    query_parser.add_argument(
+        "--export",
+        choices=["json", "csv"],
+        help="Export results to file"
+    )
+
     # ==========================================
     # GRAPH Command
     # ==========================================
@@ -794,6 +896,12 @@ def main():
 
 
     elif args.command == "full":
+        # Handle --list-features first
+        if getattr(args, 'list_features', False):
+            from src.core.database import list_features
+            list_features()
+            sys.exit(0)
+
         from src.core.full_analysis import run_full_analysis
         try:
             options = {"roadmap": args.roadmap} if args.roadmap else {}
@@ -815,6 +923,20 @@ def main():
             exclude_list = getattr(args, 'exclude', [])
             if exclude_list:
                 options["extra_excludes"] = exclude_list
+
+            # Database options (Phase 30)
+            if getattr(args, 'no_db', False):
+                options["no_db"] = True
+            else:
+                if getattr(args, 'db', None):
+                    options["db"] = args.db
+                options["db_backend"] = getattr(args, 'db_backend', 'sqlite')
+                options["incremental"] = not getattr(args, 'no_incremental', False)
+                if getattr(args, 'search', False):
+                    options["search"] = True
+                if getattr(args, 'analytics', False):
+                    options["analytics"] = True
+
             run_full_analysis(args.path, args.output, options=options)
 
             # UI Validation (optional)
@@ -1051,6 +1173,145 @@ def main():
             import traceback
             traceback.print_exc()
             sys.exit(1)
+
+    elif args.command == "query":
+        import json as json_module
+
+        project_path = str(Path(getattr(args, 'project', '.')).resolve())
+
+        # Initialize database
+        try:
+            from src.core.database import create_database_manager, DatabaseConfig
+
+            db_path = getattr(args, 'db', None)
+            if db_path is None:
+                db_path = str(Path(project_path) / '.collider' / 'collider.db')
+
+            if not Path(db_path).exists():
+                print(f"No database found at {db_path}")
+                print("Run 'collider full <path>' first to create the database.")
+                sys.exit(1)
+
+            config = DatabaseConfig()
+            config.sqlite_path = db_path
+            db = create_database_manager(config, project_path)
+
+            if db is None:
+                print("Database is disabled.")
+                sys.exit(1)
+
+            db.connect()
+            db.initialize_schema()
+
+        except ImportError as e:
+            print(f"Database module not available: {e}")
+            sys.exit(1)
+
+        limit = getattr(args, 'limit', 20)
+        json_output = getattr(args, 'json', False)
+
+        # History mode
+        if getattr(args, 'history', False):
+            runs = db.get_runs(project_path=project_path, limit=limit)
+
+            if json_output:
+                output = [{
+                    "id": r.id,
+                    "project_name": r.project_name,
+                    "started_at": r.started_at.isoformat() if r.started_at else None,
+                    "status": r.status,
+                    "node_count": r.node_count,
+                    "edge_count": r.edge_count,
+                } for r in runs]
+                print(json_module.dumps(output, indent=2))
+            else:
+                print(f"Analysis History for {project_path}")
+                print("=" * 60)
+                for r in runs:
+                    started = r.started_at.strftime("%Y-%m-%d %H:%M") if r.started_at else "?"
+                    print(f"  {r.id}  {started}  {r.status:<10}  {r.node_count:>5} nodes  {r.edge_count:>5} edges")
+
+        # Compare mode
+        elif getattr(args, 'compare', None):
+            run1_id, run2_id = args.compare
+            comparison = db.compare_runs(run1_id, run2_id)
+
+            if json_output:
+                print(json_module.dumps(comparison, indent=2))
+            else:
+                print(f"Comparison: {run1_id} vs {run2_id}")
+                print("=" * 60)
+                print(f"  Added:   {comparison.get('added', 0)} nodes")
+                print(f"  Removed: {comparison.get('removed', 0)} nodes")
+                print(f"  Common:  {comparison.get('common', 0)} nodes")
+                if comparison.get('added_ids'):
+                    print(f"\n  Sample added nodes:")
+                    for nid in comparison['added_ids'][:5]:
+                        print(f"    + {nid}")
+                if comparison.get('removed_ids'):
+                    print(f"\n  Sample removed nodes:")
+                    for nid in comparison['removed_ids'][:5]:
+                        print(f"    - {nid}")
+
+        # Search mode
+        elif getattr(args, 'search', None):
+            search_term = args.search
+            run_id = getattr(args, 'run', None)
+
+            nodes = db.search_nodes(search_term, run_id=run_id, limit=limit)
+
+            if json_output:
+                print(json_module.dumps(nodes, indent=2))
+            else:
+                print(f"Search results for '{search_term}'")
+                print("=" * 60)
+                for n in nodes:
+                    role = n.get('role', '?')[:15]
+                    name = n.get('name', '?')[:40]
+                    file_path = n.get('file_path', '?')
+                    line = n.get('start_line', '?')
+                    print(f"  [{role:<15}] {name:<40} {file_path}:{line}")
+
+                if not nodes:
+                    print("  No results found.")
+
+        # Export mode
+        elif getattr(args, 'export', None):
+            export_format = args.export
+            run_id = getattr(args, 'run', None)
+
+            if run_id is None:
+                latest = db.get_latest_run(project_path)
+                if latest:
+                    run_id = latest.id
+                else:
+                    print("No runs found for this project.")
+                    sys.exit(1)
+
+            nodes = db.get_nodes(run_id)
+            edges = db.get_edges(run_id)
+
+            if export_format == "json":
+                output = {"run_id": run_id, "nodes": nodes, "edges": edges}
+                print(json_module.dumps(output, indent=2))
+            elif export_format == "csv":
+                import csv
+                import io
+                output = io.StringIO()
+                writer = csv.DictWriter(output, fieldnames=["id", "name", "role", "kind", "file_path"])
+                writer.writeheader()
+                for n in nodes:
+                    writer.writerow({k: n.get(k, '') for k in ["id", "name", "role", "kind", "file_path"]})
+                print(output.getvalue())
+
+        else:
+            print("Usage: collider query <search_term>")
+            print("       collider query --history")
+            print("       collider query --compare RUN1 RUN2")
+            sys.exit(1)
+
+        db.disconnect()
+        sys.exit(0)
 
     else:
         parser.print_help()

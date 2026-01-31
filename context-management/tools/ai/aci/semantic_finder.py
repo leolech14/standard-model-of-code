@@ -17,8 +17,46 @@ Part of S3 (ACI subsystem).
 
 from dataclasses import dataclass, field
 from enum import Enum
+from functools import lru_cache
+from pathlib import Path
 from typing import List, Dict, Optional, Tuple
+import json
 import re
+
+
+# =============================================================================
+# SEMANTIC INDEX PATHS
+# =============================================================================
+# Dynamic intelligence from cerebras_rapid_intel.py
+
+INTEL_DIR = Path(__file__).parent.parent.parent.parent / "data" / "intel"
+INTEL_INDEX_PATH = INTEL_DIR / "semantic_index.json"
+
+
+@lru_cache(maxsize=1)
+def load_semantic_index() -> Optional[Dict]:
+    """
+    Load semantic index from cerebras_rapid_intel.py output.
+
+    Cached with LRU to avoid repeated disk reads within session.
+    Falls back gracefully if index unavailable.
+
+    Returns:
+        Dict with 'files', 'concepts', 'quality_scores' or None
+    """
+    try:
+        if INTEL_INDEX_PATH.exists():
+            with open(INTEL_INDEX_PATH, 'r') as f:
+                return json.load(f)
+    except (json.JSONDecodeError, IOError):
+        # Silent fallback - hardcoded patterns will be used
+        pass
+    return None
+
+
+def clear_semantic_index_cache():
+    """Clear the cached semantic index (for testing or refresh)."""
+    load_semantic_index.cache_clear()
 
 
 # =============================================================================
@@ -257,6 +295,82 @@ def _match_roles(keywords: List[str]) -> List[str]:
     return matched
 
 
+def _match_concepts_from_index(keywords: List[str], index: Dict) -> Tuple[List[str], float]:
+    """
+    Match keywords against REAL concepts from semantic_index.json.
+
+    This elevates from Tier 0 (regex) to Tier 1/2 (semantic matching)
+    by using dynamically extracted concepts from the codebase.
+
+    Args:
+        keywords: Extracted keywords from query
+        index: Loaded semantic index from cerebras_rapid_intel.py
+
+    Returns:
+        (matched_concepts, confidence_score)
+    """
+    if not index or "concepts" not in index:
+        return [], 0.0
+
+    concepts = index.get("concepts", {})
+    matched = []
+    scores = []
+
+    for kw in keywords:
+        kw_lower = kw.lower()
+        for concept in concepts.keys():
+            concept_lower = concept.lower()
+            # Exact match
+            if kw_lower == concept_lower:
+                if concept not in matched:
+                    matched.append(concept)
+                    scores.append(1.0)
+            # Partial match (keyword in concept or vice versa)
+            elif kw_lower in concept_lower or concept_lower in kw_lower:
+                if concept not in matched:
+                    matched.append(concept)
+                    scores.append(0.7)
+            # Word overlap
+            elif any(w in concept_lower.split() for w in kw_lower.split()):
+                if concept not in matched:
+                    matched.append(concept)
+                    scores.append(0.5)
+
+    confidence = sum(scores) / len(scores) if scores else 0.0
+    return matched, min(confidence, 1.0)
+
+
+def _get_files_for_concepts(concepts: List[str], index: Dict) -> List[str]:
+    """
+    Get files that contain the matched concepts.
+
+    Uses the concept → file mappings from semantic_index.json to suggest
+    relevant files based on query concepts.
+
+    Args:
+        concepts: List of matched concept names
+        index: Loaded semantic index
+
+    Returns:
+        List of file paths (relative to project root)
+    """
+    if not index or "concepts" not in index:
+        return []
+
+    concept_map = index.get("concepts", {})
+    files = []
+    seen = set()
+
+    for concept in concepts:
+        if concept in concept_map:
+            for file_path in concept_map[concept]:
+                if file_path not in seen:
+                    seen.add(file_path)
+                    files.append(file_path)
+
+    return files
+
+
 def _purpose_to_sets(purpose: str) -> List[str]:
     """Map PURPOSE to analysis sets."""
     mapping = {
@@ -333,6 +447,7 @@ def semantic_match(query: str) -> SemanticMatch:
     3. Identifies relevant architecture layers
     4. Determines graph traversal direction
     5. Suggests optimal context sets
+    6. [NEW] Uses semantic_index.json for dynamic concept matching
 
     Args:
         query: The user's question or instruction
@@ -342,7 +457,25 @@ def semantic_match(query: str) -> SemanticMatch:
     """
     keywords = _extract_keywords(query)
 
-    # Match semantic dimensions
+    # ==========================================================================
+    # TIER 1/2: Load semantic index from cerebras_rapid_intel.py (if available)
+    # ==========================================================================
+    index = load_semantic_index()
+    matched_concepts = []
+    concept_confidence = 0.0
+    concept_files = []
+
+    if index:
+        # Match against REAL concepts extracted from codebase
+        matched_concepts, concept_confidence = _match_concepts_from_index(keywords, index)
+        if matched_concepts:
+            # Get files that contain these concepts
+            concept_files = _get_files_for_concepts(matched_concepts, index)
+
+    # ==========================================================================
+    # TIER 0 FALLBACK: Hardcoded pattern matching
+    # ==========================================================================
+    # Match semantic dimensions (always run as fallback/supplement)
     purpose, purpose_conf = _match_purpose(keywords)
     layer, layer_conf = _match_layer(keywords)
     direction = _match_direction(keywords)
@@ -351,14 +484,22 @@ def semantic_match(query: str) -> SemanticMatch:
     # Build semantic targets
     targets = []
 
-    if purpose or layer or roles:
+    if purpose or layer or roles or matched_concepts:
+        # Use concept confidence if higher than pattern confidence
+        best_confidence = max(
+            purpose_conf,
+            layer_conf,
+            concept_confidence,
+            0.5 if roles else 0.0
+        )
+
         target = SemanticTarget(
             purpose=purpose,
             layer=layer,
             roles=roles,
             direction=direction,
             scale_focus="L3" if purpose else "L5",  # NODE for purpose, FILE for layer
-            confidence=max(purpose_conf, layer_conf, 0.5 if roles else 0.0)
+            confidence=best_confidence
         )
         targets.append(target)
 
@@ -379,8 +520,16 @@ def semantic_match(query: str) -> SemanticMatch:
             seen.add(s)
             unique_sets.append(s)
 
-    # Build suggested file patterns
+    # ==========================================================================
+    # Build suggested files: CONCEPT FILES FIRST, then pattern-based
+    # ==========================================================================
     suggested_files = []
+
+    # Concept-based files from semantic index (high priority)
+    if concept_files:
+        suggested_files.extend(concept_files[:10])  # Top 10 concept matches
+
+    # Layer-based patterns (fallback/supplement)
     if layer:
         layer_patterns = {
             "Interface": ["**/controllers/**", "**/api/**", "**/routes/**"],
@@ -395,8 +544,19 @@ def semantic_match(query: str) -> SemanticMatch:
     context_flow = _determine_context_flow(targets)
     traversal_strategy = _determine_traversal_strategy(targets)
 
-    # Build reasoning
+    # ==========================================================================
+    # Build reasoning: Include concept matches in explanation
+    # ==========================================================================
     reasoning_parts = []
+
+    # Concept-based reasoning (highest priority)
+    if matched_concepts:
+        concept_str = ", ".join(matched_concepts[:5])
+        reasoning_parts.append(f"concepts: [{concept_str}]")
+        if concept_files:
+            reasoning_parts.append(f"({len(concept_files)} files matched)")
+
+    # Pattern-based reasoning
     if purpose:
         reasoning_parts.append(f"π₂ purpose: {purpose}")
     if layer:
@@ -405,6 +565,12 @@ def semantic_match(query: str) -> SemanticMatch:
         reasoning_parts.append(f"roles: {', '.join(roles)}")
     if direction != EdgeDirection.BOTH:
         reasoning_parts.append(f"traversal: {direction.value}")
+
+    # Source indicator
+    if matched_concepts:
+        reasoning_parts.append("[semantic_index]")
+    elif purpose or layer or roles:
+        reasoning_parts.append("[hardcoded fallback]")
 
     reasoning = "; ".join(reasoning_parts) if reasoning_parts else "No strong semantic match - using exploratory strategy"
 

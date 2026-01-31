@@ -162,22 +162,71 @@ AM005:
     Consider event-driven communication for loose coupling.
 
 # =============================================================================
+# Ring Theory Laws (Clean Architecture Extension)
+# =============================================================================
+
+AM006:
+  name: CentrifugalDependency
+  description: >
+    Inner ring depending on outer ring, violating the dependency rule.
+    Dependencies should flow inward (toward core), never outward.
+    Centrifugal = "fleeing from center" = inner depends on outer.
+  source_theories:
+    - Clean Architecture
+    - Ring Theory
+  severity: ERROR
+  detection:
+    condition: "ring_value(source) < ring_value(target)"
+    where: "edge.type in ['imports', 'calls']"
+  examples:
+    - description: "Core domain importing UI component"
+      bad: "from src.ui.button import Button"
+    - description: "Entity importing Controller"
+      bad: "from src.controllers.user import UserController"
+  remediation: >
+    Invert the dependency using dependency injection or interfaces.
+    Inner layers define interfaces; outer layers implement them.
+
+AM007:
+  name: RingOrphan
+  description: >
+    Code entity with no incoming edges that is not an entry point.
+    Orphan code is unreachable (dead code) unless it's a designated
+    entry point (main, test, CLI handler).
+  source_theories:
+    - Ring Theory
+    - Disconnection Taxonomy
+  severity: WARNING
+  detection:
+    condition: "in_degree(node) == 0"
+    unless: "is_entry_point(node) OR is_test(node)"
+  examples:
+    - description: "Utility function never called"
+      indicators:
+        - "No incoming edges"
+        - "Not exported"
+        - "Not a test"
+  remediation: >
+    Either connect the orphan to the codebase (call it somewhere)
+    or remove it if truly unused. Consider if it should be an entry point.
+
+# =============================================================================
 # Additional Laws (Future)
 # =============================================================================
 
-# AM006:
+# AM008:
 #   name: CircularDependency
 #   description: Circular import/dependency chain
 #   source_theories: [Clean Architecture]
 #   severity: ERROR
 
-# AM007:
+# AM009:
 #   name: LeakyAbstraction
 #   description: Implementation details exposed through interface
 #   source_theories: [Dijkstra, Law of Leaky Abstractions]
 #   severity: WARNING
 
-# AM008:
+# AM010:
 #   name: ViolatedInvariant
 #   description: Business invariant not enforced at entity level
 #   source_theories: [DDD]

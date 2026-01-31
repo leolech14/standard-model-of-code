@@ -551,6 +551,78 @@ executions:
   duration_ms: 53
   dry_run: false
   reason: Not all success criteria met
+- timestamp: '2026-01-31T06:50:47.856505+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 118
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T06:55:25.387930+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 116
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T08:12:20.760725+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 75
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T08:34:16.915796+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 58
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T09:40:38.230281+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 78
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T09:44:49.303059+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 59
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T09:52:47.174905+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 64
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T09:57:48.642555+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 61
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T10:17:49.787585+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 59
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T10:24:41.007915+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 67
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T14:21:41.846048+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 120
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-01-31T14:31:18.343065+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 56
+  dry_run: false
+  reason: Not all success criteria met
 automation_path:
   current: TESTED
   next_steps:

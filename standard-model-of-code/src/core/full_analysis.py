@@ -1146,6 +1146,35 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         print("Performance Tracking: ENABLED")
     print("=" * 60)
 
+    # =========================================================================
+    # DATABASE INITIALIZATION (Phase 30)
+    # =========================================================================
+    db_manager = None
+    delta_tracker = None
+    delta_result = None
+    skip_files = set()
+
+    if not options.get("no_db", False):
+        try:
+            from src.core.database import create_database_manager, DatabaseConfig
+            from src.core.database.incremental import DeltaTracker
+
+            db_config = DatabaseConfig.from_options(options, project_root=target)
+            db_manager = create_database_manager(db_config, str(target))
+
+            if db_manager:
+                db_manager.connect()
+                db_manager.initialize_schema()
+                print(f"Database: {db_config.backend} @ {db_config.get_sqlite_path()}")
+
+                # Initialize delta tracker for incremental analysis
+                if db_config.incremental_enabled:
+                    delta_tracker = DeltaTracker(db_manager)
+        except ImportError as e:
+            print(f"   Database module not available: {e}")
+        except Exception as e:
+            print(f"   Database initialization failed: {e}")
+
     # Initialize Logistics (Phase 28)
     batch_id = f"batch_{hashlib.sha256(str(time.time()).encode()).hexdigest()[:8]}"
     refinery_signature = generate_refinery_signature()
@@ -1202,6 +1231,34 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if extra_excludes:
         exclude_paths.extend(extra_excludes)
         print(f"   → Added {len(extra_excludes)} extra exclusions from --exclude flag")
+
+    # =========================================================================
+    # STAGE 0.5: INCREMENTAL DETECTION (Phase 30)
+    # =========================================================================
+    if delta_tracker and target.is_dir():
+        print("\n⚡ Stage 0.5: Incremental Detection...")
+        with StageTimer(perf_manager, "Stage 0.5: Incremental Detection") as timer:
+            try:
+                delta_result = delta_tracker.detect_changes(str(target), exclude=exclude_paths)
+                skip_files = set(delta_result.unchanged_files)
+
+                timer.set_output(
+                    changed=len(delta_result.changed_files),
+                    new=len(delta_result.new_files),
+                    unchanged=len(delta_result.unchanged_files),
+                    deleted=len(delta_result.deleted_files),
+                )
+
+                total = len(delta_result.changed_files) + len(delta_result.new_files) + len(delta_result.unchanged_files)
+                skip_pct = (len(skip_files) / total * 100) if total > 0 else 0
+
+                print(f"   → Changed: {len(delta_result.changed_files)}, New: {len(delta_result.new_files)}")
+                print(f"   → Unchanged: {len(delta_result.unchanged_files)} ({skip_pct:.0f}% skipped)")
+                if delta_result.deleted_files:
+                    print(f"   → Deleted: {len(delta_result.deleted_files)}")
+            except Exception as e:
+                timer.set_status("WARN", str(e))
+                print(f"   ⚠️ Incremental detection failed: {e}")
 
     from src.core.unified_analysis import analyze
     from src.core.standard_model_enricher import enrich_with_standard_model
@@ -2542,6 +2599,59 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ IGT analysis failed: {e}")
 
+    # =========================================================================
+    # STAGE 11.9: DATABASE PERSISTENCE (Phase 30)
+    # =========================================================================
+    db_run_id = None
+    if db_manager:
+        print("\n💾 Stage 11.9: Database Persistence...")
+        with StageTimer(perf_manager, "Stage 11.9: Database Persistence") as timer:
+            try:
+                from src.core.database.backends.base import AnalysisRun
+                from datetime import datetime as dt_datetime
+
+                # Create run record
+                run = AnalysisRun(
+                    id=f"run_{hashlib.sha256(f'{target}-{time.time()}'.encode()).hexdigest()[:12]}",
+                    project_name=target.name,
+                    project_path=str(target),
+                    started_at=dt_datetime.now(),
+                    collider_version="1.0.0",
+                    status="running",
+                    options=options,
+                )
+
+                db_run_id = db_manager.create_run(run)
+
+                # Persist nodes and edges
+                node_count = db_manager.insert_nodes(db_run_id, nodes)
+                edge_count = db_manager.insert_edges(db_run_id, edges)
+
+                # Mark complete
+                db_manager.update_run(
+                    db_run_id,
+                    status="completed",
+                    completed_at=dt_datetime.now(),
+                    node_count=node_count,
+                    edge_count=edge_count,
+                )
+
+                timer.set_output(run_id=db_run_id, nodes=node_count, edges=edge_count)
+                print(f"   → Run ID: {db_run_id}")
+                print(f"   → Persisted {node_count} nodes, {edge_count} edges")
+
+                # Update file tracking if delta tracker is available
+                if delta_tracker and delta_result:
+                    from src.core.database.incremental.hasher import FileHasher
+                    hasher = FileHasher()
+                    file_hashes = hasher.hash_directory(target)
+                    delta_tracker.update_tracking(str(target), db_run_id, file_hashes)
+                    print(f"   → Updated file tracking for {len(file_hashes)} files")
+
+            except Exception as e:
+                timer.set_status("WARN", str(e))
+                print(f"   ⚠️ Database persistence failed: {e}")
+
     # Stage 12: Write consolidated outputs
     print("\n📦 Stage 12: Generating Consolidated Outputs...")
 
@@ -2609,6 +2719,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 print("   ⚠️  Open failed (see system logs for details).")
         else:
             print("   ⚠️  No HTML outputs found to open.")
+
+    # Close database connection
+    if db_manager:
+        try:
+            db_manager.disconnect()
+        except Exception:
+            pass
+
     print("=" * 60)
 
     return full_output

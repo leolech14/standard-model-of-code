@@ -1,6 +1,6 @@
 # L0: Axioms of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md#FIXED)
 
 **Layer:** 0 (Bedrock)
 **Status:** VALIDATED
@@ -753,17 +753,62 @@ The three components "know" each other not through direct coupling, but through 
 ∀s ∈ Subsystems: s can consume source(s) as Context.
 ```
 
-**Interpretation:** A subsystem can process its own definition to achieve "Self-Awareness" in the context of the Projectome. This ensures that the system has no "Godelian blind spots." By refining its own implementation, the Refinery achieves total coverage of the **active Projectome**.
+**Interpretation:** A subsystem can process its own definition to achieve "Self-Awareness" in the context of the Projectome. This enables practical self-reference (though Gödelian limits apply to formal completeness claims). By refining its own implementation, the Refinery achieves coverage of the **active Projectome**.
+
+---
+
+## AXIOM GROUP K: Invocation Context (Φ-Space)
+
+**Status:** PROPOSED | 75% VALIDATED
+
+### K1. Φ-Space Definition
+
+```
+Φ = (Caller, Callee, Arguments, Environment)
+
+WHERE:
+  Caller = the invoking context (function, method, or entry point)
+  Callee = the invoked entity
+  Arguments = the parameter binding at invocation time
+  Environment = the runtime state visible to the invocation
+```
+
+**Interpretation:** Every code execution occurs within an **Invocation Context** (Φ-space) that determines its behavior. The same function may behave differently depending on its invocation context.
+
+### K2. Manifestation Function
+
+```
+M: (Entity, Φ) → Behavior
+
+The manifestation of an entity depends on BOTH the entity definition
+AND the invocation context in which it executes.
+```
+
+**Interpretation:** An entity's "purpose" (from Axiom D) is potential; its "manifestation" is actual. The gap between pi(entity) and M(entity, Φ) explains runtime surprises.
+
+### K3. Context Projections
+
+```
+∀e ∈ C, ∀φ ∈ Φ:
+  π_static(e) = compile-time visible context
+  π_dynamic(e, φ) = runtime context
+
+Truth(e) requires both: π_static ∩ π_dynamic
+```
+
+**Interpretation:** Static analysis sees π_static; runtime observes π_dynamic. Complete understanding requires both projections. This justifies hybrid analysis pipelines.
+
+**Validation Status:** Formalization in progress. Empirical support from dynamic tracing experiments.
 
 ---
 
 ## VALIDATION RESULTS
 
-### Axiom Group D (Purpose Field): ✅ VALIDATED
+### Axiom Group D (Purpose Field): ⚡ INSPIRED BY
 
 **Supporting Framework:** Free Energy Principle (Friston et al., 2021)
 
-Our axiom `d𝒫/dt = -∇Incoherence(𝕮)` directly maps to Friston's formulation of gradient descent on variational free energy.
+Our illustrative form `d𝒫/dt = -∇Incoherence(𝕮)` is written in the same **gradient-flow** style as Friston's formulation (a useful analogy, not a derivation).
 
 | SMoC Axiom | Friston's FEP |
 |------------|---------------|
@@ -772,17 +817,17 @@ Our axiom `d𝒫/dt = -∇Incoherence(𝕮)` directly maps to Friston's formulat
 | Purpose field 𝒫 | Internal states tracking external states |
 | Crystallization | Markov blanket (conditional independence) |
 
-**Verdict:** Mathematically well-formed. Aligns with established physics of random dynamical systems.
+**Verdict:** Mathematically well-formed as a gradient-flow heuristic. The connection to FEP is analogical, not a claim of physical validation.
 
 **Academic Sources:**
 - Friston, K. (2022). "The Free Energy Principle Made Simpler." arXiv:2201.06387
 - Ramstead, M. et al. (2021). "On Bayesian Mechanics." Interface Focus 13(3).
 
-### Axiom Group F (Emergence): ✅ VALIDATED
+### Axiom Group F (Emergence): ⚡ INSPIRED BY
 
 **Supporting Framework:** Integrated Information Theory (Tononi)
 
-Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` aligns with IIT's Φ (integrated information).
+Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` is **inspired by** integrated-information ideas; it is *not* IIT's Φ and should be treated as an engineering signal.
 
 | SMoC Axiom | Tononi's IIT |
 |------------|--------------|
@@ -790,7 +835,7 @@ Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` al
 | "Whole > parts" | "Above and beyond its parts" |
 | Emergence signal | Causal emergence in IIT 4.0 |
 
-**Verdict:** Mathematically valid. Supported by rigorous category-theoretic formalization in IIT literature.
+**Verdict:** Mathematically well-defined as a mutual-information ratio. Any connection to IIT's Φ is analogical; this is not a formal equivalence proof.
 
 **Academic Source:** Tononi, G. et al. (2020). "Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms." Consciousness & Cognition.
 
@@ -812,11 +857,14 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 | A (Set Structure) | Set Theory | ✅ VALIDATED | Lawvere (1969), standard partitions |
 | B (Graph) | Graph Theory | ✅ STANDARD | Directed graphs, reachability |
 | C (Levels) | Order Theory | ✅ STANDARD | Total orders, lattices |
-| D (Purpose) | Dynamical Systems | ✅ VALIDATED | Friston FEP (2022) |
+| D (Purpose) | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (2022) - analogous |
 | E (Constructal) | Thermodynamics | ⚠️ HEURISTIC | Bejan (2008) - empirical |
-| F (Emergence) | Information Theory | ✅ VALIDATED | Tononi IIT (2020) |
+| F (Emergence) | Information Theory | ⚡ INSPIRED BY | Tononi IIT (2020) - analogous |
 | G (Observability) | Semiotics | ✅ VALIDATED | Peirce triadic structure |
 | H (Consumer Classes) | Software Engineering | ✅ VALIDATED | Gemini 3 Pro assessment (9/10) |
+| I (Recursive Intelligence) | Meta-theory | ✅ VALIDATED | Gödel/Tarski hierarchy |
+| J (Information Topology) | Topology | ✅ VALIDATED | Location-invariance principle |
+| K (Invocation Context) | Runtime Semantics | ⚠️ PROPOSED | Formalization in progress (75%) |
 
 ---
 
@@ -858,10 +906,10 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md)
-**➡️ Next:** [L1: Definitions](./L1_DEFINITIONS.md) - Terms derived from these axioms
-**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations that validate these axioms
+**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
+**➡️ Next:** [L1: Definitions](./L1_DEFINITIONS.md#FIXED) - Terms derived from these axioms
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) - Practical implementations that validate these axioms
 
 **See also:**
-- [THEORY_AXIOMS.md](./THEORY_AXIOMS.md) - Formal proof framework
-- [STANDARD_MODEL_COMPLETE.md](./STANDARD_MODEL_COMPLETE.md) - All layers integrated
+- [THEORY_AXIOMS.md](./THEORY_AXIOMS.md#FIXED) - Formal proof framework
+- [STANDARD_MODEL_COMPLETE.md](./STANDARD_MODEL_COMPLETE.md#FIXED) - All layers integrated

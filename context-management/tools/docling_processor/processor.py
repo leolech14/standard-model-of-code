@@ -141,6 +141,26 @@ class DoclingProcessor:
 
         start_time = time.time()
 
+        # Check page count limit
+        if self.config.max_page_limit > 0:
+            try:
+                from pypdf import PdfReader
+                reader = PdfReader(str(pdf_path))
+                page_count = len(reader.pages)
+                if page_count > self.config.max_page_limit:
+                    result.status = "failed"
+                    result.error_message = f"Skipped: {page_count} pages exceeds limit of {self.config.max_page_limit}"
+                    result.page_count = page_count
+                    result.processing_time_seconds = time.time() - start_time
+                    result.add_route_event("skipped_page_limit", "docling.processor.py", {
+                        "page_count": page_count,
+                        "limit": self.config.max_page_limit
+                    })
+                    logger.warning(f"Skipping {pdf_path}: {page_count} pages exceeds limit {self.config.max_page_limit}")
+                    return result
+            except Exception as e:
+                logger.warning(f"Could not check page count for {pdf_path}: {e}")
+
         # Define the processing function for fallback handler
         def process_with_options(path: str, opts: Dict) -> Any:
             # Handle chunked mode - process all pages in chunks

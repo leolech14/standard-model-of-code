@@ -29,3 +29,16 @@ jsonschema>=4.0.0
 
 # Wave-Particle Symmetry (optional, for enhanced pattern matching)
 rapidfuzz>=3.0.0
+
+# Database Layer (core)
+blake3>=0.3.0  # Fast hashing for incremental analysis
+
+# Database Layer (optional extras)
+# pip install collider[postgres] for PostgreSQL support
+# psycopg2-binary>=2.9
+
+# pip install collider[analytics] for DuckDB analytics
+# duckdb>=0.9
+
+# pip install collider[search] for Tantivy search
+# tantivy>=0.20

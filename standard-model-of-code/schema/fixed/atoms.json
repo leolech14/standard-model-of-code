@@ -11,146 +11,146 @@
         "Bits": {
           "atoms": [
             {
-              "id": "DAT.BIT.A",
               "name": "BitFlag",
-              "description": "Single boolean flag"
+              "description": "Single boolean flag",
+              "family_code": "DAT.BIT.A"
             },
             {
-              "id": "DAT.BIT.A",
               "name": "BitMask",
-              "description": "Binary mask for operations"
+              "description": "Binary mask for operations",
+              "family_code": "DAT.BIT.A"
             },
             {
-              "id": "DAT.BIT.A",
               "name": "ParityBit",
-              "description": "Error detection bit"
+              "description": "Error detection bit",
+              "family_code": "DAT.BIT.A"
             },
             {
-              "id": "DAT.BIT.A",
               "name": "SignBit",
-              "description": "Numeric sign indicator"
+              "description": "Numeric sign indicator",
+              "family_code": "DAT.BIT.A"
             }
           ]
         },
         "Bytes": {
           "atoms": [
             {
-              "id": "DAT.BYT.A",
               "name": "ByteArray",
-              "description": "Raw byte sequence"
+              "description": "Raw byte sequence",
+              "family_code": "DAT.BYT.A"
             },
             {
-              "id": "DAT.BYT.A",
               "name": "MagicBytes",
-              "description": "File format identifier"
+              "description": "File format identifier",
+              "family_code": "DAT.BYT.A"
             },
             {
-              "id": "DAT.BYT.A",
               "name": "PaddingBytes",
-              "description": "Alignment padding"
+              "description": "Alignment padding",
+              "family_code": "DAT.BYT.A"
             },
             {
-              "id": "DAT.BYT.A",
               "name": "Buffer",
-              "description": "In-memory byte buffer"
+              "description": "In-memory byte buffer",
+              "family_code": "DAT.BYT.A"
             }
           ]
         },
         "Primitives": {
           "atoms": [
             {
-              "id": "DAT.PRM.A",
               "name": "Boolean",
-              "description": "True/false value"
+              "description": "True/false value",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Integer",
-              "description": "Whole number"
+              "description": "Whole number",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Float",
-              "description": "Decimal number"
+              "description": "Decimal number",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "String",
-              "description": "Text value"
+              "description": "Text value",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Null",
-              "description": "Absence of value"
+              "description": "Absence of value",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Undefined",
-              "description": "Uninitialized value"
+              "description": "Uninitialized value",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Symbol",
-              "description": "Unique identifier"
+              "description": "Unique identifier",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "BigInt",
-              "description": "Arbitrary precision integer"
+              "description": "Arbitrary precision integer",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Enum",
-              "description": "Enumeration value"
+              "description": "Enumeration value",
+              "family_code": "DAT.PRM.A"
             },
             {
-              "id": "DAT.PRM.A",
               "name": "Char",
-              "description": "Single character"
+              "description": "Single character",
+              "family_code": "DAT.PRM.A"
             }
           ]
         },
         "Variables": {
           "atoms": [
             {
-              "id": "DAT.VAR.A",
               "name": "LocalVar",
-              "description": "Function-scoped variable"
+              "description": "Function-scoped variable",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "GlobalVar",
-              "description": "Module/global scope variable"
+              "description": "Module/global scope variable",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "Parameter",
-              "description": "Function parameter"
+              "description": "Function parameter",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "InstanceField",
-              "description": "Object instance property"
+              "description": "Object instance property",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "StaticField",
-              "description": "Class-level property"
+              "description": "Class-level property",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "Constant",
-              "description": "Immutable binding"
+              "description": "Immutable binding",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "EnvironmentVar",
-              "description": "Environment variable reference"
+              "description": "Environment variable reference",
+              "family_code": "DAT.VAR.A"
             },
             {
-              "id": "DAT.VAR.A",
               "name": "ConfigValue",
-              "description": "Configuration parameter"
+              "description": "Configuration parameter",
+              "family_code": "DAT.VAR.A"
             }
           ]
         }
@@ -162,321 +162,321 @@
         "Expressions": {
           "atoms": [
             {
-              "id": "LOG.EXP.A",
               "name": "LiteralExpr",
-              "description": "Literal value expression"
+              "description": "Literal value expression",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "IdentifierExpr",
-              "description": "Variable reference"
+              "description": "Variable reference",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "BinaryExpr",
-              "description": "Two-operand operation"
+              "description": "Two-operand operation",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "UnaryExpr",
-              "description": "Single-operand operation"
+              "description": "Single-operand operation",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "TernaryExpr",
-              "description": "Conditional expression"
+              "description": "Conditional expression",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "CallExpr",
-              "description": "Function invocation"
+              "description": "Function invocation",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "MemberExpr",
-              "description": "Property access"
+              "description": "Property access",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "IndexExpr",
-              "description": "Array/map access"
+              "description": "Array/map access",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "ArrowExpr",
-              "description": "Arrow function expression"
+              "description": "Arrow function expression",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "AwaitExpr",
-              "description": "Promise await"
+              "description": "Promise await",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "YieldExpr",
-              "description": "Generator yield"
+              "description": "Generator yield",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "SpreadExpr",
-              "description": "Spread operator"
+              "description": "Spread operator",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "TemplateExpr",
-              "description": "Template literal"
+              "description": "Template literal",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "NewExpr",
-              "description": "Constructor call"
+              "description": "Constructor call",
+              "family_code": "LOG.EXP.A"
             },
             {
-              "id": "LOG.EXP.A",
               "name": "TypeofExpr",
-              "description": "Type introspection"
+              "description": "Type introspection",
+              "family_code": "LOG.EXP.A"
             }
           ]
         },
         "Statements": {
           "atoms": [
             {
-              "id": "LOG.STM.A",
               "name": "Assignment",
-              "description": "Variable assignment"
+              "description": "Variable assignment",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "Declaration",
-              "description": "Variable declaration"
+              "description": "Variable declaration",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "ReturnStmt",
-              "description": "Function return"
+              "description": "Function return",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "ThrowStmt",
-              "description": "Exception throw"
+              "description": "Exception throw",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "BreakStmt",
-              "description": "Loop/switch break"
+              "description": "Loop/switch break",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "ContinueStmt",
-              "description": "Loop continue"
+              "description": "Loop continue",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "ExpressionStmt",
-              "description": "Expression as statement"
+              "description": "Expression as statement",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "EmptyStmt",
-              "description": "No-op statement"
+              "description": "No-op statement",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "DebuggerStmt",
-              "description": "Debugger breakpoint"
+              "description": "Debugger breakpoint",
+              "family_code": "LOG.STM.A"
             },
             {
-              "id": "LOG.STM.A",
               "name": "LabeledStmt",
-              "description": "Labeled statement"
+              "description": "Labeled statement",
+              "family_code": "LOG.STM.A"
             }
           ]
         },
         "Control": {
           "atoms": [
             {
-              "id": "LOG.CTL.A",
               "name": "IfBranch",
-              "description": "Conditional branch"
+              "description": "Conditional branch",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "ElseBranch",
-              "description": "Alternative branch"
+              "description": "Alternative branch",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "SwitchCase",
-              "description": "Switch case clause"
+              "description": "Switch case clause",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "DefaultCase",
-              "description": "Switch default"
+              "description": "Switch default",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "ForLoop",
-              "description": "For iteration"
+              "description": "For iteration",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "ForInLoop",
-              "description": "For-in iteration"
+              "description": "For-in iteration",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "ForOfLoop",
-              "description": "For-of iteration"
+              "description": "For-of iteration",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "WhileLoop",
-              "description": "While iteration"
+              "description": "While iteration",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "DoWhileLoop",
-              "description": "Do-while iteration"
+              "description": "Do-while iteration",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "TryBlock",
-              "description": "Exception handling try"
+              "description": "Exception handling try",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "CatchClause",
-              "description": "Exception handler"
+              "description": "Exception handler",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "FinallyClause",
-              "description": "Cleanup block"
+              "description": "Cleanup block",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "GuardClause",
-              "description": "Early return guard"
+              "description": "Early return guard",
+              "family_code": "LOG.CTL.A"
             },
             {
-              "id": "LOG.CTL.A",
               "name": "WithBlock",
-              "description": "With statement (deprecated)"
+              "description": "With statement (deprecated)",
+              "family_code": "LOG.CTL.A"
             }
           ]
         },
         "Functions": {
           "atoms": [
             {
-              "id": "LOG.FNC.M",
               "name": "PureFunction",
-              "description": "No side effects, deterministic"
+              "description": "No side effects, deterministic",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "ImpureFunction",
-              "description": "Has side effects"
+              "description": "Has side effects",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "AsyncFunction",
-              "description": "Returns promise"
+              "description": "Returns promise",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Generator",
-              "description": "Yields values"
+              "description": "Yields values",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "AsyncGenerator",
-              "description": "Async iteration"
+              "description": "Async iteration",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Constructor",
-              "description": "Object initializer"
+              "description": "Object initializer",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Method",
-              "description": "Class method"
+              "description": "Class method",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Getter",
-              "description": "Property getter"
+              "description": "Property getter",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Setter",
-              "description": "Property setter"
+              "description": "Property setter",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Lambda",
-              "description": "Anonymous function"
+              "description": "Anonymous function",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Closure",
-              "description": "Captures outer scope"
+              "description": "Captures outer scope",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Callback",
-              "description": "Passed as argument"
+              "description": "Passed as argument",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Middleware",
-              "description": "Request/response interceptor"
+              "description": "Request/response interceptor",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Decorator",
-              "description": "Function wrapper"
+              "description": "Function wrapper",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Hook",
-              "description": "Lifecycle hook"
+              "description": "Lifecycle hook",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Validator",
-              "description": "Input validation"
+              "description": "Input validation",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Mapper",
-              "description": "Data transformation"
+              "description": "Data transformation",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Reducer",
-              "description": "Aggregation function"
+              "description": "Aggregation function",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Predicate",
-              "description": "Boolean test function"
+              "description": "Boolean test function",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Comparator",
-              "description": "Ordering function"
+              "description": "Ordering function",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Factory",
-              "description": "Object creation"
+              "description": "Object creation",
+              "family_code": "LOG.FNC.M"
             },
             {
-              "id": "LOG.FNC.M",
               "name": "Builder",
-              "description": "Fluent construction"
+              "description": "Fluent construction",
+              "family_code": "LOG.FNC.M"
             }
           ]
         }
@@ -488,241 +488,241 @@
         "Aggregates": {
           "atoms": [
             {
-              "id": "ORG.AGG.M",
               "name": "Entity",
-              "description": "Identity-based domain object"
+              "description": "Identity-based domain object",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "ValueObject",
-              "description": "Immutable value container"
+              "description": "Immutable value container",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "AggregateRoot",
-              "description": "Consistency boundary"
+              "description": "Consistency boundary",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "DTO",
-              "description": "Data transfer object"
+              "description": "Data transfer object",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "ViewModel",
-              "description": "UI-specific model"
+              "description": "UI-specific model",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "ReadModel",
-              "description": "Query-optimized projection"
+              "description": "Query-optimized projection",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Command",
-              "description": "Intent to change state"
+              "description": "Intent to change state",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Query",
-              "description": "Request for data"
+              "description": "Request for data",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Event",
-              "description": "Something that happened"
+              "description": "Something that happened",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Projection",
-              "description": "Event-sourced view"
+              "description": "Event-sourced view",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Specification",
-              "description": "Business rule"
+              "description": "Business rule",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Policy",
-              "description": "Decision logic"
+              "description": "Decision logic",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Enum",
-              "description": "Finite value set"
+              "description": "Finite value set",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Record",
-              "description": "Immutable data record"
+              "description": "Immutable data record",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Tuple",
-              "description": "Fixed-size collection"
+              "description": "Fixed-size collection",
+              "family_code": "ORG.AGG.M"
             },
             {
-              "id": "ORG.AGG.M",
               "name": "Union",
-              "description": "Type union/variant"
+              "description": "Type union/variant",
+              "family_code": "ORG.AGG.M"
             }
           ]
         },
         "Services": {
           "atoms": [
             {
-              "id": "ORG.SVC.M",
               "name": "DomainService",
-              "description": "Domain logic without state"
+              "description": "Domain logic without state",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "ApplicationService",
-              "description": "Use case orchestration"
+              "description": "Use case orchestration",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "InfrastructureService",
-              "description": "External system adapter"
+              "description": "External system adapter",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Repository",
-              "description": "Aggregate persistence"
+              "description": "Aggregate persistence",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Gateway",
-              "description": "External API client"
+              "description": "External API client",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Adapter",
-              "description": "Port implementation"
+              "description": "Port implementation",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Facade",
-              "description": "Simplified interface"
+              "description": "Simplified interface",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Proxy",
-              "description": "Access control wrapper"
+              "description": "Access control wrapper",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Mediator",
-              "description": "Component coordination"
+              "description": "Component coordination",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Observer",
-              "description": "Event subscription"
+              "description": "Event subscription",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "Strategy",
-              "description": "Interchangeable algorithm"
+              "description": "Interchangeable algorithm",
+              "family_code": "ORG.SVC.M"
             },
             {
-              "id": "ORG.SVC.M",
               "name": "State",
-              "description": "State machine behavior"
+              "description": "State machine behavior",
+              "family_code": "ORG.SVC.M"
             }
           ]
         },
         "Modules": {
           "atoms": [
             {
-              "id": "ORG.MOD.O",
               "name": "FeatureModule",
-              "description": "Self-contained feature"
+              "description": "Self-contained feature",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "SharedModule",
-              "description": "Cross-cutting utilities"
+              "description": "Cross-cutting utilities",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "CoreModule",
-              "description": "Essential abstractions"
+              "description": "Essential abstractions",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "InfraModule",
-              "description": "External integrations"
+              "description": "External integrations",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "TestModule",
-              "description": "Test utilities"
+              "description": "Test utilities",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "ConfigModule",
-              "description": "Configuration"
+              "description": "Configuration",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "Package",
-              "description": "Published package"
+              "description": "Published package",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "Namespace",
-              "description": "Logical grouping"
+              "description": "Logical grouping",
+              "family_code": "ORG.MOD.O"
             },
             {
-              "id": "ORG.MOD.O",
               "name": "Layer",
-              "description": "Architectural layer"
+              "description": "Architectural layer",
+              "family_code": "ORG.MOD.O"
             }
           ]
         },
         "Files": {
           "atoms": [
             {
-              "id": "ORG.FIL.O",
               "name": "SourceFile",
-              "description": "Code file"
+              "description": "Code file",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "TestFile",
-              "description": "Test suite file"
+              "description": "Test suite file",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "ConfigFile",
-              "description": "Configuration file"
+              "description": "Configuration file",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "SchemaFile",
-              "description": "Data schema definition"
+              "description": "Data schema definition",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "MigrationFile",
-              "description": "Database migration"
+              "description": "Database migration",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "Script",
-              "description": "Standalone script"
+              "description": "Standalone script",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "EntryPoint",
-              "description": "Application entry"
+              "description": "Application entry",
+              "family_code": "ORG.FIL.O"
             },
             {
-              "id": "ORG.FIL.O",
               "name": "TypeDef",
-              "description": "Type definitions"
+              "description": "Type definitions",
+              "family_code": "ORG.FIL.O"
             }
           ]
         }
@@ -734,191 +734,191 @@
         "Handlers": {
           "atoms": [
             {
-              "id": "EXE.HDL.O",
               "name": "APIHandler",
-              "description": "HTTP endpoint handler"
+              "description": "HTTP endpoint handler",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "WebSocketHandler",
-              "description": "WebSocket connection"
+              "description": "WebSocket connection",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "GraphQLResolver",
-              "description": "GraphQL field resolver"
+              "description": "GraphQL field resolver",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "EventHandler",
-              "description": "Event subscriber"
+              "description": "Event subscriber",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "CommandHandler",
-              "description": "CQRS command handler"
+              "description": "CQRS command handler",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "QueryHandler",
-              "description": "CQRS query handler"
+              "description": "CQRS query handler",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "MessageConsumer",
-              "description": "Queue message handler"
+              "description": "Queue message handler",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "WebhookHandler",
-              "description": "Webhook receiver"
+              "description": "Webhook receiver",
+              "family_code": "EXE.HDL.O"
             },
             {
-              "id": "EXE.HDL.O",
               "name": "ErrorHandler",
-              "description": "Error boundary"
+              "description": "Error boundary",
+              "family_code": "EXE.HDL.O"
             }
           ]
         },
         "Workers": {
           "atoms": [
             {
-              "id": "EXE.WRK.O",
               "name": "CronJob",
-              "description": "Scheduled task"
+              "description": "Scheduled task",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "QueueWorker",
-              "description": "Background job processor"
+              "description": "Background job processor",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "BatchProcessor",
-              "description": "Bulk data processing"
+              "description": "Bulk data processing",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "StreamProcessor",
-              "description": "Real-time data pipeline"
+              "description": "Real-time data pipeline",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "MigrationRunner",
-              "description": "Database migration executor"
+              "description": "Database migration executor",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "SeedRunner",
-              "description": "Data seeding"
+              "description": "Data seeding",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "CacheWarmer",
-              "description": "Cache initialization"
+              "description": "Cache initialization",
+              "family_code": "EXE.WRK.O"
             },
             {
-              "id": "EXE.WRK.O",
               "name": "Indexer",
-              "description": "Search indexing"
+              "description": "Search indexing",
+              "family_code": "EXE.WRK.O"
             }
           ]
         },
         "Initializers": {
           "atoms": [
             {
-              "id": "EXE.INI.O",
               "name": "MainEntry",
-              "description": "Application main()"
+              "description": "Application main()",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "ServerBootstrap",
-              "description": "Server startup"
+              "description": "Server startup",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "DIContainer",
-              "description": "Dependency injection setup"
+              "description": "Dependency injection setup",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "ConfigLoader",
-              "description": "Config initialization"
+              "description": "Config initialization",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "LoggerInit",
-              "description": "Logging setup"
+              "description": "Logging setup",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "DatabaseInit",
-              "description": "DB connection setup"
+              "description": "DB connection setup",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "CacheInit",
-              "description": "Cache connection"
+              "description": "Cache connection",
+              "family_code": "EXE.INI.O"
             },
             {
-              "id": "EXE.INI.O",
               "name": "PluginLoader",
-              "description": "Plugin initialization"
+              "description": "Plugin initialization",
+              "family_code": "EXE.INI.O"
             }
           ]
         },
         "Probes": {
           "atoms": [
             {
-              "id": "EXE.PRB.O",
               "name": "HealthCheck",
-              "description": "Liveness/readiness probe"
+              "description": "Liveness/readiness probe",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "MetricsExporter",
-              "description": "Prometheus/metrics"
+              "description": "Prometheus/metrics",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "TracerProvider",
-              "description": "Distributed tracing"
+              "description": "Distributed tracing",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "CircuitBreaker",
-              "description": "Fault tolerance"
+              "description": "Fault tolerance",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "RateLimiter",
-              "description": "Request throttling"
+              "description": "Request throttling",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "FeatureFlag",
-              "description": "Feature toggle check"
+              "description": "Feature toggle check",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "AuditLogger",
-              "description": "Audit trail"
+              "description": "Audit trail",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "GracefulShutdown",
-              "description": "Clean termination"
+              "description": "Clean termination",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "TestDouble",
-              "description": "Mock/stub for testing"
+              "description": "Mock/stub for testing",
+              "family_code": "EXE.PRB.O"
             },
             {
-              "id": "EXE.PRB.O",
               "name": "Fixture",
-              "description": "Test data setup"
+              "description": "Test data setup",
+              "family_code": "EXE.PRB.O"
             }
           ]
         }
@@ -1462,5 +1462,6 @@
         "subtype": "Repository"
       }
     ]
-  }
+  },
+  "note": "family_code identifies the phase.family grouping (e.g., DAT.BIT). The atom is uniquely identified by family_code + name."
 }

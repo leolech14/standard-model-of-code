@@ -71,6 +71,7 @@ integrations:
   ai_tools:
     gemini: context-management/tools/ai/analyze.py
     perplexity: context-management/tools/mcp/perplexity_mcp_server.py
+    huggingface: context-management/tools/ai/hf_space.py
 
 # Agent capabilities
 agents:
@@ -89,6 +90,10 @@ agents:
   perplexity:
     capabilities: [web_research, citations]
     config: context-management/tools/mcp/perplexity_mcp_server.py
+
+  huggingface:
+    capabilities: [inference, image_generation, spaces, zerogpu]
+    config: context-management/tools/ai/hf_space.py
 
 # Validation rules
 validation:

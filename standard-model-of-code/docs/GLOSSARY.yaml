@@ -11,13 +11,13 @@
 #   - not_to_be_confused_with: disambiguation
 #
 # CATEGORIES:
-#   - original_invention: We created this term (46 terms)
-#   - physics_metaphor: Borrowed from physics with new meaning (18 terms)
-#   - borrowed_theory: Academic concept with attribution (22 terms)
-#   - standard_cs: Conventional CS term (31 terms)
+#   - original_invention: We created this term (52 terms)
+#   - physics_metaphor: Borrowed from physics with new meaning (19 terms)
+#   - borrowed_theory: Academic concept with attribution (32 terms)
+#   - standard_cs: Conventional CS term (32 terms)
 #
-# Last updated: 2026-01-24
-# Total terms: 122
+# Last updated: 2026-01-31
+# Total terms: 135
 # ============================================================================
 
 schema_version: "1.0.0"
@@ -25,7 +25,7 @@ project: "Standard Model of Code"
 maintainer: "Leonardo Lech <leonardo.lech@gmail.com>"
 
 # ============================================================================
-# ORIGINAL INVENTIONS (35 terms) - "We Baptized These"
+# ORIGINAL INVENTIONS (52 terms) - "We Baptized These"
 # ============================================================================
 
 terms:
@@ -910,7 +910,7 @@ terms:
     related_terms: [appearance_engine]
 
 # ============================================================================
-# PHYSICS METAPHORS (18 terms) - "Borrowed from Physics"
+# PHYSICS METAPHORS (19 terms) - "Borrowed from Physics"
 # ============================================================================
 
   standard_model_of_code:
@@ -1178,7 +1178,7 @@ terms:
     related_terms: [purpose_field]
 
 # ============================================================================
-# BORROWED THEORIES (22 terms) - "Standing on Giants"
+# BORROWED THEORIES (32 terms) - "Standing on Giants"
 # ============================================================================
 
   holon:
@@ -1458,7 +1458,7 @@ terms:
     related_terms: [query_role, command_role]
 
 # ============================================================================
-# STANDARD CS TERMS (31 terms) - "Conventional Vocabulary"
+# STANDARD CS TERMS (32 terms) - "Conventional Vocabulary"
 # ============================================================================
 
   pagerank:

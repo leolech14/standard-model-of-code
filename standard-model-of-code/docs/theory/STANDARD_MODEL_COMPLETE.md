@@ -78,7 +78,7 @@ The **Standard Model of Code** is a formal framework for understanding software 
 
 ### The Core Insight
 
-> Code is not ambiguous. 100% of code structure can be classified **deterministically, WITHOUT AI**. Information is encoded in topology, frameworks, and genealogy.
+> Code structure is largely deterministic. The majority of structural classification can be performed through static analysis without AI. Information is encoded in topology, frameworks, and genealogy.
 
 The Standard Model provides:
 - **Atoms**: 3,525 classified types (80 core + 3,445 ecosystem-specific)

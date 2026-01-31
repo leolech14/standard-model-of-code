@@ -338,7 +338,7 @@ else:
     # Fallback when config file is missing
     # See above comments for model selection rationale
     PRICING = {}
-    DEFAULT_MODEL = "gemini-2.0-flash-001"  # Best reasoning capability
+    DEFAULT_MODEL = "gemini-3-pro-preview"  # Flagship reasoning capability
     FAST_MODEL = "gemini-2.0-flash-001"     # Cost-effective (deprecated 2026-03-31)
     FALLBACK_MODELS = ["gemini-2.5-pro", "gemini-2.0-flash-001"]
     MODES = {}

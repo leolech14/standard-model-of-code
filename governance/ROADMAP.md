@@ -1,8 +1,11 @@
 # ROADMAP - Path to v1.0.0
 
+**📍 Governance:** [DECISIONS](./DECISIONS.md) | [Quality Gates](./QUALITY_GATES.md) | [Definition of Done](./DEFINITION_OF_DONE.md)
+**📊 Architecture:** [SUBSYSTEMS.yaml](./SUBSYSTEMS.yaml) | [DOMAINS.yaml](./DOMAINS.yaml) | [PIPELINES.md](./PIPELINES.md)
+
 **Purpose:** Clear path from current state to shippable v1
 **Strategy:** Fix gates in priority order, ship when 5/5 pass
-**Updated:** 2026-01-27
+**Updated:** 2026-01-28
 
 ---
 

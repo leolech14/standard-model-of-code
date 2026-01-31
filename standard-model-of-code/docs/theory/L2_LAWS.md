@@ -1,10 +1,10 @@
 # L2: Laws of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L1: Definitions](./L1_DEFINITIONS.md) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L1: Definitions](./L1_DEFINITIONS.md#FIXED) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md#FIXED)
 
 **Layer:** 2 (Dynamic Behavior)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md#FIXED), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md#FIXED)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -374,7 +374,7 @@ Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C
 
 **Canonical data:** `../../schema/antimatter_laws.yaml`
 
-### The Five Laws
+### The Seven Laws
 
 | Law ID | Name | Violation | Theory Source |
 |--------|------|-----------|---------------|
@@ -383,6 +383,8 @@ Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C
 | **AM003** | God Class | R > 7 (too many responsibilities) | Koestler Holons |
 | **AM004** | Anemic Model | Data class with no behavior | Koestler Holons + DDD |
 | **AM005** | Bounded Context Violation | Cross-domain coupling | DDD (Evans) |
+| **AM006** | Centrifugal Dependency | Inner ring depends on outer ring | Clean Architecture + Ring Theory |
+| **AM007** | Ring Orphan | Code with no incoming edges (dead code risk) | Ring Theory + Disconnection Taxonomy |
 
 ### Detection Rules
 
@@ -392,6 +394,8 @@ AM002: ∃edge (n1, n2) where layer(n1) < layer(n2)
 AM003: R(node) > 7                    (RPBL responsibility dimension)
 AM004: class has >5 fields, <2 methods
 AM005: ∃edge crossing bounded context boundaries (high coupling)
+AM006: ∃edge (n1, n2) where Ring(n1) < Ring(n2)     (dependency flows outward)
+AM007: in_degree(n) = 0 ∧ ¬is_entry_point(n) ∧ ¬is_test(n)    (see L1 §5.6 for full taxonomy)
 ```
 
 **Severity levels:** ERROR (blocks), WARNING (suggests fix), INFO (mentions)
@@ -675,9 +679,7 @@ Evolution direction:
 
 ---
 
-## References
-
-## 7. Compositional Laws (Alignment and Capability)
+## 11. Compositional Laws (Alignment and Capability)
 
 **[Validation: 95% - Extensively validated through empirical SE research, formal models in category theory, documented anti-patterns (Big Ball of Mud, Architecture Sinkhole), MIT modular hierarchy research]**
 
@@ -732,7 +734,7 @@ WHERE:
 
 ---
 
-## 8. Dependency Laws (Entanglement and Propagation)
+## 12. Dependency Laws (Entanglement and Propagation)
 
 **[Validation: 78% - Explicit precedent (Pescio 2010), formal coupling metrics exist, empirical change propagation measured, Hilbert space formalization gap remains]**
 
@@ -795,6 +797,8 @@ Range: [0.67, 1.0] (low to high coupling)
 
 ---
 
+## References
+
 ### Project Documents
 - `L0_AXIOMS.md` -- Foundational axioms for these laws
 - `L1_DEFINITIONS.md` -- Concepts referenced in these laws
@@ -819,10 +823,10 @@ Range: [0.67, 1.0] (low to high coupling)
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md)
-**⬅️ Previous:** [L1: Definitions](./L1_DEFINITIONS.md)
-**➡️ Next:** [L3: Applications](./L3_APPLICATIONS.md) - Practical implementations
-**🔙 Foundation:** [L0: Axioms](./L0_AXIOMS.md)
+**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
+**⬅️ Previous:** [L1: Definitions](./L1_DEFINITIONS.md#FIXED)
+**➡️ Next:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) - Practical implementations
+**🔙 Foundation:** [L0: Axioms](./L0_AXIOMS.md#FIXED)
 
 **Specialized Laws:**
-- [ORPHAN_SEMANTICS.md](../../context-management/docs/theory/ORPHAN_SEMANTICS.md) - Detailed L2 law on connectivity
+- [ORPHAN_SEMANTICS.md](../../context-management/docs/theory/ORPHAN_SEMANTICS.md#FIXED) - Detailed L2 law on connectivity

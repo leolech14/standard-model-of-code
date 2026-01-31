@@ -1,10 +1,21 @@
+---
+title: "L1: Definitions"
+format: html
+---
+
+---
+title: "L1: Definitions"
+format: html
+---
+
 # L1: Definitions of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L0: Axioms](./L0_AXIOMS.md) | **Next:** [L2: Laws →](./L2_LAWS.md)
+
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L0: Axioms](./L0_AXIOMS.md#FIXED) | **Next:** [L2: Laws →](./L2_LAWS.md#FIXED)
 
 **Layer:** 1 (Complete Enumeration)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md#FIXED)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -14,7 +25,7 @@
 
 This document defines **every concept that EXISTS** in the Standard Model of Code. Every entity, category, dimension, and structure is enumerated here **exactly once**. Other documents reference these definitions but never redefine them.
 
-Principle: **One concept, one definition, one location.**
+Principle: One concept, one definition, one location.
 
 ---
 
@@ -40,7 +51,7 @@ Principle: **One concept, one definition, one location.**
 - WAVE = Brain (conceptual understanding)
 - OBSERVER = Governance (meta-coordination)
 
-**See:** [TRINITY_PRINCIPLE.md](../../context-management/docs/theory/TRINITY_PRINCIPLE.md)
+**See:** [TRINITY_PRINCIPLE.md](../../context-management/docs/theory/TRINITY_PRINCIPLE.md#FIXED)
 
 ---
 
@@ -319,7 +330,7 @@ Examples:
 | **Internal** | Internal, Lifecycle | Private/internal |
 | **Unknown** | Unknown | Unclassified |
 
-**Implementation status:** 29 of 33 roles have detection heuristics in `src/patterns/role_classifier.py`.
+**Implementation status:** 29 of 33 roles have detection heuristics distributed across `src/core/` (heuristic_classifier.py, universal_classifier.py, dimension_classifier.py).
 
 **Difference from Atoms:**
 - **Atoms** = structural type (WHAT it is) -- determined by syntax
@@ -533,6 +544,237 @@ A fully enriched node includes:
 | **unreachable** | Actually dead code | DELETE or document |
 
 **Computed by:** `src/core/full_analysis.py::classify_disconnection()` using heuristics on file path, decorators, naming.
+
+### 5.7 Dependency Rings (Concentric Architecture)
+
+**Definition:** A Ring is the dependency depth of a node, measured as maximum distance from nodes with zero internal imports. Ring describes concentric layers of dependency flow.
+
+**The Ring Scale (0-4):**
+
+| Ring | Name | Definition | Typical Contents |
+|------|------|------------|------------------|
+| **0** | CORE | No internal dependencies | Pure utilities, constants, types, base abstractions |
+| **1** | DOMAIN | Depends only on Ring 0 | Domain entities, value objects, core business logic |
+| **2** | APPLICATION | Depends on Ring 0-1 | Use cases, application services, orchestration |
+| **3** | ADAPTER | Depends on Ring 0-2 | Repositories, external integrations, I/O boundaries |
+| **4** | FRAMEWORK | Depends on Ring 0-3 + externals | Entry points, CLI, web handlers, framework bindings |
+
+**Ring Calculation:**
+
+```
+Ring(n) = 0                           if internal_deps(n) = ∅
+Ring(n) = 1 + MAX(Ring(d) for d in internal_deps(n))   otherwise
+
+WHERE:
+  internal_deps(n) = {d ∈ nodes | n imports d ∧ d ∈ same_codebase}
+```
+
+**Edge Cases:**
+
+| Case | Resolution |
+|------|------------|
+| **Circular dependencies** | All nodes in cycle get Ring = MAX(individual calculations) + 1 (cycle penalty) |
+| **Entry points** | Ring 4 (even if low deps) — they are framework bindings |
+| **External-only** | Ring 0 (external deps don't count for ring calculation) |
+| **Orphan nodes** | Ring 0 (no deps = core) but flagged with AM005 warning |
+| **Multi-path deps** | Take MAX path (worst case determines ring) |
+
+**Antimatter Laws:**
+
+- **AM006: Centrifugal Dependency Violation** — Inner rings MUST NOT depend on outer rings. Ring 0 cannot import Ring 1+. Violations create architectural drift.
+- **AM007: Ring Orphan Warning** — Nodes with no incoming edges are Ring 0 by definition but may be dead code (see Disconnection Taxonomy §5.6 for nuanced classification).
+
+**Key Properties:**
+
+1. **Ring is contextual:** Same atom type (e.g., Service) can exist at different rings. Ring is a property of the instance, not the type.
+2. **Ring ≠ Level:** Levels (§2) describe containment hierarchy (file contains class contains method). Rings describe dependency flow.
+3. **Ring ≠ Phase:** Phases (§4.2) describe atom categories (DAT/LOG/ORG/EXE). A Method (LOG phase) can be Ring 0, 1, 2, 3, or 4.
+4. **Direction:** Dependencies flow INWARD (outer → inner). Ring 4 depends on Ring 0, never reverse.
+
+**Visualization:** Concentric circles where Ring 0 is the center (most stable) and Ring 4 is the outermost (most volatile).
+
+```
+        ┌─────────────────────────────────────┐
+        │  Ring 4: FRAMEWORK (entry points)   │
+        │  ┌─────────────────────────────┐    │
+        │  │  Ring 3: ADAPTER (I/O)      │    │
+        │  │  ┌─────────────────────┐    │    │
+        │  │  │  Ring 2: APPLICATION│    │    │
+        │  │  │  ┌─────────────┐    │    │    │
+        │  │  │  │ Ring 1: DOM │    │    │    │
+        │  │  │  │ ┌───────┐   │    │    │    │
+        │  │  │  │ │ R0:   │   │    │    │    │
+        │  │  │  │ │ CORE  │   │    │    │    │
+        │  │  │  │ └───────┘   │    │    │    │
+        │  │  │  └─────────────┘    │    │    │
+        │  │  └─────────────────────┘    │    │
+        │  └─────────────────────────────┘    │
+        └─────────────────────────────────────┘
+
+        Dependency direction: ────────────────►
+                              (outer to inner)
+```
+
+**Derived from:** Edge Family "Dependency" (§5.4) — specifically `imports` and `calls` edges within the codebase.
+
+**Implementation status:** Proposed for Stage 2.8 (Ring Classification) in Collider pipeline.
+
+### 5.8 Locus (Topological Address)
+
+**Definition:** The LOCUS is the complete multi-dimensional coordinate that locates an atom in the Standard Model's theory space. It is the "topological postal code" of a code entity.
+
+**Etymology:** From Latin *locus* ("place"). In genetics, a locus is the specific, fixed position of a gene on a chromosome (e.g., BRCA1 at 17q21.31). In mathematics, a locus is the set of all points satisfying certain conditions.
+
+**Source:** Validated 2026-01-31 (Gemini 98/100, Perplexity confirmed)
+
+**Formula:**
+
+```
+LOCUS(atom) = ⟨λ, Ω, τ, α, R⟩
+
+WHERE:
+  λ (Level)  = L-3 to L12 (hierarchical scale position)
+  Ω (Ring)   = 0-4 (dependency depth)
+  τ (Tier)   = T0, T1, T2 (abstraction tier)
+  α (Role)   = 33 canonical roles (functional purpose)
+  R (RPBL)   = 4-tuple (Responsibility, Purity, Boundary, Lifecycle)
+```
+
+**Example:**
+
+```
+Physical Address:  123 Main St, Apt 4B, NYC, NY 10001, USA
+Code Locus:        ⟨L3, R1, T1, Query, (1,2,2,1)⟩
+
+Concrete example:
+  getUserById() → LOCUS = ⟨L3, R1, T1, Query, (1,2,2,1)⟩
+
+  Meaning:
+    L3    = NODE level (function)
+    R1    = DOMAIN ring (depends only on core)
+    T1    = Standard library patterns tier
+    Query = Functional role (read without mutation)
+    (1,2,2,1) = RPBL character (single concern, mostly pure, internal, transient)
+```
+
+**Key Properties:**
+
+1. **Every atom has exactly one Locus** — Locus is the unique theoretical identity
+2. **Locus ≠ Location** — Location is file path (mutable); Locus is theory coordinates (invariant)
+3. **Locus solves Ship of Theseus** — If Locus changes, it's a different entity, not just refactored
+4. **Multi-dimensional** — Unlike genetic locus (linear on chromosome), SMC Locus is n-dimensional
+
+**Cross-Domain Terminology:**
+
+| Source Domain | Term | SMC Equivalent | Relationship |
+|--------------|------|----------------|--------------|
+| **Genetics** | Chromosome | Codebase | Container structure |
+| | Gene | Atom | Functional unit |
+| | Locus | **LOCUS** | Positional address |
+| | Allele | Instance/Variant | Same position, different form |
+| | Genome | Projectome | Complete set |
+| | Genotype | Full Classification | What it IS |
+| | Phenotype | Runtime Behavior | What it DOES |
+| **Physics** | Atom | Atom | Fundamental unit |
+| | Particle | Node | Observable entity |
+| | Coordinate | LOCUS | Position in space |
+| **Mathematics** | Locus (geometry) | LOCUS | Set of points satisfying conditions |
+| | Dimension | 8 Dimensions | Orthogonal axes |
+
+**Canonical data:** Locus values computed by Collider pipeline, stored in `UnifiedNode.locus` field.
+
+**Implementation status:** Proposed for `particle.schema.json` update.
+
+### 5.9 Holon (Self-Contained Autonomous Unit)
+
+**Definition:** A HOLON is a self-contained, semi-autonomous unit that exhibits BOTH the properties of a whole (looking down at its parts) AND a part (looking up at its container). NOT every code entity is a holon — only those meeting specific autonomy and coherence criteria.
+
+**Etymology:** Coined by Arthur Koestler (1967) in *The Ghost in the Machine*. From Greek *holos* ("whole") + suffix *-on* (suggesting particle, as in proton/neutron).
+
+**Source:** Koestler, A. (1967). Validated 2026-01-31 (Perplexity deep research, 60+ academic sources)
+
+**Qualifying Criteria (ALL required):**
+
+| Criterion | Definition | Example |
+|-----------|------------|---------|
+| **Semi-autonomy** | Operates without constant instruction from higher authority | Microservice handles requests independently |
+| **Self-regulation** | Maintains stability under disturbance | Service recovers from errors, maintains state |
+| **Functional coherence** | Integrated unit, not arbitrary division | Complete bounded context, not half a module |
+| **Clear boundary** | API surface without mingling internals | Well-defined interface, no leaky abstractions |
+
+**What Does NOT Qualify as a Holon:**
+
+```
+✗ Random function         → No autonomy (called by others, no self-direction)
+✗ Utility class           → No self-regulation (stateless helper)
+✗ Arbitrary file boundary → No functional coherence (organizational, not semantic)
+✗ Tightly coupled module  → No clear boundary (internals exposed)
+✗ Half of a subsystem     → Arbitrary division, not functionally coherent
+```
+
+**What DOES Qualify as a Holon:**
+
+```
+✓ Microservice with API   → Autonomous, bounded, self-regulating
+✓ Bounded Context (DDD)   → Self-contained domain with clear interface
+✓ Self-contained subsystem → Complete functional unit with API
+✓ Plugin/Extension        → Operates independently within host constraints
+✓ Autonomous agent        → Self-directing with defined interface
+```
+
+**The Janus Principle:**
+
+Every holon exhibits dual nature (named after the two-faced Roman god):
+- **Looking DOWN:** It is a WHOLE containing sub-holons
+- **Looking UP:** It is a PART contained by super-holons
+
+```
+Holarchy (nested holons):
+
+  ECOSYSTEM (L8)           ← Super-holon
+      │
+      ├── SYSTEM (L7)      ← Holon (whole relative to packages, part relative to ecosystem)
+      │       │
+      │       ├── PACKAGE (L6)   ← Holon (if self-contained)
+      │       │       │
+      │       │       └── FILE (L5)   ← Usually NOT holon (arbitrary boundary)
+      │       │               │
+      │       │               └── CLASS (L4)  ← Maybe holon (if autonomous)
+```
+
+**Holon vs Related Concepts:**
+
+| Concept | Scope | Every entity? | Key property |
+|---------|-------|---------------|--------------|
+| **HOLON** | Self-contained unit | NO (only qualifying) | Autonomy + coherence |
+| **LOCUS** | Position in theory space | YES (every atom) | Coordinates |
+| **ATOM** | Structural type | YES (every entity) | Classification |
+| **RING** | Dependency depth | YES (every atom) | Concentric layer |
+| **LEVEL** | Containment hierarchy | YES (every entity) | Scale position |
+
+**Emergence and Holons:**
+
+Holons are NOT pre-existing positions waiting to be filled. **Emergence CREATES holons:**
+
+```
+When: sum_of_parts < emergent_whole
+Then: A new holon level has manifested
+
+Example:
+  - Individual functions → (organization) → Coherent service (HOLON BORN)
+  - Random classes → (integration) → Bounded context (HOLON BORN)
+  - Scattered code → (clustering) → Self-contained module (HOLON BORN)
+```
+
+**Detection heuristic:** Empirically examine codebase clustering. Where natural boundaries form with API surfaces, holons exist.
+
+**Note on Holon Boundaries:**
+
+Holon boundary violations are **runtime/deployment concerns**, not static analysis concerns. Collider analyzes one codebase at a time — external systems cannot "breach" into our code in static analysis. For internal coupling, see AM005 (Bounded Context Violation).
+
+**Canonical reference:** Koestler, A. (1967). *The Ghost in the Machine*. Hutchinson.
+
+**See also:** PROSA architecture (holonic manufacturing), Holonic Multi-Agent Systems (HMAS)
 
 ---
 
@@ -830,7 +1072,7 @@ Human navigation uses BOTH (structure + meaning).
 
 ---
 
-**Terminology:** `../../../context-management/docs/GLOSSARY.yaml` (122 terms)
+**Terminology:** `../../GLOSSARY.yaml` (122 terms, canonical vocabulary)
 
 **Validation:** Every term in GLOSSARY.yaml must trace to exactly one section in L0-L3. If GLOSSARY defines a term not in L1, either L1 is incomplete or GLOSSARY is stale.
 
@@ -865,7 +1107,7 @@ Human navigation uses BOTH (structure + meaning).
 
 ## Navigation
 
-**📍 Up:** [Theory Index](./THEORY_INDEX.md)
-**⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md) - Foundation these definitions build on
-**➡️ Next:** [L2: Laws](./L2_LAWS.md) - How these definitions behave
-**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) → [L0: Axioms](./L0_AXIOMS.md)
+**📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
+**⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md#FIXED) - Foundation these definitions build on
+**➡️ Next:** [L2: Laws](./L2_LAWS.md#FIXED) - How these definitions behave
+**🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) → [L0: Axioms](./L0_AXIOMS.md#FIXED)
