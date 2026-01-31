@@ -101,6 +101,47 @@ rm .git/gc.log
 
 ---
 
+## TD-005: Inline TODO Comments (13+ locations)
+
+**Severity:** Low
+**Impact:** Incomplete implementations, deferred work
+**Files affected:** 13+ Python files
+
+### Problem
+Scattered TODO/FIXME comments indicate incomplete work:
+
+**Integration:**
+- `lol_unify.py:128` - Integrate symmetry_check output
+- `repo_mapper.py:429` - Integrate with cerebras_tagger
+
+**Cloud Deployment:**
+- `orchestrate_corpus.py:295` - Implement GCP Batch
+- `orchestrate_corpus.py:305` - Implement Cloud Run Jobs
+
+**Graph RAG:**
+- `builder.py:260` - Delta detection for incremental updates
+- `service.py:42` - Full embedding logic
+
+**AI Tools:**
+- `analyze.py:1114` - File deletion implementation
+- `refinery.py:561` - Waybill cache updates
+- `research_orchestrator.py:789,1093` - Multiple sets, override parsing
+
+**Legacy (Portuguese):**
+- `spectrometer_hadrons_engine.py:624` - Expand with 50+ repos
+- `spectrometer_api_rest.py:313` - Implement repo clone
+
+### Fix
+1. Triage: Move critical TODOs to task tracker
+2. Delete obsolete TODOs in legacy code
+3. Convert remaining to GitHub issues
+
+### Effort
+- Estimated: Varies by item
+- Priority: P3 (ongoing)
+
+---
+
 ## Summary
 
 | ID | Issue | Severity | Effort | Priority |
@@ -109,3 +150,4 @@ rm .git/gc.log
 | TD-002 | No unified wave CLI | Low-Medium | 4-6h | P2 |
 | TD-003 | Embedded git repos | Low | 30m | P3 |
 | TD-004 | Git GC needed | Low | 5m | P3 |
+| TD-005 | Inline TODO comments (13+) | Low | Varies | P3 |
