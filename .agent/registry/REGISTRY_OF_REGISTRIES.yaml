@@ -1,0 +1,271 @@
+# =============================================================================
+# REGISTRY OF REGISTRIES (RoR) - The Nervous System
+# =============================================================================
+# Single source of truth that indexes ALL registries, tools, and capabilities.
+#
+# PURPOSE:
+#   - Know what tools exist and where they are
+#   - Know what registries exist and their schemas
+#   - Track file/folder distributions and their purposes
+#   - Enable reasoning about repository structure
+#   - Auto-update via Cerebras Rapid Intel
+#
+# PRINCIPLE: If it's not in the RoR, it doesn't exist for the agent.
+#
+# Updated: 2026-01-31
+# =============================================================================
+
+version: "1.0.0"
+schema: "ror_v1"
+last_updated: "2026-01-31T06:50:00Z"
+auto_refresh: true
+refresh_tool: "context-management/tools/ai/cerebras_rapid_intel.py"
+
+# =============================================================================
+# REGISTERED REGISTRIES
+# =============================================================================
+registries:
+
+  # ---------------------------------------------------------------------------
+  # TASK & OPPORTUNITY MANAGEMENT
+  # ---------------------------------------------------------------------------
+  task_registry:
+    id: REG-001
+    name: "Agent Task Registry"
+    path: ".agent/registry/"
+    schema: ".agent/schema/task.schema.yaml"
+    purpose: "Track tasks, opportunities, sprints with 4D confidence"
+    contains:
+      - "active/*.yaml"      # Active tasks
+      - "inbox/*.yaml"       # Incoming opportunities
+      - "archive/*.yaml"     # Completed/rejected
+      - "batches/*.yaml"     # Task batches
+    capabilities:
+      - task_tracking
+      - confidence_scoring
+      - sprint_management
+    status: active
+
+  # ---------------------------------------------------------------------------
+  # TOOL REGISTRY
+  # ---------------------------------------------------------------------------
+  tools_registry:
+    id: REG-002
+    name: "Tools Registry"
+    path: ".agent/intelligence/TOOLS_REGISTRY.yaml"
+    purpose: "Define tool invocation, inputs, outputs, connections"
+    contains:
+      - "tools/*"            # Tool definitions
+      - "pipelines/*"        # Pipeline definitions
+      - "connections/*"      # Tool interconnections
+    capabilities:
+      - tool_discovery
+      - pipeline_composition
+      - dependency_tracking
+    status: active
+
+  # ---------------------------------------------------------------------------
+  # DECISION DECK
+  # ---------------------------------------------------------------------------
+  decision_deck:
+    id: REG-003
+    name: "Decision Deck"
+    path: ".agent/deck/"
+    purpose: "Constrain agent actions to safe, validated moves"
+    contains:
+      - "CARD-*.yaml"        # Action cards
+    capabilities:
+      - action_constraints
+      - safe_execution
+      - audit_trail
+    status: dormant  # Marked as "theater" but infrastructure exists
+
+  # ---------------------------------------------------------------------------
+  # DOMAIN REGISTRIES
+  # ---------------------------------------------------------------------------
+  domains_registry:
+    id: REG-004
+    name: "Domain Boundaries"
+    paths:
+      - "DOMAINS.yaml"
+      - "context-management/config/registries/DOMAINS.yaml"
+    purpose: "Define logical boundaries (CODOME, CONTEXTOME, etc.)"
+    capabilities:
+      - boundary_definition
+      - ownership_tracking
+    status: active
+
+  subsystems_registry:
+    id: REG-005
+    name: "Subsystem Definitions"
+    path: "SUBSYSTEMS.yaml"
+    purpose: "Define L7 subsystems and their components"
+    capabilities:
+      - subsystem_tracking
+      - component_mapping
+    status: active
+
+  # ---------------------------------------------------------------------------
+  # ANALYSIS CONFIGURATION
+  # ---------------------------------------------------------------------------
+  analysis_sets:
+    id: REG-006
+    name: "Analysis Sets"
+    path: "context-management/config/analysis_sets.yaml"
+    purpose: "Define file sets for analyze.py queries"
+    capabilities:
+      - file_grouping
+      - context_window_management
+    status: active
+
+  # ---------------------------------------------------------------------------
+  # PIPELINE STAGES
+  # ---------------------------------------------------------------------------
+  pipeline_registry:
+    id: REG-007
+    name: "Pipeline Stage Registry"
+    path: "standard-model-of-code/src/core/pipeline/stages/__init__.py"
+    purpose: "30-stage analysis pipeline"
+    contains:
+      - "*.py"               # Stage implementations
+    capabilities:
+      - stage_orchestration
+      - state_management
+    status: active
+    stage_count: 30
+
+  # ---------------------------------------------------------------------------
+  # VALIDATION TOOLS
+  # ---------------------------------------------------------------------------
+  validation_registry:
+    id: REG-008
+    name: "Validation Tools"
+    purpose: "77 validation tools scattered across repo (consolidation needed)"
+    paths:
+      - "standard-model-of-code/tools/validate_*.py"
+      - "context-management/tools/refinery/*.py"
+      - ".agent/tools/validate_*.py"
+      - "tools/verify_*.py"
+    capabilities:
+      - schema_validation
+      - constraint_checking
+      - quality_assessment
+    status: fragmented  # Needs consolidation
+    tool_count: 77
+
+  # ---------------------------------------------------------------------------
+  # INTELLIGENCE LAYER
+  # ---------------------------------------------------------------------------
+  intel_cache:
+    id: REG-009
+    name: "Cerebras Intelligence Cache"
+    path: "context-management/data/intel/"
+    purpose: "Rapid file intelligence at 3000 tokens/sec"
+    contains:
+      - "file_intel_cache.json"
+      - "unified_intel.json"
+      - "context_latest.md"
+    capabilities:
+      - file_analysis
+      - gap_detection
+      - context_generation
+    status: active
+    refresh_tool: "cerebras_rapid_intel.py"
+
+# =============================================================================
+# DIRECTORY PURPOSE MAP
+# =============================================================================
+# Maps top-level directories to their architectural purpose.
+# Enables reasoning about file/folder distributions.
+
+directory_purposes:
+  ".agent/":
+    purpose: "Agent intelligence and automation"
+    subsystem: "S4 - Agent Kernel"
+    contains:
+      - registry/     # Task management
+      - deck/         # Decision cards
+      - intelligence/ # AI tools and caches
+      - macros/       # Automation scripts
+      - tools/        # Agent-specific tools
+
+  "standard-model-of-code/":
+    purpose: "Core analysis engine (Collider)"
+    subsystem: "S1 - Particle"
+    contains:
+      - src/core/           # Analysis logic
+      - src/core/pipeline/  # 30-stage pipeline
+      - tests/              # Test suite
+      - tools/              # CLI tools
+      - docs/               # Documentation
+
+  "context-management/":
+    purpose: "Context and intelligence processing"
+    subsystem: "S2 - Wave"
+    contains:
+      - tools/ai/           # AI integrations (Gemini, Cerebras)
+      - tools/refinery/     # Context refinery pipeline
+      - data/               # Enriched data, caches
+      - config/             # Configuration
+
+  "governance/":
+    purpose: "Project governance and decisions"
+    contains:
+      - DECISIONS.md
+      - ROADMAP.md
+      - QUALITY_GATES.md
+
+  "docs/":
+    purpose: "Project documentation"
+    contains:
+      - AI_MODELS_REFERENCE.md
+      - research/           # Research outputs
+
+  "tools/":
+    purpose: "Standalone utility tools"
+    status: "partially_orphaned"  # Some duplicates exist
+
+# =============================================================================
+# FILE DISTRIBUTION RULES
+# =============================================================================
+# Rules for where files should live based on their purpose.
+# Used by Cerebras to detect misplaced files.
+
+placement_rules:
+  - pattern: "*_test.py"
+    should_be_in: "tests/"
+
+  - pattern: "validate_*.py"
+    should_be_in: "standard-model-of-code/src/core/utils/validation/"
+    current_status: "scattered"
+
+  - pattern: "*.schema.yaml"
+    should_be_in: ".agent/schema/ or standard-model-of-code/schema/"
+
+  - pattern: "CARD-*.yaml"
+    should_be_in: ".agent/deck/"
+
+  - pattern: "OPP-*.yaml"
+    should_be_in: ".agent/registry/inbox/"
+
+# =============================================================================
+# REFRESH CONFIGURATION
+# =============================================================================
+refresh:
+  method: "cerebras_rapid_intel"
+  command: "python3 context-management/tools/ai/cerebras_rapid_intel.py sweep"
+  frequency: "on_demand"
+  auto_integrate: true
+  integration_command: "python3 context-management/tools/ai/cerebras_rapid_intel.py integrate"
+
+# =============================================================================
+# METRICS
+# =============================================================================
+metrics:
+  total_registries: 9
+  active_registries: 7
+  dormant_registries: 1
+  fragmented_registries: 1
+  pipeline_stages: 30
+  validation_tools: 77
+  last_sweep: null  # Will be updated by Cerebras
