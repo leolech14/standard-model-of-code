@@ -68,6 +68,14 @@ tasks:
       - "  - Compare output JSON before/after migration"
       - "  - Verify all metrics match"
       - "STEP 5: Document architecture decision in ARCHITECTURE.md"
+    completed_steps:
+      - "STEP 1: ManifestWriterStage added to create_full_pipeline()"
+      - "STEP 2: ExecutionFlowStage wrapper created"
+      - "STEP 3: IGTMetricsStage wrapper created"
+    remaining_steps:
+      - "STEP 0: Refactor run_full_analysis() to use run_pipeline_analysis()"
+      - "STEP 4: Run regression tests"
+      - "STEP 5: Document architecture decision"
     verdict: ACCEPT
     gemini_validation: |
       "VALIDATED 2026-01-31: Roadmap is correct. KEY INSIGHT: The biggest work is

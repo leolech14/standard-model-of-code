@@ -172,6 +172,52 @@ registries:
     status: active
     refresh_tool: "cerebras_rapid_intel.py"
 
+  # ---------------------------------------------------------------------------
+  # STANDARD MODEL REGISTRIES
+  # ---------------------------------------------------------------------------
+  control_registry:
+    id: REG-010
+    name: "Visualization Control Registry"
+    path: "standard-model-of-code/schema/viz/controls/CONTROL_REGISTRY.yaml"
+    purpose: "Define UI controls for visualization components"
+    capabilities:
+      - control_definition
+      - viz_configuration
+    status: active
+
+  pattern_registry:
+    id: REG-011
+    name: "Pattern Registry"
+    path: "standard-model-of-code/data/pattern_registry.json"
+    purpose: "Catalog of code patterns and anti-patterns"
+    capabilities:
+      - pattern_matching
+      - code_smell_detection
+    status: active
+
+  atom_registry:
+    id: REG-012
+    name: "Atom Registry (Canon)"
+    path: "standard-model-of-code/src/output/atom_registry_canon.json"
+    purpose: "Canonical definition of 167 code atoms"
+    capabilities:
+      - atom_classification
+      - type_system
+    status: active
+
+  # ---------------------------------------------------------------------------
+  # CONTEXT MANAGEMENT REGISTRIES
+  # ---------------------------------------------------------------------------
+  cache_registry:
+    id: REG-013
+    name: "Context Cache Registry"
+    path: "context-management/intelligence/cache_registry.json"
+    purpose: "Track cached context and analysis results"
+    capabilities:
+      - cache_management
+      - invalidation_tracking
+    status: active
+
 # =============================================================================
 # DIRECTORY PURPOSE MAP
 # =============================================================================
@@ -262,10 +308,10 @@ refresh:
 # METRICS
 # =============================================================================
 metrics:
-  total_registries: 9
-  active_registries: 7
+  total_registries: 13
+  active_registries: 11
   dormant_registries: 1
   fragmented_registries: 1
   pipeline_stages: 30
   validation_tools: 77
-  last_sweep: null  # Will be updated by Cerebras
+  last_sweep: "2026-01-31T08:30:00Z"  # Partial sweep completed

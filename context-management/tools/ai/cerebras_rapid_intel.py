@@ -93,7 +93,11 @@ ANALYZABLE_EXTENSIONS = {
 SKIP_DIRS = {
     '.git', '.venv', '.tools_venv', 'node_modules', '__pycache__',
     '.pytest_cache', '.mypy_cache', 'dist', 'build', '.eggs',
-    '.tox', 'venv', 'env', '.env'
+    '.tox', 'venv', 'env', '.env',
+    # Build artifacts
+    '.next', '.turbo', '.cache', '.parcel-cache', 'coverage',
+    # IDE/tool
+    '.idea', '.vscode', '.DS_Store'
 }
 
 
@@ -199,9 +203,9 @@ def cerebras_query(prompt: str, system: str = "", max_tokens: int = 1000) -> str
         _last_request_time = time.time()
 
         if response.status_code == 429:
-            # Rate limited - back off and retry
-            time.sleep(1.0)
-            return cerebras_query(prompt, system, max_tokens)
+            # Rate limited - log and return empty (don't infinite retry)
+            print(f"Rate limited by Cerebras API (429). Consider using hire mechanism.", file=sys.stderr)
+            return ""
 
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
@@ -303,12 +307,14 @@ Output as JSON with keys: purpose, summary, key_concepts, dependencies, exports,
 def analyze_file(path: Path) -> Optional[FileIntel]:
     """Analyze a single file with Cerebras."""
     try:
-        content = path.read_text(errors='ignore')[:8000]  # First 8K chars
-        rel_path = str(path.relative_to(PROJECT_ROOT))
+        # Resolve to absolute path first to handle both relative and absolute inputs
+        abs_path = path.resolve()
+        content = abs_path.read_text(errors='ignore')[:8000]  # First 8K chars
+        rel_path = str(abs_path.relative_to(PROJECT_ROOT))
 
         prompt = f"""Analyze this file: {rel_path}
 
-```{path.suffix[1:] if path.suffix else 'txt'}
+```{abs_path.suffix[1:] if abs_path.suffix else 'txt'}
 {content}
 ```
 
@@ -334,9 +340,9 @@ Provide analysis as JSON."""
 
             return FileIntel(
                 path=rel_path,
-                hash=get_file_hash(path),
-                size=path.stat().st_size,
-                extension=path.suffix,
+                hash=get_file_hash(abs_path),
+                size=abs_path.stat().st_size,
+                extension=abs_path.suffix,
                 purpose=data.get("purpose", ""),
                 summary=data.get("summary", ""),
                 key_concepts=data.get("key_concepts", []),
@@ -351,9 +357,9 @@ Provide analysis as JSON."""
             # If JSON parsing fails, create minimal intel
             return FileIntel(
                 path=rel_path,
-                hash=get_file_hash(path),
-                size=path.stat().st_size,
-                extension=path.suffix,
+                hash=get_file_hash(abs_path),
+                size=abs_path.stat().st_size,
+                extension=abs_path.suffix,
                 purpose=response[:200] if response else "Analysis failed",
                 analyzed_at=datetime.now().isoformat(),
                 model=CEREBRAS_MODEL
@@ -384,7 +390,9 @@ def analyze_batch(files: List[Path], use_cache: bool = True) -> Dict[str, FileIn
     # Analyze new/changed files
     if to_analyze:
         start = time.time()
+        print(f'Starting analysis of {len(to_analyze)} files...', flush=True)
         for i, path in enumerate(to_analyze):
+            print(f'Analyzing [{i+1}]: {path}', flush=True)
             intel = analyze_file(path)
             if intel:
                 results[intel.path] = intel
