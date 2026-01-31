@@ -149,3 +149,6 @@ archive/spectrometer_benchmarks_legacy/express/
 # Large intel caches (regenerate with cerebras_spiral_intel.py)
 context-management/data/intel/spiral/file_intel.json
 context-management/data/intel/file_intel_cache.json
+# Embedded git repos (benchmarks)
+context-management/library/spectrometer_benchmarks_legacy/axios/
+context-management/library/spectrometer_benchmarks_legacy/lodash/
