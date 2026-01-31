@@ -718,6 +718,138 @@ def cmd_stats(args):
 
 
 # =============================================================================
+# INTEGRATION - Wire into existing datasets
+# =============================================================================
+
+def integrate_with_enriched() -> Dict[str, Any]:
+    """
+    Merge rapid intel with existing enriched data.
+
+    Returns combined dataset that can be used by:
+    - analyze.py (via semantic_finder)
+    - Refinery pipeline
+    - Graph RAG
+    """
+    intel_cache = load_intel_cache()
+    if not intel_cache:
+        return {"error": "No intel cache found. Run 'sweep' first."}
+
+    # Load existing enriched data
+    enriched_file = PROJECT_ROOT / "context-management/data/enriched/enriched_latest.json"
+    enriched_data = {}
+    if enriched_file.exists():
+        try:
+            enriched_data = json.loads(enriched_file.read_text())
+        except Exception:
+            pass
+
+    # Build file-level lookup from enriched
+    enriched_by_file = {}
+    for node in enriched_data.get("enriched_nodes", []):
+        file_path = node.get("file_path", "")
+        if file_path not in enriched_by_file:
+            enriched_by_file[file_path] = []
+        enriched_by_file[file_path].append(node)
+
+    # Merge intel into a unified format
+    unified = {
+        "meta": {
+            "created_at": datetime.now().isoformat(),
+            "intel_files": len(intel_cache),
+            "enriched_files": len(enriched_by_file),
+            "sources": ["cerebras_rapid_intel", "cerebras_enricher"]
+        },
+        "files": {}
+    }
+
+    for path, intel in intel_cache.items():
+        unified["files"][path] = {
+            "intel": asdict(intel),
+            "enriched": enriched_by_file.get(path, []),
+            "merged_purpose": intel.purpose,
+            "merged_concepts": intel.key_concepts,
+            "merged_quality": intel.quality_score,
+            "gaps": intel.gaps
+        }
+
+    # Save unified dataset
+    output_file = INTEL_DIR / "unified_intel.json"
+    output_file.write_text(json.dumps(unified, indent=2))
+
+    return unified
+
+
+def export_for_semantic_finder() -> Path:
+    """
+    Export intel in format consumable by semantic_finder.py.
+
+    This enables the attention mechanism to use rapid intel
+    for smarter file filtering.
+    """
+    intel_cache = load_intel_cache()
+    if not intel_cache:
+        return None
+
+    # Build semantic index
+    semantic_index = {
+        "files": {},
+        "concepts": {},  # concept -> [files]
+        "layers": {},    # layer -> [files]
+        "gaps_by_file": {},
+        "quality_scores": {}
+    }
+
+    for path, intel in intel_cache.items():
+        semantic_index["files"][path] = {
+            "purpose": intel.purpose,
+            "concepts": intel.key_concepts,
+            "quality": intel.quality_score
+        }
+
+        # Index by concept
+        for concept in intel.key_concepts:
+            if concept not in semantic_index["concepts"]:
+                semantic_index["concepts"][concept] = []
+            semantic_index["concepts"][concept].append(path)
+
+        # Track gaps
+        if intel.gaps:
+            semantic_index["gaps_by_file"][path] = intel.gaps
+
+        # Track quality
+        semantic_index["quality_scores"][path] = intel.quality_score
+
+    # Save
+    output_file = INTEL_DIR / "semantic_index.json"
+    output_file.write_text(json.dumps(semantic_index, indent=2))
+
+    print(f"Exported semantic index: {len(semantic_index['files'])} files, {len(semantic_index['concepts'])} concepts")
+    return output_file
+
+
+def cmd_integrate(args):
+    """Integrate intel with existing datasets."""
+    print("Integrating rapid intel with existing datasets...")
+
+    # Merge with enriched
+    unified = integrate_with_enriched()
+    if "error" in unified:
+        print(f"Error: {unified['error']}")
+        return
+
+    print(f"Unified dataset: {len(unified['files'])} files")
+
+    # Export for semantic finder
+    semantic_file = export_for_semantic_finder()
+    if semantic_file:
+        print(f"Semantic index: {semantic_file}")
+
+    print("\nIntegration complete! Data available at:")
+    print(f"  - {INTEL_DIR / 'unified_intel.json'}")
+    print(f"  - {INTEL_DIR / 'semantic_index.json'}")
+
+
+# =============================================================================
 # MAIN
 # =============================================================================
 
@@ -756,6 +888,9 @@ Examples:
     # stats
     stats_parser = subparsers.add_parser("stats", help="Show statistics")
 
+    # integrate
+    integrate_parser = subparsers.add_parser("integrate", help="Integrate with existing datasets")
+
     args = parser.parse_args()
 
     if args.command == "sweep":
@@ -766,6 +901,8 @@ Examples:
         cmd_context(args)
     elif args.command == "stats":
         cmd_stats(args)
+    elif args.command == "integrate":
+        cmd_integrate(args)
     else:
         parser.print_help()
 
