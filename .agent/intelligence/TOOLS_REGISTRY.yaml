@@ -368,7 +368,7 @@ tools:
   # CEREBRAS (Fast Inference - 3000 t/s)
   # ---------------------------------------------------------------------------
   cerebras_enricher:
-    id: T014
+    id: T056
     name: "Cerebras Semantic Enricher"
     subsystem: WAVE
     realm: wave
@@ -417,7 +417,7 @@ tools:
     validated_accuracy: "90% (Perplexity-verified)"
 
   cerebras_tagger:
-    id: T015
+    id: T057
     name: "Cerebras Batch Tagger"
     subsystem: WAVE
     realm: wave
@@ -452,7 +452,7 @@ tools:
     status: working
 
   repo_mapper:
-    id: T016
+    id: T058
     name: "Repository Mapper"
     subsystem: WAVE
     realm: wave
