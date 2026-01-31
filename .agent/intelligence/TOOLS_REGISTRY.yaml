@@ -365,6 +365,131 @@ tools:
     status: working
 
   # ---------------------------------------------------------------------------
+  # CEREBRAS (Fast Inference - 3000 t/s)
+  # ---------------------------------------------------------------------------
+  cerebras_enricher:
+    id: T014
+    name: "Cerebras Semantic Enricher"
+    subsystem: WAVE
+    realm: wave
+    description: |
+      Adds semantic layer on top of Collider output using Cerebras (3000 t/s).
+      Extracts: purpose, tags, exports, dependencies, complexity, quality hints.
+      Complements Collider (structure) with meaning (semantics).
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} enrich {collider_output} --model {model}"
+      tool_path: "context-management/tools/ai/cerebras_enricher.py"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: collider_output
+        type: file
+        from: collider.unified_analysis.json
+        required: true
+      - name: model
+        type: enum
+        values: [llama-3.3-70b, llama3.1-8b, qwen-3-32b]
+        default: llama3.1-8b
+
+    outputs:
+      - name: enriched_latest.json
+        type: file
+        format: json
+        location: "context-management/data/enriched/"
+        contains:
+          - purpose (one-line intent)
+          - semantic_tags (5 tags)
+          - key_exports (functions/classes)
+          - dependencies
+          - complexity (LOW/MEDIUM/HIGH)
+          - quality_hints
+          - related_to (suggested files)
+
+    requires:
+      - CEREBRAS_API_KEY
+
+    connects_to:
+      - collider  # Takes Collider output as input
+
+    status: working
+    validated_accuracy: "90% (Perplexity-verified)"
+
+  cerebras_tagger:
+    id: T015
+    name: "Cerebras Batch Tagger"
+    subsystem: WAVE
+    realm: wave
+    description: |
+      Fast D1-D8 dimension classification using Cerebras.
+      Use for bulk tagging when Collider classification needs semantic override.
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} tag --pattern {pattern} --model {model}"
+      tool_path: "context-management/tools/ai/cerebras_tagger.py"
+      cwd: "${PROJECT_ROOT}"
+
+    inputs:
+      - name: pattern
+        type: string
+        default: "**/*.py"
+      - name: model
+        type: enum
+        values: [llama-3.3-70b, llama3.1-8b]
+        default: llama3.1-8b
+
+    outputs:
+      - name: tags_latest.json
+        type: file
+        format: json
+        location: "context-management/data/tags/"
+
+    requires:
+      - CEREBRAS_API_KEY
+
+    status: working
+
+  repo_mapper:
+    id: T016
+    name: "Repository Mapper"
+    subsystem: WAVE
+    realm: wave
+    description: |
+      Maps entire repository tree with metadata (FREE, no API calls).
+      Creates processing plans for Cerebras batch operations.
+      Phase 1 of: Map → Plan → Execute workflow.
+
+    invoke:
+      method: cli
+      command: "python3 {tool_path} {command}"
+      tool_path: "context-management/tools/repo_mapper.py"
+      cwd: "${PROJECT_ROOT}"
+      commands:
+        - map      # Scan and map repository
+        - analyze  # Analyze patterns
+        - plan     # Create processing plan
+
+    inputs:
+      - name: command
+        type: enum
+        values: [map, analyze, plan]
+        required: true
+
+    outputs:
+      - name: repo_map_latest.json
+        type: file
+        location: "context-management/data/repo_map/"
+      - name: processing_plan.json
+        type: file
+        location: "context-management/data/repo_map/"
+
+    requires: []  # No API keys needed - pure local scan
+
+    status: working
+
+  # ---------------------------------------------------------------------------
   # DECK (Governance)
   # ---------------------------------------------------------------------------
   deck_router:
@@ -993,6 +1118,6 @@ connections:
 # STATUS SUMMARY
 # =============================================================================
 status_summary:
-  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel]
+  working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper]
   not_implemented: [charts]
   blockers: {}
