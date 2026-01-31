@@ -146,3 +146,6 @@ assets/
 unified_analysis.json
 archive/spectrometer_benchmarks_legacy/express/
 .collider-full/
+# Large intel caches (regenerate with cerebras_spiral_intel.py)
+context-management/data/intel/spiral/file_intel.json
+context-management/data/intel/file_intel_cache.json

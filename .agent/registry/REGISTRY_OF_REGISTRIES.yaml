@@ -218,6 +218,39 @@ registries:
       - invalidation_tracking
     status: active
 
+  # ---------------------------------------------------------------------------
+  # SPIRAL INTELLIGENCE SYSTEM
+  # ---------------------------------------------------------------------------
+  spiral_intel:
+    id: REG-014
+    name: "Spiral Intelligence System"
+    path: "context-management/data/intel/spiral/"
+    tool: "context-management/tools/ai/cerebras_spiral_intel.py"
+    purpose: "Multi-pass iterative codebase understanding with 4D confidence"
+    contains:
+      - "file_intel.json"       # Per-file intelligence
+      - "spiral_state.json"     # State + lap history
+      - "lap_history.json"      # Detailed lap records
+      - "unified_model.json"    # Export
+    capabilities:
+      - surface_scan            # P1: All files, self-context
+      - gap_filling             # P2: Low-quality files, neighbor context
+      - dependency_resolution   # P3: Cross-reference validation
+      - subsystem_synthesis     # P4: Architectural understanding
+      - unified_model           # P5: Complete codebase intelligence
+      - parallel_processing     # 20+ workers, ~17 files/sec
+      - lap_statistics          # Track pass metrics
+      - confidence_4d           # factual, alignment, current, onwards
+    passes:
+      P1: "Surface (65%)"
+      P2: "Gaps (75%)"
+      P3: "Dependencies (85%)"
+      P4: "Subsystems (92%)"
+      P5: "Unified (97%)"
+    status: active
+    model: "llama-3.3-70b"
+    backend: "cerebras"
+
 # =============================================================================
 # DIRECTORY PURPOSE MAP
 # =============================================================================
@@ -308,10 +341,11 @@ refresh:
 # METRICS
 # =============================================================================
 metrics:
-  total_registries: 13
-  active_registries: 11
+  total_registries: 14
+  active_registries: 12
   dormant_registries: 1
   fragmented_registries: 1
   pipeline_stages: 30
   validation_tools: 77
   last_sweep: "2026-01-31T08:30:00Z"  # Partial sweep completed
+  last_spiral: "2026-01-31T09:00:00Z"  # P1 complete
