@@ -128,11 +128,16 @@ try:
         format_context_summary,
         Tier,
         sanitize_sets,
+        # Semantic Attention imports (wiring the "Curriculum Compiler")
+        SemanticMatch,
+        format_semantic_match,
     )
     from aci.feedback_store import log_aci_query, get_feedback_loop
     HAS_ACI = True
+    HAS_SEMANTIC_ATTENTION = True
 except ImportError:
     HAS_ACI = False
+    HAS_SEMANTIC_ATTENTION = False
 
 # Import Context Filters (Phase 1)
 try:
@@ -686,6 +691,112 @@ def recommend_sets(query: str, recommendations: dict) -> list:
 
     return matches
 
+
+# =============================================================================
+# SEMANTIC ATTENTION FILTERING (Wiring the "Curriculum Compiler")
+# =============================================================================
+# This is the missing link identified in DEEP_TRUTH_AUDIT:
+# semantic_finder was built but not wired into analyze.py
+
+def apply_semantic_attention(
+    files: list,
+    semantic_match: 'SemanticMatch',
+    base_dir: Path,
+    aggressive: bool = False
+) -> tuple:
+    """
+    Apply semantic attention filtering to a list of files.
+
+    This is the "Attention Gate" from refinery.py, ported to analyze.py.
+    Uses the semantic match to boost/filter files based on query intent.
+
+    Args:
+        files: List of file paths to filter
+        semantic_match: SemanticMatch from route_query decision
+        base_dir: Base directory for resolving relative patterns
+        aggressive: If True, filter out low-relevance files (laminar flow)
+                   If False, just reorder by relevance (turbulent flow)
+
+    Returns:
+        Tuple of (filtered_files, stats_dict)
+    """
+    if not semantic_match or not HAS_SEMANTIC_ATTENTION:
+        return files, {"filtered": 0, "boosted": 0, "flow": "bypass"}
+
+    import fnmatch
+
+    # Extract patterns from semantic match
+    suggested_patterns = semantic_match.suggested_files or []
+    context_flow = semantic_match.context_flow
+    confidence = semantic_match.targets[0].confidence if semantic_match.targets else 0.5
+
+    # Determine filtering aggressiveness
+    # Laminar = focused, high confidence → aggressive filtering
+    # Turbulent = exploratory, low confidence → just reorder
+    use_aggressive = aggressive or (context_flow == "laminar" and confidence > 0.7)
+
+    scored_files = []
+    for f in files:
+        file_path = Path(f)
+        rel_path = str(file_path.relative_to(base_dir)) if base_dir in file_path.parents or file_path == base_dir else str(file_path)
+
+        # Score based on pattern matching
+        score = 0.5  # baseline
+
+        # Boost if matches suggested patterns
+        for pattern in suggested_patterns:
+            if fnmatch.fnmatch(rel_path, pattern) or fnmatch.fnmatch(str(file_path), pattern):
+                score += 0.3
+                break
+
+        # Boost based on semantic target layer
+        if semantic_match.targets:
+            target = semantic_match.targets[0]
+            if target.layer:
+                layer_keywords = {
+                    "Interface": ["api", "route", "controller", "handler", "endpoint"],
+                    "Application": ["service", "usecase", "workflow", "orchestrat"],
+                    "Core": ["domain", "entity", "model", "schema"],
+                    "Infrastructure": ["repository", "adapter", "database", "cache"],
+                    "Test": ["test", "spec", "fixture"],
+                }
+                for kw in layer_keywords.get(target.layer, []):
+                    if kw in rel_path.lower():
+                        score += 0.2
+                        break
+
+            # Boost based on purpose roles
+            if target.roles:
+                for role in target.roles:
+                    if role.lower() in rel_path.lower():
+                        score += 0.15
+
+        scored_files.append((f, score))
+
+    # Sort by score (highest first)
+    scored_files.sort(key=lambda x: x[1], reverse=True)
+
+    # Apply filtering if aggressive mode
+    if use_aggressive:
+        threshold = 0.6  # Filter out files below this score
+        filtered = [(f, s) for f, s in scored_files if s >= threshold]
+        dropped = len(scored_files) - len(filtered)
+        result_files = [f for f, s in filtered]
+    else:
+        # Just return reordered list
+        dropped = 0
+        result_files = [f for f, s in scored_files]
+
+    stats = {
+        "filtered": dropped,
+        "boosted": sum(1 for f, s in scored_files if s > 0.5),
+        "flow": context_flow,
+        "aggressive": use_aggressive,
+        "total_before": len(files),
+        "total_after": len(result_files),
+    }
+
+    return result_files, stats
 
 
 def list_available_workflows() -> list:
@@ -2526,10 +2637,17 @@ Examples:
             print(f"    {truncated_q}")
             ui.blank()
             ui.item("Sets", ', '.join(decision.primary_sets))
+            # Show Semantic Attention info
+            if HAS_SEMANTIC_ATTENTION and decision.semantic:
+                ui.item("Flow", decision.context_flow)
+                if decision.semantic.reasoning:
+                    ui.item("Semantic", decision.semantic.reasoning[:60])
             if args.aci_debug:
                 ui.blank()
                 ui.section("DEBUG")
                 print(format_routing_decision(decision), file=sys.stderr)
+                if HAS_SEMANTIC_ATTENTION and decision.semantic:
+                    print(f"\n{format_semantic_match(decision.semantic)}", file=sys.stderr)
             ui.divider()
             print()
         else:
@@ -2542,6 +2660,11 @@ Examples:
             print(f"Query: {args.prompt[:80]}{'...' if len(args.prompt) > 80 else ''}", file=sys.stderr)
             print(f"Tier:  {decision.tier.value.upper()}", file=sys.stderr)
             print(f"Sets:  {', '.join(decision.primary_sets)}", file=sys.stderr)
+            # Show Semantic Attention info
+            if HAS_SEMANTIC_ATTENTION and decision.semantic:
+                print(f"Flow:  {decision.context_flow}", file=sys.stderr)
+                if decision.semantic.reasoning:
+                    print(f"Semantic: {decision.semantic.reasoning[:70]}", file=sys.stderr)
             print(f"{'='*60}\n", file=sys.stderr)
 
         # TIER 0: INSTANT - Try to answer from cached truths
@@ -2728,6 +2851,17 @@ Please provide a thorough, comprehensive answer based on the full project contex
                         all_files.extend([m for m in matches if Path(m).is_file()])
 
                     all_files = list(set(all_files))  # dedupe
+
+                    # Apply Semantic Attention Filtering (the "Curriculum Compiler")
+                    if HAS_SEMANTIC_ATTENTION and decision.semantic:
+                        all_files, attn_stats = apply_semantic_attention(
+                            all_files,
+                            decision.semantic,
+                            PROJECT_ROOT,
+                            aggressive=(decision.context_flow == "laminar")
+                        )
+                        print(f"[SEMANTIC ATTENTION] Flow: {attn_stats['flow']}, Boosted: {attn_stats['boosted']}, Filtered: {attn_stats['filtered']}", file=sys.stderr)
+
                     print(f"[FLASH_DEEP] Loading {len(all_files)} files from {len(comprehensive_sets)} sets", file=sys.stderr)
 
                     # Build massive context
@@ -3148,6 +3282,7 @@ Please provide a thorough, comprehensive answer using the full context available
         set_max_tokens = resolved['max_tokens']
         set_critical_files = resolved.get('critical_files', [])
         set_positional_strategy = resolved.get('positional_strategy', None)
+        set_filters = resolved.get('filters', {})  # Extract filters for Phase 1
 
         # Show resolution info
         print(f"Using Set:    {args.set.upper()} - {resolved['description']}", file=sys.stderr)
@@ -3163,7 +3298,26 @@ Please provide a thorough, comprehensive answer using the full context available
             print(f"         Consider using a smaller, more focused set.", file=sys.stderr)
             print(f"{'='*60}\n", file=sys.stderr)
 
-    selected_files = list_local_files(base_dir, patterns, user_excludes)
+    # Use list_and_filter_files if filters are present, otherwise use list_local_files
+    if args.set and 'set_filters' in dir() and set_filters and HAS_FILTERS:
+        selected_files = list_and_filter_files(base_dir, patterns, user_excludes, filters=set_filters, verbose=args.verbose if hasattr(args, 'verbose') else False)
+        if set_filters:
+            filter_desc = ', '.join(f"{k}={v}" for k, v in set_filters.items() if v)
+            print(f"  Filters applied: {filter_desc}", file=sys.stderr)
+    else:
+        selected_files = list_local_files(base_dir, patterns, user_excludes)
+
+    # Apply Semantic Attention Filtering for ACI mode (LONG_CONTEXT tier)
+    # This wires the "Curriculum Compiler" into the main analysis path
+    if args.aci and HAS_SEMANTIC_ATTENTION and aci_decision and aci_decision.semantic:
+        selected_files, attn_stats = apply_semantic_attention(
+            selected_files,
+            aci_decision.semantic,
+            base_dir,
+            aggressive=(aci_decision.context_flow == "laminar")
+        )
+        if attn_stats['boosted'] > 0 or attn_stats['filtered'] > 0:
+            print(f"[SEMANTIC ATTENTION] Flow: {attn_stats['flow']}, Boosted: {attn_stats['boosted']}, Filtered: {attn_stats['filtered']}", file=sys.stderr)
 
     # Auto-inject architecture docs for architect mode
     if args.mode == 'architect':
@@ -3186,6 +3340,7 @@ Please provide a thorough, comprehensive answer using the full context available
         sys.exit(1)
 
     # PHASE 3: Token budget check BEFORE building context
+    set_def = analysis_sets.get(args.set, {}) if args.set else {}
     if HAS_TOKEN_ESTIMATOR and set_def.get('max_tokens'):
         budget_result = check_budget(
             selected_files,
