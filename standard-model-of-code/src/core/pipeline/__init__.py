@@ -116,6 +116,7 @@ def create_full_pipeline(
         PurposeFieldStage,
         OrganellePurposeStage,
         SystemPurposeStage,
+        ExecutionFlowStage,
         EdgeExtractionStage,
         MarkovMatrixStage,
         KnotDetectionStage,
@@ -132,6 +133,8 @@ def create_full_pipeline(
         TopologyReasoningStage,
         SemanticCortexStage,
         AIInsightsStage,
+        IGTMetricsStage,
+        ManifestWriterStage,
         OutputGenerationStage,
     )
 
@@ -152,6 +155,7 @@ def create_full_pipeline(
         "purpose_field": PurposeFieldStage(),
         "organelle_purpose": OrganellePurposeStage(),
         "system_purpose": SystemPurposeStage(),
+        "execution_flow": ExecutionFlowStage(),
         "edge_extraction": EdgeExtractionStage(),
         "markov_matrix": MarkovMatrixStage(),
         "knot_detection": KnotDetectionStage(),
@@ -168,6 +172,8 @@ def create_full_pipeline(
         "topology_reasoning": TopologyReasoningStage(),
         "semantic_cortex": SemanticCortexStage(),
         "ai_insights": AIInsightsStage(enabled=not skip_ai),
+        "igt_metrics": IGTMetricsStage(),
+        "manifest_writer": ManifestWriterStage(),
         "output_generation": OutputGenerationStage(output_dir=output_dir),
     }
 

@@ -59,6 +59,7 @@ from .data_flow_analysis import DataFlowAnalysisStage
 from .purpose_field import PurposeFieldStage
 from .organelle_purpose import OrganellePurposeStage
 from .system_purpose import SystemPurposeStage
+from .execution_flow import ExecutionFlowStage
 from .edge_extraction import EdgeExtractionStage
 from .markov_matrix import MarkovMatrixStage
 from .knot_detection import KnotDetectionStage
@@ -80,6 +81,9 @@ from .ai_insights import AIInsightsStage
 from .manifest_writer import ManifestWriterStage
 from .output_generation import OutputGenerationStage
 
+# Additional stages (post-analysis)
+from .igt_metrics import IGTMetricsStage
+
 
 __all__ = [
     # Phase 1
@@ -97,6 +101,7 @@ __all__ = [
     "PurposeFieldStage",
     "OrganellePurposeStage",
     "SystemPurposeStage",
+    "ExecutionFlowStage",
     "EdgeExtractionStage",
     "MarkovMatrixStage",
     "KnotDetectionStage",
@@ -115,9 +120,11 @@ __all__ = [
     "AIInsightsStage",
     "ManifestWriterStage",
     "OutputGenerationStage",
+    # Additional
+    "IGTMetricsStage",
 ]
 
-# Stage execution order (27 stages)
+# Stage execution order (29 stages)
 STAGE_ORDER = [
     # Phase 1: Extraction
     "survey",
@@ -134,6 +141,7 @@ STAGE_ORDER = [
     "purpose_field",
     "organelle_purpose",
     "system_purpose",
+    "execution_flow",  # Stage 4: Execution flow analysis
     "edge_extraction",
     "markov_matrix",
     "knot_detection",
@@ -150,6 +158,7 @@ STAGE_ORDER = [
     "topology_reasoning",
     "semantic_cortex",
     "ai_insights",
+    "igt_metrics",  # Stage 13: IGT metrics
     "manifest_writer",  # Stage 11.5: Provenance before output
     "output_generation",
 ]
