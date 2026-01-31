@@ -1,0 +1,488 @@
+{
+  "files": {
+    "context-management/tools/refinery/delta_detector.py": {
+      "purpose": "Detects changes in the corpus inventory by comparing the current state to the previous state.",
+      "concepts": [
+        "Delta detection",
+        "Corpus inventory",
+        "State management",
+        "JSON reporting",
+        "Command-line arguments"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/subsystem_registry.py": {
+      "purpose": "Manages the registry of Refinery subsystems, providing a catalog of their responsibilities, health, and access methods.",
+      "concepts": [
+        "Subsystem registry",
+        "Dynamic module loading",
+        "Subsystem status and health tracking",
+        "Dependency graph analysis",
+        "Command-line interface"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/docs_audit.py": {
+      "purpose": "Audits active documentation for broken internal links, unresolved placeholders, and validated_* file integrity",
+      "concepts": [
+        "Markdown file scanning",
+        "Regular expression pattern matching",
+        "Dataclass-based report generation",
+        "Git SHA retrieval",
+        "Path manipulation"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/boundary_mapper.py": {
+      "purpose": "Maps analysis_sets.yaml to BoundaryNode entries in the RefineryNode format",
+      "concepts": [
+        "Boundary mapping",
+        "RefineryNode format",
+        "analysis_sets.yaml",
+        "Semantic mapping",
+        "Command-line arguments"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/reference_analyzer.py": {
+      "purpose": "Analyzes and processes the reference library for academic purposes",
+      "concepts": [
+        "Reference analysis",
+        "Full-text search index",
+        "Caption extraction",
+        "Holon hierarchies",
+        "Batch processing"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/refinery_report.py": {
+      "purpose": "Generates a refinery report, providing an activity summary and knowledge library view",
+      "concepts": [
+        "Refinery report",
+        "Activity summary",
+        "Knowledge library view",
+        "Chunk generation",
+        "Watcher activity"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/state_synthesizer.py": {
+      "purpose": "Produces the global state/live.yaml map from all refinery outputs",
+      "concepts": [
+        "State synthesis",
+        "Corpus management",
+        "Refinery outputs",
+        "Data aggregation",
+        "Health indicators"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/corpus_inventory.py": {
+      "purpose": "Scans the repository and produces a complete inventory of all files, categorized by type, language, and size.",
+      "concepts": [
+        "File system scanning",
+        "Language detection",
+        "Categorization",
+        "Hashing",
+        "Inventory reporting"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/__init__.py": {
+      "purpose": "Initializes the Context Refinery Module",
+      "concepts": [
+        "Context Refinery",
+        "Hybrid System",
+        "Semantic Units",
+        "Collider Logic"
+      ],
+      "quality": 6.0
+    },
+    "context-management/tools/refinery/query_chunks.py": {
+      "purpose": "Search consolidated knowledge chunks by text match with relevance ranking",
+      "concepts": [
+        "Text search",
+        "Relevance ranking",
+        "Chunk processing",
+        "JSON output",
+        "Command-line interface"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/pipeline.py": {
+      "purpose": "Orchestrates the flow of data parcels from Ingestion to Chunking in the Logistics Pipeline",
+      "concepts": [
+        "Data pipeline",
+        "Ingestion",
+        "Refinement",
+        "Semantic matching",
+        "Configuration management"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/GEMINI.md": {
+      "purpose": "Describes the Data Logistics Subsystem for managing data flow from ingestion to refined intelligence",
+      "concepts": [
+        "Logistics Hyper-Layer",
+        "Waybill",
+        "Copresence",
+        "Batch ID",
+        "Provenance tracking"
+      ],
+      "quality": 7.0
+    },
+    "context-management/tools/refinery/atom_generator.py": {
+      "purpose": "Creates RefineryNode entries from source files based on the 'Atomization' principle",
+      "concepts": [
+        "Atomization",
+        "RefineryNode",
+        "File metadata extraction",
+        "Layer and role inference",
+        "Batch processing"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json": {
+      "purpose": "Stores data logistics subsystem information in JSON format",
+      "concepts": [
+        "Data logistics subsystem",
+        "Context management",
+        "Node counting",
+        "Tokenization",
+        "Waybills",
+        "Parcel tracking"
+      ],
+      "quality": 8.0
+    },
+    "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json": {
+      "purpose": "Stores a collection of chunks extracted from a Markdown document, containing information about Category Theory and its potential integration with a Standard Model.",
+      "concepts": [
+        "Category Theory",
+        "Chunking",
+        "Waybill",
+        "Relevance Score",
+        "Standard Model"
+      ],
+      "quality": 8.0
+    }
+  },
+  "concepts": {
+    "Delta detection": [
+      "context-management/tools/refinery/delta_detector.py"
+    ],
+    "Corpus inventory": [
+      "context-management/tools/refinery/delta_detector.py"
+    ],
+    "State management": [
+      "context-management/tools/refinery/delta_detector.py"
+    ],
+    "JSON reporting": [
+      "context-management/tools/refinery/delta_detector.py"
+    ],
+    "Command-line arguments": [
+      "context-management/tools/refinery/delta_detector.py",
+      "context-management/tools/refinery/boundary_mapper.py"
+    ],
+    "Subsystem registry": [
+      "context-management/tools/refinery/subsystem_registry.py"
+    ],
+    "Dynamic module loading": [
+      "context-management/tools/refinery/subsystem_registry.py"
+    ],
+    "Subsystem status and health tracking": [
+      "context-management/tools/refinery/subsystem_registry.py"
+    ],
+    "Dependency graph analysis": [
+      "context-management/tools/refinery/subsystem_registry.py"
+    ],
+    "Command-line interface": [
+      "context-management/tools/refinery/subsystem_registry.py",
+      "context-management/tools/refinery/query_chunks.py"
+    ],
+    "Markdown file scanning": [
+      "context-management/tools/refinery/docs_audit.py"
+    ],
+    "Regular expression pattern matching": [
+      "context-management/tools/refinery/docs_audit.py"
+    ],
+    "Dataclass-based report generation": [
+      "context-management/tools/refinery/docs_audit.py"
+    ],
+    "Git SHA retrieval": [
+      "context-management/tools/refinery/docs_audit.py"
+    ],
+    "Path manipulation": [
+      "context-management/tools/refinery/docs_audit.py"
+    ],
+    "Boundary mapping": [
+      "context-management/tools/refinery/boundary_mapper.py"
+    ],
+    "RefineryNode format": [
+      "context-management/tools/refinery/boundary_mapper.py"
+    ],
+    "analysis_sets.yaml": [
+      "context-management/tools/refinery/boundary_mapper.py"
+    ],
+    "Semantic mapping": [
+      "context-management/tools/refinery/boundary_mapper.py"
+    ],
+    "Reference analysis": [
+      "context-management/tools/refinery/reference_analyzer.py"
+    ],
+    "Full-text search index": [
+      "context-management/tools/refinery/reference_analyzer.py"
+    ],
+    "Caption extraction": [
+      "context-management/tools/refinery/reference_analyzer.py"
+    ],
+    "Holon hierarchies": [
+      "context-management/tools/refinery/reference_analyzer.py"
+    ],
+    "Batch processing": [
+      "context-management/tools/refinery/reference_analyzer.py",
+      "context-management/tools/refinery/atom_generator.py"
+    ],
+    "Refinery report": [
+      "context-management/tools/refinery/refinery_report.py"
+    ],
+    "Activity summary": [
+      "context-management/tools/refinery/refinery_report.py"
+    ],
+    "Knowledge library view": [
+      "context-management/tools/refinery/refinery_report.py"
+    ],
+    "Chunk generation": [
+      "context-management/tools/refinery/refinery_report.py"
+    ],
+    "Watcher activity": [
+      "context-management/tools/refinery/refinery_report.py"
+    ],
+    "State synthesis": [
+      "context-management/tools/refinery/state_synthesizer.py"
+    ],
+    "Corpus management": [
+      "context-management/tools/refinery/state_synthesizer.py"
+    ],
+    "Refinery outputs": [
+      "context-management/tools/refinery/state_synthesizer.py"
+    ],
+    "Data aggregation": [
+      "context-management/tools/refinery/state_synthesizer.py"
+    ],
+    "Health indicators": [
+      "context-management/tools/refinery/state_synthesizer.py"
+    ],
+    "File system scanning": [
+      "context-management/tools/refinery/corpus_inventory.py"
+    ],
+    "Language detection": [
+      "context-management/tools/refinery/corpus_inventory.py"
+    ],
+    "Categorization": [
+      "context-management/tools/refinery/corpus_inventory.py"
+    ],
+    "Hashing": [
+      "context-management/tools/refinery/corpus_inventory.py"
+    ],
+    "Inventory reporting": [
+      "context-management/tools/refinery/corpus_inventory.py"
+    ],
+    "Context Refinery": [
+      "context-management/tools/refinery/__init__.py"
+    ],
+    "Hybrid System": [
+      "context-management/tools/refinery/__init__.py"
+    ],
+    "Semantic Units": [
+      "context-management/tools/refinery/__init__.py"
+    ],
+    "Collider Logic": [
+      "context-management/tools/refinery/__init__.py"
+    ],
+    "Text search": [
+      "context-management/tools/refinery/query_chunks.py"
+    ],
+    "Relevance ranking": [
+      "context-management/tools/refinery/query_chunks.py"
+    ],
+    "Chunk processing": [
+      "context-management/tools/refinery/query_chunks.py"
+    ],
+    "JSON output": [
+      "context-management/tools/refinery/query_chunks.py"
+    ],
+    "Data pipeline": [
+      "context-management/tools/refinery/pipeline.py"
+    ],
+    "Ingestion": [
+      "context-management/tools/refinery/pipeline.py"
+    ],
+    "Refinement": [
+      "context-management/tools/refinery/pipeline.py"
+    ],
+    "Semantic matching": [
+      "context-management/tools/refinery/pipeline.py"
+    ],
+    "Configuration management": [
+      "context-management/tools/refinery/pipeline.py"
+    ],
+    "Logistics Hyper-Layer": [
+      "context-management/tools/refinery/GEMINI.md"
+    ],
+    "Waybill": [
+      "context-management/tools/refinery/GEMINI.md",
+      "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json"
+    ],
+    "Copresence": [
+      "context-management/tools/refinery/GEMINI.md"
+    ],
+    "Batch ID": [
+      "context-management/tools/refinery/GEMINI.md"
+    ],
+    "Provenance tracking": [
+      "context-management/tools/refinery/GEMINI.md"
+    ],
+    "Atomization": [
+      "context-management/tools/refinery/atom_generator.py"
+    ],
+    "RefineryNode": [
+      "context-management/tools/refinery/atom_generator.py"
+    ],
+    "File metadata extraction": [
+      "context-management/tools/refinery/atom_generator.py"
+    ],
+    "Layer and role inference": [
+      "context-management/tools/refinery/atom_generator.py"
+    ],
+    "Data logistics subsystem": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Context management": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Node counting": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Tokenization": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Waybills": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Parcel tracking": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json"
+    ],
+    "Category Theory": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json"
+    ],
+    "Chunking": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json"
+    ],
+    "Relevance Score": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json"
+    ],
+    "Standard Model": [
+      "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json"
+    ]
+  },
+  "layers": {},
+  "gaps_by_file": {
+    "context-management/tools/refinery/delta_detector.py": [
+      "No error handling for invalid or missing command-line arguments",
+      "No validation for the corpus inventory file",
+      "No support for multiple baseline files",
+      "No documentation for the delta report format"
+    ],
+    "context-management/tools/refinery/subsystem_registry.py": [
+      "The provided code snippet appears to be incomplete, as it is missing the end of the `print_dependency_graph` function and possibly other parts of the module.",
+      "There are no docstrings or comments explaining the purpose and behavior of some functions, such as `load_deprecated` and `topological_order`.",
+      "Error handling could be improved, as some functions do not check for potential exceptions or errors."
+    ],
+    "context-management/tools/refinery/docs_audit.py": [
+      "The script does not handle cases where the git SHA cannot be retrieved",
+      "The script does not provide a way to automatically fix all issues found",
+      "The script does not include documentation for the dataclasses used",
+      "The script does not include error handling for cases where the markdown files cannot be read"
+    ],
+    "context-management/tools/refinery/boundary_mapper.py": [
+      "Limited error handling",
+      "Assumes specific project structure",
+      "No validation of input files"
+    ],
+    "context-management/tools/refinery/reference_analyzer.py": [
+      "Incomplete implementation of the generate_analysis_batch method",
+      "Lack of documentation for some methods and variables",
+      "No error handling for certain operations, such as file I/O"
+    ],
+    "context-management/tools/refinery/refinery_report.py": [
+      "Incomplete code (e.g., the `wire_run` variable is not defined)",
+      "Lack of documentation for some functions and variables",
+      "No error handling for certain scenarios (e.g., file not found errors)"
+    ],
+    "context-management/tools/refinery/state_synthesizer.py": [
+      "The 'is_recent' function does not handle timezone-aware timestamps correctly",
+      "The 'calculate_overlap_factor' function returns None if data is unreliable, but this is not clearly documented",
+      "There are no unit tests or validation for the synthesized state data",
+      "The script assumes that all refinery outputs are available and up-to-date, but there is no error handling for missing or outdated data"
+    ],
+    "context-management/tools/refinery/corpus_inventory.py": [
+      "The script does not handle symbolic links or other special file types.",
+      "Error handling is basic and may not cover all possible exceptions.",
+      "The LANGUAGE_MAP and SKIP_PATTERNS dictionaries may need to be updated for specific use cases.",
+      "The script does not support concurrent processing or multi-threading."
+    ],
+    "context-management/tools/refinery/__init__.py": [
+      "Lack of documentation for individual components",
+      "No clear indication of how the components interact with each other"
+    ],
+    "context-management/tools/refinery/query_chunks.py": [
+      "Error handling could be improved, particularly for cases where chunk files are malformed or missing",
+      "The script assumes that chunk files are in a specific format, but does not validate this assumption",
+      "There is no documentation for the search_chunks and print_results functions beyond their docstrings",
+      "The script does not provide any mechanism for updating or refreshing the chunk files"
+    ],
+    "context-management/tools/refinery/pipeline.py": [
+      "Missing documentation for some functions and variables",
+      "Error handling could be improved",
+      "Some magic numbers and strings could be replaced with constants",
+      "The pipeline's behavior could be made more flexible and configurable"
+    ],
+    "context-management/tools/refinery/GEMINI.md": [
+      "Lack of detailed documentation for individual tools like pipeline.py and corpus_inventory.py",
+      "No clear explanation of how the Batch ID is used beyond linking concepts",
+      "External dependency on THEORY_DATA_LOGISTICS.md without clear context"
+    ],
+    "context-management/tools/refinery/atom_generator.py": [
+      "Incomplete code (e.g., the 'main' function is not fully defined)",
+      "Lack of documentation for some functions and variables",
+      "No error handling for certain potential issues (e.g., file not found, invalid file format)"
+    ],
+    "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json": [
+      "Incomplete code in some nodes",
+      "Missing documentation for certain fields",
+      "Unclear relationships between some nodes and dependencies"
+    ],
+    "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json": [
+      "Incomplete documentation",
+      "Missing implementation details for some Category Theory concepts",
+      "Potential inconsistencies in the waybill information"
+    ]
+  },
+  "quality_scores": {
+    "context-management/tools/refinery/delta_detector.py": 8.0,
+    "context-management/tools/refinery/subsystem_registry.py": 8.0,
+    "context-management/tools/refinery/docs_audit.py": 8.0,
+    "context-management/tools/refinery/boundary_mapper.py": 8.0,
+    "context-management/tools/refinery/reference_analyzer.py": 8.0,
+    "context-management/tools/refinery/refinery_report.py": 8.0,
+    "context-management/tools/refinery/state_synthesizer.py": 8.0,
+    "context-management/tools/refinery/corpus_inventory.py": 8.0,
+    "context-management/tools/refinery/__init__.py": 6.0,
+    "context-management/tools/refinery/query_chunks.py": 8.0,
+    "context-management/tools/refinery/pipeline.py": 8.0,
+    "context-management/tools/refinery/GEMINI.md": 7.0,
+    "context-management/tools/refinery/atom_generator.py": 8.0,
+    "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json": 8.0,
+    "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json": 8.0
+  }
+}

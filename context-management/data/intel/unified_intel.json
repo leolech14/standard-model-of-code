@@ -1,0 +1,1153 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T06:51:31.275850",
+    "intel_files": 15,
+    "enriched_files": 422,
+    "sources": [
+      "cerebras_rapid_intel",
+      "cerebras_enricher"
+    ]
+  },
+  "files": {
+    "context-management/tools/refinery/delta_detector.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/delta_detector.py",
+        "hash": "dd2bba0cace6",
+        "size": 7229,
+        "extension": ".py",
+        "purpose": "Detects changes in the corpus inventory by comparing the current state to the previous state.",
+        "summary": "The delta detector script compares the current corpus inventory to the previous inventory and detects changes, including added, modified, and deleted files. It implements the 'Delta-First' principle, only reprocessing what has changed. The script outputs a delta report in JSON format, which includes a summary of the changes and detailed information about the added, modified, and deleted files.",
+        "key_concepts": [
+          "Delta detection",
+          "Corpus inventory",
+          "State management",
+          "JSON reporting",
+          "Command-line arguments"
+        ],
+        "dependencies": [
+          "argparse",
+          "json",
+          "pathlib",
+          "datetime",
+          "typing"
+        ],
+        "exports": [
+          "Delta report in JSON format",
+          "Summary of changes",
+          "Detailed information about added, modified, and deleted files"
+        ],
+        "gaps": [
+          "No error handling for invalid or missing command-line arguments",
+          "No validation for the corpus inventory file",
+          "No support for multiple baseline files",
+          "No documentation for the delta report format"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:42.043445",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/delta_detector.py::load_state",
+          "file_path": "context-management/tools/refinery/delta_detector.py",
+          "atom": "ORG.AGG.M",
+          "layer": "Unknown",
+          "role": "Query",
+          "purpose": "This file implements a delta detector that compares the current corpus state to the previous inventory and detects changes.",
+          "semantic_tags": [
+            "data-comparison",
+            "delta-detection",
+            "state-management",
+            "json-processing",
+            "file-io"
+          ],
+          "key_exports": [
+            "load_state",
+            "save_state",
+            "detect_deltas"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:43.298660",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Detects changes in the corpus inventory by comparing the current state to the previous state.",
+      "merged_concepts": [
+        "Delta detection",
+        "Corpus inventory",
+        "State management",
+        "JSON reporting",
+        "Command-line arguments"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "No error handling for invalid or missing command-line arguments",
+        "No validation for the corpus inventory file",
+        "No support for multiple baseline files",
+        "No documentation for the delta report format"
+      ]
+    },
+    "context-management/tools/refinery/subsystem_registry.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/subsystem_registry.py",
+        "hash": "21802007b3b5",
+        "size": 10000,
+        "extension": ".py",
+        "purpose": "Manages the registry of Refinery subsystems, providing a catalog of their responsibilities, health, and access methods.",
+        "summary": "This module serves as a central registry for all Refinery subsystems, allowing for the dynamic loading of subsystem modules and providing a comprehensive overview of their status, dependencies, and health. It offers various functions for listing, filtering, and analyzing subsystems, as well as a command-line interface for printing the registry and dependency graph.",
+        "key_concepts": [
+          "Subsystem registry",
+          "Dynamic module loading",
+          "Subsystem status and health tracking",
+          "Dependency graph analysis",
+          "Command-line interface"
+        ],
+        "dependencies": [
+          "dataclasses",
+          "pathlib",
+          "typing",
+          "enum",
+          "importlib.util",
+          "sys",
+          "yaml"
+        ],
+        "exports": [
+          "SUBSYSTEMS",
+          "get_subsystem",
+          "list_subsystems",
+          "get_subsystem_health",
+          "get_dependency_graph",
+          "topological_order",
+          "print_registry",
+          "print_dependency_graph"
+        ],
+        "gaps": [
+          "The provided code snippet appears to be incomplete, as it is missing the end of the `print_dependency_graph` function and possibly other parts of the module.",
+          "There are no docstrings or comments explaining the purpose and behavior of some functions, such as `load_deprecated` and `topological_order`.",
+          "Error handling could be improved, as some functions do not check for potential exceptions or errors."
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:43.195945",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/subsystem_registry.py::SubsystemStatus",
+          "file_path": "context-management/tools/refinery/subsystem_registry.py",
+          "atom": "ORG.AGG.M",
+          "layer": "domain",
+          "role": "Internal",
+          "purpose": "Provides a registry of Refinery subsystems, their descriptions, and operational status.",
+          "semantic_tags": [
+            "registry",
+            "subsystem",
+            "refinery",
+            "dataclasses",
+            "enum"
+          ],
+          "key_exports": [
+            "SUBSYSTEMS",
+            "get_subsystem",
+            "SubsystemStatus",
+            "Subsystem"
+          ],
+          "dependencies": "dataclasses, pathlib, typing, enum, importlib, sys, yaml",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [
+            "refinery/subsystem_registry.py",
+            "refinery/config.py",
+            "refinery/subsystems/scanner.py"
+          ],
+          "enriched_at": "2026-01-31T05:05:43.757670",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Manages the registry of Refinery subsystems, providing a catalog of their responsibilities, health, and access methods.",
+      "merged_concepts": [
+        "Subsystem registry",
+        "Dynamic module loading",
+        "Subsystem status and health tracking",
+        "Dependency graph analysis",
+        "Command-line interface"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "The provided code snippet appears to be incomplete, as it is missing the end of the `print_dependency_graph` function and possibly other parts of the module.",
+        "There are no docstrings or comments explaining the purpose and behavior of some functions, such as `load_deprecated` and `topological_order`.",
+        "Error handling could be improved, as some functions do not check for potential exceptions or errors."
+      ]
+    },
+    "context-management/tools/refinery/docs_audit.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/docs_audit.py",
+        "hash": "f550a15375c1",
+        "size": 15941,
+        "extension": ".py",
+        "purpose": "Audits active documentation for broken internal links, unresolved placeholders, and validated_* file integrity",
+        "summary": "This script scans markdown files in the context-management/docs directory, checks for broken links, unresolved placeholders, and validated_* file integrity, and generates a report with the findings. The report includes the number of files scanned, the number of active files, and the results of the checks. The script also provides suggestions for fixing the issues found.",
+        "key_concepts": [
+          "Markdown file scanning",
+          "Regular expression pattern matching",
+          "Dataclass-based report generation",
+          "Git SHA retrieval",
+          "Path manipulation"
+        ],
+        "dependencies": [
+          "pathlib",
+          "re",
+          "json",
+          "dataclasses",
+          "collections",
+          "subprocess",
+          "datetime"
+        ],
+        "exports": [
+          "AuditReport",
+          "LinkIssue",
+          "PlaceholderIssue",
+          "ValidationIssue"
+        ],
+        "gaps": [
+          "The script does not handle cases where the git SHA cannot be retrieved",
+          "The script does not provide a way to automatically fix all issues found",
+          "The script does not include documentation for the dataclasses used",
+          "The script does not include error handling for cases where the markdown files cannot be read"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:44.265565",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/docs_audit.py::LinkIssue",
+          "file_path": "context-management/tools/refinery/docs_audit.py",
+          "atom": "ORG.AGG.M",
+          "layer": "domain",
+          "role": "Internal",
+          "purpose": "This file performs an active documentation audit for quality gates G3, G4, and G5, saving results to refinery output.",
+          "semantic_tags": [
+            "documentation",
+            "quality-gates",
+            "audit",
+            "data-validation",
+            "file-integrity"
+          ],
+          "key_exports": [
+            "AuditReport",
+            "LinkIssue",
+            "PlaceholderIssue",
+            "ValidationIssue"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:47.528384",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Audits active documentation for broken internal links, unresolved placeholders, and validated_* file integrity",
+      "merged_concepts": [
+        "Markdown file scanning",
+        "Regular expression pattern matching",
+        "Dataclass-based report generation",
+        "Git SHA retrieval",
+        "Path manipulation"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "The script does not handle cases where the git SHA cannot be retrieved",
+        "The script does not provide a way to automatically fix all issues found",
+        "The script does not include documentation for the dataclasses used",
+        "The script does not include error handling for cases where the markdown files cannot be read"
+      ]
+    },
+    "context-management/tools/refinery/boundary_mapper.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/boundary_mapper.py",
+        "hash": "54c4f9fdfa9a",
+        "size": 7237,
+        "extension": ".py",
+        "purpose": "Maps analysis_sets.yaml to BoundaryNode entries in the RefineryNode format",
+        "summary": "This script maps boundaries defined in analysis_sets.yaml to BoundaryNode entries, creating a semantic map of all defined boundaries. It uses configuration files and command-line arguments to determine which boundaries to map and where to output the results. The script provides a summary of the mapping process, including the number of boundaries and files mapped.",
+        "key_concepts": [
+          "Boundary mapping",
+          "RefineryNode format",
+          "analysis_sets.yaml",
+          "Semantic mapping",
+          "Command-line arguments"
+        ],
+        "dependencies": [
+          "yaml",
+          "json",
+          "hashlib",
+          "argparse",
+          "pathlib",
+          "datetime"
+        ],
+        "exports": [
+          "boundaries.json",
+          "BoundaryNode entries"
+        ],
+        "gaps": [
+          "Limited error handling",
+          "Assumes specific project structure",
+          "No validation of input files"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:45.426884",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/boundary_mapper.py::load_analysis_sets",
+          "file_path": "context-management/tools/refinery/boundary_mapper.py",
+          "atom": "ORG.AGG.M",
+          "layer": "Unknown",
+          "role": "Query",
+          "purpose": "Maps analysis_sets.yaml to BoundaryNode entries in the RefineryNode format, creating a semantic map of defined boundaries.",
+          "semantic_tags": [
+            "configuration",
+            "data-mapping",
+            "yaml",
+            "json",
+            "boundary-definition"
+          ],
+          "key_exports": [
+            "None (this file does not export any main functions or classes)"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:48.018781",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Maps analysis_sets.yaml to BoundaryNode entries in the RefineryNode format",
+      "merged_concepts": [
+        "Boundary mapping",
+        "RefineryNode format",
+        "analysis_sets.yaml",
+        "Semantic mapping",
+        "Command-line arguments"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Limited error handling",
+        "Assumes specific project structure",
+        "No validation of input files"
+      ]
+    },
+    "context-management/tools/refinery/reference_analyzer.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/reference_analyzer.py",
+        "hash": "ee8be4b00562",
+        "size": 13084,
+        "extension": ".py",
+        "purpose": "Analyzes and processes the reference library for academic purposes",
+        "summary": "The ReferenceAnalyzer class systematically processes the reference library by analyzing remaining references, building a full-text search index, optimizing caption extraction, and extracting holon hierarchies. It integrates with the Refinery subsystem architecture and provides methods for getting text content, scanning pending analyses, prioritizing references, building a full-text index, and filtering image artifacts. The class also generates batch analysis requests for multiple references.",
+        "key_concepts": [
+          "Reference analysis",
+          "Full-text search index",
+          "Caption extraction",
+          "Holon hierarchies",
+          "Batch processing"
+        ],
+        "dependencies": [
+          "json",
+          "pathlib",
+          "typing",
+          "dataclasses",
+          "datetime"
+        ],
+        "exports": [
+          "ReferenceAnalyzer class",
+          "AnalysisJob dataclass",
+          "get_text_content method",
+          "scan_pending_analyses method",
+          "prioritize_refs method",
+          "build_fulltext_index method",
+          "save_fulltext_index method",
+          "filter_image_artifacts method",
+          "generate_analysis_batch method"
+        ],
+        "gaps": [
+          "Incomplete implementation of the generate_analysis_batch method",
+          "Lack of documentation for some methods and variables",
+          "No error handling for certain operations, such as file I/O"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:47.354433",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/reference_analyzer.py::AnalysisJob",
+          "file_path": "context-management/tools/refinery/reference_analyzer.py",
+          "atom": "ORG.AGG.M",
+          "layer": "domain",
+          "role": "Internal",
+          "purpose": "This file provides a reference analyzer for systematic processing of an academic library, including analysis, indexing, and optimization.",
+          "semantic_tags": [
+            "data-processing",
+            "academic-library",
+            "reference-management",
+            "subsystem-architecture",
+            "data-indexing"
+          ],
+          "key_exports": [
+            "ReferenceAnalyzer",
+            "AnalysisJob"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:51.809322",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Analyzes and processes the reference library for academic purposes",
+      "merged_concepts": [
+        "Reference analysis",
+        "Full-text search index",
+        "Caption extraction",
+        "Holon hierarchies",
+        "Batch processing"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Incomplete implementation of the generate_analysis_batch method",
+        "Lack of documentation for some methods and variables",
+        "No error handling for certain operations, such as file I/O"
+      ]
+    },
+    "context-management/tools/refinery/refinery_report.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/refinery_report.py",
+        "hash": "0d018cbe31c1",
+        "size": 10058,
+        "extension": ".py",
+        "purpose": "Generates a refinery report, providing an activity summary and knowledge library view",
+        "summary": "This script provides a comprehensive report on the refinery's activity, including a summary of its current state, recent changes, and a library view of consolidated knowledge. It can be run in various modes, including a full report, summary, library view, and recent changes. The report includes information on chunk generation, watcher activity, and health metrics for the knowledge base.",
+        "key_concepts": [
+          "Refinery report",
+          "Activity summary",
+          "Knowledge library view",
+          "Chunk generation",
+          "Watcher activity"
+        ],
+        "dependencies": [
+          "json",
+          "sys",
+          "collections",
+          "datetime",
+          "pathlib",
+          "typing"
+        ],
+        "exports": [
+          "load_metadata",
+          "load_chunks",
+          "get_watcher_activity",
+          "format_time_ago",
+          "print_summary_report",
+          "print_library_view",
+          "print_changes_report",
+          "print_full_report"
+        ],
+        "gaps": [
+          "Incomplete code (e.g., the `wire_run` variable is not defined)",
+          "Lack of documentation for some functions and variables",
+          "No error handling for certain scenarios (e.g., file not found errors)"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:48.379928",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/refinery_report.py::load_metadata",
+          "file_path": "context-management/tools/refinery/refinery_report.py",
+          "atom": "ORG.AGG.M",
+          "layer": "Unknown",
+          "role": "Query",
+          "purpose": "Generates a report summarizing Refinery's activity and knowledge library.",
+          "semantic_tags": [
+            "reporting",
+            "knowledge-management",
+            "activity-tracking",
+            "data-visualization",
+            "api-endpoint"
+          ],
+          "key_exports": [
+            "None (this file does not export any main functions or classes)"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:52.272861",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Generates a refinery report, providing an activity summary and knowledge library view",
+      "merged_concepts": [
+        "Refinery report",
+        "Activity summary",
+        "Knowledge library view",
+        "Chunk generation",
+        "Watcher activity"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Incomplete code (e.g., the `wire_run` variable is not defined)",
+        "Lack of documentation for some functions and variables",
+        "No error handling for certain scenarios (e.g., file not found errors)"
+      ]
+    },
+    "context-management/tools/refinery/state_synthesizer.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/state_synthesizer.py",
+        "hash": "d5e12926a22b",
+        "size": 8930,
+        "extension": ".py",
+        "purpose": "Produces the global state/live.yaml map from all refinery outputs",
+        "summary": "This script synthesizes the global state of a corpus by aggregating data from various refinery outputs, including corpus inventory, boundaries, delta reports, and atom files. It generates a comprehensive state representation, including metadata, corpus summary, boundaries summary, delta status, and health indicators. The output can be customized to either YAML or JSON format.",
+        "key_concepts": [
+          "State synthesis",
+          "Corpus management",
+          "Refinery outputs",
+          "Data aggregation",
+          "Health indicators"
+        ],
+        "dependencies": [
+          "python3",
+          "argparse",
+          "json",
+          "yaml",
+          "pathlib",
+          "datetime"
+        ],
+        "exports": [
+          "live.yaml",
+          "JSON output (optional)"
+        ],
+        "gaps": [
+          "The 'is_recent' function does not handle timezone-aware timestamps correctly",
+          "The 'calculate_overlap_factor' function returns None if data is unreliable, but this is not clearly documented",
+          "There are no unit tests or validation for the synthesized state data",
+          "The script assumes that all refinery outputs are available and up-to-date, but there is no error handling for missing or outdated data"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:49.486335",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/state_synthesizer.py::load_if_exists",
+          "file_path": "context-management/tools/refinery/state_synthesizer.py",
+          "atom": "ORG.AGG.M",
+          "layer": "Unknown",
+          "role": "Query",
+          "purpose": "This file generates the global state/live.yaml map from refinery outputs, serving as the single source of truth for the current corpus state.",
+          "semantic_tags": [
+            "state-synthesis",
+            "data-aggregation",
+            "yaml-generation",
+            "file-management",
+            "corpus-state"
+          ],
+          "key_exports": [
+            "state_synthesizer.py",
+            "load_if_exists",
+            "count_unique_files"
+          ],
+          "dependencies": "python3, json, yaml, argparse, pathlib, datetime, typing",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [
+            "context-management/intelligence/corpus_inventory.json",
+            "context-management/intelligence/boundaries.json",
+            "context-management/intelligence/state/live.yaml"
+          ],
+          "enriched_at": "2026-01-31T05:05:56.033807",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Produces the global state/live.yaml map from all refinery outputs",
+      "merged_concepts": [
+        "State synthesis",
+        "Corpus management",
+        "Refinery outputs",
+        "Data aggregation",
+        "Health indicators"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "The 'is_recent' function does not handle timezone-aware timestamps correctly",
+        "The 'calculate_overlap_factor' function returns None if data is unreliable, but this is not clearly documented",
+        "There are no unit tests or validation for the synthesized state data",
+        "The script assumes that all refinery outputs are available and up-to-date, but there is no error handling for missing or outdated data"
+      ]
+    },
+    "context-management/tools/refinery/corpus_inventory.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/corpus_inventory.py",
+        "hash": "6cba7fbca9fc",
+        "size": 10379,
+        "extension": ".py",
+        "purpose": "Scans the repository and produces a complete inventory of all files, categorized by type, language, and size.",
+        "summary": "This script scans a repository, categorizes files by language and purpose, and generates a JSON inventory report. It can be run in full or quick mode, and supports custom output paths. The report includes file metadata, language and category summaries, and a list of files with their corresponding hashes and sizes.",
+        "key_concepts": [
+          "File system scanning",
+          "Language detection",
+          "Categorization",
+          "Hashing",
+          "Inventory reporting"
+        ],
+        "dependencies": [
+          "python3",
+          "argparse",
+          "hashlib",
+          "json",
+          "pathlib",
+          "uuid"
+        ],
+        "exports": [
+          "corpus_inventory.json report"
+        ],
+        "gaps": [
+          "The script does not handle symbolic links or other special file types.",
+          "Error handling is basic and may not cover all possible exceptions.",
+          "The LANGUAGE_MAP and SKIP_PATTERNS dictionaries may need to be updated for specific use cases.",
+          "The script does not support concurrent processing or multi-threading."
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:50.492731",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/corpus_inventory.py::should_skip_path",
+          "file_path": "context-management/tools/refinery/corpus_inventory.py",
+          "atom": "LOG.FNC.M",
+          "layer": "domain",
+          "role": "Validator",
+          "purpose": "This file provides a tool to scan the repository and generate a comprehensive inventory of files categorized by type, language, and size.",
+          "semantic_tags": [
+            "data-scanning",
+            "file-inventory",
+            "repository-analysis",
+            "data-categorization",
+            "tool"
+          ],
+          "key_exports": [
+            "None"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:05:56.556729",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Scans the repository and produces a complete inventory of all files, categorized by type, language, and size.",
+      "merged_concepts": [
+        "File system scanning",
+        "Language detection",
+        "Categorization",
+        "Hashing",
+        "Inventory reporting"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "The script does not handle symbolic links or other special file types.",
+        "Error handling is basic and may not cover all possible exceptions.",
+        "The LANGUAGE_MAP and SKIP_PATTERNS dictionaries may need to be updated for specific use cases.",
+        "The script does not support concurrent processing or multi-threading."
+      ]
+    },
+    "context-management/tools/refinery/__init__.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/__init__.py",
+        "hash": "bd5afc83f6e2",
+        "size": 604,
+        "extension": ".py",
+        "purpose": "Initializes the Context Refinery Module",
+        "summary": "The Context Refinery Module is a hybrid system that maps, refines, atomizes, and recompiles context on demand. It consists of several components, including corpus inventory, boundary mapping, delta detection, atom generation, and state synthesis. The module follows a philosophy of breaking down the repository into semantic units and reaggregating them for reasoning.",
+        "key_concepts": [
+          "Context Refinery",
+          "Hybrid System",
+          "Semantic Units",
+          "Collider Logic"
+        ],
+        "dependencies": [],
+        "exports": [
+          "__version__"
+        ],
+        "gaps": [
+          "Lack of documentation for individual components",
+          "No clear indication of how the components interact with each other"
+        ],
+        "quality_score": 6.0,
+        "analyzed_at": "2026-01-31T06:43:51.460341",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/__init__.py::refinery",
+          "file_path": "context-management/tools/refinery/__init__.py",
+          "atom": "ORG.MOD.O",
+          "layer": "Unknown",
+          "role": "Utility",
+          "purpose": "Provides a context refinement module for mapping, refining, and atomizing context on demand.",
+          "semantic_tags": [
+            "context-refinement",
+            "data-mapping",
+            "hybrid-system",
+            "repository-analysis",
+            "semantic-units"
+          ],
+          "key_exports": [
+            "None"
+          ],
+          "dependencies": "None (assuming this is a package initializer)",
+          "complexity": "LOW",
+          "quality_hints": "none",
+          "related_to": [
+            "context-management/tools/refinery/corpus_inventory.py",
+            "context-management/tools/refinery/boundary_mapper.py",
+            "context-management/tools/refinery/state_synthesizer.py"
+          ],
+          "enriched_at": "2026-01-31T05:09:18.197882",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Initializes the Context Refinery Module",
+      "merged_concepts": [
+        "Context Refinery",
+        "Hybrid System",
+        "Semantic Units",
+        "Collider Logic"
+      ],
+      "merged_quality": 6.0,
+      "gaps": [
+        "Lack of documentation for individual components",
+        "No clear indication of how the components interact with each other"
+      ]
+    },
+    "context-management/tools/refinery/query_chunks.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/query_chunks.py",
+        "hash": "08afd7346c8b",
+        "size": 6097,
+        "extension": ".py",
+        "purpose": "Search consolidated knowledge chunks by text match with relevance ranking",
+        "summary": "This script provides a simple text search interface over refinery chunks, allowing users to query chunks by search term and retrieve relevant results. The search results are ranked by relevance and can be limited in number. The script also provides options to show full chunk content and output results as JSON.",
+        "key_concepts": [
+          "Text search",
+          "Relevance ranking",
+          "Chunk processing",
+          "JSON output",
+          "Command-line interface"
+        ],
+        "dependencies": [
+          "argparse",
+          "json",
+          "pathlib",
+          "sys"
+        ],
+        "exports": [
+          "search_chunks function",
+          "print_results function",
+          "main function"
+        ],
+        "gaps": [
+          "Error handling could be improved, particularly for cases where chunk files are malformed or missing",
+          "The script assumes that chunk files are in a specific format, but does not validate this assumption",
+          "There is no documentation for the search_chunks and print_results functions beyond their docstrings",
+          "The script does not provide any mechanism for updating or refreshing the chunk files"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:53.070911",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/query_chunks.py::search_chunks",
+          "file_path": "context-management/tools/refinery/query_chunks.py",
+          "atom": "ORG.AGG.M",
+          "layer": "Unknown",
+          "role": "Query",
+          "purpose": "Provides a simple text search interface for refinery chunks with relevance ranking.",
+          "semantic_tags": [
+            "search",
+            "query",
+            "ranking",
+            "text-match",
+            "data-indexing"
+          ],
+          "key_exports": [
+            "search_chunks"
+          ],
+          "dependencies": "json, sys, argparse, pathlib, typing",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [
+            "likely interacts with files in the \".agent\" directory",
+            "such as \"chunks\" or \"intelligence\" modules",
+            "and possibly with the \"refinery\" module itself."
+          ],
+          "enriched_at": "2026-01-31T05:06:00.670324",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Search consolidated knowledge chunks by text match with relevance ranking",
+      "merged_concepts": [
+        "Text search",
+        "Relevance ranking",
+        "Chunk processing",
+        "JSON output",
+        "Command-line interface"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Error handling could be improved, particularly for cases where chunk files are malformed or missing",
+        "The script assumes that chunk files are in a specific format, but does not validate this assumption",
+        "There is no documentation for the search_chunks and print_results functions beyond their docstrings",
+        "The script does not provide any mechanism for updating or refreshing the chunk files"
+      ]
+    },
+    "context-management/tools/refinery/pipeline.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/pipeline.py",
+        "hash": "b31eb94b5e72",
+        "size": 4931,
+        "extension": ".py",
+        "purpose": "Orchestrates the flow of data parcels from Ingestion to Chunking in the Logistics Pipeline",
+        "summary": "The Logistics Pipeline is a data processing pipeline that ingests files, refines them, and exports the results. It consists of two phases: Ingestion and Refinement. The pipeline uses a configuration file and command-line arguments to control its behavior. It also uses a semantic matching mechanism to drive the attention mechanism gate.",
+        "key_concepts": [
+          "Data pipeline",
+          "Ingestion",
+          "Refinement",
+          "Semantic matching",
+          "Configuration management"
+        ],
+        "dependencies": [
+          "sys",
+          "json",
+          "logging",
+          "uuid",
+          "pathlib",
+          "datetime",
+          "yaml",
+          "refinery.corpus_inventory",
+          "ai.aci.refinery",
+          "ai.aci.semantic_finder",
+          "argparse"
+        ],
+        "exports": [
+          "run_pipeline function",
+          "load_config function",
+          "Logistics Pipeline output (JSON file)"
+        ],
+        "gaps": [
+          "Missing documentation for some functions and variables",
+          "Error handling could be improved",
+          "Some magic numbers and strings could be replaced with constants",
+          "The pipeline's behavior could be made more flexible and configurable"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:54.447420",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/pipeline.py::load_config",
+          "file_path": "context-management/tools/refinery/pipeline.py",
+          "atom": "ORG.AGG.M",
+          "layer": "infrastructure",
+          "role": "Query",
+          "purpose": "Orchestrates the flow of data parcels from ingestion to chunking, ensuring tracking via waybills.",
+          "semantic_tags": [
+            "data-processing",
+            "pipeline-management",
+            "configuration",
+            "logging",
+            "data-tracking"
+          ],
+          "key_exports": [
+            "run_pipeline",
+            "load_config"
+          ],
+          "dependencies": "sys, json, logging, uuid, pathlib, datetime, yaml, refinery.corpus_inventory, ai.aci.refinery, ai.aci.semantic_finder",
+          "complexity": "MEDIUM",
+          "quality_hints": "none",
+          "related_to": [
+            "context-management/tools/refinery/ingestion.py",
+            "context-management/tools/refinery/chunking.py",
+            "context-management/tools/refinery/waybills.py"
+          ],
+          "enriched_at": "2026-01-31T05:06:01.142160",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Orchestrates the flow of data parcels from Ingestion to Chunking in the Logistics Pipeline",
+      "merged_concepts": [
+        "Data pipeline",
+        "Ingestion",
+        "Refinement",
+        "Semantic matching",
+        "Configuration management"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Missing documentation for some functions and variables",
+        "Error handling could be improved",
+        "Some magic numbers and strings could be replaced with constants",
+        "The pipeline's behavior could be made more flexible and configurable"
+      ]
+    },
+    "context-management/tools/refinery/GEMINI.md": {
+      "intel": {
+        "path": "context-management/tools/refinery/GEMINI.md",
+        "hash": "3e71c1b47ac0",
+        "size": 1002,
+        "extension": ".md",
+        "purpose": "Describes the Data Logistics Subsystem for managing data flow from ingestion to refined intelligence",
+        "summary": "The Data Logistics Subsystem implements the Logistics Hyper-Layer, tracking data objects with Waybills for provenance. It consists of tools like pipeline.py, corpus_inventory.py, and refinery.py, which work together to process data from ingestion to refinement. The subsystem uses concepts like Copresence to track relationships between data objects.",
+        "key_concepts": [
+          "Logistics Hyper-Layer",
+          "Waybill",
+          "Copresence",
+          "Batch ID",
+          "Provenance tracking"
+        ],
+        "dependencies": [
+          "pipeline.py",
+          "corpus_inventory.py",
+          "refinery.py",
+          "THEORY_DATA_LOGISTICS.md"
+        ],
+        "exports": [
+          "Data Logistics Subsystem architecture",
+          "Usage instructions for running the pipeline",
+          "Key concepts like Copresence and Waybill"
+        ],
+        "gaps": [
+          "Lack of detailed documentation for individual tools like pipeline.py and corpus_inventory.py",
+          "No clear explanation of how the Batch ID is used beyond linking concepts",
+          "External dependency on THEORY_DATA_LOGISTICS.md without clear context"
+        ],
+        "quality_score": 7.0,
+        "analyzed_at": "2026-01-31T06:43:56.482132",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [],
+      "merged_purpose": "Describes the Data Logistics Subsystem for managing data flow from ingestion to refined intelligence",
+      "merged_concepts": [
+        "Logistics Hyper-Layer",
+        "Waybill",
+        "Copresence",
+        "Batch ID",
+        "Provenance tracking"
+      ],
+      "merged_quality": 7.0,
+      "gaps": [
+        "Lack of detailed documentation for individual tools like pipeline.py and corpus_inventory.py",
+        "No clear explanation of how the Batch ID is used beyond linking concepts",
+        "External dependency on THEORY_DATA_LOGISTICS.md without clear context"
+      ]
+    },
+    "context-management/tools/refinery/atom_generator.py": {
+      "intel": {
+        "path": "context-management/tools/refinery/atom_generator.py",
+        "hash": "ea0a582d6acc",
+        "size": 11696,
+        "extension": ".py",
+        "purpose": "Creates RefineryNode entries from source files based on the 'Atomization' principle",
+        "summary": "This script generates atoms from files by creating a RefineryNode entry for each file, including its metadata, dimensions, and relationships. It can process all files, a specific boundary, a single file, or only changed files. The script uses various functions to infer the layer and role of each file based on its path and name.",
+        "key_concepts": [
+          "Atomization",
+          "RefineryNode",
+          "File metadata extraction",
+          "Layer and role inference",
+          "Batch processing"
+        ],
+        "dependencies": [
+          "pathlib",
+          "argparse",
+          "json",
+          "hashlib",
+          "datetime"
+        ],
+        "exports": [
+          "create_file_atom function",
+          "infer_layer function",
+          "infer_role function",
+          "process_files function",
+          "count_by_key function"
+        ],
+        "gaps": [
+          "Incomplete code (e.g., the 'main' function is not fully defined)",
+          "Lack of documentation for some functions and variables",
+          "No error handling for certain potential issues (e.g., file not found, invalid file format)"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:57.545837",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [
+        {
+          "id": "context-management/tools/refinery/atom_generator.py::create_file_atom",
+          "file_path": "context-management/tools/refinery/atom_generator.py",
+          "atom": "LOG.FNC.M",
+          "layer": "domain",
+          "role": "Factory",
+          "purpose": "Creates RefineryNode entries from source files based on file inventory data.",
+          "semantic_tags": [
+            "file-processing",
+            "node-creation",
+            "data-parsing",
+            "context-management",
+            "intelligence"
+          ],
+          "key_exports": [
+            "create_file_atom",
+            "None (no other exports)"
+          ],
+          "dependencies": "",
+          "complexity": "MEDIUM",
+          "quality_hints": "",
+          "related_to": [],
+          "enriched_at": "2026-01-31T05:06:04.904923",
+          "model": "llama3.1-8b"
+        }
+      ],
+      "merged_purpose": "Creates RefineryNode entries from source files based on the 'Atomization' principle",
+      "merged_concepts": [
+        "Atomization",
+        "RefineryNode",
+        "File metadata extraction",
+        "Layer and role inference",
+        "Batch processing"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Incomplete code (e.g., the 'main' function is not fully defined)",
+        "Lack of documentation for some functions and variables",
+        "No error handling for certain potential issues (e.g., file not found, invalid file format)"
+      ]
+    },
+    "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json": {
+      "intel": {
+        "path": "context-management/tools/refinery/context-management/intelligence/chunks/logistics_demo.json",
+        "hash": "8f9ded344085",
+        "size": 115768,
+        "extension": ".json",
+        "purpose": "Stores data logistics subsystem information in JSON format",
+        "summary": "This JSON file contains information about the data logistics subsystem, including node counts, total tokens, and node details such as content, source files, and relevance scores. The data appears to be related to a context management system, with nodes representing different sections of a Markdown file. The file also includes information about the processing of the data, including the creation of waybills and the tracking of parcels.",
+        "key_concepts": [
+          "Data logistics subsystem",
+          "Context management",
+          "Node counting",
+          "Tokenization",
+          "Waybills",
+          "Parcel tracking"
+        ],
+        "dependencies": [
+          "GEMINI.md",
+          "atom_generator.py",
+          "pipeline.py",
+          "corpus_inventory.py",
+          "refinery.py"
+        ],
+        "exports": [
+          "Node information",
+          "Waybill data",
+          "Parcel tracking information"
+        ],
+        "gaps": [
+          "Incomplete code in some nodes",
+          "Missing documentation for certain fields",
+          "Unclear relationships between some nodes and dependencies"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:43:58.631188",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [],
+      "merged_purpose": "Stores data logistics subsystem information in JSON format",
+      "merged_concepts": [
+        "Data logistics subsystem",
+        "Context management",
+        "Node counting",
+        "Tokenization",
+        "Waybills",
+        "Parcel tracking"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Incomplete code in some nodes",
+        "Missing documentation for certain fields",
+        "Unclear relationships between some nodes and dependencies"
+      ]
+    },
+    "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json": {
+      "intel": {
+        "path": "context-management/tools/refinery/context-management/intelligence/chunks/courier_demo.json",
+        "hash": "8821e86f55fc",
+        "size": 590199,
+        "extension": ".json",
+        "purpose": "Stores a collection of chunks extracted from a Markdown document, containing information about Category Theory and its potential integration with a Standard Model.",
+        "summary": "This JSON file contains a list of chunks, each representing a section of a Markdown document, with metadata such as source file, chunk type, relevance score, and waybill information. The chunks cover topics related to Category Theory, including its key concepts, and how it can be integrated with a Standard Model. The file also includes information about the processing history of each chunk, including checkout, work start, work complete, and checkin events.",
+        "key_concepts": [
+          "Category Theory",
+          "Chunking",
+          "Waybill",
+          "Relevance Score",
+          "Standard Model"
+        ],
+        "dependencies": [
+          "refinery.py",
+          "courier_archivist_v1"
+        ],
+        "exports": [
+          "Chunk data",
+          "Metadata",
+          "Waybill information",
+          "Relevance scores"
+        ],
+        "gaps": [
+          "Incomplete documentation",
+          "Missing implementation details for some Category Theory concepts",
+          "Potential inconsistencies in the waybill information"
+        ],
+        "quality_score": 8.0,
+        "analyzed_at": "2026-01-31T06:44:00.176766",
+        "model": "llama-3.3-70b"
+      },
+      "enriched": [],
+      "merged_purpose": "Stores a collection of chunks extracted from a Markdown document, containing information about Category Theory and its potential integration with a Standard Model.",
+      "merged_concepts": [
+        "Category Theory",
+        "Chunking",
+        "Waybill",
+        "Relevance Score",
+        "Standard Model"
+      ],
+      "merged_quality": 8.0,
+      "gaps": [
+        "Incomplete documentation",
+        "Missing implementation details for some Category Theory concepts",
+        "Potential inconsistencies in the waybill information"
+      ]
+    }
+  }
+}

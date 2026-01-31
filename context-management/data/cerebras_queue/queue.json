@@ -1,0 +1,26 @@
+[
+  {
+    "id": "5c5445ba",
+    "prompt": "What is 2+2? Answer with just the number.",
+    "system": "",
+    "max_tokens": 1000,
+    "submitted_at": "2026-01-31T07:13:21.477482",
+    "status": "complete",
+    "result": "4",
+    "error": "",
+    "completed_at": "2026-01-31T07:13:57.717871",
+    "consumer": "cli"
+  },
+  {
+    "id": "9d2aba14",
+    "prompt": "What is 3+3? Answer with just the number.",
+    "system": "",
+    "max_tokens": 1000,
+    "submitted_at": "2026-01-31T07:16:49.910824",
+    "status": "complete",
+    "result": "6",
+    "error": "",
+    "completed_at": "2026-01-31T07:16:50.752969",
+    "consumer": "test"
+  }
+]
