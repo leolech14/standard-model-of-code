@@ -454,8 +454,8 @@ tools:
   repo_mapper:
     id: T058
     name: "Repository Mapper"
-    subsystem: WAVE
-    realm: wave
+    subsystem: PARTICLE
+    realm: particle  # Pure filesystem mapping, no AI
     description: |
       Maps entire repository tree with metadata (FREE, no API calls).
       Creates processing plans for Cerebras batch operations.
@@ -522,8 +522,9 @@ tools:
   flash-ui:
     id: T006
     name: "Flash UI (Generative Component Engine)"
-    subsystem: DESIGN
-    realm: design
+    subsystem: WAVE
+    realm: wave  # Generative AI (was: design)
+    domain: design  # Keep domain tag for filtering
     type: generative_script
 
     invoke:
@@ -583,16 +584,16 @@ tools:
   extract_sections:
     id: T017
     name: "Markdown Section Extractor"
-    subsystem: WAVE
-    realm: wave
+    subsystem: PARTICLE
+    realm: particle  # Deterministic text parsing, no AI
     invoke: {method: cli, command: "python3 standard-model-of-code/scripts/extract_sections.py"}
     status: working
 
   measure_subdivision_stability:
     id: T018
     name: "Subdivision Stability Scorer"
-    subsystem: WAVE
-    realm: wave
+    subsystem: PARTICLE
+    realm: particle  # Pure math calculation, no AI
     invoke: {method: cli, command: "python3 standard-model-of-code/scripts/measure_subdivision_stability.py"}
     status: working
 
@@ -623,40 +624,40 @@ tools:
   theory_coverage:
     id: T022
     name: "Theoretical Coverage Auditor"
-    subsystem: WAVE
-    realm: wave
+    subsystem: PARTICLE
+    realm: particle  # Code/doc structure analysis, deterministic
     invoke: {method: cli, command: "python3 standard-model-of-code/scripts/theory_coverage.py"}
     status: working
 
   verify_polyglot:
     id: T023
     name: "Polyglot AST Verifier"
-    subsystem: WAVE
-    realm: wave
+    subsystem: PARTICLE
+    realm: particle  # AST verification, deterministic
     invoke: {method: cli, command: "python3 standard-model-of-code/scripts/verify_polyglot.py"}
     status: working
 
   theory_cataloger:
     id: T024
     name: "Theory Cataloger"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Lives in .agent/tools/, governance cataloging
     invoke: {method: cli, command: "python3 .agent/tools/theory_cataloger.py"}
     status: working
 
   centripetal_scan:
     id: T025
     name: "Centripetal Dependency Scanner"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Lives in .agent/tools/, orchestrates analysis
     invoke: {method: cli, command: "python3 .agent/tools/centripetal_scan.py"}
     status: working
 
   oklch_color:
     id: T026
     name: "OKLCH Color Space Converter"
-    subsystem: DESIGN
-    realm: design
+    subsystem: PARTICLE
+    realm: particle  # Deterministic color math, no AI
     invoke: {method: cli, command: "python3 .agent/tools/oklch_color.py"}
     status: working
 
@@ -696,7 +697,7 @@ tools:
     id: T031
     name: "Semantic Confidence Validator"
     subsystem: WAVE
-    realm: wave
+    realm: wave  # Uses AI for semantic confidence scoring
     invoke: {method: cli, command: "python3 .agent/tools/confidence_validator.py"}
     status: working
 
@@ -719,8 +720,8 @@ tools:
   fact_loader:
     id: T034
     name: "Axiomatic Fact Loader"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Governance fact management
     invoke: {method: cli, command: "python3 .agent/tools/fact_loader.py"}
     status: working
 
@@ -743,8 +744,8 @@ tools:
   lol_smoc_merger:
     id: T037
     name: "LOL/SMoC Ontology Merger"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Governance merger
     invoke: {method: cli, command: "python3 .agent/tools/lol_smoc_merger.py"}
     status: working
 
@@ -759,8 +760,8 @@ tools:
   lol_sync:
     id: T039
     name: "Contextome LOL Sync"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Governance sync
     invoke: {method: cli, command: "python3 .agent/tools/lol_sync.py"}
     status: working
 
@@ -815,8 +816,8 @@ tools:
   lol_unify:
     id: T046
     name: "Ontology Unification Tool"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Governance unification
     invoke: {method: cli, command: "python3 .agent/tools/lol_unify.py"}
     status: working
 
@@ -831,16 +832,16 @@ tools:
   wave_particle_balance:
     id: T048
     name: "Symmetry Equilibrium Scorer"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Lives in .agent/tools/, meta-analysis for governance
     invoke: {method: cli, command: "python3 .agent/tools/wave_particle_balance.py"}
     status: working
 
   validate_lol:
     id: T049
     name: "LOL Definition Validator"
-    subsystem: WAVE
-    realm: wave
+    subsystem: OBSERVER
+    realm: observer  # Governance validation
     invoke: {method: cli, command: "python3 .agent/tools/validate_lol.py"}
     status: working
 
@@ -1048,8 +1049,8 @@ tools:
   docsintel:
     id: T053
     name: "DocsIntel (Documentation Intelligence)"
-    subsystem: OBSERVER
-    realm: observer
+    subsystem: WAVE
+    realm: wave  # AI-powered documentation intelligence
     type: mcp_orchestration
 
     description: |
@@ -1107,8 +1108,9 @@ tools:
   trellis_2:
     id: T052
     name: "TRELLIS.2 (Image to 3D)"
-    subsystem: DESIGN
-    realm: design
+    subsystem: WAVE
+    realm: wave  # Generative AI model (was: design)
+    domain: design  # Keep domain tag for filtering
     type: external_api
 
     invoke:
@@ -1226,3 +1228,17 @@ status_summary:
   working: [purpose_field, pom, analyze, flash-ui, collider, trellis_2, docsintel, cerebras_enricher, cerebras_tagger, repo_mapper, spiral_intel, docling_granite]
   not_implemented: [charts]
   blockers: {}
+
+# =============================================================================
+# REALM DISTRIBUTION (after 2026-01-31 reclassification)
+# =============================================================================
+# Principle: Directory-first classification
+#   - standard-model-of-code/** → PARTICLE (deterministic)
+#   - context-management/** → WAVE (probabilistic/AI)
+#   - .agent/** → OBSERVER (reactive/governance)
+#
+# Design realm ELIMINATED - redistributed by processing nature:
+#   - oklch_color → PARTICLE (deterministic math)
+#   - flash-ui, trellis_2 → WAVE (generative AI) with domain: design
+#
+# 19 tools reclassified for consistency
