@@ -16,7 +16,7 @@ Compare our ACI routing design to common RAG pipeline patterns
 
 ## Response
 
-Based on the `context-management/docs/ACI_DATASET_MANAGEMENT.md` and `WORKFLOW_FACTORY.md` files, here is a detailed comparison between the **ACI (Adaptive Context Intelligence)** routing design and **Common RAG (Retrieval-Augmented Generation)** patterns found in the industry.
+Based on the `wave/docs/ACI_DATASET_MANAGEMENT.md` and `WORKFLOW_FACTORY.md` files, here is a detailed comparison between the **ACI (Adaptive Context Intelligence)** routing design and **Common RAG (Retrieval-Augmented Generation)** patterns found in the industry.
 
 ### Executive Summary
 

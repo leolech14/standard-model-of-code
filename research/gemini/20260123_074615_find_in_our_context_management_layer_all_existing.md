@@ -1,4 +1,4 @@
-# Research: Find in our context-management layer ALL existing workflows, tools, and context infrastructure that ...
+# Research: Find in our wave layer ALL existing workflows, tools, and context infrastructure that ...
 
 > **Date:** 2026-01-23 07:46:15
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-Find in our context-management layer ALL existing workflows, tools, and context infrastructure that could support building a CONTEXT REFINERY (RAG + Long Context hybrid system).
+Find in our wave layer ALL existing workflows, tools, and context infrastructure that could support building a CONTEXT REFINERY (RAG + Long Context hybrid system).
 
 THE VISION:
 A 'Continuous Context Refinement' system that:
@@ -90,7 +90,7 @@ graph TD
         HSL(Holographic-Socratic Layer) -->|triggers re-analysis| COLLIDER
         SOURCE --. on change .-> HSL
     end
-    
+
     subgraph C [Phase 3: Storage & Indexing]
         direction TB
         NODES -->|stored in| PL[Physical Layer (.json, .yaml)]

@@ -28,10 +28,10 @@ NEW QUESTIONS about architecture:
    - .agent/tools/autopilot.py (orchestrator)
    - .agent/tools/trigger_engine.py (macro execution)
    - .agent/tools/enrichment_orchestrator.py (opportunity processing)
-   - context-management/tools/maintenance/tdj.py (sensing)
-   - context-management/tools/drift_guard.py (drift detection)
-   - context-management/tools/ai/ (AI analysis tools)
-   - context-management/tools/hsl_daemon.py (semantic validation)
+   - wave/tools/maintenance/tdj.py (sensing)
+   - wave/tools/drift_guard.py (drift detection)
+   - wave/tools/ai/ (AI analysis tools)
+   - wave/tools/hsl_daemon.py (semantic validation)
 
    Should these be unified under a single directory? Or is the distribution intentional/correct?
 
@@ -88,10 +88,10 @@ The *directory implementation* should be **`.agent/machinery/`**.
 
 You must distinguish between the **Controller** (Observer Realm) and the **Capability** (Wave/Particle Realms).
 
-*   **The Brain (Wave Realm)**: `context-management/tools/ai/`
+*   **The Brain (Wave Realm)**: `wave/tools/ai/`
     *   *Role:* Pure intelligence. Answering questions. Planning.
     *   *Status:* Keep here. The Actuator *calls* this, but this is not the Actuator.
-*   **The Body (Particle Realm)**: `standard-model-of-code/src/core/`
+*   **The Body (Particle Realm)**: `particle/src/core/`
     *   *Role:* Parsing, measuring, graphing.
     *   *Status:* Keep here. The Actuator *uses* this to see.
 *   **The Hand (Observer Realm)**: **MOVE HERE.**
@@ -99,7 +99,7 @@ You must distinguish between the **Controller** (Observer Realm) and the **Capab
     *   *Migration:* `drift_guard.py`, `autopilot.py`, `tdj.py`, and `enrichment_orchestrator.py` should all move to the Observer realm.
 
 **Why?**
-The Observer is the only realm authorized to *collapse the wave function* (make a decision/change). If `context-management` scripts start modifying the repo autonomously, you have violated the separation of concerns.
+The Observer is the only realm authorized to *collapse the wave function* (make a decision/change). If `wave` scripts start modifying the repo autonomously, you have violated the separation of concerns.
 
 ---
 
@@ -126,11 +126,11 @@ Create a dedicated home in `.agent/` that reflects the **Control Loop** (Sense â
 
 | Current File | New Location | Component Type |
 | :--- | :--- | :--- |
-| `context-management/tools/drift_guard.py` | `.agent/machinery/sensors/drift_guard.py` | **Sensor** (Detects $\Delta$) |
-| `context-management/tools/maintenance/tdj.py` | `.agent/machinery/sensors/tdj.py` | **Sensor** (Measures Quality) |
+| `wave/tools/drift_guard.py` | `.agent/machinery/sensors/drift_guard.py` | **Sensor** (Detects $\Delta$) |
+| `wave/tools/maintenance/tdj.py` | `.agent/machinery/sensors/tdj.py` | **Sensor** (Measures Quality) |
 | `.agent/tools/autopilot.py` | `.agent/machinery/actuators/autopilot.py` | **Actuator** (Executes Change) |
 | `.agent/tools/enrichment_orchestrator.py` | `.agent/machinery/workflows/aep.py` | **Workflow** (Orchestrates) |
-| `context-management/tools/hsl_daemon.py` | `.agent/machinery/workflows/hsl.py` | **Workflow** (Validates) |
+| `wave/tools/hsl_daemon.py` | `.agent/machinery/workflows/hsl.py` | **Workflow** (Validates) |
 
 ---
 

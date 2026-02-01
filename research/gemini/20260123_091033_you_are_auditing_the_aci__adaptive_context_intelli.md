@@ -37,7 +37,7 @@ Here is the remediation plan.
 
 ### 1. Documentation Architecture
 
-**Filename:** `context-management/docs/specs/ACI_ARCHITECTURE.md`
+**Filename:** `wave/docs/specs/ACI_ARCHITECTURE.md`
 
 This document defines the "Brain's Routing Protocol." It must be distinct from `TOOL.md` (which describes the CLI) and `THEORY.md` (which describes the data).
 
@@ -52,19 +52,19 @@ This document defines the "Brain's Routing Protocol." It must be distinct from `
 Currently, `tier_router.py` likely has `if complexity > 5: return 'long_context'`. This must change to read from the YAML.
 
 **Step A: Create a Config Loader**
-Add a utility method in `context-management/tools/ai/aci/utils.py` (or inside `query_analyzer.py` if keeping file count low):
+Add a utility method in `wave/tools/ai/aci/utils.py` (or inside `query_analyzer.py` if keeping file count low):
 
 ```python
 import yaml
 from pathlib import Path
 
 # Path to the config provided in context
-CONFIG_PATH = Path("context-management/config/aci_config.yaml")
+CONFIG_PATH = Path("wave/config/aci_config.yaml")
 
 def load_aci_config():
     if not CONFIG_PATH.exists():
         raise FileNotFoundError(f"ACI Config missing at {CONFIG_PATH}")
-    
+
     with open(CONFIG_PATH, 'r') as f:
         return yaml.safe_load(f)
 
@@ -86,16 +86,16 @@ def route_tier(query_metrics):
             return tier
 
     # 2. Check Complexity Thresholds (Logic derived from config)
-    # Note: You'll need to map config descriptions to logic, or add explicit 
-    # score thresholds to the yaml in a future update. 
+    # Note: You'll need to map config descriptions to logic, or add explicit
+    # score thresholds to the yaml in a future update.
     # For now, map intent to tiers defined in config:
-    
+
     if query_metrics['is_external_scope']:
         return "perplexity" # As defined in config
-        
+
     if query_metrics['requires_reasoning']:
         return "long_context"
-        
+
     return "rag" # Default fallthrough
 ```
 
@@ -113,7 +113,7 @@ ACI must act as the **Dispatcher**, identifying the intent and delegating to the
         return {
             "tier": "socratic",
             "context_set": "architecture_review",
-            "validation_mode": True 
+            "validation_mode": True
         }
     ```
 
@@ -125,7 +125,7 @@ ACI must act as the **Dispatcher**, identifying the intent and delegating to the
     # In tier_router.py
     external_triggers = ACI_CONFIG['external_indicators']
     if any(t in query for t in external_triggers):
-        return "perplexity" 
+        return "perplexity"
     ```
 
 **C. BARE (Background Auto-Refinement Engine)**
@@ -138,7 +138,7 @@ ACI must act as the **Dispatcher**, identifying the intent and delegating to the
         triggers = ACI_CONFIG['agent_context']['trigger_keywords']
         if any(t in query for t in triggers):
             # Dynamic injection of BARE truths
-            return ["agent_intelligence", "agent_kernel"] 
+            return ["agent_intelligence", "agent_kernel"]
         return ["agent_kernel"] # Default
     ```
 
@@ -156,7 +156,7 @@ if tier == 'rag': ...
 
 **Proposed MVI (The Orchestrator):**
 
-Modify `context-management/tools/ai/analyze.py` to use a unified entry point.
+Modify `wave/tools/ai/analyze.py` to use a unified entry point.
 
 1.  **Create `ACIResult` DTO:**
     ```python
@@ -190,8 +190,8 @@ Modify `context-management/tools/ai/analyze.py` to use a unified entry point.
     ```
 
 **Specific Action Items for You:**
-1.  Create `context-management/docs/specs/ACI_ARCHITECTURE.md`.
-2.  Add config loading logic to `context-management/tools/ai/aci/__init__.py` or a util file to expose `ACI_CONFIG`.
+1.  Create `wave/docs/specs/ACI_ARCHITECTURE.md`.
+2.  Add config loading logic to `wave/tools/ai/aci/__init__.py` or a util file to expose `ACI_CONFIG`.
 3.  Update `query_analyzer.py` to read `intent_keywords` from that config object.
 4.  Modify `analyze.py` to accept an `ACIResult` object rather than raw strings.
 

@@ -26,15 +26,15 @@ SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent.parent
 WATCH_PATHS = [
     REPO_ROOT / ".agent",
-    REPO_ROOT / "context-management",
-    REPO_ROOT / "standard-model-of-code/src",
+    REPO_ROOT / "wave",
+    REPO_ROOT / "particle/src",
 ]
 
 # Ignore patterns (don't trigger on butler writes)
 IGNORE_PATHS = [
     ".agent/intelligence/chunks",
     ".agent/intelligence/comms/state_history.jsonl",
-    "context-management/intelligence/state",
+    "wave/intelligence/state",
     ".git",
     "__pycache__",
     ".venv",

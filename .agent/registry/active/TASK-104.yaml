@@ -13,9 +13,9 @@ domain: cleanup
 # =============================================================================
 confidence:
   factual: 95
-  # Evidence: 669 .md files in standard-model-of-code/docs/research/
+  # Evidence: 669 .md files in particle/docs/research/
   # Evidence: Clear structure with gemini/, perplexity/, claude/ subdirs
-  # Evidence: context-management/docs/research/ has only 3 files
+  # Evidence: wave/docs/research/ has only 3 files
 
   alignment: 95
   # Evidence: Research should be centralized for discoverability
@@ -42,8 +42,8 @@ verdict: ACCEPT
 description: |
   ## Problem
   Research outputs scattered across:
-  1. standard-model-of-code/docs/research/ (669 files, 23MB) - PRIMARY
-  2. context-management/docs/research/ (3 files) - SPARSE
+  1. particle/docs/research/ (669 files, 23MB) - PRIMARY
+  2. wave/docs/research/ (3 files) - SPARSE
   3. Various orphaned research/ directories
 
   ## Solution
@@ -62,7 +62,7 @@ description: |
 # =============================================================================
 current_state:
   primary:
-    path: "standard-model-of-code/docs/research/"
+    path: "particle/docs/research/"
     files: 669
     size: "23MB"
     structure:
@@ -74,7 +74,7 @@ current_state:
       - "claude/"
 
   secondary:
-    path: "context-management/docs/research/"
+    path: "wave/docs/research/"
     files: 3
     size: "<1MB"
 
@@ -115,19 +115,19 @@ steps:
     agent: Bash
     command: |
       # Move gemini docs (keep structure)
-      mv standard-model-of-code/docs/research/gemini/docs/* research/gemini/ 2>/dev/null || true
+      mv particle/docs/research/gemini/docs/* research/gemini/ 2>/dev/null || true
 
       # Move perplexity docs
-      mv standard-model-of-code/docs/research/perplexity/docs/* research/perplexity/ 2>/dev/null || true
+      mv particle/docs/research/perplexity/docs/* research/perplexity/ 2>/dev/null || true
 
       # Move claude if exists
-      mv standard-model-of-code/docs/research/claude/* research/claude/ 2>/dev/null || true
+      mv particle/docs/research/claude/* research/claude/ 2>/dev/null || true
 
   - id: 3
     action: "Move secondary research content"
     agent: Bash
     command: |
-      mv context-management/docs/research/* research/ 2>/dev/null || true
+      mv wave/docs/research/* research/ 2>/dev/null || true
 
   - id: 4
     action: "Create INDEX.md"
@@ -174,8 +174,8 @@ steps:
     action: "Remove old research directories"
     agent: Bash
     command: |
-      rm -rf standard-model-of-code/docs/research/
-      rm -rf context-management/docs/research/
+      rm -rf particle/docs/research/
+      rm -rf wave/docs/research/
 
   - id: 6
     action: "Verify consolidation"
@@ -190,7 +190,7 @@ steps:
     action: "Search for broken links"
     agent: Grep
     command: |
-      grep -r "standard-model-of-code/docs/research" --include="*.md" || echo "No broken links found"
+      grep -r "particle/docs/research" --include="*.md" || echo "No broken links found"
 
   - id: 8
     action: "Commit consolidation"
@@ -208,8 +208,8 @@ steps:
       Created INDEX.md for navigation.
 
       Removed:
-      - standard-model-of-code/docs/research/
-      - context-management/docs/research/
+      - particle/docs/research/
+      - wave/docs/research/
 
       Part of TASK-104, BATCH-CONSOLIDATION-2026-01-31
 

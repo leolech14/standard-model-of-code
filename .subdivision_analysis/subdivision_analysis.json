@@ -124,805 +124,805 @@
         "files": 6
       },
       {
-        "path": "standard-model-of-code",
+        "path": "particle",
         "depth": 1,
         "total_children": 42,
         "subdirs": 17,
         "files": 25
       },
       {
-        "path": "standard-model-of-code/research/extracted_nodes",
+        "path": "particle/research/extracted_nodes",
         "depth": 3,
         "total_children": 13,
         "subdirs": 0,
         "files": 13
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos",
         "depth": 6,
         "total_children": 33,
         "subdirs": 33,
         "files": 0
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive",
+        "path": "particle/.archive/docs_archive",
         "depth": 3,
         "total_children": 38,
         "subdirs": 5,
         "files": 33
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive/legacy_theory",
+        "path": "particle/.archive/docs_archive/legacy_theory",
         "depth": 4,
         "total_children": 22,
         "subdirs": 0,
         "files": 22
       },
       {
-        "path": "standard-model-of-code/tools",
+        "path": "particle/tools",
         "depth": 2,
         "total_children": 14,
         "subdirs": 3,
         "files": 11
       },
       {
-        "path": "standard-model-of-code/tools/batch_grade",
+        "path": "particle/tools/batch_grade",
         "depth": 3,
         "total_children": 37,
         "subdirs": 2,
         "files": 35
       },
       {
-        "path": "standard-model-of-code/archive/audit_logs",
+        "path": "particle/archive/audit_logs",
         "depth": 3,
         "total_children": 16,
         "subdirs": 1,
         "files": 15
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/gemini-ink-studio",
+        "path": "particle/archive/legacy_experiments/experiments/gemini-ink-studio",
         "depth": 5,
         "total_children": 17,
         "subdirs": 3,
         "files": 14
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/flash-ui",
+        "path": "particle/archive/legacy_experiments/experiments/flash-ui",
         "depth": 5,
         "total_children": 16,
         "subdirs": 2,
         "files": 14
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/aquarela-prototype",
+        "path": "particle/archive/legacy_experiments/experiments/aquarela-prototype",
         "depth": 5,
         "total_children": 17,
         "subdirs": 3,
         "files": 14
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/related/chrome-mcp",
+        "path": "particle/archive/legacy_experiments/related/chrome-mcp",
         "depth": 5,
         "total_children": 13,
         "subdirs": 3,
         "files": 10
       },
       {
-        "path": "standard-model-of-code/archive/runs/.collider-src",
+        "path": "particle/archive/runs/.collider-src",
         "depth": 4,
         "total_children": 22,
         "subdirs": 0,
         "files": 22
       },
       {
-        "path": "standard-model-of-code/tests",
+        "path": "particle/tests",
         "depth": 2,
         "total_children": 33,
         "subdirs": 2,
         "files": 31
       },
       {
-        "path": "standard-model-of-code/docs",
+        "path": "particle/docs",
         "depth": 2,
         "total_children": 32,
         "subdirs": 13,
         "files": 19
       },
       {
-        "path": "standard-model-of-code/docs/research",
+        "path": "particle/docs/research",
         "depth": 3,
         "total_children": 32,
         "subdirs": 4,
         "files": 28
       },
       {
-        "path": "standard-model-of-code/docs/research/gemini/docs",
+        "path": "particle/docs/research/gemini/docs",
         "depth": 5,
         "total_children": 302,
         "subdirs": 0,
         "files": 302
       },
       {
-        "path": "standard-model-of-code/docs/research/gemini/sessions",
+        "path": "particle/docs/research/gemini/sessions",
         "depth": 5,
         "total_children": 296,
         "subdirs": 0,
         "files": 296
       },
       {
-        "path": "standard-model-of-code/docs/research/gemini/raw",
+        "path": "particle/docs/research/gemini/raw",
         "depth": 5,
         "total_children": 297,
         "subdirs": 0,
         "files": 297
       },
       {
-        "path": "standard-model-of-code/docs/research/perplexity",
+        "path": "particle/docs/research/perplexity",
         "depth": 4,
         "total_children": 47,
         "subdirs": 2,
         "files": 45
       },
       {
-        "path": "standard-model-of-code/docs/research/perplexity/docs",
+        "path": "particle/docs/research/perplexity/docs",
         "depth": 5,
         "total_children": 171,
         "subdirs": 0,
         "files": 171
       },
       {
-        "path": "standard-model-of-code/docs/research/perplexity/raw",
+        "path": "particle/docs/research/perplexity/raw",
         "depth": 5,
         "total_children": 167,
         "subdirs": 0,
         "files": 167
       },
       {
-        "path": "standard-model-of-code/docs/core",
+        "path": "particle/docs/core",
         "depth": 3,
         "total_children": 67,
         "subdirs": 8,
         "files": 59
       },
       {
-        "path": "standard-model-of-code/docs/core/pipeline/stages",
+        "path": "particle/docs/core/pipeline/stages",
         "depth": 5,
         "total_children": 28,
         "subdirs": 0,
         "files": 28
       },
       {
-        "path": "standard-model-of-code/docs/specs",
+        "path": "particle/docs/specs",
         "depth": 3,
         "total_children": 42,
         "subdirs": 0,
         "files": 42
       },
       {
-        "path": "standard-model-of-code/docs/reports",
+        "path": "particle/docs/reports",
         "depth": 3,
         "total_children": 37,
         "subdirs": 1,
         "files": 36
       },
       {
-        "path": "standard-model-of-code/schema",
+        "path": "particle/schema",
         "depth": 2,
         "total_children": 18,
         "subdirs": 9,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/src/tools",
+        "path": "particle/src/tools",
         "depth": 3,
         "total_children": 14,
         "subdirs": 3,
         "files": 11
       },
       {
-        "path": "standard-model-of-code/src/core",
+        "path": "particle/src/core",
         "depth": 3,
         "total_children": 87,
         "subdirs": 22,
         "files": 65
       },
       {
-        "path": "standard-model-of-code/src/core/pipeline/stages",
+        "path": "particle/src/core/pipeline/stages",
         "depth": 5,
         "total_children": 29,
         "subdirs": 0,
         "files": 29
       },
       {
-        "path": "standard-model-of-code/src/core/viz/assets",
+        "path": "particle/src/core/viz/assets",
         "depth": 5,
         "total_children": 21,
         "subdirs": 4,
         "files": 17
       },
       {
-        "path": "standard-model-of-code/src/core/viz/assets/modules",
+        "path": "particle/src/core/viz/assets/modules",
         "depth": 6,
         "total_children": 57,
         "subdirs": 2,
         "files": 55
       },
       {
-        "path": "standard-model-of-code/src/integrations/flash-ui/app",
+        "path": "particle/src/integrations/flash-ui/app",
         "depth": 5,
         "total_children": 15,
         "subdirs": 1,
         "files": 14
       },
       {
-        "path": "standard-model-of-code/src/scripts",
+        "path": "particle/src/scripts",
         "depth": 3,
         "total_children": 16,
         "subdirs": 0,
         "files": 16
       },
       {
-        "path": "context-management",
+        "path": "wave",
         "depth": 1,
         "total_children": 16,
         "subdirs": 15,
         "files": 1
       },
       {
-        "path": "context-management/llm-threads",
+        "path": "wave/llm-threads",
         "depth": 2,
         "total_children": 20,
         "subdirs": 3,
         "files": 17
       },
       {
-        "path": "context-management/tools",
+        "path": "wave/tools",
         "depth": 2,
         "total_children": 16,
         "subdirs": 9,
         "files": 7
       },
       {
-        "path": "context-management/tools/ai",
+        "path": "wave/tools/ai",
         "depth": 3,
         "total_children": 24,
         "subdirs": 4,
         "files": 20
       },
       {
-        "path": "context-management/tools/ai/aci",
+        "path": "wave/tools/ai/aci",
         "depth": 4,
         "total_children": 15,
         "subdirs": 2,
         "files": 13
       },
       {
-        "path": "context-management/tools/ai/deck",
+        "path": "wave/tools/ai/deck",
         "depth": 4,
         "total_children": 28,
         "subdirs": 0,
         "files": 28
       },
       {
-        "path": "context-management/archive",
+        "path": "wave/archive",
         "depth": 2,
         "total_children": 35,
         "subdirs": 31,
         "files": 4
       },
       {
-        "path": "context-management/archive/references",
+        "path": "wave/archive/references",
         "depth": 3,
         "total_children": 40,
         "subdirs": 6,
         "files": 34
       },
       {
-        "path": "context-management/archive/references/txt",
+        "path": "wave/archive/references/txt",
         "depth": 4,
         "total_children": 65,
         "subdirs": 0,
         "files": 65
       },
       {
-        "path": "context-management/archive/references/images",
+        "path": "wave/archive/references/images",
         "depth": 4,
         "total_children": 66,
         "subdirs": 65,
         "files": 1
       },
       {
-        "path": "context-management/archive/references/images/REF-119",
+        "path": "wave/archive/references/images/REF-119",
         "depth": 5,
         "total_children": 230,
         "subdirs": 0,
         "files": 230
       },
       {
-        "path": "context-management/archive/references/images/LISZKA",
+        "path": "wave/archive/references/images/LISZKA",
         "depth": 5,
         "total_children": 102,
         "subdirs": 0,
         "files": 102
       },
       {
-        "path": "context-management/archive/references/images/ENGESTROM",
+        "path": "wave/archive/references/images/ENGESTROM",
         "depth": 5,
         "total_children": 56,
         "subdirs": 0,
         "files": 56
       },
       {
-        "path": "context-management/archive/references/images/REF-006",
+        "path": "wave/archive/references/images/REF-006",
         "depth": 5,
         "total_children": 158,
         "subdirs": 0,
         "files": 158
       },
       {
-        "path": "context-management/archive/references/images/REF-052",
+        "path": "wave/archive/references/images/REF-052",
         "depth": 5,
         "total_children": 27,
         "subdirs": 0,
         "files": 27
       },
       {
-        "path": "context-management/archive/references/images/REF-097",
+        "path": "wave/archive/references/images/REF-097",
         "depth": 5,
         "total_children": 18,
         "subdirs": 0,
         "files": 18
       },
       {
-        "path": "context-management/archive/references/images/REF-063",
+        "path": "wave/archive/references/images/REF-063",
         "depth": 5,
         "total_children": 17,
         "subdirs": 0,
         "files": 17
       },
       {
-        "path": "context-management/archive/references/images/WHITEHEAD",
+        "path": "wave/archive/references/images/WHITEHEAD",
         "depth": 5,
         "total_children": 1812,
         "subdirs": 0,
         "files": 1812
       },
       {
-        "path": "context-management/archive/references/images/KOESTLER",
+        "path": "wave/archive/references/images/KOESTLER",
         "depth": 5,
         "total_children": 769,
         "subdirs": 0,
         "files": 769
       },
       {
-        "path": "context-management/archive/references/images/GENTNER",
+        "path": "wave/archive/references/images/GENTNER",
         "depth": 5,
         "total_children": 14,
         "subdirs": 0,
         "files": 14
       },
       {
-        "path": "context-management/archive/references/images/REF-098",
+        "path": "wave/archive/references/images/REF-098",
         "depth": 5,
         "total_children": 38,
         "subdirs": 0,
         "files": 38
       },
       {
-        "path": "context-management/archive/references/images/REF-076",
+        "path": "wave/archive/references/images/REF-076",
         "depth": 5,
         "total_children": 14,
         "subdirs": 0,
         "files": 14
       },
       {
-        "path": "context-management/archive/references/images/REF-022",
+        "path": "wave/archive/references/images/REF-022",
         "depth": 5,
         "total_children": 31,
         "subdirs": 0,
         "files": 31
       },
       {
-        "path": "context-management/archive/references/images/HUTCHINS",
+        "path": "wave/archive/references/images/HUTCHINS",
         "depth": 5,
         "total_children": 1784,
         "subdirs": 0,
         "files": 1784
       },
       {
-        "path": "context-management/archive/references/images/REF-015",
+        "path": "wave/archive/references/images/REF-015",
         "depth": 5,
         "total_children": 34,
         "subdirs": 0,
         "files": 34
       },
       {
-        "path": "context-management/archive/references/images/SIMON",
+        "path": "wave/archive/references/images/SIMON",
         "depth": 5,
         "total_children": 3937,
         "subdirs": 0,
         "files": 3937
       },
       {
-        "path": "context-management/archive/references/images/PRIGOGINE",
+        "path": "wave/archive/references/images/PRIGOGINE",
         "depth": 5,
         "total_children": 2697,
         "subdirs": 0,
         "files": 2697
       },
       {
-        "path": "context-management/archive/references/images/REF-123",
+        "path": "wave/archive/references/images/REF-123",
         "depth": 5,
         "total_children": 232,
         "subdirs": 0,
         "files": 232
       },
       {
-        "path": "context-management/archive/references/images/REF-094",
+        "path": "wave/archive/references/images/REF-094",
         "depth": 5,
         "total_children": 24,
         "subdirs": 0,
         "files": 24
       },
       {
-        "path": "context-management/archive/references/images/REF-034",
+        "path": "wave/archive/references/images/REF-034",
         "depth": 5,
         "total_children": 22,
         "subdirs": 0,
         "files": 22
       },
       {
-        "path": "context-management/archive/references/images/REF-002",
+        "path": "wave/archive/references/images/REF-002",
         "depth": 5,
         "total_children": 37,
         "subdirs": 0,
         "files": 37
       },
       {
-        "path": "context-management/archive/references/images/ASHBY",
+        "path": "wave/archive/references/images/ASHBY",
         "depth": 5,
         "total_children": 226,
         "subdirs": 0,
         "files": 226
       },
       {
-        "path": "context-management/archive/references/images/REF-072",
+        "path": "wave/archive/references/images/REF-072",
         "depth": 5,
         "total_children": 119,
         "subdirs": 0,
         "files": 119
       },
       {
-        "path": "context-management/archive/references/images/REF-081",
+        "path": "wave/archive/references/images/REF-081",
         "depth": 5,
         "total_children": 18,
         "subdirs": 0,
         "files": 18
       },
       {
-        "path": "context-management/archive/references/images/REF-029",
+        "path": "wave/archive/references/images/REF-029",
         "depth": 5,
         "total_children": 163,
         "subdirs": 0,
         "files": 163
       },
       {
-        "path": "context-management/archive/references/images/REF-016",
+        "path": "wave/archive/references/images/REF-016",
         "depth": 5,
         "total_children": 13,
         "subdirs": 0,
         "files": 13
       },
       {
-        "path": "context-management/archive/references/images/REF-011",
+        "path": "wave/archive/references/images/REF-011",
         "depth": 5,
         "total_children": 103,
         "subdirs": 0,
         "files": 103
       },
       {
-        "path": "context-management/archive/references/images/FRISTON",
+        "path": "wave/archive/references/images/FRISTON",
         "depth": 5,
         "total_children": 573,
         "subdirs": 0,
         "files": 573
       },
       {
-        "path": "context-management/archive/references/images/REF-080",
+        "path": "wave/archive/references/images/REF-080",
         "depth": 5,
         "total_children": 224,
         "subdirs": 0,
         "files": 224
       },
       {
-        "path": "context-management/archive/references/images/REF-074",
+        "path": "wave/archive/references/images/REF-074",
         "depth": 5,
         "total_children": 17,
         "subdirs": 0,
         "files": 17
       },
       {
-        "path": "context-management/archive/references/images/REF-073",
+        "path": "wave/archive/references/images/REF-073",
         "depth": 5,
         "total_children": 50,
         "subdirs": 0,
         "files": 50
       },
       {
-        "path": "context-management/archive/references/images/REF-087",
+        "path": "wave/archive/references/images/REF-087",
         "depth": 5,
         "total_children": 34,
         "subdirs": 0,
         "files": 34
       },
       {
-        "path": "context-management/archive/references/images/GIBSON",
+        "path": "wave/archive/references/images/GIBSON",
         "depth": 5,
         "total_children": 51,
         "subdirs": 0,
         "files": 51
       },
       {
-        "path": "context-management/archive/references/images/SUCHMAN",
+        "path": "wave/archive/references/images/SUCHMAN",
         "depth": 5,
         "total_children": 165,
         "subdirs": 0,
         "files": 165
       },
       {
-        "path": "context-management/archive/references/images/BEJAN",
+        "path": "wave/archive/references/images/BEJAN",
         "depth": 5,
         "total_children": 14,
         "subdirs": 0,
         "files": 14
       },
       {
-        "path": "context-management/archive/references/pdf",
+        "path": "wave/archive/references/pdf",
         "depth": 4,
         "total_children": 82,
         "subdirs": 0,
         "files": 82
       },
       {
-        "path": "context-management/archive/references/md",
+        "path": "wave/archive/references/md",
         "depth": 4,
         "total_children": 82,
         "subdirs": 0,
         "files": 82
       },
       {
-        "path": "context-management/archive/references/metadata",
+        "path": "wave/archive/references/metadata",
         "depth": 4,
         "total_children": 76,
         "subdirs": 0,
         "files": 76
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash",
         "depth": 4,
         "total_children": 26,
         "subdirs": 8,
         "files": 18
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin/xp",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin/xp",
         "depth": 8,
         "total_children": 64,
         "subdirs": 0,
         "files": 64
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express",
         "depth": 4,
         "total_children": 17,
         "subdirs": 5,
         "files": 12
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/test",
         "depth": 5,
         "total_children": 73,
         "subdirs": 3,
         "files": 70
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test/acceptance",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/test/acceptance",
         "depth": 6,
         "total_children": 18,
         "subdirs": 0,
         "files": 18
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test/fixtures",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/test/fixtures",
         "depth": 6,
         "total_children": 18,
         "subdirs": 6,
         "files": 12
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples",
         "depth": 5,
         "total_children": 26,
         "subdirs": 25,
         "files": 1
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios",
         "depth": 4,
         "total_children": 33,
         "subdirs": 7,
         "files": 26
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/specs",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/specs",
         "depth": 6,
         "total_children": 20,
         "subdirs": 4,
         "files": 16
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/bin",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/bin",
         "depth": 5,
         "total_children": 15,
         "subdirs": 2,
         "files": 13
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/lib/helpers",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/lib/helpers",
         "depth": 6,
         "total_children": 32,
         "subdirs": 0,
         "files": 32
       },
       {
-        "path": "context-management/archive/docs",
+        "path": "wave/archive/docs",
         "depth": 3,
         "total_children": 16,
         "subdirs": 0,
         "files": 16
       },
       {
-        "path": "context-management/archive/spectrometer_legacy",
+        "path": "wave/archive/spectrometer_legacy",
         "depth": 3,
         "total_children": 24,
         "subdirs": 1,
         "files": 23
       },
       {
-        "path": "context-management/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5",
+        "path": "wave/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5",
         "depth": 4,
         "total_children": 13,
         "subdirs": 1,
         "files": 12
       },
       {
-        "path": "context-management/archive/scripts",
+        "path": "wave/archive/scripts",
         "depth": 3,
         "total_children": 71,
         "subdirs": 0,
         "files": 71
       },
       {
-        "path": "context-management/archive/misc_docs",
+        "path": "wave/archive/misc_docs",
         "depth": 3,
         "total_children": 50,
         "subdirs": 0,
         "files": 50
       },
       {
-        "path": "context-management/archive/data",
+        "path": "wave/archive/data",
         "depth": 3,
         "total_children": 23,
         "subdirs": 0,
         "files": 23
       },
       {
-        "path": "context-management/intelligence",
+        "path": "wave/intelligence",
         "depth": 2,
         "total_children": 108,
         "subdirs": 4,
         "files": 104
       },
       {
-        "path": "context-management/intelligence/logs",
+        "path": "wave/intelligence/logs",
         "depth": 3,
         "total_children": 33,
         "subdirs": 0,
         "files": 33
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next",
+        "path": "wave/experiments/refinery-dashboard/.next",
         "depth": 4,
         "total_children": 23,
         "subdirs": 7,
         "files": 16
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server",
+        "path": "wave/experiments/refinery-dashboard/.next/server",
         "depth": 5,
         "total_children": 13,
         "subdirs": 3,
         "files": 10
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app",
         "depth": 6,
         "total_children": 22,
         "subdirs": 7,
         "files": 15
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/chunks/ssr",
+        "path": "wave/experiments/refinery-dashboard/.next/server/chunks/ssr",
         "depth": 7,
         "total_children": 52,
         "subdirs": 0,
         "files": 52
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev",
+        "path": "wave/experiments/refinery-dashboard/.next/dev",
         "depth": 5,
         "total_children": 13,
         "subdirs": 6,
         "files": 7
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/cache/turbopack/23c464985",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/cache/turbopack/23c464985",
         "depth": 8,
         "total_children": 70,
         "subdirs": 0,
         "files": 70
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/server/chunks/ssr",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/server/chunks/ssr",
         "depth": 8,
         "total_children": 46,
         "subdirs": 0,
         "files": 46
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/static/chunks",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/static/chunks",
         "depth": 7,
         "total_children": 42,
         "subdirs": 0,
         "files": 42
       },
       {
-        "path": "context-management/docs",
+        "path": "wave/docs",
         "depth": 2,
         "total_children": 46,
         "subdirs": 13,
         "files": 33
       },
       {
-        "path": "context-management/docs/legacy_root_scatter",
+        "path": "wave/docs/legacy_root_scatter",
         "depth": 3,
         "total_children": 13,
         "subdirs": 0,
         "files": 13
       },
       {
-        "path": "context-management/docs/specs",
+        "path": "wave/docs/specs",
         "depth": 3,
         "total_children": 14,
         "subdirs": 0,
         "files": 14
       },
       {
-        "path": "context-management/docs/theory",
+        "path": "wave/docs/theory",
         "depth": 3,
         "total_children": 17,
         "subdirs": 0,
         "files": 17
       },
       {
-        "path": "context-management/docs/prompts",
+        "path": "wave/docs/prompts",
         "depth": 3,
         "total_children": 20,
         "subdirs": 0,
         "files": 20
       },
       {
-        "path": "context-management/docs/assets",
+        "path": "wave/docs/assets",
         "depth": 3,
         "total_children": 98,
         "subdirs": 0,
@@ -4368,1456 +4368,1456 @@
     ],
     "optimal_range": [
       {
-        "path": "standard-model-of-code/artifacts/atom-research",
+        "path": "particle/artifacts/atom-research",
         "depth": 3,
         "total_children": 5,
         "subdirs": 2,
         "files": 3
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23",
         "depth": 5,
         "total_children": 7,
         "subdirs": 1,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/zod/7b43bc64e7a2",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/zod/7b43bc64e7a2",
         "depth": 8,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lodash/62b439f68964",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lodash/62b439f68964",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/alacritty/08134af85335",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/alacritty/08134af85335",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gson/286843d4a90a",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gson/286843d4a90a",
         "depth": 8,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hugo/192e3c453e90",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hugo/192e3c453e90",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lombok/04876622d9ce",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lombok/04876622d9ce",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/guava/0bf87046267c",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/guava/0bf87046267c",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/express/a479419b16f5",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/express/a479419b16f5",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/trpc/163ec4ec05be",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/trpc/163ec4ec05be",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/starship/6109716afee0",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/starship/6109716afee0",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lazygit/19605ad47699",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lazygit/19605ad47699",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fd/bf81fb98fae7",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fd/bf81fb98fae7",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/prisma/b6fd1bd092e1",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/prisma/b6fd1bd092e1",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/solid/a5b51fe200fd",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/solid/a5b51fe200fd",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/preact/60db6f4f1276",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/preact/60db6f4f1276",
         "depth": 8,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/httpx/ae1b9f66238f",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/httpx/ae1b9f66238f",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hono/bcc81b1fc062",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hono/bcc81b1fc062",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/drizzle-orm/a086f59fba7f",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/drizzle-orm/a086f59fba7f",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fastapi/597b435ae7f0",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fastapi/597b435ae7f0",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/rich/96dd4b60e3a7",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/rich/96dd4b60e3a7",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fiber/8b09b22108b6",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fiber/8b09b22108b6",
         "depth": 8,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/k9s/6dbf571c59fd",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/k9s/6dbf571c59fd",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/bat/cd06fe46e001",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/bat/cd06fe46e001",
         "depth": 8,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/esbuild/cd832972927f",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/esbuild/cd832972927f",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/ripgrep/0a88cccd5188",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/ripgrep/0a88cccd5188",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/cobra/61968e893eee",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/cobra/61968e893eee",
         "depth": 8,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/instructor/61c2663b54d4",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/instructor/61c2663b54d4",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/serde/d17902059e77",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/serde/d17902059e77",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gin/b2b489dbf482",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gin/b2b489dbf482",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/spring-boot/38f2c1a7fe2a",
+        "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/spring-boot/38f2c1a7fe2a",
         "depth": 8,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22",
+        "path": "particle/artifacts/atom-research/2026-01-22",
         "depth": 4,
         "total_children": 7,
         "subdirs": 2,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos",
+        "path": "particle/artifacts/atom-research/2026-01-22/repos",
         "depth": 5,
         "total_children": 4,
         "subdirs": 4,
         "files": 0
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/zod/cbf77bb12bdf",
+        "path": "particle/artifacts/atom-research/2026-01-22/repos/zod/cbf77bb12bdf",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/httpx/ae1b9f66238f",
+        "path": "particle/artifacts/atom-research/2026-01-22/repos/httpx/ae1b9f66238f",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/cobra/61968e893eee",
+        "path": "particle/artifacts/atom-research/2026-01-22/repos/cobra/61968e893eee",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/instructor/3fe0c7664bd1",
+        "path": "particle/artifacts/atom-research/2026-01-22/repos/instructor/3fe0c7664bd1",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/ai-audit",
+        "path": "particle/artifacts/atom-research/2026-01-22/ai-audit",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/.archive",
+        "path": "particle/.archive",
         "depth": 2,
         "total_children": 5,
         "subdirs": 5,
         "files": 0
       },
       {
-        "path": "standard-model-of-code/.archive/root_legacy",
+        "path": "particle/.archive/root_legacy",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/.archive/legacy_viz",
+        "path": "particle/.archive/legacy_viz",
         "depth": 3,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive/audiobooks",
+        "path": "particle/.archive/docs_archive/audiobooks",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive/subdirs",
+        "path": "particle/.archive/docs_archive/subdirs",
         "depth": 4,
         "total_children": 4,
         "subdirs": 3,
         "files": 1
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive/subdirs/roadmaps",
+        "path": "particle/.archive/docs_archive/subdirs/roadmaps",
         "depth": 5,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "standard-model-of-code/.archive/docs_archive/operational",
+        "path": "particle/.archive/docs_archive/operational",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/tools/research/prompts",
+        "path": "particle/tools/research/prompts",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive",
+        "path": "particle/archive",
         "depth": 2,
         "total_children": 9,
         "subdirs": 8,
         "files": 1
       },
       {
-        "path": "standard-model-of-code/archive/experiments/outputs",
+        "path": "particle/archive/experiments/outputs",
         "depth": 4,
         "total_children": 7,
         "subdirs": 7,
         "files": 0
       },
       {
-        "path": "standard-model-of-code/archive/audit_logs/libs/bootstrap",
+        "path": "particle/archive/audit_logs/libs/bootstrap",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/audit_logs/libs/quarto-html",
+        "path": "particle/archive/audit_logs/libs/quarto-html",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments",
+        "path": "particle/archive/legacy_experiments",
         "depth": 3,
         "total_children": 5,
         "subdirs": 4,
         "files": 1
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/gemini-ink-studio/services",
+        "path": "particle/archive/legacy_experiments/experiments/gemini-ink-studio/services",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/flash-ui/components",
+        "path": "particle/archive/legacy_experiments/experiments/flash-ui/components",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/aquarela-prototype/components",
+        "path": "particle/archive/legacy_experiments/experiments/aquarela-prototype/components",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/experiments/aquarela-prototype/services",
+        "path": "particle/archive/legacy_experiments/experiments/aquarela-prototype/services",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/related/chrome-mcp/dist/tools",
+        "path": "particle/archive/legacy_experiments/related/chrome-mcp/dist/tools",
         "depth": 7,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/related/chrome-mcp/src/tools",
+        "path": "particle/archive/legacy_experiments/related/chrome-mcp/src/tools",
         "depth": 7,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/dashboard",
+        "path": "particle/archive/legacy_experiments/dashboard",
         "depth": 4,
         "total_children": 9,
         "subdirs": 3,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/archive/legacy_experiments/dashboard/routers",
+        "path": "particle/archive/legacy_experiments/dashboard/routers",
         "depth": 5,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/archive/blender",
+        "path": "particle/archive/blender",
         "depth": 3,
         "total_children": 6,
         "subdirs": 5,
         "files": 1
       },
       {
-        "path": "standard-model-of-code/archive/blender/_archive",
+        "path": "particle/archive/blender/_archive",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/runs",
+        "path": "particle/archive/runs",
         "depth": 3,
         "total_children": 9,
         "subdirs": 6,
         "files": 3
       },
       {
-        "path": "standard-model-of-code/archive/runs/.collider-verify",
+        "path": "particle/archive/runs/.collider-verify",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/runs/.collider-full",
+        "path": "particle/archive/runs/.collider-full",
         "depth": 4,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/archive/runs/.tmp_verify",
+        "path": "particle/archive/runs/.tmp_verify",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/archive/runs/.collider_debug_init",
+        "path": "particle/archive/runs/.collider_debug_init",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/output",
+        "path": "particle/output",
         "depth": 2,
         "total_children": 9,
         "subdirs": 7,
         "files": 2
       },
       {
-        "path": "standard-model-of-code/output/test_integration",
+        "path": "particle/output/test_integration",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/output/test_refactor_v3",
+        "path": "particle/output/test_refactor_v3",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/output/learning",
+        "path": "particle/output/learning",
         "depth": 3,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/output/self_analysis",
+        "path": "particle/output/self_analysis",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/output/core_analysis",
+        "path": "particle/output/core_analysis",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/docs/research/gemini",
+        "path": "particle/docs/research/gemini",
         "depth": 4,
         "total_children": 4,
         "subdirs": 3,
         "files": 1
       },
       {
-        "path": "standard-model-of-code/docs/research/theories",
+        "path": "particle/docs/research/theories",
         "depth": 4,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/docs/ui",
+        "path": "particle/docs/ui",
         "depth": 3,
         "total_children": 5,
         "subdirs": 5,
         "files": 0
       },
       {
-        "path": "standard-model-of-code/docs/ui/coordination",
+        "path": "particle/docs/ui/coordination",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/docs/ui/corpus/v1/analysis",
+        "path": "particle/docs/ui/corpus/v1/analysis",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/docs/ui/corpus/v1/extracted",
+        "path": "particle/docs/ui/corpus/v1/extracted",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/docs/core/pipeline",
+        "path": "particle/docs/core/pipeline",
         "depth": 4,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "standard-model-of-code/docs/core/parser",
+        "path": "particle/docs/core/parser",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/docs/core/viz",
+        "path": "particle/docs/core/viz",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/docs/core/registry",
+        "path": "particle/docs/core/registry",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/docs/reports/validation",
+        "path": "particle/docs/reports/validation",
         "depth": 4,
         "total_children": 8,
         "subdirs": 0,
         "files": 8
       },
       {
-        "path": "standard-model-of-code/schema/crosswalks",
+        "path": "particle/schema/crosswalks",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/schema/fixed",
+        "path": "particle/schema/fixed",
         "depth": 3,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/schema/viz/tokens",
+        "path": "particle/schema/viz/tokens",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/.github",
+        "path": "particle/.github",
         "depth": 2,
         "total_children": 4,
         "subdirs": 2,
         "files": 2
       },
       {
-        "path": "standard-model-of-code/collider.egg-info",
+        "path": "particle/collider.egg-info",
         "depth": 2,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/data",
+        "path": "particle/data",
         "depth": 2,
         "total_children": 9,
         "subdirs": 1,
         "files": 8
       },
       {
-        "path": "standard-model-of-code/data/benchmarks",
+        "path": "particle/data/benchmarks",
         "depth": 3,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/src/core/classification",
+        "path": "particle/src/core/classification",
         "depth": 4,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/src/core/pipeline",
+        "path": "particle/src/core/pipeline",
         "depth": 4,
         "total_children": 6,
         "subdirs": 2,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/src/core/.collider",
+        "path": "particle/src/core/.collider",
         "depth": 4,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/core/queries",
+        "path": "particle/src/core/queries",
         "depth": 4,
         "total_children": 8,
         "subdirs": 6,
         "files": 2
       },
       {
-        "path": "standard-model-of-code/src/core/queries/go",
+        "path": "particle/src/core/queries/go",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/src/core/queries/typescript",
+        "path": "particle/src/core/queries/typescript",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/src/core/queries/rust",
+        "path": "particle/src/core/queries/rust",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "standard-model-of-code/src/core/parser",
+        "path": "particle/src/core/parser",
         "depth": 4,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/core/viz",
+        "path": "particle/src/core/viz",
         "depth": 4,
         "total_children": 6,
         "subdirs": 1,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/core/viz/assets/modules/upb",
+        "path": "particle/src/core/viz/assets/modules/upb",
         "depth": 7,
         "total_children": 7,
         "subdirs": 2,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/core/viz/assets/vendor",
+        "path": "particle/src/core/viz/assets/vendor",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "standard-model-of-code/src/core/registry",
+        "path": "particle/src/core/registry",
         "depth": 4,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/src/patterns",
+        "path": "particle/src/patterns",
         "depth": 3,
         "total_children": 9,
         "subdirs": 1,
         "files": 8
       },
       {
-        "path": "standard-model-of-code/src/patterns/t2_mined",
+        "path": "particle/src/patterns/t2_mined",
         "depth": 4,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "standard-model-of-code/src/integrations/flash-ui",
+        "path": "particle/src/integrations/flash-ui",
         "depth": 4,
         "total_children": 6,
         "subdirs": 1,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/integrations/flash-ui/app/components",
+        "path": "particle/src/integrations/flash-ui/app/components",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "standard-model-of-code/src/collider.egg-info",
+        "path": "particle/src/collider.egg-info",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/llm-threads/ui_drift_class_files/libs/bootstrap",
+        "path": "wave/llm-threads/ui_drift_class_files/libs/bootstrap",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/llm-threads/ui_drift_class_files/libs/quarto-html",
+        "path": "wave/llm-threads/ui_drift_class_files/libs/quarto-html",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "context-management/llm-threads/ui_drift_sequence_files/libs/bootstrap",
+        "path": "wave/llm-threads/ui_drift_sequence_files/libs/bootstrap",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/llm-threads/ui_drift_sequence_files/libs/quarto-html",
+        "path": "wave/llm-threads/ui_drift_sequence_files/libs/quarto-html",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "context-management/llm-threads/ui_drift_state_files/libs/bootstrap",
+        "path": "wave/llm-threads/ui_drift_state_files/libs/bootstrap",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/llm-threads/ui_drift_state_files/libs/quarto-html",
+        "path": "wave/llm-threads/ui_drift_state_files/libs/quarto-html",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "context-management/tools/archive",
+        "path": "wave/tools/archive",
         "depth": 3,
         "total_children": 5,
         "subdirs": 1,
         "files": 4
       },
       {
-        "path": "context-management/tools/mcp/mcp_factory/knowledge",
+        "path": "wave/tools/mcp/mcp_factory/knowledge",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/tools/ai/analyze",
+        "path": "wave/tools/ai/analyze",
         "depth": 4,
         "total_children": 9,
         "subdirs": 3,
         "files": 6
       },
       {
-        "path": "context-management/tools/ops",
+        "path": "wave/tools/ops",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/agent_cuts/2026-01-23",
+        "path": "wave/archive/agent_cuts/2026-01-23",
         "depth": 4,
         "total_children": 5,
         "subdirs": 2,
         "files": 3
       },
       {
-        "path": "context-management/archive/docs_root_2026-01-19",
+        "path": "wave/archive/docs_root_2026-01-19",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/onboarding_legacy_2026-01-25",
+        "path": "wave/archive/onboarding_legacy_2026-01-25",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/intelligence/legacy/palace-dashboard",
+        "path": "wave/archive/intelligence/legacy/palace-dashboard",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "context-management/archive/intelligence/legacy/palace-dashboard/routers",
+        "path": "wave/archive/intelligence/legacy/palace-dashboard/routers",
         "depth": 6,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/references/images/REF-039",
+        "path": "wave/archive/references/images/REF-039",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/references/images/REF-040",
+        "path": "wave/archive/references/images/REF-040",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/references/images/REF-013",
+        "path": "wave/archive/references/images/REF-013",
         "depth": 5,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "context-management/archive/references/images/PEIRCE",
+        "path": "wave/archive/references/images/PEIRCE",
         "depth": 5,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/references/images/REF-010",
+        "path": "wave/archive/references/images/REF-010",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/references/images/REF-086",
+        "path": "wave/archive/references/images/REF-086",
         "depth": 5,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy",
+        "path": "wave/archive/spectrometer_benchmarks_legacy",
         "depth": 3,
         "total_children": 4,
         "subdirs": 3,
         "files": 1
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/test",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/test",
         "depth": 5,
         "total_children": 9,
         "subdirs": 1,
         "files": 8
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/dist",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/dist",
         "depth": 5,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/fp",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/fp",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/.github/workflows",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/.github/workflows",
         "depth": 6,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/lib/fp",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/lib/fp",
         "depth": 6,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/lib/fp/template/modules",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/lib/fp/template/modules",
         "depth": 8,
         "total_children": 8,
         "subdirs": 0,
         "files": 8
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/lib/common",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/lib/common",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/lib/main",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/lib/main",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor",
         "depth": 5,
         "total_children": 4,
         "subdirs": 4,
         "files": 0
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/underscore",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/underscore",
         "depth": 6,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/underscore/test",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/underscore/test",
         "depth": 7,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/backbone/test",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/backbone/test",
         "depth": 7,
         "total_children": 8,
         "subdirs": 1,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/mvc",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/mvc",
         "depth": 6,
         "total_children": 6,
         "subdirs": 4,
         "files": 2
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/mvc/controllers",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/mvc/controllers",
         "depth": 7,
         "total_children": 4,
         "subdirs": 4,
         "files": 0
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/route-separation",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/route-separation",
         "depth": 6,
         "total_children": 6,
         "subdirs": 2,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/route-separation/views",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/route-separation/views",
         "depth": 7,
         "total_children": 5,
         "subdirs": 2,
         "files": 3
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/error-pages/views",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/error-pages/views",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/benchmarks",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/benchmarks",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/.github/workflows",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/.github/workflows",
         "depth": 6,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/express/lib",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/express/lib",
         "depth": 5,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test",
         "depth": 5,
         "total_children": 5,
         "subdirs": 5,
         "files": 0
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/unit",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/unit",
         "depth": 6,
         "total_children": 7,
         "subdirs": 7,
         "files": 0
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/unit/adapters",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/unit/adapters",
         "depth": 7,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/unit/helpers",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/unit/helpers",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/specs/core",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/specs/core",
         "depth": 7,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/module",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/module",
         "depth": 6,
         "total_children": 7,
         "subdirs": 6,
         "files": 1
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/module/ts-require",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/module/ts-require",
         "depth": 7,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/module/ts-require-default",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/module/ts-require-default",
         "depth": 7,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/module/ts",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/module/ts",
         "depth": 7,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/manual",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/manual",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/.github",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/.github",
         "depth": 5,
         "total_children": 8,
         "subdirs": 2,
         "files": 6
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/.github/ISSUE_TEMPLATE",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/.github/ISSUE_TEMPLATE",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/lib",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/lib",
         "depth": 5,
         "total_children": 9,
         "subdirs": 7,
         "files": 2
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/lib/platform",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/lib/platform",
         "depth": 6,
         "total_children": 4,
         "subdirs": 3,
         "files": 1
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/lib/adapters",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/lib/adapters",
         "depth": 6,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/templates",
+        "path": "wave/archive/spectrometer_benchmarks_legacy/axios/templates",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/spectrometer_audit_results/spectrometer_system_audit",
+        "path": "wave/archive/spectrometer_audit_results/spectrometer_system_audit",
         "depth": 4,
         "total_children": 6,
         "subdirs": 5,
         "files": 1
       },
       {
-        "path": "context-management/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly",
+        "path": "wave/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_poly",
         "depth": 5,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2",
+        "path": "wave/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_dddy2",
         "depth": 5,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal",
+        "path": "wave/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_core_universal",
         "depth": 5,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2",
+        "path": "wave/archive/spectrometer_audit_results/spectrometer_system_audit/output_run_fastapi2",
         "depth": 5,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components",
+        "path": "wave/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5/components",
         "depth": 5,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/archive/sessions",
+        "path": "wave/archive/sessions",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/grok_chats",
+        "path": "wave/archive/grok_chats",
         "depth": 3,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "context-management/archive/docs_smc_2026-01-19",
+        "path": "wave/archive/docs_smc_2026-01-19",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/docs_registry_2026-01-19",
+        "path": "wave/archive/docs_registry_2026-01-19",
         "depth": 3,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/archive/zips",
+        "path": "wave/archive/zips",
         "depth": 3,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/archive/orphaned_tools_2025",
+        "path": "wave/archive/orphaned_tools_2025",
         "depth": 3,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/app",
+        "path": "wave/experiments/refinery-dashboard/app",
         "depth": 4,
         "total_children": 5,
         "subdirs": 1,
         "files": 4
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/page",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/page",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/favicon.ico",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/favicon.ico",
         "depth": 7,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_global-error.segments",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_global-error.segments",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_not-found",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_not-found",
         "depth": 7,
         "total_children": 5,
         "subdirs": 1,
         "files": 4
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_not-found/page",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_not-found/page",
         "depth": 8,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_not-found.segments",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_not-found.segments",
         "depth": 7,
         "total_children": 6,
         "subdirs": 1,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_global-error",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_global-error",
         "depth": 7,
         "total_children": 5,
         "subdirs": 1,
         "files": 4
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/_global-error/page",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/_global-error/page",
         "depth": 8,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/app/index.segments",
+        "path": "wave/experiments/refinery-dashboard/.next/server/app/index.segments",
         "depth": 7,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/server/chunks",
+        "path": "wave/experiments/refinery-dashboard/.next/server/chunks",
         "depth": 6,
         "total_children": 9,
         "subdirs": 1,
         "files": 8
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/static/chunks",
+        "path": "wave/experiments/refinery-dashboard/.next/static/chunks",
         "depth": 6,
         "total_children": 9,
         "subdirs": 0,
         "files": 9
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/static/media",
+        "path": "wave/experiments/refinery-dashboard/.next/static/media",
         "depth": 6,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/server/app",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/server/app",
         "depth": 7,
         "total_children": 5,
         "subdirs": 2,
         "files": 3
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/server/app/page",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/server/app/page",
         "depth": 8,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/server/app/_not-found",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/server/app/_not-found",
         "depth": 8,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/server/app/_not-found/page",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/server/app/_not-found/page",
         "depth": 9,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/static/media",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/static/media",
         "depth": 7,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/dev/build",
+        "path": "wave/experiments/refinery-dashboard/.next/dev/build",
         "depth": 6,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/.next/build",
+        "path": "wave/experiments/refinery-dashboard/.next/build",
         "depth": 5,
         "total_children": 4,
         "subdirs": 1,
         "files": 3
       },
       {
-        "path": "context-management/experiments/refinery-dashboard/public",
+        "path": "wave/experiments/refinery-dashboard/public",
         "depth": 4,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/docs/archive/legacy_schema_2025",
+        "path": "wave/docs/archive/legacy_schema_2025",
         "depth": 4,
         "total_children": 6,
         "subdirs": 0,
         "files": 6
       },
       {
-        "path": "context-management/docs/deep",
+        "path": "wave/docs/deep",
         "depth": 3,
         "total_children": 8,
         "subdirs": 0,
         "files": 8
       },
       {
-        "path": "context-management/docs/operations",
+        "path": "wave/docs/operations",
         "depth": 3,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/docs/agent_school",
+        "path": "wave/docs/agent_school",
         "depth": 3,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/docs/reports",
+        "path": "wave/docs/reports",
         "depth": 3,
         "total_children": 7,
         "subdirs": 3,
         "files": 4
       },
       {
-        "path": "context-management/docs/reports/architecture_report/collider_analysis",
+        "path": "wave/docs/reports/architecture_report/collider_analysis",
         "depth": 5,
         "total_children": 5,
         "subdirs": 0,
         "files": 5
       },
       {
-        "path": "context-management/reference_datasets",
+        "path": "wave/reference_datasets",
         "depth": 2,
         "total_children": 4,
         "subdirs": 0,
         "files": 4
       },
       {
-        "path": "context-management/data/collider_runs",
+        "path": "wave/data/collider_runs",
         "depth": 3,
         "total_children": 7,
         "subdirs": 0,
         "files": 7
       },
       {
-        "path": "context-management/services/graph_rag",
+        "path": "wave/services/graph_rag",
         "depth": 3,
         "total_children": 7,
         "subdirs": 2,
@@ -19267,1302 +19267,1302 @@
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code",
+      "path": "particle",
       "count": 42,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/research",
+      "path": "particle/research",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/research/extracted_nodes",
+      "path": "particle/research/extracted_nodes",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos",
       "count": 33,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/zod",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/zod",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lodash",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lodash",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/alacritty",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/alacritty",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gson",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gson",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/attrs",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/attrs",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hugo",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hugo",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lombok",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lombok",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/typer",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/typer",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/guava",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/guava",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/express",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/express",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/trpc",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/trpc",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/starship",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/starship",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/jackson-core",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/jackson-core",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lazygit",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/lazygit",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fd",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fd",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/prisma",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/prisma",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/solid",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/solid",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/preact",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/preact",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/httpx",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/httpx",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hono",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/hono",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/drizzle-orm",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/drizzle-orm",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fastapi",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fastapi",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/rich",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/rich",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fiber",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/fiber",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/k9s",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/k9s",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/bat",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/bat",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/esbuild",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/esbuild",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/ripgrep",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/ripgrep",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/cobra",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/cobra",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/instructor",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/instructor",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/serde",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/serde",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gin",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/gin",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/spring-boot",
+      "path": "particle/artifacts/atom-research/2026-01-23-calibration/2026-01-23/repos/spring-boot",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/zod",
+      "path": "particle/artifacts/atom-research/2026-01-22/repos/zod",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/httpx",
+      "path": "particle/artifacts/atom-research/2026-01-22/repos/httpx",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/cobra",
+      "path": "particle/artifacts/atom-research/2026-01-22/repos/cobra",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/artifacts/atom-research/2026-01-22/repos/instructor",
+      "path": "particle/artifacts/atom-research/2026-01-22/repos/instructor",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/.archive/docs_archive",
+      "path": "particle/.archive/docs_archive",
       "count": 38,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/.archive/docs_archive/legacy_theory",
+      "path": "particle/.archive/docs_archive/legacy_theory",
       "count": 22,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/tools",
+      "path": "particle/tools",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/tools/batch_grade",
+      "path": "particle/tools/batch_grade",
       "count": 37,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/evals",
+      "path": "particle/archive/evals",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/archive/evals/.eval",
+      "path": "particle/archive/evals/.eval",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/archive/audit_logs",
+      "path": "particle/archive/audit_logs",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/legacy_experiments/experiments/gemini-ink-studio",
+      "path": "particle/archive/legacy_experiments/experiments/gemini-ink-studio",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/legacy_experiments/experiments/flash-ui",
+      "path": "particle/archive/legacy_experiments/experiments/flash-ui",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/legacy_experiments/experiments/aquarela-prototype",
+      "path": "particle/archive/legacy_experiments/experiments/aquarela-prototype",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/legacy_experiments/related",
+      "path": "particle/archive/legacy_experiments/related",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/archive/legacy_experiments/related/chrome-mcp",
+      "path": "particle/archive/legacy_experiments/related/chrome-mcp",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/archive/runs/.collider-src",
+      "path": "particle/archive/runs/.collider-src",
       "count": 22,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/tests",
+      "path": "particle/tests",
       "count": 33,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/tests/fixtures/toy_import_file_node",
+      "path": "particle/tests/fixtures/toy_import_file_node",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/tests/fixtures/toy_call_file_node_shadow",
+      "path": "particle/tests/fixtures/toy_call_file_node_shadow",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/tests/fixtures/toy_import_internal",
+      "path": "particle/tests/fixtures/toy_import_internal",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/docs",
+      "path": "particle/docs",
       "count": 32,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research",
+      "path": "particle/docs/research",
       "count": 32,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/gemini/docs",
+      "path": "particle/docs/research/gemini/docs",
       "count": 302,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/gemini/sessions",
+      "path": "particle/docs/research/gemini/sessions",
       "count": 296,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/gemini/raw",
+      "path": "particle/docs/research/gemini/raw",
       "count": 297,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/perplexity",
+      "path": "particle/docs/research/perplexity",
       "count": 47,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/perplexity/docs",
+      "path": "particle/docs/research/perplexity/docs",
       "count": 171,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/research/perplexity/raw",
+      "path": "particle/docs/research/perplexity/raw",
       "count": 167,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/ui/tasks",
+      "path": "particle/docs/ui/tasks",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/docs/ui/corpus",
+      "path": "particle/docs/ui/corpus",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/docs/core",
+      "path": "particle/docs/core",
       "count": 67,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/core/pipeline/stages",
+      "path": "particle/docs/core/pipeline/stages",
       "count": 28,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/specs",
+      "path": "particle/docs/specs",
       "count": 42,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/docs/reports",
+      "path": "particle/docs/reports",
       "count": 37,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/schema",
+      "path": "particle/schema",
       "count": 18,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/schema/atoms",
+      "path": "particle/schema/atoms",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/tools",
+      "path": "particle/src/tools",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/core",
+      "path": "particle/src/core",
       "count": 87,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/core/pipeline/stages",
+      "path": "particle/src/core/pipeline/stages",
       "count": 29,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/core/viz/assets",
+      "path": "particle/src/core/viz/assets",
       "count": 21,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/core/viz/assets/archive",
+      "path": "particle/src/core/viz/assets/archive",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/core/viz/assets/modules",
+      "path": "particle/src/core/viz/assets/modules",
       "count": 57,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/core/context-management",
+      "path": "particle/src/core/wave",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/core/context-management/intelligence",
+      "path": "particle/src/core/wave/intelligence",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/core/lenses",
+      "path": "particle/src/core/lenses",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/integrations",
+      "path": "particle/src/integrations",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "standard-model-of-code/src/integrations/flash-ui/app",
+      "path": "particle/src/integrations/flash-ui/app",
       "count": 15,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "standard-model-of-code/src/scripts",
+      "path": "particle/src/scripts",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management",
+      "path": "wave",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/llm-threads",
+      "path": "wave/llm-threads",
       "count": 20,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/llm-threads/ui_drift_class_files",
+      "path": "wave/llm-threads/ui_drift_class_files",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/llm-threads/ui_drift_sequence_files",
+      "path": "wave/llm-threads/ui_drift_sequence_files",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/llm-threads/ui_drift_state_files",
+      "path": "wave/llm-threads/ui_drift_state_files",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/tools",
+      "path": "wave/tools",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/tools/ai",
+      "path": "wave/tools/ai",
       "count": 24,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/tools/ai/aci",
+      "path": "wave/tools/ai/aci",
       "count": 15,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/tools/ai/aci/context-management",
+      "path": "wave/tools/ai/aci/wave",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/tools/ai/aci/context-management/intelligence",
+      "path": "wave/tools/ai/aci/wave/intelligence",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/tools/ai/aci/refinery",
+      "path": "wave/tools/ai/aci/refinery",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/tools/ai/deck",
+      "path": "wave/tools/ai/deck",
       "count": 28,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive",
+      "path": "wave/archive",
       "count": 35,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/agent_cuts",
+      "path": "wave/archive/agent_cuts",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/dead_code",
+      "path": "wave/archive/dead_code",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/intelligence",
+      "path": "wave/archive/intelligence",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/intelligence/legacy",
+      "path": "wave/archive/intelligence/legacy",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/references",
+      "path": "wave/archive/references",
       "count": 40,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/txt",
+      "path": "wave/archive/references/txt",
       "count": 65,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images",
+      "path": "wave/archive/references/images",
       "count": 66,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-119",
+      "path": "wave/archive/references/images/REF-119",
       "count": 230,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/LISZKA",
+      "path": "wave/archive/references/images/LISZKA",
       "count": 102,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/ENGESTROM",
+      "path": "wave/archive/references/images/ENGESTROM",
       "count": 56,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-006",
+      "path": "wave/archive/references/images/REF-006",
       "count": 158,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-052",
+      "path": "wave/archive/references/images/REF-052",
       "count": 27,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-097",
+      "path": "wave/archive/references/images/REF-097",
       "count": 18,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-063",
+      "path": "wave/archive/references/images/REF-063",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/WHITEHEAD",
+      "path": "wave/archive/references/images/WHITEHEAD",
       "count": 1812,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/KOESTLER",
+      "path": "wave/archive/references/images/KOESTLER",
       "count": 769,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/GENTNER",
+      "path": "wave/archive/references/images/GENTNER",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-098",
+      "path": "wave/archive/references/images/REF-098",
       "count": 38,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-076",
+      "path": "wave/archive/references/images/REF-076",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-022",
+      "path": "wave/archive/references/images/REF-022",
       "count": 31,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/HUTCHINS",
+      "path": "wave/archive/references/images/HUTCHINS",
       "count": 1784,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-015",
+      "path": "wave/archive/references/images/REF-015",
       "count": 34,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/SIMON",
+      "path": "wave/archive/references/images/SIMON",
       "count": 3937,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/PRIGOGINE",
+      "path": "wave/archive/references/images/PRIGOGINE",
       "count": 2697,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-123",
+      "path": "wave/archive/references/images/REF-123",
       "count": 232,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-094",
+      "path": "wave/archive/references/images/REF-094",
       "count": 24,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-034",
+      "path": "wave/archive/references/images/REF-034",
       "count": 22,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-002",
+      "path": "wave/archive/references/images/REF-002",
       "count": 37,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/ASHBY",
+      "path": "wave/archive/references/images/ASHBY",
       "count": 226,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-072",
+      "path": "wave/archive/references/images/REF-072",
       "count": 119,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-081",
+      "path": "wave/archive/references/images/REF-081",
       "count": 18,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-029",
+      "path": "wave/archive/references/images/REF-029",
       "count": 163,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-016",
+      "path": "wave/archive/references/images/REF-016",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-011",
+      "path": "wave/archive/references/images/REF-011",
       "count": 103,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/FRISTON",
+      "path": "wave/archive/references/images/FRISTON",
       "count": 573,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-080",
+      "path": "wave/archive/references/images/REF-080",
       "count": 224,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-074",
+      "path": "wave/archive/references/images/REF-074",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-073",
+      "path": "wave/archive/references/images/REF-073",
       "count": 50,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/REF-087",
+      "path": "wave/archive/references/images/REF-087",
       "count": 34,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/GIBSON",
+      "path": "wave/archive/references/images/GIBSON",
       "count": 51,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/SUCHMAN",
+      "path": "wave/archive/references/images/SUCHMAN",
       "count": 165,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/images/BEJAN",
+      "path": "wave/archive/references/images/BEJAN",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/pdf",
+      "path": "wave/archive/references/pdf",
       "count": 82,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/md",
+      "path": "wave/archive/references/md",
       "count": 82,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/references/metadata",
+      "path": "wave/archive/references/metadata",
       "count": 76,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/lodash",
       "count": 26,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin/xp",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/lodash/vendor/firebug-lite/skin/xp",
       "count": 64,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express/test",
       "count": 73,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test/acceptance",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express/test/acceptance",
       "count": 18,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express/test/fixtures",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express/test/fixtures",
       "count": 18,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples",
       "count": 26,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/express/examples/ejs/public",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/express/examples/ejs/public",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/axios",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/axios",
       "count": 33,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/test/specs",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/axios/test/specs",
       "count": 20,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/bin",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/axios/bin",
       "count": 15,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_benchmarks_legacy/axios/lib/helpers",
+      "path": "wave/archive/spectrometer_benchmarks_legacy/axios/lib/helpers",
       "count": 32,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/docs",
+      "path": "wave/archive/docs",
       "count": 16,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_legacy",
+      "path": "wave/archive/spectrometer_legacy",
       "count": 24,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5",
+      "path": "wave/archive/spectrometer_legacy/spectrometer-os_-standard-model-v5",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/scripts",
+      "path": "wave/archive/scripts",
       "count": 71,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/large_outputs",
+      "path": "wave/archive/large_outputs",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/large_outputs/2026-01-19",
+      "path": "wave/archive/large_outputs/2026-01-19",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/archive/misc_docs",
+      "path": "wave/archive/misc_docs",
       "count": 50,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/archive/data",
+      "path": "wave/archive/data",
       "count": 23,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/intelligence",
+      "path": "wave/intelligence",
       "count": 108,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/intelligence/logs",
+      "path": "wave/intelligence/logs",
       "count": 33,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/app/api",
+      "path": "wave/experiments/refinery-dashboard/app/api",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next",
+      "path": "wave/experiments/refinery-dashboard/.next",
       "count": 23,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/server",
+      "path": "wave/experiments/refinery-dashboard/.next/server",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/server/app",
+      "path": "wave/experiments/refinery-dashboard/.next/server/app",
       "count": 22,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/server/chunks/ssr",
+      "path": "wave/experiments/refinery-dashboard/.next/server/chunks/ssr",
       "count": 52,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev",
+      "path": "wave/experiments/refinery-dashboard/.next/dev",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev/cache/turbopack",
+      "path": "wave/experiments/refinery-dashboard/.next/dev/cache/turbopack",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev/cache/turbopack/23c464985",
+      "path": "wave/experiments/refinery-dashboard/.next/dev/cache/turbopack/23c464985",
       "count": 70,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev/server/chunks",
+      "path": "wave/experiments/refinery-dashboard/.next/dev/server/chunks",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev/server/chunks/ssr",
+      "path": "wave/experiments/refinery-dashboard/.next/dev/server/chunks/ssr",
       "count": 46,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/refinery-dashboard/.next/dev/static/chunks",
+      "path": "wave/experiments/refinery-dashboard/.next/dev/static/chunks",
       "count": 42,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/experiments/aquarela-prototype",
+      "path": "wave/experiments/aquarela-prototype",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/experiments/aquarela-prototype/.vite",
+      "path": "wave/experiments/aquarela-prototype/.vite",
       "count": 1,
       "issue": "SINGLETON",
       "severity": "LOW",
       "recommendation": "Consider flattening (merge parent and child)"
     },
     {
-      "path": "context-management/docs",
+      "path": "wave/docs",
       "count": 46,
       "issue": "TOO_MANY",
       "severity": "HIGH",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/docs/legacy_root_scatter",
+      "path": "wave/docs/legacy_root_scatter",
       "count": 13,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/docs/specs",
+      "path": "wave/docs/specs",
       "count": 14,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/docs/theory",
+      "path": "wave/docs/theory",
       "count": 17,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/docs/prompts",
+      "path": "wave/docs/prompts",
       "count": 20,
       "issue": "TOO_MANY",
       "severity": "MEDIUM",
       "recommendation": "Consider creating subdirectories to group related items"
     },
     {
-      "path": "context-management/docs/assets",
+      "path": "wave/docs/assets",
       "count": 98,
       "issue": "TOO_MANY",
       "severity": "HIGH",

@@ -16,7 +16,7 @@ What is the complete OKLCH color system architecture? List all files, their rela
 
 ## Response
 
-Based on the provided codebase context—specifically `context-management/docs/COLLIDER_ARCHITECTURE.md` and `context-management/docs/DATA_LAYER_REFACTORING_MAP.md`—the color and appearance system is managed by the **Visualization Token System**.
+Based on the provided codebase context—specifically `wave/docs/COLLIDER_ARCHITECTURE.md` and `wave/docs/DATA_LAYER_REFACTORING_MAP.md`—the color and appearance system is managed by the **Visualization Token System**.
 
 While the documents do not explicitly confirm the use of the **OKLCH** color space (vs. Hex/RGB), the architecture is designed to support any color definition format via the `TokenResolver`.
 
@@ -40,12 +40,12 @@ The Color/Appearance system follows a **Data-Driven Token Architecture**. It sep
 
 | Component | File Path | Role |
 |-----------|-----------|------|
-| **The Schema** | `standard-model-of-code/schema/viz/tokens/appearance.tokens.json` | **Source of Truth**. Defines color palettes, sizes, and opacities. |
-| **The Controls** | `standard-model-of-code/schema/viz/tokens/controls.tokens.json` | Defines UI panel configurations and toggle states. |
-| **The Engine** | `standard-model-of-code/src/core/viz/token_resolver.py` | **The "UPB" (Binder)**. Singleton that parses dot-notation keys to values. |
-| **The Applicator** | `standard-model-of-code/src/core/viz/appearance_engine.py` | Uses resolved tokens to assign specific colors to graph nodes. |
-| **The Renderer** | `standard-model-of-code/tools/visualize_graph_webgl.py` | Consumes the computed colors for the physics simulation. |
-| **The Output** | `standard-model-of-code/src/core/viz/assets/styles.css` | Consumes tokens for HTML UI styling. |
+| **The Schema** | `particle/schema/viz/tokens/appearance.tokens.json` | **Source of Truth**. Defines color palettes, sizes, and opacities. |
+| **The Controls** | `particle/schema/viz/tokens/controls.tokens.json` | Defines UI panel configurations and toggle states. |
+| **The Engine** | `particle/src/core/viz/token_resolver.py` | **The "UPB" (Binder)**. Singleton that parses dot-notation keys to values. |
+| **The Applicator** | `particle/src/core/viz/appearance_engine.py` | Uses resolved tokens to assign specific colors to graph nodes. |
+| **The Renderer** | `particle/tools/visualize_graph_webgl.py` | Consumes the computed colors for the physics simulation. |
+| **The Output** | `particle/src/core/viz/assets/styles.css` | Consumes tokens for HTML UI styling. |
 
 **Dependency Graph:**
 ```mermaid

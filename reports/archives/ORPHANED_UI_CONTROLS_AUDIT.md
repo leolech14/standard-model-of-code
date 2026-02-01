@@ -475,7 +475,7 @@ This is not a "defect"—it's a design/implementation gap. These controls were a
 
 ## References
 
-- **Template:** `/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/template.html`
-- **Circuit Breaker:** `/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/circuit-breaker.js`
-- **Filter State:** `/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/filter-state.js`
-- **Modules Directory:** `/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/` (69 files)
+- **Template:** `/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/template.html`
+- **Circuit Breaker:** `/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/circuit-breaker.js`
+- **Filter State:** `/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/filter-state.js`
+- **Modules Directory:** `/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/` (69 files)

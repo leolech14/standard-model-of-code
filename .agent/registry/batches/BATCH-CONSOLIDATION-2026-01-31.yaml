@@ -40,7 +40,7 @@ agent_deployment:
       4. ONWARDS - Reference governance/ROADMAP.md
 
     validation_tool: |
-      python3 context-management/tools/ai/analyze.py --set brain_active \
+      python3 wave/tools/ai/analyze.py --set brain_active \
         "Validate TASK-XXX confidence scores"
 
   execution_strategy:
@@ -135,7 +135,7 @@ tasks:
     verdict: ACCEPT
 
     description: |
-      18 Python files are untracked across tools/ and context-management/tools/.
+      18 Python files are untracked across tools/ and wave/tools/.
       Classify each as ACTIVE (commit), EXPERIMENT (move), or DEAD (delete).
 
     files_to_triage:
@@ -227,14 +227,14 @@ tasks:
     description: |
       Consolidate 7 intelligence directories to 2:
       - .agent/intelligence/ (canonical)
-      - context-management/intelligence/ (integration)
+      - wave/intelligence/ (integration)
 
     directories_to_remove:
-      - "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
-      - "context-management/docs/theory/context-management/intelligence/"
-      - "standard-model-of-code/docs/theory/context-management/intelligence/"
-      - "context-management/tools/ai/aci/context-management/intelligence/"
-      - "context-management/tools/refinery/context-management/intelligence/"
+      - "particle/.archive/docs_archive/wave/intelligence/"
+      - "wave/docs/theory/wave/intelligence/"
+      - "particle/docs/theory/wave/intelligence/"
+      - "wave/tools/ai/aci/wave/intelligence/"
+      - "wave/tools/refinery/wave/intelligence/"
 
     acceptance_criteria:
       - "Only 2 intelligence directories remain"
@@ -265,7 +265,7 @@ tasks:
     verdict: ACCEPT
 
     description: |
-      Move research to root: standard-model-of-code/docs/research/ -> research/
+      Move research to root: particle/docs/research/ -> research/
       Preserve provider structure: gemini/, perplexity/, claude/
 
     target_structure:
@@ -309,12 +309,12 @@ tasks:
       Subdirectories: refinery/, audits/, archives/
 
     directories_to_consolidate:
-      - "context-management/docs/reports/"
-      - "standard-model-of-code/docs/reports/"
-      - "context-management/reports/"
-      - "context-management/library/reports/"
+      - "wave/docs/reports/"
+      - "particle/docs/reports/"
+      - "wave/reports/"
+      - "wave/library/reports/"
       - "governance/staging/reports/"
-      - "standard-model-of-code/docs/ui/score/reports/"
+      - "particle/docs/ui/score/reports/"
 
     acceptance_criteria:
       - "All reports in reports/ at root"
@@ -417,7 +417,7 @@ execution_commands:
 
   validate_confidence: |
     # Before any task, validate its confidence
-    python3 context-management/tools/ai/analyze.py --set brain_active \
+    python3 wave/tools/ai/analyze.py --set brain_active \
       "Validate TASK-XXX: [paste description].
        Check file paths exist, no breaking references, aligns with ROADMAP"
 

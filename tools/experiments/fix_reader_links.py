@@ -83,7 +83,7 @@ def generate_config():
         },
         "website": {
             "title": "PROJECT_elements Reader",
-            "site-url": "https://github.com/leolech14/standard-model-of-code",
+            "site-url": "https://github.com/leolech14/particle",
             "description": "Official Documentation Reader.",
             "sidebar": {
                 "style": "floating",
@@ -94,7 +94,7 @@ def generate_config():
             },
             "page-footer": {
                 "left": "PROJECT_elements v1.0",
-                "right": [{"icon": "github", "href": "https://github.com/leolech14/standard-model-of-code"}]
+                "right": [{"icon": "github", "href": "https://github.com/leolech14/particle"}]
             }
         },
         "format": {

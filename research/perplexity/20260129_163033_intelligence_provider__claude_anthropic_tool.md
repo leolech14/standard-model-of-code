@@ -33,7 +33,7 @@ Recent updates include **Claude 4** (with Opus and Sonnet variants), which repre
 
 ## Citations
 
-1. https://www.techradar.com/pro/claude-turns-your-ai-chats-into-a-control-room-for-real-work-run-slack-figma-and-more-without-needing-to-switch-apps
+1. https://www.techradar.com/pro/claude-turns-your-ai-chats-into-a-observer-for-real-work-run-slack-figma-and-more-without-needing-to-switch-apps
 2. https://www.anthropic.com/news/introducing-claude
 3. https://www.anthropic.com/news/claude-4
 4. https://saleshive.com/vendors/claude-anthropic/

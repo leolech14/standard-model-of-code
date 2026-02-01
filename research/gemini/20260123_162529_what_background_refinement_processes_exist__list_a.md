@@ -26,10 +26,10 @@ What background refinement processes exist? List auto-boost, cloud refinery syst
       "cloud_refinery": true,
       "deployed": true,
       "running": true,
-      "source_file": "context-management/tools/ai/analyze.py",
+      "source_file": "wave/tools/ai/analyze.py",
       "related_files": [
-        "context-management/config/semantic_models.yaml",
-        "context-management/config/aci_config.yaml"
+        "wave/config/semantic_models.yaml",
+        "wave/config/aci_config.yaml"
       ]
     },
     {
@@ -39,10 +39,10 @@ What background refinement processes exist? List auto-boost, cloud refinery syst
       "cloud_refinery": true,
       "deployed": true,
       "running": true,
-      "source_file": "context-management/tools/ai/analyze.py",
+      "source_file": "wave/tools/ai/analyze.py",
       "related_files": [
-        "context-management/config/semantic_models.yaml",
-        "context-management/config/aci_config.yaml"
+        "wave/config/semantic_models.yaml",
+        "wave/config/aci_config.yaml"
       ]
     },
     {
@@ -52,10 +52,10 @@ What background refinement processes exist? List auto-boost, cloud refinery syst
       "cloud_refinery": true,
       "deployed": false,
       "running": false,
-      "source_file": "context-management/tools/ai/analyze.py",
+      "source_file": "wave/tools/ai/analyze.py",
       "related_files": [
-        "context-management/config/semantic_models.yaml",
-        "context-management/config/aci_config.yaml"
+        "wave/config/semantic_models.yaml",
+        "wave/config/aci_config.yaml"
       ]
     }
   ],

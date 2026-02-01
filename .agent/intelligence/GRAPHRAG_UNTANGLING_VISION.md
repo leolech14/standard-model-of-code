@@ -9,7 +9,7 @@
 
 **Repository organized by:**
 - File type (.md, .py, .yaml)
-- Module ownership (collider/, context-management/, .agent/)
+- Module ownership (collider/, wave/, .agent/)
 - Historical accidents (where someone put it first)
 
 **Not organized by:**
@@ -144,7 +144,7 @@ Community 3: 6 theories, 8 code files, 3 papers
 
 **Instead of:**
 ```
-standard-model-of-code/docs/theory/
+particle/docs/theory/
 ├─ THEORY_AXIOMS.md (all mixed)
 ├─ L0_AXIOMS.md (all mixed)
 └─ PROJECTOME_THEORY.md (all mixed)
@@ -239,10 +239,10 @@ for theme, details in plan.items():
 ### Example 1: Purpose Field Scattered
 
 **Current locations:**
-- Theory: `standard-model-of-code/docs/theory/THEORY_AXIOMS.md` (D1-D7)
+- Theory: `particle/docs/theory/THEORY_AXIOMS.md` (D1-D7)
 - Research: `docs/research/perplexity/` (novelty validation)
 - Code: `src/core/purpose_field.py`
-- Papers: `context-management/archive/references/` (REF-040 Friston)
+- Papers: `wave/archive/references/` (REF-040 Friston)
 - Discussion: `.agent/intelligence/comm_analysis/` (our notes)
 
 **After GraphRAG clustering:**
@@ -336,4 +336,3 @@ knowledge/communication_systems/
 **WANT TO COMPLETE THESE 3 TASKS NEXT SESSION?**
 
 7 hours → Full semantic organization discovered
-

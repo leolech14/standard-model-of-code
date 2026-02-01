@@ -1,0 +1,45 @@
+# archive/agent_cuts/2026-01-23/PROVENANCE.yaml
+# Machine-readable archive provenance for forensic traceability
+
+archive_operation:
+  id: "CUT-2026-01-23-001"
+  date: "2026-01-23T08:42:00Z"
+  operator: "claude-opus-4-5-20251101"
+  git_commit: null  # Populated after commit
+  plan_reference: ".agent/specs/CUTTING_PLAN.md"
+  task_reference: ".agent/registry/active/TASK-004.yaml"
+
+rationale: |
+  Bulk-to-lean cutting phase. Removing dead weight, consolidating
+  overlapping docs, simplifying state machine. Archive preserves
+  full history for potential restoration.
+
+files:
+  - original_path: ".agent/intelligence/truths/history/truths_20260123_052327.yaml"
+    archive_path: "truths_history/truths_20260123_052327.yaml"
+    reason: "DEAD_WEIGHT"
+    reason_detail: "Historical snapshots with no consumer. BARE TruthValidator doesn't use them."
+    restore_command: "cp archive/agent_cuts/2026-01-23/truths_history/truths_20260123_052327.yaml .agent/intelligence/truths/history/"
+
+  - original_path: ".agent/intelligence/truths/history/truths_20260123_052436.yaml"
+    archive_path: "truths_history/truths_20260123_052436.yaml"
+    reason: "DEAD_WEIGHT"
+    reason_detail: "Historical snapshots with no consumer. BARE TruthValidator doesn't use them."
+    restore_command: "cp archive/agent_cuts/2026-01-23/truths_history/truths_20260123_052436.yaml .agent/intelligence/truths/history/"
+
+  - original_path: ".agent/workflows/testing_suite.md"
+    archive_path: "workflows/testing_suite.md"
+    reason: "MISPLACED"
+    reason_detail: "Describes 100+ repo experiment - not core agent workflow."
+    restore_command: "cp archive/agent_cuts/2026-01-23/workflows/testing_suite.md .agent/workflows/"
+
+  - original_path: ".agent/OPEN_CONCERNS.md"
+    archive_path: "OPEN_CONCERNS.md"
+    reason: "SUPERSEDED"
+    reason_detail: "Content migrated to sprints system. Sprint discipline now active."
+    successor_files:
+      - ".agent/sprints/SPRINT-001.yaml"
+      - ".agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md"
+    restore_command: "cp archive/agent_cuts/2026-01-23/OPEN_CONCERNS.md .agent/"
+
+version: "1.0"

@@ -15,7 +15,7 @@ TASK #11: VisibilityAnal...
 Review our Wave-Particle Symmetry implementation plan critically. We have:
 
 TASK #11: VisibilityAnalyzer - uses Python AST to detect __all__, underscore conventions
-TASK #12: WaveExtractor - uses mistletoe to parse markdown, extract API references  
+TASK #12: WaveExtractor - uses mistletoe to parse markdown, extract API references
 TASK #13: IdentityMatcher - uses rapidfuzz for fuzzy matching symbols
 TASK #14: CLI command ./collider symmetry
 TASK #15: Add mistletoe + rapidfuzz to requirements.txt
@@ -23,7 +23,7 @@ TASK #16: Replace proxy symmetry_check.py with true symmetry
 
 Based on the Perplexity research at:
 - docs/research/perplexity/docs/20260123_212009_best_approaches_for_parsing_markdown_documentation.md
-- docs/research/perplexity/docs/20260123_212215_python_ast_techniques_for_determining_public_vs_pr.md  
+- docs/research/perplexity/docs/20260123_212215_python_ast_techniques_for_determining_public_vs_pr.md
 - docs/research/perplexity/docs/20260123_212455_identity_matching_between_code_symbols_and_documen.md
 
 QUESTIONS:
@@ -58,7 +58,7 @@ Okay, I will review your Wave-Particle Symmetry implementation plan critically, 
       "rationale": "Tasks 11-16 involve parsing, matching, and analyzing symmetry, but it's unclear how the *results* are made visible or actionable. An automated report (perhaps integrated with a CI pipeline) should summarize symmetry scores, highlight potential issues, and track trends over time. This closes the feedback loop and enables continuous monitoring.",
       "research_justification": "Antimatter research requires feedback loops to enforce invariants. The documentation maps directly to this need.",
       "severity": "HIGH",
-      "implementation_suggestion": "Generate a Markdown report summarizing the symmetry analysis results. Include metrics like: percentage of documented nodes with symmetric waves, average confidence scores for IdentityMatcher, and a list of top N asymmetric entities (with file paths and line numbers). Store the report in context-management/reports/."
+      "implementation_suggestion": "Generate a Markdown report summarizing the symmetry analysis results. Include metrics like: percentage of documented nodes with symmetric waves, average confidence scores for IdentityMatcher, and a list of top N asymmetric entities (with file paths and line numbers). Store the report in wave/reports/."
     }
   ],
   "task_decomposition_analysis": {

@@ -6,7 +6,7 @@
 
 ## 1. COLLIDER PIPELINE (Codome Analysis)
 
-**Location:** `standard-model-of-code/src/core/pipeline/`
+**Location:** `particle/src/core/pipeline/`
 
 **Purpose:** Analyze code → generate graph + metrics
 
@@ -33,7 +33,7 @@
 
 ## 2. REFINERY PIPELINE (Contextome Atomization)
 
-**Location:** `context-management/tools/ai/aci/refinery.py`
+**Location:** `wave/tools/ai/aci/refinery.py`
 
 **Purpose:** Break docs/config into semantic chunks for AI consumption
 
@@ -46,13 +46,13 @@
 4. **Index** - Build searchable registry
 5. **Cache** - Store for reuse
 
-**Entrypoint:** `python context-management/tools/ai/aci/refinery.py <path>`
+**Entrypoint:** `python wave/tools/ai/aci/refinery.py <path>`
 
 **Input:** Documentation (.md), config (.yaml), code (.py)
 
 **Output:** `*_chunks.json` (agent_chunks, core_chunks, aci_chunks)
 
-**Canonical source:** `context-management/tools/ai/aci/refinery.py` (code)
+**Canonical source:** `wave/tools/ai/aci/refinery.py` (code)
 
 **Documentation:** Missing - needs `REFINERY_PIPELINE_STAGES.md`
 

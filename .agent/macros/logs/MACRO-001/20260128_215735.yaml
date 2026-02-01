@@ -10,7 +10,7 @@ steps:
 - step_id: inventory_artifacts
   tool: Bash
   outcome: SUCCESS
-  output: "=== NEW FILES ===\n?? context-management/experiments/refinery-platform/context-management/experiments/refinery-platform/app/api/v1/activity/\n\
+  output: "=== NEW FILES ===\n?? wave/experiments/refinery-platform/wave/experiments/refinery-platform/app/api/v1/activity/\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n"
   error: null
   exit_code: 0
@@ -43,7 +43,7 @@ steps:
   output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260128.md
   error: null
 variables:
-  session_artifacts: "=== NEW FILES ===\n?? context-management/experiments/refinery-platform/context-management/experiments/refinery-platform/app/api/v1/activity/\n\
+  session_artifacts: "=== NEW FILES ===\n?? wave/experiments/refinery-platform/wave/experiments/refinery-platform/app/api/v1/activity/\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution

@@ -1,0 +1,617 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "2.0.0",
+    "description": "AST-to-Atom crosswalk for Python (200-atom hypothesis testing)",
+    "language": "python",
+    "coverage": {
+        "ast_nodes_total": 108,
+        "mapped": 95,
+        "skipped": 13,
+        "coverage_percent": 88,
+        "notes": "Skipped: operator tokens (Add, Sub, etc.), context markers (Load, Store, Del)"
+    },
+    "mappings": [
+        {
+            "ast_node": "Module",
+            "atom_id": "ORG.FIL.O",
+            "atom_name": "SourceFile",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "FunctionDef",
+            "atom_id": "LOG.FNC.M",
+            "atom_name": "Function",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "AsyncFunctionDef",
+            "atom_id": "LOG.FNC.M",
+            "atom_name": "AsyncFunction",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "ClassDef",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "Class",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Return",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "ReturnStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Delete",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "DeleteStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Assign",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "Assignment",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "AugAssign",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "Assignment",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "AnnAssign",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "Assignment",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "For",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "ForLoop",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "AsyncFor",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "ForLoop",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "While",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "WhileLoop",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "If",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "IfBranch",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "With",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "WithBlock",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "AsyncWith",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "WithBlock",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "Raise",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "ThrowStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Try",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "TryBlock",
+            "type": "Split"
+        },
+        {
+            "ast_node": "ExceptHandler",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "CatchClause",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Assert",
+            "atom_id": "EXE.PRB.O",
+            "atom_name": "Assertion",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Import",
+            "atom_id": "ORG.MOD.O",
+            "atom_name": "ImportStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "ImportFrom",
+            "atom_id": "ORG.MOD.O",
+            "atom_name": "ImportStmt",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "Global",
+            "atom_id": "DAT.VAR.A",
+            "atom_name": "GlobalVar",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Nonlocal",
+            "atom_id": "DAT.VAR.A",
+            "atom_name": "LocalVar",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "Pass",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "EmptyStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Break",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "BreakStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Continue",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "ContinueStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "BoolOp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "BinaryExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "BinOp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "BinaryExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "UnaryOp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "UnaryExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Lambda",
+            "atom_id": "LOG.FNC.M",
+            "atom_name": "Lambda",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "IfExp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "TernaryExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Dict",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "DictLiteral",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Set",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "SetLiteral",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "ListComp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "Comprehension",
+            "type": "Direct",
+            "note": "NEW ATOM #168"
+        },
+        {
+            "ast_node": "SetComp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "Comprehension",
+            "type": "Merged",
+            "note": "NEW ATOM #168"
+        },
+        {
+            "ast_node": "DictComp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "Comprehension",
+            "type": "Merged",
+            "note": "NEW ATOM #168"
+        },
+        {
+            "ast_node": "GeneratorExp",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "Comprehension",
+            "type": "Merged",
+            "note": "NEW ATOM #168"
+        },
+        {
+            "ast_node": "Await",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "AwaitExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Yield",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "YieldExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "YieldFrom",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "YieldExpr",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "Compare",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "BinaryExpr",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "Call",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "CallExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Constant",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "Literal",
+            "type": "Split"
+        },
+        {
+            "ast_node": "Attribute",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "MemberExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Subscript",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "IndexExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Starred",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "SpreadExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Name",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "IdentifierExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "List",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "ListLiteral",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Tuple",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "TupleLiteral",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Match",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "SwitchCase",
+            "type": "Direct",
+            "note": "Python 3.10+"
+        },
+        {
+            "ast_node": "match_case",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "SwitchCase",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "NamedExpr",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "WalrusExpr",
+            "type": "Direct",
+            "note": "NEW ATOM #180 - := walrus operator"
+        },
+        {
+            "ast_node": "FormattedValue",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "TemplateExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "JoinedStr",
+            "atom_id": "DAT.PRM.A",
+            "atom_name": "String",
+            "type": "Merged",
+            "note": "f-string literal"
+        },
+        {
+            "ast_node": "Slice",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "SliceExpr",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Expr",
+            "atom_id": "LOG.STM.A",
+            "atom_name": "ExpressionStmt",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "Expression",
+            "atom_id": "ORG.FIL.O",
+            "atom_name": "SourceFile",
+            "type": "Merged",
+            "note": "eval() input mode"
+        },
+        {
+            "ast_node": "Interactive",
+            "atom_id": "ORG.FIL.O",
+            "atom_name": "SourceFile",
+            "type": "Merged",
+            "note": "REPL input mode"
+        },
+        {
+            "ast_node": "FunctionType",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "TypeDef",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "TryStar",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "TryBlock",
+            "type": "Merged",
+            "note": "Python 3.11+ exception groups"
+        },
+        {
+            "ast_node": "MatchValue",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Direct",
+            "note": "NEW ATOM #173"
+        },
+        {
+            "ast_node": "MatchSingleton",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "MatchSequence",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "MatchMapping",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "MatchClass",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "MatchStar",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "WildcardPattern",
+            "type": "Direct",
+            "note": "NEW ATOM #175"
+        },
+        {
+            "ast_node": "MatchAs",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "MatchPattern",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "MatchOr",
+            "atom_id": "LOG.CTL.A",
+            "atom_name": "OrPattern",
+            "type": "Direct",
+            "note": "NEW ATOM #176"
+        },
+        {
+            "ast_node": "TypeVar",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "GenericParam",
+            "type": "Direct",
+            "note": "NEW ATOM #193 - Python 3.12+"
+        },
+        {
+            "ast_node": "ParamSpec",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "GenericParam",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "TypeVarTuple",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "GenericParam",
+            "type": "Merged"
+        },
+        {
+            "ast_node": "TypeAlias",
+            "atom_id": "ORG.AGG.M",
+            "atom_name": "TypeAlias",
+            "type": "Direct",
+            "note": "NEW ATOM #197 - Python 3.12+"
+        },
+        {
+            "ast_node": "comprehension",
+            "atom_id": "LOG.EXP.A",
+            "atom_name": "Comprehension",
+            "type": "Merged",
+            "note": "comprehension clause (for ... in ... if ...)"
+        },
+        {
+            "ast_node": "arguments",
+            "atom_id": "DAT.VAR.A",
+            "atom_name": "Parameter",
+            "type": "Split"
+        },
+        {
+            "ast_node": "arg",
+            "atom_id": "DAT.VAR.A",
+            "atom_name": "Parameter",
+            "type": "Direct"
+        },
+        {
+            "ast_node": "keyword",
+            "atom_id": "DAT.VAR.A",
+            "atom_name": "Parameter",
+            "type": "Merged"
+        }
+    ],
+    "skipped": [
+        {
+            "node": "Load",
+            "reason": "Context marker, not AST node"
+        },
+        {
+            "node": "Store",
+            "reason": "Context marker, not AST node"
+        },
+        {
+            "node": "Del",
+            "reason": "Context marker, not AST node"
+        },
+        {
+            "node": "Add",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Sub",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Mult",
+            "reason": "Operator token"
+        },
+        {
+            "node": "MatMult",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Div",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Mod",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Pow",
+            "reason": "Operator token"
+        },
+        {
+            "node": "LShift",
+            "reason": "Operator token"
+        },
+        {
+            "node": "RShift",
+            "reason": "Operator token"
+        },
+        {
+            "node": "BitOr",
+            "reason": "Operator token"
+        },
+        {
+            "node": "BitXor",
+            "reason": "Operator token"
+        },
+        {
+            "node": "BitAnd",
+            "reason": "Operator token"
+        },
+        {
+            "node": "FloorDiv",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Invert",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Not",
+            "reason": "Operator token"
+        },
+        {
+            "node": "UAdd",
+            "reason": "Operator token"
+        },
+        {
+            "node": "USub",
+            "reason": "Operator token"
+        },
+        {
+            "node": "Eq",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "NotEq",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "Lt",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "LtE",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "Gt",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "GtE",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "Is",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "IsNot",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "In",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "NotIn",
+            "reason": "Comparison operator"
+        },
+        {
+            "node": "And",
+            "reason": "Boolean operator"
+        },
+        {
+            "node": "Or",
+            "reason": "Boolean operator"
+        }
+    ]
+}

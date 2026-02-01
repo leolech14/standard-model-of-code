@@ -1,0 +1,10 @@
+component_id,type,symbol_kind,name,rel_file,line,confidence,evidence,purpose,internal_deps,external_deps,stdlib_deps
+232018838310,Unknown,class,GodClassPython,god_class_example.py,16,30.0,class GodClassPython:,Unknown particle type,0,1,7
+581ba0e42f6a,Unknown,class,GodClassExample,GodClassExample.java,13,30.0,public class GodClassExample {,Unknown particle type,0,0,0
+846803803ae9,Unknown,class,Customer,GodClassExample.java,348,30.0,private class Customer {,Unknown particle type,0,0,0
+812b17157be8,Unknown,class,Order,GodClassExample.java,358,30.0,private class Order {,Unknown particle type,0,0,0
+a212fa93dbd1,Unknown,class,Item,GodClassExample.java,369,30.0,private class Item {,Unknown particle type,0,0,0
+8ce998d9264f,Unknown,class,NetworkClient,GodClassExample.java,375,30.0,private class NetworkClient {,Unknown particle type,0,0,0
+f7726e9df834,Unknown,class,FileLogger,GodClassExample.java,381,30.0,private class FileLogger {,Unknown particle type,0,0,0
+a6a3afbd7b1b,Service,class,EmailService,GodClassExample.java,385,75.0,private class EmailService {,Business logic coordination across domain objects,0,0,0
+e63c08238e1e,Unknown,class,Validator,GodClassExample.java,390,30.0,private class Validator {,Unknown particle type,0,0,0

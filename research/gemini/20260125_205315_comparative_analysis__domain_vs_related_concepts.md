@@ -17,7 +17,7 @@ COMPARATIVE ANALYSIS: Domain vs Related Concepts
 
 Given these definitions from PROJECT_elements:
 1. REALM = Directory partition (Particle, Wave, Observer) - DISJOINT
-2. DOMAIN = Vertical slice through CODOME+CONTEXTOME - MAY OVERLAP  
+2. DOMAIN = Vertical slice through CODOME+CONTEXTOME - MAY OVERLAP
 3. CODOME = Executable code (.py, .js, etc.)
 4. CONTEXTOME = Non-executable content (.md, .yaml)
 5. PROJECTOME = CODOME ⊔ CONTEXTOME
@@ -44,8 +44,8 @@ The PROJECT_elements codebase introduces precise terminology for architectural c
 *   **CONTEXTOME (X)**: All non-executable content files (`.md`, `.yaml`, etc.).
 *   **REALM (R)**: A partition of the `PROJECTOME` based on top-level directories. Realms are **disjoint**.
     *   `P = Particle ⊔ Wave ⊔ Observer`
-        *   `Particle`: `standard-model-of-code/` (measurement, collapse, certainty)
-        *   `Wave`: `context-management/` (potential, field, possibility)
+        *   `Particle`: `particle/` (measurement, collapse, certainty)
+        *   `Wave`: `wave/` (potential, field, possibility)
         *   `Observer`: `.agent/` (decides what to measure)
 *   **DOMAIN (D)**: A vertical slice through `CODOME` and `CONTEXTOME` that defines a functional area. Domains **may overlap** (they form a cover).
 
@@ -78,20 +78,20 @@ We can express the files belonging to a domain `D_i` as `D_i ⊆ P`. The files o
 
 **Yes, conceptually, a Domain can cross Realm boundaries.**
 
-Realms are defined by the top-level directory (e.g., `standard-model-of-code/` for Particle, `context-management/` for Wave, `.agent/` for Observer). Domains, as semantic slices, group files based on functional concerns regardless of their primary directory.
+Realms are defined by the top-level directory (e.g., `particle/` for Particle, `wave/` for Wave, `.agent/` for Observer). Domains, as semantic slices, group files based on functional concerns regardless of their primary directory.
 
-While the explicit examples provided in `context-management/docs/DOMAINS.md` (e.g., "AI Tools", "Pipeline") show domains whose constituent files reside entirely within a single Realm (e.g., "AI Tools" is entirely within the "Wave" Realm, and "Pipeline" is entirely within the "Particle" Realm), the underlying definitions allow for cross-Realm domains.
+While the explicit examples provided in `wave/docs/DOMAINS.md` (e.g., "AI Tools", "Pipeline") show domains whose constituent files reside entirely within a single Realm (e.g., "AI Tools" is entirely within the "Wave" Realm, and "Pipeline" is entirely within the "Particle" Realm), the underlying definitions allow for cross-Realm domains.
 
 **Concrete Example of a Conceptually Cross-Realm Domain (Hypothetical but allowed by definitions):**
 
 Consider a "Core Protocol Integration" domain, intended to encompass all files critical for the fundamental interaction between the three Realms. This domain might include:
 
-*   **From Particle Realm (`standard-model-of-code/`)**:
-    *   `standard-model-of-code/src/core/full_analysis.py` (Codome Path) - Core Collider logic.
-    *   `standard-model-of-code/docs/MODEL.md` (Contextome Path) - Core theory.
-*   **From Wave Realm (`context-management/`)**:
-    *   `context-management/tools/ai/aci/tier_orchestrator.py` (Codome Path) - ACI routing logic.
-    *   `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` (Contextome Path) - HSL specification.
+*   **From Particle Realm (`particle/`)**:
+    *   `particle/src/core/full_analysis.py` (Codome Path) - Core Collider logic.
+    *   `particle/docs/MODEL.md` (Contextome Path) - Core theory.
+*   **From Wave Realm (`wave/`)**:
+    *   `wave/tools/ai/aci/tier_orchestrator.py` (Codome Path) - ACI routing logic.
+    *   `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` (Contextome Path) - HSL specification.
 *   **From Observer Realm (`.agent/`)**:
     *   `.agent/KERNEL.md` (Contextome Path) - Agent boot protocol.
     *   `.agent/SUBSYSTEM_INTEGRATION.md` (Contextome Path) - System connection map.

@@ -1,0 +1,1582 @@
+{
+  "ref_id": "REF-005",
+  "parcel_id": "pcl_77c05d9fa001",
+  "chunk_count": 45,
+  "chunks": [
+    {
+      "content": "## GATlab: Modeling and Programming with Generalized Algebraic Theories\n\nOwen Lynch a , 1 Kris Brown a , 2 James Fairbanks b , 3 Evan Patterson a , 4\n\na Topos Institute, Berkeley, CA\n\nb University of Florida, Computer &amp; Information Science &amp; Engineering, Gainesville, FL",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "9ebd229a2ae4f1bc",
+      "chunk_type": "h2",
+      "relevance_score": 0.7733213438775423,
+      "start_line": 7,
+      "end_line": 15,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "GATlab: Modeling and Programming with Generalized Algebraic Theories",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677557,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_131417660c0e",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "GATlab: Modeling and Programming with Generalized Algebraic Theories",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Abstract\n\nCategories and categorical structures are increasingly recognized as useful abstractions for modeling in science and engineering. To uniformly implement category-theoretic mathematical models in software, we introduce GATlab, a domain-specific language for algebraic specification embedded in a technical programming language. GATlab is based on generalized algebraic theories (GATs), a logical system extending algebraic theories with dependent types so as to encompass category theory. Using GATlab, the programmer can specify generalized algebraic theories and their models, including both free models, based on symbolic expressions, and computational models, defined by arbitrary code in the host language. Moreover, the programmer can define maps between theories and use them to declaratively migrate models of one theory to models of another. In short, GATlab aims to provide a unified environment for both computer algebra and software interface design with generalized algebraic theories. In this paper, we describe the design, implementation, and applications of GATlab.\n\nKeywords: generalized algebraic theories, GATs, algebraic specification, programming languages, applied category theory",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "fb3ce63f7bc9d342",
+      "chunk_type": "h2",
+      "relevance_score": 0.9425265606021771,
+      "start_line": 15,
+      "end_line": 21,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "Abstract",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.6775749,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_de5038e62abf",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Abstract",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 1 Introduction\n\n## 1 Introduction\n\nCategory theory has long been recognized as a useful organizing principle for programming. The far-ranging dictionary between category theory and type theory, originating with the equivalence between cartesian closed categories and lambda calculus with product types [21], has led language designers to import all manner of categorical concepts into programming languages. In this usage, category theory acts a mathematical model of the programming language , often giving its denotational semantics. But this is not the only role that category theory can play in programming. Applied category theorists have shown how category theory can formalize compositional structure latent in science and engineering, from relational databases to stochastic and quantum processes to differential equations and dynamical systems [37,15,13,24]. Category theory now becomes a mathematical model of the subject-matter domain , which (like any model) will be most useful if it can be implemented in software. We thus need a software system that can readily express and compute with categorical structures.\n\n1 Email: owen@topos.institute\n\n2 Email: kris@topos.institute\n\n3 Email: fairbanksj@ufl.edu\n\n4 Email: evan@epatters.org\n\n<!-- image -->\n\nThis objective might be served by designing the host language according to category-theoretic ideas but is in principle independent of it. Indeed, there is presently a tension between the two roles, since the dependently typed languages that most natively express categorical concepts tend to have few facilities for scientific and technical computing, whereas the languages most commonly used by scientists and engineers tend to have minimalistic type systems. The problem can be approached from either direction. In this work, we show how to augment an existing technical computing language with an advanced type system to enable uniform computation over categorical structures.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "c4f1589baded91ef",
+      "chunk_type": "h2",
+      "relevance_score": 0.9486608878177076,
+      "start_line": 21,
+      "end_line": 39,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.6775959,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_966c27544e68",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1 Introduction",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "This objective might be served by designing the host language according to category-theoretic ideas but is in principle independent of it. Indeed, there is presently a tension between the two roles, since the dependently typed languages that most natively express categorical concepts tend to have few facilities for scientific and technical computing, whereas the languages most commonly used by scientists and engineers tend to have minimalistic type systems. The problem can be approached from either direction. In this work, we show how to augment an existing technical computing language with an advanced type system to enable uniform computation over categorical structures.\n\nRather than trying to retrofit a full dependent type theory onto a loosely typed programming language, we work with generalized algebraic theories, an extension of algebraic theories sufficient to axiomatize categorical structures. A generalized algebraic theory (GAT) [8,9], more suggestively called a dependently typed algebraic theory [33], is similar to a (typed or sorted) algebraic theory except that its types may depend on terms. The ur-example of a GAT is the theory of categories, in which the type of a morphism depends on a pair of objects, the domain and codomain. Though a relatively simple type theory, GATs suffice to axiomatize essentially any theory consisting of a category equipped with extra structure that is defined algebraically (equationally). Examples of categorical structures axiomatizable as GATs include categories; presheaves and copresheaves; monoidal categories, be they strict or weak, braided or symmetric; categories equipped with chosen finite products or finite limits; and 2-categories, bicategories, and double categories.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "16391064d6b8d6e1",
+      "chunk_type": "h2",
+      "relevance_score": 0.9472463944178964,
+      "start_line": 21,
+      "end_line": 39,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6776042,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_443e72300b3d",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1 Introduction",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 1.1 Contributions\n\nIn this paper, we describe the design and implementation of GATlab, 5 a programming framework for generalized algebraic theories built as an embedded domain-specific language in the Julia programming language. GATs have long served as a foundation for Catlab, 6 a framework for applied category theory focusing on scientific and engineering applications. We have recently rewritten our system for GATs from scratch, while significantly extending its features. Here we describe it in print for the first time.\n\nMajor contributions of GATlab are to\n\n- provide an algebraic specification language based on a minimal dependent type theory in a technical programming language;\n- support a standard library of over 90 reusable theories, 7 ranging from classical algebraic structures like groups and rings to categorical structures like monoidal categories and presheaves;\n- enable uniform computing with models of GATs, including both free models , based on symbolic expressions, and computational models, defined by arbitrary code in the host language;\n- declaratively and algebraically migrate models of one theory to another, via morphisms of theories.\n\nIn short, GATlab aims to be a structural and symbolic foundation for categorically structured modeling tools in science and engineering.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "a47e0f5d3e37ec9d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7935081893965227,
+      "start_line": 39,
+      "end_line": 52,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1.1 Contributions",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677613,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9a40a2b491b2",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.1 Contributions",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 1.2 Related work\n\n## 1.2 Related work\n\nBoth the mathematics of GATs and the use of such mathematics in software have a long history. In this section we recount some of that history and explain how GATlab relates to it.\n\nThe oldest relevant thread of research is the theory of universal algebra. The phrase 'universal algebra' dates back at least to Whitehead [39], but the subject was not put on a formal footing until Birkhoff's 1946 treatment [3]. Later, Lawvere showed in his doctoral thesis how many of the constructions done within universal algebra arise naturally from basic concepts of category theory [23].\n\nEarly implementations of universal algebra were in the OBJ and Clear languages [16,5]. The module system of the Clear language influenced both the design of the Standard ML module system [28,29] and later\n\n5 GATlab is open source software available on GitHub: https://github.com/AlgebraicJulia/GATlab.jl\n\n6 Catlab is also available on GitHub: https://github.com/AlgebraicJulia/Catlab.jl\n\n7 The library of GATs, models, and theory maps can be browsed at: https://forest.localcharts.org/gatlib.xml\n\niterations of the OBJ family of languages [17]. Modern incarnations of these universal-algebraic concepts can be found in systems such as Maude [12]. One of our original objectives for GATlab was to build an ML-inspired module system in Julia, in which implementations of a theory were reifiable objects just as implementations of a signature are in ML. Only later did we realize that ML modules were themselves inspired by universal algebra, so in that sense GATlab draws on a well-established tradition.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "c4ebf37b99e6f389",
+      "chunk_type": "h2",
+      "relevance_score": 0.7962934904454554,
+      "start_line": 52,
+      "end_line": 74,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1.2 Related work",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.67763,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_da73fde7bdf2",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.2 Related work",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "iterations of the OBJ family of languages [17]. Modern incarnations of these universal-algebraic concepts can be found in systems such as Maude [12]. One of our original objectives for GATlab was to build an ML-inspired module system in Julia, in which implementations of a theory were reifiable objects just as implementations of a signature are in ML. Only later did we realize that ML modules were themselves inspired by universal algebra, so in that sense GATlab draws on a well-established tradition.\n\nGATlab goes beyond that tradition, however, in using generalized algebraic theories, which extend universal algebra to include dependent types, as needed for the theory of categories. The challenge of extending universal algebra with dependent types has been addressed in many ways. One approach is via logical frameworks (LF), first proposed in [20]. Logical frameworks are an algebraic approach to manipulating the syntax of dependent type theory, by embedding it within another dependent type theory. GATlab plays a similar 'meta' role as LF, but does not support type constructors which quantify over variables. On the other hand, GATlab offers other features that LF does not, such as the ability to add arbitrary equations to a theory. That was previously thought to be a bad idea, as it breaks the decidability of type checking and equality checking. However, as we will show, interesting and useful things can be done with GATs even in the absence of decidable type checking.\n\nGATlab's emphasis on theory morphisms as a means of translating between theories and combining theories via colimits is also found in the mathematical knowledge management (MKM) system MMT [34], which supports more general classes of theories but is less focused on computational semantics. Likewise, this approach to MKM is found in MathScheme [6] and related work on theory presentation combinators [7].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "69677bb4885dcd95",
+      "chunk_type": "h2",
+      "relevance_score": 0.7983420199266599,
+      "start_line": 52,
+      "end_line": 74,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1.2 Related work",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6776378,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6b17e2174d06",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.2 Related work",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "GATlab's emphasis on theory morphisms as a means of translating between theories and combining theories via colimits is also found in the mathematical knowledge management (MKM) system MMT [34], which supports more general classes of theories but is less focused on computational semantics. Likewise, this approach to MKM is found in MathScheme [6] and related work on theory presentation combinators [7].\n\nFinally, GATlab is a computational implementation of categories and other categorical structures. Related projects in this vein include Rydeheard and Burstalls's computational category theory [36] and the CAP (Categories, Algorithms, and Programming) computer algebra system [19,2].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "1c8e8244dc7b3456",
+      "chunk_type": "h2",
+      "relevance_score": 0.7851465766572288,
+      "start_line": 52,
+      "end_line": 74,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "1.2 Related work",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.677644,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_799f69464fc3",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.2 Related work",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2 Background: Generalized algebraic theories and their models\n\nWe review the main ideas behind generalized algebraic theories (GATs), focusing on their syntax, in both mathematical and GATlab programming notation, and their standard set-theoretic semantics. GATs were introduced by John Cartmell in his PhD thesis [8] and later in print [9], to which we refer for the many details omitted here. As further references, Pitts [33, \u00a7 6] and Taylor [38, Chapter VIII] present type theories based closely on Cartmell's GATs.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "10c6288347203306",
+      "chunk_type": "h2",
+      "relevance_score": 0.7815301150900678,
+      "start_line": 74,
+      "end_line": 78,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2 Background: Generalized algebraic theories and their models",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677653,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_73a75de30fd1",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2 Background: Generalized algebraic theories and their models",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 2.1 Syntax of GATs\n\n## 2.1 Syntax of GATs\n\nGATs are most easily understood through examples. Figure 1 shows the ur-example, the theory of categories, first in mathematical notion in the style of Pitts [33] and then as a theory in the GATlab programming environment. Most notably, the listings are the same up to cosmetic differences in syntax. Julia's macro system makes this possible by capturing the code in the body of the @theory macro call instead of evaluating it as standard Julia code. Additionally, GATlab allows text identifiers to be aliased by mathematical symbols (via Unicode operators) and axioms to be tagged with names. Note that we break with convention in type theory and put the context on the right so that the name of the constructor is the first thing that one sees on a given line.\n\nIn general, a GAT is comprised of the following elements.\n\nContexts A context is a finite (ordered) list of named variables tagged with types, where the type at a given position may depend on variables at previous positions. Examples include the empty context [] ; the context [a::Ob, b::Ob, c::Ob] , or its shorthand [(a,b,c)::Ob] , having no type dependency; and the context [a::Ob, b::Ob, f::Hom(a,b)] , where the type of the variable f depends on the previous variables a and b . An invalid context is [f::Hom(a,b), a::Ob, b::Ob] since the variables a and b are used as type parameters before they are introduced.\n\n- Judgments A GAT is defined by a sequence of judgments . Every judgment has a context, which we write to the right of the turnstile ( \u22a3 ). There are three kinds of judgments, summarized in Table 1:\n\nType constructor New types, possibly dependent on variables in the context, are introduced by type constructors .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "05f561a7ee8993ce",
+      "chunk_type": "h2",
+      "relevance_score": 0.7972239631335198,
+      "start_line": 78,
+      "end_line": 118,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2.1 Syntax of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.677691,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d326fc16976a",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.1 Syntax of GATs",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Type constructor New types, possibly dependent on variables in the context, are introduced by type constructors .\n\n```\nOb : type \u22a3 Hom( a, b ) : type \u22a3 a, b : Ob f \u00b7 g : Hom( a, c ) \u22a3 a, b, c : Ob , f : Hom( a, b ) , g : Hom( b, c ) id( a ) : Hom( a, a ) \u22a3 a : Ob ( f \u00b7 g ) \u00b7 h = f \u00b7 ( g \u00b7 h ) \u22a3 a, b, c, d : Ob , f : Hom( a, b ) g : Hom( b, c ) , h : Hom( c, d ) id( a ) \u00b7 f = f \u22a3 a, b : Ob , f : Hom( a, b ) f \u00b7 id( b ) = f \u22a3 a, b : Ob , f : Hom( a, a ) (a) In mathematical notation \u2745/a116\u2764\u2761\u2666/a114\u2461 ThCategory \u275c\u2761\u2763\u2710\u2665 Ob::TYPE \u22a3 [] @op ( \u2192 ) := Hom Hom(dom::Ob, codom::Ob)::TYPE @op ( \u00b7 ) := compose compose(f::(a \u2192 b), g::(b \u2192 c))::(a \u2192 c) \u22a3 [(a,b,c)::Ob] id(a::Ob)::(a \u2192 a) assoc := ((f \u00b7 g) \u00b7 h) == (f \u00b7 (g \u00b7 h)) \u22a3 [(a,b,c,d)::Ob, f::(a \u2192 b), g::(b \u2192 c), h::(c \u2192 d)] idl := id(a) \u00b7 f == f \u22a3 [(a,b)::Ob, f::(a \u2192 b)] idr := f \u00b7 id(b) == f \u22a3 [(a,b)::Ob, f::(a \u2192 b)] \u2761\u2665\u275e\n```\n\n(b) In GATlab notation\n\nFig. 1. The ur-example of a GAT: the theory of categories\n\n| Judgment kind    | Math notation   | GATlab notation        | GATlab examples                                     |\n|------------------|-----------------|------------------------|-----------------------------------------------------|\n| Type constructor | X type [\u0393]      | { X } ::TYPE \u22a3 { \u0393 }   | Ob::TYPE \u22a3 [] Hom(d,c)::TYPE \u22a3 [(d,c)::Ob]          |\n| Term constructor | x : X [\u0393]       | { x } :: { X } \u22a3 { \u0393 } | id(a)::Hom(a,a) \u22a3 [a::Ob] (a \u2297 b)::Ob \u22a3 [(a,b)::Ob] |\n| Term equality    | x = y : X [\u0393]   | { x } == { y } \u22a3 { \u0393 } | (a \u2297 b) \u2297 c == a \u2297 (b \u2297 c) \u22a3 [(a,b,c)::Ob]          |\n\nTable 1\n\nJudgments in a generalized algebraic theory\n\nTerm constructor Typed terms are introduced by term constructors . Both the term and its type may depend on variables in the context.\n\nTerm equality Axioms asserting equations between terms in context are specified by term equalities .\n\nThe theory of categories, for instance, has two type constructors, for objects and morphisms; two term constructors, for composition and identities; and three term equalities, for the axioms of associativity and left and right unitality.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "8f5742655884d87f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7995230948960529,
+      "start_line": 78,
+      "end_line": 118,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2.1 Syntax of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6777012,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a39a51f893ed",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.1 Syntax of GATs",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The theory of categories, for instance, has two type constructors, for objects and morphisms; two term constructors, for composition and identities; and three term equalities, for the axioms of associativity and left and right unitality.\n\nAs a technical aside, we note that, according to Cartmell, GATs admit a fourth kind of judgment, equalities between types. We follow Taylor [38] in excluding type equalities from GATlab. This restriction simplifies the system, even if it does not solve the problem of type checking (since dependent types can still be nontrivially equal due to equations between the terms they depend on). From a category-theoretic perspective, prohibiting explicit type equalities is no loss since equations between types are better handled by isomorphisms anyway.\n\nSpecifically, this restriction makes sort-checking and sort-inference quite easy. Sort-inference determines the type constructor used for the type of a term. For instance, it classifies a term as an object or a morphism, without necessarily figuring out the domain or codomain of the morphism. This is a practical and fast check that we perform for most operations in GATlab, and it catches surface-level bugs.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "7a5ec609f7de92df",
+      "chunk_type": "h2",
+      "relevance_score": 0.7923645754929655,
+      "start_line": 78,
+      "end_line": 118,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2.1 Syntax of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.677707,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c612a6d6514e",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.1 Syntax of GATs",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2.2 Semantics of GATs\n\nUnder the standard set-theoretic semantics, a model of a GAT interprets each type constructor with a set, or family of sets, or family of families of sets, etc., according to the level of type dependency; and similarly each term constructor with a function, or family of functions, etc., according to the level of dependency; in such a way that all of the term equalities are interpreted as true equations. A more precise account is given by Cartmell [9, \u00a7 11], but the idea becomes most transparent in examples. A model M of the theory of categories (Figure 1) consists of a set of objects, M (Ob); a family of hom-sets, ( M (Hom)( a, b )) a,b \u2208 M (Ob) ; the identities, a family of functions ( M (id)( a ) : 1 \u2192 Hom( a, a )) a \u2208 M (Ob) ; and finally the composition operations, a family of functions\n\n<!-- formula-not-decoded -->\n\nindexed by triples of objects, such that the category axioms are satisfied. Moving up a dimension, a model M of a theory of 2-categories would include a family of families of sets M (Hom 2 )( f, g ), indexed by f, g \u2208 M (Hom)( a, b ), indexed in turn by a, b \u2208 M (Ob).\n\nGATlab offers the programmer two different ways to work with models of GATs, as we will see. Generalizing their set-theoretic semantics, models of GATs can be taken in any contextual category [9, \u00a7 14]. We do not elaborate on the categorical semantics of GATs as it plays no role in GATlab.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "6a9dd969f301ead6",
+      "chunk_type": "h2",
+      "relevance_score": 0.7945594718637242,
+      "start_line": 118,
+      "end_line": 128,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2.2 Semantics of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677718,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6a2103b13c3e",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.2 Semantics of GATs",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2.3 Alternatives to GATs\n\nGeneralized algebraic theories belong to a family of essentially equivalent logics that extend the logic of algebraic theories to encompass the theory of categories and others like it. Besides GATs, the best known of these logics are essentially algebraic theories [1, \u00a7 3.D], finite limit sketches, and finite limit theories. Cartmell sketched an argument to the effect that, under their set-theoretic semantics, generalized and essentially algebraic theories have equivalent categories of models [9, \u00a7 6]. Meanwhile, essentially algebraic theories and finite limit sketches are directly intended to be syntactic presentations of finite limit theories, an invariant notion of theory.\n\nAny of these logics could, in principle, play the role that GATs do in GATlab. Our choice of GATs is practical: despite their complicated meta-theory, GATs lead to by far the most readable and intuitive presentations of theories of categorical structures, often closely resembling their textbook forms.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "ded256a1eca11dab",
+      "chunk_type": "h2",
+      "relevance_score": 0.7902196285876824,
+      "start_line": 128,
+      "end_line": 134,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "2.3 Alternatives to GATs",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677727,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_faa0eb211202",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.3 Alternatives to GATs",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 3 Models of GATs in GATlab\n\nIn the context of software engineering, GATs play the role of an interface or a formal specification. Models of a GAT, then, are the data structures that implement the interface and satisfy the formal specification.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "d8ea13136037c8c4",
+      "chunk_type": "h2",
+      "relevance_score": 0.7717280532131013,
+      "start_line": 134,
+      "end_line": 138,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3 Models of GATs in GATlab",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677734,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c255e843f46a",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3 Models of GATs in GATlab",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 3.1 Models of algebraic theories\n\nGiven a generalized algebraic theory declared with @theory , we want to be able to 'implement models of that theory in Julia.' What does this mean?\n\nLanguages from the ML family have notions of a signature and of a module that implements the signature. A module comprises a choice of concrete type for each type in the signature and a function for each term constructor. Models are then referenced explicitly when used. For instance, suppose we had a module IntPlusMonoid implementing the signature of monoids for integers using addition. Then we would use it as follows:",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "b5af70dc20802b1e",
+      "chunk_type": "h2",
+      "relevance_score": 0.783517107378182,
+      "start_line": 138,
+      "end_line": 144,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.1 Models of algebraic theories",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.677742,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5f5699796373",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.1 Models of algebraic theories",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# IntPlusMonoid.mappend 1 2 == 3\n\n## IntPlusMonoid.mappend 1 2 == 3\n\nWe could have another module IntTimesMonoid implementing the signature of monoids for integers using multiplication, and then we'd have\n\nIntTimesMonoid.mappend 1 2 == 2\n\nThe ML module system contrasts with languages like Haskell or Rust, in which type classes or traits have at most a single implementation for a given type, and the implementation is not explicitly referenced. So one must choose between privileging the additive monoidal structure on integers and having mappend 1 2 == 3 or privileging the multiplicative monoidal structure on integers and having mappend 1 2 == 2 .\n\nIn Julia, multiple dispatch can be used to simulate both module-style and trait-style models of theories.\n\n8\n\nThe trait-style models are most straightforward. For instance, we can implement the free monoid based on string concentation as follows.\n\n```\n\u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThMonoid{String} \u275c\u2761\u2763\u2710\u2665 e() = \"\" (x \u00b7 y) = x * y \u2761\u2665\u275e \"a\" \u00b7 \"b\" == \"ab\" # true\n```\n\nThe @instance macro is a lightweight wrapper around ordinary Julia function definitions using multiple dispatch that checks that all of the methods in the theory have been given implementations. Note, the type parameter syntax ( { String } ) associates concrete Julia types with the GAT's ordered list of type constructors.\n\nIn order to implement module-style models using Julia's multiple dispatch, we employ a trick. We associate model implementations with structs (records in Julia), and then use those structs to guide dispatch. In the following code, the Tuple{Int} parameter to Model tells the system that when IntPlusMonoid is used as a model of a theory, the first type constructor in the theory should be interpreted as Int . We will discuss why we do this later on; in brief this 'exposes' the implementing types to the Julia type system, which makes it easier to create derived models.\n\n```\n/a115/a116/a114\u2709\u275d/a116 IntPlusMonoid <: Model{Tuple{Int}} \u2761\u2665\u275e \u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThMonoid{Int} [model::IntPlusMonoid] e() = 0 (x \u00b7 y) = x + y \u2761\u2665\u275e\n```",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "e2ebf0c586f87288",
+      "chunk_type": "h2",
+      "relevance_score": 0.799390693309697,
+      "start_line": 144,
+      "end_line": 202,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "IntPlusMonoid.mappend 1 2 == 3",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.6777658,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d641465933f5",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "IntPlusMonoid.mappend 1 2 == 3",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "```\n/a115/a116/a114\u2709\u275d/a116 IntPlusMonoid <: Model{Tuple{Int}} \u2761\u2665\u275e \u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThMonoid{Int} [model::IntPlusMonoid] e() = 0 (x \u00b7 y) = x + y \u2761\u2665\u275e\n```\n\n\u275c\u2761\u2763\u2710\u2665 e[IntPlusMonoid()]() == 0 # true In the above code, the @instance block is macro-expanded to ordinary Julia code resembling ThMonoid.e(::WithModel{IntPlusMonoid}) = 0 ThMonoid.:( \u00b7 )(::WithModel{IntPlusMonoid}, x::Int, y::Int) = x + y\n\nThe code e[IntPlusMonoid()]() invoked above is syntactic sugar for e(WithModel(IntPlusMonoid())) .\n\nAs a technical detail, the abstract type Model takes a tuple type parameter which must match the type parameterization in the @instance declaration, and the type WithModel is a simple wrapper struct defined as:\n\n```\n/a115/a116/a114\u2709\u275d/a116 WithModel{M} model::M \u2761\u2665\u275e\n```\n\nWe control multiple dispatch by passing the model type as the first argument; however, we use the wrapped WithModel type to avoid ambiguities that may arise from cases where the instance Julia types are not String or Int as above but rather models themselves, as in the case of the SliceC model, introduced\n\n8 The original implementation of GATs in Catlab supported only trait-style models, meaning that a given type or collection of types could implement a theory at most one way. A important motivation for creating GATlab was to support both styles of models.\n\nin 3.2.\n\nWe also a provide a convenience macro @withmodel for evaluating expressions in a module-style model. For example, the invocation\n\n```\n\u2745\u2707\u2710/a116\u2764\u2660\u2666\u275e\u2761\u2767 IntPlusMonoid() (e, \u00b7 ) \u275c\u2761\u2763\u2710\u2665 2 \u00b7 e() == 2 \u2761\u2665\u275e\n```\n\nmacro-expands to the let block\n\n```\n\u2767\u2761/a116 withmod = WithModel(IntPlusMonoid()) e = () -> ThMonoid.e(withmod) \u00b7 = (x, y) -> ThMonoid.:( \u00b7 )(withmod, x, 2 \u00b7 e() == 2\n```\n\nWe call such models parametric . They are similar in spirit to 'functors' in ML languages.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "50d8f6f7f0479931",
+      "chunk_type": "h2",
+      "relevance_score": 0.7976654113845859,
+      "start_line": 144,
+      "end_line": 202,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "IntPlusMonoid.mappend 1 2 == 3",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6777751,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6a60a9db1233",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "IntPlusMonoid.mappend 1 2 == 3",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "We call such models parametric . They are similar in spirit to 'functors' in ML languages.\n\ny) \u2761\u2665\u275e # true We are not limited to empty structs when implementing models of theories. For instance, we can implement the monoid Z /n Z of integers modulo n as follows /a115/a116/a114\u2709\u275d/a116 ModularPlusMonoid &lt;: Model{Tuple{Int}} n::Int \u2761\u2665\u275e \u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThMonoid{Int} [model::ModularPlusMonoid] \u275c\u2761\u2763\u2710\u2665 e() = 0 (x \u00b7 y) = mod(x + y, model.n) \u2761\u2665\u275e and use it like so \u2745\u2707\u2710/a116\u2764\u2660\u2666\u275e\u2761\u2767 ModularPlusMonoid(7) (e, \u00b7 ) \u275c\u2761\u2763\u2710\u2665 3 \u00b7 4 == e() \u2761\u2665\u275e # true 9",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "735ca3c2fa5612ca",
+      "chunk_type": "h2",
+      "relevance_score": 0.7819234682699916,
+      "start_line": 144,
+      "end_line": 202,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "IntPlusMonoid.mappend 1 2 == 3",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.677782,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_29d58715bae7",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "IntPlusMonoid.mappend 1 2 == 3",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.2 Incorporating dependent types into models\n\n## 3.2 Incorporating dependent types into models\n\nSo far we have considered models in GATlab only of algebraic theories. How can we extend these classical notions of model to support dependent types, in light of the fact that Julia doesn't quite have dependent types? 10 There are two approaches to modeling dependent types within a non-dependent language that we have considered. It is illustrative to consider these two approaches in the example of categories.\n\nThe first approach is to embrace the translation from generalized algebraic theories to essentially algebraic theories (see Section 2.3), so that the type constructor Hom: Ob \u00d7 Ob \u2192 Type becomes instead a span Ob \u2190 Hom \u2192 Ob of non-dependent types. Then operations like composition become partial functions. We might call this the 'fibered' approach to dependent types.\n\nIn this style, we could implement the category of finite sets, or rather its skeleton, as follows. First, we define data structures for the objects and morphisms of this category.\n\n9 Incidentally, the name 'parametric modules' was proposed for functors in ML, but Burstall objected 'on the grounds that we don't call ordinary functions 'parametric values'' [29]. Since in GATlab they are precisely 'models with parameters,' we think the name is appropriate.\n\n10 The question of whether and to what extent Julia has dependent types has engendered much debate [35]. At the very least, we can say that Julia does not have dependent type sufficient for this purpose, as types cannot depend on, say, arbitrary structs. So our implementation of dependent types does not use Julia's dependent types.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "986b16c38450d97d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7967204443411858,
+      "start_line": 202,
+      "end_line": 260,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.2 Incorporating dependent types into models",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.677823,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_3e0c1eea59b1",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2 Incorporating dependent types into models",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "10 The question of whether and to what extent Julia has dependent types has engendered much debate [35]. At the very least, we can say that Julia does not have dependent type sufficient for this purpose, as types cannot depend on, say, arbitrary structs. So our implementation of dependent types does not use Julia's dependent types.\n\n```\n/a115/a116/a114\u2709\u275d/a116 FinSet n::Int \u2761\u2665\u275e /a115/a116/a114\u2709\u275d/a116 FinFunction values::Vector{Int} dom::FinSet codom::FinSet \u2761\u2665\u275e Then we make them into a model of the theory of categories. \u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThCategory{FinSet, FinFunction} \u275c\u2761\u2763\u2710\u2665 dom(f::FinFunction) = f.dom codom(f::FinFunction) = f.codom id(x::FinSet) = FinFunction(1:(x.n), x, x) \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 compose(f::FinFunction, g::FinFunction) f.codom == g.dom || @fail \"domain and codomain do not FinFunction(g.values[f.values], f.dom, g.codom) \u2761\u2665\u275e\n```\n\n```\nmatch\" \u2761\u2665\u275e\n```\n\nThe @fail macro is a special macro that can be used inside @instance to throw an error with the given message, but also provide contextual information about theory, model, and method in question.\n\nStoring the domain and codomain along with the data of the morphism was the approach taken in the original Catlab implementation of GATs. Indeed, the domain or codomain often cannot be deduced from the data of the morphism. In the example above, representing the data of a function as an array of values determines its range but not its codomain, so the codomain must be stored separately. While intuitive, this approach has the disadvantage that the data structure for a morphism must carry around extra data. So a diagram of morphisms might end up storing many redundant copies of the objects.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "f45c0ca87ff28894",
+      "chunk_type": "h2",
+      "relevance_score": 0.7966032426412016,
+      "start_line": 202,
+      "end_line": 260,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.2 Incorporating dependent types into models",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.67783,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_54974e3c57fa",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2 Incorporating dependent types into models",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Storing the domain and codomain along with the data of the morphism was the approach taken in the original Catlab implementation of GATs. Indeed, the domain or codomain often cannot be deduced from the data of the morphism. In the example above, representing the data of a function as an array of values determines its range but not its codomain, so the codomain must be stored separately. While intuitive, this approach has the disadvantage that the data structure for a morphism must carry around extra data. So a diagram of morphisms might end up storing many redundant copies of the objects.\n\nIn GATlab, we continue to support such models, but we also introduce a new approach that cuts down on the redundant storage of objects. The idea is to translate the type constructor Hom: Ob \u00d7 Ob \u2192 Type into a predicate IsHom: Hom \u00d7 Ob \u00d7 Ob \u2192 Bool . Now Hom is the union of all of the hom-sets, which need not be a disjoint union. If the previous approach was 'fibered,' we might call this one 'indexed.' In this style, an implementation of the category of finite sets might look like\n\n```\n/a115/a116/a114\u2709\u275d/a116 FinSetC <: Model{Tuple{Int, Vector{Int}}} \u2761\u2665\u275e \u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThCategory{Int, Vector{Int}} [model::FinSetC] \u275c\u2761\u2763\u2710\u2665 Ob(x::Int) = x >= 0 ? x : @fail \"expected nonnegative integer\" \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 Hom(f::Vector{Int}, n::Int, m::Int) length(f) == n || @fail \"length of morphism does not match domain: $ (length(f)) != $ n\" \u2762\u2666/a114 i in 1:n \u2710\u2762 !(f[i] in 1:m) @fail \"index not in codomain: $ i\" \u2761\u2665\u275e \u2761\u2665\u275e /a114\u2761/a116\u2709/a114\u2665 f \u2761\u2665\u275e\n```\n\n```\nid(x::Int) = collect(1:x) compose(f::Vector{Int}, g::Vector{Int}) = g[f] \u2761\u2665\u275e\n```\n\nSince we can dispatch on the model, we now have the freedom to just use the types Int and Vector { Int } for our objects and morphisms, instead of having to wrap them in custom structs. Note also that in GATlab, the Hom function is not merely a predicate, but rather a coercion function that throws an informative error when the arguments do not type check, and returns a valid morphism when they do.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "6af9cee15d7d9d32",
+      "chunk_type": "h2",
+      "relevance_score": 0.7991605410833986,
+      "start_line": 202,
+      "end_line": 260,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.2 Incorporating dependent types into models",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.677839,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f3a3c75665b6",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2 Incorporating dependent types into models",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Since we can dispatch on the model, we now have the freedom to just use the types Int and Vector { Int } for our objects and morphisms, instead of having to wrap them in custom structs. Note also that in GATlab, the Hom function is not merely a predicate, but rather a coercion function that throws an informative error when the arguments do not type check, and returns a valid morphism when they do.\n\nWe can recover the fibered approach from the indexed one by letting Hom \u2032 = IsHom -1 ( true ), but there is no systematic way to 'drop' redundant information, so in a sense the second approach is more primitive than the first. This is related to the fact that the Grothendieck construction only gives an equivalence of categories, not an isomorphism. 11\n\nWe conclude this section by demonstrating how to create a model for slice categories that is parameterized by the base category. First, we declare a model struct.\n\n```\n/a115/a116/a114\u2709\u275d/a116 SliceOb{ObT, HomT} ob::ObT hom::HomT \u2761\u2665\u275e /a115/a116/a114\u2709\u275d/a116 SliceC{ObT, HomT, C<:Model{Tuple{ObT, HomT}}} <: Model{Tuple{SliceOb{ObT, HomT}, HomT}} cat::C over::ObT \u2761\u2665\u275e\n```\n\nWe interpret this as saying that SliceC(cat, over) is a model with associated types SliceOb { ObT,HomT } and HomT . We don't track the fact that it is a model of the theory of categories within the Julia type system because an abstract type in Julia can have only one supertype, but we want to allow for multiple inheritance. We will use the over field as the object within the cat field that we are slicing over. We then implement the methods of the theory of categories as follows.\n\n```\n\u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThCategory{SliceOb{ObT, HomT}, HomT} [model::SliceC{ObT, HomT, C}] where {ObT, HomT, C} \u275c\u2761\u2763\u2710\u2665 \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 Ob(x::SliceOb{ObT, HomT}) /a116/a114\u2461 Ob[model.cat](x.ob) \u275d\u275b/a116\u275d\u2764 e @fail (\"ob is not valid\", e) \u2761\u2665\u275e /a116/a114\u2461 Hom[model.cat](x.hom, x.ob, model.over) \u275d\u275b/a116\u275d\u2764 e @fail (\"hom is not valid\", e) \u2761\u2665\u275e x \u2761\u2665\u275e \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 Hom(f::HomT, x::SliceOb{ObT, HomT}, y::SliceOb{ObT, HomT})\n```",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "af27094c938895de",
+      "chunk_type": "h2",
+      "relevance_score": 0.7991734345376494,
+      "start_line": 202,
+      "end_line": 260,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.2 Incorporating dependent types into models",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769846628.677846,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_bf9479d650fc",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2 Incorporating dependent types into models",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "```\n\u2745\u2710\u2665/a115/a116\u275b\u2665\u275d\u2761 ThCategory{SliceOb{ObT, HomT}, HomT} [model::SliceC{ObT, HomT, C}] where {ObT, HomT, C} \u275c\u2761\u2763\u2710\u2665 \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 Ob(x::SliceOb{ObT, HomT}) /a116/a114\u2461 Ob[model.cat](x.ob) \u275d\u275b/a116\u275d\u2764 e @fail (\"ob is not valid\", e) \u2761\u2665\u275e /a116/a114\u2461 Hom[model.cat](x.hom, x.ob, model.over) \u275d\u275b/a116\u275d\u2764 e @fail (\"hom is not valid\", e) \u2761\u2665\u275e x \u2761\u2665\u275e \u2762\u2709\u2665\u275d/a116\u2710\u2666\u2665 Hom(f::HomT, x::SliceOb{ObT, HomT}, y::SliceOb{ObT, HomT})\n```\n\n11 One might also think about the indexed approach as a form of the 'type erasure' that happens during the compilation of dependently typed languages, where values not relevant to the runtime semantics are erased. That is, the runtime representation of values of type Hom(a,b) need not carry around pointers to a and b . Ideally, this would be an optimization performed by a clever compiler rather than done manually, but we must work within the constraints of the Julia programming language.\n\n```\n/a116/a114\u2461 Hom[model.cat](f, x.ob, y.ob) \u275d\u275b/a116\u275d\u2764 e @fail (\"morphism is not valid in base category\", e) \u2761\u2665\u275e compose[model.cat](f, y.hom) == x.hom || @fail \"commutativity of triangle does not hold\" f \u2761\u2665\u275e id(x::SliceOb{ObT, HomT}) = id[model.cat](x.ob) compose(f::HomT, g::HomT) = compose[model.cat](f, g) \u2761\u2665\u275e\n```\n\nThe most interesting parts are in the dynamic checks for validity of objects and morphisms. In the function Ob , we check that x.ob is a valid object inside model.cat , and then we check that x.hom is a valid morphism from x.ob to model.over . In the function Hom , we check that f is a valid morphism from x.ob to y.ob and that the relevant triangle commutes. The last two methods, id and compose , are just inherited from the base category model.cat .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "3f7470772d5be527",
+      "chunk_type": "h2",
+      "relevance_score": 0.7967515208841414,
+      "start_line": 202,
+      "end_line": 260,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.2 Incorporating dependent types into models",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769846628.6778529,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7ea97fb39fd5",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2 Incorporating dependent types into models",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.3 Free models of GATs\n\n## 3.3 Free models of GATs\n\nIn addition to models based on arbitrary Julia code, GATlab can construct free or symbolic models of GATs, 12 via the @symbolic model macro. For instance, the following macro call creates a free model of theory of categories:\n\n```\n@symbolic_model FreeCategory{ObExpr, HomExpr} ThCategory \u275c\u2761\u2763\u2710\u2665 compose(f::Hom, g::Hom) = associate_unit(new(f,g; strict= /a116/a114\u2709\u2761 ), id) \u2761\u2665\u275e\n```\n\nThis code creates a new module called FreeCategory in which structs called Ob and Hom are defined and methods ThCategory.id and ThCategory.compose implemented for them. It also provides some special logic via an externally-defined function associate\\_unit to enforce that composition is strictly associative and unital, by normalizing to n -ary composition operations whenever compose is called. We can use the resulting data structures as follows.\n\n```\nA, B = Ob(FreeCategory, :A), Ob(FreeCategory, :B) f, g = Hom(:f, A, B), Hom(:g, B, A)\n```\n\nEssentially, we can think of this model as 'the free model of the theory of categories on the set of symbols.' Specifically, this is the free category on the graph whose vertices are the set of symbols and whose edges between any two vertices are also the set of symbols.\n\nOne use of free models in Catlab is to schedule and evaluate string diagrams. That is, we can transform a combinatorial presentation of a string diagram into an expression in the theory of symmetric monoidal categories. If we then have a model of the theory of symmetric monoidal categories, we can then interpret this expression in that model.\n\nWithin the @symbolic model block, we can specialize the implementation of the operations of the theory to normalize the terms. For instance, in the invocation of @symbolic model above, we normalize with respect to the associative law and the unit law, so that compose(f,compose(g,h)) == compose(compose(f,g),h) . Normalization isn't always possible for more complex theories, but it is convenient when it is possible.\n\nCurrently, we have implemented the following normalization strategies:",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "592cbf00d38b0583",
+      "chunk_type": "h2",
+      "relevance_score": 0.7995981531994092,
+      "start_line": 260,
+      "end_line": 293,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.3 Free models of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.677878,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8d5f2275301e",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.3 Free models of GATs",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Currently, we have implemented the following normalization strategies:\n\n12 Strictly speaking, these 'free models' are not necessarily models of the theory, because the theory's equational axioms may hold only up to rewrites of the expressions.\n\n- associate , normalizing a binary operation for associativity\n- associate\\_unit , normalizing a binary operation for associativity and unitality\n- associate\\_unit\\_inv , normalizing a binary operation for associativity, unitality, and inverses\n- distribute\\_unary , distribute a unary operation over a binary operation\n- involute , normalize an involutive unary operation\n- normalize\\_zero , collapse to zero when the expression contains a zero\n\nHowever, these are simply the normalization strategies that we have found useful; our approach does not preclude other strategies from being implemented.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "a9f50eed8457d04f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7878057012684907,
+      "start_line": 260,
+      "end_line": 293,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "3.3 Free models of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6778848,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_bd93ad9f6c8c",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.3 Free models of GATs",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 4 Morphisms of GATs\n\nWhile it is always possible to write arbitrary functions that transform a model of one theory into a model of another, the code that one must write is often opaque and not easily verified. In many situations, a solution to this problem is provided by the fact that different GATs are related to each other by morphisms , also called interpretations . Using morphisms of GAT, we implement a declarative and verifiable syntax for migrating models from one theory to another.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "821ef43e0db3dd41",
+      "chunk_type": "h2",
+      "relevance_score": 0.7808644502947059,
+      "start_line": 293,
+      "end_line": 297,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4 Morphisms of GATs",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.6778922,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d9ee20b6784e",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4 Morphisms of GATs",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 4.1 Syntax of GAT morphisms\n\n## 4.1 Syntax of GAT morphisms\n\nFollowing Cartmell [9, \u00a7 12], two GATs A and B can be related to each other via an interpretation , which assigns to each type (respectively, term) constructor of A a type (respectively, term) in B . This mapping must satisfy some conditions in order for it to be a well-typed and validity-preserving translation of the vocabulary of A into the vocabulary of B .\n\nFor example, consider translating statements in the language of monoids into the language of natural number arithmetic:\n\n```\n\u2745/a116\u2764\u2761\u2666/a114\u2461 ThMonoid <: ThSet \u275c\u2761\u2763\u2710\u2665 (x \u00b7 y) :: default \u22a3 [x, y] (x \u00b7 y) \u00b7 z == (x \u00b7 (y \u00b7 z)) \u22a3 [x, y, z] e() :: default e() \u00b7 x == x \u22a3 [x] x \u00b7 e() == x \u22a3 [x] \u2761\u2665\u275e \u2745/a116\u2764\u2761\u2666/a114\u2461 ThArith <: ThNat \u275c\u2761\u2763\u2710\u2665 (x:: N + y:: N ):: N \u22a3 [(x, y):: N ] n + S(m) == S(n+m) \u22a3 [(n, m):: N ] (x:: N * y:: N ):: N n*S(m) == ((n*m) + n) \u22a3 [(n,m):: N ] \u2761\u2665\u275e\n```\n\nNote that ThSet is a special theory with one type, default , which is the default interpretation of a type if the user does not provide one. We can interpret the theory of monoids either additivity or multiplicatively in the theory of arithmetic:\n\n```\n@map PlusM(ThMonoid, ThArith) \u275c\u2761\u2763\u2710\u2665 default => N x \u00b7 y \u22a3 [x, y] => x+y e() => Z() \u2761\u2665\u275e @map TimesM(ThMonoid, ThArith) default => N x \u00b7 y \u22a3 [x, y] => x*y e() => S(Z()) \u2761\u2665\u275e\n```\n\n```\n\u275c\u2761\u2763\u2710\u2665\n```",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "b411312f729b8b5a",
+      "chunk_type": "h2",
+      "relevance_score": 0.7937741937441858,
+      "start_line": 297,
+      "end_line": 327,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.1 Syntax of GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.677911,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_38a546b566c1",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.1 Syntax of GAT morphisms",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "```\n\u275c\u2761\u2763\u2710\u2665\n```\n\nIn general, to declare how an interpretation I acts on a type (resp. term) constructor f , on the left side of the arrow we write f 's generic type (resp. term) in context, f ( x 1 , ..., x n ) \u22a3 [ arg 1 :: T 1 , ..., arg n :: T n ]. On the right side we define I ( f ) by writing a type (resp. term) implicitly in the context [ x 1 :: I ( T 1 ) , ..., x n :: I ( T n )]. This mapping defined on type and term constructors induces a function on all type and term expressions using the operations of A into expressions of B ; we say that this interpretation function 'pushes forward types/terms/contexts along I '. For example, the expression PlusM(e() \u00b7 x \u00b7 e() \u22a3 [x]) evaluates to Z()+x+Z() \u22a3 [x:: N ] . We call an interpretation A \u2192 B a theory map or morphism in the category GAT .\n\nThe above examples can be contrasted with user-declared morphisms that are ill-typed or give invalid interpretations:\n\n```\n@map Bad 1 (ThMonoid, ThArith) \u275c\u2761\u2763\u2710\u2665 default => N x \u00b7 y \u22a3 [x,y] => x+y # unit axioms invalidated e() => S(Z()) \u2761\u2665\u275e @map Bad 2 (ThCategory, ThCategory) \u275c\u2761\u2763\u2710\u2665 # Ill-typed arguments for Hom Ob \u22a3 [] => Hom() a \u2192 b \u22a3 [(a,b)::Ob] => a \u2192 b # Ill-typed argument for id id(a) \u22a3 [a::Ob] => id(a) \u2761\u2665\u275e\n```\n\nAn interpretation is 'validity-preserving' when, for each axiom Eq of A , there exists a proof of I ( Eq ) using the axioms of B . When I is Bad 1 and Eq is the unitality axiom e () \u00b7 x = x , this would mean that we need to find a proof that 1 + x = x in ThArith , which is impossible. The other possible issue with a user-specified theory morphism is that it is ill-typed, such as Bad 2 , which attempts to map Ob \u21a6\u2192 Hom (), which fails both because Hom requires arguments and because ThCategory requires that id take an Ob argument, not a Hom .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "563382a7f240cfab",
+      "chunk_type": "h2",
+      "relevance_score": 0.797394957423874,
+      "start_line": 297,
+      "end_line": 327,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.1 Syntax of GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.67792,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_20cfabb66aaf",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.1 Syntax of GAT morphisms",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 4.2 Data structures for subclasses of GAT morphisms\n\n## 4.2 Data structures for subclasses of GAT morphisms\n\nMorphisms of GATs are highly expressive, which entails a certain amount of complication. It can be useful to consider GAT morphisms that are more restrictive, yet require less data to specify. These more restricted GAT morphisms also make it easier to compute, for instance, pushouts. GATlab defines no less than four data structures that implement GAT morphisms of varying expressivity:\n\n```\n/a115/a116/a114\u2709\u275d/a116 IdTheoryMap <: AbsTheoryMap gat::GAT \u2761\u2665\u275e /a115/a116/a114\u2709\u275d/a116 SimpleTheoryMap <: AbsTheoryMap dom::GAT; codom::GAT typemap::Dict{Ident, Ident} termmap::Dict{Ident, Ident} \u2761\u2665\u275e /a115/a116/a114\u2709\u275d/a116 InclTheoryMap <: AbsTheoryMap dom::GAT; codom::GAT \u2761\u2665\u275e /a115/a116/a114\u2709\u275d/a116 TheoryMap <: AbsTheoryMap dom::GAT; codom::GAT typemap::Dict{Ident, TypeInCtx} termmap::Dict{Ident, TermInCtx} \u2761\u2665\u275e\n```\n\nEach of these kinds of morphism can be cast to the subsequent kind, thus all can be interpreted as general theory maps, which send type and term constructors respectively to types and terms in a context of the codomain theory. IdTheoryMap represents the identity morphism on a GAT, and InclTheoryMap represents inclusions of theories. The third kind, SimpleTheoryMap , allows for associating type and term constructors of the domain with structurally-identical type and term constructors of the codomain. The fourth and final kind, TheoryMap , is a general morphism of theories, as described above.\n\nFor example, consider a map F which interprets preorders in the language of categories:\n\n```\n\u2745/a116\u2764\u2761\u2666/a114\u2461 ThPreorder <: ThSet \u275c\u2761\u2763\u2710\u2665 Leq(dom, codom)::TYPE \u22a3 [dom, codom] @op ( \u2264 ) := Leq refl(p)::(p \u2264 p) \u22a3 [p] tran(f::p \u2264 q, g::q \u2264 r)::(p \u2264 r) \u22a3 [p,q,r] irrev := f == g \u22a3 [p, q, (f, g)::(p \u2264 q)] \u2761\u2665\u275e @map F(ThCategory, ThPreorder) \u275c\u2761\u2763\u2710\u2665 Ob => default Hom => Leq compose => tran id => refl \u2761\u2665\u275e\n```\n\nThere is no overlap between the domain and codomain GATs, so this map cannot be represented by an InclTheoryMap , but it is a SimpleTheoryMap . In addition, PlusM and TimesM above could both have",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "bf646948d6933182",
+      "chunk_type": "h2",
+      "relevance_score": 0.7997900758278624,
+      "start_line": 327,
+      "end_line": 357,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.2 Data structures for subclasses of GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.677938,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_391152ece389",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.2 Data structures for subclasses of GAT morphisms",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "There is no overlap between the domain and codomain GATs, so this map cannot be represented by an InclTheoryMap , but it is a SimpleTheoryMap . In addition, PlusM and TimesM above could both have\n\nbeen expressed using SimpleTheoryMap syntax. However, a general TheoryMap is needed to represent the following GAT morphism, which takes a monoid to its opposite:\n\n```\n@map OpMonoid(ThMonoid, ThMonoid) \u275c\u2761\u2763\u2710\u2665 default => default; e() => e(); x \u00b7 y \u22a3 [x, y] => y \u00b7 x\n```\n\n```\n\u2761\u2665\u275e\n```\n\nWhen OpMonoid is applied to x \u00b7 (e() \u00b7 y) \u22a3 [x, y] one obtains (y \u00b7 e()) \u00b7 x \u22a3 [x, y] .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "494ae7f06b1bff9c",
+      "chunk_type": "h2",
+      "relevance_score": 0.7825844929356481,
+      "start_line": 327,
+      "end_line": 357,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.2 Data structures for subclasses of GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.6779451,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4b3cdde84821",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.2 Data structures for subclasses of GAT morphisms",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 4.3 Computation with GAT morphisms\n\n## 4.3 Computation with GAT morphisms\n\nThe basic functionalities these data structures must provide in order to play the role of GAT morphisms are composition, pushing forward of terms, pulling back of models, and checking the validity of the morphism. All of these operations are trivial for morphisms of kind IdTheoryMap or InclTheoryMap . Composition for SimpleTheoryMap is simply composition of the underlying functions from identifiers to identifiers, whereas composition for TheoryMap is implemented as a composition of substitutions, akin to a Kleisli composition for a term monad.\n\nPushing forward types and terms along SimpleTheoryMap or TheoryMap instances requires an implementation of pattern matching and syntactic substitution. The pushforward operation is essential to pulling back models along theory maps: models associate a computational semantics with each expression of a theory B , so by precomposing with the interpretation function of expressions of A to B , we see that GAT morphisms A \u2192 B induce a function from models of B to models of A . For example, if ThArith were given a model JuliaArith , using the native addition and multiplication of Julia, then the model IntPlusMonoid defined manually in the previous section could be obtained declaratively by calling GATlab's migrate\\_model on PlusM and JuliaArith . As another example, the following theory map allows us to automatically generate models of opposite categories. Once we have checked that the theory map is valid, we have confidence that applying it to correct models will always produce correct models.\n\n```\n@map OpCat(ThCategory, ThCategory) \u275c\u2761\u2763\u2710\u2665 Ob => Ob (dom \u2192 codom) \u22a3 [(dom, codom)::Ob] => (codom \u2192 dom) id(a) \u22a3 [a::Ob] => id(a) compose(f, g) \u22a3 [(a,b,c)::Ob, f::(a \u2192 b), g::(b \u2192 c)] => compose(g, f) \u2761\u2665\u275e\n```",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "6a76dae7c1141bdf",
+      "chunk_type": "h2",
+      "relevance_score": 0.7979516136551204,
+      "start_line": 357,
+      "end_line": 395,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.3 Computation with GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.678011,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_97d194b86037",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.3 Computation with GAT morphisms",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "```\n@map OpCat(ThCategory, ThCategory) \u275c\u2761\u2763\u2710\u2665 Ob => Ob (dom \u2192 codom) \u22a3 [(dom, codom)::Ob] => (codom \u2192 dom) id(a) \u22a3 [a::Ob] => id(a) compose(f, g) \u22a3 [(a,b,c)::Ob, f::(a \u2192 b), g::(b \u2192 c)] => compose(g, f) \u2761\u2665\u275e\n```\n\nThe operation of checking the validity of a theory map is trivial for IdTheoryMap . For InclTheoryMap , one must check that the identifiers found in dom are a strict subset of those found in codom . For SimpleTheoryMap , one must check that for each type and term constructor of the domain that the assigned type or term in the codomain has the same structure. E.g., to check the map F 's assignment compose =&gt; tran , one looks at the domain's generic term in context, namely\n\n```\ncompose(f,g) \u22a3 [(a,b,c)::Ob, f::(a \u2192 b), g::(b \u2192 c)]\n```\n\nand checks whether applying the theory map to the term in context is identical (up to renaming variables) to the generic term in context of the codomain theory, which in this case is\n\n```\ntran(f, g) \u22a3 [(a,b,c)::default, p::(a \u2264 b),q::(b \u2264 c)]\n```\n\nFor a general theory map, determining validity-preservation requires solving many word problems, and deciding equality is a nontrivial semi-decidable computation in general. For example, one must check that OpMonoid preserves the associativity of monoid multiplication.\n\nFurthermore, morphisms can be used to compositionally construct new theories via colimits. This can be done without explicit morphisms due to special support for a multiple inheritance syntax:\n\n```\n\u2745/a116\u2764\u2761\u2666/a114\u2461 ThModule \u275c\u2761\u2763\u2710\u2665 \u2709/a115\u2710\u2665\u2763 ThRing: default as Scalar \u2709/a115\u2710\u2665\u2763 ThAdditiveAbelianGroup: default as Vector\n```\n\n```\n\u03b1 \u00b7 v :: Vector \u22a3 [ \u03b1 ::Scalar, v::Vector] # ... axioms \u2761\u2665\u275e\n```\n\nThModule is an extension of the coproduct of ThRing and ThAdditiveAbelianGroup .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "bc9d9864295f03d5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7972389216132998,
+      "start_line": 357,
+      "end_line": 395,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.3 Computation with GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.678028,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_727f42749914",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.3 Computation with GAT morphisms",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "ThModule is an extension of the coproduct of ThRing and ThAdditiveAbelianGroup .\n\nAlternatively, the same theory can be explicitly constructed as a pushout of maps to suitably renamed versions of ThRing and ThAdditiveAbelianGroup from the theory of their common overlap (in this case, the empty theory), which can then be extended to include scalar multiplication and axioms. When the span to be pushed out uses only SimpleTheoryMap or simpler kinds of morphism, the computation is a simple matter of renaming and taking the union of the component GATs. Pushouts of general theory maps are a much more complicated matter yet to be implemented. Thus, drawing distinctions between different flavors of theory map allows GATlab to distinguish feasible and infeasible computations with GATs.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "2ec49463abd262e9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7868792419707719,
+      "start_line": 357,
+      "end_line": 395,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "4.3 Computation with GAT morphisms",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.6780381,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c2a75a5f745d",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.3 Computation with GAT morphisms",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5 Applications and Extensions\n\n## 5 Applications and Extensions\n\nIn creating the GATlab package as a replacement for the GAT machinery in Catlab, our first major goal was to explore new design decisions such as\n\n- (i) models of GATs in the ML module style, in addition to the Haskell typeclass style (section 3.1)\n- (ii) fibered vs. indexed point of view on dependent types (section 3.2)\n- (iii) hygenic substitution via scope tags (appendix A.1)\n\nbut retain sufficient backwards-compatibility with Catlab that adoption of these new features could be done incrementally rather than all at once. Having now completed this significant engineering effort, we are beginning to take advantage of GATlab's new functionality throughout the AlgebraicJulia ecosystem of packages for applied category theory.\n\nOne of the motivations behind GATlab was to build functionality for symbolic dynamical systems. In the past, we have built dynamical systems on top of arbitrary Julia functions [24]. However, making the various functions in dynamical systems symbolic unlocks a range of new capabilities, such as:\n\n- Systems can be optimized/compiled to produce more efficient code\n- Systems can be analyzed symbolically to prove properties about them without simulating them\n- Systems can be transferred between different programming languages\n- The equations defining a system can be pretty-printed and displayed to the user\n\nThere is a blog post written by the first author which explores these directions [25], and we have a preliminary implementation of symbolic resource sharers as an operad algebra [26]. Notably, GATlab allows us to implement these symbolic resource sharers agnostic to the exact collection of 'primitive functions' usable in the implementation of a symbolic function. For instance, we could only allow polynomial functions, or only allow polynomial and trigonometric functions, and so on.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "42b2a4a6174e0929",
+      "chunk_type": "h2",
+      "relevance_score": 0.7983557489421105,
+      "start_line": 395,
+      "end_line": 424,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "5 Applications and Extensions",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.6780632,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6373f37bff32",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5 Applications and Extensions",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "There is a blog post written by the first author which explores these directions [25], and we have a preliminary implementation of symbolic resource sharers as an operad algebra [26]. Notably, GATlab allows us to implement these symbolic resource sharers agnostic to the exact collection of 'primitive functions' usable in the implementation of a symbolic function. For instance, we could only allow polynomial functions, or only allow polynomial and trigonometric functions, and so on.\n\nTo support these systems-theoretic capabilities, another major direction for GATlab is developing richer functionality for computer algebra. We are interested in exploring how types can aid the development of computer algebra for mathematical objects going beyond classical abstract algebra. For instance, we have prototyped a theory in which the primary objects of study are 'sections of vector bundles,' where both the vector bundle itself and the space over which the vector bundle sits are arguments to the type constructor. This would enable principled, coordinate-free descriptions of problems in differential geometry, and have applications to partial differential equations via use in Decapodes [32,31].\n\nThere are several ways in which we are considering adding more sophisticated rewrite functionality to GATlab for the purposes of computer algebra. We have prototyped our own implementation of e-graphs for GATlab syntax trees, based on a careful reading of the egg source code [40]. However, Julia already has an excellent implementation of e-graphs in the form of Metatheory.jl [10], with which we hope to integrate. In any case, the advantage of e-graphs is that they are applicable to almost any rewriting problem, which is a good fit for the generality of GATs. However, in specialized domains like rings and modules, algorithms",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "1e4c6f5bfc11ae5b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7978877640799549,
+      "start_line": 395,
+      "end_line": 424,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "5 Applications and Extensions",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.678072,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_0e8aa56cd28b",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5 Applications and Extensions",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "There are several ways in which we are considering adding more sophisticated rewrite functionality to GATlab for the purposes of computer algebra. We have prototyped our own implementation of e-graphs for GATlab syntax trees, based on a careful reading of the egg source code [40]. However, Julia already has an excellent implementation of e-graphs in the form of Metatheory.jl [10], with which we hope to integrate. In any case, the advantage of e-graphs is that they are applicable to almost any rewriting problem, which is a good fit for the generality of GATs. However, in specialized domains like rings and modules, algorithms\n\nthat involve Groebner bases can be far more efficient than naive use of e-graphs. We have access to such computer algebra systems in Julia via Symbolics.jl [18] and the CAP project [2], and so another direction would be to integrate these into specific theories within GATlab.\n\nA limitation of GATs is that although we can specify a GAT for categories, GATs only have a 1-category of models rather than a 2-category. So, from the GAT for categories, we can automatically derive the concept of functor, but not the concept of natural transformation. Lambert and Patterson have a notion of 'cartesian double theory' [22], the models of which naturally form a 2-category, which could be a more natural framework for doing 'computer algebra for categories' than generalized algebraic theories.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "45bbaa0bde5a8ac3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7945869878918124,
+      "start_line": 395,
+      "end_line": 424,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "5 Applications and Extensions",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.678081,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_0dad3a9ce060",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5 Applications and Extensions",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "A limitation of GATs is that although we can specify a GAT for categories, GATs only have a 1-category of models rather than a 2-category. So, from the GAT for categories, we can automatically derive the concept of functor, but not the concept of natural transformation. Lambert and Patterson have a notion of 'cartesian double theory' [22], the models of which naturally form a 2-category, which could be a more natural framework for doing 'computer algebra for categories' than generalized algebraic theories.\n\nYet another direction for future research is randomized testing. This can be done in two ways. The first is to take an arbitrary equation in a theory, the validity of which is uncertain, and then check if it is true in randomly sampled finite models of a GAT. Of course, this cannot prove that the equation is true, but it can furnish counterexamples in the style of Nitpick [4] and Alloy [30]. The second way is to take a purported model of a GAT, and then sample elements of the types in that model to check if the equations in the GAT actually hold, in the style of QuickCheck [11] and Hypothesis [27]. This would provide a cheap way to get confidence in an implementation, and improve the overall code quality of anything which used GATlab.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "42202c5005048ef8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7929800583305787,
+      "start_line": 395,
+      "end_line": 424,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "5 Applications and Extensions",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769846628.678088,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c663308470d6",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5 Applications and Extensions",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# References\n\n## References",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "e5ef5512a5d1cbd0",
+      "chunk_type": "h2",
+      "relevance_score": 0.49999999999999994,
+      "start_line": 428,
+      "end_line": 473,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.6781352,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4f9de6a162c3",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## References\n\n- [1] Adamek, J. and J. Rosicky, Locally Presentable and Accessible Categories , Cambridge University Press (1994). https://doi.org/10.1017/cbo9780511600579\n- [2] Barakat, M., T. Kuhmichel and F. Zickgraf, CompilerForCAP - a category theory aware compiler, building and compiling towers of categories (2022). https://algebra.mathematik.uni-siegen.de/barakat/CompilerForCAP/CompilerForCAP.pdf\n- [3] Birkhoff, G., Universal algebra , in: Comptes Rendus du Premier Congr` es Canadien de Math\u00b4 ematiques , pages 310-326, University of Toronto Press (1946).\n- [4] Blanchette, J. C. and T. Nipkow, Nitpick: A counterexample generator for higher-order logic based on a relational model finder , in: M. Kaufmann and L. Paulson, editors, Interactive Theorem Proving (ITP 2010) , volume 6172 of LNCS , pages 131-146, Springer (2010).\n- [5] Burstall, R. M. and J. A. Goguen, The semantics of clear, a specification language , pages 292-332, Springer Berlin Heidelberg (1980). https://doi.org/10.1007/3-540-10007-5\\_41\n- [6] Carette, J., W. M. Farmer and R. O'Connor, MathScheme: project description , in: Intelligent Computer Mathematics: 18th Symposium, Calculemus 2011, and 10th International Conference, MKM 2011, Bertinoro, Italy, July 18-23, 2011. Proceedings 4 , pages 287-288, Springer (2011). https://doi.org/10.1007/978-3-642-22673-1\\_23\n- [7] Carette, J. and R. O'Connor, Theory presentation combinators , in: International Conference on Intelligent Computer Mathematics , pages 202-215, Springer (2012). https://doi.org/10.1007/978-3-642-31374-5\\_14\n- [8] Cartmell, J., Generalised algebraic theories and contextual categories , Ph.D. thesis, Oxford University (1978). Available online at https://ncatlab.org/nlab/files/Cartmell-Thesis.pdf\n- [9] Cartmell, J., Generalised algebraic theories and contextual categories , Annals of Pure and Applied Logic 32 , pages 209-243 (1986). https://doi.org/10.1016/0168-0072(86)90053-9\n- [10] Cheli, A., Metatheory.jl: Fast and elegant algebraic computation in julia with extensible equality saturation , Journal of Open Source Software 6 , page 3078 (2021). https://doi.org/10.21105/joss.03078",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "1866844915d7b3df",
+      "chunk_type": "h2",
+      "relevance_score": 0.5999549613330875,
+      "start_line": 428,
+      "end_line": 473,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.678145,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c213b6d90b9a",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- [1] Adamek, J. and J. Rosicky, Locally Presentable and Accessible Categories , Cambridge University Press (1994). https://doi.org/10.1017/cbo9780511600579\n- [2] Barakat, M., T. Kuhmichel and F. Zickgraf, CompilerForCAP - a category theory aware compiler, building and compiling towers of categories (2022). https://algebra.mathematik.uni-siegen.de/barakat/CompilerForCAP/CompilerForCAP.pdf\n- [3] Birkhoff, G., Universal algebra , in: Comptes Rendus du Premier Congr` es Canadien de Math\u00b4 ematiques , pages 310-326, University of Toronto Press (1946).\n- [4] Blanchette, J. C. and T. Nipkow, Nitpick: A counterexample generator for higher-order logic based on a relational model finder , in: M. Kaufmann and L. Paulson, editors, Interactive Theorem Proving (ITP 2010) , volume 6172 of LNCS , pages 131-146, Springer (2010).\n- [5] Burstall, R. M. and J. A. Goguen, The semantics of clear, a specification language , pages 292-332, Springer Berlin Heidelberg (1980). https://doi.org/10.1007/3-540-10007-5\\_41\n- [6] Carette, J., W. M. Farmer and R. O'Connor, MathScheme: project description , in: Intelligent Computer Mathematics: 18th Symposium, Calculemus 2011, and 10th International Conference, MKM 2011, Bertinoro, Italy, July 18-23, 2011. Proceedings 4 , pages 287-288, Springer (2011). https://doi.org/10.1007/978-3-642-22673-1\\_23\n- [7] Carette, J. and R. O'Connor, Theory presentation combinators , in: International Conference on Intelligent Computer Mathematics , pages 202-215, Springer (2012). https://doi.org/10.1007/978-3-642-31374-5\\_14\n- [8] Cartmell, J., Generalised algebraic theories and contextual categories , Ph.D. thesis, Oxford University (1978). Available online at https://ncatlab.org/nlab/files/Cartmell-Thesis.pdf\n- [9] Cartmell, J., Generalised algebraic theories and contextual categories , Annals of Pure and Applied Logic 32 , pages 209-243 (1986). https://doi.org/10.1016/0168-0072(86)90053-9\n- [10] Cheli, A., Metatheory.jl: Fast and elegant algebraic computation in julia with extensible equality saturation , Journal of Open Source Software 6 , page 3078 (2021). https://doi.org/10.21105/joss.03078\n\n- [11] Claessen, K. and J. Hughes, Quickcheck: a lightweight tool for random testing of haskell programs , in: Proceedings of the fifth ACM SIGPLAN international conference on Functional programming , ICFP00, ACM (2000). https://doi.org/10.1145/351240.351266\n- [12] Clavel, M., F. Dur\u00b4 an, S. Eker, S. Escobar, P. Lincoln, N. Mart\u00b4 \u0131-Oliet and C. Talcott, Two Decades of Maude , pages 232-254, Springer (2015). https://doi.org/10.1007/978-3-319-23165-5\\_11\n- [13] Coecke, B. and A. Kissinger, Categorical Quantum Mechanics I: Causal Quantum Processes , Oxford University Press (2018). https://doi.org/10.1093/oso/9780198748991.003.0012\n- [14] Flatt, M., Bindings as sets of scopes (2015). (fifth RacketCon). https://www.youtube.com/watch?v=ABWLveMNdzg\n- [15] Fong, B., Causal theories: A categorical perspective on bayesian networks (2013). https://doi.org/10.48550/ARXIV.1301.6201\n- [16] Goguen, J. A., Abstract errors for abstract data types , in: E. J. Neuhold, editor, Formal Description of Programming Concepts: Proceedings of the IFIP Working Conference on Formal Description of Programming Concepts, St. Andrews, NB, Canada, August 1-5, 1977 , pages 491-526, North-Holland (1977).\n- [17] Goguen, J. A., T. Winkler, J. Meseguer, K. Futatsugi and J.-P. Jouannaud, Introducing OBJ , pages 3-167, Springer (2000). https://doi.org/10.1007/978-1-4757-6541-0\\_1\n- [18] Gowda, S., Y. Ma, A. Cheli, M. Gw\u00b4 o\u00b4 zzd\u00b4 z, V. B. Shah, A. Edelman and C. Rackauckas, High-performance symbolic-numerics via multiple dispatch , ACM Commun. Comput. Algebra 55 , pages 92-96 (2022), ISSN 1932-2240. https://doi.org/10.1145/3511528.3511535\n- [19] Gutsche, S., S. Posur and \u00d8. Skart\u00e6terhagen, On the syntax and semantics of cap , in: O. Hasan, M. Pfeiffer and G. D. Reis, editors, Proceedings of the Workshop Computer Algebra in the Age of Types (2018). https://www.cicm-conference.org/2018/infproc/paper21.pdf\n- [20] Harper, R., F. Honsell and G. Plotkin, A framework for defining logics , Journal of the ACM 40 , pages 143-184 (1993). https://doi.org/10.1145/138027.138060\n- [21] Lambek, J. and P. J. Scott, Introduction to higher-order categorical logic , Cambridge University Press (1986). ISBN: 9780521356534\n- [22] Lambert, M. and E. Patterson, Cartesian double theories: A double-categorical framework for categorical doctrines , Advances in Mathematics 444 , page 109630 (2024). https://doi.org/10.1016/j.aim.2024.109630\n- [23] Lawvere, F. W., Functorial Semantics of Algebraic Theories and Some Algebraic Problems in the context of Functorial Semantics of Algebraic Theories , Ph.D. thesis, Columbia University (1963). http://www.tac.mta.ca/tac/reprints/articles/5/tr5abs.html\n- [24] Libkind, S., A. Baas, E. Patterson and J. Fairbanks, Operadic modeling of dynamical systems: Mathematics and computation , Electronic Proceedings in Theoretical Computer Science 372 , pages 192-206 (2022), ISSN 2075-2180. https://doi.org/10.4204/eptcs.372.14\n- [25] Lynch, O., Symbolic presentations of dynamical systems (2023). https://blog.algebraicjulia.org/post/2023/05/algebraic-geometry-2/\n- [26] Lynch, O., Symbolic compositional resource sharers (2024). https://github.com/AlgebraicJulia/GATlab.jl/pull/136\n- [27] MacIver, D., Z. Hatfield-Dodds and M. Contributors, Hypothesis: A new approach to property-based testing , Journal of Open Source Software 4 , page 1891 (2019), ISSN 2475-9066. https://doi.org/10.21105/joss.01891\n- [28] MacQueen, D., Modules for standard ML , in: Proceedings of the 1984 ACM Symposium on LISP and functional programming - LFP '84 , LFP '84, ACM Press (1984). https://doi.org/10.1145/800055.802036\n- [29] MacQueen, D., R. Harper and J. Reppy, The history of standard ML , Proceedings of the ACM on Programming Languages 4 , pages 1-100 (2020). https://doi.org/10.1145/3386336",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "11e5aa593c328ed2",
+      "chunk_type": "h2",
+      "relevance_score": 0.6131784514954751,
+      "start_line": 428,
+      "end_line": 473,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846628.678157,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d8c2f9c937bb",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- [11] Claessen, K. and J. Hughes, Quickcheck: a lightweight tool for random testing of haskell programs , in: Proceedings of the fifth ACM SIGPLAN international conference on Functional programming , ICFP00, ACM (2000). https://doi.org/10.1145/351240.351266\n- [12] Clavel, M., F. Dur\u00b4 an, S. Eker, S. Escobar, P. Lincoln, N. Mart\u00b4 \u0131-Oliet and C. Talcott, Two Decades of Maude , pages 232-254, Springer (2015). https://doi.org/10.1007/978-3-319-23165-5\\_11\n- [13] Coecke, B. and A. Kissinger, Categorical Quantum Mechanics I: Causal Quantum Processes , Oxford University Press (2018). https://doi.org/10.1093/oso/9780198748991.003.0012\n- [14] Flatt, M., Bindings as sets of scopes (2015). (fifth RacketCon). https://www.youtube.com/watch?v=ABWLveMNdzg\n- [15] Fong, B., Causal theories: A categorical perspective on bayesian networks (2013). https://doi.org/10.48550/ARXIV.1301.6201\n- [16] Goguen, J. A., Abstract errors for abstract data types , in: E. J. Neuhold, editor, Formal Description of Programming Concepts: Proceedings of the IFIP Working Conference on Formal Description of Programming Concepts, St. Andrews, NB, Canada, August 1-5, 1977 , pages 491-526, North-Holland (1977).\n- [17] Goguen, J. A., T. Winkler, J. Meseguer, K. Futatsugi and J.-P. Jouannaud, Introducing OBJ , pages 3-167, Springer (2000). https://doi.org/10.1007/978-1-4757-6541-0\\_1\n- [18] Gowda, S., Y. Ma, A. Cheli, M. Gw\u00b4 o\u00b4 zzd\u00b4 z, V. B. Shah, A. Edelman and C. Rackauckas, High-performance symbolic-numerics via multiple dispatch , ACM Commun. Comput. Algebra 55 , pages 92-96 (2022), ISSN 1932-2240. https://doi.org/10.1145/3511528.3511535\n- [19] Gutsche, S., S. Posur and \u00d8. Skart\u00e6terhagen, On the syntax and semantics of cap , in: O. Hasan, M. Pfeiffer and G. D. Reis, editors, Proceedings of the Workshop Computer Algebra in the Age of Types (2018). https://www.cicm-conference.org/2018/infproc/paper21.pdf\n- [20] Harper, R., F. Honsell and G. Plotkin, A framework for defining logics , Journal of the ACM 40 , pages 143-184 (1993). https://doi.org/10.1145/138027.138060\n- [21] Lambek, J. and P. J. Scott, Introduction to higher-order categorical logic , Cambridge University Press (1986). ISBN: 9780521356534\n- [22] Lambert, M. and E. Patterson, Cartesian double theories: A double-categorical framework for categorical doctrines , Advances in Mathematics 444 , page 109630 (2024). https://doi.org/10.1016/j.aim.2024.109630\n- [23] Lawvere, F. W., Functorial Semantics of Algebraic Theories and Some Algebraic Problems in the context of Functorial Semantics of Algebraic Theories , Ph.D. thesis, Columbia University (1963). http://www.tac.mta.ca/tac/reprints/articles/5/tr5abs.html\n- [24] Libkind, S., A. Baas, E. Patterson and J. Fairbanks, Operadic modeling of dynamical systems: Mathematics and computation , Electronic Proceedings in Theoretical Computer Science 372 , pages 192-206 (2022), ISSN 2075-2180. https://doi.org/10.4204/eptcs.372.14\n- [25] Lynch, O., Symbolic presentations of dynamical systems (2023). https://blog.algebraicjulia.org/post/2023/05/algebraic-geometry-2/\n- [26] Lynch, O., Symbolic compositional resource sharers (2024). https://github.com/AlgebraicJulia/GATlab.jl/pull/136\n- [27] MacIver, D., Z. Hatfield-Dodds and M. Contributors, Hypothesis: A new approach to property-based testing , Journal of Open Source Software 4 , page 1891 (2019), ISSN 2475-9066. https://doi.org/10.21105/joss.01891\n- [28] MacQueen, D., Modules for standard ML , in: Proceedings of the 1984 ACM Symposium on LISP and functional programming - LFP '84 , LFP '84, ACM Press (1984). https://doi.org/10.1145/800055.802036\n- [29] MacQueen, D., R. Harper and J. Reppy, The history of standard ML , Proceedings of the ACM on Programming Languages 4 , pages 1-100 (2020). https://doi.org/10.1145/3386336\n\n- [30] Milicevic, A., J. P. Near, E. Kang and D. Jackson, Alloy*: a general-purpose higher-order relational constraint solver , in: Proceedings of the 37th International Conference on Software Engineering - Volume 1 , ICSE '15, pages 609-619, IEEE Press (2015), ISBN 9781479919345. https://dl.acm.org/doi/10.5555/2818754.2818829\n- [31] Morris, L., A. Baas, J. Arias, M. Gatlin, E. Patterson and J. P. Fairbanks, Decapodes: A diagrammatic tool for representing, composing, and computing spatialized partial differential equations (2024). https://doi.org/10.48550/arXiv.2401.17432\n- [32] Patterson, E., A. Baas, T. Hosgood and J. Fairbanks, A diagrammatic view of differential equations in physics , Mathematics in Engineering 5 , pages 1-59 (2022), ISSN 2640-3501. https://doi.org/10.3934/mine.2023036\n- [33] Pitts, A. M., Categorical logic , in: Handbook of Logic in Computer Science , volume 5, pages 39-128 (2001). https://doi.org/10.1093/oso/9780198537816.003.0002\n- [34] Rabe, F. and M. Kohlhase, A scalable module system , Information and Computation 230 , pages 1-54 (2013), ISSN 0890-5401. https://doi.org/10.1016/j.ic.2013.06.001\n- [35] Ramine, A., J. Nash, K. Fischer, J. Sterling, C. T. Schonwald, S. Karpinski, B. McKenna, J. Bezanson, S. Cawtawba, E. Kmett, T. Knopp, R. Valentine, J. Abrahamson, I. Norton, J. M. White and M. Bouchet-Valat, Julia has no dependent types (2014). https://github.com/JuliaLang/julia/issues/6113\n- [36] Rydeheard, D. E. and R. M. Burstall, Computational Category Theory , Prentice Hall (1988). ISBN: 10: 0131627368 Available online at http://www.cs.man.ac.uk/ ~ david/categories/book/book.pdf\n- [37] Spivak, D. I., Functorial data migration , Information and Computation 217 , pages 31-51 (2012), ISSN 0890-5401. https://doi.org/10.1016/j.ic.2012.05.001\n- [38] Taylor, P., Practical foundations of mathematics , Cambridge University Press (1999). ISBN: 9780521631075\n- [39] Whitehead, A., A treatise on universal algebra, with applications. , volume 1, Cambridge University Press (1898). https://doi.org/10.1017/CBO9780511693175\n- [40] Willsey, M., C. Nandi, Y. R. Wang, O. Flatt, Z. Tatlock and P. Panchekha, egg: Fast and extensible equality saturation , Proc. ACM Program. Lang. 5 (2021). https://doi.org/10.1145/3434304",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "495d404fdb518327",
+      "chunk_type": "h2",
+      "relevance_score": 0.613467727209899,
+      "start_line": 428,
+      "end_line": 473,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769846628.678168,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_56e8ad6e9cbe",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# A.1 Scopes\n\n## A.1 Scopes\n\nIn the original Catlab implementation of GATs, variables were identified simply by symbols, which implicitly means that variables were resolved via dynamic scoping. An objective of the GATlab implementation was to provide a lexical scope system, which properly handled issues like shadowing and overloading and helped identify errors in syntax manipulation algorithms. We originally intended to use a system based on deBruijn levels, but the reindexing necessary when moving syntax around while using deBruijn levels proved quite tedious to handle. We eventually settled on a system inspired by Racket's 'scope sets' construct, which is used to ensure hygenicity of the Racket macro system [14]. However, because GATlab does not involve macros that expand to macros, we did not need the full generality of 'scope sets.'\n\nOur scope system works in the following way. We call any piece of syntax that introduces new variable bindings a scope . For instance, the body of a @theory macro is a scope, the right hand side of a turnstile (' \u22a3 ') is a scope, and the collection of arguments to a function is a scope.\n\nAt parse time, every scope is assigned a random UUID, which we call a scope tag . An identifier consists of a scope tag, an index ranging from 1 to the length of the scope, and a name. The scope tag\n\nand the index are sufficient to identify the binding that the identifier refers to; the name is just for display purposes.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "28bcff34bf650370",
+      "chunk_type": "h2",
+      "relevance_score": 0.7949395064780289,
+      "start_line": 477,
+      "end_line": 491,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "A.1 Scopes",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846628.678258,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b18e1f6f091a",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "A.1 Scopes",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "and the index are sufficient to identify the binding that the identifier refers to; the name is just for display purposes.\n\nA context is then an ordered list of scopes. When a symbol is parsed within a context, we produce an identifier with a scope tag that refers to the latest scope within that context that has a binding named with that symbol. However, when later on we want to find the binding associated with an identifier, we look through the context for a scope with a matching scope tag, rather than simply taking the first binding with the right name. The scope mechanism ensures that substitution is hygenic : when a variable is substituted into a new expression, in a new environment, it will never accidentally refer to something it was not intended to refer to.\n\nWhile implementing lexical scopes might seem a minor detail, it was not trivial to settle on this approach to scoping, and so we hope that reporting the details of this solution will help designers of typed computer algebra systems in the future. Using a combination of UUID-based scope identifiers and consecutive-integer indexing is more ergonomic than pure deBruijn indexing because reindexing happens less frequently. More importantly, it is also better at detecting programmer errors. In a computer algebra system, we are frequently moving syntax trees around, so it may happen that we forget to bring the corresponding scope along; having variables reference their scope by UUIDs is an easy way to detect this kind of error.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "ba4255e301434a7c",
+      "chunk_type": "h2",
+      "relevance_score": 0.795343397569439,
+      "start_line": 477,
+      "end_line": 491,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "A.1 Scopes",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846628.678275,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_94ed63609317",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "A.1 Scopes",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## A.2 Expanding macros inside macros\n\nThis section is about a trick somewhat specific to Julia as we do not know how many other programming languages support calling macroexpand inside a macro. It would be an interesting exercise to make this work in a language like Racket which has strict phase separation.\n\nWhen one theory in GATlab extends another theory, we need to access the contents of the parent theory at macro expansion time . The reason is that the @theory macro produces Julia modules and declares functions, so if we had to wait until runtime to get the contents of the parent theory, we would have to call eval at runtime to produce those modules. Exactly why this would not be ideal is a complicated story involving the details of how Julia performs compilation, but suffice to say that this is best avoided.\n\nGenerally, macros cannot access the values referred to by the syntax that is passed to them, only the syntax itself. However, one thing that can be done inside a Julia macro is to call macroexpand . We exploit this possibility in the following way. A call to @theory ThMonoid begin ... end expands into a module called ThMonoid as follows.\n\n```\n\u2660\u2666\u275e\u2709\u2767\u2761 ThMonoid ... \u2660\u2666\u275e\u2709\u2767\u2761 Meta ... \u2660\u275b\u275d/a114\u2666 theory() # (return the data of the theory of \u2761\u2665\u275e ... \u2761\u2665\u275e ...\n```\n\n```\nmonoids) \u2761\u2665\u275e Then, when macroexpanding an extension of the theory \u2745/a116\u2764\u2761\u2666/a114\u2461 ThGroup <: ThMonoid \u275c\u2761\u2763\u2710\u2665 ... \u2761\u2665\u275e we do something like \u2660\u275b\u275d/a114\u2666 theory(head, body) parentname = ... parenttheory = macroexpand(__module__, :( $ parentname.Meta. \u2745/a116\u2764\u2761\u2666/a114\u2461 ))\n```\n\n...",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "chunk_id": "232f38c7b8e278d3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7957853834556652,
+      "start_line": 491,
+      "end_line": 509,
+      "metadata": {
+        "ref_id": "REF-005",
+        "header": "A.2 Expanding macros inside macros",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846628.678292,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a2387c02726d",
+        "parent_id": "pcl_77c05d9fa001",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846628,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-005_Patterson_2024_GATlab.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "A.2 Expanding macros inside macros",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

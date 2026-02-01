@@ -1,0 +1,417 @@
+{
+  "batch_id": "batch_20260131_041818",
+  "timestamp": "2026-01-31T04:18:18.025652",
+  "summary": {
+    "batch_id": "batch_20260131_041818",
+    "timestamp": "2026-01-31T04:18:18.025652",
+    "total_files": 10,
+    "successful": 9,
+    "partial": 0,
+    "failed": 1,
+    "skipped": 0,
+    "success_rate": 0.9,
+    "duration_seconds": 0.0
+  },
+  "config_used": {
+    "input_dir": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf",
+    "output_dir": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output",
+    "enable_ocr": true,
+    "enable_table_structure": true,
+    "enable_fallbacks": true,
+    "max_fallback_retries": 4,
+    "enable_chunking": true,
+    "chunk_max_tokens": 512,
+    "chunk_overlap_tokens": 50,
+    "omp_num_threads": 4,
+    "batch_size": 10,
+    "continue_on_error": true,
+    "max_page_limit": 500,
+    "export_markdown": true,
+    "export_json": true,
+    "export_chunks": true
+  },
+  "start_time": "2026-01-31T04:18:18.025657",
+  "end_time": null,
+  "duration_seconds": 0.0,
+  "results": [
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/ASHBY_1970_GoodRegulatorTheorem.pdf",
+      "ref_id": "ASHBY_1970",
+      "parcel_id": "pcl_d68b7eb8606d",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/ASHBY_1970.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/ASHBY_1970.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/ASHBY_1970_chunks.json",
+      "page_count": 10,
+      "chunk_count": 19,
+      "processing_time_seconds": 16.31823492050171,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_d68b7eb8606d",
+        "ref_id": "ASHBY_1970",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843898,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769843915,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 10,
+              "chunk_count": 19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/LAWVERE_1994_ToolsObjectiveLogic.pdf",
+      "ref_id": "LAWVERE_1994",
+      "parcel_id": "pcl_6f9e41584a98",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/LAWVERE_1994.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/LAWVERE_1994.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/LAWVERE_1994_chunks.json",
+      "page_count": 14,
+      "chunk_count": 26,
+      "processing_time_seconds": 5.31238865852356,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_6f9e41584a98",
+        "ref_id": "LAWVERE_1994",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843915,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769843920,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 14,
+              "chunk_count": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-052_Godel_1931_FormallyUndecidable.pdf",
+      "ref_id": "REF-052",
+      "parcel_id": "pcl_1e6a8a3c2c1b",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-052.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-052.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-052_chunks.json",
+      "page_count": 27,
+      "chunk_count": 38,
+      "processing_time_seconds": 24.727696180343628,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_1e6a8a3c2c1b",
+        "ref_id": "REF-052",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843920,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769843945,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 27,
+              "chunk_count": 38
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/PEIRCE_1931_CollectedPapers.pdf",
+      "ref_id": "PEIRCE_1931",
+      "parcel_id": "pcl_803365e18e93",
+      "status": "failed",
+      "strategy_used": "standard",
+      "markdown_path": null,
+      "json_path": null,
+      "chunks_path": null,
+      "page_count": 5092,
+      "chunk_count": 0,
+      "processing_time_seconds": 0.2051689624786377,
+      "error_message": "Skipped: 5092 pages exceeds limit of 500",
+      "waybill": {
+        "parcel_id": "pcl_803365e18e93",
+        "ref_id": "PEIRCE_1931",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843945,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "skipped_page_limit",
+            "timestamp": 1769843945,
+            "agent": "docling.processor.py",
+            "context": {
+              "page_count": 5092,
+              "limit": 500
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/PRIGOGINE_2008_DissipativeStructures.pdf",
+      "ref_id": "PRIGOGINE_2008",
+      "parcel_id": "pcl_b14c23024b36",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/PRIGOGINE_2008.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/PRIGOGINE_2008.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/PRIGOGINE_2008_chunks.json",
+      "page_count": 7,
+      "chunk_count": 12,
+      "processing_time_seconds": 2.6378469467163086,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_b14c23024b36",
+        "ref_id": "PRIGOGINE_2008",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843945,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769843948,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 7,
+              "chunk_count": 12
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GIBSON_1979_EcologicalApproachVisualPerception.pdf",
+      "ref_id": "GIBSON_1979",
+      "parcel_id": "pcl_2414959ec14c",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/GIBSON_1979.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/GIBSON_1979.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/GIBSON_1979_chunks.json",
+      "page_count": 347,
+      "chunk_count": 743,
+      "processing_time_seconds": 78.91498684883118,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_2414959ec14c",
+        "ref_id": "GIBSON_1979",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769843948,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769844027,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 347,
+              "chunk_count": 743
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/HUTCHINS_1995_CognitionInTheWild.pdf",
+      "ref_id": "HUTCHINS_1995",
+      "parcel_id": "pcl_9669a59f23f9",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/HUTCHINS_1995.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/HUTCHINS_1995.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/HUTCHINS_1995_chunks.json",
+      "page_count": 395,
+      "chunk_count": 896,
+      "processing_time_seconds": 323.6454598903656,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_9669a59f23f9",
+        "ref_id": "HUTCHINS_1995",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769844027,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769844351,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 395,
+              "chunk_count": 896
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-010_UnivalentFoundations_2013_HoTT.pdf",
+      "ref_id": "REF-010",
+      "parcel_id": "pcl_91482ad55010",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-010.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-010.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-010_chunks.json",
+      "page_count": 480,
+      "chunk_count": 763,
+      "processing_time_seconds": 148.07865023612976,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_91482ad55010",
+        "ref_id": "REF-010",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769844351,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769844500,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 480,
+              "chunk_count": 763
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-005_Patterson_2024_GATlab.pdf",
+      "ref_id": "REF-005",
+      "parcel_id": "pcl_bbe8ad513265",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-005.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-005.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-005_chunks.json",
+      "page_count": 19,
+      "chunk_count": 45,
+      "processing_time_seconds": 5.796128034591675,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_bbe8ad513265",
+        "ref_id": "REF-005",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769844500,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769844506,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 19,
+              "chunk_count": 45
+            }
+          }
+        ]
+      }
+    },
+    {
+      "pdf_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-034_Wilson_1971_RenormalizationGroup.pdf",
+      "ref_id": "REF-034",
+      "parcel_id": "pcl_04c2a4345846",
+      "status": "success",
+      "strategy_used": "standard",
+      "markdown_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-034.md",
+      "json_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-034.json",
+      "chunks_path": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/docling_output/batch_20260131_041818/success/REF-034_chunks.json",
+      "page_count": 21,
+      "chunk_count": 38,
+      "processing_time_seconds": 16.215425968170166,
+      "error_message": null,
+      "waybill": {
+        "parcel_id": "pcl_04c2a4345846",
+        "ref_id": "REF-034",
+        "route": [
+          {
+            "event": "processing_started",
+            "timestamp": 1769844506,
+            "agent": "docling.processor.py",
+            "context": {
+              "batch_id": "batch_20260131_041818"
+            }
+          },
+          {
+            "event": "processing_completed",
+            "timestamp": 1769844522,
+            "agent": "docling.processor.py",
+            "context": {
+              "strategy": "standard",
+              "page_count": 21,
+              "chunk_count": 38
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

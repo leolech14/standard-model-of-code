@@ -16,7 +16,7 @@
 We have TWO dashboard implementations:
 
 1. FastAPI Dashboard (archived but complete)
-   Location: standard-model-of-code/archive/legacy_experiments/dashboard/
+   Location: particle/archive/legacy_experiments/dashboard/
    - 20 API endpoints (butlers, knowledge, cloud_jobs, health, automation, files)
    - FastAPI + static HTML/JS
    - Docker + Cloud Run ready
@@ -24,7 +24,7 @@ We have TWO dashboard implementations:
    - Status: ARCHIVED (not actively developed)
 
 2. Next.js Dashboard (experimental)
-   Location: context-management/experiments/refinery-dashboard/
+   Location: wave/experiments/refinery-dashboard/
    - Modern Next.js 15 + TypeScript + Tailwind
    - Beautiful UI with dark theme
    - Minimal features (just job triggering)

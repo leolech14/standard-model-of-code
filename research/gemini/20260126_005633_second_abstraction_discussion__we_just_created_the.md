@@ -31,7 +31,7 @@ A. INTENT ABSTRACTION
    - Second: './pe "fix the bug in auth.py"' (system figures out which tools)
    - The CLI becomes an AGENT that routes to the right tool
 
-B. STATE ABSTRACTION  
+B. STATE ABSTRACTION
    - First: Tools are stateless (each invocation is independent)
    - Second: Tools share context (what you asked before affects now)
    - Session memory, conversation continuity
@@ -87,7 +87,7 @@ The **Intent Abstraction** moves this decision from the User to the System.
 
 ### Why This Fits Your Codebase
 
-1.  **You already built the Brain:** `context-management/config/aci_config.yaml` defines `intent_keywords`, `complexity_indicators`, and `routing_overrides`. You have a logic engine waiting to be the CLI controller.
+1.  **You already built the Brain:** `wave/config/aci_config.yaml` defines `intent_keywords`, `complexity_indicators`, and `routing_overrides`. You have a logic engine waiting to be the CLI controller.
 2.  **The "Universal Consumer" Axiom:** `CODESPACE_ALGEBRA.md` (Axiom H5) states that programming is "Contextome curation at L1 (Natural Language)." An Intent Abstraction aligns the CLI with this theoretical axiom.
 3.  **Tool Sprawl:** `BACKGROUND_AI_LAYER_MAP.md` lists 23 separate tools (`fact_loader`, `drift_guard`, `enrichment_orchestrator`, etc.). Expecting a user to memorize these is an anti-pattern.
 
@@ -103,7 +103,7 @@ The `./pe` entry point changes from a switch-case of hardcoded commands to a pas
 2.  **Routing:**
     *   Intent `ARCHITECTURE` + Scope `INTERNAL` → Route to **Tier 2 (Long Context)**.
 3.  **Execution:**
-    *   System constructs the command: `python context-management/tools/ai/analyze.py --set pipeline --mode architect "Is the pipeline module cohesive?"`
+    *   System constructs the command: `python wave/tools/ai/analyze.py --set pipeline --mode architect "Is the pipeline module cohesive?"`
 4.  **Output:**
     *   Returns the insight.
 

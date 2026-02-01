@@ -1,4 +1,4 @@
-# Research: We are creating a unified GLOSSARY.md for PROJECT_elements. Review the gap map at context-management...
+# Research: We are creating a unified GLOSSARY.md for PROJECT_elements. Review the gap map at wave...
 
 > **Date:** 2026-01-25 19:06:07
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-We are creating a unified GLOSSARY.md for PROJECT_elements. Review the gap map at context-management/docs/GLOSSARY_GAP_MAP.md and the existing docs. What terms MUST be in the glossary? What ASCII relationship diagrams are essential? Prioritize by importance for AI agent navigation.
+We are creating a unified GLOSSARY.md for PROJECT_elements. Review the gap map at wave/docs/GLOSSARY_GAP_MAP.md and the existing docs. What terms MUST be in the glossary? What ASCII relationship diagrams are essential? Prioritize by importance for AI agent navigation.
 
 ---
 
@@ -25,15 +25,15 @@ Here is the prioritized analysis for the Unified Glossary.
 These terms are critical for **AI Disambiguation**. Without strict definitions here, agents will hallucinate relationships between directories or misclassify work items.
 
 #### A. Architectural Primitives (The Ontology)
-*   **Particle**: *Strict Definition:* The concrete implementation layer (`standard-model-of-code/`). Represents "collapsed" state, measurement, and execution.
-*   **Wave**: *Strict Definition:* The context and potential layer (`context-management/`). Represents knowledge, tools, and the field in which the code exists.
+*   **Particle**: *Strict Definition:* The concrete implementation layer (`particle/`). Represents "collapsed" state, measurement, and execution.
+*   **Wave**: *Strict Definition:* The context and potential layer (`wave/`). Represents knowledge, tools, and the field in which the code exists.
 *   **Observer**: *Strict Definition:* The agentic layer (`.agent/`). Responsible for deciding what to measure and collapsing Wave potential into Particle reality.
 *   **Concepts vs. Objects**: The fractal duality pattern enforced by the Kernel.
     *   *Concept*: A definition, schema, or spec (e.g., `task.schema.yaml`).
     *   *Object*: An instance or record (e.g., `TASK-001.yaml`).
 
 #### B. Subsystem Identities (The Machinery)
-*   **Collider**: The static analysis engine located in `standard-model-of-code`. It generates the "Ground Truth" (`unified_analysis.json`).
+*   **Collider**: The static analysis engine located in `particle`. It generates the "Ground Truth" (`unified_analysis.json`).
 *   **BARE (Background Auto-Refinement Engine)**: The automated loop that claims tasks and pushes commits. It is the "Hands" of the system.
 *   **HSL (Holographic Socratic Layer)**: The *conceptual* validation framework (the rules).
 *   **analyze.py**: The *implementation* of HSL (the enforcer). Agents must distinguish between the rule (HSL) and the tool (`analyze.py`).
@@ -60,10 +60,10 @@ For an AI agent, spatial and relational understanding is often better conveyed t
       ├── .agent/ ───────────────────► OBSERVER
       │   (Registry, Runs, Schemas)    Decides what to measure
       │
-      ├── standard-model-of-code/ ───► PARTICLE
+      ├── particle/ ───► PARTICLE
       │   (Src, Collider, Laboratory)  The collapsed reality (Implementation)
       │
-      └── context-management/ ───────► WAVE
+      └── wave/ ───────► WAVE
           (Docs, Tools, HSL)           The field of potential (Context)
 ```
 
@@ -71,7 +71,7 @@ For an AI agent, spatial and relational understanding is often better conveyed t
 *Why: Defines the read/write permissions and causality chain.*
 
 ```ascii
-      [CODEBASE] 
+      [CODEBASE]
           │
           │ (1. Scan)
           ▼

@@ -23,8 +23,8 @@ problem: 'Codebase contains files that may be dead:
 
   '
 potential_orphans:
-- standard-model-of-code/src/tools/extract_chat_insights.py
-- standard-model-of-code/src/tools/dedupe_insights.py
+- particle/src/tools/extract_chat_insights.py
+- particle/src/tools/dedupe_insights.py
 - check_stale.sh
 - release_task.sh
 - execute_cutting_phase1.sh

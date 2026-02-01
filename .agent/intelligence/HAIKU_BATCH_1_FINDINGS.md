@@ -160,12 +160,12 @@
 **Batch 1 quality:** EXCELLENT (useful, accurate, actionable)
 
 **Execute Batch 2:** 3 Haikus on PARTICLE subsystem
-- Deep dive into standard-model-of-code/
+- Deep dive into particle/
 - Find gaps between docs and code
 - Verify all 28 pipeline stages have documentation
 
 **Execute Batch 3:** 3 Haikus on WAVE + OBSERVER
-- Deep dive into context-management/ and .agent/
+- Deep dive into wave/ and .agent/
 - Find undocumented tools
 - Verify cross-subsystem integration
 

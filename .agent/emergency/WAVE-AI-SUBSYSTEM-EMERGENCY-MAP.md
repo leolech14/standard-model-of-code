@@ -204,7 +204,7 @@ launchctl start com.elements.socratic-audit
 **Depends on:** B2 (daemons), B3 (unified_analysis)
 **Fix:** Daemons should update this, or manual:
 ```bash
-python context-management/tools/hsl_daemon.py --once
+python wave/tools/hsl_daemon.py --once
 ```
 
 ### B5: Stage 3.7 Never Executed [MEDIUM]
@@ -212,7 +212,7 @@ python context-management/tools/hsl_daemon.py --once
 **Impact:** Purpose coherence metrics not exported
 **Symptom:** Code exists but `coherence_score` fields empty
 **Depends on:** B1 (tree-sitter)
-**Location:** `standard-model-of-code/src/core/full_analysis.py:1599-1629`
+**Location:** `particle/src/core/full_analysis.py:1599-1629`
 
 ---
 
@@ -229,7 +229,7 @@ ps aux | grep -E "activity_watcher|hsl_daemon|cartographer" | grep -v grep
 cat /tmp/elements_activity_watcher.log | tail -20
 
 # Check daemon state
-cat context-management/intelligence/hsl_daemon_state.json
+cat wave/intelligence/hsl_daemon_state.json
 
 # Check truths freshness
 head -20 .agent/intelligence/truths/repo_truths.yaml
@@ -248,7 +248,7 @@ python3 -c "import tree_sitter; print('tree-sitter OK')" 2>&1
 ### Phase 1: Fix tree-sitter (Unblocks Collider)
 
 ```bash
-cd ~/PROJECTS_all/PROJECT_elements/standard-model-of-code
+cd ~/PROJECTS_all/PROJECT_elements/particle
 uv pip install tree-sitter tree-sitter-python tree-sitter-javascript tree-sitter-typescript tree-sitter-go tree-sitter-rust
 
 # Verify
@@ -280,7 +280,7 @@ launchctl list | grep element
 
 ```bash
 # Make a file change
-touch standard-model-of-code/src/core/purpose_field.py
+touch particle/src/core/purpose_field.py
 
 # Wait 30 seconds, check log
 sleep 30 && tail -5 /tmp/elements_activity_watcher.log
@@ -292,7 +292,7 @@ cat .agent/intelligence/truths/repo_truths.yaml | grep version
 ### Phase 5: Verify AI Answers Fresh
 
 ```bash
-python context-management/tools/ai/analyze.py --aci "how many Python files in the repo"
+python wave/tools/ai/analyze.py --aci "how many Python files in the repo"
 # Should return current count, not stale
 ```
 
@@ -316,8 +316,8 @@ python context-management/tools/ai/analyze.py --aci "how many Python files in th
 |----------|---------|
 | `.agent/handoffs/HANDOFF_2026-01-26_PURPOSE_FIELD_SESSION.md` | Previous session findings |
 | `.agent/intelligence/TOOLS_REGISTRY.yaml` | Component interfaces |
-| `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | HSL design |
-| `standard-model-of-code/docs/COLLIDER.md` | Collider usage |
+| `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | HSL design |
+| `particle/docs/COLLIDER.md` | Collider usage |
 
 ---
 

@@ -10,7 +10,7 @@ confidence:
   current: 80
   onwards: 80
 related_to:
-- standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md
+- particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md
 metadata:
   source_id: TREE-005
   source_registry: tree_sitter

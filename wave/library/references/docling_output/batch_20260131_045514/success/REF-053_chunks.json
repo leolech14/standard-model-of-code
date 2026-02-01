@@ -1,0 +1,532 @@
+{
+  "ref_id": "REF-053",
+  "parcel_id": "pcl_5d3e9442927d",
+  "chunk_count": 15,
+  "chunks": [
+    {
+      "content": "## H.  G.  RICE\n\n1.  Introduction. In this paper we  consider classes whose elements are  recursively enumerable sets of  non-negative integers. No  discussion of  recursively enumerable sets can avoid the use  of  such classes, so  that it  seems desirable to  know some of their properties. We  give our attention here to  the properties of  complete recursive enumerability and complete recursiveness (which may be intuitively interpreted as decidability). Perhaps our most interesting result (and the one which gives this paper its  name) is  the fact that no  nontrivial class is  completely recursive.\n\nWe assume familiarity with a paper of Kleene [5](2), and with ideas which are well  summarized in  the first sections of  a  paper of  Post \u00cd7].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "0b94919cbe376b17",
+      "chunk_type": "h2",
+      "relevance_score": 0.7863038492860209,
+      "start_line": 5,
+      "end_line": 11,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "H.  G.  RICE",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846988.640359,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7b04b6836a20",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "H.  G.  RICE",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# I.  Fundamental definitions\n\n## I.  Fundamental definitions\n\n2. Partial recursive functions. We  shall characterize recursively enumerable (r.e.) sets of  non-negative integers by  the partial recursive functions of Kleene. The set characterized (or, as  we  shall say  more frequently, enumerated) by a partial recursive function of  one variable will be taken as the range of  values of  the function. A  function undefined for  all  arguments (and thus producing no  values) will be  considered to  produce an enumeration of the  empty set  o.\n\nKleene has  shown [5,  pp. 50-58] that a  G\u00f6del enumeration of  the partial recursive functions is  possible, so  that we  may designate any partial recursive function of  one  variable as  &lt;j&gt;n(x),  where n  is  a  G\u00f6del number of  the function. Actually, it requires only a  minor adjustment of Kleene's constructions to insure that, not only does every function have at least one  number, but that every non-negative integer n  is the  number of  some  function. We  shall  assume this to  be  the situation, and shall make one other minor adjustment: &lt;t&gt;o(x) is  the identity function.\n\nKleene further showed the  existence of a  recursive predicate 7\"(x, y,  z) and a  primitive recursive function U(x) such that\n\nPresented to  the Society, December 28,  1951;  received by the editors of  the Journal for Symbolic Logic, November 16,  1951,  subsequently transferred to the Transactions, and received  in revised  form  May  26,  1952.\n\n(')  Most of  the results in this paper were contained in  a  thesis written under Professor Paul Rosenbloom, to  whom the author wishes to  express his  gratitude, and presented toward the  degree of  Doctor of  Philosophy at  Syracuse University.\n\n(l)  Numbers in  brackets refer to  the bibliography at the  end of  the  paper.\n\n<!-- formula-not-decoded -->\n\nso that every partial recursive function of  one variable can be written as &lt;!&gt;(\u00ab,  x)  for  some n.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "4a560fabb5293ce6",
+      "chunk_type": "h2",
+      "relevance_score": 0.7988538125575657,
+      "start_line": 11,
+      "end_line": 31,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "I.  Fundamental definitions",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.6403918,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a98e613ba14f",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "I.  Fundamental definitions",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "so that every partial recursive function of  one variable can be written as &lt;!&gt;(\u00ab,  x)  for  some n.\n\nThis numbering enables us  to  characterize a  class A  of  sets by the set of all  w's  such that i&gt;(w, x)  enumerates a  set  of  A,  which leads to  the definitions in  the following section.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "396457c08a3439da",
+      "chunk_type": "h2",
+      "relevance_score": 0.7745289951804035,
+      "start_line": 11,
+      "end_line": 31,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "I.  Fundamental definitions",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.640405,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a17b68cd1ef0",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "I.  Fundamental definitions",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.  Definitions^).\n\n## 3.  Definitions^).\n\nDefinition. A  class A  is  recursively enumerable if  there exists a  partial recursive function &lt;\u00ef&gt;(r, x) with the following property: a  set  aCZA if  and only if  there is  a  number a  such that &lt;E&gt;($(r, a), x)  enumerates a. The set  \u00df enumerated by  &lt;3?(r,  x)  is  called a  recursive enumeration of  A.\n\nDefinition. A  class A  is  completely recursively enumerable (c.r.e.) if  there exists a partial recursive function $&gt;(r,  x) with the following property: a partial recursive function &lt;E&gt;(a,  x) enumerates a set a of  A if  and only if there exists a  number b such that $(r, 6) = a.  The set  of  all  w's  such that $(n, x) enumerates a  set of  A  we  shall denote by  9a-  A  is  c.r.e. if  and only if  8a  is  r.e. From the fact that there are infinitely many partial recursive functions enumerating each r.e. set, it  follows that 6a  is  always either infinite or  empty (in  case A  is  the empty class).\n\nLemma A  is  immediately evident from the definition, and  Lemma B  from Lemma  A.\n\nLemma  A.  8a  is  a  complete (not  necessarily recursive) enumeration of  some class A  if  and only if it has the  following properly: if  &amp;(m, x) and $(n, x) enumerate the  same  set,  then  either both  m and  n  are  in  6a,  or  neither is.\n\nLemma B.  If two  sets  6a  and 8b  are  complete enumerations of  the  classes  A and  B,  then  their  union and  intersection (Ba  +8b and  8a8b)  are  complete  enumerations of the  classes  A +B and  AB. This holds  also  for infinite unions and intersections.\n\nDefinition. A  class  A  is  completely recursive (c.r.) if  8a  is  a  recursive set. If  we  denote the class of  all r.e. sets by F,  then the complement of  8a  is 8f-aSo  when A  is  c.r., both A  and F-A are c.r.e.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "fae0ad015de10b91",
+      "chunk_type": "h2",
+      "relevance_score": 0.7978164511791094,
+      "start_line": 31,
+      "end_line": 55,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "3.  Definitions^).",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.640425,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_34bd668ca292",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.  Definitions^).",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Definition. A  class  A  is  completely recursive (c.r.) if  8a  is  a  recursive set. If  we  denote the class of  all r.e. sets by F,  then the complement of  8a  is 8f-aSo  when A  is  c.r., both A  and F-A are c.r.e.\n\nThis definition, after Post, is  equivalent to the following: A  is  c.r.  when there exists a general recursive function 4&gt;(s, x)  such that if  $&gt;(w,  x)  is a  partial recursive function enumerating a set of  A, then &lt;f&gt;(s,  n)  =  l, and if $(n, x) is  a  partial recursive function enumerating a  set of  F -  A,  &lt;E&gt;(s, n)  =0.\n\nWe  shall refer to this as  the strong definition of  complete recursiveness. The weak definition is  as follows: there exists a partial recursive function $&gt;(r, x)  such that if  $(n, x)  is  a  general recursive function enumerating a  set\n\n(3) These concepts, in  somewhat different form, were  first  mentioned by  J.  C.  E.  Dekker in his  thesis (Syracuse University, 1950).  See  also  his  abstract, Bull.  Amer. Math. Soc.  Abstract 57-2-83.\n\nof  A,  then i&gt;(r,  n)  =  1,  and if  $&gt;(\u00ab, x)  is  a  general recursive function enumerating  a  set  of  F-A, 3&gt;(/, n)  =0. Clearly, if  a  class is c.r.  by  the  strong definition, it  is  c.r.  by  the  weak.\n\nTwo trivial classes are immediately c.r. by the strong definition. F is completely recursively enumerated by  the identity function, and the  empty class F- F  by  any function enumerating the empty set. Hereafter we  consider only proper subclasses of  F.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "2f259cb2e2ff4201",
+      "chunk_type": "h2",
+      "relevance_score": 0.7953865537349556,
+      "start_line": 31,
+      "end_line": 55,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "3.  Definitions^).",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.640434,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f07d5ba56f06",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.  Definitions^).",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 4.  Existence of  cr.e. classes.\n\n## 4.  Existence of  cr.e. classes.\n\nTheorem 1.  The  class of  all  sets containing a  given  number k  (we  denote this  class by L(k)) is  c.r.e.\n\nProof. 8nk)  is  the range of  the partial recursive function\n\n<!-- formula-not-decoded -->\n\nwhere 7\u00a3(x)  and 7,(x) are the Cantor diagonal functions:\n\n<!-- formula-not-decoded -->\n\n(The reader will  recall from I, 2  the assumption that i&gt;(0,  x)  is  the identity function.)\n\nWe  now  give a  method for  constructing c.r.e. classes which seems to  be very general. We  suppose given a  recursively enumerable sequence (the key array) of finite sets (the key sets), each set given by a finite sequence of numbers.\n\n<!-- formula-not-decoded -->\n\nTheorem 2.  To  every  key  array corresponds constructively a  c.r.e.  class; i.e., given the key array, we can  construct a  complete  enumeration of the  corresponding class.\n\nIntuitively, we  set all the partial recursive functions generating their values, and as  soon as  we  see  that the set  enumerated by  a  function &lt;P(\u00ab, x) includes one  of  the key  sets, we  put n  into  6a- This must happen, if  it  is  going to  happen at  all,  in  a  finite length of  time. A  is then the  class  of  all  sets  which include at least one  of  the key sets, and we  have a  constructive procedure\n\nfor  generating 8a.. (A  simple formal proof of  the recursive enumerability of 6A will follow Theorem  3.)",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "6b5b2f99cf366512",
+      "chunk_type": "h2",
+      "relevance_score": 0.7948320515641352,
+      "start_line": 57,
+      "end_line": 105,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "4.  Existence of  cr.e. classes.",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.640459,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d791ddaf8a88",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.  Existence of  cr.e. classes.",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "for  generating 8a.. (A  simple formal proof of  the recursive enumerability of 6A will follow Theorem  3.)\n\nMoreover, whether or  not n  is  placed in  6a  depends only on  a  property (inclusion) of  the  set  enumerated by  &lt;\u00a3(w,  x),  and not on  the order in  which i&gt;(\u00ab,  x)  may produce its  values. To  the  author's intuition, this procedure for constructing an  enumeration of  8a  is  as  general as  any procedure can be  and still  satisfy the two  essential requirements: first, it  is  effectively constructive, and second, it  gives a  complete enumeration of  a  class of  sets. On  this basis (to be  further supported by  Theorem 7,  Corollary A)  we  venture the conjecture that every c.r.e. class has  a  key  array, or,  in  the  language of  Theorem 3,  the c.r.e. classes are  just the 2 JjT, classes.\n\nTheorem 3.  A  is  a  c.r.e. class  determined by  a  key  array if  and only  if  A can  be written as  a  r.e.  union of finite intersections of Lik)'s.\n\nProof. Suppose a  set  a  of  A  includes the  jth key  set {a^,  \u25a0 \u25a0 \u00b7 , a\u00a3(J)}.  This is  a  necessary and sufficient condition that\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\nThe union, if  infinite, is  recursively enumerable.\n\nConversely, any class composed of  Lik)'s in finite intersections and r.e. unions determines a  key array. For since the associative and distributive laws  hold for  these operations, any such class can be  reduced to  the form\n\n<!-- formula-not-decoded -->\n\nand  a  key  array constructed from the \u00bf's  appearing in  the operations.\n\nThis theorem suggests the  name \" EIX^ class\" for  any class  determined by  a  key  array.\n\nProof  of  Theorem  2.  If  A  is  a  ELT^ class,  then,  by  Lemma  B,  8A =  E I1.0\u00a3(*)-  We  need only note that finite intersections and r.e. unions of r.e. sets are  again r.e.\n\nWe  have  excluded intersections of  infinitely many Z(fe)'s.  This case  is  disposed  of  in  a  corollary to  Theorem 4.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "6fde6cbb1dcd9730",
+      "chunk_type": "h2",
+      "relevance_score": 0.7988538125575657,
+      "start_line": 57,
+      "end_line": 105,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "4.  Existence of  cr.e. classes.",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.640469,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_00c2b5b02b4b",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.  Existence of  cr.e. classes.",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5.  Existence of  classes which  are  not  cr.e.\n\n## 5.  Existence of  classes which  are  not  cr.e.\n\nTheorem 4.  No  class  containing only  infinite sets  is  c.r.e.\n\nProof. Let  A  be  a  class  containing only infinite sets, and let $(r, x)  be  a general recursive function enumerating an infinite set  lxCZ6a. Then each of\n\nA  can  then be  written as\n\nthe functions &lt;$(&lt;\u00a3(?\", n), x)  enumerates an infinite set of  A. Using Kleene's representation of  $(w, x)  as\n\n<!-- formula-not-decoded -->\n\nwe  define\n\n<!-- formula-not-decoded -->\n\nand\n\n<!-- formula-not-decoded -->\n\nNow  the  task of  w(ra) is  to  find  an  argument for  which \u00ab$(&lt;\u00a3(?\u00b7, n), x)  is  defined and which is  greater by at least 2  than the corresponding argument found for  any m&lt;n. Since each of  the &lt;\u00ef&gt;(&lt;\u00ef&gt;(r, n),  x)  produces infinitely many values, uin) is  always defined and produces its values in strictly increasing order, vin), on  the other hand, finds a  value produced by  $i&amp;ir, 0),  x)  which is  different from the value of  4&gt;(&lt;i&gt;(r,  n), uin)).\n\nFinally, let us  define w(x) as the recursive characteristic function of  the infinite complement of the recursive set enumerated by w(x). We  are  now ready to construct a  function &lt;$(s, x)  such that sCZ6a~ct.\n\n<!-- formula-not-decoded -->\n\nIf  w(x)  =0, then there exists a  unique y such  that w(y)  =x. Then/(x) =z&gt;(y). With a  little more trouble, such a  definition of fix) may be  given as  will formally establish it as  a  partial recursive function, say \u00ab^(s,  x).  Now sCZ8A, for  &lt;\u00dc&gt;(s, x)  enumerates the  same set  as  does $($(?-, 0),  x).  On  the other hand, sC\u00a3(x, for &lt;\u00ef&gt;(s,  x) differs from every function \u00ed&gt;(\u00ed&gt;(r, n), x) for at least the argument x =  m(m).\n\nThus we  see  that no  infinite r.e. set a  can exhaust 6a\", nor can any finite set, so  that 8A is  not r.e.\n\nCorollary A.  No  infinite intersection of Lik)'s is  c.r.e.\n\nCorollary B.  The  set  of all  partial recursive  functions enumerating a  given infinite set  a  is  not  r.e.\n\nFor take the  A  of  Theorem 4  as  the unit class 7(a).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "39626d945a957299",
+      "chunk_type": "h2",
+      "relevance_score": 0.799863616010636,
+      "start_line": 105,
+      "end_line": 163,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "5.  Existence of  classes which  are  not  cr.e.",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.640491,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7450905e51f7",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.  Existence of  classes which  are  not  cr.e.",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "For take the  A  of  Theorem 4  as  the unit class 7(a).\n\nTheorem 5.  The  unit class lio) of  the  empty set  is  not  c.r.e.\n\nProof. We assume the contrary, and note that since F -  lio) =  Zaii * LQ1)  is  c.r.e. by  Theorem 3,  8n0)  is  a  recursive set, so  there exists a  recursive function &lt;\u00ef&gt;(/,  x)  such that $(&lt;,  n)  =  1 whenever &lt;\u00a3(\u00ab, x)  enumerates the  empty set (i.e.,  produces no  values), and \u00ed&gt;(\u00bf, n)  =0 otherwise.\n\nNow  consider an  arbitrary partial recursive function 3&gt;(w, x).\n\n<!-- formula-not-decoded -->\n\nand there is  a  recursive function rim, x,  y)  which equals 1  when Tim, x,  y) holds,  and  0 otherwise. We  define\n\n<!-- formula-not-decoded -->\n\n- f(y) is  a  partial recursive function, so  there is  an  r  such that/(y) = &lt;$(r, y). The G\u00f6del enumeration of  the partial recursive functions yields a  recursive function g(x) such that r =  g(m).\n\nNow whenever &amp;(m, m) is undefined, &lt;&amp;(r, y) enumerates o, so that $(t, r)  =  1, and if  &lt;i&gt;(w, m)  is  defined, &lt;\u00ef&gt;(i, r)  =0.\n\nFinally, there exists an integer .?  such that\n\n<!-- formula-not-decoded -->\n\n- 4&gt;(5, m) is  undefined whenever &lt;\u00a3(m,  ra) is  defined, and is  defined and equal to 0  whenever i&gt;(w, m)  is  undefined. A  contradiction arises from the case of  &lt;p(s, s).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "450864066f93e2e6",
+      "chunk_type": "h2",
+      "relevance_score": 0.793686127685933,
+      "start_line": 105,
+      "end_line": 163,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "5.  Existence of  classes which  are  not  cr.e.",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.6405,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_161b5d3bf9b1",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.  Existence of  classes which  are  not  cr.e.",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# III. Complete recursiveness\n\n## III. Complete recursiveness\n\n6.  The main theorem and the strong definition. We  now  give  a  theorem which shows that too  many classes are not c.r.e. for  any class to be  c.r.\n\nTheorem 6.  Let A  be  a class which contains a  finite set [ao, \u00b7  \u25a0 \u25a0  ,  a&amp;}, but  omits  a  set a  which  includes {a0,  \u00b7  \u00b7  \u00b7 , a*}. Then  A  is  not  c.r.e.\n\n- Proof. For any partial recursive function &lt;!&gt;(\u00ab,  x),  we  define\n\n<!-- formula-not-decoded -->\n\n- fin) is  undefined if  &lt;$(\u00ab,  x)  enumerates o,  but assumes some value otherwise. Let gix) be  defined by the equations\n\nand  h(x)  by\n\n<!-- formula-not-decoded -->\n\nwhere  a -  &amp;  = 0  if  a&lt;b, and a -  b otherwise. h(x)  =0 for  x^k, and 1 for  x&gt;&amp;. Finally, let  3&gt;(i, x)  be  any partial recursive function. Now  consider\n\n<!-- formula-not-decoded -->\n\nWhen bo,  \u25a0 \u25a0 \u25a0  ,  bk and /  are  chosen, this is  a  partial recursive function i&gt;(s,  x),\n\nand the G\u00f6del enumeration gives s(n) as  a  recursive function of  n.\n\nIf  A  is  the class of  the theorem, we  now take o, = a\u00bf  and t = ta,  where &lt;p(/0, x)  enumerates a. We  define dA as  the set of  all n's such that s(\u00ab)\u00a3iA. If  8a  is  r.e., so  is  8a-  For suppose $(r, x)  enumerates 8a-  Then 6A is  the range of  the partial recursive function\n\n<!-- formula-not-decoded -->\n\nThe crux of the proof lies in the fact that 0a=0/(o). Suppose $(\u00bb, x) enumerates o.  Then for  x^k, h(x)  =0 and\n\n<!-- formula-not-decoded -->\n\nIn  this range $(s(n), x)  is  defined (recall again that $(0, x)  was taken as  the identity function in I, 2) and equal to gix). So the set enumerated by $(s(n), x)  includes {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. However, for  x&gt;k,\n\n<!-- formula-not-decoded -->\n\nand &lt;\u00ef&gt;(s(re),  x)  is  not defined, since/(w) is  not. So  &lt;p(\u00ed(m),  x)  enumerates just the  set {a0,  \u00b7 \u00b7  \u00b7 , ak\\, which is  in  A.  s(n)CZ&amp;A  and  nCZ&amp;A-\n\nOn the other hand, suppose $(\u00ab, x) does not enumerate o.  Then, for x&gt;k,fin) is defined,  so that\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "a69257837bd952ea",
+      "chunk_type": "h2",
+      "relevance_score": 0.7994286598284249,
+      "start_line": 163,
+      "end_line": 231,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "III. Complete recursiveness",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.640527,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4d66721bffc5",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "III. Complete recursiveness",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nFor x = k+y, &amp;(s(n), x)=&lt;\u00a3(i0, y).  So  \u00ab^(w), x)  enumerates a,  which is  not in A.  s(n)d9A  and  nQ\u00dfA-\n\nWe  have, then, that if  8A is  r.e., Oa=\u00d6/(0)  is  r.e., which by  Theorem 5  is not the case. So  8a  is  not r.e., and A  is  not c.r.e.\n\nCorollary A.  Every c.r.e. class  includes a E IT-^  class.\n\nFor by Theorem,4, a c.r.e. class A contains a finite set {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. By  Theorem 6,  A  contains all  sets  a  which include {ao,  \u00b7  \u00b7  \u00b7  ,  a*}.  That is,  A includes XI*-o  L(a,)(In fact, it  can be  shown(4) that the finite sets of  A  can be  recursively enumerated, so  that A  includes the EIX^ class generated by  its  finite sets.)\n\nCorollary B.  There  are  no  nontrivial c.r.  classes by the  strong  definition.\n\nFor every nontrivial c.r.e. class A must contain the set e  of all nonnegative integers, and it is  impossible for both A  and F -  A to contain the same set e.\n\nCorollary C.  No  nontrivial c.r.e.  class  A  contains o.\n\nFor o is  included in  every set, so  A  would have to  be  F.\n\n(')  This  was  pointed out to  the author by  J.  C.  E.  Dekker.\n\nCorollary D.  No  unit class  is  c.r.e.\n\nWe  have already that if  a is  infinite, 7(a) is  not c.r.e. (Theorem 4,  Corollary A), and if  a is  empty, 7(a) is  not c.r.e. (Theorem 5).  The result if  a is finite follows from Theorem 6.\n\nIf  we  identify properties with classes, and \"effective\" with \"recursive,\" we  can  give an  intuitive interpretation of  Corollary B. If  P  is  any property possessed by  some, but not all, r.e. sets, then there exists no  effective general method for  deciding, given a  set  a  by  means of  a  partial recursive function enumerating it, whether or not a has the property P. In stronger terms, there exists no  effective general method for obtaining, from a  partial recursive function, any  information about the  set of  which the function is  a  characterization! Of  course there will  exist special methods for  particular functions.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "6aab5e30057171eb",
+      "chunk_type": "h2",
+      "relevance_score": 0.7991605410833986,
+      "start_line": 163,
+      "end_line": 231,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "III. Complete recursiveness",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.640536,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b34778c01215",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "III. Complete recursiveness",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "If  we  identify properties with classes, and \"effective\" with \"recursive,\" we  can  give an  intuitive interpretation of  Corollary B. If  P  is  any property possessed by  some, but not all, r.e. sets, then there exists no  effective general method for  deciding, given a  set  a  by  means of  a  partial recursive function enumerating it, whether or not a has the property P. In stronger terms, there exists no  effective general method for obtaining, from a  partial recursive function, any  information about the  set of  which the function is  a  characterization! Of  course there will  exist special methods for  particular functions.\n\nThis situation is  not a  result of  admitting functions not always defined, for  we  now  establish the same result for  the  weak definition.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "c3f9def3ff2d5cab",
+      "chunk_type": "h2",
+      "relevance_score": 0.7868957865246866,
+      "start_line": 163,
+      "end_line": 231,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "III. Complete recursiveness",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769846988.640544,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2eb65a0dad53",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "III. Complete recursiveness",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 7.  The  weak  definition.\n\n## 7.  The  weak  definition.\n\nTheorem 7.  7/a class  A  is  c.r.  by the  weak  definition, then  A -I(o) is  c.r.e.\n\nProof. Under the hypothesis, there is  a  partial recursive function &lt;\u00ef&gt;(r,  n) which is  equal to 1 if  $(w, x)  is  a  general recursive function enumerating a  set of  A,  and equal to 0  if  i&gt;(\u00ab, x)  is  a  general recursive function enumerating a set  of  F-A.\n\nWe  must show that from an arbitrary partial recursive function $(\u00ab, x) enumerating a set a^o, we can construct a general recursive function 4&gt;(w, x),  also  enumerating a,  in  such a  way that m is a  recursive function of  n.\n\nWe  first  define\n\n<!-- formula-not-decoded -->\n\nSince a^o, such a  z  exists. Then\n\n<!-- formula-not-decoded -->\n\ni&gt;(\u00bbz, x) =&lt;p(w, Xo) if  T(n, K(x), L(x)) does  not  hold;\n\n$K x)=&lt;E&gt;(w, K(x))  if  T(n,  K(x),  L(x))  holds.\n\n- $(w, x) is  defined for all arguments, and a  more formal definition in terms of  the representing function r(n, x,  y) of T(n, x,  y)  would establish that $(m, x) is  recursive, and that the G\u00f6del enumeration of the partial recursive functions would yield m  as  a  recursive function of  n.  Say  f(n)  =m.\n\nTo  show that A  -I(o) is c.r.e., we note that Ba-iw is  the range of  the partial recursive function\n\n<!-- formula-not-decoded -->\n\nwhere g(n) is  a  partial recursive function enumerating 8f~h&lt;,)-\n\nCorollary. If A  is  c.r. by  the  weak  definition, then F -  I(o)-A is c.r.e.\n\nTheorem 8.  No  nontrivial class  is  c.r.  by  the  weak  definition.\n\n- Proof. Suppose A- I(o) is  c.r.e. Then A  contains e,  and so  F-I(o)  -A does not contain e.  Thus F -  I(o)-A is  not c.r.e., and by the corollary to Theorem 7,  A  is  not c.r. by  the  weak definition.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "dd6466291aa461a6",
+      "chunk_type": "h2",
+      "relevance_score": 0.7974686084648712,
+      "start_line": 231,
+      "end_line": 267,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "7.  The  weak  definition.",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769846988.6405618,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b8234fd4ad80",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "7.  The  weak  definition.",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- Proof. Suppose A- I(o) is  c.r.e. Then A  contains e,  and so  F-I(o)  -A does not contain e.  Thus F -  I(o)-A is  not c.r.e., and by the corollary to Theorem 7,  A  is  not c.r. by  the  weak definition.\n\nWe find, then, that the same unfortunate situation exists whether we agree to characterize sets by partial recursive functions, or  whether we  restrict characterization to  the better-behaved general recursive functions. Nor does further restriction to the primitive recursive functions bring any improvement, for Rosser [8] has shown that from a  given general recursive function we  can  effectively construct a  primitive recursive function enumerating the same set. Arguments paralleling the proofs of  Theorem 7  and 8  will then give the analogue of  Theorem 8  for the primitive recursive functions.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "c35c3afef678df8f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7873507047626158,
+      "start_line": 231,
+      "end_line": 267,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "7.  The  weak  definition.",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769846988.6405702,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_978fda6249e9",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "7.  The  weak  definition.",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Bibliography\n\n1.  Alonzo Church, An  unsolvable  problem,  of elementary number  theory,  Amer. J.  Math. vol. 58 (1936) pp. 345-363.\n2. Kurt G\u00f6del, \u00dcber formal unentscheidbare S\u00e4tze  der  Principia Mathematica und  verwandter Systeme  I,  Monatshefte  f\u00fcr  Mathematik  und  Physik  vol. 38 (1931) pp.  173-198.\n3. S.  C.  Kleene, General recursive  functions of natural numbers, Math. Ann. vol. 112  (1936) pp. 727-766.\n4.  -, On notation  for  ordinal  numbers,  J.  Symbolic Logic  vol.  3  (1938)  pp.  150-155.\n5. 5.-, Recursive predicates and  quantifiers, Trans. Amer. Math. Soc.  vol.  53  (1943) pp. 41-73.\n6.  A.  Mostowski, On definable sets of positive integers,  Fund. Math. vol.  34  (1946)  pp.  81112.\n7. E. L. Post, Recursively enumerable sets  of  positive integers and their decision problems, Bull. Amer. Math.  Soc. vol. 50 (1944) pp. 284-316.\n8.  J.  B.  Rosser, Extensions of some  theorems  of  G\u00f6del and Church,  J.  Symbolic Logic  vol.  1 (1936) pp. 87-91.\n\nSyracuse University, Syracuse, N.  Y.\n\nUniversity of  New  Hampshire,\n\nDurham, N.  H.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+      "chunk_id": "a1476a2f077d7e50",
+      "chunk_type": "h2",
+      "relevance_score": 0.5909179916589785,
+      "start_line": 267,
+      "end_line": 283,
+      "metadata": {
+        "ref_id": "REF-053",
+        "header": "Bibliography",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769846988.6405802,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4378605d830a",
+        "parent_id": "pcl_5d3e9442927d",
+        "ref_id": "REF-053",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769846988,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Bibliography",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

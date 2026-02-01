@@ -1,4 +1,4 @@
-# Research: The user observes that the Codome (standard-model-of-code/) is now 'purer as composition' but asks i...
+# Research: The user observes that the Codome (particle/) is now 'purer as composition' but asks i...
 
 > **Date:** 2026-01-27 20:07:48
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-The user observes that the Codome (standard-model-of-code/) is now 'purer as composition' but asks if it has 'higher entropy too?' evaluate this using information theory and the Projectome model. Does the concentration of legacy experiments and functional code in the Body increase its total entropy compared to the Brain?
+The user observes that the Codome (particle/) is now 'purer as composition' but asks if it has 'higher entropy too?' evaluate this using information theory and the Projectome model. Does the concentration of legacy experiments and functional code in the Body increase its total entropy compared to the Brain?
 
 ---
 
@@ -26,7 +26,7 @@ In information theory, entropy is a measure of uncertainty or disorder. Within t
 
 ### Analyzing the User's Premises:
 
-1.  **"Codome (standard-model-of-code/) is now 'purer as composition'"**:
+1.  **"Codome (particle/) is now 'purer as composition'"**:
     *   If "purer" refers to the core *functional* components (e.g., `src/core/`, `viz/`, `tools/ai/`) achieving better internal organization, clearer responsibilities, and reduced interdependencies, then this aspect would generally **decrease local entropy** within those specific modules. A more focused, coherent codebase is less uncertain and more predictable.
 
 2.  **"Does the concentration of legacy experiments and functional code in the Body increase its total entropy compared to the Brain?"**:

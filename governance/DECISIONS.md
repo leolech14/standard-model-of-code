@@ -18,8 +18,8 @@
 **Registries:**
 - `SUBSYSTEMS.yaml` - 4 subsystems (PARTICLE, WAVE, OBSERVER, ARCHIVE)
 - `DOMAINS.yaml` - 5 domains with symmetry tracking
-- `standard-model-of-code/src/patterns/*.yaml` - Atom taxonomy
-- `context-management/config/analysis_sets.yaml` - AI query sets
+- `particle/src/patterns/*.yaml` - Atom taxonomy
+- `wave/config/analysis_sets.yaml` - AI query sets
 - `.agent/registry/` - Task/opportunity registry
 
 **Enforced by:** All index generators MUST read from registries, never scrape docs.
@@ -50,15 +50,15 @@
 **Decision:** Active docs MUST pass quality gates. Archive can be messy.
 
 **Active directories:**
-- `standard-model-of-code/docs/` (excluding `docs/archive/`)
-- `context-management/docs/` (excluding `docs/archive/`)
+- `particle/docs/` (excluding `docs/archive/`)
+- `wave/docs/` (excluding `docs/archive/`)
 - `.agent/intelligence/` (excluding logs older than 30 days)
 - `.agent/deck/`
 
 **Archive directories:**
 - `archive/` (top-level cold storage)
-- `standard-model-of-code/docs/archive/`
-- `context-management/docs/archive/`
+- `particle/docs/archive/`
+- `wave/docs/archive/`
 - `.agent/intelligence/autopilot_logs/` (>30 days)
 - `.agent/macros/logs/` (>30 days)
 

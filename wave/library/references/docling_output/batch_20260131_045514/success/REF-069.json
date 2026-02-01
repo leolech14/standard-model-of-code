@@ -1,0 +1,2697 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.9.0",
+  "name": "REF-069_Dijkstra_1968_THEMultiprogramming",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 5522413117509206736,
+    "filename": "REF-069_Dijkstra_1968_THEMultiprogramming.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/texts/4"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/groups/1"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/groups/2"
+      },
+      {
+        "$ref": "#/texts/27"
+      },
+      {
+        "$ref": "#/groups/3"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/groups/4"
+      },
+      {
+        "$ref": "#/texts/34"
+      },
+      {
+        "$ref": "#/texts/35"
+      },
+      {
+        "$ref": "#/texts/36"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/texts/40"
+      },
+      {
+        "$ref": "#/texts/41"
+      },
+      {
+        "$ref": "#/texts/42"
+      },
+      {
+        "$ref": "#/texts/43"
+      },
+      {
+        "$ref": "#/texts/44"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/texts/46"
+      },
+      {
+        "$ref": "#/texts/47"
+      },
+      {
+        "$ref": "#/texts/48"
+      },
+      {
+        "$ref": "#/texts/49"
+      },
+      {
+        "$ref": "#/texts/50"
+      },
+      {
+        "$ref": "#/texts/51"
+      },
+      {
+        "$ref": "#/texts/52"
+      },
+      {
+        "$ref": "#/texts/53"
+      },
+      {
+        "$ref": "#/texts/54"
+      },
+      {
+        "$ref": "#/texts/55"
+      },
+      {
+        "$ref": "#/texts/56"
+      },
+      {
+        "$ref": "#/texts/57"
+      },
+      {
+        "$ref": "#/texts/58"
+      },
+      {
+        "$ref": "#/texts/59"
+      },
+      {
+        "$ref": "#/texts/60"
+      },
+      {
+        "$ref": "#/texts/61"
+      },
+      {
+        "$ref": "#/texts/62"
+      },
+      {
+        "$ref": "#/texts/63"
+      },
+      {
+        "$ref": "#/texts/64"
+      },
+      {
+        "$ref": "#/texts/65"
+      },
+      {
+        "$ref": "#/texts/66"
+      },
+      {
+        "$ref": "#/texts/67"
+      },
+      {
+        "$ref": "#/texts/68"
+      },
+      {
+        "$ref": "#/texts/69"
+      },
+      {
+        "$ref": "#/texts/70"
+      },
+      {
+        "$ref": "#/texts/71"
+      },
+      {
+        "$ref": "#/texts/72"
+      },
+      {
+        "$ref": "#/texts/73"
+      },
+      {
+        "$ref": "#/texts/74"
+      },
+      {
+        "$ref": "#/texts/75"
+      },
+      {
+        "$ref": "#/texts/76"
+      },
+      {
+        "$ref": "#/texts/77"
+      },
+      {
+        "$ref": "#/texts/78"
+      },
+      {
+        "$ref": "#/texts/79"
+      },
+      {
+        "$ref": "#/texts/80"
+      },
+      {
+        "$ref": "#/texts/81"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/9"
+        },
+        {
+          "$ref": "#/texts/10"
+        },
+        {
+          "$ref": "#/texts/11"
+        },
+        {
+          "$ref": "#/texts/12"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/14"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/21"
+        },
+        {
+          "$ref": "#/texts/22"
+        },
+        {
+          "$ref": "#/texts/23"
+        },
+        {
+          "$ref": "#/texts/24"
+        },
+        {
+          "$ref": "#/texts/25"
+        },
+        {
+          "$ref": "#/texts/26"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/28"
+        },
+        {
+          "$ref": "#/texts/29"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/31"
+        },
+        {
+          "$ref": "#/texts/32"
+        },
+        {
+          "$ref": "#/texts/33"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 90.001,
+            "t": 717.431,
+            "r": 260.443,
+            "b": 701.084,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            16
+          ]
+        }
+      ],
+      "orig": "Copyright Notice",
+      "text": "Copyright Notice",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 90.001,
+            "t": 685.493,
+            "r": 511.5,
+            "b": 622.688,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            142
+          ]
+        }
+      ],
+      "orig": "The following manuscript EWD 196: The structure of the 'THE'-multiprogramming system was published in Commun. ACM 11 (1968), 5: 341-346. It is",
+      "text": "The following manuscript EWD 196: The structure of the 'THE'-multiprogramming system was published in Commun. ACM 11 (1968), 5: 341-346. It is"
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 90.001,
+            "t": 620.693,
+            "r": 285.065,
+            "b": 609.728,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            30
+          ]
+        }
+      ],
+      "orig": "reproduced here by permission.",
+      "text": "reproduced here by permission.",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 465.7401607226197,
+            "t": 734.259224366059,
+            "r": 522.4327724169556,
+            "b": 721.9617059537869,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - O",
+      "text": "EWD196 - O"
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.88722735332665,
+            "t": 691.9999999787902,
+            "r": 377.3233031996808,
+            "b": 676.8837210125224,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            47
+          ]
+        }
+      ],
+      "orig": "The structure of the TE multiprogranming system",
+      "text": "The structure of the TE multiprogranming system",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.88721824040738,
+            "t": 648.1046511513241,
+            "r": 184.06015118311572,
+            "b": 634.2906977516659,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "Introduction",
+      "text": "Introduction",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 115.03759847277509,
+            "t": 617.0232555724195,
+            "r": 529.1729337592334,
+            "b": 568.6666669248285,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            215
+          ]
+        }
+      ],
+      "orig": "Papers \"reporting on timely research and development efforta\" being explicitly asked for, I shall try to present a progreas report on the multiprogramming effort at the Department of Mathematics at the Technological",
+      "text": "Papers \"reporting on timely research and development efforta\" being explicitly asked for, I shall try to present a progreas report on the multiprogramming effort at the Department of Mathematics at the Technological"
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.88722101369633,
+            "t": 567.666666559559,
+            "r": 326.7067604017172,
+            "b": 552.5581396939176,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            39
+          ]
+        }
+      ],
+      "orig": "University, Eindhoven, the Netherlands.",
+      "text": "University, Eindhoven, the Netherlands."
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 115.03759709811713,
+            "t": 534.1395350120383,
+            "r": 548.7293288689505,
+            "b": 486.9418605555197,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            149
+          ]
+        },
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.85220881140629,
+            "t": 518.8517332499434,
+            "r": 543.0029249572395,
+            "b": 455.860465045959,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            150,
+            377
+          ]
+        }
+      ],
+      "orig": "Having very limited resources (viz. a group of six people of, on the design - including all the stages of conception, construction and verification - average, half time availability) and wishing to contribute to the art of system we are faced with the problem of how to get the necessary experience. Io solve this problem me have adopted the following three guiding principles:",
+      "text": "Having very limited resources (viz. a group of six people of, on the design - including all the stages of conception, construction and verification - average, half time availability) and wishing to contribute to the art of system we are faced with the problem of how to get the necessary experience. Io solve this problem me have adopted the following three guiding principles:"
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.85318807973665,
+            "t": 435.1395349588376,
+            "r": 537.2255610748398,
+            "b": 358.9800035887456,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            308
+          ]
+        }
+      ],
+      "orig": "1) Select a project as advanced as you can conceive, as ambitious as you can justify, in the hope that routine mork can be kept to a minimum; hold out against all pressure to incorporate such system expansions that mould only result into a purely quantitative increaae of the total amount of mork to be done.",
+      "text": "Select a project as advanced as you can conceive, as ambitious as you can justify, in the hope that routine mork can be kept to a minimum; hold out against all pressure to incorporate such system expansions that mould only result into a purely quantitative increaae of the total amount of mork to be done.",
+      "enumerated": true,
+      "marker": "1)"
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 111.58646379053312,
+            "t": 338.4418602480849,
+            "r": 536.0751788539377,
+            "b": 259.9009616253071,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            297
+          ]
+        }
+      ],
+      "orig": "2) Select a machine with sound basic characteristica (e.g. an interrupt system to fall in love with is certainly an inapiring feature); from then onwarda try to keep the specifio properties of the configaration for which you are preparing the aystem out of your considerations as long as possible.",
+      "text": "Select a machine with sound basic characteristica (e.g. an interrupt system to fall in love with is certainly an inapiring feature); from then onwarda try to keep the specifio properties of the configaration for which you are preparing the aystem out of your considerations as long as possible.",
+      "enumerated": true,
+      "marker": "2)"
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 180.60901985114847,
+            "t": 240.66666668303685,
+            "r": 519.9699207300547,
+            "b": 227.93023238229614,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            62
+          ]
+        }
+      ],
+      "orig": "3) Be amare of the fact that experience does by no means auto-",
+      "text": "Be amare of the fact that experience does by no means auto-",
+      "enumerated": true,
+      "marker": "3)"
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 113.8872108088993,
+            "t": 224.47674400355004,
+            "r": 525.7218055354618,
+            "b": 195.66666640932579,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            144
+          ]
+        }
+      ],
+      "orig": "matically lead to misdom and understanding, in other mords: make a conscious effort to learn as much as possible from your precious experiences.",
+      "text": "matically lead to misdom and understanding, in other mords: make a conscious effort to learn as much as possible from your precious experiences.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 112.73685274401437,
+            "t": 177.33333357148808,
+            "r": 525.7217970207425,
+            "b": 146.19767463563596,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            136
+          ]
+        }
+      ],
+      "orig": "Accordingly, I shall try to go beyond just reporting what me have done and how, and shall try to formulate as mell what me have learned.",
+      "text": "Accordingly, I shall try to go beyond just reporting what me have done and how, and shall try to formulate as mell what me have learned."
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 112.73685579523801,
+            "t": 127.89692848989205,
+            "r": 534.9597951366895,
+            "b": 81.66666639735615,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            173
+          ]
+        }
+      ],
+      "orig": "I should like to end the introduction with two short remarks on morking conditions, remarks I make for the sake of completeness. I shall not stress these points any further.",
+      "text": "I should like to end the introduction with two short remarks on morking conditions, remarks I make for the sake of completeness. I shall not stress these points any further.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 457.7974295361358,
+            "t": 723.1856610925242,
+            "r": 513.1198630078155,
+            "b": 711.1631759952749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 1",
+      "text": "EWD196 - 1"
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 115.0375891707876,
+            "t": 643.4999997354428,
+            "r": 547.5789295931236,
+            "b": 546.5476961677924,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            388
+          ]
+        }
+      ],
+      "orig": "The one remark is that production speed is severely degraded if one works with half time people, who have other obligations as well. This is st least a factor four, probably it is norse. The people themselves lose time and energy in avitching over, the group as a whole loses decision speed as discussions, when needed, have often to be postponed until all people concerned are available.",
+      "text": "The one remark is that production speed is severely degraded if one works with half time people, who have other obligations as well. This is st least a factor four, probably it is norse. The people themselves lose time and energy in avitching over, the group as a whole loses decision speed as discussions, when needed, have often to be postponed until all people concerned are available."
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 116.18796508695179,
+            "t": 527.3333335535335,
+            "r": 556.7819607379384,
+            "b": 384.3333334703653,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            649
+          ]
+        }
+      ],
+      "orig": "The other remark is that the members of the group - mostly mathematicians have previously enjoyed as good students a university training of 5 to 8 years, and are of Master'a or Ph.D. level. A legs qualified young man, originally included, found our activities beyond his mental grasp and left the group. I mention this explicitly, because at least in Holland, the intellectual level needed for system design is in general grossly underestimated. I am more than ever convinced that this type of work is just difficult and that every effort to do it with other than the best people is doomed to either failure or moderate success at enormous expenses.",
+      "text": "The other remark is that the members of the group - mostly mathematicians have previously enjoyed as good students a university training of 5 to 8 years, and are of Master'a or Ph.D. level. A legs qualified young man, originally included, found our activities beyond his mental grasp and left the group. I mention this explicitly, because at least in Holland, the intellectual level needed for system design is in general grossly underestimated. I am more than ever convinced that this type of work is just difficult and that every effort to do it with other than the best people is doomed to either failure or moderate success at enormous expenses."
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 115.03759414935541,
+            "t": 363.7674414398288,
+            "r": 231.22556208555332,
+            "b": 352.2558142425631,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            21
+          ]
+        }
+      ],
+      "orig": "The tool and the goal",
+      "text": "The tool and the goal",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39851142333757,
+            "t": 333.9999997291049,
+            "r": 500.41352607177504,
+            "b": 319.99999972910496,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "The aysten has been designed for a Dutch machine, the EL X8 (N.V.",
+      "text": "The aysten has been designed for a Dutch machine, the EL X8 (N.V."
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 115.0375872510477,
+            "t": 316.66666637253815,
+            "r": 494.66165137865187,
+            "b": 302.6666663725382,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            72
+          ]
+        }
+      ],
+      "orig": "Electrologica, Rijarijk (ZH)). Characteriatios of our configuration are:",
+      "text": "Electrologica, Rijarijk (ZH)). Characteriatios of our configuration are:"
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39850030872898,
+            "t": 299.33333352396227,
+            "r": 471.6541358881561,
+            "b": 286.6395348229939,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            60
+          ]
+        }
+      ],
+      "orig": "1) core memory cycle time 2.5 mma., 27 bits; at present 32K.",
+      "text": "core memory cycle time 2.5 mma., 27 bits; at present 32K.",
+      "enumerated": true,
+      "marker": "1)"
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39849857497416,
+            "t": 284.33720939610816,
+            "r": 472.8045044343492,
+            "b": 270.52325599644996,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            61
+          ]
+        }
+      ],
+      "orig": "2) drum of 512K words, 1024 mords per track, rev. time 40 ms.",
+      "text": "drum of 512K words, 1024 mords per track, rev. time 40 ms.",
+      "enumerated": true,
+      "marker": "2)"
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39849387726608,
+            "t": 269.3720927093631,
+            "r": 565.9849603486202,
+            "b": 254.3333334777957,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            77
+          ]
+        }
+      ],
+      "orig": "3) an indirect addressing mechanism very well suited for stack implementation",
+      "text": "an indirect addressing mechanism very well suited for stack implementation",
+      "enumerated": true,
+      "marker": "3)"
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39849464916597,
+            "t": 253.33333341643686,
+            "r": 549.879695821041,
+            "b": 238.29069781666476,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            74
+          ]
+        }
+      ],
+      "orig": "4) a sound aystem for commanding peripherals and controlling of interrupts",
+      "text": "a sound aystem for commanding peripherals and controlling of interrupts",
+      "enumerated": true,
+      "marker": "4)"
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39850711975637,
+            "t": 237.1395345716379,
+            "r": 536.0751896992069,
+            "b": 189.94186094987379,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            200
+          ]
+        }
+      ],
+      "orig": "5) a potentially great number of lom capacity channels; ten of them are used (3 paper tape readers at 1000 char/sec; 3 paper tape punches at 150 char/seo; 2 teleprinters, a plotter and a line printer)",
+      "text": "a potentially great number of lom capacity channels; ten of them are used (3 paper tape readers at 1000 char/sec; 3 paper tape punches at 150 char/seo; 2 teleprinters, a plotter and a line printer)",
+      "enumerated": true,
+      "marker": "5)"
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39849606602525,
+            "t": 186.48837177105804,
+            "r": 445.19549313633775,
+            "b": 174.97674457379242,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            55
+          ]
+        }
+      ],
+      "orig": "6) absence of a number of not unusual arkward features.",
+      "text": "absence of a number of not unusual arkward features.",
+      "enumerated": true,
+      "marker": "6)"
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 115.03759478537502,
+            "t": 154.33333322824944,
+            "r": 538.3759330015208,
+            "b": 108.20930244188605,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            201
+          ]
+        }
+      ],
+      "orig": "The primary goal of the system is to process smoothly a continuous flow of user progrems as a aervice to the University. A multiprogramming system has been chosen with the following objectives in mind:",
+      "text": "The primary goal of the system is to process smoothly a continuous flow of user progrems as a aervice to the University. A multiprogramming system has been chosen with the following objectives in mind:"
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/groups/3"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39850257808382,
+            "t": 107.05813953369545,
+            "r": 501.56390785152126,
+            "b": 93.24418613403725,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "1) a reduction of turn around time for programs of short duration",
+      "text": "a reduction of turn around time for programs of short duration",
+      "enumerated": true,
+      "marker": "1)"
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/groups/3"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 148.39850390535616,
+            "t": 88.66666687802297,
+            "r": 349.7142794587416,
+            "b": 75.97674390947634,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "2) economio use of peripheral devices",
+      "text": "economio use of peripheral devices",
+      "enumerated": true,
+      "marker": "2)"
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 485.40072502880713,
+            "t": 732.4297725165292,
+            "r": 541.8849881310207,
+            "b": 720.3376698299651,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 2",
+      "text": "EWD196 - 2"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 143.79699137843056,
+            "t": 651.6666664468626,
+            "r": 525.7217960659306,
+            "b": 622.6666669839424,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            95
+          ]
+        }
+      ],
+      "orig": "3) automatio control of backing store to be combined with economic use of the central processor",
+      "text": "automatio control of backing store to be combined with economic use of the central processor",
+      "enumerated": true,
+      "marker": "3)"
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 144.9473744511083,
+            "t": 619.3333332789441,
+            "r": 547.5789529064423,
+            "b": 588.24418625499,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            141
+          ]
+        }
+      ],
+      "orig": "4) the economic feasibility to use the machine for those applications for which only the flexibility of a general purpose computer 1s needed,",
+      "text": "the economic feasibility to use the machine for those applications for which only the flexibility of a general purpose computer 1s needed,",
+      "enumerated": true,
+      "marker": "4)"
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 161.05263650019378,
+            "t": 585.9999997774231,
+            "r": 476.2556394298813,
+            "b": 573.2790696779358,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            58
+          ]
+        }
+      ],
+      "orig": "but (88 a rula) not the capacity nor the proceasing porer.",
+      "text": "but (88 a rula) not the capacity nor the proceasing porer.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 111.58646690183461,
+            "t": 553.7093026021515,
+            "r": 548.7293298575638,
+            "b": 507.66279095263855,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            228
+          ]
+        }
+      ],
+      "orig": "The system is not intended as a multi-access system. There is no common data base via which independent users can communicate with each other: they only share the configuration and a procedure library (that includes a translator",
+      "text": "The system is not intended as a multi-access system. There is no common data base via which independent users can communicate with each other: they only share the configuration and a procedure library (that includes a translator"
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 111.58646916016134,
+            "t": 506.666666683247,
+            "r": 353.1654079622447,
+            "b": 491.5465119845572,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            44
+          ]
+        }
+      ],
+      "orig": "{OI AIGOL 60 extended vith complex numbers).",
+      "text": "{OI AIGOL 60 extended vith complex numbers)."
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 111.58646627822093,
+            "t": 473.12790662009394,
+            "r": 531.4736746868977,
+            "b": 409.66666635933694,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            238
+          ]
+        }
+      ],
+      "orig": "Compared with larger efforts one can state that quantitatively speaking the goals have been set as modest as the equipment and our other resources. Qualitatively speaking, I am afraid, me got more and more immodest as the work progressed.",
+      "text": "Compared with larger efforts one can state that quantitatively speaking the goals have been set as modest as the equipment and our other resources. Qualitatively speaking, I am afraid, me got more and more immodest as the work progressed."
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 110.4360880818105,
+            "t": 390.3333330296118,
+            "r": 207.06766970615945,
+            "b": 377.5813951634009,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "A progress report",
+      "text": "A progress report",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 110.43608931859997,
+            "t": 359.1627906302942,
+            "r": 534.9248181597458,
+            "b": 312.90108969765134,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            155
+          ]
+        }
+      ],
+      "orig": "We have nade some minor mistakes of the usual type (such as paring too much attention to speeding up what mas not the real bottle neck) and tro major \u043e\u043f\u0435\u0432.",
+      "text": "We have nade some minor mistakes of the usual type (such as paring too much attention to speeding up what mas not the real bottle neck) and tro major \u043e\u043f\u0435\u0432."
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 110.43609037694584,
+            "t": 293.66666638732386,
+            "r": 549.8796935350116,
+            "b": 166.91860471854307,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            615
+          ]
+        }
+      ],
+      "orig": "Our first najor mistake has been that for too long a time me confined our attention to \"a perfect installation\", by the time me considered hom to make the beat of it when, say, one of the peripherals broke dom, me vere faced with nasty problens. Taking care of the \"pathology\" took more energy than me had expected and part of our troublea vere a direct consequence of our earlier ingenuity, i.o. the complexity of the situation into which the system could have manoeuvred itself. Had me paid attention to the pathology at an earlier stage in the design, our management rules mould certainly have been less refined.",
+      "text": "Our first najor mistake has been that for too long a time me confined our attention to \"a perfect installation\", by the time me considered hom to make the beat of it when, say, one of the peripherals broke dom, me vere faced with nasty problens. Taking care of the \"pathology\" took more energy than me had expected and part of our troublea vere a direct consequence of our earlier ingenuity, i.o. the complexity of the situation into which the system could have manoeuvred itself. Had me paid attention to the pathology at an earlier stage in the design, our management rules mould certainly have been less refined."
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 110.43609889826325,
+            "t": 147.348837284419,
+            "r": 545.2781806039925,
+            "b": 85.1860465939177,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            305
+          ]
+        }
+      ],
+      "orig": "The second major mistake has been that we have conceived and programmed the major part of the system without giving more than scanty though to the problem of debugging it. For the fact that this mistake had no consequences - on the contrary! one might argue as an afterthought - I must decline all credit.",
+      "text": "The second major mistake has been that we have conceived and programmed the major part of the system without giving more than scanty though to the problem of debugging it. For the fact that this mistake had no consequences - on the contrary! one might argue as an afterthought - I must decline all credit."
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 111.5864805716459,
+            "t": 82.99999987132958,
+            "r": 463.60149522008334,
+            "b": 68.99999987132958,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "I feel nore like having passed through the eye of the needle.....",
+      "text": "I feel nore like having passed through the eye of the needle....."
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 482.0075197033172,
+            "t": 743.6666666370953,
+            "r": 539.5263134451792,
+            "b": 731.9999999704287,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 3",
+      "text": "EWD196 - 3"
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 118.48872201747918,
+            "t": 667.6744181007077,
+            "r": 549.8796821918078,
+            "b": 538.6666666435195,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            549
+          ]
+        }
+      ],
+      "orig": "As oaptain of the orew I had had extensive experience (dating back to 1958) in making basio software dealing with real time interrupts and I knew by bitter experienoe that as a result of the irreproducibility of the interrupt moments, a program error could present itself nisleadingly like an occasional nachine nalfunctioning. do a result I was terribly afraid. Having fears regarding the possibility of debugging me decided to be as careful as possible and - prevention is better than cure! - to try to prevent bugs from entering the construotion.",
+      "text": "As oaptain of the orew I had had extensive experience (dating back to 1958) in making basio software dealing with real time interrupts and I knew by bitter experienoe that as a result of the irreproducibility of the interrupt moments, a program error could present itself nisleadingly like an occasional nachine nalfunctioning. do a result I was terribly afraid. Having fears regarding the possibility of debugging me decided to be as careful as possible and - prevention is better than cure! - to try to prevent bugs from entering the construotion."
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 118.45651228570136,
+            "t": 518.0232554821212,
+            "r": 549.8797079820046,
+            "b": 294.66666640932584,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1081
+          ]
+        }
+      ],
+      "orig": "This decision, inspired by fear, is at the bottom of what I regard as the group's main contribution to the art of system design. We have found it is possible to design a refined multiprogramning system in such a way that its logical goundness can be proved a priori and that its implementation admits exhaustive testing. The only errors that showed up during testing were trivial coding errors (ocouring with a density of only one error per 500 instructions), each of them located within 10 minutes (classical) inspection at the machine and each of them correspondingly easy to remedy. At the moment of writing the testing is not yet completed, but the resulting system mill be guaranteed to be flawless. When the system has been delivered me shall not live in the perpetual fear that a gysten derailment may still occur in an unlikely situation such as night result from an unhappy \"coincidence\" of tro or more critical occurences, for me shall have proved the correctneas of the system with a rigour and explicitness that is unusual for the great majority of mathematical proofs.",
+      "text": "This decision, inspired by fear, is at the bottom of what I regard as the group's main contribution to the art of system design. We have found it is possible to design a refined multiprogramning system in such a way that its logical goundness can be proved a priori and that its implementation admits exhaustive testing. The only errors that showed up during testing were trivial coding errors (ocouring with a density of only one error per 500 instructions), each of them located within 10 minutes (classical) inspection at the machine and each of them correspondingly easy to remedy. At the moment of writing the testing is not yet completed, but the resulting system mill be guaranteed to be flawless. When the system has been delivered me shall not live in the perpetual fear that a gysten derailment may still occur in an unlikely situation such as night result from an unhappy \"coincidence\" of tro or more critical occurences, for me shall have proved the correctneas of the system with a rigour and explicitness that is unusual for the great majority of mathematical proofs."
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 117.3383434532102,
+            "t": 277.43023232280063,
+            "r": 294.49624140242895,
+            "b": 261.31395399231553,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            32
+          ]
+        }
+      ],
+      "orig": "A survey of the system structure",
+      "text": "A survey of the system structure",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 116.18797672170479,
+            "t": 247.49999989808498,
+            "r": 563.6842066747386,
+            "b": 138.06044023351012,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            487
+          ]
+        }
+      ],
+      "orig": "Storage allocation In the classical von Neunann machine infornation is identified by the address of the memory location containing the information. When we started to think about the autonatic control of secondary storage me mere familiar with a system (viZ. GIER AIGOL) in mhich all Infornation mas identified by its drum address (as in the class\u00edcal von Neumann machine) and in which the function of the core memory was nothing more than to make the information \"page rise\" aceessible.",
+      "text": "Storage allocation In the classical von Neunann machine infornation is identified by the address of the memory location containing the information. When we started to think about the autonatic control of secondary storage me mere familiar with a system (viZ. GIER AIGOL) in mhich all Infornation mas identified by its drum address (as in the class\u00edcal von Neumann machine) and in which the function of the core memory was nothing more than to make the information \"page rise\" aceessible."
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 117.3383511227122,
+            "t": 117.41860473491317,
+            "r": 559.0826951982331,
+            "b": 72.52325594694923,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            235
+          ]
+        }
+      ],
+      "orig": "We have followed another approach and as it turned out, to great advantage. In our terminology ne made strict distinotion between memory units (re called them \"pages\" and had \"oore pages\" and \"drum pages\") and corresponding infornation",
+      "text": "We have followed another approach and as it turned out, to great advantage. In our terminology ne made strict distinotion between memory units (re called them \"pages\" and had \"oore pages\" and \"drum pages\") and corresponding infornation"
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 462.3645745178108,
+            "t": 740.6463573780921,
+            "r": 520.056479221587,
+            "b": 728.2373633391924,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 4",
+      "text": "EWD196 - 4"
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 126.44962631053522,
+            "t": 659.6666667833674,
+            "r": 572.8872189733474,
+            "b": 548.9999999012538,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            502
+          ]
+        }
+      ],
+      "orig": "units (for lack of a better mord me called them \"segments\") a segment just fitting in a pago. For segments me created a completely independent identification mechanian in which the number of possible segment identifiers is much larger than the total number of pages in primary and secondary store. The segment identifier gives fast access to a so-called \"segment variable\" in core whose value denotes whether the sogment is still empty or not and If not empty, in which page (or pagea) it can be found.",
+      "text": "units (for lack of a better mord me called them \"segments\") a segment just fitting in a pago. For segments me created a completely independent identification mechanian in which the number of possible segment identifiers is much larger than the total number of pages in primary and secondary store. The segment identifier gives fast access to a so-called \"segment variable\" in core whose value denotes whether the sogment is still empty or not and If not empty, in which page (or pagea) it can be found."
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 126.541354339129,
+            "t": 529.6666668824666,
+            "r": 551.0300798336878,
+            "b": 451.2558138495927,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            372
+          ]
+        }
+      ],
+      "orig": "As a consequence of this approachs if a segment of infornation, residing in a core page has to be dumped onto the drum in order to make the core page available for other use, there is no need to return the segment to the same drum page as it originally came from. In fact, this freedom 1s exploited: among the free drum pages the one with minimum latenay time is selected.",
+      "text": "As a consequence of this approachs if a segment of infornation, residing in a core page has to be dumped onto the drum in order to make the core page available for other use, there is no need to return the segment to the same drum page as it originally came from. In fact, this freedom 1s exploited: among the free drum pages the one with minimum latenay time is selected."
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 125.39097607183385,
+            "t": 430.6666668484517,
+            "r": 565.9849607895362,
+            "b": 386.66666664752375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            220
+          ]
+        }
+      ],
+      "orig": "A nest consequence is the total absence of a drum allocation problem: there is not the slightest reason why, say, a program should occupy consecutive drum pages. In a multiprogramning environment this is very convenient.",
+      "text": "A nest consequence is the total absence of a drum allocation problem: there is not the slightest reason why, say, a program should occupy consecutive drum pages. In a multiprogramning environment this is very convenient."
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 125.31452900935376,
+            "t": 366.0697674550617,
+            "r": 549.8797003851595,
+            "b": 176.00000007065432,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            917
+          ]
+        }
+      ],
+      "orig": "Processor allocation He have given full recognition to the fact that in a single sequential process (such as performed by a sequential autonaton:) only the time succesaion of the various states has a logical meaning, but not the actual speed with which the sequential proceas is performed. Therefore me have arranged the whole system as a society of sequential processes, progressing with undefined speed ratios. Io each user program, accepted by the system, correaponda a sequential process, to eaoh input peripheral corresponds a sequential proceas (buffering input streams in synchronism with the execution of the input commanda), to each output peripheral corresponds a sequential procesa (unbuffering output streams in syachronism with the erecution of the output commands); furthermore ne bave the \"segment controller\" associated rith the drum and the \"nessage interpreter\" associated with the console keyboard.",
+      "text": "Processor allocation He have given full recognition to the fact that in a single sequential process (such as performed by a sequential autonaton:) only the time succesaion of the various states has a logical meaning, but not the actual speed with which the sequential proceas is performed. Therefore me have arranged the whole system as a society of sequential processes, progressing with undefined speed ratios. Io each user program, accepted by the system, correaponda a sequential process, to eaoh input peripheral corresponds a sequential proceas (buffering input streams in synchronism with the execution of the input commanda), to each output peripheral corresponds a sequential procesa (unbuffering output streams in syachronism with the erecution of the output commands); furthermore ne bave the \"segment controller\" associated rith the drum and the \"nessage interpreter\" associated with the console keyboard."
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 124.24060232647874,
+            "t": 155.4069763605513,
+            "r": 544.1278105428806,
+            "b": 93.24418582270334,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            299
+          ]
+        }
+      ],
+      "orig": "This enabled us to design the rhole system in terns of these abstraot \"sequential processes\". Their harmonious co-operation is regulated by means of explicit mutual syachronization statements. On the one hand, this explicit mitual synchronization is necessary, as me do not make any assumption about",
+      "text": "This enabled us to design the rhole system in terns of these abstraot \"sequential processes\". Their harmonious co-operation is regulated by means of explicit mutual syachronization statements. On the one hand, this explicit mitual synchronization is necessary, as me do not make any assumption about"
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 470.41554045083376,
+            "t": 739.4595154999183,
+            "r": 528.1107766568884,
+            "b": 725.9707167226559,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 5",
+      "text": "EWD196 - 5"
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 123.0902197131893,
+            "t": 658.4651158850068,
+            "r": 564.8345808137002,
+            "b": 515.6666665571822,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            659
+          ]
+        }
+      ],
+      "orig": "speed ratios, on the otber band this mutual synchronization is possible, because \"delaying the progress of another process temporarily\" can never be harmful to the interior logio of the process delayed. The fundamental consequence of this approach - viz. the explicit mutual synchronization - is that the harmonious co-operation of a set of such sequential processes can be established by discrete reasoning; as a further consequence the whole harmonious society of oo-operating sequential processes ia independent of the actual number of processors available to carry out these processes, provided the processors available can sritoh from process to proceas.",
+      "text": "speed ratios, on the otber band this mutual synchronization is possible, because \"delaying the progress of another process temporarily\" can never be harmful to the interior logio of the process delayed. The fundamental consequence of this approach - viz. the explicit mutual synchronization - is that the harmonious co-operation of a set of such sequential processes can be established by discrete reasoning; as a further consequence the whole harmonious society of oo-operating sequential processes ia independent of the actual number of processors available to carry out these processes, provided the processors available can sritoh from process to proceas."
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 121.93986023960322,
+            "t": 495.00000012979683,
+            "r": 525.721801971374,
+            "b": 482.33333346313015,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            73
+          ]
+        }
+      ],
+      "orig": "Syatem hierarchy The total system admits a strict hierarchical structure.",
+      "text": "Syatem hierarchy The total system admits a strict hierarchical structure."
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 120.7539751023714,
+            "t": 462.7674420198632,
+            "r": 545.3132198940381,
+            "b": 303.8583672469079,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            715
+          ]
+        }
+      ],
+      "orig": "On level O we find the responsibility for processor allocation to one of the processes whose dynamio progress is logically permissible (1.o. in vien of the explicit mutual synchronization). At thia level the interrupt of the Ieal time clock is processed, introduced to prevent any process to monopolize proceasing power. At this level a priority rule is incorporated to achiere quick response of the system where this is needed. Our first abstraction has been achieved, abore level 0 the number of processora actually shared is no longer relevant. On the higher levels me find the activity of the different sequential procesges, the actual processors having lost their identity, having disappeared from the picture.",
+      "text": "On level O we find the responsibility for processor allocation to one of the processes whose dynamio progress is logically permissible (1.o. in vien of the explicit mutual synchronization). At thia level the interrupt of the Ieal time clock is processed, introduced to prevent any process to monopolize proceasing power. At this level a priority rule is incorporated to achiere quick response of the system where this is needed. Our first abstraction has been achieved, abore level 0 the number of processora actually shared is no longer relevant. On the higher levels me find the activity of the different sequential procesges, the actual processors having lost their identity, having disappeared from the picture."
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 119.63909189364036,
+            "t": 284.3372090852942,
+            "r": 561.3834458158057,
+            "b": 157.66666680305661,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            577
+          ]
+        }
+      ],
+      "orig": "At level 1 me have the so-called \"segment controller\", a sequential process synchronized with respect to the drum interrupt and the sequential processes on higher levels. At level 1 me find the responsibility to cater for the bookkeeping resulting from the automatic backing store, the dynamic relating of segments of information to pages of store. At this level our next abstraction has been achiored: in all higher lavels identification of information takes place in terms of segments, the actual storage pages having lost their identity, having disappeared from the picture.",
+      "text": "At level 1 me have the so-called \"segment controller\", a sequential process synchronized with respect to the drum interrupt and the sequential processes on higher levels. At level 1 me find the responsibility to cater for the bookkeeping resulting from the automatic backing store, the dynamic relating of segments of information to pages of store. At this level our next abstraction has been achiored: in all higher lavels identification of information takes place in terms of segments, the actual storage pages having lost their identity, having disappeared from the picture."
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 119.63909608434597,
+            "t": 138.13953466668954,
+            "r": 560.233073158394,
+            "b": 91.9999998273255,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            232
+          ]
+        }
+      ],
+      "orig": "At level 2 me find the \"message interpreter\", taking care of the allocation of the console keyboard via which conservations betreen the operator and any of the higher level processes can be carried out. The message interpreter works",
+      "text": "At level 2 me find the \"message interpreter\", taking care of the allocation of the console keyboard via which conservations betreen the operator and any of the higher level processes can be carried out. The message interpreter works"
+    },
+    {
+      "self_ref": "#/texts/60",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 471.5403017890082,
+            "t": 738.4932146082342,
+            "r": 529.2867668362087,
+            "b": 725.7858552942694,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 6",
+      "text": "EWD196 - 6"
+    },
+    {
+      "self_ref": "#/texts/61",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 124.24059746008773,
+            "t": 662.0000002653494,
+            "r": 563.7283414091402,
+            "b": 226.66666635055765,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2035
+          ]
+        }
+      ],
+      "orig": "in close aynchronism with the operator: when the operator presses a kay a character is sent to the machine, together with an interrupt signal to announce thia next keyboard character: the actual printing is done on account of an output command generated by the machine under control of the message interpretex.. (Aa far sa the hardware is concerned the console teleprinter is regarded as tro independent peripherals: an input keyboard and an output printer.)II on a the processes opens a conversation it identifies itself for the benefit of the operator in the opening sentence of this conversation. If, homevei, the operator opens a conversation he mist identify the process he is addressing, in the opening sentence of the conversation, i.e. this opening sentence must be interpreted before it is known to which of the processes the conversation is addressed! There lies the logical reason to introduce a separate sequential process for the console teleprinter, a reason that is reflected in its name \"message interpreter\". Above this level it is as if each process had ita private conversational console. The fact that they share the same physical console is translated into a resource restriction of the foIl \"only one conversation a time\", a restriction that is satisfied via mutual synchronization. At this level the next abatraction has been implemented: in all higher levels the actual console teleprinter has loat its identity. (If the message interpreter had been on the same level as the segment controller, then the only way to implement it would have been to make a permanent reservation in core for it; as the conversational vocabulary might get large (as soon as our operators wish to be addressed in fancy messages) this mould result in too heavy a pernanent demand upon core storage. Therefore the vocabulary in which the messages are expressed is stored on segments, 1.e. as information unita that can reside on the drum as well. Therefore the message interpreter is of a level one higher than the segment controller)",
+      "text": "in close aynchronism with the operator: when the operator presses a kay a character is sent to the machine, together with an interrupt signal to announce thia next keyboard character: the actual printing is done on account of an output command generated by the machine under control of the message interpretex.. (Aa far sa the hardware is concerned the console teleprinter is regarded as tro independent peripherals: an input keyboard and an output printer.)II on a the processes opens a conversation it identifies itself for the benefit of the operator in the opening sentence of this conversation. If, homevei, the operator opens a conversation he mist identify the process he is addressing, in the opening sentence of the conversation, i.e. this opening sentence must be interpreted before it is known to which of the processes the conversation is addressed! There lies the logical reason to introduce a separate sequential process for the console teleprinter, a reason that is reflected in its name \"message interpreter\". Above this level it is as if each process had ita private conversational console. The fact that they share the same physical console is translated into a resource restriction of the foIl \"only one conversation a time\", a restriction that is satisfied via mutual synchronization. At this level the next abatraction has been implemented: in all higher levels the actual console teleprinter has loat its identity. (If the message interpreter had been on the same level as the segment controller, then the only way to implement it would have been to make a permanent reservation in core for it; as the conversational vocabulary might get large (as soon as our operators wish to be addressed in fancy messages) this mould result in too heavy a pernanent demand upon core storage. Therefore the vocabulary in which the messages are expressed is stored on segments, 1.e. as information unita that can reside on the drum as well. Therefore the message interpreter is of a level one higher than the segment controller)"
+    },
+    {
+      "self_ref": "#/texts/62",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 123.09021800175644,
+            "t": 207.54709533586504,
+            "r": 546.4285608024151,
+            "b": 96.6666664856308,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            528
+          ]
+        }
+      ],
+      "orig": "At level 3 ne find the sequential processes associated nith buffering of input streans and unbuffering of output streams. At this level the next abstraction is affected, viz. the abstraction of the actual peripherals used, that are allocated at this level to the \"logical communication units\" in terns of which is vorked in the still higher levels. The sequential processes associated rith the peripherals are of a level above the message interpreter, because they must be able to converse with the operator (e.g. in the case of",
+      "text": "At level 3 ne find the sequential processes associated nith buffering of input streans and unbuffering of output streams. At this level the next abstraction is affected, viz. the abstraction of the actual peripherals used, that are allocated at this level to the \"logical communication units\" in terns of which is vorked in the still higher levels. The sequential processes associated rith the peripherals are of a level above the message interpreter, because they must be able to converse with the operator (e.g. in the case of"
+    },
+    {
+      "self_ref": "#/texts/63",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 465.8891271420062,
+            "t": 743.7097834114941,
+            "r": 522.2838058936337,
+            "b": 730.9297515714875,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 7",
+      "text": "EWD196 - 7"
+    },
+    {
+      "self_ref": "#/texts/64",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 125.22141321030638,
+            "t": 664.3333333097685,
+            "r": 546.4285719067717,
+            "b": 615.0509105693269,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            188
+          ]
+        }
+      ],
+      "orig": "detected nalfunctioning). The limited number of peripherale again acts as a resource restriction for the processes on higher levels, to be satisfied by mutual synchronization between them.",
+      "text": "detected nalfunctioning). The limited number of peripherale again acts as a resource restriction for the processes on higher levels, to be satisfied by mutual synchronization between them."
+    },
+    {
+      "self_ref": "#/texts/65",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 126.5413518048171,
+            "t": 597.4534881895966,
+            "r": 556.7819567878693,
+            "b": 567.5232556381102,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            98
+          ]
+        }
+      ],
+      "orig": "At level 4 me find the independent user programs, at level 5 the operator (not implemented by us).",
+      "text": "At level 4 me find the independent user programs, at level 5 the operator (not implemented by us)."
+    },
+    {
+      "self_ref": "#/texts/66",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 126.54135701649061,
+            "t": 550.3333336308409,
+            "r": 540.6766964704606,
+            "b": 519.1744185209009,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            97
+          ]
+        }
+      ],
+      "orig": "The system structure has been described at length in order to make the next section intelligible.",
+      "text": "The system structure has been described at length in order to make the next section intelligible."
+    },
+    {
+      "self_ref": "#/texts/67",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 125.39097513880297,
+            "t": 498.45348843282005,
+            "r": 222.02255676315198,
+            "b": 485.6666664316807,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "Design experience",
+      "text": "Design experience",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/68",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 125.39098328052735,
+            "t": 467.3720929213407,
+            "r": 560.2330802608302,
+            "b": 307.33333364744016,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            734
+          ]
+        }
+      ],
+      "orig": "The conception stage took a long time. During this period of time the concepts have been born in terms of which we aketched the aystem in the previous seotion. Furthermore me learnt the art of reasoning by which me could deduce from our requirements the way in which the processes should influence each other as regards mutual synchronization so that these requirements mere met. (The requirements being that no infornation can be used before it has been produced, that no peripheral can be set to two tasks simultaneously, etc.) Finally ne learnt the art of reasoning by which me could prove that the society composed of processes thus mutually synchronized by each other, would indeed in ita time behaviour satisiy all requirements.",
+      "text": "The conception stage took a long time. During this period of time the concepts have been born in terms of which we aketched the aystem in the previous seotion. Furthermore me learnt the art of reasoning by which me could deduce from our requirements the way in which the processes should influence each other as regards mutual synchronization so that these requirements mere met. (The requirements being that no infornation can be used before it has been produced, that no peripheral can be set to two tasks simultaneously, etc.) Finally ne learnt the art of reasoning by which me could prove that the society composed of processes thus mutually synchronized by each other, would indeed in ita time behaviour satisiy all requirements."
+    },
+    {
+      "self_ref": "#/texts/69",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 126.54135228390703,
+            "t": 287.7906978502619,
+            "r": 556.7819575014543,
+            "b": 193.33333338605178,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            407
+          ]
+        }
+      ],
+      "orig": "The construction stage has been rather traditional, perhaps even oldfashioned: plain machine code. Reprogramming on account of a change of apecifications has been rare, a circumstance that must have contributed greatly of the feasibility of the \"steam method\". The fact that the first tro stages took more time than planned was somewhat compensated by a delay in the delivery of the delivery of the machine.",
+      "text": "The construction stage has been rather traditional, perhaps even oldfashioned: plain machine code. Reprogramming on account of a change of apecifications has been rare, a circumstance that must have contributed greatly of the feasibility of the \"steam method\". The fact that the first tro stages took more time than planned was somewhat compensated by a delay in the delivery of the delivery of the machine."
+    },
+    {
+      "self_ref": "#/texts/70",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 125.32335665708717,
+            "t": 174.9999997420058,
+            "r": 549.879691190479,
+            "b": 95.03637826643478,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            373
+          ]
+        }
+      ],
+      "orig": "In the verification stage me had, during short shots, the machine completely at our disposal, shots during which me porked with a virgin machine without any software aids for debugging. Starting at level 0 the system has been tested, each time adding (a portion of) the next level only after the previous level had been thoroughly tested. Each test shot itself contained on",
+      "text": "In the verification stage me had, during short shots, the machine completely at our disposal, shots during which me porked with a virgin machine without any software aids for debugging. Starting at level 0 the system has been tested, each time adding (a portion of) the next level only after the previous level had been thoroughly tested. Each test shot itself contained on"
+    },
+    {
+      "self_ref": "#/texts/71",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 494.5909746230224,
+            "t": 743.9731418488539,
+            "r": 551.1007555068114,
+            "b": 730.6663931407647,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 8",
+      "text": "EWD196 - 8"
+    },
+    {
+      "self_ref": "#/texts/72",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 121.88723053866006,
+            "t": 664.5978712406312,
+            "r": 540.7444896532434,
+            "b": 599.6666666287123,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            258
+          ]
+        }
+      ],
+      "orig": "top of the (partial) system to be tested a number of testing processes with a double function. Firstly they had to force the system into all different relevant states, secondly they had to verify that the system continued to react socordiag to specification.",
+      "text": "top of the (partial) system to be tested a number of testing processes with a double function. Firstly they had to force the system into all different relevant states, secondly they had to verify that the system continued to react socordiag to specification."
+    },
+    {
+      "self_ref": "#/texts/73",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 120.78946949673984,
+            "t": 581.3372093774422,
+            "r": 562.53384162332,
+            "b": 504.2093023891244,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            335
+          ]
+        }
+      ],
+      "orig": "I shall not deny that the construction of these testing programes has been a major intellectual effort: to convince oneself that one has not overlooked \"a relevant state\" and to convince oneself that the testing progremes generste them all ia no simple matter. The encourageing thing 1s that (as far as me are amare!) it could be done.",
+      "text": "I shall not deny that the construction of these testing programes has been a major intellectual effort: to convince oneself that one has not overlooked \"a relevant state\" and to convince oneself that the testing progremes generste them all ia no simple matter. The encourageing thing 1s that (as far as me are amare!) it could be done."
+    },
+    {
+      "self_ref": "#/texts/74",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 120.78947766887525,
+            "t": 483.48837216813996,
+            "r": 554.481197071182,
+            "b": 422.3333330959708,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            287
+          ]
+        }
+      ],
+      "orig": "This fact mas one of the happy consequences of the hierarchical structure: testing level O (the real time clock and processor allocation) implied a number of testing sequential processes on top of it, inspecting together that processor time was divided among them according to the rules.",
+      "text": "This fact mas one of the happy consequences of the hierarchical structure: testing level O (the real time clock and processor allocation) implied a number of testing sequential processes on top of it, inspecting together that processor time was divided among them according to the rules."
+    },
+    {
+      "self_ref": "#/texts/75",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 120.78946666751104,
+            "t": 402.99999997122103,
+            "r": 554.4811840543254,
+            "b": 292.33333352079336,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            507
+          ]
+        }
+      ],
+      "orig": "This being established, sequential processes as such had been implemented. Testing the segment controller at level 1 meant that all \"relevant states\" could be formulated in terns of sequential processes making (in various combinations) demands on core pages, situations that could be provoked by explicit synchronizing among the testing programs. At that stage the existence of the real time clock - although interrupting all the time - nas so immaterial that one of the testers indeed forgot its existence!",
+      "text": "This being established, sequential processes as such had been implemented. Testing the segment controller at level 1 meant that all \"relevant states\" could be formulated in terns of sequential processes making (in various combinations) demands on core pages, situations that could be provoked by explicit synchronizing among the testing programs. At that stage the existence of the real time clock - although interrupting all the time - nas so immaterial that one of the testers indeed forgot its existence!"
+    },
+    {
+      "self_ref": "#/texts/76",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 119.63910212149317,
+            "t": 272.82558145607584,
+            "r": 548.729324943096,
+            "b": 97.84883724930205,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            780
+          ]
+        }
+      ],
+      "orig": "By that time we had implemented the correct reaction upon the (mutually unsynchronized) interrupta from the real time olock and the drum. If we had not introduced the separate levels 0 and 1 and if we had not created a terminology (viz. that of the rather \"abstract\" sequential processes) in which the existence of the clock interrupt could be diacarded, but had tried instead to make in a non-hierarchical construction the central processor directly react upon any weird time succession of these two interrupts, the number of \"relevant statea\" would have exploded to such a height that exhaustive testing would have been an illusion. (Apart from that, drum speed and clock speed being outside our control, it is doubtful whether we would have had the means to generate them ail.)",
+      "text": "By that time we had implemented the correct reaction upon the (mutually unsynchronized) interrupta from the real time olock and the drum. If we had not introduced the separate levels 0 and 1 and if we had not created a terminology (viz. that of the rather \"abstract\" sequential processes) in which the existence of the clock interrupt could be diacarded, but had tried instead to make in a non-hierarchical construction the central processor directly react upon any weird time succession of these two interrupts, the number of \"relevant statea\" would have exploded to such a height that exhaustive testing would have been an illusion. (Apart from that, drum speed and clock speed being outside our control, it is doubtful whether we would have had the means to generate them ail.)"
+    },
+    {
+      "self_ref": "#/texts/77",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 468.20300887166695,
+            "t": 762.0697677184305,
+            "r": 524.571427247318,
+            "b": 749.33333341769,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "EWD196 - 9",
+      "text": "EWD196 - 9"
+    },
+    {
+      "self_ref": "#/texts/78",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 148.39848646058513,
+            "t": 682.1114574938556,
+            "r": 571.8146967230554,
+            "b": 538.6666663518108,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            627
+          ]
+        }
+      ],
+      "orig": "For the sake of completeness I must mention a further happy consequence. As stated before, above level 1 core and drum pages have lost their identity and buffering of input and output streams (at level 3) therefore occurs in terns of segments. Phile testing at level 2 or 3 the drum channel hardware broke down for quite some time, but testing could proceed by restricting the number of segments so that they all could be held in core. If building up the line printer output streams had been implemented as \"dumping onto the drum\" and the actual printing as \"printing from the drum\" this advantage would have been denied to us.",
+      "text": "For the sake of completeness I must mention a further happy consequence. As stated before, above level 1 core and drum pages have lost their identity and buffering of input and output streams (at level 3) therefore occurs in terns of segments. Phile testing at level 2 or 3 the drum channel hardware broke down for quite some time, but testing could proceed by restricting the number of segments so that they all could be held in core. If building up the line printer output streams had been implemented as \"dumping onto the drum\" and the actual printing as \"printing from the drum\" this advantage would have been denied to us."
+    },
+    {
+      "self_ref": "#/texts/79",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 147.1667494620224,
+            "t": 519.5061293428937,
+            "r": 207.14903909418388,
+            "b": 503.87759184696273,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "Conclusion",
+      "text": "Conclusion",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/80",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 146.09774807086873,
+            "t": 485.915857692674,
+            "r": 580.939845426676,
+            "b": 277.3333334417965,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            994
+          ]
+        }
+      ],
+      "orig": "As far as program verification is concerned I present nothing essentially nem. In testing a general purpose object (be it a pience of hardrare, a program, a machine of a system) one cannot subject it to all possible cases: for a computer this would imply that one feeds it with all possible programs! Therefore one must test it with a set of relevent test cases. What is relevant or not, cannot be decided aa long as one regards the mechanism as a black box, in other words it has to follow from the internal structure of the mechanism to be tested. It seems the designer's responsibility to construot his mechanism in such a way - i.o. so highly structured - that at each stage of the testing procedure the number of relevant test cases is so small that he can try them all and that what is being tested is so perspicuous that it ia clear that he has not overlooked a situation. I have presented a survey of our system because I think it a nice example of the form such a structure might take.",
+      "text": "As far as program verification is concerned I present nothing essentially nem. In testing a general purpose object (be it a pience of hardrare, a program, a machine of a system) one cannot subject it to all possible cases: for a computer this would imply that one feeds it with all possible programs! Therefore one must test it with a set of relevent test cases. What is relevant or not, cannot be decided aa long as one regards the mechanism as a black box, in other words it has to follow from the internal structure of the mechanism to be tested. It seems the designer's responsibility to construot his mechanism in such a way - i.o. so highly structured - that at each stage of the testing procedure the number of relevant test cases is so small that he can try them all and that what is being tested is so perspicuous that it ia clear that he has not overlooked a situation. I have presented a survey of our system because I think it a nice example of the form such a structure might take."
+    },
+    {
+      "self_ref": "#/texts/81",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 146.0977389881012,
+            "t": 257.9999999100979,
+            "r": 569.4360841465693,
+            "b": 51.66666674499538,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            938
+          ]
+        }
+      ],
+      "orig": "In my experience, I am sorry to say, industrial software makers tend to react to it with mixed feelings. On the one hand they are inclined to judge that we have done a kind of model job, on the other band they express doubts whether the techniques used are applicable outside the sheltered atmosphere of a University Department and express the opinion that me could only do it this way thanks to the modest scope of the whole project. It is not my intention to underestimate the organizing ability needed for a much bigger job with ten or nore times as many people, but I should like to venture the opinion that the larger the project, the more essential the structuring! A hierarchy of five logical levels might then very nell turn out to be of modest depth, in particular when one designs the system more consciously than me have done with the aim that the software can be smoothly adapted to (perhaps drastic) configuration expansions.",
+      "text": "In my experience, I am sorry to say, industrial software makers tend to react to it with mixed feelings. On the one hand they are inclined to judge that we have done a kind of model job, on the other band they express doubts whether the techniques used are applicable outside the sheltered atmosphere of a University Department and express the opinion that me could only do it this way thanks to the modest scope of the whole project. It is not my intention to underestimate the organizing ability needed for a much bigger job with ten or nore times as many people, but I should like to venture the opinion that the larger the project, the more essential the structuring! A hierarchy of five logical levels might then very nell turn out to be of modest depth, in particular when one designs the system more consciously than me have done with the aim that the software can be smoothly adapted to (perhaps drastic) configuration expansions."
+    }
+  ],
+  "pictures": [],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 4
+    },
+    "5": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 5
+    },
+    "6": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 6
+    },
+    "7": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 7
+    },
+    "8": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 8
+    },
+    "9": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 9
+    },
+    "10": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 10
+    },
+    "11": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 11
+    }
+  }
+}

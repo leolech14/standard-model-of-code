@@ -171,16 +171,16 @@ If only 13 of 33 roles are implemented, then:
 
 ```bash
 # Count atoms in 200_ATOMS.md
-grep -E "^\| [0-9]+ \|" standard-model-of-code/schema/fixed/200_ATOMS.md | wc -l
+grep -E "^\| [0-9]+ \|" particle/schema/fixed/200_ATOMS.md | wc -l
 
 # Count canonical roles
-jq '.roles | keys | length' standard-model-of-code/schema/fixed/roles.json
+jq '.roles | keys | length' particle/schema/fixed/roles.json
 
 # List implemented roles in classifier
-grep -oE "'[A-Z][a-z]+'" standard-model-of-code/src/core/heuristic_classifier.py | sort | uniq
+grep -oE "'[A-Z][a-z]+'" particle/src/core/heuristic_classifier.py | sort | uniq
 
 # Count atoms in implementation
-grep -c "id:" standard-model-of-code/src/patterns/ATOMS_TIER*.yaml
+grep -c "id:" particle/src/patterns/ATOMS_TIER*.yaml
 ```
 
 ---

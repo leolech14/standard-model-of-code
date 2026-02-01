@@ -27,8 +27,8 @@ Explore this dimension:
    - Post-commit hooks (runs on dev machine)
    - LaunchAgent daemons (runs on dev machine)
    - Cron jobs (runs on dev machine)
-   
-2. CLOUD AUTOMATION  
+
+2. CLOUD AUTOMATION
    - Cloud Run jobs (runs on GCP)
    - Cloud Functions (runs on GCP)
    - GitHub Actions (runs on GitHub infra)
@@ -66,7 +66,7 @@ Here is the ontological breakdown based on the `PROJECT_elements` codebase:
 ### 1. The Proof: Automation Exists Locally
 The codebase contains clear examples of "Automation" that never touch the cloud. These scripts fit the definition of "Code that remembers to do the work," yet they run on your local machine.
 
-*   **`context-management/tools/drift_guard.py`**: A daemon that watches your local filesystem. It *remembers* to run the cartographer when you save a file. It is **Local Automation**.
+*   **`wave/tools/drift_guard.py`**: A daemon that watches your local filesystem. It *remembers* to run the cartographer when you save a file. It is **Local Automation**.
 *   **`.agent/hooks/post-commit`**: A git hook that runs instantly on your machine after a commit. It *remembers* to trigger BARE. It is **Local Automation**.
 *   **`com.elements.socratic-audit.plist`**: A macOS LaunchAgent. It *remembers* to audit the code every morning. It is **Local Automation**.
 
@@ -75,7 +75,7 @@ The codebase contains clear examples of "Automation" that never touch the cloud.
 ### 2. The Invariant Module
 The **Module** (the Capability) remains exactly the same regardless of where it runs.
 
-*   **The Tool:** `context-management/tools/ai/analyze.py` (The Surgeon/Architect).
+*   **The Tool:** `wave/tools/ai/analyze.py` (The Surgeon/Architect).
 *   **Local Use:** You run it manually: `python analyze.py --verify`.
 *   **Local Automation:** `drift_guard.py` calls `python analyze.py --verify` when files change.
 *   **Cloud Automation:** The Cloud Run Job (`Dockerfile`) calls `python analyze.py --verify` on a schedule.

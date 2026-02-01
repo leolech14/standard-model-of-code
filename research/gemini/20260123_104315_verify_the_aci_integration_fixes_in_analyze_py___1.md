@@ -25,7 +25,7 @@ Report: PASS or FAIL for each check with file:line citations.
 
 ## Response
 
-Based on the provided codebase context, I cannot verify the changes in `analyze.py` as that file was not included in the context. The context only contains the ACI library modules (`context-management/tools/ai/aci/*`).
+Based on the provided codebase context, I cannot verify the changes in `analyze.py` as that file was not included in the context. The context only contains the ACI library modules (`wave/tools/ai/aci/*`).
 
 However, I can verify that the **ACI backend implementation** supports the requested features. Below is the analysis of the available components relative to your integration requirements:
 

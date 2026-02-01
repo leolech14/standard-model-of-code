@@ -68,4 +68,4 @@ Archive → governance/staging/archive/ (if deprecated)
 
 - `.agent/` - Agent configuration
 - `docs/` - User-facing documentation
-- `context-management/docs/` - Wave realm docs
+- `wave/docs/` - Wave realm docs

@@ -69,13 +69,13 @@ PROJECT_elements
 Collider (Particle Realm)
 ├── Identity: "The analysis engine"
 ├── Purpose: "Collapse wave function → concrete analysis"
-├── Boundary: standard-model-of-code/
+├── Boundary: particle/
 └── Contains: 2 Packages (S1, S9)
 
 Wave (Intelligence Realm)
 ├── Identity: "The AI layer"
 ├── Purpose: "Potential, research, enrichment"
-├── Boundary: context-management/
+├── Boundary: wave/
 └── Contains: 6 Packages (S2, S3, S4, S9b, S11, S12)
 
 Observer (Governance Realm)

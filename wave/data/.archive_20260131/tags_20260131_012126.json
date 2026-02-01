@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "created_at": "2026-01-31T01:21:26.110864",
+    "model": "llama-3.3-70b",
+    "files_processed": 5,
+    "files_tagged": 5,
+    "elapsed_seconds": 4.13,
+    "pattern": "**/*.py",
+    "path": "particle/src/core"
+  },
+  "tags": [
+    {
+      "file_path": "particle/src/core/__init__.py",
+      "D1_WHAT": "CORE",
+      "D2_LAYER": "CORE",
+      "D3_ROLE": "SERVICE",
+      "D4_BOUNDARY": "INTERNAL",
+      "D5_STATE": "STATELESS",
+      "D6_EFFECT": "PURE",
+      "D7_LIFECYCLE": "PRODUCTION",
+      "D8_TRUST": "INTERNAL",
+      "confidence": 0.9,
+      "reasoning": "This file is classified as core because it contains universal pattern detection core functionality and exports various survey-related functions and classes.",
+      "tagged_at": "2026-01-31T01:21:22.566067",
+      "model": "llama-3.3-70b"
+    },
+    {
+      "file_path": "particle/src/core/analytics_engine.py",
+      "D1_WHAT": "UTIL",
+      "D2_LAYER": "CORE",
+      "D3_ROLE": "SERVICE",
+      "D4_BOUNDARY": "INTERNAL",
+      "D5_STATE": "STATELESS",
+      "D6_EFFECT": "PURE",
+      "D7_LIFECYCLE": "PRODUCTION",
+      "D8_TRUST": "INTERNAL",
+      "confidence": 0.9,
+      "reasoning": "The code provides statistical analysis algorithms and does not interact with external systems or manage state, indicating a utility role within the core layer.",
+      "tagged_at": "2026-01-31T01:21:23.249956",
+      "model": "llama-3.3-70b"
+    },
+    {
+      "file_path": "particle/src/core/atom_loader.py",
+      "D1_WHAT": "REPOSITORY",
+      "D2_LAYER": "INFRASTRUCTURE",
+      "D3_ROLE": "REPOSITORY",
+      "D4_BOUNDARY": "INTERNAL",
+      "D5_STATE": "STATELESS",
+      "D6_EFFECT": "PURE",
+      "D7_LIFECYCLE": "DEVELOPMENT",
+      "D8_TRUST": "INTERNAL",
+      "confidence": 0.8,
+      "reasoning": "The code is responsible for loading and unifying atom data from various sources, which suggests a repository role with internal boundary and stateless behavior.",
+      "tagged_at": "2026-01-31T01:21:23.860888",
+      "model": "llama-3.3-70b"
+    },
+    {
+      "file_path": "particle/src/core/atom_registry.py",
+      "D1_WHAT": "REPOSITORY",
+      "D2_LAYER": "CORE",
+      "D3_ROLE": "REPOSITORY",
+      "D4_BOUNDARY": "INTERNAL",
+      "D5_STATE": "STATEFUL",
+      "D6_EFFECT": "PURE",
+      "D7_LIFECYCLE": "DEVELOPMENT",
+      "D8_TRUST": "INTERNAL",
+      "confidence": 0.9,
+      "reasoning": "This code defines a central registry for storing and managing atom definitions, indicating a core repository role.",
+      "tagged_at": "2026-01-31T01:21:25.310044",
+      "model": "llama-3.3-70b"
+    },
+    {
+      "file_path": "particle/src/core/brain_download.py",
+      "D1_WHAT": "UTIL",
+      "D2_LAYER": "INFRASTRUCTURE",
+      "D3_ROLE": "SERVICE",
+      "D4_BOUNDARY": "INTERNAL",
+      "D5_STATE": "STATELESS",
+      "D6_EFFECT": "PURE",
+      "D7_LIFECYCLE": "DEVELOPMENT",
+      "D8_TRUST": "INTERNAL",
+      "confidence": 0.8,
+      "reasoning": "The code is a utility script that generates a report, indicating a high confidence classification as a UTIL with internal boundary and stateless behavior.",
+      "tagged_at": "2026-01-31T01:21:26.109871",
+      "model": "llama-3.3-70b"
+    }
+  ]
+}

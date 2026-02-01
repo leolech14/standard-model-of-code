@@ -156,7 +156,7 @@ result = service.query("question")
 2. `docs/research/perplexity/docs/20260127_191347_*specific*.md` (60+ sources)
 
 **Implementation:**
-1. `context-management/tools/ai/graph_rag/` - S14 subsystem
+1. `wave/tools/ai/graph_rag/` - S14 subsystem
 2. `.agent/tools/graphrag_*.py` - Working scripts
 3. Neo4j: bolt://localhost:7687 (running)
 
@@ -236,4 +236,3 @@ result = service.query("question")
 **Everything documented. Everything tested. Everything committed.**
 
 **MISSION ACCOMPLISHED.**
-

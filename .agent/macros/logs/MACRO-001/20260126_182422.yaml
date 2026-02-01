@@ -11,10 +11,10 @@ steps:
   tool: Bash
   outcome: SUCCESS
   output: "=== NEW FILES ===\n?? .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n\
-    ?? .agent/macros/logs/\n?? standard-model-of-code/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
+    ?? .agent/macros/logs/\n?? particle/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
+    ?? particle/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
     \ M .agent/state/circuit_breakers.yaml\n"
@@ -50,10 +50,10 @@ steps:
   error: null
 variables:
   session_artifacts: "=== NEW FILES ===\n?? .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n\
-    ?? .agent/macros/logs/\n?? standard-model-of-code/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
+    ?? .agent/macros/logs/\n?? particle/docs/research/gemini/docs/20260126_151024_be_brutally_honest__are_these_automations_valuable.md\n\
+    ?? particle/docs/research/gemini/raw/20260126_151024_be_brutally_honest__are_these_automations_valuable.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_150902_evaluate_our_automation_stack_critically.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_151024_be_brutally_honest__are_these_automation.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
     \ M .agent/state/circuit_breakers.yaml\n"

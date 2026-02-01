@@ -22,9 +22,9 @@ Here's a breakdown of the known assets:
 
 **SCHEMAS**
 
-*   **Node Schema**: Defined in `context-management/docs/COLLIDER_ARCHITECTURE.md` and exemplified in `context-management/docs/COLLIDER_ARCHITECTURE.md`. Includes `id`, `name`, `kind`, `file_path`, `start_line`, `end_line`, `role`, `role_confidence`, `discovery_method`, `params`, `return_type`, `complexity`, `in_degree`, `out_degree`, `layer`, `rpbl`, `atom`, `dimensions`.
-*   **Edge Schema**: Defined in `context-management/docs/COLLIDER_ARCHITECTURE.md`. Includes `source`, `target`, `edge_type`, `weight`, `confidence`, `resolution`, `file_path`, `line`, `markov_weight`.
-*  **Design Tokens**: `context-management/docs/COLLIDER_ARCHITECTURE.md` indicates `appearance.tokens.json` and `controls.tokens.json` exist but does not describe schema.
+*   **Node Schema**: Defined in `wave/docs/COLLIDER_ARCHITECTURE.md` and exemplified in `wave/docs/COLLIDER_ARCHITECTURE.md`. Includes `id`, `name`, `kind`, `file_path`, `start_line`, `end_line`, `role`, `role_confidence`, `discovery_method`, `params`, `return_type`, `complexity`, `in_degree`, `out_degree`, `layer`, `rpbl`, `atom`, `dimensions`.
+*   **Edge Schema**: Defined in `wave/docs/COLLIDER_ARCHITECTURE.md`. Includes `source`, `target`, `edge_type`, `weight`, `confidence`, `resolution`, `file_path`, `line`, `markov_weight`.
+*  **Design Tokens**: `wave/docs/COLLIDER_ARCHITECTURE.md` indicates `appearance.tokens.json` and `controls.tokens.json` exist but does not describe schema.
 
 **ALGORITHMS**
 

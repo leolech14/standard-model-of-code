@@ -160,7 +160,7 @@ python3 -c "
 import ast
 from pathlib import Path
 total = documented = 0
-for f in Path('standard-model-of-code/src').rglob('*.py'):
+for f in Path('particle/src').rglob('*.py'):
     try:
         for n in ast.walk(ast.parse(f.read_text())):
             if isinstance(n, ast.FunctionDef) and not n.name.startswith('_'):
@@ -177,7 +177,7 @@ grep -o '\[.*\]([^)]*\.md)' CLAUDE.md | while read link; do
 done
 
 # Check FRESHNESS (TODO count)
-grep -r "TODO\|FIXME" standard-model-of-code/src --include="*.py" | wc -l
+grep -r "TODO\|FIXME" particle/src --include="*.py" | wc -l
 ```
 
 ---

@@ -35,7 +35,7 @@ urgency: MEDIUM
 defer_until: "After pipeline refactor stabilizes"
 
 legacy_registry:
-  path: "standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md"
+  path: "particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md"
   task_count: 10
   all_ready: true
   confidence_range: "95-99%"

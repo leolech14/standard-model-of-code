@@ -34,8 +34,8 @@ Option C: Something else entirely?
 Key tension: Is this the SEMANTICS arm (assigning purpose tags, meaning) or the SYNTAX arm (executing projectome's purpose on runtimes)?
 
 In our Wave/Particle/Observer architecture:
-- Wave = potential, meaning, purpose (context-management/)
-- Particle = measurement, concrete (standard-model-of-code/)
+- Wave = potential, meaning, purpose (wave/)
+- Particle = measurement, concrete (particle/)
 - Observer = decides what to measure (.agent/)
 
 This automation system seems to BE the Observer - the thing that collapses wave into particle.
@@ -65,8 +65,8 @@ It is not a "module" (too small) or a "layer" (too passive). It is a **Force**.
 ### 2. Location: The Observer Realm
 You correctly identified that this belongs to the **Observer** realm (`.agent/`).
 
-*   **Particle (`standard-model-of-code/`):** The static matter. The structure.
-*   **Wave (`context-management/`):** The probability field. The meaning/context.
+*   **Particle (`particle/`):** The static matter. The structure.
+*   **Wave (`wave/`):** The probability field. The meaning/context.
 *   **Observer (`.agent/`):** The dynamic operator. It collapses the Wave (meaning) into the Particle (code) through **Work**.
 
 This system *lives* in the Observer because it is the agency that bridges the gap between "What we want" (Contextome) and "What we have" (Codome).

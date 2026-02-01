@@ -70,7 +70,7 @@ State: live.yaml
 3. Expose via CLI
 
 **Files to create:**
-- `context-management/tools/refinery/search_index.py`
+- `wave/tools/refinery/search_index.py`
 - `.agent/intelligence/chunks/embeddings.npy` (vector index)
 
 **Usage:**
@@ -117,7 +117,7 @@ State: live.yaml
 
 ```python
 # Stage 7: Refinery (Knowledge Consolidation)
-REFINERY_SCRIPT = REPO_ROOT / "context-management" / "tools" / "ai" / "aci" / "refinery.py"
+REFINERY_SCRIPT = REPO_ROOT / "wave" / "tools" / "ai" / "aci" / "refinery.py"
 CHUNKS_DIR = INTELLIGENCE_DIR / "chunks"
 
 stages.append(PipelineStage(
@@ -129,14 +129,14 @@ stages.append(PipelineStage(
 
 stages.append(PipelineStage(
     "REFINERY_CORE",
-    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "standard-model-of-code" / "src" / "core"),
+    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "particle" / "src" / "core"),
      "--export", str(CHUNKS_DIR / "core_chunks.json")],
     "Atomize collider core into semantic chunks"
 ))
 
 stages.append(PipelineStage(
     "REFINERY_ACI",
-    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "context-management" / "tools" / "ai" / "aci"),
+    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "wave" / "tools" / "ai" / "aci"),
      "--export", str(CHUNKS_DIR / "aci_chunks.json")],
     "Atomize ACI tools into semantic chunks"
 ))
@@ -182,7 +182,7 @@ with open(CHUNKS_DIR / "metadata.json", 'w') as f:
 
 ### Step 3: Simple Query Interface
 
-**Create:** `context-management/tools/refinery/query_chunks.py`
+**Create:** `wave/tools/refinery/query_chunks.py`
 
 ```python
 #!/usr/bin/env python3

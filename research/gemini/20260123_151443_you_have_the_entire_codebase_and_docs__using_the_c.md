@@ -40,29 +40,29 @@ components:
     description: Tools you should use daily to operate the Alien Architecture.
     tools:
       ai:
-        - surgeon: context-management/tools/ai/analyze.py --mode forensic
-        - architect: context-management/tools/ai/analyze.py --mode architect
+        - surgeon: wave/tools/ai/analyze.py --mode forensic
+        - architect: wave/tools/ai/analyze.py --mode architect
         - librarian: browser-interface vertex-ai-agent-builder
-        - rag_setup: context-management/tools/ai/setup_rag.py
+        - rag_setup: wave/tools/ai/setup_rag.py
       machinery:
-        - mirror: context-management/tools/archive/archive.py mirror
-        - timestamp_tracker: context-management/tools/maintenance/timestamps.py
-        - stale_archiver: context-management/tools/maintenance/archive_stale.py
-        - bootstrapper: context-management/tools/maintenance/boot.sh
+        - mirror: wave/tools/archive/archive.py mirror
+        - timestamp_tracker: wave/tools/maintenance/timestamps.py
+        - stale_archiver: wave/tools/maintenance/archive_stale.py
+        - bootstrapper: wave/tools/maintenance/boot.sh
       audit_analysis:
-        - metadata_generator: context-management/tools/maintenance/generate_metadata_csv.py
-        - set_analyzer: context-management/tools/maintenance/analyze_sets.py
-        - relocation_finder: context-management/tools/maintenance/find_relocation_candidates.py
+        - metadata_generator: wave/tools/maintenance/generate_metadata_csv.py
+        - set_analyzer: wave/tools/maintenance/analyze_sets.py
+        - relocation_finder: wave/tools/maintenance/find_relocation_candidates.py
     reports_audits:
-      - repository_audit: context-management/docs/REPOSITORY_AUDIT_2026-01-19.md
-      - file_metadata_csv: context-management/output/file_metadata_audit.csv
-      - analysis_sets_report: context-management/output/analysis_sets_report.md
+      - repository_audit: wave/docs/REPOSITORY_AUDIT_2026-01-19.md
+      - file_metadata_csv: wave/output/file_metadata_audit.csv
+      - analysis_sets_report: wave/output/analysis_sets_report.md
   reference_datasets:
     type: reference_datasets
     description: Canonical data structures extracted from theory.
     datasets:
-      - hadrons_96: context-management/reference_datasets/HADRONS_96.md
-      - grid_1440: context-management/reference_datasets/RPBL_1440.csv
+      - hadrons_96: wave/reference_datasets/HADRONS_96.md
+      - grid_1440: wave/reference_datasets/RPBL_1440.csv
   legacy_archive:
     type: legacy_archive
     description: Archived implementation scripts.
@@ -81,57 +81,57 @@ components:
     type: documentation
     description: Documentation for the project.
     documents:
-      - ai_user_guide: context-management/docs/AI_USER_GUIDE.md
-      - tool_implementation: context-management/docs/TOOL.md
-      - orientation_files: context-management/docs/ORIENTATION_FILES.md
-      - theory_extended: context-management/docs/theory/THEORY.md
-      - system_architecture: context-management/docs/COLLIDER_ARCHITECTURE.md
-      - storage_architecture: context-management/docs/STORAGE_ARCHITECTURE.md
-      - asset_inventory: context-management/docs/ASSET_INVENTORY.md
-      - timeline_analysis: context-management/docs/TIMELINE_ANALYSIS.md
-      - holographic_socratic_layer: context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
-      - infallible_plan_docs_cleanup: context-management/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md
-      - readme_context_management: context-management/docs/README.md
-      - readme_standard_model: standard-model-of-code/docs/README.md
-      - model_standard_model: standard-model-of-code/docs/MODEL.md
+      - ai_user_guide: wave/docs/AI_USER_GUIDE.md
+      - tool_implementation: wave/docs/TOOL.md
+      - orientation_files: wave/docs/ORIENTATION_FILES.md
+      - theory_extended: wave/docs/theory/THEORY.md
+      - system_architecture: wave/docs/COLLIDER_ARCHITECTURE.md
+      - storage_architecture: wave/docs/STORAGE_ARCHITECTURE.md
+      - asset_inventory: wave/docs/ASSET_INVENTORY.md
+      - timeline_analysis: wave/docs/TIMELINE_ANALYSIS.md
+      - holographic_socratic_layer: wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
+      - infallible_plan_docs_cleanup: wave/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md
+      - readme_context_management: wave/docs/README.md
+      - readme_standard_model: particle/docs/README.md
+      - model_standard_model: particle/docs/MODEL.md
   source_code:
     type: source_code
     description: The source code for the project.
     core:
-      - full_analysis: standard-model-of-code/src/core/full_analysis.py
-      - unified_analysis: standard-model-of-code/src/core/unified_analysis.py
-      - data_management: standard-model-of-code/src/core/data_management.py
-      - edge_extractor: standard-model-of-code/src/core/edge_extractor.py
-      - standard_model_enricher: standard-model-of-code/src/core/standard_model_enricher.py
-      - purpose_field: standard-model-of-code/src/core/purpose_field.py
-      - execution_flow: standard-model-of-code/src/core/execution_flow.py
-      - topology_reasoning: standard-model-of-code/src/core/topology_reasoning.py
-      - semantic_cortex: standard-model-of-code/src/core/semantic_cortex.py
-      - token_resolver: standard-model-of-code/src/core/viz/token_resolver.py
-      - appearance_engine: standard-model-of-code/src/core/viz/appearance_engine.py
-      - controls_engine: standard-model-of-code/src/core/viz/controls_engine.py
-      - output_generator: standard-model-of-code/src/core/output_generator.py
-      - brain_download: standard-model-of-code/src/core/brain_download.py
+      - full_analysis: particle/src/core/full_analysis.py
+      - unified_analysis: particle/src/core/unified_analysis.py
+      - data_management: particle/src/core/data_management.py
+      - edge_extractor: particle/src/core/edge_extractor.py
+      - standard_model_enricher: particle/src/core/standard_model_enricher.py
+      - purpose_field: particle/src/core/purpose_field.py
+      - execution_flow: particle/src/core/execution_flow.py
+      - topology_reasoning: particle/src/core/topology_reasoning.py
+      - semantic_cortex: particle/src/core/semantic_cortex.py
+      - token_resolver: particle/src/core/viz/token_resolver.py
+      - appearance_engine: particle/src/core/viz/appearance_engine.py
+      - controls_engine: particle/src/core/viz/controls_engine.py
+      - output_generator: particle/src/core/output_generator.py
+      - brain_download: particle/src/core/brain_download.py
   tooling:
     type: tooling
     description: Scripts and tools for development and maintenance.
     scripts:
-      - sync_orientation_files: standard-model-of-code/scripts/sync-orientation-files.sh
-      - update_timestamps: context-management/tools/maintenance/update_timestamps.sh
+      - sync_orientation_files: particle/scripts/sync-orientation-files.sh
+      - update_timestamps: wave/tools/maintenance/update_timestamps.sh
   schemas:
     type: schemas
     description: JSON schemas for data validation.
     files:
-      - particle: standard-model-of-code/schema/particle.schema.json
-      - dimensions: standard-model-of-code/schema/dimensions.json
-      - atoms: standard-model-of-code/schema/fixed/atoms.json
-      - roles: standard-model-of-code/schema/fixed/roles.json
+      - particle: particle/schema/particle.schema.json
+      - dimensions: particle/schema/dimensions.json
+      - atoms: particle/schema/fixed/atoms.json
+      - roles: particle/schema/fixed/roles.json
   tests:
     type: tests
     description: Test suites for the project.
     files:
-      - test_core: standard-model-of-code/tests/test_core.py
-      - test_edge_extraction: standard-model-of-code/tests/test_edge_extraction.py
+      - test_core: particle/tests/test_core.py
+      - test_edge_extraction: particle/tests/test_edge_extraction.py
 
 ```
 
@@ -157,21 +157,21 @@ Based on a review of the provided file list and descriptions, the following elem
 *   **Specifics on the AI subsystem:** The "AI" section is broad. It could benefit from more granularity, listing the individual AI agents, their tasks, and configuration files.
 *   **Detailed listing of reference datasets:** The current listing is minimal. It might be useful to include details on data sources, validation procedures, and intended use.
 *   **Scripts within `archive/`:** The description indicates that there are ~50 scripts in the folders, but the manifest only lists a few. A more complete inventory would be valuable.
-*   **Specifications (specs/) directory:** There is a `specs/` directory in the `standard-model-of-code` repository which is not represented in the manifest. This directory contains important design documentation and should be included.
+*   **Specifications (specs/) directory:** There is a `specs/` directory in the `particle` repository which is not represented in the manifest. This directory contains important design documentation and should be included.
 *   **More granular source code mapping:** It only lists `full_analysis.py` as an entry point. It might be useful to include other key orchestrators or modules.
 *   **Detailed listing of visualization components:** The `viz/assets/` directory is not fully represented, which is important considering the highly visual nature of the project.
 
 **Specific Files Missing (Based on Filename Clues):**
 
-*   `context-management/docs/EVAL_LOG.md`: Tracks tool evaluations. Important for understanding past decisions.
-*   `context-management/docs/HOLOGRAPHIC_DEPLOYMENT_MANUAL.md`: Critical for understanding how to deploy the Socratic layer.
-*   `context-management/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md`: Example of a structured plan for documentation changes.
+*   `wave/docs/EVAL_LOG.md`: Tracks tool evaluations. Important for understanding past decisions.
+*   `wave/docs/HOLOGRAPHIC_DEPLOYMENT_MANUAL.md`: Critical for understanding how to deploy the Socratic layer.
+*   `wave/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md`: Example of a structured plan for documentation changes.
 
 ### 3. FIND ORPHANS: What files exist that SHOULD be in the manifest but aren't?
 
 This is difficult to answer definitively without the *actual* CODOME_MANIFEST.yaml. However, based on the available information, the following files *might* be considered orphans:
 
-*   Files in the root of `context-management/` that don't clearly fall into the defined categories (AI, Machinery, etc.).
+*   Files in the root of `wave/` that don't clearly fall into the defined categories (AI, Machinery, etc.).
 *   Files in `archive/` that are not explicitly listed in the manifest.
 *   Configuration files that are not explicitly tracked (e.g., `.env`, `aci_config.yaml`).
 *   Any files listed as "REFERENCE" or "Low priority" in the various indexes.
@@ -189,7 +189,7 @@ Based on the file descriptions and relationships, here's a dependency graph sket
 
 ```mermaid
 graph LR
-    subgraph context-management
+    subgraph wave
         A[AI Tools]
         B[Archive Tools]
         C[Maintenance Tools]
@@ -198,7 +198,7 @@ graph LR
         F[Tests]
     end
 
-    subgraph standard-model-of-code
+    subgraph particle
         G[Core Source Code]
         H[Schemas]
         I[Scripts]
@@ -224,7 +224,7 @@ graph LR
 *   **Documentation (D) is a central hub:** Most components rely on documentation.
 *   **Configs (E) drive AI and core logic:** The configuration files are critical for controlling the behavior of the system.
 *   **Core Source Code (G) is the foundation:** All tools and systems depend on the core source code.
-*   **There is a clear separation between `context-management` and `standard-model-of-code`:** The former is primarily for tools and configuration, while the latter is for the core source code and theory.
+*   **There is a clear separation between `wave` and `particle`:** The former is primarily for tools and configuration, while the latter is for the core source code and theory.
 
 ### 5. PROPOSE: What's the ONE structural change that would most improve coherence?
 
@@ -234,13 +234,13 @@ Based on the analysis, the structural change that would most improve coherence i
 
 *   The documentation frequently mentions the "Brain/Body" architecture, but it's not consistently reflected in the file organization.
 *   The "Brain" hemisphere (AI tools, context management, configuration) is currently mixed with the "Body" hemisphere (core source code, schemas, tests).
-*   Moving all "Brain" components into a dedicated `context-management/brain/` directory and all "Body" components into a `standard-model-of-code/body/` directory would make the architecture more explicit and easier to understand.
+*   Moving all "Brain" components into a dedicated `wave/brain/` directory and all "Body" components into a `particle/body/` directory would make the architecture more explicit and easier to understand.
 *   This would also simplify dependency management and improve the clarity of the code organization for both humans and AI agents.
 
 **Concrete Actions:**
 
-1.  Create `context-management/brain/` and move all AI-related tools, scripts, and configurations into it.
-2.  Create `standard-model-of-code/body/` and move all core source code and schemas into it.
+1.  Create `wave/brain/` and move all AI-related tools, scripts, and configurations into it.
+2.  Create `particle/body/` and move all core source code and schemas into it.
 3.  Update all references in the codebase to reflect the new directory structure.
 4.  Update the CODOME_MANIFEST.yaml to explicitly define the "Brain" and "Body" sections.
 5.  Add a CI check to enforce the Brain/Body separation.

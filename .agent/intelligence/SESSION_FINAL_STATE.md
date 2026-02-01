@@ -89,7 +89,7 @@
 **Step 2: Run Import** (2 minutes)
 ```bash
 .tools_venv/bin/python .agent/tools/collider_to_neo4j.py \
-  .collider-full/output_llm-oriented_standard-model-of-code_20260126_050447.json
+  .collider-full/output_llm-oriented_particle_20260126_050447.json
 ```
 
 **Expected:**
@@ -234,4 +234,3 @@ See: Graph visualization of code nodes
 **Then:** Import runs automatically
 
 **Next Agent: Continue from MEGACHECKPOINT_20260127.md → Execute Step 1-4 → GraphRAG operational**
-

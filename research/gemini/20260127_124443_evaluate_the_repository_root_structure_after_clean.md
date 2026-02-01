@@ -28,12 +28,12 @@ Evaluate the repository root structure after cleanup. Provide a confidence score
 
 The project's architecture leverages a fractal duality pattern: "Concepts" (Types, Schemas, Definitions) and "Objects" (Instances, Records, Implementations). This pattern is applied at the highest level through three distinct "Realms" located directly at the repository root, as defined in `KERNEL.md` and `SUBSYSTEM_INTEGRATION.md`:
 
-1.  **`standard-model-of-code/` (PARTICLE Realm)**:
+1.  **`particle/` (PARTICLE Realm)**:
     *   **Concepts**: `docs/specs/` (e.g., `MODEL.md`, schemas for core theory)
     *   **Objects**: `src/` (implementation of the Collider engine)
     *   **Adherence**: **Strong**. This realm clearly separates its conceptual documentation from its executable implementation.
 
-2.  **`context-management/` (WAVE Realm)**:
+2.  **`wave/` (WAVE Realm)**:
     *   **Concepts**: `docs/` (e.g., guides, specifications like `AI_CONSUMER_CLASS.md`)
     *   **Objects**: `tools/` (implementation of AI scripts and utilities)
     *   **Adherence**: **Strong**. This realm also maintains a clear distinction between guiding principles and their practical tools.
@@ -43,7 +43,7 @@ The project's architecture leverages a fractal duality pattern: "Concepts" (Type
     *   **Objects**: `registry/`, `runs/` (e.g., `TASK-XXX.yaml`, `RUN-YYY.yaml`)
     *   **Adherence**: **Strong**. This realm effectively separates its governance definitions from its operational records.
 
-**Overall**: The core three top-level directories (`standard-model-of-code/`, `context-management/`, `.agent/`) perfectly embody the "Particle/Wave/Observer" realms, and within each, the "Concepts/Objects" duality is consistently applied through dedicated subdirectories.
+**Overall**: The core three top-level directories (`particle/`, `wave/`, `.agent/`) perfectly embody the "Particle/Wave/Observer" realms, and within each, the "Concepts/Objects" duality is consistently applied through dedicated subdirectories.
 
 ---
 
@@ -54,7 +54,7 @@ The project's architecture leverages a fractal duality pattern: "Concepts" (Type
     *   While `CLAUDE.md` and `QUICK_START.md`/`COOKBOOK.md` are forms of "Contextome" (conceptual guides or agent configurations), and `pyproject.toml`/`setup.py`/`pytest.ini` are "Objects" (instances of project configuration), their presence directly at the root, rather than within a dedicated top-level "Projectome Concepts" or "Projectome Objects" directory, represents a slight deviation from the strict fractal duality pattern at the absolute highest level. This is a common pattern in repositories but an area where stricter adherence could be considered for theoretical consistency.
 
 2.  **Discrepancy in `.agent/` Realm Location**:
-    *   `REPOSITORY_AUDIT_2026-01-19.md` (specifically, "Open Questions — RESOLVED" Q2) states a resolved action to "Move `standard-model-of-code/.agent/` → `context-management/.agent/`" for centralization.
+    *   `REPOSITORY_AUDIT_2026-01-19.md` (specifically, "Open Questions — RESOLVED" Q2) states a resolved action to "Move `particle/.agent/` → `wave/.agent/`" for centralization.
     *   However, current canonical documents (`KERNEL.md`, `manifest.yaml`, `SUBSYSTEM_INTEGRATION.md`'s architectural diagram) *all depict `.agent/` as a top-level directory* directly under the project root, acting as the "Observer" realm.
     *   This indicates either:
         *   The proposed `REPOSITORY_AUDIT` action was not implemented.
@@ -65,7 +65,7 @@ The project's architecture leverages a fractal duality pattern: "Concepts" (Type
 
 ### 4D Confidence Model Score
 
-*   **Factual (95%)**: The existence and internal structure of the `standard-model-of-code/`, `context-management/`, and `.agent/` directories precisely reflect the described realms and their internal Concepts/Objects duality. The core structure is factually present.
+*   **Factual (95%)**: The existence and internal structure of the `particle/`, `wave/`, and `.agent/` directories precisely reflect the described realms and their internal Concepts/Objects duality. The core structure is factually present.
 *   **Alignment (100%)**: The primary structure of the repository is perfectly aligned with the project's mission to find the basic constituents of computer programs and apply a fractal duality pattern. It actively supports the theoretical framework.
 *   **Current (80%)**: The current codebase *as it exists* predominantly follows this structure. The presence of several non-realm-specific files at the root introduces a minor layer of complexity. The documented discrepancy regarding the `.agent/` directory's intended vs. actual location also slightly lowers confidence in the `Current` state's consistent definition.
 *   **Onwards (95%)**: The existing layered and modular structure is highly extensible and robust for future development, including further automation and deeper semantic analysis.
@@ -76,7 +76,7 @@ The project's architecture leverages a fractal duality pattern: "Concepts" (Type
 
 ### Conclusion and Recommendations
 
-The repository's root structure is a **strong implementation** of the "Concepts/Objects duality" at the realm level. The consistent internal organization of `standard-model-of-code/`, `context-management/`, and `.agent/` is a testament to thoughtful architectural design.
+The repository's root structure is a **strong implementation** of the "Concepts/Objects duality" at the realm level. The consistent internal organization of `particle/`, `wave/`, and `.agent/` is a testament to thoughtful architectural design.
 
 To further improve, consider:
 1.  **Resolving the `.agent/` discrepancy**: Clarify whether the resolved action from `REPOSITORY_AUDIT_2026-01-19.md` was intended for future implementation or explicitly rejected. Update relevant documents (e.g., `KERNEL.md`, `manifest.yaml`, `SUBSYSTEM_INTEGRATION.md`) to reflect a single, consistent source of truth for the `.agent/` realm's top-level location.

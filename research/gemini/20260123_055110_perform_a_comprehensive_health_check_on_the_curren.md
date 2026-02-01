@@ -59,7 +59,7 @@ This system appears to be either conceptual or its documentation is missing from
 
 *   **WHAT NEEDS CORRECTION / VERIFICATION:**
     *   **Phase 1 (TruthValidator) Implementation:** **Not Found.** There is no file or module named `TruthValidator`, nor any mention of a "BARE" system in the provided context.
-    *   **`repo_truths.yaml` File:** **Not Found.** The file `.agent/intelligence/truths/repo_truths.yaml` does not exist in the context. The closest file is `context-management/config/semantic_models.yaml`, which defines semantic truths for validation, but it is not named or structured as `repo_truths.yaml`.
+    *   **`repo_truths.yaml` File:** **Not Found.** The file `.agent/intelligence/truths/repo_truths.yaml` does not exist in the context. The closest file is `wave/config/semantic_models.yaml`, which defines semantic truths for validation, but it is not named or structured as `repo_truths.yaml`.
     *   **Post-commit Hook:** **Unverifiable.** The configuration of git hooks is outside the scope of the provided codebase files. There is no mention of such a hook in the documentation.
 
 **Conclusion:** The BARE system as described is not present in the provided context. This represents a significant gap if it's considered an active component.
@@ -92,8 +92,8 @@ The project uses markdown files to track and evaluate tasks. The primary registr
         3.  **TASK-008:** Reconcile differing atom counts across documentation. (**HIGH PRIORITY**)
         4.  **TASK-009:** Add schema validation for visualization token files. (**MEDIUM PRIORITY**)
         5.  **TASK-007/010:** Improve README files for better onboarding. (**LOW PRIORITY**)
-    *   **TASK-120 (Confidence Booster):** This concept is documented in `context-management/docs/WORKFLOW_FACTORY.md` under the name **"Socratic Research Loop (Confidence Boosting)"**. It describes a 5-step loop to increase confidence scores on tasks using internal (Gemini) and external (Perplexity) validation.
-    *   **TASK-121 (Opportunity Explorer):** This concept is implemented as the **"Automated Task Generation"** system documented in `context-management/docs/archive/AUTOMATED_TASK_GENERATION.md`. It describes how Collider analysis (e.g., finding pure functions or I/O writes) is used to automatically generate prioritized tasks for performance, security, and quality.
+    *   **TASK-120 (Confidence Booster):** This concept is documented in `wave/docs/WORKFLOW_FACTORY.md` under the name **"Socratic Research Loop (Confidence Boosting)"**. It describes a 5-step loop to increase confidence scores on tasks using internal (Gemini) and external (Perplexity) validation.
+    *   **TASK-121 (Opportunity Explorer):** This concept is implemented as the **"Automated Task Generation"** system documented in `wave/docs/archive/AUTOMATED_TASK_GENERATION.md`. It describes how Collider analysis (e.g., finding pure functions or I/O writes) is used to automatically generate prioritized tasks for performance, security, and quality.
 
 *   **WHAT NEEDS CORRECTION / VERIFICATION:**
     *   **Task Numbering:** The task numbers `TASK-120` and `TASK-121` are not used in the documentation. The concepts exist but are named differently ("Socratic Research Loop", "Automated Task Generation"). This could cause confusion and suggests the need for a unified task tracking system.
@@ -110,7 +110,7 @@ The project uses markdown files to track and evaluate tasks. The primary registr
 The specific file `KERNEL.md` is not present, but `AGENT_BOOT.md` serves the same purpose of agent initiation.
 
 *   **WHAT STILL HOLDS:**
-    *   The project has a clear boot protocol defined in `context-management/docs/agent_school/AGENT_BOOT.md`. It outlines non-negotiable rules, core commands, and the required `INITIATION_REPORT` JSON output.
+    *   The project has a clear boot protocol defined in `wave/docs/agent_school/AGENT_BOOT.md`. It outlines non-negotiable rules, core commands, and the required `INITIATION_REPORT` JSON output.
 
 *   **WHAT NEEDS CORRECTION / VERIFICATION:**
     *   **Boot Protocol Version:** The file `AGENT_BOOT.md` **does not contain a version number**. Therefore, I cannot confirm if it is `v1.3.0`. The protocol itself seems current and consistent with other project documents.

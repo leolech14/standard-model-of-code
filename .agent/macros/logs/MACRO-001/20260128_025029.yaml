@@ -24,9 +24,9 @@ steps:
     \n=== MODIFIED FILES ===\n M .agent/META_REGISTRY.yaml\n M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n\
     \ M .agent/intelligence/aci_feedback.yaml\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/research_schemas.yaml\n\
-    \ M context-management/tools/ai/aci/refinery.py\n M context-management/tools/refinery/corpus_inventory.py\n\
-    \ M standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/research_schemas.yaml\n\
+    \ M wave/tools/ai/aci/refinery.py\n M wave/tools/refinery/corpus_inventory.py\n\
+    \ M particle/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
   error: null
   exit_code: 0
 - step_id: check_dead_code
@@ -72,9 +72,9 @@ variables:
     \n=== MODIFIED FILES ===\n M .agent/META_REGISTRY.yaml\n M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n\
     \ M .agent/intelligence/aci_feedback.yaml\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/research_schemas.yaml\n\
-    \ M context-management/tools/ai/aci/refinery.py\n M context-management/tools/refinery/corpus_inventory.py\n\
-    \ M standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/research_schemas.yaml\n\
+    \ M wave/tools/ai/aci/refinery.py\n M wave/tools/refinery/corpus_inventory.py\n\
+    \ M particle/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution
   bloat_analysis: Requires manual AI execution

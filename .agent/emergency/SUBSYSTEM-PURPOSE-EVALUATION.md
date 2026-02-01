@@ -28,7 +28,7 @@ For each subsystem:
 ### S1: Collider
 
 ```yaml
-Location: standard-model-of-code/
+Location: particle/
 Type: Engine
 ```
 
@@ -74,7 +74,7 @@ The 28 stages are too granular; 3 phases is right level.
 ### S2: HSL (Holographic Socratic Layer)
 
 ```yaml
-Location: context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
+Location: wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
 Type: Framework
 ```
 
@@ -117,7 +117,7 @@ Document: "Use HSL when you need AI to verify X"
 ### S3: analyze.py (ACI)
 
 ```yaml
-Location: context-management/tools/ai/analyze.py
+Location: wave/tools/ai/analyze.py
 Type: Engine
 ```
 
@@ -156,7 +156,7 @@ S4, S11, S12 are correctly sub-components.
 ### S4: Perplexity MCP
 
 ```yaml
-Location: context-management/tools/mcp/
+Location: wave/tools/mcp/
 Type: Utility
 ```
 
@@ -187,7 +187,7 @@ But structure is correct.
 ### S9: Laboratory
 
 ```yaml
-Location: standard-model-of-code/tools/research/laboratory.py
+Location: particle/tools/research/laboratory.py
 Type: Bridge
 ```
 
@@ -197,18 +197,18 @@ Type: Bridge
 
 **3. OVERLAP?**
   - S9b (Lab Bridge) is its client
-  - Confusing: S9 is in PARTICLE realm (standard-model-of-code)
+  - Confusing: S9 is in PARTICLE realm (particle)
               but is a WAVE function (AI research)
 
 **4. HOW TO ACCOMPLISH:**
 
 ```
 PROBLEM: S9 is in wrong location.
-  - Lives in Particle (standard-model-of-code/)
+  - Lives in Particle (particle/)
   - But serves Wave (AI research)
 
 OPTIONS:
-  A) Move S9 to context-management/tools/ai/
+  A) Move S9 to wave/tools/ai/
   B) Keep S9 in Particle, accept it's a bridge
   C) Merge S9 + S9b into single "Researcher" in Wave
 
@@ -222,7 +222,7 @@ Option C is cleanest:
 **5. VERDICT:**
 ```
 MERGE S9 + S9b → "Researcher"
-Location: context-management/tools/ai/researcher.py
+Location: wave/tools/ai/researcher.py
 Purpose: "Run and analyze codebase experiments"
 ```
 
@@ -231,7 +231,7 @@ Purpose: "Run and analyze codebase experiments"
 ### S9b: Lab Bridge
 
 ```yaml
-Location: context-management/tools/ai/laboratory_bridge.py
+Location: wave/tools/ai/laboratory_bridge.py
 Type: Client
 ```
 
@@ -254,7 +254,7 @@ Delete Lab Bridge as separate subsystem.
 ### S11: ACI Refinery
 
 ```yaml
-Location: context-management/tools/ai/aci/refinery.py
+Location: wave/tools/ai/aci/refinery.py
 Type: Engine
 ```
 
@@ -408,7 +408,7 @@ Validation, storage, prioritization are handled by others.
 ### S7: Archive
 
 ```yaml
-Location: context-management/tools/archive/
+Location: wave/tools/archive/
 Type: Utility
 ```
 

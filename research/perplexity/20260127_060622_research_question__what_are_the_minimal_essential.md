@@ -209,7 +209,7 @@ Finally, measure what actually matters: agent task completion, error recovery, a
 
 1. https://builtin.com/artificial-intelligence/autogpt
 2. https://www.blog.langchain.com/choosing-the-right-multi-agent-architecture/
-3. https://blog.jetbrains.com/research/2025/12/efficient-context-management/
+3. https://blog.jetbrains.com/research/2025/12/efficient-wave/
 4. https://www.codecademy.com/article/autogpt-ai-agents-guide
 5. https://www.blog.langchain.com/how-to-think-about-agent-frameworks/
 6. https://www.flowhunt.io/blog/advanced-ai-agents-with-file-access-mastering-context-offloading-and-state-management/

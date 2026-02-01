@@ -17,13 +17,13 @@ north_star: "Self-proving Collider with 80%+ proof_score and 0 phantoms"
 domains:
   particle:
     name: "Collider (Standard Model of Code)"
-    path: "standard-model-of-code/"
+    path: "particle/"
     purpose: "Measurement - collapse code into knowledge"
-    primary_roadmap: "standard-model-of-code/ROADMAP.md"
+    primary_roadmap: "particle/ROADMAP.md"
 
   wave:
     name: "Context Management (AI Layer)"
-    path: "context-management/"
+    path: "wave/"
     purpose: "Potential - AI reasoning, strategy, research"
     primary_roadmap: null  # Integrated into this file
 
@@ -46,21 +46,21 @@ phases:
     status: COMPLETE
     domain: particle
     description: "Multi-layer graph spec, domain separation, guardrail tests"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-0"
+    detail_doc: "particle/ROADMAP.md#phase-0"
 
   - id: 1
     title: "Graph Substrate Completion"
     status: IN_PROGRESS
     domain: particle
     description: "Canonical node IDs, bidirectional containment, stable registries"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-1"
+    detail_doc: "particle/ROADMAP.md#phase-1"
 
   - id: 2
     title: "Resolution Correctness"
     status: PLANNED
     domain: particle
     description: "Call resolver, import resolver, resolution evidence"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-2"
+    detail_doc: "particle/ROADMAP.md#phase-2"
 
   - id: 3
     title: "Entrypoints + Reachability"
@@ -68,7 +68,7 @@ phases:
     priority: HIGH
     domain: particle
     description: "Entrypoint detection, reachability engine, reporting"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-3"
+    detail_doc: "particle/ROADMAP.md#phase-3"
     bottleneck: "Current reachability: 29.3%"
 
   - id: 4
@@ -76,42 +76,42 @@ phases:
     status: PLANNED
     domain: particle
     description: "Proof traceability, invariants, self-proving mode"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-4"
+    detail_doc: "particle/ROADMAP.md#phase-4"
 
   - id: 5
     title: "Dimensions + Attributes Enrichment"
     status: PLANNED
     domain: particle
     description: "D1-D8 dimensions, A1-A8 attributes, evidence model"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-5"
+    detail_doc: "particle/ROADMAP.md#phase-5"
 
   - id: 6
     title: "Pillars Engine + Derived Graphs"
     status: PLANNED
     domain: particle
     description: "P1-P4 metrics, derived graphs, issue detectors"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-6"
+    detail_doc: "particle/ROADMAP.md#phase-6"
 
   - id: 7
     title: "Productization"
     status: PLANNED
     domain: particle
     description: "CLI contracts, output schema versioning, dashboard"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-7"
+    detail_doc: "particle/ROADMAP.md#phase-7"
 
   - id: 8
     title: "Multi-language (TS/JS First)"
     status: PLANNED
     domain: particle
     description: "TypeScript/JavaScript parity, cross-language normalization"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-8"
+    detail_doc: "particle/ROADMAP.md#phase-8"
 
   - id: 9
     title: "Governance"
     status: PLANNED
     domain: particle
     description: "Versioned spec, theory-to-code map, PR checklist"
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-9"
+    detail_doc: "particle/ROADMAP.md#phase-9"
 
   - id: 10
     title: "Adaptive Intelligence Layer (SURVEY)"
@@ -122,7 +122,7 @@ phases:
       Pre-analysis survey phase using AI (analyze.py) to detect vendor code,
       minified files, and adapt analysis strategy. Solves the "4000 nodes from
       vendor libs" problem.
-    detail_doc: "standard-model-of-code/ROADMAP.md#phase-10"
+    detail_doc: "particle/ROADMAP.md#phase-10"
     batch: "BATCH-010"
     sub_phases:
       - "10.1: Pattern-based exclusions (LOW)"
@@ -139,14 +139,14 @@ phases:
     status: RESEARCH
     domain: particle
     description: "Leverage the 90% unutilized Tree-sitter capabilities"
-    detail_doc: "standard-model-of-code/docs/RESEARCH_TO_IMPLEMENTATION_ROADMAP.md"
+    detail_doc: "particle/docs/RESEARCH_TO_IMPLEMENTATION_ROADMAP.md"
 
   - id: R2
     title: "T2 Atom Expansion"
     status: RESEARCH
     domain: particle
     description: "Expand ecosystem-specific atoms beyond security focus"
-    detail_doc: "standard-model-of-code/docs/specs/T2_EXPANSION_ROADMAP.md"
+    detail_doc: "particle/docs/specs/T2_EXPANSION_ROADMAP.md"
 
   # --- WAVE DOMAIN (AI/Context) ---
 
@@ -155,14 +155,14 @@ phases:
     status: ACTIVE
     domain: wave
     description: "24/7 AI guardian detecting drift between docs and implementation"
-    detail_doc: "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
+    detail_doc: "wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
 
   - id: W2
     title: "MCP Factory"
     status: ACTIVE
     domain: wave
     description: "Tool for creating MCP servers"
-    detail_doc: "context-management/tools/mcp/mcp_factory/ROADMAP.md"
+    detail_doc: "wave/tools/mcp/mcp_factory/ROADMAP.md"
 
   # --- OBSERVER DOMAIN (Agent System) ---
 
@@ -221,11 +221,11 @@ current_focus:
 # ============================================================
 
 deprecated:
-  - path: "context-management/docs/archive/ROADMAP_10_OF_10.md"
+  - path: "wave/docs/archive/ROADMAP_10_OF_10.md"
     reason: "Archived, superseded by this file"
-  - path: "standard-model-of-code/.archive/docs_archive/ROADMAP.md"
+  - path: "particle/.archive/docs_archive/ROADMAP.md"
     reason: "Archived"
-  - path: "standard-model-of-code/.archive/docs_archive/ROADMAP_TO_PROOF.md"
+  - path: "particle/.archive/docs_archive/ROADMAP_TO_PROOF.md"
     reason: "Archived, merged into main ROADMAP.md"
 
 # ============================================================

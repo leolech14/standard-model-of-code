@@ -24,7 +24,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 # Add parent paths for shared modules
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "context-management" / "tools" / "ai"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "wave" / "tools" / "ai"))
 
 # Import Industrial UI
 try:

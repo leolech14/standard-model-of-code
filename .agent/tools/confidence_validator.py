@@ -64,8 +64,8 @@ from google import genai
 # --- Config Paths ---
 TASKS_DIR = REPO_ROOT / ".agent" / "registry" / "active"
 ARCHIVE_DIR = REPO_ROOT / ".agent" / "registry" / "archive"
-PROMPTS_CONFIG = REPO_ROOT / "context-management" / "config" / "prompts.yaml"
-ANALYSIS_SETS_CONFIG = REPO_ROOT / "context-management" / "config" / "analysis_sets.yaml"
+PROMPTS_CONFIG = REPO_ROOT / "wave" / "config" / "prompts.yaml"
+ANALYSIS_SETS_CONFIG = REPO_ROOT / "wave" / "config" / "analysis_sets.yaml"
 REPORTS_DIR = REPO_ROOT / ".agent" / "intelligence" / "confidence_reports"
 
 # Category to analysis set mapping

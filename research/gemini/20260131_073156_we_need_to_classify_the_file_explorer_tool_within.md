@@ -10,7 +10,7 @@
 
 ## Query
 
-We need to classify the file_explorer tool within SMC theory. Current problem: Gemini suggested 'Ring 0/1/2/3' for tool layers but that's NOT our terminology. 
+We need to classify the file_explorer tool within SMC theory. Current problem: Gemini suggested 'Ring 0/1/2/3' for tool layers but that's NOT our terminology.
 
 Our actual SMC vocabulary includes: Planes (3), Levels (16), Dimensions (8), Phases (4), Atoms (200), Families (22), Edge Families (5).
 
@@ -38,8 +38,8 @@ First, we locate the entity within the Code Algebra (`CODESPACE_ALGEBRA.md`).
 *   **Level**: **L7 (System)**
     *   *Reasoning*: It is a standalone executable unit composed of multiple modules (L5) and packages (L6).
 *   **Realm**: **Wave** (likely) or **Particle** (if strictly measurement).
-    *   *If it explores context/docs*: **Wave** (`context-management/tools`)
-    *   *If it visualizes the graph*: **Particle** (`standard-model-of-code/src/viz`)
+    *   *If it explores context/docs*: **Wave** (`wave/tools`)
+    *   *If it visualizes the graph*: **Particle** (`particle/src/viz`)
 *   **Consumer Class**: **Developer** (Human Interface) & **AI_Agent** (if it outputs JSON).
     *   *Reference*: Axiom H1 (Consumer Partition).
 

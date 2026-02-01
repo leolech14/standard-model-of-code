@@ -835,7 +835,7 @@ ls .agent/registry/active/TASK-*.yaml | tail -10
    - 6 axiomas primitivos
    - 5 teoremas derivados
 
-2. **Read:** `standard-model-of-code/docs/theory/THEORY_INDEX.md`
+2. **Read:** `particle/docs/theory/THEORY_INDEX.md`
    - Base teórica existente
    - L0-L3 stack
 
@@ -882,7 +882,7 @@ ls .agent/registry/active/TASK-*.yaml | tail -10
 1. `ONTOLOGIA_SISTEMAS_FLUXO.md` - Formalização completa
 2. `MATEMATICA_DECOMPOSICAO.md` - E(S|Φ) matemático
 3. `ENERGIA_CONTEXTUAL.md` - w(Φ) adaptativos
-4. `standard-model-of-code/docs/theory/THEORY_INDEX.md` - Onde adicionar
+4. `particle/docs/theory/THEORY_INDEX.md` - Onde adicionar
 
 ### Para Entender O Que Foi Feito:
 1. **Este arquivo** - MEGACHECKPOINT_20260127.md
@@ -898,7 +898,7 @@ ls .agent/registry/active/TASK-*.yaml | tail -10
 ### Para Dados:
 1. `.agent/intelligence/chunks/metadata.json` - Chunk stats
 2. `.agent/intelligence/comms/state_history.jsonl` - Health time-series
-3. `context-management/intelligence/state/live.yaml` - Corpus state
+3. `wave/intelligence/state/live.yaml` - Corpus state
 
 ---
 
@@ -908,10 +908,10 @@ ls .agent/registry/active/TASK-*.yaml | tail -10
 ```
 .agent/intelligence/comms/fabric.py
 .agent/tools/filesystem_watcher.py
-context-management/tools/ai/deck/fabric_bridge.py
-context-management/tools/refinery/query_chunks.py
-context-management/tools/refinery/refinery_report.py
-context-management/tools/refinery/subsystem_registry.py
+wave/tools/ai/deck/fabric_bridge.py
+wave/tools/refinery/query_chunks.py
+wave/tools/refinery/refinery_report.py
+wave/tools/refinery/subsystem_registry.py
 dashboard/*.py (complete web app)
 ```
 
@@ -919,7 +919,7 @@ dashboard/*.py (complete web app)
 ```
 .agent/tools/wire.py (+110 lines - refinery stages)
 .agent/tools/autopilot.py (+60 lines - fabric integration)
-context-management/tools/ai/aci/refinery.py (+130 lines - validation)
+wave/tools/ai/aci/refinery.py (+130 lines - validation)
 pe (+70 lines - refinery commands)
 cloud-entrypoint.sh (model fix)
 ```
@@ -1012,4 +1012,3 @@ Task #17 (Deploy dashboard)
 - Clear roadmap (25 tasks)
 
 **Session complete. Ready to continue.**
-

@@ -31,7 +31,7 @@ from datetime import datetime
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
-ANALYZE_PY = PROJECT_ROOT / "context-management/tools/ai/analyze.py"
+ANALYZE_PY = PROJECT_ROOT / "wave/tools/ai/analyze.py"
 OUTPUT_DIR = PROJECT_ROOT / ".agent/intelligence/centripetal_scans"
 
 # 12 rounds of progressive queries - INTERNAL + EXTERNAL

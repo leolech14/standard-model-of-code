@@ -19,7 +19,7 @@ Design a REFINERY module for context atomization. Requirements: 1) Input: Large 
 Okay, I will design a `Refinery` module for context atomization that meets the stated requirements. This module will take large files as input, break them into atomic chunks, add metadata, and prepare them for use by the ACI tier system. The goal is to produce well-defined chunks of context, optimized for later use by AI agents.
 
 ```python
-# context-management/tools/ai/refinery.py
+# wave/tools/ai/refinery.py
 import os
 import hashlib
 import json
@@ -28,9 +28,9 @@ from typing import List, Dict, Tuple, Optional
 from pathlib import Path
 
 # Existing modules (assumed)
-# from context-management.tools.ai import cache_registry  # Hypothetical caching
-# from context-management.tools.ai.aci import tier_router # Hypothetical ACI tier system
-# from standard-model-of-code.src.core import unified_analysis # Hypothetical Collider Module
+# from wave.tools.ai import cache_registry  # Hypothetical caching
+# from wave.tools.ai.aci import tier_router # Hypothetical ACI tier system
+# from particle.src.core import unified_analysis # Hypothetical Collider Module
 
 # Concrete implementation stubs for the code to typecheck (without running):
 class cache_registry:  # Stub of `cache_registry` module
@@ -224,7 +224,7 @@ class Refinery:
 # Example usage:
 if __name__ == "__main__":
     refinery = Refinery()
-    file_path = "context-management/config/aci_config.yaml"  # Replace with a valid file path
+    file_path = "wave/config/aci_config.yaml"  # Replace with a valid file path
     output_path = ".agent/chunks.json"
 
     refinery_nodes = refinery.process_file(file_path)

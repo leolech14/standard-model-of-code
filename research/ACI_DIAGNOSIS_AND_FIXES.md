@@ -16,7 +16,7 @@
 - `list_local_files()` uses `fnmatch`, not `glob.glob()`
 - `fnmatch` doesn't support `**` for recursive matching
 - Sets affected: `recent_7d`, `recent_30d`, `docs_active`
-- **Fix:** Changed to explicit paths like `standard-model-of-code/src/**/*.py`
+- **Fix:** Changed to explicit paths like `particle/src/**/*.py`
 
 ### 3. Filters Not Being Applied (BUG FIXED)
 - `resolve_set()` extracted filters but `list_local_files()` was called
@@ -37,8 +37,8 @@ recent_7d:
 # AFTER (fixed):
 recent_7d:
   patterns:
-    - "standard-model-of-code/src/**/*.py"
-    - "context-management/tools/**/*.py"
+    - "particle/src/**/*.py"
+    - "wave/tools/**/*.py"
     - ...
 ```
 
@@ -108,10 +108,10 @@ docs_core, schema, foundations, brain, docs_active, recent_7d/30d
 
 ```bash
 # Check set budgets
-python context-management/docs/research/scripts/check_set_budgets.py --viable
+python wave/docs/research/scripts/check_set_budgets.py --viable
 
 # Diagnose path issues
-python context-management/docs/research/scripts/diagnose_aci_paths.py --fix
+python wave/docs/research/scripts/diagnose_aci_paths.py --fix
 ```
 
 ---

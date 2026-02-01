@@ -1,0 +1,221 @@
+# Analysis Sets v2 - WITH CONFIDENCE & FILTERING
+# Adds intelligent filtering to prevent token bloat
+
+analysis_sets:
+
+  # ==========================================================================
+  # FILTERED SETS - Smart context selection
+  # ==========================================================================
+
+  brain_active:
+    description: "Active wave files only (excludes archive)"
+    max_tokens: 150000
+    auto_interactive: true
+
+    # Smart filters
+    filters:
+      exclude_patterns:
+        - "**/archive/**"
+        - "**/experiments/**"  # Remove after experiments stabilize
+        - "**/legacy/**"
+        - "**/deprecated/**"
+
+      max_age_days: 90      # Only files modified in last 90 days
+      min_confidence: 0.7   # Only include if ≥70% relevant (future)
+      max_file_size_kb: 500 # Skip huge files
+
+    patterns:
+      - "wave/tools/**/*.py"
+      - "wave/docs/*.md"           # Root docs only
+      - "wave/docs/specs/*.md"
+      - "wave/docs/operations/*.md"
+      - "wave/config/*.yaml"
+
+
+  brain_with_archive:
+    description: "[LARGE] Includes archive - use sparingly"
+    max_tokens: 1000000  # Warning: this WILL hit quota
+    auto_interactive: true
+
+    filters:
+      max_age_days: 180    # Cap at 6 months
+      max_file_size_kb: 1000
+
+    patterns:
+      - "wave/**/*.py"
+      - "wave/**/*.yaml"
+      - "wave/**/*.md"
+
+
+  # ==========================================================================
+  # ACTIVE SURFACE - Only recently touched files
+  # ==========================================================================
+
+  recent_30d:
+    description: "Files modified in last 30 days (active surface)"
+    max_tokens: 100000
+
+    filters:
+      max_age_days: 30
+      sort_by: "mtime"      # Most recent first
+      limit: 100            # Top 100 files only
+
+    patterns:
+      - "**/*.py"
+      - "**/*.md"
+      - "**/*.yaml"
+
+
+  recent_7d:
+    description: "Files modified in last 7 days (hot zone)"
+    max_tokens: 50000
+
+    filters:
+      max_age_days: 7
+      sort_by: "mtime"
+      limit: 50
+
+    patterns:
+      - "**/*.py"
+      - "**/*.md"
+      - "**/*.yaml"
+
+
+  # ==========================================================================
+  # SIZE-BASED FILTERS
+  # ==========================================================================
+
+  docs_small:
+    description: "Documentation <100KB only (focused context)"
+    max_tokens: 80000
+
+    filters:
+      max_file_size_kb: 100
+      exclude_patterns:
+        - "**/archive/**"
+
+    patterns:
+      - "**/*.md"
+
+
+  # ==========================================================================
+  # CONFIDENCE-SCORED SETS (Future - requires implementation)
+  # ==========================================================================
+
+  high_confidence:
+    description: "[FUTURE] Auto-select high-relevance files"
+    max_tokens: 100000
+
+    # These require intelligent scoring engine
+    filters:
+      min_confidence: 0.8          # 80%+ relevant to query
+      scoring_method: "hybrid"     # git-activity + query-relevance
+      max_files: 100
+
+    patterns:
+      - "**/*.py"
+      - "**/*.md"
+
+
+# ==========================================================================
+# FILTER DEFINITIONS
+# ==========================================================================
+
+filter_types:
+
+  # Exclude patterns (glob)
+  exclude_patterns:
+    type: "glob_exclude"
+    description: "Patterns to exclude from matches"
+
+  # Recency filter
+  max_age_days:
+    type: "temporal"
+    description: "Maximum file age in days (based on mtime)"
+    calculation: "now - file.mtime <= threshold"
+
+  # Size filter
+  max_file_size_kb:
+    type: "size"
+    description: "Maximum file size in kilobytes"
+    calculation: "file.size <= threshold * 1024"
+
+  # Confidence filter (future)
+  min_confidence:
+    type: "ai_score"
+    description: "Minimum relevance confidence (0.0-1.0)"
+    calculation: "score_relevance(file, query) >= threshold"
+    status: "NOT_IMPLEMENTED"
+
+  # Sorting
+  sort_by:
+    type: "ordering"
+    options: ["mtime", "size", "confidence", "path"]
+    description: "How to order selected files"
+
+  # Hard limit
+  limit:
+    type: "count"
+    description: "Maximum number of files to include"
+
+
+# ==========================================================================
+# IMPLEMENTATION NOTES
+# ==========================================================================
+
+implementation_status:
+
+  v1_current:
+    - "Glob patterns only"
+    - "max_tokens warning (not enforced)"
+    - "No filtering"
+
+  v2_proposed:
+    - "exclude_patterns: EASY (add to glob logic)"
+    - "max_age_days: EASY (os.path.getmtime)"
+    - "max_file_size_kb: EASY (os.path.getsize)"
+    - "sort_by: MEDIUM (requires file metadata)"
+    - "limit: EASY ([:N] slice)"
+    - "min_confidence: HARD (requires AI scoring engine)"
+
+  priority:
+    phase_1:  # Implement first
+      - exclude_patterns
+      - max_age_days
+      - max_file_size_kb
+      - limit
+
+    phase_2:  # After phase 1 works
+      - sort_by
+      - Token estimation accuracy
+
+    phase_3:  # Future AI enhancement
+      - min_confidence (query-relevance scoring)
+      - scoring_method options
+
+
+# ==========================================================================
+# USAGE EXAMPLES
+# ==========================================================================
+
+examples:
+
+  safe_query:
+    command: "analyze.py 'question' --set brain_active"
+    expected_tokens: "~50K (manageable)"
+    why: "Excludes archive, limits to recent files"
+
+  dangerous_query:
+    command: "analyze.py 'question' --set brain"
+    expected_tokens: "8M+ (QUOTA FAIL)"
+    why: "Includes archive/, no filtering"
+
+  hot_zone:
+    command: "analyze.py 'what changed recently' --set recent_7d"
+    expected_tokens: "~20K (very safe)"
+    why: "Last 7 days only, top 50 files"
+
+  focused_docs:
+    command: "analyze.py 'explain architecture' --set docs_small"
+    expected_tokens: "~40K (safe)"
+    why: "Small docs only, no archives"

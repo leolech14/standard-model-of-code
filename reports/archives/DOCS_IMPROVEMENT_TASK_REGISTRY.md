@@ -233,7 +233,7 @@ This registry tracks documentation improvements optimized for **AI consumption**
 | **Confidence** | 100% |
 | **Based On** | Mirror sync failed, blocking Gemini analysis |
 | **Status** | ✓ COMPLETE |
-| **File** | `context-management/tools/archive/config.yaml` |
+| **File** | `wave/tools/archive/config.yaml` |
 | **Action** | Exclude .tools_venv, fix file path encoding issues |
 | **Success Criteria** | `archive.py mirror` completes without errors |
 | **Resolution** | Mirror sync completed 2026-01-19: 775 local → 779 remote files, 26 theory files available for Gemini analysis |
@@ -333,7 +333,7 @@ Layer 4: Alignment     → Does this match repo principles (CLAUDE.md)?
 
 **Command Used:**
 ```bash
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --set theory --mode forensic --model gemini-2.5-pro --yes \
   "Validate assumptions A1-A8 with line citations"
 ```

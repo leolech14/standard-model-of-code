@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 ### Workaround (Current)
 Run tools from project root or set PYTHONPATH:
 ```bash
-PYTHONPATH=/path/to/standard-model-of-code python3 tool.py
+PYTHONPATH=/path/to/particle python3 tool.py
 ```
 
 ### Effort
@@ -49,7 +49,7 @@ PYTHONPATH=/path/to/standard-model-of-code python3 tool.py
 Each tool has its own CLI entry point. No unified `pe wave <command>` interface.
 
 ### Fix
-1. Create `context-management/cli.py` using Click/Typer
+1. Create `wave/cli.py` using Click/Typer
 2. Register tools as subcommands
 3. Add help/discovery system
 
@@ -65,8 +65,8 @@ Each tool has its own CLI entry point. No unified `pe wave <command>` interface.
 **Severity:** Low
 **Impact:** Git warnings, potential confusion
 **Locations:**
-- `context-management/library/spectrometer_benchmarks_legacy/axios/`
-- `context-management/library/spectrometer_benchmarks_legacy/lodash/`
+- `wave/library/spectrometer_benchmarks_legacy/axios/`
+- `wave/library/spectrometer_benchmarks_legacy/lodash/`
 
 ### Problem
 Legacy benchmarks contain cloned git repos that cause warnings.

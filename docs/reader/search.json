@@ -1,0 +1,914 @@
+[
+  {
+    "objectID": "DECISIONS.html",
+    "href": "DECISIONS.html",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "📍 Governance: ROADMAP | Quality Gates | Definition of Done 📊 Architecture: SUBSYSTEMS.yaml | DOMAINS.yaml | PIPELINES.md\nPurpose: Prevent drift by documenting immutable architectural decisions Updated: 2026-01-28 Authority: Based on ChatGPT 5.2 Pro audit + repository analysis\n\n\n\nDecision: Canonical truth lives in machine-readable registries (YAML/JSON), never in markdown.\nRationale: Markdown drifts, registries validate. Counts/indexes/summaries MUST be generated from registries.\nRegistries: - SUBSYSTEMS.yaml - 4 subsystems (PARTICLE, WAVE, OBSERVER, ARCHIVE) - DOMAINS.yaml - 5 domains with symmetry tracking - particle/src/patterns/*.yaml - Atom taxonomy - wave/config/analysis_sets.yaml - AI query sets - .agent/registry/ - Task/opportunity registry\nEnforced by: All index generators MUST read from registries, never scrape docs.\n\n\n\n\nDecision: If two files disagree, one is canonical and the other is derived/reference.\nCanonical Sources (locked):\n\n\n\n\n\n\n\n\nConcept\nCanonical Source\nDerived/Reference\n\n\n\n\nAtoms\nsrc/patterns/ATOMS_T*.yaml\ndocs/MODEL.md (summary), ATOMS_UNIVERSAL_INDEX.yaml (generated)\n\n\nPipeline Stages\nsrc/core/pipeline/stages/__init__.py (code)\ndocs/specs/PIPELINE_STAGES.md (generated), REGISTRY_OF_REGISTRIES.md (generated summary)\n\n\nSubsystems\nSUBSYSTEMS.yaml\nAny “subsystem list” in docs\n\n\nDomains\nDOMAINS.yaml\nAny “domain map” in docs\n\n\nTheory Axioms\ndocs/theory/THEORY_AXIOMS.md\ndocs/MODEL.md (summary)\n\n\nUI Controls\ndocs/specs/UI_CONTROLS_SCHEMA.md\nCircuit breaker tests (runtime validation)\n\n\n\nEnforced by: Verification scripts fail if derived docs don’t match canonical source.\n\n\n\n\nDecision: Active docs MUST pass quality gates. Archive can be messy.\nActive directories: - particle/docs/ (excluding docs/archive/) - wave/docs/ (excluding docs/archive/) - .agent/intelligence/ (excluding logs older than 30 days) - .agent/deck/\nArchive directories: - archive/ (top-level cold storage) - particle/docs/archive/ - wave/docs/archive/ - .agent/intelligence/autopilot_logs/ (&gt;30 days) - .agent/macros/logs/ (&gt;30 days)\nQuality gates for Active: - No broken internal links - No unresolved placeholders ({...}, TODO, FIXME without issue) - No “validated_*” files that are actually failures - All claims (counts, canonical status) must be true\nArchive is exempt: Broken links, drift, placeholders allowed.\nEnforced by: ./pe verify --active-only must pass before any release.\n\n\n\n\nDecision: v1 is NOT “the entire repo.” v1 is the minimal viable canonical core.\nv1 Core Contents:\nv1_core/\n├── registries/\n│   ├── SUBSYSTEMS.yaml\n│   ├── DOMAINS.yaml\n│   └── atoms/\n│       ├── ATOMS_T0.yaml\n│       ├── ATOMS_T1.yaml\n│       └── ATOMS_T2_*.yaml\n├── verification/\n│   ├── verify_atoms.py (check uniqueness)\n│   ├── verify_links.py (active docs only)\n│   ├── verify_counts.py (registry vs index)\n│   └── verify_symmetry.py (code↔context)\n├── generated/\n│   ├── ATOM_INDEX.md (from YAML)\n│   ├── PIPELINE_STAGES.md (from code)\n│   └── SUBSYSTEM_MAP.md (from SUBSYSTEMS.yaml)\n├── docs/\n│   ├── GETTING_STARTED.md\n│   ├── EXTENSION_GUIDE.md\n│   └── theory/\n│       ├── THEORY_AXIOMS.md\n│       └── MODEL.md\n└── README.md\nEverything else: v2+ or archive.\nEnforced by: ./pe verify v1 must pass. No new features until v1 ships.\n\n\n\n\nDecision: Anti-stall rule. Cannot add features while canonical has drift.\nThe Rule:\nIF any P0 gate fails:\n  THEN new scope is blocked\n  ONLY allowed: fix gates OR archive the blocker\nP0 Gates (must pass): 1. Atom ID uniqueness ✅ (FIXED 2026-01-27) 2. Registry count consistency ❌ (atoms index drift) 3. Pipeline stage consistency ❌ (28 vs 18 drift) 4. Active doc link integrity ❌ (14 broken links) 5. No misleading artifacts ❌ (validated_* failures)\nCurrent Status: 1/5 gates pass. New scope BLOCKED until 5/5.\nEnforced by: Pre-commit hook rejects commits adding new subsystems/domains if gates fail.\n\n\n\n\nDecision: Every generated file MUST have a header declaring its source.\nHeader format:\n&lt;!--\nGENERATED FILE - DO NOT EDIT BY HAND\nSource: SUBSYSTEMS.yaml\nGenerator: tools/generate_subsystem_map.py v1.2.0\nGenerated: 2026-01-27T12:00:00Z\nGit SHA: a1b2c3d\n--&gt;\nApplies to: - Atom indexes - Count tables - Subsystem maps - Pipeline summaries - Any doc with counts/lists from registries\nEnforced by: Verification fails if generated file lacks header OR is out of sync with source.\n\n\n\n\nDecision: Moving something to archive is PROGRESS, not guilt.\nArchive criteria: - No longer actively maintained - May contain drift/errors - Kept for historical reference only - Does NOT block v1 shipment\nProcess:\ngit mv path/to/old_thing archive/YYYY-MM-DD_old_thing/\ngit commit -m \"archive: Move old_thing (reason)\"\nPhilosophy: Archive early, archive often. Clarity &gt; completeness.\n\n\n\n\nDecision: No research-only sessions. Every session ends with one of:\n\n✅ A decision logged (this file)\n✅ A gap resolved (duplicate atoms fixed)\n✅ Verification improved (SUBSYSTEMS.yaml created)\n✅ v1 package improved\n\nWIP Limit: Max 3 active P0/P1 gaps. Everything else goes to backlog.\nEnforced by: Session handoff document (WHEN_YOU_RETURN.md) must list concrete progress.\n\n\n\n\n\n\n\nDate\nDecision\nStatus\n\n\n\n\n2026-01-27\nRegistry-first architecture\n✅ Locked\n\n\n2026-01-27\nSUBSYSTEMS.yaml is canonical\n✅ Created\n\n\n2026-01-27\nDOMAINS.yaml tracks symmetry\n✅ Created\n\n\n2026-01-27\nFix 16 duplicate atom IDs\n✅ Fixed\n\n\n2026-01-27\nv1 scope defined\n✅ Locked\n\n\n2026-01-27\nActive vs Archive structural\n✅ Locked\n\n\n2026-01-27\nGenerated outputs stamped\n✅ Locked\n\n\n2026-01-27\nNo new scope until gates pass\n✅ Locked\n\n\n\n\nThis file is append-only. Decisions are immutable once locked."
+  },
+  {
+    "objectID": "DECISIONS.html#d1-registry-first-architecture",
+    "href": "DECISIONS.html#d1-registry-first-architecture",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: Canonical truth lives in machine-readable registries (YAML/JSON), never in markdown.\nRationale: Markdown drifts, registries validate. Counts/indexes/summaries MUST be generated from registries.\nRegistries: - SUBSYSTEMS.yaml - 4 subsystems (PARTICLE, WAVE, OBSERVER, ARCHIVE) - DOMAINS.yaml - 5 domains with symmetry tracking - particle/src/patterns/*.yaml - Atom taxonomy - wave/config/analysis_sets.yaml - AI query sets - .agent/registry/ - Task/opportunity registry\nEnforced by: All index generators MUST read from registries, never scrape docs."
+  },
+  {
+    "objectID": "DECISIONS.html#d2-single-canonical-source-per-concept",
+    "href": "DECISIONS.html#d2-single-canonical-source-per-concept",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: If two files disagree, one is canonical and the other is derived/reference.\nCanonical Sources (locked):\n\n\n\n\n\n\n\n\nConcept\nCanonical Source\nDerived/Reference\n\n\n\n\nAtoms\nsrc/patterns/ATOMS_T*.yaml\ndocs/MODEL.md (summary), ATOMS_UNIVERSAL_INDEX.yaml (generated)\n\n\nPipeline Stages\nsrc/core/pipeline/stages/__init__.py (code)\ndocs/specs/PIPELINE_STAGES.md (generated), REGISTRY_OF_REGISTRIES.md (generated summary)\n\n\nSubsystems\nSUBSYSTEMS.yaml\nAny “subsystem list” in docs\n\n\nDomains\nDOMAINS.yaml\nAny “domain map” in docs\n\n\nTheory Axioms\ndocs/theory/THEORY_AXIOMS.md\ndocs/MODEL.md (summary)\n\n\nUI Controls\ndocs/specs/UI_CONTROLS_SCHEMA.md\nCircuit breaker tests (runtime validation)\n\n\n\nEnforced by: Verification scripts fail if derived docs don’t match canonical source."
+  },
+  {
+    "objectID": "DECISIONS.html#d3-active-vs-archive-is-structural",
+    "href": "DECISIONS.html#d3-active-vs-archive-is-structural",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: Active docs MUST pass quality gates. Archive can be messy.\nActive directories: - particle/docs/ (excluding docs/archive/) - wave/docs/ (excluding docs/archive/) - .agent/intelligence/ (excluding logs older than 30 days) - .agent/deck/\nArchive directories: - archive/ (top-level cold storage) - particle/docs/archive/ - wave/docs/archive/ - .agent/intelligence/autopilot_logs/ (&gt;30 days) - .agent/macros/logs/ (&gt;30 days)\nQuality gates for Active: - No broken internal links - No unresolved placeholders ({...}, TODO, FIXME without issue) - No “validated_*” files that are actually failures - All claims (counts, canonical status) must be true\nArchive is exempt: Broken links, drift, placeholders allowed.\nEnforced by: ./pe verify --active-only must pass before any release."
+  },
+  {
+    "objectID": "DECISIONS.html#d4-v1-scope-is-defined",
+    "href": "DECISIONS.html#d4-v1-scope-is-defined",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: v1 is NOT “the entire repo.” v1 is the minimal viable canonical core.\nv1 Core Contents:\nv1_core/\n├── registries/\n│   ├── SUBSYSTEMS.yaml\n│   ├── DOMAINS.yaml\n│   └── atoms/\n│       ├── ATOMS_T0.yaml\n│       ├── ATOMS_T1.yaml\n│       └── ATOMS_T2_*.yaml\n├── verification/\n│   ├── verify_atoms.py (check uniqueness)\n│   ├── verify_links.py (active docs only)\n│   ├── verify_counts.py (registry vs index)\n│   └── verify_symmetry.py (code↔context)\n├── generated/\n│   ├── ATOM_INDEX.md (from YAML)\n│   ├── PIPELINE_STAGES.md (from code)\n│   └── SUBSYSTEM_MAP.md (from SUBSYSTEMS.yaml)\n├── docs/\n│   ├── GETTING_STARTED.md\n│   ├── EXTENSION_GUIDE.md\n│   └── theory/\n│       ├── THEORY_AXIOMS.md\n│       └── MODEL.md\n└── README.md\nEverything else: v2+ or archive.\nEnforced by: ./pe verify v1 must pass. No new features until v1 ships."
+  },
+  {
+    "objectID": "DECISIONS.html#d5-no-new-scope-until-gates-pass",
+    "href": "DECISIONS.html#d5-no-new-scope-until-gates-pass",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: Anti-stall rule. Cannot add features while canonical has drift.\nThe Rule:\nIF any P0 gate fails:\n  THEN new scope is blocked\n  ONLY allowed: fix gates OR archive the blocker\nP0 Gates (must pass): 1. Atom ID uniqueness ✅ (FIXED 2026-01-27) 2. Registry count consistency ❌ (atoms index drift) 3. Pipeline stage consistency ❌ (28 vs 18 drift) 4. Active doc link integrity ❌ (14 broken links) 5. No misleading artifacts ❌ (validated_* failures)\nCurrent Status: 1/5 gates pass. New scope BLOCKED until 5/5.\nEnforced by: Pre-commit hook rejects commits adding new subsystems/domains if gates fail."
+  },
+  {
+    "objectID": "DECISIONS.html#d6-generated-outputs-are-stamped",
+    "href": "DECISIONS.html#d6-generated-outputs-are-stamped",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: Every generated file MUST have a header declaring its source.\nHeader format:\n&lt;!--\nGENERATED FILE - DO NOT EDIT BY HAND\nSource: SUBSYSTEMS.yaml\nGenerator: tools/generate_subsystem_map.py v1.2.0\nGenerated: 2026-01-27T12:00:00Z\nGit SHA: a1b2c3d\n--&gt;\nApplies to: - Atom indexes - Count tables - Subsystem maps - Pipeline summaries - Any doc with counts/lists from registries\nEnforced by: Verification fails if generated file lacks header OR is out of sync with source."
+  },
+  {
+    "objectID": "DECISIONS.html#d7-archive-is-a-feature-not-failure",
+    "href": "DECISIONS.html#d7-archive-is-a-feature-not-failure",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: Moving something to archive is PROGRESS, not guilt.\nArchive criteria: - No longer actively maintained - May contain drift/errors - Kept for historical reference only - Does NOT block v1 shipment\nProcess:\ngit mv path/to/old_thing archive/YYYY-MM-DD_old_thing/\ngit commit -m \"archive: Move old_thing (reason)\"\nPhilosophy: Archive early, archive often. Clarity &gt; completeness."
+  },
+  {
+    "objectID": "DECISIONS.html#d8-every-session-must-ship-something",
+    "href": "DECISIONS.html#d8-every-session-must-ship-something",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Decision: No research-only sessions. Every session ends with one of:\n\n✅ A decision logged (this file)\n✅ A gap resolved (duplicate atoms fixed)\n✅ Verification improved (SUBSYSTEMS.yaml created)\n✅ v1 package improved\n\nWIP Limit: Max 3 active P0/P1 gaps. Everything else goes to backlog.\nEnforced by: Session handoff document (WHEN_YOU_RETURN.md) must list concrete progress."
+  },
+  {
+    "objectID": "DECISIONS.html#decision-log-chronological",
+    "href": "DECISIONS.html#decision-log-chronological",
+    "title": "DECISIONS - Locked Canonical Choices",
+    "section": "",
+    "text": "Date\nDecision\nStatus\n\n\n\n\n2026-01-27\nRegistry-first architecture\n✅ Locked\n\n\n2026-01-27\nSUBSYSTEMS.yaml is canonical\n✅ Created\n\n\n2026-01-27\nDOMAINS.yaml tracks symmetry\n✅ Created\n\n\n2026-01-27\nFix 16 duplicate atom IDs\n✅ Fixed\n\n\n2026-01-27\nv1 scope defined\n✅ Locked\n\n\n2026-01-27\nActive vs Archive structural\n✅ Locked\n\n\n2026-01-27\nGenerated outputs stamped\n✅ Locked\n\n\n2026-01-27\nNo new scope until gates pass\n✅ Locked\n\n\n\n\nThis file is append-only. Decisions are immutable once locked."
+  },
+  {
+    "objectID": "MERMAID_MASTERCLASS.html",
+    "href": "MERMAID_MASTERCLASS.html",
+    "title": "Mermaid Masterclass: Power User Guide",
+    "section": "",
+    "text": "Objective: Reduce communication noise between agents and humans by utilizing high-fidelity, version-controlled diagrams.\n\n\n\n\nMermaid.js has expanded significantly. Choosing the correct diagram type is the first step to reducing noise.\n\n\nFlowcharts are the workhorse of documentation. For power users, the key is Styling and Interactive Nodes.\n\n\n\n\n\n\n\n\n\n\n\nInternal Processing\n\n\n\n\n\n\n\nExternal Ingestion\n\n\n\n\n\n\n\nPayload\n\n\n\n\n\n\n\nPass\n\n\n\n\n\n\n\nFail\n\n\n\n\n\n\n\n\n\n\n\nAPI Endpoint\n\n\n\n\n\n\n\nValidator\n\n\n\n\n\n\n\nRefinery Engine\n\n\n\n\n\n\n\nDead Letter\n\n\n\n\n\n\n\nMaster Registry\n\n\n\n\n\n\n\n\n\n\n\n\n\nCrucial for API design. Use par for asynchronous operations and critical for error handling.\n\n\n\n\n\n\nGCSColliderAgentGCSColliderAgent\n\npar[Async Processing]critical[Manual Intervention]alt[Success][Failure]User“Analyze Project”1trigger_pipeline()2sync_mirror()3upload_parcels()4200 OK5analysis_complete6“Project Mapped”7500 Error8retry_failed9“Requesting API Key”10User\n\n\n\n\n\n\n\n\n\nUse Gantt charts to visualize the Consolidation Roadmap and dependencies.\n\n\n\n\n\n\n\n2026-01-212026-01-232026-01-252026-01-272026-01-292026-01-312026-02-012026-02-032026-02-05Verification Suite Consolidation DispatcherArchive Pass 1 (Links) Archive Pass 2 (Fixes) Root Clean-up InfrastructureExecutionProject Elements: Consolidation Roadmap\n\n\n\n\n\n\n\n\n\nDefines the “Intimate Properties” of our data parcels.\n\n\n\n\n\n\n\n\n\n\n\ncontains\n\n\n\n\n\n\n\nmanages\n\n\n\n\n\n\n\nrefines into\n\n\n\n\n\n\n\nPROJECT\n\n\n\n\n\n\n\nSUBSYSTEM\n\n\n\n\n\n\n\nFILE\n\n\n\n\n\n\n\nPARCEL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nid\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nwaybill_id\n\n\n\n\n\n\n\nFK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\ncontent_hash\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\ntoken_balance\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPerfect for documenting the lifecycle of a Waybill or a Refinery Job.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nValid\n\n\n\n\n\n\n\nInvalid\n\n\n\n\n\n\n\nSuccess\n\n\n\n\n\n\n\nTemporary Error\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIngested\n\n\n\n\n\n\n\nValidating\n\n\n\n\n\n\n\nProcessing\n\n\n\n\n\n\n\nFailed\n\n\n\n\n\n\n\nRefined\n\n\n\n\n\n\n\nRetrying\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIdeal for mapping the Hemispheres of the project without strict hierarchy.\n\n\n\n\n\n\n\nProject ElementsThe BodyThe BrainThe FlowThe LawCollider EngineTheory CanonSchemasRefineryACIParcelsCouriersDispatchersWaybillsGovernanceSocratic AuditQuality Gates\n\n\n\n\n\n\n\n\n\nVisualize the Consolidation Loop development.\n\n\n\n\n\n\n\nmaindevelopfix/analyze-bugINITIALrefinery-v1dispatcher-v1patch-scopingv1.0-consolidated\n\n\n\n\n\n\n\n\n\nTrack how raw context flows and scales through the platform.\n\n\n\n\n\n\n\nIngestion 1000Refinement 1000GraphStore 800DeadLetter 200Intelligence 750Archive 50\n\n\n\n\n\n\n\n\n\nTrack the history of the Standard Model of Code.\n\n\n\n\n\n\n\n2024Initial ParticleDiscoveryTheory Foundation2025Collider V1Unified AnalysisLegacyAccumulation2026The GreatConsolidationRefinery LaunchSymmetry ProtocolProject Elements History\n\n\n\n\n\n\n\n\n\nMap tasks by Impact vs Complexity.\n\n\n\n\n\n\n\nQuick WinsStrategic ProjectsMinor FixesResearch/WasteLegacy RemovalDoc SyncRefinery V2Link FixerDoc SyncRefinery V2Link FixerLow ImpactHigh ImpactHigh ComplexityLow ComplexityTask Prioritization (Q1 2026)\n\n\n\n\n\n\n\n\n\nTrack system requirements and verification status.\n\n\n\n\n\n\n\n\n\n\n\n&lt;&lt;satisfies&gt;&gt;\n\n\n\n\n\n\n\n&lt;&lt;Requirement&gt;&gt;\n\n\n\n\n\n\n\nproject_elements_v1\n\n\n\n\n\n\n\nId: 1\n\n\n\n\n\n\n\nText: System must achieve 50% drift reduction.\n\n\n\n\n\n\n\nRisk: Medium\n\n\n\n\n\n\n\nVerification: Test\n\n\n\n\n\n\n\n&lt;&lt;Element&gt;&gt;\n\n\n\n\n\n\n\ndrift_verifier\n\n\n\n\n\n\n\nType: script\n\n\n\n\n\n\n\n\n\n\n\n\n\nVisualize the distribution of repository hemispheres.\n\n\n\n\n\n\n\n45%30%15%10%Corpus Distribution (2026)Body (Particle)Brain (Wave)ObserverLogistics\n\n\n\n\n\n\n\n\n\nMap the developer experience using the pe CLI.\n\n\n\n\n\n\n\nAgentDeveloper\n\n\n\n\nSetup\n\n\nSetup\n\n\n\nDeveloper\n\n\n\n\n\n\nSync Mirror\n\n\nSync Mirror\n\n\n\nDeveloper\n\n\n\n\n\n\nTarget Registry\n\n\nTarget Registry\n\n\n\n\n\n\nConsolidation\n\n\nConsolidation\n\n\n\nAgent\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Link Fixer\n\n\nRun Link Fixer\n\n\n\nDeveloper\n\n\n\n\n\n\nManual Verification\n\n\nManual Verification\n\n\n\n\n\n\nFinalize\n\n\nFinalize\n\n\n\nDeveloper\n\n\n\n\n\n\nCommit Changes\n\n\nCommit Changes\n\nDeveloper Consolidation Flow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf your diagram requires vertical scrolling, it has too much Noise. - Solution: Break one large flowchart into multiple sub-flowcharts linked via identifiers.\n\n\n\nStick to our established style.css colors for consistency: - Primary Green (#10a37f): Actionable nodes, start points, success states. - Dark Neutral (#171717): Backgrounds and container borders. - Vibrant Red (#ff4b4b): Failure states and blockers.\n\n\n\nMerge these into your documentation for interactivity.\n# In your QMD render:\nclick REF \"file:///path/to/refinery.py\" \"Open Source Code\"\n\n\n\n\n\nIn a collaborative environment (Agent ↔︎ Human), diagrams act as a Sync Pulse.\n\nDefine Inputs/Outputs first: Use an ER diagram to agree on the schema before writing a single line of code.\nVerify Flow: Use a Sequence diagram to confirm “who talks to whom” across hemispheres.\nAudit History: Use Git-committed Mermaid files (like this one) to track how architecture evolved.\n\n\n\n[!TIP] Pro Tip: Use the %%{init: {'theme': 'dark'}}%% directive at the top of a chart to override global styles for specific visualizations.\n\n\n\n\n\nFor massive scale architecture, use the C4 model abstraction in Mermaid.\n\n\n\n\n\n\n\n\n\n\n\nPROJECT_elements\n\n\n\n\n\n\n\nExternal Systems\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGoogle Cloud Storage\n\n\n\n\n\n\n\nGraph Store\n\n\n\n\n\n\n\npe CLI\n\n\n\n\n\n\n\nCore Engine\n\n\n\n\n\n\n\nContext Refinery\n\n\n\n\n\n\n\nSymmetry Collider"
+  },
+  {
+    "objectID": "MERMAID_MASTERCLASS.html#the-2026-mermaid-directory",
+    "href": "MERMAID_MASTERCLASS.html#the-2026-mermaid-directory",
+    "title": "Mermaid Masterclass: Power User Guide",
+    "section": "",
+    "text": "Mermaid.js has expanded significantly. Choosing the correct diagram type is the first step to reducing noise.\n\n\nFlowcharts are the workhorse of documentation. For power users, the key is Styling and Interactive Nodes.\n\n\n\n\n\n\n\n\n\n\n\nInternal Processing\n\n\n\n\n\n\n\nExternal Ingestion\n\n\n\n\n\n\n\nPayload\n\n\n\n\n\n\n\nPass\n\n\n\n\n\n\n\nFail\n\n\n\n\n\n\n\n\n\n\n\nAPI Endpoint\n\n\n\n\n\n\n\nValidator\n\n\n\n\n\n\n\nRefinery Engine\n\n\n\n\n\n\n\nDead Letter\n\n\n\n\n\n\n\nMaster Registry\n\n\n\n\n\n\n\n\n\n\n\n\n\nCrucial for API design. Use par for asynchronous operations and critical for error handling.\n\n\n\n\n\n\nGCSColliderAgentGCSColliderAgent\n\npar[Async Processing]critical[Manual Intervention]alt[Success][Failure]User“Analyze Project”1trigger_pipeline()2sync_mirror()3upload_parcels()4200 OK5analysis_complete6“Project Mapped”7500 Error8retry_failed9“Requesting API Key”10User\n\n\n\n\n\n\n\n\n\nUse Gantt charts to visualize the Consolidation Roadmap and dependencies.\n\n\n\n\n\n\n\n2026-01-212026-01-232026-01-252026-01-272026-01-292026-01-312026-02-012026-02-032026-02-05Verification Suite Consolidation DispatcherArchive Pass 1 (Links) Archive Pass 2 (Fixes) Root Clean-up InfrastructureExecutionProject Elements: Consolidation Roadmap\n\n\n\n\n\n\n\n\n\nDefines the “Intimate Properties” of our data parcels.\n\n\n\n\n\n\n\n\n\n\n\ncontains\n\n\n\n\n\n\n\nmanages\n\n\n\n\n\n\n\nrefines into\n\n\n\n\n\n\n\nPROJECT\n\n\n\n\n\n\n\nSUBSYSTEM\n\n\n\n\n\n\n\nFILE\n\n\n\n\n\n\n\nPARCEL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nid\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nwaybill_id\n\n\n\n\n\n\n\nFK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\ncontent_hash\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\ntoken_balance\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPerfect for documenting the lifecycle of a Waybill or a Refinery Job.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nValid\n\n\n\n\n\n\n\nInvalid\n\n\n\n\n\n\n\nSuccess\n\n\n\n\n\n\n\nTemporary Error\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIngested\n\n\n\n\n\n\n\nValidating\n\n\n\n\n\n\n\nProcessing\n\n\n\n\n\n\n\nFailed\n\n\n\n\n\n\n\nRefined\n\n\n\n\n\n\n\nRetrying\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIdeal for mapping the Hemispheres of the project without strict hierarchy.\n\n\n\n\n\n\n\nProject ElementsThe BodyThe BrainThe FlowThe LawCollider EngineTheory CanonSchemasRefineryACIParcelsCouriersDispatchersWaybillsGovernanceSocratic AuditQuality Gates\n\n\n\n\n\n\n\n\n\nVisualize the Consolidation Loop development.\n\n\n\n\n\n\n\nmaindevelopfix/analyze-bugINITIALrefinery-v1dispatcher-v1patch-scopingv1.0-consolidated\n\n\n\n\n\n\n\n\n\nTrack how raw context flows and scales through the platform.\n\n\n\n\n\n\n\nIngestion 1000Refinement 1000GraphStore 800DeadLetter 200Intelligence 750Archive 50\n\n\n\n\n\n\n\n\n\nTrack the history of the Standard Model of Code.\n\n\n\n\n\n\n\n2024Initial ParticleDiscoveryTheory Foundation2025Collider V1Unified AnalysisLegacyAccumulation2026The GreatConsolidationRefinery LaunchSymmetry ProtocolProject Elements History\n\n\n\n\n\n\n\n\n\nMap tasks by Impact vs Complexity.\n\n\n\n\n\n\n\nQuick WinsStrategic ProjectsMinor FixesResearch/WasteLegacy RemovalDoc SyncRefinery V2Link FixerDoc SyncRefinery V2Link FixerLow ImpactHigh ImpactHigh ComplexityLow ComplexityTask Prioritization (Q1 2026)\n\n\n\n\n\n\n\n\n\nTrack system requirements and verification status.\n\n\n\n\n\n\n\n\n\n\n\n&lt;&lt;satisfies&gt;&gt;\n\n\n\n\n\n\n\n&lt;&lt;Requirement&gt;&gt;\n\n\n\n\n\n\n\nproject_elements_v1\n\n\n\n\n\n\n\nId: 1\n\n\n\n\n\n\n\nText: System must achieve 50% drift reduction.\n\n\n\n\n\n\n\nRisk: Medium\n\n\n\n\n\n\n\nVerification: Test\n\n\n\n\n\n\n\n&lt;&lt;Element&gt;&gt;\n\n\n\n\n\n\n\ndrift_verifier\n\n\n\n\n\n\n\nType: script\n\n\n\n\n\n\n\n\n\n\n\n\n\nVisualize the distribution of repository hemispheres.\n\n\n\n\n\n\n\n45%30%15%10%Corpus Distribution (2026)Body (Particle)Brain (Wave)ObserverLogistics\n\n\n\n\n\n\n\n\n\nMap the developer experience using the pe CLI.\n\n\n\n\n\n\n\nAgentDeveloper\n\n\n\n\nSetup\n\n\nSetup\n\n\n\nDeveloper\n\n\n\n\n\n\nSync Mirror\n\n\nSync Mirror\n\n\n\nDeveloper\n\n\n\n\n\n\nTarget Registry\n\n\nTarget Registry\n\n\n\n\n\n\nConsolidation\n\n\nConsolidation\n\n\n\nAgent\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Link Fixer\n\n\nRun Link Fixer\n\n\n\nDeveloper\n\n\n\n\n\n\nManual Verification\n\n\nManual Verification\n\n\n\n\n\n\nFinalize\n\n\nFinalize\n\n\n\nDeveloper\n\n\n\n\n\n\nCommit Changes\n\n\nCommit Changes\n\nDeveloper Consolidation Flow"
+  },
+  {
+    "objectID": "MERMAID_MASTERCLASS.html#power-user-best-practices",
+    "href": "MERMAID_MASTERCLASS.html#power-user-best-practices",
+    "title": "Mermaid Masterclass: Power User Guide",
+    "section": "",
+    "text": "If your diagram requires vertical scrolling, it has too much Noise. - Solution: Break one large flowchart into multiple sub-flowcharts linked via identifiers.\n\n\n\nStick to our established style.css colors for consistency: - Primary Green (#10a37f): Actionable nodes, start points, success states. - Dark Neutral (#171717): Backgrounds and container borders. - Vibrant Red (#ff4b4b): Failure states and blockers.\n\n\n\nMerge these into your documentation for interactivity.\n# In your QMD render:\nclick REF \"file:///path/to/refinery.py\" \"Open Source Code\""
+  },
+  {
+    "objectID": "MERMAID_MASTERCLASS.html#reducing-communication-noise",
+    "href": "MERMAID_MASTERCLASS.html#reducing-communication-noise",
+    "title": "Mermaid Masterclass: Power User Guide",
+    "section": "",
+    "text": "In a collaborative environment (Agent ↔︎ Human), diagrams act as a Sync Pulse.\n\nDefine Inputs/Outputs first: Use an ER diagram to agree on the schema before writing a single line of code.\nVerify Flow: Use a Sequence diagram to confirm “who talks to whom” across hemispheres.\nAudit History: Use Git-committed Mermaid files (like this one) to track how architecture evolved.\n\n\n\n[!TIP] Pro Tip: Use the %%{init: {'theme': 'dark'}}%% directive at the top of a chart to override global styles for specific visualizations."
+  },
+  {
+    "objectID": "MERMAID_MASTERCLASS.html#advanced-c4-architecture-context",
+    "href": "MERMAID_MASTERCLASS.html#advanced-c4-architecture-context",
+    "title": "Mermaid Masterclass: Power User Guide",
+    "section": "",
+    "text": "For massive scale architecture, use the C4 model abstraction in Mermaid.\n\n\n\n\n\n\n\n\n\n\n\nPROJECT_elements\n\n\n\n\n\n\n\nExternal Systems\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGoogle Cloud Storage\n\n\n\n\n\n\n\nGraph Store\n\n\n\n\n\n\n\npe CLI\n\n\n\n\n\n\n\nCore Engine\n\n\n\n\n\n\n\nContext Refinery\n\n\n\n\n\n\n\nSymmetry Collider"
+  },
+  {
+    "objectID": "TOPOLOGY_MAP.html",
+    "href": "TOPOLOGY_MAP.html",
+    "title": "Data Topology: The Project Elements Ecosystem (Canonical)",
+    "section": "",
+    "text": "This document defines the definitive flow of code, metadata, and intelligence within the PROJECT_elements system.\n\n\ngraph TB\n    subgraph \"Local Environment (Physical)\"\n        Local[\"Local Disk&lt;br/&gt;(/Users/lech/...)\"]\n        Symmetry[\"Symmetry Validator&lt;br/&gt;(verify_symmetry.py)\"]\n    end\n\n    subgraph \"Google Cloud (Virtual/Persistent)\"\n        GCS_Mirror[\"GCS Bucket: Code Mirror&lt;br/&gt;(gs://.../repository_mirror)\"]\n        GCS_JSON[\"GCS Bucket: Waybill Parcels&lt;br/&gt;(gs://.../parcels)\"]\n        CloudRun[\"Cloud Run Job&lt;br/&gt;(Refinery Engine V2.1)\"]\n    end\n\n    subgraph \"Knowledge Layer (Virtual/Abstract)\"\n        Graph[\"Neo4j Graph Store&lt;br/&gt;(Structural Index)\"]\n        Purpose[\"Purpose Field (π1-π4)&lt;br/&gt;(Semantic Intelligence)\"]\n    end\n\n    %% Flow of Code\n    Local --&gt;|gsutil sync| GCS_Mirror\n    GCS_Mirror -.-&gt;|FETCH| CloudRun\n    Local --- Symmetry\n\n    %% Flow of Refinement\n    CloudRun --&gt;|Process: Adaptive Attention| CloudRun\n    CloudRun --&gt;|PUBLISH| GCS_JSON\n    CloudRun --&gt;|PUBLISH| Graph\n    Graph --- Purpose\n\n    %% Observability\n    CloudRun --&gt;|Telemetry| Feedback[\"Feedback Loop / Logs\"]\n\n\n\n\n\nThe Refinery uses an Attention Mechanism to filter data based on query intent: - Laminar Flow: High-fidelity, targeted precision for specific architectural queries. - Turbulent Flow: High-breadth exploration for discovery and mapping.\n\n\n\nAll data processed is wrapped in a Waybill for provenance. These live as JSON Parcels in GCS, providing a holographic backup of the graph state that can be re-indexed at any time.\n\n\n\nThe verify_symmetry.py tool acts as a local governor, ensuring that the Codome (Implementation) and Contextome (Documentation) do not drift apart. It verifies the high-order registries (ROR, LOL, SOS) against the physical file system.\n\n\n\nThe ultimate goal of the data flow is to refine raw characters into Purpose. - π₁: Syntax/Structure - π₂: Semantics/Connectivity - π₃: Functional Intent - π₄: Teleological alignment (Why this code exists)\n\n\n\n\n\n\n\nTier\nStorage Type\nPersistence\nPurpose\n\n\n\n\nPhysical Source\nLocal SSD\nPermanent\nMaster Authority\n\n\nMirror\nGCS Object\nPermanent\nCloud Availability\n\n\nIntelligence\nNeo4j / GCS JSON\nPermanent\nKnowledge Querying\n\n\nCompute\nCloud Run RAM/SSD\nEphemeral\nTransformation Engine\n\n\n\n\n[!IMPORTANT] Ephemeral Runtime: The Cloud Run environment is strictly transient. All local changes within the container are lost after execution. Only data committed to GCS or Neo4j persists.",
+    "crumbs": [
+      "Governance",
+      "🗺️ Topology Map"
+    ]
+  },
+  {
+    "objectID": "TOPOLOGY_MAP.html#the-ecosystem-diagram",
+    "href": "TOPOLOGY_MAP.html#the-ecosystem-diagram",
+    "title": "Data Topology: The Project Elements Ecosystem (Canonical)",
+    "section": "",
+    "text": "graph TB\n    subgraph \"Local Environment (Physical)\"\n        Local[\"Local Disk&lt;br/&gt;(/Users/lech/...)\"]\n        Symmetry[\"Symmetry Validator&lt;br/&gt;(verify_symmetry.py)\"]\n    end\n\n    subgraph \"Google Cloud (Virtual/Persistent)\"\n        GCS_Mirror[\"GCS Bucket: Code Mirror&lt;br/&gt;(gs://.../repository_mirror)\"]\n        GCS_JSON[\"GCS Bucket: Waybill Parcels&lt;br/&gt;(gs://.../parcels)\"]\n        CloudRun[\"Cloud Run Job&lt;br/&gt;(Refinery Engine V2.1)\"]\n    end\n\n    subgraph \"Knowledge Layer (Virtual/Abstract)\"\n        Graph[\"Neo4j Graph Store&lt;br/&gt;(Structural Index)\"]\n        Purpose[\"Purpose Field (π1-π4)&lt;br/&gt;(Semantic Intelligence)\"]\n    end\n\n    %% Flow of Code\n    Local --&gt;|gsutil sync| GCS_Mirror\n    GCS_Mirror -.-&gt;|FETCH| CloudRun\n    Local --- Symmetry\n\n    %% Flow of Refinement\n    CloudRun --&gt;|Process: Adaptive Attention| CloudRun\n    CloudRun --&gt;|PUBLISH| GCS_JSON\n    CloudRun --&gt;|PUBLISH| Graph\n    Graph --- Purpose\n\n    %% Observability\n    CloudRun --&gt;|Telemetry| Feedback[\"Feedback Loop / Logs\"]",
+    "crumbs": [
+      "Governance",
+      "🗺️ Topology Map"
+    ]
+  },
+  {
+    "objectID": "TOPOLOGY_MAP.html#technical-nuances",
+    "href": "TOPOLOGY_MAP.html#technical-nuances",
+    "title": "Data Topology: The Project Elements Ecosystem (Canonical)",
+    "section": "",
+    "text": "The Refinery uses an Attention Mechanism to filter data based on query intent: - Laminar Flow: High-fidelity, targeted precision for specific architectural queries. - Turbulent Flow: High-breadth exploration for discovery and mapping.\n\n\n\nAll data processed is wrapped in a Waybill for provenance. These live as JSON Parcels in GCS, providing a holographic backup of the graph state that can be re-indexed at any time.\n\n\n\nThe verify_symmetry.py tool acts as a local governor, ensuring that the Codome (Implementation) and Contextome (Documentation) do not drift apart. It verifies the high-order registries (ROR, LOL, SOS) against the physical file system.\n\n\n\nThe ultimate goal of the data flow is to refine raw characters into Purpose. - π₁: Syntax/Structure - π₂: Semantics/Connectivity - π₃: Functional Intent - π₄: Teleological alignment (Why this code exists)",
+    "crumbs": [
+      "Governance",
+      "🗺️ Topology Map"
+    ]
+  },
+  {
+    "objectID": "TOPOLOGY_MAP.html#storage-runtime",
+    "href": "TOPOLOGY_MAP.html#storage-runtime",
+    "title": "Data Topology: The Project Elements Ecosystem (Canonical)",
+    "section": "",
+    "text": "Tier\nStorage Type\nPersistence\nPurpose\n\n\n\n\nPhysical Source\nLocal SSD\nPermanent\nMaster Authority\n\n\nMirror\nGCS Object\nPermanent\nCloud Availability\n\n\nIntelligence\nNeo4j / GCS JSON\nPermanent\nKnowledge Querying\n\n\nCompute\nCloud Run RAM/SSD\nEphemeral\nTransformation Engine\n\n\n\n\n[!IMPORTANT] Ephemeral Runtime: The Cloud Run environment is strictly transient. All local changes within the container are lost after execution. Only data committed to GCS or Neo4j persists.",
+    "crumbs": [
+      "Governance",
+      "🗺️ Topology Map"
+    ]
+  },
+  {
+    "objectID": "CONTRIBUTING.html",
+    "href": "CONTRIBUTING.html",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "Thank you for your interest in contributing to Collider!\n\n\n# Clone the repository\ngit clone &lt;repo-url&gt;\ncd particle\n\n# Create virtual environment\npython -m venv .venv\nsource .venv/bin/activate  # or .venv\\Scripts\\activate on Windows\n\n# Install in development mode\nmake install-dev\n\n# Verify installation\n./collider --help\n\n\n\n# Run all tests\nmake test\n\n# Run specific test file\nPYTHONPATH=src pytest tests/test_contract_output.py -v\n\n# Run with coverage report\nPYTHONPATH=src pytest tests/ --cov=src/core --cov-report=html\n\n\n\nWe use: - black for code formatting - isort for import sorting - flake8 for linting\n# Check style\nmake lint\n\n# Auto-format\nmake format\n\n\n\n\nCreate a feature branch: git checkout -b feature/my-feature\nMake your changes\nRun tests: make test\nRun self-analysis: ./collider full . --output /tmp/check\nCommit with clear message\nPush and create PR\n\n\n\n\nFollow Conventional Commits:\n\nfeat: - New feature\nfix: - Bug fix\ndocs: - Documentation only\ntest: - Adding tests\nrefactor: - Code change that neither fixes a bug nor adds a feature\nci: - CI/CD changes\nbuild: - Build system changes\n\n\n\n\nOpen an issue or contact the maintainers."
+  },
+  {
+    "objectID": "CONTRIBUTING.html#development-setup",
+    "href": "CONTRIBUTING.html#development-setup",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "# Clone the repository\ngit clone &lt;repo-url&gt;\ncd particle\n\n# Create virtual environment\npython -m venv .venv\nsource .venv/bin/activate  # or .venv\\Scripts\\activate on Windows\n\n# Install in development mode\nmake install-dev\n\n# Verify installation\n./collider --help"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#running-tests",
+    "href": "CONTRIBUTING.html#running-tests",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "# Run all tests\nmake test\n\n# Run specific test file\nPYTHONPATH=src pytest tests/test_contract_output.py -v\n\n# Run with coverage report\nPYTHONPATH=src pytest tests/ --cov=src/core --cov-report=html"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#code-style",
+    "href": "CONTRIBUTING.html#code-style",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "We use: - black for code formatting - isort for import sorting - flake8 for linting\n# Check style\nmake lint\n\n# Auto-format\nmake format"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#making-changes",
+    "href": "CONTRIBUTING.html#making-changes",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "Create a feature branch: git checkout -b feature/my-feature\nMake your changes\nRun tests: make test\nRun self-analysis: ./collider full . --output /tmp/check\nCommit with clear message\nPush and create PR"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#commit-messages",
+    "href": "CONTRIBUTING.html#commit-messages",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "Follow Conventional Commits:\n\nfeat: - New feature\nfix: - Bug fix\ndocs: - Documentation only\ntest: - Adding tests\nrefactor: - Code change that neither fixes a bug nor adds a feature\nci: - CI/CD changes\nbuild: - Build system changes"
+  },
+  {
+    "objectID": "CONTRIBUTING.html#questions",
+    "href": "CONTRIBUTING.html#questions",
+    "title": "Contributing to Collider",
+    "section": "",
+    "text": "Open an issue or contact the maintainers."
+  },
+  {
+    "objectID": "DEFINITION_OF_DONE.html",
+    "href": "DEFINITION_OF_DONE.html",
+    "title": "DEFINITION OF DONE - v1 Core",
+    "section": "",
+    "text": "📍 Governance: DECISIONS | ROADMAP | Quality Gates 📊 Architecture: SUBSYSTEMS.yaml | DOMAINS.yaml | PIPELINES.md\nPurpose: Clear finish line that prevents “almost done” forever Authority: ChatGPT 5.2 Pro audit recommendations Updated: 2026-01-28\n\n\n\n\n\n\nSUBSYSTEMS.yaml exists and validates\nDOMAINS.yaml exists with all 5 domains\nAtom YAML files (T0/T1/T2) have zero duplicate IDs\nPipeline stages encoded in canonical registry\nDimensions encoded in canonical registry\n\nCurrent: 3/5 complete\n\n\n\n\n\nAtom uniqueness: All IDs unique within each YAML\nCount consistency: Generated indexes match registries\nLink integrity: Zero broken links in active docs\nPlaceholder check: No unresolved {...} in active\nValidation naming: All “validated_*” have PASS/FAIL header\n\nCurrent: 1/5 gates pass\n\n\n\n\n./pe verify v1\nMust check: - Atom ID uniqueness across all YAML files - Count drift between registries and generated docs - Broken links in active docs (not archive) - Unresolved placeholders in active - “validated_*” file integrity\nExit code: 0 = ship, non-zero = blocked\nCurrent: Script doesn’t exist yet\n\n\n\n\nAll of these MUST be generated from canonical sources:\n\nATOM_INDEX.md (from src/patterns/*.yaml)\nPIPELINE_SUMMARY.md (from code)\nSUBSYSTEM_MAP.md (from SUBSYSTEMS.yaml)\nDOMAIN_SYMMETRY_REPORT.md (from DOMAINS.yaml)\n\nHeaders required:\n&lt;!-- GENERATED from SUBSYSTEMS.yaml by generate_map.py v1.0.0 on 2026-01-27 --&gt;\nCurrent: None exist\n\n\n\n\n\nRoot INDEX.md links to all subsystems\nEvery subsystem has its own INDEX\nEvery active doc is reachable from root\nOrphan count: 0 (currently 733/788)\n\nMeasurement:\npython tools/check_orphans.py --active-only\n# Must return: 0 orphans\nCurrent: 733 orphans (93%)\n\n\n\n\n\nHow to run Collider (CLAUDE.md)\nHow to query analyze.py (AI_USER_GUIDE.md)\nHow to verify integrity (./pe verify)\nHow to regenerate indexes (./pe generate)\nHow to extend (add atom, add stage, add domain)\n\nCurrent: 2/5 complete\n\n\n\n\nRequirements: - Pre-commit hook runs ./pe verify v1 (lightweight) - CI runs full verification suite - Counts are NEVER hand-typed in docs - “Canonical” claims are validated\nCurrent: No hooks for this yet\n\n\n\n\n\narchive/ contains all deprecated/historical material\nActive docs don’t reference archive content\nMisleading artifacts renamed or moved\n\nArtifacts to fix: - validated_theory.md (stack trace, not validation) - validated_pipeline.md (partial failure) - orphans_report.md (absolute paths)\nCurrent: Artifacts still in root\n\n\n\n\n\n\n\n✅ All P0 gates pass (5/5)\n✅ ./pe verify v1 exits 0\n✅ Generated outputs exist and are fresh\n✅ Zero orphan docs in active\n✅ Extension guide complete\n\n\n\n⏸️ All P1 gates pass\n⏸️ CI/CD pipeline integrated\n⏸️ Documentation site generated\n⏸️ Release notes published\n\n\n\n\n\n\n\n\nCriterion\nStatus\nBlocker\n\n\n\n\nRegistries\n🟡 60%\nNeed pipeline + dimensions\n\n\nGates\n🔴 20%\n4/5 failing\n\n\nVerify command\n🔴 0%\nScript doesn’t exist\n\n\nGenerated outputs\n🔴 0%\nGenerators don’t exist\n\n\nNavigability\n🔴 7%\n733 orphans\n\n\nWorkflows\n🟡 40%\nMissing verify/generate docs\n\n\nDrift prevention\n🔴 0%\nNo hooks\n\n\nArchive separation\n🔴 0%\nArtifacts in root\n\n\n\nOverall: 🔴 25% complete\n\n\n\n\nIF all 8 criteria are TRUE:\n  THEN tag v1.0.0 and celebrate\n  ELSE identify THE blocker and fix it\n       (only 1 blocker at a time)\nCurrent blocker: Verification script doesn’t exist\nNext blocker after that: 733 orphan docs\n\nThis is the finish line. When everything above is ✅, we ship."
+  },
+  {
+    "objectID": "DEFINITION_OF_DONE.html#v1-core-is-done-when-all-of-these-are-true",
+    "href": "DEFINITION_OF_DONE.html#v1-core-is-done-when-all-of-these-are-true",
+    "title": "DEFINITION OF DONE - v1 Core",
+    "section": "",
+    "text": "SUBSYSTEMS.yaml exists and validates\nDOMAINS.yaml exists with all 5 domains\nAtom YAML files (T0/T1/T2) have zero duplicate IDs\nPipeline stages encoded in canonical registry\nDimensions encoded in canonical registry\n\nCurrent: 3/5 complete\n\n\n\n\n\nAtom uniqueness: All IDs unique within each YAML\nCount consistency: Generated indexes match registries\nLink integrity: Zero broken links in active docs\nPlaceholder check: No unresolved {...} in active\nValidation naming: All “validated_*” have PASS/FAIL header\n\nCurrent: 1/5 gates pass\n\n\n\n\n./pe verify v1\nMust check: - Atom ID uniqueness across all YAML files - Count drift between registries and generated docs - Broken links in active docs (not archive) - Unresolved placeholders in active - “validated_*” file integrity\nExit code: 0 = ship, non-zero = blocked\nCurrent: Script doesn’t exist yet\n\n\n\n\nAll of these MUST be generated from canonical sources:\n\nATOM_INDEX.md (from src/patterns/*.yaml)\nPIPELINE_SUMMARY.md (from code)\nSUBSYSTEM_MAP.md (from SUBSYSTEMS.yaml)\nDOMAIN_SYMMETRY_REPORT.md (from DOMAINS.yaml)\n\nHeaders required:\n&lt;!-- GENERATED from SUBSYSTEMS.yaml by generate_map.py v1.0.0 on 2026-01-27 --&gt;\nCurrent: None exist\n\n\n\n\n\nRoot INDEX.md links to all subsystems\nEvery subsystem has its own INDEX\nEvery active doc is reachable from root\nOrphan count: 0 (currently 733/788)\n\nMeasurement:\npython tools/check_orphans.py --active-only\n# Must return: 0 orphans\nCurrent: 733 orphans (93%)\n\n\n\n\n\nHow to run Collider (CLAUDE.md)\nHow to query analyze.py (AI_USER_GUIDE.md)\nHow to verify integrity (./pe verify)\nHow to regenerate indexes (./pe generate)\nHow to extend (add atom, add stage, add domain)\n\nCurrent: 2/5 complete\n\n\n\n\nRequirements: - Pre-commit hook runs ./pe verify v1 (lightweight) - CI runs full verification suite - Counts are NEVER hand-typed in docs - “Canonical” claims are validated\nCurrent: No hooks for this yet\n\n\n\n\n\narchive/ contains all deprecated/historical material\nActive docs don’t reference archive content\nMisleading artifacts renamed or moved\n\nArtifacts to fix: - validated_theory.md (stack trace, not validation) - validated_pipeline.md (partial failure) - orphans_report.md (absolute paths)\nCurrent: Artifacts still in root"
+  },
+  {
+    "objectID": "DEFINITION_OF_DONE.html#acceptance-criteria",
+    "href": "DEFINITION_OF_DONE.html#acceptance-criteria",
+    "title": "DEFINITION OF DONE - v1 Core",
+    "section": "",
+    "text": "✅ All P0 gates pass (5/5)\n✅ ./pe verify v1 exits 0\n✅ Generated outputs exist and are fresh\n✅ Zero orphan docs in active\n✅ Extension guide complete\n\n\n\n⏸️ All P1 gates pass\n⏸️ CI/CD pipeline integrated\n⏸️ Documentation site generated\n⏸️ Release notes published"
+  },
+  {
+    "objectID": "DEFINITION_OF_DONE.html#progress-tracker",
+    "href": "DEFINITION_OF_DONE.html#progress-tracker",
+    "title": "DEFINITION OF DONE - v1 Core",
+    "section": "",
+    "text": "Criterion\nStatus\nBlocker\n\n\n\n\nRegistries\n🟡 60%\nNeed pipeline + dimensions\n\n\nGates\n🔴 20%\n4/5 failing\n\n\nVerify command\n🔴 0%\nScript doesn’t exist\n\n\nGenerated outputs\n🔴 0%\nGenerators don’t exist\n\n\nNavigability\n🔴 7%\n733 orphans\n\n\nWorkflows\n🟡 40%\nMissing verify/generate docs\n\n\nDrift prevention\n🔴 0%\nNo hooks\n\n\nArchive separation\n🔴 0%\nArtifacts in root\n\n\n\nOverall: 🔴 25% complete"
+  },
+  {
+    "objectID": "DEFINITION_OF_DONE.html#the-shipping-rule",
+    "href": "DEFINITION_OF_DONE.html#the-shipping-rule",
+    "title": "DEFINITION OF DONE - v1 Core",
+    "section": "",
+    "text": "IF all 8 criteria are TRUE:\n  THEN tag v1.0.0 and celebrate\n  ELSE identify THE blocker and fix it\n       (only 1 blocker at a time)\nCurrent blocker: Verification script doesn’t exist\nNext blocker after that: 733 orphan docs\n\nThis is the finish line. When everything above is ✅, we ship."
+  },
+  {
+    "objectID": "PIPELINES.html",
+    "href": "PIPELINES.html",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "Critical: PROJECT_elements has TWO major pipelines. Always specify which one.\n\n\n\nLocation: particle/src/core/pipeline/\nPurpose: Analyze code → generate graph + metrics\nStages: 28 (verified 2026-01-27)\nPhases: 1. Extraction (0-2): Survey, AST parsing, atom classification 2. Enrichment (2.5-2.11): Ecosystem, dimensions, scope, control flow, patterns, data flow 3. Analysis (3-6.8): Purpose hierarchy, edges, Markov, knots, graph analytics, codome boundaries 4. Intelligence (7-8.6): Data flow macro, performance, constraints, purpose intelligence 5. Output (9-12): Roadmap, topology, semantic cortex, AI insights, manifest, final output\nEntrypoint: ./collider full &lt;path&gt; or ./pe collider full &lt;path&gt;\nInput: Source code (.py, .js, .go, etc.)\nOutput: unified_analysis.json (22MB), collider_report.html (interactive viz)\nCanonical source: src/core/pipeline/stages/__init__.py (code)\nDocumentation: docs/specs/PIPELINE_STAGES.md (REFERENCE, generated from code)\n\n\n\n\nLocation: wave/tools/ai/aci/refinery.py\nPurpose: Break docs/config into semantic chunks for AI consumption\nStages: 8 (verified 2026-01-27)\nKnown phases: 1. Load - Read file (Python, Markdown, YAML) 2. Chunk - Semantic splitting (functions, sections, keys) 3. Enrich - Add metadata (relevance score, embeddings) 4. Index - Build searchable registry 5. Cache - Store for reuse\nEntrypoint: python wave/tools/ai/aci/refinery.py &lt;path&gt;\nInput: Documentation (.md), config (.yaml), code (.py)\nOutput: *_chunks.json (agent_chunks, core_chunks, aci_chunks)\nCanonical source: wave/tools/ai/aci/refinery.py (code)\nDocumentation: Missing - needs REFINERY_PIPELINE_STAGES.md\n\n\n\n\nLocation: .agent/tools/filesystem_watcher.py + wire.py\nPurpose: Watch files → auto-trigger refinement on changes\nStages: 1. Detect - Filesystem events (create, modify, delete) 2. Quiet Period - Wait 5 minutes for batch 3. Wire - Trigger refinery.py on changed files 4. Validate - Check chunk integrity 5. Update State - Record metrics, timestamps\nEntrypoint: Auto-starts via LaunchAgent or screen -dmS watcher\nInput: File change events\nOutput: Updated chunks in .agent/intelligence/chunks/\n\n\n\n\n\n\n\n“the pipeline” (ambiguous)\n“pipeline stages” (which one?)\n“28 stages” (missing context)\n\n\n\n\n\n“Collider pipeline” (28 stages)\n“Refinery pipeline” (N stages)\n“Watcher pipeline” (5 phases)\n“Collider stage 11.5” (ManifestWriter)\n“Refinery chunking phase”\n\n\n\n\n\n\nAll docs that say “pipeline” must be updated to specify:\n\n\n\n\n\n\n\n\nFile\nCurrent\nShould Say\n\n\n\n\nDOMAINS.yaml\n“Pipeline” domain\n“Collider Pipeline”\n\n\nQUALITY_GATES.md\n“Pipeline stage count”\n“Collider pipeline stage count”\n\n\nROADMAP.md\n“Pipeline stages”\n“Collider pipeline stages”\n\n\nAny analysis doc\n“pipeline”\n“Collider pipeline”\n\n\n\n\n\n\n\nAction needed: 1. Read refinery.py code 2. Identify distinct phases/stages 3. Create REFINERY_PIPELINE_STAGES.md 4. Add to DOMAINS.yaml as separate domain 5. Update SUBSYSTEMS.yaml WAVE entry\n\nThis disambiguation prevents future confusion as both pipelines grow.",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#collider-pipeline-codome-analysis",
+    "href": "PIPELINES.html#collider-pipeline-codome-analysis",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "Location: particle/src/core/pipeline/\nPurpose: Analyze code → generate graph + metrics\nStages: 28 (verified 2026-01-27)\nPhases: 1. Extraction (0-2): Survey, AST parsing, atom classification 2. Enrichment (2.5-2.11): Ecosystem, dimensions, scope, control flow, patterns, data flow 3. Analysis (3-6.8): Purpose hierarchy, edges, Markov, knots, graph analytics, codome boundaries 4. Intelligence (7-8.6): Data flow macro, performance, constraints, purpose intelligence 5. Output (9-12): Roadmap, topology, semantic cortex, AI insights, manifest, final output\nEntrypoint: ./collider full &lt;path&gt; or ./pe collider full &lt;path&gt;\nInput: Source code (.py, .js, .go, etc.)\nOutput: unified_analysis.json (22MB), collider_report.html (interactive viz)\nCanonical source: src/core/pipeline/stages/__init__.py (code)\nDocumentation: docs/specs/PIPELINE_STAGES.md (REFERENCE, generated from code)",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#refinery-pipeline-contextome-atomization",
+    "href": "PIPELINES.html#refinery-pipeline-contextome-atomization",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "Location: wave/tools/ai/aci/refinery.py\nPurpose: Break docs/config into semantic chunks for AI consumption\nStages: 8 (verified 2026-01-27)\nKnown phases: 1. Load - Read file (Python, Markdown, YAML) 2. Chunk - Semantic splitting (functions, sections, keys) 3. Enrich - Add metadata (relevance score, embeddings) 4. Index - Build searchable registry 5. Cache - Store for reuse\nEntrypoint: python wave/tools/ai/aci/refinery.py &lt;path&gt;\nInput: Documentation (.md), config (.yaml), code (.py)\nOutput: *_chunks.json (agent_chunks, core_chunks, aci_chunks)\nCanonical source: wave/tools/ai/aci/refinery.py (code)\nDocumentation: Missing - needs REFINERY_PIPELINE_STAGES.md",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#filesystem-watcher-pipeline-background-automation",
+    "href": "PIPELINES.html#filesystem-watcher-pipeline-background-automation",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "Location: .agent/tools/filesystem_watcher.py + wire.py\nPurpose: Watch files → auto-trigger refinement on changes\nStages: 1. Detect - Filesystem events (create, modify, delete) 2. Quiet Period - Wait 5 minutes for batch 3. Wire - Trigger refinery.py on changed files 4. Validate - Check chunk integrity 5. Update State - Record metrics, timestamps\nEntrypoint: Auto-starts via LaunchAgent or screen -dmS watcher\nInput: File change events\nOutput: Updated chunks in .agent/intelligence/chunks/",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#terminology-rules",
+    "href": "PIPELINES.html#terminology-rules",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "“the pipeline” (ambiguous)\n“pipeline stages” (which one?)\n“28 stages” (missing context)\n\n\n\n\n\n“Collider pipeline” (28 stages)\n“Refinery pipeline” (N stages)\n“Watcher pipeline” (5 phases)\n“Collider stage 11.5” (ManifestWriter)\n“Refinery chunking phase”",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#updating-documentation",
+    "href": "PIPELINES.html#updating-documentation",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "All docs that say “pipeline” must be updated to specify:\n\n\n\n\n\n\n\n\nFile\nCurrent\nShould Say\n\n\n\n\nDOMAINS.yaml\n“Pipeline” domain\n“Collider Pipeline”\n\n\nQUALITY_GATES.md\n“Pipeline stage count”\n“Collider pipeline stage count”\n\n\nROADMAP.md\n“Pipeline stages”\n“Collider pipeline stages”\n\n\nAny analysis doc\n“pipeline”\n“Collider pipeline”",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "PIPELINES.html#next-document-refinery-pipeline-stages",
+    "href": "PIPELINES.html#next-document-refinery-pipeline-stages",
+    "title": "PIPELINES - Disambiguation",
+    "section": "",
+    "text": "Action needed: 1. Read refinery.py code 2. Identify distinct phases/stages 3. Create REFINERY_PIPELINE_STAGES.md 4. Add to DOMAINS.yaml as separate domain 5. Update SUBSYSTEMS.yaml WAVE entry\n\nThis disambiguation prevents future confusion as both pipelines grow.",
+    "crumbs": [
+      "Governance",
+      "⚙️ Pipelines"
+    ]
+  },
+  {
+    "objectID": "ARCHITECTURE_AUDIT_2026.html",
+    "href": "ARCHITECTURE_AUDIT_2026.html",
+    "title": "📡 Architectural Audit: PROJECT_elements (Sonar Pro Perspective)",
+    "section": "",
+    "text": "Date: January 29, 2026\nAuditor: Perplexity Sonar Pro (Synthesized by Antigravity)\nStatus: HIGH-INTENSITY VALIDATION\n\n\n\n\nStrategy: Refinery (Targeting) -&gt; Dispatcher (Drafting) -&gt; Courier (Application)\n\n\n\nSoundness: HIGH. The loop architecture is a force multiplier for AI context maintenance. By Treating documentation and code as symmetric particles, it minimizes the “Context Window Tax” that plagues traditional large-scale repositories.\nROI: Estimated 65% reduction in context ingestion time and a 92% decrease in merge-conflict complexity.\nCritical Risk: Symmetry Drift. Automated fix application (Courier) can create a “Ghost Brain” where documentation reflects intended logic that the “Body” (implementation) hasn’t fully realized.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeature\nTrad (C4/Hex)\nFour Hemispheres (PE)\nVerdict\n\n\n\n\nLLM Mapping\nLow (Layer-based)\nHigh (Hemispheric/Domain)\nPE Wins: Maps to attention mechanisms.\n\n\nSeparation\nFunctional/Layered\nParticle vs Wave (Data vs Concept)\nPE Wins: Decouples implementation from its semantic meaning.\n\n\nStability\nManual Maintenance\nAutonomous Logistics (Couriers)\nPE Wins: Self-healing architecture.\n\n\n\n\n\n\n\nThe most significant threat to the Standard Model of Code is the divergence between the Codome (Implementation) and the Contextome (Documentation).\n\n\n\nSocratic Verification: Automate the verify_symmetry.py gate to run on every commit.\nWaybill Immutability: Ensure every change applied by a Courier is wrapped in a waybill referencing the specific Refinery version that targeted it.\nTeleological Validation (π₄): Verify that the Purpose of a file matches its Implementation through periodic AI cross-audits.\n\n\n\n\n\n\nMoving from Consolidation (Cleanup) to Active Intelligence (Value Generation):\n\nPhase 4: Reasoning Injection: Integrate sonar-reasoning-pro directly into the Courier loop to perform complex refactors that respect the theoretical axioms in docs/theory/.\nPhase 5: Self-Correcting Architecture: Transition the Observer (Governance) into an active runtime guardian that blocks code execution if it deviates from the high-order registries.\nPhase 6: The Standard Model API: Surface the refined context as a GraphQL/Neo4j API for external agents.\n\n\n\n[!IMPORTANT] Auditor’s Note: The reduction of 18,000 files is not merely a “cleanup”—it is a phase shift from Data Chaos to Information Order.\n\n\n@governance/REPO_STRUCTURE.md @governance/TOPOLOGY_MAP.md",
+    "crumbs": [
+      "Governance",
+      "🔍 Audit 2026"
+    ]
+  },
+  {
+    "objectID": "ARCHITECTURE_AUDIT_2026.html#strategy-evaluation-the-consolidation-loop",
+    "href": "ARCHITECTURE_AUDIT_2026.html#strategy-evaluation-the-consolidation-loop",
+    "title": "📡 Architectural Audit: PROJECT_elements (Sonar Pro Perspective)",
+    "section": "",
+    "text": "Strategy: Refinery (Targeting) -&gt; Dispatcher (Drafting) -&gt; Courier (Application)\n\n\n\nSoundness: HIGH. The loop architecture is a force multiplier for AI context maintenance. By Treating documentation and code as symmetric particles, it minimizes the “Context Window Tax” that plagues traditional large-scale repositories.\nROI: Estimated 65% reduction in context ingestion time and a 92% decrease in merge-conflict complexity.\nCritical Risk: Symmetry Drift. Automated fix application (Courier) can create a “Ghost Brain” where documentation reflects intended logic that the “Body” (implementation) hasn’t fully realized.",
+    "crumbs": [
+      "Governance",
+      "🔍 Audit 2026"
+    ]
+  },
+  {
+    "objectID": "ARCHITECTURE_AUDIT_2026.html#the-four-hemisphere-model-vs.-traditional-patterns",
+    "href": "ARCHITECTURE_AUDIT_2026.html#the-four-hemisphere-model-vs.-traditional-patterns",
+    "title": "📡 Architectural Audit: PROJECT_elements (Sonar Pro Perspective)",
+    "section": "",
+    "text": "Feature\nTrad (C4/Hex)\nFour Hemispheres (PE)\nVerdict\n\n\n\n\nLLM Mapping\nLow (Layer-based)\nHigh (Hemispheric/Domain)\nPE Wins: Maps to attention mechanisms.\n\n\nSeparation\nFunctional/Layered\nParticle vs Wave (Data vs Concept)\nPE Wins: Decouples implementation from its semantic meaning.\n\n\nStability\nManual Maintenance\nAutonomous Logistics (Couriers)\nPE Wins: Self-healing architecture.",
+    "crumbs": [
+      "Governance",
+      "🔍 Audit 2026"
+    ]
+  },
+  {
+    "objectID": "ARCHITECTURE_AUDIT_2026.html#critical-risk-symmetry-drift",
+    "href": "ARCHITECTURE_AUDIT_2026.html#critical-risk-symmetry-drift",
+    "title": "📡 Architectural Audit: PROJECT_elements (Sonar Pro Perspective)",
+    "section": "",
+    "text": "The most significant threat to the Standard Model of Code is the divergence between the Codome (Implementation) and the Contextome (Documentation).\n\n\n\nSocratic Verification: Automate the verify_symmetry.py gate to run on every commit.\nWaybill Immutability: Ensure every change applied by a Courier is wrapped in a waybill referencing the specific Refinery version that targeted it.\nTeleological Validation (π₄): Verify that the Purpose of a file matches its Implementation through periodic AI cross-audits.",
+    "crumbs": [
+      "Governance",
+      "🔍 Audit 2026"
+    ]
+  },
+  {
+    "objectID": "ARCHITECTURE_AUDIT_2026.html#roadmap-active-intelligence-generation",
+    "href": "ARCHITECTURE_AUDIT_2026.html#roadmap-active-intelligence-generation",
+    "title": "📡 Architectural Audit: PROJECT_elements (Sonar Pro Perspective)",
+    "section": "",
+    "text": "Moving from Consolidation (Cleanup) to Active Intelligence (Value Generation):\n\nPhase 4: Reasoning Injection: Integrate sonar-reasoning-pro directly into the Courier loop to perform complex refactors that respect the theoretical axioms in docs/theory/.\nPhase 5: Self-Correcting Architecture: Transition the Observer (Governance) into an active runtime guardian that blocks code execution if it deviates from the high-order registries.\nPhase 6: The Standard Model API: Surface the refined context as a GraphQL/Neo4j API for external agents.\n\n\n\n[!IMPORTANT] Auditor’s Note: The reduction of 18,000 files is not merely a “cleanup”—it is a phase shift from Data Chaos to Information Order.\n\n\n@governance/REPO_STRUCTURE.md @governance/TOPOLOGY_MAP.md",
+    "crumbs": [
+      "Governance",
+      "🔍 Audit 2026"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html",
+    "href": "REPO_STRUCTURE.html",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "This document defines the definitive directory tree and the canonical files within each folder. It serves as the structural Source of Truth for the project.\n\n\n\nPrimary entry points and master orientation.\n\n\n\nFile\nType\nPurpose\n\n\n\n\nPROJECT_MAP_2026.md\nMD\nHigh-level visual architecture map\n\n\nCLAUDE.md\nMD\nAI agent orientation & rules\n\n\nPIPELINES.md\nMD\nPipeline disambiguation (Collider vs Refinery)\n\n\npe\nExec\nPrimary Project Elements CLI tool\n\n\n\n\n\n\n\nThe Central Command layer. Strategy, decisions, and system registries.\n\n\n\n\n\n\n\n\nFile\nType\nPurpose\n\n\n\n\nROADMAP.md\nMD\nStrategic milestones and P0 gates\n\n\nDECISIONS.md\nMD\nTechnical ADRs and historical pivots\n\n\nQUALITY_GATES.md\nMD\nPass/Fail criteria for v1 release\n\n\nSUBSYSTEMS.yaml\nYAML\nDefinitive Registry of all repo components\n\n\nDOMAINS.yaml\nYAML\nSemantic domain map (Particle vs Wave)\n\n\n\n\n\n\n\nThe “Body” of the project. Contains the Collider engine and theoretical canon.\n\n\n\n\n\n\n\n\nPath\nPurpose\nKey Canonical Files\n\n\n\n\nsrc/core/\nCollider Pipeline\nfull_analysis.py, pipeline/stages/\n\n\ndocs/theory/\nThe “Canon”\nTHEORY_AXIOMS.md, THEORY_COMPLETE_ALL.md\n\n\nschema/\nSM Schema\nantimatter_laws.yaml, particle.schema.json\n\n\ntests/\nEngine Validation\npytest benchmarks\n\n\n\n\n\n\n\nThe “Brain” of the project. AI context intelligence and logistics workers.\n\n\n\n\n\n\n\n\nPath\nPurpose\nKey Canonical Files\n\n\n\n\ntools/ai/aci/\nRefinery Engine\nrefinery.py (The contextomizer)\n\n\ntools/couriers/\nActive Processors\ndispatch.py, courier.py\n\n\nintelligence/\nRefined Context\nchunks/, METADATA.json\n\n\narchive/\nHistorical Debris\naudit_logs/ (Consolidated history)\n\n\n\n\n\n\n\nPhysical artifacts and binary samples.\n\n**sample_*.glb/stl**: 3D topology samples used for visualization stress-testing.\n\n\n\n\n\n\nNo Root Pollution: New documentation must go to /governance or its specific subsystem.\nRegistry Sync: Changes to directory structure MUST be reflected in SUBSYSTEMS.yaml.\nLink Integrity: Run verify_links.py after adding new canonical files.",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#root",
+    "href": "REPO_STRUCTURE.html#root",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "Primary entry points and master orientation.\n\n\n\nFile\nType\nPurpose\n\n\n\n\nPROJECT_MAP_2026.md\nMD\nHigh-level visual architecture map\n\n\nCLAUDE.md\nMD\nAI agent orientation & rules\n\n\nPIPELINES.md\nMD\nPipeline disambiguation (Collider vs Refinery)\n\n\npe\nExec\nPrimary Project Elements CLI tool",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#governance-observer",
+    "href": "REPO_STRUCTURE.html#governance-observer",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "The Central Command layer. Strategy, decisions, and system registries.\n\n\n\n\n\n\n\n\nFile\nType\nPurpose\n\n\n\n\nROADMAP.md\nMD\nStrategic milestones and P0 gates\n\n\nDECISIONS.md\nMD\nTechnical ADRs and historical pivots\n\n\nQUALITY_GATES.md\nMD\nPass/Fail criteria for v1 release\n\n\nSUBSYSTEMS.yaml\nYAML\nDefinitive Registry of all repo components\n\n\nDOMAINS.yaml\nYAML\nSemantic domain map (Particle vs Wave)",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#particle-particle",
+    "href": "REPO_STRUCTURE.html#particle-particle",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "The “Body” of the project. Contains the Collider engine and theoretical canon.\n\n\n\n\n\n\n\n\nPath\nPurpose\nKey Canonical Files\n\n\n\n\nsrc/core/\nCollider Pipeline\nfull_analysis.py, pipeline/stages/\n\n\ndocs/theory/\nThe “Canon”\nTHEORY_AXIOMS.md, THEORY_COMPLETE_ALL.md\n\n\nschema/\nSM Schema\nantimatter_laws.yaml, particle.schema.json\n\n\ntests/\nEngine Validation\npytest benchmarks",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#wave-wave",
+    "href": "REPO_STRUCTURE.html#wave-wave",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "The “Brain” of the project. AI context intelligence and logistics workers.\n\n\n\n\n\n\n\n\nPath\nPurpose\nKey Canonical Files\n\n\n\n\ntools/ai/aci/\nRefinery Engine\nrefinery.py (The contextomizer)\n\n\ntools/couriers/\nActive Processors\ndispatch.py, courier.py\n\n\nintelligence/\nRefined Context\nchunks/, METADATA.json\n\n\narchive/\nHistorical Debris\naudit_logs/ (Consolidated history)",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#assets",
+    "href": "REPO_STRUCTURE.html#assets",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "Physical artifacts and binary samples.\n\n**sample_*.glb/stl**: 3D topology samples used for visualization stress-testing.",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "REPO_STRUCTURE.html#maintenance-rules",
+    "href": "REPO_STRUCTURE.html#maintenance-rules",
+    "title": "🌲 REPOSITORY STRUCTURE (CANONICAL)",
+    "section": "",
+    "text": "No Root Pollution: New documentation must go to /governance or its specific subsystem.\nRegistry Sync: Changes to directory structure MUST be reflected in SUBSYSTEMS.yaml.\nLink Integrity: Run verify_links.py after adding new canonical files.",
+    "crumbs": [
+      "Governance",
+      "📂 Repo Structure"
+    ]
+  },
+  {
+    "objectID": "CHANGELOG.html",
+    "href": "CHANGELOG.html",
+    "title": "Changelog",
+    "section": "",
+    "text": "All notable changes to Collider will be documented in this file.\nThe format is based on Keep a Changelog, and this project adheres to Semantic Versioning.\n\n\n\n\n\npyproject.toml for modern Python packaging\nMakefile for standard development commands\ntox.ini for multi-Python version testing\ndependabot.yml for automated dependency updates\nIssue and PR templates\nCODEOWNERS file\nCoverage configuration (.coveragerc)\nDeterministic JSON output (sort_keys=True)\npytest job in CI with multi-Python matrix\nSecurity scanning with pip-audit\n\n\n\n\n\nCI workflow now includes pytest with coverage\nCI workflow now includes security scanning\n\n\n\n\n\nJSON output now deterministic across Python sessions\n\n\n\n\n\n\n\n\nBrain Download feature (output.md generation)\nTopology reasoning for shape classification\nSemantic cortex for domain inference\nHTML visualization improvements\n\n\n\n\n\nImproved atom classification accuracy\nEnhanced edge resolution\n\n\n\n\n\n\n\n\nTheory coverage CI job\nDocstring linting\n\n\n\n\n\nImport resolution edge cases\n\n\n\n\n\n\n\n\nReact T2 detection improvements\nPurpose field extraction"
+  },
+  {
+    "objectID": "CHANGELOG.html#unreleased",
+    "href": "CHANGELOG.html#unreleased",
+    "title": "Changelog",
+    "section": "",
+    "text": "pyproject.toml for modern Python packaging\nMakefile for standard development commands\ntox.ini for multi-Python version testing\ndependabot.yml for automated dependency updates\nIssue and PR templates\nCODEOWNERS file\nCoverage configuration (.coveragerc)\nDeterministic JSON output (sort_keys=True)\npytest job in CI with multi-Python matrix\nSecurity scanning with pip-audit\n\n\n\n\n\nCI workflow now includes pytest with coverage\nCI workflow now includes security scanning\n\n\n\n\n\nJSON output now deterministic across Python sessions"
+  },
+  {
+    "objectID": "CHANGELOG.html#section",
+    "href": "CHANGELOG.html#section",
+    "title": "Changelog",
+    "section": "",
+    "text": "Brain Download feature (output.md generation)\nTopology reasoning for shape classification\nSemantic cortex for domain inference\nHTML visualization improvements\n\n\n\n\n\nImproved atom classification accuracy\nEnhanced edge resolution"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-1",
+    "href": "CHANGELOG.html#section-1",
+    "title": "Changelog",
+    "section": "",
+    "text": "Theory coverage CI job\nDocstring linting\n\n\n\n\n\nImport resolution edge cases"
+  },
+  {
+    "objectID": "CHANGELOG.html#section-2",
+    "href": "CHANGELOG.html#section-2",
+    "title": "Changelog",
+    "section": "",
+    "text": "React T2 detection improvements\nPurpose field extraction"
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html",
+    "href": "VISUAL_GUIDE.html",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "System Identity: PROJECT_elements is the experimental baseline for the ‘Standard Model of Code’. It implements a Four Hemisphere architecture to solve the problem of AI context drift at scale. Every diagram in this atlas provides a stand-alone technical truth about the system’s current state.\n\nThis document serves as the definitive visual atlas for the project, mapping the transition from a messy 13GB legacy repository to a high-fidelity, machine-navigable model.\n\n\n\nThe project is architected as a Symmetry, balancing the “Body” of the code with the “Brain” of its intelligence.\n\nThe Body: Contains the Collider Engine and the Codome Graph. This is where physical implementation lives.\nThe Brain: Contains the Refinery and Agent Intelligence. This is where conceptual understanding is generated.\nThe Logistics: The layer of Dispatchers and Couriers that ensures information remains consistent between both hemispheres.\n\n\n\n\n\n\n\n\n\n\n\n\nLOGISTICS (Synchronization)\n\n\n\n\n\n\n\nTHE BRAIN (Intelligence)\n\n\n\n\n\n\n\nTHE BODY (Implementation)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nActive\n\n\n\n\n\n\n\nActive\n\n\n\n\n\n\n\nLogistics\n\n\n\n\n\n\n\nCollider Engine\n\n\n\n\n\n\n\nCodome Graph\n\n\n\n\n\n\n\nTheory Canon\n\n\n\n\n\n\n\nRefinery\n\n\n\n\n\n\n\nParcels/Waybills\n\n\n\n\n\n\n\nAgent Intelligence\n\n\n\n\n\n\n\nDispatcher\n\n\n\n\n\n\n\nCouriers\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInformation flows from the local disk through a refinement process into a persistent global state.\n\nIngestion: Files are synced from the local disk to a Cloud Mirror.\nExtraction: The Refinery chunks code into Parcels wrapped in Waybills (provenance logs).\nSynthesis: Extracted intelligence is published to a Neo4j Knowledge Graph and a Purpose Registry.\n\n\n\n\n\n\n\n\n\n\n\n\nIntelligence Layer\n\n\n\n\n\n\n\nLogistics Layer\n\n\n\n\n\n\n\nLocal Space\n\n\n\n\n\n\n\nSync\n\n\n\n\n\n\n\n\n\n\n\nPublish\n\n\n\n\n\n\n\nPublish\n\n\n\n\n\n\n\nLocal Disk\n\n\n\n\n\n\n\nSymmetry Validator\n\n\n\n\n\n\n\nCode Mirror (GCS)\n\n\n\n\n\n\n\nWaybill Parcels\n\n\n\n\n\n\n\nRefinery Engine\n\n\n\n\n\n\n\nNeo4j Graph Store\n\n\n\n\n\n\n\nPurpose Field (π1-π4)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHow the system autonomously cleans and optimizes itself. This sequence ensures that any “drift” in the codebase is corrected without manual intervention.\n\n\n\n\n\n\nThe BodyCourierRefineryDispatcherThe BodyCourierRefineryDispatcher\n\nIdentify out-of-sync symbols1Generate Refined Parcels2Assign Fix-Task (Link/Placeholder)3Apply Consolidation Patch4Return Verify Status5\n\n\n\n\n\n\n\n\n\n\nDefines the “Intimate Properties” of our data structures. Every file in the system is refined into multiple parcels, each linked to a parent waybill for 100% auditability.\n\n\n\n\n\n\n\n\n\n\n\nrefines into\n\n\n\n\n\n\n\ntracked by\n\n\n\n\n\n\n\nmanages\n\n\n\n\n\n\n\nFILE\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\npath\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nhash\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\nsize\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPARCEL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nparcel_id\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nlogic_type\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\ntoken_count\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWAYBILL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nwaybill_id\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\ndatetime\n\n\n\n\n\n\n\ncreated_at\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nauthor_id\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSUBSYSTEM\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEvery concept in the Brain hemisphere follows a strict lifecycle to ensure the “Law” (Governance) is always satisfied.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTriggered\n\n\n\n\n\n\n\nOutput Generated\n\n\n\n\n\n\n\nLaw Satisfied\n\n\n\n\n\n\n\nSymmetry Broken\n\n\n\n\n\n\n\nProject Completed\n\n\n\n\n\n\n\nRetry Loop\n\n\n\n\n\n\n\nIngested\n\n\n\n\n\n\n\nRefinement\n\n\n\n\n\n\n\nValidating\n\n\n\n\n\n\n\nPersistent\n\n\n\n\n\n\n\nFailed\n\n\n\n\n\n\n\nArchived\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe developer interacts with the pe (Project Elements) CLI to manage this complex environment. The goal is to move from manual search to intelligent navigation.\n\n\n\n\n\n\n\nAgentDeveloper\n\n\n\n\nDiscovery\n\n\nDiscovery\n\n\n\nDeveloper\n\n\n\n\n\n\nList subsystems\n\n\nList subsystems\n\n\n\nDeveloper\n\n\n\n\n\n\nSearch Codome\n\n\nSearch Codome\n\n\n\n\n\n\nOptimization\n\n\nOptimization\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Refinery\n\n\nRun Refinery\n\n\n\nAgent\n\n\n\n\n\n\nFix broken links\n\n\nFix broken links\n\n\n\n\n\n\nVerification\n\n\nVerification\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Symmetry Audit\n\n\nRun Symmetry Audit\n\n\n\nDeveloper\n\n\n\n\n\n\nGenerate Visual Guide\n\n\nGenerate Visual Guide\n\nDeveloper Workflow (pe CLI)\n\n\n\n\n\n\n\n\n\n\nThe transition from a legacy research repository to a production-ready Standard Model.\n\n\n\n\n\n\n\n2024Initial ResearchDiscovery of Codome2025The Bloat Phase13GB Legacy Growth2026The GreatConsolidationRefinery LaunchSymmetry ProtocolPROJECT_elements Roadmap\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLayer\nSystem\nPurpose\nTechnology\n\n\n\n\nObserver\nGovernance\nQuality Gates & Symmetry\nQuarto, Mermaid\n\n\nParticle\nThe Body\nCollider Engine (Parsing)\nPython, C++\n\n\nWave\nThe Brain\nRefinery (Intelligence)\nLLM, Neo4j\n\n\nLogistics\nThe Flow\nDispatchers & Couriers\nAsync Python\n\n\n\n\n\n\n\n\nThe Standard Model of Code is maintained through the continuous reconciliation of the Codome (Implementation) and the Contextome (Documentation). By preserving Intimate Properties across all hemispheres, we ensure that the project remains a coherent, AI-navigable organism rather than a collection of orphaned files.\n\n\n[!TIP] Noise Reduction: If you find yourself scrolling too much, refer to the Mermaid Masterclass to learn how to collapse or subgraph these views.",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#system-architecture-the-symmetry-model",
+    "href": "VISUAL_GUIDE.html#system-architecture-the-symmetry-model",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "The project is architected as a Symmetry, balancing the “Body” of the code with the “Brain” of its intelligence.\n\nThe Body: Contains the Collider Engine and the Codome Graph. This is where physical implementation lives.\nThe Brain: Contains the Refinery and Agent Intelligence. This is where conceptual understanding is generated.\nThe Logistics: The layer of Dispatchers and Couriers that ensures information remains consistent between both hemispheres.\n\n\n\n\n\n\n\n\n\n\n\n\nLOGISTICS (Synchronization)\n\n\n\n\n\n\n\nTHE BRAIN (Intelligence)\n\n\n\n\n\n\n\nTHE BODY (Implementation)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nActive\n\n\n\n\n\n\n\nActive\n\n\n\n\n\n\n\nLogistics\n\n\n\n\n\n\n\nCollider Engine\n\n\n\n\n\n\n\nCodome Graph\n\n\n\n\n\n\n\nTheory Canon\n\n\n\n\n\n\n\nRefinery\n\n\n\n\n\n\n\nParcels/Waybills\n\n\n\n\n\n\n\nAgent Intelligence\n\n\n\n\n\n\n\nDispatcher\n\n\n\n\n\n\n\nCouriers",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#data-topology-the-master-flow",
+    "href": "VISUAL_GUIDE.html#data-topology-the-master-flow",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "Information flows from the local disk through a refinement process into a persistent global state.\n\nIngestion: Files are synced from the local disk to a Cloud Mirror.\nExtraction: The Refinery chunks code into Parcels wrapped in Waybills (provenance logs).\nSynthesis: Extracted intelligence is published to a Neo4j Knowledge Graph and a Purpose Registry.\n\n\n\n\n\n\n\n\n\n\n\n\nIntelligence Layer\n\n\n\n\n\n\n\nLogistics Layer\n\n\n\n\n\n\n\nLocal Space\n\n\n\n\n\n\n\nSync\n\n\n\n\n\n\n\n\n\n\n\nPublish\n\n\n\n\n\n\n\nPublish\n\n\n\n\n\n\n\nLocal Disk\n\n\n\n\n\n\n\nSymmetry Validator\n\n\n\n\n\n\n\nCode Mirror (GCS)\n\n\n\n\n\n\n\nWaybill Parcels\n\n\n\n\n\n\n\nRefinery Engine\n\n\n\n\n\n\n\nNeo4j Graph Store\n\n\n\n\n\n\n\nPurpose Field (π1-π4)",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#the-consolidation-loop-sequence",
+    "href": "VISUAL_GUIDE.html#the-consolidation-loop-sequence",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "How the system autonomously cleans and optimizes itself. This sequence ensures that any “drift” in the codebase is corrected without manual intervention.\n\n\n\n\n\n\nThe BodyCourierRefineryDispatcherThe BodyCourierRefineryDispatcher\n\nIdentify out-of-sync symbols1Generate Refined Parcels2Assign Fix-Task (Link/Placeholder)3Apply Consolidation Patch4Return Verify Status5",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#data-relationship-schema-er-diagram",
+    "href": "VISUAL_GUIDE.html#data-relationship-schema-er-diagram",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "Defines the “Intimate Properties” of our data structures. Every file in the system is refined into multiple parcels, each linked to a parent waybill for 100% auditability.\n\n\n\n\n\n\n\n\n\n\n\nrefines into\n\n\n\n\n\n\n\ntracked by\n\n\n\n\n\n\n\nmanages\n\n\n\n\n\n\n\nFILE\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\npath\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nhash\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\nsize\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPARCEL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nparcel_id\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nlogic_type\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nint\n\n\n\n\n\n\n\ntoken_count\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWAYBILL\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nwaybill_id\n\n\n\n\n\n\n\nPK\n\n\n\n\n\n\n\n\n\n\n\ndatetime\n\n\n\n\n\n\n\ncreated_at\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nstring\n\n\n\n\n\n\n\nauthor_id\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSUBSYSTEM",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#lifecycle-of-a-waybill-state-diagram",
+    "href": "VISUAL_GUIDE.html#lifecycle-of-a-waybill-state-diagram",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "Every concept in the Brain hemisphere follows a strict lifecycle to ensure the “Law” (Governance) is always satisfied.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTriggered\n\n\n\n\n\n\n\nOutput Generated\n\n\n\n\n\n\n\nLaw Satisfied\n\n\n\n\n\n\n\nSymmetry Broken\n\n\n\n\n\n\n\nProject Completed\n\n\n\n\n\n\n\nRetry Loop\n\n\n\n\n\n\n\nIngested\n\n\n\n\n\n\n\nRefinement\n\n\n\n\n\n\n\nValidating\n\n\n\n\n\n\n\nPersistent\n\n\n\n\n\n\n\nFailed\n\n\n\n\n\n\n\nArchived",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#developer-journey-cli-experience",
+    "href": "VISUAL_GUIDE.html#developer-journey-cli-experience",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "The developer interacts with the pe (Project Elements) CLI to manage this complex environment. The goal is to move from manual search to intelligent navigation.\n\n\n\n\n\n\n\nAgentDeveloper\n\n\n\n\nDiscovery\n\n\nDiscovery\n\n\n\nDeveloper\n\n\n\n\n\n\nList subsystems\n\n\nList subsystems\n\n\n\nDeveloper\n\n\n\n\n\n\nSearch Codome\n\n\nSearch Codome\n\n\n\n\n\n\nOptimization\n\n\nOptimization\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Refinery\n\n\nRun Refinery\n\n\n\nAgent\n\n\n\n\n\n\nFix broken links\n\n\nFix broken links\n\n\n\n\n\n\nVerification\n\n\nVerification\n\n\n\nDeveloper\n\n\n\n\n\n\nRun Symmetry Audit\n\n\nRun Symmetry Audit\n\n\n\nDeveloper\n\n\n\n\n\n\nGenerate Visual Guide\n\n\nGenerate Visual Guide\n\nDeveloper Workflow (pe CLI)",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#project-evolution-timeline",
+    "href": "VISUAL_GUIDE.html#project-evolution-timeline",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "The transition from a legacy research repository to a production-ready Standard Model.\n\n\n\n\n\n\n\n2024Initial ResearchDiscovery of Codome2025The Bloat Phase13GB Legacy Growth2026The GreatConsolidationRefinery LaunchSymmetry ProtocolPROJECT_elements Roadmap",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#technical-specifications-summary",
+    "href": "VISUAL_GUIDE.html#technical-specifications-summary",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "Layer\nSystem\nPurpose\nTechnology\n\n\n\n\nObserver\nGovernance\nQuality Gates & Symmetry\nQuarto, Mermaid\n\n\nParticle\nThe Body\nCollider Engine (Parsing)\nPython, C++\n\n\nWave\nThe Brain\nRefinery (Intelligence)\nLLM, Neo4j\n\n\nLogistics\nThe Flow\nDispatchers & Couriers\nAsync Python",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "VISUAL_GUIDE.html#the-symmetry-law",
+    "href": "VISUAL_GUIDE.html#the-symmetry-law",
+    "title": "PROJECT_elements - Visual Guide",
+    "section": "",
+    "text": "The Standard Model of Code is maintained through the continuous reconciliation of the Codome (Implementation) and the Contextome (Documentation). By preserving Intimate Properties across all hemispheres, we ensure that the project remains a coherent, AI-navigable organism rather than a collection of orphaned files.\n\n\n[!TIP] Noise Reduction: If you find yourself scrolling too much, refer to the Mermaid Masterclass to learn how to collapse or subgraph these views.",
+    "crumbs": [
+      "Governance",
+      "🏗️ Visual Guide"
+    ]
+  },
+  {
+    "objectID": "ROADMAP.html",
+    "href": "ROADMAP.html",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "📍 Governance: DECISIONS | Quality Gates | Definition of Done 📊 Architecture: SUBSYSTEMS.yaml | DOMAINS.yaml | PIPELINES.md\nPurpose: Clear path from current state to shippable v1 Strategy: Fix gates in priority order, ship when 5/5 pass Updated: 2026-01-28\n\n\n\nProgress: 🔴 25% complete (1/5 P0 gates passing)\n\n\n\nGate\nStatus\nBlocker\n\n\n\n\nG1: Atom uniqueness\n✅ PASS\n-\n\n\nG2: Count consistency\n❌ FAIL\nIndex≠registry\n\n\nG3: Link integrity\n❌ FAIL\n14 broken links\n\n\nG4: Placeholder check\n❌ FAIL\n3 unresolved\n\n\nG5: Validation naming\n❌ FAIL\n2 misleading files\n\n\n\nDeliverables complete: - ✅ Duplicate atoms fixed (16 removed) - ✅ SUBSYSTEMS.yaml created - ✅ DOMAINS.yaml created - ✅ DECISIONS.md locked - ✅ Documentation organized (INDEX, THEORY_MAP)\n\n\n\n\nGoal: Stop the bleeding - fix all P0 drift\n\n\nBlocker: Generated indexes don’t match registries\nActions: 1. Count atoms in YAML files → write canonical_counts.json 2. Regenerate ATOMS_UNIVERSAL_INDEX.yaml from YAML sources 3. Count pipeline stages in code → stages.json 4. Regenerate PIPELINE_STAGES.md from stages.json 5. Add generator headers to all generated files\nDeliverable: G2 gate passes\n\n\n\n\nBlocker: 14 broken links in active docs\nActions: 1. Run link checker: python tools/verify_links.py --active-only --list 2. Fix top 5 (highest priority): - wave/docs/deep/PURPOSE_EMERGENCE.md (wrong ../) - .agent/registry/INDEX.md (wrong path to OPEN_CONCERNS) - Gemini research doc (wrong relative path) 3. Standardize on root-relative links (/path/from/root) 4. Re-run verification\nDeliverable: G3 gate passes\n\n\n\n\nBlocker: 3 unresolved placeholders in active docs\nActions: 1. .agent/intelligence/SKEPTICAL_AUDIT_20260126.md → fill {integration_status} or archive 2. Any TODO without issue → create issue or archive 3. Re-run verification\nDeliverable: G4 gate passes\n\n\n\n\nBlocker: Misleading “validated_*” files\nActions: 1. Rename validated_theory.md → archive/FAILED_theory_validation_20260126.md 2. Add header to validated_pipeline.md: Status: PARTIAL (3/10 passed) 3. Update any references to these files\nDeliverable: G5 gate passes\n\nPhase 1 Complete: 🟢 5/5 P0 gates pass (4 hours total)\n\n\n\n\n\nGoal: Make gates mechanical, not manual\n\n\n#!/usr/bin/env python3\n# tools/verify_atoms.py\n\nimport yaml, sys\nfrom pathlib import Path\nfrom collections import Counter\n\ndef check_duplicates(yaml_file):\n    with open(yaml_file) as f:\n        data = yaml.safe_load(f)\n    ids = [a['id'] for a in data.get('atoms', [])]\n    dupes = {id: count for id, count in Counter(ids).items() if count &gt; 1}\n    return dupes\n\n# Check all atom YAML files\n# Exit 0 if all unique, 1 if duplicates found\nDeliverable: ./pe verify atoms works\n\n\n\n\nFeatures: - Scan all .md files in active dirs - Extract local links (skip http://, mailto:) - Resolve relative vs root-relative - Report broken + suggest fixes - --fix mode: auto-correct common issues\nDeliverable: ./pe verify links works\n\n\n\n\nLogic: 1. Load canonical registries (YAML) 2. Load generated indexes (MD/YAML) 3. Compare counts 4. Report mismatches\nDeliverable: ./pe verify counts works\n\n\n\n\nRegex patterns: - \\{[a-z_]+\\} (unresolved variables) - TODO(?!\\(#\\d+\\)) (TODO without issue) - FIXME(?!\\(#\\d+\\))\nDeliverable: ./pe verify placeholders works\n\n\n\n\nCheck: - Files matching validated_*.md - Must contain Status: PASS|FAIL|PARTIAL in first 50 lines\nDeliverable: ./pe verify validated works\n\n\n\n\nCreate: tools/verify.py master script\n./pe verify v1        # Run all P0 gates\n./pe verify --full    # Run all P0 + P1 gates\n./pe verify --quick   # Run fast gates only (pre-commit)\n./pe verify atoms     # Run specific gate\n./pe verify --fix     # Auto-fix what's possible\n./pe verify status    # Show gate dashboard\nDeliverable: One command verifies everything\n\nPhase 2 Complete: 🟢 Verification is automated (6 hours total)\n\n\n\n\n\nGoal: Auto-generate all derived docs from canonical registries\n\n\npython tools/generate_atom_index.py\n# Input: src/patterns/*.yaml\n# Output: generated/ATOM_INDEX.md (with header)\nDeliverable: Atom counts always match registry\n\n\n\n\npython tools/generate_pipeline_summary.py\n# Input: src/core/pipeline/stages/__init__.py\n# Output: generated/PIPELINE_SUMMARY.md\nDeliverable: Pipeline stage count always matches code\n\n\n\n\npython tools/generate_subsystem_map.py\n# Input: SUBSYSTEMS.yaml\n# Output: generated/SUBSYSTEM_MAP.md\n\n\n\n\npython tools/generate_domain_report.py\n# Input: DOMAINS.yaml\n# Output: generated/DOMAIN_SYMMETRY_REPORT.md\n# Checks: code exists, context exists, links resolve\n\nPhase 3 Complete: 🟢 All core docs auto-generated (3.5 hours total)\n\n\n\n\n\nGoal: Zero orphan docs - everything reachable from INDEX.md\n\n\nPattern:\n&lt;!--\n@PROVIDES: Pipeline, Stage, Analysis\n@DEPENDS_ON: THEORY_AXIOMS, MODEL\n--&gt;\nTool: python tools/add_doc_metadata.py --scan\n\n\n\n\npython tools/generate_backlinks.py\n# Scans all @PROVIDES\n# Adds \"Referenced by\" footer to each doc\n\n\n\n\npython tools/build_doc_graph.py\n# Output: DOC_GRAPH.json\n# Visualization: docs/DOC_GRAPH.html\nDeliverable: Can visualize doc connectivity, find orphans\n\n\n\n\nStrategies: - Add to subsystem INDEX - Add @PROVIDES - Archive if obsolete\nDeliverable: 0 orphans in active\n\nPhase 4 Complete: 🟢 All docs navigable (7 hours total)\n\n\n\n\n\nGoal: Create shippable v1_core/ package\n\n\nv1_core/\n├── README.md (what is v1)\n├── registries/ (SUBSYSTEMS, DOMAINS, atoms)\n├── verification/ (5 scripts)\n├── generated/ (indexes, summaries)\n├── docs/ (THEORY_AXIOMS, MODEL, guides)\n└── MANIFEST.md (complete file list)\n\n\n\n\nv1_core/docs/EXTENSION_GUIDE.md: - How to add a new atom - How to add a pipeline stage - How to add a domain - How to verify your addition\n\n\n\n\ncd v1_core/\n./verify v1\n# Must exit 0\n\n\n\n\ngit tag -a v1.0.0 -m \"Contextome v1 Core - Registry-first, drift-proof\"\ngit push origin v1.0.0\nDeliverable: v1.0.0 released 🎉\n\nPhase 5 Complete: 🟢 v1 SHIPPED (4 hours total)\n\n\n\n\n\n\n\n\nPhase\nDuration\nDeliverable\nStatus\n\n\n\n\nPhase 1\n4 hrs\n5/5 P0 gates pass\n🔴 25% (1/5)\n\n\nPhase 2\n6 hrs\nVerification automated\n🔴 0%\n\n\nPhase 3\n3.5 hrs\nOutputs auto-generated\n🔴 0%\n\n\nPhase 4\n7 hrs\nDocs interconnected\n🔴 0%\n\n\nPhase 5\n4 hrs\nv1 packaged and released\n🔴 0%\n\n\n\nTotal: 24.5 hours to v1.0.0\nCurrent: Hour 4 complete (duplicate atoms fixed, registries created)\nRemaining: 20.5 hours\n\n\n\n\n\n\nDon’t work on multiple P0 issues. Fix G2, then G3, then G4, then G5.\n\n\n\nIf gates fail, you can ONLY: - Fix the gate - Archive the blocker - Improve verification\n\n\n\nIf something blocks progress for &gt;2 hours → archive it.\n\n\n\nSee DEFINITION_OF_DONE.md - no research-only sessions.\n\n\n\n\n\n\n\n\n✅ Fixed 16 duplicate atoms (G1: PASS)\n✅ Created SUBSYSTEMS.yaml\n✅ Created DOMAINS.yaml\n✅ Documented 540 lines of viz changes\n✅ Built 2,148 lines of knowledge artifacts\n\nProgress: 1/5 gates → 20% closer to v1\n\n\n\n\n\n\nTask 1.1 - Fix count drift (G2)\nTask 2.3 - Create verify_counts.py\nTask 1.2 - Fix 14 broken links (G3)\nTask 2.2 - Create verify_links.py\n\nTarget: 3/5 gates passing by end of next session\n\nThe finish line is clear. 20 hours to v1. No more “almost done.”"
+  },
+  {
+    "objectID": "ROADMAP.html#current-state-baseline",
+    "href": "ROADMAP.html#current-state-baseline",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Progress: 🔴 25% complete (1/5 P0 gates passing)\n\n\n\nGate\nStatus\nBlocker\n\n\n\n\nG1: Atom uniqueness\n✅ PASS\n-\n\n\nG2: Count consistency\n❌ FAIL\nIndex≠registry\n\n\nG3: Link integrity\n❌ FAIL\n14 broken links\n\n\nG4: Placeholder check\n❌ FAIL\n3 unresolved\n\n\nG5: Validation naming\n❌ FAIL\n2 misleading files\n\n\n\nDeliverables complete: - ✅ Duplicate atoms fixed (16 removed) - ✅ SUBSYSTEMS.yaml created - ✅ DOMAINS.yaml created - ✅ DECISIONS.md locked - ✅ Documentation organized (INDEX, THEORY_MAP)"
+  },
+  {
+    "objectID": "ROADMAP.html#phase-1-stabilize-canon-week-1",
+    "href": "ROADMAP.html#phase-1-stabilize-canon-week-1",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Goal: Stop the bleeding - fix all P0 drift\n\n\nBlocker: Generated indexes don’t match registries\nActions: 1. Count atoms in YAML files → write canonical_counts.json 2. Regenerate ATOMS_UNIVERSAL_INDEX.yaml from YAML sources 3. Count pipeline stages in code → stages.json 4. Regenerate PIPELINE_STAGES.md from stages.json 5. Add generator headers to all generated files\nDeliverable: G2 gate passes\n\n\n\n\nBlocker: 14 broken links in active docs\nActions: 1. Run link checker: python tools/verify_links.py --active-only --list 2. Fix top 5 (highest priority): - wave/docs/deep/PURPOSE_EMERGENCE.md (wrong ../) - .agent/registry/INDEX.md (wrong path to OPEN_CONCERNS) - Gemini research doc (wrong relative path) 3. Standardize on root-relative links (/path/from/root) 4. Re-run verification\nDeliverable: G3 gate passes\n\n\n\n\nBlocker: 3 unresolved placeholders in active docs\nActions: 1. .agent/intelligence/SKEPTICAL_AUDIT_20260126.md → fill {integration_status} or archive 2. Any TODO without issue → create issue or archive 3. Re-run verification\nDeliverable: G4 gate passes\n\n\n\n\nBlocker: Misleading “validated_*” files\nActions: 1. Rename validated_theory.md → archive/FAILED_theory_validation_20260126.md 2. Add header to validated_pipeline.md: Status: PARTIAL (3/10 passed) 3. Update any references to these files\nDeliverable: G5 gate passes\n\nPhase 1 Complete: 🟢 5/5 P0 gates pass (4 hours total)"
+  },
+  {
+    "objectID": "ROADMAP.html#phase-2-build-verification-tooling-week-2",
+    "href": "ROADMAP.html#phase-2-build-verification-tooling-week-2",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Goal: Make gates mechanical, not manual\n\n\n#!/usr/bin/env python3\n# tools/verify_atoms.py\n\nimport yaml, sys\nfrom pathlib import Path\nfrom collections import Counter\n\ndef check_duplicates(yaml_file):\n    with open(yaml_file) as f:\n        data = yaml.safe_load(f)\n    ids = [a['id'] for a in data.get('atoms', [])]\n    dupes = {id: count for id, count in Counter(ids).items() if count &gt; 1}\n    return dupes\n\n# Check all atom YAML files\n# Exit 0 if all unique, 1 if duplicates found\nDeliverable: ./pe verify atoms works\n\n\n\n\nFeatures: - Scan all .md files in active dirs - Extract local links (skip http://, mailto:) - Resolve relative vs root-relative - Report broken + suggest fixes - --fix mode: auto-correct common issues\nDeliverable: ./pe verify links works\n\n\n\n\nLogic: 1. Load canonical registries (YAML) 2. Load generated indexes (MD/YAML) 3. Compare counts 4. Report mismatches\nDeliverable: ./pe verify counts works\n\n\n\n\nRegex patterns: - \\{[a-z_]+\\} (unresolved variables) - TODO(?!\\(#\\d+\\)) (TODO without issue) - FIXME(?!\\(#\\d+\\))\nDeliverable: ./pe verify placeholders works\n\n\n\n\nCheck: - Files matching validated_*.md - Must contain Status: PASS|FAIL|PARTIAL in first 50 lines\nDeliverable: ./pe verify validated works\n\n\n\n\nCreate: tools/verify.py master script\n./pe verify v1        # Run all P0 gates\n./pe verify --full    # Run all P0 + P1 gates\n./pe verify --quick   # Run fast gates only (pre-commit)\n./pe verify atoms     # Run specific gate\n./pe verify --fix     # Auto-fix what's possible\n./pe verify status    # Show gate dashboard\nDeliverable: One command verifies everything\n\nPhase 2 Complete: 🟢 Verification is automated (6 hours total)"
+  },
+  {
+    "objectID": "ROADMAP.html#phase-3-generate-outputs-week-3",
+    "href": "ROADMAP.html#phase-3-generate-outputs-week-3",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Goal: Auto-generate all derived docs from canonical registries\n\n\npython tools/generate_atom_index.py\n# Input: src/patterns/*.yaml\n# Output: generated/ATOM_INDEX.md (with header)\nDeliverable: Atom counts always match registry\n\n\n\n\npython tools/generate_pipeline_summary.py\n# Input: src/core/pipeline/stages/__init__.py\n# Output: generated/PIPELINE_SUMMARY.md\nDeliverable: Pipeline stage count always matches code\n\n\n\n\npython tools/generate_subsystem_map.py\n# Input: SUBSYSTEMS.yaml\n# Output: generated/SUBSYSTEM_MAP.md\n\n\n\n\npython tools/generate_domain_report.py\n# Input: DOMAINS.yaml\n# Output: generated/DOMAIN_SYMMETRY_REPORT.md\n# Checks: code exists, context exists, links resolve\n\nPhase 3 Complete: 🟢 All core docs auto-generated (3.5 hours total)"
+  },
+  {
+    "objectID": "ROADMAP.html#phase-4-fix-navigability-week-4",
+    "href": "ROADMAP.html#phase-4-fix-navigability-week-4",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Goal: Zero orphan docs - everything reachable from INDEX.md\n\n\nPattern:\n&lt;!--\n@PROVIDES: Pipeline, Stage, Analysis\n@DEPENDS_ON: THEORY_AXIOMS, MODEL\n--&gt;\nTool: python tools/add_doc_metadata.py --scan\n\n\n\n\npython tools/generate_backlinks.py\n# Scans all @PROVIDES\n# Adds \"Referenced by\" footer to each doc\n\n\n\n\npython tools/build_doc_graph.py\n# Output: DOC_GRAPH.json\n# Visualization: docs/DOC_GRAPH.html\nDeliverable: Can visualize doc connectivity, find orphans\n\n\n\n\nStrategies: - Add to subsystem INDEX - Add @PROVIDES - Archive if obsolete\nDeliverable: 0 orphans in active\n\nPhase 4 Complete: 🟢 All docs navigable (7 hours total)"
+  },
+  {
+    "objectID": "ROADMAP.html#phase-5-package-and-ship-v1-week-5",
+    "href": "ROADMAP.html#phase-5-package-and-ship-v1-week-5",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Goal: Create shippable v1_core/ package\n\n\nv1_core/\n├── README.md (what is v1)\n├── registries/ (SUBSYSTEMS, DOMAINS, atoms)\n├── verification/ (5 scripts)\n├── generated/ (indexes, summaries)\n├── docs/ (THEORY_AXIOMS, MODEL, guides)\n└── MANIFEST.md (complete file list)\n\n\n\n\nv1_core/docs/EXTENSION_GUIDE.md: - How to add a new atom - How to add a pipeline stage - How to add a domain - How to verify your addition\n\n\n\n\ncd v1_core/\n./verify v1\n# Must exit 0\n\n\n\n\ngit tag -a v1.0.0 -m \"Contextome v1 Core - Registry-first, drift-proof\"\ngit push origin v1.0.0\nDeliverable: v1.0.0 released 🎉\n\nPhase 5 Complete: 🟢 v1 SHIPPED (4 hours total)"
+  },
+  {
+    "objectID": "ROADMAP.html#timeline-summary",
+    "href": "ROADMAP.html#timeline-summary",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Phase\nDuration\nDeliverable\nStatus\n\n\n\n\nPhase 1\n4 hrs\n5/5 P0 gates pass\n🔴 25% (1/5)\n\n\nPhase 2\n6 hrs\nVerification automated\n🔴 0%\n\n\nPhase 3\n3.5 hrs\nOutputs auto-generated\n🔴 0%\n\n\nPhase 4\n7 hrs\nDocs interconnected\n🔴 0%\n\n\nPhase 5\n4 hrs\nv1 packaged and released\n🔴 0%\n\n\n\nTotal: 24.5 hours to v1.0.0\nCurrent: Hour 4 complete (duplicate atoms fixed, registries created)\nRemaining: 20.5 hours"
+  },
+  {
+    "objectID": "ROADMAP.html#anti-stall-rules",
+    "href": "ROADMAP.html#anti-stall-rules",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Don’t work on multiple P0 issues. Fix G2, then G3, then G4, then G5.\n\n\n\nIf gates fail, you can ONLY: - Fix the gate - Archive the blocker - Improve verification\n\n\n\nIf something blocks progress for &gt;2 hours → archive it.\n\n\n\nSee DEFINITION_OF_DONE.md - no research-only sessions."
+  },
+  {
+    "objectID": "ROADMAP.html#velocity-tracking",
+    "href": "ROADMAP.html#velocity-tracking",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "✅ Fixed 16 duplicate atoms (G1: PASS)\n✅ Created SUBSYSTEMS.yaml\n✅ Created DOMAINS.yaml\n✅ Documented 540 lines of viz changes\n✅ Built 2,148 lines of knowledge artifacts\n\nProgress: 1/5 gates → 20% closer to v1"
+  },
+  {
+    "objectID": "ROADMAP.html#next-session-priority-order",
+    "href": "ROADMAP.html#next-session-priority-order",
+    "title": "ROADMAP - Path to v1.0.0",
+    "section": "",
+    "text": "Task 1.1 - Fix count drift (G2)\nTask 2.3 - Create verify_counts.py\nTask 1.2 - Fix 14 broken links (G3)\nTask 2.2 - Create verify_links.py\n\nTarget: 3/5 gates passing by end of next session\n\nThe finish line is clear. 20 hours to v1. No more “almost done.”"
+  },
+  {
+    "objectID": "QUALITY_GATES.html",
+    "href": "QUALITY_GATES.html",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "📍 Governance: DECISIONS | ROADMAP | Definition of Done 📊 Architecture: SUBSYSTEMS.yaml | DOMAINS.yaml | PIPELINES.md\nPurpose: Mechanical gates that prevent drift and enforce canonical registries Authority: ChatGPT 5.2 Pro audit + “prevent unfinished” strategy Updated: 2026-01-28\n\n\n\n┌─────────────────────────────────────────┐\n│   Commit Attempt                        │\n└─────────────────┬───────────────────────┘\n                  ↓\n┌─────────────────────────────────────────┐\n│   Pre-commit Hook                       │\n│   Runs: ./pe verify --quick            │\n│   Time limit: 10 seconds               │\n└─────────────────┬───────────────────────┘\n                  ↓\n         ┌────────┴────────┐\n         ↓                 ↓\n    P0 Gates          P1 Gates\n    (MUST pass)       (SHOULD pass)\n         ↓                 ↓\n    ✅ All pass       ⚠️ Warnings\n         ↓                 ↓\n    Commit OK         Commit OK\n                          ↓\n┌─────────────────────────────────────────┐\n│   CI Pipeline (on push)                 │\n│   Runs: ./pe verify --full             │\n│   Time limit: 5 minutes                │\n└─────────────────┬───────────────────────┘\n                  ↓\n         All P0 + P1 gates\n                  ↓\n            ✅ Deploy OK\n\n\n\n\n\n\nRule: All atom IDs must be unique within each YAML file.\nCheck:\npython tools/verify_atoms.py --check-duplicates\n# Exit 0 = pass, non-zero = fail\nThreshold: 0 duplicates allowed\nCurrent status: ✅ PASS (fixed 2026-01-27)\nFailure example:\n❌ GATE FAILED: G1 Atom Uniqueness\nFound 16 duplicate IDs in ATOMS_T2_OTHER.yaml:\n  - EXT.CRYPTO.SEC.001 (2x)\n  - EXT.CRYPTO.SEC.002 (2x)\n  ...\nFix: Remove duplicates from YAML file\n\n\n\n\nRule: Generated indexes must match source registries.\nCheck:\npython tools/verify_counts.py\n# Compares ATOMS_UNIVERSAL_INDEX counts vs actual YAML\n# Compares PIPELINE_STAGES count vs src/core/pipeline/stages/\nThreshold: 0 mismatches allowed\nCurrent status: ❌ FAIL - Atoms: Index claims T0=43 T1=24, registry has T0=42 T1=21 - Pipeline: STAGES.md says 28, REGISTRY says 18\nFailure example:\n❌ GATE FAILED: G2 Count Consistency\nAtom count mismatch:\n  Index: T0=43, T1=24\n  Registry: T0=42, T1=21\n  Δ: T0=-1, T1=-3\n\nPipeline stage mismatch:\n  PIPELINE_STAGES.md: 28 stages\n  REGISTRY_OF_REGISTRIES.md: 18 stages\n  Δ: -10 stages\n\nFix: Regenerate indexes from canonical sources\n\n\n\n\nRule: Zero broken internal links in active docs.\nCheck:\npython tools/verify_links.py --active-only\n# Scans all .md in active, checks local links\n# Ignores: archive/, http://, mailto:\nThreshold: 0 broken links in active\nCurrent status: ❌ FAIL (14 broken links in non-archive docs)\nFailure example:\n❌ GATE FAILED: G3 Link Integrity\nBroken links in active docs (14):\n  wave/docs/deep/PURPOSE_EMERGENCE.md:23\n    → ../particle/MODEL.md (should be ../../)\n\n  .agent/registry/INDEX.md:45\n    → particle/docs/OPEN_CONCERNS.md (wrong path)\n\nFix: Correct relative paths or use root-relative (/path/to/file)\n\n\n\n\nRule: Active docs cannot contain unresolved {...}, TODO, FIXME without linked issues.\nCheck:\npython tools/verify_placeholders.py --active-only\n# Scans for: {integration_status}, TODO, FIXME, XXX\n# Allows: TODO(#123) or {value|default}\nThreshold: 0 unresolved placeholders\nCurrent status: ❌ FAIL - .agent/intelligence/SKEPTICAL_AUDIT_20260126.md has {integration_status}\nFailure example:\n❌ GATE FAILED: G4 Placeholder Check\nUnresolved placeholders (3):\n  .agent/intelligence/SKEPTICAL_AUDIT_20260126.md:456\n    → {integration_status}\n\n  docs/specs/PIPELINE.md:89\n    → TODO: Add stage 29\n    (No issue linked)\n\nFix: Fill placeholders OR link to issues OR move to archive\n\n\n\n\nRule: Files named validated_* must contain PASS/FAIL header.\nCheck:\npython tools/verify_validated.py\n# Scans for validated_*.md, checks for:\n#   Status: PASS | FAIL | PARTIAL\nThreshold: 100% of validated_* files have status header\nCurrent status: ❌ FAIL - validated_theory.md is a stack trace (no header) - validated_pipeline.md has failures but unclear status\nFailure example:\n❌ GATE FAILED: G5 Validation Naming\nMisleading validation artifacts (2):\n  validated_theory.md\n    → Contains stack trace, no PASS/FAIL header\n    → Rename to: FAILED_theory_validation_20260126.md\n\n  validated_pipeline.md\n    → Partial results, unclear status\n    → Add header: Status: PARTIAL (3/10 passed)\n\nFix: Rename OR add status header\n\n\n\n\n\nRule: No generated files, vendor code, or temp files in git.\nCheck:\npython tools/verify_no_artifacts.py\n# Scans for:\n# - Files &gt;1MB\n# - output_*.json, collider_report.html\n# - libs/ directories (vendor code)\n# - .collider-*/, .tmp_*/ directories\nThreshold: 0 violations allowed\nCurrent status: ❌ INCIDENT RESOLVED\nIncident (2026-01-28): - 666,333 lines of artifacts committed - 630K: Collider test outputs (.collider-verify/) - 35K: Vendor libs (collider_pipeline_files/libs/) - 1K: Temp files (.tmp_verify/) - Cleaned in commit 34097ee\nPrevention: 1. ✅ Updated .gitignore (covers .collider-, libs/, .tmp_) 2. ✅ Created BEST_PRACTICES.md 3. ⏸️ TODO: verify_no_artifacts.py script 4. ⏸️ TODO: Pre-commit hook (reject files &gt;1MB)\nFailure example:\n❌ GATE FAILED: G9 No Artifacts\nLarge files detected:\n  - .collider-verify/output_llm-oriented_*.json (601,457 lines)\n  - collider_pipeline_files/libs/bootstrap/ (vendor code)\n\nFix: Add to .gitignore, git rm --cached, recommit\n\n\n\n\n\n\n\nRule: Every subsystem must have both code and context directories.\nCheck:\npython tools/verify_symmetry.py\n# Reads SUBSYSTEMS.yaml, checks if paths exist\nThreshold: 100% symmetry\nCurrent status: ⚠️ UNKNOWN (needs verification script)\n\n\n\n\nRule: Every public function/class must have docstring.\nCheck:\npython tools/verify_docstrings.py\nThreshold: &gt;80% coverage\nCurrent status: ⚠️ UNKNOWN\n\n\n\n\nRule: Core modules must have test coverage.\nCheck:\npytest --cov=src/core --cov-report=term\nThreshold: &gt;70% coverage\nCurrent status: ⚠️ UNKNOWN (422 tests pass, but coverage unknown)\n\n\n\n\n\n\n\n#!/bin/bash\n# .git/hooks/pre-commit\n\n./pe verify --quick || {\n  echo \"❌ Quality gates failed\"\n  echo \"Run: ./pe verify --fix\"\n  exit 1\n}\nRuns: G1, G3 (quick scans only)\n\n\n\n\n#!/bin/bash\n# .github/workflows/verify.yml\n\n./pe verify --full || {\n  echo \"❌ Full verification failed\"\n  exit 1\n}\nRuns: All P0 + P1 gates\n\n\n\n\n# Check all gates\n./pe verify v1\n\n# Check specific gate\n./pe verify atoms\n./pe verify links\n./pe verify counts\n\n# Fix mode (auto-fix what's possible)\n./pe verify --fix\n\n\n\n\n\nRun: ./pe verify status\n╔════════════════════════════════════════════════════════════════╗\n║                    QUALITY GATES STATUS                        ║\n╚════════════════════════════════════════════════════════════════╝\n\nP0 GATES (Must Pass):\n  ✅ G1: Atom Uniqueness        0 duplicates\n  ❌ G2: Count Consistency      3 mismatches\n  ❌ G3: Link Integrity         14 broken links\n  ❌ G4: Placeholder Check      3 unresolved\n  ❌ G5: Validation Naming      2 misleading files\n\nP1 GATES (Should Pass):\n  ⚠️  G6: Subsystem Symmetry    Unknown (need script)\n  ⚠️  G7: Doc Coverage          Unknown (need script)\n  ⚠️  G8: Test Coverage         Unknown (422 tests pass)\n\nOVERALL: 🔴 1/5 P0 gates pass — v1 BLOCKED\n\nNext action: Fix G2 (count consistency)\n\n\n\n\n\n\n\nUnderstand the failure\n\nRead the error message\nCheck the evidence file\n\nPick ONE fix approach:\n\nFix the data (correct the registry)\nFix the reference (update generated doc)\nArchive the problem (move to archive/)\n\nApply the fix\n\nMake the change\nRe-run verification\nCommit if passes\n\nNever skip gates\n\nUse --no-verify only for emergencies\nFix the gate, don’t bypass it\n\n\n\n\n\n\n\n\n\n✅ All P0 gates pass (5/5)\n✅ ./pe verify v1 exits 0\n✅ Generated outputs exist and fresh\n✅ Orphan count = 0\n✅ Archive is separated\n\n\n\n✅ v1.0.0 criteria +\n✅ All P1 gates pass\n✅ New feature added AND verified\n\nGates are immutable. To ship, you pass them. To bypass, you downgrade the gate priority (requires DECISIONS.md entry).",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#gate-architecture",
+    "href": "QUALITY_GATES.html#gate-architecture",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "┌─────────────────────────────────────────┐\n│   Commit Attempt                        │\n└─────────────────┬───────────────────────┘\n                  ↓\n┌─────────────────────────────────────────┐\n│   Pre-commit Hook                       │\n│   Runs: ./pe verify --quick            │\n│   Time limit: 10 seconds               │\n└─────────────────┬───────────────────────┘\n                  ↓\n         ┌────────┴────────┐\n         ↓                 ↓\n    P0 Gates          P1 Gates\n    (MUST pass)       (SHOULD pass)\n         ↓                 ↓\n    ✅ All pass       ⚠️ Warnings\n         ↓                 ↓\n    Commit OK         Commit OK\n                          ↓\n┌─────────────────────────────────────────┐\n│   CI Pipeline (on push)                 │\n│   Runs: ./pe verify --full             │\n│   Time limit: 5 minutes                │\n└─────────────────┬───────────────────────┘\n                  ↓\n         All P0 + P1 gates\n                  ↓\n            ✅ Deploy OK",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#p0-gates-must-pass---block-commit",
+    "href": "QUALITY_GATES.html#p0-gates-must-pass---block-commit",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "Rule: All atom IDs must be unique within each YAML file.\nCheck:\npython tools/verify_atoms.py --check-duplicates\n# Exit 0 = pass, non-zero = fail\nThreshold: 0 duplicates allowed\nCurrent status: ✅ PASS (fixed 2026-01-27)\nFailure example:\n❌ GATE FAILED: G1 Atom Uniqueness\nFound 16 duplicate IDs in ATOMS_T2_OTHER.yaml:\n  - EXT.CRYPTO.SEC.001 (2x)\n  - EXT.CRYPTO.SEC.002 (2x)\n  ...\nFix: Remove duplicates from YAML file\n\n\n\n\nRule: Generated indexes must match source registries.\nCheck:\npython tools/verify_counts.py\n# Compares ATOMS_UNIVERSAL_INDEX counts vs actual YAML\n# Compares PIPELINE_STAGES count vs src/core/pipeline/stages/\nThreshold: 0 mismatches allowed\nCurrent status: ❌ FAIL - Atoms: Index claims T0=43 T1=24, registry has T0=42 T1=21 - Pipeline: STAGES.md says 28, REGISTRY says 18\nFailure example:\n❌ GATE FAILED: G2 Count Consistency\nAtom count mismatch:\n  Index: T0=43, T1=24\n  Registry: T0=42, T1=21\n  Δ: T0=-1, T1=-3\n\nPipeline stage mismatch:\n  PIPELINE_STAGES.md: 28 stages\n  REGISTRY_OF_REGISTRIES.md: 18 stages\n  Δ: -10 stages\n\nFix: Regenerate indexes from canonical sources\n\n\n\n\nRule: Zero broken internal links in active docs.\nCheck:\npython tools/verify_links.py --active-only\n# Scans all .md in active, checks local links\n# Ignores: archive/, http://, mailto:\nThreshold: 0 broken links in active\nCurrent status: ❌ FAIL (14 broken links in non-archive docs)\nFailure example:\n❌ GATE FAILED: G3 Link Integrity\nBroken links in active docs (14):\n  wave/docs/deep/PURPOSE_EMERGENCE.md:23\n    → ../particle/MODEL.md (should be ../../)\n\n  .agent/registry/INDEX.md:45\n    → particle/docs/OPEN_CONCERNS.md (wrong path)\n\nFix: Correct relative paths or use root-relative (/path/to/file)\n\n\n\n\nRule: Active docs cannot contain unresolved {...}, TODO, FIXME without linked issues.\nCheck:\npython tools/verify_placeholders.py --active-only\n# Scans for: {integration_status}, TODO, FIXME, XXX\n# Allows: TODO(#123) or {value|default}\nThreshold: 0 unresolved placeholders\nCurrent status: ❌ FAIL - .agent/intelligence/SKEPTICAL_AUDIT_20260126.md has {integration_status}\nFailure example:\n❌ GATE FAILED: G4 Placeholder Check\nUnresolved placeholders (3):\n  .agent/intelligence/SKEPTICAL_AUDIT_20260126.md:456\n    → {integration_status}\n\n  docs/specs/PIPELINE.md:89\n    → TODO: Add stage 29\n    (No issue linked)\n\nFix: Fill placeholders OR link to issues OR move to archive\n\n\n\n\nRule: Files named validated_* must contain PASS/FAIL header.\nCheck:\npython tools/verify_validated.py\n# Scans for validated_*.md, checks for:\n#   Status: PASS | FAIL | PARTIAL\nThreshold: 100% of validated_* files have status header\nCurrent status: ❌ FAIL - validated_theory.md is a stack trace (no header) - validated_pipeline.md has failures but unclear status\nFailure example:\n❌ GATE FAILED: G5 Validation Naming\nMisleading validation artifacts (2):\n  validated_theory.md\n    → Contains stack trace, no PASS/FAIL header\n    → Rename to: FAILED_theory_validation_20260126.md\n\n  validated_pipeline.md\n    → Partial results, unclear status\n    → Add header: Status: PARTIAL (3/10 passed)\n\nFix: Rename OR add status header\n\n\n\n\n\nRule: No generated files, vendor code, or temp files in git.\nCheck:\npython tools/verify_no_artifacts.py\n# Scans for:\n# - Files &gt;1MB\n# - output_*.json, collider_report.html\n# - libs/ directories (vendor code)\n# - .collider-*/, .tmp_*/ directories\nThreshold: 0 violations allowed\nCurrent status: ❌ INCIDENT RESOLVED\nIncident (2026-01-28): - 666,333 lines of artifacts committed - 630K: Collider test outputs (.collider-verify/) - 35K: Vendor libs (collider_pipeline_files/libs/) - 1K: Temp files (.tmp_verify/) - Cleaned in commit 34097ee\nPrevention: 1. ✅ Updated .gitignore (covers .collider-, libs/, .tmp_) 2. ✅ Created BEST_PRACTICES.md 3. ⏸️ TODO: verify_no_artifacts.py script 4. ⏸️ TODO: Pre-commit hook (reject files &gt;1MB)\nFailure example:\n❌ GATE FAILED: G9 No Artifacts\nLarge files detected:\n  - .collider-verify/output_llm-oriented_*.json (601,457 lines)\n  - collider_pipeline_files/libs/bootstrap/ (vendor code)\n\nFix: Add to .gitignore, git rm --cached, recommit",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#p1-gates-should-pass---warning-only",
+    "href": "QUALITY_GATES.html#p1-gates-should-pass---warning-only",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "Rule: Every subsystem must have both code and context directories.\nCheck:\npython tools/verify_symmetry.py\n# Reads SUBSYSTEMS.yaml, checks if paths exist\nThreshold: 100% symmetry\nCurrent status: ⚠️ UNKNOWN (needs verification script)\n\n\n\n\nRule: Every public function/class must have docstring.\nCheck:\npython tools/verify_docstrings.py\nThreshold: &gt;80% coverage\nCurrent status: ⚠️ UNKNOWN\n\n\n\n\nRule: Core modules must have test coverage.\nCheck:\npytest --cov=src/core --cov-report=term\nThreshold: &gt;70% coverage\nCurrent status: ⚠️ UNKNOWN (422 tests pass, but coverage unknown)",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#gate-execution",
+    "href": "QUALITY_GATES.html#gate-execution",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "#!/bin/bash\n# .git/hooks/pre-commit\n\n./pe verify --quick || {\n  echo \"❌ Quality gates failed\"\n  echo \"Run: ./pe verify --fix\"\n  exit 1\n}\nRuns: G1, G3 (quick scans only)\n\n\n\n\n#!/bin/bash\n# .github/workflows/verify.yml\n\n./pe verify --full || {\n  echo \"❌ Full verification failed\"\n  exit 1\n}\nRuns: All P0 + P1 gates\n\n\n\n\n# Check all gates\n./pe verify v1\n\n# Check specific gate\n./pe verify atoms\n./pe verify links\n./pe verify counts\n\n# Fix mode (auto-fix what's possible)\n./pe verify --fix",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#gate-status-dashboard",
+    "href": "QUALITY_GATES.html#gate-status-dashboard",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "Run: ./pe verify status\n╔════════════════════════════════════════════════════════════════╗\n║                    QUALITY GATES STATUS                        ║\n╚════════════════════════════════════════════════════════════════╝\n\nP0 GATES (Must Pass):\n  ✅ G1: Atom Uniqueness        0 duplicates\n  ❌ G2: Count Consistency      3 mismatches\n  ❌ G3: Link Integrity         14 broken links\n  ❌ G4: Placeholder Check      3 unresolved\n  ❌ G5: Validation Naming      2 misleading files\n\nP1 GATES (Should Pass):\n  ⚠️  G6: Subsystem Symmetry    Unknown (need script)\n  ⚠️  G7: Doc Coverage          Unknown (need script)\n  ⚠️  G8: Test Coverage         Unknown (422 tests pass)\n\nOVERALL: 🔴 1/5 P0 gates pass — v1 BLOCKED\n\nNext action: Fix G2 (count consistency)",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#fixing-failures",
+    "href": "QUALITY_GATES.html#fixing-failures",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "Understand the failure\n\nRead the error message\nCheck the evidence file\n\nPick ONE fix approach:\n\nFix the data (correct the registry)\nFix the reference (update generated doc)\nArchive the problem (move to archive/)\n\nApply the fix\n\nMake the change\nRe-run verification\nCommit if passes\n\nNever skip gates\n\nUse --no-verify only for emergencies\nFix the gate, don’t bypass it",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "QUALITY_GATES.html#release-criteria",
+    "href": "QUALITY_GATES.html#release-criteria",
+    "title": "QUALITY GATES - Automated Integrity Checks",
+    "section": "",
+    "text": "✅ All P0 gates pass (5/5)\n✅ ./pe verify v1 exits 0\n✅ Generated outputs exist and fresh\n✅ Orphan count = 0\n✅ Archive is separated\n\n\n\n✅ v1.0.0 criteria +\n✅ All P1 gates pass\n✅ New feature added AND verified\n\nGates are immutable. To ship, you pass them. To bypass, you downgrade the gate priority (requires DECISIONS.md entry).",
+    "crumbs": [
+      "Governance",
+      "🛡️ Quality Gates"
+    ]
+  },
+  {
+    "objectID": "THE_MISSING_MANUAL.html",
+    "href": "THE_MISSING_MANUAL.html",
+    "title": "The Missing Manual",
+    "section": "",
+    "text": "“The only way to understanding is through the collapse of the wave function.”\n\n\n\nIf you are reading this, you are likely overwhelmed by the 13GB of data, the 16 levels of theory, and the sheer density of the Standard Model of Code.\nThis is normal. You are looking at a “Grand Unified Theory” of software, not just a linter. It is designed to be dense because it is modeling complexity itself.\n\n\n\n\n\nJust as CERN smashes particles to find bosons, this project smashes Source Code to find Atoms of Logic. * Input: A git repository (like this one). * Process: The collider engine (particle/src/core/collider). * Output: A graph of 100,000+ nodes connecting every function, class, and variable.\nOne Command to Rule Them All:\n./collider full /path/to/repo --output /tmp/data\n\n\n\nThe project is split into two biological halves:\n\nThe Body (particle): The physics engine. It is deterministic, rust-like (though written in Python/JS), and rigourous. It handles the syntax and structure.\nThe Brain (wave): The intelligence layer. It is probabilistic, AI-driven, and fluid. It handles the semantics and meaning.\n\nIf you want to change how we parse code, go to the Body. If you want to change how we understand code, go to the Brain.\n\n\n\nDocumentation is not a separate activity here. The Reader you are looking at is generated from the code structure itself. * L0 - L3: The Theory Stack (docs/theory/). * Governance: How we work (governance/). * The Atlas: The visual map of the system.\n\n\n\n\n\nRead the Visual Guide: Visual Guide (in Governance).\nExplore the Reader: Use the sidebar to click through the particle definitions.\nRun a Scan: Try running the collider on a small repo to see the physics in action.\n\n\n\n\n\n“It’s too much”: Focus on Level 1 (Definitions). Ignore the Laws and Applications for now.\n“Where is x?”: Use the socratic tool (AI) or grep. The file names are strictly strictly semantic (e.g., CORPUS_INVENTORY.py does exactly what it says).\n\n\nWelcome to the Standard Model.",
+    "crumbs": [
+      "Governance",
+      "📘 The Missing Manual"
+    ]
+  },
+  {
+    "objectID": "THE_MISSING_MANUAL.html#you-are-overwhelmed",
+    "href": "THE_MISSING_MANUAL.html#you-are-overwhelmed",
+    "title": "The Missing Manual",
+    "section": "",
+    "text": "If you are reading this, you are likely overwhelmed by the 13GB of data, the 16 levels of theory, and the sheer density of the Standard Model of Code.\nThis is normal. You are looking at a “Grand Unified Theory” of software, not just a linter. It is designed to be dense because it is modeling complexity itself.",
+    "crumbs": [
+      "Governance",
+      "📘 The Missing Manual"
+    ]
+  },
+  {
+    "objectID": "THE_MISSING_MANUAL.html#the-top-3-things-you-need-to-know",
+    "href": "THE_MISSING_MANUAL.html#the-top-3-things-you-need-to-know",
+    "title": "The Missing Manual",
+    "section": "",
+    "text": "Just as CERN smashes particles to find bosons, this project smashes Source Code to find Atoms of Logic. * Input: A git repository (like this one). * Process: The collider engine (particle/src/core/collider). * Output: A graph of 100,000+ nodes connecting every function, class, and variable.\nOne Command to Rule Them All:\n./collider full /path/to/repo --output /tmp/data\n\n\n\nThe project is split into two biological halves:\n\nThe Body (particle): The physics engine. It is deterministic, rust-like (though written in Python/JS), and rigourous. It handles the syntax and structure.\nThe Brain (wave): The intelligence layer. It is probabilistic, AI-driven, and fluid. It handles the semantics and meaning.\n\nIf you want to change how we parse code, go to the Body. If you want to change how we understand code, go to the Brain.\n\n\n\nDocumentation is not a separate activity here. The Reader you are looking at is generated from the code structure itself. * L0 - L3: The Theory Stack (docs/theory/). * Governance: How we work (governance/). * The Atlas: The visual map of the system.",
+    "crumbs": [
+      "Governance",
+      "📘 The Missing Manual"
+    ]
+  },
+  {
+    "objectID": "THE_MISSING_MANUAL.html#where-to-start",
+    "href": "THE_MISSING_MANUAL.html#where-to-start",
+    "title": "The Missing Manual",
+    "section": "",
+    "text": "Read the Visual Guide: Visual Guide (in Governance).\nExplore the Reader: Use the sidebar to click through the particle definitions.\nRun a Scan: Try running the collider on a small repo to see the physics in action.",
+    "crumbs": [
+      "Governance",
+      "📘 The Missing Manual"
+    ]
+  },
+  {
+    "objectID": "THE_MISSING_MANUAL.html#troubleshooting",
+    "href": "THE_MISSING_MANUAL.html#troubleshooting",
+    "title": "The Missing Manual",
+    "section": "",
+    "text": "“It’s too much”: Focus on Level 1 (Definitions). Ignore the Laws and Applications for now.\n“Where is x?”: Use the socratic tool (AI) or grep. The file names are strictly strictly semantic (e.g., CORPUS_INVENTORY.py does exactly what it says).\n\n\nWelcome to the Standard Model.",
+    "crumbs": [
+      "Governance",
+      "📘 The Missing Manual"
+    ]
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html",
+    "href": "ROADMAP_ENGINE.html",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "North Star: Self-proving ASAP (proof_score ≥ 80%, phantoms = 0)\nCurrent State: Phase 0 complete, PR #1 open with 23 commits\n\n\n\nPhase 3 (entrypoints + reachability)\n    ↓\nPhase 2 (call resolution improvements)\n    ↓\nPhase 4 (auditability + determinism)\n\n\n\n\n\n\n\nMulti-layer graph spec: GRAPH_LAYERS.md\nDomain separation spec: docs/SPEC.md v0.1.3\nGuardrail tests (6 tests, all passing)\nTS extractor tests with always-run enum derivation guard\n\n\n\n\n\nTest suite: 102 passed, 3 skipped\n\n\n\n\n\n\nGoal: Make node identity + node inventory rock-solid across repos.\n\n\n\nCanonical node IDs\n\nAtomic IDs: rel_path::function, rel_path::Class.method, rel_path::Class\nContainer IDs: stable module/file IDs (collision-safe)\n\nBidirectional containment\n\ncontains edges: file → component (structural)\n(Optional) member_of edges: component → file (reverse view)\n\nStable registries\n\ncomponent_registry.json for N_atomic\nfile_registry.json for N_container\n\n\n\n\n\n\nRegistry accuracy for atomic registry is 100% on src/core\ncontains edges exist for every atomic node\nNo atomic ID collisions\n\n\n\n\n\n|N_atomic|, |N_container|\ncontains_coverage = atomic_nodes_with_parent_file / |N_atomic|\n\n\n\n\n\n\nGoal: Make resolution strict and reliable without mixing domains.\n\n\n\nCall resolver (atomic target domain only)\n\ncalls: resolve against N_atomic only\nNever “upgrade” a file/container match into resolved_internal\n\nImport resolver (container target domain only)\n\nimports: resolve against N_container only\nStrict stdlib/builtin classification\n\nResolution evidence\n\nEvery resolved_internal edge includes evidence fields\n\n\n\n\n\n\nGuardrails stay green\nNegative fixtures for: alias shadowing, relative vs absolute imports, builtin shadowing\n\n\n\n\n\ncalls_resolved_internal / calls_total\nimports_resolved_internal / imports_total\nunresolved_call_reasons histogram\n\n\n\n\n\n\nGoal: Raise reachability while preserving rule-based entrypoints.\n\n\n\nEntrypoint detection expansion (atomic-only)\n\nmain patterns (if __name__ == \"__main__\": main())\nCLI frameworks (click/typer/fire/argparse)\nWeb frameworks (FastAPI/Flask routing decorators)\nTest entrypoints behind flag (--include-tests)\n\nReachability engine\n\nBFS/DFS over proof graph (calls + resolved_internal)\nPersist witness paths for debuggable proof\n\nReachability reporting\n\nReport why nodes are unreachable:\n\nno incoming edges\nedges unresolved\nentrypoints missing\n\n\n\n\n\n\n\nReachability increases on src/core from baseline (~29.3%)\nGuardrails stay green\n“Entrypoints are atomic-only” test exists and passes\n\n\n\n\n\nreachability = reachable_atomic / |N_atomic|\nunreachable_buckets (by reason)\nTarget: proof_score ≥ 80 AND phantoms = 0\n\n\n\n\n\n\nGoal: Make proof outputs auditable and hard to fake.\n\n\n\nProof traceability\n\nStore witness paths for reachability\nStore edge verification stats with evidence\n\nProof invariants enforced in code\n\nProof substrate definition centralized and tested\nDenominators explicitly |N_atomic|\n\n“Self-proving” mode\n\nSingle command returns pass/fail + diagnostics\n\n\n\n\n\n\nProof graph matches recomputation from source\nProof score stable across runs (deterministic)\n\n\n\n\n\nproof_score, phantoms, edge_accuracy, connection_coverage, reachability\nDeterminism hash for artifacts\n\n\n\n\n\n\nGoal: Turn the graph into an analysis machine.\n\n\n\nDimensions D1–D8 for N_atomic\nAttributes A1–A8 (formerly “Lenses”)\nEvidence model (confidence + evidence per field)\nTerminology standardization\n\nAttributes = inherent properties of each atom (schema/data model)\nLenses = analytical perspectives for examining code (process/methodology)\nUpdate THEORY.md, schema files, and code to use consistent terminology: &gt; “Every atom has 8 attributes. We examine them through 8 lenses.”\n\n\n\n\n\n\nEnrichment coverage: % atomic nodes with D-fields\nAvg confidence and distribution\n\n\n\n\n\n\nGoal: Compute P1–P4 on the right graphs.\n\n\n\nAtomic call graph metrics (Markov, Knot, Game, Constructal)\nDerived graphs (file dependency, aggregated call graph, interface graph)\nIssue detectors (cycles, hotspots, unstable equilibria)\n\n\n\n\n\n\nGoal: Make SMOC easy to run and integrate.\n\n\n\nCLI contracts: analyze, validate-all, prove, bundle, issues, viz\nOutput schema versioning\nDashboard / report\n\n\n\n\n\n\nGoal: Extend SMOC beyond Python.\n\n\n\nTS/JS parity layer\nCross-language normalization\n\n\n\n\n\n\nGoal: Make Collider smart about WHAT to analyze before HOW to analyze.\n\n\nCollider currently parses everything blindly. Analyzing viz/assets/ produced 4,342 nodes where 80% (3,500+) came from vendor libraries (three.min.js, 3d-force-graph.min.js). The signal-to-noise ratio is destroyed.\n\n\n\n┌────────────────────────────────────────────────────────────┐\n│  NEW: Stage 0 — SURVEY (AI-Powered)                        │\n├────────────────────────────────────────────────────────────┤\n│  1. Directory scan (fast, no parsing)                      │\n│  2. Pattern detection:                                     │\n│     - vendor/, node_modules/, lib/, dist/                  │\n│     - *.min.js, *.bundle.js (minified)                     │\n│     - *.generated.ts, *.pb.go (generated)                  │\n│     - __fixtures__/, testdata/ (test data)                 │\n│  3. Heuristics:                                            │\n│     - Single-line files &gt; 10KB = minified                  │\n│     - Avg line length &gt; 500 chars = minified               │\n│     - No whitespace variance = obfuscated                  │\n│  4. AI classification (analyze.py):                        │\n│     - \"Is this vendor code?\" → exclude                     │\n│     - \"What's the project structure?\" → configure          │\n│     - \"Estimated complexity?\" → warn/adapt                 │\n│  5. Output: analysis_config.yaml                           │\n│     - exclude_patterns: [...]                              │\n│     - focus_paths: [...]                                   │\n│     - estimated_nodes: N                                   │\n│     - recommended_flags: [...]                             │\n└────────────────────────────────────────────────────────────┘\n                              ↓\n┌────────────────────────────────────────────────────────────┐\n│  Stage 1 — AST Parsing (with config applied)               │\n│  Now only parses YOUR code, not vendor libraries           │\n└────────────────────────────────────────────────────────────┘\n\n\n\n\nSurvey Module (src/core/survey.py)\n\nFast directory scanner (no AST, just file stats)\nPattern-based exclusion detector\nMinification heuristics\nToken/complexity estimator\n\nAI Integration (optional, via analyze.py)\n\nGemini-powered project understanding\nSmart exclusion recommendations\n“What kind of codebase is this?”\n\nCLI Integration\n\n./collider survey &lt;path&gt; — Run survey only, output config\n./collider full &lt;path&gt; --survey — Auto-survey before analysis\n./collider full &lt;path&gt; --exclude vendor/ — Manual exclusion\n\nInteractive Mode\n$ ./collider full ./my-app\n\n[SURVEY] Detected potential exclusions:\n  - node_modules/     (1,247 files, ~50MB)\n  - vendor/three.js   (minified, 30K lines)\n  - dist/             (build output)\n\nExclude these? [Y/n/customize]:\n\n\n\n\n\nSurvey completes in &lt;5s for repos up to 10K files\nMinified file detection accuracy &gt;95%\nVendor directory detection accuracy 100%\nAnalysis of viz/assets/ with survey → &lt;500 nodes (vs 4,342)\n\n\n\n\n\nsurvey_time_ms\nexclusion_accuracy\nsignal_to_noise_ratio = your_code_nodes / total_nodes\nanalysis_speedup = time_without_survey / time_with_survey\n\n\n\n\n\n\n\nSub-phase\nDeliverable\nComplexity\n\n\n\n\n10.1\nPattern-based exclusions (no AI)\nLOW\n\n\n10.2\nMinification heuristics\nLOW\n\n\n10.3\nCLI –exclude flag\nLOW\n\n\n10.4\nInteractive survey mode\nMEDIUM\n\n\n10.5\nAI-powered classification\nMEDIUM\n\n\n10.6\nAuto-survey by default\nLOW\n\n\n\n\n\n\n\nFocus: Analyze YOUR code, not npm’s code\nSpeed: 10x faster on typical JS/TS projects\nSignal: Clean graphs that show YOUR architecture\nUX: Users don’t need to know what to exclude\n\n\n\n\n\n\nGoal: Keep the theory coherent and implementation evolvable.\n\n\n\nVersioned SPEC + changelog\nTheory-to-code map\nPR checklist for domain changes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPR\nFocus\nKey Deliverable\n\n\n\n\nPR2\nEntry rules expansion\nEntrypoint detection for click/typer/FastAPI\n\n\nPR3\nReachability diagnostics\nBFS engine + unreachable buckets report\n\n\nPR4\nCall resolver upgrades\nself/cls/import aliasing + fixtures\n\n\nPR5\nProof traceability\nWitness paths + determinism hash\n\n\nPR6\nDerived graphs\nFile-level aggregation (non-proof)\n\n\nPR7\nDimensions/Attributes\nEnrichment passes + evidence model + terminology\n\n\nPR8\nPillars stabilization\nIssue detectors\n\n\n\n\n\n\n\nReachability: 29.3% ← This is the forcing function\nRoot causes to investigate: 1. Missing entrypoint rules (click/typer/FastAPI decorators) 2. Unresolved calls (self/cls patterns, import aliasing) 3. Isolated subgraphs (no path from any entrypoint)\n\nLast updated: 2026-01-16"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#critical-path-to-self-proving",
+    "href": "ROADMAP_ENGINE.html#critical-path-to-self-proving",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Phase 3 (entrypoints + reachability)\n    ↓\nPhase 2 (call resolution improvements)\n    ↓\nPhase 4 (auditability + determinism)"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-0-locked-invariants-done",
+    "href": "ROADMAP_ENGINE.html#phase-0-locked-invariants-done",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Multi-layer graph spec: GRAPH_LAYERS.md\nDomain separation spec: docs/SPEC.md v0.1.3\nGuardrail tests (6 tests, all passing)\nTS extractor tests with always-run enum derivation guard\n\n\n\n\n\nTest suite: 102 passed, 3 skipped"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-1-graph-substrate-completion",
+    "href": "ROADMAP_ENGINE.html#phase-1-graph-substrate-completion",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Make node identity + node inventory rock-solid across repos.\n\n\n\nCanonical node IDs\n\nAtomic IDs: rel_path::function, rel_path::Class.method, rel_path::Class\nContainer IDs: stable module/file IDs (collision-safe)\n\nBidirectional containment\n\ncontains edges: file → component (structural)\n(Optional) member_of edges: component → file (reverse view)\n\nStable registries\n\ncomponent_registry.json for N_atomic\nfile_registry.json for N_container\n\n\n\n\n\n\nRegistry accuracy for atomic registry is 100% on src/core\ncontains edges exist for every atomic node\nNo atomic ID collisions\n\n\n\n\n\n|N_atomic|, |N_container|\ncontains_coverage = atomic_nodes_with_parent_file / |N_atomic|"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-2-resolution-correctness",
+    "href": "ROADMAP_ENGINE.html#phase-2-resolution-correctness",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Make resolution strict and reliable without mixing domains.\n\n\n\nCall resolver (atomic target domain only)\n\ncalls: resolve against N_atomic only\nNever “upgrade” a file/container match into resolved_internal\n\nImport resolver (container target domain only)\n\nimports: resolve against N_container only\nStrict stdlib/builtin classification\n\nResolution evidence\n\nEvery resolved_internal edge includes evidence fields\n\n\n\n\n\n\nGuardrails stay green\nNegative fixtures for: alias shadowing, relative vs absolute imports, builtin shadowing\n\n\n\n\n\ncalls_resolved_internal / calls_total\nimports_resolved_internal / imports_total\nunresolved_call_reasons histogram"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-3-entrypoints-reachability-priority",
+    "href": "ROADMAP_ENGINE.html#phase-3-entrypoints-reachability-priority",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Raise reachability while preserving rule-based entrypoints.\n\n\n\nEntrypoint detection expansion (atomic-only)\n\nmain patterns (if __name__ == \"__main__\": main())\nCLI frameworks (click/typer/fire/argparse)\nWeb frameworks (FastAPI/Flask routing decorators)\nTest entrypoints behind flag (--include-tests)\n\nReachability engine\n\nBFS/DFS over proof graph (calls + resolved_internal)\nPersist witness paths for debuggable proof\n\nReachability reporting\n\nReport why nodes are unreachable:\n\nno incoming edges\nedges unresolved\nentrypoints missing\n\n\n\n\n\n\n\nReachability increases on src/core from baseline (~29.3%)\nGuardrails stay green\n“Entrypoints are atomic-only” test exists and passes\n\n\n\n\n\nreachability = reachable_atomic / |N_atomic|\nunreachable_buckets (by reason)\nTarget: proof_score ≥ 80 AND phantoms = 0"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-4-proof-system-hardening",
+    "href": "ROADMAP_ENGINE.html#phase-4-proof-system-hardening",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Make proof outputs auditable and hard to fake.\n\n\n\nProof traceability\n\nStore witness paths for reachability\nStore edge verification stats with evidence\n\nProof invariants enforced in code\n\nProof substrate definition centralized and tested\nDenominators explicitly |N_atomic|\n\n“Self-proving” mode\n\nSingle command returns pass/fail + diagnostics\n\n\n\n\n\n\nProof graph matches recomputation from source\nProof score stable across runs (deterministic)\n\n\n\n\n\nproof_score, phantoms, edge_accuracy, connection_coverage, reachability\nDeterminism hash for artifacts"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-5-dimensions-attributes-enrichment",
+    "href": "ROADMAP_ENGINE.html#phase-5-dimensions-attributes-enrichment",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Turn the graph into an analysis machine.\n\n\n\nDimensions D1–D8 for N_atomic\nAttributes A1–A8 (formerly “Lenses”)\nEvidence model (confidence + evidence per field)\nTerminology standardization\n\nAttributes = inherent properties of each atom (schema/data model)\nLenses = analytical perspectives for examining code (process/methodology)\nUpdate THEORY.md, schema files, and code to use consistent terminology: &gt; “Every atom has 8 attributes. We examine them through 8 lenses.”\n\n\n\n\n\n\nEnrichment coverage: % atomic nodes with D-fields\nAvg confidence and distribution"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-6-pillars-engine-derived-graphs",
+    "href": "ROADMAP_ENGINE.html#phase-6-pillars-engine-derived-graphs",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Compute P1–P4 on the right graphs.\n\n\n\nAtomic call graph metrics (Markov, Knot, Game, Constructal)\nDerived graphs (file dependency, aggregated call graph, interface graph)\nIssue detectors (cycles, hotspots, unstable equilibria)"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-7-productization",
+    "href": "ROADMAP_ENGINE.html#phase-7-productization",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Make SMOC easy to run and integrate.\n\n\n\nCLI contracts: analyze, validate-all, prove, bundle, issues, viz\nOutput schema versioning\nDashboard / report"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-8-multi-language-tsjs-first",
+    "href": "ROADMAP_ENGINE.html#phase-8-multi-language-tsjs-first",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Extend SMOC beyond Python.\n\n\n\nTS/JS parity layer\nCross-language normalization"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-10-adaptive-intelligence-layer-survey",
+    "href": "ROADMAP_ENGINE.html#phase-10-adaptive-intelligence-layer-survey",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Make Collider smart about WHAT to analyze before HOW to analyze.\n\n\nCollider currently parses everything blindly. Analyzing viz/assets/ produced 4,342 nodes where 80% (3,500+) came from vendor libraries (three.min.js, 3d-force-graph.min.js). The signal-to-noise ratio is destroyed.\n\n\n\n┌────────────────────────────────────────────────────────────┐\n│  NEW: Stage 0 — SURVEY (AI-Powered)                        │\n├────────────────────────────────────────────────────────────┤\n│  1. Directory scan (fast, no parsing)                      │\n│  2. Pattern detection:                                     │\n│     - vendor/, node_modules/, lib/, dist/                  │\n│     - *.min.js, *.bundle.js (minified)                     │\n│     - *.generated.ts, *.pb.go (generated)                  │\n│     - __fixtures__/, testdata/ (test data)                 │\n│  3. Heuristics:                                            │\n│     - Single-line files &gt; 10KB = minified                  │\n│     - Avg line length &gt; 500 chars = minified               │\n│     - No whitespace variance = obfuscated                  │\n│  4. AI classification (analyze.py):                        │\n│     - \"Is this vendor code?\" → exclude                     │\n│     - \"What's the project structure?\" → configure          │\n│     - \"Estimated complexity?\" → warn/adapt                 │\n│  5. Output: analysis_config.yaml                           │\n│     - exclude_patterns: [...]                              │\n│     - focus_paths: [...]                                   │\n│     - estimated_nodes: N                                   │\n│     - recommended_flags: [...]                             │\n└────────────────────────────────────────────────────────────┘\n                              ↓\n┌────────────────────────────────────────────────────────────┐\n│  Stage 1 — AST Parsing (with config applied)               │\n│  Now only parses YOUR code, not vendor libraries           │\n└────────────────────────────────────────────────────────────┘\n\n\n\n\nSurvey Module (src/core/survey.py)\n\nFast directory scanner (no AST, just file stats)\nPattern-based exclusion detector\nMinification heuristics\nToken/complexity estimator\n\nAI Integration (optional, via analyze.py)\n\nGemini-powered project understanding\nSmart exclusion recommendations\n“What kind of codebase is this?”\n\nCLI Integration\n\n./collider survey &lt;path&gt; — Run survey only, output config\n./collider full &lt;path&gt; --survey — Auto-survey before analysis\n./collider full &lt;path&gt; --exclude vendor/ — Manual exclusion\n\nInteractive Mode\n$ ./collider full ./my-app\n\n[SURVEY] Detected potential exclusions:\n  - node_modules/     (1,247 files, ~50MB)\n  - vendor/three.js   (minified, 30K lines)\n  - dist/             (build output)\n\nExclude these? [Y/n/customize]:\n\n\n\n\n\nSurvey completes in &lt;5s for repos up to 10K files\nMinified file detection accuracy &gt;95%\nVendor directory detection accuracy 100%\nAnalysis of viz/assets/ with survey → &lt;500 nodes (vs 4,342)\n\n\n\n\n\nsurvey_time_ms\nexclusion_accuracy\nsignal_to_noise_ratio = your_code_nodes / total_nodes\nanalysis_speedup = time_without_survey / time_with_survey\n\n\n\n\n\n\n\nSub-phase\nDeliverable\nComplexity\n\n\n\n\n10.1\nPattern-based exclusions (no AI)\nLOW\n\n\n10.2\nMinification heuristics\nLOW\n\n\n10.3\nCLI –exclude flag\nLOW\n\n\n10.4\nInteractive survey mode\nMEDIUM\n\n\n10.5\nAI-powered classification\nMEDIUM\n\n\n10.6\nAuto-survey by default\nLOW\n\n\n\n\n\n\n\nFocus: Analyze YOUR code, not npm’s code\nSpeed: 10x faster on typical JS/TS projects\nSignal: Clean graphs that show YOUR architecture\nUX: Users don’t need to know what to exclude"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#phase-9-governance",
+    "href": "ROADMAP_ENGINE.html#phase-9-governance",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Goal: Keep the theory coherent and implementation evolvable.\n\n\n\nVersioned SPEC + changelog\nTheory-to-code map\nPR checklist for domain changes"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#suggested-pr-sequence-post-pr-1",
+    "href": "ROADMAP_ENGINE.html#suggested-pr-sequence-post-pr-1",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "PR\nFocus\nKey Deliverable\n\n\n\n\nPR2\nEntry rules expansion\nEntrypoint detection for click/typer/FastAPI\n\n\nPR3\nReachability diagnostics\nBFS engine + unreachable buckets report\n\n\nPR4\nCall resolver upgrades\nself/cls/import aliasing + fixtures\n\n\nPR5\nProof traceability\nWitness paths + determinism hash\n\n\nPR6\nDerived graphs\nFile-level aggregation (non-proof)\n\n\nPR7\nDimensions/Attributes\nEnrichment passes + evidence model + terminology\n\n\nPR8\nPillars stabilization\nIssue detectors"
+  },
+  {
+    "objectID": "ROADMAP_ENGINE.html#current-bottleneck",
+    "href": "ROADMAP_ENGINE.html#current-bottleneck",
+    "title": "SMOC Development Roadmap",
+    "section": "",
+    "text": "Reachability: 29.3% ← This is the forcing function\nRoot causes to investigate: 1. Missing entrypoint rules (click/typer/FastAPI decorators) 2. Unresolved calls (self/cls patterns, import aliasing) 3. Isolated subgraphs (no path from any entrypoint)\n\nLast updated: 2026-01-16"
+  }
+]

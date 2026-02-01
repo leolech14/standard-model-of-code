@@ -21,7 +21,7 @@ import json
 from pathlib import Path
 
 REFS_DIR = Path(__file__).resolve().parent if "__file__" in locals() else Path(".")
-CONCEPT_INDEX_PATH = REFS_DIR / "context-management/archive/references/index/concept_index.json"
+CONCEPT_INDEX_PATH = REFS_DIR / "wave/archive/references/index/concept_index.json"
 
 def find_source_for_concept(concept: str) -> list[str]:
     """
@@ -54,7 +54,7 @@ def get_author_from_ref_id(ref_id: str) -> str:
     Returns:
         The author's last name as a string, or "Unknown" if the reference ID is not found or the author is not available.
     """
-    catalog_path = REFS_DIR / "context-management/archive/references/index/catalog.json"
+    catalog_path = REFS_DIR / "wave/archive/references/index/catalog.json"
     try:
         with open(catalog_path, "r") as f:
             catalog = json.load(f)

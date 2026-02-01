@@ -16,16 +16,16 @@ steps:
     \ M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
     \ M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
     \ M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/refinery_config.yaml\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_082117.json\n\
-    \ M context-management/docs/ARCHITECTURE_DEBT_REGISTRY.md\n M context-management/docs/PROJECTOME_TOTALITY_REPORT.md\n\
-    \ M context-management/docs/SCATTERED_CONCERNS_MAP.md\n M context-management/docs/reports/architecture_report/architecture_data.json\n\
-    \ M context-management/docs/reports/architecture_report/collider_analysis/output_human-readable_standard-model-of-code_20260121_014151.html\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/refinery_config.yaml\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_082117.json\n\
+    \ M wave/docs/ARCHITECTURE_DEBT_REGISTRY.md\n M wave/docs/PROJECTOME_TOTALITY_REPORT.md\n\
+    \ M wave/docs/SCATTERED_CONCERNS_MAP.md\n M wave/docs/reports/architecture_report/architecture_data.json\n\
+    \ M wave/docs/reports/architecture_report/collider_analysis/output_human-readable_particle_20260121_014151.html\n"
   error: null
   exit_code: 0
 - step_id: check_dead_code
@@ -38,9 +38,9 @@ steps:
   outcome: FAILURE
   output: ''
   error: "Traceback (most recent call last):\n  File \"<string>\", line 2, in <module>\n\
-    \    from aci import (\n    ...<5 lines>...\n    )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/__init__.py\"\
+    \    from aci import (\n    ...<5 lines>...\n    )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/__init__.py\"\
     , line 101, in <module>\n    from .refinery import (\n    ...<7 lines>...\n  \
-    \  )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/refinery.py\"\
+    \  )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/refinery.py\"\
     , line 38, in <module>\n    from ai.aci.schema import RefineryNode  # Shared Schema\n\
     \    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named\
     \ 'ai'\n"
@@ -67,16 +67,16 @@ variables:
     \ M .agent/intelligence/confidence_reports/20260127_003745_batch_confidence.json\n\
     \ M .agent/intelligence/confidence_reports/20260127_011431_batch_confidence.json\n\
     \ M .agent/intelligence/confidence_reports/20260128_040834_batch_confidence.json\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/refinery_config.yaml\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
-    \ M context-management/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n\
-    \ M context-management/data/collider_runs/output_llm-oriented_src_20260121_082117.json\n\
-    \ M context-management/docs/ARCHITECTURE_DEBT_REGISTRY.md\n M context-management/docs/PROJECTOME_TOTALITY_REPORT.md\n\
-    \ M context-management/docs/SCATTERED_CONCERNS_MAP.md\n M context-management/docs/reports/architecture_report/architecture_data.json\n\
-    \ M context-management/docs/reports/architecture_report/collider_analysis/output_human-readable_standard-model-of-code_20260121_014151.html\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/refinery_config.yaml\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_074317.html\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_080924.html\n\
+    \ M wave/data/collider_runs/output_human-readable_src_20260121_082117.html\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_074317.json\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_080924.json\n\
+    \ M wave/data/collider_runs/output_llm-oriented_src_20260121_082117.json\n\
+    \ M wave/docs/ARCHITECTURE_DEBT_REGISTRY.md\n M wave/docs/PROJECTOME_TOTALITY_REPORT.md\n\
+    \ M wave/docs/SCATTERED_CONCERNS_MAP.md\n M wave/docs/reports/architecture_report/architecture_data.json\n\
+    \ M wave/docs/reports/architecture_report/collider_analysis/output_human-readable_particle_20260121_014151.html\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution
   bloat_analysis: Requires manual AI execution

@@ -114,10 +114,10 @@ The user is concerned about the significant gap in test coverage for the Collide
 
 **Files to Consider for Testing**
 
-*   `standard-model-of-code/src/core/viz/assets/modules/*.js`
-*   `standard-model-of-code/src/core/viz/assets/template.html`
-*   `standard-model-of-code/src/core/viz/assets/styles.css`
-*   `standard-model-of-code/tools/visualize_graph_webgl.py`
+*   `particle/src/core/viz/assets/modules/*.js`
+*   `particle/src/core/viz/assets/template.html`
+*   `particle/src/core/viz/assets/styles.css`
+*   `particle/tools/visualize_graph_webgl.py`
 
 **Relevant Configuration from `aci_config.yaml` and `analysis_sets.yaml`**
 

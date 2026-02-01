@@ -15,7 +15,7 @@ description: |
   2. ✅ Updated archive config with 4 large directories for GCS offload
   3. ✅ Added 14MB timestamp CSV to .gitignore
   4. ✅ Moved one-time reports to archive/reports/
-  5. ✅ Moved AGENTKNOWLEDGEDUMP.md to context-management/docs/agent_school/
+  5. ✅ Moved AGENTKNOWLEDGEDUMP.md to wave/docs/agent_school/
   6. ✅ Fixed validate_manifest.py exit code logic
   7. ✅ Filtered __init__.py from orphan detection
 

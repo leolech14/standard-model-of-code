@@ -21,14 +21,14 @@ STRUCTURE = {
         "governance/PIPELINES.md"
     ],
     "Subsystems (Particle)": [
-        "standard-model-of-code/docs/theory/THEORY_AXIOMS.md",
-        "standard-model-of-code/docs/theory/THEORY_COMPLETE_ALL.md",
-         "standard-model-of-code/docs/specs/PIPELINE_STAGES.md"
+        "particle/docs/theory/THEORY_AXIOMS.md",
+        "particle/docs/theory/THEORY_COMPLETE_ALL.md",
+         "particle/docs/specs/PIPELINE_STAGES.md"
     ],
     "Intelligence (Wave)": [
-        "context-management/docs/CONTEXTOME.md",
-        "context-management/docs/PROJECTOME.md",
-        "context-management/registry/REGISTRY_REPORT.md"
+        "wave/docs/CONTEXTOME.md",
+        "wave/docs/PROJECTOME.md",
+        "wave/registry/REGISTRY_REPORT.md"
     ]
 }
 
@@ -76,7 +76,7 @@ def generate_config():
         },
         "website": {
             "title": "PROJECT_elements Reader",
-            "site-url": "https://github.com/leolech14/standard-model-of-code",
+            "site-url": "https://github.com/leolech14/particle",
             "description": "Official Documentation Reader for the PROJECT_elements Standard Model.",
             "sidebar": {
                 "style": "floating",
@@ -88,7 +88,7 @@ def generate_config():
             "page-footer": {
                 "left": "PROJECT_elements v1.0",
                 "right": [
-                    {"icon": "github", "href": "https://github.com/leolech14/standard-model-of-code"}
+                    {"icon": "github", "href": "https://github.com/leolech14/particle"}
                 ]
             }
         },

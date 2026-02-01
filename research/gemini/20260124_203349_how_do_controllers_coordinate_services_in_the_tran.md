@@ -45,7 +45,7 @@ The interaction is strictly governed by the architectural rules defined in `TOOL
     *   *Violation:* `TOOL.md` explicitly cites: *"Controller calling Repository directly (skipping Service)"* as an `AM001` violation.
 
 ### 3. Concrete Example: ACI Tier Router
-Looking at the codebase context provided (specifically `context-management/docs/ACI_DATASET_MANAGEMENT.md`), we can see this pattern in action within the **Adaptive Context Intelligence (ACI)** system:
+Looking at the codebase context provided (specifically `wave/docs/ACI_DATASET_MANAGEMENT.md`), we can see this pattern in action within the **Adaptive Context Intelligence (ACI)** system:
 
 1.  **Transport/Controller**: The `Tier Router` (acting as the controller) receives the raw query.
 2.  **Coordination**: It does not answer the query itself. Instead, it calculates the "Routing Matrix" (Intent × Complexity × Scope).

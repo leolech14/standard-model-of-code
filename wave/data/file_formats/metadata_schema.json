@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "file_metadata_schema",
+  "version": "1.0.0",
+  "created": "2026-01-31",
+  "title": "Universal File Metadata Schema",
+  "description": "Extensible schema for storing metadata from all file format types",
+
+  "type": "object",
+  "required": ["core"],
+
+  "properties": {
+    "core": {
+      "type": "object",
+      "description": "Core properties present in all files",
+      "required": ["path", "name", "size", "modified"],
+      "properties": {
+        "path": { "type": "string", "description": "Full file path" },
+        "name": { "type": "string", "description": "File name with extension" },
+        "extension": { "type": "string", "description": "File extension without dot" },
+        "mimeType": { "type": "string", "description": "MIME type" },
+        "size": { "type": "integer", "description": "File size in bytes" },
+        "created": { "type": "string", "format": "date-time" },
+        "modified": { "type": "string", "format": "date-time" },
+        "accessed": { "type": "string", "format": "date-time" },
+        "hash": {
+          "type": "object",
+          "properties": {
+            "md5": { "type": "string" },
+            "sha256": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "technical": {
+      "type": "object",
+      "description": "Technical format-specific properties",
+      "properties": {
+        "format": { "type": "string", "description": "Specific format name (JPEG, PNG, etc.)" },
+        "formatVersion": { "type": "string", "description": "Format version if applicable" },
+        "encoding": { "type": "string", "description": "Character/binary encoding" },
+        "compression": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["none", "lossless", "lossy"] },
+            "algorithm": { "type": "string" },
+            "level": { "type": "integer" },
+            "ratio": { "type": "number" }
+          }
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer" },
+            "height": { "type": "integer" },
+            "depth": { "type": "integer" },
+            "aspectRatio": { "type": "string" }
+          }
+        },
+        "color": {
+          "type": "object",
+          "properties": {
+            "space": { "type": "string", "description": "sRGB, Adobe RGB, etc." },
+            "profile": { "type": "string", "description": "ICC profile name" },
+            "bitDepth": { "type": "integer" },
+            "channels": { "type": "integer" },
+            "hasAlpha": { "type": "boolean" }
+          }
+        },
+        "duration": { "type": "number", "description": "Duration in seconds for media" },
+        "frameRate": { "type": "number", "description": "Frames per second for video" },
+        "sampleRate": { "type": "integer", "description": "Audio sample rate in Hz" },
+        "bitRate": { "type": "integer", "description": "Bit rate in bps" },
+        "audioChannels": { "type": "integer", "description": "Number of audio channels" },
+        "codec": { "type": "string", "description": "Codec identifier" },
+        "container": { "type": "string", "description": "Container format" }
+      }
+    },
+
+    "descriptive": {
+      "type": "object",
+      "description": "Human-readable descriptive metadata (Dublin Core aligned)",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "subject": { "type": "string" },
+        "keywords": { "type": "array", "items": { "type": "string" } },
+        "language": { "type": "string", "description": "ISO 639 language code" },
+        "category": { "type": "string" },
+        "rating": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "comment": { "type": "string" }
+      }
+    },
+
+    "creator": {
+      "type": "object",
+      "description": "Creator and contributor information",
+      "properties": {
+        "creator": { "type": "string", "description": "Primary creator" },
+        "author": { "type": "string", "description": "Author (alias for creator)" },
+        "artist": { "type": "string", "description": "Artist (for media)" },
+        "contributors": { "type": "array", "items": { "type": "string" } },
+        "publisher": { "type": "string" },
+        "creatorTool": { "type": "string", "description": "Software used to create" },
+        "producer": { "type": "string", "description": "Production software" }
+      }
+    },
+
+    "rights": {
+      "type": "object",
+      "description": "Copyright and licensing information",
+      "properties": {
+        "copyright": { "type": "string" },
+        "copyrightNotice": { "type": "string" },
+        "copyrightYear": { "type": "integer" },
+        "license": { "type": "string" },
+        "licenseUrl": { "type": "string", "format": "uri" },
+        "usageTerms": { "type": "string" },
+        "marked": { "type": "boolean", "description": "Copyright marked in file" },
+        "webStatement": { "type": "string", "format": "uri" }
+      }
+    },
+
+    "location": {
+      "type": "object",
+      "description": "Geographic location data (GPS)",
+      "properties": {
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+        "altitude": { "type": "number", "description": "Meters above sea level" },
+        "altitudeRef": { "type": "string", "enum": ["above", "below"] },
+        "accuracy": { "type": "number", "description": "Accuracy in meters" },
+        "bearing": { "type": "number", "minimum": 0, "maximum": 360 },
+        "speed": { "type": "number", "description": "Speed in m/s" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "placeName": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string", "pattern": "^[A-Z]{2}$" }
+      }
+    },
+
+    "exif": {
+      "type": "object",
+      "description": "EXIF metadata for images",
+      "properties": {
+        "make": { "type": "string", "description": "Camera manufacturer" },
+        "model": { "type": "string", "description": "Camera model" },
+        "lens": { "type": "string", "description": "Lens model" },
+        "lensInfo": { "type": "string" },
+        "focalLength": { "type": "number", "description": "Focal length in mm" },
+        "focalLength35mm": { "type": "number", "description": "35mm equivalent" },
+        "aperture": { "type": "number", "description": "F-number" },
+        "shutterSpeed": { "type": "string", "description": "Shutter speed (e.g., 1/250)" },
+        "exposureTime": { "type": "number", "description": "Exposure in seconds" },
+        "iso": { "type": "integer", "description": "ISO sensitivity" },
+        "exposureBias": { "type": "number" },
+        "exposureMode": { "type": "string", "enum": ["auto", "manual", "bracket"] },
+        "exposureProgram": { "type": "string" },
+        "meteringMode": { "type": "string" },
+        "flash": {
+          "type": "object",
+          "properties": {
+            "fired": { "type": "boolean" },
+            "mode": { "type": "string" },
+            "redEyeMode": { "type": "boolean" }
+          }
+        },
+        "whiteBalance": { "type": "string" },
+        "orientation": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "dateTimeOriginal": { "type": "string", "format": "date-time" },
+        "dateTimeDigitized": { "type": "string", "format": "date-time" },
+        "software": { "type": "string" },
+        "serialNumber": { "type": "string" }
+      }
+    },
+
+    "audio": {
+      "type": "object",
+      "description": "Audio-specific metadata (ID3 aligned)",
+      "properties": {
+        "title": { "type": "string" },
+        "artist": { "type": "string" },
+        "albumArtist": { "type": "string" },
+        "album": { "type": "string" },
+        "track": { "type": "integer" },
+        "trackTotal": { "type": "integer" },
+        "disc": { "type": "integer" },
+        "discTotal": { "type": "integer" },
+        "year": { "type": "integer" },
+        "date": { "type": "string" },
+        "genre": { "type": "string" },
+        "composer": { "type": "string" },
+        "conductor": { "type": "string" },
+        "lyricist": { "type": "string" },
+        "bpm": { "type": "number" },
+        "key": { "type": "string", "description": "Musical key" },
+        "mood": { "type": "string" },
+        "isCompilation": { "type": "boolean" },
+        "lyrics": { "type": "string" },
+        "synchronizedLyrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "time": { "type": "number" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "artwork": {
+          "type": "object",
+          "properties": {
+            "format": { "type": "string" },
+            "data": { "type": "string", "description": "Base64 encoded" },
+            "url": { "type": "string", "format": "uri" },
+            "width": { "type": "integer" },
+            "height": { "type": "integer" }
+          }
+        },
+        "replayGain": {
+          "type": "object",
+          "properties": {
+            "trackGain": { "type": "number" },
+            "trackPeak": { "type": "number" },
+            "albumGain": { "type": "number" },
+            "albumPeak": { "type": "number" }
+          }
+        },
+        "isrc": { "type": "string", "description": "International Standard Recording Code" },
+        "label": { "type": "string" },
+        "catalog": { "type": "string" }
+      }
+    },
+
+    "document": {
+      "type": "object",
+      "description": "Document-specific metadata",
+      "properties": {
+        "pageCount": { "type": "integer" },
+        "wordCount": { "type": "integer" },
+        "characterCount": { "type": "integer" },
+        "paragraphCount": { "type": "integer" },
+        "lineCount": { "type": "integer" },
+        "revision": { "type": "integer" },
+        "template": { "type": "string" },
+        "application": { "type": "string" },
+        "appVersion": { "type": "string" },
+        "company": { "type": "string" },
+        "manager": { "type": "string" },
+        "lastAuthor": { "type": "string" },
+        "lastPrinted": { "type": "string", "format": "date-time" },
+        "editingTime": { "type": "integer", "description": "Minutes" },
+        "pdfVersion": { "type": "string" },
+        "isTagged": { "type": "boolean" },
+        "hasOutlines": { "type": "boolean" },
+        "isEncrypted": { "type": "boolean" }
+      }
+    },
+
+    "model3d": {
+      "type": "object",
+      "description": "3D model metadata",
+      "properties": {
+        "vertices": { "type": "integer" },
+        "faces": { "type": "integer" },
+        "triangles": { "type": "integer" },
+        "edges": { "type": "integer" },
+        "meshes": { "type": "integer" },
+        "materials": { "type": "integer" },
+        "textures": { "type": "integer" },
+        "animations": { "type": "integer" },
+        "bones": { "type": "integer" },
+        "morphTargets": { "type": "integer" },
+        "boundingBox": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+            "max": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 }
+          }
+        },
+        "upAxis": { "type": "string", "enum": ["X", "Y", "Z"] },
+        "unit": { "type": "string", "description": "Measurement unit" },
+        "scale": { "type": "number" }
+      }
+    },
+
+    "archive": {
+      "type": "object",
+      "description": "Archive-specific metadata",
+      "properties": {
+        "fileCount": { "type": "integer" },
+        "directoryCount": { "type": "integer" },
+        "uncompressedSize": { "type": "integer" },
+        "compressionRatio": { "type": "number" },
+        "isEncrypted": { "type": "boolean" },
+        "isSolid": { "type": "boolean" },
+        "comment": { "type": "string" },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string" },
+              "size": { "type": "integer" },
+              "compressedSize": { "type": "integer" },
+              "modified": { "type": "string", "format": "date-time" },
+              "isDirectory": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+
+    "code": {
+      "type": "object",
+      "description": "Source code analysis metadata",
+      "properties": {
+        "language": { "type": "string" },
+        "languageVersion": { "type": "string" },
+        "lineCount": { "type": "integer" },
+        "blankLines": { "type": "integer" },
+        "commentLines": { "type": "integer" },
+        "codeLines": { "type": "integer" },
+        "functions": { "type": "integer" },
+        "classes": { "type": "integer" },
+        "imports": { "type": "integer" },
+        "exports": { "type": "integer" },
+        "complexity": { "type": "number", "description": "Cyclomatic complexity" },
+        "encoding": { "type": "string" },
+        "hasShebang": { "type": "boolean" },
+        "indentation": { "type": "string", "enum": ["spaces", "tabs", "mixed"] },
+        "indentSize": { "type": "integer" }
+      }
+    },
+
+    "xmp": {
+      "type": "string",
+      "description": "Raw XMP packet for preservation"
+    },
+
+    "native": {
+      "type": "object",
+      "description": "Native format-specific tags not mapped to standard fields",
+      "additionalProperties": true
+    },
+
+    "custom": {
+      "type": "object",
+      "description": "User-defined custom metadata",
+      "additionalProperties": true
+    }
+  },
+
+  "additionalProperties": false
+}

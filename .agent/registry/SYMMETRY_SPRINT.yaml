@@ -43,25 +43,25 @@ phases:
     tasks:
       - id: 11
         agent: "backend-specialist"
-        file: "standard-model-of-code/src/core/visibility_analyzer.py"
+        file: "particle/src/core/visibility_analyzer.py"
         operation: CREATE
         conflicts_with: []
 
       - id: 12
         agent: "backend-specialist"
-        file: "standard-model-of-code/src/core/wave_extractor.py"
+        file: "particle/src/core/wave_extractor.py"
         operation: CREATE
         conflicts_with: []
 
       - id: 13
         agent: "backend-specialist"
-        file: "standard-model-of-code/src/core/identity_matcher.py"
+        file: "particle/src/core/identity_matcher.py"
         operation: CREATE
         conflicts_with: []
 
       - id: 15
         agent: "rapid-prototype"
-        file: "standard-model-of-code/requirements.txt"
+        file: "particle/requirements.txt"
         operation: APPEND
         conflicts_with: []
 
@@ -73,8 +73,8 @@ phases:
       - id: 14
         agent: "backend-specialist"
         files:
-          - "standard-model-of-code/cli.py"
-          - "standard-model-of-code/src/core/symmetry_reporter.py"
+          - "particle/cli.py"
+          - "particle/src/core/symmetry_reporter.py"
         operation: MODIFY + CREATE
 
   - id: 3

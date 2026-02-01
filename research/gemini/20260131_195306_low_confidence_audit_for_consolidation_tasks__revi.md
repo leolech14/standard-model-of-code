@@ -21,7 +21,7 @@ TASK-101 (80% confidence): Triage 18 untracked Python tools
 TASK-103 (85% confidence): Deduplicate intelligence directories (7 to 2)
 - Current: 85% (code may reference old paths)
 
-TASK-104 (85% confidence): Consolidate research directories  
+TASK-104 (85% confidence): Consolidate research directories
 - Onwards: 85% (may need re-split if growth)
 
 TASK-105 (85% confidence): Unify reports directories (6 to 1)
@@ -52,12 +52,12 @@ In `PROJECT_elements`, "Code is Law," but "Paths are Geography." changing geogra
     *   **Confirmed 80%.** The system uses dynamic imports and script execution (see `.agent/tools/wire.py` and `concierge.py`). A tool might look unused but be called via `subprocess` in a macro.
 
 2.  **Specific Risks:**
-    *   **Implicit Dependencies:** `context-management/tools/ai/aci/refinery.py` or `analyze.py` might invoke these tools dynamically based on strings (e.g., the `pe` router matching patterns).
+    *   **Implicit Dependencies:** `wave/tools/ai/aci/refinery.py` or `analyze.py` might invoke these tools dynamically based on strings (e.g., the `pe` router matching patterns).
     *   **Agent State Loss:** Some tools might be local state holders for `autopilot.py`.
 
 3.  **Actions to Reach 95% (Grade A+):**
     *   **Grep Audit:** Run `grep -r "filename.py" .` for every candidate file to ensure zero references in `src/` or `.agent/`.
-    *   **Import Audit:** Check `context-management/tools/__init__.py` or similar aggregators.
+    *   **Import Audit:** Check `wave/tools/__init__.py` or similar aggregators.
     *   **Quarantine Strategy:** Move them to `.agent/registry/archive/quarantine/` first. If nothing breaks in 48h, delete.
 
 ---
@@ -67,7 +67,7 @@ In `PROJECT_elements`, "Code is Law," but "Paths are Geography." changing geogra
 **Status:** **Optimistic**. Actual confidence is likely **75%**.
 
 1.  **Validate Confidence:**
-    *   **Downgrade to 75%.** `DOMAINS.yaml` specifically lists `context-management/intelligence` as a canonical path for the "Governance" domain. `SUBSYSTEMS.yaml` points "TEMPORAL_INTELLIGENCE" to `.agent/intelligence`. Merging these touches the "nervous system" of the project.
+    *   **Downgrade to 75%.** `DOMAINS.yaml` specifically lists `wave/intelligence` as a canonical path for the "Governance" domain. `SUBSYSTEMS.yaml` points "TEMPORAL_INTELLIGENCE" to `.agent/intelligence`. Merging these touches the "nervous system" of the project.
 
 2.  **Specific Risks:**
     *   **Health Check Failure:** `DOMAINS.yaml` health checks will fail immediately if paths move.
@@ -85,14 +85,14 @@ In `PROJECT_elements`, "Code is Law," but "Paths are Geography." changing geogra
 **Status:** **Valid**.
 
 1.  **Validate Confidence:**
-    *   **Confirmed 85%.** `CODOME_MANIFEST.yaml` explicitly lists `standard-model-of-code/docs/research/perplexity/` and `gemini/`.
+    *   **Confirmed 85%.** `CODOME_MANIFEST.yaml` explicitly lists `particle/docs/research/perplexity/` and `gemini/`.
 
 2.  **Specific Risks:**
     *   **Agent Write Paths:** `analyze.py` and `perplexity_mcp_server.py` likely have hardcoded default output directories. If you move the directory, agents might recreate the old one, leading to split-brain research storage.
     *   **Manifest Drift:** The `CODOME_MANIFEST.yaml` will become inaccurate immediately.
 
 3.  **Actions to Reach 95% (Grade A+):**
-    *   **Update Sources:** Modify `context-management/config/analysis_sets.yaml` or the relevant `analyze.py` constants to point to the new single location.
+    *   **Update Sources:** Modify `wave/config/analysis_sets.yaml` or the relevant `analyze.py` constants to point to the new single location.
     *   **Update Manifest:** Task *must* include updating `CODOME_MANIFEST.yaml` "research" section.
 
 ---
@@ -120,14 +120,14 @@ In `PROJECT_elements`, "Code is Law," but "Paths are Geography." changing geogra
 **Status:** **Valid**.
 
 1.  **Validate Confidence:**
-    *   **Confirmed 80%.** `SUBSYSTEMS.yaml` lists `standard-model-of-code/archive/` as a subsystem root.
+    *   **Confirmed 80%.** `SUBSYSTEMS.yaml` lists `particle/archive/` as a subsystem root.
 
 2.  **Specific Risks:**
     *   **Collider Scope:** The Collider has logic to ignore hidden directories (starting with `.`). If you rename `.archive` to `archive`, the Collider might suddenly try to parse legacy code as active code, bloating node counts and causing parsing errors.
     *   **GCS Mirror:** The `archive.py` tool (`.agent/tools/archive/archive.py`) needs to know exactly where to look to sync to GCS.
 
 3.  **Actions to Reach 95% (Grade A+):**
-    *   **Exclusion Check:** If renaming to `archive` (visible), explicitly add `archive/` to `exclude_patterns` in `standard-model-of-code/src/core/full_analysis.py` or `.gitignore`.
+    *   **Exclusion Check:** If renaming to `archive` (visible), explicitly add `archive/` to `exclude_patterns` in `particle/src/core/full_analysis.py` or `.gitignore`.
     *   **Subsystem Update:** Update `SUBSYSTEMS.yaml` "ARCHIVE" entry to reflect the new canonical path.
 
 ---

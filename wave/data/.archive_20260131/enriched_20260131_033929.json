@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:39:29.513602",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama3.1-8b",
+    "files_enriched": 5,
+    "elapsed_seconds": 2.32
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "Provides a unified command-line interface for standard model tools and code analysis.",
+      "semantic_tags": [],
+      "key_exports": [],
+      "dependencies": "",
+      "complexity": "MEDIUM",
+      "quality_hints": "",
+      "related_to": [],
+      "enriched_at": "2026-01-31T03:39:27.768935",
+      "model": "llama3.1-8b"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "Validates UI components by running headless browser tests on HTML output.",
+      "semantic_tags": [],
+      "key_exports": [],
+      "dependencies": "",
+      "complexity": "MEDIUM",
+      "quality_hints": "",
+      "related_to": [],
+      "enriched_at": "2026-01-31T03:39:28.180708",
+      "model": "llama3.1-8b"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Extracts structural code patterns from Semgrep rules and converts them to T2 ecosystem atoms for Collider.",
+      "semantic_tags": [],
+      "key_exports": [],
+      "dependencies": "",
+      "complexity": "MEDIUM",
+      "quality_hints": "",
+      "related_to": [],
+      "enriched_at": "2026-01-31T03:39:28.600003",
+      "model": "llama3.1-8b"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Generates a standalone WebGL visualization HTML file from a JSON input.",
+      "semantic_tags": [],
+      "key_exports": [],
+      "dependencies": "",
+      "complexity": "MEDIUM",
+      "quality_hints": "",
+      "related_to": [],
+      "enriched_at": "2026-01-31T03:39:29.047269",
+      "model": "llama3.1-8b"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Extracts documentation nodes from source files with classification and metadata.",
+      "semantic_tags": [
+        "documentation",
+        "extraction",
+        "classification",
+        "metadata",
+        "dataclasses"
+      ],
+      "key_exports": [
+        "DocNode",
+        "classify_nature"
+      ],
+      "dependencies": "python3, re, json, pathlib, typing, dataclasses",
+      "complexity": "MEDIUM",
+      "quality_hints": "None",
+      "related_to": [
+        "tools/parse_documentation.py",
+        "tools/generate_documentation_report.py",
+        "tools/visualize_documentation.py"
+      ],
+      "enriched_at": "2026-01-31T03:39:29.513579",
+      "model": "llama3.1-8b"
+    }
+  ]
+}

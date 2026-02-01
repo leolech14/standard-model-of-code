@@ -24,12 +24,12 @@ Based on the provided codebase context, here is the comprehensive list of all ta
 | Name | Path | Item Count | Status |
 | :--- | :--- | :--- | :--- |
 | **Unified Task Registry** | `.agent/registry/active/` | **~25** files visible (IDs range TASK-001 to TASK-066)* | **Active** |
-| **Legacy UPB Registry** | `standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md` | 15 tasks | **Archived** (Read-only) |
-| **Legacy Pipeline Registry** | `standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 10 tasks | **Archived** (Read-only) |
-| **Legacy Tree-sitter Registry** | `standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 1 task | **Archived** (Read-only) |
-| **Legacy Token System** | `standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 8 tasks | **Archived** (Read-only) |
-| **Legacy Sidebar Registry** | `standard-model-of-code/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 3 tasks | **Archived** (Read-only) |
-| **Legacy Modularization** | `standard-model-of-code/docs/reports/MODULARIZATION_TASKS.md` | 13 tasks | **Archived** (Read-only) |
+| **Legacy UPB Registry** | `particle/docs/specs/UPB_TASK_REGISTRY.md` | 15 tasks | **Archived** (Read-only) |
+| **Legacy Pipeline Registry** | `particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 10 tasks | **Archived** (Read-only) |
+| **Legacy Tree-sitter Registry** | `particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 1 task | **Archived** (Read-only) |
+| **Legacy Token System** | `particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 8 tasks | **Archived** (Read-only) |
+| **Legacy Sidebar Registry** | `particle/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 3 tasks | **Archived** (Read-only) |
+| **Legacy Modularization** | `particle/docs/reports/MODULARIZATION_TASKS.md` | 13 tasks | **Archived** (Read-only) |
 
 *\*Note: The INDEX.md summary lists 9 "Active" tasks, but the file directory contains numerous "COMPLETE" tasks (e.g., TASK-001, TASK-066) retained for history.*
 

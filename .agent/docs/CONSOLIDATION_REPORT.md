@@ -38,7 +38,7 @@ Consolidated **244 scattered tasks** from **13 legacy registries** into a unifie
 - **AM002 (MEDIUM)**: Functions mutate input `edges` directly (not stateless)
 - **AM004 (MEDIUM)**: Unused import `FileEnricher`, orphan functions
 
-**Evidence:** `context-management/intelligence/socratic_audit_pipeline_20260123_073455.json`
+**Evidence:** `wave/intelligence/socratic_audit_pipeline_20260123_073455.json`
 
 ---
 
@@ -59,7 +59,7 @@ Consolidated **244 scattered tasks** from **13 legacy registries** into a unifie
 - **AM004 (HIGH)**: `json` module, `extensions_dir`, `t2_atoms` are orphan code
 - **AM001 (MEDIUM)**: Hardcoded patterns should be in `schema/**/*.json`
 
-**Evidence:** `context-management/intelligence/socratic_audit_theory_20260123_073613.json`
+**Evidence:** `wave/intelligence/socratic_audit_theory_20260123_073613.json`
 
 ---
 
@@ -84,7 +84,7 @@ Consolidated **244 scattered tasks** from **13 legacy registries** into a unifie
 - **AM001 (HIGH)**: Inconsistent secret handling across tools
 - **AM004 (MEDIUM)**: `repo_archaeologist.py` has orphan code
 
-**Evidence:** `context-management/intelligence/socratic_audit_architecture_20260123_081819.json`
+**Evidence:** `wave/intelligence/socratic_audit_architecture_20260123_081819.json`
 
 ---
 
@@ -94,16 +94,16 @@ Consolidated **244 scattered tasks** from **13 legacy registries** into a unifie
 
 | Registry | Path | Tasks | Scoring |
 |----------|------|------:|---------|
-| UPB | `standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md` | 16 | 3D |
-| Pipeline | `standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 35 | 2D |
-| Tree-sitter | `standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 46 | 2D |
-| Token System | `standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 36 | 1D |
-| Sidebar | `standard-model-of-code/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 28 | 1D |
-| Docs Improvement | `standard-model-of-code/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md` | ~20 | 1D |
-| Modularization | `standard-model-of-code/docs/reports/MODULARIZATION_TASKS.md` | 13 | 1D |
-| Docs Reorg | `context-management/docs/DOCS_REORG_TASK_REGISTRY.md` | ~17 | 1D |
-| MCP Factory | `context-management/tools/mcp/mcp_factory/TASK_STEP_LOG.md` | ~43 | 1D |
-| SMOC Roadmap | `standard-model-of-code/ROADMAP.md` | 10 phases | Phases |
+| UPB | `particle/docs/specs/UPB_TASK_REGISTRY.md` | 16 | 3D |
+| Pipeline | `particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 35 | 2D |
+| Tree-sitter | `particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 46 | 2D |
+| Token System | `particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 36 | 1D |
+| Sidebar | `particle/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 28 | 1D |
+| Docs Improvement | `particle/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md` | ~20 | 1D |
+| Modularization | `particle/docs/reports/MODULARIZATION_TASKS.md` | 13 | 1D |
+| Docs Reorg | `wave/docs/DOCS_REORG_TASK_REGISTRY.md` | ~17 | 1D |
+| MCP Factory | `wave/tools/mcp/mcp_factory/TASK_STEP_LOG.md` | ~43 | 1D |
+| SMOC Roadmap | `particle/ROADMAP.md` | 10 phases | Phases |
 
 **Total Found:** ~244 tasks across 13 files
 
@@ -241,7 +241,7 @@ confidence:
 | `confidence_validator.py` | AI-powered 4D assessment | `.agent/tools/` |
 | `task_store.py` | Task CRUD CLI | `.agent/tools/` |
 | `promote_opportunity.py` | OPP → TASK promotion | `.agent/tools/` |
-| `analyze.py --verify` | Socratic audit runner | `context-management/tools/ai/` |
+| `analyze.py --verify` | Socratic audit runner | `wave/tools/ai/` |
 
 ---
 
@@ -251,9 +251,9 @@ confidence:
 
 | Type | Location |
 |------|----------|
-| Socratic Audits | `context-management/intelligence/socratic_audit_*.json` |
+| Socratic Audits | `wave/intelligence/socratic_audit_*.json` |
 | Confidence Reports | `.agent/intelligence/confidence_reports/*.json` |
-| Research Outputs | `standard-model-of-code/docs/research/perplexity/` |
+| Research Outputs | `particle/docs/research/perplexity/` |
 
 ### 7.2 Cloud Storage (GCS)
 
@@ -349,10 +349,10 @@ Most tasks depend on improving this metric. The Pipeline Refactor (OPP-023 to OP
 .agent/tools/boost_confidence.py --all
 
 # Run Socratic audit
-python context-management/tools/ai/analyze.py --verify pipeline
+python wave/tools/ai/analyze.py --verify pipeline
 
 # Validate task system
-python context-management/tools/ai/analyze.py "Validate task system" --set agent_full
+python wave/tools/ai/analyze.py "Validate task system" --set agent_full
 ```
 
 ---

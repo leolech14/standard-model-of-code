@@ -30,7 +30,7 @@ The user is asking for an analysis of the 'Attention Mechanism' gate in `Refiner
 
 ### Implementation of 'Attention Mechanism' Gate in Refinery for 'Turbulent Flow' Data
 
-The codebase does not explicitly define an "Attention Mechanism" *gate* or "Turbulent Flow" *data blobs* directly within `Refinery.py`. However, the `Refinery` module (context-management/tools/ai/aci/refinery.py) implements several mechanisms that collectively serve as a sophisticated context filtering and prioritization system, which can be thought of as an "attention mechanism". The concept of "Turbulent Flow" data would likely refer to the type of context required based on an upstream `SemanticMatch` decision.
+The codebase does not explicitly define an "Attention Mechanism" *gate* or "Turbulent Flow" *data blobs* directly within `Refinery.py`. However, the `Refinery` module (wave/tools/ai/aci/refinery.py) implements several mechanisms that collectively serve as a sophisticated context filtering and prioritization system, which can be thought of as an "attention mechanism". The concept of "Turbulent Flow" data would likely refer to the type of context required based on an upstream `SemanticMatch` decision.
 
 **1. Existing 'Attention Mechanism' in `Refinery.py`:**
 
@@ -44,11 +44,11 @@ The codebase does not explicitly define an "Attention Mechanism" *gate* or "Turb
 
 **2. `compute_semantic_distance` from `semantic_finder.py`:**
 
-The `compute_semantic_distance` function is located in `context-management/tools/ai/aci/semantic_finder.py` (lines 353-399). Its purpose is to quantify the semantic difference between two "particles" (nodes in the codebase graph) based on their 8 semantic dimensions (WHAT, LAYER, ROLE, BOUNDARY, STATE, EFFECT, LIFECYCLE, TRUST) and higher-level `PURPOSE` fields or `ROLE_CLUSTERS`. It returns a float between 0.0 (identical) and 1.0 (maximally different).
+The `compute_semantic_distance` function is located in `wave/tools/ai/aci/semantic_finder.py` (lines 353-399). Its purpose is to quantify the semantic difference between two "particles" (nodes in the codebase graph) based on their 8 semantic dimensions (WHAT, LAYER, ROLE, BOUNDARY, STATE, EFFECT, LIFECYCLE, TRUST) and higher-level `PURPOSE` fields or `ROLE_CLUSTERS`. It returns a float between 0.0 (identical) and 1.0 (maximally different).
 
 **3. Integrating `compute_semantic_distance` for 'Turbulent Flow' Filtering in Refinery:**
 
-The concept of "Turbulent Flow" (context-management/tools/ai/aci/semantic_finder.py:277-291) indicates a query with diverse or mixed semantic targets, suggesting that a broader, less coherent set of context might be needed. Here's how `compute_semantic_distance` could be integrated into `Refinery`'s "Attention Mechanism" to intelligently filter for "Turbulent Flow" data:
+The concept of "Turbulent Flow" (wave/tools/ai/aci/semantic_finder.py:277-291) indicates a query with diverse or mixed semantic targets, suggesting that a broader, less coherent set of context might be needed. Here's how `compute_semantic_distance` could be integrated into `Refinery`'s "Attention Mechanism" to intelligently filter for "Turbulent Flow" data:
 
 *   **Semantic Enrichment of `RefineryNode`s**: `RefineryNode`s currently have `chunk_type` and `metadata`. To use `compute_semantic_distance`, each `RefineryNode` would need to be semantically enriched with its own `dimensions` and `purpose` information, perhaps derived during the atomization process or by an upstream component (e.g., from an `analyze.py` pre-pass).
 *   **Dynamic `_score_relevance` Based on Query Intent**:

@@ -34,29 +34,29 @@ registries:
     registry: ".agent/tools/task_store.py"
 
 # =============================================================================
-# BODY (COLLIDER) - Located in standard-model-of-code/
+# BODY (COLLIDER) - Located in particle/
 # =============================================================================
 body:
-  root: "standard-model-of-code/"
-  entry: "standard-model-of-code/cli.py"
-  pipeline: "standard-model-of-code/src/core/full_analysis.py"
-  schema: "standard-model-of-code/schema/"
-  viz: "standard-model-of-code/src/core/viz/"
+  root: "particle/"
+  entry: "particle/cli.py"
+  pipeline: "particle/src/core/full_analysis.py"
+  schema: "particle/schema/"
+  viz: "particle/src/core/viz/"
 
 # =============================================================================
 # BRAIN (CONTEXT MANAGEMENT)
 # =============================================================================
 brain:
-  root: "context-management/"
-  config: "context-management/config/"
-  tools: "context-management/tools/"
-  registry: "context-management/registry/"
+  root: "wave/"
+  config: "wave/config/"
+  tools: "wave/tools/"
+  registry: "wave/registry/"
 
 # =============================================================================
 # ARCHIVE
 # =============================================================================
 archive:
-  local: "standard-model-of-code/archive/"
+  local: "particle/archive/"
   gcs: "gs://elements-archive-2026/"
   agent_cuts: "archive/agent_cuts/"
 
@@ -64,15 +64,15 @@ archive:
 # DOCS
 # =============================================================================
 docs:
-  theory: "standard-model-of-code/docs/MODEL.md"
-  tool: "standard-model-of-code/docs/COLLIDER.md"
-  registries: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
+  theory: "particle/docs/MODEL.md"
+  tool: "particle/docs/COLLIDER.md"
+  registries: "particle/docs/specs/REGISTRY_OF_REGISTRIES.md"
   integration: ".agent/SUBSYSTEM_INTEGRATION.md"
 # =============================================================================
 # HIGH-ORDER REGISTRIES
 # =============================================================================
 meta:
-  ror: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"  # Registry of Registries
+  ror: "particle/docs/specs/REGISTRY_OF_REGISTRIES.md"  # Registry of Registries
   lol: ".agent/intelligence/LOL.yaml"                                # List of Lists (Authoritative)
-  sos: "standard-model-of-code/docs/specs/FRONTEND_SUBSYSTEM_REGISTRY.md" # System of Systems
+  sos: "particle/docs/specs/FRONTEND_SUBSYSTEM_REGISTRY.md" # System of Systems
   subsystems: "SUBSYSTEMS.yaml"  # Subsystems Registry (ROOT - canonical)

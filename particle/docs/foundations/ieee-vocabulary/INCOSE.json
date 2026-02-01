@@ -1,0 +1,96 @@
+{
+  "source": "INCOSE-TP-2020-002-06",
+  "title": "Systems Engineering and System Definitions",
+  "version": "1.0",
+  "date": "2019-07-22",
+  "authors": ["Hillary Sillitto", "James Martin", "Dorothy McKinney", "Regina Griego", "Dov Dori", "Daniel Krob", "Patrick Godfrey", "Eileen Arnold", "Scott Jackson"],
+  "terms": {
+    "systems engineering": {
+      "definition": "A transdisciplinary and integrative approach to enable the successful realization, use, and retirement of engineered systems, using systems principles and concepts, and scientific, technological, and management methods.",
+      "notes": "We use the terms 'engineering' and 'engineered' in their widest sense: 'the action of working artfully to bring something about'. 'Engineered systems' may be composed of any or all of people, products, services, information, processes, and natural elements."
+    },
+    "engineered system": {
+      "definition": "A system designed or adapted to interact with an anticipated operational environment to achieve one or more intended purposes while complying with applicable constraints.",
+      "notes": "An 'engineered system' is a system – not necessarily a technological one - which has been or will be 'systems engineered' for a purpose."
+    },
+    "system": {
+      "definition": "An arrangement of parts or elements that together exhibit behavior or meaning that the individual constituents do not.",
+      "notes": "Systems can be either physical or conceptual, or a combination of both. A system's properties result, or emerge from: the parts or elements and their individual properties; AND the relationships and interactions between and among the parts, the system and its environment."
+    },
+    "physical system": {
+      "definition": "An arrangement of parts or elements that together exhibit behavior that the individual constituents do not.",
+      "notes": "Physical systems are composed of matter and energy. Information is embedded in physical systems, and is stored and transported, in matter/energy carriers. This definition includes biological systems and living systems."
+    },
+    "conceptual system": {
+      "definition": "An arrangement of parts or elements that together exhibit meaning that the individual constituents do not.",
+      "notes": "A conceptual system is a 'knowledge structure' composed of information and knowledge elements. The elements are related to each other but do not interact with each other. Its emergent property is meaning, as intended by its creator or editor."
+    },
+    "closed system": {
+      "definition": "A system that is completely isolated from its environment.",
+      "notes": "This is the definition commonly used in the system literature. Different from the thermodynamics definition, which differentiates between 'closed' (no material flow) and 'isolated' (no material or energy flow)."
+    },
+    "open system": {
+      "definition": "A system that has flows of information, energy, and/or matter between the system and its environment, and which adapts to the exchange.",
+      "notes": "All physical systems of interest to systems engineering are open systems. Differs from IT meaning of 'open system architecture'."
+    },
+    "natural system": {
+      "definition": "A system that occurs in nature without intervention by human agents.",
+      "notes": "Natural systems exhibit properties such as viability, resilience, and self-organization that offer exemplars for engineered systems."
+    },
+    "artificial system": {
+      "definition": "A system constructed by human agents, or otherwise caused by them to come into being.",
+      "notes": "Human agents can be humans, or they can be processes, methods or tools created by humans that effect change indirectly."
+    },
+    "hybrid system": {
+      "definition": "A system with both natural and artificial elements, or a natural system influenced (e.g. by selective breeding) or modified (e.g. by genetic engineering) by intentional agents.",
+      "notes": "An engineered system means a system - artificial or hybrid, conceptual and/or physical - that was properly systems-engineered."
+    },
+    "viable system": {
+      "definition": "An open system that, within certain environmental limits, can: sustain itself by exchanging matter, energy and information with its environment; detect and survive external threats; maintain and repair its internal organization in the face of disruption; and adapt to a changing environment while maintaining its internal equilibrium (homeostasis).",
+      "notes": "Based on Beer's Viable Systems Model and Hitchins. Viability is a desirable attribute of many engineered systems."
+    },
+    "self-replicating system": {
+      "definition": "An open system that, within certain life cycle limits, can: reproduce itself by exchanging matter, energy and information either with its environment or with a second system of a compatible type; and pass on its attributes to the reproduced child system.",
+      "notes": "Living systems, as well as being 'viable', are also self-replicating and capable of adaptation and evolution."
+    },
+    "complex system": {
+      "definition": "A system in which there are non-trivial relationships between cause and effect: each effect may be due to multiple causes; each cause may contribute to multiple effects; causes and effects may be related as feedback loops, both positive and negative; and cause-effect chains are cyclic and highly entangled rather than linear and separable.",
+      "notes": "The non-trivial nature of the relationships make the whole system non-deterministic, ambiguous or chaotic, even if the individual relationships are well understood."
+    },
+    "anticipatory system": {
+      "definition": "A physical system that has an internal model of itself and its environment and an internal decision-making function, enabling it to anticipate potential changes in the environment and make appropriate adaptations to be ready for the anticipated change.",
+      "notes": "Based on Rosen's concept. Ubiquitous in the natural world, and increasingly relevant to SE as we move towards intelligent and autonomous systems."
+    },
+    "transdisciplinary approach": {
+      "definition": "An approach which crosses many disciplinary boundaries to create a holistic approach, transcending all disciplines involved, organizing effort around common purpose, shared understanding and 'learning together' in the context of real-world problems.",
+      "notes": "Originated in the social sciences. Needed when the problem cannot readily be 'solved' and the best that can likely be achieved is a 'resolution'."
+    },
+    "integrative approach": {
+      "definition": "An approach involving interdisciplinary (e.g. integrated product teams) or multi-disciplinary (e.g. joint technical reviews) methods for systems engineering.",
+      "notes": "Can be adequate where the situation is not overly complex and there are smaller numbers of stakeholders potentially impacted."
+    },
+    "emergence": {
+      "definition": "The concept that behavior or meaning of the whole is not exhibited by the individual constituents.",
+      "notes": "The defining characteristic of 'systems' that distinguishes them from 'non-systems'. Distinct from the notion of 'emergence' denoting surprise where properties could not be foreseen."
+    },
+    "enterprise": {
+      "definition": "A large undertaking, especially one of large scope, complication and risk – 'a complex web of interactions distributed across geography and time'.",
+      "notes": "Not just a large organization. An enterprise often has multiple organizations that participate to derive benefit. Requires special initiative and boldness."
+    },
+    "service": {
+      "definition": "Actions taken to satisfy needs of individuals or organizations.",
+      "notes": "The 'service economy' has evolved the meaning: 'The old dichotomy between product and service has been replaced by a service-product continuum.'"
+    },
+    "property": {
+      "definition": "An attribute, quality, or characteristic of something.",
+      "notes": "Used in context of system properties emerging from parts and their relationships."
+    },
+    "entropy": {
+      "definition": "A measure of disorder that increases in closed systems. In open systems, entropy is kept low at the expense of entropy increasing elsewhere.",
+      "notes": "Systems tend to maintain their organization at the expense of increased disorder elsewhere, which is a common cause of unintended consequences."
+    }
+  },
+  "count": 21,
+  "sebok_terms_count": 435,
+  "sebok_terms_file": "SEBOK_terms.txt"
+}

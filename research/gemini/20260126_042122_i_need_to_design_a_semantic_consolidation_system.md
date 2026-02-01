@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 I need to design a SEMANTIC CONSOLIDATION system for PROJECT_elements.
 
 CURRENT STATE:
@@ -79,7 +79,7 @@ You have everything you need in **`collider_output/unified_analysis.json`**.
 
 ### 4. Minimal Viable Implementation (MVI)
 
-Create a new tool: `context-management/tools/maintenance/semantic_compressor.py`.
+Create a new tool: `wave/tools/maintenance/semantic_compressor.py`.
 
 #### Algorithm: "The Higgs Mechanism" (Mass Aggregation)
 
@@ -91,7 +91,7 @@ clusters = defaultdict(list)
 for file_node in analysis['files']:
     # Key = (Layer, Role, Domain_Context)
     signature = (
-        file_node.dimensions['D2_LAYER'], 
+        file_node.dimensions['D2_LAYER'],
         file_node.dimensions['D3_ROLE'],
         file_node.lenses['R7_SEMANTICS']['business_domain']
     )

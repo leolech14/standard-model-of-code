@@ -1,4 +1,4 @@
-# Research: Assess the reference library implementation in context-management/docs/theory/references/. Check:
+# Research: Assess the reference library implementation in wave/docs/theory/references/. Check:
 1....
 
 > **Date:** 2026-01-27 10:16:27
@@ -11,7 +11,7 @@
 
 ## Query
 
-Assess the reference library implementation in context-management/docs/theory/references/. Check:
+Assess the reference library implementation in wave/docs/theory/references/. Check:
 1. Are all claimed files present?
 2. Do the processing scripts exist and look complete?
 3. Is the integration with pe script correct?
@@ -24,7 +24,7 @@ Be critical. Look for gaps between documentation claims and actual code.
 
 ## Response
 
-Okay, I will conduct a thorough assessment of the reference library implementation as it exists in the `context-management/docs/theory/references/` directory. I will focus on validating file presence, processing script completeness, `pe` script integration, potential bugs, and the sensibility of the metadata schema. I will use information from the provided file context to inform the analysis. I will be critical and look for discrepancies between the documentation and the actual implementation. I will provide a JSON output that summarizes findings.
+Okay, I will conduct a thorough assessment of the reference library implementation as it exists in the `wave/docs/theory/references/` directory. I will focus on validating file presence, processing script completeness, `pe` script integration, potential bugs, and the sensibility of the metadata schema. I will use information from the provided file context to inform the analysis. I will be critical and look for discrepancies between the documentation and the actual implementation. I will provide a JSON output that summarizes findings.
 
 ```json
 {
@@ -37,10 +37,10 @@ Okay, I will conduct a thorough assessment of the reference library implementati
       "status": "Needs Verification",
       "details": "The existence of the files claimed to be present needs to be verified by checking against the actual filesystem. See the file context below for the set of reference files.",
       "files_to_check": [
-        "context-management/docs/theory/references/index/catalog.json",
-        "context-management/docs/theory/references/index/concept_index.json",
-        "context-management/docs/theory/references/txt/*.txt",
-        "context-management/docs/theory/references/metadata/*.json"
+        "wave/docs/theory/references/index/catalog.json",
+        "wave/docs/theory/references/index/concept_index.json",
+        "wave/docs/theory/references/txt/*.txt",
+        "wave/docs/theory/references/metadata/*.json"
       ]
     },
     "processing_script_completeness": {
@@ -64,7 +64,7 @@ Okay, I will conduct a thorough assessment of the reference library implementati
     },
     "metadata_schema": {
       "status": "Sensible, but limited",
-      "details": "The schema defined in `context-management/config/query_manifest_schema.yaml` and `context-management/config/research_schemas.yaml` provide a structure for managing metadata but without code for processing the data, the structure is not validated. There are good metadata files in the example for decision decks, and deck state (`deck_cards`, `deck_state` etc.)",
+      "details": "The schema defined in `wave/config/query_manifest_schema.yaml` and `wave/config/research_schemas.yaml` provide a structure for managing metadata but without code for processing the data, the structure is not validated. There are good metadata files in the example for decision decks, and deck state (`deck_cards`, `deck_state` etc.)",
       "weaknesses": [
         "Missing data model for literature entries",
         "No validation functions"

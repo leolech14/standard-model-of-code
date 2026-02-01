@@ -76,7 +76,7 @@ We can map this evolution across three orders of being.
 *Defined by: External scripts polling internal state.*
 
 *   **The Mechanism:** `drift_guard.py`, `autopilot.py`, `.agent/hooks/post-commit`.
-*   **The Nature:** **Parasitic/Symbiotic.** The automation lives *outside* the core logic (`standard-model-of-code`). It watches the file system like a security guard watching a building. It is reactive but disconnected.
+*   **The Nature:** **Parasitic/Symbiotic.** The automation lives *outside* the core logic (`particle`). It watches the file system like a security guard watching a building. It is reactive but disconnected.
 *   **The Defect:** Latency and State Drift. There is always a gap between "The Code Changing" and "The Automation Noticing."
 *   **Context Reference:** `BACKGROUND_AI_LAYER_MAP.md` describes BARE and AEP as engines triggered by "Git Commit" or "Cron." This is Level 1.
 

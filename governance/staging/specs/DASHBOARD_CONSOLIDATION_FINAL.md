@@ -10,7 +10,7 @@
 
 ```
 Purpose: View ONE project (Elements) - Collider + Refinery together
-Location: context-management/viz/unified-dashboard/
+Location: wave/viz/unified-dashboard/
 View: Split screen (3D graph | chunks)
 Use case: "Show me Elements as Projectome (Code + Context unified)"
 Multi-tenant: NO (single project view)
@@ -25,7 +25,7 @@ Collider integration: YES (GraphView.tsx)
 
 ```
 Purpose: Process MULTIPLE projects (Elements, Atman, Sentinel, etc.)
-Location: context-management/experiments/refinery-platform/
+Location: wave/experiments/refinery-platform/
 View: Platform dashboard (tenant management, search across all)
 Use case: "Manage context for all my projects"
 Multi-tenant: YES (L7 platform architecture)
@@ -83,10 +83,10 @@ Not duplicates ✅
 # ~/.zshrc or ~/.bash_profile
 
 # Projectome Viewer (Elements only)
-alias projectome='cd ~/PROJECTS_all/PROJECT_elements/context-management/viz/unified-dashboard && npm run dev'
+alias projectome='cd ~/PROJECTS_all/PROJECT_elements/wave/viz/unified-dashboard && npm run dev'
 
 # Refinery Platform (All projects)
-alias refinery='cd ~/PROJECTS_all/PROJECT_elements/context-management/experiments/refinery-platform && npm run dev'
+alias refinery='cd ~/PROJECTS_all/PROJECT_elements/wave/experiments/refinery-platform && npm run dev'
 
 # Add to ~/.claude/CLAUDE.md
 ## Dashboards

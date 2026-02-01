@@ -33,7 +33,7 @@ This is a signal-vs-noise problem:
 
 ### Solution: Stage 0 Survey
 
-**Location:** `standard-model-of-code/src/core/survey.py` (620 LOC)
+**Location:** `particle/src/core/survey.py` (620 LOC)
 
 ```python
 from survey import run_survey, print_survey_report
@@ -139,7 +139,7 @@ exclude_paths = survey_result.recommended_excludes
 
 ### Specification
 
-**Location:** `standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md`
+**Location:** `particle/docs/specs/CODOME_COMPLETENESS_INDEX.md`
 
 ### Ground Truth Categories
 
@@ -234,7 +234,7 @@ Gap Detector → Gap Profile → Cache Check → Perplexity API (sonar-pro) →
 Guidance Parser → Knowledge Store (.agent/intelligence/external_cache/)
 ```
 
-**Location:** `context-management/tools/ai/research/precision_fetcher.py` (500 LOC)
+**Location:** `wave/tools/ai/research/precision_fetcher.py` (500 LOC)
 
 ### Data Models
 
@@ -284,7 +284,7 @@ OUTPUT FORMAT: Valid JSON with:
 
 ### Configuration
 
-**Location:** `context-management/config/aci_config.yaml`
+**Location:** `wave/config/aci_config.yaml`
 
 ```yaml
 research:
@@ -313,7 +313,7 @@ result = await fetcher.resolve_gap(gap)
 
 **CLI:**
 ```bash
-python context-management/tools/ai/research/precision_fetcher.py --test
+python wave/tools/ai/research/precision_fetcher.py --test
 ```
 
 ### Example Output
@@ -352,9 +352,9 @@ python context-management/tools/ai/research/precision_fetcher.py --test
 
 | File | LOC | Status | Description |
 |------|-----|--------|-------------|
-| `context-management/tools/ai/research/precision_fetcher.py` | 500 | ✅ NEW | Perplexity SONAR-PRO integration |
-| `context-management/tools/ai/research/__init__.py` | 20 | ✅ NEW | Module exports |
-| `context-management/config/aci_config.yaml` | +12 | ✅ MODIFIED | Research config section |
+| `wave/tools/ai/research/precision_fetcher.py` | 500 | ✅ NEW | Perplexity SONAR-PRO integration |
+| `wave/tools/ai/research/__init__.py` | 20 | ✅ NEW | Module exports |
+| `wave/config/aci_config.yaml` | +12 | ✅ MODIFIED | Research config section |
 
 ### Documentation
 
@@ -522,7 +522,7 @@ pytest tests/test_precision_fetcher.py
 # Verify: 4,342 nodes
 
 # Precision fetcher CLI
-python context-management/tools/ai/research/precision_fetcher.py --test
+python wave/tools/ai/research/precision_fetcher.py --test
 # Verify: Returns guidance for IIFE pattern
 ```
 
@@ -618,20 +618,20 @@ python context-management/tools/ai/research/precision_fetcher.py --test
 
 ### Documentation
 
-- **CCI Spec:** `standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md`
-- **Survey Spec:** `standard-model-of-code/docs/specs/CODOME_SURVEY_SPEC.md`
-- **Tree-sitter Validation:** `standard-model-of-code/docs/specs/TREE_SITTER_VALIDATION_REPORT.md`
+- **CCI Spec:** `particle/docs/specs/CODOME_COMPLETENESS_INDEX.md`
+- **Survey Spec:** `particle/docs/specs/CODOME_SURVEY_SPEC.md`
+- **Tree-sitter Validation:** `particle/docs/specs/TREE_SITTER_VALIDATION_REPORT.md`
 
 ### Code
 
-- **Survey Module:** `standard-model-of-code/src/core/survey.py`
-- **Precision Fetcher:** `context-management/tools/ai/research/precision_fetcher.py`
-- **Tree-sitter Engine:** `standard-model-of-code/src/core/tree_sitter_engine.py`
-- **Full Pipeline:** `standard-model-of-code/src/core/full_analysis.py`
+- **Survey Module:** `particle/src/core/survey.py`
+- **Precision Fetcher:** `wave/tools/ai/research/precision_fetcher.py`
+- **Tree-sitter Engine:** `particle/src/core/tree_sitter_engine.py`
+- **Full Pipeline:** `particle/src/core/full_analysis.py`
 
 ### Research
 
-- **Gemini Validation:** `standard-model-of-code/docs/research/gemini/docs/20260123_112616_cci_validation_and_precision_fetcher.md`
+- **Gemini Validation:** `particle/docs/research/gemini/docs/20260123_112616_cci_validation_and_precision_fetcher.md`
 - **Task Registry:** `.agent/registry/active/TASK-010-*.yaml`
 
 ### External

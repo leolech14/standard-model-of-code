@@ -36,7 +36,7 @@ Cite specific files and evidence.
 
 ## Response
 
-Based on the codebase context, specifically `context-management/docs/BACKGROUND_AI_LAYER_MAP.md`, `context-management/config/semantic_models.yaml`, and the repository audit logs, here is the Communication Fabric analysis of PROJECT_elements.
+Based on the codebase context, specifically `wave/docs/BACKGROUND_AI_LAYER_MAP.md`, `wave/config/semantic_models.yaml`, and the repository audit logs, here is the Communication Fabric analysis of PROJECT_elements.
 
 ### Executive Summary
 The system is currently in a **High $\Delta H$ (High Entropy)** state due to recent massive structural additions (Agent infrastructure, Jan 17-18). It relies heavily on **Manual Redundancy ($R_{manual}$)** to maintain coherence while **Automated Redundancy ($R_{auto}$)** is being spun up. The primary control risk is **Feed-Forward Amplification** where BARE/AEP might accelerate the creation of "orphaned" knowledge artifacts before the HSL validation loop is tight enough to prune them.
@@ -51,7 +51,7 @@ The system is currently in a **High $\Delta H$ (High Entropy)** state due to rec
 *   **HSL (Holographic-Socratic Layer)**: **Medium/Slow ($T \approx 24h$)**
     *   *Mechanism*: Scheduled daily via `com.elements.socratic-audit.plist` (6 AM trigger).
     *   *Fast Path*: File watchers exist but are throttled (5 min debounce) to prevent thrashing.
-    *   *Evidence*: `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`.
+    *   *Evidence*: `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`.
 *   **BARE (Truth Generation)**: **Fast ($T \approx$ Minutes)**
     *   *Mechanism*: `post-commit` hook triggers `fact_loader.py`.
     *   *Result*: Truths are updated almost immediately after code changes.

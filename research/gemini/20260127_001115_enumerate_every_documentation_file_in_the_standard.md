@@ -1,4 +1,4 @@
-# Research: Enumerate EVERY documentation file in the standard-model-of-code/docs/ directory. For each file, ide...
+# Research: Enumerate EVERY documentation file in the particle/docs/ directory. For each file, ide...
 
 > **Date:** 2026-01-27 00:11:15
 > **Source:** gemini
@@ -10,21 +10,21 @@
 
 ## Query
 
-Enumerate EVERY documentation file in the standard-model-of-code/docs/ directory. For each file, identify: 1) Is it theory (axioms, concepts, proofs)? 2) Is it specification (technical implementation)? 3) Is it research (AI outputs, validation)? 4) Is it operational (how-to, guides)? Create a complete file-by-file inventory with paths.
+Enumerate EVERY documentation file in the particle/docs/ directory. For each file, identify: 1) Is it theory (axioms, concepts, proofs)? 2) Is it specification (technical implementation)? 3) Is it research (AI outputs, validation)? 4) Is it operational (how-to, guides)? Create a complete file-by-file inventory with paths.
 
 ---
 
 ## Response
 
-Based on the provided codebase context, here is the complete enumeration of the documentation files located within the `standard-model-of-code/docs/` directory, categorized by their primary function.
+Based on the provided codebase context, here is the complete enumeration of the documentation files located within the `particle/docs/` directory, categorized by their primary function.
 
 ### **Directory Overview**
-The `standard-model-of-code/docs/` directory represents the **Particle Realm** (Body) documentation. It focuses on deterministic definitions, tool usage, and formal specifications, distinct from the *Wave Realm* (Brain) context found in `context-management/`.
+The `particle/docs/` directory represents the **Particle Realm** (Body) documentation. It focuses on deterministic definitions, tool usage, and formal specifications, distinct from the *Wave Realm* (Brain) context found in `wave/`.
 
 ---
 
 ### **1. Root Documentation**
-`standard-model-of-code/docs/`
+`particle/docs/`
 
 | File Path | Category | Description |
 | :--- | :--- | :--- |
@@ -37,7 +37,7 @@ The `standard-model-of-code/docs/` directory represents the **Particle Realm** (
 ---
 
 ### **2. Specifications (`/specs`)**
-`standard-model-of-code/docs/specs/`
+`particle/docs/specs/`
 *These files define the technical boundaries and measurement formulas for the "Codome" (executable code).*
 
 | File Path | Category | Description |
@@ -53,7 +53,7 @@ The `standard-model-of-code/docs/` directory represents the **Particle Realm** (
 ---
 
 ### **3. Research (`/research`)**
-`standard-model-of-code/docs/research/`
+`particle/docs/research/`
 *Artifacts of investigation and validation.*
 
 | File Path | Category | Description |
@@ -63,8 +63,8 @@ The `standard-model-of-code/docs/` directory represents the **Particle Realm** (
 ---
 
 ### **4. Theory Sub-directory (`/theory`)**
-`standard-model-of-code/docs/theory/`
-*Note: While most narrative theory lives in `context-management/`, specific formal definitions reside here.*
+`particle/docs/theory/`
+*Note: While most narrative theory lives in `wave/`, specific formal definitions reside here.*
 
 | File Path | Category | Description |
 | :--- | :--- | :--- |

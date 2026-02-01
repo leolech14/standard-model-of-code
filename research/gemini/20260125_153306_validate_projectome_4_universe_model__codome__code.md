@@ -16,7 +16,7 @@ Validate PROJECTOME 4-universe model: Codome (code) + Contextome (docs) + Visual
 
 ## Response
 
-Based on the analysis of the provided codebase (specifically the `standard-model-of-code` core), the **PROJECTOME 4-universe model** (Codome, Contextome, Visualization, Governance) is a **valid high-level architectural fit**, but the current implementation is heavily skewed towards the **Codome**.
+Based on the analysis of the provided codebase (specifically the `particle` core), the **PROJECTOME 4-universe model** (Codome, Contextome, Visualization, Governance) is a **valid high-level architectural fit**, but the current implementation is heavily skewed towards the **Codome**.
 
 Here is the breakdown of how the 4-Universe model maps to the code, and what is critically missing.
 

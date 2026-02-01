@@ -77,7 +77,7 @@ The Collider engine IS the product. Wave/Observer support it.
 
 ## Realm Breakdown
 
-### PARTICLE (standard-model-of-code/)
+### PARTICLE (particle/)
 
 The **product** - what we ship:
 
@@ -89,7 +89,7 @@ The **product** - what we ship:
 | `tools/` | CLI, visualization |
 | `tests/` | Validation |
 
-### WAVE (context-management/)
+### WAVE (wave/)
 
 The **support** - how we reason:
 
@@ -117,7 +117,7 @@ The **meta** - how we decide:
 
 ```bash
 # Run Collider on itself
-cd standard-model-of-code
+cd particle
 ./collider full /Users/lech/PROJECTS_all/PROJECT_elements --output /tmp/elements_self_analysis
 
 # Extract balance (use the Python script in this session)

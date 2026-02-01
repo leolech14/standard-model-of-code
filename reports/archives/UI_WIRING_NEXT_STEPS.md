@@ -11,7 +11,7 @@
 ### 1. Test in Browser (15 minutes)
 ```bash
 # Regenerate visualization
-./collider full standard-model-of-code --output /tmp/test_wiring
+./collider full particle --output /tmp/test_wiring
 
 # Open in browser
 open /tmp/test_wiring/collider_report.html
@@ -264,7 +264,7 @@ Object.entries(savedFilters).forEach(([type, values]) => {
 node --check src/core/viz/assets/modules/panel-handlers.js
 
 # Full analysis (regenerate HTML)
-./collider full standard-model-of-code --output /tmp/test_ui
+./collider full particle --output /tmp/test_ui
 
 # Run tests (if available)
 pytest tests/test_ui.py -v

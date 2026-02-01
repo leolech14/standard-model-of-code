@@ -28,7 +28,7 @@ PROJECT_elements is a **7-week-old codebase** that has grown explosively to **36
 ```
 2025-12-05   │ Chrome MCP created (oldest files)
 2025-12-22   │ .agent/ and assets/ born
-2026-01-19   │ ████ EXPLOSION: standard-model-of-code/, context-management/
+2026-01-19   │ ████ EXPLOSION: particle/, wave/
 2026-01-21   │ ████ Major feature push (33h session, 122 commits)
 2026-01-24   │ ███ Batch grading, backend consolidation
 2026-01-25   │ ████ LOL (List of Lists) system created
@@ -87,10 +87,10 @@ Knot Score:      10/10 (maximum tangle)
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  PARTICLE (69.3%)  ██████████████████████████████████████   │
-│  standard-model-of-code/                                    │
+│  particle/                                    │
 ├─────────────────────────────────────────────────────────────┤
 │  WAVE (15.6%)      ██████████                               │
-│  context-management/                                        │
+│  wave/                                        │
 ├─────────────────────────────────────────────────────────────┤
 │  OBSERVER (10.7%)  ███████                                  │
 │  .agent/                                                    │

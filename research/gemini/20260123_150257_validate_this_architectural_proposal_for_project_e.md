@@ -165,7 +165,7 @@ preconditions:
   - "Run status is IN_PROGRESS"
   - "Files modified > 0"
 tool_call:
-  script: "python context-management/tools/ai/analyze.py --verify pipeline"
+  script: "python wave/tools/ai/analyze.py --verify pipeline"
 ```
 
 ### Conclusion

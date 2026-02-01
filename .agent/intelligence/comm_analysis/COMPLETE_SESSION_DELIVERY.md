@@ -147,7 +147,7 @@
 .agent/tools/
 └── filesystem_watcher.py (NEW)
 
-context-management/tools/
+wave/tools/
 ├── ai/deck/
 │   └── fabric_bridge.py (NEW)
 │

@@ -21,8 +21,8 @@ Based on the provided codebase context—specifically the **Repository Audit**, 
 ### Executive Summary: The "Brain vs. Body" Synchronization Problem
 
 The core organizational tension stems from the project's architectural split into two "hemispheres":
-1.  **Particle Realm (`standard-model-of-code/`)**: The executable "Body" (Collider engine).
-2.  **Wave Realm (`context-management/`)**: The contextual "Brain" (AI tools, theory).
+1.  **Particle Realm (`particle/`)**: The executable "Body" (Collider engine).
+2.  **Wave Realm (`wave/`)**: The contextual "Brain" (AI tools, theory).
 
 While this is a deliberate design choice (See `DOCS_REORG_TASK_REGISTRY.md`), it has resulted in significant synchronization drift where the **Theory (Brain)** evolves faster than the **Implementation (Body)**, leaving duplicate or contradicting artifacts in both directories.
 
@@ -33,8 +33,8 @@ While this is a deliberate design choice (See `DOCS_REORG_TASK_REGISTRY.md`), it
 The most severe fragmentation exists in the definition of the "Standard Model" itself.
 
 *   **The Theory/Model Split**:
-    *   **Context:** `context-management/docs/theory/THEORY.md` (176KB) contains the extended narrative for AI agents.
-    *   **Code:** `standard-model-of-code/docs/MODEL.md` (8KB) contains the canonical spec for the tool.
+    *   **Context:** `wave/docs/theory/THEORY.md` (176KB) contains the extended narrative for AI agents.
+    *   **Code:** `particle/docs/MODEL.md` (8KB) contains the canonical spec for the tool.
     *   **Issue:** The `DOCS_REORG_TASK_REGISTRY.md` explicitly **REJECTED** merging these to maintain the "Hemisphere" architecture, meaning developers must manually keep two sources of truth synchronized.
 
 *   **The Atom Count Discrepancy (Truth Gap)**:
@@ -45,9 +45,9 @@ The most severe fragmentation exists in the definition of the "Standard Model" i
 
 *   **Glossary Triangulation**:
     *   Terminologies are scattered across:
-        1.  `standard-model-of-code/docs/MODEL.md` (Current definitions)
-        2.  `context-management/docs/GLOSSARY.md` (Navigation topology)
-        3.  `context-management/docs/archive/legacy_schema_2025/GLOSSARY.md` (Outdated terms like "13 levels" instead of 16).
+        1.  `particle/docs/MODEL.md` (Current definitions)
+        2.  `wave/docs/GLOSSARY.md` (Navigation topology)
+        3.  `wave/docs/archive/legacy_schema_2025/GLOSSARY.md` (Outdated terms like "13 levels" instead of 16).
     *   **Issue:** The "New" glossary documents the *file topology* (Codome/Contextome), while the "Model" documents the *physics* (Atoms/Roles). There is no single "Master Glossary."
 
 ### 2. File Sprawl & Duplication
@@ -56,11 +56,11 @@ The `REPOSITORY_AUDIT_2026-01-19.md` identifies specific clusters of sprawl:
 
 *   **Duplicate "Holy Books"**:
     *   `ROADMAP.md` exists in 3 locations.
-    *   `THEORY.md` exists in `context-management` and `standard-model-of-code/.agent`.
+    *   `THEORY.md` exists in `wave` and `particle/.agent`.
     *   *Mitigation:* The audit recommends **symlinking**, but currently, these are physical copies that can drift.
 
 *   **Redundant Source Directories**:
-    *   The `CLEANUP_PLAN.md` identifies that `standard-model-of-code/src/core/` acts as a partial duplicate of files found in `schema/` and `docs/`.
+    *   The `CLEANUP_PLAN.md` identifies that `particle/src/core/` acts as a partial duplicate of files found in `schema/` and `docs/`.
     *   **Virtual Environment Pollution**: 4,044 files (71% of file count) were identified as `.venv` pollution that wasn't properly excluded from analysis scans.
 
 *   **Legacy Artifacts (Spectrometer vs. Collider)**:
@@ -83,9 +83,9 @@ The `REPOSITORY_AUDIT_2026-01-19.md` identifies specific clusters of sprawl:
 
 | Issue Type | Location of Sprawl | Evidence File |
 | :--- | :--- | :--- |
-| **Duplicate Truths** | `standard-model-of-code/.agent/` vs `context-management/` | `REPOSITORY_AUDIT_2026-01-19.md` |
+| **Duplicate Truths** | `particle/.agent/` vs `wave/` | `REPOSITORY_AUDIT_2026-01-19.md` |
 | **Legacy Code** | `archive/` (contains functional but dead scripts) | `ASSET_INVENTORY.md` |
-| **Data Bloat** | `standard-model-of-code/output/` | `CLEANUP_PLAN.md` |
+| **Data Bloat** | `particle/output/` | `CLEANUP_PLAN.md` |
 | **Glossary Gaps** | `docs/MODEL.md` vs `docs/GLOSSARY.md` | `GLOSSARY_GAP_MAP.md` |
 
 ---

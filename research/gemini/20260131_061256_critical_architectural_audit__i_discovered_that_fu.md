@@ -35,7 +35,7 @@ It appears your analysis is correct, and you've identified a significant archite
 
 **Yes, your analysis is accurate.**
 
-Based on the provided `standard-model-of-code/src/core/full_analysis.py` file:
+Based on the provided `particle/src/core/full_analysis.py` file:
 
 *   **`run_pipeline_analysis()` (line 1076):** This function is a concise wrapper that initializes a `CodebaseState`, creates a `default_pipeline`, and executes it. This clearly points to the intended modular, stage-based pipeline framework.
 *   **`run_full_analysis()` (line 1117):** This function is indeed a monolithic block of code, spanning over 1000 lines. It directly imports and orchestrates calls to numerous individual analysis modules (e.g., `unified_analysis.analyze`, `standard_model_enricher.enrich_with_standard_model`, `detect_purpose_field`, `detect_execution_flow`, `compute_markov_matrix`, etc.). Each step is encapsulated within `StageTimer` blocks, but the logic flows sequentially within this single function.

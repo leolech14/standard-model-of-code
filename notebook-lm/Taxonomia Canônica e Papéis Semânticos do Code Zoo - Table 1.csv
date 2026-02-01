@@ -1,0 +1,42 @@
+Papel Semântico,Propósito Funcional,Fase do Ciclo de Vida,Átomo Típico,Nível de Holarquia (Locus),Origem SWEBOK,Fonte
+Validator,Validação de entrada,Lógica,LOG.FNC.M,L3,"SWEBOK KA-REQ, KA-TES, KA-QUA",1
+Verifier,Corretude do build (SWEBOK: 'construído corretamente'),Lógica,LOG.FNC.M,L3,Aprimorado por SWEBOK V4 (KA-TES),1
+SecurityValidator,Validação específica de segurança,Lógica,LOG.FNC.M,L3,Aprimorado por SWEBOK V4 (KA-SEC),1
+StatisticalAnalyzer,Análise de dados,Lógica,LOG.FNC.M,L3-L4,Novo papel SWEBOK V4 (KA-QUA),1
+Tracer,Rastreamento de histórico/proveniência,Lógica,LOG.FNC.M,L3,Novo papel SWEBOK V4 (Rastreabilidade),1
+ProjectManager,Coordenação de recursos/cronograma,Organização,ORG.SVC.M,L4,Novo papel SWEBOK V4 (KA-MGT),1
+RiskManager,Identificação/mitigação de riscos,Organização,ORG.SVC.M,L4,Novo papel SWEBOK V4 (KA-MGT),1
+Certifier,Certificação profissional/de produto,Execução,EXE.PRB.O,L3-L4,Novo papel SWEBOK V4 (KA-PRO),1
+Measurer,Coleta de métricas,Execução,EXE.PRB.O,L3-L4,Novo papel SWEBOK V4 (KA-QUA),1
+Query,Solicitação de recuperação de dados,Organização,ORG.AGG.M,L3-L4,SWEBOK KA-REQ,1
+Command,Intenção de modificar estado,Organização,ORG.AGG.M,L3-L4,SWEBOK KA-REQ,1
+Service,Lógica de negócio,Organização,ORG.SVC.M,L4,SWEBOK KA-ARC,1
+Orchestrator,Fluxo de trabalho de múltiplas etapas,Organização,ORG.SVC.M,L4,"SWEBOK KA-ARC, KA-PRO",1
+Creator,Instanciação de entidade,Lógica,LOG.FNC.M,L3,SWEBOK KA-CON,1
+Mutator,Modificação de estado,Lógica,LOG.FNC.M,L3,"SWEBOK KA-CON, KA-MAI",1
+Factory,Criação de objeto,Lógica,LOG.FNC.M,L3,SWEBOK KA-DES,1
+Builder,Construção fluente,Lógica,LOG.FNC.M,L3,SWEBOK KA-DES,1
+Transformer,Transformação de dados,Lógica,LOG.FNC.M,L3,"SWEBOK KA-DES, KA-MAI",1
+Helper,Funções de suporte,Lógica,LOG.FNC.M,L3,SWEBOK KA-CON,1
+Loader,Carregamento de dados em massa,Organização,ORG.SVC.M,L4,SWEBOK KA-SCM,1
+Store,Contêiner de estado,Organização,ORG.SVC.M,L4,SWEBOK KA-SCM,1
+Controller,Tratamento de requisições,Execução,EXE.HDL.O,L3-L4,SWEBOK KA-PRO,1
+Manager,Gerenciamento de recursos,Organização,ORG.SVC.M,L4,SWEBOK KA-OPE,1
+Handler,Processamento de eventos,Execução,EXE.HDL.O,L3-L4,SWEBOK KA-OPE,1
+Guard,Controle de acesso,Lógica,LOG.CTL.A,L2,SWEBOK KA-SEC,1
+Asserter,Verificação de invariantes,Lógica,LOG.FNC.M,L3,SWEBOK KA-TES,1
+Finder,Busca por critérios,Lógica,LOG.FNC.M,L3,Não na fonte,"1, 2"
+Getter,Acesso a propriedade única,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Destroyer,Exclusão de entidade,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Repository,Persistência de agregados,Organização,ORG.SVC.M,L4,Não na fonte,1
+Cache,Armazenamento temporário,Organização,ORG.SVC.M,L4,Não na fonte,1
+Mapper,Conversão de tipos,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Serializer,Objeto para bytes,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Parser,Bytes para objeto,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Listener,Inscrição em eventos,Organização,ORG.SVC.M,L4,Não na fonte,1
+Subscriber,Consumo de mensagens,Execução,EXE.HDL.O,L3-L4,Não na fonte,1
+Emitter,Publicação de eventos,Organização,ORG.SVC.M,L4,Não na fonte,1
+Utility,Auxiliares sem estado,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Formatter,Formatação de saída,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Internal,Implementação privada,Lógica,LOG.FNC.M,L3,Não na fonte,1
+Lifecycle,Hooks de inicialização/limpeza,Execução,EXE.INI.O,L5-L7,Não na fonte,1

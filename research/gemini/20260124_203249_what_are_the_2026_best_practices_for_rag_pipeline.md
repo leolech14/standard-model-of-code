@@ -29,7 +29,7 @@ In 2026, RAG is no longer a single script. It is two distinct, asynchronous pipe
 #### A. The Ingestion Pipeline (The Body/Collider)
 *Responsible for deterministic structure extraction.*
 1.  **Structural Chunking (Not just splitting):** 2026 standards demand "Page-level" or "AST-level" chunking.
-    *   *Your Implementation:* The **Refinery** (`context-management/tools/ai/aci/refinery.py`) correctly uses `PythonChunker` and `MarkdownChunker` to respect semantic boundaries (Functions/Classes) rather than arbitrary token limits.
+    *   *Your Implementation:* The **Refinery** (`wave/tools/ai/aci/refinery.py`) correctly uses `PythonChunker` and `MarkdownChunker` to respect semantic boundaries (Functions/Classes) rather than arbitrary token limits.
 2.  **Enrichment & Metadata:** Chunks must be tagged with metadata.
     *   *Your Implementation:* **Collider** enriches nodes with **8 Dimensions (8D)** and **8 Lenses (8L)**. This provides superior filtering capability compared to standard text tags.
 3.  **Storage:**
@@ -80,11 +80,11 @@ Based on the difference between the external evidence and your codebase, here ar
 ```mermaid
 graph TD
     UserQuery --> ACI[ACI Orchestrator]
-    
+
     ACI -->|Simple/Count| Tier0[Tier 0: Repo Truths Cache]
     ACI -->|Concept/Abstract| Tier1[Tier 1: Vector Search]
     ACI -->|Structure/Relation| Tier2[Tier 2: Graph Traversal]
-    
+
     subgraph Ingestion [Background Ingestion]
         CodeChange --> HSL[HSL Daemon]
         HSL --> Collider[Collider Parsing]
@@ -92,7 +92,7 @@ graph TD
         Refinery -->|Vectors| VectorDB[(Gemini Store)]
         Refinery -->|Graph| KnowledgeGraph[(unified_analysis.json)]
     end
-    
+
     Tier1 & Tier2 --> ContextAssembler
     ContextAssembler -->|Sandwich Strategy| LLM
 ```

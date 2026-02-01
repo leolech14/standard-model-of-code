@@ -18,7 +18,7 @@ I'm about to deduplicate MCP server configs across 3 files (~/.claude/settings.j
 
 The Decision Deck has 25 cards covering:
 - Analysis (Collider, Audit)
-- Documentation (Write Spec)  
+- Documentation (Write Spec)
 - Git (Commit)
 - Research (Perplexity, Gemini)
 - Infrastructure (Pipelines, Daemons, Health Models)
@@ -51,7 +51,7 @@ Let's evaluate your questions in light of the project's architecture:
 1.  **Would a 'Config Cleanup' card be used more than once?**
     While your current task of deduplicating MCP server configs is described as a "one-time cleanup" for *that specific set of files*, the broader category of "System Configuration Cleanup" is highly likely to be needed again. Codebases evolve, tools change, and configuration drift is a common form of technical debt.
     *   The `DEEP_GHOSTS_REPORT.md` already highlights potential "Config File Contradictions" and "Schema Duplication" (even if not critical in that audit), indicating that config hygiene is an ongoing concern.
-    *   The project has various `.yaml` and `.json` config files (`context-management/config/`, atom definitions, schemas, `pre-commit-config.yaml`). As `BARE` evolves and new systems are integrated, more config files will appear, and older ones will become stale or redundant.
+    *   The project has various `.yaml` and `.json` config files (`wave/config/`, atom definitions, schemas, `pre-commit-config.yaml`). As `BARE` evolves and new systems are integrated, more config files will appear, and older ones will become stale or redundant.
     *   **Verdict:** Yes, a general "System Configuration Cleanup" card would likely be used more than once for different configuration types or throughout the project's lifecycle.
 
 2.  **Is config deduplication general enough to warrant certification?**
@@ -81,7 +81,7 @@ This new card, perhaps named `CARD-SYS-0XX: System Configuration Audit & Cleanup
 *   **Category:** System Hygiene / Infrastructure
 *   **Purpose:** To systematically identify, audit, and rectify inconsistencies, redundancies, deprecations, or misconfigurations within the project's various configuration files, ensuring system stability, predictability, and adherence to defined standards.
 *   **Preconditions:**
-    *   Specific configuration files or directories targeted for audit are identified (e.g., `mcp.json`, `context-management/config/`, `standard-model-of-code/src/patterns/`).
+    *   Specific configuration files or directories targeted for audit are identified (e.g., `mcp.json`, `wave/config/`, `particle/src/patterns/`).
     *   Canonical sources or desired states for the targeted configurations are established (e.g., in related schema files or `MODEL.md`).
 *   **Steps:**
     1.  **Define Scope:** Clearly specify the set of config files/areas to be audited.

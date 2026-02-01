@@ -22,9 +22,9 @@ Based on the `PROJECT_elements` architecture and the `AGENT_KERNEL.md` directive
 
 **DO NOT DELETE `research_engine.py` YET.**
 
-According to **`context-management/docs/RESEARCH_SCHEMAS.md`**, this file is the active engine for the Research Schema system:
-> **Location:** `context-management/config/research_schemas.yaml`
-> **Engine:** `context-management/tools/ai/aci/research_engine.py`
+According to **`wave/docs/RESEARCH_SCHEMAS.md`**, this file is the active engine for the Research Schema system:
+> **Location:** `wave/config/research_schemas.yaml`
+> **Engine:** `wave/tools/ai/aci/research_engine.py`
 
 If you are deleting it, you must first verify that `analyze.py` no longer imports it. Deleting it while other agents are running `analyze.py` research commands will cause immediate crashes.
 
@@ -62,21 +62,21 @@ Use the "Surgeon" mode to prove the code is dead before deletion.
 grep -r "research_engine" . --exclude="research_engine.py" --exclude-dir=".git"
 
 # 2. Check imports in the ACI module
-grep "research_engine" context-management/tools/ai/aci/__init__.py
+grep "research_engine" wave/tools/ai/aci/__init__.py
 ```
 *If these return hits, the code is ALIVE. Do not delete.*
 
 #### 4. The Execution (Atomic Deletion)
 If verification passes (0 hits or only legacy docs):
 
-1.  **Delete**: `rm context-management/tools/ai/aci/research_engine.py`
+1.  **Delete**: `rm wave/tools/ai/aci/research_engine.py`
 2.  **Test Immediately**:
     ```bash
     # Run the brain tests to ensure no import errors
-    cd standard-model-of-code
-    pytest ../context-management/tests/ -q  # Or equivalent path if tests exist
+    cd particle
+    pytest ../wave/tests/ -q  # Or equivalent path if tests exist
     # OR run the tool to check for import crashes
-    python ../context-management/tools/ai/analyze.py --help
+    python ../wave/tools/ai/analyze.py --help
     ```
 3.  **Commit Immediately**:
     ```bash

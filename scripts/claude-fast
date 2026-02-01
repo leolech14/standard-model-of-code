@@ -1,0 +1,30 @@
+#!/bin/bash
+# Claude Code with fast open models via OpenRouter
+# NO PROXY NEEDED - Works natively
+#
+# Usage:
+#   claude-fast                              # Default: Llama 3.3 70B
+#   claude-fast -m qwen/qwen3-coder          # Specific model
+#   claude-fast -m openai/gpt-oss-120b       # GPT-OSS 120B (Cerebras-fast)
+#
+# Sources:
+#   https://openrouter.ai/docs/guides/guides/claude-code-integration
+
+MODEL="meta-llama/llama-3.3-70b-instruct"
+
+while getopts "m:" opt; do
+  case $opt in
+    m) MODEL="$OPTARG" ;;
+  esac
+done
+shift $((OPTIND-1))
+
+# Official OpenRouter config for Claude Code
+export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
+export ANTHROPIC_AUTH_TOKEN="$(doppler secrets get OPENROUTER_API_KEY --plain)"
+export ANTHROPIC_API_KEY=""  # MUST be explicitly empty
+
+# Use separate config to avoid auth conflicts
+export CLAUDE_CONFIG_DIR="$HOME/.claude-openrouter"
+
+exec claude --model "$MODEL" "$@"

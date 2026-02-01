@@ -6,19 +6,19 @@ This is a shallow tree (depth 2) to show what exists without listing thousands o
 
 ## Top-level
 
-- `standard-model-of-code/` — 1496 files, 951.20 MB (md 643, yaml 29, json 824)
-  - `standard-model-of-code/docs` — 1096 files, 12.60 MB
-  - `standard-model-of-code/artifacts` — 160 files, 931.88 MB
-  - `standard-model-of-code/.archive` — 93 files, 3.04 MB
-  - `standard-model-of-code/tools` — 44 files, 1.11 MB
-  - `standard-model-of-code/src` — 35 files, 1.65 MB
-  - `standard-model-of-code/schema` — 34 files, 0.35 MB
-  - `standard-model-of-code/data` — 7 files, 0.04 MB
-  - `standard-model-of-code/research` — 7 files, 0.42 MB
-  - `standard-model-of-code/.github` — 3 files, 0.00 MB
-  - `standard-model-of-code/blender` — 2 files, 0.01 MB
-  - `standard-model-of-code/AUDIT_INDEX.md` — 1 files, 0.01 MB
-  - `standard-model-of-code/.bandit_output.json` — 1 files, 0.00 MB
+- `particle/` — 1496 files, 951.20 MB (md 643, yaml 29, json 824)
+  - `particle/docs` — 1096 files, 12.60 MB
+  - `particle/artifacts` — 160 files, 931.88 MB
+  - `particle/.archive` — 93 files, 3.04 MB
+  - `particle/tools` — 44 files, 1.11 MB
+  - `particle/src` — 35 files, 1.65 MB
+  - `particle/schema` — 34 files, 0.35 MB
+  - `particle/data` — 7 files, 0.04 MB
+  - `particle/research` — 7 files, 0.42 MB
+  - `particle/.github` — 3 files, 0.00 MB
+  - `particle/blender` — 2 files, 0.01 MB
+  - `particle/AUDIT_INDEX.md` — 1 files, 0.01 MB
+  - `particle/.bandit_output.json` — 1 files, 0.00 MB
   - … (13 more children; 13 files, 0.09 MB)
 - `.agent/` — 321 files, 3.23 MB (md 73, yaml 214, json 34)
   - `.agent/registry` — 152 files, 0.18 MB
@@ -34,20 +34,20 @@ This is a shallow tree (depth 2) to show what exists without listing thousands o
   - `.agent/handoffs` — 1 files, 0.01 MB
   - `.agent/runs` — 1 files, 0.00 MB
   - … (13 more children; 13 files, 0.09 MB)
-- `context-management/` — 304 files, 6.91 MB (md 131, yaml 35, json 138)
-  - `context-management/intelligence` — 132 files, 3.20 MB
-  - `context-management/docs` — 109 files, 1.56 MB
-  - `context-management/tools` — 38 files, 0.10 MB
-  - `context-management/llm-threads` — 10 files, 0.56 MB
-  - `context-management/config` — 8 files, 0.10 MB
-  - `context-management/reference_datasets` — 3 files, 0.07 MB
-  - `context-management/registry` — 2 files, 1.31 MB
-  - `context-management/reports` — 2 files, 0.01 MB
+- `wave/` — 304 files, 6.91 MB (md 131, yaml 35, json 138)
+  - `wave/intelligence` — 132 files, 3.20 MB
+  - `wave/docs` — 109 files, 1.56 MB
+  - `wave/tools` — 38 files, 0.10 MB
+  - `wave/llm-threads` — 10 files, 0.56 MB
+  - `wave/config` — 8 files, 0.10 MB
+  - `wave/reference_datasets` — 3 files, 0.07 MB
+  - `wave/registry` — 2 files, 1.31 MB
+  - `wave/reports` — 2 files, 0.01 MB
 - `archive/` — 208 files, 8.00 MB (md 159, yaml 5, json 44)
   - `archive/spectrometer_benchmarks_legacy` — 52 files, 0.73 MB
   - `archive/misc_docs` — 42 files, 0.29 MB
   - `archive/docs` — 16 files, 0.18 MB
-  - `archive/context-management-agent-2026-01-23` — 12 files, 0.15 MB
+  - `archive/wave-agent-2026-01-23` — 12 files, 0.15 MB
   - `archive/docs_consolidated_2026-01-19` — 12 files, 0.10 MB
   - `archive/spectrometer_audit_results` — 10 files, 0.31 MB
   - `archive/grok_chats` — 9 files, 1.26 MB

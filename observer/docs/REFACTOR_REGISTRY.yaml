@@ -1,0 +1,343 @@
+# Control Room Refactor Task Registry
+# Generated: 2026-02-01
+# Source: Cerebras llama-3.3-70b analysis
+# Status: PLANNING PHASE
+
+metadata:
+  project: Control Room
+  source_a: refinery-dashboard (React/TypeScript)
+  source_b: file_explorer.py (Python)
+  total_tasks: 8
+  estimated_hours: 89
+  phases: 5
+  confidence_avg: 79%
+
+# =============================================================================
+# PHASE 1: FOUNDATION
+# Goal: Project setup, shared types, development environment
+# =============================================================================
+phases:
+  1:
+    name: Foundation
+    tasks: [CR-001, CR-002]
+    estimated_hours: 10
+    deliverable: "Working project skeleton with shared types"
+
+tasks:
+  - id: CR-001
+    title: "Project Setup"
+    description: |
+      Set up new React + Vite project with TypeScript.
+      Create FastAPI backend skeleton.
+      Configure monorepo structure (frontend/ + backend/).
+      Initialize package.json and requirements.txt.
+    phase: 1
+    priority: P0
+    estimated_hours: 4
+    confidence: 90
+    risk_level: LOW
+    input_files:
+      - source-a/package.json
+      - source-a/vite.config.ts
+      - source-a/tsconfig.json
+    output_files:
+      - merged/frontend/package.json
+      - merged/frontend/vite.config.ts
+      - merged/backend/requirements.txt
+      - merged/backend/main.py
+    dependencies: []
+    test_criteria: |
+      - `npm run dev` starts React on :3000
+      - `uvicorn main:app` starts FastAPI on :8000
+      - CORS configured for local dev
+
+  - id: CR-002
+    title: "Shared Types Definition"
+    description: |
+      Define shared TypeScript interfaces.
+      Create Pydantic models mirroring TS types.
+      Include: UnifiedFile, AuthState, ObserverStatus, PipelineStage.
+      Add Zod validation schemas.
+    phase: 1
+    priority: P0
+    estimated_hours: 6
+    confidence: 80
+    risk_level: MEDIUM
+    input_files:
+      - source-a/types.ts
+    output_files:
+      - merged/frontend/src/types/index.ts
+      - merged/frontend/src/types/file.ts
+      - merged/frontend/src/types/auth.ts
+      - merged/backend/models/file.py
+      - merged/backend/models/auth.py
+    dependencies: [CR-001]
+    test_criteria: |
+      - TS interfaces compile
+      - Pydantic models validate
+      - JSON round-trip works
+
+# =============================================================================
+# PHASE 2: SECURITY
+# Goal: Authentication bridge with Touch ID
+# =============================================================================
+  2:
+    name: Security
+    tasks: [CR-003]
+    estimated_hours: 12
+    deliverable: "Touch ID authentication working end-to-end"
+
+  - id: CR-003
+    title: "Auth Bridge Implementation"
+    description: |
+      Extract Touch ID code from file_explorer.py.
+      Create FastAPI auth endpoints:
+        - POST /auth/biometric → trigger Touch ID
+        - GET /auth/verify → validate session
+        - POST /auth/logout → clear session
+      Implement React AuthContext.
+      Create SecureGate component (blocks until authed).
+    phase: 2
+    priority: P0
+    estimated_hours: 12
+    confidence: 70
+    risk_level: HIGH
+    input_files:
+      - source-b/file_explorer.py (lines 108-168)
+    output_files:
+      - merged/backend/auth/biometric.py
+      - merged/backend/auth/session.py
+      - merged/backend/routes/auth.py
+      - merged/frontend/src/contexts/AuthContext.tsx
+      - merged/frontend/src/components/SecureGate.tsx
+    dependencies: [CR-001]
+    test_criteria: |
+      - Touch ID prompt appears on macOS
+      - Session token stored in httpOnly cookie
+      - Unauthenticated requests return 401
+      - SecureGate blocks render until authed
+    risks:
+      - "Touch ID only works on macOS"
+      - "Swift subprocess may timeout"
+    mitigations:
+      - "Add password fallback for non-macOS"
+      - "60s timeout with retry option"
+
+# =============================================================================
+# PHASE 3: BACKEND
+# Goal: FastAPI with all file operations
+# =============================================================================
+  3:
+    name: Backend
+    tasks: [CR-004, CR-005]
+    estimated_hours: 25
+    deliverable: "Complete file operation API"
+
+  - id: CR-004
+    title: "FastAPI Backend Setup"
+    description: |
+      Create FastAPI app structure.
+      Implement core routes:
+        - GET /api/list → list directory
+        - GET /api/preview → file preview
+        - GET /api/content → full file content
+      Add path validation middleware.
+      Configure CORS and auth middleware.
+    phase: 3
+    priority: P0
+    estimated_hours: 10
+    confidence: 80
+    risk_level: MEDIUM
+    input_files:
+      - source-b/file_explorer.py (HTTP handler section)
+    output_files:
+      - merged/backend/routes/files.py
+      - merged/backend/middleware/auth.py
+      - merged/backend/middleware/path_validator.py
+      - merged/backend/utils/preview.py
+    dependencies: [CR-003]
+    test_criteria: |
+      - /api/list returns directory contents
+      - Path traversal attempts blocked
+      - Preview returns truncated content
+      - Auth required for all endpoints
+
+  - id: CR-005
+    title: "API Endpoints Implementation"
+    description: |
+      Implement remaining file operation endpoints:
+        - POST /api/upload
+        - POST /api/create-folder
+        - POST /api/rename
+        - POST /api/delete
+        - POST /api/paste (copy/move)
+        - POST /api/compress
+        - POST /api/extract
+        - POST /api/undo / /api/redo
+      Add action history for undo/redo.
+    phase: 3
+    priority: P1
+    estimated_hours: 15
+    confidence: 75
+    risk_level: MEDIUM
+    input_files:
+      - source-b/file_explorer.py (file operations section)
+    output_files:
+      - merged/backend/routes/operations.py
+      - merged/backend/services/file_ops.py
+      - merged/backend/services/history.py
+    dependencies: [CR-004]
+    test_criteria: |
+      - All CRUD operations work
+      - Undo/redo restores previous state
+      - Errors return appropriate status codes
+
+# =============================================================================
+# PHASE 4: FRONTEND
+# Goal: React components integrated with backend
+# =============================================================================
+  4:
+    name: Frontend
+    tasks: [CR-006]
+    estimated_hours: 12
+    deliverable: "All Source A components working with Python backend"
+
+  - id: CR-006
+    title: "React Components Integration"
+    description: |
+      Port all Source A components:
+        - PipelineInspector (no changes needed)
+        - FileSystem (replace mock with API calls)
+        - Inventory (add file operations)
+        - Timeline (no changes needed)
+        - Common (split into ui/ folder)
+      Create API hooks (useFiles, usePreview, etc.).
+      Add loading/error states.
+    phase: 4
+    priority: P0
+    estimated_hours: 12
+    confidence: 85
+    risk_level: MEDIUM
+    input_files:
+      - source-a/components/*.tsx
+      - source-a/App.tsx
+    output_files:
+      - merged/frontend/src/components/*.tsx
+      - merged/frontend/src/hooks/useFiles.ts
+      - merged/frontend/src/hooks/usePreview.ts
+      - merged/frontend/src/hooks/useFileOperations.ts
+      - merged/frontend/src/App.tsx
+    dependencies: [CR-002, CR-004]
+    test_criteria: |
+      - All components render
+      - File list fetches from API
+      - File operations trigger API calls
+      - Errors display in UI
+
+# =============================================================================
+# PHASE 5: INTEGRATION
+# Goal: Real-time updates, testing, polish
+# =============================================================================
+  5:
+    name: Integration
+    tasks: [CR-007, CR-008]
+    estimated_hours: 30
+    deliverable: "Complete, tested Control Room"
+
+  - id: CR-007
+    title: "WebSocket Integration"
+    description: |
+      Implement WebSocket server in FastAPI.
+      Create events:
+        - file.created, file.modified, file.deleted
+        - observer.status (structural, operational, generative)
+        - pipeline.progress
+      Create React useWebSocket hook.
+      Add reconnection logic.
+    phase: 5
+    priority: P1
+    estimated_hours: 10
+    confidence: 80
+    risk_level: MEDIUM
+    input_files: []
+    output_files:
+      - merged/backend/websocket/manager.py
+      - merged/backend/websocket/events.py
+      - merged/frontend/src/hooks/useWebSocket.ts
+      - merged/frontend/src/contexts/WebSocketContext.tsx
+    dependencies: [CR-004]
+    test_criteria: |
+      - WebSocket connects on page load
+      - File changes broadcast to all clients
+      - Reconnects automatically on disconnect
+      - Events update UI in real-time
+
+  - id: CR-008
+    title: "Testing and Debugging"
+    description: |
+      Write tests for:
+        - Backend: pytest for all endpoints
+        - Frontend: Vitest for components
+        - E2E: Playwright for critical flows
+      Fix all bugs found.
+      Add error boundaries.
+      Performance optimization.
+    phase: 5
+    priority: P0
+    estimated_hours: 20
+    confidence: 70
+    risk_level: HIGH
+    input_files:
+      - merged/**/*
+    output_files:
+      - merged/backend/tests/*.py
+      - merged/frontend/src/**/*.test.tsx
+      - merged/e2e/*.spec.ts
+    dependencies: [CR-006, CR-007]
+    test_criteria: |
+      - 80%+ test coverage
+      - All tests pass
+      - No console errors
+      - <100ms API response times
+
+# =============================================================================
+# SUMMARY
+# =============================================================================
+summary:
+  phases:
+    1: { tasks: 2, hours: 10, deliverable: "Project skeleton" }
+    2: { tasks: 1, hours: 12, deliverable: "Touch ID auth" }
+    3: { tasks: 2, hours: 25, deliverable: "File API" }
+    4: { tasks: 1, hours: 12, deliverable: "React integration" }
+    5: { tasks: 2, hours: 30, deliverable: "WebSocket + testing" }
+
+  totals:
+    tasks: 8
+    hours: 89
+    weeks: "~2-3 (assuming 30-40 hrs/week)"
+
+  critical_path:
+    - CR-001 → CR-002 → CR-006  # Types → Components
+    - CR-001 → CR-003 → CR-004 → CR-005  # Auth → API
+    - CR-004 → CR-007 → CR-008  # API → WebSocket → Testing
+
+  risk_summary:
+    HIGH: []  # De-risked after Cerebras gap analysis
+    MEDIUM: [CR-002, CR-003, CR-004, CR-005, CR-006, CR-007, CR-008]  # All gaps filled
+    LOW: [CR-001]
+
+  confidence_scores:
+    CR-001: 90%
+    CR-002: 92%  # +12% after Round 2 (types fully mapped)
+    CR-003: 85%  # +15% after Round 1 (auth bridge)
+    CR-004: 80%
+    CR-005: 88%  # +13% after Round 1 (API endpoints)
+    CR-006: 85%
+    CR-007: 90%  # +10% after Round 2 (WebSocket)
+    CR-008: 85%  # +15% after Round 1 (testing)
+    average: 87%  # +8% total (4 Cerebras rounds)
+    gap_analysis_date: 2026-02-01
+    gap_analysis_source: Cerebras llama-3.3-70b (4 rounds)
+    gap_analysis_rounds:
+      - round_1: "Auth Bridge (CR-003), Testing (CR-008), API Endpoints (CR-005)"
+      - round_2: "Shared Types (CR-002), WebSocket (CR-007)"

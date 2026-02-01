@@ -1,0 +1,20 @@
+#!/bin/bash
+# Start LiteLLM proxy for Cerebras → Claude Code
+# This translates Cerebras (OpenAI format) to Anthropic format
+# Speed: ~3000 tokens/sec with llama-3.3-70b
+
+export CEREBRAS_API_KEY=$(doppler secrets get CEREBRAS_API_KEY --plain)
+
+MODEL="${1:-cerebras/llama-3.3-70b}"
+
+echo "Starting LiteLLM proxy on port 4000..."
+echo "Model: $MODEL"
+echo "Cerebras → Anthropic translation layer"
+echo ""
+echo "Once running, in another terminal:"
+echo "  claude-cerebras"
+echo ""
+echo "Press Ctrl+C to stop"
+echo ""
+
+~/.litellm-venv/bin/litellm --model "$MODEL" --port 4000 --drop_params

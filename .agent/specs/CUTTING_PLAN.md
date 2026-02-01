@@ -159,7 +159,7 @@ PROJECT_elements has completed its **bulk phase** - extensive design documents, 
 
 ## Research Sources
 
-All research auto-saved to `standard-model-of-code/docs/research/perplexity/`:
+All research auto-saved to `particle/docs/research/perplexity/`:
 
 | Query | Key Insight |
 |-------|-------------|
@@ -180,8 +180,8 @@ All research auto-saved to `standard-model-of-code/docs/research/perplexity/`:
 |------|------------|---------------|
 | `.agent/intelligence/truths/history/*.yaml` | `archive/agent_cuts/2026-01-23/truths_history/` | **DEAD WEIGHT.** Historical snapshots with no consumer. BARE doesn't use them. Only `repo_truths.yaml` matters. |
 | `.agent/workflows/testing_suite.md` | `archive/agent_cuts/2026-01-23/workflows/` | **MISPLACED.** Describes a 100+ repo experiment - not core agent workflow. |
-| `context-management/.agent/orientation/*` | `archive/agent_cuts/2026-01-23/orientation/` | **STALE.** Git shows these as deleted but tracked. Archive properly. |
-| `context-management/.agent/workflows/publish.md` | `archive/agent_cuts/2026-01-23/workflows/` | **STALE.** Also shows as deleted in git status. |
+| `wave/.agent/orientation/*` | `archive/agent_cuts/2026-01-23/orientation/` | **STALE.** Git shows these as deleted but tracked. Archive properly. |
+| `wave/.agent/workflows/publish.md` | `archive/agent_cuts/2026-01-23/workflows/` | **STALE.** Also shows as deleted in git status. |
 | `OPEN_CONCERNS.md` (after extraction) | `archive/agent_cuts/2026-01-23/` | **SUPERSEDED.** Content migrated to sprints/README.md and BARE roadmap. |
 
 ### FILES TO MERGE
@@ -274,11 +274,11 @@ registries:
     purpose: Background auto-refinement  # ALIGNED: S6 BARE TruthValidator output
 
   # External Registries (Aligned with S1, S7)
-  - path: standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md
+  - path: particle/docs/specs/REGISTRY_OF_REGISTRIES.md
     type: theory
     purpose: Semantic code analysis  # ALIGNED: S1 Collider ontological ground truth
 
-  - path: context-management/registry/REGISTRY.json
+  - path: wave/registry/REGISTRY.json
     type: archive-config
     purpose: Cloud sync  # ALIGNED: S7 Archive/Mirror (GCS)
 ```
@@ -314,8 +314,8 @@ Cross-reference between META_REGISTRY entries and SUBSYSTEM_INTEGRATION.md canon
 |---------------------|--------------|--------------------------------|------|
 | `.agent/registry/active/` | S5 | Work item tracking | State |
 | `.agent/intelligence/truths/` | S6 | Background auto-refinement | State |
-| `standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` | S1 | Semantic code analysis | Engine |
-| `context-management/registry/REGISTRY.json` | S7 | Cloud sync | Utility |
+| `particle/docs/specs/REGISTRY_OF_REGISTRIES.md` | S1 | Semantic code analysis | Engine |
+| `wave/registry/REGISTRY.json` | S7 | Cloud sync | Utility |
 | `.agent/KERNEL.md` | S0 | Bootstrap/Protocol | Config |
 | `.agent/manifest.yaml` | S0 | Bootstrap/Protocol | Config |
 | `.agent/SUBSYSTEM_INTEGRATION.md` | S0 | Subsystem Integration | Doc |
@@ -372,12 +372,12 @@ done
 echo "Archiving workflows..."
 archive_file ".agent/workflows/testing_suite.md" "$ARCHIVE_DIR/workflows/testing_suite.md"
 
-# Archive stale context-management files (if they exist)
+# Archive stale wave files (if they exist)
 echo "Archiving stale orientation files..."
-if [ -d "context-management/.agent/orientation" ]; then
-    cp -r context-management/.agent/orientation/* "$ARCHIVE_DIR/orientation/" 2>/dev/null || true
+if [ -d "wave/.agent/orientation" ]; then
+    cp -r wave/.agent/orientation/* "$ARCHIVE_DIR/orientation/" 2>/dev/null || true
 fi
-archive_file "context-management/.agent/workflows/publish.md" "$ARCHIVE_DIR/workflows/publish.md"
+archive_file "wave/.agent/workflows/publish.md" "$ARCHIVE_DIR/workflows/publish.md"
 
 # Generate MANIFEST.md (human-readable)
 cat > "$ARCHIVE_DIR/MANIFEST.md" << EOF
@@ -394,8 +394,8 @@ cat > "$ARCHIVE_DIR/MANIFEST.md" << EOF
 |-------------------|------------------|--------|
 | .agent/intelligence/truths/history/*.yaml | truths_history/ | DEAD_WEIGHT - No consumer |
 | .agent/workflows/testing_suite.md | workflows/ | MISPLACED - Experiment doc |
-| context-management/.agent/orientation/* | orientation/ | STALE - Git shows deleted |
-| context-management/.agent/workflows/publish.md | workflows/ | STALE - Git shows deleted |
+| wave/.agent/orientation/* | orientation/ | STALE - Git shows deleted |
+| wave/.agent/workflows/publish.md | workflows/ | STALE - Git shows deleted |
 
 ## Restoration
 
@@ -436,12 +436,12 @@ for f in $(find "$ARCHIVE_DIR" -type f -not -name "MANIFEST.md" -not -name "PROV
         truths_history/*) orig=".agent/intelligence/truths/history/$(basename $f)" ;;
         workflows/*)
             if [[ "$rel_path" == *"publish.md" ]]; then
-                orig="context-management/.agent/workflows/publish.md"
+                orig="wave/.agent/workflows/publish.md"
             else
                 orig=".agent/workflows/$(basename $f)"
             fi
             ;;
-        orientation/*) orig="context-management/.agent/orientation/$(basename $f)" ;;
+        orientation/*) orig="wave/.agent/orientation/$(basename $f)" ;;
         *) orig="unknown" ;;
     esac
 
@@ -570,7 +570,7 @@ Edit `specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md`:
 | SUBSYSTEM_INTEGRATION.md | `.agent/SUBSYSTEM_INTEGRATION.md` |
 | manifest.yaml | `.agent/manifest.yaml` |
 | repo_truths.yaml | `.agent/intelligence/truths/repo_truths.yaml` |
-| REGISTRY_OF_REGISTRIES | `standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` |
+| REGISTRY_OF_REGISTRIES | `particle/docs/specs/REGISTRY_OF_REGISTRIES.md` |
 | BARE Spec | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` |
 
 ---

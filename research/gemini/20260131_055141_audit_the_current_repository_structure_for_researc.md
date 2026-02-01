@@ -16,7 +16,7 @@ Audit the current repository structure for research libraries, reference collect
 
 ## Response
 
-The project `standard-model-of-code` inherently implies a strong research and academic foundation. An audit of the provided codebase context reveals several explicit and implicit references to research-related documents and data.
+The project `particle` inherently implies a strong research and academic foundation. An audit of the provided codebase context reveals several explicit and implicit references to research-related documents and data.
 
 ### Current Repository Structure Audit
 
@@ -56,7 +56,7 @@ Given the nature of the project (defining a "Standard Model"), a dedicated top-l
 **Canonical Structure Proposal:**
 
 ```
-standard-model-of-code/
+particle/
 ├── .collider/                 # Generated analysis outputs (e.g., from full_analysis.py) - (Ignored by Git)
 ├── src/                       # Core source code, modules, libraries
 │   └── core/                  # Main analysis engine, logic, utilities

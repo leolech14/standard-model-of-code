@@ -1,7 +1,7 @@
 # Confidence-Based Context Filtering
 ## Preventing the 8.3M Token Disaster
 
-**Problem:** `analyze.py --set brain` sent 8.3M tokens (56x over budget) because it included ALL of `context-management/archive/` (3.9GB).
+**Problem:** `analyze.py --set brain` sent 8.3M tokens (56x over budget) because it included ALL of `wave/archive/` (3.9GB).
 
 **Root Cause:** No intelligent filtering - just dumb glob patterns.
 
@@ -10,10 +10,10 @@
 ## 📊 CURRENT STATE (v1)
 
 ```python
-# context-management/tools/ai/analyze.py (current)
+# wave/tools/ai/analyze.py (current)
 
 def get_files_for_set(set_name):
-    patterns = config['patterns']  # e.g., "context-management/**/*.md"
+    patterns = config['patterns']  # e.g., "wave/**/*.md"
     files = []
     for pattern in patterns:
         files.extend(glob.glob(pattern, recursive=True))
@@ -113,8 +113,8 @@ def filter_by_size(files, max_kb):
 ```
 
 **Files to modify:**
-- `context-management/tools/ai/analyze.py` (add filter logic)
-- `context-management/config/analysis_sets.yaml` (add filter configs)
+- `wave/tools/ai/analyze.py` (add filter logic)
+- `wave/config/analysis_sets.yaml` (add filter configs)
 
 **Testing:**
 ```bash

@@ -16,7 +16,7 @@ How does ACI select datasets for queries? List all available analysis sets and e
 
 ## Response
 
-Based on the `context-management/docs/ACI_DATASET_MANAGEMENT.md` and related documentation, here is the breakdown of how the Adaptive Context Intelligence (ACI) system selects data, the available sets, and the routing logic.
+Based on the `wave/docs/ACI_DATASET_MANAGEMENT.md` and related documentation, here is the breakdown of how the Adaptive Context Intelligence (ACI) system selects data, the available sets, and the routing logic.
 
 ### 1. How ACI Selects Datasets
 

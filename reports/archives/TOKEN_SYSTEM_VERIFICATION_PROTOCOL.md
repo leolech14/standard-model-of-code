@@ -25,13 +25,13 @@
 ### A1: Verify theme.tokens.json exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json
 EXPECTED: File exists and is valid JSON
 ```
 
 **Verification Command:**
 ```bash
-test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json && echo "PASS" || echo "FAIL"
+test -f /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json && echo "PASS" || echo "FAIL"
 ```
 
 ---
@@ -39,13 +39,13 @@ test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/
 ### A2: Verify appearance.tokens.json exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 EXPECTED: File exists and is valid JSON
 ```
 
 **Verification Command:**
 ```bash
-test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json && echo "PASS" || echo "FAIL"
+test -f /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json && echo "PASS" || echo "FAIL"
 ```
 
 ---
@@ -53,13 +53,13 @@ test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/
 ### A3: Verify layout.tokens.json exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/layout.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/layout.tokens.json
 EXPECTED: File exists and is valid JSON
 ```
 
 **Verification Command:**
 ```bash
-test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/layout.tokens.json && echo "PASS" || echo "FAIL"
+test -f /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/layout.tokens.json && echo "PASS" || echo "FAIL"
 ```
 
 ---
@@ -67,13 +67,13 @@ test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/
 ### A4: Verify controls.tokens.json exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/controls.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/controls.tokens.json
 EXPECTED: File exists and is valid JSON
 ```
 
 **Verification Command:**
 ```bash
-test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/controls.tokens.json && echo "PASS" || echo "FAIL"
+test -f /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/controls.tokens.json && echo "PASS" || echo "FAIL"
 ```
 
 ---
@@ -83,7 +83,7 @@ test -f /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/
 ### B1: Verify physics.forces.charge.strength token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "charge"
 EXPECTED_VALUE: -120
 EXPECTED_LINE_RANGE: 370-380
@@ -96,7 +96,7 @@ EXPECTED_LINE_RANGE: 370-380
 
 **Grep Command:**
 ```bash
-grep -n '"strength"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json | head -5
+grep -n '"strength"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json | head -5
 ```
 
 **Expected Output Contains:**
@@ -111,14 +111,14 @@ grep -n '"strength"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of
 ### B2: Verify physics.forces.link.distance token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "link" -> "distance"
 EXPECTED_VALUE: 50
 ```
 
 **Grep Command:**
 ```bash
-grep -A2 '"link"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json | grep -A1 '"distance"'
+grep -A2 '"link"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json | grep -A1 '"distance"'
 ```
 
 **Expected Output Contains:**
@@ -133,14 +133,14 @@ grep -A2 '"link"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-co
 ### B3: Verify physics.simulation.cooldownTicks token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "cooldownTicks"
 EXPECTED_VALUE: 200
 ```
 
 **Grep Command:**
 ```bash
-grep -A1 'cooldownTicks' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+grep -A1 'cooldownTicks' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 ```
 
 **Expected Output Contains:**
@@ -157,7 +157,7 @@ grep -A1 'cooldownTicks' /Users/lech/PROJECTS_all/PROJECT_elements/standard-mode
 ### C1: Verify animation.hue.speed token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "animation" -> "hue" -> "speed"
 EXPECTED_VALUE: 0.0008
 EXPECTED_LINE: ~424-426
@@ -165,7 +165,7 @@ EXPECTED_LINE: ~424-426
 
 **Verification - Read lines 420-430:**
 ```bash
-sed -n '420,430p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+sed -n '420,430p' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 ```
 
 **Expected Output Contains:**
@@ -181,7 +181,7 @@ sed -n '420,430p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-co
 ### C2: Verify animation.hue.damping token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "damping" within "hue"
 EXPECTED_VALUE: 0.9995
 EXPECTED_LINE: ~428-430
@@ -189,7 +189,7 @@ EXPECTED_LINE: ~428-430
 
 **Verification - Read lines 428-432:**
 ```bash
-sed -n '428,432p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+sed -n '428,432p' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 ```
 
 **Expected Output Contains:**
@@ -205,7 +205,7 @@ sed -n '428,432p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-co
 ### C3: Verify animation.ripple.speed token exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH: "ripple" -> "speed"
 EXPECTED_VALUE: 0.035
 EXPECTED_LINE: ~468-470
@@ -213,7 +213,7 @@ EXPECTED_LINE: ~468-470
 
 **Grep Command:**
 ```bash
-grep -A5 '"ripple"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json | grep -A1 '"speed"'
+grep -A5 '"ripple"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json | grep -A1 '"speed"'
 ```
 
 **Expected Output Contains:**
@@ -230,14 +230,14 @@ grep -A5 '"ripple"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-
 ### D1: Verify PhysicsEngine exists and has to_js_config method
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/physics_engine.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/physics_engine.py
 SEARCH: "def to_js_config"
 EXPECTED: Method exists
 ```
 
 **Grep Command:**
 ```bash
-grep -n "def to_js_config" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/physics_engine.py
+grep -n "def to_js_config" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/physics_engine.py
 ```
 
 **PASS Criteria:** Returns line number with method definition
@@ -247,7 +247,7 @@ grep -n "def to_js_config" /Users/lech/PROJECTS_all/PROJECT_elements/standard-mo
 ### D2: Verify AppearanceEngine exists and has get_animation_config method
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/appearance_engine.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/appearance_engine.py
 SEARCH: "def get_animation_config"
 EXPECTED: Method exists
 EXPECTED_LINE: ~258
@@ -255,7 +255,7 @@ EXPECTED_LINE: ~258
 
 **Grep Command:**
 ```bash
-grep -n "def get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/appearance_engine.py
+grep -n "def get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/appearance_engine.py
 ```
 
 **Expected Output:**
@@ -270,14 +270,14 @@ grep -n "def get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/sta
 ### D3: Verify AppearanceEngine reads animation.hue.speed from tokens
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/appearance_engine.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/appearance_engine.py
 SEARCH: "animation.hue.speed"
 EXPECTED: Token path is used in get_animation_config
 ```
 
 **Grep Command:**
 ```bash
-grep -n "animation.hue.speed" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/appearance_engine.py
+grep -n "animation.hue.speed" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/appearance_engine.py
 ```
 
 **Expected Output Contains:**
@@ -292,14 +292,14 @@ self.resolver.appearance("animation.hue.speed", 0.0008)
 ### D4: Verify visualize_graph_webgl.py calls get_animation_config
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/tools/visualize_graph_webgl.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/tools/visualize_graph_webgl.py
 SEARCH: "get_animation_config"
 EXPECTED: Method is called
 ```
 
 **Grep Command:**
 ```bash
-grep -n "get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/tools/visualize_graph_webgl.py
+grep -n "get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/particle/tools/visualize_graph_webgl.py
 ```
 
 **Expected Output:**
@@ -314,14 +314,14 @@ grep -n "get_animation_config" /Users/lech/PROJECTS_all/PROJECT_elements/standar
 ### D5: Verify animation config is included in payload
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/tools/visualize_graph_webgl.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/tools/visualize_graph_webgl.py
 SEARCH: '"animation"'
 EXPECTED: animation_config is in payload
 ```
 
 **Grep Command:**
 ```bash
-grep -n '"animation"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/tools/visualize_graph_webgl.py
+grep -n '"animation"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/tools/visualize_graph_webgl.py
 ```
 
 **Expected Output:**
@@ -338,7 +338,7 @@ grep -n '"animation"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-o
 ### E1: Verify EDGE_DEFAULT_OPACITY conflict exists in app.js
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 SEARCH: "EDGE_DEFAULT_OPACITY"
 EXPECTED_LINE: 80
 EXPECTED_VALUE: 0.2
@@ -347,7 +347,7 @@ CONFLICT_WITH: appearance.tokens.json opacity = 0.08
 
 **Verification - Read line 80:**
 ```bash
-sed -n '80p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+sed -n '80p' /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 ```
 
 **Expected Output:**
@@ -364,7 +364,7 @@ let EDGE_DEFAULT_OPACITY = 0.2;
 ### E2: Verify EDGE_MODE_CONFIG.width.base conflict exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 SEARCH: "width:" within EDGE_MODE_CONFIG
 EXPECTED_LINE: ~108
 EXPECTED_VALUE: base: 1.2
@@ -373,7 +373,7 @@ CONFLICT_WITH: appearance.tokens.json width.base = 0.6
 
 **Verification - Read lines 108:**
 ```bash
-sed -n '108p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+sed -n '108p' /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 ```
 
 **Expected Output:**
@@ -383,7 +383,7 @@ sed -n '108p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/s
 
 **Token Verification:**
 ```bash
-grep -A2 '"base"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json | grep -A1 '185:' | head -3
+grep -A2 '"base"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json | grep -A1 '185:' | head -3
 ```
 
 **PASS Criteria:**
@@ -396,7 +396,7 @@ grep -A2 '"base"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-co
 ### E3: Verify PENDULUM is hardcoded (not merged from tokens)
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 SEARCH: "const PENDULUM"
 EXPECTED_LINE: 295
 EXPECTED: Hardcoded values matching tokens but not loaded from them
@@ -404,7 +404,7 @@ EXPECTED: Hardcoded values matching tokens but not loaded from them
 
 **Verification - Read lines 295-305:**
 ```bash
-sed -n '295,305p' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+sed -n '295,305p' /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 ```
 
 **Expected Output Contains:**
@@ -428,18 +428,18 @@ const PENDULUM = {
 ### E4: Verify node-size slider max mismatch
 
 ```
-FILE_A: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/controls.tokens.json
+FILE_A: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/controls.tokens.json
 SEARCH_A: "node-size" -> "max"
 EXPECTED_A: 3
 
-FILE_B: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json
+FILE_B: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json
 SEARCH_B: "size" -> "atom" -> "max"
 EXPECTED_B: 8.0
 ```
 
 **Verification A - Controls slider max:**
 ```bash
-grep -A10 '"node-size"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/controls.tokens.json | grep -A1 '"max"'
+grep -A10 '"node-size"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/controls.tokens.json | grep -A1 '"max"'
 ```
 
 **Expected Output A:**
@@ -450,7 +450,7 @@ grep -A10 '"node-size"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model
 
 **Verification B - Appearance render max:**
 ```bash
-grep -A15 '"atom"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/appearance.tokens.json | grep -A1 '"max"' | head -3
+grep -A15 '"atom"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/appearance.tokens.json | grep -A1 '"max"' | head -3
 ```
 
 **Expected Output B:**
@@ -471,14 +471,14 @@ grep -A15 '"atom"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-c
 ### F1: Verify TokenResolver class exists
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 SEARCH: "class TokenResolver"
 EXPECTED: Class definition exists
 ```
 
 **Grep Command:**
 ```bash
-grep -n "class TokenResolver" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+grep -n "class TokenResolver" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 ```
 
 **PASS Criteria:** Returns line with class definition
@@ -488,14 +488,14 @@ grep -n "class TokenResolver" /Users/lech/PROJECTS_all/PROJECT_elements/standard
 ### F2: Verify TokenResolver has appearance method
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 SEARCH: "def appearance"
 EXPECTED: Method exists for resolving appearance tokens
 ```
 
 **Grep Command:**
 ```bash
-grep -n "def appearance" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+grep -n "def appearance" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 ```
 
 **PASS Criteria:** Method definition found
@@ -505,14 +505,14 @@ grep -n "def appearance" /Users/lech/PROJECTS_all/PROJECT_elements/standard-mode
 ### F3: Verify TokenResolver loads all four token files
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 SEARCH: "theme.tokens.json", "appearance.tokens.json", "layout.tokens.json", "controls.tokens.json"
 EXPECTED: All four filenames appear
 ```
 
 **Grep Command:**
 ```bash
-grep -c "tokens.json" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/token_resolver.py
+grep -c "tokens.json" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/token_resolver.py
 ```
 
 **PASS Criteria:** Count >= 4 (at least four token file references)
@@ -524,14 +524,14 @@ grep -c "tokens.json" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-o
 ### G1: Verify theme variants exist
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json
 SEARCH: "themes"
 EXPECTED: "light" and "high-contrast" variants defined
 ```
 
 **Grep Command:**
 ```bash
-grep -n '"light"\|"high-contrast"' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json | head -5
+grep -n '"light"\|"high-contrast"' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json | head -5
 ```
 
 **PASS Criteria:** Both "light" and "high-contrast" keys found
@@ -541,14 +541,14 @@ grep -n '"light"\|"high-contrast"' /Users/lech/PROJECTS_all/PROJECT_elements/sta
 ### G2: Verify default theme is "dark"
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json
 SEARCH: "$default-theme"
 EXPECTED_VALUE: "dark"
 ```
 
 **Grep Command:**
 ```bash
-grep '$default-theme' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/schema/viz/tokens/theme.tokens.json
+grep '$default-theme' /Users/lech/PROJECTS_all/PROJECT_elements/particle/schema/viz/tokens/theme.tokens.json
 ```
 
 **Expected Output:**
@@ -563,14 +563,14 @@ grep '$default-theme' /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-o
 ### G3: Verify theme switcher UI exists in template
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/template.html
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/template.html
 SEARCH: "theme-switcher"
 EXPECTED: Theme switcher div exists
 ```
 
 **Grep Command:**
 ```bash
-grep -n "theme-switcher" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/template.html
+grep -n "theme-switcher" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/template.html
 ```
 
 **PASS Criteria:** Element with class/id "theme-switcher" found
@@ -580,14 +580,14 @@ grep -n "theme-switcher" /Users/lech/PROJECTS_all/PROJECT_elements/standard-mode
 ### G4: Verify setTheme function exists in app.js
 
 ```
-FILE: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+FILE: /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 SEARCH: "function setTheme"
 EXPECTED: Function definition exists
 ```
 
 **Grep Command:**
 ```bash
-grep -n "function setTheme" /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/app.js
+grep -n "function setTheme" /Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/app.js
 ```
 
 **PASS Criteria:** Function definition found
@@ -668,12 +668,12 @@ Removing them simplifies the codebase but does not fix broken functionality.
 ```
 COMMAND: ./collider full . --output /tmp/token_verification
 EXPECTED: Command completes successfully
-WORKING_DIR: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code
+WORKING_DIR: /Users/lech/PROJECTS_all/PROJECT_elements/particle
 ```
 
 **Verification Command:**
 ```bash
-cd /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code && ./collider full . --output /tmp/token_verification 2>&1 | tail -5
+cd /Users/lech/PROJECTS_all/PROJECT_elements/particle && ./collider full . --output /tmp/token_verification 2>&1 | tail -5
 ```
 
 **PASS Criteria:** Output contains success message, no errors
@@ -823,7 +823,7 @@ Run all checks automatically:
 ```bash
 #!/bin/bash
 # TOKEN_SYSTEM_VERIFICATION.sh
-# Run from: /Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code
+# Run from: /Users/lech/PROJECTS_all/PROJECT_elements/particle
 
 PASS=0
 FAIL=0

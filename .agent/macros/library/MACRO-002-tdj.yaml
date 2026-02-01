@@ -43,7 +43,7 @@ trigger:
 
   # TDJ is ON-DEMAND - NOT run on every commit
   # Why: 11ms generation time = instant when needed, no pre-computation required
-  # Manual: python context-management/tools/maintenance/tdj.py --scan
+  # Manual: python wave/tools/maintenance/tdj.py --scan
   # Queries work on whatever data exists (stale is fine for temporal queries)
 
 # =============================================================================
@@ -91,7 +91,7 @@ steps:
     tool: "Bash"
     params:
       command: |
-        python3 context-management/tools/maintenance/tdj.py --scan
+        python3 wave/tools/maintenance/tdj.py --scan
     output_var: "scan_result"
     on_failure: "stop"
     # Note: Use --quiet for silent operation in automation

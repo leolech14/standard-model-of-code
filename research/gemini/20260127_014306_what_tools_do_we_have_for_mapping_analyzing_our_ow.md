@@ -42,15 +42,15 @@ Based on the `BACKGROUND_AI_LAYER_MAP.md`, `TOOL.md`, and `CLI_GRAMMAR.md`, here
 **Purpose:** Breaks large code contexts into semantic units ("chunks") optimized for AI ingestion. It uses relevance scoring to prioritize code for limited context windows.
 
 *   **Capabilities:** Python/Markdown/YAML chunking, Relevance scoring (Type/Length/Docstring), JSON export.
-*   **Location:** `context-management/tools/ai/aci/refinery.py`
+*   **Location:** `wave/tools/ai/aci/refinery.py`
 
 **COMMANDS:**
 ```bash
 # 1. Atomize a specific directory into chunks
-python context-management/tools/ai/aci/refinery.py src/core/ --export chunks.json
+python wave/tools/ai/aci/refinery.py src/core/ --export chunks.json
 
 # 2. Analyze a specific file's atomization
-python context-management/tools/ai/aci/refinery.py src/core/full_analysis.py --verbose
+python wave/tools/ai/aci/refinery.py src/core/full_analysis.py --verbose
 ```
 
 ---
@@ -59,28 +59,28 @@ python context-management/tools/ai/aci/refinery.py src/core/full_analysis.py --v
 
 #### A. Holographic-Socratic Layer (HSL)
 **Purpose:** Maps the **symmetry** between Code and Documentation. It detects "Antimatter" (architectural violations like Context Myopia or Drift).
-**Location:** `context-management/tools/ai/analyze.py`
+**Location:** `wave/tools/ai/analyze.py`
 
 **COMMANDS:**
 ```bash
 # 1. Verify semantic integrity of a specific domain (e.g., pipeline)
-python context-management/tools/ai/analyze.py --verify pipeline
+python wave/tools/ai/analyze.py --verify pipeline
 
 # 2. Audit a specific candidate file against the "Antimatter Laws"
-python context-management/tools/ai/analyze.py --verify pipeline --candidate src/core/violation_stage.py
+python wave/tools/ai/analyze.py --verify pipeline --candidate src/core/violation_stage.py
 ```
 
 #### B. Continuous Cartographer / Drift Guard
 **Purpose:** A daemon that watches the file system and auto-updates the map (`unified_analysis.json`) when code changes.
-**Location:** `context-management/tools/drift_guard.py`
+**Location:** `wave/tools/drift_guard.py`
 
 **COMMANDS:**
 ```bash
 # 1. Run a single cartography pass to update the internal map
-python context-management/tools/continuous_cartographer.py
+python wave/tools/continuous_cartographer.py
 
 # 2. Start the background daemon (watches for file changes)
-python context-management/tools/drift_guard.py --local --debug
+python wave/tools/drift_guard.py --local --debug
 ```
 
 #### C. Centripetal Scan

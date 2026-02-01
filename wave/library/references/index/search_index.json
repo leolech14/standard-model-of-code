@@ -1,0 +1,896 @@
+{
+  "category": [
+    "REF-006"
+  ],
+  "theory": [
+    "REF-006",
+    "REF-009",
+    "REF-010",
+    "REF-022",
+    "REF-023",
+    "REF-025",
+    "REF-030",
+    "REF-086",
+    "REF-087",
+    "REF-121"
+  ],
+  "programmers": [
+    "REF-006"
+  ],
+  "milewski,": [
+    "REF-006"
+  ],
+  "homotopy": [
+    "REF-010"
+  ],
+  "type": [
+    "REF-009",
+    "REF-010"
+  ],
+  "univalent": [
+    "REF-010"
+  ],
+  "foundations": [
+    "REF-010"
+  ],
+  "program": [
+    "REF-010",
+    "REF-076"
+  ],
+  "computational": [
+    "REF-084"
+  ],
+  "mechanics:": [
+    "REF-084"
+  ],
+  "pattern": [
+    "REF-084"
+  ],
+  "prediction,": [
+    "REF-084"
+  ],
+  "structure": [
+    "REF-029",
+    "REF-069",
+    "REF-084"
+  ],
+  "simplicity": [
+    "REF-084"
+  ],
+  "shalizi,": [
+    "REF-084"
+  ],
+  "c.r.": [
+    "REF-084"
+  ],
+  "crutchfield,": [
+    "REF-083",
+    "REF-084"
+  ],
+  "j.p.": [
+    "REF-083",
+    "REF-084"
+  ],
+  "ashby": [
+    "ASHBY"
+  ],
+  "1970": [
+    "ASHBY"
+  ],
+  "goodregulatortheorem": [
+    "ASHBY"
+  ],
+  "structure-mapping:": [
+    "REF-088"
+  ],
+  "theoretical": [
+    "REF-088"
+  ],
+  "framework": [
+    "REF-088"
+  ],
+  "analogy": [
+    "REF-088"
+  ],
+  "gentner,": [
+    "REF-088"
+  ],
+  "structure_mapping_analogy": [
+    "REF-088"
+  ],
+  "approach": [
+    "REF-076",
+    "REF-090",
+    "REF-122"
+  ],
+  "linear": [
+    "REF-011",
+    "REF-122"
+  ],
+  "filtering": [
+    "REF-122"
+  ],
+  "prediction": [
+    "REF-122"
+  ],
+  "problems": [
+    "REF-053",
+    "REF-122"
+  ],
+  "kalman,": [
+    "REF-121",
+    "REF-122"
+  ],
+  "r.e.": [
+    "REF-121",
+    "REF-122"
+  ],
+  "information": [
+    "REF-030",
+    "REF-086",
+    "REF-087"
+  ],
+  "statistical": [
+    "REF-030",
+    "REF-083"
+  ],
+  "mechanics": [
+    "REF-030"
+  ],
+  "jaynes,": [
+    "REF-030"
+  ],
+  "e.t.": [
+    "REF-030"
+  ],
+  "latour": [
+    "LATOUR"
+  ],
+  "2005": [
+    "LATOUR"
+  ],
+  "reassemblingthesocial": [
+    "LATOUR"
+  ],
+  "cybernetics:": [
+    "REF-123"
+  ],
+  "control": [
+    "REF-121",
+    "REF-123"
+  ],
+  "communication": [
+    "REF-025",
+    "REF-123"
+  ],
+  "animal": [
+    "REF-123"
+  ],
+  "machine": [
+    "REF-123"
+  ],
+  "wiener,": [
+    "REF-123"
+  ],
+  "sciences": [
+    "REF-119"
+  ],
+  "artificial": [
+    "REF-119"
+  ],
+  "simon,": [
+    "REF-081",
+    "REF-119"
+  ],
+  "h.a.": [
+    "REF-081",
+    "REF-119"
+  ],
+  "bounded_rationality": [
+    "KOESTLER",
+    "REF-081",
+    "REF-119"
+  ],
+  "suchman": [
+    "SUCHMAN"
+  ],
+  "1987": [
+    "SUCHMAN"
+  ],
+  "plansandsituatedactions": [
+    "SUCHMAN"
+  ],
+  "logic": [
+    "REF-011"
+  ],
+  "girard,": [
+    "REF-011"
+  ],
+  "j-y.": [
+    "REF-011"
+  ],
+  "koestler": [
+    "KOESTLER"
+  ],
+  "1967": [
+    "KOESTLER"
+  ],
+  "ghostinmachine": [
+    "KOESTLER"
+  ],
+  "scales_16_level_hierarchy": [
+    "KOESTLER",
+    "REF-040",
+    "REF-081"
+  ],
+  "holons_holarchy": [
+    "KOESTLER"
+  ],
+  "observability_triad_peircean": [
+    "KOESTLER",
+    "REF-001",
+    "REF-040",
+    "REF-080"
+  ],
+  "emergence_epsilon": [
+    "KOESTLER"
+  ],
+  "defence": [
+    "REF-061"
+  ],
+  "ontic": [
+    "REF-061"
+  ],
+  "structural": [
+    "REF-061"
+  ],
+  "realism": [
+    "REF-061"
+  ],
+  "french,": [
+    "REF-061"
+  ],
+  "ladyman,": [
+    "REF-061"
+  ],
+  "bejan": [
+    "BEJAN"
+  ],
+  "2016": [
+    "BEJAN"
+  ],
+  "constructalthermodynamics": [
+    "BEJAN"
+  ],
+  "chemical": [
+    "REF-098"
+  ],
+  "basis": [
+    "REF-098"
+  ],
+  "morphogenesis": [
+    "REF-098"
+  ],
+  "turing,": [
+    "REF-098"
+  ],
+  "active": [
+    "REF-041"
+  ],
+  "inference": [
+    "REF-041"
+  ],
+  "learning": [
+    "REF-041",
+    "REF-094"
+  ],
+  "friston,": [
+    "REF-040",
+    "REF-041"
+  ],
+  "al.": [
+    "REF-005",
+    "REF-041",
+    "REF-087",
+    "REF-095"
+  ],
+  "topological": [
+    "REF-016"
+  ],
+  "methods": [
+    "REF-016"
+  ],
+  "analysis": [
+    "REF-013",
+    "REF-016"
+  ],
+  "high": [
+    "REF-016"
+  ],
+  "dimensional": [
+    "REF-016"
+  ],
+  "data": [
+    "REF-015",
+    "REF-016"
+  ],
+  "sets": [
+    "REF-016",
+    "REF-053"
+  ],
+  "singh,": [
+    "REF-016"
+  ],
+  "g.,": [
+    "REF-016"
+  ],
+  "m\u00e9moli,": [
+    "REF-016"
+  ],
+  "carlsson,": [
+    "REF-015",
+    "REF-016"
+  ],
+  "lawvere": [
+    "LAWVERE"
+  ],
+  "1994": [
+    "LAWVERE"
+  ],
+  "toolsobjectivelogic": [
+    "LAWVERE"
+  ],
+  "expanding": [
+    "REF-094"
+  ],
+  "engestr\u00f6m,": [
+    "REF-094"
+  ],
+  "lost": [
+    "REF-095"
+  ],
+  "middle:": [
+    "REF-095"
+  ],
+  "language": [
+    "REF-095"
+  ],
+  "models": [
+    "REF-095"
+  ],
+  "long": [
+    "REF-095"
+  ],
+  "contexts": [
+    "REF-095"
+  ],
+  "liu,": [
+    "REF-095"
+  ],
+  "n.f.": [
+    "REF-095"
+  ],
+  "gibson": [
+    "GIBSON"
+  ],
+  "1979": [
+    "GIBSON"
+  ],
+  "ecologicalapproachvisualperception": [
+    "GIBSON"
+  ],
+  "affordances_stone_tool": [
+    "GIBSON"
+  ],
+  "inferring": [
+    "REF-083"
+  ],
+  "complexity": [
+    "REF-072",
+    "REF-081",
+    "REF-083"
+  ],
+  "young,": [
+    "REF-083"
+  ],
+  "free-energy": [
+    "REF-040"
+  ],
+  "principle:": [
+    "REF-040"
+  ],
+  "unified": [
+    "REF-040",
+    "REF-074"
+  ],
+  "brain": [
+    "REF-040"
+  ],
+  "theory?": [
+    "REF-040"
+  ],
+  "purpose_field_dynamics": [
+    "REF-040"
+  ],
+  "markov_blankets": [
+    "REF-040"
+  ],
+  "active_inference": [
+    "REF-040"
+  ],
+  "free_energy_minimization": [
+    "REF-040"
+  ],
+  "diagonal": [
+    "REF-001"
+  ],
+  "arguments": [
+    "REF-001"
+  ],
+  "cartesian": [
+    "REF-001"
+  ],
+  "closed": [
+    "REF-001"
+  ],
+  "categories": [
+    "REF-001"
+  ],
+  "lawvere,": [
+    "REF-001"
+  ],
+  "f.w.": [
+    "REF-001"
+  ],
+  "codome_contextome_partition": [
+    "REF-001"
+  ],
+  "lawvere_fixed_point": [
+    "REF-001"
+  ],
+  "adjoint_functors": [
+    "REF-001"
+  ],
+  "deductive": [
+    "REF-076"
+  ],
+  "synthesis": [
+    "REF-076"
+  ],
+  "manna,": [
+    "REF-076"
+  ],
+  "waldinger,": [
+    "REF-076"
+  ],
+  "friston": [
+    "FRISTON"
+  ],
+  "2025": [
+    "FRISTON"
+  ],
+  "activeinferenceartificialreasoning": [
+    "FRISTON"
+  ],
+  "simon": [
+    "SIMON"
+  ],
+  "1972": [
+    "SIMON"
+  ],
+  "theoriesboundedrationality": [
+    "SIMON"
+  ],
+  "outline": [
+    "REF-022"
+  ],
+  "mathematical": [
+    "REF-022",
+    "REF-025",
+    "REF-073"
+  ],
+  "computation": [
+    "REF-004",
+    "REF-022"
+  ],
+  "scott,": [
+    "REF-022",
+    "REF-073"
+  ],
+  "renormalization": [
+    "REF-034"
+  ],
+  "group": [
+    "REF-034"
+  ],
+  "critical": [
+    "REF-034"
+  ],
+  "phenomena": [
+    "REF-034"
+  ],
+  "wilson,": [
+    "REF-034"
+  ],
+  "k.g.": [
+    "REF-034"
+  ],
+  "extended": [
+    "REF-063"
+  ],
+  "mind": [
+    "REF-063"
+  ],
+  "clark,": [
+    "REF-063"
+  ],
+  "chalmers,": [
+    "REF-063"
+  ],
+  "algebraic": [
+    "REF-018"
+  ],
+  "topology": [
+    "REF-015",
+    "REF-018"
+  ],
+  "hatcher,": [
+    "REF-018"
+  ],
+  "\u00fcber": [
+    "REF-052",
+    "REF-059"
+  ],
+  "sinn": [
+    "REF-059"
+  ],
+  "bedeutung": [
+    "REF-059"
+  ],
+  "frege,": [
+    "REF-059"
+  ],
+  "prigogine": [
+    "PRIGOGINE"
+  ],
+  "2008": [
+    "PRIGOGINE"
+  ],
+  "dissipativestructures": [
+    "PRIGOGINE"
+  ],
+  "introduction": [
+    "REF-080"
+  ],
+  "cybernetics": [
+    "REF-080"
+  ],
+  "ashby,": [
+    "REF-080"
+  ],
+  "w.r.": [
+    "REF-080"
+  ],
+  "requisite_variety": [
+    "REF-080"
+  ],
+  "good_regulator": [
+    "REF-080"
+  ],
+  "seven": [
+    "REF-014"
+  ],
+  "bridges": [
+    "REF-014"
+  ],
+  "k\u00f6nigsberg": [
+    "REF-014"
+  ],
+  "euler,": [
+    "REF-014"
+  ],
+  "adjoint": [
+    "REF-002"
+  ],
+  "functors": [
+    "REF-002"
+  ],
+  "kan,": [
+    "REF-002"
+  ],
+  "hutchins": [
+    "HUTCHINS"
+  ],
+  "distributedcognitionpaper": [
+    "HUTCHINS"
+  ],
+  "engestrom": [
+    "ENGESTROM"
+  ],
+  "2001": [
+    "ENGESTROM"
+  ],
+  "activitytheoryframework": [
+    "ENGESTROM"
+  ],
+  "architecture": [
+    "REF-081"
+  ],
+  "layers_architectural": [
+    "REF-081"
+  ],
+  "whitehead": [
+    "WHITEHEAD"
+  ],
+  "1929": [
+    "WHITEHEAD"
+  ],
+  "processandreality": [
+    "WHITEHEAD"
+  ],
+  "more": [
+    "REF-039"
+  ],
+  "different": [
+    "REF-039"
+  ],
+  "anderson,": [
+    "REF-039"
+  ],
+  "p.w.": [
+    "REF-039"
+  ],
+  "magical": [
+    "REF-097"
+  ],
+  "number": [
+    "REF-097"
+  ],
+  "seven,": [
+    "REF-097"
+  ],
+  "plus": [
+    "REF-097"
+  ],
+  "minus": [
+    "REF-097"
+  ],
+  "miller,": [
+    "REF-097"
+  ],
+  "g.a.": [
+    "REF-097"
+  ],
+  "liszka": [
+    "LISZKA"
+  ],
+  "1996": [
+    "LISZKA"
+  ],
+  "introductionpeircesemeiotic": [
+    "LISZKA"
+  ],
+  "domain": [
+    "REF-023"
+  ],
+  "abramsky,": [
+    "REF-023"
+  ],
+  "jung,": [
+    "REF-023"
+  ],
+  "abstract": [
+    "REF-074"
+  ],
+  "interpretation:": [
+    "REF-074"
+  ],
+  "lattice": [
+    "REF-074"
+  ],
+  "model": [
+    "REF-074"
+  ],
+  "cousot,": [
+    "REF-074"
+  ],
+  "uniform": [
+    "REF-090"
+  ],
+  "analogies,": [
+    "REF-090"
+  ],
+  "synonyms,": [
+    "REF-090"
+  ],
+  "antonyms,": [
+    "REF-090"
+  ],
+  "associations": [
+    "REF-090"
+  ],
+  "turney,": [
+    "REF-090"
+  ],
+  "p.d.": [
+    "REF-090"
+  ],
+  "multiprogramming": [
+    "REF-069"
+  ],
+  "system": [
+    "REF-069"
+  ],
+  "dijkstra,": [
+    "REF-069"
+  ],
+  "e.w.": [
+    "REF-069"
+  ],
+  "integration": [
+    "REF-086"
+  ],
+  "consciousness": [
+    "REF-086"
+  ],
+  "tononi,": [
+    "REF-086",
+    "REF-087"
+  ],
+  "refinement": [
+    "REF-012"
+  ],
+  "types": [
+    "REF-012"
+  ],
+  "freeman,": [
+    "REF-012"
+  ],
+  "pfenning,": [
+    "REF-012"
+  ],
+  "classes": [
+    "REF-053"
+  ],
+  "recursively": [
+    "REF-053"
+  ],
+  "enumerable": [
+    "REF-053"
+  ],
+  "their": [
+    "REF-053"
+  ],
+  "decision": [
+    "REF-053"
+  ],
+  "rice,": [
+    "REF-053"
+  ],
+  "h.g.": [
+    "REF-053"
+  ],
+  "notions": [
+    "REF-004"
+  ],
+  "monads": [
+    "REF-004"
+  ],
+  "moggi,": [
+    "REF-004"
+  ],
+  "toward": [
+    "REF-073"
+  ],
+  "semantics": [
+    "REF-073"
+  ],
+  "computer": [
+    "REF-073"
+  ],
+  "languages": [
+    "REF-073"
+  ],
+  "strachey,": [
+    "REF-073"
+  ],
+  "intuitionistic": [
+    "REF-009"
+  ],
+  "martin-l\u00f6f,": [
+    "REF-009"
+  ],
+  "general": [
+    "REF-121"
+  ],
+  "systems": [
+    "REF-121"
+  ],
+  "shannon,": [
+    "REF-025"
+  ],
+  "graph_invariants": [
+    "REF-025"
+  ],
+  "measure": [
+    "REF-072"
+  ],
+  "mccabe,": [
+    "REF-072"
+  ],
+  "t.j.": [
+    "REF-072"
+  ],
+  "gatlab:": [
+    "REF-005"
+  ],
+  "modeling": [
+    "REF-005"
+  ],
+  "programming": [
+    "REF-005"
+  ],
+  "with": [
+    "REF-005"
+  ],
+  "gats": [
+    "REF-005"
+  ],
+  "patterson": [
+    "REF-005"
+  ],
+  "gentner": [
+    "GENTNER"
+  ],
+  "2012": [
+    "GENTNER"
+  ],
+  "analogicalreasoning": [
+    "GENTNER"
+  ],
+  "formal": [
+    "REF-052"
+  ],
+  "unentscheidbare": [
+    "REF-052"
+  ],
+  "s\u00e4tze": [
+    "REF-052"
+  ],
+  "g\u00f6del,": [
+    "REF-052"
+  ],
+  "situs": [
+    "REF-013"
+  ],
+  "poincar\u00e9,": [
+    "REF-013"
+  ],
+  "integrated": [
+    "REF-087"
+  ],
+  "time,": [
+    "REF-029"
+  ],
+  "fluctuations": [
+    "REF-029"
+  ],
+  "(nobel": [
+    "REF-029"
+  ],
+  "lecture)": [
+    "REF-029"
+  ],
+  "prigogine,": [
+    "REF-029"
+  ],
+  "peirce": [
+    "PEIRCE"
+  ],
+  "1931": [
+    "PEIRCE"
+  ],
+  "collectedpapers": [
+    "PEIRCE"
+  ]
+}

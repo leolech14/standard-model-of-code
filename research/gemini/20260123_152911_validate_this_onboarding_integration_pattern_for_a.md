@@ -29,8 +29,8 @@ WHY THIS MATTERS:
 - Every session starts with the same ritual, creating consistency
 
 INTEGRATION POINT:
-- Current boot: context-management/tools/maintenance/boot.sh
-- Current onboarding: context-management/docs/operations/AGENT_KERNEL.md
+- Current boot: wave/tools/maintenance/boot.sh
+- Current onboarding: wave/docs/operations/AGENT_KERNEL.md
 - The deck lives at: .agent/deck/
 - The dealer: .agent/tools/deal_cards.py
 

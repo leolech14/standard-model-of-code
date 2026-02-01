@@ -24,8 +24,8 @@ For EACH subsystem:
 5. STATUS (working, partial, planned, orphaned)
 
 Include:
-- All tools in context-management/
-- All tools in standard-model-of-code/
+- All tools in wave/
+- All tools in particle/
 - The .agent/ governance layer
 - Background processes (BARE, AEP, HSL, etc.)
 - Research infrastructure
@@ -72,7 +72,7 @@ graph TD
                                ▼
 ┌────────────────── IMPLEMENTATION (The Particle) ──────────────────┐
 │                                                                   │
-│ [standard-model-of-code/]                                         │
+│ [particle/]                                         │
 │        │                                                          │
 │        ├─> [Collider Engine] ──> [unified_analysis.json] ──────┐  │
 │        │        (Static Analysis)                              │  │
@@ -85,7 +85,7 @@ graph TD
                                ▼
 ┌────────────────── INTELLIGENCE (The Wave) ────────────────────────┐
 │                                                                   │
-│ [context-management/]                                             │
+│ [wave/]                                             │
 │        │                                                          │
 │        ├─> [ACI / analyze.py] <──> [Gemini 2.5/3]                 │
 │        │       │                                                  │
@@ -128,7 +128,7 @@ graph TD
 ### B. The Particle (Implementation & Analysis)
 
 **S1: Collider (The Engine)**
-- **Location:** `standard-model-of-code/src/`
+- **Location:** `particle/src/`
 - **Purpose:** "Collapses" code into structured data (Unified Analysis).
 - **Inputs:** Raw Source Code (`.py`, `.js`, etc.).
 - **Outputs:** `unified_analysis.json` (The Ground Truth).
@@ -136,14 +136,14 @@ graph TD
 - **Status:** **ACTIVE** (Refactored into Pipeline architecture).
 
 **S1.1: Survey Module (Adaptive Layer)**
-- **Location:** `standard-model-of-code/src/core/survey.py`
+- **Location:** `particle/src/core/survey.py`
 - **Purpose:** Fast pre-scan to determine exclusion patterns and dataset size.
 - **Inputs:** File system.
 - **Outputs:** `SurveyResult` (CCI metrics).
 - **Status:** **ACTIVE** (Integrated Phase 10).
 
 **S9: Visualization**
-- **Location:** `standard-model-of-code/viz/`
+- **Location:** `particle/viz/`
 - **Purpose:** Interactive frontend for the Standard Model of Code.
 - **Inputs:** `unified_analysis.json`.
 - **Outputs:** HTML/D3.js interactive graph.
@@ -152,7 +152,7 @@ graph TD
 ### C. The Wave (Intelligence & Context)
 
 **S3: ACI Engine (analyze.py)**
-- **Location:** `context-management/tools/ai/analyze.py`
+- **Location:** `wave/tools/ai/analyze.py`
 - **Purpose:** Adaptive Context Intelligence interface; gateway to LLMs.
 - **Inputs:** User query, `analysis_sets.yaml`, `unified_analysis.json`.
 - **Outputs:** Markdown reports, Code suggestions, Research docs.
@@ -160,14 +160,14 @@ graph TD
 - **Status:** **ACTIVE** (Rate limiting fixed in TASK-021).
 
 **S2: Holographic Socratic Layer (HSL)**
-- **Location:** `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` (Rules) + `analyze.py --verify` (Engine).
+- **Location:** `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` (Rules) + `analyze.py --verify` (Engine).
 - **Purpose:** Automated semantic validation and drift detection.
 - **Inputs:** `semantic_models.yaml`, Codebase state.
 - **Outputs:** Compliance verdicts (Pass/Fail).
 - **Status:** **ACTIVE** (Daemonized via launchd).
 
 **S4: Perplexity MCP**
-- **Location:** `context-management/tools/mcp/perplexity_mcp_server.py`
+- **Location:** `wave/tools/mcp/perplexity_mcp_server.py`
 - **Purpose:** External knowledge retrieval and fact-checking.
 - **Inputs:** Research queries.
 - **Outputs:** Cited research markdown.
@@ -185,7 +185,7 @@ graph TD
 - **Status:** **PARTIAL** (Phase 1 operational, Phase 2 in scaffolding).
 
 **S7: Archive & Mirror**
-- **Location:** `context-management/tools/archive/`
+- **Location:** `wave/tools/archive/`
 - **Purpose:** Sprawl management and Cloud backup.
 - **Inputs:** Repository state.
 - **Outputs:** GCS Bucket (`gs://elements-archive-2026/`), Local Archive.
@@ -200,7 +200,7 @@ graph TD
 2.  **Refinement:** `triage_inbox.py` / `boost_confidence.py` (S6/S3) scores the opportunity.
 3.  **Promotion:** `promote_opportunity.py` converts to `TASK-XXX` (Ready state).
 4.  **Claim:** Agent claims task, creates `RUN-XXX` (S0).
-5.  **Action:** Agent modifies code in `standard-model-of-code/` (S1).
+5.  **Action:** Agent modifies code in `particle/` (S1).
 6.  **Verify:** `pre-commit` (S8) and `analyze.py --verify` (S2) validate changes.
 7.  **Commit:** Changes persist to Git.
 
@@ -218,7 +218,7 @@ graph TD
 | Component | Location | Status | Diagnosis |
 |-----------|----------|--------|-----------|
 | **Decision Deck** | `.agent/deck/` | **ARCHIVED/WONT_DO** | (TASK-018) "Spec Theater". Code exists but marked unused/dead. |
-| **Legacy Registries** | `standard-model-of-code/docs/*/REGISTRY.md` | **READ-ONLY** | Valid historical artifacts, but disconnected from active workflow. |
+| **Legacy Registries** | `particle/docs/*/REGISTRY.md` | **READ-ONLY** | Valid historical artifacts, but disconnected from active workflow. |
 | **Testing Suite Doc** | `.agent/workflows/testing_suite.md` | **ARCHIVED** | Moved to `archive/agent_cuts/` via Cutting Plan. |
 | **Old Truths** | `.agent/intelligence/truths/history/` | **ARCHIVED** | Historical snapshots removed to reduce noise. |
 
@@ -229,7 +229,7 @@ graph TD
 **Score: 88/100**
 
 **Strengths:**
-*   **High Symmetry:** The "Particle/Wave" split is well-respected in directory structure (`src` vs `context-management`).
+*   **High Symmetry:** The "Particle/Wave" split is well-respected in directory structure (`src` vs `wave`).
 *   **Unified Registry:** Consolidating multiple markdown files into the `.agent/registry` was a critical win.
 *   **Strong Governance:** The Kernel and boot protocol provide clear "physics" for the agents.
 

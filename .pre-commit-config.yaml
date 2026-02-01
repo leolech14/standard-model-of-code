@@ -28,9 +28,9 @@ repos:
       - id: check-json
       - id: check-toml
       - id: end-of-file-fixer
-        exclude: ^(archive/|standard-model-of-code/docs/research/)
+        exclude: ^(archive/|particle/docs/research/)
       - id: trailing-whitespace
-        exclude: ^(archive/|standard-model-of-code/docs/research/)
+        exclude: ^(archive/|particle/docs/research/)
       - id: check-added-large-files
         args: ['--maxkb=500']
         exclude: '^\.agent/intelligence/(LOL.*\.csv|REPO_HISTORY\.jsonl|tdj\.jsonl)$'  # Large data files
@@ -53,7 +53,7 @@ repos:
     hooks:
       - id: ui-control-registry
         name: UI Control Registry Validation
-        entry: python3 standard-model-of-code/tools/validate_control_registry.py --audit
+        entry: python3 particle/tools/validate_control_registry.py --audit
         language: system
         files: template\.html$
         pass_filenames: false

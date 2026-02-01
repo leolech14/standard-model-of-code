@@ -30,7 +30,7 @@ Questions:
 
 ## Response
 
-Okay, Senior Engineer, this is a classic configuration sprawl scenario – especially common in environments with multiple tools (CLI, Desktop, IDE plugins) all trying to manage shared resources like MCP servers. Based on the provided codebase context, which heavily emphasizes `context-management` and a clear `Particle/Wave/Observer` architecture with specific `AGENT` roles and a `BARE` (Background Auto-Refinement Engine) for validation and cleanup, we can infer the best practices for your Claude Code CLI setup.
+Okay, Senior Engineer, this is a classic configuration sprawl scenario – especially common in environments with multiple tools (CLI, Desktop, IDE plugins) all trying to manage shared resources like MCP servers. Based on the provided codebase context, which heavily emphasizes `wave` and a clear `Particle/Wave/Observer` architecture with specific `AGENT` roles and a `BARE` (Background Auto-Refinement Engine) for validation and cleanup, we can infer the best practices for your Claude Code CLI setup.
 
 The project's philosophy strongly advocates for clear, validated, and de-duplicated configurations, especially with `BARE` and `ACI` (Adaptive Context Intelligence) mechanisms in place.
 
@@ -39,7 +39,7 @@ Here's an analysis of your `mcpServers` configuration and a plan for deduplicati
 ### Inferred Configuration Hierarchy for Claude Code
 
 1.  **`~/.claude.json`**:
-    *   **Primary Source for Claude Code CLI.** This file's structure, allowing for `global mcpServers` and `project-scoped mcpServers` under a `projects` key, is typical for CLI tools that need both general settings and context-aware overrides. The fact that `perplexity` and `deepwebresearch` (critical for `PROJECT_elements`'s `context-management` tools) are explicitly here and reported as running by `claude mcp list` confirms its active role for the CLI.
+    *   **Primary Source for Claude Code CLI.** This file's structure, allowing for `global mcpServers` and `project-scoped mcpServers` under a `projects` key, is typical for CLI tools that need both general settings and context-aware overrides. The fact that `perplexity` and `deepwebresearch` (critical for `PROJECT_elements`'s `wave` tools) are explicitly here and reported as running by `claude mcp list` confirms its active role for the CLI.
 
 2.  **`~/.claude/settings.json`**:
     *   **General User Settings, potentially less specific for CLI `mcpServers`.** This file likely holds broader user preferences for Claude Code, which might include *some* `mcpServers` configuration but often serves as a fallback or a simpler initial setup. Duplication here suggests it's not the primary source for the CLI's operational `mcpServers`.
@@ -100,7 +100,7 @@ Follow these steps precisely:
 5.  **Test:**
     *   After each modification (especially after steps 2 and 3), run `claude mcp list`.
     *   Verify that `chrome-devtools`, `browser`, `perplexity`, and `deepwebresearch` are still listed as connected/active.
-    *   Navigate to your `PROJECT_elements` directory and try a command that uses MCPs (e.g., `python context-management/tools/ai/analyze.py --aci "some query"`).
+    *   Navigate to your `PROJECT_elements` directory and try a command that uses MCPs (e.g., `python wave/tools/ai/analyze.py --aci "some query"`).
 
 #### 5. Should I remove deprecated entries (central-mcp-cloud pointing to dead VM, localbrain-task-registry for abandoned project)?
 

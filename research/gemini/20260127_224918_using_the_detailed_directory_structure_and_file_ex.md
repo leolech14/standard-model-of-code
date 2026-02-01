@@ -10,10 +10,10 @@
 
 ## Query
 
-Using the detailed directory structure and file extension counts, perform a 'Meso-Audit' of the Projectome. 
+Using the detailed directory structure and file extension counts, perform a 'Meso-Audit' of the Projectome.
 1. Is the 37.5% Purity Ratio in the Body acceptable, or does it indicate an 'Entropic Death' of the hemisphere?
 2. Why is 'tools/' sitting in the Brain while 'ops/' is in the Body? Resolve this taxonomy.
-3. If we move all .md files out of standard-model-of-code/, where should they specifically land in context-management/ to maintain 'Waybill' alignment?
+3. If we move all .md files out of particle/, where should they specifically land in wave/ to maintain 'Waybill' alignment?
 
 ---
 
@@ -60,20 +60,20 @@ Immediate action is required to identify, relocate, or refactor these 156+ non-e
 
     To resolve its taxonomy, the exact contents and purpose of 'ops/' would need to be identified and then placed into the appropriate hemisphere following the definitions of Codome (C) and Contextome (X).
 
-#### 3. Placement of `.md` files from `standard-model-of-code/`
+#### 3. Placement of `.md` files from `particle/`
 
-Assuming `standard-model-of-code/` is a directory primarily housing Codome elements (executable code), moving its `.md` files out is a crucial step towards achieving Codome purity and concordance.
+Assuming `particle/` is a directory primarily housing Codome elements (executable code), moving its `.md` files out is a crucial step towards achieving Codome purity and concordance.
 
-These `.md` files, being non-executable information, belong squarely within the **Contextome (X)**. To maintain "Waybill" alignment and support "Concordance (Code ↔ Context Symmetry)", they should specifically land in `context-management/docs/` or `context-management/registry/`, maintaining a clear linkage to the code they describe.
+These `.md` files, being non-executable information, belong squarely within the **Contextome (X)**. To maintain "Waybill" alignment and support "Concordance (Code ↔ Context Symmetry)", they should specifically land in `wave/docs/` or `wave/registry/`, maintaining a clear linkage to the code they describe.
 
 A recommended structure would be:
 
-1.  **Create a dedicated subdirectory** within `context-management/docs/` for code-related documentation, for example:
-    *   `context-management/docs/codebase-documentation/`
-    *   `context-management/docs/standard-model-specs/`
+1.  **Create a dedicated subdirectory** within `wave/docs/` for code-related documentation, for example:
+    *   `wave/docs/codebase-documentation/`
+    *   `wave/docs/standard-model-specs/`
 
-2.  **Mirror the structure** of `standard-model-of-code/` within this new directory. This ensures that the documentation's context is immediately clear and aligns directly with the code it describes.
-    *   Example: If you have `standard-model-of-code/moduleA/componentB.py` with an associated `standard-model-of-code/moduleA/componentB.md`, the `.md` file would move to `context-management/docs/standard-model-specs/moduleA/componentB.md`.
+2.  **Mirror the structure** of `particle/` within this new directory. This ensures that the documentation's context is immediately clear and aligns directly with the code it describes.
+    *   Example: If you have `particle/moduleA/componentB.py` with an associated `particle/moduleA/componentB.md`, the `.md` file would move to `wave/docs/standard-model-specs/moduleA/componentB.md`.
 
 This approach ensures that the `.md` files:
 *   Are correctly classified within the Contextome.

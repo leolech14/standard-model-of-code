@@ -10,7 +10,7 @@
 
 ## Query
 
-Compare: TRELLIS.2 is registered in tool_registry.yaml as a tool. Doppler is infrastructure. analyze.py is a context-management tool. Where does the HuggingFace integration belong? It has: MCP (global), CLI script, token, docs. Apply existing patterns.
+Compare: TRELLIS.2 is registered in tool_registry.yaml as a tool. Doppler is infrastructure. analyze.py is a wave tool. Where does the HuggingFace integration belong? It has: MCP (global), CLI script, token, docs. Apply existing patterns.
 
 ---
 
@@ -28,7 +28,7 @@ Here's a breakdown of where each component belongs:
     *   **ID:** S15 (following S14 GraphRAG)
     *   **Subsystem:** **HuggingFace Integration**
     *   **Type:** Utility
-    *   **Path:** `context-management/tools/huggingface/` (for code), `context-management/docs/HUGGINGFACE_INTEGRATION.md` (for docs)
+    *   **Path:** `wave/tools/huggingface/` (for code), `wave/docs/HUGGINGFACE_INTEGRATION.md` (for docs)
     *   **Purpose:** External AI model integration (e.g., NLP, code generation, embeddings)
 
 ### 2. File Structure (Concepts / Objects Duality)
@@ -37,15 +37,15 @@ The project consistently separates "Concepts" (specs, definitions) from "Objects
 
 *   **Concepts (Documentation):**
     *   The documentation explaining the HuggingFace integration, its capabilities, usage, configuration, and API should reside in:
-        *   `context-management/docs/HUGGINGFACE_INTEGRATION.md`
-        *   If specific schemas are needed (e.g., for model configurations, input/output formats), they would go in `context-management/config/` or `.agent/schema/` if they are system-wide.
+        *   `wave/docs/HUGGINGFACE_INTEGRATION.md`
+        *   If specific schemas are needed (e.g., for model configurations, input/output formats), they would go in `wave/config/` or `.agent/schema/` if they are system-wide.
 
 *   **Objects (Implementation):**
-    *   **MCP (global):** This component, acting as a server or a core library wrapper for HuggingFace APIs, should be placed within the `context-management/tools/` directory, specifically in a new `huggingface` subdirectory, mirroring the `mcp` for Perplexity.
-        *   `context-management/tools/huggingface/huggingface_mcp_server.py` (or a similar name for the primary integration component).
+    *   **MCP (global):** This component, acting as a server or a core library wrapper for HuggingFace APIs, should be placed within the `wave/tools/` directory, specifically in a new `huggingface` subdirectory, mirroring the `mcp` for Perplexity.
+        *   `wave/tools/huggingface/huggingface_mcp_server.py` (or a similar name for the primary integration component).
     *   **CLI script:** Any command-line interface for interacting with the HuggingFace MCP or directly with HuggingFace models should also reside within this new directory:
-        *   `context-management/tools/huggingface/cli.py` (if it's a specific client for this subsystem)
-        *   Alternatively, if it's meant to be a general AI query interface similar to `analyze.py`, it could be `context-management/tools/ai/huggingface_analyze.py`, but the former is more consistent with self-contained subsystems.
+        *   `wave/tools/huggingface/cli.py` (if it's a specific client for this subsystem)
+        *   Alternatively, if it's meant to be a general AI query interface similar to `analyze.py`, it could be `wave/tools/ai/huggingface_analyze.py`, but the former is more consistent with self-contained subsystems.
 
 ### 3. Configuration & Secrets
 
@@ -59,7 +59,7 @@ This file is for machine-readable discovery of integration points.
 *   **AI Tools Integration:** The primary entry point for the HuggingFace integration should be registered under `integrations.ai_tools`.
     *   `integrations:`
         *   `ai_tools:`
-            *   `huggingface: context-management/tools/huggingface/huggingface_mcp_server.py` (or `context-management/tools/huggingface/cli.py` if the CLI is the main interaction point).
+            *   `huggingface: wave/tools/huggingface/huggingface_mcp_server.py` (or `wave/tools/huggingface/cli.py` if the CLI is the main interaction point).
 
 *   **Agent Capabilities (Optional):** If HuggingFace provides unique capabilities that certain agents can leverage, a new agent entry or an update to an existing agent's capabilities could be made under `agents:` (e.g., `nlp_agent`, `model_finetuner`).
 
@@ -67,10 +67,10 @@ This file is for machine-readable discovery of integration points.
 
 | Component       | Location                                                | Rationale                                                                        |
 | :-------------- | :------------------------------------------------------ | :------------------------------------------------------------------------------- |
-| **MCP (global)**| `context-management/tools/huggingface/huggingface_mcp_server.py` | Implementation (Object), mirrors `perplexity_mcp_server.py` pattern.             |
-| **CLI script**  | `context-management/tools/huggingface/cli.py`           | Implementation (Object), specific tool for the subsystem.                        |
+| **MCP (global)**| `wave/tools/huggingface/huggingface_mcp_server.py` | Implementation (Object), mirrors `perplexity_mcp_server.py` pattern.             |
+| **CLI script**  | `wave/tools/huggingface/cli.py`           | Implementation (Object), specific tool for the subsystem.                        |
 | **Token**       | Managed by Doppler                                      | Secret management via `integrations.secrets` in `manifest.yaml`.               |
-| **Docs**        | `context-management/docs/HUGGINGFACE_INTEGRATION.md`    | Concepts, consistent with other subsystem documentation.                         |
+| **Docs**        | `wave/docs/HUGGINGFACE_INTEGRATION.md`    | Concepts, consistent with other subsystem documentation.                         |
 | **Registry**    | `.agent/SUBSYSTEM_INTEGRATION.md`                       | New `S15 HuggingFace Integration` (Utility) entry.                             |
 | **Manifest**    | `.agent/manifest.yaml` (`integrations.ai_tools.huggingface`) | Machine-readable discovery, similar to Gemini and Perplexity AI tools.           |
 

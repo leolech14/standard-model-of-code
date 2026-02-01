@@ -52,7 +52,7 @@ Let's break down the problem with an emphasis on the project's stated goals:
 
 1.  **REALM:**
     *   **Definition:** Directory-based partition. Files belong to exactly ONE realm.
-    *   **Status:** Clear, working, physical. Aligns perfectly with the "Particle (standard-model-of-code/)", "Wave (context-management/)", "Observer (.agent/)" structure. This represents the **physical locality** or **object world** partition.
+    *   **Status:** Clear, working, physical. Aligns perfectly with the "Particle (particle/)", "Wave (wave/)", "Observer (.agent/)" structure. This represents the **physical locality** or **object world** partition.
 
 2.  **DOMAIN:**
     *   **Definition:** 'vertical slice through code and docs'.
@@ -104,16 +104,16 @@ This choice provides the cleanest, most precise, and future-proof solution, alig
 **Detailed Action Plan:**
 
 1.  **Remove `Domain` from all formal glossaries and architectural documents.**
-    *   Specifically update `context-management/docs/GLOSSARY.md`, `CLAUDE.md`, `ARCHITECTURE_MAP.md`, and `AGENTKNOWLEDGEDUMP.md`.
+    *   Specifically update `wave/docs/GLOSSARY.md`, `CLAUDE.md`, `ARCHITECTURE_MAP.md`, and `AGENTKNOWLEDGEDUMP.md`.
 2.  **Conduct a full codebase search for "Domain" (case-insensitive) and systematically replace it.**
     *   **If it referred to a physical location/partition:** Replace with `Realm` (e.g., "Collider Realm" instead of "Collider Domain").
     *   **If it referred to a semantic grouping or area of concern/purpose:** Replace with `Concordance` (e.g., "Security Concordance," "Theory Concordance").
     *   Carefully update `CLAUDE.md` sections like "Domain Entry Points" to "Concordance Entry Points" or "Key Systems."
-3.  **Formally define `Concordance`** in `context-management/docs/GLOSSARY.md` and related theory documents (e.g., `standard-model-of-code/docs/MODEL.md`, `AUDIT_MANIFEST.md`).
+3.  **Formally define `Concordance`** in `wave/docs/GLOSSARY.md` and related theory documents (e.g., `particle/docs/MODEL.md`, `AUDIT_MANIFEST.md`).
     *   Emphasize its role in **purpose alignment** and its association with a **measurable score**. This could link to Q-scores, 4D confidence, or a new `ConcordanceScore` schema.
 4.  **Update AI Agent Configuration and Knowledge:**
     *   Ensure `AGENTKNOWLEDGEDUMP.md` clearly explains the new `Realm`/`Concordance` duality.
-    *   Modify `context-management/config/analysis_sets.yaml` and `prompts.yaml` to leverage `Realm` and `Concordance` for context selection and query formulation.
+    *   Modify `wave/config/analysis_sets.yaml` and `prompts.yaml` to leverage `Realm` and `Concordance` for context selection and query formulation.
     *   Verify that `BARE` and `ACI` systems are re-calibrated to this new, precise terminology for their reasoning.
 5.  **Audit Existing Documentation:** Review all human and AI-generated documentation for lingering references to "domain" that could cause confusion.
 

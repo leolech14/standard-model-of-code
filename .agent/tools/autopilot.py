@@ -60,10 +60,10 @@ INTELLIGENCE_DIR = AGENT_DIR / "intelligence"
 LOGS_DIR = INTELLIGENCE_DIR / "autopilot_logs"
 
 # Tool paths
-TDJ_PATH = REPO_ROOT / "context-management/tools/maintenance/tdj.py"
+TDJ_PATH = REPO_ROOT / "wave/tools/maintenance/tdj.py"
 TRIGGER_ENGINE_PATH = TOOLS_DIR / "trigger_engine.py"
 ENRICHMENT_PATH = TOOLS_DIR / "enrichment_orchestrator.py"
-DRIFT_GUARD_PATH = REPO_ROOT / "context-management/tools/drift_guard.py"
+DRIFT_GUARD_PATH = REPO_ROOT / "wave/tools/drift_guard.py"
 COMM_FABRIC_PATH = INTELLIGENCE_DIR / "comms" / "fabric.py"
 
 # State files
@@ -470,7 +470,7 @@ def cmd_run(safe_mode: bool = False, dry_run: bool = False):
     overall_success = True
 
     # TDJ removed from post-commit - it's on-demand only (11ms, no need to pre-compute)
-    # Run manually: python context-management/tools/maintenance/tdj.py --scan
+    # Run manually: python wave/tools/maintenance/tdj.py --scan
 
     # Step 1: Trigger Engine
     print("[1/3] Trigger Engine - Checking for macro triggers...")

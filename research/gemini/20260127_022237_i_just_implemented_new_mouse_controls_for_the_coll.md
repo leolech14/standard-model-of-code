@@ -15,7 +15,7 @@
 I just implemented new mouse controls for the Collider visualization:
 
 - LEFT + DRAG = Area select (marquee box)
-- RIGHT + DRAG = Rotate around center  
+- RIGHT + DRAG = Rotate around center
 - SPACE + LEFT + DRAG = Pan
 - MIDDLE SCROLL = Zoom
 
@@ -38,7 +38,7 @@ Okay, I've analyzed your request and the provided codebase context. Here's a bre
 
 **1. Alignment with Project's Visualization Principles:**
 
-Based on the `context-management/docs/AI_USER_GUIDE.md`, `context-management/docs/specs/UI_REFACTOR_VISION.md`, and other documents, the proposed control scheme generally aligns with the project's visualization principles, particularly:
+Based on the `wave/docs/AI_USER_GUIDE.md`, `wave/docs/specs/UI_REFACTOR_VISION.md`, and other documents, the proposed control scheme generally aligns with the project's visualization principles, particularly:
 
 *   **Usability:** The new controls provide intuitive ways to interact with the graph (selection, rotation, panning, zooming).
 *   **Responsiveness:** The controls should be responsive and provide immediate feedback to the user.
@@ -51,10 +51,10 @@ However, the key is ensuring the implementation adheres to the overall philosoph
 The following files need to be updated to reflect the new control scheme:
 
 *   **.agent/intelligence/truths/repo_truths.yaml:** The `quick_counts` section might need to be updated if the number of controls has changed.
-*   **context-management/docs/AI_USER_GUIDE.md:** This guide *must* be updated to reflect the new controls. This is the primary reference for users.  The section on "The Live Collaborator" should be updated to reflect the new interaction methods.
-*   **standard-model-of-code/docs/COLLIDER.md:** This document should be updated in the "Commands" and "Visualization Controls" sections to reflect the new mouse controls. The "Brain Download Sections" may need updating if any of the core metrics have changed.
-*   **standard-model-of-code/docs/specs/UI_CONTROLS_SCHEMA.md:** This document needs to be updated to include the new controls in the schema.  Specifically, the "Mouse Controls" table needs to be updated.
-*   **standard-model-of-code/docs/specs/UI_LAYOUT_ARCHITECTURE.md:** Check the implementation details against the specifications in this document, especially regarding the use of  `modules/layout.js`, `bumpRender()`,  and the adherence to the rendering pipeline. Verify that the changes are reflected in the appropriate sections.
+*   **wave/docs/AI_USER_GUIDE.md:** This guide *must* be updated to reflect the new controls. This is the primary reference for users.  The section on "The Live Collaborator" should be updated to reflect the new interaction methods.
+*   **particle/docs/COLLIDER.md:** This document should be updated in the "Commands" and "Visualization Controls" sections to reflect the new mouse controls. The "Brain Download Sections" may need updating if any of the core metrics have changed.
+*   **particle/docs/specs/UI_CONTROLS_SCHEMA.md:** This document needs to be updated to include the new controls in the schema.  Specifically, the "Mouse Controls" table needs to be updated.
+*   **particle/docs/specs/UI_LAYOUT_ARCHITECTURE.md:** Check the implementation details against the specifications in this document, especially regarding the use of  `modules/layout.js`, `bumpRender()`,  and the adherence to the rendering pipeline. Verify that the changes are reflected in the appropriate sections.
 
 **3. Path Forward:**
 

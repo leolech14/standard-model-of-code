@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>roadmap_engine – PROJECT_elements Reader</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-60b3e774b6b9bc5eac144386c1887cee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      PROJECT_elements Reader
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PROJECT_elements Reader</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Governance</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./THE_MISSING_MANUAL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">📘 The Missing Manual</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./VISUAL_GUIDE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🏗️ Visual Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./QUALITY_GATES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🛡️ Quality Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./REPO_STRUCTURE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">📂 Repo Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./TOPOLOGY_MAP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🗺️ Topology Map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ARCHITECTURE_AUDIT_2026.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🔍 Audit 2026</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PIPELINES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">⚙️ Pipelines</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Standard Model</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../standard-model-of-code/docs/theory/THEORY_AXIOMS.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theory Axioms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../standard-model-of-code/docs/theory/THEORY_COMPLETE_ALL.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theory Complete All</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../standard-model-of-code/docs/specs/PIPELINE_STAGES.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipeline Stages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Intelligence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../context-management/docs/CONTEXTOME.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Contextome</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../context-management/docs/PROJECTOME.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projectome</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./../context-management/registry/REGISTRY_REPORT.md" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Registry Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#smoc-development-roadmap" id="toc-smoc-development-roadmap" class="nav-link active" data-scroll-target="#smoc-development-roadmap">SMOC Development Roadmap</a>
+  <ul class="collapse">
+  <li><a href="#critical-path-to-self-proving" id="toc-critical-path-to-self-proving" class="nav-link" data-scroll-target="#critical-path-to-self-proving">Critical Path to Self-Proving</a></li>
+  <li><a href="#phase-0-locked-invariants-done" id="toc-phase-0-locked-invariants-done" class="nav-link" data-scroll-target="#phase-0-locked-invariants-done">Phase 0 — Locked invariants (DONE)</a>
+  <ul class="collapse">
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables">Deliverables ✓</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-1-graph-substrate-completion" id="toc-phase-1-graph-substrate-completion" class="nav-link" data-scroll-target="#phase-1-graph-substrate-completion">Phase 1 — Graph substrate completion</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-1" id="toc-deliverables-1" class="nav-link" data-scroll-target="#deliverables-1">Deliverables</a></li>
+  <li><a href="#acceptance-tests" id="toc-acceptance-tests" class="nav-link" data-scroll-target="#acceptance-tests">Acceptance Tests</a></li>
+  <li><a href="#metrics-1" id="toc-metrics-1" class="nav-link" data-scroll-target="#metrics-1">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-2-resolution-correctness" id="toc-phase-2-resolution-correctness" class="nav-link" data-scroll-target="#phase-2-resolution-correctness">Phase 2 — Resolution correctness</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-2" id="toc-deliverables-2" class="nav-link" data-scroll-target="#deliverables-2">Deliverables</a></li>
+  <li><a href="#acceptance-tests-1" id="toc-acceptance-tests-1" class="nav-link" data-scroll-target="#acceptance-tests-1">Acceptance Tests</a></li>
+  <li><a href="#metrics-2" id="toc-metrics-2" class="nav-link" data-scroll-target="#metrics-2">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-3-entrypoints-reachability-priority" id="toc-phase-3-entrypoints-reachability-priority" class="nav-link" data-scroll-target="#phase-3-entrypoints-reachability-priority">Phase 3 — Entrypoints + reachability (PRIORITY)</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-3" id="toc-deliverables-3" class="nav-link" data-scroll-target="#deliverables-3">Deliverables</a></li>
+  <li><a href="#acceptance-tests-2" id="toc-acceptance-tests-2" class="nav-link" data-scroll-target="#acceptance-tests-2">Acceptance Tests</a></li>
+  <li><a href="#metrics-3" id="toc-metrics-3" class="nav-link" data-scroll-target="#metrics-3">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-4-proof-system-hardening" id="toc-phase-4-proof-system-hardening" class="nav-link" data-scroll-target="#phase-4-proof-system-hardening">Phase 4 — Proof system hardening</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-4" id="toc-deliverables-4" class="nav-link" data-scroll-target="#deliverables-4">Deliverables</a></li>
+  <li><a href="#acceptance-tests-3" id="toc-acceptance-tests-3" class="nav-link" data-scroll-target="#acceptance-tests-3">Acceptance Tests</a></li>
+  <li><a href="#metrics-4" id="toc-metrics-4" class="nav-link" data-scroll-target="#metrics-4">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-5-dimensions-attributes-enrichment" id="toc-phase-5-dimensions-attributes-enrichment" class="nav-link" data-scroll-target="#phase-5-dimensions-attributes-enrichment">Phase 5 — Dimensions + attributes enrichment</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-5" id="toc-deliverables-5" class="nav-link" data-scroll-target="#deliverables-5">Deliverables</a></li>
+  <li><a href="#metrics-5" id="toc-metrics-5" class="nav-link" data-scroll-target="#metrics-5">Metrics</a></li>
+  </ul></li>
+  <li><a href="#phase-6-pillars-engine-derived-graphs" id="toc-phase-6-pillars-engine-derived-graphs" class="nav-link" data-scroll-target="#phase-6-pillars-engine-derived-graphs">Phase 6 — Pillars engine + derived graphs</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-6" id="toc-deliverables-6" class="nav-link" data-scroll-target="#deliverables-6">Deliverables</a></li>
+  </ul></li>
+  <li><a href="#phase-7-productization" id="toc-phase-7-productization" class="nav-link" data-scroll-target="#phase-7-productization">Phase 7 — Productization</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-7" id="toc-deliverables-7" class="nav-link" data-scroll-target="#deliverables-7">Deliverables</a></li>
+  </ul></li>
+  <li><a href="#phase-8-multi-language-tsjs-first" id="toc-phase-8-multi-language-tsjs-first" class="nav-link" data-scroll-target="#phase-8-multi-language-tsjs-first">Phase 8 — Multi-language (TS/JS first)</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-8" id="toc-deliverables-8" class="nav-link" data-scroll-target="#deliverables-8">Deliverables</a></li>
+  </ul></li>
+  <li><a href="#phase-10-adaptive-intelligence-layer-survey" id="toc-phase-10-adaptive-intelligence-layer-survey" class="nav-link" data-scroll-target="#phase-10-adaptive-intelligence-layer-survey">Phase 10 — Adaptive Intelligence Layer (SURVEY)</a>
+  <ul class="collapse">
+  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem Statement</a></li>
+  <li><a href="#solution-pre-analysis-survey-phase" id="toc-solution-pre-analysis-survey-phase" class="nav-link" data-scroll-target="#solution-pre-analysis-survey-phase">Solution: Pre-Analysis Survey Phase</a></li>
+  <li><a href="#deliverables-9" id="toc-deliverables-9" class="nav-link" data-scroll-target="#deliverables-9">Deliverables</a></li>
+  <li><a href="#acceptance-tests-4" id="toc-acceptance-tests-4" class="nav-link" data-scroll-target="#acceptance-tests-4">Acceptance Tests</a></li>
+  <li><a href="#metrics-6" id="toc-metrics-6" class="nav-link" data-scroll-target="#metrics-6">Metrics</a></li>
+  <li><a href="#implementation-phases" id="toc-implementation-phases" class="nav-link" data-scroll-target="#implementation-phases">Implementation Phases</a></li>
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
+  </ul></li>
+  <li><a href="#phase-9-governance" id="toc-phase-9-governance" class="nav-link" data-scroll-target="#phase-9-governance">Phase 9 — Governance</a>
+  <ul class="collapse">
+  <li><a href="#deliverables-10" id="toc-deliverables-10" class="nav-link" data-scroll-target="#deliverables-10">Deliverables</a></li>
+  </ul></li>
+  <li><a href="#suggested-pr-sequence-post-pr-1" id="toc-suggested-pr-sequence-post-pr-1" class="nav-link" data-scroll-target="#suggested-pr-sequence-post-pr-1">Suggested PR Sequence (Post PR #1)</a></li>
+  <li><a href="#current-bottleneck" id="toc-current-bottleneck" class="nav-link" data-scroll-target="#current-bottleneck">Current Bottleneck</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="smoc-development-roadmap" class="level1">
+<h1>SMOC Development Roadmap</h1>
+<p><strong>North Star:</strong> Self-proving ASAP (proof_score ≥ 80%, phantoms = 0)</p>
+<p><strong>Current State:</strong> Phase 0 complete, PR #1 open with 23 commits</p>
+<hr>
+<section id="critical-path-to-self-proving" class="level2">
+<h2 class="anchored" data-anchor-id="critical-path-to-self-proving">Critical Path to Self-Proving</h2>
+<pre><code>Phase 3 (entrypoints + reachability)
+    ↓
+Phase 2 (call resolution improvements)
+    ↓
+Phase 4 (auditability + determinism)</code></pre>
+<hr>
+</section>
+<section id="phase-0-locked-invariants-done" class="level2">
+<h2 class="anchored" data-anchor-id="phase-0-locked-invariants-done">Phase 0 — Locked invariants (DONE)</h2>
+<section id="deliverables" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables">Deliverables ✓</h3>
+<ul>
+<li>Multi-layer graph spec: <code>GRAPH_LAYERS.md</code></li>
+<li>Domain separation spec: <code>docs/SPEC.md v0.1.3</code></li>
+<li>Guardrail tests (6 tests, all passing)</li>
+<li>TS extractor tests with always-run enum derivation guard</li>
+</ul>
+</section>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
+<ul>
+<li>Test suite: <strong>102 passed, 3 skipped</strong></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-1-graph-substrate-completion" class="level2">
+<h2 class="anchored" data-anchor-id="phase-1-graph-substrate-completion">Phase 1 — Graph substrate completion</h2>
+<p><strong>Goal:</strong> Make node identity + node inventory rock-solid across repos.</p>
+<section id="deliverables-1" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-1">Deliverables</h3>
+<ol type="1">
+<li><strong>Canonical node IDs</strong>
+<ul>
+<li>Atomic IDs: <code>rel_path::function</code>, <code>rel_path::Class.method</code>, <code>rel_path::Class</code></li>
+<li>Container IDs: stable module/file IDs (collision-safe)</li>
+</ul></li>
+<li><strong>Bidirectional containment</strong>
+<ul>
+<li><code>contains</code> edges: file → component (structural)</li>
+<li>(Optional) <code>member_of</code> edges: component → file (reverse view)</li>
+</ul></li>
+<li><strong>Stable registries</strong>
+<ul>
+<li><code>component_registry.json</code> for N_atomic</li>
+<li><code>file_registry.json</code> for N_container</li>
+</ul></li>
+</ol>
+</section>
+<section id="acceptance-tests" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-tests">Acceptance Tests</h3>
+<ul>
+<li>Registry accuracy for atomic registry is 100% on <code>src/core</code></li>
+<li><code>contains</code> edges exist for every atomic node</li>
+<li>No atomic ID collisions</li>
+</ul>
+</section>
+<section id="metrics-1" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-1">Metrics</h3>
+<ul>
+<li><code>|N_atomic|</code>, <code>|N_container|</code></li>
+<li><code>contains_coverage = atomic_nodes_with_parent_file / |N_atomic|</code></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-2-resolution-correctness" class="level2">
+<h2 class="anchored" data-anchor-id="phase-2-resolution-correctness">Phase 2 — Resolution correctness</h2>
+<p><strong>Goal:</strong> Make resolution strict and reliable without mixing domains.</p>
+<section id="deliverables-2" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-2">Deliverables</h3>
+<ol type="1">
+<li><strong>Call resolver (atomic target domain only)</strong>
+<ul>
+<li><code>calls</code>: resolve against N_atomic only</li>
+<li>Never “upgrade” a file/container match into resolved_internal</li>
+</ul></li>
+<li><strong>Import resolver (container target domain only)</strong>
+<ul>
+<li><code>imports</code>: resolve against N_container only</li>
+<li>Strict stdlib/builtin classification</li>
+</ul></li>
+<li><strong>Resolution evidence</strong>
+<ul>
+<li>Every resolved_internal edge includes evidence fields</li>
+</ul></li>
+</ol>
+</section>
+<section id="acceptance-tests-1" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-tests-1">Acceptance Tests</h3>
+<ul>
+<li>Guardrails stay green</li>
+<li>Negative fixtures for: alias shadowing, relative vs absolute imports, builtin shadowing</li>
+</ul>
+</section>
+<section id="metrics-2" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-2">Metrics</h3>
+<ul>
+<li><code>calls_resolved_internal / calls_total</code></li>
+<li><code>imports_resolved_internal / imports_total</code></li>
+<li><code>unresolved_call_reasons</code> histogram</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-3-entrypoints-reachability-priority" class="level2">
+<h2 class="anchored" data-anchor-id="phase-3-entrypoints-reachability-priority">Phase 3 — Entrypoints + reachability (PRIORITY)</h2>
+<p><strong>Goal:</strong> Raise reachability while preserving rule-based entrypoints.</p>
+<section id="deliverables-3" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-3">Deliverables</h3>
+<ol type="1">
+<li><strong>Entrypoint detection expansion (atomic-only)</strong>
+<ul>
+<li>main patterns (<code>if __name__ == "__main__": main()</code>)</li>
+<li>CLI frameworks (click/typer/fire/argparse)</li>
+<li>Web frameworks (FastAPI/Flask routing decorators)</li>
+<li>Test entrypoints behind flag (<code>--include-tests</code>)</li>
+</ul></li>
+<li><strong>Reachability engine</strong>
+<ul>
+<li>BFS/DFS over proof graph (calls + resolved_internal)</li>
+<li>Persist witness paths for debuggable proof</li>
+</ul></li>
+<li><strong>Reachability reporting</strong>
+<ul>
+<li>Report why nodes are unreachable:
+<ul>
+<li>no incoming edges</li>
+<li>edges unresolved</li>
+<li>entrypoints missing</li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+<section id="acceptance-tests-2" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-tests-2">Acceptance Tests</h3>
+<ul>
+<li>Reachability increases on <code>src/core</code> from baseline (~29.3%)</li>
+<li>Guardrails stay green</li>
+<li>“Entrypoints are atomic-only” test exists and passes</li>
+</ul>
+</section>
+<section id="metrics-3" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-3">Metrics</h3>
+<ul>
+<li><code>reachability = reachable_atomic / |N_atomic|</code></li>
+<li><code>unreachable_buckets</code> (by reason)</li>
+<li>Target: <code>proof_score ≥ 80</code> AND <code>phantoms = 0</code></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-4-proof-system-hardening" class="level2">
+<h2 class="anchored" data-anchor-id="phase-4-proof-system-hardening">Phase 4 — Proof system hardening</h2>
+<p><strong>Goal:</strong> Make proof outputs auditable and hard to fake.</p>
+<section id="deliverables-4" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-4">Deliverables</h3>
+<ol type="1">
+<li><strong>Proof traceability</strong>
+<ul>
+<li>Store witness paths for reachability</li>
+<li>Store edge verification stats with evidence</li>
+</ul></li>
+<li><strong>Proof invariants enforced in code</strong>
+<ul>
+<li>Proof substrate definition centralized and tested</li>
+<li>Denominators explicitly <code>|N_atomic|</code></li>
+</ul></li>
+<li><strong>“Self-proving” mode</strong>
+<ul>
+<li>Single command returns pass/fail + diagnostics</li>
+</ul></li>
+</ol>
+</section>
+<section id="acceptance-tests-3" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-tests-3">Acceptance Tests</h3>
+<ul>
+<li>Proof graph matches recomputation from source</li>
+<li>Proof score stable across runs (deterministic)</li>
+</ul>
+</section>
+<section id="metrics-4" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-4">Metrics</h3>
+<ul>
+<li><code>proof_score</code>, <code>phantoms</code>, <code>edge_accuracy</code>, <code>connection_coverage</code>, <code>reachability</code></li>
+<li>Determinism hash for artifacts</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-5-dimensions-attributes-enrichment" class="level2">
+<h2 class="anchored" data-anchor-id="phase-5-dimensions-attributes-enrichment">Phase 5 — Dimensions + attributes enrichment</h2>
+<p><strong>Goal:</strong> Turn the graph into an analysis machine.</p>
+<section id="deliverables-5" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-5">Deliverables</h3>
+<ol type="1">
+<li><strong>Dimensions D1–D8 for N_atomic</strong></li>
+<li><strong>Attributes A1–A8</strong> (formerly “Lenses”)</li>
+<li><strong>Evidence model</strong> (confidence + evidence per field)</li>
+<li><strong>Terminology standardization</strong>
+<ul>
+<li><strong>Attributes</strong> = inherent properties of each atom (schema/data model)</li>
+<li><strong>Lenses</strong> = analytical perspectives for examining code (process/methodology)</li>
+<li>Update THEORY.md, schema files, and code to use consistent terminology: &gt; “Every atom has 8 <strong>attributes</strong>. We examine them through 8 <strong>lenses</strong>.”</li>
+</ul></li>
+</ol>
+</section>
+<section id="metrics-5" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-5">Metrics</h3>
+<ul>
+<li>Enrichment coverage: <code>% atomic nodes with D-fields</code></li>
+<li>Avg confidence and distribution</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-6-pillars-engine-derived-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="phase-6-pillars-engine-derived-graphs">Phase 6 — Pillars engine + derived graphs</h2>
+<p><strong>Goal:</strong> Compute P1–P4 on the right graphs.</p>
+<section id="deliverables-6" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-6">Deliverables</h3>
+<ol type="1">
+<li><strong>Atomic call graph metrics</strong> (Markov, Knot, Game, Constructal)</li>
+<li><strong>Derived graphs</strong> (file dependency, aggregated call graph, interface graph)</li>
+<li><strong>Issue detectors</strong> (cycles, hotspots, unstable equilibria)</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="phase-7-productization" class="level2">
+<h2 class="anchored" data-anchor-id="phase-7-productization">Phase 7 — Productization</h2>
+<p><strong>Goal:</strong> Make SMOC easy to run and integrate.</p>
+<section id="deliverables-7" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-7">Deliverables</h3>
+<ul>
+<li>CLI contracts: <code>analyze</code>, <code>validate-all</code>, <code>prove</code>, <code>bundle</code>, <code>issues</code>, <code>viz</code></li>
+<li>Output schema versioning</li>
+<li>Dashboard / report</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-8-multi-language-tsjs-first" class="level2">
+<h2 class="anchored" data-anchor-id="phase-8-multi-language-tsjs-first">Phase 8 — Multi-language (TS/JS first)</h2>
+<p><strong>Goal:</strong> Extend SMOC beyond Python.</p>
+<section id="deliverables-8" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-8">Deliverables</h3>
+<ul>
+<li>TS/JS parity layer</li>
+<li>Cross-language normalization</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-10-adaptive-intelligence-layer-survey" class="level2">
+<h2 class="anchored" data-anchor-id="phase-10-adaptive-intelligence-layer-survey">Phase 10 — Adaptive Intelligence Layer (SURVEY)</h2>
+<p><strong>Goal:</strong> Make Collider smart about WHAT to analyze before HOW to analyze.</p>
+<section id="problem-statement" class="level3">
+<h3 class="anchored" data-anchor-id="problem-statement">Problem Statement</h3>
+<p>Collider currently parses everything blindly. Analyzing <code>viz/assets/</code> produced 4,342 nodes where 80% (3,500+) came from vendor libraries (<code>three.min.js</code>, <code>3d-force-graph.min.js</code>). The signal-to-noise ratio is destroyed.</p>
+</section>
+<section id="solution-pre-analysis-survey-phase" class="level3">
+<h3 class="anchored" data-anchor-id="solution-pre-analysis-survey-phase">Solution: Pre-Analysis Survey Phase</h3>
+<pre><code>┌────────────────────────────────────────────────────────────┐
+│  NEW: Stage 0 — SURVEY (AI-Powered)                        │
+├────────────────────────────────────────────────────────────┤
+│  1. Directory scan (fast, no parsing)                      │
+│  2. Pattern detection:                                     │
+│     - vendor/, node_modules/, lib/, dist/                  │
+│     - *.min.js, *.bundle.js (minified)                     │
+│     - *.generated.ts, *.pb.go (generated)                  │
+│     - __fixtures__/, testdata/ (test data)                 │
+│  3. Heuristics:                                            │
+│     - Single-line files &gt; 10KB = minified                  │
+│     - Avg line length &gt; 500 chars = minified               │
+│     - No whitespace variance = obfuscated                  │
+│  4. AI classification (analyze.py):                        │
+│     - "Is this vendor code?" → exclude                     │
+│     - "What's the project structure?" → configure          │
+│     - "Estimated complexity?" → warn/adapt                 │
+│  5. Output: analysis_config.yaml                           │
+│     - exclude_patterns: [...]                              │
+│     - focus_paths: [...]                                   │
+│     - estimated_nodes: N                                   │
+│     - recommended_flags: [...]                             │
+└────────────────────────────────────────────────────────────┘
+                              ↓
+┌────────────────────────────────────────────────────────────┐
+│  Stage 1 — AST Parsing (with config applied)               │
+│  Now only parses YOUR code, not vendor libraries           │
+└────────────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="deliverables-9" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-9">Deliverables</h3>
+<ol type="1">
+<li><p><strong>Survey Module</strong> (<code>src/core/survey.py</code>)</p>
+<ul>
+<li>Fast directory scanner (no AST, just file stats)</li>
+<li>Pattern-based exclusion detector</li>
+<li>Minification heuristics</li>
+<li>Token/complexity estimator</li>
+</ul></li>
+<li><p><strong>AI Integration</strong> (optional, via analyze.py)</p>
+<ul>
+<li>Gemini-powered project understanding</li>
+<li>Smart exclusion recommendations</li>
+<li>“What kind of codebase is this?”</li>
+</ul></li>
+<li><p><strong>CLI Integration</strong></p>
+<ul>
+<li><code>./collider survey &lt;path&gt;</code> — Run survey only, output config</li>
+<li><code>./collider full &lt;path&gt; --survey</code> — Auto-survey before analysis</li>
+<li><code>./collider full &lt;path&gt; --exclude vendor/</code> — Manual exclusion</li>
+</ul></li>
+<li><p><strong>Interactive Mode</strong></p>
+<pre><code>$ ./collider full ./my-app
+
+[SURVEY] Detected potential exclusions:
+  - node_modules/     (1,247 files, ~50MB)
+  - vendor/three.js   (minified, 30K lines)
+  - dist/             (build output)
+
+Exclude these? [Y/n/customize]:</code></pre></li>
+</ol>
+</section>
+<section id="acceptance-tests-4" class="level3">
+<h3 class="anchored" data-anchor-id="acceptance-tests-4">Acceptance Tests</h3>
+<ul>
+<li>Survey completes in &lt;5s for repos up to 10K files</li>
+<li>Minified file detection accuracy &gt;95%</li>
+<li>Vendor directory detection accuracy 100%</li>
+<li>Analysis of <code>viz/assets/</code> with survey → &lt;500 nodes (vs 4,342)</li>
+</ul>
+</section>
+<section id="metrics-6" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-6">Metrics</h3>
+<ul>
+<li><code>survey_time_ms</code></li>
+<li><code>exclusion_accuracy</code></li>
+<li><code>signal_to_noise_ratio = your_code_nodes / total_nodes</code></li>
+<li><code>analysis_speedup = time_without_survey / time_with_survey</code></li>
+</ul>
+</section>
+<section id="implementation-phases" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-phases">Implementation Phases</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sub-phase</th>
+<th>Deliverable</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10.1</td>
+<td>Pattern-based exclusions (no AI)</td>
+<td>LOW</td>
+</tr>
+<tr class="even">
+<td>10.2</td>
+<td>Minification heuristics</td>
+<td>LOW</td>
+</tr>
+<tr class="odd">
+<td>10.3</td>
+<td>CLI –exclude flag</td>
+<td>LOW</td>
+</tr>
+<tr class="even">
+<td>10.4</td>
+<td>Interactive survey mode</td>
+<td>MEDIUM</td>
+</tr>
+<tr class="odd">
+<td>10.5</td>
+<td>AI-powered classification</td>
+<td>MEDIUM</td>
+</tr>
+<tr class="even">
+<td>10.6</td>
+<td>Auto-survey by default</td>
+<td>LOW</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="why-this-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h3>
+<ul>
+<li><strong>Focus</strong>: Analyze YOUR code, not npm’s code</li>
+<li><strong>Speed</strong>: 10x faster on typical JS/TS projects</li>
+<li><strong>Signal</strong>: Clean graphs that show YOUR architecture</li>
+<li><strong>UX</strong>: Users don’t need to know what to exclude</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="phase-9-governance" class="level2">
+<h2 class="anchored" data-anchor-id="phase-9-governance">Phase 9 — Governance</h2>
+<p><strong>Goal:</strong> Keep the theory coherent and implementation evolvable.</p>
+<section id="deliverables-10" class="level3">
+<h3 class="anchored" data-anchor-id="deliverables-10">Deliverables</h3>
+<ul>
+<li>Versioned SPEC + changelog</li>
+<li>Theory-to-code map</li>
+<li>PR checklist for domain changes</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="suggested-pr-sequence-post-pr-1" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-pr-sequence-post-pr-1">Suggested PR Sequence (Post PR #1)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 25%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>PR</th>
+<th>Focus</th>
+<th>Key Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PR2</td>
+<td>Entry rules expansion</td>
+<td>Entrypoint detection for click/typer/FastAPI</td>
+</tr>
+<tr class="even">
+<td>PR3</td>
+<td>Reachability diagnostics</td>
+<td>BFS engine + unreachable buckets report</td>
+</tr>
+<tr class="odd">
+<td>PR4</td>
+<td>Call resolver upgrades</td>
+<td>self/cls/import aliasing + fixtures</td>
+</tr>
+<tr class="even">
+<td>PR5</td>
+<td>Proof traceability</td>
+<td>Witness paths + determinism hash</td>
+</tr>
+<tr class="odd">
+<td>PR6</td>
+<td>Derived graphs</td>
+<td>File-level aggregation (non-proof)</td>
+</tr>
+<tr class="even">
+<td>PR7</td>
+<td>Dimensions/Attributes</td>
+<td>Enrichment passes + evidence model + terminology</td>
+</tr>
+<tr class="odd">
+<td>PR8</td>
+<td>Pillars stabilization</td>
+<td>Issue detectors</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="current-bottleneck" class="level2">
+<h2 class="anchored" data-anchor-id="current-bottleneck">Current Bottleneck</h2>
+<pre><code>Reachability: 29.3% ← This is the forcing function</code></pre>
+<p><strong>Root causes to investigate:</strong> 1. Missing entrypoint rules (click/typer/FastAPI decorators) 2. Unresolved calls (self/cls patterns, import aliasing) 3. Isolated subgraphs (no path from any entrypoint)</p>
+<hr>
+<p><em>Last updated: 2026-01-16</em></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<div id="quarto-sidebar" class="sidebar">
+    <div style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.2em; color: var(--accent);">PROJECT_elements</h2>
+        <p style="font-size: 0.8em; color: var(--text-secondary);">Standard Model Reader v1.0</p>
+    </div>
+
+    <ul class="sidebar-tree">
+        <li class="tree-folder">Governance</li>
+        <li class="tree-item"><a href="VISUAL_GUIDE.html" class="tree-link active">🏗️ Visual Guide</a></li>
+        <li class="tree-item"><a href="ROADMAP.html" class="tree-link">📍 Roadmap</a></li>
+        <li class="tree-item"><a href="DECISIONS.html" class="tree-link">⚖️ Decisions</a></li>
+        <li class="tree-item"><a href="QUALITY_GATES.html" class="tree-link">🛡️ Quality Gates</a></li>
+
+        <li class="tree-folder">Documentation</li>
+        <li class="tree-item"><a href="REPO_STRUCTURE.html" class="tree-link">📂 Repo Structure</a></li>
+        <li class="tree-item"><a href="TOPOLOGY_MAP.html" class="tree-link">🗺️ Topology Map</a></li>
+        <li class="tree-item"><a href="ARCHITECTURE_AUDIT_2026.html" class="tree-link">🔍 Audit 2026</a></li>
+
+        <li class="tree-folder">Technical Specs</li>
+        <li class="tree-item"><a href="PIPELINES.html" class="tree-link">⚙️ Pipelines</a></li>
+        <li class="tree-item"><a href="MERMAID_MASTERCLASS.html" class="tree-link">🧜‍♂️ Mermaid Masterclass</a></li>
+    </ul>
+
+    <div style="position: absolute; bottom: 1rem; left: 1rem;">
+        <div id="theme-selector-sidebar" style="display: flex; gap: 8px;">
+            <div class="theme-btn" style="background: #161618" onclick="setTheme('theme-obsidian')"></div>
+            <div class="theme-btn" style="background: #1e1e24" onclick="setTheme('theme-steel')"></div>
+            <div class="theme-btn" style="background: #1a1c1a" onclick="setTheme('theme-forest')"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setTheme(theme) {
+    document.body.className = theme;
+}
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/github\.com\/leolech14\/standard-model-of-code");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>PROJECT_elements v1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/leolech14/standard-model-of-code">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

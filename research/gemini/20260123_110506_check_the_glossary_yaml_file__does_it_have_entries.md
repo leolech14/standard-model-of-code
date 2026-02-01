@@ -16,7 +16,7 @@ Check the GLOSSARY.yaml file. Does it have entries for: 1) abstraction, 2) level
 
 ## Response
 
-Based on the codebase context provided, **I cannot check `GLOSSARY.yaml`** because that specific file was not included in the provided text. The context provided consists entirely of Python source files located in `standard-model-of-code/src/core/`.
+Based on the codebase context provided, **I cannot check `GLOSSARY.yaml`** because that specific file was not included in the provided text. The context provided consists entirely of Python source files located in `particle/src/core/`.
 
 However, based on the definitions found in **`src/core/atom_registry.py`**, **`src/core/purpose_field.py`**, and **`src/core/purpose_emergence.py`**, I can tell you how these concepts are implemented programmatically in the system.
 

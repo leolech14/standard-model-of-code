@@ -96,7 +96,7 @@ dependencies:
   - TASK 1.2 (password configured)
 
 input_data:
-  source: context-management/archive/references/metadata/
+  source: wave/archive/references/metadata/
   files: 9 analyzed papers (REF-001, REF-040, KOESTLER, etc.)
   size: ~50KB JSON metadata
 
@@ -777,4 +777,3 @@ active_work: 24 hours
 **REGISTRY COMPLETE - ALL TASKS WITH CONFIDENCE SCORES!**
 
 Next: Execute TASK 1.2 (password) → TASK 1.3-1.7 (pilot)
-

@@ -1,0 +1,742 @@
+{
+  "ref_id": "REF-001",
+  "parcel_id": "pcl_3236c625b8c5",
+  "chunk_count": 21,
+  "chunks": [
+    {
+      "content": "# Author Commentary\n\n## Author Commentary\n\nIn May 1967 I had suggested in my Chicago lectures certain applications of category theory to smooth geometry and dynamics, reviving a direct approach to function spaces and therefore to functionals. Making that suggestion more explicit led later to elementary topos theory as well as to the line of research now known as synthetic differential geometry. The fuller development of those subjects turned out to involve a truth value object that classifies subobjects, but in the present paper (presented in the 1968 Battelle conference in Seattle) I refer only to weak properties of such an object; it is the other axiom, cartesian closure, that plays the central role.\n\nDaniel Kan had recognized that the function space construction for simplicial sets and other categories is a right adjoint, thus unique. Because this uniqueness property of adjoints implies their main calculational rules, I took the further axiomatic step of defining functor categories as a right adjoint to the finite product construction in my 1963 thesis. In 1965, Eilenberg and Kelly introduced the term closed to mean that there is a hom functor valued in the category itself. Such a hom functor is characterized in a relative way as right adjoint to a given tensor product functor; we concentrate here on the absolute case where the tensor is cartesian.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "ad7cb655390c4746",
+      "chunk_type": "h2",
+      "relevance_score": 0.7941301161171026,
+      "start_line": 7,
+      "end_line": 23,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Author Commentary",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.411076,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_95896d781c48",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Author Commentary",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Daniel Kan had recognized that the function space construction for simplicial sets and other categories is a right adjoint, thus unique. Because this uniqueness property of adjoints implies their main calculational rules, I took the further axiomatic step of defining functor categories as a right adjoint to the finite product construction in my 1963 thesis. In 1965, Eilenberg and Kelly introduced the term closed to mean that there is a hom functor valued in the category itself. Such a hom functor is characterized in a relative way as right adjoint to a given tensor product functor; we concentrate here on the absolute case where the tensor is cartesian.\n\nAlthough the cartesian-closed view of function spaces and functionals was intuitively obvious in all but name to Volterra and Hurewicz (and implicitly to Bernoulli), it has counterexamples within the rigid framework advocated by Dieudonn\u00b4 e and others. According to that framework the only acceptable fundamental structure for expressing the cohesiveness of space is a contravariant algebra of open sets or possibly of functions. Even though such algebras are of course extremely important invariants, their nature is better seen as a consequence of the covariant geometry of figures. Specific cases of this determining role of figures were obvious in the work of Kan and in the popularizations of Hurewicz's k-spaces by Kelley, Brown, Spanier, and Steenrod, but in the present paper I made this role a matter of principle: the Yoneda embedding was shown to preserve\n\nReceived by the editors 2005-12-05.\n\nTransmitted by R. Par\u00b4 e, R. Rosebrugh and R.J. Wood. Reprint published on 2006-02-24.\n\n2000 Mathematics Subject Classification: 08.10, 02.00.\n\nOriginally published as: Lecture Notes in Mathematics, No. 92, pages 134-145, 1969; used by permission.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "6b201fff25c348c7",
+      "chunk_type": "h2",
+      "relevance_score": 0.7977591184817222,
+      "start_line": 7,
+      "end_line": 23,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Author Commentary",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.411092,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6de827366197",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Author Commentary",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# F. WILLIAM LAWVERE\n\n## F. WILLIAM LAWVERE\n\ncartesian closure, and naturality of functionals was shown to be equivalent to Bernoulli's principle. Further, I posed the problem of comparing this principle to practice in the specific cases of smooth and recursive mathematics.\n\nLater detailed work on those particular cases justified the classical intuition embodied in my general definition. In their books Froelicher and Kriegl (1988), and Kriegl and Michor (1997), extensively develop smooth analysis; their higher-order use of the adequacy of figures is based in part on a lower-order result of Boman 1967 (implicit in Hadamard) concerning the adequacy of paths. They cite the result of Lawvere-Schanuel-Zame showing that the natural functionals in this case are indeed the distributions of compact support, as practice would suggest. Nilpotent infinitesimals fall far short of even one-dimensionality, but if taken to be non-commutative, are already adequate for holomorphic functions, as was strikingly shown by Steve Schanuel (1982). The recursive example was studied by Phil Mulry (1982) who constructed a topos that does include as full sub-categories both the Banach-Mazur and the Ersov versions of higher recursive functionals.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "f9118474fd88df14",
+      "chunk_type": "h2",
+      "relevance_score": 0.7927605541225838,
+      "start_line": 23,
+      "end_line": 37,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "F. WILLIAM LAWVERE",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.4111092,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9a969090f7e2",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "F. WILLIAM LAWVERE",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Later detailed work on those particular cases justified the classical intuition embodied in my general definition. In their books Froelicher and Kriegl (1988), and Kriegl and Michor (1997), extensively develop smooth analysis; their higher-order use of the adequacy of figures is based in part on a lower-order result of Boman 1967 (implicit in Hadamard) concerning the adequacy of paths. They cite the result of Lawvere-Schanuel-Zame showing that the natural functionals in this case are indeed the distributions of compact support, as practice would suggest. Nilpotent infinitesimals fall far short of even one-dimensionality, but if taken to be non-commutative, are already adequate for holomorphic functions, as was strikingly shown by Steve Schanuel (1982). The recursive example was studied by Phil Mulry (1982) who constructed a topos that does include as full sub-categories both the Banach-Mazur and the Ersov versions of higher recursive functionals.\n\nI hope that in the future this adequacy of one-dimensional figures will be explained because it occurs in many different examples. Many kinds of cohesion (algebraic geometry, smooth geometry, continuous geometry) are well-expressed as a subtopos of the classifying topos of a finitary single-sorted algebraic theory. But often that algebraic theory is determined by its monoid M of unary operations via naturality only: for example, the binary operations, instead of being independently specified, are just the maps of right M -sets from M 2 to M . If a common explanation can be found (for this adequacy of onedimensional considerations in the determination of n -dimensional and infinite-dimensional functionals, in so many disparate cases) it would further establish that the Eilenberg-Mac Lane notion of naturality is far more powerful than the mere tautology it is sometimes considered to be.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "fcbd21e2ee28413e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7980783816931569,
+      "start_line": 23,
+      "end_line": 37,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "F. WILLIAM LAWVERE",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.411117,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_513b934d3a8e",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "F. WILLIAM LAWVERE",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "I hope that in the future this adequacy of one-dimensional figures will be explained because it occurs in many different examples. Many kinds of cohesion (algebraic geometry, smooth geometry, continuous geometry) are well-expressed as a subtopos of the classifying topos of a finitary single-sorted algebraic theory. But often that algebraic theory is determined by its monoid M of unary operations via naturality only: for example, the binary operations, instead of being independently specified, are just the maps of right M -sets from M 2 to M . If a common explanation can be found (for this adequacy of onedimensional considerations in the determination of n -dimensional and infinite-dimensional functionals, in so many disparate cases) it would further establish that the Eilenberg-Mac Lane notion of naturality is far more powerful than the mere tautology it is sometimes considered to be.\n\nThe original aim of this article was to demystify the incompleteness theorem of G\u00a8 odel and the truth-definition theory of Tarski by showing that both are consequences of some very simple algebra in the cartesian-closed setting. It was always hard for many to comprehend how Cantor's mathematical theorem could be re-christened as a'paradox' by Russell and how G\u00a8 odel's theorem could be so often declared to be the most significant result of the 20th century. There was always the suspicion among scientists that such extra-mathematical publicity movements concealed an agenda for re-establishing belief as a substitute for science. Now, one hundred years after G\u00a8 odel's birth, the organized attempts to harness his great mathematical work to such an agenda have become explicit.\n\nI thank the editors of TAC , and especially Christoph Schubert whose dedication and expertise made this reprint possible.\n\nF. William Lawvere Buffalo, N.Y. 19 February 2006",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "b3d93d7e4a078151",
+      "chunk_type": "h2",
+      "relevance_score": 0.7980432918942543,
+      "start_line": 23,
+      "end_line": 37,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "F. WILLIAM LAWVERE",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847603.411124,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ea643e633286",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "F. WILLIAM LAWVERE",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Introduction\n\nThe similarity between the famous arguments of Cantor, Russell, G\u00a8 odel and Tarski is well-known, and suggests that these arguments should all be special cases of a single theorem about a suitable kind of abstract structure. We offer here a fixed-point theorem in cartesian closed categories which seems to play this role. Cartesian closed categories seem also to serve as a common abstraction of type theory and propositional logic, but the author's discussion at the Seattle conference of the development of that observation will be in part described elsewhere ['Adjointness in Foundations', to appear in Dialectica, and 'Equality in Hyperdoctrines and the Comprehension Schema as an Adjoint Functor', to appear in the Proceedings of the AMS Symposium on Applications of Category theory].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "4b598375da84d713",
+      "chunk_type": "h2",
+      "relevance_score": 0.937206206041662,
+      "start_line": 37,
+      "end_line": 41,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847603.411134,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4ff4f3c1227b",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Introduction",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 1. Exponentiation, surjectivity, and a fixed-point theorem\n\n## 1. Exponentiation, surjectivity, and a fixed-point theorem\n\nBy a cartesian closed category is meant a category C equipped with the following three kinds of right-adjoints: a right adjoint 1 to the unique\n\n<!-- formula-not-decoded -->\n\na right adjoint \u00d7 to the diagonal functor\n\n<!-- formula-not-decoded -->\n\nand for each object A in C , a right-adjoint ( ) A to the functor\n\n<!-- formula-not-decoded -->\n\nThe adjunction transformations for these adjoint situations, also assumed given, will be denoted by \u03b4, \u03c0 in the case of products and by \u03bb A , /epsilon1 A in case of exponentiation by A . Thus for each X one has and for each Y one has\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\nGiven f : A \u00d7 X /d47 /d47 Y , the composite morphism\n\n<!-- formula-not-decoded -->\n\nwill be called the ' \u03bb -transform' of the morphism f . A morphism h : X /d47 /d47 Y A is the \u03bb -transform of f iff the diagram\n\n<!-- formula-not-decoded -->\n\nis commutative, showing in particular that f can be uniquely recovered from its \u03bb -transform. Taking the case X = 1, one has that every f : A /d47 /d47 Y gives rise to a unique /rightanglenw f /rightanglene : 1 /d47 /d47 Y A and that every 1 /d47 /d47 Y A is of that form for a unique f . Since for every a : 1 /d47 /d47 A one has (dropping the indices A , Y on /epsilon1 when they are clear)\n\n<!-- formula-not-decoded -->\n\none calls /epsilon1 the 'evaluation' natural transformation; note however that we do not assume in general that f is determined by the knowledge of all its 'values' a.f .\n\nAlthough we do not make use of it in this paper, the usefulness of cartesian closed categories as algebraic versions of type theory can be further illustrated by assuming that the coproduct\n\n<!-- formula-not-decoded -->\n\nalso exists in C . It then follows (using the closed structure), that for every object A\n\n<!-- formula-not-decoded -->\n\nand so in particular that 2 is a Boolean-algebra-object in C , i.e. that among the morphisms\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "cd3062483e0944fa",
+      "chunk_type": "h2",
+      "relevance_score": 0.799453909515508,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.411199,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6b3ebc2a7fb8",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nin C there are well determined morphisms corresponding to all the finitary (two-valued) truth tables, and that these satisfy all the commutative diagrams expressing the axioms of Boolean algebra. Equivalently, for each X the set\n\n<!-- formula-not-decoded -->\n\nof ' C -attributes of type X ' becomes canonically an actual Boolean algebra, and varying X along any morphism of C induces contravariantly a Boolean homomorphism of attribute algebras. The morphisms 1 /d47 /d47 2 form P C (1) the Boolean algebra of 'truth-values'; among these are the two coproduct injections which play the roles of 'true' and 'false'. For any 'constant of type X ' x : 1 /d47 /d47 X and any attribute \u03d5 of type X , x.\u03d5 is then a truth-value. Now noting that\n\n<!-- formula-not-decoded -->\n\nis a 'binary operation' we could write it between its arguments, so that we have\n\n<!-- formula-not-decoded -->\n\nan equality of truth-values; thus if we think of /rightanglenw \u03d5 /rightanglene : 1 /d47 /d47 2 X as the constant naming the subset of X corresponding to the attribute \u03d5 , one sees that the above equation expresses the usual 'comprehension' axiom.\n\nReturning to our immediate concern, we define a morphism g : X /d47 /d47 Z to be pointsurjective iff for every z : 1 /d47 /d47 Z there exists x : 1 /d47 /d47 X with x.g = z . This does not imply that g is necessarily 'onto the whole of Z ', since there may be few morphisms\n\nwith domain 1; for example if (as in the next section) X and Z are set-valued functors, then a natural transformation g is point-surjective if every element of the inverse limit of Z comes from an element of the inverse limit of X . In case Z is of the form Y A , an even weaker notion of surjectivity can be considered, which in fact suffices for our fixed point theorem. Namely\n\n<!-- formula-not-decoded -->\n\nwill be called weakly point-surjective iff for every f : A /d47 /d47 Y there is x such that for every a : 1 /d47 /d47 A\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "7f4c34d6982de280",
+      "chunk_type": "h2",
+      "relevance_score": 0.7989917546192691,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.411212,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f4d28af0435d",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nFinally we say that an object Y has the fixed point property iff for every endomorphism t : Y /d47 /d47 Y there is y : 1 /d47 /d47 Y with y.t = y .\n\n1.1. Theorem. In any cartesian closed category, if there exists an object A and a weakly point-surjective morphism\n\n<!-- formula-not-decoded -->\n\nthen Y has the fixed point property.\n\nProof . Let g be the morphism whose \u03bb -transform is g . Then for any f : A /d47 /d47 Y there is x : 1 /d47 /d47 A such that for all a : 1 /d47 /d47 A\n\n<!-- formula-not-decoded -->\n\nNow consider any endomorphism t of Y and let f be the composition\n\n<!-- formula-not-decoded -->\n\nthus there is x such that for all a\n\n<!-- formula-not-decoded -->\n\nsince a ( A\u03b4 ) = \u3008 a, a \u3009 . But then y = \u3008 x, x \u3009 g is clearly a fixed point for t .\n\nThe famed 'diagonal argument' is of course just the contrapositive of our theorem. Cantor's theorem follows with Y = 2.\n\n/negationslash\n\n1.2. Corollary. If there exists t : Y /d47 /d47 Y such that yt = y for all y : 1 /d47 /d47 Y then for no A does there exist a point-surjective morphism\n\n<!-- formula-not-decoded -->\n\n(or even a weakly point-surjective morphism).\n\n2. Russell's Paradox is a case of Cantor's theorem; natural functionals in recursive function theory and smooth manifold theory\n\nRussell's Paradox does not presuppose that set theory be formulated as a higher type theory; that is, for A the set-theoretical universe, we do not need 2 A for the argument. In fact we need only apply the proof of our theorem, with g : A \u00d7 A /d47 /d47 2 as the settheoretical membership relation, dispensing with g entirely. That is, more generally, our theorem could have been stated and proved in any category with only finite products (no exponentiation) by simply phrasing the notion of (weak) point-surjectivity as a property of a morphism\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "0875c1d0683da1e8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7981203650843411,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847603.41122,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_93f6aab0e80f",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nhowever discovering the latter form (or at least calling it surjectivity!) seems to require thinking of such a morphism as a family of morphisms A /d47 /d47 Y indexed by the elements of X , suggesting that a closed category is the 'natural' setting for the theorem.\n\nIn fact the more general form of the theorem just alluded to (for categories with products) follows from the cartesian closed version which we have proved, by virtue of the following remark. Notice that it would suffice to assume C small (just take the full closure under finite products of the two objects A , Y ).\n\n- 2.1. Remark. Any small category C can be fully and faithfully embedded in a cartesian closed category in a manner which preserves any products or exponentials that may exist in C .\n\nProof . We consider the usual embedding\n\n<!-- formula-not-decoded -->\n\nwhich identifies an object Y with the contravariant set-valued functor\n\n<!-- formula-not-decoded -->\n\nBy 'Yoneda's Lemma' one has for any functor Y and any object A that the value at A of Y\n\nwhere the right hand side denotes the set of all natural transformations from (the functor corresponding to) A into Y , so that in particular the embedding is full and faithful. It is then also clear that the embedding preserves products (in particular if 1 exists in C it corresponds to the functor that is constantly the one-element set, which is the 1 of S C op ). For any two functors A , Y the functor\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\nplays the role of Y A . In particular if B A exists in C for a pair of objects A , B in C then\n\n<!-- formula-not-decoded -->\n\nshowing that the embedding preserves exponentiation.\n\n2.2. Theorem. Let A , Y be any objects in any category with finite products (including the empty product 1 ); then the following two statements cannot both be true\n\n- a) there exists g : A \u00d7 A /d47 /d47 Y such that for all f : A /d47 /d47 Y there exists x : 1 /d47 /d47 A such that for all a : 1 /d47 /d47 A\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "a6dcd7feb7cd8d87",
+      "chunk_type": "h2",
+      "relevance_score": 0.7993207993703008,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847603.411228,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_36ab5a01b5c0",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\n- b) there exists t : Y /d47 /d47 Y such that for all y : 1 /d47 /d47 Y\n\n<!-- formula-not-decoded -->\n\n/negationslash\n\nProof . Apply above remark and the proof in the previous section.\n\nOf course the 'transcendental' proof just given is somewhat ridiculous, since the incompatibility of a) and b) can be proved directly just as simply as it was proved in the previous section under the more restrictive hypothesis on C . However we wish to take the opportunity to make some further remarks about the above canonical embedding of an arbitrary (small) category into a cartesian closed category C (let the latter denote the smallest full cartesian closed subcategory of S C op which contains C ). One of the standard ways of embedding a structure into a higher-order structure is to consider 'definable' functionals, operators, etc.; however this is difficult to oversee from a simple-minded point of view since it usually requires enumerating all possible definitions. On the other hand in many situations (e.g. functorial semantics of algebraic theories or functorial semantics of elementary theories if the elementary theories are complete) one has come to expect that natural transformations are identical with definable ones or at least a reasonable substitute for definable ones. The latter alternative seems to be a least partly true in the present case. Thus for example we are led to the following definition. If A , B , C , D are objects in a category C with finite products, a natural operator\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "13300a2dc946bc2f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7958020870918725,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769847603.4112341,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b9fbef057744",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nshall be simply a natural transformation between the exponential functors of the (functors corresponding to the) given objects in S C op (hence in C ). In particular if C = 1 we would call a natural operator a natural functional. Note that 1 will not be a generator for all of S C op unless C = 1; however it might conceivably be so for C , and we have a partial result in that direction. In fact, in the case that 1 is a generator for C itself, we can describe in more familiar terms what a natural operator is.\n\nRecall that '1 is a generator for C ' simply means that a morphism f : X /d47 /d47 Y in C is determined by its 'values' x.f : 1 /d47 /d47 Y for x : 1 /d47 /d47 X . In that case it is sensible to call the elements of the set C (1 , X ) of points of X also the elements of X . Then a function\n\n<!-- formula-not-decoded -->\n\nis induced by at most one C -morphism X /d47 /d47 Y , and in case it is, we say by abuse of language that the function is a morphism of C .\n\n2.3. Proposition. Suppose that C is a category with finite products in which 1 is a generator, and A , B , C , D are objects of C . Then\n\n- 1) a natural operator\n\nand\n\n- 2) such a function determines a natural operator iff for every object X of C and for every C -morphism f : A \u00d7 X /d47 /d47 B , the function\n\n<!-- formula-not-decoded -->\n\nis a C -morphism, where ( f )( X \u03a6) is defined by\n\n<!-- formula-not-decoded -->\n\nfor any c : 1 /d47 /d47 C , x : 1 /d47 /d47 X , f x denoting the composition\n\n<!-- formula-not-decoded -->\n\nProof . We are abusing notations to the extent of identifying a morphism with its \u03bb -transform via the bijections of the form\n\n<!-- formula-not-decoded -->\n\nActually the given operator \u03a6 is a family of functions\n\n<!-- formula-not-decoded -->\n\none for each object of C ; the 'naturalness' condition that this family must satisfy is, via the abuse, that for every morphism x : X \u2032 /d47 /d47 X of C , the diagram\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "08431701ad604997",
+      "chunk_type": "h2",
+      "relevance_score": 0.7988736082075483,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 5
+      },
+      "created_at": 1769847603.411241,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_92233ace825c",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nshould commute. Now let X \u2032 = 1. Since 1 is a generator for C , the value of the function X \u03a6 at a given f : A \u00d7 X /d47 /d47 B is determined by the knowledge, for each element x of\n\n<!-- formula-not-decoded -->\n\nis entirely determined by a single function\n\n<!-- formula-not-decoded -->\n\nX and each element c of C , the result reached in the lower right hand corner by going first across, then down, in the commutative diagram\n\n<!-- formula-not-decoded -->\n\nBut since the same results are obtained by going down, then across, all the functions X \u03a6 are determined by one function 1\u03a6, proving the first assertion. The second assertion is then clear, since the definition of ( f )( X \u03a6) given in the statement of the proposition is just such as to assure naturality of X \u03a6 provided its values exist.\n\nTo make the situation perfectly clear, notice that morphisms whose codomain is an exponential object can be discussed even though the exponential object does not exist, just by considering instead morphisms whose domain is a product. There is however then the problem of determining the morphisms whose domain is an exponential, and considering them to be the natural operators is in many contexts the smoothest and most 'natural' thing to do. Experts on recursive functions or C \u221e functions between finite-dimensional manifolds may wish to consider the result of taking C to be these particular categories in the above considerations. They may also wish to consider whether the fixed-point theorem of section one has any applications in those cases.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "a61647bcd8456973",
+      "chunk_type": "h2",
+      "relevance_score": 0.7959349507998671,
+      "start_line": 41,
+      "end_line": 249,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+        "source_type": "academic_pdf",
+        "sub_index": 6
+      },
+      "created_at": 1769847603.4112482,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_20dc7088123f",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Exponentiation, surjectivity, and a fixed-point theorem",
+              "sub_index": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability\n\n## 3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability\n\nIn order to apply the theorem of the previous section to obtain Tarski's theorem concerning the impossibility of defining truth for a theory within the theory itself, we first note briefly how a theory gives rise to a category C with finite products. Consider two objects A , 2 and let the C -morphisms be equivalence classes of (tuples of) formulas or terms of the theory, where two formulas (or terms) are considered equivalent iff their logical equivalence (or equality) is provable in the theory. Thus the morphisms 1 /d47 /d47 A are (classes of) constant terms, the morphisms A \u00d7 A /d47 /d47 A are (classes of) terms with two free variables, while morphisms A n /d47 /d47 2 are (classes of) formulas with n free variables so that in particular morphisms 1 /d47 /d47 2 are (classes of) sentences of the theory. In particular there is a morphism true : 1 /d47 /d47 2 corresponding to the class of sentences provable in the theory and similarly a morphism false : 1 /d47 /d47 2 corresponding to the class of sentences whose negation is provable in the theory. Morphisms 2 n /d47 /d47 2 would include all propositional operations, but we will make no use of that except for the following case:\n\nIf the theory is consistent there is a morphism not : 2 /d47 /d47 2 such that \u03d5 not = \u03d5 for all morphisms \u03d5 : 1 /d47 /d47 2.\n\n/negationslash",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "f5b383e85bf096f9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7963256009594467,
+      "start_line": 249,
+      "end_line": 271,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.411268,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_bfb6af84e82d",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "/negationslash\n\nIn particular we will not need to use the fact that 2 = 1 + 1, although that determines the nature of those hom-sets not explicitly spelled out above. Defining composition to correspond to substitution (for example a constant a : 1 /d47 /d47 A composed with a unary formula \u03d5 : A /d47 /d47 2 composed with not gives the sentence a\u03d5 not : 1 /d47 /d47 2, etc.) we get a category C with finite products which might be called the Lindenbaum category of the theory. Models of the theory can then be viewed as certain functors C /d47 /d47 S . We make no use here of the operation in C induced by quantification in the theory, but the categorical description of this operation will be clear to readers of the two papers cited in the introduction. In our construction above of C we have tacitly assumed that the theory was a first order single-sorted one, in which case all objects of C are isomorphic to those of the form A n \u00d7 2 m , but with trivial modification we could have started with a higher-order or several-sorted theory with no change of any significance to the arguments below. To make one point somewhat more explicit note that the projection morphisms A n /d47 /d47 A arise from the variables of the theory.\n\nWe then say that satisfaction is definable in the theory iff there is a binary formula sat : A \u00d7 A /d47 /d47 2 in C such that for every unary formula \u03d5 : A /d47 /d47 2 there is a constant c : 1 /d47 /d47 A such that for every constant a the following diagram commutes in C\n\n<!-- formula-not-decoded -->\n\nHere we imagine taking for c a G\u00a8 odel number for (one of the representatives of) \u03d5 . The condition would traditionally be expressed by requiring that the sentence\n\n<!-- formula-not-decoded -->\n\nbe provable in the theory, but if C arises from our construction of the Lindenbaum category this amounts to the same thing.\n\nCombining the above notion with our remark about the meaning of consistency and the theorem of the previous section we have immediately the",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "94c925d7117f8e24",
+      "chunk_type": "h2",
+      "relevance_score": 0.798998287000683,
+      "start_line": 249,
+      "end_line": 271,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.411276,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_eae65ecb0d41",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3. Presentation-free formulations of satisfaction, truth, and provability according to G\u00a8 odel and Tarski; representability vs. definability",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.\n\n## 3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.\n\nIn order to show that Truth cannot be defined we first need to say what Truth would mean; that seems to require some further assumptions on the theory, which are however often realizable. Namely we suppose that there is a binary term\n\n<!-- formula-not-decoded -->\n\nin C and a ('metamathematical') binary relation\n\n<!-- formula-not-decoded -->\n\nbetween constants and sentences for which the following holds.\n\n- 1) For all \u03d5 : A /d47 /d47 2 there is c : 1 /d47 /d47 A such that for all a : 1 /d47 /d47 A\n\n<!-- formula-not-decoded -->\n\nFor example we could imagine that d \u0393 \u03c3 means that d is the G\u00a8 odel number of some one of the sentences that represent \u03c3 , and that subst is a binary operation which, when applied to a constant a and to a constant c that happens to be the G\u00a8 odel number of a unary formula \u03d5 , yields the G\u00a8 odel number of the sentence obtained by substituting a into \u03d5 .\n\nGiven a binary relation \u0393 \u2286 C (1 , A ) \u00d7 C (1 , 2) we say that Truth (of sentences) is definable in the theory (relative to \u0393) provided there is a unary formula Truth : A /d47 /d47 2 such that\n\n<!-- formula-not-decoded -->\n\nAgain the traditional formulation would require that the sentence\n\n<!-- formula-not-decoded -->\n\nbe provable, but in the Lindenbaum category this just amounts to the equation /rightanglenw \u03c3 /rightanglene Truth = \u03c3 .\n\n- 3.2. Theorem. If the theory is consistent and substitution is definable relative to a given binary relation \u0393 between constants and sentences, then Truth is not definable relative to the same binary relation.\n\nProof . If both 1) and 2) hold then the diagram\n\n<!-- image -->\n\n\u00d7\n\nsubst\n\nTruth\n\n<!-- image -->\n\nis a definition of satisfaction, contradicting the previous result.\n\nWe will also prove an 'incompleteness theorem', using the notion of a Provability predicate. Given a binary relation \u0393 between constants and sentences, we say that Provability is representable in the theory iff there is a unary formula Pr : A /d47 /d47 2 such that\n\n- 3) Whenever d \u0393 \u03c3 then d Pr = true iff \u03c3 = true.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "6c725369c5a6aadb",
+      "chunk_type": "h2",
+      "relevance_score": 0.8003964567564542,
+      "start_line": 271,
+      "end_line": 346,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.4113002,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d303995a8add",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- 3) Whenever d \u0393 \u03c3 then d Pr = true iff \u03c3 = true.\n\nshows that\n\n3.3. Theorem. Suppose that for a given binary relation \u0393 between constants and sentences of C , substitution is definable and Provability is representable. Then the theory is not complete if it is consistent.\n\nProof . Suppose on the contrary that C (1 , 2) = { false, true } . Our notion of consistency implies that false = true. Condition 3) states that for d \u0393 \u03c3\n\n/negationslash\n\n- a) \u03c3 = true implies d Pr = true\n- b) \u03c3 = true implies d Pr = true\n\n/negationslash\n\n/negationslash\n\nBy completeness b) implies\n\n- b') \u03c3 = false implies d Pr = false\n\nBut a) and b') together with completeness mean that whenever d \u0393 \u03c3 ,\n\n<!-- image -->\n\nis commutative, i.e. that Pr satisfies condition 2) for a Truth-definition, which by our previous theorem yields a contradiction.\n\nNote: Our proposition in section 2. can be interpreted as a fragment of a general theory developed by Eilenberg and Kelly from an idea of Spanier.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "19ba67b850372cd2",
+      "chunk_type": "h2",
+      "relevance_score": 0.7896834945300008,
+      "start_line": 271,
+      "end_line": 346,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.411307,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b1087c3fae65",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.1. Corollary. If satisfaction is definable in the theory then the theory is not consistent.",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Appendix\n\n## Appendix\n\nShortly after this article was published I realized that the relation \u0393 used in section 3. is actually superfluous for the purpose at hand. A mere existential condition suffices because the trace of a specific G\u00a8 odel numbering is not required. The essential content of the contrast between provability (attainable) and a truth definition (unattainable) can as well be expressed simply by requiring less of a given map of the satisfaction type: for every unary formula \u03c6 there should exist a number c that B -represents it in the sense that for every number a the satisfaction map gives the result of substituting a into \u03c6\n\n<!-- formula-not-decoded -->\n\nbut only in case both sides of the equation are in the specified subset B \u2286 C (1 , 2). The usual meaning of representability and provability is thus expressed if B contains at least the two elements true and false; by contrast, completeness is represented if B = C (1 , 2), in other words, if all nullary formulas are in B . However, if the present point of view is\n\nto be extended to include also G\u00a8 odel's second incompleteness theorem, a specific relation between formulas and their numbers may be required.\n\nMathematics Department, State University of New York 244 Mathematics Building, Buffalo, N.Y. 14260-2900 USA\n\nEmail:\n\nwlawvere@buffalo.edu\n\nThis article may be accessed from http://www.tac.mta.ca/tac/reprints or by anonymous ftp at ftp://ftp.tac.mta.ca/pub/tac/html/tac/reprints/articles/15/tr15. { dvi,ps }",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "89dafa305c51750d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7952566540102916,
+      "start_line": 346,
+      "end_line": 373,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Appendix",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847603.411336,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f4572eac8011",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Appendix",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "This article may be accessed from http://www.tac.mta.ca/tac/reprints or by anonymous ftp at ftp://ftp.tac.mta.ca/pub/tac/html/tac/reprints/articles/15/tr15. { dvi,ps }\n\nREPRINTS IN THEORY AND APPLICATIONS OF CATEGORIES will disseminate articles from the body of important literature in Category Theory and closely related subjects which have never been published in journal form, or which have been published in journals whose narrow circulation makes access very difficult. Publication in 'Reprints in Theory and Applications of Categories' will permit free and full dissemination of such documents over the Internet. Articles appearing have been critically reviewed by the Editorial Board of Theory and Applications of Categories . Only articles of lasting significance are considered for publication. Distribution is via the Internet tools WWW/ftp .\n\nSubscription information. Individual subscribers receive (by e-mail) abstracts of articles as they are published. To subscribe, send e-mail to tac@mta.ca including a full name and postal address. For institutional subscription, send enquiries to the Managing Editor.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "691f853a51750d1b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7914765406801054,
+      "start_line": 346,
+      "end_line": 373,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Appendix",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847603.4113421,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_db482e1cf63c",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Appendix",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Subscription information. Individual subscribers receive (by e-mail) abstracts of articles as they are published. To subscribe, send e-mail to tac@mta.ca including a full name and postal address. For institutional subscription, send enquiries to the Managing Editor.\n\nSelection of reprints. After obtaining written permission from any copyright holder, any three TAC Editors may propose a work for TAC Reprints to the Managing Editor. The proposal will be reported to all Editors. The Managing Editor may either accept the proposal or require that the Editors vote on it. Before such a vote, the author, title and original publication data will be circulated to Editors. If a 2/3 majority of those TAC Editors responding within one month agrees, the work will be accepted for TAC Reprints. After a work is accepted, the author or proposer must provide to TAC either a usable TeX source or a PDF document acceptable to the Managing Editor that reproduces a typeset version. Up to five pages of corrections, commentary and forward pointers may be appended by the author. When submitting commentary, authors should read and follow the Format for submission of Theory and Applications of Categories at http://www.tac.mta.ca/tac/ .\n\nManaging editor. Robert Rosebrugh, Mount Allison University: rrosebrugh@mta.ca",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "83bb4d18b14b7ba3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7934782953081716,
+      "start_line": 346,
+      "end_line": 373,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Appendix",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847603.4113479,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_79f78429f714",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Appendix",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Managing editor. Robert Rosebrugh, Mount Allison University: rrosebrugh@mta.ca\n\nT E Xnical editor. Michael Barr, McGill University: mbarr@barrs.org Transmitting editors. Richard Blute, Universit\u00b4 e d' Ottawa: rblute@mathstat.uottawa.ca Lawrence Breen, Universit\u00b4 e de Paris 13: breen@math.univ-paris13.fr Ronald Brown, University of North Wales: r.brown@bangor.ac.uk Aurelio Carboni, Universit` a dell Insubria: aurelio.carboni@uninsubria.it Valeria de Paiva, Xerox Palo Alto Research Center: paiva@parc.xerox.com Ezra Getzler, Northwestern University: getzler(at)math(dot)northwestern(dot)edu Martin Hyland, University of Cambridge: M.Hyland@dpmms.cam.ac.uk P. T. Johnstone, University of Cambridge: ptj@dpmms.cam.ac.uk G. Max Kelly, University of Sydney: maxk@maths.usyd.edu.au Anders Kock, University of Aarhus: kock@imf.au.dk Stephen Lack, University of Western Sydney: s.lack@uws.edu.au F. William Lawvere, State University of New York at Buffalo: wlawvere@acsu.buffalo.edu Jean-Louis Loday, Universit\u00b4 e de Strasbourg: loday@math.u-strasbg.fr Ieke Moerdijk, University of Utrecht: moerdijk@math.uu.nl Susan Niefield, Union College: niefiels@union.edu Robert Par\u00b4 e, Dalhousie University: pare@mathstat.dal.ca Jiri Rosicky, Masaryk University: rosicky@math.muni.cz Brooke Shipley, University of Illinois at Chicago: bshipley@math.uic.edu James Stasheff, University of North Carolina: jds@math.unc.edu Ross Street, Macquarie University: street@math.mq.edu.au Walter Tholen, York University: tholen@mathstat.yorku.ca Myles Tierney, Rutgers University: tierney@math.rutgers.edu Robert F. C. Walters, University of Insubria: robert.walters@uninsubria.it R. J. Wood, Dalhousie University: rjwood@mathstat.dal.ca",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-001_Lawvere_1969_DiagonalArguments.pdf",
+      "chunk_id": "b5fc509f8aed5bdc",
+      "chunk_type": "h2",
+      "relevance_score": 0.796997500286233,
+      "start_line": 346,
+      "end_line": 373,
+      "metadata": {
+        "ref_id": "REF-001",
+        "header": "Appendix",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847603.411354,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_af0f5acc6c4a",
+        "parent_id": "pcl_3236c625b8c5",
+        "ref_id": "REF-001",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847603,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-001_Lawvere_1969_DiagonalArguments.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Appendix",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -105,7 +105,7 @@ steps:
   description: Verify components can be imported and connected
   tool: Bash
   params:
-    command: "cd context-management/tools/ai && \\\npython -c \"\nfrom aci import\
+    command: "cd wave/tools/ai && \\\npython -c \"\nfrom aci import\
       \ (\n    ACI_CONFIG,\n    analyze_query,\n    route_query,\n    HistoryLoader,\n\
       \    execute_research,\n)\nprint('All imports OK')\n\"\n"
   expect: All imports OK
@@ -118,7 +118,7 @@ steps:
     subagent_type: Explore
     prompt: 'Find all validation response files from today:
 
-      - standard-model-of-code/docs/research/gemini/docs/*validation*.md
+      - particle/docs/research/gemini/docs/*validation*.md
 
 
       For each validation:
@@ -151,11 +151,11 @@ steps:
 
       Existing configs to check:
 
-      - context-management/config/aci_config.yaml
+      - wave/config/aci_config.yaml
 
-      - context-management/config/research_schemas.yaml
+      - wave/config/research_schemas.yaml
 
-      - context-management/config/analysis_sets.yaml
+      - wave/config/analysis_sets.yaml
 
       - .agent/schema/*.yaml
 

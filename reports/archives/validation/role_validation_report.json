@@ -18,25 +18,25 @@
   },
   "hardcoded_roles": [
     {
-      "file": "standard-model-of-code/src/core/graph_type_inference.py",
+      "file": "particle/src/core/graph_type_inference.py",
       "line": 189,
       "role_string": "Unknown",
       "recommendation": "Use RoleRegistry.normalize(\"Unknown\") or RoleRegistry.normalize(role)"
     },
     {
-      "file": "standard-model-of-code/src/core/graph_type_inference.py",
+      "file": "particle/src/core/graph_type_inference.py",
       "line": 325,
       "role_string": "Unknown",
       "recommendation": "Use RoleRegistry.normalize(\"Unknown\") or RoleRegistry.normalize(role)"
     },
     {
-      "file": "standard-model-of-code/src/core/graph_type_inference.py",
+      "file": "particle/src/core/graph_type_inference.py",
       "line": 328,
       "role_string": "Unknown",
       "recommendation": "Use RoleRegistry.normalize(\"Unknown\") or RoleRegistry.normalize(role)"
     },
     {
-      "file": "standard-model-of-code/src/core/standard_model_enricher.py",
+      "file": "particle/src/core/standard_model_enricher.py",
       "line": 313,
       "role_string": "Unknown",
       "recommendation": "Use RoleRegistry.normalize(\"Unknown\") or RoleRegistry.normalize(role)"

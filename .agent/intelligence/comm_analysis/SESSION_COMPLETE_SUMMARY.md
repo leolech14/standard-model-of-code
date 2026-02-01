@@ -287,8 +287,8 @@ Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC):
 - `.agent/intelligence/comms/fabric.py` (400+ lines)
 - `.agent/intelligence/comms/state_history.jsonl` (time-series)
 - `.agent/intelligence/comms/alerts.jsonl` (stability alerts)
-- `context-management/tools/ai/deck/fabric_bridge.py` (410 lines)
-- `context-management/tools/refinery/query_chunks.py` (165 lines)
+- `wave/tools/ai/deck/fabric_bridge.py` (410 lines)
+- `wave/tools/refinery/query_chunks.py` (165 lines)
 - `.agent/tools/filesystem_watcher.py` (140 lines)
 - `.agent/intelligence/chunks/cache.yaml` (incremental cache)
 - `.agent/intelligence/chunks/.gitignore` (safety)
@@ -296,12 +296,12 @@ Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC):
 ### Modified (Butler Integration):
 - `.agent/tools/wire.py` (+80 lines - refinery stages + metadata)
 - `.agent/tools/autopilot.py` (+60 lines - comm_fabric integration)
-- `context-management/tools/ai/deck/deck_router.py` (+50 lines - fabric awareness)
-- `context-management/tools/ai/aci/refinery.py` (+90 lines - validation + safety)
-- `context-management/tools/refinery/state_synthesizer.py` (+30 lines - overlap metrics)
+- `wave/tools/ai/deck/deck_router.py` (+50 lines - fabric awareness)
+- `wave/tools/ai/aci/refinery.py` (+90 lines - validation + safety)
+- `wave/tools/refinery/state_synthesizer.py` (+30 lines - overlap metrics)
 - `pe` script (+50 lines - refinery + comm commands)
 - `cloud-entrypoint.sh` (model + limits fix)
-- `context-management/docs/specs/CLOUD_REFINERY_SPEC.md` (L0-L5 → R0-R5)
+- `wave/docs/specs/CLOUD_REFINERY_SPEC.md` (L0-L5 → R0-R5)
 
 ### Documentation (Knowledge Transfer):
 - Investigation logs (14 entries)

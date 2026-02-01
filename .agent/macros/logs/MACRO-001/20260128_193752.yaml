@@ -11,28 +11,28 @@ steps:
   tool: Bash
   outcome: SUCCESS
   output: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_185302.yaml\n\
-    ?? \"context-management/experiments/refinery-dashboard/cloud-refinery-console\
-    \ (5).zip\"\n?? context-management/experiments/refinery-dashboard/reference_design/\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
+    ?? \"wave/experiments/refinery-dashboard/cloud-refinery-console\
+    \ (5).zip\"\n?? wave/experiments/refinery-dashboard/reference_design/\n\
+    ?? particle/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
+    ?? particle/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n\
     \ M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M standard-model-of-code/docs/core/__init__.md\n M standard-model-of-code/docs/core/analytics_engine.md\n\
-    \ M standard-model-of-code/docs/core/atom_loader.md\n M standard-model-of-code/docs/core/atom_registry.md\n\
-    \ M standard-model-of-code/docs/core/brain_download.md\n M standard-model-of-code/docs/core/chart_viewer.md\n\
-    \ M standard-model-of-code/docs/core/classification/__init__.md\n M standard-model-of-code/docs/core/classification/classifier_plugin.md\n\
-    \ M standard-model-of-code/docs/core/classification/ddd_mappings.md\n M standard-model-of-code/docs/core/classification/universal_classifier.md\n\
-    \ M standard-model-of-code/docs/core/constraint_engine.md\n M standard-model-of-code/docs/core/constraint_plugin.md\n\
-    \ M standard-model-of-code/docs/core/control_flow_analyzer.md\n M standard-model-of-code/docs/core/data_flow_analyzer.md\n\
-    \ M standard-model-of-code/docs/core/data_management.md\n"
+    \ M particle/docs/core/__init__.md\n M particle/docs/core/analytics_engine.md\n\
+    \ M particle/docs/core/atom_loader.md\n M particle/docs/core/atom_registry.md\n\
+    \ M particle/docs/core/brain_download.md\n M particle/docs/core/chart_viewer.md\n\
+    \ M particle/docs/core/classification/__init__.md\n M particle/docs/core/classification/classifier_plugin.md\n\
+    \ M particle/docs/core/classification/ddd_mappings.md\n M particle/docs/core/classification/universal_classifier.md\n\
+    \ M particle/docs/core/constraint_engine.md\n M particle/docs/core/constraint_plugin.md\n\
+    \ M particle/docs/core/control_flow_analyzer.md\n M particle/docs/core/data_flow_analyzer.md\n\
+    \ M particle/docs/core/data_management.md\n"
   error: null
   exit_code: 0
 - step_id: check_dead_code
@@ -65,28 +65,28 @@ steps:
   error: null
 variables:
   session_artifacts: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_185302.yaml\n\
-    ?? \"context-management/experiments/refinery-dashboard/cloud-refinery-console\
-    \ (5).zip\"\n?? context-management/experiments/refinery-dashboard/reference_design/\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
+    ?? \"wave/experiments/refinery-dashboard/cloud-refinery-console\
+    \ (5).zip\"\n?? wave/experiments/refinery-dashboard/reference_design/\n\
+    ?? particle/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
+    ?? particle/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/SKEPTICAL_AUDIT_20260128.md\n\
     \ M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M standard-model-of-code/docs/core/__init__.md\n M standard-model-of-code/docs/core/analytics_engine.md\n\
-    \ M standard-model-of-code/docs/core/atom_loader.md\n M standard-model-of-code/docs/core/atom_registry.md\n\
-    \ M standard-model-of-code/docs/core/brain_download.md\n M standard-model-of-code/docs/core/chart_viewer.md\n\
-    \ M standard-model-of-code/docs/core/classification/__init__.md\n M standard-model-of-code/docs/core/classification/classifier_plugin.md\n\
-    \ M standard-model-of-code/docs/core/classification/ddd_mappings.md\n M standard-model-of-code/docs/core/classification/universal_classifier.md\n\
-    \ M standard-model-of-code/docs/core/constraint_engine.md\n M standard-model-of-code/docs/core/constraint_plugin.md\n\
-    \ M standard-model-of-code/docs/core/control_flow_analyzer.md\n M standard-model-of-code/docs/core/data_flow_analyzer.md\n\
-    \ M standard-model-of-code/docs/core/data_management.md\n"
+    \ M particle/docs/core/__init__.md\n M particle/docs/core/analytics_engine.md\n\
+    \ M particle/docs/core/atom_loader.md\n M particle/docs/core/atom_registry.md\n\
+    \ M particle/docs/core/brain_download.md\n M particle/docs/core/chart_viewer.md\n\
+    \ M particle/docs/core/classification/__init__.md\n M particle/docs/core/classification/classifier_plugin.md\n\
+    \ M particle/docs/core/classification/ddd_mappings.md\n M particle/docs/core/classification/universal_classifier.md\n\
+    \ M particle/docs/core/constraint_engine.md\n M particle/docs/core/constraint_plugin.md\n\
+    \ M particle/docs/core/control_flow_analyzer.md\n M particle/docs/core/data_flow_analyzer.md\n\
+    \ M particle/docs/core/data_management.md\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution
   bloat_analysis: Requires manual AI execution

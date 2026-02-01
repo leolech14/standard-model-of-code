@@ -542,9 +542,9 @@ MODULE_ORDER = [
 
 ```bash
 cd /Users/lech/PROJECTS_all/PROJECT_elements
-git add standard-model-of-code/src/core/viz/assets/modules/*.js
-git add standard-model-of-code/src/core/viz/assets/app.js
-git add standard-model-of-code/tools/visualize_graph_webgl.py
+git add particle/src/core/viz/assets/modules/*.js
+git add particle/src/core/viz/assets/app.js
+git add particle/tools/visualize_graph_webgl.py
 git commit -m "Extract 6 modules from app.js (Phase 1): node-helpers, color-helpers, physics, datamap, groups, hover
 
 - node-helpers.js: 11 functions (237 lines)

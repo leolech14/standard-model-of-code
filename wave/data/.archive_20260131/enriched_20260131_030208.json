@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:02:08.504173",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama-3.3-70b",
+    "files_enriched": 10,
+    "elapsed_seconds": 9.52
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "Empty or unused Python script.",
+      "summary": "",
+      "semantic_tags": [
+        "code-analysis",
+        "command-line-interface",
+        "repository-analysis",
+        "static-code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:01:59.916609"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "Validates user interface components.",
+      "summary": "",
+      "semantic_tags": [
+        "ui-validation",
+        "headless-browser-testing",
+        "automation-testing",
+        "test-reporting"
+      ],
+      "enriched_at": "2026-01-31T03:02:00.714424"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs Semgrep mining tool.",
+      "summary": "",
+      "semantic_tags": [
+        "static-code-analysis",
+        "code-pattern-extraction",
+        "rule-mining",
+        "ecosystem-integration"
+      ],
+      "enriched_at": "2026-01-31T03:02:01.754380"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Visualizes graphs using WebGL.",
+      "summary": "",
+      "semantic_tags": [
+        "data-visualization",
+        "webgl",
+        "graph-rendering"
+      ],
+      "enriched_at": "2026-01-31T03:02:02.659553"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Extracts documentation nodes from code.",
+      "summary": "",
+      "semantic_tags": [
+        "documentation-extraction",
+        "content-classification",
+        "node-fragmentation",
+        "information-retrieval"
+      ],
+      "enriched_at": "2026-01-31T03:02:03.621612"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Exports graph data.",
+      "summary": "",
+      "semantic_tags": [
+        "data-export",
+        "graph-conversion",
+        "json-parsing",
+        "parquet-format",
+        "data-migration"
+      ],
+      "enriched_at": "2026-01-31T03:02:04.995340"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Validates control registry.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "authorization",
+        "registry-management",
+        "control-verification"
+      ],
+      "enriched_at": "2026-01-31T03:02:05.768566"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Cleans SCM headers.",
+      "summary": "",
+      "semantic_tags": [
+        "code-refactoring",
+        "query-optimization",
+        "comment-processing",
+        "code-cleanup",
+        "scm-header-processing \n\n(Note: scm stands for Source Control Management or could be specific to the context"
+      ],
+      "enriched_at": "2026-01-31T03:02:06.660882"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Traces pipeline execution.",
+      "summary": "",
+      "semantic_tags": [
+        "pipeline-execution",
+        "data-flow-analysis",
+        "pipeline-validation",
+        "workflow-tracing"
+      ],
+      "enriched_at": "2026-01-31T03:02:07.406793"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs ESLint on codebase for error detection and code quality checks.",
+      "summary": "",
+      "semantic_tags": [
+        "static-code-analysis",
+        "eslint-integration",
+        "frontend-pattern-extraction",
+        "code-conversion"
+      ],
+      "enriched_at": "2026-01-31T03:02:08.504153"
+    }
+  ]
+}

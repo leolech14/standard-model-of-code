@@ -32,7 +32,7 @@ confidence:
   current: 80
   onwards: 83
 related_to:
-- standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md
+- particle/docs/specs/UPB_TASK_REGISTRY.md
 metadata:
   source_id: UPB-6.4
   source_registry: upb

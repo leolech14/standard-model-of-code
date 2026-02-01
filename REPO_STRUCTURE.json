@@ -1,0 +1,255 @@
+{
+  "name": "PROJECT_elements",
+  "purpose": "Standard Model of Code - Theoretical framework treating code like physics",
+  "structure": {
+    "particle": {
+      "purpose": "PARTICLE layer - Code analysis engine (Collider)",
+      "content": "Core codebase analyzer, CLI, type system, visualizations",
+      "children": {
+        "cli.py": {
+          "purpose": "Main entry point",
+          "content": "Collider unified CLI commands"
+        },
+        "src": {
+          "purpose": "Source code",
+          "content": "Core analysis engine",
+          "children": {
+            "core": {
+              "purpose": "Analysis pipeline",
+              "content": "full_analysis.py, brain_download.py, viz/"
+            },
+            "app": {
+              "purpose": "Application layer",
+              "content": "Web interface components"
+            },
+            "integrations": {
+              "purpose": "External integrations",
+              "content": "flash-ui, IDE plugins"
+            },
+            "patterns": {
+              "purpose": "Pattern detection",
+              "content": "Code pattern matchers"
+            },
+            "tools": {
+              "purpose": "Internal tools",
+              "content": "Helper utilities"
+            }
+          }
+        },
+        "schema": {
+          "purpose": "Type definitions",
+          "content": "167 atom types, constraints, crosswalks",
+          "children": {
+            "atoms": { "purpose": "Atom type definitions", "content": "JSON schema files" },
+            "constraints": { "purpose": "Validation rules", "content": "Type constraints" },
+            "crosswalks": { "purpose": "Type mappings", "content": "Language crosswalks" },
+            "ground_truth": { "purpose": "Reference data", "content": "Validated examples" }
+          }
+        },
+        "docs": {
+          "purpose": "Documentation",
+          "content": "Theory, specs, patterns",
+          "children": {
+            "theory": { "purpose": "SMC theory", "content": "L0_AXIOMS, L1_DEFINITIONS, L2_LAWS" },
+            "research": { "purpose": "Research outputs", "content": "Gemini/Perplexity results" },
+            "specs": { "purpose": "Technical specs", "content": "API and format specs" }
+          }
+        },
+        "tests": {
+          "purpose": "Test suite",
+          "content": "pytest tests (406 passing)"
+        },
+        "proofs": {
+          "purpose": "Formal proofs",
+          "content": "Mathematical proofs for theory"
+        },
+        "output": {
+          "purpose": "Analysis outputs",
+          "content": "Generated HTML/JSON from runs"
+        }
+      }
+    },
+    "wave": {
+      "purpose": "WAVE layer - Context management and AI tools",
+      "content": "AI analysis, refinery, intelligence gathering",
+      "children": {
+        "tools": {
+          "purpose": "AI and processing tools",
+          "content": "All Python tooling",
+          "children": {
+            "ai": {
+              "purpose": "AI integrations",
+              "content": "analyze.py, cerebras_*.py, gemini_*.py, perplexity_research.py"
+            },
+            "refinery": {
+              "purpose": "Context refinery",
+              "content": "pipeline.py, docs_audit.py, reference_analyzer.py"
+            },
+            "docling_processor": {
+              "purpose": "PDF processing",
+              "content": "IBM Docling batch processor"
+            },
+            "archive": {
+              "purpose": "GCS archiver",
+              "content": "Cloud storage tools"
+            },
+            "graphrag": {
+              "purpose": "Graph RAG",
+              "content": "Neo4j integration"
+            },
+            "docsintel": {
+              "purpose": "Document intelligence",
+              "content": "Doc analysis tools"
+            }
+          }
+        },
+        "intelligence": {
+          "purpose": "AI-generated intelligence",
+          "content": "Corpus inventory, boundaries, atoms",
+          "children": {
+            "atoms": { "purpose": "Extracted atoms", "content": "JSON atom files" },
+            "state": { "purpose": "System state", "content": "Current state snapshots" },
+            "chunks": { "purpose": "Text chunks", "content": "RAG-ready chunks" },
+            "logs": { "purpose": "Processing logs", "content": "HSL daemon logs" }
+          }
+        },
+        "data": {
+          "purpose": "Data storage",
+          "content": "Enriched data, repo maps, tags",
+          "children": {
+            "enriched": { "purpose": "Enriched outputs", "content": "AI-enriched JSON" },
+            "repo_map": { "purpose": "Repository maps", "content": "Codebase structure maps" },
+            "tags": { "purpose": "Tag data", "content": "Classification tags" },
+            "collider_runs": { "purpose": "Run history", "content": "Previous analysis runs" }
+          }
+        },
+        "config": {
+          "purpose": "Configuration",
+          "content": "analysis_sets.yaml, registries"
+        },
+        "experiments": {
+          "purpose": "Experimental UIs",
+          "content": "Dashboard prototypes",
+          "children": {
+            "refinery-platform": { "purpose": "Multi-tenant platform", "content": "Next.js app" },
+            "refinery-dashboard": { "purpose": "Single dashboard", "content": "React app" }
+          }
+        },
+        "library": {
+          "purpose": "Archive/legacy",
+          "content": "Old code, dead code, orphaned files",
+          "children": {
+            "dead_code": { "purpose": "Removed code", "content": "Archived dead code" },
+            "zombie_code": { "purpose": "Inactive code", "content": "Dormant code" },
+            "legacy": { "purpose": "Legacy code", "content": "Old implementations" }
+          }
+        },
+        "viz": {
+          "purpose": "Visualizations",
+          "content": "Dashboard UIs"
+        }
+      }
+    },
+    "observer": {
+      "purpose": "OBSERVER layer - Control Room UI",
+      "content": "Unified interface for file exploration and monitoring",
+      "children": {
+        "merged": {
+          "purpose": "Final merged application",
+          "content": "Combined frontend + backend",
+          "children": {
+            "frontend": {
+              "purpose": "React/Vite UI",
+              "content": "Dashboard.tsx, components/, hooks/"
+            },
+            "backend": {
+              "purpose": "FastAPI server",
+              "content": "main.py, routes/, auth/, services/"
+            }
+          }
+        },
+        "source-a": {
+          "purpose": "Original File Explorer",
+          "content": "Source for merge (68KB Dashboard)"
+        },
+        "source-b": {
+          "purpose": "Original Refinery Dashboard",
+          "content": "Source for merge"
+        },
+        "analysis": {
+          "purpose": "Merge analysis",
+          "content": "Comparison and gap analysis"
+        },
+        "docs": {
+          "purpose": "Documentation",
+          "content": "Control Room docs"
+        }
+      }
+    },
+    ".agent": {
+      "purpose": "Agent system configuration",
+      "content": "Deck, macros, state, intelligence",
+      "children": {
+        "deck": { "purpose": "Task cards", "content": "CARD-*.yaml opportunity cards" },
+        "intelligence": { "purpose": "Agent knowledge", "content": "Audit results, logs" },
+        "macros": { "purpose": "Automation macros", "content": "Trigger definitions" },
+        "state": { "purpose": "Runtime state", "content": "Autopilot state, circuit breakers" },
+        "config": { "purpose": "Agent config", "content": "Settings" }
+      }
+    },
+    ".claude": {
+      "purpose": "Claude Code configuration",
+      "content": "Rules and settings",
+      "children": {
+        "rules": { "purpose": "Path-specific rules", "content": "brain.md, body.md" }
+      }
+    },
+    "docs": {
+      "purpose": "Root documentation",
+      "content": "AI models, billing, ecosystem maps"
+    },
+    "governance": {
+      "purpose": "Project governance",
+      "content": "DECISIONS.md, ROADMAP.md, QUALITY_GATES.md, CHANGELOG.md"
+    },
+    "scripts": {
+      "purpose": "Shell scripts",
+      "content": "Cerebras proxy, model switching, utilities"
+    },
+    "tools": {
+      "purpose": "Standalone tools",
+      "content": "File explorer, experiments"
+    },
+    "models": {
+      "purpose": "ML models",
+      "content": "Model definitions and weights"
+    },
+    "archive": {
+      "purpose": "Archived content",
+      "content": "Old versions and backups"
+    },
+    "research": {
+      "purpose": "Research materials",
+      "content": "Papers, references"
+    },
+    "reports": {
+      "purpose": "Generated reports",
+      "content": "Analysis reports"
+    },
+    "assets": {
+      "purpose": "Static assets",
+      "content": "Images, icons"
+    }
+  },
+  "statistics": {
+    "particle_files": 13092,
+    "wave_files": 7629,
+    "observer_files": 89,
+    "total_estimated": 21000
+  },
+  "smc_layers": {
+    "PARTICLE": "particle/ - Code structure (what IS)",
+    "WAVE": "wave/ - Context distribution (what it MEANS)",
+    "OBSERVER": "observer/ - Interface (how we SEE it)"
+  }
+}

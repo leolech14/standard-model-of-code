@@ -1,0 +1,223 @@
+{
+  "timestamp": "2025-12-03 21:12:37",
+  "summary": {
+    "repos_tested": 5,
+    "critical_failures": 5,
+    "zero_coverage_rate": 100,
+    "main_cause": "Parsing system fundamentalmente quebrado",
+    "urgency": "CRITICAL"
+  },
+  "verdict": "SYSTEM NEEDS COMPLETE REWRITE",
+  "analysis": {
+    "critical_failures": [
+      {
+        "repo": "django/django",
+        "quark_match": false,
+        "hadron_detection_rate": 0,
+        "main_issues": [
+          "No elements detected",
+          "2884 .py files analyzed but 0 classified"
+        ],
+        "expected_patterns": [
+          "Django REST Framework - @api_view, @permission_classes",
+          "Models com fields, methods save(), delete()",
+          "Middleware classes com process_request/response",
+          "Forms com validate() e clean()",
+          "Views com get/post/put/delete methods"
+        ]
+      },
+      {
+        "repo": "numpy/numpy",
+        "quark_match": false,
+        "hadron_detection_rate": 0,
+        "main_issues": [
+          "490 .py files, 179 .c files but no hadrons detected"
+        ],
+        "expected_patterns": [
+          "Fun\u00e7\u00f5es numpy: np.array, np.sum, np.mean",
+          "ufuncs com @vectorize decorator",
+          "Cython functions com cdef",
+          "Array operations, broadcasting",
+          "Mathematical functions"
+        ]
+      },
+      {
+        "repo": "expressjs/express",
+        "quark_match": false,
+        "hadron_detection_rate": 0,
+        "main_issues": [
+          "142 .js files analyzed but 0 classified"
+        ],
+        "expected_patterns": [
+          "app.use(middleware)",
+          "app.get('/path', handler)",
+          "router.get('/path', handler)",
+          "Event emitters: emit('event', data)",
+          "Stream processing: pipe(), on('data')"
+        ]
+      },
+      {
+        "repo": "golang/go",
+        "quark_match": false,
+        "hadron_detection_rate": 0,
+        "main_issues": [
+          "10997 .go files but extraction failed due to directory errors"
+        ],
+        "expected_patterns": [
+          "Package 'package main'",
+          "func main() entry point",
+          "go/parser Parse functions",
+          "Code generation tools: go generate",
+          "Interface implementations"
+        ]
+      },
+      {
+        "repo": "torvalds/linux",
+        "quark_match": false,
+        "hadron_detection_rate": 0,
+        "main_issues": [
+          "36006 .c files analyzed but 0 classified"
+        ],
+        "expected_patterns": [
+          "Kernel modules: module_init(), module_exit()",
+          "Driver structures: file_operations, device_driver",
+          "Interrupt handlers: IRQHANDLER",
+          "Sysfs entries, proc entries",
+          "Boot parameters: __setup(), core_param()"
+        ]
+      }
+    ],
+    "root_causes": {
+      "regex_patterns_too_simple": {
+        "severity": "CRITICAL",
+        "description": "Padr\u00f5es regex n\u00e3o capturam estruturas reais",
+        "evidence": [
+          "Django: N\u00e3o detecta @api_view, @permission_classes",
+          "Express: N\u00e3o detecta app.use(), app.get()",
+          "Go: N\u00e3o detecta func main(), package main",
+          "NumPy: N\u00e3o detecta np.*, cdef functions"
+        ],
+        "impact": "100% dos hadrons n\u00e3o detectados"
+      },
+      "missing_ast_parsing": {
+        "severity": "CRITICAL",
+        "description": "Fallback para regex sem suporte AST efetivo",
+        "evidence": [
+          "Sem tree-sitter para linguagens principais",
+          "Parsing baseado apenas em express\u00f5es regulares",
+          "Sem an\u00e1lise contextual de decorators/modifiers"
+        ],
+        "impact": "Cobertura 0% em todos os repos"
+      },
+      "language_specific_constructs": {
+        "severity": "HIGH",
+        "description": "Construtos espec\u00edficos de linguagem n\u00e3o tratados",
+        "evidence": [
+          "Python decorators (@decorator)",
+          "Go package declarations",
+          "C kernel module macros (MODULE_INIT, etc)",
+          "JavaScript require/module.exports"
+        ],
+        "impact": "Padr\u00f5es modernos completamente ignorados"
+      },
+      "no_hierarchical_analysis": {
+        "severity": "HIGH",
+        "description": "An\u00e1lise apenas linha-a-linha sem contexto",
+        "evidence": [
+          "Classe analisada como m\u00faltiplas linhas soltas",
+          "Rela\u00e7\u00f5es pai-filho n\u00e3o detectadas",
+          "Imports tratados como statements gen\u00e9ricos"
+        ],
+        "impact": "Estrutura do c\u00f3digo perdida"
+      },
+      "multi_line_constructs": {
+        "severity": "MEDIUM",
+        "description": "Construtos multi-linha n\u00e3o capturados",
+        "evidence": [
+          "Classes e fun\u00e7\u00f5es com m\u00faltiplas linhas",
+          "Decorators com m\u00faltiplas linhas",
+          "C preprocessor directives"
+        ],
+        "impact": "Elementos complexos ignorados"
+      }
+    },
+    "patterns": [
+      {
+        "pattern": "DETE\u00c7\u00c3O ZERO UNIVERSAL",
+        "frequency": "100% (5/5 repos)",
+        "description": "Todos os reposit\u00f3rios com 0% de hadrons detectados",
+        "cause": "Parsing fundamentalmente quebrado",
+        "examples": [
+          "Django: 0 de 2884 arquivos Python detectados",
+          "Express: 0 de 142 arquivos JS detectados"
+        ]
+      },
+      {
+        "pattern": "QUARK DOMINANTE SEMPRE NULO",
+        "frequency": "100% (5/5 repos)",
+        "description": "Nenhum quark dominante foi identificado",
+        "cause": "Classifica\u00e7\u00e3o base n\u00e3o funciona",
+        "examples": [
+          "Esperado FUNCTIONS/AGGREGATES \u2192 Detectado: None"
+        ]
+      },
+      {
+        "pattern": "PARADIGMAS MODERNOS IGNORADOS",
+        "frequency": "100%",
+        "description": "Decorators, async/await, type hints completamente ignorados",
+        "cause": "Padr\u00f5es regex obsoletos",
+        "examples": [
+          "@api_view, async def, @Inject, @Component n\u00e3o detectados"
+        ]
+      },
+      {
+        "pattern": "FALHA EM MULTI-LINGUAGEM",
+        "frequency": "100%",
+        "description": "Motor falha em todas as linguagens testadas",
+        "cause": "Apenas patterns Python implementados",
+        "examples": [
+          "Go: package main n\u00e3o reconhecido",
+          "C: MODULE_INIT n\u00e3o detectado"
+        ]
+      }
+    ],
+    "recommendations": [
+      {
+        "priority": "IMMEDIATE (24h)",
+        "task": "Implementar tree-sitter para Python e JavaScript",
+        "reason": "Parsing atual est\u00e1 100% quebrado",
+        "expected_improvement": "60-80% coverage",
+        "implementation": "pip install tree-sitter-python tree-sitter-javascript"
+      },
+      {
+        "priority": "IMMEDIATE (24h)",
+        "task": "Corrigir regex patterns fundamentais",
+        "reason": "Padr\u00f5es atuais n\u00e3o detectam nada",
+        "expected_improvement": "30-40% coverage",
+        "examples": [
+          "Python: r'@\\w+' para decorators",
+          "JS: r'app\\.(get|post|put|delete)\\(' para handlers",
+          "Go: r'func\\s+main\\s*\\(' para entry points"
+        ]
+      },
+      {
+        "priority": "SHORT (1 semana)",
+        "task": "Implementar parsing AST multi-linha",
+        "reason": "Classes/fun\u00e7\u00f5es multi-linha n\u00e3o detectadas",
+        "expected_improvement": "20-30% coverage",
+        "approach": "Analisar blocos inteiros vs linha-a-linha"
+      },
+      {
+        "priority": "MEDIUM (2 semanas)",
+        "task": "Adicionar suporte a construtos espec\u00edficos",
+        "reason": "Decorators, annotations, macros ignorados",
+        "expected_improvement": "15-20% coverage",
+        "examples": [
+          "Python: @decorator pattern matching",
+          "Java: @Autowired, @RestController",
+          "C: MODULE_LICENSE, MODULE_AUTHOR macros"
+        ]
+      }
+    ]
+  }
+}

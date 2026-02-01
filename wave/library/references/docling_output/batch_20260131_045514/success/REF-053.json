@@ -1,0 +1,5304 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.9.0",
+  "name": "REF-053_Rice_1953_RecursivelyEnumerableSets",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 3647614303855722292,
+    "filename": "REF-053_Rice_1953_RecursivelyEnumerableSets.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/texts/4"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/texts/21"
+      },
+      {
+        "$ref": "#/texts/22"
+      },
+      {
+        "$ref": "#/texts/23"
+      },
+      {
+        "$ref": "#/texts/24"
+      },
+      {
+        "$ref": "#/texts/25"
+      },
+      {
+        "$ref": "#/texts/26"
+      },
+      {
+        "$ref": "#/texts/27"
+      },
+      {
+        "$ref": "#/texts/28"
+      },
+      {
+        "$ref": "#/texts/29"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/texts/31"
+      },
+      {
+        "$ref": "#/texts/32"
+      },
+      {
+        "$ref": "#/texts/33"
+      },
+      {
+        "$ref": "#/texts/34"
+      },
+      {
+        "$ref": "#/texts/35"
+      },
+      {
+        "$ref": "#/texts/36"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/texts/40"
+      },
+      {
+        "$ref": "#/texts/41"
+      },
+      {
+        "$ref": "#/texts/42"
+      },
+      {
+        "$ref": "#/texts/43"
+      },
+      {
+        "$ref": "#/texts/44"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/texts/46"
+      },
+      {
+        "$ref": "#/texts/47"
+      },
+      {
+        "$ref": "#/texts/48"
+      },
+      {
+        "$ref": "#/texts/49"
+      },
+      {
+        "$ref": "#/texts/50"
+      },
+      {
+        "$ref": "#/texts/51"
+      },
+      {
+        "$ref": "#/texts/52"
+      },
+      {
+        "$ref": "#/texts/53"
+      },
+      {
+        "$ref": "#/texts/54"
+      },
+      {
+        "$ref": "#/texts/55"
+      },
+      {
+        "$ref": "#/texts/56"
+      },
+      {
+        "$ref": "#/texts/57"
+      },
+      {
+        "$ref": "#/texts/58"
+      },
+      {
+        "$ref": "#/texts/59"
+      },
+      {
+        "$ref": "#/texts/60"
+      },
+      {
+        "$ref": "#/texts/61"
+      },
+      {
+        "$ref": "#/texts/62"
+      },
+      {
+        "$ref": "#/texts/63"
+      },
+      {
+        "$ref": "#/texts/64"
+      },
+      {
+        "$ref": "#/texts/65"
+      },
+      {
+        "$ref": "#/texts/66"
+      },
+      {
+        "$ref": "#/texts/67"
+      },
+      {
+        "$ref": "#/texts/68"
+      },
+      {
+        "$ref": "#/texts/69"
+      },
+      {
+        "$ref": "#/texts/70"
+      },
+      {
+        "$ref": "#/texts/71"
+      },
+      {
+        "$ref": "#/texts/72"
+      },
+      {
+        "$ref": "#/texts/73"
+      },
+      {
+        "$ref": "#/texts/74"
+      },
+      {
+        "$ref": "#/texts/75"
+      },
+      {
+        "$ref": "#/texts/76"
+      },
+      {
+        "$ref": "#/texts/77"
+      },
+      {
+        "$ref": "#/texts/78"
+      },
+      {
+        "$ref": "#/texts/79"
+      },
+      {
+        "$ref": "#/texts/80"
+      },
+      {
+        "$ref": "#/texts/81"
+      },
+      {
+        "$ref": "#/texts/82"
+      },
+      {
+        "$ref": "#/texts/83"
+      },
+      {
+        "$ref": "#/texts/84"
+      },
+      {
+        "$ref": "#/texts/85"
+      },
+      {
+        "$ref": "#/texts/86"
+      },
+      {
+        "$ref": "#/texts/87"
+      },
+      {
+        "$ref": "#/texts/88"
+      },
+      {
+        "$ref": "#/texts/89"
+      },
+      {
+        "$ref": "#/texts/90"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/texts/92"
+      },
+      {
+        "$ref": "#/texts/93"
+      },
+      {
+        "$ref": "#/texts/94"
+      },
+      {
+        "$ref": "#/groups/1"
+      },
+      {
+        "$ref": "#/texts/96"
+      },
+      {
+        "$ref": "#/groups/2"
+      },
+      {
+        "$ref": "#/texts/98"
+      },
+      {
+        "$ref": "#/groups/3"
+      },
+      {
+        "$ref": "#/texts/100"
+      },
+      {
+        "$ref": "#/groups/4"
+      },
+      {
+        "$ref": "#/texts/102"
+      },
+      {
+        "$ref": "#/texts/103"
+      },
+      {
+        "$ref": "#/texts/104"
+      },
+      {
+        "$ref": "#/texts/105"
+      },
+      {
+        "$ref": "#/texts/106"
+      },
+      {
+        "$ref": "#/texts/107"
+      },
+      {
+        "$ref": "#/texts/108"
+      },
+      {
+        "$ref": "#/texts/109"
+      },
+      {
+        "$ref": "#/texts/110"
+      },
+      {
+        "$ref": "#/texts/111"
+      },
+      {
+        "$ref": "#/texts/112"
+      },
+      {
+        "$ref": "#/texts/113"
+      },
+      {
+        "$ref": "#/texts/114"
+      },
+      {
+        "$ref": "#/texts/115"
+      },
+      {
+        "$ref": "#/texts/116"
+      },
+      {
+        "$ref": "#/texts/117"
+      },
+      {
+        "$ref": "#/texts/118"
+      },
+      {
+        "$ref": "#/texts/119"
+      },
+      {
+        "$ref": "#/texts/120"
+      },
+      {
+        "$ref": "#/texts/121"
+      },
+      {
+        "$ref": "#/texts/122"
+      },
+      {
+        "$ref": "#/texts/123"
+      },
+      {
+        "$ref": "#/texts/124"
+      },
+      {
+        "$ref": "#/texts/125"
+      },
+      {
+        "$ref": "#/texts/126"
+      },
+      {
+        "$ref": "#/texts/127"
+      },
+      {
+        "$ref": "#/texts/128"
+      },
+      {
+        "$ref": "#/texts/129"
+      },
+      {
+        "$ref": "#/texts/130"
+      },
+      {
+        "$ref": "#/texts/131"
+      },
+      {
+        "$ref": "#/texts/132"
+      },
+      {
+        "$ref": "#/texts/133"
+      },
+      {
+        "$ref": "#/texts/134"
+      },
+      {
+        "$ref": "#/texts/135"
+      },
+      {
+        "$ref": "#/texts/136"
+      },
+      {
+        "$ref": "#/texts/137"
+      },
+      {
+        "$ref": "#/texts/138"
+      },
+      {
+        "$ref": "#/texts/139"
+      },
+      {
+        "$ref": "#/texts/140"
+      },
+      {
+        "$ref": "#/texts/141"
+      },
+      {
+        "$ref": "#/texts/142"
+      },
+      {
+        "$ref": "#/texts/143"
+      },
+      {
+        "$ref": "#/texts/144"
+      },
+      {
+        "$ref": "#/texts/145"
+      },
+      {
+        "$ref": "#/groups/5"
+      },
+      {
+        "$ref": "#/texts/147"
+      },
+      {
+        "$ref": "#/texts/148"
+      },
+      {
+        "$ref": "#/texts/149"
+      },
+      {
+        "$ref": "#/texts/150"
+      },
+      {
+        "$ref": "#/texts/151"
+      },
+      {
+        "$ref": "#/texts/152"
+      },
+      {
+        "$ref": "#/texts/153"
+      },
+      {
+        "$ref": "#/groups/6"
+      },
+      {
+        "$ref": "#/texts/155"
+      },
+      {
+        "$ref": "#/texts/156"
+      },
+      {
+        "$ref": "#/groups/7"
+      },
+      {
+        "$ref": "#/texts/165"
+      },
+      {
+        "$ref": "#/texts/166"
+      },
+      {
+        "$ref": "#/texts/167"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/91"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/95"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/97"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/99"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/101"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/146"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/154"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/157"
+        },
+        {
+          "$ref": "#/texts/158"
+        },
+        {
+          "$ref": "#/texts/159"
+        },
+        {
+          "$ref": "#/texts/160"
+        },
+        {
+          "$ref": "#/texts/161"
+        },
+        {
+          "$ref": "#/texts/162"
+        },
+        {
+          "$ref": "#/texts/163"
+        },
+        {
+          "$ref": "#/texts/164"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 71.4,
+            "t": 555.2779829101563,
+            "r": 365.229,
+            "b": 531.6669829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            71
+          ]
+        }
+      ],
+      "orig": "CLASSES OF RECURSIVELY  ENUMERABLE SETS AND THEIR  DECISION  PROBLEMS^)",
+      "text": "CLASSES OF RECURSIVELY  ENUMERABLE SETS AND THEIR  DECISION  PROBLEMS^)",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 213.96,
+            "t": 523.0029829101563,
+            "r": 223.26,
+            "b": 516.9199829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "BY",
+      "text": "BY"
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 194.28,
+            "t": 512.6339829101563,
+            "r": 242.545,
+            "b": 504.0989829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "H.  G.  RICE",
+      "text": "H.  G.  RICE",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 45.0,
+            "t": 495.31598291015627,
+            "r": 391.203,
+            "b": 402.8939829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            590
+          ]
+        }
+      ],
+      "orig": "1.  Introduction. In this paper we  consider classes whose elements are  recursively enumerable sets of  non-negative integers. No  discussion of  recursively enumerable sets can avoid the use  of  such classes, so  that it  seems desirable to  know some of their properties. We  give our attention here to  the properties of  complete recursive enumerability and complete recursiveness (which may be intuitively interpreted as decidability). Perhaps our most interesting result (and the one which gives this paper its  name) is  the fact that no  nontrivial class is  completely recursive.",
+      "text": "1.  Introduction. In this paper we  consider classes whose elements are  recursively enumerable sets of  non-negative integers. No  discussion of  recursively enumerable sets can avoid the use  of  such classes, so  that it  seems desirable to  know some of their properties. We  give our attention here to  the properties of  complete recursive enumerability and complete recursiveness (which may be intuitively interpreted as decidability). Perhaps our most interesting result (and the one which gives this paper its  name) is  the fact that no  nontrivial class is  completely recursive."
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 45.24,
+            "t": 399.4459829101563,
+            "r": 389.798,
+            "b": 379.1319829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            144
+          ]
+        }
+      ],
+      "orig": "We assume familiarity with a paper of Kleene [5](2), and with ideas which are well  summarized in  the first sections of  a  paper of  Post \u00cd7].",
+      "text": "We assume familiarity with a paper of Kleene [5](2), and with ideas which are well  summarized in  the first sections of  a  paper of  Post \u00cd7]."
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 150.36,
+            "t": 368.08998291015627,
+            "r": 275.65,
+            "b": 359.0099829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "I.  Fundamental definitions",
+      "text": "I.  Fundamental definitions",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 45.48,
+            "t": 351.7239829101563,
+            "r": 392.9,
+            "b": 270.8689829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            485
+          ]
+        }
+      ],
+      "orig": "2. Partial recursive functions. We  shall characterize recursively enumerable (r.e.) sets of  non-negative integers by  the partial recursive functions of Kleene. The set characterized (or, as  we  shall say  more frequently, enumerated) by a partial recursive function of  one variable will be taken as the range of  values of  the function. A  function undefined for  all  arguments (and thus producing no  values) will be  considered to  produce an enumeration of the  empty set  o.",
+      "text": "2. Partial recursive functions. We  shall characterize recursively enumerable (r.e.) sets of  non-negative integers by  the partial recursive functions of Kleene. The set characterized (or, as  we  shall say  more frequently, enumerated) by a partial recursive function of  one variable will be taken as the range of  values of  the function. A  function undefined for  all  arguments (and thus producing no  values) will be  considered to  produce an enumeration of the  empty set  o."
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 45.96,
+            "t": 267.7959829101563,
+            "r": 399.155,
+            "b": 175.21498291015632,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            589
+          ]
+        }
+      ],
+      "orig": "Kleene has  shown [5,  pp. 50-58] that a  G\u00f6del enumeration of  the partial recursive functions is  possible, so  that we  may designate any partial recursive function of  one  variable as  <j>n(x),  where n  is  a  G\u00f6del number of  the function. Actually, it requires only a  minor adjustment of Kleene's constructions to insure that, not only does every function have at least one  number, but that every non-negative integer n  is the  number of  some  function. We  shall  assume this to  be  the situation, and shall make one other minor adjustment: <t>o(x) is  the identity function.",
+      "text": "Kleene has  shown [5,  pp. 50-58] that a  G\u00f6del enumeration of  the partial recursive functions is  possible, so  that we  may designate any partial recursive function of  one  variable as  <j>n(x),  where n  is  a  G\u00f6del number of  the function. Actually, it requires only a  minor adjustment of Kleene's constructions to insure that, not only does every function have at least one  number, but that every non-negative integer n  is the  number of  some  function. We  shall  assume this to  be  the situation, and shall make one other minor adjustment: <t>o(x) is  the identity function."
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 46.2,
+            "t": 171.8049829101563,
+            "r": 390.82,
+            "b": 151.33198291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            126
+          ]
+        }
+      ],
+      "orig": "Kleene further showed the  existence of a  recursive predicate 7\"(x, y,  z) and a  primitive recursive function U(x) such that",
+      "text": "Kleene further showed the  existence of a  recursive predicate 7\"(x, y,  z) and a  primitive recursive function U(x) such that"
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 46.44,
+            "t": 142.65598291015635,
+            "r": 393.098,
+            "b": 115.05598291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            222
+          ]
+        }
+      ],
+      "orig": "Presented to  the Society, December 28,  1951;  received by the editors of  the Journal for Symbolic Logic, November 16,  1951,  subsequently transferred to the Transactions, and received  in revised  form  May  26,  1952.",
+      "text": "Presented to  the Society, December 28,  1951;  received by the editors of  the Journal for Symbolic Logic, November 16,  1951,  subsequently transferred to the Transactions, and received  in revised  form  May  26,  1952."
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 47.16,
+            "t": 112.79598291015634,
+            "r": 390.128,
+            "b": 85.31498291015623,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            248
+          ]
+        }
+      ],
+      "orig": "(')  Most of  the results in this paper were contained in  a  thesis written under Professor Paul Rosenbloom, to  whom the author wishes to  express his  gratitude, and presented toward the  degree of  Doctor of  Philosophy at  Syracuse University.",
+      "text": "(')  Most of  the results in this paper were contained in  a  thesis written under Professor Paul Rosenbloom, to  whom the author wishes to  express his  gratitude, and presented toward the  degree of  Doctor of  Philosophy at  Syracuse University."
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 64.2,
+            "t": 82.57598291015631,
+            "r": 335.211,
+            "b": 75.58398291015624,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            80
+          ]
+        }
+      ],
+      "orig": "(l)  Numbers in  brackets refer to  the bibliography at the  end of  the  paper.",
+      "text": "(l)  Numbers in  brackets refer to  the bibliography at the  end of  the  paper."
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 212.76,
+            "t": 68.26598291015625,
+            "r": 228.66,
+            "b": 58.640982910156254,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "358",
+      "text": "358"
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 98.76,
+            "t": 609.4849829101563,
+            "r": 318.133,
+            "b": 601.0409829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            41
+          ]
+        }
+      ],
+      "orig": "CLASSES OF  RECURSIVELY  ENUMERABLE  SETS",
+      "text": "CLASSES OF  RECURSIVELY  ENUMERABLE  SETS"
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 365.88,
+            "t": 609.4849829101563,
+            "r": 379.83,
+            "b": 601.0409829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "359",
+      "text": "359"
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 133.56,
+            "t": 586.1549829101563,
+            "r": 288.644,
+            "b": 577.7109829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            36
+          ]
+        }
+      ],
+      "orig": "4>n(x) = $(\u00ab, x)  = U(pyT(n, x,  y))",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.48,
+            "t": 568.0359829101562,
+            "r": 379.451,
+            "b": 547.7409829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            100
+          ]
+        }
+      ],
+      "orig": "so that every partial recursive function of  one variable can be written as <!>(\u00ab,  x)  for  some n.",
+      "text": "so that every partial recursive function of  one variable can be written as <!>(\u00ab,  x)  for  some n."
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.48,
+            "t": 543.9669829101563,
+            "r": 379.857,
+            "b": 511.7719829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            194
+          ]
+        }
+      ],
+      "orig": "This numbering enables us  to  characterize a  class A  of  sets by the set of all  w's  such that i>(w, x)  enumerates a  set  of  A,  which leads to  the definitions in  the following section.",
+      "text": "This numbering enables us  to  characterize a  class A  of  sets by the set of all  w's  such that i>(w, x)  enumerates a  set  of  A,  which leads to  the definitions in  the following section."
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 49.32,
+            "t": 508.7889829101563,
+            "r": 118.545,
+            "b": 499.6189829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "3.  Definitions^).",
+      "text": "3.  Definitions^).",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.48,
+            "t": 496.1959829101563,
+            "r": 379.98,
+            "b": 452.0949829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            311
+          ]
+        }
+      ],
+      "orig": "Definition. A  class A  is  recursively enumerable if  there exists a  partial recursive function <\u00ef>(r, x) with the following property: a  set  aCZA if  and only if  there is  a  number a  such that <E>($(r, a), x)  enumerates a. The set  \u00df enumerated by  <3?(r,  x)  is  called a  recursive enumeration of  A.",
+      "text": "Definition. A  class A  is  recursively enumerable if  there exists a  partial recursive function <\u00ef>(r, x) with the following property: a  set  aCZA if  and only if  there is  a  number a  such that <E>($(r, a), x)  enumerates a. The set  \u00df enumerated by  <3?(r,  x)  is  called a  recursive enumeration of  A."
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.24,
+            "t": 448.4259829101563,
+            "r": 380.612,
+            "b": 356.1319829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            614
+          ]
+        }
+      ],
+      "orig": "Definition. A  class A  is  completely recursively enumerable (c.r.e.) if  there exists a partial recursive function $>(r,  x) with the following property: a partial recursive function <E>(a,  x) enumerates a set a of  A if  and only if there exists a  number b such that $(r, 6) = a.  The set  of  all  w's  such that $(n, x) enumerates a  set of  A  we  shall denote by  9a-  A  is  c.r.e. if  and only if  8a  is  r.e. From the fact that there are infinitely many partial recursive functions enumerating each r.e. set, it  follows that 6a  is  always either infinite or  empty (in  case A  is  the empty class).",
+      "text": "Definition. A  class A  is  completely recursively enumerable (c.r.e.) if  there exists a partial recursive function $>(r,  x) with the following property: a partial recursive function <E>(a,  x) enumerates a set a of  A if  and only if there exists a  number b such that $(r, 6) = a.  The set  of  all  w's  such that $(n, x) enumerates a  set of  A  we  shall denote by  9a-  A  is  c.r.e. if  and only if  8a  is  r.e. From the fact that there are infinitely many partial recursive functions enumerating each r.e. set, it  follows that 6a  is  always either infinite or  empty (in  case A  is  the empty class)."
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.48,
+            "t": 352.4869829101563,
+            "r": 377.127,
+            "b": 332.0519829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            82
+          ]
+        }
+      ],
+      "orig": "Lemma A  is  immediately evident from the definition, and  Lemma B  from Lemma  A.",
+      "text": "Lemma A  is  immediately evident from the definition, and  Lemma B  from Lemma  A."
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.24,
+            "t": 322.5839829101563,
+            "r": 380.156,
+            "b": 290.1639829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            247
+          ]
+        }
+      ],
+      "orig": "Lemma  A.  8a  is  a  complete (not  necessarily recursive) enumeration of  some class A  if  and only if it has the  following properly: if  &(m, x) and $(n, x) enumerate the  same  set,  then  either both  m and  n  are  in  6a,  or  neither is.",
+      "text": "Lemma  A.  8a  is  a  complete (not  necessarily recursive) enumeration of  some class A  if  and only if it has the  following properly: if  &(m, x) and $(n, x) enumerate the  same  set,  then  either both  m and  n  are  in  6a,  or  neither is."
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.0,
+            "t": 280.4159829101563,
+            "r": 379.482,
+            "b": 236.24098291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            265
+          ]
+        }
+      ],
+      "orig": "Lemma B.  If two  sets  6a  and 8b  are  complete enumerations of  the  classes  A and  B,  then  their  union and  intersection (Ba  +8b and  8a8b)  are  complete  enumerations of the  classes  A +B and  AB. This holds  also  for infinite unions and intersections.",
+      "text": "Lemma B.  If two  sets  6a  and 8b  are  complete enumerations of  the  classes  A and  B,  then  their  union and  intersection (Ba  +8b and  8a8b)  are  complete  enumerations of the  classes  A +B and  AB. This holds  also  for infinite unions and intersections."
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 32.52,
+            "t": 226.67598291015628,
+            "r": 380.407,
+            "b": 194.36698291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            220
+          ]
+        }
+      ],
+      "orig": "Definition. A  class  A  is  completely recursive (c.r.) if  8a  is  a  recursive set. If  we  denote the class of  all r.e. sets by F,  then the complement of  8a  is 8f-aSo  when A  is  c.r., both A  and F-A are c.r.e.",
+      "text": "Definition. A  class  A  is  completely recursive (c.r.) if  8a  is  a  recursive set. If  we  denote the class of  all r.e. sets by F,  then the complement of  8a  is 8f-aSo  when A  is  c.r., both A  and F-A are c.r.e."
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 32.76,
+            "t": 190.64598291015625,
+            "r": 379.294,
+            "b": 146.6049829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            333
+          ]
+        }
+      ],
+      "orig": "This definition, after Post, is  equivalent to the following: A  is  c.r.  when there exists a general recursive function 4>(s, x)  such that if  $>(w,  x)  is a  partial recursive function enumerating a set of  A, then <f>(s,  n)  =  l, and if $(n, x) is  a  partial recursive function enumerating a  set of  F -  A,  <E>(s, n)  =0.",
+      "text": "This definition, after Post, is  equivalent to the following: A  is  c.r.  when there exists a general recursive function 4>(s, x)  such that if  $>(w,  x)  is a  partial recursive function enumerating a set of  A, then <f>(s,  n)  =  l, and if $(n, x) is  a  partial recursive function enumerating a  set of  F -  A,  <E>(s, n)  =0."
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 32.76,
+            "t": 142.94598291015632,
+            "r": 378.594,
+            "b": 110.58098291015631,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            241
+          ]
+        }
+      ],
+      "orig": "We  shall refer to this as  the strong definition of  complete recursiveness. The weak definition is  as follows: there exists a partial recursive function $>(r, x)  such that if  $(n, x)  is  a  general recursive function enumerating a  set",
+      "text": "We  shall refer to this as  the strong definition of  complete recursiveness. The weak definition is  as follows: there exists a partial recursive function $>(r, x)  such that if  $(n, x)  is  a  general recursive function enumerating a  set"
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 33.0,
+            "t": 101.45598291015631,
+            "r": 380.263,
+            "b": 73.97898291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            208
+          ]
+        }
+      ],
+      "orig": "(3) These concepts, in  somewhat different form, were  first  mentioned by  J.  C.  E.  Dekker in his  thesis (Syracuse University, 1950).  See  also  his  abstract, Bull.  Amer. Math. Soc.  Abstract 57-2-83.",
+      "text": "(3) These concepts, in  somewhat different form, were  first  mentioned by  J.  C.  E.  Dekker in his  thesis (Syracuse University, 1950).  See  also  his  abstract, Bull.  Amer. Math. Soc.  Abstract 57-2-83."
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.68,
+            "t": 610.2219829101563,
+            "r": 61.655,
+            "b": 601.4149829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "360",
+      "text": "360"
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 194.44,
+            "t": 610.2219829101563,
+            "r": 245.573,
+            "b": 601.4149829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "H.  G.  RICE",
+      "text": "H.  G.  RICE"
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 366.52,
+            "t": 610.2219829101563,
+            "r": 395.048,
+            "b": 601.4149829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            6
+          ]
+        }
+      ],
+      "orig": "[March",
+      "text": "[March"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.44,
+            "t": 586.3249829101563,
+            "r": 385.526,
+            "b": 553.5509829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            214
+          ]
+        }
+      ],
+      "orig": "of  A,  then i>(r,  n)  =  1,  and if  $>(\u00ab, x)  is  a  general recursive function enumerating  a  set  of  F-A, 3>(/, n)  =0. Clearly, if  a  class is c.r.  by  the  strong definition, it  is  c.r.  by  the  weak.",
+      "text": "of  A,  then i>(r,  n)  =  1,  and if  $>(\u00ab, x)  is  a  general recursive function enumerating  a  set  of  F-A, 3>(/, n)  =0. Clearly, if  a  class is c.r.  by  the  strong definition, it  is  c.r.  by  the  weak."
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.44,
+            "t": 550.1659829101563,
+            "r": 392.087,
+            "b": 505.69098291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            256
+          ]
+        }
+      ],
+      "orig": "Two trivial classes are immediately c.r. by the strong definition. F is completely recursively enumerated by  the identity function, and the  empty class F- F  by  any function enumerating the empty set. Hereafter we  consider only proper subclasses of  F.",
+      "text": "Two trivial classes are immediately c.r. by the strong definition. F is completely recursively enumerated by  the identity function, and the  empty class F- F  by  any function enumerating the empty set. Hereafter we  consider only proper subclasses of  F."
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 124.84,
+            "t": 496.92898291015626,
+            "r": 301.585,
+            "b": 487.7589829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            36
+          ]
+        }
+      ],
+      "orig": "II. Complete recursive enumerability",
+      "text": "II. Complete recursive enumerability",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 60.04,
+            "t": 480.6109829101563,
+            "r": 189.808,
+            "b": 471.6219829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            32
+          ]
+        }
+      ],
+      "orig": "4.  Existence of  cr.e. classes.",
+      "text": "4.  Existence of  cr.e. classes.",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.2,
+            "t": 462.5039829101563,
+            "r": 391.339,
+            "b": 441.3569829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            111
+          ]
+        }
+      ],
+      "orig": "Theorem 1.  The  class of  all  sets containing a  given  number k  (we  denote this  class by L(k)) is  c.r.e.",
+      "text": "Theorem 1.  The  class of  all  sets containing a  given  number k  (we  denote this  class by L(k)) is  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 60.04,
+            "t": 432.1749829101563,
+            "r": 307.489,
+            "b": 423.7309829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            61
+          ]
+        }
+      ],
+      "orig": "Proof. 8nk)  is  the range of  the partial recursive function",
+      "text": "Proof. 8nk)  is  the range of  the partial recursive function"
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 142.84,
+            "t": 417.3269829101563,
+            "r": 293.903,
+            "b": 407.8839829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            35
+          ]
+        }
+      ],
+      "orig": "K(x) ii -*-  |  HKix), 7(x)) -k | )",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.44,
+            "t": 398.1359829101563,
+            "r": 290.003,
+            "b": 389.7819829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            57
+          ]
+        }
+      ],
+      "orig": "where 7\u00a3(x)  and 7,(x) are the Cantor diagonal functions:",
+      "text": "where 7\u00a3(x)  and 7,(x) are the Cantor diagonal functions:"
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 109.0,
+            "t": 383.94323864002143,
+            "r": 351.61,
+            "b": 341.8182388229837,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            116
+          ]
+        }
+      ],
+      "orig": "x 0        12 3       4       5 6 Kix) 0        0        10 12 0        etc. 7(x) 0        10 2         10 3 2 2 0 0",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.44,
+            "t": 332.5749829101563,
+            "r": 384.574,
+            "b": 311.55398291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            94
+          ]
+        }
+      ],
+      "orig": "(The reader will  recall from I, 2  the assumption that i>(0,  x)  is  the identity function.)",
+      "text": "(The reader will  recall from I, 2  the assumption that i>(0,  x)  is  the identity function.)"
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.44,
+            "t": 308.5749829101563,
+            "r": 391.464,
+            "b": 263.66698291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            237
+          ]
+        }
+      ],
+      "orig": "We  now  give a  method for  constructing c.r.e. classes which seems to  be very general. We  suppose given a  recursively enumerable sequence (the key array) of finite sets (the key sets), each set given by a finite sequence of numbers.",
+      "text": "We  now  give a  method for  constructing c.r.e. classes which seems to  be very general. We  suppose given a  recursively enumerable sequence (the key array) of finite sets (the key sets), each set given by a finite sequence of numbers."
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 174.52,
+            "t": 259.7549829101563,
+            "r": 262.5984477894583,
+            "b": 198.0529829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            129
+          ]
+        }
+      ],
+      "orig": "0 0 0 0 aB    a\\ a2 \u00b7  \u25a0 \u00b7  an(0) iii i \u00bbo    ax    o\u00ab  \u00b7  \u00b7 \u25a0 a'(i) i        i        i i \u00abo    <ii     a\u00ab  \u25a0  \u00b7  \u00b7  ann) \u00b7.....",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.92,
+            "t": 172.89498291015627,
+            "r": 389.791,
+            "b": 139.77198291015634,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            177
+          ]
+        }
+      ],
+      "orig": "Theorem 2.  To  every  key  array corresponds constructively a  c.r.e.  class; i.e., given the key array, we can  construct a  complete  enumeration of the  corresponding class.",
+      "text": "Theorem 2.  To  every  key  array corresponds constructively a  c.r.e.  class; i.e., given the key array, we can  construct a  complete  enumeration of the  corresponding class."
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 44.92,
+            "t": 131.12398291015631,
+            "r": 390.91,
+            "b": 74.53098291015635,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            422
+          ]
+        }
+      ],
+      "orig": "Intuitively, we  set all the partial recursive functions generating their values, and as  soon as  we  see  that the set  enumerated by  a  function <P(\u00ab, x) includes one  of  the key  sets, we  put n  into  6a- This must happen, if  it  is  going to  happen at  all,  in  a  finite length of  time. A  is then the  class  of  all  sets  which include at least one  of  the key sets, and we  have a  constructive procedure",
+      "text": "Intuitively, we  set all the partial recursive functions generating their values, and as  soon as  we  see  that the set  enumerated by  a  function <P(\u00ab, x) includes one  of  the key  sets, we  put n  into  6a- This must happen, if  it  is  going to  happen at  all,  in  a  finite length of  time. A  is then the  class  of  all  sets  which include at least one  of  the key sets, and we  have a  constructive procedure"
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 36.36,
+            "t": 613.5329829101563,
+            "r": 61.157,
+            "b": 604.8159829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            5
+          ]
+        }
+      ],
+      "orig": "1953-",
+      "text": "1953-"
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 100.2,
+            "t": 613.5329829101563,
+            "r": 320.587,
+            "b": 604.8159829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            38
+          ]
+        }
+      ],
+      "orig": "CLASSES OF RECURSIVELY ENUMERABLE SETS",
+      "text": "CLASSES OF RECURSIVELY ENUMERABLE SETS"
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 368.28,
+            "t": 613.5329829101563,
+            "r": 382.68,
+            "b": 604.8159829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "361",
+      "text": "361"
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.16,
+            "t": 589.6239829101563,
+            "r": 385.047,
+            "b": 568.9809829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            107
+          ]
+        }
+      ],
+      "orig": "for  generating 8a.. (A  simple formal proof of  the recursive enumerability of 6A will follow Theorem  3.)",
+      "text": "for  generating 8a.. (A  simple formal proof of  the recursive enumerability of 6A will follow Theorem  3.)"
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.16,
+            "t": 565.6439829101563,
+            "r": 381.997,
+            "b": 461.5719829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            716
+          ]
+        }
+      ],
+      "orig": "Moreover, whether or  not n  is  placed in  6a  depends only on  a  property (inclusion) of  the  set  enumerated by  <\u00a3(w,  x),  and not on  the order in  which i>(\u00ab,  x)  may produce its  values. To  the  author's intuition, this procedure for constructing an  enumeration of  8a  is  as  general as  any procedure can be  and still  satisfy the two  essential requirements: first, it  is  effectively constructive, and second, it  gives a  complete enumeration of  a  class of  sets. On  this basis (to be  further supported by  Theorem 7,  Corollary A)  we  venture the conjecture that every c.r.e. class has  a  key  array, or,  in  the  language of  Theorem 3,  the c.r.e. classes are  just the 2 JjT, classes.",
+      "text": "Moreover, whether or  not n  is  placed in  6a  depends only on  a  property (inclusion) of  the  set  enumerated by  <\u00a3(w,  x),  and not on  the order in  which i>(\u00ab,  x)  may produce its  values. To  the  author's intuition, this procedure for constructing an  enumeration of  8a  is  as  general as  any procedure can be  and still  satisfy the two  essential requirements: first, it  is  effectively constructive, and second, it  gives a  complete enumeration of  a  class of  sets. On  this basis (to be  further supported by  Theorem 7,  Corollary A)  we  venture the conjecture that every c.r.e. class has  a  key  array, or,  in  the  language of  Theorem 3,  the c.r.e. classes are  just the 2 JjT, classes."
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.4,
+            "t": 451.8939829101563,
+            "r": 381.787,
+            "b": 431.26798291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            154
+          ]
+        }
+      ],
+      "orig": "Theorem 3.  A  is  a  c.r.e. class  determined by  a  key  array if  and only  if  A can  be written as  a  r.e.  union of finite intersections of Lik)'s.",
+      "text": "Theorem 3.  A  is  a  c.r.e. class  determined by  a  key  array if  and only  if  A can  be written as  a  r.e.  union of finite intersections of Lik)'s."
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.64,
+            "t": 421.86398291015627,
+            "r": 379.632,
+            "b": 401.54198291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            134
+          ]
+        }
+      ],
+      "orig": "Proof. Suppose a  set  a  of  A  includes the  jth key  set {a^,  \u25a0 \u25a0 \u00b7 , a\u00a3(J)}.  This is  a  necessary and sufficient condition that",
+      "text": "Proof. Suppose a  set  a  of  A  includes the  jth key  set {a^,  \u25a0 \u25a0 \u00b7 , a\u00a3(J)}.  This is  a  necessary and sufficient condition that"
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 176.76,
+            "t": 392.6009829101563,
+            "r": 251.235,
+            "b": 367.4459829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "i-n(;) \u00ab G    u Lia'i). t=0",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 181.56,
+            "t": 338.9069829101563,
+            "r": 252.496,
+            "b": 318.4859829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            20
+          ]
+        }
+      ],
+      "orig": "Z   n   Lia]). j \u00bf=0",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.4,
+            "t": 310.06598291015627,
+            "r": 248.323,
+            "b": 301.7119829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            52
+          ]
+        }
+      ],
+      "orig": "The union, if  infinite, is  recursively enumerable.",
+      "text": "The union, if  infinite, is  recursively enumerable."
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.4,
+            "t": 297.8959829101563,
+            "r": 380.019,
+            "b": 265.6109829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            227
+          ]
+        }
+      ],
+      "orig": "Conversely, any class composed of  Lik)'s in finite intersections and r.e. unions determines a  key array. For since the associative and distributive laws  hold for  these operations, any such class can be  reduced to  the form",
+      "text": "Conversely, any class composed of  Lik)'s in finite intersections and r.e. unions determines a  key array. For since the associative and distributive laws  hold for  these operations, any such class can be  reduced to  the form"
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 180.6,
+            "t": 260.2239829101563,
+            "r": 235.143,
+            "b": 239.62398291015631,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            19
+          ]
+        }
+      ],
+      "orig": "E  UHk) r.e. finite",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.4,
+            "t": 230.2349829101563,
+            "r": 341.872,
+            "b": 221.78998291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            74
+          ]
+        }
+      ],
+      "orig": "and  a  key  array constructed from the \u00bf's  appearing in  the operations.",
+      "text": "and  a  key  array constructed from the \u00bf's  appearing in  the operations."
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.4,
+            "t": 218.10598291015629,
+            "r": 372.656,
+            "b": 197.9729829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            91
+          ]
+        }
+      ],
+      "orig": "This theorem suggests the  name \" EIX^ class\" for  any class  determined by  a  key  array.",
+      "text": "This theorem suggests the  name \" EIX^ class\" for  any class  determined by  a  key  array."
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.64,
+            "t": 195.2739829101563,
+            "r": 386.4,
+            "b": 162.18098291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            181
+          ]
+        }
+      ],
+      "orig": "Proof  of  Theorem  2.  If  A  is  a  ELT^ class,  then,  by  Lemma  B,  8A =  E I1.0\u00a3(*)-  We  need only note that finite intersections and r.e. unions of r.e. sets are  again r.e.",
+      "text": "Proof  of  Theorem  2.  If  A  is  a  ELT^ class,  then,  by  Lemma  B,  8A =  E I1.0\u00a3(*)-  We  need only note that finite intersections and r.e. unions of r.e. sets are  again r.e."
+    },
+    {
+      "self_ref": "#/texts/60",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.88,
+            "t": 158.44398291015625,
+            "r": 380.451,
+            "b": 138.2789829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            123
+          ]
+        }
+      ],
+      "orig": "We  have  excluded intersections of  infinitely many Z(fe)'s.  This case  is  disposed  of  in  a  corollary to  Theorem 4.",
+      "text": "We  have  excluded intersections of  infinitely many Z(fe)'s.  This case  is  disposed  of  in  a  corollary to  Theorem 4."
+    },
+    {
+      "self_ref": "#/texts/61",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 51.24,
+            "t": 135.07998291015633,
+            "r": 243.15,
+            "b": 125.99998291015629,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            48
+          ]
+        }
+      ],
+      "orig": "5.  Existence of  classes which  are  not  cr.e.",
+      "text": "5.  Existence of  classes which  are  not  cr.e.",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/62",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 51.24,
+            "t": 116.58298291015626,
+            "r": 304.382,
+            "b": 107.86598291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "Theorem 4.  No  class  containing only  infinite sets  is  c.r.e.",
+      "text": "Theorem 4.  No  class  containing only  infinite sets  is  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/63",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 36.12,
+            "t": 98.3939829101563,
+            "r": 382.027,
+            "b": 77.87098291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            159
+          ]
+        }
+      ],
+      "orig": "Proof. Let  A  be  a  class  containing only infinite sets, and let $(r, x)  be  a general recursive function enumerating an infinite set  lxCZ6a. Then each of",
+      "text": "Proof. Let  A  be  a  class  containing only infinite sets, and let $(r, x)  be  a general recursive function enumerating an infinite set  lxCZ6a. Then each of"
+    },
+    {
+      "self_ref": "#/texts/64",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 35.16,
+            "t": 360.4339829101563,
+            "r": 147.381,
+            "b": 351.8989829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "A  can  then be  written as",
+      "text": "A  can  then be  written as"
+    },
+    {
+      "self_ref": "#/texts/65",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.08,
+            "t": 614.1059829101563,
+            "r": 54.98,
+            "b": 604.4809829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "362",
+      "text": "362"
+    },
+    {
+      "self_ref": "#/texts/66",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 188.12,
+            "t": 613.2049829101563,
+            "r": 236.158,
+            "b": 604.7609829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "H.  G.  RICE",
+      "text": "H.  G.  RICE"
+    },
+    {
+      "self_ref": "#/texts/67",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 360.68,
+            "t": 612.8809829101563,
+            "r": 385.384,
+            "b": 605.2539829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            6
+          ]
+        }
+      ],
+      "orig": "[March",
+      "text": "[March"
+    },
+    {
+      "self_ref": "#/texts/68",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.08,
+            "t": 589.7559829101563,
+            "r": 380.412,
+            "b": 569.3819829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            111
+          ]
+        }
+      ],
+      "orig": "the functions <$(<\u00a3(?\", n), x)  enumerates an infinite set of  A. Using Kleene's representation of  $(w, x)  as",
+      "text": "the functions <$(<\u00a3(?\", n), x)  enumerates an infinite set of  A. Using Kleene's representation of  $(w, x)  as"
+    },
+    {
+      "self_ref": "#/texts/69",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 167.48,
+            "t": 560.5109829101563,
+            "r": 238.237,
+            "b": 551.6129829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "UipyTin, x,  y)),",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/70",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.08,
+            "t": 542.2009829101563,
+            "r": 79.39,
+            "b": 533.2119829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "we  define",
+      "text": "we  define"
+    },
+    {
+      "self_ref": "#/texts/71",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 59.48,
+            "t": 525.4819829101563,
+            "r": 362.888,
+            "b": 499.5459829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            104
+          ]
+        }
+      ],
+      "orig": "\u00ab(0) =  KipyTiHr, 0), Kiy), 7(y))), uin  + 1)  =  Kipy[TiHr, n + 1), Kiy), 7(y)) & Kiy)  >  \u00ab(\u00ab)  + l]),",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/72",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.32,
+            "t": 490.4419829101563,
+            "r": 53.317,
+            "b": 481.6349829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "and",
+      "text": "and"
+    },
+    {
+      "self_ref": "#/texts/73",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 81.56,
+            "t": 474.7899829101563,
+            "r": 341.306,
+            "b": 450.11398291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            86
+          ]
+        }
+      ],
+      "orig": "vin)  = UiLipy[Ti$ir, 0),  Kiy),  7(y))  & *(*(r, 0),  7\u00a3(y))  ^ $($(r, \u00bb),  \u00ab(\u00bb))])).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/74",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.32,
+            "t": 440.3049829101563,
+            "r": 385.747,
+            "b": 372.0549829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            462
+          ]
+        }
+      ],
+      "orig": "Now  the  task of  w(ra) is  to  find  an  argument for  which \u00ab$(<\u00a3(?\u00b7, n), x)  is  defined and which is  greater by at least 2  than the corresponding argument found for  any m<n. Since each of  the <\u00ef>(<\u00ef>(r, n),  x)  produces infinitely many values, uin) is  always defined and produces its values in strictly increasing order, vin), on  the other hand, finds a  value produced by  $i&ir, 0),  x)  which is  different from the value of  4>(<i>(r,  n), uin)).",
+      "text": "Now  the  task of  w(ra) is  to  find  an  argument for  which \u00ab$(<\u00a3(?\u00b7, n), x)  is  defined and which is  greater by at least 2  than the corresponding argument found for  any m<n. Since each of  the <\u00ef>(<\u00ef>(r, n),  x)  produces infinitely many values, uin) is  always defined and produces its values in strictly increasing order, vin), on  the other hand, finds a  value produced by  $i&ir, 0),  x)  which is  different from the value of  4>(<i>(r,  n), uin))."
+    },
+    {
+      "self_ref": "#/texts/75",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 39.8,
+            "t": 368.3869829101563,
+            "r": 384.75,
+            "b": 336.1639829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            212
+          ]
+        }
+      ],
+      "orig": "Finally, let us  define w(x) as the recursive characteristic function of  the infinite complement of the recursive set enumerated by w(x). We  are  now ready to construct a  function <$(s, x)  such that sCZ6a~ct.",
+      "text": "Finally, let us  define w(x) as the recursive characteristic function of  the infinite complement of the recursive set enumerated by w(x). We  are  now ready to construct a  function <$(s, x)  such that sCZ6a~ct."
+    },
+    {
+      "self_ref": "#/texts/76",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.88,
+            "t": 333.2969829101563,
+            "r": 280.132,
+            "b": 323.76298291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            49
+          ]
+        }
+      ],
+      "orig": "If  w(*) = l,  then/(x)=$(3>(r, 0),   \u00a3\u00a35 w(z)1).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/77",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 40.04,
+            "t": 320.4159829101563,
+            "r": 389.947,
+            "b": 252.3069829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            436
+          ]
+        }
+      ],
+      "orig": "If  w(x)  =0, then there exists a  unique y such  that w(y)  =x. Then/(x) =z>(y). With a  little more trouble, such a  definition of fix) may be  given as  will formally establish it as  a  partial recursive function, say \u00ab^(s,  x).  Now sCZ8A, for  <\u00dc>(s, x)  enumerates the  same set  as  does $($(?-, 0),  x).  On  the other hand, sC\u00a3(x, for <\u00ef>(s,  x) differs from every function \u00ed>(\u00ed>(r, n), x) for at least the argument x =  m(m).",
+      "text": "If  w(x)  =0, then there exists a  unique y such  that w(y)  =x. Then/(x) =z>(y). With a  little more trouble, such a  definition of fix) may be  given as  will formally establish it as  a  partial recursive function, say \u00ab^(s,  x).  Now sCZ8A, for  <\u00dc>(s, x)  enumerates the  same set  as  does $($(?-, 0),  x).  On  the other hand, sC\u00a3(x, for <\u00ef>(s,  x) differs from every function \u00ed>(\u00ed>(r, n), x) for at least the argument x =  m(m)."
+    },
+    {
+      "self_ref": "#/texts/78",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 40.28,
+            "t": 248.6269829101563,
+            "r": 384.203,
+            "b": 228.28198291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            109
+          ]
+        }
+      ],
+      "orig": "Thus we  see  that no  infinite r.e. set a  can exhaust 6a\", nor can any finite set, so  that 8A is  not r.e.",
+      "text": "Thus we  see  that no  infinite r.e. set a  can exhaust 6a\", nor can any finite set, so  that 8A is  not r.e."
+    },
+    {
+      "self_ref": "#/texts/79",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.88,
+            "t": 218.7739829101563,
+            "r": 303.829,
+            "b": 210.23898291015632,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            60
+          ]
+        }
+      ],
+      "orig": "Corollary A.  No  infinite intersection of Lik)'s is  c.r.e.",
+      "text": "Corollary A.  No  infinite intersection of Lik)'s is  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/80",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 40.28,
+            "t": 200.86398291015632,
+            "r": 386.108,
+            "b": 180.0909829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            112
+          ]
+        }
+      ],
+      "orig": "Corollary B.  The  set  of all  partial recursive  functions enumerating a  given infinite set  a  is  not  r.e.",
+      "text": "Corollary B.  The  set  of all  partial recursive  functions enumerating a  given infinite set  a  is  not  r.e."
+    },
+    {
+      "self_ref": "#/texts/81",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.12,
+            "t": 170.76498291015628,
+            "r": 286.049,
+            "b": 162.31998291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            56
+          ]
+        }
+      ],
+      "orig": "For take the  A  of  Theorem 4  as  the unit class 7(a).",
+      "text": "For take the  A  of  Theorem 4  as  the unit class 7(a)."
+    },
+    {
+      "self_ref": "#/texts/82",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.88,
+            "t": 153.10298291015624,
+            "r": 329.662,
+            "b": 144.38598291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            68
+          ]
+        }
+      ],
+      "orig": "Theorem 5.  The  unit class lio) of  the  empty set  is  not  c.r.e.",
+      "text": "Theorem 5.  The  unit class lio) of  the  empty set  is  not  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/83",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 40.76,
+            "t": 135.09498291015632,
+            "r": 384.262,
+            "b": 90.62098291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            310
+          ]
+        }
+      ],
+      "orig": "Proof. We assume the contrary, and note that since F -  lio) =  Zaii * LQ1)  is  c.r.e. by  Theorem 3,  8n0)  is  a  recursive set, so  there exists a  recursive function <\u00ef>(/,  x)  such that $(<,  n)  =  1 whenever <\u00a3(\u00ab, x)  enumerates the  empty set (i.e.,  produces no  values), and \u00ed>(\u00bf, n)  =0 otherwise.",
+      "text": "Proof. We assume the contrary, and note that since F -  lio) =  Zaii * LQ1)  is  c.r.e. by  Theorem 3,  8n0)  is  a  recursive set, so  there exists a  recursive function <\u00ef>(/,  x)  such that $(<,  n)  =  1 whenever <\u00a3(\u00ab, x)  enumerates the  empty set (i.e.,  produces no  values), and \u00ed>(\u00bf, n)  =0 otherwise."
+    },
+    {
+      "self_ref": "#/texts/84",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.84,
+            "t": 87.00598291015626,
+            "r": 333.684,
+            "b": 78.65198291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            64
+          ]
+        }
+      ],
+      "orig": "Now  consider an  arbitrary partial recursive function 3>(w, x).",
+      "text": "Now  consider an  arbitrary partial recursive function 3>(w, x)."
+    },
+    {
+      "self_ref": "#/texts/85",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 32.92,
+            "t": 609.6049829101563,
+            "r": 56.942,
+            "b": 601.1609829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            5
+          ]
+        }
+      ],
+      "orig": "1953]",
+      "text": "1953]"
+    },
+    {
+      "self_ref": "#/texts/86",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 97.24,
+            "t": 609.6049829101563,
+            "r": 317.093,
+            "b": 601.1609829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            41
+          ]
+        }
+      ],
+      "orig": "CLASSES OF  RECURSIVELY  ENUMERABLE  SETS",
+      "text": "CLASSES OF  RECURSIVELY  ENUMERABLE  SETS"
+    },
+    {
+      "self_ref": "#/texts/87",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 364.36,
+            "t": 609.6049829101563,
+            "r": 378.31,
+            "b": 601.1609829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "363",
+      "text": "363"
+    },
+    {
+      "self_ref": "#/texts/88",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 145.96,
+            "t": 586.9339829101563,
+            "r": 264.92,
+            "b": 578.3989829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "4>(w, x)  = UipyT(m, x,  y))",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/89",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 31.96,
+            "t": 568.4459829101563,
+            "r": 377.94,
+            "b": 547.7789829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            118
+          ]
+        }
+      ],
+      "orig": "and there is  a  recursive function rim, x,  y)  which equals 1  when Tim, x,  y) holds,  and  0 otherwise. We  define",
+      "text": "and there is  a  recursive function rim, x,  y)  which equals 1  when Tim, x,  y) holds,  and  0 otherwise. We  define"
+    },
+    {
+      "self_ref": "#/texts/90",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 136.36,
+            "t": 539.3189829101563,
+            "r": 272.822,
+            "b": 530.1489829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            33
+          ]
+        }
+      ],
+      "orig": "I(y) =  pz[z + l  =  r(m, m, y)].",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/91",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 32.44,
+            "t": 520.3759829101563,
+            "r": 377.335,
+            "b": 488.2369829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            199
+          ]
+        }
+      ],
+      "orig": "f(y) is  a  partial recursive function, so  there is  an  r  such that/(y) = <$(r, y). The G\u00f6del enumeration of  the partial recursive functions yields a  recursive function g(x) such that r =  g(m).",
+      "text": "f(y) is  a  partial recursive function, so  there is  an  r  such that/(y) = <$(r, y). The G\u00f6del enumeration of  the partial recursive functions yields a  recursive function g(x) such that r =  g(m).",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/92",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 32.44,
+            "t": 484.7069829101563,
+            "r": 374.713,
+            "b": 464.33498291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            127
+          ]
+        }
+      ],
+      "orig": "Now whenever &(m, m) is undefined, <&(r, y) enumerates o, so that $(t, r)  =  1, and if  <i>(w, m)  is  defined, <\u00ef>(i, r)  =0.",
+      "text": "Now whenever &(m, m) is undefined, <&(r, y) enumerates o, so that $(t, r)  =  1, and if  <i>(w, m)  is  defined, <\u00ef>(i, r)  =0."
+    },
+    {
+      "self_ref": "#/texts/93",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 48.28,
+            "t": 460.63798291015627,
+            "r": 234.883,
+            "b": 452.5569829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            46
+          ]
+        }
+      ],
+      "orig": "Finally, there exists an integer .?  such that",
+      "text": "Finally, there exists an integer .?  such that"
+    },
+    {
+      "self_ref": "#/texts/94",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 129.88,
+            "t": 443.2249829101563,
+            "r": 280.069,
+            "b": 434.77998291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "$(s,  m)  =  py[y + 1  = $(/, g(m))].",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/95",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 32.68,
+            "t": 424.8959829101563,
+            "r": 376.916,
+            "b": 392.2539829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            173
+          ]
+        }
+      ],
+      "orig": "4>(5, m) is  undefined whenever <\u00a3(m,  ra) is  defined, and is  defined and equal to 0  whenever i>(w, m)  is  undefined. A  contradiction arises from the case of  <p(s, s).",
+      "text": "4>(5, m) is  undefined whenever <\u00a3(m,  ra) is  defined, and is  defined and equal to 0  whenever i>(w, m)  is  undefined. A  contradiction arises from the case of  <p(s, s).",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/96",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 135.16,
+            "t": 383.5799829101563,
+            "r": 261.94,
+            "b": 374.4999829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "III. Complete recursiveness",
+      "text": "III. Complete recursiveness",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/97",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 32.68,
+            "t": 367.2439829101563,
+            "r": 374.486,
+            "b": 346.77498291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            150
+          ]
+        }
+      ],
+      "orig": "6.  The main theorem and the strong definition. We  now  give  a  theorem which shows that too  many classes are not c.r.e. for  any class to be  c.r.",
+      "text": " The main theorem and the strong definition. We  now  give  a  theorem which shows that too  many classes are not c.r.e. for  any class to be  c.r.",
+      "enumerated": true,
+      "marker": "6."
+    },
+    {
+      "self_ref": "#/texts/98",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 33.16,
+            "t": 337.0549829101563,
+            "r": 380.806,
+            "b": 316.5289829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            164
+          ]
+        }
+      ],
+      "orig": "Theorem 6.  Let A  be  a class which contains a  finite set [ao, \u00b7  \u25a0 \u25a0  ,  a&}, but  omits  a  set a  which  includes {a0,  \u00b7  \u00b7  \u00b7 , a*}. Then  A  is  not  c.r.e.",
+      "text": "Theorem 6.  Let A  be  a class which contains a  finite set [ao, \u00b7  \u25a0 \u25a0  ,  a&}, but  omits  a  set a  which  includes {a0,  \u00b7  \u00b7  \u00b7 , a*}. Then  A  is  not  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/99",
+      "parent": {
+        "$ref": "#/groups/3"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 48.76,
+            "t": 307.0649829101563,
+            "r": 321.093,
+            "b": 298.6209829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "Proof. For any partial recursive function <!>(\u00ab,  x),  we  define",
+      "text": "Proof. For any partial recursive function <!>(\u00ab,  x),  we  define",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/100",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 148.12,
+            "t": 289.2599829101563,
+            "r": 262.26,
+            "b": 280.1799829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            29
+          ]
+        }
+      ],
+      "orig": "/(\u00ab) =  pzT(n,  K(z),  Liz)).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/101",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 31.96,
+            "t": 271.0269829101563,
+            "r": 372.286,
+            "b": 250.84698291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            120
+          ]
+        }
+      ],
+      "orig": "fin) is  undefined if  <$(\u00ab,  x)  enumerates o,  but assumes some value otherwise. Let gix) be  defined by the equations",
+      "text": "fin) is  undefined if  <$(\u00ab,  x)  enumerates o,  but assumes some value otherwise. Let gix) be  defined by the equations",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/102",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 33.88,
+            "t": 163.74898291015631,
+            "r": 85.6,
+            "b": 154.48698291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "and  h(x)  by",
+      "text": "and  h(x)  by"
+    },
+    {
+      "self_ref": "#/texts/103",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 149.32,
+            "t": 241.55098291015628,
+            "r": 266.539,
+            "b": 140.91198291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            80
+          ]
+        }
+      ],
+      "orig": "\u00ab(0) =  bo, *(D = *i. *(*) = h, g(x + k + 1)  =  0 h(x) 1 \u25a0*\u00b7 (1 \u00b7-\u25a0\"(\u00bb \u00b7*-  *))",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/104",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 34.36,
+            "t": 131.64498291015627,
+            "r": 377.317,
+            "b": 111.24198291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            159
+          ]
+        }
+      ],
+      "orig": "where  a -  &  = 0  if  a<b, and a -  b otherwise. h(x)  =0 for  x^k, and 1 for  x>&. Finally, let  3>(i, x)  be  any partial recursive function. Now  consider",
+      "text": "where  a -  &  = 0  if  a<b, and a -  b otherwise. h(x)  =0 for  x^k, and 1 for  x>&. Finally, let  3>(i, x)  be  any partial recursive function. Now  consider"
+    },
+    {
+      "self_ref": "#/texts/105",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 104.92,
+            "t": 102.38798291015632,
+            "r": 310.785,
+            "b": 93.03598291015624,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            47
+          ]
+        }
+      ],
+      "orig": "g(x)  +  0-f(n-h(x)) + ^it-h(x), x \u25a0>(k  + 1)).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/106",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 35.32,
+            "t": 83.56598291015632,
+            "r": 379.735,
+            "b": 75.30398291015626,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            92
+          ]
+        }
+      ],
+      "orig": "When bo,  \u25a0 \u25a0 \u25a0  ,  bk and /  are  chosen, this is  a  partial recursive function i>(s,  x),",
+      "text": "When bo,  \u25a0 \u25a0 \u25a0  ,  bk and /  are  chosen, this is  a  partial recursive function i>(s,  x),"
+    },
+    {
+      "self_ref": "#/texts/107",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.64,
+            "t": 611.6439829101563,
+            "r": 59.84,
+            "b": 601.8379829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "364",
+      "text": "364"
+    },
+    {
+      "self_ref": "#/texts/108",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 193.16,
+            "t": 610.6739829101563,
+            "r": 241.425,
+            "b": 602.1389829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "H.  G.  RICE",
+      "text": "H.  G.  RICE"
+    },
+    {
+      "self_ref": "#/texts/109",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 365.0,
+            "t": 609.8099829101562,
+            "r": 389.998,
+            "b": 602.0929829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            6
+          ]
+        }
+      ],
+      "orig": "[March",
+      "text": "[March"
+    },
+    {
+      "self_ref": "#/texts/110",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.64,
+            "t": 587.0259829101562,
+            "r": 344.3,
+            "b": 578.6719829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            69
+          ]
+        }
+      ],
+      "orig": "and the G\u00f6del enumeration gives s(n) as  a  recursive function of  n.",
+      "text": "and the G\u00f6del enumeration gives s(n) as  a  recursive function of  n."
+    },
+    {
+      "self_ref": "#/texts/111",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.4,
+            "t": 575.0649829101563,
+            "r": 387.221,
+            "b": 530.7909829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            285
+          ]
+        }
+      ],
+      "orig": "If  A  is  the class of  the theorem, we  now take o, = a\u00bf  and t = ta,  where <p(/0, x)  enumerates a. We  define dA as  the set of  all n's such that s(\u00ab)\u00a3iA. If  8a  is  r.e., so  is  8a-  For suppose $(r, x)  enumerates 8a-  Then 6A is  the range of  the partial recursive function",
+      "text": "If  A  is  the class of  the theorem, we  now take o, = a\u00bf  and t = ta,  where <p(/0, x)  enumerates a. We  define dA as  the set of  all n's such that s(\u00ab)\u00a3iA. If  8a  is  r.e., so  is  8a-  For suppose $(r, x)  enumerates 8a-  Then 6A is  the range of  the partial recursive function"
+    },
+    {
+      "self_ref": "#/texts/112",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 103.64,
+            "t": 521.3109829101563,
+            "r": 330.393,
+            "b": 512.4129829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            47
+          ]
+        }
+      ],
+      "orig": "K(x)  +py[y+l = l^-\\ $(r,  L(x)) -s(K(x)) |  ].",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/113",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.64,
+            "t": 502.9159829101563,
+            "r": 389.14,
+            "b": 482.9419829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            112
+          ]
+        }
+      ],
+      "orig": "The crux of the proof lies in the fact that 0a=0/(o). Suppose $(\u00bb, x) enumerates o.  Then for  x^k, h(x)  =0 and",
+      "text": "The crux of the proof lies in the fact that 0a=0/(o). Suppose $(\u00bb, x) enumerates o.  Then for  x^k, h(x)  =0 and"
+    },
+    {
+      "self_ref": "#/texts/114",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 123.8,
+            "t": 473.7789829101563,
+            "r": 290.738,
+            "b": 464.60898291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            40
+          ]
+        }
+      ],
+      "orig": "Hs(n), x)  =  gix)  + 0-/(0) + $(0,  0).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/115",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.4,
+            "t": 455.1759829101563,
+            "r": 388.7,
+            "b": 422.8819829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            218
+          ]
+        }
+      ],
+      "orig": "In  this range $(s(n), x)  is  defined (recall again that $(0, x)  was taken as  the identity function in I, 2) and equal to gix). So the set enumerated by $(s(n), x)  includes {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. However, for  x>k,",
+      "text": "In  this range $(s(n), x)  is  defined (recall again that $(0, x)  was taken as  the identity function in I, 2) and equal to gix). So the set enumerated by $(s(n), x)  includes {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. However, for  x>k,"
+    },
+    {
+      "self_ref": "#/texts/116",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 115.4,
+            "t": 413.8059829101563,
+            "r": 319.52,
+            "b": 404.1809829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            52
+          ]
+        }
+      ],
+      "orig": "$(*(\u00ab),  x)  =  0 +  Of in)  + *(/',  * -<-  (*+ 1))",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/117",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.16,
+            "t": 395.0159829101563,
+            "r": 386.291,
+            "b": 374.7859829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            158
+          ]
+        }
+      ],
+      "orig": "and <\u00ef>(s(re),  x)  is  not defined, since/(w) is  not. So  <p(\u00ed(m),  x)  enumerates just the  set {a0,  \u00b7 \u00b7  \u00b7 , ak\\, which is  in  A.  s(n)CZ&A  and  nCZ&A-",
+      "text": "and <\u00ef>(s(re),  x)  is  not defined, since/(w) is  not. So  <p(\u00ed(m),  x)  enumerates just the  set {a0,  \u00b7 \u00b7  \u00b7 , ak\\, which is  in  A.  s(n)CZ&A  and  nCZ&A-"
+    },
+    {
+      "self_ref": "#/texts/118",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.16,
+            "t": 371.3649829101563,
+            "r": 389.044,
+            "b": 350.8659829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            97
+          ]
+        }
+      ],
+      "orig": "On the other hand, suppose $(\u00ab, x) does not enumerate o.  Then, for x>k,fin) is defined,  so that",
+      "text": "On the other hand, suppose $(\u00ab, x) does not enumerate o.  Then, for x>k,fin) is defined,  so that"
+    },
+    {
+      "self_ref": "#/texts/119",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 125.0,
+            "t": 342.1699829101563,
+            "r": 309.08,
+            "b": 333.08998291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            49
+          ]
+        }
+      ],
+      "orig": "<\u00ef>(s(n),  x)  =  0 +  0 + *(<', \u00bb \u25a0*\u25a0 ik  + 1)).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/120",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.4,
+            "t": 323.3339829101563,
+            "r": 387.564,
+            "b": 314.79898291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            79
+          ]
+        },
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.4,
+            "t": 312.0689829101563,
+            "r": 158.125,
+            "b": 302.8069829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            80,
+            106
+          ]
+        }
+      ],
+      "orig": "For x = k+y, &(s(n), x)=<\u00a3(i0, y).  So  \u00ab^(w), x)  enumerates a,  which is  not in A.  s(n)d9A  and  nQ\u00dfA-",
+      "text": "For x = k+y, &(s(n), x)=<\u00a3(i0, y).  So  \u00ab^(w), x)  enumerates a,  which is  not in A.  s(n)d9A  and  nQ\u00dfA-"
+    },
+    {
+      "self_ref": "#/texts/121",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.16,
+            "t": 299.3249829101563,
+            "r": 390.154,
+            "b": 278.9679829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            139
+          ]
+        }
+      ],
+      "orig": "We  have, then, that if  8A is  r.e., Oa=\u00d6/(0)  is  r.e., which by  Theorem 5  is not the case. So  8a  is  not r.e., and A  is  not c.r.e.",
+      "text": "We  have, then, that if  8A is  r.e., Oa=\u00d6/(0)  is  r.e., which by  Theorem 5  is not the case. So  8a  is  not r.e., and A  is  not c.r.e."
+    },
+    {
+      "self_ref": "#/texts/122",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 58.76,
+            "t": 269.5649829101563,
+            "r": 311.216,
+            "b": 261.1209829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            59
+          ]
+        }
+      ],
+      "orig": "Corollary A.  Every c.r.e. class  includes a E IT-^  class.",
+      "text": "Corollary A.  Every c.r.e. class  includes a E IT-^  class."
+    },
+    {
+      "self_ref": "#/texts/123",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 42.92,
+            "t": 251.3359829101563,
+            "r": 388.922,
+            "b": 195.2759829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            352
+          ]
+        }
+      ],
+      "orig": "For by Theorem,4, a c.r.e. class A contains a finite set {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. By  Theorem 6,  A  contains all  sets  a  which include {ao,  \u00b7  \u00b7  \u00b7  ,  a*}.  That is,  A includes XI*-o  L(a,)(In fact, it  can be  shown(4) that the finite sets of  A  can be  recursively enumerated, so  that A  includes the EIX^ class generated by  its  finite sets.)",
+      "text": "For by Theorem,4, a c.r.e. class A contains a finite set {ao,  \u00b7  \u00b7  \u00b7  ,  a*}. By  Theorem 6,  A  contains all  sets  a  which include {ao,  \u00b7  \u00b7  \u00b7  ,  a*}.  That is,  A includes XI*-o  L(a,)(In fact, it  can be  shown(4) that the finite sets of  A  can be  recursively enumerated, so  that A  includes the EIX^ class generated by  its  finite sets.)"
+    },
+    {
+      "self_ref": "#/texts/124",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 58.76,
+            "t": 185.4949829101563,
+            "r": 374.406,
+            "b": 177.05098291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            82
+          ]
+        }
+      ],
+      "orig": "Corollary B.  There  are  no  nontrivial c.r.  classes by the  strong  definition.",
+      "text": "Corollary B.  There  are  no  nontrivial c.r.  classes by the  strong  definition."
+    },
+    {
+      "self_ref": "#/texts/125",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 43.16,
+            "t": 167.44598291015632,
+            "r": 387.26,
+            "b": 135.63498291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            160
+          ]
+        }
+      ],
+      "orig": "For every nontrivial c.r.e. class A must contain the set e  of all nonnegative integers, and it is  impossible for both A  and F -  A to contain the same set e.",
+      "text": "For every nontrivial c.r.e. class A must contain the set e  of all nonnegative integers, and it is  impossible for both A  and F -  A to contain the same set e."
+    },
+    {
+      "self_ref": "#/texts/126",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 59.0,
+            "t": 126.06298291015628,
+            "r": 297.8,
+            "b": 117.3459829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            58
+          ]
+        }
+      ],
+      "orig": "Corollary C.  No  nontrivial c.r.e.  class  A  contains o.",
+      "text": "Corollary C.  No  nontrivial c.r.e.  class  A  contains o."
+    },
+    {
+      "self_ref": "#/texts/127",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 59.0,
+            "t": 107.81598291015632,
+            "r": 312.175,
+            "b": 99.46198291015628,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            62
+          ]
+        }
+      ],
+      "orig": "For o is  included in  every set, so  A  would have to  be  F.",
+      "text": "For o is  included in  every set, so  A  would have to  be  F."
+    },
+    {
+      "self_ref": "#/texts/128",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 60.44,
+            "t": 83.44498291015634,
+            "r": 275.41,
+            "b": 76.36298291015623,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            66
+          ]
+        }
+      ],
+      "orig": "(')  This  was  pointed out to  the author by  J.  C.  E.  Dekker.",
+      "text": "(')  This  was  pointed out to  the author by  J.  C.  E.  Dekker."
+    },
+    {
+      "self_ref": "#/texts/129",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 31.16,
+            "t": 614.1429829101563,
+            "r": 55.698,
+            "b": 605.5169829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            5
+          ]
+        }
+      ],
+      "orig": "1953]",
+      "text": "1953]"
+    },
+    {
+      "self_ref": "#/texts/130",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 95.72,
+            "t": 614.1429829101563,
+            "r": 316.329,
+            "b": 605.5169829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            39
+          ]
+        }
+      ],
+      "orig": "CLASSES OF  RECURSIVELY ENUMERABLE SETS",
+      "text": "CLASSES OF  RECURSIVELY ENUMERABLE SETS"
+    },
+    {
+      "self_ref": "#/texts/131",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 363.32,
+            "t": 614.1429829101563,
+            "r": 377.57,
+            "b": 605.5169829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "365",
+      "text": "365"
+    },
+    {
+      "self_ref": "#/texts/132",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 46.76,
+            "t": 590.8719829101562,
+            "r": 208.179,
+            "b": 582.0649829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            40
+          ]
+        }
+      ],
+      "orig": "Corollary D.  No  unit class  is  c.r.e.",
+      "text": "Corollary D.  No  unit class  is  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/133",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 30.92,
+            "t": 572.7459829101563,
+            "r": 378.261,
+            "b": 540.0419829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            194
+          ]
+        }
+      ],
+      "orig": "We  have already that if  a is  infinite, 7(a) is  not c.r.e. (Theorem 4,  Corollary A), and if  a is  empty, 7(a) is  not c.r.e. (Theorem 5).  The result if  a is finite follows from Theorem 6.",
+      "text": "We  have already that if  a is  infinite, 7(a) is  not c.r.e. (Theorem 4,  Corollary A), and if  a is  empty, 7(a) is  not c.r.e. (Theorem 5).  The result if  a is finite follows from Theorem 6."
+    },
+    {
+      "self_ref": "#/texts/134",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 30.92,
+            "t": 536.8239829101562,
+            "r": 374.964,
+            "b": 444.73398291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            643
+          ]
+        }
+      ],
+      "orig": "If  we  identify properties with classes, and \"effective\" with \"recursive,\" we  can  give an  intuitive interpretation of  Corollary B. If  P  is  any property possessed by  some, but not all, r.e. sets, then there exists no  effective general method for  deciding, given a  set  a  by  means of  a  partial recursive function enumerating it, whether or not a has the property P. In stronger terms, there exists no  effective general method for obtaining, from a  partial recursive function, any  information about the  set of  which the function is  a  characterization! Of  course there will  exist special methods for  particular functions.",
+      "text": "If  we  identify properties with classes, and \"effective\" with \"recursive,\" we  can  give an  intuitive interpretation of  Corollary B. If  P  is  any property possessed by  some, but not all, r.e. sets, then there exists no  effective general method for  deciding, given a  set  a  by  means of  a  partial recursive function enumerating it, whether or not a has the property P. In stronger terms, there exists no  effective general method for obtaining, from a  partial recursive function, any  information about the  set of  which the function is  a  characterization! Of  course there will  exist special methods for  particular functions."
+    },
+    {
+      "self_ref": "#/texts/135",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 31.4,
+            "t": 441.0649829101563,
+            "r": 373.588,
+            "b": 420.4209829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            143
+          ]
+        }
+      ],
+      "orig": "This situation is  not a  result of  admitting functions not always defined, for  we  now  establish the same result for  the  weak definition.",
+      "text": "This situation is  not a  result of  admitting functions not always defined, for  we  now  establish the same result for  the  weak definition."
+    },
+    {
+      "self_ref": "#/texts/136",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 47.48,
+            "t": 417.3969829101563,
+            "r": 151.914,
+            "b": 407.9539829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            26
+          ]
+        }
+      ],
+      "orig": "7.  The  weak  definition.",
+      "text": "7.  The  weak  definition.",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/137",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 46.76,
+            "t": 398.9139829101563,
+            "r": 376.789,
+            "b": 390.3789829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            86
+          ]
+        }
+      ],
+      "orig": "Theorem 7.  7/a class  A  is  c.r.  by the  weak  definition, then  A -I(o) is  c.r.e.",
+      "text": "Theorem 7.  7/a class  A  is  c.r.  by the  weak  definition, then  A -I(o) is  c.r.e."
+    },
+    {
+      "self_ref": "#/texts/138",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 31.4,
+            "t": 380.9459829101563,
+            "r": 378.107,
+            "b": 335.9189829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            266
+          ]
+        }
+      ],
+      "orig": "Proof. Under the hypothesis, there is  a  partial recursive function <\u00ef>(r,  n) which is  equal to 1 if  $(w, x)  is  a  general recursive function enumerating a  set of  A,  and equal to 0  if  i>(\u00ab, x)  is  a  general recursive function enumerating a set  of  F-A.",
+      "text": "Proof. Under the hypothesis, there is  a  partial recursive function <\u00ef>(r,  n) which is  equal to 1 if  $(w, x)  is  a  general recursive function enumerating a  set of  A,  and equal to 0  if  i>(\u00ab, x)  is  a  general recursive function enumerating a set  of  F-A."
+    },
+    {
+      "self_ref": "#/texts/139",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 31.64,
+            "t": 333.1759829101563,
+            "r": 377.464,
+            "b": 300.7319829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            228
+          ]
+        }
+      ],
+      "orig": "We  must show that from an arbitrary partial recursive function $(\u00ab, x) enumerating a set a^o, we can construct a general recursive function 4>(w, x),  also  enumerating a,  in  such a  way that m is a  recursive function of  n.",
+      "text": "We  must show that from an arbitrary partial recursive function $(\u00ab, x) enumerating a set a^o, we can construct a general recursive function 4>(w, x),  also  enumerating a,  in  such a  way that m is a  recursive function of  n."
+    },
+    {
+      "self_ref": "#/texts/140",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 47.0,
+            "t": 297.20998291015627,
+            "r": 111.56,
+            "b": 288.1299829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "We  first  define",
+      "text": "We  first  define"
+    },
+    {
+      "self_ref": "#/texts/141",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 144.2,
+            "t": 281.3459829101563,
+            "r": 262.522,
+            "b": 272.9919829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "x0 = K(pzT(n, K(z), L(z))).",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/142",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 31.88,
+            "t": 264.7259829101563,
+            "r": 174.642,
+            "b": 256.4639829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            34
+          ]
+        }
+      ],
+      "orig": "Since a^o, such a  z  exists. Then",
+      "text": "Since a^o, such a  z  exists. Then"
+    },
+    {
+      "self_ref": "#/texts/143",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 47.48,
+            "t": 252.7539829101563,
+            "r": 130.054,
+            "b": 244.21898291015629,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            21
+          ]
+        }
+      ],
+      "orig": "3>(w, 0) = <\u00a3(\u00ab, x0);",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/144",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 47.48,
+            "t": 241.60198291015627,
+            "r": 283.644,
+            "b": 232.79498291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            58
+          ]
+        }
+      ],
+      "orig": "i>(\u00bbz, x) =<p(w, Xo) if  T(n, K(x), L(x)) does  not  hold;",
+      "text": "i>(\u00bbz, x) =<p(w, Xo) if  T(n, K(x), L(x)) does  not  hold;"
+    },
+    {
+      "self_ref": "#/texts/145",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 47.48,
+            "t": 230.23698291015626,
+            "r": 260.048,
+            "b": 220.70298291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            50
+          ]
+        }
+      ],
+      "orig": "$K x)=<E>(w, K(x))  if  T(n,  K(x),  L(x))  holds.",
+      "text": "$K x)=<E>(w, K(x))  if  T(n,  K(x),  L(x))  holds."
+    },
+    {
+      "self_ref": "#/texts/146",
+      "parent": {
+        "$ref": "#/groups/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 32.12,
+            "t": 217.4949829101563,
+            "r": 376.546,
+            "b": 172.8119829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            309
+          ]
+        }
+      ],
+      "orig": "$(w, x) is  defined for all arguments, and a  more formal definition in terms of  the representing function r(n, x,  y) of T(n, x,  y)  would establish that $(m, x) is  recursive, and that the G\u00f6del enumeration of the partial recursive functions would yield m  as  a  recursive function of  n.  Say  f(n)  =m.",
+      "text": "$(w, x) is  defined for all arguments, and a  more formal definition in terms of  the representing function r(n, x,  y) of T(n, x,  y)  would establish that $(m, x) is  recursive, and that the G\u00f6del enumeration of the partial recursive functions would yield m  as  a  recursive function of  n.  Say  f(n)  =m.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/147",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 32.36,
+            "t": 169.4059829101563,
+            "r": 376.224,
+            "b": 148.69398291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            101
+          ]
+        }
+      ],
+      "orig": "To  show that A  -I(o) is c.r.e., we note that Ba-iw is  the range of  the partial recursive function",
+      "text": "To  show that A  -I(o) is c.r.e., we note that Ba-iw is  the range of  the partial recursive function"
+    },
+    {
+      "self_ref": "#/texts/148",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 130.76,
+            "t": 141.93898291015626,
+            "r": 274.563,
+            "b": 132.7689829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "g(n)  +  py[y  + 1 =  $(r,  f(g(n)))]",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/149",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 32.36,
+            "t": 125.3459829101563,
+            "r": 310.168,
+            "b": 116.99198291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "where g(n) is  a  partial recursive function enumerating 8f~h<,)-",
+      "text": "where g(n) is  a  partial recursive function enumerating 8f~h<,)-"
+    },
+    {
+      "self_ref": "#/texts/150",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 48.44,
+            "t": 107.60398291015633,
+            "r": 377.269,
+            "b": 99.06898291015625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            79
+          ]
+        }
+      ],
+      "orig": "Corollary. If A  is  c.r. by  the  weak  definition, then F -  I(o)-A is c.r.e.",
+      "text": "Corollary. If A  is  c.r. by  the  weak  definition, then F -  I(o)-A is c.r.e."
+    },
+    {
+      "self_ref": "#/texts/151",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 48.2,
+            "t": 89.65398291015629,
+            "r": 318.353,
+            "b": 81.02698291015633,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            70
+          ]
+        }
+      ],
+      "orig": "Theorem 8.  No  nontrivial class  is  c.r.  by  the  weak  definition.",
+      "text": "Theorem 8.  No  nontrivial class  is  c.r.  by  the  weak  definition."
+    },
+    {
+      "self_ref": "#/texts/152",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.72,
+            "t": 614.1749829101562,
+            "r": 62.77,
+            "b": 604.4589829101562,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            3
+          ]
+        }
+      ],
+      "orig": "366",
+      "text": "366"
+    },
+    {
+      "self_ref": "#/texts/153",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 196.48,
+            "t": 613.0659829101563,
+            "r": 244.302,
+            "b": 604.8039829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "H.  G.  RICE",
+      "text": "H.  G.  RICE"
+    },
+    {
+      "self_ref": "#/texts/154",
+      "parent": {
+        "$ref": "#/groups/6"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.48,
+            "t": 589.7459829101563,
+            "r": 394.242,
+            "b": 557.5419829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            205
+          ]
+        }
+      ],
+      "orig": "Proof. Suppose A- I(o) is  c.r.e. Then A  contains e,  and so  F-I(o)  -A does not contain e.  Thus F -  I(o)-A is  not c.r.e., and by the corollary to Theorem 7,  A  is  not c.r. by  the  weak definition.",
+      "text": "Proof. Suppose A- I(o) is  c.r.e. Then A  contains e,  and so  F-I(o)  -A does not contain e.  Thus F -  I(o)-A is  not c.r.e., and by the corollary to Theorem 7,  A  is  not c.r. by  the  weak definition.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/155",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.48,
+            "t": 553.7759829101562,
+            "r": 393.561,
+            "b": 461.8949829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            607
+          ]
+        }
+      ],
+      "orig": "We find, then, that the same unfortunate situation exists whether we agree to characterize sets by partial recursive functions, or  whether we  restrict characterization to  the better-behaved general recursive functions. Nor does further restriction to the primitive recursive functions bring any improvement, for Rosser [8] has shown that from a  given general recursive function we  can  effectively construct a  primitive recursive function enumerating the same set. Arguments paralleling the proofs of  Theorem 7  and 8  will then give the analogue of  Theorem 8  for the primitive recursive functions.",
+      "text": "We find, then, that the same unfortunate situation exists whether we agree to characterize sets by partial recursive functions, or  whether we  restrict characterization to  the better-behaved general recursive functions. Nor does further restriction to the primitive recursive functions bring any improvement, for Rosser [8] has shown that from a  given general recursive function we  can  effectively construct a  primitive recursive function enumerating the same set. Arguments paralleling the proofs of  Theorem 7  and 8  will then give the analogue of  Theorem 8  for the primitive recursive functions."
+    },
+    {
+      "self_ref": "#/texts/156",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 187.6,
+            "t": 450.1759829101563,
+            "r": 236.112,
+            "b": 441.8219829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            12
+          ]
+        }
+      ],
+      "orig": "Bibliography",
+      "text": "Bibliography",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/157",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.0,
+            "t": 434.4469829101563,
+            "r": 392.645,
+            "b": 416.8619829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            119
+          ]
+        }
+      ],
+      "orig": "1.  Alonzo Church, An  unsolvable  problem,  of elementary number  theory,  Amer. J.  Math. vol. 58 (1936) pp. 345-363.",
+      "text": " Alonzo Church, An  unsolvable  problem,  of elementary number  theory,  Amer. J.  Math. vol. 58 (1936) pp. 345-363.",
+      "enumerated": true,
+      "marker": "1."
+    },
+    {
+      "self_ref": "#/texts/158",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.0,
+            "t": 414.3379829101563,
+            "r": 389.816,
+            "b": 397.2839829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            177
+          ]
+        }
+      ],
+      "orig": "2. Kurt G\u00f6del, \u00dcber formal unentscheidbare S\u00e4tze  der  Principia Mathematica und  verwandter Systeme  I,  Monatshefte  f\u00fcr  Mathematik  und  Physik  vol. 38 (1931) pp.  173-198.",
+      "text": "Kurt G\u00f6del, \u00dcber formal unentscheidbare S\u00e4tze  der  Principia Mathematica und  verwandter Systeme  I,  Monatshefte  f\u00fcr  Mathematik  und  Physik  vol. 38 (1931) pp.  173-198.",
+      "enumerated": true,
+      "marker": "2."
+    },
+    {
+      "self_ref": "#/texts/159",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 45.76,
+            "t": 394.4179829101563,
+            "r": 390.928,
+            "b": 375.7789829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            108
+          ]
+        }
+      ],
+      "orig": "3. S.  C.  Kleene, General recursive  functions of natural numbers, Math. Ann. vol. 112  (1936) pp. 727-766.",
+      "text": "S.  C.  Kleene, General recursive  functions of natural numbers, Math. Ann. vol. 112  (1936) pp. 727-766.",
+      "enumerated": true,
+      "marker": "3."
+    },
+    {
+      "self_ref": "#/texts/160",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 62.32,
+            "t": 375.22198291015627,
+            "r": 392.299,
+            "b": 367.68598291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            94
+          ]
+        }
+      ],
+      "orig": "4.  -, On notation  for  ordinal  numbers,  J.  Symbolic Logic  vol.  3  (1938)  pp.  150-155.",
+      "text": " -, On notation  for  ordinal  numbers,  J.  Symbolic Logic  vol.  3  (1938)  pp.  150-155.",
+      "enumerated": true,
+      "marker": "4."
+    },
+    {
+      "self_ref": "#/texts/161",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 45.52,
+            "t": 364.7079829101563,
+            "r": 392.095,
+            "b": 347.5239829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            96
+          ]
+        }
+      ],
+      "orig": "5.-, Recursive predicates and  quantifiers, Trans. Amer. Math. Soc.  vol.  53  (1943) pp. 41-73.",
+      "text": "5.-, Recursive predicates and  quantifiers, Trans. Amer. Math. Soc.  vol.  53  (1943) pp. 41-73.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/162",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.24,
+            "t": 345.3119829101563,
+            "r": 392.344,
+            "b": 327.9299829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            101
+          ]
+        }
+      ],
+      "orig": "6.  A.  Mostowski, On definable sets of positive integers,  Fund. Math. vol.  34  (1946)  pp.  81112.",
+      "text": " A.  Mostowski, On definable sets of positive integers,  Fund. Math. vol.  34  (1946)  pp.  81112.",
+      "enumerated": true,
+      "marker": "6."
+    },
+    {
+      "self_ref": "#/texts/163",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 45.76,
+            "t": 324.8559829101563,
+            "r": 390.721,
+            "b": 307.6639829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            146
+          ]
+        }
+      ],
+      "orig": "7. E. L. Post, Recursively enumerable sets  of  positive integers and their decision problems, Bull. Amer. Math.  Soc. vol. 50 (1944) pp. 284-316.",
+      "text": "E. L. Post, Recursively enumerable sets  of  positive integers and their decision problems, Bull. Amer. Math.  Soc. vol. 50 (1944) pp. 284-316.",
+      "enumerated": true,
+      "marker": "7."
+    },
+    {
+      "self_ref": "#/texts/164",
+      "parent": {
+        "$ref": "#/groups/7"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 46.24,
+            "t": 304.8849829101563,
+            "r": 394.54,
+            "b": 286.32298291015627,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            118
+          ]
+        }
+      ],
+      "orig": "8.  J.  B.  Rosser, Extensions of some  theorems  of  G\u00f6del and Church,  J.  Symbolic Logic  vol.  1 (1936) pp. 87-91.",
+      "text": " J.  B.  Rosser, Extensions of some  theorems  of  G\u00f6del and Church,  J.  Symbolic Logic  vol.  1 (1936) pp. 87-91.",
+      "enumerated": true,
+      "marker": "8."
+    },
+    {
+      "self_ref": "#/texts/165",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 62.32,
+            "t": 279.4319829101563,
+            "r": 141.576,
+            "b": 261.8499829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "Syracuse University, Syracuse, N.  Y.",
+      "text": "Syracuse University, Syracuse, N.  Y."
+    },
+    {
+      "self_ref": "#/texts/166",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 62.56,
+            "t": 259.5019829101563,
+            "r": 180.462,
+            "b": 251.9659829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            30
+          ]
+        }
+      ],
+      "orig": "University of  New  Hampshire,",
+      "text": "University of  New  Hampshire,"
+    },
+    {
+      "self_ref": "#/texts/167",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 79.6,
+            "t": 249.7689829101563,
+            "r": 137.016,
+            "b": 241.8699829101563,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            14
+          ]
+        }
+      ],
+      "orig": "Durham, N.  H.",
+      "text": "Durham, N.  H."
+    }
+  ],
+  "pictures": [],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 4
+    },
+    "5": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 5
+    },
+    "6": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 6
+    },
+    "7": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 7
+    },
+    "8": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 8
+    },
+    "9": {
+      "size": {
+        "width": 421.44000244140625,
+        "height": 673.9199829101562
+      },
+      "page_no": 9
+    }
+  }
+}

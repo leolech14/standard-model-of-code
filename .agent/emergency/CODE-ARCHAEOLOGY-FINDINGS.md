@@ -45,7 +45,7 @@ Agent tools:         47 (flat directory)
 ### Critical: Same Class Defined Twice
 
 ```python
-# context-management/tools/ai/analyze.py
+# wave/tools/ai/analyze.py
 
 Line 1668: class SocraticValidator:
 Line 1995: class SocraticValidator:   # EXACT DUPLICATE!
@@ -119,7 +119,7 @@ No sub-directories for grouping!
 ### Contrast: Well-Organized Module (ACI)
 
 ```
-context-management/tools/ai/aci/
+wave/tools/ai/aci/
 ├── __init__.py          # Clean exports
 ├── intent_parser.py     # Single responsibility
 ├── tier_orchestrator.py # Single responsibility
@@ -177,8 +177,8 @@ Notable:
 ### Files Not Modified in 30+ Days
 
 ```
-standard-model-of-code/src/tools/extract_chat_insights.py
-standard-model-of-code/src/tools/dedupe_insights.py
+particle/src/tools/extract_chat_insights.py
+particle/src/tools/dedupe_insights.py
 ```
 
 ### Potential Orphans

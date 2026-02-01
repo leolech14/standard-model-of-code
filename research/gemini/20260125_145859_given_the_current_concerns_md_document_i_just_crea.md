@@ -16,16 +16,16 @@ Given the CURRENT_CONCERNS.md document I just created, analyze the project state
 
 ## Response
 
-Based on the comprehensive project context provided—specifically the architectural split between the **Brain** (`context-management`) and **Body** (`standard-model-of-code`), the implementation status in `BACKGROUND_AI_LAYER_MAP.md`, and the pending actions in `REPOSITORY_AUDIT_2026-01-19.md`—I have synthesized the optimal path forward.
+Based on the comprehensive project context provided—specifically the architectural split between the **Brain** (`wave`) and **Body** (`particle`), the implementation status in `BACKGROUND_AI_LAYER_MAP.md`, and the pending actions in `REPOSITORY_AUDIT_2026-01-19.md`—I have synthesized the optimal path forward.
 
-The project is currently in **Phase 2: Intelligence** (Sprint-001 EXECUTING). The critical bottleneck is stabilizing the "Observer" realm (`.agent/`) so it can autonomously manage the "Particle" realm (`standard-model-of-code`) without human micromanagement.
+The project is currently in **Phase 2: Intelligence** (Sprint-001 EXECUTING). The critical bottleneck is stabilizing the "Observer" realm (`.agent/`) so it can autonomously manage the "Particle" realm (`particle`) without human micromanagement.
 
 Here is the prioritized execution plan, ranked by safety and unblocking potential.
 
 ---
 
 ### 1. Execute Pending Repository Hygiene (The Cleanup)
-**Source:** `context-management/docs/REPOSITORY_AUDIT_2026-01-19.md`
+**Source:** `wave/docs/REPOSITORY_AUDIT_2026-01-19.md`
 
 The repository currently contains ~1.5GB of "VEnv Pollution" and large output artifacts that bloat the context window and slow down the ACI (Adaptive Context Intelligence) file scanning.
 
@@ -41,28 +41,28 @@ The repository currently contains ~1.5GB of "VEnv Pollution" and large output ar
 
 **Action Plan:**
 1.  Add `.tools_venv/`, `venv/`, `node_modules/` to exclusion patterns in `generate_metadata_csv.py`.
-2.  Move `standard-model-of-code/output/unified_real_v2/` to `archive/large_outputs/`.
+2.  Move `particle/output/unified_real_v2/` to `archive/large_outputs/`.
 3.  Move root-level `.zip` files to `archive/contextpacks/`.
 
 ---
 
 ### 2. Operationalize the Holographic-Socratic Layer (The Defense)
-**Source:** `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`
+**Source:** `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`
 
 We have the "Antimatter Laws" defined in `semantic_models.yaml`, but the enforcement daemon is not fully active. We need to ensure the system defends itself against architectural drift *before* we accelerate development.
 
 *   **Confidence Score:** **92%** (Tooling exists and verified)
-*   **Prerequisites:** `context-management/tools/ai/analyze.py` must be functional (it is).
+*   **Prerequisites:** `wave/tools/ai/analyze.py` must be functional (it is).
 *   **Risk Assessment:**
     *   *Medium Risk:* Automated commits from the layer could create noise or conflicts if the throttle settings are too aggressive.
     *   *Mitigation:* Run in `--dry-run` or "Report Only" mode first; set throttle to 3600s initially.
 *   **Expected Outcome:**
-    *   Automatic generation of `context-management/reports/socratic_audit_latest.md`.
+    *   Automatic generation of `wave/reports/socratic_audit_latest.md`.
     *   Early detection of **AM002 (Architectural Drift)**.
     *   Establishment of a "semantic baseline" for the code.
 
 **Action Plan:**
-1.  Run a manual baseline audit: `python context-management/tools/ai/analyze.py --verify pipeline`.
+1.  Run a manual baseline audit: `python wave/tools/ai/analyze.py --verify pipeline`.
 2.  Verify `com.elements.socratic-audit.plist` is loaded and targeting the correct python interpreter.
 
 ---

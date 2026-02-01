@@ -1,5 +1,5 @@
 {
-  "dataset_name": "standard-model-of-code",
+  "dataset_name": "particle",
   "summary": "This codebase consists of various tools and scripts designed to analyze, classify, and improve software codebases using the Standard Model of Code. The primary communication patterns involve analyzing code structure, extracting insights from chat transcripts, and generating visualizations to understand and improve code quality and architecture.",
   "shannon": {
     "sources": [

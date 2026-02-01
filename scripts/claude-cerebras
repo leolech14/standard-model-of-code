@@ -1,0 +1,26 @@
+#!/bin/bash
+# Claude Code with Cerebras - 3000 tokens/sec
+# Uses claude-code-router to translate Anthropic → Cerebras
+
+CEREBRAS_HOME="$HOME/.claude-cerebras-home"
+REAL_HOME="$HOME"
+
+# Create separate home directory
+mkdir -p "$CEREBRAS_HOME"
+
+# Copy ccr config if not exists
+if [ ! -f "$CEREBRAS_HOME/.claude-code-router/config-router.json" ]; then
+  mkdir -p "$CEREBRAS_HOME/.claude-code-router"
+  cp "$REAL_HOME/.claude-code-router/config-router.json" "$CEREBRAS_HOME/.claude-code-router/" 2>/dev/null || true
+fi
+
+# Create Claude config that skips login
+cat > "$CEREBRAS_HOME/.claude.json" << 'EOFCONFIG'
+{
+  "hasCompletedOnboarding": true,
+  "primaryApiKey": "sk-ant-routed-to-cerebras"
+}
+EOFCONFIG
+
+# Run with separate HOME
+HOME="$CEREBRAS_HOME" exec ccr code "$@"

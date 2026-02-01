@@ -42,7 +42,7 @@ The repository's operational health is generally **strong**, with well-defined a
 You have at least two major types of background processes running, one local and one cloud-based. The user-mentioned `collider` process analyzing `pydantic` at 98% CPU is a significant resource drain that can impact local development and testing.
 
 1.  **Local Sync/Watch Processes:**
-    *   **Evidence:** The `context-management/docs/ORIENTATION_FILES.md` document details the `sync-orientation-files.sh --watch` command. This script uses `fswatch` to continuously sync documentation to a local `orientation-files/` directory.
+    *   **Evidence:** The `wave/docs/ORIENTATION_FILES.md` document details the `sync-orientation-files.sh --watch` command. This script uses `fswatch` to continuously sync documentation to a local `orientation-files/` directory.
     *   **Impact:** This is a low-resource process, but it contributes to the overall background activity.
 
 2.  **Cloud-Based Socratic Audits:**
@@ -50,7 +50,7 @@ You have at least two major types of background processes running, one local and
     *   **Impact:** This is a heavy, scheduled process but it runs on GCP, so it won't affect your local machine's performance.
 
 3.  **Collider Analysis (User Mentioned):**
-    *   **Evidence:** The user's query mentions `Collider analyzing pydantic at 98% CPU`. This aligns with the tool's purpose described in `context-management/docs/TOOL.md`.
+    *   **Evidence:** The user's query mentions `Collider analyzing pydantic at 98% CPU`. This aligns with the tool's purpose described in `wave/docs/TOOL.md`.
     *   **Impact:** This is the most critical issue. A long-running, high-CPU analysis task can severely degrade local machine performance, slow down `git` operations, and cause other tools to become unresponsive.
 
 **Recommendations:**
@@ -106,9 +106,9 @@ The `.agent/` system and its related configurations are well-structured and prop
 The project has a very strong, documented culture of maintaining a clean working state. While I cannot check your live `git status`, the project's "laws" are explicit.
 
 *   **Evidence:**
-    *   `context-management/docs/agent_school/DOD.md`: "A task is DONE when ALL of the following are true: ... **Working Tree is Clean**". This is listed as a "Hard Requirement (Non-Negotiable)".
-    *   `context-management/docs/agent_school/WORKFLOWS.md`: "Never end a task with uncommitted work — this is a hard rule".
-    *   `context-management/.agent/workflows/publish.md`: The first step is `git status`, and the process assumes a clean state before adding and committing.
+    *   `wave/docs/agent_school/DOD.md`: "A task is DONE when ALL of the following are true: ... **Working Tree is Clean**". This is listed as a "Hard Requirement (Non-Negotiable)".
+    *   `wave/docs/agent_school/WORKFLOWS.md`: "Never end a task with uncommitted work — this is a hard rule".
+    *   `wave/.agent/workflows/publish.md`: The first step is `git status`, and the process assumes a clean state before adding and committing.
 
 **Recommendations:**
 *   **Adhere to Protocol:** Your current priority should be to resolve any dirty state by either committing the changes with a clear message or stashing them. Follow the micro-loop defined in `WORKFLOWS.md`.
@@ -126,7 +126,7 @@ The system does not appear to have an *explicit* file-locking or task-locking me
     1.  **Single Source of Truth:** The `archive.py mirror` command and the `sync-orientation-files.sh` script create canonical context snapshots in GCS and locally. Agents are expected to pull from this "truth" before acting.
     2.  **Task-Based Atomicity:** The `SCAN → PLAN → EXECUTE → VALIDATE → COMMIT` micro-loop encourages agents to work on small, self-contained, and quickly-committed tasks, reducing the window for conflicts.
     3.  **Confidence Gating:** The "Socratic Research Loop" described in `WORKFLOW_FACTORY.md` prevents agents from executing tasks until a confidence threshold (e.g., 95%) is met. This acts as a natural brake, forcing verification before action and reducing the chance of multiple agents acting on the same problem simultaneously with different, half-baked solutions.
-    4.  **Hemisphere Separation:** The "Brain/Body" architecture (`CLAUDE.md`) provides a clear separation of concerns, making it less likely for an agent working on `context-management/` (Brain) to conflict with one working on `standard-model-of-code/` (Body).
+    4.  **Hemisphere Separation:** The "Brain/Body" architecture (`CLAUDE.md`) provides a clear separation of concerns, making it less likely for an agent working on `wave/` (Brain) to conflict with one working on `particle/` (Body).
 
 *   **Identified Risk:**
     The primary risk occurs if two agents are assigned the **same task** simultaneously. Without an explicit locking mechanism (e.g., a central task registry that "claims" a task), they could both `SCAN`, `PLAN`, and `EXECUTE` in parallel, leading to a merge conflict upon `COMMIT`.

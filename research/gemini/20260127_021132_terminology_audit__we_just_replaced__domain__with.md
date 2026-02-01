@@ -19,7 +19,7 @@ Please verify:
 4. Is the algebra in CODESPACE_ALGEBRA.md updated to use C for Concordances instead of D for Domains?
 5. Are there any INCONSISTENCIES where 'Domain' is still used to mean our semantic grouping concept (not the DDD architectural layer)?
 
-Focus on the key terminology files in context-management/docs/. Report any remaining inconsistencies.
+Focus on the key terminology files in wave/docs/. Report any remaining inconsistencies.
 
 ---
 
@@ -43,7 +43,7 @@ The refactor is **~85% complete**. The core theoretical documents (`GLOSSARY`, `
 ### 2. Canonical Definition
 **Status: ✅ CONSISTENT**
 
-*   **File:** `context-management/docs/CONCORDANCES.md` is present and correctly structured.
+*   **File:** `wave/docs/CONCORDANCES.md` is present and correctly structured.
 *   **Content:** It explicitly defines the etymology (replacing Domain) and the mathematical definition (`C = {C₁, C₂, ..., Cₘ}`).
 *   **Deprecation:** `DOMAINS_DEPRECATED.md` exists and correctly redirects to `CONCORDANCES.md`.
 
@@ -69,7 +69,7 @@ The refactor is **~85% complete**. The core theoretical documents (`GLOSSARY`, `
 The following areas require immediate remediation to complete the refactor:
 
 #### A. The Textual Reversion in `CONTEXTOME.md`
-In `context-management/docs/CONTEXTOME.md`, the header was changed, but the explanatory paragraphs were skipped.
+In `wave/docs/CONTEXTOME.md`, the header was changed, but the explanatory paragraphs were skipped.
 
 *   **Line ~36:** "A **Domain** is defined by the relationship between its code and its context."
     *   *Fix:* Change "Domain" to "Concordance".
@@ -81,7 +81,7 @@ In `context-management/docs/CONTEXTOME.md`, the header was changed, but the expl
     *   *Fix:* Change to "Concordance Health".
 
 #### B. The Configuration Lag (`semantic_models.yaml`)
-While not a doc file, `context-management/config/semantic_models.yaml` drives the HSL validation reports. It still uses `DOMAIN` as a primary key.
+While not a doc file, `wave/config/semantic_models.yaml` drives the HSL validation reports. It still uses `DOMAIN` as a primary key.
 
 *   **Lines 8, 48, 64:** `# DOMAIN: PIPELINE`, `# DOMAIN: THEORY`, `# DOMAIN: ARCHITECTURE`.
 *   **Impact:** If the `analyze.py` tool reads these keys to generate reports, the output reports (`socratic_audit_*.md`) will likely still use the term "Domain", confusing the user.

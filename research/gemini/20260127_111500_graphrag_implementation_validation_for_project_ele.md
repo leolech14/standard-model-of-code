@@ -64,16 +64,16 @@ The proposed stack (Neo4j, all-mpnet-base-v2, Gemini, Louvain) is a sound choice
 
 #### 1. Is this the right sequence for our existing refinery infrastructure?
 
-The sequence of tasks is appropriate for building a GraphRAG system from scratch. However, the term "refinery infrastructure" in `PROJECT_elements` primarily refers to the `standard-model-of-code/` (Collider, S1) which processes source code into structured analysis, and the `context-management/tools/ai/analyze.py` (S3) which acts as the AI processing engine.
+The sequence of tasks is appropriate for building a GraphRAG system from scratch. However, the term "refinery infrastructure" in `PROJECT_elements` primarily refers to the `particle/` (Collider, S1) which processes source code into structured analysis, and the `wave/tools/ai/analyze.py` (S3) which acts as the AI processing engine.
 
 To correctly integrate this GraphRAG pipeline:
 
 *   **Data Source Integration:**
     *   **Code Chunks:** The canonical source for code analysis is the `Collider` (S1), which produces `unified_analysis.json`. Entity extraction and embeddings for code chunks *must* leverage this output.
-    *   **Theories/Concepts:** These would likely be found in `context-management/docs/` and `standard-model-of-code/docs/specs/`. The "Concepts" world is central to `PROJECT_elements`.
+    *   **Theories/Concepts:** These would likely be found in `wave/docs/` and `particle/docs/specs/`. The "Concepts" world is central to `PROJECT_elements`.
     *   **Research Files:** These could be from `docs/research/perplexity/` or other internal `docs/research/` locations. External research might involve `Perplexity MCP` (S4).
 *   **Intelligence Layer Integration:**
-    *   **Entity Extraction:** All Gemini interaction should be orchestrated via `context-management/tools/ai/analyze.py` (S3). This tool is the project's gateway to LLMs and adheres to context engineering principles.
+    *   **Entity Extraction:** All Gemini interaction should be orchestrated via `wave/tools/ai/analyze.py` (S3). This tool is the project's gateway to LLMs and adheres to context engineering principles.
     *   **Output & Task Generation:** Graph insights should feed into the `Task Registry` (S5), likely by generating structured YAML tasks (as per `SUBSYSTEM_INTEGRATION.md`'s "Proposed" section for Task Registry format). The `promote_opportunity.py` tool is designed for this.
     *   **Wave/Particle Duality:** The GraphRAG itself functions as part of the `Intelligence Layer` (Wave), providing a potential field of knowledge. Its measurements (e.g., discovered gaps, inconsistencies, or new connections) should collapse into `TASK-XXX` (Particle) via the `Task Registry` for `BARE` (S6) or human agents to act upon.
 
@@ -83,7 +83,7 @@ To correctly integrate this GraphRAG pipeline:
     *   (Original Task 1) Install Neo4j.
     *   Define precise data sources for theories, code, and research files within the existing codebase.
     *   Develop a minimal GraphRAG schema (nodes, relationships) based on `PROJECT_elements` concepts (e.g., `CodeChunk`, `Theory`, `Concept`).
-    *   Integrate embedding generation for `all-mpnet-base-v2` into a new utility script under `context-management/tools/data/` or `context-management/tools/graph/`.
+    *   Integrate embedding generation for `all-mpnet-base-v2` into a new utility script under `wave/tools/data/` or `wave/tools/graph/`.
 
 2.  **Phase 1: Initial Data Ingestion**
     *   (Partial Original Task 3) Generate embeddings for a *small subset* of code chunks (from `unified_analysis.json`), theories, and research files.
@@ -180,16 +180,16 @@ This schema allows for rich queries that combine textual similarity with structu
 
 #### 4. How to integrate with `./pe` commands?
 
-The `PROJECT_elements` "AI tools" are primarily managed by `context-management/tools/ai/analyze.py` (S3). This is the natural integration point.
+The `PROJECT_elements` "AI tools" are primarily managed by `wave/tools/ai/analyze.py` (S3). This is the natural integration point.
 
 **Proposed Integration Points for `analyze.py`:**
 
 1.  **Graph Building/Updating:**
-    *   `python context-management/tools/ai/analyze.py --build-graph [--incremental]`
+    *   `python wave/tools/ai/analyze.py --build-graph [--incremental]`
         *   This command would orchestrate the entity extraction (calling Gemini via `analyze.py`'s internal logic), embedding generation, and Neo4j graph population. `--incremental` would only process new/changed files.
         *   Leverage existing `archive.py` (S7) post-commit hooks to potentially trigger incremental graph updates.
 2.  **GraphRAG Query Interface:**
-    *   `python context-management/tools/ai/analyze.py --graph-query "<natural language query>" [--top-k N] [--explain]`
+    *   `python wave/tools/ai/analyze.py --graph-query "<natural language query>" [--top-k N] [--explain]`
         *   This would invoke the Neo4j GraphRAG Python query engine. The query engine would:
             *   Convert the natural language query into graph traversals and/or semantic searches.
             *   Retrieve relevant graph snippets.
@@ -198,10 +198,10 @@ The `PROJECT_elements` "AI tools" are primarily managed by `context-management/t
             *   Return the synthesized answer.
         *   `--explain` could return the intermediate graph results or the prompt sent to Gemini.
 3.  **Graph Visualization (Basic):**
-    *   `python context-management/tools/ai/analyze.py --view-graph-chunk "<node_id>" [--depth N]`
+    *   `python wave/tools/ai/analyze.py --view-graph-chunk "<node_id>" [--depth N]`
         *   For local development/debugging, this could open a simple web view or print a text-based representation of a subgraph around a given node.
 4.  **Task Generation from Graph Insights:**
-    *   `python context-management/tools/ai/analyze.py --scan-graph-for-tasks`
+    *   `python wave/tools/ai/analyze.py --scan-graph-for-tasks`
         *   This command could identify patterns (e.g., isolated communities, concepts with no code implementation, conflicting theories) and **generate structured YAML `TASK-XXX` files** in `.agent/registry/active/` using the `promote_opportunity.py` tool.
 
 This approach keeps all primary AI interaction under the `analyze.py` umbrella, consistent with `manifest.yaml` and `SUBSYSTEM_INTEGRATION.md`.

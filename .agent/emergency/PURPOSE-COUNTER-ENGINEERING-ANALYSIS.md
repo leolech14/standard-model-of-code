@@ -306,10 +306,10 @@ analyze.py - Named after action, not purpose
 ```
 Tools scattered across:
   - .agent/tools/
-  - context-management/tools/
-  - context-management/tools/ai/
-  - context-management/tools/ai/aci/
-  - standard-model-of-code/tools/
+  - wave/tools/
+  - wave/tools/ai/
+  - wave/tools/ai/aci/
+  - particle/tools/
 
 No clear principle for what goes where.
 ```
@@ -318,12 +318,12 @@ No clear principle for what goes where.
 
 ```
 boundary_analyzer.py exists in TWO places:
-  - context-management/tools/maintenance/boundary_analyzer.py
-  - context-management/tools/ai/boundary_analyzer.py
+  - wave/tools/maintenance/boundary_analyzer.py
+  - wave/tools/ai/boundary_analyzer.py
 
 gemini_status.py exists in TWO places:
-  - context-management/tools/ai/gemini_status.py
-  - context-management/tools/maintenance/gemini_status.py
+  - wave/tools/ai/gemini_status.py
+  - wave/tools/maintenance/gemini_status.py
 ```
 
 ---

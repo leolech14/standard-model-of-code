@@ -57,8 +57,8 @@
 ┌──────────────────────────────────────────────────────┐
 │  DIRECTORY               Files    Lines       Size   │
 │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  context-management     16,960  1,174,133     6.0GB  │
-│  standard-model-of-code 15,586  1,810,787     2.5GB  │
+│  wave     16,960  1,174,133     6.0GB  │
+│  particle 15,586  1,810,787     2.5GB  │
 │  .agent                    523     56,114      49MB  │
 │  governance                  9      1,850      68KB  │
 │  Other (experiments, etc)  ~2K         ?     ~4.5GB  │
@@ -151,7 +151,7 @@
 - **OPERATIONS_PLAN.md** - Decision framework + action plan
 - **governance/QUALITY_GATES.md** - Integrity checks (G1-G8)
 - **governance/DEFINITION_OF_DONE.md** - v1 release criteria
-- **context-management/reports/refinery/docs_audit_latest.md** - Latest audit
+- **wave/reports/refinery/docs_audit_latest.md** - Latest audit
 
 ---
 
@@ -162,7 +162,7 @@
 bash /tmp/repo_census.sh > INTELLIGENCE_BRIEF_$(date +%Y%m%d).md
 
 # Run docs audit
-python3 context-management/tools/refinery/docs_audit.py
+python3 wave/tools/refinery/docs_audit.py
 
 # Check active surface
 git log --since="30 days ago" --name-only --pretty=format: | sort -u | wc -l

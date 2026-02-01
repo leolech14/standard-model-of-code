@@ -8,17 +8,17 @@ domains:
     description: "28-stage code analysis pipeline (Codome processing)"
     codome:
       paths:
-        - standard-model-of-code/src/core/full_analysis.py
-        - standard-model-of-code/src/core/pipeline/
+        - particle/src/core/full_analysis.py
+        - particle/src/core/pipeline/
       entrypoints:
         - full_analysis.py::run_full_analysis()
     contextome:
       paths:
-        - standard-model-of-code/docs/specs/PIPELINE_STAGES.md
-        - standard-model-of-code/docs/COLLIDER.md
-      canonical: standard-model-of-code/src/core/pipeline/stages/__init__.py
+        - particle/docs/specs/PIPELINE_STAGES.md
+        - particle/docs/COLLIDER.md
+      canonical: particle/src/core/pipeline/stages/__init__.py
     registries:
-      - standard-model-of-code/src/core/pipeline/stages/__init__.py
+      - particle/src/core/pipeline/stages/__init__.py
     health_checks:
       - code_exists: true
       - context_exists: true
@@ -29,15 +29,15 @@ domains:
     description: "4-stage context atomization pipeline (Contextome processing)"
     codome:
       paths:
-        - context-management/tools/ai/aci/refinery.py
+        - wave/tools/ai/aci/refinery.py
       entrypoints:
         - refinery.py::Refinery.process_file()
     contextome:
       paths:
-        - context-management/docs/specs/REFINERY_PIPELINE_STAGES.md
-      canonical: context-management/tools/ai/aci/refinery.py
+        - wave/docs/specs/REFINERY_PIPELINE_STAGES.md
+      canonical: wave/tools/ai/aci/refinery.py
     registries:
-      - context-management/tools/ai/aci/refinery.py
+      - wave/tools/ai/aci/refinery.py
     health_checks:
       - code_exists: true
       - context_exists: true
@@ -48,19 +48,19 @@ domains:
     description: "3D force-directed graph UI"
     codome:
       paths:
-        - standard-model-of-code/src/core/viz/
-        - standard-model-of-code/tools/visualize_graph_webgl.py
+        - particle/src/core/viz/
+        - particle/tools/visualize_graph_webgl.py
       entrypoints:
         - visualize_graph_webgl.py::generate_html()
     contextome:
       paths:
-        - standard-model-of-code/docs/specs/VISUALIZATION_UI_SPEC.md
-        - standard-model-of-code/docs/specs/UI_CONTROLS_SCHEMA.md
-        - standard-model-of-code/docs/reports/VIZ_SESSION_2026-01-27_COMPLETE.md
-      canonical: standard-model-of-code/docs/specs/VISUALIZATION_UI_SPEC.md
+        - particle/docs/specs/VISUALIZATION_UI_SPEC.md
+        - particle/docs/specs/UI_CONTROLS_SCHEMA.md
+        - particle/docs/reports/VIZ_SESSION_2026-01-27_COMPLETE.md
+      canonical: particle/docs/specs/VISUALIZATION_UI_SPEC.md
     registries:
-      - standard-model-of-code/src/core/viz/assets/modules/registries/ControlRegistry.js
-      - standard-model-of-code/schema/viz/
+      - particle/src/core/viz/assets/modules/registries/ControlRegistry.js
+      - particle/schema/viz/
     health_checks:
       - code_exists: true
       - context_exists: true
@@ -71,20 +71,20 @@ domains:
     description: "3,610 atom taxonomy (T0/T1/T2)"
     codome:
       paths:
-        - standard-model-of-code/src/core/atom_loader.py
-        - standard-model-of-code/src/patterns/atom_classifier.py
+        - particle/src/core/atom_loader.py
+        - particle/src/patterns/atom_classifier.py
       entrypoints:
         - atom_loader.py::load_atoms()
     contextome:
       paths:
-        - standard-model-of-code/docs/MODEL.md
-        - standard-model-of-code/docs/reports/ATOM_STATISTICAL_ANALYSIS.md
-      canonical: standard-model-of-code/docs/MODEL.md
+        - particle/docs/MODEL.md
+        - particle/docs/reports/ATOM_STATISTICAL_ANALYSIS.md
+      canonical: particle/docs/MODEL.md
     registries:
-      - standard-model-of-code/src/patterns/ATOMS_T0.yaml
-      - standard-model-of-code/src/patterns/ATOMS_T1.yaml
-      - standard-model-of-code/src/patterns/t2_base/ATOMS_T2_BASE.yaml
-      - standard-model-of-code/src/patterns/t2_mined/ATOMS_T2_OTHER.yaml
+      - particle/src/patterns/ATOMS_T0.yaml
+      - particle/src/patterns/ATOMS_T1.yaml
+      - particle/src/patterns/t2_base/ATOMS_T2_BASE.yaml
+      - particle/src/patterns/t2_mined/ATOMS_T2_OTHER.yaml
     health_checks:
       - code_exists: true
       - context_exists: true
@@ -98,7 +98,7 @@ domains:
       paths:
         - .agent/tools/autopilot.py
         - .agent/tools/wire.py
-        - context-management/tools/ai/deck/deck_router.py
+        - wave/tools/ai/deck/deck_router.py
       entrypoints:
         - autopilot.py::run()
         - ./pe deck
@@ -106,7 +106,7 @@ domains:
       paths:
         - .agent/intelligence/
         - .agent/deck/
-        - context-management/docs/operations/
+        - wave/docs/operations/
       canonical: .agent/META_REGISTRY.yaml
     registries:
       - .agent/registry/
@@ -121,19 +121,19 @@ domains:
     description: "analyze.py + refinery + HSL + Perplexity"
     codome:
       paths:
-        - context-management/tools/ai/analyze.py
-        - context-management/tools/ai/aci/refinery.py
+        - wave/tools/ai/analyze.py
+        - wave/tools/ai/aci/refinery.py
       entrypoints:
         - analyze.py --set <set> "<query>"
         - ./pe ask
     contextome:
       paths:
-        - context-management/docs/deep/AI_USER_GUIDE.md
-        - context-management/config/analysis_sets.yaml
-      canonical: context-management/docs/deep/AI_USER_GUIDE.md
+        - wave/docs/deep/AI_USER_GUIDE.md
+        - wave/config/analysis_sets.yaml
+      canonical: wave/docs/deep/AI_USER_GUIDE.md
     registries:
-      - context-management/config/analysis_sets.yaml
-      - context-management/config/semantic_models.yaml
+      - wave/config/analysis_sets.yaml
+      - wave/config/semantic_models.yaml
     health_checks:
       - code_exists: true
       - context_exists: true

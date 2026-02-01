@@ -172,12 +172,12 @@ A new command suite, `./pe comm`, will be the primary user interface for the Com
 ./pe comm report --output .agent/intelligence/reports/comm_report_$(date +%Y%m%d).md
 
 # Measure a specific metric for a given target
-./pe comm measure entropy --file standard-model-of-code/src/core/full_analysis.py
+./pe comm measure entropy --file particle/src/core/full_analysis.py
 ./pe comm measure snr --domain Governance --period 30d
 ./pe comm measure latency --loop HSL_Validation_Loop
 
 # Classify artifacts according to the sign taxonomy
-./pe comm classify context-management/docs/PROJECTOME.md  # Output: Symbol
+./pe comm classify wave/docs/PROJECTOME.md  # Output: Symbol
 ./pe comm classify project-map.md                          # Output: Icon (due to Mermaid)
 ./pe comm classify .logs/bare.log                          # Output: Index
 

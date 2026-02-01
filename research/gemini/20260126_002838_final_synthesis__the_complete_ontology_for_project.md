@@ -43,11 +43,11 @@ NOW THE PRACTICAL QUESTION:
 How should PROJECT_elements ORGANIZE these categories?
 
 Current state:
-- standard-model-of-code/src/core/ → Modules (Collider)
-- context-management/tools/ → Mixed (Modules + Automation)
+- particle/src/core/ → Modules (Collider)
+- wave/tools/ → Mixed (Modules + Automation)
 - .agent/tools/ → Mixed (Automation + ?)
 - .agent/cloud/ → Infrastructure?
-- context-management/config/ → Config (Slush)
+- wave/config/ → Config (Slush)
 
 Proposed clarity:
 
@@ -58,8 +58,8 @@ OPTION A: By Phase State
 - /config/ → All slush (YAML configs)
 
 OPTION B: By Realm (Keep Wave/Particle/Observer)
-- Particle (standard-model-of-code/) → Modules + their configs
-- Wave (context-management/) → AI capabilities + their configs
+- Particle (particle/) → Modules + their configs
+- Wave (wave/) → AI capabilities + their configs
 - Observer (.agent/) → Automation + Infrastructure
 
 OPTION C: Keep current but ADD TAGS
@@ -90,13 +90,13 @@ This approach maximizes coherence while minimizing refactoring risk.
 We map your 4 ontological categories (The Phases) into the 3 existing directories (The Realms).
 
 ### 1. THE PARTICLE REALM (Determinism)
-**Directory:** `standard-model-of-code/`
+**Directory:** `particle/`
 **Ontology:** Pure Logic. No side effects. No policy.
 *   **Module (Hard)**: `src/core/` (Collider). This is the engine. It takes input, gives output. It never "decides" when to run.
 *   **Config (Frozen)**: `schema/`. These are the constants of the universe (Atoms, Roles). They are "Solid Slush"—rarely changed.
 
 ### 2. THE WAVE REALM (Probability & Context)
-**Directory:** `context-management/`
+**Directory:** `wave/`
 **Ontology:** Intelligence & Knowledge.
 *   **Module (Soft)**: `tools/ai/` (ACI, analyze.py). These are capabilities. They can reason, but they don't *act* autonomously.
 *   **Config (Liquid)**: `config/` (aci_config.yaml). This is "Liquid Slush"—tunable parameters for intelligence.
@@ -123,8 +123,8 @@ Currently, `.agent/tools` is mixed. We split it by Phase.
     *   *Contains:* `claim_task.sh`, `sprint.py`, `orchestrator.py`
 *   **Keep**: `.agent/registry/` (The State/Memory)
 
-### Step 2: Purify `context-management/`
-Ensure `context-management/tools/` contains only **Modules** (Capabilities), not **Automation** (Loops).
+### Step 2: Purify `wave/`
+Ensure `wave/tools/` contains only **Modules** (Capabilities), not **Automation** (Loops).
 
 *   *Check:* `analyze.py` is a Module (Capability). **Keep.**
 *   *Check:* `drift_guard.py` is Automation (Loop). **Decision:** It stays in Wave because it is a "Sensor" for the Contextome, but semantically it behaves like Automation.
@@ -135,12 +135,12 @@ Update `.agent/manifest.yaml` to explicitly declare the Phase of each directory.
 ```yaml
 ontology:
   particle:
-    path: "standard-model-of-code/src/core"
+    path: "particle/src/core"
     phase: "MODULE"
     nature: "Deterministic"
-  
+
   wave:
-    path: "context-management/tools/ai"
+    path: "wave/tools/ai"
     phase: "MODULE"
     nature: "Probabilistic"
 
@@ -163,7 +163,7 @@ This ontology clarifies the development lifecycle:
 
 1.  **Code begins as Liquid Automation** (`.agent/automation/script.py`).
     *   *("I wrote a quick script to check X")*
-2.  **It crystallizes into a Module** (`standard-model-of-code/src/core/check_x.py`).
+2.  **It crystallizes into a Module** (`particle/src/core/check_x.py`).
     *   *("This logic is useful everywhere, let's make it a pure function")*
 3.  **It freezes into Infrastructure** (`.agent/infrastructure/checker_image`).
     *   *("This runs unchanged in the cloud now")*

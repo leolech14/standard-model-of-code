@@ -24,7 +24,7 @@ from typing import Optional
 REPO_ROOT = Path(__file__).parent.parent.parent
 LOL_CSV = REPO_ROOT / ".agent" / "intelligence" / "LOL.csv"
 LOL_SMOC_CSV = REPO_ROOT / ".agent" / "intelligence" / "LOL_SMOC.csv"
-COLLIDER_DIR = REPO_ROOT / "standard-model-of-code" / ".collider"
+COLLIDER_DIR = REPO_ROOT / "particle" / ".collider"
 
 # SMoC columns to add
 SMOC_COLUMNS = [
@@ -149,15 +149,15 @@ def merge_lol_with_smoc(lol_path: Path, file_smoc: dict, output_path: Path):
         path = row["path"]
 
         # Try to find matching SMoC data
-        # Paths in Collider are relative to standard-model-of-code/
+        # Paths in Collider are relative to particle/
         smoc_data = None
 
         # Try direct match
         if path in file_smoc:
             smoc_data = file_smoc[path]
-        # Try with standard-model-of-code/ prefix stripped
-        elif path.startswith("standard-model-of-code/"):
-            rel_path = path[len("standard-model-of-code/"):]
+        # Try with particle/ prefix stripped
+        elif path.startswith("particle/"):
+            rel_path = path[len("particle/"):]
             if rel_path in file_smoc:
                 smoc_data = file_smoc[rel_path]
         # Try adding src/ prefix (common Collider pattern)

@@ -29,7 +29,7 @@ Be quantitative where possible.
 
 ## Response
 
-Based on a static analysis of the provided codebase (`standard-model-of-code`), here is the Comprehensive Project Health Check.
+Based on a static analysis of the provided codebase (`particle`), here is the Comprehensive Project Health Check.
 
 ### 1. File Count by Category
 Based on the provided context, the codebase is heavily weighted towards Python core logic and YAML configuration schemas.

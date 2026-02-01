@@ -15,9 +15,9 @@ We have three fragmented systems that need unificat...
 DESIGN AN 'EVER WAS, ALWAYS BEEN' ARCHITECTURE.
 
 We have three fragmented systems that need unification:
-- System A (Agent): context-management/tools/ai/ - queries, routing
-- System B (Scientist): standard-model-of-code/tools/research/ - corpus validation
-- System C (Librarian): context-management/tools/refinery/ - inventory, chunking
+- System A (Agent): wave/tools/ai/ - queries, routing
+- System B (Scientist): particle/tools/research/ - corpus validation
+- System C (Librarian): wave/tools/refinery/ - inventory, chunking
 
 Current state: 65/100 coherence. A+C integrated, B orphaned via file I/O only.
 
@@ -51,8 +51,8 @@ Here is the **"Ever Was, Always Been"** design.
 
 To solve the "Orphaned Scientist" problem without violating Wave-Particle duality, we introduce the **Laboratory Layer**.
 
-- **Particle Realm (`standard-model-of-code/`)** is the physics engine.
-- **Wave Realm (`context-management/`)** is the intelligence.
+- **Particle Realm (`particle/`)** is the physics engine.
+- **Wave Realm (`wave/`)** is the intelligence.
 - **The Bridge:** We do not merge them. We expose the **Laboratory** within the Particle realm as a strictly typed Python API.
 
 The Agent (Wave) does not "run scripts." The Agent **commissions experiments** via the Laboratory API.
@@ -60,7 +60,7 @@ The Agent (Wave) does not "run scripts." The Agent **commissions experiments** v
 ### 2. The Minimal Change (Maximum Coherence)
 
 We perform a **Code Promotion**:
-1.  Move `standard-model-of-code/tools/research/` → `standard-model-of-code/src/laboratory/`.
+1.  Move `particle/tools/research/` → `particle/src/laboratory/`.
 2.  Add `__init__.py` to expose a Unified Inquiry Interface.
 
 This changes System B from a "bag of scripts" to a "first-class module."
@@ -79,7 +79,7 @@ We resolve collisions by strictly defining the *state* of the matter:
 
 The Agent (System A) imports the Laboratory (System B) directly. No subprocesses, no file watching.
 
-**File:** `standard-model-of-code/src/laboratory/__init__.py`
+**File:** `particle/src/laboratory/__init__.py`
 
 ```python
 """
@@ -105,7 +105,7 @@ class ExperimentResult:
 
 class ChiefScientist:
     """The programmatic entry point for the Agent."""
-    
+
     @staticmethod
     def measure_coverage(path: str) -> float:
         """Direct access to System B metrics."""
@@ -120,7 +120,7 @@ class ChiefScientist:
 **Usage in Agent (System A):**
 
 ```python
-# context-management/tools/ai/orchestrator.py
+# wave/tools/ai/orchestrator.py
 
 # "It always should have been this way..."
 from standard_model.laboratory import ChiefScientist, ExperimentRequest
@@ -132,7 +132,7 @@ def verify_hypothesis(repo_path: str):
         hypothesis="T2_saturation",
         granularity="function"
     ))
-    
+
     # Agent sends result to Librarian (Refinery) for long-term storage
     from .aci.refinery import Refinery
     Refinery.archive(result)
@@ -147,7 +147,7 @@ def verify_hypothesis(repo_path: str):
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                               ║
 ║   WAVE REALM (Context & Intelligence)          PARTICLE REALM (Code & Physics)║
-║   path: context-management/                    path: standard-model-of-code/  ║
+║   path: wave/                    path: particle/  ║
 ║                                                                               ║
 ║   ┌─────────────────────────────┐              ┌───────────────────────────┐  ║
 ║   │      SYSTEM A: AGENT        │              │    SYSTEM B: SCIENTIST    │  ║
@@ -174,9 +174,9 @@ def verify_hypothesis(repo_path: str):
 
 ### Summary of Changes
 
-1.  **Refactor:** Rename/Move `standard-model-of-code/tools/research` to `standard-model-of-code/src/laboratory`.
+1.  **Refactor:** Rename/Move `particle/tools/research` to `particle/src/laboratory`.
 2.  **Unify:** Create `ChiefScientist` class in `laboratory/__init__.py` as the Facade Pattern for all research scripts.
-3.  **Integrate:** Update `context-management` requirements to install `standard-model-of-code` in editable mode (`-e .`), allowing direct imports.
+3.  **Integrate:** Update `wave` requirements to install `particle` in editable mode (`-e .`), allowing direct imports.
 4.  **Rename:** Ensure `Refinery` (Wave) inputs `ContextNode` and `Laboratory` (Particle) outputs `CodeAtom`.
 
 This design makes the system feel inevitable: **The Agent thinks (Wave), the Scientist measures (Particle), and the Librarian remembers (Synthesis).**

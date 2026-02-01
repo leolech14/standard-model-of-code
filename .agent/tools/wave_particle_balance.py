@@ -4,8 +4,8 @@ Wave/Particle Balance Analyzer
 ==============================
 
 Uses Collider's unified_analysis.json to measure the balance between:
-- PARTICLE (standard-model-of-code/) - The product
-- WAVE (context-management/) - The support
+- PARTICLE (particle/) - The product
+- WAVE (wave/) - The support
 - OBSERVER (.agent/) - The meta
 
 Usage:
@@ -63,9 +63,9 @@ def analyze_balance(analysis_path: Path) -> dict:
 
     for node in nodes:
         path = node.get('file_path', '') or node.get('id', '')
-        if 'standard-model-of-code' in path:
+        if 'particle' in path:
             realms['PARTICLE'].append(node)
-        elif 'context-management' in path:
+        elif 'wave' in path:
             realms['WAVE'].append(node)
         elif '.agent' in path:
             realms['OBSERVER'].append(node)
@@ -176,7 +176,7 @@ def main():
     if args.run_collider:
         print("Running Collider on PROJECT_elements...")
         subprocess.run([
-            str(PROJECT_ROOT / "standard-model-of-code/collider"),
+            str(PROJECT_ROOT / "particle/collider"),
             "full",
             str(PROJECT_ROOT),
             "--output", "/tmp/elements_self_analysis"

@@ -53,7 +53,7 @@ validation:
       - "Autonomous agent orchestration (procedural reasoning)"
       - "Tree-of-Thought and HTN (task decomposition)"
       - "Self-optimizing pipelines (emerging frontier)"
-    research_saved: "standard-model-of-code/docs/research/perplexity/20260123_163500_autonomous_enrichment_pipeline_validation.md"
+    research_saved: "particle/docs/research/perplexity/20260123_163500_autonomous_enrichment_pipeline_validation.md"
 
 blocked_by:
   - TASK-019  # Gemini caching required for cost efficiency

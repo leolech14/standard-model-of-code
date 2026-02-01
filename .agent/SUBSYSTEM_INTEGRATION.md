@@ -66,21 +66,21 @@
 
 | ID | Subsystem | Type | Path | Purpose |
 |----|-----------|------|------|---------|
-| S1 | **Collider** | Engine | `standard-model-of-code/` | Semantic code analysis (ground truth) |
-| S2 | **HSL** | Framework | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | Automated validation rules |
-| S3 | **analyze.py** | Engine | `context-management/tools/ai/analyze.py` | AI query interface (implements HSL) |
-| S4 | **Perplexity MCP** | Utility | `context-management/tools/mcp/perplexity_mcp_server.py` | External knowledge queries |
+| S1 | **Collider** | Engine | `particle/` | Semantic code analysis (ground truth) |
+| S2 | **HSL** | Framework | `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | Automated validation rules |
+| S3 | **analyze.py** | Engine | `wave/tools/ai/analyze.py` | AI query interface (implements HSL) |
+| S4 | **Perplexity MCP** | Utility | `wave/tools/mcp/perplexity_mcp_server.py` | External knowledge queries |
 | S5 | **Task Registry** | State | `.agent/registry/` | Work item tracking |
 | S6 | **BARE** | Engine | `.agent/tools/bare` | Background auto-refinement |
-| S7 | **Archive/Mirror** | Utility | `context-management/tools/archive/` | Cloud sync (GCS) |
+| S7 | **Archive/Mirror** | Utility | `wave/tools/archive/` | Cloud sync (GCS) |
 | S8 | **Commit Hygiene** | Guard | `.pre-commit-config.yaml`, `commitlint.config.js` | Enforce Conventional Commits |
-| S9 | **Laboratory** | Bridge | `standard-model-of-code/tools/research/laboratory.py` | Scientist facade (Particle-side API) |
-| S9b | **Laboratory Bridge** | Client | `context-management/tools/ai/laboratory_bridge.py` | Agent client (Wave-side caller) |
+| S9 | **Laboratory** | Bridge | `particle/tools/research/laboratory.py` | Scientist facade (Particle-side API) |
+| S9b | **Laboratory Bridge** | Client | `wave/tools/ai/laboratory_bridge.py` | Agent client (Wave-side caller) |
 | S10 | **Cloud Automation** | Engine | `.agent/tools/cloud/` | Auto-boost opportunities via GCS + Cloud Function |
-| S11 | **Batch Grade** | Experiment | `standard-model-of-code/tools/batch_grade/` | Mass Collider validation on 999+ repos (RunPod) |
+| S11 | **Batch Grade** | Experiment | `particle/tools/batch_grade/` | Mass Collider validation on 999+ repos (RunPod) |
 | S12 | **Centripetal** | Utility | `.agent/tools/centripetal_scan.py` | Deep 12-round analysis cycles |
 | **S13** | **Macro Registry** | State | `.agent/macros/` | Recorded action patterns for automation |
-| **S14** | **GraphRAG** | Engine | `context-management/tools/ai/graph_rag/` | Graph-structured reasoning over knowledge graph |
+| **S14** | **GraphRAG** | Engine | `wave/tools/ai/graph_rag/` | Graph-structured reasoning over knowledge graph |
 
 ---
 
@@ -193,22 +193,22 @@ Migration path:
 For each subsystem, these are the key files to understand:
 
 ### Collider (S1)
-- Entry: `standard-model-of-code/CLAUDE.md`
-- Theory: `standard-model-of-code/docs/MODEL.md`
-- Pipeline: `standard-model-of-code/src/core/full_analysis.py`
+- Entry: `particle/CLAUDE.md`
+- Theory: `particle/docs/MODEL.md`
+- Pipeline: `particle/src/core/full_analysis.py`
 
 ### HSL (S2)
-- Spec: `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`
-- Config: `context-management/config/semantic_models.yaml`
-- Implementation: `context-management/tools/ai/analyze.py` (--verify)
+- Spec: `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md`
+- Config: `wave/config/semantic_models.yaml`
+- Implementation: `wave/tools/ai/analyze.py` (--verify)
 
 ### analyze.py (S3)
-- Source: `context-management/tools/ai/analyze.py`
-- Config: `context-management/config/analysis_sets.yaml`
-- User guide: `context-management/docs/AI_USER_GUIDE.md`
+- Source: `wave/tools/ai/analyze.py`
+- Config: `wave/config/analysis_sets.yaml`
+- User guide: `wave/docs/AI_USER_GUIDE.md`
 
 ### Perplexity MCP (S4)
-- Server: `context-management/tools/mcp/perplexity_mcp_server.py`
+- Server: `wave/tools/mcp/perplexity_mcp_server.py`
 - Output: `docs/research/perplexity/`
 
 ### Task Registry (S5)
@@ -222,8 +222,8 @@ For each subsystem, these are the key files to understand:
 - Output: `.agent/intelligence/`
 
 ### Archive/Mirror (S7)
-- Tool: `context-management/tools/archive/archive.py`
-- Config: `context-management/tools/archive/config.yaml`
+- Tool: `wave/tools/archive/archive.py`
+- Config: `wave/tools/archive/config.yaml`
 - Bucket: `gs://elements-archive-2026/`
 
 ### Commit Hygiene (S8)
@@ -233,8 +233,8 @@ For each subsystem, these are the key files to understand:
 - Kernel reference: `.agent/KERNEL.md` (Non-Negotiables #2)
 
 ### Laboratory (S9)
-- Facade: `standard-model-of-code/tools/research/laboratory.py`
-- Client: `context-management/tools/ai/laboratory_bridge.py`
+- Facade: `particle/tools/research/laboratory.py`
+- Client: `wave/tools/ai/laboratory_bridge.py`
 - API: `run_experiment(ExperimentRequest) -> ExperimentResult`
 - Convenience: `measure_coverage()`, `evaluate_hypothesis()`
 - Output: Experiment artifacts in temp directories
@@ -250,7 +250,7 @@ For each subsystem, these are the key files to understand:
 - Health check: `.agent/tools/cloud/check_status.sh`
 
 ### Batch Grade (S11)
-- Directory: `standard-model-of-code/tools/batch_grade/`
+- Directory: `particle/tools/batch_grade/`
 - Scripts:
   - `runpod_agent.py` - Full automation: create pod, run job, download results
   - `run_batch_local.py` - Parallel grading (runs on pod or locally)
@@ -260,7 +260,7 @@ For each subsystem, these are the key files to understand:
   - `full_scans/` - EMPTY: Target for proper `collider full` run
 - **STATUS: FAIL-001** - Ran with `grade` not `full`, missing unified_analysis.json
 - Degradation marker: `grades_DEGRADED_summary_only/DEGRADED.md`
-- Concern tracker: `standard-model-of-code/docs/OPEN_CONCERNS.md` (FAIL-001)
+- Concern tracker: `particle/docs/OPEN_CONCERNS.md` (FAIL-001)
 
 ---
 

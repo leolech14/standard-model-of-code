@@ -52,13 +52,13 @@ Each document would detail the theory, the methodology of validation, and the co
 
 **Location:**
 *   **For theories contributing to the core "Standard Model of Code" (i.e., the "Particle" side, how code itself is understood):**
-    *   `standard-model-of-code/docs/`
-    *   **Rationale:** `manifest.yaml` defines `standard-model-of-code/docs/` as the `concepts` path for the `body` (Collider engine). `standard-model-of-code/docs/MODEL.md` is a key example of a core theoretical document. If, after rigorous review and higher confidence (e.g., >95% acceptance), these theories are integrated as fundamental contributions to the project's understanding of code, they should be formalized here. You might create a `standard-model-of-code/docs/theories/` subdirectory if there are many.
+    *   `particle/docs/`
+    *   **Rationale:** `manifest.yaml` defines `particle/docs/` as the `concepts` path for the `body` (Collider engine). `particle/docs/MODEL.md` is a key example of a core theoretical document. If, after rigorous review and higher confidence (e.g., >95% acceptance), these theories are integrated as fundamental contributions to the project's understanding of code, they should be formalized here. You might create a `particle/docs/theories/` subdirectory if there are many.
 *   **For theories or conceptual frameworks related to AI tools, context management, or the "Wave" intelligence layer:**
-    *   `context-management/docs/`
-    *   **Rationale:** `manifest.yaml` defines `context-management/docs/` as the `concepts` path for the `brain` (AI tools and context management). `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` is an example of a conceptual framework living here.
+    *   `wave/docs/`
+    *   **Rationale:** `manifest.yaml` defines `wave/docs/` as the `concepts` path for the `brain` (AI tools and context management). `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` is an example of a conceptual framework living here.
 
-**Recommendation:** Given your theories ("dependencies," "API scale-emergence," "compositional alignment," "dual navigation space") seem deeply tied to understanding code structure and its emergent properties, they would likely eventually be formalized within `standard-model-of-code/docs/` if they become part of the core "Standard Model of Code."
+**Recommendation:** Given your theories ("dependencies," "API scale-emergence," "compositional alignment," "dual navigation space") seem deeply tied to understanding code structure and its emergent properties, they would likely eventually be formalized within `particle/docs/` if they become part of the core "Standard Model of Code."
 
 ---
 
@@ -66,9 +66,9 @@ Each document would detail the theory, the methodology of validation, and the co
 
 **Location:**
 *   **For specifications related to the Collider engine or the "Particle" world:**
-    *   `standard-model-of-code/docs/specs/`
+    *   `particle/docs/specs/`
 *   **For specifications related to AI tools, context management, or the "Wave" world:**
-    *   `context-management/docs/specs/`
+    *   `wave/docs/specs/`
 *   **For agent-specific specifications (e.g., BARE engine):**
     *   `.agent/specs/`
 
@@ -89,8 +89,8 @@ Each document would detail the theory, the methodology of validation, and the co
 | Document Type                                  | Recommended Path(s)                                   |
 | :--------------------------------------------- | :---------------------------------------------------- |
 | **Initial Research Findings & Hypothesis Validations** <br> (e.g., your 4 validated theories with scores) | `docs/research/` (e.g., `docs/research/theories/your_theory_report.md`) |
-| **Core Theoretical Additions** <br> (fundamental, high-confidence, integrated concepts) | `standard-model-of-code/docs/` (for core code models) <br> `context-management/docs/` (for AI/context frameworks) |
-| **Implementation Specifications**              | `standard-model-of-code/docs/specs/` <br> `context-management/docs/specs/` <br> `.agent/specs/` |
+| **Core Theoretical Additions** <br> (fundamental, high-confidence, integrated concepts) | `particle/docs/` (for core code models) <br> `wave/docs/` (for AI/context frameworks) |
+| **Implementation Specifications**              | `particle/docs/specs/` <br> `wave/docs/specs/` <br> `.agent/specs/` |
 | **Task Prioritization Principles**             | `.agent/docs/` (e.g., `.agent/docs/TASK_PRIORITIZATION_PRINCIPLES.md`) |
 
 ---

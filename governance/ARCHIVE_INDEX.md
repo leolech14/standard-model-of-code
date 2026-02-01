@@ -15,19 +15,19 @@
 ### Context Management Archives
 | Directory | Purpose | Status |
 |-----------|---------|--------|
-| `context-management/docs/archive/` | Old documentation | Reference only |
-| `context-management/docs/theory/archive/` | Superseded theory docs | Reference only |
-| `context-management/library/legacy/` | Old library code | Dead code |
-| `context-management/library/intelligence/legacy/` | Old intelligence tools | Dead code |
-| `context-management/tools/archive/` | Deprecated tools | Reference only |
+| `wave/docs/archive/` | Old documentation | Reference only |
+| `wave/docs/theory/archive/` | Superseded theory docs | Reference only |
+| `wave/library/legacy/` | Old library code | Dead code |
+| `wave/library/intelligence/legacy/` | Old intelligence tools | Dead code |
+| `wave/tools/archive/` | Deprecated tools | Reference only |
 
 ### Standard Model Archives
 | Directory | Purpose | Status |
 |-----------|---------|--------|
-| `standard-model-of-code/.archive/` | Hidden archive (docs, old code) | Dead code |
-| `standard-model-of-code/archive/` | Legacy experiments, audit logs | Mixed |
-| `standard-model-of-code/docs/archive/` | Old documentation | Reference only |
-| `standard-model-of-code/src/core/viz/assets/archive/` | Old visualization assets | Dead assets |
+| `particle/.archive/` | Hidden archive (docs, old code) | Dead code |
+| `particle/archive/` | Legacy experiments, audit logs | Mixed |
+| `particle/docs/archive/` | Old documentation | Reference only |
+| `particle/src/core/viz/assets/archive/` | Old visualization assets | Dead assets |
 
 ## Status Legend
 - **Active rotation**: Regularly receives new items
@@ -43,9 +43,9 @@
 
 ## Cleanup Candidates
 Files archived > 6 months with no references:
-- `context-management/library/legacy/` - Full cleanup recommended
-- `context-management/library/intelligence/legacy/` - Full cleanup recommended
-- `standard-model-of-code/.archive/` - Review and cleanup
+- `wave/library/legacy/` - Full cleanup recommended
+- `wave/library/intelligence/legacy/` - Full cleanup recommended
+- `particle/.archive/` - Review and cleanup
 
 ## See Also
 - `governance/DECISIONS.md` - Archival decisions

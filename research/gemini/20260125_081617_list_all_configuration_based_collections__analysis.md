@@ -19,7 +19,7 @@ List ALL configuration-based collections: analysis_sets (how many sets?), prompt
 Based on the provided codebase context, here are the configuration-based collections.
 
 ### 1. Analysis Sets
-**Path:** `context-management/config/analysis_sets.yaml`
+**Path:** `wave/config/analysis_sets.yaml`
 **Item Count:** 35 sets
 **Description:** Defines coherent slices of the codebase for AI analysis, categorized by purpose (Core, Task, Research, Agent, etc.).
 
@@ -35,7 +35,7 @@ Based on the provided codebase context, here are the configuration-based collect
 | **ACI** | `aci_core`, `aci_siblings`, `aci_audit` |
 
 ### 2. Prompts
-**Path:** `context-management/config/prompts.yaml`
+**Path:** `wave/config/prompts.yaml`
 **Item Count:** 9 items (5 templates + 4 modes)
 **Description:** System prompts and templates for specialized analysis tasks.
 
@@ -53,7 +53,7 @@ Based on the provided codebase context, here are the configuration-based collect
 *   `interactive`: Optimized for chat sessions.
 
 ### 3. ACI Tiers (Configuration)
-**Path:** `context-management/config/aci_config.yaml`
+**Path:** `wave/config/aci_config.yaml`
 **Item Count:** 4 defined in config
 **Description:** Routing thresholds and budgets for Adaptive Context Intelligence.
 
@@ -67,12 +67,12 @@ Based on the provided codebase context, here are the configuration-based collect
 *   *`HYBRID`: Combines Internal + External synthesis.*
 
 ### 4. Semantic Models
-**Path:** `context-management/config/semantic_models.yaml`
+**Path:** `wave/config/semantic_models.yaml`
 **Item Count:** Unknown (File content not provided)
 **Description:** Referenced in `analyze.py` and `HOLOGRAPHIC_SOCRATIC_LAYER.md`. Used for defining "Antimatter Laws" and semantic domain definitions for the Socratic Validator.
 
 ### 5. Research Schemas
-**Path:** `context-management/config/research_schemas.yaml` (Inferred from `research_orchestrator.py`)
+**Path:** `wave/config/research_schemas.yaml` (Inferred from `research_orchestrator.py`)
 **Item Count:** Unknown (File content not provided)
 **Description:** Referenced in `research_orchestrator.py`. Defines multi-step research plans (schemas) containing runs, strategies, and synthesis configurations for the Research Engine.
 

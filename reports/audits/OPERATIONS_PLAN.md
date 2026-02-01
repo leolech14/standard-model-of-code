@@ -80,7 +80,7 @@ Expected result: 13GB → 3GB (77% reduction)
 ```
 □ Consolidate 33 package.json → 3 workspaces     → Better structure
 □ Move legacy docs to archive/                   → Clarity
-□ Deduplicate context-management vs standard-model → Simplicity
+□ Deduplicate wave vs standard-model → Simplicity
 □ Fix 8 broken doc links (G3 gate)               → Quality
 
 Expected result: 19K files → ~5K files (74% reduction)
@@ -112,7 +112,7 @@ Track these after each phase:
 
 ## 🧮 SPECIFIC TARGETS BY SUBSYSTEM
 
-### standard-model-of-code/
+### particle/
 ```
 Current:  15,586 files | 2.5GB | 1.8M lines
 Keep:        ~500 files (src/core, tests, docs)
@@ -120,7 +120,7 @@ Archive:  ~15,000 files (old outputs, experiments)
 Target:      ~500 files | 200MB | 100K lines
 ```
 
-### context-management/
+### wave/
 ```
 Current:  16,960 files | 6GB | 1.1M lines
 Keep:        ~300 files (tools, active docs, configs)
@@ -190,10 +190,10 @@ After each phase, run these:
 bash /tmp/repo_census.sh > REPO_CENSUS_$(date +%Y%m%d).md
 
 # Verify tests still pass
-cd standard-model-of-code && pytest tests/ -q
+cd particle && pytest tests/ -q
 
 # Check doc links
-python3 context-management/tools/refinery/docs_audit.py
+python3 wave/tools/refinery/docs_audit.py
 
 # Verify no broken imports
 python3 -m py_compile $(find . -name "*.py" -not -path "*/node_modules/*")

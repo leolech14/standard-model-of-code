@@ -1,0 +1,15 @@
+/* chatgpt-inspired scss */
+$body-bg: #212121;
+$body-color: #ececec;
+$primary: #10a37f;
+$link-color: #10a37f;
+
+$navbar-bg: #171717;
+$toc-color: #10a37f;
+
+/* Mermaid specific overrides if needed via css */
+.mermaid svg {
+    background-color: #171717 !important;
+    border-radius: 8px;
+    padding: 10px;
+}

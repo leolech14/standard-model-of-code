@@ -1,4 +1,4 @@
-# Research: Is it architecturally optimal to strictly separate the Projectome into 'Brain' (context-management/)...
+# Research: Is it architecturally optimal to strictly separate the Projectome into 'Brain' (wave/)...
 
 > **Date:** 2026-01-27 19:54:48
 > **Source:** gemini
@@ -10,19 +10,19 @@
 
 ## Query
 
-Is it architecturally optimal to strictly separate the Projectome into 'Brain' (context-management/) and 'Body' (standard-model-of-code/) on the file system? Evaluate based on the project's goals of measurability, symmetry, and automated reasoning.
+Is it architecturally optimal to strictly separate the Projectome into 'Brain' (wave/) and 'Body' (particle/) on the file system? Evaluate based on the project's goals of measurability, symmetry, and automated reasoning.
 
 ---
 
 ## Response
 
-Based on the provided `PROJECTOME_TOTALITY_REPORT.md`, a strict architectural separation of the Projectome into 'Brain' (`context-management/`) and 'Body' (`standard-model-of-code/`) on the file system aligns very well with, and actively supports, the project's stated goals of measurability, symmetry, and automated reasoning.
+Based on the provided `PROJECTOME_TOTALITY_REPORT.md`, a strict architectural separation of the Projectome into 'Brain' (`wave/`) and 'Body' (`particle/`) on the file system aligns very well with, and actively supports, the project's stated goals of measurability, symmetry, and automated reasoning.
 
 Let's evaluate this against each goal:
 
 1.  **Measurability:**
     *   **Optimality:** Highly optimal. The report defines `P = C \sqcup X` as a *disjoint union*. A strict file system separation directly operationalizes this concept.
-    *   **Benefit:** Quantifying "Codome Mass" (C) and "Contextome Mass" (X) becomes trivial. Tools can simply count files within `standard-model-of-code/` for the Body and `context-management/` for the Brain. This precision is essential for tracking "Current 'Matter' Counts" and understanding the overall project footprint.
+    *   **Benefit:** Quantifying "Codome Mass" (C) and "Contextome Mass" (X) becomes trivial. Tools can simply count files within `particle/` for the Body and `wave/` for the Brain. This precision is essential for tracking "Current 'Matter' Counts" and understanding the overall project footprint.
     *   **Impact on "Dark Matter":** By having distinct top-level directories, any file within one that lacks a corresponding "Waybill" linking it to the other becomes immediately identifiable as potential "Dark Matter" (Shadow Debt), facilitating its measurement and resolution.
 
 2.  **Symmetry (Concordance):**
@@ -33,13 +33,13 @@ Let's evaluate this against each goal:
 3.  **Automated Reasoning:**
     *   **Optimality:** Highly optimal. Automated tools thrive on clear, predictable structures.
     *   **Benefit:**
-        *   **Targeted Processing:** Tools designed to analyze executable code (`.py`, `.js`, `.ts`) can exclusively target `standard-model-of-code/`. Similarly, tools for documentation or configuration (`.md`, `.yaml`, `.json`) can focus solely on `context-management/`. This reduces the scope of analysis, improves performance, and simplifies tool logic.
-        *   **Architectural Enforcement:** Automated checks can easily verify that executable files do not appear in `context-management/` and non-executable files do not appear in `standard-model-of-code/`, enforcing the "disjoint union" principle at a file system level.
+        *   **Targeted Processing:** Tools designed to analyze executable code (`.py`, `.js`, `.ts`) can exclusively target `particle/`. Similarly, tools for documentation or configuration (`.md`, `.yaml`, `.json`) can focus solely on `wave/`. This reduces the scope of analysis, improves performance, and simplifies tool logic.
+        *   **Architectural Enforcement:** Automated checks can easily verify that executable files do not appear in `wave/` and non-executable files do not appear in `particle/`, enforcing the "disjoint union" principle at a file system level.
         *   **Graph Construction:** For building the "Topology of Purpose" and the "Unified Field Theory" (linking files via Waybills), having two clearly defined root "universes" (`C` and `X`) simplifies the construction of this interlinked graph, making it easier for AI Intelligence (`tools/ai/`) to reason about the project's state.
 
 **Conclusion:**
 
-Strictly separating the Projectome into 'Brain' (`context-management/`) and 'Body' (`standard-model-of-code/`) on the file system is **architecturally optimal** for PROJECTOME. It directly embodies the foundational concept of `P = C \sqcup X`, significantly enhancing measurability by making file counts explicit, strongly promoting symmetry by demanding explicit concordance links, and greatly simplifying automated reasoning by providing clear, distinct targets for processing and analysis. This approach directly supports the project's ambition to create a complete, auditable, and purpose-aligned existence for `PROJECT_elements`.
+Strictly separating the Projectome into 'Brain' (`wave/`) and 'Body' (`particle/`) on the file system is **architecturally optimal** for PROJECTOME. It directly embodies the foundational concept of `P = C \sqcup X`, significantly enhancing measurability by making file counts explicit, strongly promoting symmetry by demanding explicit concordance links, and greatly simplifying automated reasoning by providing clear, distinct targets for processing and analysis. This approach directly supports the project's ambition to create a complete, auditable, and purpose-aligned existence for `PROJECT_elements`.
 
 ---
 

@@ -44,7 +44,7 @@ tools:
       - name: unified_analysis.json
         type: file
         format: json
-        schema: "standard-model-of-code/schema/unified_analysis.schema.json"
+        schema: "particle/schema/unified_analysis.schema.json"
 
       - name: collider_report.html
         type: file
@@ -65,7 +65,7 @@ tools:
 
     invoke:
       method: python_import
-      module: "standard-model-of-code.src.core.purpose_field"
+      module: "particle.src.core.purpose_field"
       function: "detect_purpose_field"
 
     inputs:
@@ -101,7 +101,7 @@ tools:
 
     invoke:
       method: cli
-      command: "python3 standard-model-of-code/scripts/generate_repo_timestamps.py"
+      command: "python3 particle/scripts/generate_repo_timestamps.py"
       cwd: "${PROJECT_ROOT}"
 
     inputs:
@@ -130,7 +130,7 @@ tools:
 
     invoke:
       method: cli
-      command: "python3 standard-model-of-code/scripts/file_popularity_tracker.py --output {output_dir}"
+      command: "python3 particle/scripts/file_popularity_tracker.py --output {output_dir}"
       cwd: "${PROJECT_ROOT}"
 
     inputs:
@@ -199,7 +199,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} --output {output_path}"
-      tool_path: "context-management/tools/pom/projectome_omniscience.py"
+      tool_path: "wave/tools/pom/projectome_omniscience.py"
       cwd: "${PROJECT_ROOT}"
 
     inputs:
@@ -241,7 +241,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} {query} --mode {mode}"
-      tool_path: "context-management/tools/ai/analyze.py"
+      tool_path: "wave/tools/ai/analyze.py"
 
     inputs:
       - name: query
@@ -279,7 +279,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} --input {input} --output {output}"
-      tool_path: "context-management/tools/viz/purpose_charts.py"  # TO CREATE
+      tool_path: "wave/tools/viz/purpose_charts.py"  # TO CREATE
 
     inputs:
       - name: unified_analysis.json
@@ -309,7 +309,7 @@ tools:
     realm: wave
     invoke:
       method: cli
-      command: "python3 context-management/tools/refinery/pipeline.py {source_path}"
+      command: "python3 wave/tools/refinery/pipeline.py {source_path}"
     inputs:
       - name: source_path
         type: path
@@ -327,7 +327,7 @@ tools:
     realm: wave
     invoke:
       method: cli
-      command: "python3 context-management/tools/refinery/corpus_inventory.py {dir}"
+      command: "python3 wave/tools/refinery/corpus_inventory.py {dir}"
     status: implemented
 
   # ---------------------------------------------------------------------------
@@ -340,7 +340,7 @@ tools:
     realm: wave
     invoke:
       method: python_import
-      module: "context-management.tools.ai.aci.refinery"
+      module: "wave.tools.ai.aci.refinery"
       class: "Refinery"
     status: implemented
 
@@ -351,7 +351,7 @@ tools:
     realm: wave
     invoke:
       method: python_import
-      module: "context-management.tools.ai.aci.semantic_finder"
+      module: "wave.tools.ai.aci.semantic_finder"
     status: working
 
   intent_parser:
@@ -361,7 +361,7 @@ tools:
     realm: wave
     invoke:
       method: python_import
-      module: "context-management.tools.ai.aci.intent_parser"
+      module: "wave.tools.ai.aci.intent_parser"
     status: working
 
   # ---------------------------------------------------------------------------
@@ -380,7 +380,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} enrich {collider_output} --model {model}"
-      tool_path: "context-management/tools/ai/cerebras_enricher.py"
+      tool_path: "wave/tools/ai/cerebras_enricher.py"
       cwd: "${PROJECT_ROOT}"
 
     inputs:
@@ -397,7 +397,7 @@ tools:
       - name: enriched_latest.json
         type: file
         format: json
-        location: "context-management/data/enriched/"
+        location: "wave/data/enriched/"
         contains:
           - purpose (one-line intent)
           - semantic_tags (5 tags)
@@ -428,7 +428,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} tag --pattern {pattern} --model {model}"
-      tool_path: "context-management/tools/ai/cerebras_tagger.py"
+      tool_path: "wave/tools/ai/cerebras_tagger.py"
       cwd: "${PROJECT_ROOT}"
 
     inputs:
@@ -444,7 +444,7 @@ tools:
       - name: tags_latest.json
         type: file
         format: json
-        location: "context-management/data/tags/"
+        location: "wave/data/tags/"
 
     requires:
       - CEREBRAS_API_KEY
@@ -464,7 +464,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} {command}"
-      tool_path: "context-management/tools/repo_mapper.py"
+      tool_path: "wave/tools/repo_mapper.py"
       cwd: "${PROJECT_ROOT}"
       commands:
         - map      # Scan and map repository
@@ -480,10 +480,10 @@ tools:
     outputs:
       - name: repo_map_latest.json
         type: file
-        location: "context-management/data/repo_map/"
+        location: "wave/data/repo_map/"
       - name: processing_plan.json
         type: file
-        location: "context-management/data/repo_map/"
+        location: "wave/data/repo_map/"
 
     requires: []  # No API keys needed - pure local scan
 
@@ -499,7 +499,7 @@ tools:
     realm: observer
     invoke:
       method: cli
-      command: "python3 context-management/tools/ai/deck/deck_router.py"
+      command: "python3 wave/tools/ai/deck/deck_router.py"
     status: implemented
 
   play_card:
@@ -509,7 +509,7 @@ tools:
     realm: observer
     invoke:
       method: cli
-      command: "python3 context-management/tools/ai/deck/play_card.py {card_id}"
+      command: "python3 wave/tools/ai/deck/play_card.py {card_id}"
     inputs:
       - name: card_id
         type: string
@@ -562,7 +562,7 @@ tools:
     name: "Boundary Analyzer"
     subsystem: WAVE
     realm: wave
-    invoke: {method: cli, command: "python3 context-management/tools/ai/boundary_analyzer.py"}
+    invoke: {method: cli, command: "python3 wave/tools/ai/boundary_analyzer.py"}
     status: working
 
   gemini_status:
@@ -570,7 +570,7 @@ tools:
     name: "Gemini Quota Status"
     subsystem: OBSERVER
     realm: observer
-    invoke: {method: cli, command: "python3 context-management/tools/maintenance/gemini_status.py"}
+    invoke: {method: cli, command: "python3 wave/tools/maintenance/gemini_status.py"}
     status: working
 
   boot_script:
@@ -578,7 +578,7 @@ tools:
     name: "Agent Boot Orchestrator"
     subsystem: OBSERVER
     realm: observer
-    invoke: {method: cli, command: "bash context-management/tools/maintenance/boot.sh"}
+    invoke: {method: cli, command: "bash wave/tools/maintenance/boot.sh"}
     status: working
 
   extract_sections:
@@ -586,7 +586,7 @@ tools:
     name: "Markdown Section Extractor"
     subsystem: PARTICLE
     realm: particle  # Deterministic text parsing, no AI
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/extract_sections.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/extract_sections.py"}
     status: working
 
   measure_subdivision_stability:
@@ -594,7 +594,7 @@ tools:
     name: "Subdivision Stability Scorer"
     subsystem: PARTICLE
     realm: particle  # Pure math calculation, no AI
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/measure_subdivision_stability.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/measure_subdivision_stability.py"}
     status: working
 
   version_compare:
@@ -602,7 +602,7 @@ tools:
     name: "Semantic Version Comparator"
     subsystem: OBSERVER
     realm: observer
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/version_compare.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/version_compare.py"}
     status: working
 
   analyze_latest_activity:
@@ -610,7 +610,7 @@ tools:
     name: "Temporal Activity Analyzer"
     subsystem: OBSERVER
     realm: observer
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/analyze_latest_activity.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/analyze_latest_activity.py"}
     status: working
 
   output_parity:
@@ -618,7 +618,7 @@ tools:
     name: "Output Parity Checker"
     subsystem: OBSERVER
     realm: observer
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/output_parity.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/output_parity.py"}
     status: working
 
   theory_coverage:
@@ -626,7 +626,7 @@ tools:
     name: "Theoretical Coverage Auditor"
     subsystem: PARTICLE
     realm: particle  # Code/doc structure analysis, deterministic
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/theory_coverage.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/theory_coverage.py"}
     status: working
 
   verify_polyglot:
@@ -634,7 +634,7 @@ tools:
     name: "Polyglot AST Verifier"
     subsystem: PARTICLE
     realm: particle  # AST verification, deterministic
-    invoke: {method: cli, command: "python3 standard-model-of-code/scripts/verify_polyglot.py"}
+    invoke: {method: cli, command: "python3 particle/scripts/verify_polyglot.py"}
     status: working
 
   theory_cataloger:
@@ -892,7 +892,7 @@ tools:
     invoke:
       method: cli
       command: "python3 {tool_path} {command}"
-      tool_path: "context-management/tools/ai/cerebras_spiral_intel.py"
+      tool_path: "wave/tools/ai/cerebras_spiral_intel.py"
       cwd: "${PROJECT_ROOT}"
       commands:
         - spiral           # Full spiral (P1 → P2 → P3)
@@ -928,13 +928,13 @@ tools:
       - name: file_intel.json
         type: file
         format: json
-        location: "context-management/data/intel/spiral/"
+        location: "wave/data/intel/spiral/"
         description: "Per-file intelligence (5K+ entries, ~12MB)"
 
       - name: spiral_state.json
         type: file
         format: json
-        location: "context-management/data/intel/spiral/"
+        location: "wave/data/intel/spiral/"
         description: "State + lap history"
 
       - name: unified_model.json
@@ -1039,9 +1039,9 @@ tools:
     note: |
       Implemented 2026-01-31 with full batch processing.
       Features: 4-tier fallback, Parcel/Waybill tracking, HybridChunker.
-      82 papers (~575MB) in context-management/archive/references/pdf/
-      Config: context-management/config/docling_config.yaml
-      Docs: context-management/tools/docling_processor/README.md
+      82 papers (~575MB) in wave/archive/references/pdf/
+      Config: wave/config/docling_config.yaml
+      Docs: wave/tools/docling_processor/README.md
 
   # ---------------------------------------------------------------------------
   # DOCSINTEL (Documentation Intelligence)
@@ -1086,7 +1086,7 @@ tools:
       - claude_desktop_restart
 
     status: installed
-    location: "context-management/tools/docsintel/"
+    location: "wave/tools/docsintel/"
 
     files:
       - DOCSINTEL.md      # Architecture & usage
@@ -1233,8 +1233,8 @@ status_summary:
 # REALM DISTRIBUTION (after 2026-01-31 reclassification)
 # =============================================================================
 # Principle: Directory-first classification
-#   - standard-model-of-code/** → PARTICLE (deterministic)
-#   - context-management/** → WAVE (probabilistic/AI)
+#   - particle/** → PARTICLE (deterministic)
+#   - wave/** → WAVE (probabilistic/AI)
 #   - .agent/** → OBSERVER (reactive/governance)
 #
 # Design realm ELIMINATED - redistributed by processing nature:
@@ -1242,3 +1242,145 @@ status_summary:
 #   - flash-ui, trellis_2 → WAVE (generative AI) with domain: design
 #
 # 19 tools reclassified for consistency
+
+  # ---------------------------------------------------------------------------
+  # DYNAMIC OBSERVERS (v2.0 - PLANNED)
+  # ---------------------------------------------------------------------------
+  # Implements SMC Axiom E2 (Four Flows) and G1 (Three Observers)
+  # Full spec: particle/docs/specs/DYNAMIC_OBSERVERS_IMPLEMENTATION_PLAN.md
+  # Task registry: .agent/deck/DYNAMIC_OBSERVERS_REGISTRY.yaml
+
+  runtime_ingestor:
+    id: T100
+    name: "Runtime Flow Ingestor"
+    subsystem: PARTICLE
+    realm: particle
+    phase: "Dynamic Observers v2.0"
+    axiom: "E2 (Runtime Flow), G1 (Operational Observer)"
+    description: |
+      Ingests runtime telemetry (OpenTelemetry, cProfile, py-spy) and maps to
+      static AST nodes. Enriches graph with execution_count, latency, hotspots.
+    invoke:
+      method: cli
+      command: "python3 particle/src/dynamics/runtime_ingestor.py"
+    inputs:
+      - name: telemetry_file
+        type: file
+        formats: [otlp, prof, coverage]
+    outputs:
+      - name: enriched_nodes
+        type: json
+        contains: [execution_count, avg_latency, is_hotspot, coverage_percent]
+    status: planned
+    dependencies: [DYN-010 through DYN-025]
+
+  temporal_observer:
+    id: T101
+    name: "Temporal Observer (Git Mining)"
+    subsystem: PARTICLE
+    realm: particle
+    phase: "Dynamic Observers v2.0"
+    axiom: "E2 (Change Flow)"
+    description: |
+      Mines git history with PyDriller to compute temporal coupling, churn,
+      and change impact prediction. Maps commits to AST nodes.
+    invoke:
+      method: cli
+      command: "python3 particle/src/evolution/git_miner.py"
+    inputs:
+      - name: repo_path
+        type: path
+      - name: history_depth
+        type: int
+        default: 100
+    outputs:
+      - name: temporal_coupling_matrix
+        type: json
+      - name: churn_metrics
+        type: json
+    status: planned
+    dependencies: [DYN-030 through DYN-036]
+
+  social_analyzer:
+    id: T102
+    name: "Social Graph Analyzer"
+    subsystem: OBSERVER
+    realm: observer
+    phase: "Dynamic Observers v2.0"
+    axiom: "E2 (Human Flow)"
+    description: |
+      Analyzes authorship patterns, computes truck factor, detects knowledge
+      islands (single-author code), validates Conway's Law alignment.
+    invoke:
+      method: cli
+      command: "python3 particle/src/social/authorship_analyzer.py"
+    outputs:
+      - name: truck_factor
+        type: int
+      - name: knowledge_islands
+        type: list
+      - name: conway_alignment
+        type: float
+    status: planned
+    dependencies: [DYN-040 through DYN-046]
+
+  dora_metrics:
+    id: T103
+    name: "DORA Metrics Calculator"
+    subsystem: OBSERVER
+    realm: observer
+    phase: "Dynamic Observers v2.0"
+    axiom: "G1 (Operational Observer)"
+    description: |
+      Computes DORA metrics (deployment frequency, lead time, MTTR, change
+      failure rate) from CI logs and maps to code components.
+    invoke:
+      method: cli
+      command: "python3 particle/src/operational/dora_metrics.py"
+    inputs:
+      - name: ci_log
+        type: file
+        format: json
+    outputs:
+      - name: dora_report
+        type: json
+        contains: [deployment_frequency, lead_time, mttr, change_failure_rate]
+    status: planned
+    dependencies: [DYN-050 through DYN-055]
+
+  multi_layer_graph:
+    id: T104
+    name: "Multi-Layer Graph Export"
+    subsystem: OBSERVER
+    realm: observer
+    phase: "Dynamic Observers v2.0"
+    axiom: "G1 (Complete Observability)"
+    description: |
+      Exports unified multi-dimensional graph to Neo4j with 5 layers:
+      structural, runtime, temporal, social, operational.
+    invoke:
+      method: cli
+      command: "python3 particle/src/observers/neo4j_export.py --all-layers"
+    outputs:
+      - name: neo4j_graph
+        type: neo4j
+        layers: [structural, runtime, temporal, social, operational]
+    status: planned
+    dependencies: [DYN-060 through DYN-066]
+
+  unified_observer:
+    id: T105
+    name: "Unified Observer API"
+    subsystem: OBSERVER
+    realm: observer
+    phase: "Dynamic Observers v2.0"
+    axiom: "G1 (Complete Observability)"
+    description: |
+      Single API to query all three observers (structural, operational, generative).
+      Provides observe() method that returns multi-dimensional node properties.
+    invoke:
+      method: python_import
+      module: "particle.src.observers"
+      function: "observe"
+    status: planned
+    dependencies: [DYN-070 through DYN-075]

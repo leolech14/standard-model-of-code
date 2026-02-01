@@ -1,6 +1,6 @@
 ---
 paths:
-  - "context-management/**"
+  - "wave/**"
 ---
 
 # Wave (AI/Context) Rules

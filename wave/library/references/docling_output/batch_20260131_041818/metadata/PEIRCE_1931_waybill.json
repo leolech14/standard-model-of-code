@@ -1,0 +1,23 @@
+{
+  "parcel_id": "pcl_803365e18e93",
+  "ref_id": "PEIRCE_1931",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769843945,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_041818"
+      }
+    },
+    {
+      "event": "skipped_page_limit",
+      "timestamp": 1769843945,
+      "agent": "docling.processor.py",
+      "context": {
+        "page_count": 5092,
+        "limit": 500
+      }
+    }
+  ]
+}

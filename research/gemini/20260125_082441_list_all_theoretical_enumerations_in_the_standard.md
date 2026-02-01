@@ -19,7 +19,7 @@ List ALL theoretical enumerations in the Standard Model: the 16-level Scale hier
 Based on the provided codebase context, here are the theoretical enumerations of the Standard Model of Code.
 
 ### 1. The 16-Level Scale Hierarchy (L-3 to L12)
-*Source: `context-management/docs/archive/legacy_schema_2025/theory_v2.md`*
+*Source: `wave/docs/archive/legacy_schema_2025/theory_v2.md`*
 
 This hierarchy covers the physical, syntactic, semantic, systemic, and cosmological scales of code.
 
@@ -52,7 +52,7 @@ This hierarchy covers the physical, syntactic, semantic, systemic, and cosmologi
 ---
 
 ### 2. The 4 Phases of Atoms
-*Source: `context-management/docs/archive/legacy_schema_2025/theory_v2.md`*
+*Source: `wave/docs/archive/legacy_schema_2025/theory_v2.md`*
 
 The 200 atoms are categorized into these four fundamental phases of software existence.
 
@@ -64,7 +64,7 @@ The 200 atoms are categorized into these four fundamental phases of software exi
 ---
 
 ### 3. The Purpose Field Hierarchy ($\pi_1 - \pi_4$)
-*Source: `context-management/docs/ACI_DATASET_MANAGEMENT.md`*
+*Source: `wave/docs/ACI_DATASET_MANAGEMENT.md`*
 
 Used for semantic graph matching and Adaptive Context Intelligence (ACI).
 
@@ -76,7 +76,7 @@ Used for semantic graph matching and Adaptive Context Intelligence (ACI).
 ---
 
 ### 4. The Q-Score Dimensions (4D Confidence)
-*Source: `context-management/docs/agent_school/AGENTKNOWLEDGEDUMP.md` & `DOCS_REORG_TASK_REGISTRY.md`*
+*Source: `wave/docs/agent_school/AGENTKNOWLEDGEDUMP.md` & `DOCS_REORG_TASK_REGISTRY.md`*
 
 Used to score the confidence of tasks and validation steps.
 
@@ -88,7 +88,7 @@ Used to score the confidence of tasks and validation steps.
 ---
 
 ### 5. The RPBL Dimensions (Character Profile)
-*Source: `context-management/docs/TOOL.md`*
+*Source: `wave/docs/TOOL.md`*
 
 A 4-dimensional profile used for quick characterization of code entities (derived from the full 8 Dimensions).
 
@@ -100,7 +100,7 @@ A 4-dimensional profile used for quick characterization of code entities (derive
 ---
 
 ### 6. The 8 Dimensions (The Octahedral Atom)
-*Source: `context-management/docs/archive/legacy_schema_2025/theory_v2.md`*
+*Source: `wave/docs/archive/legacy_schema_2025/theory_v2.md`*
 
 The full ontological classification system for every atom.
 
@@ -114,7 +114,7 @@ The full ontological classification system for every atom.
 8.  **D8: TRUST** (Confidence level 0-100%)
 
 ### 7. The 8 Lenses (Epistemic Perspectives)
-*Source: `context-management/docs/archive/legacy_schema_2025/theory_v2.md`*
+*Source: `wave/docs/archive/legacy_schema_2025/theory_v2.md`*
 
 The interrogative perspectives used to view any entity.
 

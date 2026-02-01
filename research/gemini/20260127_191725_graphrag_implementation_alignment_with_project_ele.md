@@ -60,7 +60,7 @@ Assign GraphRAG a **new subsystem ID: S14**.
 *   **Subsystem ID:** S14
 *   **Subsystem Name:** GraphRAG
 *   **Type:** Engine (similar to Collider S1, BARE S6, analyze.py S3)
-*   **Path:** `context-management/tools/ai/graph_rag/`
+*   **Path:** `wave/tools/ai/graph_rag/`
 *   **Purpose:** Enhanced knowledge retrieval and reasoning based on structured graph data.
 
 `analyze.py` (S3) acts as the primary AI query interface and will be extended to *orchestrate* and *route* queries to S14, similar to how it leverages S4 (Perplexity MCP). This maintains modularity and adheres to the "Concepts / Objects Duality" where `analyze.py` is a conceptual interface, and GraphRAG is a distinct object (implementation) providing specialized capabilities.
@@ -74,8 +74,8 @@ Treat the **GraphRAG database instance as an ephemeral, derived artifact** that 
 
 *   **Source Data (Git is Truth):** The underlying source code, chunks, and papers from which the graph is constructed *must* remain in Git. This is the canonical source of truth.
 *   **Graph Schema & Configuration (Git is Truth):** The *definition* of the graph (node types, relationship types, properties, indexing strategies, build rules) is crucial for reproducibility and must be version-controlled.
-    *   **New file:** `context-management/tools/ai/graph_rag/schema/graph_schema.yaml`
-    *   **New file:** `context-management/config/graph_config.yaml` (for Neo4j connection details, source paths, chunking config, etc.)
+    *   **New file:** `wave/tools/ai/graph_rag/schema/graph_schema.yaml`
+    *   **New file:** `wave/config/graph_config.yaml` (for Neo4j connection details, source paths, chunking config, etc.)
 *   **Ephemeral Database:** The running Neo4j instance or its full dump is *not* checked into Git.
 *   **GCS Archiving:** To ensure recoverability and provide historical snapshots, implement mirroring of periodic Neo4j database dumps to GCS via `Archive/Mirror` (S7). This aligns with `Archive/Mirror syncs to GCS on every commit` data flow. The bucket would likely be `gs://elements-archive-2026/graph_snapshots/`.
 
@@ -109,8 +109,8 @@ GraphRAG is an **enhancement to existing butlers' intelligence capabilities**.
 **Recommendation:**
 Integrate graph updates into the `CODE COMMIT` data flow using a **post-commit hook** or a **scheduled job** that leverages `wire.py` (if it coordinates post-commit actions).
 
-*   **Graph Builder Script:** Create `context-management/tools/ai/graph_rag/build_graph.py`. This script will be responsible for:
-    *   Detecting changes in relevant source directories (e.g., `standard-model-of-code/src/`, `docs/specs/`, `docs/papers/`).
+*   **Graph Builder Script:** Create `wave/tools/ai/graph_rag/build_graph.py`. This script will be responsible for:
+    *   Detecting changes in relevant source directories (e.g., `particle/src/`, `docs/specs/`, `docs/papers/`).
     *   Incrementally updating the Neo4j graph or performing a full rebuild if necessary.
     *   Generating `unified_analysis.json`-like intermediates if needed, or consuming them.
 *   **Trigger Mechanism:**
@@ -168,7 +168,7 @@ Develop routing logic and document SLO guidance within `analyze.py` (S3) and the
     *   **Cost/Latency Trade-offs:** For simple keyword searches, traditional text RAG or `INSTANT` tier might be faster and cheaper.
 *   **SLO Guidance:**
     *   Document the expected performance of GraphRAG for different query types (e.g., "N-hop relationship queries typically complete in X seconds with Y% recall").
-    *   Clearly define when GraphRAG should be preferred over other tiers in `context-management/docs/AI_USER_GUIDE.md`.
+    *   Clearly define when GraphRAG should be preferred over other tiers in `wave/docs/AI_USER_GUIDE.md`.
     *   Instrument GraphRAG and `analyze.py` to collect metrics (latency, success rate, confidence) to validate and refine SLOs.
 
 ---
@@ -177,19 +177,19 @@ Develop routing logic and document SLO guidance within `analyze.py` (S3) and the
 
 **New Files (for S14: GraphRAG subsystem)**
 
-*   `context-management/tools/ai/graph_rag/__init__.py`: Python package initialization.
-*   `context-management/tools/ai/graph_rag/graph_rag_service.py`: Core service for interacting with Neo4j (queries, subgraph extraction, etc.). This is what `analyze.py` will import.
-*   `context-management/tools/ai/graph_rag/build_graph.py`: Script to build/update the Neo4j graph from code, chunks, papers.
-*   `context-management/tools/ai/graph_rag/schema/graph_schema.yaml`: Defines the schema for the Neo4j graph (node labels, relationship types, properties).
-*   `context-management/tools/ai/graph_rag/docs/GRAPH_RAG_DESIGN.md`: Detailed design and usage instructions for the GraphRAG subsystem.
-*   `context-management/config/graph_config.yaml`: Configuration for Neo4j connection, source data paths, chunking strategies, vector index parameters.
+*   `wave/tools/ai/graph_rag/__init__.py`: Python package initialization.
+*   `wave/tools/ai/graph_rag/graph_rag_service.py`: Core service for interacting with Neo4j (queries, subgraph extraction, etc.). This is what `analyze.py` will import.
+*   `wave/tools/ai/graph_rag/build_graph.py`: Script to build/update the Neo4j graph from code, chunks, papers.
+*   `wave/tools/ai/graph_rag/schema/graph_schema.yaml`: Defines the schema for the Neo4j graph (node labels, relationship types, properties).
+*   `wave/tools/ai/graph_rag/docs/GRAPH_RAG_DESIGN.md`: Detailed design and usage instructions for the GraphRAG subsystem.
+*   `wave/config/graph_config.yaml`: Configuration for Neo4j connection, source data paths, chunking strategies, vector index parameters.
 
 **Existing Files to Modify**
 
 1.  **`.agent/SUBSYSTEM_INTEGRATION.md`**:
     *   **Subsystem Registry:** Add S14 entry.
         ```
-        | S14 | **GraphRAG** | Engine | `context-management/tools/ai/graph_rag/` | Enhanced knowledge retrieval and reasoning via graph structures |
+        | S14 | **GraphRAG** | Engine | `wave/tools/ai/graph_rag/` | Enhanced knowledge retrieval and reasoning via graph structures |
         ```
     *   **Architecture Overview Diagram:** Update the diagram to include S14 within the `INTELLIGENCE LAYER (Wave)`, showing `analyze.py` connecting to it.
     *   **Data Flow:** Update "1. CODE COMMIT" flow.
@@ -203,48 +203,48 @@ Develop routing logic and document SLO guidance within `analyze.py` (S3) and the
     *   **Cross-Reference Index:** Add S14 entry.
         ```
         ### GraphRAG (S14)
-        - Service: `context-management/tools/ai/graph_rag/graph_rag_service.py`
-        - Builder: `context-management/tools/ai/graph_rag/build_graph.py`
-        - Schema: `context-management/tools/ai/graph_rag/schema/graph_schema.yaml`
-        - Config: `context-management/config/graph_config.yaml`
-        - Docs: `context-management/tools/ai/graph_rag/docs/GRAPH_RAG_DESIGN.md`
+        - Service: `wave/tools/ai/graph_rag/graph_rag_service.py`
+        - Builder: `wave/tools/ai/graph_rag/build_graph.py`
+        - Schema: `wave/tools/ai/graph_rag/schema/graph_schema.yaml`
+        - Config: `wave/config/graph_config.yaml`
+        - Docs: `wave/tools/ai/graph_rag/docs/GRAPH_RAG_DESIGN.md`
         ```
 
 2.  **`.agent/manifest.yaml`**:
     *   Under `integrations.ai_tools`:
         ```yaml
           ai_tools:
-            gemini: context-management/tools/ai/analyze.py
-            perplexity: context-management/tools/mcp/perplexity_mcp_server.py
-            graphrag: context-management/tools/ai/graph_rag/graph_rag_service.py # New
+            gemini: wave/tools/ai/analyze.py
+            perplexity: wave/tools/mcp/perplexity_mcp_server.py
+            graphrag: wave/tools/ai/graph_rag/graph_rag_service.py # New
         ```
     *   Under `agents.gemini.capabilities`: Add `graph_reasoning` or `relational_query`.
         ```yaml
           gemini:
             capabilities: [research, validation, exploration, graph_reasoning] # Updated
-            config: context-management/tools/ai/analyze.py
+            config: wave/tools/ai/analyze.py
         ```
 
-3.  **`context-management/tools/ai/analyze.py`**:
+3.  **`wave/tools/ai/analyze.py`**:
     *   Import `graph_rag_service.py`.
     *   Add a new argument for ACI tier selection, e.g., `--tier GRAPH_RAG`.
     *   Implement routing logic to call `graph_rag_service.py` functions when `GRAPH_RAG` tier is active.
     *   Potentially add heuristic-based routing for queries without an explicit tier.
 
-4.  **`context-management/docs/AI_USER_GUIDE.md`**:
+4.  **`wave/docs/AI_USER_GUIDE.md`**:
     *   Document the new `GRAPH_RAG` ACI tier.
     *   Provide guidance on when to use GraphRAG, including examples and expected performance/SLO characteristics.
     *   Explain the types of queries best suited for GraphRAG vs. other tiers.
 
 5.  **`.pre-commit-config.yaml`**:
-    *   Add a new `post-commit` hook definition to trigger `context-management/tools/ai/graph_rag/build_graph.py` after a commit, potentially conditionally based on changed files.
+    *   Add a new `post-commit` hook definition to trigger `wave/tools/ai/graph_rag/build_graph.py` after a commit, potentially conditionally based on changed files.
         ```yaml
         - id: graphrag-update
           name: GraphRAG Update
-          entry: bash -c 'context-management/tools/ai/graph_rag/build_graph.py --delta "$@"' --
+          entry: bash -c 'wave/tools/ai/graph_rag/build_graph.py --delta "$@"' --
           language: system
           types: [file] # Adjust if specific file types are needed
-          files: '^(standard-model-of-code/src/|docs/specs/|docs/papers/).*' # Only run if relevant sources change
+          files: '^(particle/src/|docs/specs/|docs/papers/).*' # Only run if relevant sources change
           stages: [post-commit]
         ```
         *(Note: The exact `entry` and `files` regex might need refinement based on the `build_graph.py` implementation and relevant source paths.)*

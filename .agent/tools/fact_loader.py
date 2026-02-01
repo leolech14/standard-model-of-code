@@ -144,11 +144,11 @@ def count_functions_and_classes(collider_data: dict | None) -> dict:
     # Fallback: rough grep-based estimate
     try:
         def_count = subprocess.run(
-            ["grep", "-r", "-c", "^def ", str(REPO_ROOT / "standard-model-of-code" / "src")],
+            ["grep", "-r", "-c", "^def ", str(REPO_ROOT / "particle" / "src")],
             capture_output=True, text=True
         )
         class_count = subprocess.run(
-            ["grep", "-r", "-c", "^class ", str(REPO_ROOT / "standard-model-of-code" / "src")],
+            ["grep", "-r", "-c", "^class ", str(REPO_ROOT / "particle" / "src")],
             capture_output=True, text=True
         )
 

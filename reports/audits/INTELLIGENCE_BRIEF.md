@@ -39,8 +39,8 @@
 
 | Subsystem | Files | Lines (code+docs) | Size | % of Total |
 |-----------|------:|------------------:|-----:|:----------:|
-| **context-management** | 16,960 | 1,174,133 | 6.0G | **46%** |
-| **standard-model-of-code** | 15,586 | 1,810,787 | 2.5G | **19%** |
+| **wave** | 16,960 | 1,174,133 | 6.0G | **46%** |
+| **particle** | 15,586 | 1,810,787 | 2.5G | **19%** |
 | **.agent** | 523 | 56,114 | 49M | <1% |
 | **governance** | 9 | 1,850 | 68K | <1% |
 | **Other** | ~2,000 | ? | ~4.5G | **34%** |
@@ -57,7 +57,7 @@
 ```
 1,584 markdown files
 977,130 total lines (~4,000 pages if printed)
-  143 files in context-management/docs
+  143 files in wave/docs
    69 files are active (non-archive)
 ```
 
@@ -97,7 +97,7 @@ Run Records:       1
 ```
 3,652 JSON files (77M+ lines)
     4 Intelligence chunks (.agent/intelligence/chunks)
-    2 Refinery reports (context-management/reports/refinery)
+    2 Refinery reports (wave/reports/refinery)
 ```
 
 **JSON breakdown hypothesis:**
@@ -128,12 +128,12 @@ Based on these numbers, priority cleanup areas:
    - Move old research to archive/GCS
    - Keep only recent/canonical analyses
 
-2. **Duplicate subsystems** - 16,960 files in context-management
+2. **Duplicate subsystems** - 16,960 files in wave
    - Verify no duplicate implementations
    - Archive deprecated experiments
 
 3. **Documentation sprawl** - 1,584 MD files
-   - 143 in context-management/docs
+   - 143 in wave/docs
    - 69 active docs have issues
    - ~1,441 other .md files (experiments? archives?)
 

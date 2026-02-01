@@ -185,7 +185,7 @@ gcloud logging read "resource.type=cloud_run_job AND resource.labels.job_name=so
     --freshness=3d > /tmp/socratic_logs_full.json
 
 # Check analyze.py defaults
-grep -A 10 "def main\|argparse\|--set\|--model" context-management/tools/ai/analyze.py > /tmp/analyze_defaults.txt
+grep -A 10 "def main\|argparse\|--set\|--model" wave/tools/ai/analyze.py > /tmp/analyze_defaults.txt
 
 # Check what's in repository_mirror
 gsutil ls -lh gs://elements-archive-2026/repository_mirror/latest/ > /tmp/mirror_contents.txt

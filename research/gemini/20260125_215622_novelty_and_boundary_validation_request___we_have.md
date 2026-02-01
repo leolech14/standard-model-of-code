@@ -137,7 +137,7 @@ $$ P = C \sqcup X $$
 
 **The Contextome is not metadata. It is the repository of the semantic surplus that mathematically cannot fit inside the source code.**
 
-**Action Item:** I recommend integrating this proof into `standard-model-of-code/docs/MODEL.md` under a new section "Mathematical Necessity of Context" to formally justify the Projectome architecture.
+**Action Item:** I recommend integrating this proof into `particle/docs/MODEL.md` under a new section "Mathematical Necessity of Context" to formally justify the Projectome architecture.
 
 ---
 

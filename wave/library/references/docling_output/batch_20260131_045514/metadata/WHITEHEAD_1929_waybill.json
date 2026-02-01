@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_ee3d309d987a",
+  "ref_id": "WHITEHEAD_1929",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769848509,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769848821,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "standard",
+        "page_count": 398,
+        "chunk_count": 1040
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Theory Concept Atlas (Generated)
 
-**Source:** `context-management/docs/theory/THEORY.md`  
+**Source:** `wave/docs/theory/THEORY.md`
 **Generated:** 2026-01-27
 
 Concepts extracted from `@PROVIDES` fields: **125**

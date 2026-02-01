@@ -1,0 +1,1477 @@
+{
+  "ref_id": "REF-016",
+  "parcel_id": "pcl_78ba20e51165",
+  "chunk_count": 42,
+  "chunks": [
+    {
+      "content": "## Topological Methods for the Analysis of High Dimensional Data Sets and 3D Object Recognition\n\nGurjeet Singh 1 , Facundo M\u00e9moli 2 and Gunnar Carlsson \u2020 2\n\n1 Institute for Computational and Mathematical Engineering, Stanford University, California, USA. 2 Department of Mathematics, Stanford University, California, USA.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "309afb04b6934587",
+      "chunk_type": "h2",
+      "relevance_score": 1.0,
+      "start_line": 1,
+      "end_line": 7,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "Topological Methods for the Analysis of High Dimensional Data Sets and 3D Object Recognition",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.0150158,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1dae9ec00185",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Topological Methods for the Analysis of High Dimensional Data Sets and 3D Object Recognition",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Abstract\n\nWe present a computational method for extracting simple descriptions of high dimensional data sets in the form of simplicial complexes. Our method, called Mapper , is based on the idea of partial clustering of the data guided by a set of functions defined on the data. The proposed method is not dependent on any particular clustering algorithm, i.e. any clustering algorithm may be used with Mapper . We implement this method and present a few sample applications in which simple descriptions of the data present important information about its structure.\n\nCategories and Subject Descriptors (according to ACM CCS): I.3.5 [Computer Graphics]: Computational Geometry and Object Modelling.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "41634d44fee4e4f9",
+      "chunk_type": "h2",
+      "relevance_score": 0.9353715405389997,
+      "start_line": 7,
+      "end_line": 13,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "Abstract",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.01504,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_72c3bce90087",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Abstract",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 1. Introduction\n\n## 1. Introduction\n\nThe purpose of this paper is to introduce a new method for the qualitative analysis, simplification and visualization of high dimensional data sets, as well as the qualitative analysis of functions on these data sets. In many cases, data coming from real applications is massive and it is not possible to visualize and discern structure even in low dimensional projections. As a motivating example consider the data being collected by the Oceanic Metagenomics collection [DAG \u2217 07], [SGD \u2217 07], which has many millions of protein sequences which are very difficult to analyze due to the volume of the data. Another example is the database of patches in natural images studied in [LPM03]. This data set also has millions of points and is known to have a simple structure which is obscured due to its immense size.\n\nWe propose a method which can be used to reduce high dimensional data sets into simplicial complexes with far fewer points which can capture topological and geometric information at a specified resolution. We refer to our method as Mapper in the rest of the paper. The idea is to provide another tool for a generalized notion of coordinatization for\n\n\u2020 All authors supported by DARPA grant HR0011-05-1-0007. GC additionally supported by NSF DMS 0354543.\n\nc \u00a9 The Eurographics Association 2007.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "d43ec887f9aea5f0",
+      "chunk_type": "h2",
+      "relevance_score": 0.9438713517966387,
+      "start_line": 13,
+      "end_line": 35,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1. Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.015093,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ca75c1a1a759",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Introduction",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "c \u00a9 The Eurographics Association 2007.\n\nhigh dimensional data sets. Coordinatization can of course refer to a choice of real valued coordinate functions on a data set, but other notions of geometric representation (e.g., the Reeb graph [Ree46]) are often useful and reflect interesting information more directly. Our construction provides a coordinatization not by using real valued coordinate functions, but by providing a more discrete and combinatorial object, a simplicial complex, to which the data set maps and which can represent the data set in a useful way. This representation is demonstrated in Section 5.1, where this method is applied to a data set of diabetes patients. Our construction is more general than the Reeb graph and can also represent higher dimensional objects, such as spheres, tori, etc. In the simplest case one can imagine reducing high dimensional data sets to a graph which has nodes corresponding to clusters in the data. We begin by introducing a few general properties of Mapper .\n\nOur method is based on topological ideas, by which we roughly mean that it preserves a notion of nearness, but can distort large scale distances. This is often a desirable property, because while distance functions often encode a notion of similarity or nearness, the large scale distances often carry little meaning.\n\nThe method begins with a data set X and a real valued function f : X \u2192 R , to produce a graph. This function can be a",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "cbcb99b58614c85c",
+      "chunk_type": "h2",
+      "relevance_score": 0.9448679684289406,
+      "start_line": 13,
+      "end_line": 35,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1. Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.015102,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9a04615226c3",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Introduction",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The method begins with a data set X and a real valued function f : X \u2192 R , to produce a graph. This function can be a\n\nfunction which reflects geometric properties of the data set, such as the result of a density estimator, or can be a user defined function, which reflects properties of the data being studied. In the first case, one is attempting to obtain information about the qualitative properties of the data set itself, and in the second case one is trying to understand how these properties interact with interesting functions on the data set. The functions determine the space to which we produce a map. The method can easily be modified to deal with maps to parameter spaces other than R , such as R 2 or the unit circle S 1 in the plane. In the first of these cases, one produces a two dimensional simplicial complex, together with a natural map from the data set to it. In the second case, one constructs a graph with a map from the graph to a circle. In the case where the target parameter space is R , our construction amounts to a stochastic version of the Reeb graph (see [Ree46]) associated with the filter function. If the covering of R is too coarse, we will be constructing an image of the Reeb graph of the function, while if it is fine enough we will recover the Reeb graph precisely.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "5c4c2e3248ac4b0a",
+      "chunk_type": "h2",
+      "relevance_score": 0.9434882676274163,
+      "start_line": 13,
+      "end_line": 35,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1. Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769848047.015109,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1be8fdef8388",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Introduction",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "function which reflects geometric properties of the data set, such as the result of a density estimator, or can be a user defined function, which reflects properties of the data being studied. In the first case, one is attempting to obtain information about the qualitative properties of the data set itself, and in the second case one is trying to understand how these properties interact with interesting functions on the data set. The functions determine the space to which we produce a map. The method can easily be modified to deal with maps to parameter spaces other than R , such as R 2 or the unit circle S 1 in the plane. In the first of these cases, one produces a two dimensional simplicial complex, together with a natural map from the data set to it. In the second case, one constructs a graph with a map from the graph to a circle. In the case where the target parameter space is R , our construction amounts to a stochastic version of the Reeb graph (see [Ree46]) associated with the filter function. If the covering of R is too coarse, we will be constructing an image of the Reeb graph of the function, while if it is fine enough we will recover the Reeb graph precisely.\n\nThe basic idea can be referred to as partial clustering , in that a key step is to apply standard clustering algorithms to subsets of the original data set, and then to understand the interaction of the partial clusters formed in this way with each other. That is, if U and V are subsets of the data set, and U \u2229 V is non-empty, then the clusters obtained from U and V respectively may have non-empty intersections, and these intersections are used in building a simplicial complex. This construction produces a 'multiresolution\" or 'multiscale\" image of the data set. One can actually construct a family of simplicial complexes (graphs in the case of a one-dimensional parameter space), which are viewed as images at varying levels of coarseness, and maps between them moving from a complex at one resolution to one of coarser resolution. This fact allows one to assess the extent to which features are 'real\" as opposed to 'artifacts\", since features which persist over a range of values of the coarseness would be viewed as being less likely to be artifacts.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "abbf2712cb116ea1",
+      "chunk_type": "h2",
+      "relevance_score": 0.9505712648500155,
+      "start_line": 13,
+      "end_line": 35,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1. Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769848047.0151172,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2dcdd2d86f8b",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Introduction",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The basic idea can be referred to as partial clustering , in that a key step is to apply standard clustering algorithms to subsets of the original data set, and then to understand the interaction of the partial clusters formed in this way with each other. That is, if U and V are subsets of the data set, and U \u2229 V is non-empty, then the clusters obtained from U and V respectively may have non-empty intersections, and these intersections are used in building a simplicial complex. This construction produces a 'multiresolution\" or 'multiscale\" image of the data set. One can actually construct a family of simplicial complexes (graphs in the case of a one-dimensional parameter space), which are viewed as images at varying levels of coarseness, and maps between them moving from a complex at one resolution to one of coarser resolution. This fact allows one to assess the extent to which features are 'real\" as opposed to 'artifacts\", since features which persist over a range of values of the coarseness would be viewed as being less likely to be artifacts.\n\nWe do not attempt to obtain a fully accurate representation of a data set, but rather a low-dimensional image which is easy to understand, and which can point to areas of interest. Note that it is implicit in the method that one fixes a parameter space, and its dimension will be an upper bound on the dimension of the simplicial complex one studies. As such, it is in a certain way analogous to the idea of a Postnikov tower or the coskeletal filtration in algebraic topology [Hat02].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "ef7492a0c02369e9",
+      "chunk_type": "h2",
+      "relevance_score": 0.9456931286904062,
+      "start_line": 13,
+      "end_line": 35,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1. Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769848047.015124,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_443a75fc62d9",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1. Introduction",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 1.1. Previous work\n\nWe now summarize the relationships between our method and existing methods for the analysis and visualization of high-dimensional data sets. The projection pursuit method (see [Hub85]) determines the linear projection on two or three dimensional space which optimizes a certain heuristic criterion. It is frequently very successful, and when it succeeds it produces a set in R 2 or R 3 which readily visualizable. Other methods (Isomap [TSL00], locally linear embedding [RS00], multidimensional scaling [Abd07]) attempt to find non-linear maps to Euclidean space which preserve the distance functions on the data set to as high a degree as possible. They also produce useful two and three dimensional versions of data sets when they succeed. All three of these constructions are quite sensitive to distance metric chosen, and their output is a subset of Euclidean space. Also these methods cannot produce simplicial complexes directly. One could use a further stage which uses the output of the MDS algorithm for producing a simplicial complex. However, in contrast with mapper, the size of the resulting simplicial complexes is at least as large as the original dataset, thus not achieving any simplification. In contrast, Mapper is able to achieve substantial simplifications and at the same time that the resulting simplicial complex preservs certain topological structures from the original datset. In the domain of Shape Comparison and Matching, ideas with some similarity to our were presented in [BFS00].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "3330cb3f24e6b8d9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7955747607883888,
+      "start_line": 35,
+      "end_line": 39,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1.1. Previous work",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.0151381,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7d9df1b964a2",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.1. Previous work",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 1.2. Our work\n\nWe present a method which is less sensitive to the metric, and produces a combinatorial object (a simplicial complex), whose interconnections reflect some aspects of the metric structure. It is not required to be embedded in Euclidean space, although in the case of a one-dimensional complex, it can always be embedded in R 3 . Also, the Mapper construction produces a multiresolution representation, which produces images of the data set at various levels of resolution. There are other constructions which also produce combinatorial rather than Euclidean output, notably disconnectivity graphs [BK97] and cluster trees . These constructions could in principle also be used to provide multiresolution output, but they are limited to dimension one output, and always produce trees. As we have indicated, our output can be based not only on maps to R , but to higher dimensional spaces or to the circle, producing either higher dimensional complexes or graphs which can potentially have cycles. The graphs may display cycles even in the case when the parameter space is R , as we will demonstrate in our examples.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "5d2dba1c6fce63d8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7915923533045025,
+      "start_line": 39,
+      "end_line": 43,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1.2. Our work",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.015146,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6f08292ed116",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.2. Our work",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 1.3. Outline\n\nThe rest of this paper is organized as follows. Section 2 describes the underlying theoretical framework which supports Mapper . We will outline the topological construction which provides the motivation for the construction and give the construction in detail. Section 3 is a description of the algorithm and implementation details. Section 4 describes a few natural functions which can be used to explore data sets with Mapper . We illustrate the use of Mapper in a few sample applications in Section 5 including an example\n\nof application of Mapper to shape comparison. In Section 6, we conclude with a discussion.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "badc57d2e3e931d3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7840626777364519,
+      "start_line": 43,
+      "end_line": 49,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "1.3. Outline",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.015153,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c45526f28b0a",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "1.3. Outline",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2. Construction\n\nAlthough the interest in this construction comes from applying it to point cloud data and functions on point cloud data, it is motivated by well known constructions in topology. In the interest of clarity, we will introduce this theoretical construction first, and then proceed to develop the analogous construction for point cloud data. We will refer to the theoretical construction as the topological version and to the point cloud analogue as the statistical version .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "3333384074ccb2a7",
+      "chunk_type": "h2",
+      "relevance_score": 0.780732444763689,
+      "start_line": 49,
+      "end_line": 53,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2. Construction",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.015161,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_db993f091c93",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2. Construction",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 2.1. Topological background and motivation\n\n## 2.1. Topological background and motivation\n\n/negationslash\n\nThe construction in this paper is motivated by the following construction. See [Mun99] for background on topological spaces, and [Hat02] for information about simplicial complexes. Given a finite covering U = { U \u03b1 } \u03b1 \u2208 A of a space X , we define the nerve of the covering U to be the simplicial complex N ( U ) whose vertex set is the indexing set A , and where a family { \u03b1 0 , \u03b1 1 , . . . , \u03b1 k } spans a k -simplex in N ( U ) if and only if U \u03b1 0 \u2229 U \u03b1 1 \u2229 . . . \u2229 U \u03b1 k = \u2205 . Given an additional piece of information, a partition of unity , one can obtain a map from X to N ( U ) . A partition of unity subordinate to the finite open covering U is a family of real valued functions { \u03d5\u03b1 \u2208 A } \u03b1 \u2208 A with the following properties.\n\n- 0 \u2264 \u03d5\u03b1 ( x ) \u2264 1 for all \u03b1 \u2208 A and x \u2208 X .\n- \u2211\u03b1 \u2208 A \u03d5\u03b1 ( x ) = 1 for all x \u2208 X .\n- The closure of the set { x \u2208 X | \u03d5\u03b1 ( x ) &gt; 0 } is contained in the open set U \u03b1 .\n\nWe recall that if { v 0 , v 1 , . . . , vk } are the vertices of a simplex, then the points v in the simplex correspond in a one-toone and onto way to the set of ordered k -tuples of real numbers ( r 0 , r 1 , . . . , r k ) which satisfy 0 \u2264 ri \u2264 1 and \u2211 k i = 0 ri = 1. This correspondence is called the barycentric coordinatization , and the numbers ri are referred to as the barycentric coordinates of the point v . Next, for any point x \u2208 X , we let T ( x ) \u2286 A be the set of all \u03b1 so that x \u2208 U \u03b1 . We now define \u03c1 ( x ) \u2208 N ( U ) to be the point in the simplex spanned by the vertices \u03b1 \u2208 T ( x ) , whose barycentric coordinates are ( \u03d5\u03b1 0 ( x ) , \u03d5\u03b1 1 ( x ) , . . . , \u03d5\u03b1 l ( x )) , where { \u03b1 0 , \u03b1 1 , . . . , \u03b1 l } is an enumeration of the set T ( x ) . The map \u03c1 can easily be checked to be continuous, and provides a kind of partial coordinatization of X , with values in the simplicial complex N ( U ) .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "a8b6e593ca4094c8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7985802136623842,
+      "start_line": 53,
+      "end_line": 67,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.1. Topological background and motivation",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.015199,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_3873756dc202",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.1. Topological background and motivation",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "We recall that if { v 0 , v 1 , . . . , vk } are the vertices of a simplex, then the points v in the simplex correspond in a one-toone and onto way to the set of ordered k -tuples of real numbers ( r 0 , r 1 , . . . , r k ) which satisfy 0 \u2264 ri \u2264 1 and \u2211 k i = 0 ri = 1. This correspondence is called the barycentric coordinatization , and the numbers ri are referred to as the barycentric coordinates of the point v . Next, for any point x \u2208 X , we let T ( x ) \u2286 A be the set of all \u03b1 so that x \u2208 U \u03b1 . We now define \u03c1 ( x ) \u2208 N ( U ) to be the point in the simplex spanned by the vertices \u03b1 \u2208 T ( x ) , whose barycentric coordinates are ( \u03d5\u03b1 0 ( x ) , \u03d5\u03b1 1 ( x ) , . . . , \u03d5\u03b1 l ( x )) , where { \u03b1 0 , \u03b1 1 , . . . , \u03b1 l } is an enumeration of the set T ( x ) . The map \u03c1 can easily be checked to be continuous, and provides a kind of partial coordinatization of X , with values in the simplicial complex N ( U ) .\n\nNow suppose that we are given a space equipped with a continuous map f : X \u2192 Z to a parameter space Z , and that the space Z is equipped with a covering U = { U \u03b1 } \u03b1 \u2208 A , again for some finite indexing set A . Since f is continuous, the sets f -1 ( U \u03b1 ) also form an open covering of X . For each \u03b1 , we can now consider the decomposition of f -1 ( U \u03b1 ) into its path connected components, so we write f -1 ( U \u03b1 ) = S j \u03b1 i = 1 V ( \u03b1 , i ) , where j \u03b1 is the number of connected components in f -1 ( U \u03b1 ) . We write U for the covering of X obtained this way from the covering U of Z .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "f9386921b8c0c412",
+      "chunk_type": "h2",
+      "relevance_score": 0.7953347491559404,
+      "start_line": 53,
+      "end_line": 67,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.1. Topological background and motivation",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.0152059,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7b32e4086237",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.1. Topological background and motivation",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 2.2. Multiresolution structure\n\n## 2.2. Multiresolution structure\n\nIf we have two coverings U = { U \u03b1 } \u03b1 \u2208 A and V = { V \u03b2 } \u03b2 \u2208 B of a space X , a map of coverings from U to V is a function f : A \u2192 B so that for all \u03b1 \u2208 A , we have U \u03b1 \u2286 V f ( \u03b1 ) for all \u03b1 \u2208 A .\n\nExample 2.1 Let X = [ 0 , N ] \u2286 R , and let \u03b5 &gt; 0 . The sets I \u03b5 l = ( l -\u03b5 , l + 1 + \u03b5 ) \u2229 X, for l = 0 , 1 , . . . , N -1 form an open covering I \u03b5 of X. All the coverings I \u03b5 for the different values of \u03b5 have the same indexing set, and for \u03b5 \u2264 \u03b5 \u2032 , the identity map on this indexing set is a map of coverings, since I \u03b5 l \u2286 I \u03b5 l .\n\nExample 2.2 Let X =[ 0 , 2 N ] again, and let I \u03b5 l be as above, for l = 0 , 1 , . . . , 2 N -1 , and let J \u03b5 m = ( 2 m -\u03b5 , 2 m + 2 + \u03b5 ) \u2229 X. Let J \u03b5 denote the covering { J \u03b5 0 , J \u03b5 1 , . . . , J \u03b5 N -1 } . Let f : { 0 , 1 , . . . , 2 N -1 } \u2192 { 0 , 1 , . . . , N -1 } be the function f ( l ) = /floorleft l 2 /floorright . Then f gives a map of coverings I \u03b5 \u2192J \u03b5 \u2032 whenever \u03b5 \u2264 \u03b5 \u2032 .\n\nExample 2.3 Let X =[ 0 , N ] \u00d7 [ 0 , N ] \u2286 R 2 . Given \u03b5 &gt; 0 , we let B \u03b5 ( i , j ) be the set ( i -\u03b5 , i + 1 + \u03b5 ) \u00d7 ( j -\u03b5 , j + 1 + \u03b5 ) . The collection { B \u03b5 ( i , j ) } for 0 \u2264 i , j \u2264 N -1 provides a covering B \u03b5 of X, and the identity map on the indexing set { ( i , j ) | 0 \u2264 i , j \u2264 N -1 } is a map of coverings B \u03b5 \u2192B \u03b5 \u2032 whenever \u03b5 \u2264 \u03b5 \u2032 . A doubling strategy such as the one described in Example 2.2 above also works here.\n\nWe next observe that if we are given a map of coverings from U = { U \u03b1 } \u03b1 \u2208 A to V = { V \u03b2 } \u03b2 \u2208 B , i.e. a map of sets f : A \u2192 B satisfying the conditions above, there is an induced map of simplicial complexes N ( f ) : N ( U ) \u2192 N ( V ) , given on vertices by the map f . Consequently, if we have a family of coverings U i , i = 0 , 1 , . . . , n , and maps of coverings f i : U i \u2192 U i + 1 for each i , we obtain a diagram of simplicial complexes and simplicial maps\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "b791628790ed5404",
+      "chunk_type": "h2",
+      "relevance_score": 0.7986340518979067,
+      "start_line": 67,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.2. Multiresolution structure",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.015224,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5954bfc3a539",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.2. Multiresolution structure",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nWhen we consider a space X equipped with a f : X \u2192 Z to a parameter space Z , and we are given a map of coverings U \u2192V , there is a corresponding map of coverings U \u2192V of the space X . To see this, we only need to note that if U \u2286 V , then of course f -1 U \u21aa \u2192 f -1 ( V ) , and consequently it is clear that each connected component of f -1 ( U ) is included in exactly one connected component of f -1 ( V ) . So, the map of coverings from U to V is given by requiring that the set U \u03b1 ( i ) is sent to the unique set of the form V f ( \u03b2 ) ( j ) so that U \u03b1 ( i ) \u2286 V f ( \u03b2 ) ( j ) .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "b5beb97e47e3e37e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7836238142355524,
+      "start_line": 67,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.2. Multiresolution structure",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.01523,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b02feb5483b4",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.2. Multiresolution structure",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 2.3. Examples\n\n## 2.3. Examples\n\nWe illustrate how the methods work for the topological version.\n\nExample 2.4 Consider the situation where X is [ -M , M ] \u2286 R , the parameter space is [ 0 , + \u221e ) , and the function f : X \u2192 R is the probability density function for a Gaussian distribution, given by f ( x ) = 1 \u03c3 \u221a 2 \u03c0 e -x 2 2 \u03c3 2 . The covering U of Z consists of the 4 subsets { [ 0 , 5 ) , ( 4 , 10 ) , ( 9 , 15 ) , ( 14 , + \u221e ) } , and we assume that N is so large that f ( N ) &gt; 14 . One notes that f -1 ([ 0 , 5 )) consists of a single component, but that f -1 (( 4 , 10 )) , f -1 (( 9 , 15 ) , and f -1 (( 14 , + \u221e )) all consist of two distinct components, one on the positive half line and the other on the negative half line. The associated simplicial complex now looks as follows.\n\n<!-- image -->\n\nIt is useful to label the nodes of the simplicial complex by color and size. The color of a node indicates the value of the function f (red being high and blue being low) at a representative point in the corresponding set of the cover U , or perhaps by a suitable average taken over the set. The size of a node indicates the number of points in the set represented by the node. In this way, the complex provides information about the nature of the function.\n\nExample 2.5 Let X = R 2 , and let the map be given by applying the Gaussian density function from the previous example to r = \u221a x 2 + y 2 . We use the same covering U as in the previous example. We now find that all the sets f -1 U, for all U \u2208 U , are connected, so the simplicial complex will have only four vertices, and will look like this.\n\n<!-- image -->\n\nWhen we color label the nodes, we see that this situation is essentially different from that in the previous example.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "a6253c69a4253a0a",
+      "chunk_type": "h2",
+      "relevance_score": 0.7973134574828138,
+      "start_line": 83,
+      "end_line": 103,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.3. Examples",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.0152462,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_43e8d89da476",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.3. Examples",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "When we color label the nodes, we see that this situation is essentially different from that in the previous example.\n\nExample 2.6 Consider the situation where we are given a rooted tree X, where Z is again the non-negative real line, and where the function f ( x ) is defined to be the distance from the root to the point x in a suitably defined tree distance. In this case, when suitable choices of the parameter values are made, the method will recover a homeomorphic version of the tree.\n\nExample 2.7 Let X denote the unit circle { ( x , y ) | x 2 + y 2 = 1 } in the Euclidean plane, let Z denote [ -1 , 1 ] , and let f ( x , y ) = y. Let U be the covering { [ -1 , -2 3 ) , ( -1 2 , 1 2 ) , ( 2 3 , 1 ] } . Then the associated covering U is now pictured as follows. We note that f -1 ([ -1 , -2 3 )) and f -1 (( 2 3 , 1 ]) both consist of one connected component, while f -1 (( -1 2 , 1 2 )) consists of two connected components. It is now easy to see that the simplicial complex will have four vertices, and will look as follows:",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "100f8874038ba475",
+      "chunk_type": "h2",
+      "relevance_score": 0.790448210493788,
+      "start_line": 83,
+      "end_line": 103,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "2.3. Examples",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.015253,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f3ce20a6b086",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "2.3. Examples",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3. Implementation\n\n## 3. Implementation\n\nIn this section, we describe the implementation of a statistical version of Mapper which we have developed for point cloud data. The main idea in passing from the topological version to the statistical version is that clustering should be regarded as the statistical version of the geometric notion of partitioning a space into its connected components. We assume that the point cloud contains N points x \u2208 X , and that we have a function f : X \u2192 R whose value is known for the N data points. We call this function a filter . Also, we assume that it is possible to compute inter-point distances between the points in the data. Specifically, it should be possible to construct a distance matrix of inter-point distances between sets of points.\n\nWe begin by finding the range of the function ( I ) restricted to the given points. To find a covering of the given data, we divide this range into a set of smaller intervals ( S ) which overlap. This gives us two parameters which can be used to control resolution namely the length of the smaller intervals ( l ) and the percentage overlap between successive intervals ( p ).\n\nExample 3.1 Let I = [ 0 -2 ] , l = 1 and p = 2 3 . The set S would then be S = { [ 0 , 1 ] , [ 0 . 33 , 1 . 33 ] , [ 0 . 66 , 1 . 66 ] , [ 1 , 2 ] }\n\n/negationslash\n\nNow, for each interval I j \u2208S , we find the set Xj = { x | f ( x ) \u2208 I j } of points which form its domain. Clearly the set { Xj } forms a cover of X , and X \u2286 S j Xj . For each smaller set Xj we find clusters { Xjk } . We treat each cluster as a vertex in our complex and draw an edge between vertices whenever Xjk \u2229 Xlm = \u2205 i.e. the clusters corresponding to the vertices have non-empty intersection.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "405c9d562bc9b536",
+      "chunk_type": "h2",
+      "relevance_score": 0.7971639568814175,
+      "start_line": 103,
+      "end_line": 117,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3. Implementation",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.0195909,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_40e6bc4253eb",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3. Implementation",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Now, for each interval I j \u2208S , we find the set Xj = { x | f ( x ) \u2208 I j } of points which form its domain. Clearly the set { Xj } forms a cover of X , and X \u2286 S j Xj . For each smaller set Xj we find clusters { Xjk } . We treat each cluster as a vertex in our complex and draw an edge between vertices whenever Xjk \u2229 Xlm = \u2205 i.e. the clusters corresponding to the vertices have non-empty intersection.\n\nExample 3.2 Consider point cloud data which is sampled from a noisy circle in R 2 , and the filter f ( x ) = || x -p || 2 , where p is the left most point in the data (refer to Figure 1). We cover this data set by a set of 5 intervals, and for each interval we find its clustering. As we move from the low end of the filter to the high end, we see that the number of clusters changes from 1 to 2 and then back to 1, which are connected as shown in Figure 1.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "a2874c3e043b79d8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7880500945436096,
+      "start_line": 103,
+      "end_line": 117,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3. Implementation",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019636,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6faf29b4e52e",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3. Implementation",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.1. Clustering\n\n## 3.1. Clustering\n\nFinding a good clustering of the points is a fundamental issue in computing a representative simplicial complex. Mapper does not place any conditions on the clustering algorithm. Thus any domain-specific clustering algorithm can be used.\n\nWe implemented a clustering algorithm for testing the ideas\n\n<!-- image -->\n\nFigure 1: Refer to Example 3.2. The data is sampled from a noisy circle, and the filter used is f ( x ) = || x -p || 2 , where p is the left most point in the data. The data set is shown on the top left, colored by the value of the filter. We divide the range of the filter into 5 intervals which have length 1 and a 20% overlap. For each interval we compute the clustering of the points lying within the domain of the filter restricted to the interval, and connect the clusters whenever they have non empty intersection. At the bottom is the simplicial complex which we recover whose vertices are colored by the average filter value.\n\n<!-- image -->\n\npresented here. The desired characteristics of the clustering were:\n\n1. Take the inter-point distance matrix ( D \u2208 R N \u00d7 N ) as an input. We did not want to be restricted to data in Euclidean Space.\n2. Do not require specifying the number of clusters beforehand.\n\nWe have implemented an algorithm based on single-linkage clustering [Joh67], [JD88]. This algorithm returns a vector C \u2208 R N -1 which holds the length of the edge which was added to reduce the number of clusters by one at each step in the algorithm.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "d626be8fd12054fb",
+      "chunk_type": "h2",
+      "relevance_score": 0.7954553076383432,
+      "start_line": 117,
+      "end_line": 140,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.1. Clustering",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.0196679,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_96c66da34edc",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.1. Clustering",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "We have implemented an algorithm based on single-linkage clustering [Joh67], [JD88]. This algorithm returns a vector C \u2208 R N -1 which holds the length of the edge which was added to reduce the number of clusters by one at each step in the algorithm.\n\nNow, to find the number of clusters we use the edge length at which each cluster was merged. The heuristic is that the inter-point distance within each cluster would be smaller than the distance between clusters, so shorter edges are required to connect points within each cluster, but relatively longer edges are required to merge the clusters. If we look at the histogram of edge lengths in C , it is observed experimentally, that shorter edges which connect points within each cluster have a relatively smooth distribution and the edges which are required to merge the clusters are disjoint from this in the histogram. If we determine the histogram of C using k intervals, then we expect to find a set of empty interval(s) after which the edges which are required to merge the clusters appear. If we allow all edges of length shorter than the length at which we observe the empty interval in the histogram, then we can recover a clustering of the data.\n\nIncreasing k will increase the number of clusters we observe and decreasing k will reduce it. Although this heuristic has worked well for many datasets that we have tried, it suffers from the following limitations: (1) If the clusters have very different densities, it will tend to pick out clusters of high density only. (2) It is possible to construct examples where the clusters are distributed in such a way such that we recover the incorrect clustering. Due to such limitations, this part of the procedure is open to exploration and change in the future.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "472dbb946c6f1ad4",
+      "chunk_type": "h2",
+      "relevance_score": 0.7974170964852029,
+      "start_line": 117,
+      "end_line": 140,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.1. Clustering",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019679,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_44ea65e1fc1a",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.1. Clustering",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3.2. Higher Dimensional Parameter Spaces\n\n## 3.2. Higher Dimensional Parameter Spaces\n\nUsing a single function as a filter we get as output a complex in which the highest dimension of simplices is 1 (edges in a graph). Qualitatively, the only information we get out of this is the number of components, the number of loops and knowledge about structure of the component flares etc.). To get information about higher dimensional voids in the data one would need to build a higher dimensional complex using more functions on the data. In general, the Mapper construction requires as input: (a) A Parameter space defined by the functions and (b) a covering of this space. Note that any covering of the parameter space may be used. As an example of the parameter space S 1 , consider a parameter space defined by two functions f and g which are related such that f 2 + g 2 = 1. A very simple covering for such a space is generated by considering overlapping angular intervals.\n\nOne natural way of building higher dimensional complexes is to associate many functions with each data point instead of just one. If we used M functions and let R M to be our parameter space, then we would have to find a covering of an M dimensional hypercube which is defined by the ranges of the M functions.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "0404816af862ce0f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7932772290576461,
+      "start_line": 140,
+      "end_line": 177,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.2. Higher Dimensional Parameter Spaces",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.019708,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a275bb9cb047",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2. Higher Dimensional Parameter Spaces",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "One natural way of building higher dimensional complexes is to associate many functions with each data point instead of just one. If we used M functions and let R M to be our parameter space, then we would have to find a covering of an M dimensional hypercube which is defined by the ranges of the M functions.\n\nExample 3.3 Consider using two functions f and g which are defined for each data point (refer to Figure 2). We need to define a covering of the rectangle R = [ min f , max f ] \u00d7 [ min g , max g ] . This covering defines constraints on values of f and g within each region, which enables us to select subsets of the data. As in the case of covering an interval, the regions which cover R must overlap. Now, if we cover R using hexagons then we can adjust the size and overlap of hexagons such that a maximum of three hexagons intersect. Thus, the dimension of simplices which we use to construct the complex will always be 3 or less. On the other hand if we cover R using rectangles, there will be regions where four rectangles intersect. Thus, the dimension of simplices which we use to construct the complex will be 4 or less.\n\nWe now describe the Mapper algorithm using two functions and the parameter space R 2 . Consider two functions on each data point, and the range of these being covered by rectangles. Define a region R = [ min f 1 , max f 1 ] \u00d7 [ min f 2 , max f 2 ] . Now say we have a covering \u222a i , j Aij such\n\nFigure 2: Covering the range of two functions f and g. The area which needs to be covered is [ min f , max f ] \u00d7 [ min g , max g ] . On the left is a covering using rectangles and on the right is a covering using hexagons. The constraints on the smaller regions (rectangles or hexagons) define the indices of data which we pick. The red dots in each represent the center of the region. Refer to Example 3.3 for details. Please refer to the electronic version for color image.\n\n<!-- image -->\n\nthat each Ai , j , Ai + 1 , j intersect and each Ai , j , Ai , j + 1 intersect. An algorithm for building a reduced simplicial complex is:",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "1df1f7d8d4b53c26",
+      "chunk_type": "h2",
+      "relevance_score": 0.7994602142988186,
+      "start_line": 140,
+      "end_line": 177,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.2. Higher Dimensional Parameter Spaces",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019718,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_743434d2a70f",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2. Higher Dimensional Parameter Spaces",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "that each Ai , j , Ai + 1 , j intersect and each Ai , j , Ai , j + 1 intersect. An algorithm for building a reduced simplicial complex is:\n\n1. For each i , j , select all data points for which the function values of f 1 and f 2 lie within Ai , j . Find a clustering of points for this set and consider each cluster to represent a 0 dimensional simplex (referred to as a vertex in this algorithm). Also, maintain a list of vertices for each Ai , j and a set of indices of the data points (the cluster members) associated with each vertex.\n2. For all vertices in the sets { Ai , j , Ai + 1 , j , Ai , j + 1 , Ai + 1 , j + 1 } , if the intersection of the cluster associated with the vertices is non-empty then add a 1-simplex (referred to as an edge in this algorithm).\n3. Whenever clusters corresponding to any three vertices have non empty intersection, add a corresponding 2 simplex (referred to as a triangle in this algorithm) with the three vertices forming its vertex set.\n4. Whenever clusters corresponding to any four vertices have non-empty intersection, add a 3 simplex (referred to as tetrahedron in this algorithm) with the four vertices forming its vertex set.\n\nIt is very easy to extend Mapper to the parameter space R M in a similar fashion.\n\nExample 3.4 Consider the unit sphere in R 3 . Refer to Figure 3. The functions are f 1 ( x ) = x 3 and f 2 ( x ) = x 1 , where x = ( x 1 , x 2 , x 3 ) . As intervals in the range of f 1 and f 2 are scanned, we select points from the dataset whose function values lie in both the intervals and then perform clustering. In case of a sphere, clearly only three possibilities exist:\n\n1. The intersection is empty, and we get no clusters.\n2. The intersection contains only one cluster.\n3. The intersection contains two clusters.\n\nAfter finding clusters for the covering, we form higher dimensional simplices as described above. We then used the",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "d865c44affe57750",
+      "chunk_type": "h2",
+      "relevance_score": 0.7983351499900614,
+      "start_line": 140,
+      "end_line": 177,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.2. Higher Dimensional Parameter Spaces",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769848047.019725,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_52cc4cd2f9a6",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2. Higher Dimensional Parameter Spaces",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "After finding clusters for the covering, we form higher dimensional simplices as described above. We then used the\n\nFigure 3: Refer to Example 3.4 for details. Let the filtering functions be f 1 ( x ) = x 3 , f 2 ( x ) = x 1 , where xi is the i th coordinate. The top two images just show the contours of the function f 1 and f 2 respectively. The three images in the middle row illustrate the possible clusterings as the ranges of f 1 and f 2 are scanned. The image in the bottom row shows the number of clusters as each region in the range ( f 1 ) \u00d7 range ( f 2 ) is considered. Please refer to the electronic version for color image.\n\n<!-- image -->\n\nhomology detection software PLEX ( [PdS]) to analyze the resulting complex and to verify that this procedure recovers the correct Betti numbers: \u03b2 0 = 1 , \u03b2 1 = 0 , \u03b2 2 = 1.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "88db7ead59cd9393",
+      "chunk_type": "h2",
+      "relevance_score": 0.7875251652865763,
+      "start_line": 140,
+      "end_line": 177,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "3.2. Higher Dimensional Parameter Spaces",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769848047.019732,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6fd0e812ebb5",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "3.2. Higher Dimensional Parameter Spaces",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 4. Functions\n\nThe outcome of Mapper is highly dependent on the function(s) chosen to partition (filter) the data set. In this section we identify a few functions which carry interesting geometric information about data sets in general. The functions which are introduced below rely on the ability to compute distances between points. We assume that we are given a collection of N points as a point cloud data X together with a distance function d ( x , y ) which denotes the distance between x , y \u2208 X .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "d5ad8702b66f6662",
+      "chunk_type": "h2",
+      "relevance_score": 0.7811245155051939,
+      "start_line": 177,
+      "end_line": 181,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "4. Functions",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019758,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_57da2036a750",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4. Functions",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 4.1. Density\n\nDensity estimation is a highly developed area within statistics. See [Sil86], for a thorough treatment. In particular for \u03b5 &gt; 0 consider estimating density using a Gaussian kernel as:\n\n<!-- formula-not-decoded -->\n\nwhere x , y \u2208 X and C \u03b5 is a constant such that R f \u03b5 ( x ) dx = 1. In this formulation \u03b5 controls the smoothness of the estimate of the density function on the data set, estimators using large values of \u03b5 correspond to smoothed out versions of the estimator using smaller values of this parameter. A number of other interesting methods are presented in [Sil86] and many of them depend only the ability to compute distance between members of the point cloud. As such, they yield functions which carry information about the geometry of the data set.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "94520178540add66",
+      "chunk_type": "h2",
+      "relevance_score": 0.7868128528617383,
+      "start_line": 181,
+      "end_line": 189,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "4.1. Density",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019767,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_954c0f25cb9c",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.1. Density",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 4.2. Eccentricity\n\nThis is a family of functions which also carry information about the geometry of the data set. The basic idea is to identify points which are, in an intuitive sense, far from the center, without actually identifying an actual center point. Given p with 1 \u2264 p &lt; + \u221e , we set\n\n<!-- formula-not-decoded -->\n\nwhere x , y \u2208 X . We may extend the definition to p = + \u221e by setting E \u221e ( x ) = max x \u2032 \u2208 X d ( x , x \u2032 ) . In the case of a Gaussian distribution, this function is clearly negatively correlated with density. In general, it tends to take larger values on points which are far removed from a 'center'.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "655b916bfa7d4155",
+      "chunk_type": "h2",
+      "relevance_score": 0.784000880777324,
+      "start_line": 189,
+      "end_line": 197,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "4.2. Eccentricity",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019775,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ea7f7c8a9cd0",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.2. Eccentricity",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 4.3. Graph Laplacians\n\nThis family of functions originates from considering a Laplacian operator on a graph defined as follows (See [LL06] for a thorough treatment). The vertex set of this graph is the set of all points in the point cloud data X , and the weight of the edge between points x , y \u2208 X is:\n\n<!-- formula-not-decoded -->\n\nwhere d denotes the distance function in the point cloud data and k is, roughly, a 'smoothing kernel' such as a Gaussian kernel. A (normalized) graph Laplacian matrix is computed as:\n\n<!-- formula-not-decoded -->\n\nNow, the eigenvectors of the normalized graph Laplacian matrix gives us a set of orthogonal vectors which encode interesting geometric information, [LL06] and can be used as filter functions on the data.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "318592e0a4dea60e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7863384085488756,
+      "start_line": 197,
+      "end_line": 209,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "4.3. Graph Laplacians",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019785,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2990615ea807",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "4.3. Graph Laplacians",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 5. Sample Applications\n\nIn this section, we discuss a few applications of the Mapper algorithm using our implementation. Our aim is to demonstrate the usefulness of reducing a point cloud to a much smaller simplicial complex in synthetic examples and some real data sets.\n\nWe have implemented the Mapper algorithm for computing and visualizing a representative graph (derived using one function on the data) and the algorithm for computing a higher order complex using multiple functions on the data. Our implementation is in MATLAB and utilizes GraphViz for visualization of the reduced graphs.\n\nWe use the following definitions in this section. Mapper reduces an input point cloud Y to a simplicial complex C . Let the vertex set of this complex be X , and the 1-skeleton of C be G . All vertices in the set X represent clusters of data. Let\n\nFigure 4: Refer to Section 5.1 for details. Three dimensional projection of the diabetes data obtained using projection and pursuit.\n\n<!-- image -->\n\nCi be the cluster of points in Y associated with Xi . Let Ni be the cardinality of the cluster associated with Xi . Recall from Section 3.1, that we have a distance matrix D for points in the set Y . By using it, we can also associate a metric between the members of X . We define two notions of distance as:\n\n- DH ( Xi , Xj ) = max ( \u2211 y min x d ( x , y ) Nj , \u2211 x min y d ( x , y ) Ni ) , where x \u2208 Ci , y \u2208 Cj . Informally, this is a smooth approximation to the Hausdorff distance between two sets.\n- Weconstruct an adjacency matrix A for G , where A ( i , j ) = DH ( Xi , Xj ) if there is an edge between Xi and Xj in G . Now, computing graph distance using Dijkstra's algorithm gives us an 'intrinsic' distance on the output. Let this be DI .\n\nWe scale both DH and DI such that the maximum distance is 1 so as to normalize them.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "15c9c31aee3cf8cc",
+      "chunk_type": "h2",
+      "relevance_score": 0.7978806503290509,
+      "start_line": 209,
+      "end_line": 228,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5. Sample Applications",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019816,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_78d4b5c7aadd",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5. Sample Applications",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5.1. The Miller-Reaven diabetes study\n\n## 5.1. The Miller-Reaven diabetes study\n\nIn [Mil85], G. M. Reaven and R.G.Miller describe the results they obtain by applying the projection pursuit method [Hub85] to data [AH85] obtained from a study performed at Stanford University in the 1970's. 145 patients who had diabetes, a family history of diabetes, who wanted a physical examination, or to participate in a scientific study participated in the study. For each patient, six quantities were measured: age, relative weight, fasting plasma glucose, area under the plasma glucose curve for the three hour glucose tolerance test (OGTT), area under the plasma insulin curve for the (OGTT), and steady state plasma glucose response. This created a 6 dimensional data set, which was studied using projection pursuit methods, obtaining a projection into three dimensional Euclidean space, under which the data set appears as in Figure 4. Miller and Reaven noted that the data set consisted of a central core, and two 'flares\" emanating from it. The patients in each of the flares were regarded as suffering from essentially different diseases, which correspond to the division of diabetes into the adult onset and juvenile onset forms. One way in which we wish to use Mapper is as an automatic tool for detecting such flares in the data, even in situations where projections into two or three dimensional\n\nFigure 5: Refer to Section 5.1 for details. On the left is a 'low-resolution' Mapper output which was computed using 3 intervals in the range of the filter with a 50% overlap. On the right is a 'high-resolution' Mapper output computed using 4 intervals in the range of the filter with a 50% overlap. The colors encode the density values, with red indicative of high density, and blue of low. The size of the node and the number in it indicate the size of the cluster. The low density ends reflect type I and type II diabetes. The flares occurring in Figure 4 occur here as flares with blue ends. Please refer to the electronic version for color image.\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "0ccf97096f137371",
+      "chunk_type": "h2",
+      "relevance_score": 0.799453909515508,
+      "start_line": 228,
+      "end_line": 238,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.1. The Miller-Reaven diabetes study",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.019829,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e0d98b534ce1",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.1. The Miller-Reaven diabetes study",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- image -->\n\nspace do not provide such a good image. Figure 5 shows the results obtained by applying Mapper to this same data set, using density estimated by a kernel estimator. We show two different resolutions.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "15fc757b5d6981d0",
+      "chunk_type": "h2",
+      "relevance_score": 0.7699731537974681,
+      "start_line": 228,
+      "end_line": 238,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.1. The Miller-Reaven diabetes study",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019835,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_28a875f61043",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.1. The Miller-Reaven diabetes study",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 5.2. Mapper on Torus\n\nWe generated 1500 points evenly sampled on the surface of a two dimensional torus (with inner radius 0 . 5 and exterior radius 1) in R 3 . We embedded this torus into R 30 by first padding dimensions 4 to 30 with zeros and then applying a random rotation to the resulting point cloud. We computed the first two non-trivial eigenfunctions of the Laplacian, f 1 and f 2 (see Section 4.3) and used them as filter functions for Mapper . Other parameters for the procedure were as follows. The number of intervals in the range of f 1 and f 2 was 8 and any two adjacent intervals in the range of f i had 50% overlap. The output was a set of 325 (clusters of) points together with a four dimensional simplicial complex. The 3-D visualization shown in Figure 6 was obtained by first endowing the output points with the metric DH as defined above and using Matlab's MDS function mdscale and then attaching 1 and 2-simplices inferred from the four dimensional simplicial complex returned by Mapper . The threedimensional renderings of the 2-skeleton are colored by the functions f 1 and f 2 . These experiments were performed only to verify that the embedding produced by using the inferred distance metric actually looked like a torus and to demonstrate that the abstract simplicial complex returned by Mapper has the correct Betti numbers: \u03b2 0 = 1 , \u03b2 1 = 2 , \u03b2 2 = 1 (as computed using PLEX).\n\nFigure 6: Refer to Section 5.2 for details. Please refer to the electronic version for color image.\n\n<!-- image -->\n\nFigure 7: Refer to Section 5.3 for details. The top row shows the rendering of one model from each of the 7 classes. The bottom row shows the same model colored by the E 1 function (setting p = 1 in equation 4-1) computed on the mesh. Please refer to the electronic version for color image.\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "295b9707ebce6a58",
+      "chunk_type": "h2",
+      "relevance_score": 0.7979090820576432,
+      "start_line": 238,
+      "end_line": 250,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.2. Mapper on Torus",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019861,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2df0a1c55ac5",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.2. Mapper on Torus",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5.3. Mapper on 3 D Shape Database\n\n## 5.3. Mapper on 3 D Shape Database\n\nIn this section we apply Mapper to a collection of 3 D shapes from a publicly available database of objects [SP]. These shapes correspond to seven different classes of objects (camels, cats, elephants, faces, heads, horses and lions). For each class there are between 9 and 11 objects, which are different poses of the same shape, see Figure 7.\n\nThis repository contains many 3D shapes in the form of triangulated meshes. We preprocessed the shapes as follows. Let the set of points be P . From these points, we selected 4000 landmark points using a Euclidean maxmin procedure as described in [dSVG04]. Let this set be Y = { Pi , i \u2208 L } , where L is the set of indices of the landmarks.\n\nIn order to use this as the point cloud input to Mapper , we computed distances between the points in Y as follows. First, we computed the adjacency matrix A for the set P by using the mesh information e.g. if Pi and Pj were connected on the given mesh, then A ( i , j ) = d ( Pi , Pj ) , where d ( x , y ) is the Euclidean distance between x , y \u2208 P . Finally, the matrix of distances D between points of Y was computed using Dijkstra's algorithm on the graph specified by A .\n\nIn order to apply Mapper to this set of shapes we chose to use E 1 ( x ) as our filter function (setting p = 1 in equation 4-1), see Figure 7. In order to minimize the effect of bias due to the distribution of local features we used a global threshold for the clustering within all intervals which was determined as follows. We found the threshold for each interval by the histogram heuristic described in Section 3.1, and used the median of these thresholds as the global threshold.\n\nThe output of Mapper in this case (single filter function) is a graph. We use GraphViz to produce a visualization of this graph. Mapper results on a few shapes from the database\n\ncamel elephant\n\nface head\n\ncamel cat\n\nelephant face\n\nhead horse\n\ncamel\n\nCal elephant\n\n\u2022tace horse\n\nare presented in Figure 9. A few things to note in these results are: camel",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "1311ce0a27208a77",
+      "chunk_type": "h2",
+      "relevance_score": 0.7995481624063487,
+      "start_line": 250,
+      "end_line": 285,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.3. Mapper on 3 D Shape Database",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.019906,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_77134e5aba09",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.3. Mapper on 3 D Shape Database",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "are presented in Figure 9. A few things to note in these results are: camel\n\n1. Mapper is able to recover the graph representing the skeleton of the shape with fair accuracy. As an example, consider the horse shapes. In both cases, the three branches at the bottom of the recovered graph represent the font two legs and the neck. The blue colored section of the graph represents the torso and the top three branches represent the hind legs and the tail. In these examples, endowing the nodes of the recovered graph with the mean position of the clusters they represent would recover a skeleton.\n2. Different poses of the same shape have qualitatively similar Mapper results however different shapes produce significantly different results. This suggests that certain intrinsic information about the shapes, which is invariant to pose, is being retained by our procedure.\n\nThe behaviour exhibited by Mapper (using E 1 as filter) suggest it may be useful as a tool for simplifying shapes and subsequently performing database query and (pose invariant) shape comparison tasks. We briefly explore this possibility in the next section.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "37ea9c21b85cc6a2",
+      "chunk_type": "h2",
+      "relevance_score": 0.7915923533045025,
+      "start_line": 250,
+      "end_line": 285,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.3. Mapper on 3 D Shape Database",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019913,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f6fe328ce062",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.3. Mapper on 3 D Shape Database",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5.4. Shape Comparison Example\n\n## 5.4. Shape Comparison Example\n\nIn this section we show how Mapper 's ability to meaningfully simplify data sets could be used for facilitating Shape Comparison/Matching tasks. We use the output of Mapper as simplified objects/shapes on which we will be performing a shape discrimination task.\n\nFollowing the same procedure detailed in the Section 5.3, we reduce an input shape ( Y ) to a graph ( G ). Let the vertex set of this graph be X and the adjacency matrix by A . For each Xi , we define \u00b5i = Ni \u2211 j Nj to be used later as a weight associated with each point of the simplified shape.\n\nEach simplified object is then specified as a triple { ( X , DX , \u00b5X ) } , where DX is a distance matrix which is computed using one of the choices DH or DI as defined earlier and \u00b5X is the set of weights for X . We used the method described in [Mem07] to estimate a measure of dissimilarity between all the shapes. The point to make here is that the clustering procedure underlying the Mapper construction provides us with not only a distance between clusters but also with a natural notion of weight for each point (cluster) in the simplified models, where both encode interesting information about the shape. The comparison method takes as input both the distance matrix between all pairs of points in the simplified model and the weight for each point. It then proceeds to compute an Lp version of the Gromov-Hausdorff distance. The output of this stage is a dissimilarity matrix D where element D ( X , Z ) expresses the dissimilarity between (simplified) objects X and Z .\n\nc \u00a9 The Eurographics Association 2007.\n\n(b)\n\nFigure 8: Refer to Section 5.4 for details. Comparing dissimilarity matrices D : (a) This dissimilarity matrix was computed using DH . (b) This dissimilarity matrix was computed using DI . Clearly DH is much better at clustering various poses of the same shape together. Please refer to the electronic version for color image.\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "d00f26688b4bc08c",
+      "chunk_type": "h2",
+      "relevance_score": 0.798998287000683,
+      "start_line": 285,
+      "end_line": 317,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.4. Shape Comparison Example",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.0199401,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8fa0d6d9fced",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.4. Shape Comparison Example",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- image -->\n\nWe tried this method on two different constructions for the simplified sets. The first construction estimated the metric DX of simplified model X as DH defined above. The second construction estimates the metric as DI defined above. Figure 8 depicts the resulting dissimilarity matrices for all simplified models, for both methods of construction. Note the clear discrimination in case (a).\n\nWe quantified the ability to discriminate different classes of shapes by computing a probability of error in classification. Let CX denote the class to which the shape X belongs. From each class of shapes Ci we randomly pick a landmark pose Li to represent that class. We have 7 classes in the data, so our landmark set is L = { Li , i = 1 . . . 7 } . Now, to each shape X , we assign the implied class \u0302 CX = CY where Y = argmin Z \u2208 L D ( X , Z ) . Note that \u0302 CX depends on the choice of the landmark set L . We define the per class probability of error for a particular choice of L as:\n\n/negationslash\n\n<!-- formula-not-decoded -->\n\nNow, the probability of error for a particular choice of L is P ( L ) = \u2211 i P ( L ) Ci PCi where PCi = # ( { X | CX = Ci } ) \u2211 i # ( { X | CX = Ci } ) . Since the choice of L is random, we repeat the above procedure M times and find the probability of error as P = \u2211 M i = 1 P ( L i ) M .\n\nWe calculated the probability of error for the two cases: (a) When DH is used to find D and (b) when DI is used to find D . In the former case P was found to be 3 . 03% and in the latter case P was found to be 23 . 41%. In both cases we used M = 100000. Note that despite having reduced a shape with 4000 points to less than 100 for most classes, the procedure manages to classify shapes with a low error probability.\n\nThe idea of using topological methods associated with the filtering functions for simplifying shape comparison has been considered before, e.g. [BFS00]. Our approach naturally offers more information as it provides a measure of im-\n\nportance of the the vertices of the resulting simplicial complex (simplified shape).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "482c127b3b83784d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7994791103637074,
+      "start_line": 285,
+      "end_line": 317,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "5.4. Shape Comparison Example",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.019949,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_abe07cfed47a",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "5.4. Shape Comparison Example",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 6. Conclusions\n\nWe have devised a method for constructing useful combinatorial representations of geometric information about high dimensional point cloud data. Instead of acting directly on the data set, it assumes a choice of a filter or combination of filters, which can be viewed as a map to a metric space, and builds an informative representation based on clustering the various subsets of the data set associated the choices of filter values. The target space may be Euclidean space, but it might also be a circle, a torus, a tree, or other metric space. The input requires only knowledge of the distances between points and a choice of combination of filters, and produces a multiresolution representation based on that filter. The method provides a common framework which includes the notions of density clustering trees, disconnectivity graphs, and Reeb graphs, but which substantially generalizes all three. We have also demonstrated how the method could be used to provide an effective shape discriminator when applied to interesting families of shapes. An important direction for future work on the method is improving the method for performing the partial clustering, specifically for choosing a reasonable scale on the clusters. Our current method, while ad hoc, performs reasonably well in the examples we study, but a more principled method, perhaps including some local adaptivity, would doubtlessly improve the results.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "69a19db0bf796f10",
+      "chunk_type": "h2",
+      "relevance_score": 0.9447599194244196,
+      "start_line": 317,
+      "end_line": 321,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "6. Conclusions",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848047.019958,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_282871c503d1",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "6. Conclusions",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# References\n\n## References",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "fc0325dee7e0878b",
+      "chunk_type": "h2",
+      "relevance_score": 0.49999999999999994,
+      "start_line": 321,
+      "end_line": 350,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769848047.019973,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2aa92310fa45",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## References\n\n- [Abd07] ABDI H.: Metric multidimensional scaling. In Encyclopedia of Measurement and Statistics . Sage, Thousand Oaks (Ca), 2007, pp. 598-605.\n- [AH85] ANDREWS D. F., HERZBERG A. M.: Data : a collection of problems from many fields for the student and research worker . Springer-Verlag, New York, 1985.\n- [BFS00] BIASOTTI S., FALCIDIENO B., SPAGNUOLO M.: Extended reeb graphs for surface understanding and description. In DGCI '00: Proceedings of the 9th International Conference on Discrete Geometry for Computer Imagery (London, UK, 2000), Springer-Verlag, pp. 185197.\n- [BK97] BECKER O. M., KARPLUS M.: The topology of multidimensional potential energy surfaces: Theory and application to peptide structure and kinetics. The Journal of Chemical Physics 106 , 4 (1997), 1495-1517.\n- [DAG \u2217 07] DB R., AL H., G S., KB H., ET AL. W. S.: The sorcerer ii global ocean sampling expedition: Northwest atlantic through eastern tropical pacific. PLoS Biology 5 , 3 (2007).\n- [dSVG04] DE SILVA V., G. C.: Topological estimation\n- using witness complexes. In Symposium on Point-Based Graphics (2004), pp. 157-166.\n- [Hat02] HATCHER A.: Algebraic topology . Cambridge University Press, Cambridge, 2002.\n- [Hub85] HUBER P. J.: Projection pursuit. Ann. Statist. 13 , 2 (1985), 435-525. With discussion.\n- [JD88] JAIN A. K., DUBES R. C.: Algorithms for clustering data . Prentice Hall Advanced Reference Series. Prentice Hall Inc., Englewood Cliffs, NJ, 1988.\n- [Joh67] JOHNSON S. C.: Hierarchical clustering schemes. Psychometrika 2 (1967), 241-254.\n- [LL06] LAFON S., LEE A. B.: Diffusion maps and coarse-graining: A unified framework for dimensionality reduction, graph partitioning, and data set parameterization. IEEE Transactions on Pattern Analysis and Machine Intelligence 28 , 9 (2006), 1393-1403.\n- [LPM03] LEE A. B., PEDERSEN K. S., MUMFORD D.: The nonlinear statistics of high-contrast patches in natural images. Int. J. Comput. Vision 54 , 1-3 (2003), 83-103.\n- [Mem07] MEMOLI F.: On the use of gromov-hausdorff distances for shape comparison. In Symposium on PointBased Graphics (2007).\n- [Mil85] MILLER R. J.: Discussion - projection pursuit. Ann. Statist. 13 , 2 (1985), 510-513. With discussion.\n- [Mun99] MUNKRES J. R.: Topology . Prentice-Hall Inc., Englewood Cliffs, N.J., 1999.\n- [PdS] PARRY P., DE SILVA V.: Plex: Simplicial complexes in matlab. http://comptop.stanford.edu/ programs/ .\n- [Ree46] REEB G.: Sur les points singuliers d'une forme de Pfaff compl\u00e8tement int\u00e9grable ou d'une fonction num\u00e9rique. C. R. Acad. Sci. Paris 222 (1946), 847-849.\n- [RS00] ROWEIS S. T., SAUL L. K.: Nonlinear Dimensionality Reduction by Locally Linear Embedding. Science 290 , 5500 (2000), 2323-2326.\n- [SGD \u2217 07] S Y., G S., DB R., AL H., ET AL. W. S.: The sorcerer ii global ocean sampling expedition: Expanding the universe of protein families. PLoS Biology 5 , 3 (2007).\n- [Sil86] SILVERMAN B. W.: Density estimation for statistics and data analysis . Monographs on Statistics and Applied Probability. Chapman &amp; Hall, London, 1986.\n- [SP] SUMNER R. W., POPOVIC J.: Mesh data from deformation transfer for triangle meshes. http://people.csail.mit.edu/sumner/research/ deftransfer/data.html .\n- [TSL00] TENENBAUM J. B., SILVA V. D., LANGFORD J. C.: A Global Geometric Framework for Nonlinear Dimensionality Reduction. Science 290 , 5500 (2000), 23192323.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "9cb3f9d656c62f32",
+      "chunk_type": "h2",
+      "relevance_score": 0.605840490235676,
+      "start_line": 321,
+      "end_line": 350,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769848047.0199978,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8135648d54e0",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- [Abd07] ABDI H.: Metric multidimensional scaling. In Encyclopedia of Measurement and Statistics . Sage, Thousand Oaks (Ca), 2007, pp. 598-605.\n- [AH85] ANDREWS D. F., HERZBERG A. M.: Data : a collection of problems from many fields for the student and research worker . Springer-Verlag, New York, 1985.\n- [BFS00] BIASOTTI S., FALCIDIENO B., SPAGNUOLO M.: Extended reeb graphs for surface understanding and description. In DGCI '00: Proceedings of the 9th International Conference on Discrete Geometry for Computer Imagery (London, UK, 2000), Springer-Verlag, pp. 185197.\n- [BK97] BECKER O. M., KARPLUS M.: The topology of multidimensional potential energy surfaces: Theory and application to peptide structure and kinetics. The Journal of Chemical Physics 106 , 4 (1997), 1495-1517.\n- [DAG \u2217 07] DB R., AL H., G S., KB H., ET AL. W. S.: The sorcerer ii global ocean sampling expedition: Northwest atlantic through eastern tropical pacific. PLoS Biology 5 , 3 (2007).\n- [dSVG04] DE SILVA V., G. C.: Topological estimation\n- using witness complexes. In Symposium on Point-Based Graphics (2004), pp. 157-166.\n- [Hat02] HATCHER A.: Algebraic topology . Cambridge University Press, Cambridge, 2002.\n- [Hub85] HUBER P. J.: Projection pursuit. Ann. Statist. 13 , 2 (1985), 435-525. With discussion.\n- [JD88] JAIN A. K., DUBES R. C.: Algorithms for clustering data . Prentice Hall Advanced Reference Series. Prentice Hall Inc., Englewood Cliffs, NJ, 1988.\n- [Joh67] JOHNSON S. C.: Hierarchical clustering schemes. Psychometrika 2 (1967), 241-254.\n- [LL06] LAFON S., LEE A. B.: Diffusion maps and coarse-graining: A unified framework for dimensionality reduction, graph partitioning, and data set parameterization. IEEE Transactions on Pattern Analysis and Machine Intelligence 28 , 9 (2006), 1393-1403.\n- [LPM03] LEE A. B., PEDERSEN K. S., MUMFORD D.: The nonlinear statistics of high-contrast patches in natural images. Int. J. Comput. Vision 54 , 1-3 (2003), 83-103.\n- [Mem07] MEMOLI F.: On the use of gromov-hausdorff distances for shape comparison. In Symposium on PointBased Graphics (2007).\n- [Mil85] MILLER R. J.: Discussion - projection pursuit. Ann. Statist. 13 , 2 (1985), 510-513. With discussion.\n- [Mun99] MUNKRES J. R.: Topology . Prentice-Hall Inc., Englewood Cliffs, N.J., 1999.\n- [PdS] PARRY P., DE SILVA V.: Plex: Simplicial complexes in matlab. http://comptop.stanford.edu/ programs/ .\n- [Ree46] REEB G.: Sur les points singuliers d'une forme de Pfaff compl\u00e8tement int\u00e9grable ou d'une fonction num\u00e9rique. C. R. Acad. Sci. Paris 222 (1946), 847-849.\n- [RS00] ROWEIS S. T., SAUL L. K.: Nonlinear Dimensionality Reduction by Locally Linear Embedding. Science 290 , 5500 (2000), 2323-2326.\n- [SGD \u2217 07] S Y., G S., DB R., AL H., ET AL. W. S.: The sorcerer ii global ocean sampling expedition: Expanding the universe of protein families. PLoS Biology 5 , 3 (2007).\n- [Sil86] SILVERMAN B. W.: Density estimation for statistics and data analysis . Monographs on Statistics and Applied Probability. Chapman &amp; Hall, London, 1986.\n- [SP] SUMNER R. W., POPOVIC J.: Mesh data from deformation transfer for triangle meshes. http://people.csail.mit.edu/sumner/research/ deftransfer/data.html .\n- [TSL00] TENENBAUM J. B., SILVA V. D., LANGFORD J. C.: A Global Geometric Framework for Nonlinear Dimensionality Reduction. Science 290 , 5500 (2000), 23192323.\n\nFigure 9: Refer to Section 5.3 for details. Each row of this image shows two poses of the same shape along with the Mapper result which is computed as described in Section 5.3. For each Mapper computation, we used 15 intervals in the range of the filter with a 50% overlap.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "1366df88d85c878c",
+      "chunk_type": "h2",
+      "relevance_score": 0.6068079619358814,
+      "start_line": 321,
+      "end_line": 350,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769848047.020007,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a9e55d554c43",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Figure 9: Refer to Section 5.3 for details. Each row of this image shows two poses of the same shape along with the Mapper result which is computed as described in Section 5.3. For each Mapper computation, we used 15 intervals in the range of the filter with a 50% overlap.\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-016_Singh_2007_CarlssonTopological.pdf",
+      "chunk_id": "1bac86b01b15d0b7",
+      "chunk_type": "h2",
+      "relevance_score": 0.5738269352826963,
+      "start_line": 321,
+      "end_line": 350,
+      "metadata": {
+        "ref_id": "REF-016",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769848047.020013,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e9bcfd34057c",
+        "parent_id": "pcl_78ba20e51165",
+        "ref_id": "REF-016",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848047,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-016_Singh_2007_CarlssonTopological.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "References",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

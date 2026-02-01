@@ -1,0 +1,42 @@
+# Opportunity: Archive Promoted Opportunities
+# Created: 2026-01-31
+# Source: SPRAWL_AUDIT
+
+id: OPP-096
+title: "Move promoted OPPs from inbox to completed/"
+source: SPRAWL_AUDIT
+discovered_at: "2026-01-31T07:40:00Z"
+discovered_by: claude-opus-4.5
+
+description: |
+  OPP-087 was promoted to TASK-087 and completed, but the OPP file
+  remains in .agent/registry/inbox/ instead of being archived.
+
+  This violates the task registry flow:
+  OPP (inbox) -> TASK (active) -> CARD (completed)
+
+  The OPP should be moved to a completed/archived directory.
+
+evidence:
+  - file: ".agent/registry/inbox/OPP-087.yaml"
+    promoted_to: "TASK-087"
+    promoted_at: "2026-01-31T07:20:00Z"
+    status: "Still in inbox (should be archived)"
+
+suggested_action: |
+  1. Create .agent/registry/completed/ directory if not exists
+  2. Move OPP-087.yaml to completed/
+  3. Add automation to move promoted OPPs automatically
+
+urgency: LOW
+impact: LOW
+effort: LOW
+risk: LOW
+
+tags:
+  - registry
+  - cleanup
+  - workflow
+
+defer_until: null
+promoted_to: null

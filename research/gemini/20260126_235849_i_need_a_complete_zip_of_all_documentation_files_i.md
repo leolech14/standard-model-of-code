@@ -42,9 +42,9 @@ find . -type f \
 ```
 
 ### What this includes (The "Wave" & "Observer" Realms)
-1.  **Documentation**: All `.md` files from `context-management/docs/`, `standard-model-of-code/docs/`, and `.agent/`.
+1.  **Documentation**: All `.md` files from `wave/docs/`, `particle/docs/`, and `.agent/`.
 2.  **Configuration**: All `.yaml` files (including `aci_config.yaml`, `semantic_models.yaml`, `analysis_sets.yaml`).
-3.  **Schemas**: All `.json` schemas from `standard-model-of-code/schema/`.
+3.  **Schemas**: All `.json` schemas from `particle/schema/`.
 4.  **Agent State**: All task registries and sprint logs in `.agent/`.
 
 ### What this excludes (To save space)
@@ -63,7 +63,7 @@ find . -type f \( -name "*.md" -o -name "*.yaml" -o -name "*.json" \) \
 ```
 
 ### Why not use `archive.py`?
-The tool `context-management/tools/archive/archive.py` (referenced in `ASSET_INVENTORY.md`) is designed to mirror the repository to Google Cloud Storage (GCS) for AI retrieval. While it handles the "Brain" logic, it doesn't currently support a local zip export of the full Contextome without also trying to push to the cloud.
+The tool `wave/tools/archive/archive.py` (referenced in `ASSET_INVENTORY.md`) is designed to mirror the repository to Google Cloud Storage (GCS) for AI retrieval. While it handles the "Brain" logic, it doesn't currently support a local zip export of the full Contextome without also trying to push to the cloud.
 
 ---
 

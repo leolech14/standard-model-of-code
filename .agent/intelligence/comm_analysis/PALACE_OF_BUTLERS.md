@@ -542,7 +542,7 @@ PROJECT_elements/ (The Palace)
 │       ├── inbox/ (Opportunities)
 │       └── active/ (Validated tasks)
 │
-├── context-management/ (Butler Infrastructure)
+├── wave/ (Butler Infrastructure)
 │   ├── intelligence/ (Shared memory)
 │   │   ├── state/live.yaml (Current state)
 │   │   ├── boundaries.json (Territory map)
@@ -550,7 +550,7 @@ PROJECT_elements/ (The Palace)
 │   │
 │   └── tools/ (Butler tooling)
 │
-└── standard-model-of-code/ (Analysis Palace)
+└── particle/ (Analysis Palace)
     └── .collider/ (Analysis cache)
 ```
 
@@ -665,7 +665,7 @@ if current_sha == metadata["git_sha"]:
 IGNORE_PATHS = [
     '.agent/intelligence/chunks/',
     '.agent/intelligence/comms/',
-    'context-management/intelligence/state/',
+    'wave/intelligence/state/',
 ]
 
 if any(ignored in event.src_path for ignored in IGNORE_PATHS):

@@ -16,7 +16,7 @@ what is stone tool
 
 ## Response
 
-Based on the provided codebase documentation, specifically **`context-management/docs/CODESPACE_ALGEBRA.md`** and **`context-management/docs/GLOSSARY.md`**, here is the definition of a **Stone Tool** within the context of **PROJECT_elements**:
+Based on the provided codebase documentation, specifically **`wave/docs/CODESPACE_ALGEBRA.md`** and **`wave/docs/GLOSSARY.md`**, here is the definition of a **Stone Tool** within the context of **PROJECT_elements**:
 
 ### Definition
 A **Stone Tool** is a software utility or artifact designed specifically to be "held" and used by an **AI Agent**, not a human.

@@ -1,0 +1,20 @@
+version: '2026-01-23T08:23:08.689027+00:00'
+validated_by: BARE/TruthValidator
+confidence: 0.7
+counts:
+  files:
+    python: 300
+    javascript: 469
+    yaml: 31
+    markdown: 366
+    json: 400
+    html: 146
+    css: 23
+  lines_of_code: 65863544
+  functions: 341
+  classes: 183
+  source: grep_estimate
+pipeline:
+  stages: 18
+  source: CLAUDE.md
+_note: Run './collider full . --output .collider' for richer data

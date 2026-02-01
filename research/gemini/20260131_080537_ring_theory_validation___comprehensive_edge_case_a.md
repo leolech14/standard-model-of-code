@@ -41,7 +41,7 @@ import requests, import numpy
 - Are they 'Ring -1' (below core)? Or outside entirely?
 - How do T2 atoms interact with Ring model?
 
-### CASE 4: Orphan Nodes  
+### CASE 4: Orphan Nodes
 A file that imports nothing AND is imported by nothing
 - Dead code? Standalone script? Test file?
 - Is it Ring 0 (no deps) or Ring 4 (entry point)?
@@ -74,7 +74,7 @@ This analysis refines the topological sorting logic within the **Collider** pipe
 # RING THEORY VALIDATION: Edge Case Analysis
 
 **Status:** ARCHITECTURAL DECISION RECORD (ADR)
-**Context:** `standard-model-of-code/src/core/topology_reasoning.py`
+**Context:** `particle/src/core/topology_reasoning.py`
 **Objective:** Define deterministic Ring assignment $R(n)$ for all topological anomalies.
 
 ## The General Law (Base Case)

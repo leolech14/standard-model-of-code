@@ -17,7 +17,7 @@ CRITICAL VALIDATION - Current Repository State:
 
 VERIFY THESE FACTS:
 1. Does dashboard/ directory exist with backend code?
-2. Is GraphRAG S14 in context-management/tools/ai/graph_rag/ operational?
+2. Is GraphRAG S14 in wave/tools/ai/graph_rag/ operational?
 3. What files are uncommitted (git status)?
 4. What's the final automation percentage?
 5. Is Neo4j graph working with 5,284 nodes?
@@ -40,8 +40,8 @@ Here is the validation based *only* on the provided context:
 1.  **Does dashboard/ directory exist with backend code?**
     *   **Verification:** No. The provided context does not mention a `dashboard/` directory with backend code. The closest reference is `.agent/registry/INDEX.md`, which is a "Task dashboard" or "Registry", but this is a Markdown file, not a directory containing backend code.
 
-2.  **Is GraphRAG S14 in context-management/tools/ai/graph_rag/ operational?**
-    *   **Verification:** No. The provided `SUBSYSTEM_INTEGRATION.md` lists subsystems up to `S13 Macro Registry`, but does not contain any mention of a `GraphRAG` subsystem, `S14`, or the directory `context-management/tools/ai/graph_rag/`. Its operational status cannot be determined.
+2.  **Is GraphRAG S14 in wave/tools/ai/graph_rag/ operational?**
+    *   **Verification:** No. The provided `SUBSYSTEM_INTEGRATION.md` lists subsystems up to `S13 Macro Registry`, but does not contain any mention of a `GraphRAG` subsystem, `S14`, or the directory `wave/tools/ai/graph_rag/`. Its operational status cannot be determined.
 
 3.  **What files are uncommitted (git status)?**
     *   **Verification:** Cannot be determined from the provided context. The context consists of static text files and does not provide access to a live Git repository or its `git status`. `KERNEL.md` mentions "CHECK git status for uncommitted work" as part of the agent's boot protocol, but this is an instruction for an agent, not a report on the current state of the repository being analyzed.
@@ -57,7 +57,7 @@ Here is the validation based *only* on the provided context:
 
 7.  **What are CRITICAL sprawl items needing immediate action?**
     *   **Verification:** Based on the `SUBSYSTEM_INTEGRATION.md`, the following critical items needing action are identified:
-        *   **Batch Grade (S11) Status:** `FAIL-001`. It states: "Ran with `grade` not `full`, missing `unified_analysis.json`." This is tracked in `standard-model-of-code/docs/OPEN_CONCERNS.md`.
+        *   **Batch Grade (S11) Status:** `FAIL-001`. It states: "Ran with `grade` not `full`, missing `unified_analysis.json`." This is tracked in `particle/docs/OPEN_CONCERNS.md`.
         *   **Proposed Integration Points (P1 - Critical):**
             *   `analyze.py → Task Registry`: Mechanism "Structured YAML output"
             *   `Task Registry → BARE`: Mechanism "tasks.yaml polling"

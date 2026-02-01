@@ -18,7 +18,7 @@ SKEPTICAL VALIDATION REQUEST:
 We are proposing a major refactoring:
 1. Create .agent/machinery/ as the 'Autonomic System'
 2. Organize into sensors/, actuators/, workflows/
-3. Move tools from context-management/ into .agent/
+3. Move tools from wave/ into .agent/
 4. Rename BARE and AEP as 'Workflows'
 
 CHALLENGE THIS ARCHITECTURE. Be adversarial.
@@ -26,7 +26,7 @@ CHALLENGE THIS ARCHITECTURE. Be adversarial.
 Potential concerns to address:
 
 1. MIGRATION RISK
-   - Moving tdj.py, drift_guard.py from context-management/ to .agent/
+   - Moving tdj.py, drift_guard.py from wave/ to .agent/
    - Will this break imports? CI pipelines? Documentation references?
    - Is the benefit worth the churn?
 
@@ -41,7 +41,7 @@ Potential concerns to address:
    - Should we use physics terms: 'operators/', 'hamiltonian/'?
 
 4. WAVE REALM VIOLATION
-   - context-management/ is the 'Wave' (intelligence, planning)
+   - wave/ is the 'Wave' (intelligence, planning)
    - If we move AI tools to .agent/, do we gut the Wave?
    - Where's the boundary?
 
@@ -82,7 +82,7 @@ According to `TOPOLOGY_MAP.md` and `GLOSSARY.md`:
 
 If you move the intelligence tools (`analyze.py`, `drift_guard.py`) into the Observer realm (`.agent/`), you effectively **gut the Wave Realm**. You are stripping the "Context Management" directory of the actual tools that manage context.
 
-**The Risk:** You create a "God Directory" in `.agent/` that does everything (Store + Decide + Act), leaving `context-management/` as a hollow shell of config files. The Observer should *invoke* the Wave, not *digest* it.
+**The Risk:** You create a "God Directory" in `.agent/` that does everything (Store + Decide + Act), leaving `wave/` as a hollow shell of config files. The Observer should *invoke* the Wave, not *digest* it.
 
 ### 2. The Dependency Nightmare (Migration Risk)
 **You are underestimating the blast radius.**
@@ -90,7 +90,7 @@ If you move the intelligence tools (`analyze.py`, `drift_guard.py`) into the Obs
 Files like `analyze.py` and `drift_guard.py` are not isolated scripts. They are deeply entangled roots.
 *   **Configs:** `aci_config.yaml` and `analysis_sets.yaml` likely contain relative paths to these tools.
 *   **Shell Scripts:** Any `claim_task.sh` or `boot.sh` referencing these paths will break.
-*   **Imports:** `drift_guard.py` imports from `context-management`. Moving it to `.agent/` requires rewriting `sys.path` or package structures across the board.
+*   **Imports:** `drift_guard.py` imports from `wave`. Moving it to `.agent/` requires rewriting `sys.path` or package structures across the board.
 *   **Cron Jobs/LaunchAgents:** `com.elements.socratic-audit.plist` points to specific file paths. You will break the background daemon immediately.
 
 **The Cost:** You will spend 3 days fixing `ImportError: No module named 'core'` and updating hardcoded paths in YAML files, for zero functional improvement.
@@ -115,7 +115,7 @@ This increases directory nesting depth, making imports harder (`from .agent.mach
 **You are mixing planes.**
 
 `.agent/` is currently heavily focused on **Data/State** (Registry, Sprints, Truths).
-`context-management/` is focused on **Executable Logic** (Tools, MCP).
+`wave/` is focused on **Executable Logic** (Tools, MCP).
 
 Mixing heavy executable logic into the state directory muddies the water. The `.agent` directory should ideally be portable/syncable state. If you fill it with source code, you complicate the distinction between "The Agent's Memory" (Registry) and "The Agent's Brain" (Code).
 
@@ -129,7 +129,7 @@ Instead, create a **Semantic Map**.
 
 #### Recommended Action:
 
-1.  **Keep files in `context-management/tools/`**. This preserves the "Wave" realm as the home of capability/potential.
+1.  **Keep files in `wave/tools/`**. This preserves the "Wave" realm as the home of capability/potential.
 2.  **Reject `.agent/machinery/`**.
 3.  **Create `.agent/manifest.yaml` (or update it)**. Use this file to *logically* map the tools to the "Autonomic System" concept without moving them.
 
@@ -139,10 +139,10 @@ Instead, create a **Semantic Map**.
 autonomic_system:
   sensors:
     - name: "Drift Guard"
-      path: "context-management/tools/drift_guard.py"
+      path: "wave/tools/drift_guard.py"
       role: "Detects file changes and triggers semantic audits"
     - name: "Time DJ"
-      path: "context-management/tools/maintenance/tdj.py"
+      path: "wave/tools/maintenance/tdj.py"
       role: "Monitors temporal metadata"
 
   actuators:
@@ -150,7 +150,7 @@ autonomic_system:
       path: ".agent/tools/claim_task.sh"
       role: "Updates registry state"
     - name: "Fix Generator"
-      path: "standard-model-of-code/src/core/fix_generator.py"
+      path: "particle/src/core/fix_generator.py"
       role: "Modifies source code"
 
   engines:
@@ -169,7 +169,7 @@ autonomic_system:
 1.  **Do not move files.** The risk of breaking the `socratic-audit` daemon and ACI imports is too high.
 2.  **Do not rename BARE/AEP.** Keep them as "Engines" or "Subsystems." "Workflow" is too passive.
 3.  **Implement the Index.** If you need to visualize the "Autonomic System," do it via documentation or a `manifest.yaml` mapping, not by trashing the directory structure.
-4.  **Preserve the Wave.** `context-management` contains the Intelligence Tools. Keep them there to maintain the Particle/Wave duality.
+4.  **Preserve the Wave.** `wave` contains the Intelligence Tools. Keep them there to maintain the Particle/Wave duality.
 
 **Build the "Autonomic System" as a conceptual layer (a Map), not a directory folder.**
 

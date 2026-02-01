@@ -8,12 +8,12 @@ This map defines the "Intimate Properties" of our system. It distinguishes betwe
 
 ```mermaid
 graph TD
-    subgraph "THE BODY (standard-model-of-code/)"
+    subgraph "THE BODY (particle/)"
         CE[Collider Engine] --> G[Codome Graph]
         T[Theory Canon] --> G
     end
 
-    subgraph "THE BRAIN (context-management/)"
+    subgraph "THE BRAIN (wave/)"
         R[Refinery] --> P[Parcels/Waybills]
         AI[Agent Intelligence] --> P
     end
@@ -33,13 +33,13 @@ graph TD
 
 | Area | Status | Purpose | Action |
 |------|--------|---------|--------|
-| `standard-model-of-code/src/core/` | **KEEP** | The Engine (Collider) | Preserve, optimize |
-| `context-management/tools/ai/aci/` | **KEEP** | The Intelligence Layer | Preserve, refine |
-| `standard-model-of-code/docs/theory/` | **KEEP** | The Canon (Source of Truth) | Maintain, verify |
+| `particle/src/core/` | **KEEP** | The Engine (Collider) | Preserve, optimize |
+| `wave/tools/ai/aci/` | **KEEP** | The Intelligence Layer | Preserve, refine |
+| `particle/docs/theory/` | **KEEP** | The Canon (Source of Truth) | Maintain, verify |
 | `governance/` | **KEEP** | Central Command | Canonical target for root docs |
 | `root/` (Documentation) | **DEBRIS** | Redundant copies | Move to `/governance/` |
 | `root/` (Samples) | **DEBRIS** | Binary clutter | Move to `/assets/` |
-| `context-management/intelligence/` | **DEBRIS** | Audit history | Archive to GCS |
+| `wave/intelligence/` | **DEBRIS** | Audit history | Archive to GCS |
 
 ---
 

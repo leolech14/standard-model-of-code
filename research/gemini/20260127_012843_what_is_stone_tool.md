@@ -27,7 +27,7 @@ A **Stone Tool** is an artifact or utility optimized for the "ergonomics" of an 
 *   **Stone Tool:** Shaped for the AI's "hand" (e.g., massive JSON blobs, rigid schemas, high-dimensional vectors).
 
 ### 2. The Stone Tool Principle (Axiom H4)
-Found in `context-management/docs/CODESPACE_ALGEBRA.md`:
+Found in `wave/docs/CODESPACE_ALGEBRA.md`:
 
 > "Tools MAY be designed that humans cannot directly use."
 

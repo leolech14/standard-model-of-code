@@ -4,8 +4,8 @@
 ## EXECUTIVE SUMMARY
 
 PROJECT_elements is a codebase analysis framework with two hemispheres:
-- **Body** (`standard-model-of-code/`): The Collider engine - 18-stage pipeline for semantic code analysis
-- **Brain** (`context-management/`): AI tools, documentation, cloud sync
+- **Body** (`particle/`): The Collider engine - 18-stage pipeline for semantic code analysis
+- **Brain** (`wave/`): AI tools, documentation, cloud sync
 
 Key metrics:
 - 200 documented atoms, 94 implemented
@@ -17,16 +17,16 @@ Key metrics:
 
 ### Boot Sequence
 ```bash
-bash context-management/tools/maintenance/boot.sh
+bash wave/tools/maintenance/boot.sh
 ```
 
 ### Key Documents
 1. `CLAUDE.md` (root) - Identity, commands, architecture
-2. `context-management/docs/operations/AGENT_KERNEL.md` - Non-negotiables
-3. `context-management/docs/operations/AGENT_INITIATION.md` - 4-step protocol
-4. `context-management/docs/agent_school/INDEX.md` - Boot checklist
-5. `standard-model-of-code/docs/MODEL.md` - Theory
-6. `standard-model-of-code/docs/COLLIDER.md` - Tool usage
+2. `wave/docs/operations/AGENT_KERNEL.md` - Non-negotiables
+3. `wave/docs/operations/AGENT_INITIATION.md` - 4-step protocol
+4. `wave/docs/agent_school/INDEX.md` - Boot checklist
+5. `particle/docs/MODEL.md` - Theory
+6. `particle/docs/COLLIDER.md` - Tool usage
 
 ## THE 18 PIPELINE STAGES
 
@@ -85,13 +85,13 @@ bash context-management/tools/maintenance/boot.sh
 ./collider full <path> --output <dir>
 
 # AI query (Tier 1 - Long Context)
-.tools_venv/bin/python context-management/tools/ai/analyze.py "<query>" --set <set>
+.tools_venv/bin/python wave/tools/ai/analyze.py "<query>" --set <set>
 
 # RAG query (Tier 2 - File Search)
-.tools_venv/bin/python context-management/tools/ai/analyze.py --search "<query>" --store-name <store>
+.tools_venv/bin/python wave/tools/ai/analyze.py --search "<query>" --store-name <store>
 
 # Socratic verification (Tier 3)
-.tools_venv/bin/python context-management/tools/ai/analyze.py --verify pipeline
+.tools_venv/bin/python wave/tools/ai/analyze.py --verify pipeline
 ```
 
 ## GAPS FIXED IN THIS SESSION

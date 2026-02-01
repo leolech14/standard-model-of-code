@@ -8,7 +8,7 @@
 
 ## Query
 
-Where should I store comprehensive HuggingFace capability documentation in the PROJECT_elements repo? Looking at the existing structure with docs/, governance/, standard-model-of-code/docs/research/. Need to understand the documentation organization pattern.
+Where should I store comprehensive HuggingFace capability documentation in the PROJECT_elements repo? Looking at the existing structure with docs/, governance/, particle/docs/research/. Need to understand the documentation organization pattern.
 
 ---
 

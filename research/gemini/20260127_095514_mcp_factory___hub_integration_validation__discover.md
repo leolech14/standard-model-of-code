@@ -16,7 +16,7 @@ MCP FACTORY → HUB INTEGRATION VALIDATION
 
 DISCOVERY: We have COMPLETE MCP infrastructure already built!
 
-Location: context-management/tools/mcp/mcp_factory/
+Location: wave/tools/mcp/mcp_factory/
 
 Components Found:
 1. MCPServer (core/server.py) - JSON-RPC 2.0 stdio server
@@ -82,9 +82,9 @@ The Hub (`RegistryOfRegistries`) is designed as a passive singleton registry man
 
 **Evidence:**
 *   **Hub Structure:** `RegistryOfRegistries` is initialized via `get_instance()` and stores data in memory. It does not have a main process loop; it relies on an external driver (like `full_analysis.py` or a CLI).
-    *   `[standard-model-of-code/src/core/registry/registry_of_registries.py:68-80]`
+    *   `[particle/src/core/registry/registry_of_registries.py:68-80]`
 *   **Plugin Contract:** `BasePlugin` assumes the Hub is already running and calls `initialize(hub)`. If the MCP Server were a plugin, the Hub would need a mechanism to run the MCP event loop, which it currently lacks.
-    *   `[standard-model-of-code/src/core/plugin/base_plugin.py:42-57]`
+    *   `[particle/src/core/plugin/base_plugin.py:42-57]`
 
 **Recommended Pattern:**
 Create `hub_mcp_server.py` as an executable entry point. It should:
@@ -102,9 +102,9 @@ Create `hub_mcp_server.py` as an executable entry point. It should:
 **Evidence:**
 *   The Hub allows string-based lookup of all internal systems. This maps 1:1 with how MCP Tools (which are string-invoked functions) operate.
     *   `hub.get('roles')` -> returns `RoleRegistry`.
-    *   `[standard-model-of-code/src/core/registry/registry_of_registries.py:116-117]`
+    *   `[particle/src/core/registry/registry_of_registries.py:116-117]`
 *   The Hub has a `status_report()` method which serves as an excellent "Readiness Probe" tool for MCP.
-    *   `[standard-model-of-code/src/core/registry/registry_of_registries.py:123-150]`
+    *   `[particle/src/core/registry/registry_of_registries.py:123-150]`
 
 ---
 
@@ -118,17 +118,17 @@ Auto-generation is risky because Registry APIs are not strictly uniform (some ha
 
 1.  **Tool:** `lookup_role`
     *   **Source:** `RoleRegistry.get_canonical(role)`
-    *   **Code:** `[standard-model-of-code/src/core/registry/role_registry.py:166]`
+    *   **Code:** `[particle/src/core/registry/role_registry.py:166]`
     *   **Description:** "Normalize a coding role to its Standard Model canonical form."
 
 2.  **Tool:** `check_atom`
     *   **Source:** `AtomRegistry.detect_ecosystem(file_path, content)`
-    *   **Code:** `[standard-model-of-code/src/core/atom_registry.py:715]`
+    *   **Code:** `[particle/src/core/atom_registry.py:715]`
     *   **Description:** "Detect the ecosystem and potential atoms for a given file."
 
 3.  **Tool:** `list_patterns`
     *   **Source:** `PatternRegistry.get_prefix_patterns()`
-    *   **Code:** `[standard-model-of-code/src/core/registry/pattern_registry.py:530]`
+    *   **Code:** `[particle/src/core/registry/pattern_registry.py:530]`
 
 ---
 
@@ -140,7 +140,7 @@ This allows the AI to trigger system behaviors (like "reload patterns" or "regis
 
 **Evidence:**
 *   The `EventBus` is already decoupled and robust.
-    *   `[standard-model-of-code/src/core/event_bus.py:68]` (`emit` method)
+    *   `[particle/src/core/event_bus.py:68]` (`emit` method)
 *   **Security:** The AI acts as a user. Since this is a local analysis tool, allowing the AI to emit `analysis:request` or `patterns:updated` poses minimal risk and enables dynamic system evolution.
 
 **Use Case:**
@@ -152,7 +152,7 @@ This allows the AI to trigger system behaviors (like "reload patterns" or "regis
 
 Since `MCP Factory` code was not provided in the context, I cannot validate its internals, but I can define the **Bridge Script** required to link them.
 
-**File:** `standard-model-of-code/src/server/hub_mcp.py` (Proposed)
+**File:** `particle/src/server/hub_mcp.py` (Proposed)
 
 ```python
 import asyncio

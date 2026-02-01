@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:12:40.549974",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "qwen-3-32b",
+    "files_enriched": 20,
+    "elapsed_seconds": 23.55
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called cli.py. The AST parser from Collider found no atoms, zero imports, and zero exports. So, I need to figure out the purpose of this file based on that",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. The user wants me to assign 3-5 semantic tags to the file cli.py based on what it's about",
+        "not the structure. The example tags given are things like \"authentication\" or \"database-m"
+      ],
+      "enriched_at": "2026-01-31T03:12:17.859382"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called validate_ui.py. The AST parser found no atoms, no imports, and no exports. So, the file probably doesn't have any functions or classes, and it's",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this file based on what it's about",
+        "not the structure. The file is called validate_ui.py and it's in the tools directory. The description says"
+      ],
+      "enriched_at": "2026-01-31T03:12:18.718230"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called mine_semgrep.py. The AST parser from Collider found no atoms, no imports, and no exports. The task is to figure out the purpose of this file in",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script called mine_semgrep.py. The tags should describe what the file is about",
+        "not its structure. The examples given are things like \""
+      ],
+      "enriched_at": "2026-01-31T03:12:19.623048"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called visualize_graph_webgl.py. The AST parser found no atoms, which probably means there's no actual code in the file. The imports and exports are both zero.",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python file. The file is called visualize_graph_webgl.py and it's in the tools directory. The preview shows that it's importing a bunch of"
+      ],
+      "enriched_at": "2026-01-31T03:12:20.362161"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called extract_doc_nodes.py. The AST parser found no atoms, no imports, and no exports. So, the file probably doesn't have any functions, classes, or",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script called extract_doc_nodes.py. The user provided examples like \"authentication\" or \"database-migration\"",
+        "so the tags should describe what the file"
+      ],
+      "enriched_at": "2026-01-31T03:12:21.172985"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called tools/export_graphrag.py. The AST parser from Collider found no atoms, which probably means there are no functions, classes, or variables defined in the file. There",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script called export_graphrag.py. The tags should describe what the file is about",
+        "not its structure. The examples given are things like \"authentication"
+      ],
+      "enriched_at": "2026-01-31T03:12:22.041242"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided a file named tools/validate_control_registry.py. The AST parser found no atoms, imports, or exports. So, maybe the file is empty or just has comments? But the purpose needs to",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script called validate_control_registry.py. The user provided examples like \"authentication\" or \"api-endpoint\"",
+        "so the tags should describe what the file"
+      ],
+      "enriched_at": "2026-01-31T03:12:22.966903"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided a file named clean_scm_headers.py. The AST parser found no atoms, imports, or exports. So, what does that mean? Well, if there are no imports or exports, maybe",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. The user wants me to assign 3-5 semantic tags to this Python script called clean_scm_headers.py. The tags should describe what the file is about",
+        "not its structure. The example tags given are"
+      ],
+      "enriched_at": "2026-01-31T03:12:23.876208"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called pipeline_tracer.py. The AST parser from Collider found no atoms, no imports, and no exports. So, the file doesn't have any functions, classes,",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. The user wants me to assign 3-5 semantic tags to this Python file called pipeline_tracer.py. The tags should describe what the file is about",
+        "not the structure. The example tags given are things"
+      ],
+      "enriched_at": "2026-01-31T03:12:24.739729"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided a file named tools/mine_eslint.py. The AST parser found no atoms, imports, or exports. So, maybe it's a script that doesn't have any external dependencies or exports functions",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. The user wants me to assign 3-5 semantic tags to this Python script called mine_eslint.py. The tags should describe what the file is about",
+        "not the structure. The example tags given are things"
+      ],
+      "enriched_at": "2026-01-31T03:12:25.564477"
+    },
+    {
+      "id": "tools/verify_animation.py::verify_animation_config",
+      "file_path": "tools/verify_animation.py",
+      "atom": "LOG.FNC.M",
+      "layer": "infrastructure",
+      "role": "Store",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called verify_animation.py. The AST parser found no atoms, no imports, and no exports. So, the file probably doesn't have any functions or classes, and it's",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python file. The file is called verify_animation.py and it's in the tools directory. The user provided a preview of the code",
+        "so I should"
+      ],
+      "enriched_at": "2026-01-31T03:12:26.391612"
+    },
+    {
+      "id": "tools/research/run_corpus.py::get_git_sha",
+      "file_path": "tools/research/run_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called run_corpus.py in the tools/research directory. The AST parser found no atoms, imports, or exports. So, maybe the file is very minimal or perhaps it's",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script. The file is called run_corpus.py and it's in the tools/research directory. The description says it's for Phase 2 Research"
+      ],
+      "enriched_at": "2026-01-31T03:12:27.192231"
+    },
+    {
+      "id": "tools/research/summarize_corpus.py::load_coverage_files",
+      "file_path": "tools/research/summarize_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file named summarize_corpus.py located in the tools/research directory. The AST parser detected no atoms, imports, or exports. So, the file doesn't have any functions,",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script. The file is called summarize_corpus.py",
+        "located in tools/research. The description says it's a Corpus Summarizer for Phase"
+      ],
+      "enriched_at": "2026-01-31T03:12:28.080752"
+    },
+    {
+      "id": "tools/research/validate_audit_pack.py::to_project_relative",
+      "file_path": "tools/research/validate_audit_pack.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Transformer",
+      "purpose": "<think>\nOkay, let's see. The user provided a file named validate_audit_pack.py. The AST parser found no atoms, imports, or exports. So, maybe the file is empty or just has comments? But the purpose needs to be inferred",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script. The file is called validate_audit_pack.py",
+        "located in tools/research/. The preview shows it's a script for validating audit packs in"
+      ],
+      "enriched_at": "2026-01-31T03:12:29.122621"
+    },
+    {
+      "id": "tools/research/atom_coverage.py::load_analysis",
+      "file_path": "tools/research/atom_coverage.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called atom_coverage.py. The AST parser from Collider found no atoms, zero imports, and zero exports. So, the file doesn't have any functions, classes, or",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script called atom_coverage.py. The tags should describe what the file is about",
+        "not its structure. The examples given are things like \"authentication\""
+      ],
+      "enriched_at": "2026-01-31T03:12:29.882821"
+    },
+    {
+      "id": "tools/research/evaluate_hypotheses.py::HypothesisResult",
+      "file_path": "tools/research/evaluate_hypotheses.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called evaluate_hypotheses.py. The AST parser from Collider didn't find any atoms, imports, or exports. Hmm, that's interesting. Atoms in this context",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script. The file is called evaluate_hypotheses.py and it's in the tools/research directory. The description says it's for testing corpus"
+      ],
+      "enriched_at": "2026-01-31T03:12:30.661080"
+    },
+    {
+      "id": "tools/research/regenerate_results.py::regenerate_results",
+      "file_path": "tools/research/regenerate_results.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called regenerate_results.py. The AST parser found no atoms, which probably means there's no executable code in the file. There are no imports or exports either. So,",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python script. The file is called regenerate_results.py and it's in the tools/research directory. The description says it regenerates results.json from"
+      ],
+      "enriched_at": "2026-01-31T03:12:31.504704"
+    },
+    {
+      "id": "tools/research/atom_inventory.py::load_atoms_from_yaml",
+      "file_path": "tools/research/atom_inventory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called atom_inventory.py. The AST parser from Collider found no atoms, zero imports, and zero exports. So, the file doesn't have any functions, classes, or",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python file. The file is called atom_inventory.py and it's in the tools/research directory. The description says it's an Atom Inventory Analysis Tool"
+      ],
+      "enriched_at": "2026-01-31T03:12:32.335759"
+    },
+    {
+      "id": "tools/research/laboratory.py::ExperimentRequest",
+      "file_path": "tools/research/laboratory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a file called laboratory.py in the tools/research directory. The AST parser found no atoms, imports, or exports. So, maybe the file is empty or just has some comments or",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python file. The user provided examples like \"authentication\" or \"database-migration\"",
+        "so the tags should describe what the code does",
+        "not its structure"
+      ],
+      "enriched_at": "2026-01-31T03:12:36.484376"
+    },
+    {
+      "id": "tools/batch_grade/analyze_results.py::RepoResult",
+      "file_path": "tools/batch_grade/analyze_results.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "<think>\nOkay, let's see. The user provided information about a Python file called analyze_results.py in the tools/batch_grade directory. The AST parser found no atoms, which probably means there's no executable code like functions or classes. There are",
+      "summary": "",
+      "semantic_tags": [
+        "<think>\nOkay",
+        "let's see. I need to assign 3-5 semantic tags to this Python file. The user provided examples like \"authentication\" or \"database-migration\"",
+        "so the tags should describe what the file does",
+        "not its structure"
+      ],
+      "enriched_at": "2026-01-31T03:12:40.549954"
+    }
+  ]
+}

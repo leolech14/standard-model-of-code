@@ -16,7 +16,7 @@ what is the stone tool principle
 
 ## Response
 
-Based on the codebase context, specifically `context-management/docs/CODESPACE_ALGEBRA.md` and `context-management/docs/GLOSSARY.md`, here is the definition and explanation of the **Stone Tool Principle**.
+Based on the codebase context, specifically `wave/docs/CODESPACE_ALGEBRA.md` and `wave/docs/GLOSSARY.md`, here is the definition and explanation of the **Stone Tool Principle**.
 
 ### The Stone Tool Principle (Axiom H4)
 
@@ -54,8 +54,8 @@ This creates a new consumer class partition:
 *   **Stone Tools**: Analysis tools shaped for AI agents.
 
 **Source References:**
-*   `context-management/docs/CODESPACE_ALGEBRA.md` (§15 Consumer Classes)
-*   `context-management/docs/GLOSSARY.md` (Under Consumer Classes)
+*   `wave/docs/CODESPACE_ALGEBRA.md` (§15 Consumer Classes)
+*   `wave/docs/GLOSSARY.md` (Under Consumer Classes)
 
 ---
 

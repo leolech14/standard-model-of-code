@@ -44,19 +44,19 @@ dod:
     evidence: ".agent/schema/refinery_node.schema.yaml"
   - criterion: "Corpus inventory tool working"
     status: DONE
-    evidence: "context-management/tools/refinery/corpus_inventory.py"
+    evidence: "wave/tools/refinery/corpus_inventory.py"
   - criterion: "Boundary mapper using analysis_sets.yaml"
     status: DONE
-    evidence: "context-management/tools/refinery/boundary_mapper.py"
+    evidence: "wave/tools/refinery/boundary_mapper.py"
   - criterion: "Delta detector for incremental processing"
     status: DONE
-    evidence: "context-management/tools/refinery/delta_detector.py"
+    evidence: "wave/tools/refinery/delta_detector.py"
   - criterion: "Basic atom generator for one cluster"
     status: DONE
-    evidence: "context-management/tools/refinery/atom_generator.py"
+    evidence: "wave/tools/refinery/atom_generator.py"
   - criterion: "State/live.yaml global map produced"
     status: DONE
-    evidence: "context-management/tools/refinery/state_synthesizer.py"
+    evidence: "wave/tools/refinery/state_synthesizer.py"
 
 # Task references
 tasks:
@@ -83,7 +83,7 @@ opportunities:
     title: "Implement Gemini Context Caching for FLASH_DEEP Tier"
     confidence: 90
     status: READY
-    source: "standard-model-of-code/docs/research/gemini/docs/20260123_gemini_long_context_blueprint.md"
+    source: "particle/docs/research/gemini/docs/20260123_gemini_long_context_blueprint.md"
 
 # Timing
 start_date: null  # Not started

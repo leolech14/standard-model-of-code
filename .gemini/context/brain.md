@@ -2,7 +2,7 @@
 
 ## AI Analysis Tool
 
-Location: `context-management/tools/ai/analyze.py`
+Location: `wave/tools/ai/analyze.py`
 
 ### Authentication
 

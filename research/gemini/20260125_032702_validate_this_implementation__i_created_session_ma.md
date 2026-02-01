@@ -31,8 +31,8 @@ The implementation fails in two critical integration points: **Context Injection
 #### 1. The Context Blindness (Critical)
 **The Issue:** You are saving state to `session.yaml`, but the AI Agents operating via `analyze.py` or the ACI system have no instruction to *read* this specific file.
 **Evidence:**
-*   `context-management/config/analysis_sets.yaml` defines what the AI sees. There is no set defined that includes your new `session.yaml`.
-*   `context-management/config/aci_config.yaml` defines triggers. Unless you mapped keywords to a set containing `session.yaml`, the AI will hallucinate the game state or restart from zero every turn.
+*   `wave/config/analysis_sets.yaml` defines what the AI sees. There is no set defined that includes your new `session.yaml`.
+*   `wave/config/aci_config.yaml` defines triggers. Unless you mapped keywords to a set containing `session.yaml`, the AI will hallucinate the game state or restart from zero every turn.
 *   **Result:** The code persists the state, but the AI ignores it.
 
 #### 2. The "Dirty Repo" Violation (Operational)
@@ -63,7 +63,7 @@ To make this actually work in practice, you must implement these four integratio
 You must define a dynamic set for the active session so ACI can load it.
 
 ```yaml
-# Add to context-management/config/analysis_sets.yaml
+# Add to wave/config/analysis_sets.yaml
   active_session:
     description: "Current Decision Deck game state"
     max_tokens: 5000
@@ -103,8 +103,8 @@ The `analyze.py` tool needs to be aware of the `active_session` set availability
 *   Update the `play_card.py` script to explicitly invoke `analyze.py` with the `--set active_session` flag.
 
 ### Summary of Missing Files/Changes
-1.  **`context-management/config/analysis_sets.yaml`**: Missing `active_session` set definition.
-2.  **`context-management/config/aci_config.yaml`**: Missing triggers for the new set.
+1.  **`wave/config/analysis_sets.yaml`**: Missing `active_session` set definition.
+2.  **`wave/config/aci_config.yaml`**: Missing triggers for the new set.
 3.  **`.gitignore`**: Verification that the session file path is ignored.
 4.  **`session_manager.py`**: Needs a file-locking mechanism (`fcntl` or similar) if human/AI interactivity is simultaneous.
 

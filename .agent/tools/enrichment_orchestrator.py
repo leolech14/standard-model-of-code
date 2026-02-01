@@ -35,7 +35,7 @@ from datetime import datetime
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent.parent
-REFINERY_PATH = REPO_ROOT / "context-management" / "tools" / "ai" / "aci" / "refinery.py"
+REFINERY_PATH = REPO_ROOT / "wave" / "tools" / "ai" / "aci" / "refinery.py"
 CHUNKS_DIR = REPO_ROOT / ".agent" / "intelligence" / "chunks"
 
 
@@ -73,8 +73,8 @@ def run_refinery(dry_run: bool = False) -> bool:
 
     Atomizes key directories into chunks for efficient AI queries:
     - .agent/ (task registry, specs)
-    - context-management/tools/ai/ (ACI tools)
-    - standard-model-of-code/src/core/ (pipeline core)
+    - wave/tools/ai/ (ACI tools)
+    - particle/src/core/ (pipeline core)
     """
     if not REFINERY_PATH.exists():
         print(f"WARNING: REFINERY not found at {REFINERY_PATH}")
@@ -83,8 +83,8 @@ def run_refinery(dry_run: bool = False) -> bool:
     # Directories to atomize
     targets = [
         (REPO_ROOT / ".agent", "agent_chunks.json"),
-        (REPO_ROOT / "context-management" / "tools" / "ai" / "aci", "aci_chunks.json"),
-        (REPO_ROOT / "standard-model-of-code" / "src" / "core", "core_chunks.json"),
+        (REPO_ROOT / "wave" / "tools" / "ai" / "aci", "aci_chunks.json"),
+        (REPO_ROOT / "particle" / "src" / "core", "core_chunks.json"),
     ]
 
     print(f"\n{'='*60}")

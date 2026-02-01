@@ -118,7 +118,7 @@ example: |
     step_log:
       - step: 1
         action: Read existing perplexity_mcp_server.py
-        file: context-management/tools/mcp/perplexity_mcp_server.py
+        file: wave/tools/mcp/perplexity_mcp_server.py
         timestamp: 2026-01-22T18:32:00Z
       - step: 2
         action: Analyzed BEST_PRACTICES.md for patterns

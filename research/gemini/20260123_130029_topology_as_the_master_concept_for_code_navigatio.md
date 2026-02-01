@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 TOPOLOGY AS THE MASTER CONCEPT FOR CODE NAVIGATION
 
 We are developing the Standard Model of Code - ...
@@ -132,7 +132,7 @@ To operationalize this, you need to upgrade `src/core/topology_reasoning.py` to 
 2.  **Update `visualize_graph_webgl.py`**:
     *   Map `Gradient` to edge color (Red = steep complexity increase).
     *   Map `Density` to node glow/halo.
-3.  **Validate**: Run on `standard-model-of-code` itself. Does the `src/core` folder show up as a high-density "Star" center? (It should).
+3.  **Validate**: Run on `particle` itself. Does the `src/core` folder show up as a high-density "Star" center? (It should).
 
 ---
 

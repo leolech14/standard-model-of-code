@@ -65,7 +65,7 @@ While the structural foundation is solid, the active intelligence layer has oper
 The "Laboratory Bridge" (Pipeline Refactor) successfully closed the loop between these three elements:
 
 *   **Wave (The Field/Spec):** `semantic_models.yaml` and `refinery_node.schema.yaml` define the theoretical structure of the universe.
-*   **Particle (The Matter/Code):** The `Collider` (`standard-model-of-code/src`) now produces `unified_analysis.json` that perfectly maps to these schemas thanks to the `TASK-007` refactor.
+*   **Particle (The Matter/Code):** The `Collider` (`particle/src`) now produces `unified_analysis.json` that perfectly maps to these schemas thanks to the `TASK-007` refactor.
 *   **Observer (The Agent/Intelligence):** `analyze.py` and `BARE` (Background Auto-Refinement Engine) now consume the `unified_analysis.json` to generate `repo_truths.yaml` and identify `OPP-XXX` (Opportunities).
 
 **Evidence:**

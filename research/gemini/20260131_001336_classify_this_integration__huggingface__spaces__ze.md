@@ -45,7 +45,7 @@ Here's a detailed analysis using SMoC dimensions and recommendations for formali
 
 ### Formalization Recommendations:
 
-To align this integration with the `PROJECT_elements` Standard Model of Code, particularly the `Wave` (context-management) and `Observer` (.agent) realms, I recommend the following formalization steps:
+To align this integration with the `PROJECT_elements` Standard Model of Code, particularly the `Wave` (wave) and `Observer` (.agent) realms, I recommend the following formalization steps:
 
 1.  **Create a Dedicated Concordance:**
     *   **Name:** `ML_Inference_Concordance` (or `HuggingFace_Concordance`).
@@ -61,12 +61,12 @@ To align this integration with the `PROJECT_elements` Standard Model of Code, pa
     *   **Rationale:** Elevates the configuration from an ad-hoc file to a structured `CONFIG` artifact, improving its `Factual` and `Current` confidence dimensions. (Refer to `GLOSSARY.md` on `CONFIG` phase and `CONCEPT/OBJECT DUALITY`).
 
 3.  **Integrate `hf-space.py` into `ASSET_INVENTORY.md`:**
-    *   **Categorization:** Add `scripts/hf-space.py` to `context-management/docs/ASSET_INVENTORY.md` under a new section like "External AI Integrations" or an existing one like "The Intelligence (AI)".
+    *   **Categorization:** Add `scripts/hf-space.py` to `wave/docs/ASSET_INVENTORY.md` under a new section like "External AI Integrations" or an existing one like "The Intelligence (AI)".
     *   **Type:** Classify it as a `MODULE` in the `Wave` realm.
     *   **Rationale:** Ensures its discoverability, ownership, and purpose are explicitly tracked within the project's automation assets. (Refer to `ASSET_INVENTORY.md` and `GLOSSARY.md` on `MODULE` phase).
 
 4.  **Document Doppler Integration & External Credential Management:**
-    *   **Location:** Details on how `Doppler` manages the global HuggingFace token should be added to `context-management/docs/STORAGE_ARCHITECTURE.md` or a dedicated `SECURITY.md` / `EXTERNAL_CREDENTIALS.md`.
+    *   **Location:** Details on how `Doppler` manages the global HuggingFace token should be added to `wave/docs/STORAGE_ARCHITECTURE.md` or a dedicated `SECURITY.md` / `EXTERNAL_CREDENTIALS.md`.
     *   **Rationale:** This clarifies the `INFRASTRUCTURE` aspect of token management and addresses `TRUST` and `SECURITY` concerns for external dependencies. (Refer to `GLOSSARY.md` on `INFRASTRUCTURE` phase).
 
 By implementing these recommendations, the HuggingFace integration will move from its current disparate state to a fully formalized, auditable, and semantically aligned component of the `PROJECT_elements` system.

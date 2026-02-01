@@ -27,7 +27,7 @@ The `PROJECT_elements` repository exhibits a highly structured and self-document
 1.  **Fractal Duality (Concepts / Objects):** This is a foundational pattern.
     *   **Concepts:** `docs`, `schemas`, `specs`, `definitions` (e.g., `task.schema.yaml`, `MODEL.md`)
     *   **Objects:** `instances`, `records`, `data`, `implementations` (e.g., `TASK-XXX.yaml`, `src/`)
-    This pattern is applied hierarchically, with `standard-model-of-code/docs/` and `standard-model-of-code/src/` being a prime example.
+    This pattern is applied hierarchically, with `particle/docs/` and `particle/src/` being a prime example.
 
 2.  **Modular Subsystem Architecture:** The project is broken down into distinct subsystems, each with a clear purpose and defined integration points. This is extensively detailed in `.agent/SUBSYSTEM_INTEGRATION.md`, mapping components like Collider, HSL, BARE, Task Registry, etc.
 
@@ -35,9 +35,9 @@ The `PROJECT_elements` repository exhibits a highly structured and self-document
     *   This directory serves as the control plane for AI agents, containing bootstrap instructions (`KERNEL.md`), schemas for tasks and runs, active/archived task registries, run history, and agent-specific tools.
     *   It clearly separates "what needs to be true" (Tasks) from "what happened" (Runs).
 
-4.  **Core Product (`standard-model-of-code/`):** Houses the main analytical engine, Collider, with a clear separation of conceptual documentation (`docs/`) and implementation (`src/`).
+4.  **Core Product (`particle/`):** Houses the main analytical engine, Collider, with a clear separation of conceptual documentation (`docs/`) and implementation (`src/`).
 
-5.  **Context Management (`context-management/`):** Centralizes AI tooling, configuration, and documentation related to context assembly for LLMs, again following the Concepts/Objects duality.
+5.  **Context Management (`wave/`):** Centralizes AI tooling, configuration, and documentation related to context assembly for LLMs, again following the Concepts/Objects duality.
 
 6.  **Strong Emphasis on Automation and AI Integration:** The entire structure is geared towards enabling autonomous agents and automated workflows (e.g., BARE, HSL validations, Cloud Automation, Macro System).
 
@@ -70,7 +70,7 @@ The provided context does not include a full listing of the repository's root di
 Given the clear directory structure and Concepts/Objects duality, the following types of files would likely indicate a deviation from the established organization if found directly at the root:
 
 1.  **Implementation Source Code:**
-    *   Any `.py`, `.sh`, `.js`, etc., files that are part of the `standard-model-of-code/src/` (Collider) or `context-management/tools/` (AI tools/scripts) subsystems. E.g., `analyze.py`, `full_analysis.py`, `check_stale.sh` would be out of place at the root, as they belong in their respective `tools/` or `src/` directories.
+    *   Any `.py`, `.sh`, `.js`, etc., files that are part of the `particle/src/` (Collider) or `wave/tools/` (AI tools/scripts) subsystems. E.g., `analyze.py`, `full_analysis.py`, `check_stale.sh` would be out of place at the root, as they belong in their respective `tools/` or `src/` directories.
 2.  **Task/Run Records:**
     *   Files like `TASK-XXX.yaml`, `RUN-YYY.yaml`, or `INDEX.md` related to tasks or runs. These have dedicated locations within `.agent/registry/` and `.agent/runs/`.
 3.  **Schemas:**
@@ -78,7 +78,7 @@ Given the clear directory structure and Concepts/Objects duality, the following 
 4.  **Specific Documentation/Specs:**
     *   Detailed specifications like `HOLOGRAPHIC_SOCRATIC_LAYER.md`, `MODEL.md`, `BACKGROUND_AUTO_REFINEMENT_ENGINE.md`, `CONSOLIDATION_REPORT.md`, or the contents of `docs/research/perplexity/`. These all have designated `docs/` or `specs/` directories within their respective subsystems.
 5.  **Configuration for Specific Subsystems:**
-    *   Files like `semantic_models.yaml`, `analysis_sets.yaml`, `archive/config.yaml`. These are expected within `context-management/config/` or specific tool directories.
+    *   Files like `semantic_models.yaml`, `analysis_sets.yaml`, `archive/config.yaml`. These are expected within `wave/config/` or specific tool directories.
 6.  **Redundant Manifest-like Files:**
     *   Another top-level file attempting to describe the project structure or agent system, as this is already comprehensively handled by `.agent/manifest.yaml` and `.agent/KERNEL.md`.
 

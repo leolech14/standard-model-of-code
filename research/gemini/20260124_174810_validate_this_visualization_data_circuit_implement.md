@@ -17,7 +17,7 @@ Validate this visualization data circuit implementation:
 
 COMPLETED WORK:
 1. OKLCH Integration - replaced all legacy HSL calls with COLOR engine
-2. Property Query System - wired initPropertyQuery() in app.js 
+2. Property Query System - wired initPropertyQuery() in app.js
 3. Graph accessors use Q.node(n, 'color') for resolution
 4. UPB bindings use VIS_STATE field names (colorBy, sizeBy, edgeBy)
 5. Circuit Breaker passes 9/9
@@ -36,7 +36,7 @@ Rate 1-10 and identify gaps.
 
 ## Response
 
-Based on the codebase context—specifically **`context-management/docs/DATA_LAYER_REFACTORING_MAP.md`** and **`context-management/docs/COLLIDER_ARCHITECTURE.md`**—here is the validation of your visualization data circuit.
+Based on the codebase context—specifically **`wave/docs/DATA_LAYER_REFACTORING_MAP.md`** and **`wave/docs/COLLIDER_ARCHITECTURE.md`**—here is the validation of your visualization data circuit.
 
 ### Rating: 9/10
 

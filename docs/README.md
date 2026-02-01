@@ -48,5 +48,5 @@ docs/
 ## See Also
 
 - `governance/` - Project governance docs
-- `standard-model-of-code/docs/` - Theory documentation
-- `context-management/docs/` - Wave realm docs
+- `particle/docs/` - Theory documentation
+- `wave/docs/` - Wave realm docs

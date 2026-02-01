@@ -50,7 +50,7 @@ You cannot refactor "Token Budget" to use "8 Dimensions." A *Token Budget* is a 
 
 Instead of renaming terms, define the **causal relationship** between them. Create a mapping configuration that tells the AI: *"When my Operational Intent is X, I care about Ontological Dimension Y."*
 
-**Create/Update: `context-management/config/semantic_bridge.yaml`**
+**Create/Update: `wave/config/semantic_bridge.yaml`**
 
 ```yaml
 # SEMANTIC BRIDGE: Operations → Ontology
@@ -96,44 +96,44 @@ complexity_mappings:
 Do not merge the glossaries. Maintain two distinct sources of truth to preserve the "Particle/Wave" duality.
 
 #### A. The Project Glossary (The Truth)
-*   **File:** `context-management/docs/GLOSSARY.md`
+*   **File:** `wave/docs/GLOSSARY.md`
 *   **Content:** Atoms, 8 Dimensions, Realms, Symmetry.
 *   **Rule:** These definitions are **immutable axioms** of the project.
 
 #### B. The Agent Lexicon (The Tool)
-*   **Action:** Create `context-management/docs/ai/ACI_LEXICON.md`.
+*   **Action:** Create `wave/docs/ai/ACI_LEXICON.md`.
 *   **Content:** QueryIntent, Tier, Token Budget, Synthesis Strategy.
 *   **Rule:** These are **mutable configurations** that can change as models evolve.
 
 ### 4. Code Implementation (Refactoring `analyze.py`)
 
-Update your `context-management/tools/ai/aci/context_builder.py` to use the bridge. This makes the mapping explicit in code.
+Update your `wave/tools/ai/aci/context_builder.py` to use the bridge. This makes the mapping explicit in code.
 
 ```python
 # Conceptual implementation
 def build_context_profile(query_intent):
     # Load the Bridge
     bridge = load_yaml("config/semantic_bridge.yaml")
-    
+
     # 1. Map Operations (Intent) to Ontology (Dimensions)
     mapping = bridge['intent_mappings'].get(query_intent)
-    
+
     # 2. Instruct the Model using the Project Glossary terms
     system_prompt_addition = f"""
-    Since your intent is '{query_intent}', you must strictly analyze 
+    Since your intent is '{query_intent}', you must strictly analyze
     the following Standard Model Dimensions:
     {', '.join(mapping['focus_dimensions'])}
     """
-    
+
     return system_prompt_addition
 ```
 
 ### Summary of Actions
 
 1.  **Reject Option A & B:** Do not merge glossaries or force AI code to use physics terms where they don't fit.
-2.  **Create `ACI_LEXICON.md`:** Document the 10 AI terms separately in the AI Tools domain (`context-management/docs/ai/`).
+2.  **Create `ACI_LEXICON.md`:** Document the 10 AI terms separately in the AI Tools domain (`wave/docs/ai/`).
 3.  **Create `semantic_bridge.yaml`:** Explicitly map *Intents* (AI) to *Dimensions* (Code).
-4.  **Enforce Separation:** Ensure `standard-model-of-code/` (Body) never imports concepts from `context-management/` (Brain), maintaining the directional dependency.
+4.  **Enforce Separation:** Ensure `particle/` (Body) never imports concepts from `wave/` (Brain), maintaining the directional dependency.
 
 ---
 

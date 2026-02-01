@@ -1,0 +1,722 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "file_format_taxonomy",
+  "version": "1.0.0",
+  "created": "2026-01-31",
+  "description": "Canonical taxonomy of computer file formats with metadata standards and editing capabilities",
+
+  "categories": {
+    "image_raster": {
+      "name": "Raster Images",
+      "description": "Pixel-based image formats",
+      "formats": {
+        "jpeg": {
+          "extensions": [".jpg", ".jpeg", ".jpe", ".jfif"],
+          "mimeTypes": ["image/jpeg"],
+          "magicBytes": ["FF D8 FF"],
+          "metadataStandards": ["EXIF", "IPTC", "XMP"],
+          "maxDimensions": { "width": 65535, "height": 65535 },
+          "colorSpaces": ["sRGB", "Adobe RGB", "ProPhoto RGB"],
+          "compression": "lossy",
+          "transparency": false,
+          "animation": false,
+          "editLibraries": {
+            "primary": "fabric",
+            "crop": "cropperjs",
+            "metadata": "piexifjs"
+          }
+        },
+        "png": {
+          "extensions": [".png"],
+          "mimeTypes": ["image/png"],
+          "magicBytes": ["89 50 4E 47 0D 0A 1A 0A"],
+          "metadataStandards": ["XMP", "tEXt", "iTXt"],
+          "maxDimensions": { "width": 2147483647, "height": 2147483647 },
+          "colorSpaces": ["sRGB", "Gray"],
+          "compression": "lossless",
+          "transparency": true,
+          "animation": false,
+          "editLibraries": {
+            "primary": "fabric",
+            "crop": "cropperjs"
+          }
+        },
+        "gif": {
+          "extensions": [".gif"],
+          "mimeTypes": ["image/gif"],
+          "magicBytes": ["47 49 46 38 39 61", "47 49 46 38 37 61"],
+          "metadataStandards": ["XMP"],
+          "maxDimensions": { "width": 65535, "height": 65535 },
+          "colorSpaces": ["Indexed (256 colors)"],
+          "compression": "lossless",
+          "transparency": true,
+          "animation": true,
+          "editLibraries": {
+            "primary": "fabric",
+            "animation": "gif.js"
+          }
+        },
+        "webp": {
+          "extensions": [".webp"],
+          "mimeTypes": ["image/webp"],
+          "magicBytes": ["52 49 46 46", "57 45 42 50"],
+          "metadataStandards": ["EXIF", "XMP"],
+          "colorSpaces": ["sRGB"],
+          "compression": "both",
+          "transparency": true,
+          "animation": true,
+          "editLibraries": {
+            "primary": "fabric"
+          }
+        },
+        "avif": {
+          "extensions": [".avif"],
+          "mimeTypes": ["image/avif"],
+          "magicBytes": ["HEIF container"],
+          "metadataStandards": ["EXIF", "XMP"],
+          "colorSpaces": ["sRGB", "Display P3", "Rec. 2020"],
+          "compression": "lossy",
+          "transparency": true,
+          "animation": true,
+          "hdr": true,
+          "editLibraries": {
+            "primary": "limited"
+          }
+        },
+        "tiff": {
+          "extensions": [".tiff", ".tif"],
+          "mimeTypes": ["image/tiff"],
+          "magicBytes": ["49 49 2A 00", "4D 4D 00 2A"],
+          "metadataStandards": ["EXIF", "IPTC", "XMP"],
+          "compression": "both",
+          "transparency": true,
+          "animation": false,
+          "layers": true,
+          "editLibraries": {
+            "primary": "server-side"
+          }
+        },
+        "bmp": {
+          "extensions": [".bmp", ".dib"],
+          "mimeTypes": ["image/bmp"],
+          "magicBytes": ["42 4D"],
+          "metadataStandards": [],
+          "compression": "none",
+          "transparency": false,
+          "editLibraries": {
+            "primary": "fabric"
+          }
+        },
+        "heic": {
+          "extensions": [".heic", ".heif"],
+          "mimeTypes": ["image/heic", "image/heif"],
+          "magicBytes": ["HEIF container"],
+          "metadataStandards": ["EXIF", "XMP"],
+          "compression": "lossy",
+          "transparency": false,
+          "editLibraries": {
+            "convert": "heic2any"
+          }
+        }
+      }
+    },
+
+    "image_vector": {
+      "name": "Vector Images",
+      "description": "Resolution-independent vector graphics",
+      "formats": {
+        "svg": {
+          "extensions": [".svg", ".svgz"],
+          "mimeTypes": ["image/svg+xml"],
+          "magicBytes": ["3C 73 76 67", "3C 3F 78 6D 6C"],
+          "metadataStandards": ["XMP", "Dublin Core"],
+          "encoding": "XML",
+          "editLibraries": {
+            "primary": "svgjs",
+            "canvas": "fabric"
+          }
+        },
+        "ai": {
+          "extensions": [".ai"],
+          "mimeTypes": ["application/illustrator", "application/postscript"],
+          "magicBytes": ["25 50 44 46"],
+          "metadataStandards": ["XMP"],
+          "editLibraries": {
+            "primary": "view-only"
+          }
+        },
+        "eps": {
+          "extensions": [".eps"],
+          "mimeTypes": ["application/postscript"],
+          "magicBytes": ["25 21 50 53"],
+          "metadataStandards": ["XMP"],
+          "editLibraries": {
+            "primary": "view-only"
+          }
+        }
+      }
+    },
+
+    "video": {
+      "name": "Video",
+      "description": "Moving picture formats",
+      "formats": {
+        "mp4": {
+          "extensions": [".mp4", ".m4v"],
+          "mimeTypes": ["video/mp4"],
+          "magicBytes": ["66 74 79 70"],
+          "metadataStandards": ["XMP", "iTunes atoms"],
+          "codecs": ["H.264", "H.265/HEVC", "AV1"],
+          "editLibraries": {
+            "player": "videojs",
+            "process": "ffmpeg.wasm"
+          }
+        },
+        "webm": {
+          "extensions": [".webm"],
+          "mimeTypes": ["video/webm"],
+          "magicBytes": ["1A 45 DF A3"],
+          "metadataStandards": ["Matroska metadata"],
+          "codecs": ["VP8", "VP9", "AV1"],
+          "editLibraries": {
+            "player": "videojs"
+          }
+        },
+        "mov": {
+          "extensions": [".mov"],
+          "mimeTypes": ["video/quicktime"],
+          "magicBytes": ["66 74 79 70", "6D 6F 6F 76"],
+          "metadataStandards": ["QuickTime metadata"],
+          "editLibraries": {
+            "player": "videojs"
+          }
+        },
+        "avi": {
+          "extensions": [".avi"],
+          "mimeTypes": ["video/x-msvideo"],
+          "magicBytes": ["52 49 46 46"],
+          "metadataStandards": ["RIFF INFO"],
+          "editLibraries": {
+            "player": "videojs"
+          }
+        },
+        "mkv": {
+          "extensions": [".mkv"],
+          "mimeTypes": ["video/x-matroska"],
+          "magicBytes": ["1A 45 DF A3"],
+          "metadataStandards": ["Matroska metadata"],
+          "editLibraries": {
+            "player": "videojs"
+          }
+        }
+      }
+    },
+
+    "audio": {
+      "name": "Audio",
+      "description": "Sound and music formats",
+      "formats": {
+        "mp3": {
+          "extensions": [".mp3"],
+          "mimeTypes": ["audio/mpeg"],
+          "magicBytes": ["FF FB", "FF FA", "49 44 33"],
+          "metadataStandards": ["ID3v1", "ID3v2.3", "ID3v2.4"],
+          "compression": "lossy",
+          "editLibraries": {
+            "waveform": "wavesurfer",
+            "process": "tone",
+            "tags": "music-metadata",
+            "tagWrite": "browser-id3-writer"
+          }
+        },
+        "wav": {
+          "extensions": [".wav", ".wave"],
+          "mimeTypes": ["audio/wav", "audio/x-wav"],
+          "magicBytes": ["52 49 46 46"],
+          "metadataStandards": ["RIFF INFO", "BWF"],
+          "compression": "none",
+          "editLibraries": {
+            "waveform": "wavesurfer"
+          }
+        },
+        "flac": {
+          "extensions": [".flac"],
+          "mimeTypes": ["audio/flac"],
+          "magicBytes": ["66 4C 61 43"],
+          "metadataStandards": ["Vorbis comments"],
+          "compression": "lossless",
+          "editLibraries": {
+            "waveform": "wavesurfer",
+            "tags": "music-metadata"
+          }
+        },
+        "ogg": {
+          "extensions": [".ogg", ".oga"],
+          "mimeTypes": ["audio/ogg"],
+          "magicBytes": ["4F 67 67 53"],
+          "metadataStandards": ["Vorbis comments"],
+          "compression": "lossy",
+          "editLibraries": {
+            "waveform": "wavesurfer"
+          }
+        },
+        "aac": {
+          "extensions": [".aac"],
+          "mimeTypes": ["audio/aac"],
+          "magicBytes": ["FF F1", "FF F9"],
+          "metadataStandards": ["ID3", "iTunes"],
+          "compression": "lossy",
+          "editLibraries": {
+            "waveform": "wavesurfer"
+          }
+        },
+        "m4a": {
+          "extensions": [".m4a"],
+          "mimeTypes": ["audio/mp4", "audio/x-m4a"],
+          "magicBytes": ["66 74 79 70"],
+          "metadataStandards": ["iTunes atoms"],
+          "compression": "lossy",
+          "editLibraries": {
+            "waveform": "wavesurfer",
+            "tags": "music-metadata"
+          }
+        },
+        "aiff": {
+          "extensions": [".aiff", ".aif"],
+          "mimeTypes": ["audio/aiff"],
+          "magicBytes": ["46 4F 52 4D"],
+          "metadataStandards": ["AIFF chunks"],
+          "compression": "none",
+          "editLibraries": {
+            "waveform": "wavesurfer"
+          }
+        }
+      }
+    },
+
+    "document": {
+      "name": "Documents",
+      "description": "Text and document formats",
+      "formats": {
+        "pdf": {
+          "extensions": [".pdf"],
+          "mimeTypes": ["application/pdf"],
+          "magicBytes": ["25 50 44 46"],
+          "metadataStandards": ["XMP", "Dublin Core", "PDF Info Dict"],
+          "editLibraries": {
+            "view": "pdfjs-dist",
+            "edit": "pdf-lib",
+            "annotate": "pdf-annotate.js"
+          }
+        },
+        "docx": {
+          "extensions": [".docx"],
+          "mimeTypes": ["application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+          "magicBytes": ["50 4B 03 04"],
+          "metadataStandards": ["Office Open XML"],
+          "editLibraries": {
+            "parse": "mammoth"
+          }
+        },
+        "xlsx": {
+          "extensions": [".xlsx"],
+          "mimeTypes": ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+          "magicBytes": ["50 4B 03 04"],
+          "metadataStandards": ["Office Open XML"],
+          "editLibraries": {
+            "parse": "sheetjs"
+          }
+        },
+        "pptx": {
+          "extensions": [".pptx"],
+          "mimeTypes": ["application/vnd.openxmlformats-officedocument.presentationml.presentation"],
+          "magicBytes": ["50 4B 03 04"],
+          "metadataStandards": ["Office Open XML"],
+          "editLibraries": {
+            "parse": "view-only"
+          }
+        },
+        "odt": {
+          "extensions": [".odt"],
+          "mimeTypes": ["application/vnd.oasis.opendocument.text"],
+          "magicBytes": ["50 4B 03 04"],
+          "metadataStandards": ["ODF metadata"],
+          "editLibraries": {
+            "parse": "limited"
+          }
+        },
+        "rtf": {
+          "extensions": [".rtf"],
+          "mimeTypes": ["application/rtf"],
+          "magicBytes": ["7B 5C 72 74 66"],
+          "metadataStandards": ["Limited"],
+          "editLibraries": {
+            "parse": "limited"
+          }
+        },
+        "txt": {
+          "extensions": [".txt", ".text"],
+          "mimeTypes": ["text/plain"],
+          "magicBytes": null,
+          "metadataStandards": [],
+          "editLibraries": {
+            "edit": "monaco-editor"
+          }
+        },
+        "md": {
+          "extensions": [".md", ".markdown", ".mdown"],
+          "mimeTypes": ["text/markdown", "text/x-markdown"],
+          "magicBytes": null,
+          "metadataStandards": ["YAML frontmatter"],
+          "editLibraries": {
+            "edit": "easymde",
+            "parse": "marked"
+          }
+        }
+      }
+    },
+
+    "code": {
+      "name": "Source Code",
+      "description": "Programming language source files",
+      "formats": {
+        "javascript": {
+          "extensions": [".js", ".mjs", ".cjs"],
+          "mimeTypes": ["text/javascript", "application/javascript"],
+          "syntax": "ECMAScript 2024",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "format": "prettier",
+            "lint": "eslint"
+          }
+        },
+        "typescript": {
+          "extensions": [".ts", ".tsx", ".mts", ".cts"],
+          "mimeTypes": ["text/typescript", "application/typescript"],
+          "syntax": "TypeScript 5.x",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "format": "prettier"
+          }
+        },
+        "python": {
+          "extensions": [".py", ".pyw", ".pyi"],
+          "mimeTypes": ["text/x-python"],
+          "syntax": "Python 3.x",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "format": "black"
+          }
+        },
+        "html": {
+          "extensions": [".html", ".htm", ".xhtml"],
+          "mimeTypes": ["text/html"],
+          "syntax": "HTML5",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "format": "prettier"
+          }
+        },
+        "css": {
+          "extensions": [".css"],
+          "mimeTypes": ["text/css"],
+          "syntax": "CSS3+",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "format": "prettier"
+          }
+        },
+        "json": {
+          "extensions": [".json", ".jsonc", ".json5"],
+          "mimeTypes": ["application/json"],
+          "syntax": "JSON/JSON5",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "view": "json-hero"
+          }
+        },
+        "yaml": {
+          "extensions": [".yaml", ".yml"],
+          "mimeTypes": ["application/yaml", "text/yaml"],
+          "syntax": "YAML 1.2",
+          "editLibraries": {
+            "edit": "monaco-editor",
+            "parse": "js-yaml"
+          }
+        },
+        "xml": {
+          "extensions": [".xml"],
+          "mimeTypes": ["application/xml", "text/xml"],
+          "syntax": "XML 1.1",
+          "editLibraries": {
+            "edit": "monaco-editor"
+          }
+        }
+      }
+    },
+
+    "model3d": {
+      "name": "3D Models",
+      "description": "Three-dimensional model formats",
+      "formats": {
+        "gltf": {
+          "extensions": [".gltf"],
+          "mimeTypes": ["model/gltf+json"],
+          "magicBytes": null,
+          "encoding": "JSON",
+          "editLibraries": {
+            "view": "three",
+            "simple": "@google/model-viewer"
+          }
+        },
+        "glb": {
+          "extensions": [".glb"],
+          "mimeTypes": ["model/gltf-binary"],
+          "magicBytes": ["67 6C 54 46"],
+          "editLibraries": {
+            "view": "three",
+            "simple": "@google/model-viewer"
+          }
+        },
+        "obj": {
+          "extensions": [".obj"],
+          "mimeTypes": ["model/obj"],
+          "magicBytes": null,
+          "encoding": "text",
+          "editLibraries": {
+            "view": "three"
+          }
+        },
+        "stl": {
+          "extensions": [".stl"],
+          "mimeTypes": ["model/stl"],
+          "magicBytes": ["73 6F 6C 69 64"],
+          "editLibraries": {
+            "view": "three"
+          }
+        },
+        "fbx": {
+          "extensions": [".fbx"],
+          "mimeTypes": ["application/octet-stream"],
+          "editLibraries": {
+            "view": "three-fbxloader"
+          }
+        },
+        "usdz": {
+          "extensions": [".usdz"],
+          "mimeTypes": ["model/vnd.usdz+zip"],
+          "magicBytes": ["50 4B 03 04"],
+          "editLibraries": {
+            "view": "@google/model-viewer"
+          }
+        }
+      }
+    },
+
+    "archive": {
+      "name": "Archives",
+      "description": "Compressed archive formats",
+      "formats": {
+        "zip": {
+          "extensions": [".zip"],
+          "mimeTypes": ["application/zip"],
+          "magicBytes": ["50 4B 03 04"],
+          "compression": "DEFLATE",
+          "editLibraries": {
+            "extract": "libarchivejs",
+            "create": "jszip"
+          }
+        },
+        "tar": {
+          "extensions": [".tar"],
+          "mimeTypes": ["application/x-tar"],
+          "magicBytes": ["75 73 74 61 72"],
+          "compression": "none",
+          "editLibraries": {
+            "extract": "libarchivejs"
+          }
+        },
+        "gzip": {
+          "extensions": [".gz", ".gzip"],
+          "mimeTypes": ["application/gzip"],
+          "magicBytes": ["1F 8B"],
+          "compression": "DEFLATE",
+          "editLibraries": {
+            "extract": "pako"
+          }
+        },
+        "7z": {
+          "extensions": [".7z"],
+          "mimeTypes": ["application/x-7z-compressed"],
+          "magicBytes": ["37 7A BC AF 27 1C"],
+          "compression": "LZMA",
+          "editLibraries": {
+            "extract": "libarchivejs"
+          }
+        },
+        "rar": {
+          "extensions": [".rar"],
+          "mimeTypes": ["application/vnd.rar"],
+          "magicBytes": ["52 61 72 21 1A 07"],
+          "editLibraries": {
+            "extract": "libarchivejs"
+          }
+        }
+      }
+    },
+
+    "font": {
+      "name": "Fonts",
+      "description": "Typography font files",
+      "formats": {
+        "ttf": {
+          "extensions": [".ttf"],
+          "mimeTypes": ["font/ttf"],
+          "magicBytes": ["00 01 00 00"],
+          "metadataStandards": ["OpenType tables"],
+          "editLibraries": {
+            "parse": "opentype.js"
+          }
+        },
+        "otf": {
+          "extensions": [".otf"],
+          "mimeTypes": ["font/otf"],
+          "magicBytes": ["4F 54 54 4F"],
+          "metadataStandards": ["OpenType tables"],
+          "editLibraries": {
+            "parse": "opentype.js"
+          }
+        },
+        "woff": {
+          "extensions": [".woff"],
+          "mimeTypes": ["font/woff"],
+          "magicBytes": ["77 4F 46 46"],
+          "editLibraries": {
+            "parse": "opentype.js"
+          }
+        },
+        "woff2": {
+          "extensions": [".woff2"],
+          "mimeTypes": ["font/woff2"],
+          "magicBytes": ["77 4F 46 32"],
+          "editLibraries": {
+            "parse": "opentype.js"
+          }
+        }
+      }
+    },
+
+    "data": {
+      "name": "Data Files",
+      "description": "Structured data formats",
+      "formats": {
+        "csv": {
+          "extensions": [".csv"],
+          "mimeTypes": ["text/csv"],
+          "magicBytes": null,
+          "editLibraries": {
+            "parse": "papaparse",
+            "edit": "jspreadsheet"
+          }
+        },
+        "tsv": {
+          "extensions": [".tsv"],
+          "mimeTypes": ["text/tab-separated-values"],
+          "magicBytes": null,
+          "editLibraries": {
+            "parse": "papaparse"
+          }
+        },
+        "parquet": {
+          "extensions": [".parquet"],
+          "mimeTypes": ["application/parquet"],
+          "magicBytes": ["50 41 52 31"],
+          "editLibraries": {
+            "parse": "parquet-wasm"
+          }
+        },
+        "sqlite": {
+          "extensions": [".sqlite", ".db", ".sqlite3"],
+          "mimeTypes": ["application/x-sqlite3"],
+          "magicBytes": ["53 51 4C 69 74 65"],
+          "editLibraries": {
+            "query": "sql.js"
+          }
+        }
+      }
+    }
+  },
+
+  "libraries": {
+    "fabric": {
+      "npm": "fabric",
+      "github": "fabricjs/fabric.js",
+      "stars": 28000,
+      "size": "300KB",
+      "purpose": "Canvas manipulation"
+    },
+    "cropperjs": {
+      "npm": "cropperjs",
+      "github": "fengyuanchen/cropperjs",
+      "stars": 13000,
+      "size": "40KB",
+      "purpose": "Image cropping"
+    },
+    "piexifjs": {
+      "npm": "piexifjs",
+      "github": "hMatoba/piexifjs",
+      "stars": 500,
+      "size": "30KB",
+      "purpose": "EXIF read/write"
+    },
+    "monaco-editor": {
+      "npm": "monaco-editor",
+      "github": "microsoft/monaco-editor",
+      "stars": 40000,
+      "size": "5MB",
+      "purpose": "Code editing"
+    },
+    "pdfjs-dist": {
+      "npm": "pdfjs-dist",
+      "github": "mozilla/pdf.js",
+      "stars": 48000,
+      "size": "500KB",
+      "purpose": "PDF rendering"
+    },
+    "pdf-lib": {
+      "npm": "pdf-lib",
+      "github": "Hopding/pdf-lib",
+      "stars": 7000,
+      "size": "200KB",
+      "purpose": "PDF editing"
+    },
+    "videojs": {
+      "npm": "video.js",
+      "github": "videojs/video.js",
+      "stars": 38000,
+      "size": "400KB",
+      "purpose": "Video playback"
+    },
+    "wavesurfer": {
+      "npm": "wavesurfer.js",
+      "github": "katspaugh/wavesurfer.js",
+      "stars": 8000,
+      "size": "100KB",
+      "purpose": "Audio waveform"
+    },
+    "three": {
+      "npm": "three",
+      "github": "mrdoob/three.js",
+      "stars": 102000,
+      "size": "600KB",
+      "purpose": "3D rendering"
+    },
+    "music-metadata": {
+      "npm": "music-metadata",
+      "github": "Borewit/music-metadata",
+      "stars": 900,
+      "size": "150KB",
+      "purpose": "Audio tag reading"
+    }
+  }
+}

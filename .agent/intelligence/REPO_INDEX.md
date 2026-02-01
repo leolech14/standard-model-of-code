@@ -1,6 +1,6 @@
 # PROJECT_elements — Repository Index (Generated)
 
-**Generated:** 2026-01-27  
+**Generated:** 2026-01-27
 **Source snapshot:** `full_contextome.zip` (this pack is docs+registries+artifacts; it is *not* the full executable repo)
 
 This index is meant to answer:
@@ -8,7 +8,7 @@ This index is meant to answer:
 - *“What is in here?”* (filesystem map)
 - *“Where are the entry points?”* (start docs)
 - *“What should we separate / prioritize?”* (artifact vs canon)
-- *“Why does it feel chain-like?”* (doc graph is sparse)  
+- *“Why does it feel chain-like?”* (doc graph is sparse)
 
 ---
 
@@ -16,9 +16,9 @@ This index is meant to answer:
 
 | path | files | MB | md | json | yaml |
 |---|---|---|---|---|---|
-| standard-model-of-code/ | 1496 | 951.20 | 643 | 824 | 29 |
+| particle/ | 1496 | 951.20 | 643 | 824 | 29 |
 | .agent/ | 321 | 3.23 | 73 | 34 | 214 |
-| context-management/ | 304 | 6.91 | 131 | 138 | 35 |
+| wave/ | 304 | 6.91 | 131 | 138 | 35 |
 | archive/ | 208 | 8.00 | 159 | 44 | 5 |
 | related/ | 4 | 0.01 | 1 | 3 | 0 |
 | .claude/ | 3 | 0.00 | 2 | 1 | 0 |
@@ -33,8 +33,8 @@ This index is meant to answer:
 
 ### Quick read (what each top-level is)
 
-- `standard-model-of-code/` — **“Body”**: Collider theory + specs + implementation *docs*, plus very large analysis artifacts.
-- `context-management/` — **“Brain”**: operational docs + tools + registries for context and AI workflows.
+- `particle/` — **“Body”**: Collider theory + specs + implementation *docs*, plus very large analysis artifacts.
+- `wave/` — **“Brain”**: operational docs + tools + registries for context and AI workflows.
 - `.agent/` — **“Observer”**: governance, decks, registries, emergency maps, and agent intelligence outputs.
 - `archive/` — cold storage snapshots and legacy docs.
 - `.collider-full/`, `collider_output_small/`, `architecture_report/` — generated scan outputs (JSON).
@@ -65,7 +65,7 @@ This index is meant to answer:
 
 ## Subsystem maps
 
-### `standard-model-of-code/` (Collider / Standard Model)
+### `particle/` (Collider / Standard Model)
 
 | name | files | MB | md | json | yaml |
 |---|---|---|---|---|---|
@@ -100,17 +100,17 @@ Notes:
 - `docs/` is where human-readable theory & usage lives.
 - `schema/` and `src/` (in this snapshot) are mostly **docs/JSON/YAML**; the full codebase is likely *outside this pack* (see `PROJECT_METADATA.md`).
 
-Key entrypoints inside `standard-model-of-code/`:
-- `standard-model-of-code/README.md`
-- `standard-model-of-code/docs/README.md`
-- `standard-model-of-code/docs/MODEL.md`
-- `standard-model-of-code/docs/COLLIDER.md`
-- `standard-model-of-code/docs/specs/README.md`
-- `standard-model-of-code/docs/reports/README.md`
+Key entrypoints inside `particle/`:
+- `particle/README.md`
+- `particle/docs/README.md`
+- `particle/docs/MODEL.md`
+- `particle/docs/COLLIDER.md`
+- `particle/docs/specs/README.md`
+- `particle/docs/reports/README.md`
 
 ---
 
-### `context-management/` (Context tools / operational docs)
+### `wave/` (Context tools / operational docs)
 
 | name | files | MB | md | json | yaml |
 |---|---|---|---|---|---|
@@ -123,11 +123,11 @@ Key entrypoints inside `standard-model-of-code/`:
 | registry | 2 | 1.31 | 1 | 1 | 0 |
 | reports | 2 | 0.01 | 2 | 0 | 0 |
 
-Key entrypoints inside `context-management/`:
-- `context-management/docs/README.md`
-- `context-management/docs/AI_USER_GUIDE.md`
-- `context-management/docs/theory/THEORY.md` (Unified theory narrative)
-- `context-management/tools/` (tooling, MCP factory)
+Key entrypoints inside `wave/`:
+- `wave/docs/README.md`
+- `wave/docs/AI_USER_GUIDE.md`
+- `wave/docs/theory/THEORY.md` (Unified theory narrative)
+- `wave/tools/` (tooling, MCP factory)
 
 ---
 
@@ -180,7 +180,7 @@ Key entrypoints inside `.agent/`:
 
 ## Documentation connectivity snapshot (why it feels “chain-like”)
 
-This pack contains **788 active markdown files** (non-archive).  
+This pack contains **788 active markdown files** (non-archive).
 But only **64 internal doc-to-doc links** exist between them.
 
 - **Isolated docs (no inbound *and* no outbound doc links): 733 / 788**
@@ -191,129 +191,129 @@ But only **64 internal doc-to-doc links** exist between them.
 
 | path | degree | title |
 |---|---|---|
-| context-management/docs/prompts/README.md | 14 | Standard Code Validation Megaprompts |
-| standard-model-of-code/README.md | 11 | Collider: The Standard Model of Code Particles |
-| standard-model-of-code/docs/MODEL.md | 8 | MODEL.md - The Standard Model of Code |
-| standard-model-of-code/docs/reports/README.md | 7 | Reports |
-| context-management/docs/README.md | 7 | Context Management Documentation |
-| standard-model-of-code/docs/README.md | 6 | Documentation |
-| context-management/tools/mcp/mcp_factory/INDEX.md | 6 | MCP Factory |
-| standard-model-of-code/docs/COLLIDER.md | 4 | COLLIDER.md - The Tool |
-| context-management/tools/mcp/mcp_factory/knowledge/EXTERNAL_LINKS.md | 4 | External Resources |
-| standard-model-of-code/docs/PURPOSE_INTELLIGENCE.md | 3 | Purpose Intelligence (Q-Scores) |
-| standard-model-of-code/docs/specs/README.md | 3 | Specifications |
-| context-management/tools/mcp/mcp_factory/knowledge/TROUBLESHOOTING.md | 3 | MCP Troubleshooting Guide |
+| wave/docs/prompts/README.md | 14 | Standard Code Validation Megaprompts |
+| particle/README.md | 11 | Collider: The Standard Model of Code Particles |
+| particle/docs/MODEL.md | 8 | MODEL.md - The Standard Model of Code |
+| particle/docs/reports/README.md | 7 | Reports |
+| wave/docs/README.md | 7 | Context Management Documentation |
+| particle/docs/README.md | 6 | Documentation |
+| wave/tools/mcp/mcp_factory/INDEX.md | 6 | MCP Factory |
+| particle/docs/COLLIDER.md | 4 | COLLIDER.md - The Tool |
+| wave/tools/mcp/mcp_factory/knowledge/EXTERNAL_LINKS.md | 4 | External Resources |
+| particle/docs/PURPOSE_INTELLIGENCE.md | 3 | Purpose Intelligence (Q-Scores) |
+| particle/docs/specs/README.md | 3 | Specifications |
+| wave/tools/mcp/mcp_factory/knowledge/TROUBLESHOOTING.md | 3 | MCP Troubleshooting Guide |
 
 ### Connected clusters that actually exist (active docs)
 
 There are only **8** connected components with size > 1 among active docs.
 
 ### Component 1 (size 17)
-Hub: `standard-model-of-code/docs/reports/README.md` — **Reports**
+Hub: `particle/docs/reports/README.md` — **Reports**
 
-- `standard-model-of-code/CLAUDE.md` — Collider (Standard Model of Code)
-- `standard-model-of-code/CONTRIBUTING.md` — Contributing to Collider
-- `standard-model-of-code/README.md` — Collider: The Standard Model of Code Particles
-- `standard-model-of-code/docs/COLLIDER.md` — COLLIDER.md - The Tool
-- `standard-model-of-code/docs/MODEL.md` — MODEL.md - The Standard Model of Code
-- `standard-model-of-code/docs/PURPOSE_INTELLIGENCE.md` — Purpose Intelligence (Q-Scores)
-- `standard-model-of-code/docs/README.md` — Documentation
-- `standard-model-of-code/docs/registry/HISTORY.md` — Project History: The Evolution of the Standard Model of Code
-- `standard-model-of-code/docs/reports/DESIGN_TOKEN_SYSTEM_AUDIT.md` — Design Token System Audit
-- `standard-model-of-code/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md` — Documentation Improvement Task Registry
-- `standard-model-of-code/docs/reports/GAPS_ANALYSIS_2026-01-19.md` — Collider Gaps Analysis Report
-- `standard-model-of-code/docs/reports/README.md` — Reports
-- `standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` — Token System Task Registry
-- `standard-model-of-code/docs/reports/TOKEN_SYSTEM_VERIFICATION_PROTOCOL.md` — Token System Verification Protocol
-- `standard-model-of-code/docs/specs/AI_INTERFACE_SPEC.md` — AI Interface Specification
-- `standard-model-of-code/docs/specs/README.md` — Specifications
-- `standard-model-of-code/src/core/INDEX.md` — src/core/ - Core Analysis Engine
+- `particle/CLAUDE.md` — Collider (Standard Model of Code)
+- `particle/CONTRIBUTING.md` — Contributing to Collider
+- `particle/README.md` — Collider: The Standard Model of Code Particles
+- `particle/docs/COLLIDER.md` — COLLIDER.md - The Tool
+- `particle/docs/MODEL.md` — MODEL.md - The Standard Model of Code
+- `particle/docs/PURPOSE_INTELLIGENCE.md` — Purpose Intelligence (Q-Scores)
+- `particle/docs/README.md` — Documentation
+- `particle/docs/registry/HISTORY.md` — Project History: The Evolution of the Standard Model of Code
+- `particle/docs/reports/DESIGN_TOKEN_SYSTEM_AUDIT.md` — Design Token System Audit
+- `particle/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md` — Documentation Improvement Task Registry
+- `particle/docs/reports/GAPS_ANALYSIS_2026-01-19.md` — Collider Gaps Analysis Report
+- `particle/docs/reports/README.md` — Reports
+- `particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` — Token System Task Registry
+- `particle/docs/reports/TOKEN_SYSTEM_VERIFICATION_PROTOCOL.md` — Token System Verification Protocol
+- `particle/docs/specs/AI_INTERFACE_SPEC.md` — AI Interface Specification
+- `particle/docs/specs/README.md` — Specifications
+- `particle/src/core/INDEX.md` — src/core/ - Core Analysis Engine
 
 
 ### Component 2 (size 15)
-Hub: `context-management/docs/prompts/README.md` — **Standard Code Validation Megaprompts**
+Hub: `wave/docs/prompts/README.md` — **Standard Code Validation Megaprompts**
 
-- `context-management/docs/prompts/01_claims_ledger.md` — MEGAPROMPT 01: CLAIMS LEDGER & FALSIFIABILITY
-- `context-management/docs/prompts/02_lens_validation.md` — MEGAPROMPT 02: LENS SYSTEM VALIDATION
-- `context-management/docs/prompts/03_dimension_orthogonality.md` — MEGAPROMPT 03: DIMENSION ORTHOGONALITY & BOUNDARY CASES
-- `context-management/docs/prompts/04_atom_coverage.md` — MEGAPROMPT 04: ATOM COVERAGE & AST MAPPING
-- `context-management/docs/prompts/05_role_taxonomy.md` — MEGAPROMPT 05: ROLE TAXONOMY VALIDATION
-- `context-management/docs/prompts/06_detection_signals.md` — MEGAPROMPT 06: DETECTION SIGNALS & EVIDENCE MODEL
-- `context-management/docs/prompts/07_confidence_calibration.md` — MEGAPROMPT 07: CONFIDENCE & CALIBRATION SYSTEM
-- `context-management/docs/prompts/08_edge_semantics.md` — MEGAPROMPT 08: EDGE SEMANTICS & GRAPH SCHEMA
-- `context-management/docs/prompts/09_analysis_pipeline.md` — MEGAPROMPT 09: ANALYSIS PIPELINE ARCHITECTURE
-- `context-management/docs/prompts/10_correctness_definitions.md` — MEGAPROMPT 10: CORRECTNESS DEFINITIONS
-- `context-management/docs/prompts/11_benchmark_design.md` — MEGAPROMPT 11: BENCHMARK DATASET DESIGN
-- `context-management/docs/prompts/12_semantic_similarity.md` — MEGAPROMPT 12: SEMANTIC SIMILARITY ON 8D MANIFOLD
-- `context-management/docs/prompts/13_entropy_complexity.md` — MEGAPROMPT 13: ENTROPY & COMPLEXITY MEASURES
-- `context-management/docs/prompts/14_governance_evolution.md` — MEGAPROMPT 14: GOVERNANCE & EVOLUTION PROTOCOL
-- `context-management/docs/prompts/README.md` — Standard Code Validation Megaprompts
+- `wave/docs/prompts/01_claims_ledger.md` — MEGAPROMPT 01: CLAIMS LEDGER & FALSIFIABILITY
+- `wave/docs/prompts/02_lens_validation.md` — MEGAPROMPT 02: LENS SYSTEM VALIDATION
+- `wave/docs/prompts/03_dimension_orthogonality.md` — MEGAPROMPT 03: DIMENSION ORTHOGONALITY & BOUNDARY CASES
+- `wave/docs/prompts/04_atom_coverage.md` — MEGAPROMPT 04: ATOM COVERAGE & AST MAPPING
+- `wave/docs/prompts/05_role_taxonomy.md` — MEGAPROMPT 05: ROLE TAXONOMY VALIDATION
+- `wave/docs/prompts/06_detection_signals.md` — MEGAPROMPT 06: DETECTION SIGNALS & EVIDENCE MODEL
+- `wave/docs/prompts/07_confidence_calibration.md` — MEGAPROMPT 07: CONFIDENCE & CALIBRATION SYSTEM
+- `wave/docs/prompts/08_edge_semantics.md` — MEGAPROMPT 08: EDGE SEMANTICS & GRAPH SCHEMA
+- `wave/docs/prompts/09_analysis_pipeline.md` — MEGAPROMPT 09: ANALYSIS PIPELINE ARCHITECTURE
+- `wave/docs/prompts/10_correctness_definitions.md` — MEGAPROMPT 10: CORRECTNESS DEFINITIONS
+- `wave/docs/prompts/11_benchmark_design.md` — MEGAPROMPT 11: BENCHMARK DATASET DESIGN
+- `wave/docs/prompts/12_semantic_similarity.md` — MEGAPROMPT 12: SEMANTIC SIMILARITY ON 8D MANIFOLD
+- `wave/docs/prompts/13_entropy_complexity.md` — MEGAPROMPT 13: ENTROPY & COMPLEXITY MEASURES
+- `wave/docs/prompts/14_governance_evolution.md` — MEGAPROMPT 14: GOVERNANCE & EVOLUTION PROTOCOL
+- `wave/docs/prompts/README.md` — Standard Code Validation Megaprompts
 
 
 ### Component 3 (size 9)
-Hub: `context-management/docs/README.md` — **Context Management Documentation**
+Hub: `wave/docs/README.md` — **Context Management Documentation**
 
-- `context-management/docs/AI_USER_GUIDE.md` — AI User Guide: The Alien Architecture
-- `context-management/docs/ASSET_INVENTORY.md` — Asset Inventory: The Automations
-- `context-management/docs/COLLIDER_ARCHITECTURE.md` — Collider Modular Architecture
-- `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` — The Holographic-Socratic Layer
-- `context-management/docs/ORIENTATION_FILES.md` — Orientation Files System
-- `context-management/docs/README.md` — Context Management Documentation
-- `context-management/docs/STORAGE_ARCHITECTURE.md` — 🗄️ STORAGE ARCHITECTURE
-- `context-management/docs/TOOL.md` — COLLIDER - THE IMPLEMENTATION
-- `context-management/docs/theory/THEORY.md` — STANDARD MODEL OF CODE - UNIFIED THEORY
+- `wave/docs/AI_USER_GUIDE.md` — AI User Guide: The Alien Architecture
+- `wave/docs/ASSET_INVENTORY.md` — Asset Inventory: The Automations
+- `wave/docs/COLLIDER_ARCHITECTURE.md` — Collider Modular Architecture
+- `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` — The Holographic-Socratic Layer
+- `wave/docs/ORIENTATION_FILES.md` — Orientation Files System
+- `wave/docs/README.md` — Context Management Documentation
+- `wave/docs/STORAGE_ARCHITECTURE.md` — 🗄️ STORAGE ARCHITECTURE
+- `wave/docs/TOOL.md` — COLLIDER - THE IMPLEMENTATION
+- `wave/docs/theory/THEORY.md` — STANDARD MODEL OF CODE - UNIFIED THEORY
 
 
 ### Component 4 (size 6)
-Hub: `context-management/tools/mcp/mcp_factory/INDEX.md` — **MCP Factory**
+Hub: `wave/tools/mcp/mcp_factory/INDEX.md` — **MCP Factory**
 
-- `context-management/tools/mcp/mcp_factory/CONFIG_PANEL.md` — MCP Factory - Configuration Panel
-- `context-management/tools/mcp/mcp_factory/INDEX.md` — MCP Factory
-- `context-management/tools/mcp/mcp_factory/ROADMAP.md` — MCP Factory Roadmap
-- `context-management/tools/mcp/mcp_factory/knowledge/CONFIGURATION.md` — MCP Configuration Deep Dive
-- `context-management/tools/mcp/mcp_factory/knowledge/EXTERNAL_LINKS.md` — External Resources
-- `context-management/tools/mcp/mcp_factory/knowledge/TROUBLESHOOTING.md` — MCP Troubleshooting Guide
+- `wave/tools/mcp/mcp_factory/CONFIG_PANEL.md` — MCP Factory - Configuration Panel
+- `wave/tools/mcp/mcp_factory/INDEX.md` — MCP Factory
+- `wave/tools/mcp/mcp_factory/ROADMAP.md` — MCP Factory Roadmap
+- `wave/tools/mcp/mcp_factory/knowledge/CONFIGURATION.md` — MCP Configuration Deep Dive
+- `wave/tools/mcp/mcp_factory/knowledge/EXTERNAL_LINKS.md` — External Resources
+- `wave/tools/mcp/mcp_factory/knowledge/TROUBLESHOOTING.md` — MCP Troubleshooting Guide
 
 
 ### Component 5 (size 2)
-Hub: `standard-model-of-code/docs/specs/UNIVERSAL_PROPERTY_BINDER.md` — **Universal Property Binder (UPB)**
+Hub: `particle/docs/specs/UNIVERSAL_PROPERTY_BINDER.md` — **Universal Property Binder (UPB)**
 
-- `standard-model-of-code/docs/specs/SCALE_TRANSFORMS.md` — Scale Transforms - Warp Functions for Data Visualization
-- `standard-model-of-code/docs/specs/UNIVERSAL_PROPERTY_BINDER.md` — Universal Property Binder (UPB)
+- `particle/docs/specs/SCALE_TRANSFORMS.md` — Scale Transforms - Warp Functions for Data Visualization
+- `particle/docs/specs/UNIVERSAL_PROPERTY_BINDER.md` — Universal Property Binder (UPB)
 
 
 ### Component 6 (size 2)
-Hub: `context-management/docs/deep/HOLOGRAPHIC_SOCRATIC_LAYER.md` — **The Holographic-Socratic Layer**
+Hub: `wave/docs/deep/HOLOGRAPHIC_SOCRATIC_LAYER.md` — **The Holographic-Socratic Layer**
 
-- `context-management/docs/deep/AI_USER_GUIDE.md` — AI User Guide: The Alien Architecture
-- `context-management/docs/deep/HOLOGRAPHIC_SOCRATIC_LAYER.md` — The Holographic-Socratic Layer
+- `wave/docs/deep/AI_USER_GUIDE.md` — AI User Guide: The Alien Architecture
+- `wave/docs/deep/HOLOGRAPHIC_SOCRATIC_LAYER.md` — The Holographic-Socratic Layer
 
 
 ### Component 7 (size 2)
-Hub: `context-management/docs/CONTEXTOME.md` — **CONTEXTOME - The Context Universe**
+Hub: `wave/docs/CONTEXTOME.md` — **CONTEXTOME - The Context Universe**
 
-- `context-management/docs/CONTEXTOME.md` — CONTEXTOME - The Context Universe
-- `standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md` — Registry of Registries
+- `wave/docs/CONTEXTOME.md` — CONTEXTOME - The Context Universe
+- `particle/docs/specs/REGISTRY_OF_REGISTRIES.md` — Registry of Registries
 
 
 ### Component 8 (size 2)
-Hub: `standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md` — **Codome Landscape**
+Hub: `particle/docs/specs/CODOME_LANDSCAPE.md` — **Codome Landscape**
 
-- `standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md` — Codome Landscape
-- `standard-model-of-code/docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` — Landscape Implementation Guide
+- `particle/docs/specs/CODOME_LANDSCAPE.md` — Codome Landscape
+- `particle/docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` — Landscape Implementation Guide
 
 
 ### Active broken links (fix these first to keep navigation trustworthy)
 
 | src | link | resolved | suggestion |
 |---|---|---|---|
-| context-management/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C1_ATOM_ENUMERATION.md | context-management/docs/archive/docs/roadmaps/C1_ATOM_ENUMERATION.md | Extra `docs/` segment; check relative base. |
-| context-management/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C2_JSON_SCHEMA.md | context-management/docs/archive/docs/roadmaps/C2_JSON_SCHEMA.md | Extra `docs/` segment; check relative base. |
-| context-management/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C3_TRAINING_CORPUS.md | context-management/docs/archive/docs/roadmaps/C3_TRAINING_CORPUS.md | Extra `docs/` segment; check relative base. |
-| context-management/docs/archive/legacy_schema_2025/theory_v2.md | ./OCTAHEDRAL_ATOM.md | context-management/docs/archive/legacy_schema_2025/OCTAHEDRAL_ATOM.md |  |
-| context-management/docs/archive/legacy_schema_2025/theory_v2.0.md | ./OCTAHEDRAL_ATOM.md | context-management/docs/archive/legacy_schema_2025/OCTAHEDRAL_ATOM.md |  |
-| context-management/docs/deep/PURPOSE_EMERGENCE.md | ../../standard-model-of-code/docs/MODEL.md | context-management/standard-model-of-code/docs/MODEL.md | Relative path likely needs one more `../` to reach repo root (should be `../../../standard-model-of-code/...`). |
-| context-management/docs/deep/PURPOSE_EMERGENCE.md | ../../standard-model-of-code/docs/COLLIDER.md | context-management/standard-model-of-code/docs/COLLIDER.md | Relative path likely needs one more `../` to reach repo root (should be `../../../standard-model-of-code/...`). |
+| wave/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C1_ATOM_ENUMERATION.md | wave/docs/archive/docs/roadmaps/C1_ATOM_ENUMERATION.md | Extra `docs/` segment; check relative base. |
+| wave/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C2_JSON_SCHEMA.md | wave/docs/archive/docs/roadmaps/C2_JSON_SCHEMA.md | Extra `docs/` segment; check relative base. |
+| wave/docs/archive/ROADMAP_10_OF_10.md | docs/roadmaps/C3_TRAINING_CORPUS.md | wave/docs/archive/docs/roadmaps/C3_TRAINING_CORPUS.md | Extra `docs/` segment; check relative base. |
+| wave/docs/archive/legacy_schema_2025/theory_v2.md | ./OCTAHEDRAL_ATOM.md | wave/docs/archive/legacy_schema_2025/OCTAHEDRAL_ATOM.md |  |
+| wave/docs/archive/legacy_schema_2025/theory_v2.0.md | ./OCTAHEDRAL_ATOM.md | wave/docs/archive/legacy_schema_2025/OCTAHEDRAL_ATOM.md |  |
+| wave/docs/deep/PURPOSE_EMERGENCE.md | ../../particle/docs/MODEL.md | wave/particle/docs/MODEL.md | Relative path likely needs one more `../` to reach repo root (should be `../../../particle/...`). |
+| wave/docs/deep/PURPOSE_EMERGENCE.md | ../../particle/docs/COLLIDER.md | wave/particle/docs/COLLIDER.md | Relative path likely needs one more `../` to reach repo root (should be `../../../particle/...`). |
 | .agent/intelligence/WAVE_PARTICLE_BALANCE.md | ../specs/WAVE_PARTICLE_SYMMETRY.md | agent/specs/WAVE_PARTICLE_SYMMETRY.md | Did you mean `.agent/specs/WAVE_PARTICLE_SYMMETRY.md` (missing leading dot)? |
 | .agent/intelligence/WAVE_PARTICLE_BALANCE.md | ./PRIORITY_MATRIX.md | agent/intelligence/PRIORITY_MATRIX.md | Did you mean `.agent/intelligence/PRIORITY_MATRIX.md` (missing leading dot)? |
 | .agent/intelligence/PRIORITY_MATRIX.md | ../specs/WAVE_PARTICLE_SYMMETRY.md | agent/specs/WAVE_PARTICLE_SYMMETRY.md | Did you mean `.agent/specs/WAVE_PARTICLE_SYMMETRY.md` (missing leading dot)? |
@@ -328,10 +328,10 @@ Hub: `standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md` — **Codome Landsc
 
 If your goal is a **shippable “v1 Core”**, these are the obvious “separate from canon” zones:
 
-- `standard-model-of-code/artifacts/` — massive JSON scan outputs (keep, but do not treat as canon).
-- `standard-model-of-code/docs/research/**` and `context-management/intelligence/**` — LLM run outputs and research traces.
+- `particle/artifacts/` — massive JSON scan outputs (keep, but do not treat as canon).
+- `particle/docs/research/**` and `wave/intelligence/**` — LLM run outputs and research traces.
 - `.collider-full/`, `collider_output_small/`, `architecture_report/` — generated run artifacts.
-- `archive/` and `standard-model-of-code/.archive/` — legacy snapshots.
+- `archive/` and `particle/.archive/` — legacy snapshots.
 
 ---
 

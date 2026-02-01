@@ -23,7 +23,7 @@ PENDING IN INBOX:
 
 KNOWN REPO ISSUES (from old TASK-122 to TASK-127):
 - Multiple .collider_* test directories need cleanup
-- Two .agent directories exist (root vs context-management/)
+- Two .agent directories exist (root vs wave/)
 - Research spread across: research/, tools/research/, docs/research/
 - Multiple registry locations existed (now consolidated)
 - .gitignore may be missing output patterns
@@ -58,7 +58,7 @@ This list promotes pending opportunities and known issues into actionable tasks.
 | Priority | ID | Title | Description | Source |
 | :--- | :--- | :--- | :--- | :--- |
 | **1** | **TASK-004** | Consolidate All Research Directories | Migrate all research from `research/`, `tools/research/`, and `docs/research/` into a single canonical location: `docs/research/`. | `OPP-003` |
-| **2** | **TASK-005** | Unify Agent System Directories | Decommission the legacy `.agent/` directory within `context-management/`, ensuring only the root `.agent/` is used. | "Known Repo Issues" |
+| **2** | **TASK-005** | Unify Agent System Directories | Decommission the legacy `.agent/` directory within `wave/`, ensuring only the root `.agent/` is used. | "Known Repo Issues" |
 | **3** | **TASK-006** | Sanitize Ephemeral Artifacts & .gitignore | Remove all transient `.collider_*` test directories and update `.gitignore` to prevent them from being committed in the future. | "Known Repo Issues" |
 | **4** | **TASK-007** | Document Agent Workflow Architecture | Create a canonical document explaining the full agent workflow: Inbox (OPP) -> Promotion -> Active Task (TASK) -> Sprint Execution. | `OPP-004` |
 
@@ -114,7 +114,7 @@ Confidence scores are high as these are well-understood refactoring tasks.
 
 | Risk | Impact | Likelihood | Mitigation Strategy |
 | :--- | :---: | :---: | :--- |
-| **Broken Tooling** | High | Medium | Before committing file moves, perform a repository-wide `grep` for the old paths (e.g., `context-management/.agent/`, `tools/research/`). Update all identified scripts and configuration files in the same atomic commit. |
+| **Broken Tooling** | High | Medium | Before committing file moves, perform a repository-wide `grep` for the old paths (e.g., `wave/.agent/`, `tools/research/`). Update all identified scripts and configuration files in the same atomic commit. |
 | **Agent Work Collision** | High | Low | Announce a brief code freeze for this sprint. All work should be performed on a single branch and merged atomically. Use the `claim_task.sh` tool to prevent other agents from starting conflicting work. |
 | **Incomplete Consolidation** | Medium | Medium | Use `find . -type d -name "research"` and `find . -type d -name ".agent"` to ensure all instances are identified before deletion. Verify with a `git status` check that shows only expected deletions and moves. |
 | **Data Loss During Moves** | High | Low | Strictly use `git mv` for all file relocations. This preserves history and makes changes verifiable. Before the final commit, run a `git diff --stat` to confirm that the number of file additions and deletions match and that no content was inadvertently dropped. |
@@ -132,7 +132,7 @@ These criteria provide clear, verifiable completion states.
 - [ ] A commit is produced with the message "refactor(repo): Consolidate all research artifacts into docs/research/".
 
 #### **TASK-005: Unify Agent System Directories**
-- [ ] The directory `context-management/.agent/` is deleted.
+- [ ] The directory `wave/.agent/` is deleted.
 - [ ] All tools, schemas, and specs are confirmed to be operating from the root `.agent/` directory.
 - [ ] `manifest.yaml` and `KERNEL.md` are reviewed to ensure all paths are consistent with the root-level `.agent/` structure.
 - [ ] A commit is produced with the message "refactor(repo): Unify agent system into root .agent/ directory".

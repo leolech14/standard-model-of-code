@@ -54,7 +54,7 @@ rollback:
   warning: "Analysis time is not recoverable"
 
 context_injection:
-  - path: "standard-model-of-code/CLAUDE.md"
+  - path: "particle/CLAUDE.md"
     sections: ["Commands", "Output Files"]
 
 cost:

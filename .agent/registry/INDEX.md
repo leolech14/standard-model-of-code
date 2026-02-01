@@ -2,7 +2,7 @@
 
 > Quick view of all tasks and opportunities.
 > **Updated:** 2026-01-25 (auto-synced)
-> **Concerns:** See `standard-model-of-code/docs/OPEN_CONCERNS.md`
+> **Concerns:** See `particle/docs/OPEN_CONCERNS.md`
 
 ---
 
@@ -169,12 +169,12 @@ These files are now **read-only reference**. All tasks have been migrated:
 
 | Registry | Path | Tasks Imported |
 |----------|------|---------------:|
-| UPB | `standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md` | 15 |
-| Pipeline | `standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 10 |
-| Tree-sitter | `standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 1 |
-| Token System | `standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 8 |
-| Sidebar | `standard-model-of-code/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 3 |
-| Modularization | `standard-model-of-code/docs/reports/MODULARIZATION_TASKS.md` | 13 |
+| UPB | `particle/docs/specs/UPB_TASK_REGISTRY.md` | 15 |
+| Pipeline | `particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md` | 10 |
+| Tree-sitter | `particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md` | 1 |
+| Token System | `particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md` | 8 |
+| Sidebar | `particle/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md` | 3 |
+| Modularization | `particle/docs/reports/MODULARIZATION_TASKS.md` | 13 |
 
 ---
 

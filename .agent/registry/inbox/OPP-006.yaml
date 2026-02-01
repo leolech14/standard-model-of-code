@@ -28,7 +28,7 @@ urgency: HIGH
 defer_until: null
 
 legacy_registry:
-  path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
+  path: "particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
   task_count: 35
   all_ready: true
   confidence_range: "95-100%"

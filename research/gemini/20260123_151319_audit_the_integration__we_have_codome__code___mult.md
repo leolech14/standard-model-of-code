@@ -62,7 +62,7 @@ To achieve a more coherent system, the project must embrace the principle of "si
 1. **Analysis Sets:**
    - **Centralized:** Create a formal `AnalysisSetRegistry` that manages all analysis sets.
    - **Authoritative:** All tools MUST use the `AnalysisSetRegistry` to define context windows.
-   - **Implementation:** A new module in `context-management/` to manage sets, load from `analysis_sets.yaml`, provide API for tools.
+   - **Implementation:** A new module in `wave/` to manage sets, load from `analysis_sets.yaml`, provide API for tools.
 
 2. **Semantic Models & Constraints:**
    - **Centralized:** Codify the Standard Model of Code in a set of declarative schemas and rules.
@@ -72,7 +72,7 @@ To achieve a more coherent system, the project must embrace the principle of "si
 3. **Documentation:**
    - **Centralized:** Create a documentation architecture with clear ownership for each document.
    - **Authoritative:** Designate a "documentation owner" for each document who is responsible for keeping it up-to-date.
-   - **Implementation:** Refactor `context-management/docs/README.md` to define document roles, create tooling to check for broken links and outdated content.
+   - **Implementation:** Refactor `wave/docs/README.md` to define document roles, create tooling to check for broken links and outdated content.
 
 4. **Tooling:**
    - **Centralized:** Refactor the existing tools to follow a clear separation of concerns.
@@ -88,7 +88,7 @@ To achieve a more coherent system, the project must embrace the principle of "si
 
 1. **Create an `AnalysisSetRegistry` module.** This is the most critical step for ensuring consistent context windows for AI.
 2. **Expand `semantic_models.yaml` to cover more aspects of the Standard Model of Code.** This will enable more sophisticated AI reasoning and enforcement of architectural constraints.
-3. **Refactor `context-management/docs/README.md` to define document roles and ownership.** This will improve onboarding and reduce the risk of outdated documentation.
+3. **Refactor `wave/docs/README.md` to define document roles and ownership.** This will improve onboarding and reduce the risk of outdated documentation.
 4. **Designate "tool owners" for each key script.** This will improve accountability and reduce the risk of code duplication.
 5. **Establish a knowledge store for research findings.** This will ensure that valuable insights are not lost and can be easily reused.
 

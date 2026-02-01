@@ -23,7 +23,7 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | Priority | File | Size | Content |
 |----------|------|------|---------|
-| **1** | `standard-model-of-code/docs/theory/THEORY_AXIOMS.md` | 14KB | Formal axioms A1-H5, validation status |
+| **1** | `particle/docs/theory/THEORY_AXIOMS.md` | 14KB | Formal axioms A1-H5, validation status |
 
 **Key axiom groups:**
 - A: Set Structure (P = C ⊔ X partition)
@@ -42,11 +42,11 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | Priority | File | Size | Content |
 |----------|------|------|---------|
-| **2** | `standard-model-of-code/docs/MODEL.md` | 13KB | THE theory document |
-| **3** | `context-management/docs/GLOSSARY.md` | 17KB | Definitive terminology (400+ terms) |
-| **4** | `context-management/docs/PROJECTOME.md` | 6KB | Universe definition: P = C ⊔ X |
-| **5** | `context-management/docs/CODOME.md` | 3KB | Executable code definition |
-| **6** | `context-management/docs/CONTEXTOME.md` | 5KB | Non-executable content definition |
+| **2** | `particle/docs/MODEL.md` | 13KB | THE theory document |
+| **3** | `wave/docs/GLOSSARY.md` | 17KB | Definitive terminology (400+ terms) |
+| **4** | `wave/docs/PROJECTOME.md` | 6KB | Universe definition: P = C ⊔ X |
+| **5** | `wave/docs/CODOME.md` | 3KB | Executable code definition |
+| **6** | `wave/docs/CONTEXTOME.md` | 5KB | Non-executable content definition |
 
 ---
 
@@ -55,10 +55,10 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | Priority | File | Size | Content |
 |----------|------|------|---------|
-| **7** | `context-management/docs/CODESPACE_ALGEBRA.md` | 55KB | Full mathematical formalization |
-| **8** | `standard-model-of-code/docs/THEORY_EXPANSION_2026.md` | 27KB | Holon theory, purpose field depth |
-| **9** | `standard-model-of-code/docs/PURPOSE_INTELLIGENCE.md` | 8KB | Q-scores, quality metrics |
-| **10** | `standard-model-of-code/docs/theory/PROJECTOME_THEORY.md` | ~10KB | Projectome algebra details |
+| **7** | `wave/docs/CODESPACE_ALGEBRA.md` | 55KB | Full mathematical formalization |
+| **8** | `particle/docs/THEORY_EXPANSION_2026.md` | 27KB | Holon theory, purpose field depth |
+| **9** | `particle/docs/PURPOSE_INTELLIGENCE.md` | 8KB | Q-scores, quality metrics |
+| **10** | `particle/docs/theory/PROJECTOME_THEORY.md` | ~10KB | Projectome algebra details |
 
 ---
 
@@ -67,11 +67,11 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | Priority | File | Size | Content |
 |----------|------|------|---------|
-| **11** | `standard-model-of-code/docs/COLLIDER.md` | 15KB | Tool reference, commands, pipeline |
-| **12** | `standard-model-of-code/CLAUDE.md` | 12KB | Collider developer guide |
-| **13** | `standard-model-of-code/docs/GLOSSARY.yaml` | ~30KB | 122 canonical terms (machine-readable) |
-| — | `standard-model-of-code/docs/specs/PIPELINE_STAGES.md` | — | 28-stage analysis pipeline |
-| — | `standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md` | — | Topology, elevation, gradients |
+| **11** | `particle/docs/COLLIDER.md` | 15KB | Tool reference, commands, pipeline |
+| **12** | `particle/CLAUDE.md` | 12KB | Collider developer guide |
+| **13** | `particle/docs/GLOSSARY.yaml` | ~30KB | 122 canonical terms (machine-readable) |
+| — | `particle/docs/specs/PIPELINE_STAGES.md` | — | 28-stage analysis pipeline |
+| — | `particle/docs/specs/CODOME_LANDSCAPE.md` | — | Topology, elevation, gradients |
 
 ---
 
@@ -80,9 +80,9 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | File | Size | Content |
 |------|------|---------|
-| `context-management/docs/BACKGROUND_AI_LAYER_MAP.md` | 33KB | BARE, AEP, HSL engines |
-| `context-management/docs/AI_USER_GUIDE.md` | 5KB | Three AI roles (Librarian, Surgeon, Architect) |
-| `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | 4KB | 24/7 validation system |
+| `wave/docs/BACKGROUND_AI_LAYER_MAP.md` | 33KB | BARE, AEP, HSL engines |
+| `wave/docs/AI_USER_GUIDE.md` | 5KB | Three AI roles (Librarian, Surgeon, Architect) |
+| `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | 4KB | 24/7 validation system |
 | `.agent/specs/GOVERNANCE_SCHEMA.yaml` | — | Task registry, confidence scoring |
 
 ---
@@ -92,9 +92,9 @@ PROJECT_elements is building a **"Standard Model of Code"** - a physics-inspired
 
 | Location | Count | Content |
 |----------|-------|---------|
-| `standard-model-of-code/docs/research/gemini/` | ~50 | Gemini 3 Pro validations |
-| `standard-model-of-code/docs/research/perplexity/` | ~30 | Perplexity research outputs |
-| `standard-model-of-code/docs/research/claude/` | ~20 | Claude analysis results |
+| `particle/docs/research/gemini/` | ~50 | Gemini 3 Pro validations |
+| `particle/docs/research/perplexity/` | ~30 | Perplexity research outputs |
+| `particle/docs/research/claude/` | ~20 | Claude analysis results |
 
 ---
 
@@ -151,7 +151,7 @@ For comprehensive audit:
 
 ```
 PROJECT_elements/
-├── standard-model-of-code/
+├── particle/
 │   ├── docs/
 │   │   ├── MODEL.md              ← CANONICAL THEORY
 │   │   ├── COLLIDER.md           ← Tool reference
@@ -162,7 +162,7 @@ PROJECT_elements/
 │   │   └── research/             ← AI research outputs
 │   └── CLAUDE.md                 ← Developer guide
 │
-├── context-management/
+├── wave/
 │   ├── docs/
 │   │   ├── GLOSSARY.md           ← TERMINOLOGY
 │   │   ├── PROJECTOME.md         ← Universe definitions

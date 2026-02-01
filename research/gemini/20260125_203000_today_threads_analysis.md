@@ -54,7 +54,7 @@ implications:
     - CODESPACE_ALGEBRA.md
     - Purpose Field theory
     - ACI routing system
-  documented_in: standard-model-of-code/docs/research/gemini/docs/20260125_203000_today_threads_analysis.md
+  documented_in: particle/docs/research/gemini/docs/20260125_203000_today_threads_analysis.md
   action_items:
     - Integrate thread findings into ROADMAP.yaml
     - Update CONTEXTOME integration
@@ -182,13 +182,13 @@ Exhaustive Classification ←── SIGNAL + NOISE = 100%
 
 **3. IMPLEMENTATION ARTIFACTS**
 
-*   `context-management/tools/ai/aci/tier_router.py` (Modified)
-*   `context-management/tools/ai/analyze.py` (Modified)
-*   `context-management/config/aci_config.yaml` (Modified)
-*   `context-management/docs/CODESPACE_ALGEBRA.md` (Created)
-*   `context-management/docs/CONTEXTOME.md` (Modified)
-*   `context-management/docs/PROJECTOME.md` (Modified)
-*   `context-management/docs/GLOSSARY.md` (Created)
+*   `wave/tools/ai/aci/tier_router.py` (Modified)
+*   `wave/tools/ai/analyze.py` (Modified)
+*   `wave/config/aci_config.yaml` (Modified)
+*   `wave/docs/CODESPACE_ALGEBRA.md` (Created)
+*   `wave/docs/CONTEXTOME.md` (Modified)
+*   `wave/docs/PROJECTOME.md` (Modified)
+*   `wave/docs/GLOSSARY.md` (Created)
 *   `src/core/scientific_charts.py` (Created)
 *   `src/core/chart_viewer.py` (Created)
 *   `src/core/validation/self_proof.py` (Modified)

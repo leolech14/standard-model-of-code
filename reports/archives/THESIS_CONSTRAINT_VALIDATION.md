@@ -597,7 +597,7 @@ The Constraint Field is the **third pillar** of the Standard Model:
 |----------|------|-----------|
 | v4 1440 Grid | `archive/data/1440_csv.csv` | Seed evidence |
 | v4 RPBL Docs | `archive/docs/STANDARD-MODEL-1440-RPBL.md` | Historical context |
-| v5 Model | `standard-model-of-code/docs/MODEL.md` | Current theory |
+| v5 Model | `particle/docs/MODEL.md` | Current theory |
 | v5 Atoms | `schema/fixed/200_ATOMS.md` | Structure pillar |
 | v5 Roles | `schema/fixed/roles.json` | Purpose pillar |
 | Purpose Field | `src/core/purpose_field.py` | Current partial validation |

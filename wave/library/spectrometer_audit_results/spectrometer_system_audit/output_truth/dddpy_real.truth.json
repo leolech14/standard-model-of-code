@@ -1,0 +1,65 @@
+{
+  "repo": "dddpy_real",
+  "repo_path": "/mnt/data/spectrometer_system_audit/validation/test_repos/dddpy_real",
+  "confidence": 0.6,
+  "truth_sources": [
+    "dir:dddpy/domain",
+    "dir:dddpy/presentation",
+    "dir:dddpy/usecase",
+    "type:Repository",
+    "type:UseCase",
+    "doc:README.md",
+    "dir:dddpy/infrastructure"
+  ],
+  "layers": [
+    "domain",
+    "application",
+    "infrastructure",
+    "presentation"
+  ],
+  "expected_components": [
+    {
+      "name": "TodoRepositoryImpl",
+      "type": "Repository",
+      "source": "type_hint"
+    },
+    {
+      "name": "FindTodoByIdUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "StartTodoUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "CompleteTodoUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "FindTodosUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "CreateTodoUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "DeleteTodoUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    },
+    {
+      "name": "UpdateTodoUseCaseImpl",
+      "type": "UseCase",
+      "source": "type_hint"
+    }
+  ],
+  "architecture_docs": [
+    "README.md"
+  ]
+}

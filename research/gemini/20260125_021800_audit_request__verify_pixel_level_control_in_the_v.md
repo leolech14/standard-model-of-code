@@ -47,7 +47,7 @@ The system utilizes a sophisticated **Universal Property Binder (UPB)** and **OK
 
 #### A. The Tower Renderer (Serious Violation)
 The `TowerRenderer` module ignores the `COLOR` engine and `APPEARANCE_STATE`, using a localized, hardcoded theme object.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/TowerRenderer.js:L11-L25]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/TowerRenderer.js:L11-L25]`
 ```javascript
     const THEME = {
         background: 0x000000,
@@ -63,7 +63,7 @@ The `TowerRenderer` module ignores the `COLOR` engine and `APPEARANCE_STATE`, us
 
 #### B. CODOME Boundary Colors
 Node coloring logic contains a hardcoded fallback dictionary for "boundary" nodes, bypassing the palette system.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/node-helpers.js:L79-L86]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/node-helpers.js:L79-L86]`
 ```javascript
             const CODOME_COLORS = {
                 'test_entry': '#4CAF50',      // Green
@@ -75,7 +75,7 @@ Node coloring logic contains a hardcoded fallback dictionary for "boundary" node
 
 #### C. Group Colors
 The Groups module maintains its own hardcoded color array instead of requesting colors from the `COLOR` engine's palette generator.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/groups.js:L525-L528]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/groups.js:L525-L528]`
 ```javascript
     const GROUP_COLORS = [
         '#4a9eff', '#ff6b6b', '#51cf66', '#ffd43b',
@@ -85,7 +85,7 @@ The Groups module maintains its own hardcoded color array instead of requesting 
 
 #### D. Edge System Pre-computed Hexes
 While `edge-system.js` uses `COLOR.interpolate`, it relies on a local `PALETTE_HEX` constant rather than fetching dynamic base colors from the `COLOR` module.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/edge-system.js:L91-L113]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/edge-system.js:L91-L113]`
 ```javascript
     const PALETTE_HEX = {
         tier: {
@@ -95,12 +95,12 @@ While `edge-system.js` uses `COLOR.interpolate`, it relies on a local `PALETTE_H
 
 #### E. CSS UI Hardcoding
 Specific UI elements contain hardcoded colors in CSS that do not use CSS variables, making them immune to theme switching.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/assets/styles.css:L1064-L1065]`
+> **Evidence:** `[particle/src/core/viz/assets/assets/styles.css:L1064-L1065]`
 ```css
         .topo-layer-item.physical {
             background: linear-gradient(90deg, rgba(20, 60, 120, 0.3) 0%, rgba(15, 45, 90, 0.15) 100%);
 ```
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/template.html:L1026]`
+> **Evidence:** `[particle/src/core/viz/assets/template.html:L1026]`
 ```css
         .color-btn[data-preset="tier"]::before {
             background: #ff6b6b;
@@ -113,7 +113,7 @@ Specific UI elements contain hardcoded colors in CSS that do not use CSS variabl
 **Status:** **High Compliance.** The UPB is correctly architected to intercept and resolve properties before rendering.
 
 The `PROPERTY_QUERY` module implements a priority resolution chain.
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/property-query.js:L229-L233]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/property-query.js:L229-L233]`
 ```javascript
     const providers = [
         makeExplicitOverrideProvider({ getVisState }), // Priority 100
@@ -123,7 +123,7 @@ The `PROPERTY_QUERY` module implements a priority resolution chain.
 ```
 
 The UPB provider dynamically resolves paths or maps based on selector state:
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/property-query.js:L158-L163]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/property-query.js:L158-L163]`
 ```javascript
             if (typeof binding === 'object' && binding !== null) {
                 const state = getVisState?.() ?? {};
@@ -137,7 +137,7 @@ The UPB provider dynamically resolves paths or maps based on selector state:
 **Status:** **Mixed.** The engine is robust, but not exclusive.
 
 The `COLOR` module provides a comprehensive OKLCH transformation pipeline:
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/color-engine.js:L990-L992]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/color-engine.js:L990-L992]`
 ```javascript
     let h = (oklch.h + t.hueShift + 360) % 360;
     let c = Math.max(0, Math.min(0.4, oklch.c * t.chromaScale));
@@ -145,7 +145,7 @@ The `COLOR` module provides a comprehensive OKLCH transformation pipeline:
 ```
 
 However, fallback logic frequently reverts to hardcoded grays if the engine isn't ready or matching:
-> **Evidence:** `[standard-model-of-code/src/core/viz/assets/modules/color-engine.js:L1024]`
+> **Evidence:** `[particle/src/core/viz/assets/modules/color-engine.js:L1024]`
 ```javascript
         const fallback = _toHex({ h: 0, c: 0.02, l: 0.40 });
         return fallback.hex; // Fallback gray

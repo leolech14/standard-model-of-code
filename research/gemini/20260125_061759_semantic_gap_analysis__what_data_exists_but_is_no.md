@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 SEMANTIC GAP ANALYSIS: What data exists but is NOT connected?
 
 Cross-reference these sources:
@@ -51,7 +51,7 @@ The most significant gap is the reference to `docs/ui/corpus/v1/manifest.json`. 
 
 | Data Source | Current State | Missing Link |
 | :--- | :--- | :--- |
-| **Hadrons (96)** | Exists in `context-management/reference_datasets/HADRONS_96.md` | **Not wired to Viz:** The visualization engine (`visualize_graph_webgl.py`) processes Atoms, Roles, and Tiers, but has no logic to ingest or visualize the "Hadron" composite structures defined in the reference dataset. |
+| **Hadrons (96)** | Exists in `wave/reference_datasets/HADRONS_96.md` | **Not wired to Viz:** The visualization engine (`visualize_graph_webgl.py`) processes Atoms, Roles, and Tiers, but has no logic to ingest or visualize the "Hadron" composite structures defined in the reference dataset. |
 | **Continents (12)** | Mentioned in `ASSET_INVENTORY.md` as "Partial/Missing" | **No Schema Definition:** Unlike Atoms and Roles, there is no `schema/fixed/continents.json`. The concept exists in theory docs but has no data structure for the tool to consume. |
 | **Design Tokens** | `schema/viz/tokens/*.json` defined in `COLLIDER_ARCHITECTURE.md` | **Hardcoded Implementation:** `DATA_LAYER_REFACTORING_MAP.md` reveals that `visualize_graph_webgl.py` still relies on internal `NODE_COLOR_MODE` logic (lines ~1333) rather than dynamically loading the JSON token definitions. |
 

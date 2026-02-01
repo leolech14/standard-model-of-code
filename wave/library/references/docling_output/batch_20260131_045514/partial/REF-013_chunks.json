@@ -1,0 +1,42 @@
+{
+  "ref_id": "REF-013",
+  "parcel_id": "pcl_8fd433bc4bce",
+  "chunk_count": 1,
+  "chunks": [
+    {
+      "content": "<!-- Pages 1-20: FAILED -->\n\n\n\n\n<!-- Pages 21-40: FAILED -->\n\n\n\n\n<!-- Pages 41-60: FAILED -->\n\n\n\n\n<!-- Pages 61-80: FAILED -->\n\n\n\n\n<!-- Pages 81-100: FAILED -->\n\n\n\n\n<!-- Pages 101-120: FAILED -->\n\n\n\n\n<!-- Pages 121-140: FAILED -->\n\n\n\n\n<!-- Pages 141-160: FAILED -->\n\n\n\n\n<!-- Pages 161-180: FAILED -->\n\n\n\n\n<!-- Pages 181-200: FAILED -->\n\n\n\n\n<!-- Pages 201-220: FAILED -->\n\n\n\n\n<!-- Pages 221-240: FAILED -->\n\n\n\n\n<!-- Pages 241-260: FAILED -->\n\n\n\n\n<!-- Pages 261-280: FAILED -->\n\n\n\n\n<!-- Pages 281-281: FAILED -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-013_Poincare_1895_AnalysisSitus.pdf",
+      "chunk_id": "7481a33a27696b47",
+      "chunk_type": "section",
+      "relevance_score": 0.5812271052829381,
+      "start_line": 0,
+      "end_line": 75,
+      "metadata": {
+        "ref_id": "REF-013",
+        "header": "",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847965.1139011,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e2377f2ad88a",
+        "parent_id": "pcl_8fd433bc4bce",
+        "ref_id": "REF-013",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847965,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-013_Poincare_1895_AnalysisSitus.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

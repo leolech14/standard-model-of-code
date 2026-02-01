@@ -46,8 +46,8 @@ This session produced:
 ### Projectome Understanding
 
 **Complete inventory:**
-- PARTICLE (522 docs) - standard-model-of-code/
-- WAVE (92 docs) - context-management/
+- PARTICLE (522 docs) - particle/
+- WAVE (92 docs) - wave/
 - OBSERVER (75 docs) - .agent/
 - **Total:** 689 active docs, 253 archived
 
@@ -124,7 +124,7 @@ Both buttons set to action 0 (ROTATE) - that's why neither selection nor rotatio
 
 ### Test Build
 
-**Location:** `/tmp/final-integrated/output_human-readable_standard-model-of-code_20260127_093531.html`
+**Location:** `/tmp/final-integrated/output_human-readable_particle_20260127_093531.html`
 
 **Expected behavior:**
 - LEFT + DRAG: Marquee selection
@@ -327,20 +327,20 @@ git add docs/research/perplexity/docs/20260127_*.md
 ### Visualization (Conditional - test first)
 ```bash
 # If tests pass:
-git add standard-model-of-code/src/core/viz/assets/modules/*.js
-git add standard-model-of-code/src/core/viz/assets/app.js
+git add particle/src/core/viz/assets/modules/*.js
+git add particle/src/core/viz/assets/app.js
 git commit -m "feat(viz): Unified graph + mouse controls + performance fixes"
 
 # If tests fail:
-git checkout HEAD -- standard-model-of-code/src/core/viz/
+git checkout HEAD -- particle/src/core/viz/
 # Then cherry-pick only good fixes
 ```
 
 ### Knowledge Artifacts (Optional - if viz work continues)
 ```bash
-mv /tmp/VISUALIZATION_COMPLETE_KNOWLEDGE_BASE.md standard-model-of-code/docs/reports/
-mv /tmp/UI_REFACTOR_COMPLETE_MAP.md standard-model-of-code/docs/reports/
-mv /tmp/COMPLETE_EDIT_TRACE.md standard-model-of-code/docs/reports/VIZ_SESSION_2026-01-27.md
+mv /tmp/VISUALIZATION_COMPLETE_KNOWLEDGE_BASE.md particle/docs/reports/
+mv /tmp/UI_REFACTOR_COMPLETE_MAP.md particle/docs/reports/
+mv /tmp/COMPLETE_EDIT_TRACE.md particle/docs/reports/VIZ_SESSION_2026-01-27.md
 ```
 
 ---
@@ -404,9 +404,9 @@ mv /tmp/COMPLETE_EDIT_TRACE.md standard-model-of-code/docs/reports/VIZ_SESSION_2
 ### Files Need Testing Before Commit
 
 ```
-⚠️ standard-model-of-code/src/core/viz/assets/modules/*.js (6 files)
-⚠️ standard-model-of-code/src/core/viz/assets/app.js
-⚠️ standard-model-of-code/src/core/viz/assets/modules/registries/ControlRegistry.js
+⚠️ particle/src/core/viz/assets/modules/*.js (6 files)
+⚠️ particle/src/core/viz/assets/app.js
+⚠️ particle/src/core/viz/assets/modules/registries/ControlRegistry.js
 ```
 
 ---

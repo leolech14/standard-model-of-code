@@ -193,9 +193,9 @@ def validate_tools(lol: dict) -> dict:
     # Check if they exist (search common locations)
     tool_dirs = [
         REPO_ROOT / ".agent" / "tools",
-        REPO_ROOT / "context-management" / "tools",
-        REPO_ROOT / "standard-model-of-code" / "tools",
-        REPO_ROOT / "standard-model-of-code" / "src" / "core",
+        REPO_ROOT / "wave" / "tools",
+        REPO_ROOT / "particle" / "tools",
+        REPO_ROOT / "particle" / "src" / "core",
     ]
 
     for name in tool_names:

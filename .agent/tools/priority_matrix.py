@@ -25,7 +25,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 # Add parent paths for shared modules
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "context-management" / "tools" / "ai"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "wave" / "tools" / "ai"))
 
 # Paths
 AGENT_DIR = Path(__file__).parent.parent
@@ -34,8 +34,8 @@ ACTIVE_DIR = AGENT_DIR / "registry" / "active"
 INBOX_DIR = AGENT_DIR / "registry" / "inbox"
 SPRINTS_DIR = AGENT_DIR / "sprints"
 ROADMAPS_DIR = AGENT_DIR / "roadmaps"
-OPEN_CONCERNS_PATH = PROJECT_ROOT / "standard-model-of-code" / "docs" / "OPEN_CONCERNS.md"
-SMOC_DIR = PROJECT_ROOT / "standard-model-of-code"
+OPEN_CONCERNS_PATH = PROJECT_ROOT / "particle" / "docs" / "OPEN_CONCERNS.md"
+SMOC_DIR = PROJECT_ROOT / "particle"
 
 # ANSI Colors
 CYAN = "\033[96m"

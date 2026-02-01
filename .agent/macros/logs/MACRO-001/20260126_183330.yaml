@@ -11,11 +11,11 @@ steps:
   tool: Bash
   outcome: SUCCESS
   output: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n\
-    ?? .agent/registry/inbox/OPP-RESEARCH-001.yaml\n?? context-management/docs/deep/PURPOSE_EMERGENCE.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260126_152544_validating_3_improvements_to__purpose_from_connect.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260126_152544_validating_3_improvements_to__purpose_from_connect.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_152544_validating_3_improvements_to__purpose_fr.json\n\
-    ?? standard-model-of-code/tests/test_graph_type_inference.py\n\n=== MODIFIED FILES\
+    ?? .agent/registry/inbox/OPP-RESEARCH-001.yaml\n?? wave/docs/deep/PURPOSE_EMERGENCE.md\n\
+    ?? particle/docs/research/gemini/docs/20260126_152544_validating_3_improvements_to__purpose_from_connect.md\n\
+    ?? particle/docs/research/gemini/raw/20260126_152544_validating_3_improvements_to__purpose_from_connect.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_152544_validating_3_improvements_to__purpose_fr.json\n\
+    ?? particle/tests/test_graph_type_inference.py\n\n=== MODIFIED FILES\
     \ ===\n M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
     \ M .agent/state/circuit_breakers.yaml\n"
@@ -51,11 +51,11 @@ steps:
   error: null
 variables:
   session_artifacts: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n\
-    ?? .agent/registry/inbox/OPP-RESEARCH-001.yaml\n?? context-management/docs/deep/PURPOSE_EMERGENCE.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260126_152544_validating_3_improvements_to__purpose_from_connect.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260126_152544_validating_3_improvements_to__purpose_from_connect.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260126_152544_validating_3_improvements_to__purpose_fr.json\n\
-    ?? standard-model-of-code/tests/test_graph_type_inference.py\n\n=== MODIFIED FILES\
+    ?? .agent/registry/inbox/OPP-RESEARCH-001.yaml\n?? wave/docs/deep/PURPOSE_EMERGENCE.md\n\
+    ?? particle/docs/research/gemini/docs/20260126_152544_validating_3_improvements_to__purpose_from_connect.md\n\
+    ?? particle/docs/research/gemini/raw/20260126_152544_validating_3_improvements_to__purpose_from_connect.json\n\
+    ?? particle/docs/research/gemini/sessions/20260126_152544_validating_3_improvements_to__purpose_fr.json\n\
+    ?? particle/tests/test_graph_type_inference.py\n\n=== MODIFIED FILES\
     \ ===\n M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n M .agent/macros/trigger_state.yaml\n\
     \ M .agent/state/circuit_breakers.yaml\n"

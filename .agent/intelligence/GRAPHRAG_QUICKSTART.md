@@ -61,7 +61,7 @@ RETURN p, pc, sc LIMIT 25
 # Edit: .agent/tools/collider_to_neo4j.py line 21
 
 .tools_venv/bin/python .agent/tools/collider_to_neo4j.py \
-  .collider-full/output_llm-oriented_standard-model-of-code_20260126_050447.json
+  .collider-full/output_llm-oriented_particle_20260126_050447.json
 ```
 
 **Expected:**
@@ -251,4 +251,3 @@ Once password is set:
 2. Run collider_to_neo4j.py
 3. Test queries
 4. Celebrate first GraphRAG success! 🎉
-

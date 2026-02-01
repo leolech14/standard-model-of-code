@@ -26,7 +26,7 @@ BEFORE we build, search the codebase and validate:
 
 QUESTION 1: Do we ALREADY HAVE a hub-like system?
 - Look for: registry patterns, service locators, dependency injection
-- Check: .agent/tools/, src/core/, context-management/
+- Check: .agent/tools/, src/core/, wave/
 - Files to examine: Any containing 'registry', 'hub', 'container', 'inject'
 
 QUESTION 2: Do we ALREADY HAVE module/plugin infrastructure?

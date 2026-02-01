@@ -55,7 +55,7 @@ Combining multiple techniques—such as dynamic trimming paired with sliding win
 1. https://www.getmaxim.ai/articles/context-window-management-strategies-for-long-context-ai-agents-and-chatbots/
 2. https://research.aimultiple.com/ai-context-window/
 3. https://agenta.ai/blog/top-6-techniques-to-manage-context-length-in-llms
-4. https://blog.jetbrains.com/research/2025/12/efficient-context-management/
+4. https://blog.jetbrains.com/research/2025/12/efficient-wave/
 5. https://www.statsig.com/perspectives/context-window-optimization-techniques
 6. https://www.primeintellect.ai/blog/rlm
 7. https://redis.io/blog/large-language-model-operations-guide/

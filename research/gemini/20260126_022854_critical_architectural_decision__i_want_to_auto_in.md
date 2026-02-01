@@ -72,10 +72,10 @@ fix the bug
 
 ### Implementation Plan
 
-This fits directly into your **ACI (Adaptive Context Intelligence)** system defined in `context-management/config/aci_config.yaml`.
+This fits directly into your **ACI (Adaptive Context Intelligence)** system defined in `wave/config/aci_config.yaml`.
 
 #### 1. Define the HUD Source
-Create a lightweight aggregator in `context-management/tools/ai/aci/hud_builder.py` that pulls strictly from `.agent/` (Observer realm).
+Create a lightweight aggregator in `wave/tools/ai/aci/hud_builder.py` that pulls strictly from `.agent/` (Observer realm).
 
 *   **Input:** `.agent/state/meters.yaml`, `.agent/registry/active/*.yaml`, `.agent/state/play_log.yaml`
 *   **Output:** Compact XML string.
@@ -84,12 +84,12 @@ Create a lightweight aggregator in `context-management/tools/ai/aci/hud_builder.
 Update your `./pe` wrapper (Layer 1 abstraction) to invoke the HUD builder before constructing the payload.
 
 ```python
-# Pseudo-code for ./pe or context-management/tools/ai/analyze.py
+# Pseudo-code for ./pe or wave/tools/ai/analyze.py
 
 def construct_final_prompt(user_query):
     hud = aci.hud_builder.build(
         include_meters=True,
-        include_deck=True, 
+        include_deck=True,
         verbosity="compact" # Keep token cost low
     )
     return f"{hud}\n\nUser Query: {user_query}"
@@ -99,7 +99,7 @@ def construct_final_prompt(user_query):
 Add a section to control HUD density to manage token costs.
 
 ```yaml
-# context-management/config/aci_config.yaml
+# wave/config/aci_config.yaml
 
 instrument_panel:
   enabled: true
@@ -122,7 +122,7 @@ instrument_panel:
 
 **Do not use MCP for the Instrument Panel.** Use MCP for the *Library* (looking up docs/code). Use **Pre-hook Injection** for the *Cockpit* (meters/state).
 
-**Action Item:** Create `context-management/tools/ai/aci/hud_builder.py` and wire it into the `analyze.py` prompt construction flow immediately.
+**Action Item:** Create `wave/tools/ai/aci/hud_builder.py` and wire it into the `analyze.py` prompt construction flow immediately.
 
 ---
 

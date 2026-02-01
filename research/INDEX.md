@@ -9,7 +9,7 @@ research/
 ├── gemini/          # Gemini 2.0 Flash research (348 files)
 ├── perplexity/      # Perplexity research (293 files)
 ├── claude/          # Claude research (TBD)
-├── *.md             # Cross-cutting research from context-management
+├── *.md             # Cross-cutting research from wave
 └── INDEX.md         # This file
 ```
 
@@ -17,12 +17,12 @@ research/
 
 ### Gemini
 - **Format:** Timestamped markdown files `YYYYMMDD_HHMMSS_query.md`
-- **Source:** Originally in `standard-model-of-code/docs/research/gemini/docs/`
+- **Source:** Originally in `particle/docs/research/gemini/docs/`
 - **Use case:** Deep architectural validation, theory validation, multi-turn research
 
 ### Perplexity
 - **Format:** Timestamped markdown files `YYYYMMDD_HHMMSS_query.md` + README
-- **Source:** Originally in `standard-model-of-code/docs/research/perplexity/`
+- **Source:** Originally in `particle/docs/research/perplexity/`
 - **Use case:** Quick fact-checking, best practices, external ecosystem research
 
 ### Claude
@@ -31,7 +31,7 @@ research/
 
 ## Cross-Cutting Files (root level)
 
-Files from `context-management/docs/research/` covering multi-system concerns:
+Files from `wave/docs/research/` covering multi-system concerns:
 - ACI_DIAGNOSIS_AND_FIXES.md
 - MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md
 - perplexity_topology_query.md
@@ -65,4 +65,4 @@ ls -lt research/gemini/ | head -10
 
 - `/governance/` - Strategic decisions and architecture docs
 - `/docs/research/` - Old location (deprecated)
-- `/standard-model-of-code/docs/theory/` - Theory development
+- `/particle/docs/theory/` - Theory development

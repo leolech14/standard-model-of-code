@@ -1,0 +1,1652 @@
+{
+  "ref_id": "GENTNER_1997",
+  "parcel_id": "pcl_559f88d4e0ac",
+  "chunk_count": 47,
+  "chunks": [
+    {
+      "content": "# Structure Mapping in Analogy and Similarity\n\n## Structure Mapping in Analogy and Similarity\n\nDedre Gentner Arthur B. Markman\n\nFinally; the authors explore broader implications of structural alignment for psychological processing.\n\nA nalogy and similarity are central in cognitive processing. They are often viewed as quite sepaa rate: Analogy is a clever, sophisticated process used in creative discovery, whereas similarity is a brute perceptual process that we share with the entire animal kingdom. This view of similarity has important implications for the way we model human thinking, because similarity is demonstrably important across many areas of cognition. We store experiences in categories largely on ihe basis of their similarity to a category representation or to stored exemplars (Smith &amp; Medin, 1981). In transfer, new problems are solved using procedures taken from prior similar problems (Bassok, 1990; Holyoak &amp; Kon, 1987; Keane, 1988; Kolodner, 1993; Novick, 1988, 1990; Ross, 1987, 1989; Winston, 1980), and inferences about people are influenced by their similarity to other known individuals (Andersen &amp; Cole, 1990; Read, 1984). Even the way we respond affectively to a situation may be based in part on our responses to previous similar situations (Kahneman &amp; Miller, 1986). Thus, an understanding of similarity processing may provide general insight into human thinking.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "a593127dca292e2e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7944950409014735,
+      "start_line": 1,
+      "end_line": 13,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structure Mapping in Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454396,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b2b901c22918",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structure Mapping in Analogy and Similarity",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "A nalogy and similarity are central in cognitive processing. They are often viewed as quite sepaa rate: Analogy is a clever, sophisticated process used in creative discovery, whereas similarity is a brute perceptual process that we share with the entire animal kingdom. This view of similarity has important implications for the way we model human thinking, because similarity is demonstrably important across many areas of cognition. We store experiences in categories largely on ihe basis of their similarity to a category representation or to stored exemplars (Smith &amp; Medin, 1981). In transfer, new problems are solved using procedures taken from prior similar problems (Bassok, 1990; Holyoak &amp; Kon, 1987; Keane, 1988; Kolodner, 1993; Novick, 1988, 1990; Ross, 1987, 1989; Winston, 1980), and inferences about people are influenced by their similarity to other known individuals (Andersen &amp; Cole, 1990; Read, 1984). Even the way we respond affectively to a situation may be based in part on our responses to previous similar situations (Kahneman &amp; Miller, 1986). Thus, an understanding of similarity processing may provide general insight into human thinking.\n\nIn our research, we have taken a very different route from the \"stars above, mud below\" view of analogy and similarity. We suggest that the process of carrying out a comparison is the same in both cases. The general idea is summarized by the slogan \"similarity is like analogy\" \u00a1 Gentner &amp; Markman, 1995; Markman &amp; Gentner, 1993a; Medin, Goldstone, &amp; Gentner, 1993). We summarize recent evidence suggesting that the process involved in both similarity and analogy comparisons is one of structural alignment and mapping between mental representations (Falkenhainer, Forbus. &amp; Gentner, 1989; Gentner, 1983, 1989; Gentner &amp; Markman, 1993, 1994, 1995; Goldstone, 1994b; Goldstone &amp; Medin, 1994; Goldstone, Medin, &amp; Gentner, 1991; Markman &amp; Gentner, 1993a, 1993b; Medin et al., 1993). We begin with creative anaiogy and then turn to similarity.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "ec8d11d1b9943b56",
+      "chunk_type": "h2",
+      "relevance_score": 0.7993653206931933,
+      "start_line": 1,
+      "end_line": 13,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structure Mapping in Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454412,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d87f0ee168c7",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structure Mapping in Analogy and Similarity",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "In our research, we have taken a very different route from the \"stars above, mud below\" view of analogy and similarity. We suggest that the process of carrying out a comparison is the same in both cases. The general idea is summarized by the slogan \"similarity is like analogy\" \u00a1 Gentner &amp; Markman, 1995; Markman &amp; Gentner, 1993a; Medin, Goldstone, &amp; Gentner, 1993). We summarize recent evidence suggesting that the process involved in both similarity and analogy comparisons is one of structural alignment and mapping between mental representations (Falkenhainer, Forbus. &amp; Gentner, 1989; Gentner, 1983, 1989; Gentner &amp; Markman, 1993, 1994, 1995; Goldstone, 1994b; Goldstone &amp; Medin, 1994; Goldstone, Medin, &amp; Gentner, 1991; Markman &amp; Gentner, 1993a, 1993b; Medin et al., 1993). We begin with creative anaiogy and then turn to similarity.\n\nNorthwestern University Columbia University",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "d78444f478b266ba",
+      "chunk_type": "h2",
+      "relevance_score": 0.7888568642100354,
+      "start_line": 1,
+      "end_line": 13,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structure Mapping in Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454421,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d4d8c0cbf1a6",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structure Mapping in Analogy and Similarity",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Analogy\n\n## Analogy\n\ninnermost planets? According to the best existing models, the planets' motion was caused by planetary spirits or souls that impelled the planets on their courses. As Kepler noted, one possibility was that the spirits that moved the outer planets just happened to be weaker than the spirits that moved the inner planets; but he proposed instead the radical idea that there is one spirit or power emanating from the sun that moves all the planets: that is, that the sun causes the motion of the planets.' Kepler had hit upon a major idea, an important precursor of gravity. But there was a seemingly fatal objection. For the sun to move the planets would require action at a distance, an abhorrent notion to any physical scientist (including Newton, when he developed the full theory of gravity some 80 years later).\n\nKepler's response to this self-posed challenge was to consider an analogy to light. In his Astronomia Nova (The New Astronomy; 1609/1992), Kepler developed this analogy between the motive power and light (see Gentner et al., in press, for details):\n\nBut lest I appear to philosophize with excessive insolence, 1 shall propose to the reader the clearly authentic example of light, since it also makes its nest in the sun, thence to break forth into the whole world as a companion to this motive power.\n\nDedre Gentner, Department of Psychology, Northwestern University; Arthur B. Markman, Department of Psychology, Columbia University.\n\nThis work was supported by National Science Foundation (NSF) Grant SBR-95-11757, Office of Naval Research Grant NO0014-89J1272, and NSF Career Award SBR-95-10924.\n\nWe thank Doug Medin, Ken Forbus, and the Similarity and Analogy group for discussions of this work and Mark Keane, Brian Ross, and Colleen Siefert for helpful comments on this article.\n\nCorrespondence concerning this article should be addressed to Dedre Gertner, Department of Psychology, Northwestern University, 2029 Sheridan Road, Evanston, IL 60208. Electronic mail may be sent via Internet to gentner@nwu.edu.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "7a275a60c579daf9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7993653206931933,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454452,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_79a0b962bc25",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Correspondence concerning this article should be addressed to Dedre Gertner, Department of Psychology, Northwestern University, 2029 Sheridan Road, Evanston, IL 60208. Electronic mail may be sent via Internet to gentner@nwu.edu.\n\n'This causal interpretation, which went well beyond Copernicus's original proposal, also accounted for another regularity Kepler noted, namely, that each individual planet moves faster in its orbit the closer it is to the sun.\n\nDedre Gentner\n\n<!-- image -->\n\nWho. I ask, will say that light is something material? Nevertheless, it carries out its operations with respect to place, suffers alteration, is reflected and refracted, and assumes quantities so as lo be dense or rare, and to be capable of being taken as a surface: wherever it falls upon something illuminable. Now just as it is said in optics, that light does not exist in the intermediate space between the source and the illuminabie, this is equally true of the rotive power. (Astronomia Nova, p. 383)",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "266852b351d97480",
+      "chunk_type": "h2",
+      "relevance_score": 0.7899346924223717,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454459,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8b3d39a3a4d6",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Who. I ask, will say that light is something material? Nevertheless, it carries out its operations with respect to place, suffers alteration, is reflected and refracted, and assumes quantities so as lo be dense or rare, and to be capable of being taken as a surface: wherever it falls upon something illuminable. Now just as it is said in optics, that light does not exist in the intermediate space between the source and the illuminabie, this is equally true of the rotive power. (Astronomia Nova, p. 383)\n\nIf light can travel undetectably on its way between the source and destination, yet illuminate its destination, then so too could the motive force be undetectable on its way from sun to planet, yet affect the planet's motion once it arrives at the planet. But Kepler was not content with a mere proof of possibility. He pushed the analogy further. He used it to state why the motive power diminishes with distance: Just as the light from a lamp shines brighter on near objects than on further ones, so it is with the sun's motive power, and for the same reason: The motive power (like the light) is not lost as it disperses but is spread out over a greater area. Because nothing is lost as the emission spreads from the source, Kepler (1609/1992) argued, \"The emission, then, in the same manner as light, is immaterial, unlike odours, which are accompanied by a diminution of substance, and unlike heat from a hot furnace, or anything similar which fills the intervening space\" (p. 381). Here, odors and heat are used as \"near misses\" (Winston, 1980) \u2014 potential analogs that differ with respect to the key behavior and serve to sharpen the parallel between light and the motive power.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "b854c1f598f7d736",
+      "chunk_type": "h2",
+      "relevance_score": 0.7968597087432681,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454468,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6aaaeaccd7a8",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "If light can travel undetectably on its way between the source and destination, yet illuminate its destination, then so too could the motive force be undetectable on its way from sun to planet, yet affect the planet's motion once it arrives at the planet. But Kepler was not content with a mere proof of possibility. He pushed the analogy further. He used it to state why the motive power diminishes with distance: Just as the light from a lamp shines brighter on near objects than on further ones, so it is with the sun's motive power, and for the same reason: The motive power (like the light) is not lost as it disperses but is spread out over a greater area. Because nothing is lost as the emission spreads from the source, Kepler (1609/1992) argued, \"The emission, then, in the same manner as light, is immaterial, unlike odours, which are accompanied by a diminution of substance, and unlike heat from a hot furnace, or anything similar which fills the intervening space\" (p. 381). Here, odors and heat are used as \"near misses\" (Winston, 1980) \u2014 potential analogs that differ with respect to the key behavior and serve to sharpen the parallel between light and the motive power.\n\nKepler's analogical model faced further challenges. He had to explain why, given this power emanating from the sun, the planets moved closer and further on their orbits instead of maintaining a constant distance from the sun. To meet these challenges, he again turned to analogy. For example, he invoked a \"boatman\" analogy to explain the in-and-out motion of the planets. He postu- lated that the sun rotated around its axis, creating a whirling circular river of motive power that pushed the planets around. Then, as a ferryman can steer his boat (the planet) back and forth orthogonally to the river's current, so the planets could move in and out with only a constant sidewise current of motive power. But although Kepler worked this analogy for decades, he was never satisfied with it; it seemed to require a degree of sentience on the part of the planets to sense how to steer. In another much explored analogy, he likened the sun and planet to two magnets that approach or repel each other depending on which poles are proximate.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "a48f45da5cba1ece",
+      "chunk_type": "h2",
+      "relevance_score": 0.8004081838809697,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847703.4544818,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8fedf40349b1",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Kepler's analogical model faced further challenges. He had to explain why, given this power emanating from the sun, the planets moved closer and further on their orbits instead of maintaining a constant distance from the sun. To meet these challenges, he again turned to analogy. For example, he invoked a \"boatman\" analogy to explain the in-and-out motion of the planets. He postu- lated that the sun rotated around its axis, creating a whirling circular river of motive power that pushed the planets around. Then, as a ferryman can steer his boat (the planet) back and forth orthogonally to the river's current, so the planets could move in and out with only a constant sidewise current of motive power. But although Kepler worked this analogy for decades, he was never satisfied with it; it seemed to require a degree of sentience on the part of the planets to sense how to steer. In another much explored analogy, he likened the sun and planet to two magnets that approach or repel each other depending on which poles are proximate.\n\nBut this is still not specific enough. There is, in general, an indefinite number of possibie relations that an analogy could pick out (Goodman, 1972), and most of these are ignored. For example, we may find a spiderweb and a fishing net analogous because both trap their prey, both remain stationary while their prey enters, and so on. But it would not contribute to the analogy to note that 'Both are smaller than the Taj Mahal,\" or 'Both are smaller than the Kremlin.\" How do we select which common relations to pay attention to? The major goal of this article is to demonstrate that the process of comparison-both in analogy and in similarity \u2014operates so as to favor interconnected systems of relations and their",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "ff39ba25066fcefb",
+      "chunk_type": "h2",
+      "relevance_score": 0.7973283136240552,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769847703.4544902,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_886fbf05437e",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "But this is still not specific enough. There is, in general, an indefinite number of possibie relations that an analogy could pick out (Goodman, 1972), and most of these are ignored. For example, we may find a spiderweb and a fishing net analogous because both trap their prey, both remain stationary while their prey enters, and so on. But it would not contribute to the analogy to note that 'Both are smaller than the Taj Mahal,\" or 'Both are smaller than the Kremlin.\" How do we select which common relations to pay attention to? The major goal of this article is to demonstrate that the process of comparison-both in analogy and in similarity \u2014operates so as to favor interconnected systems of relations and their\n\nKepler's writings demonstrate the central features of analogy. First, analogy is a device for conveying that two situations or domains share relational structure despite arbitrary degrees of difference in the objects that make up the domains (Gentner, 1983). The magnet analogy, for example, will stand or fall according to whether the causal relations between two magnets are the same as those between the sun and planet, and not according to the resemblance between a magnet and the sun. Common relations are essential to analogy; common objects are not. This promoting of relations over objects makes analogy a useful cognitive device, for physical objects are normally highly salient in human processing-easy to focus on, recognize, encode, retrieve, and so on.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "0b36670dad0f848e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7951430170282902,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 5
+      },
+      "created_at": 1769847703.454497,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_09d1c0db993a",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Kepler's writings demonstrate the central features of analogy. First, analogy is a device for conveying that two situations or domains share relational structure despite arbitrary degrees of difference in the objects that make up the domains (Gentner, 1983). The magnet analogy, for example, will stand or fall according to whether the causal relations between two magnets are the same as those between the sun and planet, and not according to the resemblance between a magnet and the sun. Common relations are essential to analogy; common objects are not. This promoting of relations over objects makes analogy a useful cognitive device, for physical objects are normally highly salient in human processing-easy to focus on, recognize, encode, retrieve, and so on.\n\nAs the above discussion shows, to capture the process of analogy, we must make assumptions not only about the processes of comparison, but about the nature of typical conceptual cognitive representations and how representations and processes interact (Palmer, 1978). In particular, we must have a representational system that is sufficiently explicit about relational structure to express the causal dependencies that match across the domains. We need a representational scheme capable of expressing not oniy objects but also the relationships and bindings that hold between them, including higher order relations such as causal relations. One clarification is in\n\n\" In Kepler's pre-Newtonian physics, the sun was required to push the planets around in their orbits, not merely to attract them.\n\n3 Formally, the elements of our representations are objects (or enti lies), object descriptors (called attributes), functions (which express dimensional information), and relations between representational elements. Attributes and relations are predicates with truth values. Functions differ from predicates in that they map from a set of arguments",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "4963b76c96d20c49",
+      "chunk_type": "h2",
+      "relevance_score": 0.7984378206116504,
+      "start_line": 13,
+      "end_line": 51,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 6
+      },
+      "created_at": 1769847703.4545028,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_11bda741768b",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogy",
+              "sub_index": 6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Arthur B. Markman\n\n<!-- image -->\n\norder here. To discuss alignment processes, we need to take representation seriously, but this shouid not be taken to imply a commitment to any particular representation as the best or only possible representation of a situation. (Logically, such a position would be indefensible.) Rather, we assume that the comparison process operates over a person's current representations, however they are derived. Thus, to predict the outcome of a comparison, we should know the person's current psychological construal of the things being compared, including goals and contextual information as well as long-term knowledge.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "1ab6fa173852ec71",
+      "chunk_type": "h2",
+      "relevance_score": 0.7844274278719575,
+      "start_line": 51,
+      "end_line": 57,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Arthur B. Markman",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847703.4545112,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a99ec74c00b1",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Arthur B. Markman",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Structural Alignment View of Analogy and Similarity\n\n## Structural Alignment View of Analogy and Similarity\n\nThe defining characteristic of analogy is that it involves an alignment of relational structure. There are three psychological constraints on this alignment. First, the alignment must be structurally consistent: In other words, it must observe parallel connectivity and one-to-one correspondence. Parallel connectivity requires that matching relations must have matching argurents, and one-to-one correspondence limits any element in one representation to at most one matching element in the other representation (Falkenhainer, Forbus, &amp; Gentner, 1986, 1989; Gentner, 1983, 1989; Gentner &amp; Clement, 1988; Holyoak &amp; Thagard, 1989). For example, in Kepler's (1609/1992) analogy, the planet corresponds to the boat and the sun's power to the river's current, because they play similar roles in a common relational structure. This also shows a second characteristic of analogy, namely, relational focus: As discussed above, analogies must involve common relations but need not involve common object descrip- onto values other than truth values. For example, a function like color (bail) = red may be used to represent the dimension of coior. The same assertion could be represented using color as an attribute, as in red (ball), or using color as a relation, as in color (ball, red). We assume that how a property is represented will affect the way it is processed.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "0c63cb9a11648c04",
+      "chunk_type": "h2",
+      "relevance_score": 0.7951430170282902,
+      "start_line": 57,
+      "end_line": 69,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structural Alignment View of Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454527,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f2db0267e0ab",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structural Alignment View of Analogy and Similarity",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The defining characteristic of analogy is that it involves an alignment of relational structure. There are three psychological constraints on this alignment. First, the alignment must be structurally consistent: In other words, it must observe parallel connectivity and one-to-one correspondence. Parallel connectivity requires that matching relations must have matching argurents, and one-to-one correspondence limits any element in one representation to at most one matching element in the other representation (Falkenhainer, Forbus, &amp; Gentner, 1986, 1989; Gentner, 1983, 1989; Gentner &amp; Clement, 1988; Holyoak &amp; Thagard, 1989). For example, in Kepler's (1609/1992) analogy, the planet corresponds to the boat and the sun's power to the river's current, because they play similar roles in a common relational structure. This also shows a second characteristic of analogy, namely, relational focus: As discussed above, analogies must involve common relations but need not involve common object descrip- onto values other than truth values. For example, a function like color (bail) = red may be used to represent the dimension of coior. The same assertion could be represented using color as an attribute, as in red (ball), or using color as a relation, as in color (ball, red). We assume that how a property is represented will affect the way it is processed.\n\ntions (e.g., it does not detract from the analogy that the planet does not look like a boat). The final characteristic of analogy is systematicity: Analogies tend to match connected systems of relations (Gentner, 1983, 1989). A matching set of relations interconnected by higher order constraining relations makes a better analogical match than an equal number of matching relations that are unconnected to each other. The systematicity principle captures a tacit preference for coherence and causal predictive power in analogical processing. We are not much interested in analogies that capture a series of coincidences, even if there are a great many of them.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "aee8413478071c5e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7992633332099416,
+      "start_line": 57,
+      "end_line": 69,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structural Alignment View of Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.4545338,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_61c7eec9835b",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structural Alignment View of Analogy and Similarity",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "tions (e.g., it does not detract from the analogy that the planet does not look like a boat). The final characteristic of analogy is systematicity: Analogies tend to match connected systems of relations (Gentner, 1983, 1989). A matching set of relations interconnected by higher order constraining relations makes a better analogical match than an equal number of matching relations that are unconnected to each other. The systematicity principle captures a tacit preference for coherence and causal predictive power in analogical processing. We are not much interested in analogies that capture a series of coincidences, even if there are a great many of them.\n\nA particularly striking example of structural dominance in analogy is that of cross-mapping. A crossmapping is a comparison in which two analogous scenarios contain similar or identical objects that play different relational roles in the two scenarios (Gentner &amp; Toupin, 1986; see also Gentner &amp; Rattermann, 1991; Goldstone &amp; Medin, 1994; Markman &amp; Gentner, 1993b; Ross, 1987, 1989). A simple example of a cross-mapping is this simple proportional analogy:\n\nThe obvious possibility of matching the two identical 3s is dismissed because to do so would misalign the relational roles of the terms. Instead, the object correspondences are 1 \u2192 3 and 3 \u2192 9, preserving the relational commonality (the identical ratio) across the pair.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "59538ce3f77975b6",
+      "chunk_type": "h2",
+      "relevance_score": 0.7944488229230423,
+      "start_line": 57,
+      "end_line": 69,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structural Alignment View of Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.45454,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e4010464d580",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structural Alignment View of Analogy and Similarity",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The obvious possibility of matching the two identical 3s is dismissed because to do so would misalign the relational roles of the terms. Instead, the object correspondences are 1 \u2192 3 and 3 \u2192 9, preserving the relational commonality (the identical ratio) across the pair.\n\nGiven an alignment of structure, further inferences can often be made from the analogy. The implicit preference for systematicity\u2014 for aligning of connected systems of knowledge\u2014-is crucial here. It is what permits us to generate spontaneous inferences. When we have aligned a system in the base domain with a (typically less complete) system in the target domain, then further statements (candidate inferences) connected to the base system in the base can be projected into the target. These candidate inferences are only guesses: Their factual correctness must be checked separately. This uncertainty is appropriate: Any process capable of producing novel true inferences is also capable of generating false inferences analogical inference abounds in Kepler's writings. He followed his initial anaiogy establishing that the motive power (like light) can operate at a distance with a series of further projections (that the motive power [like light] spreads out through space, that it becomes diffused without diminishing in total quantity, etc.). He even asked whether it could undergo an eclipse (he decided not and used this disanalogy to conclude that the motive power cannot be the same thing as the sun's light).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "ee95f09bc6f9aa19",
+      "chunk_type": "h2",
+      "relevance_score": 0.7952043293035898,
+      "start_line": 57,
+      "end_line": 69,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structural Alignment View of Analogy and Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847703.454547,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_eb37ed0ee6f3",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structural Alignment View of Analogy and Similarity",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Similarity Is Like Analogy\n\n## Similarity Is Like Analogy\n\nKepler's analogical feats are nothing short of amazing. Reflecting on his powers makes it clear why the ability to form analogies has been taken as a sign of intelligence, making the four-term analogy problem a staple of aptitude tests. But consider the following more prosaic example:\n\nLucas, a 25-month-old child, plays with a new toy that has six colored doors. Each door has its own key \u2014a red key for a red door; a blue key for a blue door, and so on. Lucas opens each door with the key of the corresponding color. Then he sees a seventh white key. He carefully inspects the toy from top to bottom. Then he turns to his parents and asks,\n\nChild development is full of these moments, as in example of Aaron's analogy from self to other discussed in the article by Holyoak and Thagard (1997, this issue) or this example contributed by Lise Menn (personal comFebruary 1995): Her two-year-old son watched fascinated as some pet ducklings ate. Then he held his arms to his sides and bent down and up like the ducklings. Finally he announced, pointing at the duck\"Have no hands!\" He had figured out why they ate so differently from him. These kinds of comparisonbased discoveries are so commonplace that they are hardly noticeable as anything special, and yet they contain the same essential characteristics of analogical processing that marks Kepler's use of analogy.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "ce07a4d388d0fede",
+      "chunk_type": "h2",
+      "relevance_score": 0.7946418462232047,
+      "start_line": 69,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Similarity Is Like Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454577,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_225d1f5d0982",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Similarity Is Like Analogy",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Child development is full of these moments, as in example of Aaron's analogy from self to other discussed in the article by Holyoak and Thagard (1997, this issue) or this example contributed by Lise Menn (personal comFebruary 1995): Her two-year-old son watched fascinated as some pet ducklings ate. Then he held his arms to his sides and bent down and up like the ducklings. Finally he announced, pointing at the duck\"Have no hands!\" He had figured out why they ate so differently from him. These kinds of comparisonbased discoveries are so commonplace that they are hardly noticeable as anything special, and yet they contain the same essential characteristics of analogical processing that marks Kepler's use of analogy.\n\nIn a fundamental sense, similarity is like analogy, in that both involve an alignment of relational structure (Gentner &amp; Markman, 1995). The difference between them is that in analogy, only relational predicates are shared, whereas in literal similarity, both relational predicates and object attributes are shared. In Kepler's analogy, there is no physical resemblance between a boat on a river and a planet revolving around the sun. In Lucas's similarity comparison, each key and door pair is similar to every other, making it easy for Lucas to align the pairs. This contrast beiween analogy and literal similarity is in fact a continuum, not a dichotomy. Yet it is an important psychologically, because overall similarity comparisons are far easier to notice and map than purely analogical comparisons, especially for novices like Lucas (Gentner, Rattermann, &amp; Forbus, 1993; Holyoak &amp; Koh, 1987; Keane, 1988; Ross, 1989).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "33fdb4ecc61dc4e3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7966110889735418,
+      "start_line": 69,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Similarity Is Like Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.4545841,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e0f6f49001e0",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Similarity Is Like Analogy",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "In a fundamental sense, similarity is like analogy, in that both involve an alignment of relational structure (Gentner &amp; Markman, 1995). The difference between them is that in analogy, only relational predicates are shared, whereas in literal similarity, both relational predicates and object attributes are shared. In Kepler's analogy, there is no physical resemblance between a boat on a river and a planet revolving around the sun. In Lucas's similarity comparison, each key and door pair is similar to every other, making it easy for Lucas to align the pairs. This contrast beiween analogy and literal similarity is in fact a continuum, not a dichotomy. Yet it is an important psychologically, because overall similarity comparisons are far easier to notice and map than purely analogical comparisons, especially for novices like Lucas (Gentner, Rattermann, &amp; Forbus, 1993; Holyoak &amp; Koh, 1987; Keane, 1988; Ross, 1989).\n\nFigure 1 places this distinction between analogy and similarity within a similarity space defined by the degree of attributional similarity and the degree of relational similarity. Analogy occurs when comparisons exhibit a high degree of relational similarity with very little attribute similarity. As the amount of attribute similarity in.. creases, the comparison shifts toward literal similarity Mere-appearance matches share object descriptions but not relations. For example, comparing a planet with a round ball would constitute a mere-appearance match. Mere-appearance matches are, in a sense, the opposite of analogies. Such matches are of course sharply limited in their predictive utility. Nonetheless, they are important to consider, because they often occur among children and other novices and may interfere with their learning. The bottom left corner of the space is anomalous com arsons, which share no significant attribute or relational commonalties. Finally, Figure 1 shows that metaphors span the range from relational comparisons (e.g. lovers like twin compasses\") to attribute comparisons \"a moon like a silver coin'\").",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "76496f49d5460a0e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7995293662966347,
+      "start_line": 69,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Similarity Is Like Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.4545898,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f30adbc0b99f",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Similarity Is Like Analogy",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Figure 1 places this distinction between analogy and similarity within a similarity space defined by the degree of attributional similarity and the degree of relational similarity. Analogy occurs when comparisons exhibit a high degree of relational similarity with very little attribute similarity. As the amount of attribute similarity in.. creases, the comparison shifts toward literal similarity Mere-appearance matches share object descriptions but not relations. For example, comparing a planet with a round ball would constitute a mere-appearance match. Mere-appearance matches are, in a sense, the opposite of analogies. Such matches are of course sharply limited in their predictive utility. Nonetheless, they are important to consider, because they often occur among children and other novices and may interfere with their learning. The bottom left corner of the space is anomalous com arsons, which share no significant attribute or relational commonalties. Finally, Figure 1 shows that metaphors span the range from relational comparisons (e.g. lovers like twin compasses\") to attribute comparisons \"a moon like a silver coin'\").\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "5209663519db9824",
+      "chunk_type": "h2",
+      "relevance_score": 0.7918887350225352,
+      "start_line": 69,
+      "end_line": 83,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Similarity Is Like Analogy",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847703.454596,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_dc05bf6d6568",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Similarity Is Like Analogy",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Process Model of Alignment and Mapping: The Structure-Mapping Engine\n\n## Process Model of Alignment and Mapping: The Structure-Mapping Engine\n\nWe have argued that the comparison process involves a rather sophisticated process of structural alignment and mapping over rich complex representations. A skeptical reader might justifiably inquire at this point whether there is any plausible real-time mechanism that could compute such a structural alignment. This problem is not trivial, and some early models made the assumption that the top level conclusion or goal of the analogy was known in advance to ease the computational burden (Greiner, 1988; Holyoak, 1985; see Gentner &amp; Clement, 1988, for a discussion). However, these solutions are limited, because people can process analogies without advance knowledge of their meaning. When you read \"Philosophy is language idling,\" you probably understand its meaning without a prior goal context (although a relevant prior context would of course facilitate comprehension). Thus, a process model of comparison should be able to operate without advance knowledge of the final interpretation.\n\nThe structure-mapping engine (SME; Falkenhainer et al., 1986, 1989; Forbus, Gentner, &amp; Law, 1995) uses a local-to-global alignment process to arrive at a structural alignment of two representations. * Figure 2 shows SME's three stages of mapping. In the first stage, SME begins blind and local by matching all identical predicates and subpredicates in the two representations. This initial\n\n^ Similar algorithms have been incorporated into other computational models of analogy (Burstein, 1988; Goldstone, 1994b; Gold stone &amp; Medin, 1994; Holyoak &amp; Thagard, 1989; Keane, Ledgeway, &amp; Duff, 1994)",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "ac28ef18a68f2b42",
+      "chunk_type": "h2",
+      "relevance_score": 0.7973283136240552,
+      "start_line": 83,
+      "end_line": 107,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454615,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1c42d1c6e062",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "^ Similar algorithms have been incorporated into other computational models of analogy (Burstein, 1988; Goldstone, 1994b; Gold stone &amp; Medin, 1994; Holyoak &amp; Thagard, 1989; Keane, Ledgeway, &amp; Duff, 1994)\n\n5 We make the theoretical assumption that similarity of relational predicates can be expressed as partial identity. The idea is that when two situations are analogous, they must have some system of identical relations. This identicality applies to the underlying concepts; the actual surface words used to express the relation need not be identical, for example, \"Jupiter travels slower than Mercury\" is analogous to \"Jupiter moves slower than Mercury\" or \"Jupiter's rate of motion is lower than Mercury's\" (see Gentner &amp; Clement, 1988).\n\n<!-- image -->\n\nmapping is typically inconsistent, containing many-toone matches. In the second phase, these local matches are coalesced into structurally consistent connected clusters (calied kernals). Finally, in the third stage, these kernals are merged into one or a few maximal structurally consistent interpretations (i.e., mappings displaying one-to-one correspondences and parallel connectivity). SME then produces a structural evaluation of the interpretation(s), using a kind of cascade-like algorithm in which evidence is passed down from predicates to their arguments. This method favors deep systems over shallow systems, even if they have equal numbers of matches (Forbus &amp; Gentner, 1989). Finally, predicates connected to the common structure in the base, but not initially present in the target, are proposed as candidate inferences in the target. Thus, structural completion can lead to spontaneous unplanned inferences.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "934127c94717b5ec",
+      "chunk_type": "h2",
+      "relevance_score": 0.796921129408377,
+      "start_line": 83,
+      "end_line": 107,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.4546208,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4e1913b14a59",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "mapping is typically inconsistent, containing many-toone matches. In the second phase, these local matches are coalesced into structurally consistent connected clusters (calied kernals). Finally, in the third stage, these kernals are merged into one or a few maximal structurally consistent interpretations (i.e., mappings displaying one-to-one correspondences and parallel connectivity). SME then produces a structural evaluation of the interpretation(s), using a kind of cascade-like algorithm in which evidence is passed down from predicates to their arguments. This method favors deep systems over shallow systems, even if they have equal numbers of matches (Forbus &amp; Gentner, 1989). Finally, predicates connected to the common structure in the base, but not initially present in the target, are proposed as candidate inferences in the target. Thus, structural completion can lead to spontaneous unplanned inferences.\n\nSME has the psychologically appealing feature that it can derive mere than one interpretation for an analogy. It normally produces two or three best interpretations of an analogy \u2014 that is, interpretations receiving the highest structural evaluations. For example, suppose we asked SME to interpret another of Kepler's analogical conjectures, namely, that the earth might impel the moon just as the sun does the earth:\n\n1. CAUSE [TRAVEL (motive power, sun, earth), REVOLVE AROUND (earth, sun)]\n\n2. CAUSE (TRAVEL (motive power, earth, moon), REVOLVE AROUND (moon, earth)].\n\nGiven this cross-mapped pair, SME would produce a relational interpretation in which the earth in Sentence 1 corresponds to the moon in Sentence 2, as well as an object-based interpretation in which the earth corresponds to the earth. Because of its preference for deeply connected relational structure, the relational interpretation would receive a higher structural evaluation and would win over the object interpretation.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "f5fdb22f76f3ced1",
+      "chunk_type": "h2",
+      "relevance_score": 0.7985261520310538,
+      "start_line": 83,
+      "end_line": 107,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454628,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_746af5da3fbf",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Given this cross-mapped pair, SME would produce a relational interpretation in which the earth in Sentence 1 corresponds to the moon in Sentence 2, as well as an object-based interpretation in which the earth corresponds to the earth. Because of its preference for deeply connected relational structure, the relational interpretation would receive a higher structural evaluation and would win over the object interpretation.\n\nA good explanatory analogy can often be extended, as in Kepler's analogical extensions. Computational models have tried to capture this propensity with the notion of incremental mapping. For example, SME can extend an existing analogical mapping by adding further connected material from the base domain (either drawn from current context or from long-term memory [Forbus, Ferguson, &amp; Gentner, 1994; see also Burstein, 1988; Keane, Ledgeway, &amp; Duff, 1994]). These models operate on the assumption (which we discuss later) that extending a connected mapping is easier than creating a new",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "126a016f6cea6bd0",
+      "chunk_type": "h2",
+      "relevance_score": 0.7902580051528575,
+      "start_line": 83,
+      "end_line": 107,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847703.454634,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_827ac90b6de6",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Process Model of Alignment and Mapping: The Structure-Mapping Engine",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Structure Mapping at Work Commonalities and Differences\n\nThe experience of comparison is selective: Only certain commonalities are highlighted. We have suggested that a central factor controlling what information is considered in a comparison is systematicity: the presence of higher order connections between lower order relations (Clement &amp; Gentner, 1991; Forbus &amp; Gentner, 1989; Gentner, 1983). For example, comparing the pictures in Figure 3A and 3B highlights the commonality that both show a child looking at a pet. In contrast, comparing Figure 3A with 3C highlights the commonality that both show an animal being frightened by another animal (Markman &amp; Gentner, in press). In both cases, the information highlighted by the comparison forms a connected relational system, and commonalities not connected to the matching system (such as the fact that there are dressers in both 3A and 3B) seem to recede in importance. This pattern has also been demonstrated using passages (Clement &amp; Gentner, 1991). In this study, people who were given analogous stories judged that corresponding sentences were more important when the corresponding sentence pairs were part of a matching relational system than when they were not.\n\nMore surprisingly, structural alignment also influences what differences are psychologically salient. For example, when comparing Figure 3A and 3B, we notice that it is a snake that the boy is looking at in one picture and a fish in the other. Both the snake and the fish play the same role in the matching structure. Differences that are connected to the common system (like the fish-snake difference) we call alignable differences (Gentner &amp; Markman, 1994; Markman &amp; Gentner, 1993b, 1996).\n\nFigure 3",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "63ba6fa3381205cc",
+      "chunk_type": "h2",
+      "relevance_score": 0.7973060230549618,
+      "start_line": 107,
+      "end_line": 115,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Structure Mapping at Work Commonalities and Differences",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847703.4546418,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_612d09cd6334",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Structure Mapping at Work Commonalities and Differences",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# The Role of Commonalities and Differences in Similarity\n\n## The Role of Commonalities and Differences in Similarity\n\nThis triad of pictures demonstrates that commonalities become important when they are part of a matching system and that differences become important when they are related to the commonalities.\n\n<!-- image -->\n\nAlignable differences can be contrasted with nonalignuble differences, which are aspects of one situation that have no correspondence at all in the other situation. For example, in the comparison of Figures 3A and 3B, the dog in Figure 3A has no correspondence with anything in Figure 3B, and hence it is a nonalignable difference.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "78be25f644e6a7d5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7846060437845692,
+      "start_line": 115,
+      "end_line": 145,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "The Role of Commonalities and Differences in Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454664,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_41c5279a38b1",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "The Role of Commonalities and Differences in Similarity",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Alignable differences can be contrasted with nonalignuble differences, which are aspects of one situation that have no correspondence at all in the other situation. For example, in the comparison of Figures 3A and 3B, the dog in Figure 3A has no correspondence with anything in Figure 3B, and hence it is a nonalignable difference.\n\nJust as commonalities gain in importance when they are part of a matching system, so too do differences. That is, alignable differences are more salient than nonalignable differences. Intuitively, this focus on alignable differences makes sense, for it leads to a focus on those differences that are relevant to the common causal or goal structure that spans the situations. However, if we pairs (because in general, high-similarity pairs will have larger common systems and more alignable differences). For example, if you imagine listing all possible differences for the pair hotel- otel and contrast that with listing all possible differences for the pair magazinekitten, you will probably find that it is much easier to list differences for the first, high-similarity pair. Experimental results bear out this observation. Participants who were asked to list differences between hotel and motel readily listed (alignable) differences: 'Hotels are in cities, motels are on the highway'; \"you stay longer in hotels than in motels\"; 'hotels have many floors, motels only one or two; and so on. When given a low-similarity pair like magazine-kitten, participants tended to list nonalignable differences, such as \"You pet a kitten, you don't pet a magazine,\" or \"kittens have fur and magazines don't.\" This finding of a greater number of alignable differences for high-similarity pairs has been obtained in empirical studies involving both word pairs (Markman &amp; Gentner, 1993b; Markman &amp; Wisniewski, in press) and picture pairs (Markman &amp; Gentner, 1996). An informal observation is that participants often expressed confusion or irritation over the low-similarity pairs, perhaps reflecting their feeling that it makes no sense to talk about differences in the absence of a meaningful alignment.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "8637e50e4722e33d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7998941356649221,
+      "start_line": 115,
+      "end_line": 145,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "The Role of Commonalities and Differences in Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454675,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_96bd25c0aa98",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "The Role of Commonalities and Differences in Similarity",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Just as commonalities gain in importance when they are part of a matching system, so too do differences. That is, alignable differences are more salient than nonalignable differences. Intuitively, this focus on alignable differences makes sense, for it leads to a focus on those differences that are relevant to the common causal or goal structure that spans the situations. However, if we pairs (because in general, high-similarity pairs will have larger common systems and more alignable differences). For example, if you imagine listing all possible differences for the pair hotel- otel and contrast that with listing all possible differences for the pair magazinekitten, you will probably find that it is much easier to list differences for the first, high-similarity pair. Experimental results bear out this observation. Participants who were asked to list differences between hotel and motel readily listed (alignable) differences: 'Hotels are in cities, motels are on the highway'; \"you stay longer in hotels than in motels\"; 'hotels have many floors, motels only one or two; and so on. When given a low-similarity pair like magazine-kitten, participants tended to list nonalignable differences, such as \"You pet a kitten, you don't pet a magazine,\" or \"kittens have fur and magazines don't.\" This finding of a greater number of alignable differences for high-similarity pairs has been obtained in empirical studies involving both word pairs (Markman &amp; Gentner, 1993b; Markman &amp; Wisniewski, in press) and picture pairs (Markman &amp; Gentner, 1996). An informal observation is that participants often expressed confusion or irritation over the low-similarity pairs, perhaps reflecting their feeling that it makes no sense to talk about differences in the absence of a meaningful alignment.\n\nBecause people focus on alignable differences rather than on nonalignable differences when making comparisons, alignable differences have a greater impact on people's perception of similarity than do nonalignable differences. Thus, all else being equal, alignable differences count more against similarity than nonalignable differences. One way to test this prediction is to pit comparisons involving a given alignable difference against comparisons involving the same contrast as a nonalignable",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "a7f0d6dcd74f2dd7",
+      "chunk_type": "h2",
+      "relevance_score": 0.8008574985600593,
+      "start_line": 115,
+      "end_line": 145,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "The Role of Commonalities and Differences in Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454682,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e3009adff8f7",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "The Role of Commonalities and Differences in Similarity",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Because people focus on alignable differences rather than on nonalignable differences when making comparisons, alignable differences have a greater impact on people's perception of similarity than do nonalignable differences. Thus, all else being equal, alignable differences count more against similarity than nonalignable differences. One way to test this prediction is to pit comparisons involving a given alignable difference against comparisons involving the same contrast as a nonalignable\n\nIf the comparison process focuses on alignable differences rather than on nonalignable differences, then alignable differences should be listed more fluently than nonalignable differences. This means that people should find it easier to list differences for pairs of similar items than for pairs of dissimilar items, because high-similarity pairs have many commonalties and, alignable differences. Such a prediction runs against the commonsense view-and the most natural prediction of feature-intersection models-that it should be easier to list differences the more of them there are to list-that is, the more dissimilar the two items are. In a study by Gentner and Markman (1994), participants were given a page containing 40 word pairs, half similar and half dissimilar, and were given five minutes to list one difference for as many different pairs as they could. They were told that they would not have time to do all 40 pairs, and so they should do the easiest pairs first. The results provided strong evidence for the alignability predictions: Participants listed many more differences for similar pairs (M = 11.4) than for dissimilar pairs (M = 5.9). Furthermore, this difference was concentrated in the alignable differences. Over twice as many alignable differences were given for similar pairs (M = 9.0) than for dissimilar pairs (M = 3.9).\n\nFigure 4\n\nThe Importance of Alignable and Nonalignable Differences in Similarity\n\n<!-- image -->\n\nNonalignable difference choice\n\nAlignable difference choice",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "464a05a88a0a56d5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7990764211746245,
+      "start_line": 115,
+      "end_line": 145,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "The Role of Commonalities and Differences in Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769847703.454688,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c35ff57b02cc",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "The Role of Commonalities and Differences in Similarity",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Alignable difference choice\n\nThis is a forced choice triad used to demonstrate that alignable differences decrease similarity more than do nonalignable differences. Reprinted from \"Commonalities and Differences in Similarity Comparisons,\" by A. B. Markman and D. Gentner, 1996, Memory &amp; Cognition, 24, p. 243. Copyright 1996 by the\n\ndifference. For example, in the top figure of the triad in Figure 4, the man shoots an arrow at a target. In the nonalignable-difference option, the man shoots an arrow at a target, but there is also a bird (a nonalignable difference) in the picture. In the alignable-difference option, the man shoots an arrow at a bird (an alignable difference); the target has been moved to the tree behind the . When asked which option is most similar to the target, participants chose the nonalignable-difference option, suggesting that the alignable difference decreased the similarity of the pair more than did the nonalignable difference (Markman &amp; Gentner, 1996).\u00b0\n\nIn summary, the process of structural alignment leads to a focus on matching relational systems. This focus determines both which commonalities are salient and which differences are salient. This last may seem mine which differences are important? Yet, if we reflect that most pairs of items in the world are dissimilar, this pattern seems functionally sensible. Intuitively, it is when a pair of items is similar that their differences are likely to be important.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "68617d601ccd49bc",
+      "chunk_type": "h2",
+      "relevance_score": 0.7949573297837593,
+      "start_line": 115,
+      "end_line": 145,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "The Role of Commonalities and Differences in Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769847703.454695,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b1edced27d73",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "The Role of Commonalities and Differences in Similarity",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Analogical Inference\n\n## Analogical Inference\n\nAnalogies can lead to new inferences, as Kepler's (1609/ 1992) example demonstrates, and the same is true of similarity comparisons. As in analogy, when there is a match between a base and target domain, facts about the base domain that are connected to the matching information may be proposed as candidate inferences (Falkenhainer et al., 1986, 1989). For example, imagine you have a friend with a sarcastic sense of humor that makes her difficult to get along with but a helpful temperament that wins her the loyalty of her friends. If you met a new person and discovered that he had a sarcastic sense of humor, then based on his similarity to your other friend, you would probably be more willing to suppose that he is difficult to get along with than to inter that he has a helpful temperament that wins him loyal friends.\n\nThis point was demonstrated in a study by Clement and Gentner (1991). They asked people to read pairs of analogous stories. The base story had two key facts, each of which was connected to a causal antecedent. Neither of these key facts was stated in the target story. However, the target story did have a fact that corresponded to one of the causal antecedents from the base. When participants were given the analogy and asked to make a new\n\n* In the triad in Figure 4, the manipulation of alignable- and non alignable-difference options also involves moving the target, could be a confound. Sec Markman and Gentner (1996) for another variant of the study thai escapes this problem.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "3f49aa805e84e3de",
+      "chunk_type": "h2",
+      "relevance_score": 0.7958020870918725,
+      "start_line": 145,
+      "end_line": 155,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogical Inference",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.45471,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_967e1891dcfd",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogical Inference",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "* In the triad in Figure 4, the manipulation of alignable- and non alignable-difference options also involves moving the target, could be a confound. Sec Markman and Gentner (1996) for another variant of the study thai escapes this problem.\n\nprediction about the target story, they predicted the key fact that was connected to the matching causal antecedent more than twice as often as they predicted the other key fact. Convergent findings have been obtained by Read (1984), Spellman and Holyoak (in press), and Markman (1996). Likewise, Lassaline (1996) showed that people's willingness to infer new facts in a category-induction task increased when these facts were connected to shared causal relations. These results show how structural alignment and mapping allow people to predict new information from old.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "56b2b7e508497eed",
+      "chunk_type": "h2",
+      "relevance_score": 0.7872866808772352,
+      "start_line": 145,
+      "end_line": 155,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Analogical Inference",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454716,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_fe059d23d9c0",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Analogical Inference",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Connectivity and Asymmetry\n\nPeople often find comparisons much more similar in one direction than the other, as Tversky (1977) noted in his seminal treatise on similarity. For example, we prefer \"A scanner is like a copy machine\" to \"A copy machine is like a scanner.\" As Tversky pointed out, this directionality is at odds with the pervasive intuition that similarity is a symmetric relation (after all, if A is similar to B, then shouldn't B be equally similar to A?). Structure mapping offers a natural explanation: We propose that asymmetries typically arise when one of the comparison items is more systematic than the other (Bowdle &amp; Gentner, 1996; Gentner &amp; Bowdle, 1994). According to structure-mapping theory, inferences are projected from the base to the target. Thus, having the more systematic and coherent item as the base maximizes the amount of information that can be mapped from base to target. Consistent with this claim, Bowdle and Gentner found that when participants were given pairs of passages varying in their causal coherence, they (a) consistently preferred comparisons in which the more coherent passage was the base and the less coherent passage was the target, (b) generated more inferences from the more coherent passage to the less coherent one, and (c) rated comparisons with more coherent bases as more informative than the reverse comparisons.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "44c0fab8b784fe36",
+      "chunk_type": "h2",
+      "relevance_score": 0.7942716839835651,
+      "start_line": 155,
+      "end_line": 159,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Connectivity and Asymmetry",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847703.4547231,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_93ad6b7cdbff",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Connectivity and Asymmetry",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Extended Mapping\n\n## Extended Mapping\n\nOne particularly interesting use of analogy is in extended mappings. They arise in creative thinking, as when Kepler explored the implications of analogies between the motive power and light or magnetism. Extended analogies are used in instruction as well: for example, when electric current and voltage are described in terms of water flow and pressure (Gentner &amp;. Gentner, 1983). They also arise in ordinary language, with metaphoric systems like 'Marriage is a journey\" that can be extended (e.g., \"You have to slog through the rough spots but eventually the road will get smoother'\" [Gibbs, 1994; Lakoff &amp; Johnson, 1980]. We have found, consistent with the structuremapping account, that it is easier to extend an existing domain mapping than to initiate a new one [Boronat &amp; Gentner, 1996; Gentner &amp; Boronat, 1992]). People who read passages containing extended metaphors one sentence at a time were faster to read the final sentence when it was a consistent extension of the metaphor of the passage, as in Example A (below), than when it utilized a different metaphor, as in Example B (below). For example, one passage described a debate in terms of a race:\n\n- A. Dan saw the big debate as a race.... He knew that he had to steer his course carefully in the competition. His strategy was to go cruising through the initial points and then make his .. He revved up as he made his last key points. His skill left his opponent far behind him at the finish line.\n\nB. Dan saw the big debate as a war.... He knew that he had to use every weapon at his command in the competition. He mapped out his strategy to ensure that he established a dominant position... . He intensified the bombardment as he made his last key points. His skill left his opponent far behind him at the finish line.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "7109caaf67ddc0e8",
+      "chunk_type": "h2",
+      "relevance_score": 0.7979728275015283,
+      "start_line": 159,
+      "end_line": 169,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Extended Mapping",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.4547331,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d0eae3f86813",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Extended Mapping",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "B. Dan saw the big debate as a war.... He knew that he had to use every weapon at his command in the competition. He mapped out his strategy to ensure that he established a dominant position... . He intensified the bombardment as he made his last key points. His skill left his opponent far behind him at the finish line.\n\nIf extending an existing connected mapping is easier than creating a new mapping, then people should be faster to read the final sentence in Example A than in Example B. This is exactly what happened. This finding fits with the computational notion of incremental mapping, in Which metaphoric passages can be understood by adding to an initial mapping (Forbus et al., 1994; Keane et al., 1994). Interestingly, this result held only for novel metaphors and not for conventional metaphors. It is possible that conventional metaphors have their metaphoric meanings stored lexically, making it unnecessary to carry out a domain mapping (Bowdle &amp; Gentner, 1996; Gentner &amp; Wolff, 1996).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "fff80856007470f5",
+      "chunk_type": "h2",
+      "relevance_score": 0.79014253466773,
+      "start_line": 159,
+      "end_line": 169,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Extended Mapping",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.4547389,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_222f28f0896c",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Extended Mapping",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Connectivity and Pure Mapping\n\n## Connectivity and Pure Mapping\n\nLearners are often called on to map information from one situation to another. For example, when we buy a new VCR, climb into a rental car, or fire up an update of Windows, we must decide which aspects of our prior knowledge apply to the new situation. To study the determinants of this mapping process, Gentner and Schumacher (1986; Schumacher &amp; Gentner, 1988) taught participants how to pilot a ship using a simulated device panel. A game-like task was used in which participants could directly manipulate certain parameters (such as engine thrust or coolant valve opening) that controlled other parameters (such as velocity or engine temperature). If they performed correctly, the ship made port in time; otherwise, they lost the game. After the first device had been well learned, participants were transferred to a second analogous device panel, and the number of trials to reach criterion on the new panel was measured. Participants' speed of learning was affected both by transparency-participants learned the new panel faster when there were physical resemblances between structurally corresponding elements\u2014and by systematicity - participants learned the new panel faster when they had learned a causal explanation for the procedures.\n\nConsistent with these patterns, both Ross (1987, 1989) and Reed (1987) have found transparency effects. They have shown that participants are better at transferalgebraic solutions when corresponding base and target objects are similar. Reed measured the transparency of the mapping between two analogous algebra problems by asking participants to identify pairs of corre-",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "535cb06b1256cc6b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7968134524776738,
+      "start_line": 169,
+      "end_line": 179,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Connectivity and Pure Mapping",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454761,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f93dd63205e0",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Connectivity and Pure Mapping",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Consistent with these patterns, both Ross (1987, 1989) and Reed (1987) have found transparency effects. They have shown that participants are better at transferalgebraic solutions when corresponding base and target objects are similar. Reed measured the transparency of the mapping between two analogous algebra problems by asking participants to identify pairs of corre-\n\nconcepts. He found that transparency was a good predictor of their ability to notice and apply solutions from one problem to the other. Ross (1989) found that participants' ability to transfer the problem-solving solution correctly was disrupted when cross-mapped correspondences were used. Research with children shows carly effects of transparency and somewhat later effects of systematicity (Gentner &amp; Toupin, 1986). We suspect that to derive the benefits of systematic explanations may require possessing some degree of domain knowledge.\n\nThree generalizations emerge from the transfer studies. First, transparency makes analogical mapping easier. Close, literal similarity matches are the easiest sort of mapping and the kind for which participants are least likely to make errors. Second, possessing a systematic higher order structure can permit transfer even under adverse transparency conditions. Having a strong causal model can enable a learner to transfer even when the objects mismatch perceptually. A third point, on which we expand below, is that different kinds of similarity may enter into different subprocesses of transfer.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "c50a78044e17344e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7954467332158836,
+      "start_line": 169,
+      "end_line": 179,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Connectivity and Pure Mapping",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454767,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1ffb4400dc12",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Connectivity and Pure Mapping",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Further Implications Ubiquity of Alignment\n\nOur structure-mapping abilities constitute a rather remarkable talent. In creative thinking, anaiogies serve to highlight important commonalities, to project inferences, and to suggest new ways to represent the domains. Yet, it would be wrong to think of analogy as esoteric, the property of geniuses. On the contrary, we often take analogy for granted, as in examples like the following from Hofstadter (1995, p. 76).\n\nShelley: I'm going to pay for my beer now.\n\nTim: Me, too [Tim had a coke.]\n\nTim does not mean that he too is going to pay for Shelley's beer (the nonanalogical interpretation), nor even that he too is going to pay for his own beer, but rather thai he is going to pay for what in his situation best corresponds to Shelley's beer: namely, his coke. This ability to carry out fluent, apparently effortless, structural alignment and mapping is a hallmark of human cognitive processing.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "4416aee909808eed",
+      "chunk_type": "h2",
+      "relevance_score": 0.7893042501201419,
+      "start_line": 179,
+      "end_line": 189,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Further Implications Ubiquity of Alignment",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847703.454774,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5ba6991f335e",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Further Implications Ubiquity of Alignment",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Plurality of Similarity\n\n## Plurality of Similarity\n\nWe have reviewed evidence that similarity is a process of structural alignment and mapping over articulated representations. However, similarity does not always appear so structurally discerning. A particularly striking case occurs in similarity-based retrieval. Several findings sug gest that similarity-based retrieval from long-term memory is based on o: erall similarity, with surface similarity heavily weighted, rather than by the kind of structural alignment that best supports inference (Gentner, 1989; Holyoak &amp; Koh, 1987; Keane, 1988; Ross, 1989; Seifert, McKoon, Abelson, &amp; Ratcliff, 1986). For example, Gentner et al. (1993) gave participants a memory set of stories and later probed them with stories that were similar in various ways. The greater the surface similarity between the probe and a target in memory (in terms of shared objects and characters), the more likely the target was to be retrieved. In contrast, the greater the degree of shared higher order relational structure (such as shared causal structure), the higher the rated inferential soundness and similarity of the pair. Thus, the kind of similarity that most reliably led to remindings was not the kind participants most valued in making inferences. In fact, participants often rated their own remindings as low in both soundness and similarity.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "7f37578a810b91e3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7943091770582362,
+      "start_line": 189,
+      "end_line": 197,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Plurality of Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454792,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_584e255deaee",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Plurality of Similarity",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "We have reviewed evidence that similarity is a process of structural alignment and mapping over articulated representations. However, similarity does not always appear so structurally discerning. A particularly striking case occurs in similarity-based retrieval. Several findings sug gest that similarity-based retrieval from long-term memory is based on o: erall similarity, with surface similarity heavily weighted, rather than by the kind of structural alignment that best supports inference (Gentner, 1989; Holyoak &amp; Koh, 1987; Keane, 1988; Ross, 1989; Seifert, McKoon, Abelson, &amp; Ratcliff, 1986). For example, Gentner et al. (1993) gave participants a memory set of stories and later probed them with stories that were similar in various ways. The greater the surface similarity between the probe and a target in memory (in terms of shared objects and characters), the more likely the target was to be retrieved. In contrast, the greater the degree of shared higher order relational structure (such as shared causal structure), the higher the rated inferential soundness and similarity of the pair. Thus, the kind of similarity that most reliably led to remindings was not the kind participants most valued in making inferences. In fact, participants often rated their own remindings as low in both soundness and similarity.\n\nFindings like this suggest that similarity is pluralistic (Gentner, 1989; Goldstone, 1994a; Medin et al., 1993). Indeed, a parallel disassociation has been found in problem-solving transfer: Retrieval likelihood is sensitive to surface similarity, whereas likelihood of successful problem solving is sensitive to structural similarity (Keane 1988; Ross, 1987, 1989; but see Hammond, Seifert, &amp; Gray, 1991). This suggests that different kinds of similarity may have different psychological roles in transfer The simulation \"Many are called-but few are chosen\" (MAC-FAC; Forbus et al., 1995) models this phenomenon with a two-stage system: The first stage (MAC) is an indiscriminate, computationally cheap search for any kinds of similarities in memory, and the second stage (FAC) carries out a structure mapping of the candidates from the first stage.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "9d232d1f902741fb",
+      "chunk_type": "h2",
+      "relevance_score": 0.8002311589503256,
+      "start_line": 189,
+      "end_line": 197,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Plurality of Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454798,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7cd07d515743",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Plurality of Similarity",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Findings like this suggest that similarity is pluralistic (Gentner, 1989; Goldstone, 1994a; Medin et al., 1993). Indeed, a parallel disassociation has been found in problem-solving transfer: Retrieval likelihood is sensitive to surface similarity, whereas likelihood of successful problem solving is sensitive to structural similarity (Keane 1988; Ross, 1987, 1989; but see Hammond, Seifert, &amp; Gray, 1991). This suggests that different kinds of similarity may have different psychological roles in transfer The simulation \"Many are called-but few are chosen\" (MAC-FAC; Forbus et al., 1995) models this phenomenon with a two-stage system: The first stage (MAC) is an indiscriminate, computationally cheap search for any kinds of similarities in memory, and the second stage (FAC) carries out a structure mapping of the candidates from the first stage.\n\nAnother way in which similarity is pluralistic is that different kinds of similarity emerge at different points in processing. Response deadline studies of relational comparisons suggest that when participants are required to respond quickly (under 700 ms or under 1,000 ms, depending on the task and materials), they base their sense of similarity on local matches (even cross-mapped object matches) rather than on relational matches (Goldstone &amp; Medin, 1994; Ratcliff &amp; McKoon, 1989). At longer response deadlines, this pattern is reversed. This time course of similarity has been successfully modeled for processing features conjoined into objects by Goldstone and Medin's (1994) Similarity, Interactive Activation, and Mapping (SIAM) model, using a local-to-global process like that of SME. Overall, the difference between early and late processing seems to be a shift from local matches to global structural alignment.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "9f46002329dffc13",
+      "chunk_type": "h2",
+      "relevance_score": 0.7975637365751693,
+      "start_line": 189,
+      "end_line": 197,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Plurality of Similarity",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454804,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_676190af6a9d",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Plurality of Similarity",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# Implications for Other Cognitive Processes\n\n## Implications for Other Cognitive Processes\n\nCategorization. Structural alignment and mapping can provide insight into other cognitive processes (see Figure 5). As one example, similarity is often given a central role in categorization (Hampton, 1995; Rosch, 1975; Smith &amp; Medin, 1981). It is common to assume behavioral, or functional commonalities with the category representation (e.g., robins are seen as birds because of their perceptual and behavioral similarity to a prototype bird or to many other birds that have been encountered). However, many researchers have pointed out cases in which rated similarity and probability of category membership are dissociated (Gelman &amp; Wellman, 1991;\n\nSome Uses of Con parison in Cognitive Processing\n\n<!-- image -->\n\nKeil, 1989; Rips, 1989). For example, bats have the perceptual and behavioral characteristics of birds (they are similar to birds in this sense), but they are classified as mammals, because of important (though nonobvious) properties, such as giving birth to live young. On the basis of examples like this, similarity's role in categorization has been challenged; it has been argued that category membership judgments are theory based rather than similarity based (Keil, 1989; Murphy &amp; Medin, 1985).",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "bb67d1da8e5f5cfd",
+      "chunk_type": "h2",
+      "relevance_score": 0.7936369436544886,
+      "start_line": 197,
+      "end_line": 213,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Implications for Other Cognitive Processes",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.454825,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a7932bc86164",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Implications for Other Cognitive Processes",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Keil, 1989; Rips, 1989). For example, bats have the perceptual and behavioral characteristics of birds (they are similar to birds in this sense), but they are classified as mammals, because of important (though nonobvious) properties, such as giving birth to live young. On the basis of examples like this, similarity's role in categorization has been challenged; it has been argued that category membership judgments are theory based rather than similarity based (Keil, 1989; Murphy &amp; Medin, 1985).\n\nThe process of alignment and mapping points the way to a reconciliation of similarity-based and theorybased accounts (see also Goldstone, 1994a). If we focus purely on perceptual similarity among objects, we are led to conclude that bats should be categorized with birds. On this view, theory-based knowledge (such as why bats are mammals) must intervene from elsewhere to overrule this assignment. However, if the similarity computation is assumed to be that of structural alignment, then the similarity between two instances will be based not only on object-level commonalities but also on com- mon relations such as common causal relations and common origins. Assuming that our representations include information about theory-based relations, such as that bats bear live young, as well as information about features, then the schism between similarity-based and theory-based categorization may be more apparent than real.\n\nDevelopmentally, if we assume that theoretical knowledge is acquired gradually, this view would account for the characteristic-to-defining shift (Keil &amp; Batterman, 1984) in children's interpretations of word meaning from local object features (e.g., a taxi is bright yellow and has a checkered sign) to deeper relational commonalities (e.g., a taxi is a vehicle that may be hired to transport",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "3707b81b5c85c519",
+      "chunk_type": "h2",
+      "relevance_score": 0.7978592857419343,
+      "start_line": 197,
+      "end_line": 213,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Implications for Other Cognitive Processes",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.4548328,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_752cd1d18329",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Implications for Other Cognitive Processes",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Developmentally, if we assume that theoretical knowledge is acquired gradually, this view would account for the characteristic-to-defining shift (Keil &amp; Batterman, 1984) in children's interpretations of word meaning from local object features (e.g., a taxi is bright yellow and has a checkered sign) to deeper relational commonalities (e.g., a taxi is a vehicle that may be hired to transport\n\nChoice and decision. Structural alignment also sheds light on the processes underlying choice behavior. Medin, Goldstone, and Markman (1995) reviewed parallels between phenomena in decision processing and phenomena in comparison processing that suggest an important role for structural alignment in decision making Structural alignment influences which features to pay attention to in choice options. Research suggests that alignable differences are given more weight in choice situations than are nonalignable differences (Lindemann &amp; Markman, 1996; Markman &amp; Medin, 1995; Slovic &amp; MacPhillamy, 1974). For example, Markman and Medin (1995) asked participants to choose between video games and to justify their choices. Their justifications were more likely to contain alignable differences than nonalignable differences. As another example, Kahneman and Tversky (1984) described to participants a hypothetical store in which a jacket could be bought for $125 and a calculator for $15. They offered participants the opportunity to go to another store and save $5 on the total purchase. Participants who were offered a jacket for $125 and a calculator for $10 were more willing to make the effort to go to another store than those offered a jacket for $120 and a calculator for $15. Even though the monetary reward for going to the other store was the same for both groups, participants were influenced by the alignable difference.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "690959934918b6e2",
+      "chunk_type": "h2",
+      "relevance_score": 0.797944534690286,
+      "start_line": 197,
+      "end_line": 213,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Implications for Other Cognitive Processes",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454839,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_fd5c3dc14396",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Implications for Other Cognitive Processes",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Conclusions\n\nComparison processes foster insight. They highlight commonalities and relevant differences, they invite new inferences, and they promote new ways of construing situations. This creative potential is easiest to notice when the domains compared are very different, as in Kepler's analogies or John Donne's metaphors. But even prosaic similarity comparisons can lead to insights. Sometimes these insights are so obvious that we might fail to notice them, as when two-year-old Lucas noticed the repeated pattern of keys opening doors; or Aaron (in Holyoak &amp; Thagard's article, 1997) spontaneously switched roles in the kiss-and-make-better schema; or when a six-year-old realized that tulips must need water, because people do (Inagaki &amp; Hatano, 1987). At first glance, these mundane examples might seem to have nothing in common with the bold analogies of scientific discovery. But let us close\n\nwith our own analogy. Analogies are like comets, flashing through our awareness and riveting our attention. Literal similarity is like planetary motion: steady, predictable, and prosaic. But the planets are central to the behavior of the solar system, and (like literal similarity comparisons) they are always with us. Finally, both planets and comets are governed by the same fundamental laws.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "e162f2fe098c07cc",
+      "chunk_type": "h2",
+      "relevance_score": 0.9435280807507025,
+      "start_line": 213,
+      "end_line": 219,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "Conclusions",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769847703.4548469,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a118dc87ecbc",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Conclusions",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# REFERENCES\n\n## REFERENCES",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "f9ac7b7999afa39d",
+      "chunk_type": "h2",
+      "relevance_score": 0.49999999999999994,
+      "start_line": 219,
+      "end_line": 303,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "REFERENCES",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769847703.4548779,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a216f0097a9f",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "REFERENCES",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## REFERENCES\n\n- Andersen. S. M., &amp; Cole, S. W. (1990). \"Do I know you?': The role of significant others in general social perception. Journal of Personality and Social Psychology, 59, 384-399.\n- Bassok, M. (1990). Transfer of domain-specific problem-solving procedures. Journal of Experimental Psychology: Learning, Memory and Cognition, 16, 522-533.\n- Boronat, C., &amp; Gentner, D. (1996). Metaphors are (sometimes) proBoexie, B. Fi, nerative domain mappings. Manuscript in preparation.\n- &amp; Gentner. D. (1996). Informativity and asymmetry in similarity. Manuscript in preparation.\n- Burstein, M. H. (1988). Incremental learning from multiple analogies. In A. Prieditis (Ed.), Analogica (pp. 37-62). Los Altos, CA: Morgan\n- Clement, C. A., &amp; Gentner, D. (1991). Systematicity as a selection constraint in analogical mapping. Cognitive Science, 15, 89-132\n- Falkenhainer, B., Forbus, K. D., &amp; Gentner, D. (1986). The structuremapping engine. In Proceedings of the fifth national conference on artificial intelligence (pp. 272-277). Los Altos, CA: Morgan\n- Falkenhainer, B., Forbus, K. D., &amp; Gentner, D. (1989). The structuremapping engine: Algorithm and examples. Artificial Intelligence, 41.\n- sucture-maperg snA. Ram &amp; K. Eisell (Eds, Proceedings tha sixteenth annual conference of the Cognitive Science Society (pp. 313-318). Hillsdale, NJ: Erlbaum.\n- Forbus, K. D., &amp; Gentner, D. (1989). Structural evaluation of analogies: What counts? In The proceedings of the eleventh annual conference of the Cognitive Science Society (pp. 341-348). Hillsdale, NJ:\n- Forbus. K. D., Gentner, D., &amp; Law, K. (1995). MAC/FAC: A model of similarity-based retrieval. Cognitive Science, 19, 141-205.\n- Gelman, S. A., &amp; Wellman, H. M. (1991). Insides and essences: Early understandings of the non-obvious. Cognition, 38, 213--244.\n- Gentner, D. (1989). The mechanisms of analogical leaming. In S. Yosniadou &amp; A. Ortony (Eds.), Similarity and analogical reasoning (pp. 199-241). London: Cambridge University Press.\n- Gentner, D. (1983). Structure-mapping: A theoretical framework for analogy. Cognitive Science, 7, 155-170.\n- Gentner, D., &amp; Boronat, C. B. (1992). Metaphors ure (sometimes) processed as generative domain-mappings. Unpublished manuscript.\n- Gentner, D., Brem, S., Ferguson, R., Markman, A. B., Levidow, B. B., Wolff, P., &amp; Forbus, K. D. (in press). Conceptual change via analogical reasoning: A case study of Johannes Kepler. Journal of the Leam-\n- Gentner, D., &amp; Bowdle, B. F. (1994). The coherence imbalance hypothesis: A functional approach to asymmetry in comparison. In A. Ram &amp; K. Eiselt (Eds.), The sixteenth annual meeting of the Cognitive Science Society (pp. 351-356). Hillsdale, NJ: Erlbaum.\n- Gentner, D., &amp; Clement, C. (1988). Evidence for relational selectivity in the interpretation of analogy and metaphor. In G. H. Bower (Ed.), The psychology of learning and motivation (pp. 307-358). San Francisco: Academic Press.\n- Gentner, D., &amp; Gentner, D. R. (1983). Flowing walers or teeming crowds: Mental nodels of electricity. In D. Gentner &amp; A. L. Stevens (Eds.), Mental models (pp. 99-129). Hillsdale, NJ: Erlhaum\n- Gentner, D., &amp; Markman, A. B. (1993). Analogy \u2014 Watershed or Water-\n- oo? Structural alignment and the development of connectionist mo Is of analogy. In S. J. Hanson, J. D. Cowan, &amp; C. L. Giles (eds. Advances in neural information processing systems 5 (pp. 855 - 862). San Mateo, CA: Morgan Kauf\u0131. in.\n- Gentner, D., &amp; Markman, A. B. (19 4). Structural alignment in comparison: No difference without similarity. Psychological Science, 5, 152 - 158.\n- Gentner, D., &amp; Markman, A. B. (1995). Similarity is like analogy. In C. Cacciari (Ed.), Similarity (pp. 111-148). Brussels, Belgium: BREPOLS.\n- Gentner, D., &amp; Rattermann, M. J. (1991). Language and the career of similarity. In S. A. Gelman &amp; J. P. Byres (Eds.), Perspectives on thought and language: Interrelations in development (pp. 225 - 277). London: Cambridge University Press.\n- Gentner, D., Rattermann, M. J., &amp; Forbus, K. D. (1993). The roles of similarity in transfer: Separating retrievability from inferential soundness. Cognitive Psychology, 25, 524-575.\n- Gentner, D., &amp; Schumacher, R. M. (1986). Use of structure mapping theory for complex systems. In Proceedings of the 1986 IEEE international conference on systems, man, and cybernetics (pp. 252-258). New York: IEBE\n- Gentner, D., &amp; Wolff, P. (1996). Metaphor and knowledge change. In A Kasher &amp; Y. Shen (Eds.), Cognitive aspects of metaphor: Structure, comprehension and use. Manuscript in preparation\n- Gentner, D., &amp; Toupin, C. (1986). Systematicity and surface similarity in the development of analogy. Cognitive Science, 10, 277-300.\n- Gibbs, R. W. (1994). The poetics of mind. New York: Cambridge Univer\n- Goldstone, R. L. (1994a). The role of similarity in categorization: Providing a groundwork. Cognition, 52, 125-157.\n- Goldstone, R. L. (1994b). Similarity, interactive activation, and map ping. Journal of Experimental Psychology: Learning, Memory and\n- Goldstone, R. L., &amp; Medin, D. L. (1994). The time course of compari. son. Journal of Experimental Psychology: Learning, Niemory and\n- Goldstone, R. L., Medin, D. L., &amp; Gentner, D. (1991). Relational similarity and the non-independence of features in similarity judgments. Cognitive Psychology, 23, 222-262.\n- Goodman, N. (1972). Problems and prospects. Indianapolis, IN: Bobbs-\n- Greiner, R. (1988). Learning by understanding analogies. Artificial In-\n- Hammond, K. J., Seifert, C. M., &amp; Gray, K. C. (1991). Functionality in analogical transfer: A hard match is good to find. The Journal of the Learning Sciences, 1, 111-152.\n- Hampton, J. A. (1995). Testing the prototype theory of concepts. Journal of Memory and Language, 34, 686-708.\n- Hofstadter, D. (1995). Fluid concepts and creative analogies. New York:\n- Holyoak, K. J. (1985). The pragmatics of analogical transfer. In G. H Bower (Ed.), The psychology of learning and motivation: Advances in research and theory (pp. 59-87). New York: Academic Press.\n- Holyoak, K. J., &amp; Thagard, P. (1989). Analogical mapping by constraint satisfaction. Cognitive Science, 13, 295-355.\n- Holyoak, K. J., &amp; Koh, K. (1987). Surface and structural similarity in analogical transfer. Memory and Cognition, 15, 332-340.\n- Holyoak, K. J., &amp; Thagard, P. (1997). The analogical mind. American Psychologist, 52, 35-44.\n- Kahneman, D., &amp; Miller, D. T. (1985). Norm theory: Comparing reality to its alternatives. Psychological Review, 93, 136--153\n- Inagaki, K., &amp; Hatano, G. (1987). Young children's spontaneous personification as analogy. Child Development, 58, 1013-1020.\n- Kahneman, D., &amp; Tversky, A. (1984). Choices, values, and frames. American Psychoiogist, 39, 341-350.\n- Keane, M. T. (1988). Analogical mechanisms. Artificial Intelligence Review, 2, 229-2.50.\n- *cant may i, 2: A ears on or thiS 194) Constraines on anal, i.\n- Keil, F. C. (1989). Concepts, kinds and cognitive development. Cam-",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "6c97bea9557792db",
+      "chunk_type": "h2",
+      "relevance_score": 0.6155285719938047,
+      "start_line": 219,
+      "end_line": 303,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "REFERENCES",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769847703.454889,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_981ac81491cf",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "REFERENCES",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- Andersen. S. M., &amp; Cole, S. W. (1990). \"Do I know you?': The role of significant others in general social perception. Journal of Personality and Social Psychology, 59, 384-399.\n- Bassok, M. (1990). Transfer of domain-specific problem-solving procedures. Journal of Experimental Psychology: Learning, Memory and Cognition, 16, 522-533.\n- Boronat, C., &amp; Gentner, D. (1996). Metaphors are (sometimes) proBoexie, B. Fi, nerative domain mappings. Manuscript in preparation.\n- &amp; Gentner. D. (1996). Informativity and asymmetry in similarity. Manuscript in preparation.\n- Burstein, M. H. (1988). Incremental learning from multiple analogies. In A. Prieditis (Ed.), Analogica (pp. 37-62). Los Altos, CA: Morgan\n- Clement, C. A., &amp; Gentner, D. (1991). Systematicity as a selection constraint in analogical mapping. Cognitive Science, 15, 89-132\n- Falkenhainer, B., Forbus, K. D., &amp; Gentner, D. (1986). The structuremapping engine. In Proceedings of the fifth national conference on artificial intelligence (pp. 272-277). Los Altos, CA: Morgan\n- Falkenhainer, B., Forbus, K. D., &amp; Gentner, D. (1989). The structuremapping engine: Algorithm and examples. Artificial Intelligence, 41.\n- sucture-maperg snA. Ram &amp; K. Eisell (Eds, Proceedings tha sixteenth annual conference of the Cognitive Science Society (pp. 313-318). Hillsdale, NJ: Erlbaum.\n- Forbus, K. D., &amp; Gentner, D. (1989). Structural evaluation of analogies: What counts? In The proceedings of the eleventh annual conference of the Cognitive Science Society (pp. 341-348). Hillsdale, NJ:\n- Forbus. K. D., Gentner, D., &amp; Law, K. (1995). MAC/FAC: A model of similarity-based retrieval. Cognitive Science, 19, 141-205.\n- Gelman, S. A., &amp; Wellman, H. M. (1991). Insides and essences: Early understandings of the non-obvious. Cognition, 38, 213--244.\n- Gentner, D. (1989). The mechanisms of analogical leaming. In S. Yosniadou &amp; A. Ortony (Eds.), Similarity and analogical reasoning (pp. 199-241). London: Cambridge University Press.\n- Gentner, D. (1983). Structure-mapping: A theoretical framework for analogy. Cognitive Science, 7, 155-170.\n- Gentner, D., &amp; Boronat, C. B. (1992). Metaphors ure (sometimes) processed as generative domain-mappings. Unpublished manuscript.\n- Gentner, D., Brem, S., Ferguson, R., Markman, A. B., Levidow, B. B., Wolff, P., &amp; Forbus, K. D. (in press). Conceptual change via analogical reasoning: A case study of Johannes Kepler. Journal of the Leam-\n- Gentner, D., &amp; Bowdle, B. F. (1994). The coherence imbalance hypothesis: A functional approach to asymmetry in comparison. In A. Ram &amp; K. Eiselt (Eds.), The sixteenth annual meeting of the Cognitive Science Society (pp. 351-356). Hillsdale, NJ: Erlbaum.\n- Gentner, D., &amp; Clement, C. (1988). Evidence for relational selectivity in the interpretation of analogy and metaphor. In G. H. Bower (Ed.), The psychology of learning and motivation (pp. 307-358). San Francisco: Academic Press.\n- Gentner, D., &amp; Gentner, D. R. (1983). Flowing walers or teeming crowds: Mental nodels of electricity. In D. Gentner &amp; A. L. Stevens (Eds.), Mental models (pp. 99-129). Hillsdale, NJ: Erlhaum\n- Gentner, D., &amp; Markman, A. B. (1993). Analogy \u2014 Watershed or Water-\n- oo? Structural alignment and the development of connectionist mo Is of analogy. In S. J. Hanson, J. D. Cowan, &amp; C. L. Giles (eds. Advances in neural information processing systems 5 (pp. 855 - 862). San Mateo, CA: Morgan Kauf\u0131. in.\n- Gentner, D., &amp; Markman, A. B. (19 4). Structural alignment in comparison: No difference without similarity. Psychological Science, 5, 152 - 158.\n- Gentner, D., &amp; Markman, A. B. (1995). Similarity is like analogy. In C. Cacciari (Ed.), Similarity (pp. 111-148). Brussels, Belgium: BREPOLS.\n- Gentner, D., &amp; Rattermann, M. J. (1991). Language and the career of similarity. In S. A. Gelman &amp; J. P. Byres (Eds.), Perspectives on thought and language: Interrelations in development (pp. 225 - 277). London: Cambridge University Press.\n- Gentner, D., Rattermann, M. J., &amp; Forbus, K. D. (1993). The roles of similarity in transfer: Separating retrievability from inferential soundness. Cognitive Psychology, 25, 524-575.\n- Gentner, D., &amp; Schumacher, R. M. (1986). Use of structure mapping theory for complex systems. In Proceedings of the 1986 IEEE international conference on systems, man, and cybernetics (pp. 252-258). New York: IEBE\n- Gentner, D., &amp; Wolff, P. (1996). Metaphor and knowledge change. In A Kasher &amp; Y. Shen (Eds.), Cognitive aspects of metaphor: Structure, comprehension and use. Manuscript in preparation\n- Gentner, D., &amp; Toupin, C. (1986). Systematicity and surface similarity in the development of analogy. Cognitive Science, 10, 277-300.\n- Gibbs, R. W. (1994). The poetics of mind. New York: Cambridge Univer\n- Goldstone, R. L. (1994a). The role of similarity in categorization: Providing a groundwork. Cognition, 52, 125-157.\n- Goldstone, R. L. (1994b). Similarity, interactive activation, and map ping. Journal of Experimental Psychology: Learning, Memory and\n- Goldstone, R. L., &amp; Medin, D. L. (1994). The time course of compari. son. Journal of Experimental Psychology: Learning, Niemory and\n- Goldstone, R. L., Medin, D. L., &amp; Gentner, D. (1991). Relational similarity and the non-independence of features in similarity judgments. Cognitive Psychology, 23, 222-262.\n- Goodman, N. (1972). Problems and prospects. Indianapolis, IN: Bobbs-\n- Greiner, R. (1988). Learning by understanding analogies. Artificial In-\n- Hammond, K. J., Seifert, C. M., &amp; Gray, K. C. (1991). Functionality in analogical transfer: A hard match is good to find. The Journal of the Learning Sciences, 1, 111-152.\n- Hampton, J. A. (1995). Testing the prototype theory of concepts. Journal of Memory and Language, 34, 686-708.\n- Hofstadter, D. (1995). Fluid concepts and creative analogies. New York:\n- Holyoak, K. J. (1985). The pragmatics of analogical transfer. In G. H Bower (Ed.), The psychology of learning and motivation: Advances in research and theory (pp. 59-87). New York: Academic Press.\n- Holyoak, K. J., &amp; Thagard, P. (1989). Analogical mapping by constraint satisfaction. Cognitive Science, 13, 295-355.\n- Holyoak, K. J., &amp; Koh, K. (1987). Surface and structural similarity in analogical transfer. Memory and Cognition, 15, 332-340.\n- Holyoak, K. J., &amp; Thagard, P. (1997). The analogical mind. American Psychologist, 52, 35-44.\n- Kahneman, D., &amp; Miller, D. T. (1985). Norm theory: Comparing reality to its alternatives. Psychological Review, 93, 136--153\n- Inagaki, K., &amp; Hatano, G. (1987). Young children's spontaneous personification as analogy. Child Development, 58, 1013-1020.\n- Kahneman, D., &amp; Tversky, A. (1984). Choices, values, and frames. American Psychoiogist, 39, 341-350.\n- Keane, M. T. (1988). Analogical mechanisms. Artificial Intelligence Review, 2, 229-2.50.\n- *cant may i, 2: A ears on or thiS 194) Constraines on anal, i.\n- Keil, F. C. (1989). Concepts, kinds and cognitive development. Cam-\n\n- Keil, F. C., &amp; Batterman, N. (1984). A characteristic-to-defining shift in the development of word meaning. Journal of Verbal Learning und Verbal Behavior, 23, 221-236.\n- Kepler, J. (1992). The new astronomy (W. H. Donahue, Trans.). Cambridge, England: Cambridge University Press. (Original work pub-\n- Kolodner, J. (1993). Case-based reasoning. San Mateo, CA: Morgan\n- Lakoff, G., &amp; Johnson, M. (1980). Metaphors we live by. Chicago: University of Chicago Press.\n- Lat inum of 14pr. Sent ladies. induction and sim land.\n- ndemann, P. G., &amp; Markman, A. B. (1996). Alignability and attribu portance in choice. In G. Cottrell (Ed.), Proceedings of the eis teenth annual meeting of the Cognitive Science Society (pp. 358363). Hillsdale, NJ: Erlbaum.\n- Markman, A. B., &amp; Gentner, D. (1993a). Splitting the differences: / tructural alignment view of similarity. Journal of Memory and Language, 32, 517-535.\n- Markman, A. B. (1996). Constraints on analogical inference. Manuscript in preparation.\n- Markman, A. B., &amp; Gentner, D. (1993b). Structural alignment during similarity comparisons. Cognitive Psychology, 25, 431--467.\n- Markman, A. B., &amp; Gentner, D. (in press). The effects of alignability on memory. Psychological Science.\n- Markman, A. B., &amp; Gentner, D. (1996). Commonalities and differences in similarity comparisons. Memory &amp; Cognition, 24, 235-249.\n- Markman, A. B., &amp; Medin, D. L. (1995). Similarity ard alignment in choice. Organizational Behavior and Human Decision Processes, 63. 117-130.\n- Markman, A. B., &amp; Wisniewski, E. J. (in press). Similar and different: The differentiation of basic level categories. Journal of Experimental Psychology: Learning, Memory, and Cognition.\n- Medin, D. L., Goldstone, R. L., &amp; Markman, A. B. (1995). Comparison and choice: Relations between similarity processing and decision processing. Psychonomic Bulletin and Review, 2, 1 - 19.\n- Medin, D. L., Goldstone, R. L., &amp; Gentner, D. (1993). Respects for similarity. Psychological Review, 100, 254-278.\n- Murphy, G. L.., &amp; Medin, D. L. (1985). The role of theories in conceptual coherence. Psychological Review, 92, 289-315.\n- Novick, L. R. (1988). Analogical transfer, problem similarity and expertise. Journal of Experimental Psychology: Learning, Memory and Cognition, 14, 510-520.\n- Novick, L. R. (1990). Representational transfer in problem solving. Psychological Science, 1, 128-132.\n- 259- 303). Hillsdale, NJ: Erlbaum.\n- Rate of causa hearies: al real of fren soil den social chot.\n- Ronal information: Dilerenes in she time ourse of ear val. agative Psychology, 21, 139-155.\n- eed, S. K. (1987). A structure-mapping model for word problem: ournal of Experimental Psychology: Learning, Memory, and Cogni\n- Rips, L. J. (1989). Similarity, typicality, and categorization. In S. Vosniadou &amp; A. Ortony (Eds.), Similarity and analogical reasoning (PP. 21-59). New York: Cambridge University Press.\n- Ross, B. H. (1987). This is like that: The use of earlier problems and the separation of similarity effects. Journal of Experimental Psychology: Learning, Memory, and Cognition, 13, 629-639.\n- Rosch, E. (1975). Cognitive representations of semantic categories. Journal of Experimental Psychology: General, 104, 192-233\n- Ross, B. H. (1989). Distinguishing types of superficial similarities: Different effects on the access and use of earlier examples. Journal of Experimental Psychology: Learning, Memory, and Cognition, 15, 456-468\n- Seifert, C. M., McKoon, G., Abelson, R. P., &amp; Ratcliff, R. (1986). Memory connection between thematically similar episodes. Journal of Experimental Psychology: Learning, Memory, and Cognition, 12,\n- Schumacher, R. M., &amp; Gentner, D. (1988). Remembering causal systems: Effects of systematicity and surface similarity in delayed transfer. In Proceedings of the Human Factors Society 32nd annual meetin; (pp. 1271-1275). Santa Monica, CA: Human Factors Society\n- Slovic, P., &amp; MacPhillamy, D. (1974). Dimensional commensurability and cue utilization in comparative judgment. Organizational Behavior and Human Performance, I1, 172-194.\n- Spellman, B. A., &amp; Holyoak, K. J. (in press). Pragmatics in analogical mapping. Cognitive Psychology.\n- Smith, E. E., &amp; Medin, D. L. (1981). Categories and concepts. Cambridge, MA: Harvard University Press.\n- Tversky, A. (1977). Features of similarity. Psychological Review, 84, 327-352.\n- Winston, P. H. (1980). Learning and reasoning by analogy. Communications of the Association for Computing Machinery, 23, 689 - 703.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/GENTNER_1997_StructureMappingSimilarity.pdf",
+      "chunk_id": "d41a5fffb10d9a11",
+      "chunk_type": "h2",
+      "relevance_score": 0.6219864222641373,
+      "start_line": 219,
+      "end_line": 303,
+      "metadata": {
+        "ref_id": "GENTNER_1997",
+        "header": "REFERENCES",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769847703.454905,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_3fe7468c94d2",
+        "parent_id": "pcl_559f88d4e0ac",
+        "ref_id": "GENTNER_1997",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769847703,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "GENTNER_1997_StructureMappingSimilarity.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "REFERENCES",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

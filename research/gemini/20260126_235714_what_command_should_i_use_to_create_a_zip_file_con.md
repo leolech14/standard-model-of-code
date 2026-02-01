@@ -16,12 +16,12 @@ what command should I use to create a zip file containing all documentation file
 
 ## Response
 
-Based on the `context-management/docs/ORIENTATION_FILES.md` documentation, the system has a dedicated tool for exporting key context and documentation into a zip file for external sharing or AI context loading.
+Based on the `wave/docs/ORIENTATION_FILES.md` documentation, the system has a dedicated tool for exporting key context and documentation into a zip file for external sharing or AI context loading.
 
 To create the zip file (`orientation-files.zip`), run the following command from the project root:
 
 ```bash
-./standard-model-of-code/scripts/sync-orientation-files.sh --zip
+./particle/scripts/sync-orientation-files.sh --zip
 ```
 
 ### Details

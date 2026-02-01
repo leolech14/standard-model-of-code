@@ -36,9 +36,9 @@ D. Agency (autonomous vs directed)?
 E. Ontological status (first-class vs parasitic)?
 
 In our codebase:
-- standard-model-of-code/src/core/*.py = 'proper modules' (called, synchronous)
+- particle/src/core/*.py = 'proper modules' (called, synchronous)
 - .agent/tools/autopilot.py = 'automation' (triggered, async)
-- context-management/tools/*.py = ??? (which category?)
+- wave/tools/*.py = ??? (which category?)
 
 What is the ESSENTIAL DIFFERENCE? Not the accidental properties (where it runs) but the ESSENTIAL nature of what makes something 'automation' vs 'module'.
 
@@ -70,7 +70,7 @@ The difference is not where it runs (A), or how it’s triggered (B). It is **TA
 
 Your insight creates a clean cut through the folders:
 
-#### A. `standard-model-of-code/src/core/*.py`
+#### A. `particle/src/core/*.py`
 **Status: PROPER MODULES (The Body)**
 *   **Why:** They contain the logic to parse ASTs, build graphs, and classify atoms.
 *   **Test:** If you delete these, the tool loses the *ability* to do work.
@@ -82,7 +82,7 @@ Your insight creates a clean cut through the folders:
 *   **The "Workaround":** They exist because the code cannot fix itself. They are the "long-term memory" ensuring that `unified_analysis.json` stays fresh despite the static nature of git.
 *   **Ontology:** These are the **Policies**.
 
-#### C. `context-management/tools/*.py` (The Grey Area)
+#### C. `wave/tools/*.py` (The Grey Area)
 **Status: THE ARSENAL (Potential Automation)**
 *   *Current State:* Most are **Proper Modules** (Tools) waiting to be weaponized by Automation.
 *   *Example:* `analyze.py`.

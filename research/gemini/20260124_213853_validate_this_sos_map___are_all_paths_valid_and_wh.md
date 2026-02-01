@@ -1,4 +1,4 @@
-# Research: Validate this SoS map - are all paths valid and what's missing? S1=standard-model-of-code/, S2=conte...
+# Research: Validate this SoS map - are all paths valid and what's missing? S1=particle/, S2=conte...
 
 > **Date:** 2026-01-24 21:38:53
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-Validate this SoS map - are all paths valid and what's missing? S1=standard-model-of-code/, S2=context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md, S3=context-management/tools/ai/analyze.py, S4=context-management/tools/mcp/, S5=.agent/registry/, S6=.agent/tools/bare, S7=context-management/tools/archive/, S8=.pre-commit-config.yaml, S9=standard-model-of-code/tools/research/laboratory.py, S9b=context-management/tools/ai/laboratory_bridge.py
+Validate this SoS map - are all paths valid and what's missing? S1=particle/, S2=wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md, S3=wave/tools/ai/analyze.py, S4=wave/tools/mcp/, S5=.agent/registry/, S6=.agent/tools/bare, S7=wave/tools/archive/, S8=.pre-commit-config.yaml, S9=particle/tools/research/laboratory.py, S9b=wave/tools/ai/laboratory_bridge.py
 
 ---
 
@@ -23,16 +23,16 @@ All 10 paths provided in your query align perfectly with the **Subsystem Registr
 
 | ID | Subsystem | Provided Path | Status | Context Reference |
 |----|-----------|---------------|--------|-------------------|
-| **S1** | Collider | `standard-model-of-code/` | **MATCH** | Registry Row 1 |
-| **S2** | HSL | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | **MATCH** | Registry Row 2 |
-| **S3** | analyze.py | `context-management/tools/ai/analyze.py` | **MATCH** | Registry Row 3 |
-| **S4** | Perplexity | `context-management/tools/mcp/` | **MATCH** | Registry Row 4 (File is `perplexity_mcp_server.py`) |
+| **S1** | Collider | `particle/` | **MATCH** | Registry Row 1 |
+| **S2** | HSL | `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | **MATCH** | Registry Row 2 |
+| **S3** | analyze.py | `wave/tools/ai/analyze.py` | **MATCH** | Registry Row 3 |
+| **S4** | Perplexity | `wave/tools/mcp/` | **MATCH** | Registry Row 4 (File is `perplexity_mcp_server.py`) |
 | **S5** | Task Registry | `.agent/registry/` | **MATCH** | Registry Row 5 |
 | **S6** | BARE | `.agent/tools/bare` | **MATCH** | Registry Row 6 |
-| **S7** | Archive | `context-management/tools/archive/` | **MATCH** | Registry Row 7 |
+| **S7** | Archive | `wave/tools/archive/` | **MATCH** | Registry Row 7 |
 | **S8** | Hygiene | `.pre-commit-config.yaml` | **MATCH** | Registry Row 8 |
-| **S9** | Laboratory | `standard-model-of-code/tools/research/laboratory.py` | **MATCH** | Registry Row 9 |
-| **S9b**| Lab Bridge | `context-management/tools/ai/laboratory_bridge.py` | **MATCH** | Registry Row 9b |
+| **S9** | Laboratory | `particle/tools/research/laboratory.py` | **MATCH** | Registry Row 9 |
+| **S9b**| Lab Bridge | `wave/tools/ai/laboratory_bridge.py` | **MATCH** | Registry Row 9b |
 
 ### 2. What is Missing? (Gap Analysis)
 

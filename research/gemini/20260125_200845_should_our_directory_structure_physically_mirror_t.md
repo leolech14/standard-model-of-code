@@ -10,7 +10,7 @@
 
 ## Query
 
-Should our directory structure physically mirror the CODOME/CONTEXTOME conceptual separation? Currently CONTEXTOME files (docs/*.md) live inside CODOME directories (standard-model-of-code/). Arguments for and against restructuring.
+Should our directory structure physically mirror the CODOME/CONTEXTOME conceptual separation? Currently CONTEXTOME files (docs/*.md) live inside CODOME directories (particle/). Arguments for and against restructuring.
 
 ---
 
@@ -25,8 +25,8 @@ Let's analyze the codebase context to build arguments for and against such a res
 The project defines its universe (`PROJECTOME`) as a disjoint union of `CODOME` (all executable code) and `CONTEXTOME` (all non-executable content like documentation, configuration, AI outputs). This is a foundational `SET ALGEBRA` principle articulated in `PROJECTOME.md`, `CODOME.md`, `CONTEXTOME.md`, and `GLOSSARY.md`.
 
 However, the *physical* directory structure is primarily organized by **Realms**:
-*   **PARTICLE Realm**: `standard-model-of-code/` (for Collider engine, atoms, schemas, *and* core theory docs like `MODEL.md`). `TOPOLOGY_MAP.md` explicitly calls `standard-model-of-code/docs/` "Theory & specs (CONTEXTOME)" within the `PARTICLE REALM`.
-*   **WAVE Realm**: `context-management/` (for AI tools, research, planning, *and* its own documentation and configuration).
+*   **PARTICLE Realm**: `particle/` (for Collider engine, atoms, schemas, *and* core theory docs like `MODEL.md`). `TOPOLOGY_MAP.md` explicitly calls `particle/docs/` "Theory & specs (CONTEXTOME)" within the `PARTICLE REALM`.
+*   **WAVE Realm**: `wave/` (for AI tools, research, planning, *and* its own documentation and configuration).
 *   **OBSERVER Realm**: `.agent/` (for tasks, intelligence, BARE, *and* agent-specific documentation and schemas).
 
 This means that, as the user points out, `CONTEXTOME` files (e.g., `docs/*.md`) currently reside *within* directories associated with the `PARTICLE` or `WAVE` realms, which also contain `CODOME` (executable code).
@@ -48,15 +48,15 @@ This means that, as the user points out, `CONTEXTOME` files (e.g., `docs/*.md`) 
 ## Arguments AGAINST Restructuring (Keep Current Realm-Based Structure)
 
 1.  **Existing Realm Architecture is Intentional**:
-    *   The `TOPOLOGY_MAP.md` and `GLOSSARY.md` clearly define **Realms** (`Particle`, `Wave`, `Observer`) as the primary physical organizational units, which *contain* both `CODOME` and `CONTEXTOME` elements relevant to their specific purpose. For example, `standard-model-of-code/docs/MODEL.md` (CONTEXTOME) is fundamentally tied to the `Collider` engine's implementation (CODOME) within the `PARTICLE REALM`.
-    *   The `AGENTKNOWLEDGEDUMP.md` explicitly lists `standard-model-of-code/` as the `PARTICLE REALM` which holds "Collider engine, atoms, schemas" (CODOME aspects) *and* `MODEL.md` "Theory spec" (CONTEXTOME aspect). This co-location is a feature, not a bug, reflecting that the "measurement, collapse, certainty" of the Particle Realm encompasses both the implemented code and its foundational theory.
+    *   The `TOPOLOGY_MAP.md` and `GLOSSARY.md` clearly define **Realms** (`Particle`, `Wave`, `Observer`) as the primary physical organizational units, which *contain* both `CODOME` and `CONTEXTOME` elements relevant to their specific purpose. For example, `particle/docs/MODEL.md` (CONTEXTOME) is fundamentally tied to the `Collider` engine's implementation (CODOME) within the `PARTICLE REALM`.
+    *   The `AGENTKNOWLEDGEDUMP.md` explicitly lists `particle/` as the `PARTICLE REALM` which holds "Collider engine, atoms, schemas" (CODOME aspects) *and* `MODEL.md` "Theory spec" (CONTEXTOME aspect). This co-location is a feature, not a bug, reflecting that the "measurement, collapse, certainty" of the Particle Realm encompasses both the implemented code and its foundational theory.
 
 2.  **Cohesion and Developer Experience**:
     *   For human developers, having documentation (`README.md`, design specs) co-located with the code it describes is a common and intuitive practice. Separating these into entirely distinct top-level `codome/` and `contextome/` directories would introduce friction, requiring navigation between distant parts of the repository for closely related information.
     *   The project emphasizes `DOMAINS` as "vertical slices through BOTH universes" (`DOMAINS.md`). The current realm-based structure, where context files live alongside the code they relate to *within a functional realm*, arguably supports this cross-cutting domain view better than a strict `CODOME`/`CONTEXTOME` partition.
 
 3.  **Impact on Existing Tools and AI Contexts**:
-    *   The system already has mature tooling built around the current structure. `AI_USER_GUIDE.md` notes that `analyze.py --mode architect` "Injects `metadata/COLLIDER_ARCHITECTURE.md` into the context window automatically." `COLLIDER_ARCHITECTURE.md` is in `context-management/docs/`. Moving such files would require significant updates to AI agent configurations, `analysis_sets.yaml` definitions, and potentially other scripts.
+    *   The system already has mature tooling built around the current structure. `AI_USER_GUIDE.md` notes that `analyze.py --mode architect` "Injects `metadata/COLLIDER_ARCHITECTURE.md` into the context window automatically." `COLLIDER_ARCHITECTURE.md` is in `wave/docs/`. Moving such files would require significant updates to AI agent configurations, `analysis_sets.yaml` definitions, and potentially other scripts.
     *   `DOCS_REORG_TASK_REGISTRY.md` (TASK-001 and TASK-006) shows previous decisions to *reject* proposals to move `THEORY.md` or `COLLIDER_ARCHITECTURE.md` to different top-level directories due to breaking existing tool configurations and conceptual misalignment with how these documents serve AI agents.
 
 4.  **Holographic Principle and Intelligent Context Retrieval**:
@@ -73,7 +73,7 @@ A rigid top-level physical separation of `CODOME` and `CONTEXTOME` would:
 
 The project's philosophy appears to favor a pragmatic, purpose-driven co-location within Realms, complemented by intelligent `ACI` (Adaptive Context Intelligence) mechanisms (`SEMANTIC MATCHER`, `SET RESOLUTION` from `ACI_DATASET_MANAGEMENT.md`) that dynamically assemble context across locations. These mechanisms are sophisticated enough to differentiate and combine `CODOME` and `CONTEXTOME` as needed, even if they are physically interleaved within a Realm.
 
-Therefore, the recommendation is **against a top-level physical restructuring to mirror `CODOME`/`CONTEXTOME` directly**. The current Realm-based organization, with explicit `CONTEXTOME` subdirectories within them (e.g., `standard-model-of-code/docs/`), already provides a logical and functional separation that balances theoretical purity with practical usability and maintainability for both human and AI agents. Further refinement should focus on improving the `SYMMETRY STATES` and `DOMAIN HEALTH` within the existing Realm structure rather than a wholesale reorganization.
+Therefore, the recommendation is **against a top-level physical restructuring to mirror `CODOME`/`CONTEXTOME` directly**. The current Realm-based organization, with explicit `CONTEXTOME` subdirectories within them (e.g., `particle/docs/`), already provides a logical and functional separation that balances theoretical purity with practical usability and maintainability for both human and AI agents. Further refinement should focus on improving the `SYMMETRY STATES` and `DOMAIN HEALTH` within the existing Realm structure rather than a wholesale reorganization.
 
 ---
 

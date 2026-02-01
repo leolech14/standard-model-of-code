@@ -78,8 +78,8 @@ As a senior software engineer, here is my analysis and proposed integration arch
 
 The existing subsystems can be unified into a powerful, self-regulating development ecosystem. The key is to see them not as separate tools, but as organs in a larger organism:
 
-*   **The Body (`standard-model-of-code`):** The physical form and sensory apparatus. The Collider engine *perceives* the codebase's structure.
-*   **The Brain (`context-management`):** The cognitive and reasoning faculty. The `analyze.py` tool and its associated docs *think* about the code's meaning and architecture.
+*   **The Body (`particle`):** The physical form and sensory apparatus. The Collider engine *perceives* the codebase's structure.
+*   **The Brain (`wave`):** The cognitive and reasoning faculty. The `analyze.py` tool and its associated docs *think* about the code's meaning and architecture.
 *   **The Nervous System (`.agent/` Task Registry):** The action and coordination center. It tracks what needs to be done, who is doing it, and its current state.
 *   **The Immune System (`BARE`):** The autonomous maintenance and defense system. It runs in the background, identifying threats (drift, anti-patterns) and opportunities for improvement.
 
@@ -98,8 +98,8 @@ This diagram illustrates the complete workflow, integrating all subsystems and p
 ```mermaid
 flowchart TD
     subgraph Codebase ["Codebase"]
-        A[standard-model-of-code/]
-        B[context-management/]
+        A[particle/]
+        B[wave/]
     end
 
     subgraph Analysis [_]
@@ -127,7 +127,7 @@ flowchart TD
     subgraph HumanInteraction ["Human / Lead Agent"]
         I{Promote Opportunity}
     end
-    
+
     subgraph BrainTools ["Brain Tools"]
         M(analyze.py):::brain
         N(Perplexity MCP):::brain
@@ -142,25 +142,25 @@ flowchart TD
     %% FLOW
     A -- analyzes --> C
     B -- analyzes --> C
-    
+
     Codebase -- "git commit" --> D
     D -- triggers --> E
     E -- "Finds Opportunity" --> F
-    
+
     F -- "Review" --> I
     I -- "Creates TASK-XXX.yaml" --> G
-    
+
     G -- "Agent runs" --> J
     J -- "Moves task to" --> K
     K -- "Agent uses" --> M
     K -- "Agent uses" --> N
-    
+
     M -- "Reasons about" --> Codebase
     N -- "Researches for" --> Codebase
 
     K -- "Agent completes, runs" --> L
     L -- "Moves task to" --> H
-    
+
     L -- "Commits changes" --> Codebase
 
 ```
@@ -187,9 +187,9 @@ BARE's `OpportunityExplorer` becomes the primary source for the new **Discovery 
     title: "Documentation Drift Detected: THEORY.md vs. Implementation"
     description: "The BARE TruthValidator found that the definition of 'Atom' in THEORY.md (200 atoms) conflicts with the implemented count in atom_registry.py (94 atoms)."
     evidence:
-      - file: standard-model-of-code/docs/theory/THEORY.md
+      - file: particle/docs/theory/THEORY.md
         lines: [6, 22]
-      - file: standard-model-of-code/src/core/atom_registry.py
+      - file: particle/src/core/atom_registry.py
         lines: [15]
     suggested_action: "Create a task to reconcile the atom counts in documentation and implementation."
     ```

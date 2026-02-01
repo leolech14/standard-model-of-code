@@ -13,9 +13,9 @@ source:
   origin: code_archaeology
   trigger: "Reviewed NeurIPS 2023 ConAff paper during purpose emergence audit"
   related_files:
-    - standard-model-of-code/src/core/graph_type_inference.py
-    - standard-model-of-code/src/core/purpose_emergence.py
-    - standard-model-of-code/src/core/topology_reasoning.py
+    - particle/src/core/graph_type_inference.py
+    - particle/src/core/purpose_emergence.py
+    - particle/src/core/topology_reasoning.py
 
 # Problem Statement
 problem: |
@@ -131,11 +131,11 @@ references:
     type: paper
 
   - title: "Existing implementation"
-    path: "standard-model-of-code/src/core/graph_type_inference.py"
+    path: "particle/src/core/graph_type_inference.py"
     type: code
 
   - title: "Purpose Emergence docs"
-    path: "context-management/docs/deep/PURPOSE_EMERGENCE.md"
+    path: "wave/docs/deep/PURPOSE_EMERGENCE.md"
     type: documentation
 
 # Confidence Scores (4D)

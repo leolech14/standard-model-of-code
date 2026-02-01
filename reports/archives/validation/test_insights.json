@@ -12,8 +12,8 @@
       "pattern_type": "architectural",
       "confidence": 0.8,
       "affected_nodes": [
-        "standard-model-of-code/",
-        "context-management/",
+        "particle/",
+        "wave/",
         "archive/"
       ],
       "evidence": "The project structure divides functionality into 'Body', 'Brain', and 'Cold storage' modules, each with a specific purpose.",
@@ -24,10 +24,10 @@
       "pattern_type": "architectural",
       "confidence": 0.7,
       "affected_nodes": [
-        "standard-model-of-code/",
-        "context-management/"
+        "particle/",
+        "wave/"
       ],
-      "evidence": "The 'standard-model-of-code' module handles the core analysis engine, while 'context-management' focuses on AI-related tasks, indicating a separation of concerns.",
+      "evidence": "The 'particle' module handles the core analysis engine, while 'wave' focuses on AI-related tasks, indicating a separation of concerns.",
       "recommendation": "Continue to maintain clear boundaries between modules to avoid tight coupling and promote modularity."
     }
   ],
@@ -36,9 +36,9 @@
       "title": "Detailed Code Analysis",
       "priority": "HIGH",
       "category": "Code Quality",
-      "description": "A detailed code analysis of the 'standard-model-of-code/' directory is required to identify any potential code smells or anti-patterns within the core analysis engine.",
+      "description": "A detailed code analysis of the 'particle/' directory is required to identify any potential code smells or anti-patterns within the core analysis engine.",
       "affected_files": [
-        "standard-model-of-code/"
+        "particle/"
       ],
       "estimated_impact": "Improved code quality, maintainability, and reduced technical debt."
     },
@@ -46,30 +46,30 @@
       "title": "Interface Definition",
       "priority": "MEDIUM",
       "category": "Architecture",
-      "description": "Define clear interfaces between the 'standard-model-of-code/' and 'context-management/' modules to ensure loose coupling and facilitate future integrations.",
+      "description": "Define clear interfaces between the 'particle/' and 'wave/' modules to ensure loose coupling and facilitate future integrations.",
       "affected_files": [
-        "standard-model-of-code/",
-        "context-management/"
+        "particle/",
+        "wave/"
       ],
       "estimated_impact": "Increased modularity, reusability, and reduced dependencies between modules."
     }
   ],
   "topology_analysis": {
-    "shape_interpretation": "The topology can be interpreted as a layered architecture, with the 'standard-model-of-code' layer providing core functionality, the 'context-management' layer adding higher-level AI capabilities, and the 'archive' layer providing data storage.",
+    "shape_interpretation": "The topology can be interpreted as a layered architecture, with the 'particle' layer providing core functionality, the 'wave' layer adding higher-level AI capabilities, and the 'archive' layer providing data storage.",
     "health_assessment": "The overall health appears good based on the modular design, but a detailed code analysis is needed to assess the internal health of each module.",
-    "coupling_analysis": "Assess the coupling between 'standard-model-of-code' and 'context-management'. High coupling could indicate a need for refactoring to improve modularity."
+    "coupling_analysis": "Assess the coupling between 'particle' and 'wave'. High coupling could indicate a need for refactoring to improve modularity."
   },
   "risk_areas": [
     {
       "area": "Tight Coupling",
       "risk_level": "MEDIUM",
-      "description": "Potential for tight coupling between 'standard-model-of-code/' and 'context-management/' if interfaces are not well-defined.",
+      "description": "Potential for tight coupling between 'particle/' and 'wave/' if interfaces are not well-defined.",
       "mitigation": "Define clear and stable interfaces between modules to reduce dependencies."
     },
     {
       "area": "Code Complexity",
       "risk_level": "MEDIUM",
-      "description": "The 'standard-model-of-code/' module may contain complex code due to the nature of code analysis. Requires further investigation.",
+      "description": "The 'particle/' module may contain complex code due to the nature of code analysis. Requires further investigation.",
       "mitigation": "Conduct a code review and refactor complex sections to improve readability and maintainability."
     }
   ]

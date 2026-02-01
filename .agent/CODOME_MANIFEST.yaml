@@ -13,17 +13,17 @@ description: "Standard Model of Code - Finding the basic constituents of compute
 realms:
   particle:
     name: "Particle (Collider)"
-    path: "standard-model-of-code/"
+    path: "particle/"
     purpose: "Deterministic analysis - collapses code into knowledge"
-    entry_point: "standard-model-of-code/cli.py"
-    claude_md: "standard-model-of-code/CLAUDE.md"
+    entry_point: "particle/cli.py"
+    claude_md: "particle/CLAUDE.md"
 
   wave:
     name: "Wave (Context Management)"
-    path: "context-management/"
+    path: "wave/"
     purpose: "AI reasoning, planning, research - field of potential"
-    entry_point: "context-management/tools/ai/analyze.py"
-    claude_md: "context-management/docs/AI_USER_GUIDE.md"
+    entry_point: "wave/tools/ai/analyze.py"
+    claude_md: "wave/docs/AI_USER_GUIDE.md"
 
   observer:
     name: "Observer (.agent)"
@@ -36,123 +36,123 @@ realms:
 # =============================================================================
 specs:
   AI_INTERFACE_SPEC:
-    path: "standard-model-of-code/docs/specs/AI_INTERFACE_SPEC.md"
+    path: "particle/docs/specs/AI_INTERFACE_SPEC.md"
     purpose: "Communication grip layer for AI interface with Collider"
 
   CODOME_BOUNDARY_DEFINITION:
-    path: "standard-model-of-code/docs/specs/CODOME_BOUNDARY_DEFINITION.md"
+    path: "particle/docs/specs/CODOME_BOUNDARY_DEFINITION.md"
     purpose: "Defines codome boundaries before measuring"
 
   CODOME_COMPLETENESS_INDEX:
-    path: "standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md"
+    path: "particle/docs/specs/CODOME_COMPLETENESS_INDEX.md"
     purpose: "Index for measuring codome completeness"
 
   CODOME_HEALTH_INDEX:
-    path: "standard-model-of-code/docs/specs/CODOME_HEALTH_INDEX.md"
+    path: "particle/docs/specs/CODOME_HEALTH_INDEX.md"
     purpose: "Measures code quality and health metrics"
 
   CODOME_LANDSCAPE:
-    path: "standard-model-of-code/docs/specs/CODOME_LANDSCAPE.md"
+    path: "particle/docs/specs/CODOME_LANDSCAPE.md"
     purpose: "Topology-based terrain model for code navigation"
 
   COMPLETENESS_ATTESTATION_PROTOCOL:
-    path: "standard-model-of-code/docs/specs/COMPLETENESS_ATTESTATION_PROTOCOL.md"
+    path: "particle/docs/specs/COMPLETENESS_ATTESTATION_PROTOCOL.md"
     purpose: "Protocol to prove exhaustive discovery of code particles"
 
   EXHAUSTIVE_CLASSIFICATION_MODEL:
-    path: "standard-model-of-code/docs/specs/EXHAUSTIVE_CLASSIFICATION_MODEL.md"
+    path: "particle/docs/specs/EXHAUSTIVE_CLASSIFICATION_MODEL.md"
     purpose: "Proves completeness by partitioning into signal and noise"
 
   LANDSCAPE_IMPLEMENTATION_GUIDE:
-    path: "standard-model-of-code/docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md"
+    path: "particle/docs/specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md"
     purpose: "Algorithms and pipeline integration for code landscape"
 
   NODE_COUNT_GROUND_TRUTH:
-    path: "standard-model-of-code/docs/specs/NODE_COUNT_GROUND_TRUTH.md"
+    path: "particle/docs/specs/NODE_COUNT_GROUND_TRUTH.md"
     purpose: "Canonical node count specifications"
 
   PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE:
-    path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE.md"
+    path: "particle/docs/specs/PIPELINE_REFACTOR_IMPLEMENTATION_GUIDE.md"
     purpose: "Step-by-step guide for pipeline refactoring"
 
   PIPELINE_REFACTOR_TASK_REGISTRY:
-    path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
+    path: "particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
     purpose: "Task registry for pipeline refactor"
 
   PIPELINE_STAGES:
-    path: "standard-model-of-code/docs/specs/PIPELINE_STAGES.md"
+    path: "particle/docs/specs/PIPELINE_STAGES.md"
     purpose: "Complete specification of Collider pipeline stages"
 
   README:
-    path: "standard-model-of-code/docs/specs/README.md"
+    path: "particle/docs/specs/README.md"
     purpose: "Specifications directory overview"
 
   REGISTRY_OF_REGISTRIES:
-    path: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
+    path: "particle/docs/specs/REGISTRY_OF_REGISTRIES.md"
     purpose: "Master index of all registries and collections"
 
   SCALE_TRANSFORMS:
-    path: "standard-model-of-code/docs/specs/SCALE_TRANSFORMS.md"
+    path: "particle/docs/specs/SCALE_TRANSFORMS.md"
     purpose: "Warp functions for data distribution visualization"
 
   T2_EXPANSION_PLAN:
-    path: "standard-model-of-code/docs/specs/T2_EXPANSION_PLAN.md"
+    path: "particle/docs/specs/T2_EXPANSION_PLAN.md"
     purpose: "Plan to expand T2 atoms to 600+"
 
   T2_EXPANSION_ROADMAP:
-    path: "standard-model-of-code/docs/specs/T2_EXPANSION_ROADMAP.md"
+    path: "particle/docs/specs/T2_EXPANSION_ROADMAP.md"
     purpose: "Roadmap to scale T2 atoms to 1000+"
 
   TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY:
-    path: "standard-model-of-code/docs/specs/TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY.md"
+    path: "particle/docs/specs/TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY.md"
     purpose: "Archived Tree-sitter task registry"
 
   TREE_SITTER_INTEGRATION_SPEC:
-    path: "standard-model-of-code/docs/specs/TREE_SITTER_INTEGRATION_SPEC.md"
+    path: "particle/docs/specs/TREE_SITTER_INTEGRATION_SPEC.md"
     purpose: "Comprehensive Tree-sitter capabilities guide"
 
   TREE_SITTER_POWER_INVENTORY:
-    path: "standard-model-of-code/docs/specs/TREE_SITTER_POWER_INVENTORY.md"
+    path: "particle/docs/specs/TREE_SITTER_POWER_INVENTORY.md"
     purpose: "Living checklist of Tree-sitter capabilities"
 
   TREE_SITTER_TASK_REGISTRY:
-    path: "standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md"
+    path: "particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md"
     purpose: "Master registry for Tree-sitter implementation"
 
   TREE_SITTER_VALIDATION_REPORT:
-    path: "standard-model-of-code/docs/specs/TREE_SITTER_VALIDATION_REPORT.md"
+    path: "particle/docs/specs/TREE_SITTER_VALIDATION_REPORT.md"
     purpose: "Evidence-based validation of Tree-sitter"
 
   UI_LAYOUT_ARCHITECTURE:
-    path: "standard-model-of-code/docs/specs/UI_LAYOUT_ARCHITECTURE.md"
+    path: "particle/docs/specs/UI_LAYOUT_ARCHITECTURE.md"
     purpose: "Component positioning and spatial intelligence"
 
   UI_REFACTOR_VISION:
-    path: "standard-model-of-code/docs/specs/UI_REFACTOR_VISION.md"
+    path: "particle/docs/specs/UI_REFACTOR_VISION.md"
     purpose: "Vision document for UI refactoring"
 
   UI_SESSION_SUMMARY:
-    path: "standard-model-of-code/docs/specs/UI_SESSION_SUMMARY.md"
+    path: "particle/docs/specs/UI_SESSION_SUMMARY.md"
     purpose: "Compact reference for UI layout work"
 
   UNIVERSAL_PROPERTY_BINDER:
-    path: "standard-model-of-code/docs/specs/UNIVERSAL_PROPERTY_BINDER.md"
+    path: "particle/docs/specs/UNIVERSAL_PROPERTY_BINDER.md"
     purpose: "Many-to-many binding between data and visual channels"
 
   UPB_IMPLEMENTATION_PLAN:
-    path: "standard-model-of-code/docs/specs/UPB_IMPLEMENTATION_PLAN.md"
+    path: "particle/docs/specs/UPB_IMPLEMENTATION_PLAN.md"
     purpose: "RAG-validated plan for UPB implementation"
 
   UPB_LEGACY_SPRAWL:
-    path: "standard-model-of-code/docs/specs/UPB_LEGACY_SPRAWL.md"
+    path: "particle/docs/specs/UPB_LEGACY_SPRAWL.md"
     purpose: "Confidence-scored inventory of affected modules"
 
   UPB_TASK_REGISTRY:
-    path: "standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md"
+    path: "particle/docs/specs/UPB_TASK_REGISTRY.md"
     purpose: "Task registry for UPB"
 
   VISUALIZATION_UI_SPEC:
-    path: "standard-model-of-code/docs/specs/VISUALIZATION_UI_SPEC.md"
+    path: "particle/docs/specs/VISUALIZATION_UI_SPEC.md"
     purpose: "Technical spec for interactive visualization"
 
 # =============================================================================
@@ -160,187 +160,187 @@ specs:
 # =============================================================================
 core_modules:
   type_registry:
-    path: "standard-model-of-code/src/core/type_registry.py"
+    path: "particle/src/core/type_registry.py"
     purpose: "Canonical Type Registry - single source of truth for type system"
 
   smart_extractor:
-    path: "standard-model-of-code/src/core/smart_extractor.py"
+    path: "particle/src/core/smart_extractor.py"
     purpose: "Rich context extraction for LLM classification"
 
   performance_predictor:
-    path: "standard-model-of-code/src/core/performance_predictor.py"
+    path: "particle/src/core/performance_predictor.py"
     purpose: "Time type classification and cost estimation"
 
   god_class_detector_lite:
-    path: "standard-model-of-code/src/core/god_class_detector_lite.py"
+    path: "particle/src/core/god_class_detector_lite.py"
     purpose: "Lightweight God Class detector for antimatter risk"
 
   ir:
-    path: "standard-model-of-code/src/core/ir.py"
+    path: "particle/src/core/ir.py"
     purpose: "ATOM Intermediate Representation for code graphs"
 
   insights_engine:
-    path: "standard-model-of-code/src/core/insights_engine.py"
+    path: "particle/src/core/insights_engine.py"
     purpose: "Actionable insights and recommendations from classification"
 
   report_generator:
-    path: "standard-model-of-code/src/core/report_generator.py"
+    path: "particle/src/core/report_generator.py"
     purpose: "Technical reports from detected patterns"
 
   roadmap_evaluator:
-    path: "standard-model-of-code/src/core/roadmap_evaluator.py"
+    path: "particle/src/core/roadmap_evaluator.py"
     purpose: "Evaluates codebase against architectural roadmaps"
 
   semantic_cortex:
-    path: "standard-model-of-code/src/core/semantic_cortex.py"
+    path: "particle/src/core/semantic_cortex.py"
     purpose: "Business concepts extraction via ConceptExtractor"
 
   topology_reasoning:
-    path: "standard-model-of-code/src/core/topology_reasoning.py"
+    path: "particle/src/core/topology_reasoning.py"
     purpose: "Visual shape analysis and topology classification"
 
   data_management:
-    path: "standard-model-of-code/src/core/data_management.py"
+    path: "particle/src/core/data_management.py"
     purpose: "Unified data layer with schema integrity"
 
   ollama_client:
-    path: "standard-model-of-code/src/core/ollama_client.py"
+    path: "particle/src/core/ollama_client.py"
     purpose: "Local LLM integration for component classification"
 
   newman_suite:
-    path: "standard-model-of-code/src/core/newman_suite.py"
+    path: "particle/src/core/newman_suite.py"
     purpose: "Collider health check system with probes"
 
   normalize_output:
-    path: "standard-model-of-code/src/core/normalize_output.py"
+    path: "particle/src/core/normalize_output.py"
     purpose: "Output normalization enforcing canonical contract"
 
   universal_detector:
-    path: "standard-model-of-code/src/core/universal_detector.py"
+    path: "particle/src/core/universal_detector.py"
     purpose: "Universal pattern detection orchestrator"
 
   output_generator:
-    path: "standard-model-of-code/src/core/output_generator.py"
+    path: "particle/src/core/output_generator.py"
     purpose: "Unified JSON and HTML report generator"
 
   stats_generator:
-    path: "standard-model-of-code/src/core/stats_generator.py"
+    path: "particle/src/core/stats_generator.py"
     purpose: "Comprehensive metrics and statistics"
 
   observability:
-    path: "standard-model-of-code/src/core/observability.py"
+    path: "particle/src/core/observability.py"
     purpose: "Per-stage performance tracking"
 
   brain_download:
-    path: "standard-model-of-code/src/core/brain_download.py"
+    path: "particle/src/core/brain_download.py"
     purpose: "LLM-optimized codebase summary generator"
 
   file_enricher:
-    path: "standard-model-of-code/src/core/file_enricher.py"
+    path: "particle/src/core/file_enricher.py"
     purpose: "Metadata extraction for visualization"
 
   analytics_engine:
-    path: "standard-model-of-code/src/core/analytics_engine.py"
+    path: "particle/src/core/analytics_engine.py"
     purpose: "Shannon Entropy and Cyclomatic Complexity"
 
   heuristic_classifier:
-    path: "standard-model-of-code/src/core/heuristic_classifier.py"
+    path: "particle/src/core/heuristic_classifier.py"
     purpose: "Deterministic naming pattern classifier fallback"
 
   graph_type_inference:
-    path: "standard-model-of-code/src/core/graph_type_inference.py"
+    path: "particle/src/core/graph_type_inference.py"
     purpose: "Infer node types from graph connections"
 
   extract_orphans:
-    path: "standard-model-of-code/src/core/extract_orphans.py"
+    path: "particle/src/core/extract_orphans.py"
     purpose: "Identify unreachable orphaned code"
 
   generate_health_report:
-    path: "standard-model-of-code/src/core/generate_health_report.py"
+    path: "particle/src/core/generate_health_report.py"
     purpose: "Codebase health and compliance report"
 
   execution_flow:
-    path: "standard-model-of-code/src/core/execution_flow.py"
+    path: "particle/src/core/execution_flow.py"
     purpose: "Causality chains and orphan detection"
 
   profile_loader:
-    path: "standard-model-of-code/src/core/profile_loader.py"
+    path: "particle/src/core/profile_loader.py"
     purpose: "Constraint field and dimension profile loading"
 
   constraint_engine:
-    path: "standard-model-of-code/src/core/constraint_engine.py"
+    path: "particle/src/core/constraint_engine.py"
     purpose: "Three-tier validation against constraint rules"
 
   purpose_field:
-    path: "standard-model-of-code/src/core/purpose_field.py"
+    path: "particle/src/core/purpose_field.py"
     purpose: "Hierarchical purpose emergence detector"
 
   purpose_emergence:
-    path: "standard-model-of-code/src/core/purpose_emergence.py"
+    path: "particle/src/core/purpose_emergence.py"
     purpose: "Emergent purpose at multiple levels"
 
   purpose_intelligence:
-    path: "standard-model-of-code/src/core/purpose_intelligence.py"
+    path: "particle/src/core/purpose_intelligence.py"
     purpose: "Q-scores with 6-metric intrinsic quality"
 
   control_flow_analyzer:
-    path: "standard-model-of-code/src/core/control_flow_analyzer.py"
+    path: "particle/src/core/control_flow_analyzer.py"
     purpose: "Cyclomatic complexity and nesting depth"
 
   pattern_matcher:
-    path: "standard-model-of-code/src/core/pattern_matcher.py"
+    path: "particle/src/core/pattern_matcher.py"
     purpose: "Tree-sitter AST pattern matching"
 
   data_flow_analyzer:
-    path: "standard-model-of-code/src/core/data_flow_analyzer.py"
+    path: "particle/src/core/data_flow_analyzer.py"
     purpose: "Assignment and mutation tracking for purity"
 
   scope_analyzer:
-    path: "standard-model-of-code/src/core/scope_analyzer.py"
+    path: "particle/src/core/scope_analyzer.py"
     purpose: "Lexical scope analysis for unused definitions"
 
   edge_extractor:
-    path: "standard-model-of-code/src/core/edge_extractor.py"
+    path: "particle/src/core/edge_extractor.py"
     purpose: "Call graph extraction from particles"
 
   symbol_indexer:
-    path: "standard-model-of-code/src/core/symbol_indexer.py"
+    path: "particle/src/core/symbol_indexer.py"
     purpose: "Global symbol index for import resolution"
 
   dimension_classifier:
-    path: "standard-model-of-code/src/core/dimension_classifier.py"
+    path: "particle/src/core/dimension_classifier.py"
     purpose: "Boundary, State, Lifecycle dimensions"
 
   atom_loader:
-    path: "standard-model-of-code/src/core/atom_loader.py"
+    path: "particle/src/core/atom_loader.py"
     purpose: "Unified atom taxonomy from base to T2"
 
   standard_model_enricher:
-    path: "standard-model-of-code/src/core/standard_model_enricher.py"
+    path: "particle/src/core/standard_model_enricher.py"
     purpose: "Full Standard Model theory application"
 
   atom_registry:
-    path: "standard-model-of-code/src/core/atom_registry.py"
+    path: "particle/src/core/atom_registry.py"
     purpose: "Canonical registry of all known atoms"
 
   graph_analyzer:
-    path: "standard-model-of-code/src/core/graph_analyzer.py"
+    path: "particle/src/core/graph_analyzer.py"
     purpose: "Network analysis with NetworkX"
 
   unified_analysis:
-    path: "standard-model-of-code/src/core/unified_analysis.py"
+    path: "particle/src/core/unified_analysis.py"
     purpose: "Single activation entry for complete analysis"
 
   tree_sitter_engine:
-    path: "standard-model-of-code/src/core/tree_sitter_engine.py"
+    path: "particle/src/core/tree_sitter_engine.py"
     purpose: "Universal engine for 160+ languages"
 
   survey:
-    path: "standard-model-of-code/src/core/survey.py"
+    path: "particle/src/core/survey.py"
     purpose: "CODOME definition - five ontological questions"
 
   full_analysis:
-    path: "standard-model-of-code/src/core/full_analysis.py"
+    path: "particle/src/core/full_analysis.py"
     purpose: "Collider orchestrator for deterministic analysis"
 
 # =============================================================================
@@ -348,63 +348,63 @@ core_modules:
 # =============================================================================
 ai_tools:
   analyze:
-    path: "context-management/tools/ai/analyze.py"
+    path: "wave/tools/ai/analyze.py"
     purpose: "ACI with token budgets and FILE SEARCH RAG"
 
   loop:
-    path: "context-management/tools/ai/loop.py"
+    path: "wave/tools/ai/loop.py"
     purpose: "Gemini → Perplexity → Gemini validation workflow"
 
   perplexity_research:
-    path: "context-management/tools/ai/perplexity_research.py"
+    path: "wave/tools/ai/perplexity_research.py"
     purpose: "Deep research with Perplexity Sonar API"
 
   setup_rag:
-    path: "context-management/tools/ai/setup_rag.py"
+    path: "wave/tools/ai/setup_rag.py"
     purpose: "RAG setup for Vertex AI Agent Builder"
 
   insights_generator:
-    path: "context-management/tools/ai/insights_generator.py"
+    path: "wave/tools/ai/insights_generator.py"
     purpose: "AI insights from Collider output"
 
   repo_archaeologist:
-    path: "context-management/tools/ai/repo_archaeologist.py"
+    path: "wave/tools/ai/repo_archaeologist.py"
     purpose: "Temporal evolution analysis"
 
   present_architect:
-    path: "context-management/tools/ai/present_architect.py"
+    path: "wave/tools/ai/present_architect.py"
     purpose: "Current state analysis with health metrics"
 
   future_visionary:
-    path: "context-management/tools/ai/future_visionary.py"
+    path: "wave/tools/ai/future_visionary.py"
     purpose: "Future projection with roadmap"
 
   observe_session:
-    path: "context-management/tools/ai/observe_session.py"
+    path: "wave/tools/ai/observe_session.py"
     purpose: "Real-time session observer"
 
   gemini_test_simple:
-    path: "context-management/tools/ai/gemini_test_simple.py"
+    path: "wave/tools/ai/gemini_test_simple.py"
     purpose: "Simple Gemini test"
 
   gemini_genai_test:
-    path: "context-management/tools/ai/gemini_genai_test.py"
+    path: "wave/tools/ai/gemini_genai_test.py"
     purpose: "google-genai package test"
 
   gemini_cache_demo:
-    path: "context-management/tools/ai/gemini_cache_demo.py"
+    path: "wave/tools/ai/gemini_cache_demo.py"
     purpose: "Gemini 2.0 Flash with GCS mirrored codebase"
 
   list_models:
-    path: "context-management/tools/ai/list_models.py"
+    path: "wave/tools/ai/list_models.py"
     purpose: "List available Gemini models"
 
   debug_models:
-    path: "context-management/tools/ai/debug_models.py"
+    path: "wave/tools/ai/debug_models.py"
     purpose: "Debug models across GCP regions"
 
   test_vertex_sdk:
-    path: "context-management/tools/ai/test_vertex_sdk.py"
+    path: "wave/tools/ai/test_vertex_sdk.py"
     purpose: "Test Vertex AI SDK connectivity"
 
 # =============================================================================
@@ -412,27 +412,27 @@ ai_tools:
 # =============================================================================
 configs:
   documentation_map:
-    path: "context-management/config/documentation_map.yaml"
+    path: "wave/config/documentation_map.yaml"
     purpose: "Maps docs to semantic concepts for drift detection"
 
   analysis_sets:
-    path: "context-management/config/analysis_sets.yaml"
+    path: "wave/config/analysis_sets.yaml"
     purpose: "Coherent codebase slices for AI analysis"
 
   aci_config:
-    path: "context-management/config/aci_config.yaml"
+    path: "wave/config/aci_config.yaml"
     purpose: "ACI tier routing thresholds and behavior"
 
   prompts:
-    path: "context-management/config/prompts.yaml"
+    path: "wave/config/prompts.yaml"
     purpose: "Analysis prompts for AI tools"
 
   semantic_models:
-    path: "context-management/config/semantic_models.yaml"
+    path: "wave/config/semantic_models.yaml"
     purpose: "Semantic truth map for Holographic-Socratic Layer"
 
   research_schemas:
-    path: "context-management/config/research_schemas.yaml"
+    path: "wave/config/research_schemas.yaml"
     purpose: "Research orchestration patterns (validation_trio, depth_ladder)"
 
 # =============================================================================
@@ -441,40 +441,40 @@ configs:
 orphan_rescue:
   # Core Graph Engine
   graph_framework:
-    path: "standard-model-of-code/src/core/graph_framework.py"
+    path: "particle/src/core/graph_framework.py"
     purpose: "Graph topology builder (build_nx_graph, find_entry_points)"
     category: "core_engine"
 
   graph_metrics:
-    path: "standard-model-of-code/src/core/graph_metrics.py"
+    path: "particle/src/core/graph_metrics.py"
     purpose: "Centrality and critical node calculations"
     category: "core_engine"
 
   intent_extractor:
-    path: "standard-model-of-code/src/core/intent_extractor.py"
+    path: "particle/src/core/intent_extractor.py"
     purpose: "Docstring and commit signal extraction"
     category: "core_engine"
 
   # Theory Definitions
   scale_inout_topology:
-    path: "standard-model-of-code/docs/specs/SCALE_INOUT_TOPOLOGY.md"
+    path: "particle/docs/specs/SCALE_INOUT_TOPOLOGY.md"
     purpose: "Topological structure (Scale-Free/In-Out)"
     category: "theory"
 
   health_model:
-    path: "standard-model-of-code/docs/specs/HEALTH_MODEL_CONSOLIDATED.md"
+    path: "particle/docs/specs/HEALTH_MODEL_CONSOLIDATED.md"
     purpose: "Code health metrics definition"
     category: "theory"
 
   # UI Schema
   ui_controls_schema:
-    path: "standard-model-of-code/docs/specs/UI_CONTROLS_SCHEMA.md"
+    path: "particle/docs/specs/UI_CONTROLS_SCHEMA.md"
     purpose: "UI control interface contract"
     category: "interface"
 
   # Bridge
   laboratory_bridge:
-    path: "context-management/tools/ai/laboratory_bridge.py"
+    path: "wave/tools/ai/laboratory_bridge.py"
     purpose: "Bridge to experimental laboratory environment"
     category: "integration"
 
@@ -483,23 +483,23 @@ orphan_rescue:
 # =============================================================================
 canonical_docs:
   theory:
-    path: "standard-model-of-code/docs/MODEL.md"
+    path: "particle/docs/MODEL.md"
     covers: ["atoms", "roles", "dimensions", "layers", "scales"]
 
   tool:
-    path: "standard-model-of-code/docs/COLLIDER.md"
+    path: "particle/docs/COLLIDER.md"
     covers: ["commands", "pipeline", "output format"]
 
   glossary:
-    path: "standard-model-of-code/docs/GLOSSARY.yaml"
+    path: "particle/docs/GLOSSARY.yaml"
     covers: ["term definitions", "conceptual vocabulary"]
 
   ai_guide:
-    path: "context-management/docs/AI_USER_GUIDE.md"
+    path: "wave/docs/AI_USER_GUIDE.md"
     covers: ["AI roles", "tiers", "workflow"]
 
   agent_kernel:
-    path: "context-management/docs/operations/AGENT_KERNEL.md"
+    path: "wave/docs/operations/AGENT_KERNEL.md"
     covers: ["non-negotiables", "session rules"]
 
 # =============================================================================
@@ -507,19 +507,19 @@ canonical_docs:
 # =============================================================================
 schemas:
   atoms:
-    path: "standard-model-of-code/schema/fixed/atoms.json"
+    path: "particle/schema/fixed/atoms.json"
     purpose: "Atom type definitions"
 
   roles:
-    path: "standard-model-of-code/schema/fixed/roles.json"
+    path: "particle/schema/fixed/roles.json"
     purpose: "Role definitions (33 canonical)"
 
   graph:
-    path: "standard-model-of-code/schema/graph.schema.json"
+    path: "particle/schema/graph.schema.json"
     purpose: "Pipeline graph output format"
 
   particle:
-    path: "standard-model-of-code/schema/particle.schema.json"
+    path: "particle/schema/particle.schema.json"
     purpose: "Particle/node schema"
 
 # =============================================================================
@@ -556,11 +556,11 @@ ai_tiers:
 # =============================================================================
 research:
   perplexity:
-    path: "standard-model-of-code/docs/research/perplexity/"
+    path: "particle/docs/research/perplexity/"
     format: "YYYYMMDD_HHMMSS_topic.md"
 
   gemini:
-    path: "standard-model-of-code/docs/research/gemini/"
+    path: "particle/docs/research/gemini/"
     subdirs: [docs, raw, sessions]
 
   intelligence:
@@ -571,9 +571,9 @@ research:
 # VISUALIZATION
 # =============================================================================
 visualization:
-  template: "standard-model-of-code/src/core/viz/assets/template.html"
-  styles: "standard-model-of-code/src/core/viz/assets/styles.css"
-  modules_dir: "standard-model-of-code/src/core/viz/assets/modules/"
+  template: "particle/src/core/viz/assets/template.html"
+  styles: "particle/src/core/viz/assets/styles.css"
+  modules_dir: "particle/src/core/viz/assets/modules/"
   module_count: 48
 
 # =============================================================================
@@ -586,7 +586,7 @@ registries:
     purpose: "WHERE to find WHAT - minimal path lookup"
 
   master_spec:
-    path: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"
+    path: "particle/docs/specs/REGISTRY_OF_REGISTRIES.md"
     purpose: "Theory and enumeration of all registries"
     item_count: "~5,160 items across 86 registries (4 universes)"
 
@@ -597,43 +597,43 @@ registries:
       purpose: "Agent task dashboard"
 
     pipeline_refactor:
-      path: "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
+      path: "particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md"
       purpose: "Pipeline refactoring tasks"
 
     tree_sitter:
-      path: "standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md"
+      path: "particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md"
       purpose: "Tree-sitter integration tasks"
 
     upb:
-      path: "standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md"
+      path: "particle/docs/specs/UPB_TASK_REGISTRY.md"
       purpose: "Universal Property Binder tasks"
 
     token_system:
-      path: "standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md"
+      path: "particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md"
       purpose: "Token/credit system tasks"
 
     sidebar_refactor:
-      path: "standard-model-of-code/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md"
+      path: "particle/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md"
       purpose: "Sidebar UI refactoring tasks"
 
     docs_improvement:
-      path: "standard-model-of-code/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md"
+      path: "particle/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md"
       purpose: "Documentation improvement tasks"
 
     docs_reorg:
-      path: "context-management/docs/DOCS_REORG_TASK_REGISTRY.md"
+      path: "wave/docs/DOCS_REORG_TASK_REGISTRY.md"
       purpose: "Docs reorganization tasks"
 
     task_confidence:
-      path: "context-management/tools/mcp/mcp_factory/TASK_CONFIDENCE_REGISTRY.md"
+      path: "wave/tools/mcp/mcp_factory/TASK_CONFIDENCE_REGISTRY.md"
       purpose: "MCP task confidence tracking"
 
     architecture_debt:
-      path: "standard-model-of-code/docs/reports/ARCHITECTURE_DEBT_REGISTRY.md"
+      path: "particle/docs/reports/ARCHITECTURE_DEBT_REGISTRY.md"
       purpose: "Technical debt tracking"
 
     building_materials:
-      path: "standard-model-of-code/docs/ui/corpus/v1/BUILDING_MATERIALS_REGISTRY.md"
+      path: "particle/docs/ui/corpus/v1/BUILDING_MATERIALS_REGISTRY.md"
       purpose: "UI building blocks inventory"
 
   # Universe Summary (from coordinated scan)
@@ -647,7 +647,7 @@ registries:
       count: 18
       items: "~700"
       description: "Context universe - docs, configs, AI tools"
-      spec: "context-management/docs/CONTEXTOME.md"  # TO BE CREATED
+      spec: "wave/docs/CONTEXTOME.md"  # TO BE CREATED
 
     visualization:
       count: 14

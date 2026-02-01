@@ -122,7 +122,7 @@ SETS_BY_SIZE=(
   "architecture_review"
 )
 
-OUTPUT_DIR="context-management/docs/research/results/phase1_$(date +%Y%m%d)"
+OUTPUT_DIR="wave/docs/research/results/phase1_$(date +%Y%m%d)"
 mkdir -p "$OUTPUT_DIR"
 
 for query in "${QUERIES[@]}"; do
@@ -133,7 +133,7 @@ for query in "${QUERIES[@]}"; do
     echo "=== $qid x $set ==="
 
     # Run with JSON output
-    python context-management/tools/ai/analyze.py \
+    python wave/tools/ai/analyze.py \
       --set "$set" \
       --output-json \
       "$qtext" 2>&1 | tee "$OUTPUT_DIR/${qid}_${set}.json"
@@ -157,7 +157,7 @@ QUERIES=(
   "Definition of Entity atom"
 )
 
-OUTPUT_DIR="context-management/docs/research/results/phase2_$(date +%Y%m%d)"
+OUTPUT_DIR="wave/docs/research/results/phase2_$(date +%Y%m%d)"
 mkdir -p "$OUTPUT_DIR"
 
 for i in "${!QUERIES[@]}"; do
@@ -165,7 +165,7 @@ for i in "${!QUERIES[@]}"; do
 
   # ACI auto-route
   echo "=== ACI: $query ==="
-  python context-management/tools/ai/analyze.py \
+  python wave/tools/ai/analyze.py \
     --aci --aci-debug \
     --output-json \
     "$query" 2>&1 | tee "$OUTPUT_DIR/q${i}_aci.json"
@@ -174,7 +174,7 @@ for i in "${!QUERIES[@]}"; do
 
   # Manual best-guess route
   echo "=== Manual: $query ==="
-  python context-management/tools/ai/analyze.py \
+  python wave/tools/ai/analyze.py \
     --set pipeline \
     --output-json \
     "$query" 2>&1 | tee "$OUTPUT_DIR/q${i}_manual.json"
@@ -191,32 +191,32 @@ done
 
 QUERY="How does the Collider classify atoms?"
 
-OUTPUT_DIR="context-management/docs/research/results/phase3_$(date +%Y%m%d)"
+OUTPUT_DIR="wave/docs/research/results/phase3_$(date +%Y%m%d)"
 mkdir -p "$OUTPUT_DIR"
 
 # Tier 0: Instant (cached truths)
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --aci --tier instant \
   "$QUERY" 2>&1 | tee "$OUTPUT_DIR/tier0_instant.txt"
 
 sleep 5
 
 # Tier 1: RAG (file search)
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --search "$QUERY" --store-name collider-pipeline \
   2>&1 | tee "$OUTPUT_DIR/tier1_rag.txt"
 
 sleep 5
 
 # Tier 2: Long Context
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --aci --tier long_context --set classifiers \
   "$QUERY" 2>&1 | tee "$OUTPUT_DIR/tier2_long.txt"
 
 sleep 10
 
 # Tier 3: Perplexity (external)
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --aci --tier perplexity \
   "Best practices for code classification systems 2026" \
   2>&1 | tee "$OUTPUT_DIR/tier3_perplexity.txt"
@@ -348,7 +348,7 @@ Day 4: Analysis
 
 ```bash
 # Check quota before running
-python context-management/tools/ai/gemini_status.py --diagnose
+python wave/tools/ai/gemini_status.py --diagnose
 
 # If rate limited, use these alternatives:
 
@@ -377,7 +377,7 @@ done
 
 ### Deliverables
 
-1. **Raw Results**: `context-management/docs/research/results/phase{1,2,3}_YYYYMMDD/`
+1. **Raw Results**: `wave/docs/research/results/phase{1,2,3}_YYYYMMDD/`
 2. **Summary YAML**: `results/summary.yaml`
 3. **Efficiency Chart**: `results/token_efficiency.png`
 4. **Recommendations**: `DATASET_SELECTION_GUIDE.md`
@@ -399,14 +399,14 @@ done
 source .tools_venv/bin/activate
 
 # 2. Check API status
-python context-management/tools/ai/gemini_status.py --diagnose
+python wave/tools/ai/gemini_status.py --diagnose
 
 # 3. Run Phase 1 (if quota available)
-chmod +x context-management/docs/research/research_phase1.sh
-./context-management/docs/research/research_phase1.sh
+chmod +x wave/docs/research/research_phase1.sh
+./wave/docs/research/research_phase1.sh
 
 # 4. If rate limited, run single test
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --set schema \
   "What is the Repository atom definition?"
 ```
@@ -415,6 +415,6 @@ python context-management/tools/ai/analyze.py \
 
 ## Related Documents
 
-- `context-management/docs/ACI_DATASET_MANAGEMENT.md` - ACI architecture
-- `context-management/config/analysis_sets.yaml` - Set definitions
+- `wave/docs/ACI_DATASET_MANAGEMENT.md` - ACI architecture
+- `wave/config/analysis_sets.yaml` - Set definitions
 - `.agent/intelligence/aci_feedback.yaml` - Historical query data

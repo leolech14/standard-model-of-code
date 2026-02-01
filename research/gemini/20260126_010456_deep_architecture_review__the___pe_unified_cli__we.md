@@ -21,7 +21,7 @@ LAYER 1: UNIFIED CLI (./pe)
 - Eliminates: venv activation, path memorization, tool discovery
 - Commands: status, ask, collider, autopilot, tdj, boot, test
 
-LAYER 2: INTENT ROUTING  
+LAYER 2: INTENT ROUTING
 - Natural language → tool routing
 - Priority: Pattern matching (<50ms) → Ollama (~100ms) → AI fallback (1-2s)
 - Patterns: status, analyze, fix, explain, recent, stale, test, commit, drift
@@ -75,8 +75,8 @@ This is a comprehensive architectural review of the `./pe` Unified CLI and Inten
 Does `./pe` fit the Wave/Particle/Observer model? Yes, but it occupies a unique position.
 
 In the **Codespace Algebra** (`CODESPACE_ALGEBRA.md`), we define three realms:
-*   **Particle** (`standard-model-of-code`): Measurement/Implementation.
-*   **Wave** (`context-management`): Context/Potential.
+*   **Particle** (`particle`): Measurement/Implementation.
+*   **Wave** (`wave`): Context/Potential.
 *   **Observer** (`.agent`): Governance/Decision.
 
 `./pe` is **not** a realm. It is the **Interface Layer** (L1 in the Tarski Hierarchy discussed in `CODESPACE_ALGEBRA.md`). It is the mechanism by which the **Observer** collapses the **Wave** into **Particle** action.
@@ -157,11 +157,11 @@ This is the highest-value evolution. `./pe` is effectively a **Local MCP Server*
 **YES. Axiom H3 (Optimization Target) states: "Optimize for AI_AGENT consumption."**
 
 `./pe` acts as a **Context Compressor** for the agent.
-*   **Without `./pe`**: Agent must know: "Activate .tools_venv, then python context-management/tools/ai/analyze.py --aci ..." (High token cost, high error probability).
+*   **Without `./pe`**: Agent must know: "Activate .tools_venv, then python wave/tools/ai/analyze.py --aci ..." (High token cost, high error probability).
 *   **With `./pe`**: Agent types: `./pe ask "..."` (Low token cost, high reliability).
 
 ### Documentation for AI
-You need a specific file: `context-management/docs/agent_school/CLI_GRAMMAR.md`.
+You need a specific file: `wave/docs/agent_school/CLI_GRAMMAR.md`.
 This file should contain:
 1.  The exact syntax of `./pe`.
 2.  The capabilities of the Intent Router.

@@ -1,6 +1,6 @@
 # Research: Review this technical specification and provide feedback:
 
-FILE: context-management/docs/specs/RESEA...
+FILE: wave/docs/specs/RESEA...
 
 > **Date:** 2026-01-28 14:09:00
 > **Source:** gemini
@@ -14,7 +14,7 @@ FILE: context-management/docs/specs/RESEA...
 
 Review this technical specification and provide feedback:
 
-FILE: context-management/docs/specs/RESEARCH_WORKFLOW_EXECUTION_ENGINE_SPEC.md
+FILE: wave/docs/specs/RESEARCH_WORKFLOW_EXECUTION_ENGINE_SPEC.md
 
 SPECIFICATION SUMMARY:
 We want to fix research_orchestrator.py to actually execute workflows instead of returning stubs.
@@ -54,7 +54,7 @@ Okay, let's break down this specification for the `research_orchestrator.py` fix
 
 **Overall Assessment of Specification Quality:**
 
-The specification is concise and effectively highlights the problem and a proposed high-level architectural solution. It's commendable that it proactively asks critical questions. However, it lacks depth in several key areas and has a significant blind spot regarding existing LLM integration within the `standard-model-of-code` project.
+The specification is concise and effectively highlights the problem and a proposed high-level architectural solution. It's commendable that it proactively asks critical questions. However, it lacks depth in several key areas and has a significant blind spot regarding existing LLM integration within the `particle` project.
 
 ---
 
@@ -79,12 +79,12 @@ The specification is concise and effectively highlights the problem and a propos
 
 **Feedback:** **Yes, this is a significant risk and highly probable.**
 
-*   **Context from codebase:** The `full_analysis.py` file already contains a function `_generate_ai_insights` which invokes `context-management/tools/ai/analyze.py` with `--mode insights` and a `--model` argument (e.g., `gemini-2.0-flash-001`). This strongly implies that `analyze.py` already handles:
+*   **Context from codebase:** The `full_analysis.py` file already contains a function `_generate_ai_insights` which invokes `wave/tools/ai/analyze.py` with `--mode insights` and a `--model` argument (e.g., `gemini-2.0-flash-001`). This strongly implies that `analyze.py` already handles:
     *   Interacting with at least one LLM (Gemini).
     *   Managing API calls and possibly authentication.
     *   Formatting prompts or inputs for the LLM.
     *   Parsing and extracting insights from LLM responses.
-*   **Recommendation:** **Stop and investigate `context-management/tools/ai/analyze.py` thoroughly before writing any new code.**
+*   **Recommendation:** **Stop and investigate `wave/tools/ai/analyze.py` thoroughly before writing any new code.**
     *   Can `analyze.py` be refactored into a reusable library (e.g., `llm_clients/gemini_client.py`, `llm_executors/gemini_insights_executor.py`) that the new `research_orchestrator.py` can import and use?
     *   This existing component might already provide much of the Tier 1 and Tier 2 functionality needed for Gemini, and could potentially be extended to support Perplexity.
 *   **Risk of Duplication:** Building new LLM integration from scratch when existing (and possibly battle-tested) code already handles it will lead to:
@@ -145,14 +145,14 @@ The specification is concise and effectively highlights the problem and a propos
 4.  **Cost Management:** Repeated LLM calls can be expensive. Are there plans for monitoring costs, implementing caching, or prioritizing cheaper models for certain tasks?
 5.  **Security and Data Privacy:** How are LLM API keys securely stored and accessed? Is sensitive data handled appropriately when sent to external LLMs?
 6.  **Workflow Schema Complexity:** The spec mentions `research_schemas.yaml`. How complex are these workflows? Do they involve conditional logic, loops, external tool calls (beyond LLMs), or human-in-the-loop steps? The current plan focuses only on simple LLM invocation.
-7.  **Integration with Existing Framework:** How will this new `research_orchestrator` integrate with the overall `standard-model-of-code` pipeline, especially its `PerformanceManager` for observability and its data structures for `nodes`/`edges`?
+7.  **Integration with Existing Framework:** How will this new `research_orchestrator` integrate with the overall `particle` pipeline, especially its `PerformanceManager` for observability and its data structures for `nodes`/`edges`?
 8.  **Model Availability/Reliability:** What happens if an LLM service (Gemini or Perplexity) goes down or returns degraded results?
 
 #### 7. Better approach exists?
 
 **Feedback:** Yes, a "better approach" would prioritize refactoring existing infrastructure and leverage established LLM orchestration frameworks.
 
-1.  **Refactor `analyze.py` into Reusable Modules:** Instead of building entirely new tiers, refactor `context-management/tools/ai/analyze.py` to expose its LLM client and executor logic as importable Python modules. This prevents duplication and leverages existing code. The `src/core/classification/classifier_plugin.py` already shows a pattern for modular LLM services.
+1.  **Refactor `analyze.py` into Reusable Modules:** Instead of building entirely new tiers, refactor `wave/tools/ai/analyze.py` to expose its LLM client and executor logic as importable Python modules. This prevents duplication and leverages existing code. The `src/core/classification/classifier_plugin.py` already shows a pattern for modular LLM services.
 2.  **Leverage LLM Orchestration Frameworks:**
     *   **Consider using libraries like LangChain, LlamaIndex, or Semantic Kernel.** These frameworks are designed to abstract away much of the complexity of Tier 1 (Raw APIs) and Tier 2 (Executors). They offer:
         *   Unified interfaces for multiple LLM providers.
@@ -169,7 +169,7 @@ The specification is a good starting point, but the implementation approach is c
 
 **Key Recommendations:**
 
-1.  **Investigate `analyze.py` FIRST:** This is paramount. Refactor `context-management/tools/ai/analyze.py` to extract reusable LLM client/executor components.
+1.  **Investigate `analyze.py` FIRST:** This is paramount. Refactor `wave/tools/ai/analyze.py` to extract reusable LLM client/executor components.
 2.  **Maintain 3-Tier Architecture:** The proposed architecture is solid; stick with it but ensure it integrates with refactored existing code.
 3.  **Revise Timeline Drastically:** The 3-hour estimate is unrealistic. Plan for at least 1-3 days for initial robust implementation, potentially more if complex prompt engineering or `analyze.py` refactoring is needed.
 4.  **Consider LLM Orchestration Frameworks:** Evaluate LangChain, LlamaIndex, etc. They could replace significant portions of Tier 1 and Tier 2 with proven, robust solutions, freeing the team to focus on core research logic.

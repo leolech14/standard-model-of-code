@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_f2454369cd97",
+  "ref_id": "ASHBY_1956",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769847562,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769847595,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "standard",
+        "page_count": 156,
+        "chunk_count": 462
+      }
+    }
+  ]
+}

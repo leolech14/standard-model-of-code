@@ -20,7 +20,7 @@ OUR STACK:
 - Google Antigravity IDE (VSCode-based)
 - Project has .agent/ directory with task registry, sprints, card game metaphor
 - Agentic onboarding with INITIATION_REPORT pattern
-- Wave/Particle architecture (context-management vs standard-model-of-code)
+- Wave/Particle architecture (wave vs particle)
 
 CANDIDATE SOLUTIONS:
 1. git add -p (manual interactive staging)

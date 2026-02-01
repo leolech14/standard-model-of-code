@@ -36,7 +36,7 @@ The ACI module is currently operating in a **"Hardcoded Heuristic"** state rathe
 ### 1. Configuration Wiring Audit: The "Ghost Config"
 **Verdict: CRITICAL FAILURE.** `aci_config.yaml` is not wired to the codebase.
 
-The configuration file `context-management/config/aci_config.yaml` defines granular controls for thresholds, budgets, and keywords. However, the Python modules ignore this file and use hardcoded constants that duplicate (or drift from) the YAML values.
+The configuration file `wave/config/aci_config.yaml` defines granular controls for thresholds, budgets, and keywords. However, the Python modules ignore this file and use hardcoded constants that duplicate (or drift from) the YAML values.
 
 **Evidence:**
 *   **Token Budgets:**
@@ -84,8 +84,8 @@ When ACI selects the `PERPLEXITY` tier, the system simply prints instructions an
 To make ACI a "true orchestrator," we must bridge the gap between configuration and execution.
 
 #### A. Implement Config Loader
-**File:** `context-management/tools/ai/aci/config_loader.py` (New File)
-**File:** `context-management/tools/ai/aci/__init__.py`
+**File:** `wave/tools/ai/aci/config_loader.py` (New File)
+**File:** `wave/tools/ai/aci/__init__.py`
 
 We need a singleton to load the YAML and override the hardcoded defaults.
 
@@ -106,7 +106,7 @@ def get_config():
 ```
 
 #### B. Refactor `query_analyzer.py` to use Config
-**Target:** `context-management/tools/ai/aci/query_analyzer.py`
+**Target:** `wave/tools/ai/aci/query_analyzer.py`
 
 ```python
 # CURRENT (Hardcoded) [Lines 66-68]
@@ -128,7 +128,7 @@ INTENT_KEYWORDS = {
 ```
 
 #### C. Activate Perplexity Integration
-**Target:** `context-management/tools/ai/analyze.py`
+**Target:** `wave/tools/ai/analyze.py`
 
 The script needs to import the research tool and execute it when recommended.
 
@@ -146,7 +146,7 @@ if decision.tier == Tier.PERPLEXITY:
 ```
 
 #### D. Wire Feedback Loop
-**Target:** `context-management/tools/ai/analyze.py`
+**Target:** `wave/tools/ai/analyze.py`
 
 Although `log_aci_query` is imported [Line 113], it is never called.
 

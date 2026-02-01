@@ -1,0 +1,322 @@
+---
+title: "Mermaid Masterclass: Power User Guide"
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    toc: true
+    embed-resources: true
+    mermaid-format: svg
+    mermaid:
+      theme: dark
+---
+
+# 🧜‍♂️ Mermaid Masterclass: Power User Guide
+
+> **Objective:** Reduce communication noise between agents and humans by utilizing high-fidelity, version-controlled diagrams.
+
+---
+
+## 🏗️ The 2026 Mermaid Directory
+
+Mermaid.js has expanded significantly. Choosing the correct diagram type is the first step to reducing noise.
+
+### 🌓 Flowcharts: Logic & Hierarchy
+Flowcharts are the workhorse of documentation. For power users, the key is **Styling** and **Interactive Nodes**.
+
+```{mermaid}
+graph TB
+    subgraph "External Ingestion"
+        API[API Endpoint] -- Payload --> VAL{Validator}
+    end
+
+    subgraph "Internal Processing"
+        VAL -- Pass --> REF(Refinery Engine)
+        VAL -- Fail --> DLO((Dead Letter))
+    end
+
+    REF --> REG[Master Registry]
+    
+    %% Advanced Styling
+    classDef highPrio fill:#10a37f,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef storage fill:#333,stroke:#10a37f,stroke-width:1px;
+    class REF highPrio;
+    class REG storage;
+```
+
+### 📡 Sequence Diagrams: Communication Design
+Crucial for API design. Use `par` for asynchronous operations and `critical` for error handling.
+
+```{mermaid}
+sequenceDiagram
+    autonumber
+    actor U as User
+    participant A as Agent
+    participant C as Collider
+    participant G as GCS
+
+    U->>A: "Analyze Project"
+    A->>C: trigger_pipeline()
+    
+    par Async Processing
+        C->>G: sync_mirror()
+        C->>G: upload_parcels()
+    end
+
+    alt Success
+        G-->>C: 200 OK
+        C-->>A: analysis_complete
+        A-->>U: "Project Mapped"
+    else Failure
+        G-->>C: 500 Error
+        C-->>A: retry_failed
+        critical Manual Intervention
+            A->>U: "Requesting API Key"
+        end
+    end
+```
+
+### 📊 Gantt Charts: The Timeline of Truth
+Use Gantt charts to visualize the **Consolidation Roadmap** and dependencies.
+
+```{mermaid}
+gantt
+    title Project Elements: Consolidation Roadmap
+    dateFormat  YYYY-MM-DD
+    section Infrastructure
+    Verification Suite      :done,    des1, 2026-01-20, 2026-01-25
+    Consolidation Dispatcher:done,    des2, 2026-01-25, 2026-01-27
+    section Execution
+    Archive Pass 1 (Links)  :active,  des3, 2026-01-28, 3d
+    Archive Pass 2 (Fixes)  :         des4, after des3, 5d
+    Root Clean-up           :         des5, 2026-02-01, 2d
+```
+
+### 🧬 Entity Relationship (ER): The Node Schema
+Defines the "Intimate Properties" of our data parcels.
+
+```{mermaid}
+erDiagram
+    PROJECT ||--o{ SUBSYSTEM : "contains"
+    SUBSYSTEM ||--o{ FILE : "manages"
+    FILE ||--o{ PARCEL : "refines into"
+    
+    PARCEL {
+        string id PK
+        string waybill_id FK
+        string content_hash
+        int token_balance
+    }
+```
+
+### 🌀 State Diagrams: The Finite Logic
+Perfect for documenting the lifecycle of a **Waybill** or a **Refinery Job**.
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> Ingested
+    Ingested --> Validating
+    Validating --> Processing: Valid
+    Validating --> Failed: Invalid
+    Processing --> Refined: Success
+    Processing --> Retrying: Temporary Error
+    Retrying --> Processing
+    Refined --> [*]
+    Failed --> [*]
+```
+
+### 🧩 Other Specialized Charts
+
+#### 🌳 Mindmaps: Domain Discovery
+Ideal for mapping the **Hemispheres** of the project without strict hierarchy.
+
+```{mermaid}
+mindmap
+  root((Project Elements))
+    Particle(The Body)
+        Collider Engine
+        Theory Canon
+        Schemas
+    Wave(The Brain)
+        Refinery
+        ACI
+        Parcels
+    Logistics(The Flow)
+        Couriers
+        Dispatchers
+        Waybills
+    Observer(The Law)
+        Governance
+        Socratic Audit
+        Quality Gates
+```
+
+#### 🌿 Git Graphs: Branching Strategy
+Visualize the **Consolidation Loop** development.
+
+```{mermaid}
+gitGraph
+    commit id: "INITIAL"
+    branch develop
+    checkout develop
+    commit id: "refinery-v1"
+    commit id: "dispatcher-v1"
+    branch fix/analyze-bug
+    checkout fix/analyze-bug
+    commit id: "patch-scoping"
+    checkout develop
+    merge fix/analyze-bug
+    checkout main
+    merge develop tag: "v1.0-consolidated"
+```
+
+#### 🌊 Sankey: Data Volume Logistics
+Track how raw context flows and scales through the platform.
+
+```{mermaid}
+sankey-beta
+    Ingestion,Refinement,1000
+    Refinement,GraphStore,800
+    Refinement,DeadLetter,200
+    GraphStore,Intelligence,750
+    GraphStore,Archive,50
+```
+
+#### 🗺️ Timeline: Project Evolution
+Track the history of the **Standard Model of Code**.
+
+```{mermaid}
+timeline
+    title Project Elements History
+    2024 : Initial Particle Discovery : Theory Foundation
+    2025 : Collider V1 : Unified Analysis : Legacy Accumulation
+    2026 : The Great Consolidation : Refinery Launch : Symmetry Protocol
+```
+
+#### 📐 Quadrant: Prioritization Matrix
+Map tasks by **Impact** vs **Complexity**.
+
+```{mermaid}
+quadrantChart
+    title Task Prioritization (Q1 2026)
+    x-axis Low Impact --> High Impact
+    y-axis High Complexity --> Low Complexity
+    quadrant-1 Quick Wins
+    quadrant-2 Strategic Projects
+    quadrant-3 Minor Fixes
+    quadrant-4 Research/Waste
+    Link Fixer: [0.8, 0.9]
+    Refinery V2: [0.9, 0.3]
+    Doc Sync: [0.4, 0.7]
+    Link Fixer: [0.8, 0.9]
+    Refinery V2: [0.9, 0.3]
+    Doc Sync: [0.4, 0.7]
+    Legacy Removal: [0.6, 0.2]
+```
+
+#### 📋 Requirement Diagrams: Quality Gates
+Track system requirements and verification status.
+
+```{mermaid}
+requirementDiagram
+
+    requirement project_elements_v1 {
+        id: 1
+        text: System must achieve 50% drift reduction.
+        risk: medium
+        verifymethod: test
+    }
+
+    element drift_verifier {
+        type: script
+    }
+
+    drift_verifier - satisfies -> project_elements_v1
+```
+
+#### 🥧 Pie Charts: Corpus Analysis
+Visualize the distribution of repository hemispheres.
+
+```{mermaid}
+pie title Corpus Distribution (2026)
+    "Body (Particle)" : 45
+    "Brain (Wave)" : 30
+    "Observer" : 15
+    "Logistics" : 10
+```
+
+#### 🚶 User Journeys: CLI Interaction
+Map the developer experience using the `pe` CLI.
+
+```{mermaid}
+journey
+    title Developer Consolidation Flow
+    section Setup
+      Sync Mirror: 5: Developer
+      Target Registry: 3: Developer
+    section Consolidation
+      Run Link Fixer: 5: Agent, Developer
+      Manual Verification: 4: Developer
+    section Finalize
+      Commit Changes: 5: Developer
+```
+
+---
+
+## ⚡ Power User Best Practices
+
+### 1. The "Single Screen" Rule
+If your diagram requires vertical scrolling, it has too much **Noise**. 
+- **Solution:** Break one large flowchart into multiple sub-flowcharts linked via identifiers.
+
+### 2. Standardized Color Palette (ChatGPT Aesthetic)
+Stick to our established `style.css` colors for consistency:
+- **Primary Green (#10a37f)**: Actionable nodes, start points, success states.
+- **Dark Neutral (#171717)**: Backgrounds and container borders.
+- **Vibrant Red (#ff4b4b)**: Failure states and blockers.
+
+### 3. Click Events & Tooltips
+Merge these into your documentation for interactivity.
+
+```markdown
+# In your QMD render:
+click REF "file:///path/to/refinery.py" "Open Source Code"
+```
+
+---
+
+## 🔇 Reducing Communication Noise
+
+In a collaborative environment (Agent ↔ Human), diagrams act as a **Sync Pulse**.
+
+1.  **Define Inputs/Outputs first**: Use an ER diagram to agree on the schema before writing a single line of code.
+2.  **Verify Flow**: Use a Sequence diagram to confirm "who talks to whom" across hemispheres.
+3.  **Audit History**: Use Git-committed Mermaid files (like this one) to track how architecture evolved.
+
+---
+
+> [!TIP]
+> **Pro Tip**: Use the `%%{init: {'theme': 'dark'}}%%` directive at the top of a chart to override global styles for specific visualizations.
+
+---
+
+## 🏗️ Advanced: C4 Architecture Context
+For massive scale architecture, use the C4 model abstraction in Mermaid.
+
+```{mermaid}
+graph TB
+    subgraph "External Systems"
+        GCS[Google Cloud Storage]
+        Neo4j[Graph Store]
+    end
+
+    subgraph "PROJECT_elements"
+        PE_CLI[pe CLI] --> PE_CORE[Core Engine]
+        PE_CORE --> Refinery[Context Refinery]
+        PE_CORE --> Collider[Symmetry Collider]
+    end
+
+    PE_CLI --> GCS
+    Refinery --> GCS
+    Collider --> Neo4j
+```

@@ -1,0 +1,3556 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.9.0",
+  "name": "ASHBY_1970_GoodRegulatorTheorem",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 10753302068499508349,
+    "filename": "ASHBY_1970_GoodRegulatorTheorem.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/texts/4"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/pictures/0"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/texts/24"
+      },
+      {
+        "$ref": "#/texts/25"
+      },
+      {
+        "$ref": "#/texts/26"
+      },
+      {
+        "$ref": "#/texts/27"
+      },
+      {
+        "$ref": "#/texts/28"
+      },
+      {
+        "$ref": "#/texts/29"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/texts/31"
+      },
+      {
+        "$ref": "#/texts/32"
+      },
+      {
+        "$ref": "#/texts/33"
+      },
+      {
+        "$ref": "#/texts/34"
+      },
+      {
+        "$ref": "#/texts/35"
+      },
+      {
+        "$ref": "#/texts/36"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/texts/40"
+      },
+      {
+        "$ref": "#/texts/41"
+      },
+      {
+        "$ref": "#/texts/42"
+      },
+      {
+        "$ref": "#/texts/43"
+      },
+      {
+        "$ref": "#/texts/44"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/pictures/1"
+      },
+      {
+        "$ref": "#/texts/46"
+      },
+      {
+        "$ref": "#/texts/47"
+      },
+      {
+        "$ref": "#/texts/48"
+      },
+      {
+        "$ref": "#/texts/49"
+      },
+      {
+        "$ref": "#/texts/50"
+      },
+      {
+        "$ref": "#/texts/51"
+      },
+      {
+        "$ref": "#/texts/52"
+      },
+      {
+        "$ref": "#/texts/53"
+      },
+      {
+        "$ref": "#/texts/54"
+      },
+      {
+        "$ref": "#/texts/55"
+      },
+      {
+        "$ref": "#/texts/56"
+      },
+      {
+        "$ref": "#/texts/57"
+      },
+      {
+        "$ref": "#/texts/58"
+      },
+      {
+        "$ref": "#/texts/59"
+      },
+      {
+        "$ref": "#/texts/60"
+      },
+      {
+        "$ref": "#/texts/61"
+      },
+      {
+        "$ref": "#/texts/62"
+      },
+      {
+        "$ref": "#/texts/63"
+      },
+      {
+        "$ref": "#/texts/64"
+      },
+      {
+        "$ref": "#/texts/65"
+      },
+      {
+        "$ref": "#/texts/66"
+      },
+      {
+        "$ref": "#/texts/67"
+      },
+      {
+        "$ref": "#/texts/68"
+      },
+      {
+        "$ref": "#/texts/69"
+      },
+      {
+        "$ref": "#/texts/70"
+      },
+      {
+        "$ref": "#/texts/71"
+      },
+      {
+        "$ref": "#/texts/72"
+      },
+      {
+        "$ref": "#/texts/73"
+      },
+      {
+        "$ref": "#/texts/74"
+      },
+      {
+        "$ref": "#/texts/75"
+      },
+      {
+        "$ref": "#/texts/76"
+      },
+      {
+        "$ref": "#/texts/77"
+      },
+      {
+        "$ref": "#/texts/78"
+      },
+      {
+        "$ref": "#/texts/79"
+      },
+      {
+        "$ref": "#/texts/80"
+      },
+      {
+        "$ref": "#/texts/81"
+      },
+      {
+        "$ref": "#/texts/82"
+      },
+      {
+        "$ref": "#/texts/83"
+      },
+      {
+        "$ref": "#/texts/84"
+      },
+      {
+        "$ref": "#/texts/85"
+      },
+      {
+        "$ref": "#/texts/86"
+      },
+      {
+        "$ref": "#/texts/87"
+      },
+      {
+        "$ref": "#/texts/88"
+      },
+      {
+        "$ref": "#/texts/89"
+      },
+      {
+        "$ref": "#/texts/90"
+      },
+      {
+        "$ref": "#/texts/91"
+      },
+      {
+        "$ref": "#/texts/92"
+      },
+      {
+        "$ref": "#/texts/93"
+      },
+      {
+        "$ref": "#/texts/94"
+      },
+      {
+        "$ref": "#/texts/95"
+      },
+      {
+        "$ref": "#/texts/96"
+      },
+      {
+        "$ref": "#/texts/97"
+      },
+      {
+        "$ref": "#/texts/98"
+      },
+      {
+        "$ref": "#/texts/99"
+      },
+      {
+        "$ref": "#/texts/100"
+      },
+      {
+        "$ref": "#/texts/101"
+      },
+      {
+        "$ref": "#/texts/102"
+      },
+      {
+        "$ref": "#/texts/103"
+      },
+      {
+        "$ref": "#/texts/104"
+      },
+      {
+        "$ref": "#/texts/105"
+      },
+      {
+        "$ref": "#/texts/106"
+      },
+      {
+        "$ref": "#/texts/107"
+      },
+      {
+        "$ref": "#/texts/108"
+      },
+      {
+        "$ref": "#/texts/109"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/22"
+        },
+        {
+          "$ref": "#/texts/23"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 201.719,
+            "t": 709.832,
+            "r": 412.613,
+            "b": 699.579,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            48
+          ]
+        }
+      ],
+      "orig": "Int. J. Systems Sci., 1970, vol. 1, No. 2, 89-97",
+      "text": "Int. J. Systems Sci., 1970, vol. 1, No. 2, 89-97"
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 107.039,
+            "t": 673.255,
+            "r": 507.64,
+            "b": 646.365,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "EVERY GOOD REGULATOR OF A SYSTEM MUST BE A MODEL OF THAT SYSTEM 1",
+      "text": "EVERY GOOD REGULATOR OF A SYSTEM MUST BE A MODEL OF THAT SYSTEM 1",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 267.598,
+            "t": 632.789,
+            "r": 346.738,
+            "b": 622.536,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            15
+          ]
+        }
+      ],
+      "orig": "Roger C. Conant",
+      "text": "Roger C. Conant"
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 117.598,
+            "t": 608.551,
+            "r": 496.625,
+            "b": 585.337,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            105
+          ]
+        }
+      ],
+      "orig": "Department of Information Engineering, University of Illinois, Box 4348, Chicago, Illinois, 60680, U.S.A.",
+      "text": "Department of Information Engineering, University of Illinois, Box 4348, Chicago, Illinois, 60680, U.S.A."
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 260.996,
+            "t": 571.352,
+            "r": 353.33,
+            "b": 561.098,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "and W. Ross Ashby",
+      "text": "and W. Ross Ashby"
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 124.437,
+            "t": 546.989,
+            "r": 490.018,
+            "b": 522.696,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            89
+          ]
+        }
+      ],
+      "orig": "Biological Computers Laboratory, University of Illinois, Urbana, Illinois 61801, U.S.A. 2",
+      "text": "Biological Computers Laboratory, University of Illinois, Urbana, Illinois 61801, U.S.A. 2"
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 484.59,
+            "r": 215.702,
+            "b": 474.336,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            22
+          ]
+        }
+      ],
+      "orig": "[Received 3 June 1970]",
+      "text": "[Received 3 June 1970]"
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 460.352,
+            "r": 508.515,
+            "b": 424.055,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            205
+          ]
+        }
+      ],
+      "orig": "The design of a complex regulator often includes the making of a model of the system to be regulated. The making of such a model has hitherto been regarded as optional, as merely one of many possible ways.",
+      "text": "The design of a complex regulator often includes the making of a model of the system to be regulated. The making of such a model has hitherto been regarded as optional, as merely one of many possible ways."
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 410.07,
+            "r": 508.511,
+            "b": 360.938,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            284
+          ]
+        }
+      ],
+      "orig": "m this paper a theorem is presented which shows, under very broad conditions, that any regulator  that  is  maximally  both  successful  and  simple must be  isomorphic  with  the system  being  regulated.  (The  exact  assumptions  are  given.)  Making  a  model  is  thus necessary.",
+      "text": "m this paper a theorem is presented which shows, under very broad conditions, that any regulator  that  is  maximally  both  successful  and  simple must be  isomorphic  with  the system  being  regulated.  (The  exact  assumptions  are  given.)  Making  a  model  is  thus necessary."
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 346.949,
+            "r": 508.511,
+            "b": 310.778,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            254
+          ]
+        }
+      ],
+      "orig": "The  theorem  has  the  interesting  corollary  that  the  living  brain,  so  far  as  it  is  to  be successful  and  efficient  as  a  regulator  for  survival, must proceed,  in  learning,  by  the formation of a model (or models) of its environment.",
+      "text": "The  theorem  has  the  interesting  corollary  that  the  living  brain,  so  far  as  it  is  to  be successful  and  efficient  as  a  regulator  for  survival, must proceed,  in  learning,  by  the formation of a model (or models) of its environment."
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 254.57600000000002,
+            "r": 244.479,
+            "b": 242.80399999999997,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            15
+          ]
+        }
+      ],
+      "orig": "1. INTRODUCTION",
+      "text": "1. INTRODUCTION",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 229.23000000000002,
+            "r": 508.509,
+            "b": 179.97699999999998,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            291
+          ]
+        }
+      ],
+      "orig": "Today, as a  step  towards  the  control  of  complex  dynamic  systems,  models  are  being used  ubiquitously.  Being  modelled,  for  instance,  are  the  air  traffic  flow  around  New york, the endocrine balances of the pregnant sheep, and the flows of money among the banking centres.",
+      "text": "Today, as a  step  towards  the  control  of  complex  dynamic  systems,  models  are  being used  ubiquitously.  Being  modelled,  for  instance,  are  the  air  traffic  flow  around  New york, the endocrine balances of the pregnant sheep, and the flows of money among the banking centres."
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 165.98800000000006,
+            "r": 508.525,
+            "b": 142.77800000000002,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            182
+          ]
+        }
+      ],
+      "orig": "So far, these models have been made mostly with the i(lea that the model might help, but  the  possibility  remained  that  the  cybernetician  (or  the  sponsor)  might  think  that",
+      "text": "So far, these models have been made mostly with the i(lea that the model might help, but  the  possibility  remained  that  the  cybernetician  (or  the  sponsor)  might  think  that"
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 111.58000000000004,
+            "r": 508.027,
+            "b": 89.66999999999996,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            143
+          ]
+        }
+      ],
+      "orig": "1 Communicated by Dr. W. Ross Ashby. This work was in part supported by the Air Force office of scientific Research under Grant AF-oSR 7o-1865.",
+      "text": "1 Communicated by Dr. W. Ross Ashby. This work was in part supported by the Air Force office of scientific Research under Grant AF-oSR 7o-1865."
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 105.84,
+            "t": 81.45900000000006,
+            "r": 385.378,
+            "b": 70.35000000000002,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            65
+          ]
+        }
+      ],
+      "orig": "2 Now at University College, P.o. Box 78, Cardiff CF1 1XL, Wales.",
+      "text": "2 Now at University College, P.o. Box 78, Cardiff CF1 1XL, Wales."
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.832,
+            "r": 508.522,
+            "b": 647.618,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            390
+          ]
+        }
+      ],
+      "orig": "some  other  way  was  better,  and  that  making  a  model  (whether  digital,  analogue, mathematical, or other) was a waste of time. Recent work (Conant, 1969), however, has suggested that the relation between regulation and modelling might be much closer, that modelling  might  in  fact  be  a necessary part  of  regulation.  In  this  article  we  address ourselves to this question.",
+      "text": "some  other  way  was  better,  and  that  making  a  model  (whether  digital,  analogue, mathematical, or other) was a waste of time. Recent work (Conant, 1969), however, has suggested that the relation between regulation and modelling might be much closer, that modelling  might  in  fact  be  a necessary part  of  regulation.  In  this  article  we  address ourselves to this question."
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 633.629,
+            "r": 508.511,
+            "b": 558.579,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            515
+          ]
+        }
+      ],
+      "orig": "The  answer  is  likely  to  be  of  interest  in  several  ways.  First,  there  is  the  would-be designer of a regulator (of traffic round an airport say) who is building, as a first stage, a model of the flows and other events around the airport. If making a model is necessary , he may proceed relieved of the nagging fear that at any moment his work will be judged useless. Similarly, before any design is started, the question: How shall we start? may be answered by: A model will be needed; let's build one.",
+      "text": "The  answer  is  likely  to  be  of  interest  in  several  ways.  First,  there  is  the  would-be designer of a regulator (of traffic round an airport say) who is building, as a first stage, a model of the flows and other events around the airport. If making a model is necessary , he may proceed relieved of the nagging fear that at any moment his work will be judged useless. Similarly, before any design is started, the question: How shall we start? may be answered by: A model will be needed; let's build one."
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.841,
+            "t": 544.59,
+            "r": 508.516,
+            "b": 443.497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            653
+          ]
+        }
+      ],
+      "orig": "Quite  another  way  in  which  the  answer  would  be  of  interest  is  in  the  brain  and  its relation to behaviour. The suggestion has been made many times that perhaps the brain operates by building a model (or models) of its environment; but the suggestion has (so far  as  we  know)  been  offered  only  as  a  possibility.  A  proof  that  model-making  is necessary would give neurophysiology a theoretical basis, and would predict modes of brain operation that the experimenter could seek. The proof would tell us what the brain, as a complex regulator for its owner's survival, must do. We could have the basis for a theoretical neurology.",
+      "text": "Quite  another  way  in  which  the  answer  would  be  of  interest  is  in  the  brain  and  its relation to behaviour. The suggestion has been made many times that perhaps the brain operates by building a model (or models) of its environment; but the suggestion has (so far  as  we  know)  been  offered  only  as  a  possibility.  A  proof  that  model-making  is necessary would give neurophysiology a theoretical basis, and would predict modes of brain operation that the experimenter could seek. The proof would tell us what the brain, as a complex regulator for its owner's survival, must do. We could have the basis for a theoretical neurology."
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.841,
+            "t": 429.513,
+            "r": 508.521,
+            "b": 367.419,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            396
+          ]
+        }
+      ],
+      "orig": "The title will already have told this paper's conclusion, but to it some qualifications are essential. To make these clear, and to avoid vagueness and ambiguities (only too ready to occur in a paper with our range of subject) we propose to consider exactly what is required for the proof, and just how the general ideas of regulation, model, and system are to be made both rigorous and objective.",
+      "text": "The title will already have told this paper's conclusion, but to it some qualifications are essential. To make these clear, and to avoid vagueness and ambiguities (only too ready to occur in a paper with our range of subject) we propose to consider exactly what is required for the proof, and just how the general ideas of regulation, model, and system are to be made both rigorous and objective."
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 335.458,
+            "r": 229.244,
+            "b": 323.686,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "2. REGULATION",
+      "text": "2. REGULATION",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 309.988,
+            "r": 508.512,
+            "b": 273.817,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            239
+          ]
+        }
+      ],
+      "orig": "Several approaches are possible. Perhaps the most, general is that given by Sommerhoff (195o))  who  specifics  five  variables  (each  a  vector  or  n-tuple  perhaps)  that  must  be identified by the part they play in the whole process.",
+      "text": "Several approaches are possible. Perhaps the most, general is that given by Sommerhoff (195o))  who  specifics  five  variables  (each  a  vector  or  n-tuple  perhaps)  that  must  be identified by the part they play in the whole process."
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "caption",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 288.477,
+            "t": 181.92499999999995,
+            "r": 325.512,
+            "b": 173.23699999999997,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "Figure 1",
+      "text": "Figure 1"
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 159.51199999999994,
+            "r": 508.519,
+            "b": 123.21600000000001,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            226
+          ]
+        }
+      ],
+      "orig": "(1) There is the total set Z of events that may occur, the regulated and the unregulated; e.g.  all  the  possible  events  at  an  airport,  good  and  bad.  (Set  Z  in  Ashby's  (1967) reformulation in terms of set theory.)",
+      "text": "There is the total set Z of events that may occur, the regulated and the unregulated; e.g.  all  the  possible  events  at  an  airport,  good  and  bad.  (Set  Z  in  Ashby's  (1967) reformulation in terms of set theory.)",
+      "enumerated": true,
+      "marker": "(1)"
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 105.84,
+            "t": 109.231,
+            "r": 508.51,
+            "b": 86.01700000000005,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            102
+          ]
+        }
+      ],
+      "orig": "(2) The set G, a sub-set of Z, consisting of the 'good' events, those ensured by effective regulation.",
+      "text": "The set G, a sub-set of Z, consisting of the 'good' events, those ensured by effective regulation.",
+      "enumerated": true,
+      "marker": "(2)"
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.832,
+            "r": 508.516,
+            "b": 660.696,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            308
+          ]
+        }
+      ],
+      "orig": "(3) The set R of events in the regulator H ; (e.g. in the control tower). [We have found clarity  helped  by  distinguishing  the  regulator  as  an  object  from  the  set  of  events,  the values  of  the  variables  that  compose  the  regulator.  Here  we  use  italic  and  Roman capitals respectively.]",
+      "text": "(3) The set R of events in the regulator H ; (e.g. in the control tower). [We have found clarity  helped  by  distinguishing  the  regulator  as  an  object  from  the  set  of  events,  the values  of  the  variables  that  compose  the  regulator.  Here  we  use  italic  and  Roman capitals respectively.]"
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 646.59,
+            "r": 508.508,
+            "b": 623.376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            161
+          ]
+        }
+      ],
+      "orig": "(4) The set S of events in the rest of the system s (e.g. positions of aircraft, amounts of fuel left in their tanks) [with italic and Roman capitals similarly].",
+      "text": "(4) The set S of events in the rest of the system s (e.g. positions of aircraft, amounts of fuel left in their tanks) [with italic and Roman capitals similarly]."
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 609.391,
+            "r": 508.521,
+            "b": 573.216,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            239
+          ]
+        }
+      ],
+      "orig": "(5)  The  set  D  of  primary  disturbers  (Sommerhof's  'coenetic  variable);  those  that,  by causing  the  events  in  the  system  S,  tend  to  drive  the  outcomes  out  of  G:  (e.g.  snow, varying demands, mechanical emergencies).",
+      "text": "(5)  The  set  D  of  primary  disturbers  (Sommerhof's  'coenetic  variable);  those  that,  by causing  the  events  in  the  system  S,  tend  to  drive  the  outcomes  out  of  G:  (e.g.  snow, varying demands, mechanical emergencies)."
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 559.231,
+            "r": 508.515,
+            "b": 432.216,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            896
+          ]
+        }
+      ],
+      "orig": "(Figure 1 may help to clarify the relations, but the arrows are to be understood for the moment as merely suggestive.) A typical act of regulation would be given by a hunter firing at a pheasant that flies past. D would consist of a1l those factors that introduce disturbance by  the  bird's  coming  sometimes  at  one angle,  sometimes another;  by  the hunter being, at the moment, in various postures; by the local wind blowing in various directions; by the lighting being from various directions. S consists of all those variables concerned in the  dynamics of  bird  and  gun  other  than  those  in  the  hunter's  brain. H would be those variables in his brain. G would be the set of events in which shot does hit  bird.  R  is  now  a  'good regulator'  (is achieving  'regulation')  if  and only if,  for all values of D, R is so related to s that their interaction gives an event in G.",
+      "text": "(Figure 1 may help to clarify the relations, but the arrows are to be understood for the moment as merely suggestive.) A typical act of regulation would be given by a hunter firing at a pheasant that flies past. D would consist of a1l those factors that introduce disturbance by  the  bird's  coming  sometimes  at  one angle,  sometimes another;  by  the hunter being, at the moment, in various postures; by the local wind blowing in various directions; by the lighting being from various directions. S consists of all those variables concerned in the  dynamics of  bird  and  gun  other  than  those  in  the  hunter's  brain. H would be those variables in his brain. G would be the set of events in which shot does hit  bird.  R  is  now  a  'good regulator'  (is achieving  'regulation')  if  and only if,  for all values of D, R is so related to s that their interaction gives an event in G."
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 418.231,
+            "r": 508.51,
+            "b": 369.099,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            287
+          ]
+        }
+      ],
+      "orig": "This  formulation  has  withstood  2o  years'  scrutiny  and  undoubtedly  covers  the  great majority of cases of accepted regulation. That it is also rigorous may be shown (Ashby, 1967) by the fact that if we represent the three mappings by which each value (Figure 1) evokes the next:",
+      "text": "This  formulation  has  withstood  2o  years'  scrutiny  and  undoubtedly  covers  the  great majority of cases of accepted regulation. That it is also rigorous may be shown (Ashby, 1967) by the fact that if we represent the three mappings by which each value (Figure 1) evokes the next:"
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.971,
+            "t": 355.247,
+            "r": 150.813,
+            "b": 344.503,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "S D \u2192 : \u03c6",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 107.17,
+            "t": 328.966,
+            "r": 153.857,
+            "b": 318.222,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "R D \u2192 : \u03c1",
+      "text": "R D \u2192 : \u03c1"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.131,
+            "t": 302.688,
+            "r": 168.239,
+            "b": 291.944,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "Z R S \u2192 \u00d7 : \u03c8",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.84,
+            "t": 275.71000000000004,
+            "r": 468.897,
+            "b": 264.938,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            83
+          ]
+        }
+      ],
+      "orig": "then 'R is a good regulator (for goal G, given D, etc., \u03c6 and \u03c8 )' is equivalent to",
+      "text": "then 'R is a good regulator (for goal G, given D, etc., \u03c6 and \u03c8 )' is equivalent to"
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 107.168,
+            "t": 254.92899999999997,
+            "r": 176.444,
+            "b": 237.05899999999997,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            24
+          ]
+        }
+      ],
+      "orig": "[ ] , ) . ( 1 \u03c6 \u03c8 \u03c1 G -\u2282",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.839,
+            "t": 222.85000000000002,
+            "r": 330.785,
+            "b": 212.62400000000002,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            47
+          ]
+        }
+      ],
+      "orig": "to which we must add the obvious condition that",
+      "text": "to which we must add the obvious condition that"
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 107.169,
+            "t": 198.43200000000002,
+            "r": 184.468,
+            "b": 186.09799999999996,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "\u03c1 \u03c1 \u03c1\u03c1 1 1 1 --\u2282 \u2282",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.839,
+            "t": 169.98800000000006,
+            "r": 508.5,
+            "b": 133.30399999999997,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            192
+          ]
+        }
+      ],
+      "orig": "to  ensure  that \u03c1 is  an  actual  mapping,  and  not,  say,  the  empty  set!  (We  represent composition by adjacency, by a dot, or by parentheses according to which best gives the meaning.)",
+      "text": "to  ensure  that \u03c1 is  an  actual  mapping,  and  not,  say,  the  empty  set!  (We  represent composition by adjacency, by a dot, or by parentheses according to which best gives the meaning.)"
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 105.839,
+            "t": 119.40999999999997,
+            "r": 508.51,
+            "b": 83.26499999999999,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            286
+          ]
+        }
+      ],
+      "orig": "It  should  be  noticed  that  in  this  formulation  there  is  no  restriction  to  linearity,  to continuity, or even to the existence of a metric for the sets, though these are in no way excluded.  The  variables,  too,  may  be  partly  functions  of  earlier  real  time;  so  the",
+      "text": "It  should  be  noticed  that  in  this  formulation  there  is  no  restriction  to  linearity,  to continuity, or even to the existence of a metric for the sets, though these are in no way excluded.  The  variables,  too,  may  be  partly  functions  of  earlier  real  time;  so  the"
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 13.333332972222223,
+            "t": 768.6666666388888,
+            "r": 99.99999963888888,
+            "b": 743.3333333055556,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            7
+          ]
+        }
+      ],
+      "orig": ":D+->S-",
+      "text": ":D+->S-"
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 107.3333332878788,
+            "t": 772.6666667575757,
+            "r": 122.66666662121213,
+            "b": 752.6666667575757,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": "+",
+      "text": "+"
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 164.66666669583336,
+            "t": 772.666666575,
+            "r": 189.33333336249999,
+            "b": 757.9999999083333,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": "Z",
+      "text": "Z"
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.812,
+            "r": 508.496,
+            "b": 686.624,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            116
+          ]
+        }
+      ],
+      "orig": "formulation is equally valid for regulations that involve 'memory', provided the sets D, etc., are defined suitably,",
+      "text": "formulation is equally valid for regulations that involve 'memory', provided the sets D, etc., are defined suitably,"
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 672.608,
+            "r": 508.505,
+            "b": 610.425,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            376
+          ]
+        }
+      ],
+      "orig": "Any concept of 'regulation' must include such entities as the regulator R, the regulated system  S,  and  the  set  of  possible  outcomes  Z.  Sometimes,  however,  the  criterion  of success is not whether the outcome, after each interaction of S and R, is within a goalset G, but is whether the outcomes, on some numerical scale, have a root-mean-square sufficiently small.",
+      "text": "Any concept of 'regulation' must include such entities as the regulator R, the regulated system  S,  and  the  set  of  possible  outcomes  Z.  Sometimes,  however,  the  criterion  of success is not whether the outcome, after each interaction of S and R, is within a goalset G, but is whether the outcomes, on some numerical scale, have a root-mean-square sufficiently small."
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.839,
+            "t": 596.409,
+            "r": 508.519,
+            "b": 494.625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            678
+          ]
+        }
+      ],
+      "orig": "A  third  criterion  for  success  is  to  consider  whether  the  entropy H (Z)  is  sufficiently small. When Z can be measured on an additive scale they tend to be similar: complete the constancy of outcome \u21d4 H (Z) = r.m.s. = 0, (though the mathematician can devise examples to  show  that  they  are  essentially  independent).  But  the  entropy  measure  of scatter has the advantage that it can be applied when the outcome can only be classified, not measured (e.g. species of fish caught in trawling, amino-acid chain produced by a ribosome.) In this paper we shall use the last measure, H (Z), and we define 'successful regulation' as equivalent, to ' H (Z) is minimal'.",
+      "text": "A  third  criterion  for  success  is  to  consider  whether  the  entropy H (Z)  is  sufficiently small. When Z can be measured on an additive scale they tend to be similar: complete the constancy of outcome \u21d4 H (Z) = r.m.s. = 0, (though the mathematician can devise examples to  show  that  they  are  essentially  independent).  But  the  entropy  measure  of scatter has the advantage that it can be applied when the outcome can only be classified, not measured (e.g. species of fish caught in trawling, amino-acid chain produced by a ribosome.) In this paper we shall use the last measure, H (Z), and we define 'successful regulation' as equivalent, to ' H (Z) is minimal'."
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 462.658,
+            "r": 471.86,
+            "b": 450.886,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            44
+          ]
+        }
+      ],
+      "orig": "3. ERROR-, AND CAUSE-, CONTROLLED REGULATION",
+      "text": "3. ERROR-, AND CAUSE-, CONTROLLED REGULATION",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 437.288,
+            "r": 508.507,
+            "b": 401.143,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            223
+          ]
+        }
+      ],
+      "orig": "The  reader  may  be  wondering  why  error-controlled  regulation  has  been  omitted,  but there has been no omission. Everything said so far is equally true of this case; for if the cause-effect linkages are as in fig. 2",
+      "text": "The  reader  may  be  wondering  why  error-controlled  regulation  has  been  omitted,  but there has been no omission. Everything said so far is equally true of this case; for if the cause-effect linkages are as in fig. 2"
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 272.17100000000005,
+            "r": 508.505,
+            "b": 158.144,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            787
+          ]
+        }
+      ],
+      "orig": "R it is still receiving information about D's values, as in fig. 1, but is receiving it after a coding  through  S.  The  matter  has  been  discussed  fully  by  Conant  (1969).  There  he showed that the general formulation of fig. 1 (which represents only that H must receive information from D by some route) falls into two essentially distinct classes according to  whether the flow of information from D to Z is conserved or lossy. Regulation by error-control is essentially information-conserving, and the entropy of Z cannot fall to zero (there must be some residual variation). When, however, the regulator H draws its information  directly  from  D  (the  cause  of  the  disturbance)  there  need  be  no  residual variation: the regulation may, in principle, be made perfect.",
+      "text": "R it is still receiving information about D's values, as in fig. 1, but is receiving it after a coding  through  S.  The  matter  has  been  discussed  fully  by  Conant  (1969).  There  he showed that the general formulation of fig. 1 (which represents only that H must receive information from D by some route) falls into two essentially distinct classes according to  whether the flow of information from D to Z is conserved or lossy. Regulation by error-control is essentially information-conserving, and the entropy of Z cannot fall to zero (there must be some residual variation). When, however, the regulator H draws its information  directly  from  D  (the  cause  of  the  disturbance)  there  need  be  no  residual variation: the regulation may, in principle, be made perfect."
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 105.84,
+            "t": 144.12799999999993,
+            "r": 508.51,
+            "b": 68.98400000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            572
+          ]
+        },
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.812,
+            "r": 508.511,
+            "b": 595.785,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            573,
+            1387
+          ]
+        }
+      ],
+      "orig": "The  distinction  may  be  illustrated  by  a  simple  example.  The  cow  is  homeostatic  for blood-temperature,  and  in  its  brain  is  an  error-controlled  centre  that,  if  the  bloodtemperature  falls,  increases  the  generation  of  heat  in  the  muscles  and  liver-  -but  the blood-temperature  must  fall  first.  If,  however,  a  sensitive  temperature-recorder  be inserted  in  the  brain  and  then  a  stream  of  ice-cold  air  driven  past  the  animal  the temperature rises without any preliminary fall. The error-controlled reflex acts, in fad, only as reserve: ordinarily, the nervous system senses, at the skin, that the cause of a fall has  occurred,  and  reads  to  regulate  before  the  error  actually  occurs.  Error-controlled regulation  is  in  fact  a  primitive  and  demonstrably  inferior  method  of  regulation.  It  is inferior  because  with  it the  entropy  of  the  outcomes  Z  cannot  be  reduced  to  zero:  its success  can  only  be  partial.  The  regulations  used  by  the  higher  organisms  evolve progressively to types more effective in using information about the causes (at D) as the source and determiner of their regulatory actions. From here on, in this paper, we shall consider  'regulation'  of  this  more  advanced,  cause-controlled  type  (though  much  of what we say will still be true of the error-controlled.)",
+      "text": "The  distinction  may  be  illustrated  by  a  simple  example.  The  cow  is  homeostatic  for blood-temperature,  and  in  its  brain  is  an  error-controlled  centre  that,  if  the  bloodtemperature  falls,  increases  the  generation  of  heat  in  the  muscles  and  liver-  -but  the blood-temperature  must  fall  first.  If,  however,  a  sensitive  temperature-recorder  be inserted  in  the  brain  and  then  a  stream  of  ice-cold  air  driven  past  the  animal  the temperature rises without any preliminary fall. The error-controlled reflex acts, in fad, only as reserve: ordinarily, the nervous system senses, at the skin, that the cause of a fall has  occurred,  and  reads  to  regulate  before  the  error  actually  occurs.  Error-controlled regulation  is  in  fact  a  primitive  and  demonstrably  inferior  method  of  regulation.  It  is inferior  because  with  it the  entropy  of  the  outcomes  Z  cannot  be  reduced  to  zero:  its success  can  only  be  partial.  The  regulations  used  by  the  higher  organisms  evolve progressively to types more effective in using information about the causes (at D) as the source and determiner of their regulatory actions. From here on, in this paper, we shall consider  'regulation'  of  this  more  advanced,  cause-controlled  type  (though  much  of what we say will still be true of the error-controlled.)"
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.84,
+            "t": 563.818,
+            "r": 196.25,
+            "b": 552.046,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "4. MODELS",
+      "text": "4. MODELS",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.84,
+            "t": 538.449,
+            "r": 508.509,
+            "b": 463.304,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            497
+          ]
+        }
+      ],
+      "orig": "Defining 'regulation' as we have seen, is easy in that one is led rapidly to one of a few forms, closely related and easily distinguished in practical use, The attempt to define a 'model', however, leads to no such focus. We shall obtain a definition suitable for this paper, but first let  us  notice  what  happens when one attempts precision. We can start with such an unexceptionable 'model' as a table-top replica of Chartres cathedral. The transformation is of the type, in three dimensions:",
+      "text": "Defining 'regulation' as we have seen, is easy in that one is led rapidly to one of a few forms, closely related and easily distinguished in practical use, The attempt to define a 'model', however, leads to no such focus. We shall obtain a definition suitable for this paper, but first let  us  notice  what  happens when one attempts precision. We can start with such an unexceptionable 'model' as a table-top replica of Chartres cathedral. The transformation is of the type, in three dimensions:"
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 108.719,
+            "t": 448.749,
+            "r": 142.002,
+            "b": 436.226,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "1 1 kx y =",
+      "text": "1 1 kx y ="
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 108.719,
+            "t": 431.71,
+            "r": 143.92,
+            "b": 419.065,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "2 2 kx y =",
+      "text": "2 2 kx y ="
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 108.719,
+            "t": 414.55,
+            "r": 143.323,
+            "b": 402.026,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "3 3 kx y =",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.839,
+            "t": 389.968,
+            "r": 508.504,
+            "b": 299.265,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            571
+          ]
+        }
+      ],
+      "orig": "with k about 10 -2 .  But this example, so clear and simple, can be modified a little at a time to forms that are very different. A model of Switzerland. for instance, might well have the vertical heights exaggerated (so that the three k 's are no longer equal). In two dimensions, a (proportional) photograph from the air may be followed by a Mercator's projection with distortion, that no longer leaves the variables separable. So we can go through a map of a subway system, with only the points of connection valid, to 'maps' of a type describable only mathematically.",
+      "text": "with k about 10 -2 .  But this example, so clear and simple, can be modified a little at a time to forms that are very different. A model of Switzerland. for instance, might well have the vertical heights exaggerated (so that the three k 's are no longer equal). In two dimensions, a (proportional) photograph from the air may be followed by a Mercator's projection with distortion, that no longer leaves the variables separable. So we can go through a map of a subway system, with only the points of connection valid, to 'maps' of a type describable only mathematically."
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.838,
+            "t": 285.249,
+            "r": 508.518,
+            "b": 171.22199999999998,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            723
+          ]
+        }
+      ],
+      "orig": "In dynamic systems, if the transformation converts the real time t to a model time t' also in real time we have a 'working' model. An unquestionable 'model' here would be a flow of electrons through a net of conducting sheds that accurately models, in real time, the flow of underground water in Arizona. But the model sailing-boat no longer behaves proportionately so that a complex relation is necessary to relate the model and the fullsized boat. Thus, in the working models, as in the static, we can readily obtain examples that  deviate  more  and  more  from  the  obvious  model  to  the  most  extreme  types  of transformation,  without  the  appearance  of any  natural  boundary  dividing  model  from non-model.",
+      "text": "In dynamic systems, if the transformation converts the real time t to a model time t' also in real time we have a 'working' model. An unquestionable 'model' here would be a flow of electrons through a net of conducting sheds that accurately models, in real time, the flow of underground water in Arizona. But the model sailing-boat no longer behaves proportionately so that a complex relation is necessary to relate the model and the fullsized boat. Thus, in the working models, as in the static, we can readily obtain examples that  deviate  more  and  more  from  the  obvious  model  to  the  most  extreme  types  of transformation,  without  the  appearance  of any  natural  boundary  dividing  model  from non-model."
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.838,
+            "t": 157.21000000000004,
+            "r": 508.499,
+            "b": 107.98400000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            299
+          ]
+        }
+      ],
+      "orig": "Can we follow the mathematician and use the concept of 'isomorphism'? It seems that we cannot. The reason is that though the concept of isomorphism is unique in the branch where it started (in the finite groups) its extension to other branches leads to so many new meanings that the unicity is lost.",
+      "text": "Can we follow the mathematician and use the concept of 'isomorphism'? It seems that we cannot. The reason is that though the concept of isomorphism is unique in the branch where it started (in the finite groups) its extension to other branches leads to so many new meanings that the unicity is lost."
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 105.838,
+            "t": 93.96799999999996,
+            "r": 508.512,
+            "b": 69.93799999999999,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            182
+          ]
+        },
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.618,
+            "r": 508.509,
+            "b": 671.625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            183,
+            406
+          ]
+        }
+      ],
+      "orig": "As example. suppose we attempt to apply it to the  universe  of  binary  relations.  R,  a subset of E \u00d7 E, and S, a subset of F \u00d7 F, are naturally regarded as 'isomorphic', if there exists  a  one-one  mapping \u03b4 of  E  onto  F  such  that 1 -= \u03b4 \u03b4 R S (Riguet  1948,  1951, Bourbaki 1958). But S and R are still closely related, and able to claim some 'model' relationship if the definition is weakened to",
+      "text": "As example. suppose we attempt to apply it to the  universe  of  binary  relations.  R,  a subset of E \u00d7 E, and S, a subset of F \u00d7 F, are naturally regarded as 'isomorphic', if there exists  a  one-one  mapping \u03b4 of  E  onto  F  such  that 1 -= \u03b4 \u03b4 R S (Riguet  1948,  1951, Bourbaki 1958). But S and R are still closely related, and able to claim some 'model' relationship if the definition is weakened to"
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 107.519,
+            "t": 657.419,
+            "r": 181.834,
+            "b": 645.098,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            22
+          ]
+        }
+      ],
+      "orig": "1 : , -= \u2203 \u03b4 \u03b4 \u03b4 \u03c4 R S",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.84,
+            "t": 628.988,
+            "r": 508.508,
+            "b": 579.343,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            304
+          ]
+        }
+      ],
+      "orig": "(with \u03c4 also  one-one). Then it can be weakened further by allowing \u03c6 (and \u03c4 )  to  be  a mapping  generally  or  even  a  binary  relation.  The  sign  of  equality  similarly  can  be weakened to  'is  contained  in'.  We  have  now  arrived  at  the  relation  given  earlier  (1) under 'regulation'):",
+      "text": "(with \u03c4 also  one-one). Then it can be weakened further by allowing \u03c6 (and \u03c4 )  to  be  a mapping  generally  or  even  a  binary  relation.  The  sign  of  equality  similarly  can  be weakened to  'is  contained  in'.  We  have  now  arrived  at  the  relation  given  earlier  (1) under 'regulation'):"
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 107.168,
+            "t": 565.507,
+            "r": 149.473,
+            "b": 554.735,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            9
+          ]
+        }
+      ],
+      "orig": "\u03c6 \u03c1 \u22c5 \u2282 A",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/60",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.84,
+            "t": 538.628,
+            "r": 508.487,
+            "b": 515.022,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            93
+          ]
+        }
+      ],
+      "orig": "which evidently  implies  some  '-morphic'  relation  between \u03c1 and \u03c6 (with A assumed given).",
+      "text": "which evidently  implies  some  '-morphic'  relation  between \u03c1 and \u03c6 (with A assumed given)."
+    },
+    {
+      "self_ref": "#/texts/61",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.839,
+            "t": 501.01,
+            "r": 508.501,
+            "b": 464.862,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            225
+          ]
+        }
+      ],
+      "orig": "In  this  paper  we  shall  be  concerned  chiefly  with  isomorphism  between  two  dynamic systems ( S and R in fig. 1). We can therefore try using the modern abstract definition of 'machine with input' as a rigorous basis.",
+      "text": "In  this  paper  we  shall  be  concerned  chiefly  with  isomorphism  between  two  dynamic systems ( S and R in fig. 1). We can therefore try using the modern abstract definition of 'machine with input' as a rigorous basis."
+    },
+    {
+      "self_ref": "#/texts/62",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.839,
+            "t": 450.85,
+            "r": 508.502,
+            "b": 414.585,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            227
+          ]
+        }
+      ],
+      "orig": "To discuss  iso-,  and  homo-,  morphism  of  machines,  it  is  convenient  first  to  obtain  a standard  representation of these  ideas  in  the  theory  of  groups,  where  they  originated. The relation can be stated thus:",
+      "text": "To discuss  iso-,  and  homo-,  morphism  of  machines,  it  is  convenient  first  to  obtain  a standard  representation of these  ideas  in  the  theory  of  groups,  where  they  originated. The relation can be stated thus:"
+    },
+    {
+      "self_ref": "#/texts/63",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.839,
+            "t": 400.57,
+            "r": 508.494,
+            "b": 346.542,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            362
+          ]
+        }
+      ],
+      "orig": "Let  the  two  groups  be,  one  of  the  set  E  of  elements  e1,  with  group  operation (multiplication) \u03b4 , so that ek e e j i = ) , ( \u03b4 , and other similarly of \u03b4 ' on elements F. Then the second is a homomorph of the first if and only if there exists a mapping h , from E to F, so that, for all Error! Objects cannot be created from editing field codes. :",
+      "text": "Let  the  two  groups  be,  one  of  the  set  E  of  elements  e1,  with  group  operation (multiplication) \u03b4 , so that ek e e j i = ) , ( \u03b4 , and other similarly of \u03b4 ' on elements F. Then the second is a homomorph of the first if and only if there exists a mapping h , from E to F, so that, for all Error! Objects cannot be created from editing field codes. :"
+    },
+    {
+      "self_ref": "#/texts/64",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 106.089,
+            "t": 337.102,
+            "r": 391.245,
+            "b": 319.107,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            56
+          ]
+        }
+      ],
+      "orig": "[ ] [ ] ) , ( ) ( ), ( ' j i j i e e h h e h e \u03b4 \u03b4 = (2)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/65",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.84,
+            "t": 303.37,
+            "r": 508.5,
+            "b": 280.183,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            126
+          ]
+        }
+      ],
+      "orig": "If h is one-one onto F, they are isomorphic. This basic equation form will enable us to relate the other possible definitions.",
+      "text": "If h is one-one onto F, they are isomorphic. This basic equation form will enable us to relate the other possible definitions."
+    },
+    {
+      "self_ref": "#/texts/66",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.839,
+            "t": 266.17100000000005,
+            "r": 508.503,
+            "b": 188.50299999999993,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            478
+          ]
+        }
+      ],
+      "orig": "Hartmanis and Stearns (1966) definition of machine M '  being a homomorphism of M follows naturally. Let machine M have a set S of internal states, a set I of input-values (symbols),  a  set O of  output-values  (symbols),  and  let  it  operate  according  to \u03b4 ,  a mapping of S \u00d7 I  to  S,  and \u03bb ,  a  mapping  of  S \u00d7 I  to  O.  Let  machine  M'  be  represented similarly by S', I', O', \u03b4 ', \u03bb '.  Then M' is a homomorphism of M if and only if there exists three mappings:",
+      "text": "Hartmanis and Stearns (1966) definition of machine M '  being a homomorphism of M follows naturally. Let machine M have a set S of internal states, a set I of input-values (symbols),  a  set O of  output-values  (symbols),  and  let  it  operate  according  to \u03b4 ,  a mapping of S \u00d7 I  to  S,  and \u03bb ,  a  mapping  of  S \u00d7 I  to  O.  Let  machine  M'  be  represented similarly by S', I', O', \u03b4 ', \u03bb '.  Then M' is a homomorphism of M if and only if there exists three mappings:"
+    },
+    {
+      "self_ref": "#/texts/67",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 276.84,
+            "t": 174.49199999999996,
+            "r": 337.602,
+            "b": 140.02199999999993,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            29
+          ]
+        }
+      ],
+      "orig": "h1, of S to S' h2, of I to I'",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/68",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 274.918,
+            "t": 125.88999999999999,
+            "r": 339.523,
+            "b": 115.66300000000001,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            14
+          ]
+        }
+      ],
+      "orig": "h3, of O to O'",
+      "text": "h3, of O to O'"
+    },
+    {
+      "self_ref": "#/texts/69",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 105.839,
+            "t": 101.65999999999997,
+            "r": 250.085,
+            "b": 90.95299999999997,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            34
+          ]
+        }
+      ],
+      "orig": "such that, for all S s \u2208 and I i \u2208",
+      "text": "such that, for all S s \u2208 and I i \u2208"
+    },
+    {
+      "self_ref": "#/texts/70",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 107.637,
+            "t": 712.096,
+            "r": 364.486,
+            "b": 679.351,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            105
+          ]
+        }
+      ],
+      "orig": "[ ] [ ] [ ] [ ] ( ) ), ( ' ) , ( ( ) ), ( ' ) , ( 2 1 3 2 1 1 i h s h i s h i h s h i s h \u03bb \u03bb \u03b4 \u03b4 = = (3)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/71",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 664.69,
+            "r": 508.506,
+            "b": 589.542,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            483
+          ]
+        }
+      ],
+      "orig": "This definition  corresponds  to  the  natural  case  in  which  corresponding  inputs  (to  the two  machines)  will  lead,  through  corresponding  internal  states,  to  corresponding outputs.  But,  unfortunately  for  our  present  purpose,  there  are  many  variations,  some trivial  and  some  gross,  that  also  represent  some  sort  of  'similarity'.  Thus,  a  more general  form,  representing  a  more  complex  form  of  relation,  would  be  given  if  the mappings",
+      "text": "This definition  corresponds  to  the  natural  case  in  which  corresponding  inputs  (to  the two  machines)  will  lead,  through  corresponding  internal  states,  to  corresponding outputs.  But,  unfortunately  for  our  present  purpose,  there  are  many  variations,  some trivial  and  some  gross,  that  also  represent  some  sort  of  'similarity'.  Thus,  a  more general  form,  representing  a  more  complex  form  of  relation,  would  be  given  if  the mappings"
+    },
+    {
+      "self_ref": "#/texts/72",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 240.718,
+            "t": 575.531,
+            "r": 373.605,
+            "b": 565.304,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            32
+          ]
+        }
+      ],
+      "orig": "h1 of S to S', and h2 of I to I'",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/73",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 551.288,
+            "r": 250.024,
+            "b": 541.062,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "were replaced by one mapping",
+      "text": "were replaced by one mapping"
+    },
+    {
+      "self_ref": "#/texts/74",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 264.957,
+            "t": 526.698,
+            "r": 349.364,
+            "b": 515.983,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            23
+          ]
+        }
+      ],
+      "orig": "h4 of I \u00d7 S to I' \u00d7 S'.",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/75",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 501.968,
+            "r": 508.494,
+            "b": 478.784,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            113
+          ]
+        }
+      ],
+      "orig": "(More  general  because  h4  may  or  may  not  be  separable  into  h1  and  h2).  Then  the criterion would be,",
+      "text": "(More  general  because  h4  may  or  may  not  be  separable  into  h1  and  h2).  Then  the criterion would be,"
+    },
+    {
+      "self_ref": "#/texts/76",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 107.277,
+            "t": 467.366,
+            "r": 337.963,
+            "b": 451.58,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            57
+          ]
+        }
+      ],
+      "orig": "[ ] [ ] ) , ( ) , ( ' : , 4 4 i s h i s h s i \u03b4 \u03b4 = \u2200 (4)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/77",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 437.53,
+            "r": 272.713,
+            "b": 427.304,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            38
+          ]
+        }
+      ],
+      "orig": "a form not identical with that at (3).",
+      "text": "a form not identical with that at (3)."
+    },
+    {
+      "self_ref": "#/texts/78",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 413.288,
+            "r": 508.501,
+            "b": 363.343,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            325
+          ]
+        }
+      ],
+      "orig": "There are yet more. The 'Black Box' case ignores the internal states S, and treats two Black Boxes as identical if equal inputs give equal outputs. Formally, if \u00b5 and \u00b5 ' are the mappings from input to output, then the second Box is a homomorphism of the first if and only if there exists a mapping h , of I to I', such that:",
+      "text": "There are yet more. The 'Black Box' case ignores the internal states S, and treats two Black Boxes as identical if equal inputs give equal outputs. Formally, if \u00b5 and \u00b5 ' are the mappings from input to output, then the second Box is a homomorphism of the first if and only if there exists a mapping h , of I to I', such that:"
+    },
+    {
+      "self_ref": "#/texts/79",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 107.277,
+            "t": 351.718,
+            "r": 361.608,
+            "b": 337.009,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            45
+          ]
+        }
+      ],
+      "orig": "[ ] [ ] ( ) ( ) ' : i h i h I i \u00b5 \u00b5 = \u2200 \u2208 (5)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/80",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 321.978,
+            "r": 508.518,
+            "b": 272.8589999999999,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            289
+          ]
+        }
+      ],
+      "orig": "Here  it  should  be  remembered  that  equality  of  outputs  is  only  a  special  case  of correspondence. Also closely related are two Black Boxes such that the second is 'decoder' to the first: the second, given the first's output, will take this as input and emit the original input:",
+      "text": "Here  it  should  be  remembered  that  equality  of  outputs  is  only  a  special  case  of correspondence. Also closely related are two Black Boxes such that the second is 'decoder' to the first: the second, given the first's output, will take this as input and emit the original input:"
+    },
+    {
+      "self_ref": "#/texts/81",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 107.277,
+            "t": 258.77700000000004,
+            "r": 334.968,
+            "b": 248.019,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "i i I i = \u2200 \u2208 ( ) ' : \u00b5\u03d6 (6)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/82",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.84,
+            "t": 232.34199999999998,
+            "r": 508.504,
+            "b": 208.539,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            142
+          ]
+        }
+      ],
+      "orig": "This is an isomorphism. In the homomorphic relation, the input i and the final output ( ) ' i \u00b5 \u00b5 would both be mapped by h to the same class:",
+      "text": "This is an isomorphism. In the homomorphic relation, the input i and the final output ( ) ' i \u00b5 \u00b5 would both be mapped by h to the same class:"
+    },
+    {
+      "self_ref": "#/texts/83",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 107.277,
+            "t": 192.77700000000004,
+            "r": 334.968,
+            "b": 182.019,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "( ) ( ) ' : i h i h I i = \u2200 \u2208 \u00b5 \u00b5 (7)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/84",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 105.839,
+            "t": 166.34199999999998,
+            "r": 508.52,
+            "b": 91.18000000000006,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            491
+          ]
+        }
+      ],
+      "orig": "These examples may be sufficient to show the wide range of abstract 'similarities' that might  claim  to  be  'isomorphisms'.  There  seem,  in  short,  to  be  as  many  definitions possible to isomorphism as to model. It might seem that one could make practically any assertion one likes (such as that in our title) and then ensure its truth simply by adjusting the definitions. We believe, however, that we can mark out one case that is sufficiently a whole to be worth special statement.",
+      "text": "These examples may be sufficient to show the wide range of abstract 'similarities' that might  claim  to  be  'isomorphisms'.  There  seem,  in  short,  to  be  as  many  definitions possible to isomorphism as to model. It might seem that one could make practically any assertion one likes (such as that in our title) and then ensure its truth simply by adjusting the definitions. We believe, however, that we can mark out one case that is sufficiently a whole to be worth special statement."
+    },
+    {
+      "self_ref": "#/texts/85",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.822,
+            "r": 508.509,
+            "b": 633.941,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            501
+          ]
+        }
+      ],
+      "orig": "We consider  the  regulatory  situation  described  earlier,  in  which  the  set  of  regulatory events R and the set of events S in the rest of the system (i.e. in the 'reguland', S, which we view as R's opponent) jointly determine, through a mapping \u03c8 , the outcome events Z. By all optimal regulator we will mean a regulator which produces regulatory events in  such  a  way  that H (Z)  is  minimal.  Then  under  very  broad  conditions  stated  in  the proof below, the following theorem holds:",
+      "text": "We consider  the  regulatory  situation  described  earlier,  in  which  the  set  of  regulatory events R and the set of events S in the rest of the system (i.e. in the 'reguland', S, which we view as R's opponent) jointly determine, through a mapping \u03c8 , the outcome events Z. By all optimal regulator we will mean a regulator which produces regulatory events in  such  a  way  that H (Z)  is  minimal.  Then  under  very  broad  conditions  stated  in  the proof below, the following theorem holds:"
+    },
+    {
+      "self_ref": "#/texts/86",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.841,
+            "t": 619.94,
+            "r": 508.503,
+            "b": 596.141,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            134
+          ]
+        }
+      ],
+      "orig": "Theorem: The simplest optimal regulator R of a reguland S produces events R which are related to the events S by a mapping R S h \u2192 : .",
+      "text": "Theorem: The simplest optimal regulator R of a reguland S produces events R which are related to the events S by a mapping R S h \u2192 : ."
+    },
+    {
+      "self_ref": "#/texts/87",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.84,
+            "t": 582.222,
+            "r": 508.499,
+            "b": 533.031,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            321
+          ]
+        }
+      ],
+      "orig": "Restated somewhat less rigorously, the theorem says that the best regulator of a system is  one  which  is  a  model  of  that  system  in  the  sense  that  the  regulator's  actions  are merely the system's actions as seen through a mapping h . The type of isomorphism here is that expressed (in the form used above) by",
+      "text": "Restated somewhat less rigorously, the theorem says that the best regulator of a system is  one  which  is  a  model  of  that  system  in  the  sense  that  the  regulator's  actions  are merely the system's actions as seen through a mapping h . The type of isomorphism here is that expressed (in the form used above) by"
+    },
+    {
+      "self_ref": "#/texts/88",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 107.52,
+            "t": 521.604,
+            "r": 361.594,
+            "b": 506.785,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            39
+          ]
+        }
+      ],
+      "orig": "[ ] ( ) ( ) : : i h i i h \u03c3 \u03c1 = \u2200 \u2203 (8)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/89",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.84,
+            "t": 491.457,
+            "r": 508.482,
+            "b": 467.75,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            122
+          ]
+        }
+      ],
+      "orig": "where \u03c1 and \u03c3 are  the  mappings  that R and S impose on their common input I. This form is essentially that of (5) above,",
+      "text": "where \u03c1 and \u03c3 are  the  mappings  that R and S impose on their common input I. This form is essentially that of (5) above,"
+    },
+    {
+      "self_ref": "#/texts/90",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.839,
+            "t": 453.777,
+            "r": 508.496,
+            "b": 350.47,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            653
+          ]
+        },
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.84,
+            "t": 346.263,
+            "r": 508.507,
+            "b": 321.698,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            654,
+            793
+          ]
+        }
+      ],
+      "orig": "Proof: The sets R, S, and Z and the mapping Z S R \u00d7 \u2192 \u03a8 : are  presumed given. We will assume that over the set S there exists a probability distribution p (S) which gives the relative frequencies of the events in S. We will further assume that the behaviour of any particular regulator R is specified by a conditional distribution p (R | S)  giving,  for each  event  in  S,  a  distribution  on  the  regulatory  events  in  R.  Now p (S)  and p (R | S) jointly determine p (R, S) and hence p (Z) and H (Z), the entropy in the set of outcomes. \u2211 \u2208 \u2261 -Z z k k k z p z p H Z ).) ( )log ( ) ( ( With p (S) fixed, the class of optimal regulators therefore corresponds to the class of optimal distributions p (R | S) for which (HZ) is minimal. We will call this class of optimal distributions \u03c0 .",
+      "text": "Proof: The sets R, S, and Z and the mapping Z S R \u00d7 \u2192 \u03a8 : are  presumed given. We will assume that over the set S there exists a probability distribution p (S) which gives the relative frequencies of the events in S. We will further assume that the behaviour of any particular regulator R is specified by a conditional distribution p (R | S)  giving,  for each  event  in  S,  a  distribution  on  the  regulatory  events  in  R.  Now p (S)  and p (R | S) jointly determine p (R, S) and hence p (Z) and H (Z), the entropy in the set of outcomes. \u2211 \u2208 \u2261 -Z z k k k z p z p H Z ).) ( )log ( ) ( ( With p (S) fixed, the class of optimal regulators therefore corresponds to the class of optimal distributions p (R | S) for which (HZ) is minimal. We will call this class of optimal distributions \u03c0 ."
+    },
+    {
+      "self_ref": "#/texts/91",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.838,
+            "t": 307.705,
+            "r": 508.514,
+            "b": 242.97900000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            404
+          ]
+        }
+      ],
+      "orig": "It  is  possible  for  there  to  be  very  different  distributions p (Z)  all  having  the  same minimal entropy H (Z). To consider that possibility would merely complicate this proof without  affecting  it  in  any  essential  way,  so  we  will  suppose  that  every p (R | S)  in \u03c0 determines, with p (S) and \u03c8 , the same (unique) p (Z). We now select for examination an arbitrary p (R | S) from \u03c0 .",
+      "text": "It  is  possible  for  there  to  be  very  different  distributions p (Z)  all  having  the  same minimal entropy H (Z). To consider that possibility would merely complicate this proof without  affecting  it  in  any  essential  way,  so  we  will  suppose  that  every p (R | S)  in \u03c0 determines, with p (S) and \u03c8 , the same (unique) p (Z). We now select for examination an arbitrary p (R | S) from \u03c0 ."
+    },
+    {
+      "self_ref": "#/texts/92",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.838,
+            "t": 229.10400000000004,
+            "r": 320.958,
+            "b": 218.85799999999995,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            46
+          ]
+        }
+      ],
+      "orig": "The heart of the proof is the following lemma:",
+      "text": "The heart of the proof is the following lemma:"
+    },
+    {
+      "self_ref": "#/texts/93",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.838,
+            "t": 208.98800000000006,
+            "r": 508.508,
+            "b": 162.81899999999996,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            225
+          ]
+        }
+      ],
+      "orig": "Lemma: S S j \u2208 \u2200 ,  the  set { } 0 ) , ( ) : , ( > j i j i s r p s r \u03c8 has  only  one  element.  That  is,  for every sj in S, p (R | sj) is such that all ri with positive probability map, with sj under \u03c8 to the same zk in Z.",
+      "text": "Lemma: S S j \u2208 \u2200 ,  the  set { } 0 ) , ( ) : , ( > j i j i s r p s r \u03c8 has  only  one  element.  That  is,  for every sj in S, p (R | sj) is such that all ri with positive probability map, with sj under \u03c8 to the same zk in Z."
+    },
+    {
+      "self_ref": "#/texts/94",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 105.134,
+            "t": 148.15700000000004,
+            "r": 511.248,
+            "b": 75.22900000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            486
+          ]
+        },
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.839,
+            "t": 709.788,
+            "r": 508.501,
+            "b": 659.87,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            487,
+            812
+          ]
+        }
+      ],
+      "orig": "Proof of lemma: Suppose, to the contrary, that p (r 1 | sj)>0, p(r2 | sj)>0, i j z s r = ) , ( 1 \u03c8 , and 1 2 2 ) , ( z z s r j \u2260 = \u03c8 . Now p (r 1 , sj) and p (r2, sj) contribute to p (z1) and p (z2) respectively, and by varying these probabilities (by subtracting \u2206 from p (r1, sj) and adding \u2206 to p (r 2 , sj))  we  could  vary p (z1)  and p (z2)  and  thereby  vary H (Z).  We  could  make \u2206 either positive or negative, whichever would make p (z1) and p (z2) more unequal. One of the useful and fundamental properties of the entropy function is that any such increase in imbalance  in p (Z)  necessarily  decreases H (Z).  Consequently,  we  could  start  with  a p (R | S) from the class \u03c0 , which diminishes H (Z), and produce a new p (R | S) resulting in a lower H (Z); this contradiction proves the lemma.",
+      "text": "Proof of lemma: Suppose, to the contrary, that p (r 1 | sj)>0, p(r2 | sj)>0, i j z s r = ) , ( 1 \u03c8 , and 1 2 2 ) , ( z z s r j \u2260 = \u03c8 . Now p (r 1 , sj) and p (r2, sj) contribute to p (z1) and p (z2) respectively, and by varying these probabilities (by subtracting \u2206 from p (r1, sj) and adding \u2206 to p (r 2 , sj))  we  could  vary p (z1)  and p (z2)  and  thereby  vary H (Z).  We  could  make \u2206 either positive or negative, whichever would make p (z1) and p (z2) more unequal. One of the useful and fundamental properties of the entropy function is that any such increase in imbalance  in p (Z)  necessarily  decreases H (Z).  Consequently,  we  could  start  with  a p (R | S) from the class \u03c0 , which diminishes H (Z), and produce a new p (R | S) resulting in a lower H (Z); this contradiction proves the lemma."
+    },
+    {
+      "self_ref": "#/texts/95",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.839,
+            "t": 645.383,
+            "r": 508.503,
+            "b": 540.471,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            671
+          ]
+        }
+      ],
+      "orig": "Returning to the proof of the theorem, we see that, for any member of \u03c0 and any sj in S, the values of R for which p (R | S) is positive all give the same zk. Without affecting H (Z) we can arbitrarily select one of those values of R and set its conditional probability to unity and the others to zero. When this process is repeated for all sj in S, the result must be  a  member  of \u03c0 with p (R | S)  consisting  entirely  of  ones  and  zeroes.  In  an  obvious sense this is the simplest optimal p (R | S) since it is in fact a mapping h from S into R. Given the correspondence between optimal distributions p (R | S) and optimal regulators R, this proves the theorem.",
+      "text": "Returning to the proof of the theorem, we see that, for any member of \u03c0 and any sj in S, the values of R for which p (R | S) is positive all give the same zk. Without affecting H (Z) we can arbitrarily select one of those values of R and set its conditional probability to unity and the others to zero. When this process is repeated for all sj in S, the result must be  a  member  of \u03c0 with p (R | S)  consisting  entirely  of  ones  and  zeroes.  In  an  obvious sense this is the simplest optimal p (R | S) since it is in fact a mapping h from S into R. Given the correspondence between optimal distributions p (R | S) and optimal regulators R, this proves the theorem."
+    },
+    {
+      "self_ref": "#/texts/96",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.839,
+            "t": 526.425,
+            "r": 508.502,
+            "b": 464.389,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            445
+          ]
+        }
+      ],
+      "orig": "The Theorem calls for several comments. First, it leaves open the possibility that there are  regulators  which are  just  as  successful  (just  as  'optimal')  as  the  simplest  optimal regulator(s)  but  which  are  unnecessarily  complex.  In  this  regard,  the  theorem  can  be interpreted  as  saying  that  although  not  all  optimal  regulators  are  models  of  their regulands, the ones which are not are all unnecessarily complex.",
+      "text": "The Theorem calls for several comments. First, it leaves open the possibility that there are  regulators  which are  just  as  successful  (just  as  'optimal')  as  the  simplest  optimal regulator(s)  but  which  are  unnecessarily  complex.  In  this  regard,  the  theorem  can  be interpreted  as  saying  that  although  not  all  optimal  regulators  are  models  of  their regulands, the ones which are not are all unnecessarily complex."
+    },
+    {
+      "self_ref": "#/texts/97",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.839,
+            "t": 450.347,
+            "r": 508.495,
+            "b": 414.229,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            205
+          ]
+        }
+      ],
+      "orig": "Second,  it  shows  clearly  that  the  search  for  the  best  regulator  is  essentially  a  search among the mappings from S into R; only regulators for which there is such a mapping need be considered.",
+      "text": "Second,  it  shows  clearly  that  the  search  for  the  best  regulator  is  essentially  a  search among the mappings from S into R; only regulators for which there is such a mapping need be considered."
+    },
+    {
+      "self_ref": "#/texts/98",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.839,
+            "t": 400.187,
+            "r": 508.499,
+            "b": 312.112,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            558
+          ]
+        }
+      ],
+      "orig": "Third, the proof of the theorem, by avoiding all mention of the inputs to the regulator R and its opponent S, leaves open the question of how R, S, and Z, are interrelated. The theorem  applies  equally  well  to  the  configurations  of  fig,  1  and  fig.  2,  the  chief difference  being  that  in  fig.  2  R  is  a  model  of  S  in  the  sense  that  the  events  R  are mapped versions of the events S, whereas in fig. 1 the modelling is stronger; R must be a homo- or isomorphism of S (since it has the same input as S and a mapping-related output).",
+      "text": "Third, the proof of the theorem, by avoiding all mention of the inputs to the regulator R and its opponent S, leaves open the question of how R, S, and Z, are interrelated. The theorem  applies  equally  well  to  the  configurations  of  fig,  1  and  fig.  2,  the  chief difference  being  that  in  fig.  2  R  is  a  model  of  S  in  the  sense  that  the  events  R  are mapped versions of the events S, whereas in fig. 1 the modelling is stronger; R must be a homo- or isomorphism of S (since it has the same input as S and a mapping-related output)."
+    },
+    {
+      "self_ref": "#/texts/99",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.838,
+            "t": 298.066,
+            "r": 508.507,
+            "b": 223.06899999999996,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            463
+          ]
+        }
+      ],
+      "orig": "Last,  the  assumption  that p (S)  must  exist  (and  be  constant)  can  be  weakened;  if  the statistics of S change slowly with time, the theorem holds over any period throughout which p (S)  is  essentially  constant.  As p (S)  changes,  the  mapping h will  change appropriately, so that the best regulator in such a situation will still be a model of the reguland,  but  a  time-varying  model  will  be  needed  to  regulate  the  time-varying reguland.",
+      "text": "Last,  the  assumption  that p (S)  must  exist  (and  be  constant)  can  be  weakened;  if  the statistics of S change slowly with time, the theorem holds over any period throughout which p (S)  is  essentially  constant.  As p (S)  changes,  the  mapping h will  change appropriately, so that the best regulator in such a situation will still be a model of the reguland,  but  a  time-varying  model  will  be  needed  to  regulate  the  time-varying reguland."
+    },
+    {
+      "self_ref": "#/texts/100",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.84,
+            "t": 191.09500000000003,
+            "r": 219.635,
+            "b": 179.32299999999998,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "5. DISCUSSION",
+      "text": "5. DISCUSSION",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/101",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 105.84,
+            "t": 165.58500000000004,
+            "r": 508.503,
+            "b": 77.63200000000006,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            574
+          ]
+        }
+      ],
+      "orig": "The first effect of this theorem is to change the status of model-making from optional to compulsory. As we said earlier, model-making has hitherto largely been suggested (for regulating complex dynamic systems) as a possibility: the theorem shows that, in a very wide class (specified in the proof of the theorem), success in regulation implies that a sufficiently  similar  model  must  have  been  built,  whether  it  was  done  explicitly,  or simply developed as the regulator was improved. Thus the would-be model-maker now has a rigorous theorem to justify his work.",
+      "text": "The first effect of this theorem is to change the status of model-making from optional to compulsory. As we said earlier, model-making has hitherto largely been suggested (for regulating complex dynamic systems) as a possibility: the theorem shows that, in a very wide class (specified in the proof of the theorem), success in regulation implies that a sufficiently  similar  model  must  have  been  built,  whether  it  was  done  explicitly,  or simply developed as the regulator was improved. Thus the would-be model-maker now has a rigorous theorem to justify his work."
+    },
+    {
+      "self_ref": "#/texts/102",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.84,
+            "t": 709.788,
+            "r": 508.502,
+            "b": 582.831,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            896
+          ]
+        }
+      ],
+      "orig": "To  those  who  study  the  brain,  the  theorem  founds  a  'theoretical  neurology'.  For centuries,  the  study  of  the  brain  has  been  guided  by  the  idea  that  as  the  brain  is  the organ of thinking, whatever it does is right. But this was the view held two centuries ago about  the  human  heart  as  a  pump;  today's  hydraulic  engineers  know  too  much  about pumping to follow the heart's method slavishly: they know what the heart ought to do, and they measure its efficiency. The developing knowledge of regulation, informationprocessing, and control is building similar criteria for the brain. Now that we know that any regulator (if it conforms to the qualifications given) must model what it regulates, we can proceed to measure how efficiently the brain carries out this process. There can no longer be question about whether the brain models its environment: it must.",
+      "text": "To  those  who  study  the  brain,  the  theorem  founds  a  'theoretical  neurology'.  For centuries,  the  study  of  the  brain  has  been  guided  by  the  idea  that  as  the  brain  is  the organ of thinking, whatever it does is right. But this was the view held two centuries ago about  the  human  heart  as  a  pump;  today's  hydraulic  engineers  know  too  much  about pumping to follow the heart's method slavishly: they know what the heart ought to do, and they measure its efficiency. The developing knowledge of regulation, informationprocessing, and control is building similar criteria for the brain. Now that we know that any regulator (if it conforms to the qualifications given) must model what it regulates, we can proceed to measure how efficiently the brain carries out this process. There can no longer be question about whether the brain models its environment: it must."
+    },
+    {
+      "self_ref": "#/texts/103",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.84,
+            "t": 550.857,
+            "r": 224.203,
+            "b": 539.085,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "6. REFERENCES",
+      "text": "6. REFERENCES",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/104",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.84,
+            "t": 525.468,
+            "r": 508.483,
+            "b": 502.311,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            131
+          ]
+        }
+      ],
+      "orig": "Ashby,  W.  Ross,  1967. Automaton  Theory  and  Learning  Systems ,  edited  by  D.  J. Stewart (London: Academic Press), p. 23-51",
+      "text": "Ashby,  W.  Ross,  1967. Automaton  Theory  and  Learning  Systems ,  edited  by  D.  J. Stewart (London: Academic Press), p. 23-51"
+    },
+    {
+      "self_ref": "#/texts/105",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.841,
+            "t": 488.265,
+            "r": 508.488,
+            "b": 465.112,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            98
+          ]
+        }
+      ],
+      "orig": "Bourbaki, N., 1958, Th\u00e9orie des Ensembles: Fascicule de R\u00e9sultats , 3rd edition (Paris : Hermann).",
+      "text": "Bourbaki, N., 1958, Th\u00e9orie des Ensembles: Fascicule de R\u00e9sultats , 3rd edition (Paris : Hermann)."
+    },
+    {
+      "self_ref": "#/texts/106",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.842,
+            "t": 450.945,
+            "r": 381.16,
+            "b": 440.749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            62
+          ]
+        }
+      ],
+      "orig": "Conant, Roger C., 1969, I .E.E.E. Trans. Systems Sci ., 5, 334",
+      "text": "Conant, Roger C., 1969, I .E.E.E. Trans. Systems Sci ., 5, 334"
+    },
+    {
+      "self_ref": "#/texts/107",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.843,
+            "t": 426.707,
+            "r": 508.501,
+            "b": 403.55,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            129
+          ]
+        }
+      ],
+      "orig": "Hartmanis,  J.,  and  Stearns,  R.  E.,  1966, Algebraic  Structure  Theory  of  Sequential Machines . (New York: Prentice-Hall).",
+      "text": "Hartmanis,  J.,  and  Stearns,  R.  E.,  1966, Algebraic  Structure  Theory  of  Sequential Machines . (New York: Prentice-Hall)."
+    },
+    {
+      "self_ref": "#/texts/108",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.842,
+            "t": 389.508,
+            "r": 386.804,
+            "b": 379.311,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            64
+          ]
+        }
+      ],
+      "orig": "Riquet, J., 1948, Bull. Soc. Math. Fr . 76, 114; Th\u00e9se de Paris.",
+      "text": "Riquet, J., 1948, Bull. Soc. Math. Fr . 76, 114; Th\u00e9se de Paris."
+    },
+    {
+      "self_ref": "#/texts/109",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 105.842,
+            "t": 365.265,
+            "r": 419.678,
+            "b": 355.069,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            66
+          ]
+        }
+      ],
+      "orig": "Sommerhof, G., 1950, Analytical Biology (Oxford University Press).",
+      "text": "Sommerhof, G., 1950, Analytical Biology (Oxford University Press)."
+    }
+  ],
+  "pictures": [
+    {
+      "self_ref": "#/pictures/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/21"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 232.7941131591797,
+            "t": 252.24578857421875,
+            "r": 377.729248046875,
+            "b": 189.06988525390625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "$ref": "#/texts/21"
+        }
+      ],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 111.10057830810547,
+            "t": 380.19744873046875,
+            "r": 373.5520324707031,
+            "b": 300.7848205566406,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    }
+  ],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 4
+    },
+    "5": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 5
+    },
+    "6": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 6
+    },
+    "7": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 7
+    },
+    "8": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 8
+    },
+    "9": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 9
+    },
+    "10": {
+      "size": {
+        "width": 612.0,
+        "height": 792.0
+      },
+      "page_no": 10
+    }
+  }
+}

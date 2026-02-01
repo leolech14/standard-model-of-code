@@ -16,7 +16,7 @@ what is the stone tool principle
 
 ## Response
 
-Based on the provided codebase, specifically `context-management/docs/CODESPACE_ALGEBRA.md` and `context-management/docs/GLOSSARY.md`, here is the definition of the **Stone Tool Principle**:
+Based on the provided codebase, specifically `wave/docs/CODESPACE_ALGEBRA.md` and `wave/docs/GLOSSARY.md`, here is the definition of the **Stone Tool Principle**:
 
 **The Stone Tool Principle (Axiom H4)** represents a fundamental shift in software ergonomics, asserting that **tools may be validly designed even if humans cannot directly use them**, provided they are optimized for AI agents.
 
@@ -42,8 +42,8 @@ To determine if a tool adheres to this principle, apply this test defined in the
 In **PROJECT_elements**, this principle justifies tools like the **Collider** or specific `analyze.py` modes that output massive JSON files (`unified_analysis.json`). These outputs are illegible to humans (too large/complex) but are perfectly shaped for an AI agent to "grip" and reason about the codebase's topology.
 
 **Sources:**
-*   `context-management/docs/CODESPACE_ALGEBRA.md` (Section 15)
-*   `context-management/docs/GLOSSARY.md` (Consumer Classes section)
+*   `wave/docs/CODESPACE_ALGEBRA.md` (Section 15)
+*   `wave/docs/GLOSSARY.md` (Consumer Classes section)
 
 ---
 

@@ -79,7 +79,7 @@ Here is the detailed analysis addressing your specific questions:
 
 #### 1. Is the sprint cycle (`DESIGNING` → `EXECUTING` → ...) sound?
 **Verdict: YES.**
-The cycle is a logical and robust state machine for managing tasks. Critically, the inclusion of the `Definition of Done` within `SPRINT-001.yaml` shows excellent integration with existing project standards documented in `context-management/docs/agent_school/DOD.md`. The `RELAX` state is a clever way to ensure a closed loop.
+The cycle is a logical and robust state machine for managing tasks. Critically, the inclusion of the `Definition of Done` within `SPRINT-001.yaml` shows excellent integration with existing project standards documented in `wave/docs/agent_school/DOD.md`. The `RELAX` state is a clever way to ensure a closed loop.
 
 #### 2. Is the opportunity schema complete enough?
 **Verdict: YES, for V1.**

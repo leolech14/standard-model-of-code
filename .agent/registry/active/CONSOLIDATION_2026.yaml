@@ -314,7 +314,7 @@ tasks:
       current: 95
       onwards: 90
     steps:
-      - "mkdir -p standard-model-of-code/src/core/utils/validation"
+      - "mkdir -p particle/src/core/utils/validation"
       - "Create __init__.py with ValidationEngine class"
       - "Define common interfaces"
     blocked_by: [CON-010]
@@ -365,7 +365,7 @@ tasks:
       current: 90
       onwards: 85
     steps:
-      - "mkdir -p standard-model-of-code/src/core/integrations"
+      - "mkdir -p particle/src/core/integrations"
       - "Create __init__.py"
       - "Define base IntegrationClient class"
     verdict: ACCEPT

@@ -27,7 +27,7 @@ identity:
   theory_grounding:
     axiom_group: "G (Observability)"
     principle: "Structural Observer in Peircean Triad"
-    reference: "context-management/docs/specs/OBSERVABILITY_TRIAD.md"
+    reference: "wave/docs/specs/OBSERVABILITY_TRIAD.md"
 
 # =============================================================================
 # INTERFACE (The Contract)
@@ -36,7 +36,7 @@ interface:
   invoke:
     method: cli
     command: "python3 {entrypoint} --output {output}"
-    entrypoint: "context-management/tools/pom/projectome_omniscience.py"
+    entrypoint: "wave/tools/pom/projectome_omniscience.py"
     cwd: "${PROJECT_ROOT}"
 
   inputs:
@@ -112,9 +112,9 @@ integrations:
 # DOCUMENTATION
 # =============================================================================
 documentation:
-  user_guide: "context-management/docs/specs/POM_USER_GUIDE.md"
-  api_reference: "context-management/tools/pom/README.md"
-  theory: "context-management/docs/specs/OBSERVABILITY_TRIAD.md"
+  user_guide: "wave/docs/specs/POM_USER_GUIDE.md"
+  api_reference: "wave/tools/pom/README.md"
+  theory: "wave/docs/specs/OBSERVABILITY_TRIAD.md"
 
   lol_entry: pending  # Will be added on approval
   sos_entry: pending  # Will be added on approval
@@ -125,7 +125,7 @@ documentation:
 # =============================================================================
 quality:
   tests:
-    path: "context-management/tools/pom/tests/"
+    path: "wave/tools/pom/tests/"
     exists: false  # TODO: Create tests
     coverage: "0%"  # Needs improvement
 

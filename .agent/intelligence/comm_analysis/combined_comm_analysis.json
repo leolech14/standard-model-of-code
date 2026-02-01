@@ -147,7 +147,7 @@
       }
     },
     {
-      "dataset_name": "standard-model-of-code",
+      "dataset_name": "particle",
       "summary": "This analysis explores a software codebase (Collider) through the lens of communication theory, focusing on information flow, sign systems, and control mechanisms. The codebase implements various stages of code analysis, suggesting complex communication patterns within the system and between the system and its users or other components.",
       "shannon": {
         "sources": [
@@ -281,7 +281,7 @@
       }
     },
     {
-      "dataset_name": "standard-model-of-code",
+      "dataset_name": "particle",
       "summary": "This codebase consists of various tools and scripts designed to analyze, classify, and improve software codebases using the Standard Model of Code. The primary communication patterns involve analyzing code structure, extracting insights from chat transcripts, and generating visualizations to understand and improve code quality and architecture.",
       "shannon": {
         "sources": [
@@ -708,7 +708,7 @@
       }
     },
     {
-      "dataset_name": "standard-model-of-code",
+      "dataset_name": "particle",
       "summary": "This analysis examines the communication patterns within a software codebase and its documentation, focusing on how analogies and theoretical frameworks are used to define and validate the system's architecture. The system leverages concepts from information theory, semiotics, cybernetics, and pragmatics to create a comprehensive model of code, context, and their interaction.",
       "shannon": {
         "sources": [

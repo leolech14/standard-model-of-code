@@ -5,1158 +5,1158 @@
   "active_files": 133,
   "g3_broken_links": [
     {
-      "file": "context-management/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md",
+      "file": "wave/docs/INFALLIBLE_PLAN_DOCS_CLEANUP.md",
       "line": 153,
       "link_text": "AI_OPERATING_MANUAL.md",
-      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/AI_OPERATING_MANUAL.md",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/file:/Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/AI_OPERATING_MANUAL.md"
+      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/AI_OPERATING_MANUAL.md",
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/file:/Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/AI_OPERATING_MANUAL.md"
     },
     {
-      "file": "context-management/docs/specs/REFINERY_PIPELINE_STAGES.md",
+      "file": "wave/docs/specs/REFINERY_PIPELINE_STAGES.md",
       "line": 77,
       "link_text": "refinery.py",
-      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/refinery.py",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/specs/file:/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/refinery.py"
+      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/refinery.py",
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/specs/file:/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/refinery.py"
     },
     {
-      "file": "context-management/docs/specs/REFINERY_PIPELINE_STAGES.md",
+      "file": "wave/docs/specs/REFINERY_PIPELINE_STAGES.md",
       "line": 78,
       "link_text": "VISUALIZING_THE_WAYBILL.md",
       "target": "file:///Users/lech/.gemini/antigravity/brain/2870b6df-7ae4-4638-b8b5-9c31977358b8/VISUALIZING_THE_WAYBILL.md",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/specs/file:/Users/lech/.gemini/antigravity/brain/2870b6df-7ae4-4638-b8b5-9c31977358b8/VISUALIZING_THE_WAYBILL.md"
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/specs/file:/Users/lech/.gemini/antigravity/brain/2870b6df-7ae4-4638-b8b5-9c31977358b8/VISUALIZING_THE_WAYBILL.md"
     },
     {
-      "file": "context-management/docs/specs/REFINERY_PIPELINE_STAGES.md",
+      "file": "wave/docs/specs/REFINERY_PIPELINE_STAGES.md",
       "line": 79,
       "link_text": "THEORY_DATA_LOGISTICS.md",
-      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/theory/THEORY_DATA_LOGISTICS.md",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/specs/file:/Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/theory/THEORY_DATA_LOGISTICS.md"
+      "target": "file:///Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/theory/THEORY_DATA_LOGISTICS.md",
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/specs/file:/Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/theory/THEORY_DATA_LOGISTICS.md"
     },
     {
-      "file": "context-management/docs/theory/REFERENCE_LIBRARY_SUMMARY.md",
+      "file": "wave/docs/theory/REFERENCE_LIBRARY_SUMMARY.md",
       "line": 210,
       "link_text": "REF-001",
       "target": "references/pdf/REF-001_Lawvere_1969.pdf",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/theory/references/pdf/REF-001_Lawvere_1969.pdf"
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/theory/references/pdf/REF-001_Lawvere_1969.pdf"
     },
     {
-      "file": "context-management/docs/theory/REFERENCE_LIBRARY_SUMMARY.md",
+      "file": "wave/docs/theory/REFERENCE_LIBRARY_SUMMARY.md",
       "line": 211,
       "link_text": "Analysis",
       "target": "references/metadata/REF-001.json",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/theory/references/metadata/REF-001.json"
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/docs/theory/references/metadata/REF-001.json"
     },
     {
-      "file": "context-management/docs/deep/PURPOSE_EMERGENCE.md",
+      "file": "wave/docs/deep/PURPOSE_EMERGENCE.md",
       "line": 227,
       "link_text": "Standard Model of Code - MODEL.md",
-      "target": "../../standard-model-of-code/docs/MODEL.md",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/standard-model-of-code/docs/MODEL.md"
+      "target": "../../particle/docs/MODEL.md",
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/particle/docs/MODEL.md"
     },
     {
-      "file": "context-management/docs/deep/PURPOSE_EMERGENCE.md",
+      "file": "wave/docs/deep/PURPOSE_EMERGENCE.md",
       "line": 228,
       "link_text": "Collider Documentation",
-      "target": "../../standard-model-of-code/docs/COLLIDER.md",
-      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/context-management/standard-model-of-code/docs/COLLIDER.md"
+      "target": "../../particle/docs/COLLIDER.md",
+      "issue": "Target does not exist: /Users/lech/PROJECTS_all/PROJECT_elements/wave/particle/docs/COLLIDER.md"
     }
   ],
   "g3_status": "FAIL",
   "g4_placeholders": [
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 69,
       "pattern": "curly_brace",
       "context": "N = {n\u2081, n\u2082, ..., n\u2096}        Nodes ("
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 72,
       "pattern": "curly_brace",
       "context": "T = {calls, imports, inherits, implements, contains, uses}"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 78,
       "pattern": "curly_brace",
       "context": "A: N \u00d7 N \u2192 {0, 1}            Adj"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 133,
       "pattern": "curly_brace",
       "context": "L = {L-3, L-2, L-1, L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12}"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 196,
       "pattern": "curly_brace",
       "context": "R = {Particle, Wave, Observer}    Three realm"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 222,
       "pattern": "curly_brace",
       "context": "C = {C\u2081, C\u2082, ..., C\u2098}        Set of"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 241,
       "pattern": "curly_brace",
       "context": "C = {Pipeline, Visualization, Governance, AI_Tools, Theory, Archive, Research}"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 257,
       "pattern": "curly_brace",
       "context": "State = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 1425,
       "pattern": "curly_brace",
       "context": "P(X_{t+1} | S_macro(t))"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 1425,
       "pattern": "curly_brace",
       "context": "acro(t)) = P(X_{t+1} | S_micro(t))"
     },
     {
-      "file": "context-management/docs/CODESPACE_ALGEBRA.md",
+      "file": "wave/docs/CODESPACE_ALGEBRA.md",
       "line": 1587,
       "pattern": "curly_brace",
       "context": "CONSUMER = { END_USER, DEVELOPER, AI_AGENT }"
     },
     {
-      "file": "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
       "line": 116,
       "pattern": "xxx_marker",
       "context": "idator.py TASK-XXX` |"
     },
     {
-      "file": "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
       "line": 158,
       "pattern": "xxx_marker",
       "context": "rtunity.py OPP-XXX` |"
     },
     {
-      "file": "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
       "line": 159,
       "pattern": "xxx_marker",
       "context": "_steps.py TASK-XXX` |"
     },
     {
-      "file": "context-management/docs/RESEARCH_SCHEMAS.md",
+      "file": "wave/docs/RESEARCH_SCHEMAS.md",
       "line": 201,
       "pattern": "curly_brace",
       "context": "\"synthesis\": {\"strategy\": \"consensus\", \"distinct_sources_required\": true}"
     },
     {
-      "file": "context-management/docs/WORKFLOW_FACTORY.md",
+      "file": "wave/docs/WORKFLOW_FACTORY.md",
       "line": 147,
       "pattern": "xxx_marker",
       "context": "ry/active/TASK-XXX.yaml | grep -A"
     },
     {
-      "file": "context-management/docs/TOOL.md",
+      "file": "wave/docs/TOOL.md",
       "line": 89,
       "pattern": "curly_brace",
       "context": "\"counts\": {...},"
     },
     {
-      "file": "context-management/docs/TOOL.md",
+      "file": "wave/docs/TOOL.md",
       "line": 107,
       "pattern": "curly_brace",
       "context": "\"topology\": {...},"
     },
     {
-      "file": "context-management/docs/TOOL.md",
+      "file": "wave/docs/TOOL.md",
       "line": 108,
       "pattern": "curly_brace",
       "context": "\"semantics\": {...},"
     },
     {
-      "file": "context-management/docs/GLOSSARY.md",
+      "file": "wave/docs/GLOSSARY.md",
       "line": 61,
       "pattern": "curly_brace",
       "context": "S = {SYMMETRIC, ORPHAN, PHANTOM, DRIFT}"
     },
     {
-      "file": "context-management/docs/ACI_DATASET_MANAGEMENT.md",
+      "file": "wave/docs/ACI_DATASET_MANAGEMENT.md",
       "line": 205,
       "pattern": "curly_brace",
       "context": "\u251c\u2500\u2500 by_tier: {instant: N, rag: M, long_context: K, perplexity: J}         \u2502"
     },
     {
-      "file": "context-management/docs/ACI_DATASET_MANAGEMENT.md",
+      "file": "wave/docs/ACI_DATASET_MANAGEMENT.md",
       "line": 206,
       "pattern": "curly_brace",
       "context": "\u251c\u2500\u2500 by_intent: {architecture: N, task: M, ...}"
     },
     {
-      "file": "context-management/docs/ACI_DATASET_MANAGEMENT.md",
+      "file": "wave/docs/ACI_DATASET_MANAGEMENT.md",
       "line": 211,
       "pattern": "curly_brace",
       "context": "mendations() \u2192 {\"tier\": \"High retry rate, use fallback\"}\u2502"
     },
     {
-      "file": "context-management/docs/STORAGE_ARCHITECTURE.md",
+      "file": "wave/docs/STORAGE_ARCHITECTURE.md",
       "line": 40,
       "pattern": "curly_brace",
       "context": "\"statistics\": {...}"
     },
     {
-      "file": "context-management/docs/COLLIDER_ARCHITECTURE.md",
+      "file": "wave/docs/COLLIDER_ARCHITECTURE.md",
       "line": 417,
       "pattern": "curly_brace",
       "context": "\"params\": [{\"name\": \"x\", \"type\": \"int\"}],"
     },
     {
-      "file": "context-management/docs/DOCLING_POWER_USER_GUIDE.md",
+      "file": "wave/docs/DOCLING_POWER_USER_GUIDE.md",
       "line": 197,
       "pattern": "curly_brace",
       "context": "-d '{\"sources\": [{\"kind\": \"http\", \"url\": \"https://example.com/doc.pdf\"}]}'"
     },
     {
-      "file": "context-management/docs/CONCORDANCES.md",
+      "file": "wave/docs/CONCORDANCES.md",
       "line": 110,
       "pattern": "curly_brace",
       "context": "C = {C\u2081, C\u2082, ..., C\u2098}           Set"
     },
     {
-      "file": "context-management/docs/HUGGINGFACE_INTEGRATION.md",
+      "file": "wave/docs/HUGGINGFACE_INTEGRATION.md",
       "line": 45,
       "pattern": "curly_brace",
       "context": "chnell /infer '{\"prompt\":\"cat\"}'"
     },
     {
-      "file": "context-management/docs/DATA_LAYER_REFACTORING_MAP.md",
+      "file": "wave/docs/DATA_LAYER_REFACTORING_MAP.md",
       "line": 46,
       "pattern": "curly_brace",
       "context": "Set, filters | {nodes[], links[]} | data.nodes,"
     },
     {
-      "file": "context-management/docs/DATA_LAYER_REFACTORING_MAP.md",
+      "file": "wave/docs/DATA_LAYER_REFACTORING_MAP.md",
       "line": 47,
       "pattern": "curly_brace",
       "context": "2360 | data | {nodes[], links[]} | data.file_bo"
     },
     {
-      "file": "context-management/docs/DATA_LAYER_REFACTORING_MAP.md",
+      "file": "wave/docs/DATA_LAYER_REFACTORING_MAP.md",
       "line": 48,
       "pattern": "curly_brace",
       "context": "2430 | data | {nodes[], links[]} | data.file_bo"
     },
     {
-      "file": "context-management/docs/DATA_LAYER_REFACTORING_MAP.md",
+      "file": "wave/docs/DATA_LAYER_REFACTORING_MAP.md",
       "line": 190,
       "pattern": "curly_brace",
       "context": "s.forEach(n => { ... });"
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 128,
       "pattern": "curly_brace",
       "context": "for query in \"${QUERIES[@]}\"; do"
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 129,
       "pattern": "curly_brace",
       "context": "qid=\"${query%%:*}\""
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 130,
       "pattern": "curly_brace",
       "context": "qtext=\"${query#*:}\""
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 132,
       "pattern": "curly_brace",
       "context": "for set in \"${SETS_BY_SIZE[@]}\"; do"
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 163,
       "pattern": "curly_brace",
       "context": "for i in \"${!QUERIES[@]}\"; do"
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 164,
       "pattern": "curly_brace",
       "context": "query=\"${QUERIES[$i]}\""
     },
     {
-      "file": "context-management/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
+      "file": "wave/docs/research/MULTI_DATASET_ANALYSIS_RESEARCH_SCOPE.md",
       "line": 380,
       "pattern": "curly_brace",
       "context": "h/results/phase{1,2,3}_YYYYMMDD/`"
     },
     {
-      "file": "context-management/docs/roadmaps/C3_TRAINING_CORPUS.md",
+      "file": "wave/docs/roadmaps/C3_TRAINING_CORPUS.md",
       "line": 194,
       "pattern": "curly_brace",
       "context": "for repo in \"${REPOS[@]}\"; do"
     },
     {
-      "file": "context-management/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
+      "file": "wave/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
       "line": 299,
       "pattern": "todo_unlinked",
       "context": "RNEL.md | P1 | TODO |"
     },
     {
-      "file": "context-management/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
+      "file": "wave/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
       "line": 300,
       "pattern": "todo_unlinked",
       "context": "recipes | P1 | TODO |"
     },
     {
-      "file": "context-management/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
+      "file": "wave/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
       "line": 302,
       "pattern": "todo_unlinked",
       "context": "ligence | P3 | TODO |"
     },
     {
-      "file": "context-management/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
+      "file": "wave/docs/specs/ONBOARDING_REFACTOR_CHANGELOG.md",
       "line": 303,
       "pattern": "todo_unlinked",
       "context": "estions | P3 | TODO |"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 99,
       "pattern": "curly_brace",
       "context": "T /api/butlers/{id}`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 100,
       "pattern": "curly_brace",
       "context": "T /api/butlers/{id}/history` \u2192 Cha"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 101,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{id}/execute`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 168,
       "pattern": "curly_brace",
       "context": "ledge/search?q={query}`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 232,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{name}/execute`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 233,
       "pattern": "curly_brace",
       "context": "oud/schedulers/{name}/toggle`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 238,
       "pattern": "curly_brace",
       "context": "oud/schedulers/{name}/toggle`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 244,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{name}/status/{exec_i"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 244,
       "pattern": "curly_brace",
       "context": "/{name}/status/{exec_id}` every 2s"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 352,
       "pattern": "curly_brace",
       "context": "iles/list?path={path}`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 358,
       "pattern": "curly_brace",
       "context": "/download?file={path}`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 494,
       "pattern": "curly_brace",
       "context": "ences/metadata/{ref_id}.json` - Indivi"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 513,
       "pattern": "curly_brace",
       "context": "`/api/butlers/{id}` | GET | Butle"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 514,
       "pattern": "curly_brace",
       "context": "`/api/butlers/{id}/history` | GET"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 517,
       "pattern": "curly_brace",
       "context": "owledge/chunks/{id}` | GET | Get c"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 521,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{id}/history` | GET"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 522,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{id}/execute` | POS"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 523,
       "pattern": "curly_brace",
       "context": "api/cloud/jobs/{id}/status/{exec}`"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 523,
       "pattern": "curly_brace",
       "context": "bs/{id}/status/{exec}` | GET | Poll"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 594,
       "pattern": "curly_brace",
       "context": "curl {URL}/api/butlers"
     },
     {
-      "file": "context-management/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
+      "file": "wave/docs/specs/DASHBOARD_LAYOUT_AND_FUNCTIONALITY_SPEC.md",
       "line": 595,
       "pattern": "curly_brace",
       "context": "open {URL}"
     },
     {
-      "file": "context-management/docs/specs/AI_CONSUMER_CLASS.md",
+      "file": "wave/docs/specs/AI_CONSUMER_CLASS.md",
       "line": 164,
       "pattern": "curly_brace",
       "context": "went wrong\" | `{\"code\": \"E001\", \"detail\": \"...\"}` |"
     },
     {
-      "file": "context-management/docs/specs/OBSERVABILITY_TRIAD.md",
+      "file": "wave/docs/specs/OBSERVABILITY_TRIAD.md",
       "line": 335,
       "pattern": "curly_brace",
       "context": "The triad {STRUCTURAL, OPERATIONAL, GENERATIVE} is minimal."
     },
     {
-      "file": "context-management/docs/specs/UNIFIED_DASHBOARD_SPEC.md",
+      "file": "wave/docs/specs/UNIFIED_DASHBOARD_SPEC.md",
       "line": 253,
       "pattern": "curly_brace",
       "context": "collider/query {semantic: \"file processing\"}"
     },
     {
-      "file": "context-management/docs/specs/DOCLING_GRANITE_MIGRATION.md",
+      "file": "wave/docs/specs/DOCLING_GRANITE_MIGRATION.md",
       "line": 48,
       "pattern": "curly_brace",
       "context": "ling-Granite \u2192 {markdown, json} \u2192 LLM analysis"
     },
     {
-      "file": "context-management/docs/specs/DOCLING_GRANITE_MIGRATION.md",
+      "file": "wave/docs/specs/DOCLING_GRANITE_MIGRATION.md",
       "line": 108,
       "pattern": "curly_brace",
       "context": "process --file {input_pdf}"
     },
     {
-      "file": "context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
+      "file": "wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
       "line": 261,
       "pattern": "curly_brace",
       "context": "intelligence\": { \"Q_total\": 0.948 }"
     },
     {
-      "file": "context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
+      "file": "wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
       "line": 308,
       "pattern": "curly_brace",
       "context": "ry: children \u2208 {Query, Persist, Transform}         \u2502"
     },
     {
-      "file": "context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
+      "file": "wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
       "line": 309,
       "pattern": "curly_brace",
       "context": "ce: children \u2208 {Command, Query, Validate}             \u2502"
     },
     {
-      "file": "context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
+      "file": "wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
       "line": 310,
       "pattern": "curly_brace",
       "context": "er: children \u2208 {Handle, Route, Respond}            \u2502"
     },
     {
-      "file": "context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
+      "file": "wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md",
       "line": 431,
       "pattern": "curly_brace",
       "context": "INT_MATRIX C \u2208 {0,1}^(k\u00d7k):"
     },
     {
-      "file": "context-management/docs/theory/CONTAINMENT_TOPOLOGY.md",
+      "file": "wave/docs/theory/CONTAINMENT_TOPOLOGY.md",
       "line": 20,
       "pattern": "curly_brace",
       "context": "dren(d)| \u2208 \u2115 \u222a {0}"
     },
     {
-      "file": "context-management/docs/theory/CONTAINMENT_TOPOLOGY.md",
+      "file": "wave/docs/theory/CONTAINMENT_TOPOLOGY.md",
       "line": 125,
       "pattern": "curly_brace",
       "context": "Subtype: {calls, imports, inherits, references}"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "$$ \\mathcal{M} \\cong \\text{At"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "{M} \\cong \\text{Atom} \\times \\text{L"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "m} \\times \\text{Layer} \\times \\text{R"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "r} \\times \\text{Role} \\times \\text{B"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "e} \\times \\text{Boundary} \\times \\text{S"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "y} \\times \\text{State} \\times \\text{E"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "e} \\times \\text{Effect} \\times \\text{L"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "t} \\times \\text{Lifecycle} \\times \\text{T"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1495,
       "pattern": "curly_brace",
       "context": "e} \\times \\text{Trust} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "$$ \\text{Software} = \\sum_{Levels"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "ftware} = \\sum_{Levels} \\left( \\text{S"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "s} \\left( \\text{Structure}_{Fractal} \\tim"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "ext{Structure}_{Fractal} \\times \\text{M"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "l} \\times \\text{Meaning}_{8D} \\right)^{"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "\\text{Meaning}_{8D} \\right)^{\\text"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1531,
       "pattern": "curly_brace",
       "context": "}_{8D} \\right)^{\\text{Purpose}} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1735,
       "pattern": "curly_brace",
       "context": "$$ E = \\frac{n_1 N_2 (N_1 + N_2) \\log_2(n_1 + n_2)}{2 n_2} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 1735,
       "pattern": "curly_brace",
       "context": "g_2(n_1 + n_2)}{2 n_2} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2027,
       "pattern": "curly_brace",
       "context": "space $\\mathcal{S}$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2028,
       "pattern": "curly_brace",
       "context": "space $\\mathcal{S} \\cong D_1 \\tim"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2030,
       "pattern": "curly_brace",
       "context": "$$ p = \\begin{bmatrix}"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2031,
       "pattern": "curly_brace",
       "context": "D_1: \\text{Atom Type} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2032,
       "pattern": "curly_brace",
       "context": "D_2: \\text{Layer} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2033,
       "pattern": "curly_brace",
       "context": "D_3: \\text{Role} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2034,
       "pattern": "curly_brace",
       "context": "D_4: \\text{Boundary} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2035,
       "pattern": "curly_brace",
       "context": "D_5: \\text{State} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2036,
       "pattern": "curly_brace",
       "context": "D_6: \\text{Effect} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2037,
       "pattern": "curly_brace",
       "context": "D_7: \\text{Activation} \\\\"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2038,
       "pattern": "curly_brace",
       "context": "D_8: \\text{Lifetime}"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2039,
       "pattern": "curly_brace",
       "context": "\\end{bmatrix} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2043,
       "pattern": "curly_brace",
       "context": "a, p_b) = \\sum_{i=1}^{8} w_i \\cdot"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2043,
       "pattern": "curly_brace",
       "context": ") = \\sum_{i=1}^{8} w_i \\cdot \\del"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2046,
       "pattern": "curly_brace",
       "context": "ergy ($\\mathcal{E}$)"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2048,
       "pattern": "curly_brace",
       "context": "$$ \\mathcal{E}(p) = \\text{Com"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2048,
       "pattern": "curly_brace",
       "context": "l{E}(p) = \\text{Complexity}(p) \\times \\tex"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2048,
       "pattern": "curly_brace",
       "context": "p) \\times \\text{Weight}(D_2) \\times \\t"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 2048,
       "pattern": "curly_brace",
       "context": "2) \\times \\text{Risk}(D_5) $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3224,
       "pattern": "curly_brace",
       "context": "FOLD ($\\mathcal{M}$)"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "$$ \\mathcal{M} \\cong \\text{At"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "{M} \\cong \\text{Atom} \\times \\text{L"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "m} \\times \\text{Layer} \\times \\text{R"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "r} \\times \\text{Role} \\times \\text{B"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "e} \\times \\text{Boundary} \\times \\text{S"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "y} \\times \\text{State} \\times \\text{E"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "e} \\times \\text{Effect} \\times \\text{A"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "t} \\times \\text{Activation} \\times \\text{L"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3228,
       "pattern": "curly_brace",
       "context": "n} \\times \\text{Lifetime} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3230,
       "pattern": "curly_brace",
       "context": "rEntity` in $D_{Layer}$ but far in $D"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3230,
       "pattern": "curly_brace",
       "context": "but far in $D_{State}$)."
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "$$ \\text{Software} = \\sum_{Levels"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "ftware} = \\sum_{Levels} \\left( \\text{S"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "s} \\left( \\text{Structure}_{Fractal} \\tim"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "ext{Structure}_{Fractal} \\times \\text{M"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "l} \\times \\text{Meaning}_{8D} \\right)^{"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "\\text{Meaning}_{8D} \\right)^{\\text"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 3252,
       "pattern": "curly_brace",
       "context": "}_{8D} \\right)^{\\text{Purpose}} $$"
     },
     {
-      "file": "context-management/docs/theory/THEORY.md",
+      "file": "wave/docs/theory/THEORY.md",
       "line": 4183,
       "pattern": "curly_brace",
       "context": "| All | `const {a, b} = obj` |"
     },
     {
-      "file": "context-management/docs/theory/THEORY_DATA_LOGISTICS.md",
+      "file": "wave/docs/theory/THEORY_DATA_LOGISTICS.md",
       "line": 15,
       "pattern": "curly_brace",
       "context": "stem (`waybill={...}`)."
     },
     {
-      "file": "context-management/docs/theory/L0_AXIOMS.md",
+      "file": "wave/docs/theory/L0_AXIOMS.md",
       "line": 44,
       "pattern": "curly_brace",
       "context": "$$ \\mathcal{M} \\cong D_1 \\tim"
     },
     {
-      "file": "context-management/docs/theory/L2_LAWS.md",
+      "file": "wave/docs/theory/L2_LAWS.md",
       "line": 52,
       "pattern": "curly_brace",
       "context": "inity**: $\\text{Particle} + \\text{Wave}"
     },
     {
-      "file": "context-management/docs/theory/L2_LAWS.md",
+      "file": "wave/docs/theory/L2_LAWS.md",
       "line": 52,
       "pattern": "curly_brace",
       "context": "rticle} + \\text{Wave} + \\text{Observ"
     },
     {
-      "file": "context-management/docs/theory/L2_LAWS.md",
+      "file": "wave/docs/theory/L2_LAWS.md",
       "line": 52,
       "pattern": "curly_brace",
       "context": "t{Wave} + \\text{Observer} = \\text{Realit"
     },
     {
-      "file": "context-management/docs/theory/L2_LAWS.md",
+      "file": "wave/docs/theory/L2_LAWS.md",
       "line": 52,
       "pattern": "curly_brace",
       "context": "server} = \\text{Reality}$."
     },
     {
-      "file": "context-management/docs/theory/ORPHAN_SEMANTICS.md",
+      "file": "wave/docs/theory/ORPHAN_SEMANTICS.md",
       "line": 22,
       "pattern": "curly_brace",
       "context": "here severity: {CRITICAL, PROBLEM, NEUTRAL, ACCEPTABLE}"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 50,
       "pattern": "curly_brace",
       "context": "Let B = {meanings} (at minimum, {"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 50,
       "pattern": "curly_brace",
       "context": "} (at minimum, {correct, incorrect} or {true, fals"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 50,
       "pattern": "curly_brace",
       "context": "incorrect} or {true, false})"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 55,
       "pattern": "curly_brace",
       "context": "In B = {true, false}, negation \u00ac :"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 204,
       "pattern": "curly_brace",
       "context": "\u2192   {correct, incorrect} or {true, fals"
     },
     {
-      "file": "context-management/docs/theory/FOUNDATIONS_INTEGRATION.md",
+      "file": "wave/docs/theory/FOUNDATIONS_INTEGRATION.md",
       "line": 204,
       "pattern": "curly_brace",
       "context": "incorrect} or {true, false}"
     },
     {
-      "file": "context-management/docs/theory/DOMAIN_DEEP_ANALYSIS.md",
+      "file": "wave/docs/theory/DOMAIN_DEEP_ANALYSIS.md",
       "line": 28,
       "pattern": "curly_brace",
       "context": "D = {D\u2081, D\u2082, ..., D\u2098}           Set"
     },
     {
-      "file": "context-management/docs/theory/TRINITY_PRINCIPLE.md",
+      "file": "wave/docs/theory/TRINITY_PRINCIPLE.md",
       "line": 216,
       "pattern": "curly_brace",
       "context": "m(component) \u2208 {PARTICLE, WAVE, OBSERVER, ARCHIVE}"
     },
     {
-      "file": "context-management/docs/theory/TRINITY_PRINCIPLE.md",
+      "file": "wave/docs/theory/TRINITY_PRINCIPLE.md",
       "line": 219,
       "pattern": "curly_brace",
       "context": "e_component) \u2208 {PARTICLE, WAVE, OBSERVER}"
     },
     {
-      "file": "context-management/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
+      "file": "wave/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
       "line": 20,
       "pattern": "curly_brace",
       "context": "ents(d)| \u2208 \u2115 \u222a {0}"
     },
     {
-      "file": "context-management/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
+      "file": "wave/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
       "line": 47,
       "pattern": "curly_brace",
       "context": "mode \u2208 {atoms_only, files_only, both, animated_transition}"
     },
     {
-      "file": "context-management/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
+      "file": "wave/docs/theory/OPTIMAL_SUBDIVISION_PRINCIPLE.md",
       "line": 87,
       "pattern": "curly_brace",
       "context": "S = {subsystem\u2081, subsystem\u2082, ..., subsystem\u2099}"
     },
     {
-      "file": "context-management/docs/theory/L3_MEASUREMENTS.md",
+      "file": "wave/docs/theory/L3_MEASUREMENTS.md",
       "line": 8,
       "pattern": "curly_brace",
       "context": "$$ Q(H) = w_{parts} \\times \\text{A"
     },
     {
-      "file": "context-management/docs/theory/L3_MEASUREMENTS.md",
+      "file": "wave/docs/theory/L3_MEASUREMENTS.md",
       "line": 8,
       "pattern": "curly_brace",
       "context": "s} \\times \\text{Avg}(Q_{children})"
     },
     {
-      "file": "context-management/docs/theory/L3_MEASUREMENTS.md",
+      "file": "wave/docs/theory/L3_MEASUREMENTS.md",
       "line": 8,
       "pattern": "curly_brace",
       "context": "s \\text{Avg}(Q_{children}) + w_{intrinsi"
     },
     {
-      "file": "context-management/docs/theory/L3_MEASUREMENTS.md",
+      "file": "wave/docs/theory/L3_MEASUREMENTS.md",
       "line": 8,
       "pattern": "curly_brace",
       "context": "children}) + w_{intrinsic} \\times I(H) $$"
     },
     {
-      "file": "context-management/docs/workflows/TIMESTAMP_WORKFLOW.md",
+      "file": "wave/docs/workflows/TIMESTAMP_WORKFLOW.md",
       "line": 136,
       "pattern": "curly_brace",
       "context": "fter creation: {count}\")"
     },
     {
-      "file": "context-management/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
       "line": 116,
       "pattern": "xxx_marker",
       "context": "idator.py TASK-XXX` |"
     },
     {
-      "file": "context-management/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
       "line": 158,
       "pattern": "xxx_marker",
       "context": "rtunity.py OPP-XXX` |"
     },
     {
-      "file": "context-management/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
+      "file": "wave/docs/deep/BACKGROUND_AI_LAYER_MAP.md",
       "line": 159,
       "pattern": "xxx_marker",
       "context": "_steps.py TASK-XXX` |"
     },
     {
-      "file": "context-management/docs/deep/RESEARCH_SCHEMAS.md",
+      "file": "wave/docs/deep/RESEARCH_SCHEMAS.md",
       "line": 201,
       "pattern": "curly_brace",
       "context": "\"synthesis\": {\"strategy\": \"consensus\", \"distinct_sources_required\": true}"
     },
     {
-      "file": "context-management/docs/deep/THEORY_AMENDMENT_2026-01.md",
+      "file": "wave/docs/deep/THEORY_AMENDMENT_2026-01.md",
       "line": 245,
       "pattern": "curly_brace",
       "context": "e Confidence \u2208 {high, medium, low} or [0.0, 1.0]"
     },
     {
-      "file": "context-management/docs/deep/PURPOSE_EMERGENCE.md",
+      "file": "wave/docs/deep/PURPOSE_EMERGENCE.md",
       "line": 70,
       "pattern": "curly_brace",
       "context": "phan nodes -> `{Purpose}(Orphan)`"
     },
     {
-      "file": "context-management/docs/deep/PURPOSE_EMERGENCE.md",
+      "file": "wave/docs/deep/PURPOSE_EMERGENCE.md",
       "line": 77,
       "pattern": "curly_brace",
       "context": "me purpose -> `{Purpose}Container`"
     },
     {
-      "file": "context-management/docs/deep/PURPOSE_EMERGENCE.md",
+      "file": "wave/docs/deep/PURPOSE_EMERGENCE.md",
       "line": 94,
       "pattern": "curly_brace",
       "context": "rpose file -> `{Purpose}System`"
     },
     {
-      "file": "context-management/docs/operations/CASE_AGAINST_PREMATURE_CLOUD.md",
+      "file": "wave/docs/operations/CASE_AGAINST_PREMATURE_CLOUD.md",
       "line": 195,
       "pattern": "curly_brace",
       "context": "ole.log(`File ${path} has been chang"
     },
     {
-      "file": "context-management/docs/operations/CASE_AGAINST_PREMATURE_CLOUD.md",
+      "file": "wave/docs/operations/CASE_AGAINST_PREMATURE_CLOUD.md",
       "line": 450,
       "pattern": "curly_brace",
       "context": "{\"status\": \"HEALTHY\", \"events_processed\": 10000, \"errors\": 0}"
     },
     {
-      "file": "context-management/docs/agent_school/WORKFLOWS.md",
+      "file": "wave/docs/agent_school/WORKFLOWS.md",
       "line": 37,
       "pattern": "todo_unlinked",
       "context": "message + add TODO"
     },
     {
-      "file": "context-management/docs/agent_school/DOD.md",
+      "file": "wave/docs/agent_school/DOD.md",
       "line": 30,
       "pattern": "todo_unlinked",
       "context": "(documented as TODO)"
     },
     {
-      "file": "context-management/docs/agent_school/AGENTKNOWLEDGEDUMP.md",
+      "file": "wave/docs/agent_school/AGENTKNOWLEDGEDUMP.md",
       "line": 469,
       "pattern": "xxx_marker",
       "context": "m_task.sh TASK-XXX agent-name` |"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 192,
       "pattern": "curly_brace",
       "context": "- Codebase: {target_name}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 193,
       "pattern": "curly_brace",
       "context": "- Nodes: {node_count}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 194,
       "pattern": "curly_brace",
       "context": "- Edges: {edge_count}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 195,
       "pattern": "curly_brace",
       "context": "- Topology: {topology_shape}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 196,
       "pattern": "curly_brace",
       "context": "- Knot Score: {knot_score}/10 (cyclic com"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 197,
       "pattern": "curly_brace",
       "context": "- Dead Code: {dead_code_percent}%"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 198,
       "pattern": "curly_brace",
       "context": "- Top Hubs: {top_hubs}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 199,
       "pattern": "curly_brace",
       "context": "PBL Profile: R={r}, P={p}, B={b},"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 199,
       "pattern": "curly_brace",
       "context": "file: R={r}, P={p}, B={b}, L={l}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 199,
       "pattern": "curly_brace",
       "context": "={r}, P={p}, B={b}, L={l}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 199,
       "pattern": "curly_brace",
       "context": "={p}, B={b}, L={l}"
     },
     {
-      "file": "context-management/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
+      "file": "wave/docs/proposals/COLLIDER_AI_INSIGHTS_PROPOSAL.md",
       "line": 202,
       "pattern": "curly_brace",
       "context": "{existing_recommendations}"

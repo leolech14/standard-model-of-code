@@ -44,7 +44,7 @@ LAYER 4: CLOUD LLM (ONLY FOR SYNTHESIS)
 
 EXISTING INFRASTRUCTURE:
 - Tree-sitter engine: src/core/tree_sitter_engine.py (READY)
-- Activity watcher: context-management/tools/activity_watcher.py (JUST BUILT)
+- Activity watcher: wave/tools/activity_watcher.py (JUST BUILT)
 - Retry logic: analyze.py line 938-954 (READY)
 - Node schema: already has id, file_path, start_line, end_line
 

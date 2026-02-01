@@ -23,32 +23,32 @@
 ### Maintenance Scripts
 | Script | Purpose | Usage |
 |--------|---------|-------|
-| `context-management/tools/maintenance/boot.sh` | Agent boot sequence | `./boot.sh` |
-| `context-management/tools/maintenance/offload_legacy.sh` | Archive old files | Manual |
-| `context-management/tools/maintenance/update_timestamps.sh` | Update file timestamps | Manual |
+| `wave/tools/maintenance/boot.sh` | Agent boot sequence | `./boot.sh` |
+| `wave/tools/maintenance/offload_legacy.sh` | Archive old files | Manual |
+| `wave/tools/maintenance/update_timestamps.sh` | Update file timestamps | Manual |
 
 ### Cloud/Deployment Scripts
 | Script | Purpose | Usage |
 |--------|---------|-------|
 | `.agent/tools/cloud/deploy.sh` | Deploy to cloud | Manual |
 | `.agent/tools/cloud/check_status.sh` | Check cloud status | Manual |
-| `context-management/tools/ops/sync_to_cloud.sh` | Sync to GCS | Manual |
-| `standard-model-of-code/ops/cloud-run-deploy.sh` | Deploy Collider to Cloud Run | CI/CD |
-| `standard-model-of-code/ops/cloud-entrypoint.sh` | Cloud Run entrypoint | Docker |
+| `wave/tools/ops/sync_to_cloud.sh` | Sync to GCS | Manual |
+| `particle/ops/cloud-run-deploy.sh` | Deploy Collider to Cloud Run | CI/CD |
+| `particle/ops/cloud-entrypoint.sh` | Cloud Run entrypoint | Docker |
 
 ### Dashboard Scripts
 | Script | Purpose | Usage |
 |--------|---------|-------|
-| `context-management/viz/unified-dashboard/install-and-test-dashboards.sh` | Install dashboards | One-time |
-| `context-management/viz/unified-dashboard/test-dashboards.sh` | Test dashboards | CI |
+| `wave/viz/unified-dashboard/install-and-test-dashboards.sh` | Install dashboards | One-time |
+| `wave/viz/unified-dashboard/test-dashboards.sh` | Test dashboards | CI |
 
 ### Tool-Specific Scripts
 | Script | Purpose | Usage |
 |--------|---------|-------|
-| `context-management/tools/docsintel/install.sh` | Install DocsIntel MCP | One-time |
-| `context-management/tools/ai/setup_agent_builder.sh` | Setup agent builder | One-time |
-| `standard-model-of-code/tools/batch_grade/deploy.sh` | Deploy batch grader | Manual |
-| `standard-model-of-code/tools/batch_grade/runpod_setup.sh` | Setup RunPod | One-time |
+| `wave/tools/docsintel/install.sh` | Install DocsIntel MCP | One-time |
+| `wave/tools/ai/setup_agent_builder.sh` | Setup agent builder | One-time |
+| `particle/tools/batch_grade/deploy.sh` | Deploy batch grader | Manual |
+| `particle/tools/batch_grade/runpod_setup.sh` | Setup RunPod | One-time |
 
 ## Archived/Legacy Scripts (Don't Use)
 
@@ -56,9 +56,9 @@
 |--------|--------|-------|
 | `.agent/tools/graphrag_phase1.sh` | Dormant | GraphRAG experiment |
 | `.agent/tools/execute_cutting_phase1.sh` | Dormant | Old refactoring |
-| `context-management/docs/research/scripts/research_phase1.sh` | Dormant | Old research automation |
-| `context-management/library/*/deploy.sh` | Dead | Legacy dashboards |
-| `standard-model-of-code/archive/**/*.sh` | Dead | Archived experiments |
+| `wave/docs/research/scripts/research_phase1.sh` | Dormant | Old research automation |
+| `wave/library/*/deploy.sh` | Dead | Legacy dashboards |
+| `particle/archive/**/*.sh` | Dead | Archived experiments |
 
 ## Python CLI Tools (Prefer These)
 
@@ -66,10 +66,10 @@ For most tasks, use Python tools instead of shell scripts:
 
 ```bash
 # Analysis
-python3 context-management/tools/ai/analyze.py "query"
+python3 wave/tools/ai/analyze.py "query"
 
 # Spiral Intel
-python3 context-management/tools/ai/cerebras_spiral_intel.py status
+python3 wave/tools/ai/cerebras_spiral_intel.py status
 
 # Collider
 ./collider full . --output /tmp/analysis

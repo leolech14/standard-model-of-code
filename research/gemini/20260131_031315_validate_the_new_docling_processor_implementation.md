@@ -15,7 +15,7 @@
 Validate the new docling_processor implementation (T054) against collective atemporal repo truth:
 
 1. ARCHITECTURE COMPLIANCE
-- Does context-management/tools/docling_processor/ follow established module patterns?
+- Does wave/tools/docling_processor/ follow established module patterns?
 - Does it integrate properly with the Refinery subsystem (RefineryNode, waybill patterns)?
 - Is the 4-tier fallback strategy consistent with existing error handling patterns?
 
@@ -33,11 +33,11 @@ Validate the new docling_processor implementation (T054) against collective atem
 - Are there any orphaned or duplicate implementations?
 
 Files to examine:
-- context-management/tools/docling_processor/*.py
-- context-management/docs/specs/DOCLING_GRANITE_MIGRATION.md
+- wave/tools/docling_processor/*.py
+- wave/docs/specs/DOCLING_GRANITE_MIGRATION.md
 - .agent/intelligence/TOOLS_REGISTRY.yaml (T054 entry)
-- context-management/tools/ai/aci/schema.py (RefineryNode)
-- context-management/tools/refinery/reference_analyzer.py
+- wave/tools/ai/aci/schema.py (RefineryNode)
+- wave/tools/refinery/reference_analyzer.py
 
 ---
 
@@ -45,7 +45,7 @@ Files to examine:
 
 The user is asking for a comprehensive validation of a new `docling_processor` implementation against several criteria: architecture, naming, integration, and potential gaps. This is a complex, multi-faceted request that requires the AI to act as a senior architect/auditor and cross-reference code with documentation and configuration.
 
-Based on the codebase context, particularly `context-management/tools/ai/analyze.py` and `context-management/config/prompts.yaml`, the `plan_validation` mode is the most suitable. It explicitly sets the AI's persona as a "SENIOR SOFTWARE ARCHITECT validating an implementation plan" and expects detailed checks against source code, including identifying gaps, inconsistencies, and risks, with a structured JSON output.
+Based on the codebase context, particularly `wave/tools/ai/analyze.py` and `wave/config/prompts.yaml`, the `plan_validation` mode is the most suitable. It explicitly sets the AI's persona as a "SENIOR SOFTWARE ARCHITECT validating an implementation plan" and expects detailed checks against source code, including identifying gaps, inconsistencies, and risks, with a structured JSON output.
 
 To provide the AI with the necessary context, we need to include:
 1.  All files explicitly mentioned by the user.
@@ -60,11 +60,11 @@ Let's construct the `--file` argument carefully to include all these components.
 **Command to execute:**
 
 ```bash
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   "Validate the new docling_processor implementation (T054) against collective atemporal repo truth:
 
 1. ARCHITECTURE COMPLIANCE
-- Does context-management/tools/docling_processor/ follow established module patterns?
+- Does wave/tools/docling_processor/ follow established module patterns?
 - Does it integrate properly with the Refinery subsystem (RefineryNode, waybill patterns)?
 - Is the 4-tier fallback strategy consistent with existing error handling patterns?
 
@@ -83,7 +83,7 @@ python context-management/tools/ai/analyze.py \
   --mode plan_validation \
   --line-numbers \
   --output docling_processor_validation_report.json \
-  --file "context-management/tools/docling_processor/*.py,context-management/docs/specs/DOCLING_GRANITE_MIGRATION.md,.agent/intelligence/TOOLS_REGISTRY.yaml,context-management/tools/ai/aci/schema.py,context-management/tools/refinery/reference_analyzer.py,context-management/tools/ai/aci/refinery.py,context-management/tools/ai/aci/tier_orchestrator.py,context-management/config/aci_config.yaml,context-management/config/analysis_sets.yaml,context-management/config/prompts.yaml"
+  --file "wave/tools/docling_processor/*.py,wave/docs/specs/DOCLING_GRANITE_MIGRATION.md,.agent/intelligence/TOOLS_REGISTRY.yaml,wave/tools/ai/aci/schema.py,wave/tools/refinery/reference_analyzer.py,wave/tools/ai/aci/refinery.py,wave/tools/ai/aci/tier_orchestrator.py,wave/config/aci_config.yaml,wave/config/analysis_sets.yaml,wave/config/prompts.yaml"
 ```
 
 **Explanation of arguments:**
@@ -93,16 +93,16 @@ python context-management/tools/ai/analyze.py \
 *   `--line-numbers`: Essential for a forensic/validation task, allowing the AI to refer to specific lines of code in its analysis and adhere to the expected output format of `plan_validation` which asks for line number verification.
 *   `--output docling_processor_validation_report.json`: Saves the structured JSON output to a file, which is ideal for a detailed report.
 *   `--file "..."`: This comma-separated list provides all the necessary files to the AI's context window:
-    *   `context-management/tools/docling_processor/*.py`: The target code to be validated.
-    *   `context-management/docs/specs/DOCLING_GRANITE_MIGRATION.md`: The specification document for comparison.
+    *   `wave/tools/docling_processor/*.py`: The target code to be validated.
+    *   `wave/docs/specs/DOCLING_GRANITE_MIGRATION.md`: The specification document for comparison.
     *   `.agent/intelligence/TOOLS_REGISTRY.yaml`: For checking naming conventions and registration.
-    *   `context-management/tools/ai/aci/schema.py`: Defines `RefineryNode` schema.
-    *   `context-management/tools/refinery/reference_analyzer.py`: An integration point mentioned by the user.
-    *   `context-management/tools/ai/aci/refinery.py`: The core `Refinery` implementation for architectural compliance.
-    *   `context-management/tools/ai/aci/tier_orchestrator.py`: Defines the tier routing, relevant for the "4-tier fallback strategy" check.
-    *   `context-management/config/aci_config.yaml`: Contains the configuration for tiers and fallback behavior.
-    *   `context-management/config/analysis_sets.yaml`: Provides definitions of various analysis sets, crucial for understanding how context is usually managed and categorized within the system.
-    *   `context-management/config/prompts.yaml`: Contains the definitions of all AI personas and output formats, giving the AI meta-context about its own operation.
+    *   `wave/tools/ai/aci/schema.py`: Defines `RefineryNode` schema.
+    *   `wave/tools/refinery/reference_analyzer.py`: An integration point mentioned by the user.
+    *   `wave/tools/ai/aci/refinery.py`: The core `Refinery` implementation for architectural compliance.
+    *   `wave/tools/ai/aci/tier_orchestrator.py`: Defines the tier routing, relevant for the "4-tier fallback strategy" check.
+    *   `wave/config/aci_config.yaml`: Contains the configuration for tiers and fallback behavior.
+    *   `wave/config/analysis_sets.yaml`: Provides definitions of various analysis sets, crucial for understanding how context is usually managed and categorized within the system.
+    *   `wave/config/prompts.yaml`: Contains the definitions of all AI personas and output formats, giving the AI meta-context about its own operation.
 
 This command will instruct the `analyze.py` tool to load all the specified files and then pass them, along with the detailed validation request, to a powerful Gemini model configured with the `plan_validation` persona, ensuring a thorough and structured response.
 

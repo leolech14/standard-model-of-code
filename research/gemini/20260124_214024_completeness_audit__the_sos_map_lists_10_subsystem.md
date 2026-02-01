@@ -13,11 +13,11 @@
 COMPLETENESS AUDIT: The SoS map lists 10 subsystems (S1-S9b). But I found these additional tools that may be significant subsystems NOT in the map:
 
 FOUND BUT UNLISTED:
-- context-management/tools/refinery/ (5 modules: atom_generator, boundary_mapper, delta_detector, corpus_inventory, state_synthesizer)
-- context-management/tools/hsl_daemon.py (HSL scheduler)
+- wave/tools/refinery/ (5 modules: atom_generator, boundary_mapper, delta_detector, corpus_inventory, state_synthesizer)
+- wave/tools/hsl_daemon.py (HSL scheduler)
 - .agent/tools/aep_orchestrator.py (Autonomous Enrichment Pipeline)
 - .agent/tools/centripetal_scan.py (Deep analysis tool)
-- context-management/tools/ai/aci/ (Adaptive Context Intelligence - 8 modules)
+- wave/tools/ai/aci/ (Adaptive Context Intelligence - 8 modules)
 
 QUESTION: Should these be added to the SoS map as new subsystems (S10, S11, etc)? Rate each by significance (HIGH/MEDIUM/LOW) and recommend which to add.
 
@@ -41,7 +41,7 @@ The `SUBSYSTEM_INTEGRATION.md` is currently lagging behind the `BACKGROUND_AI_LA
 *   **Significance:** **HIGH**. This is the "Brain" of the autonomous workflow. Without it, the Task Registry (S5) is static.
 *   **Recommendation:** **ADD as S10**.
 
-#### 2. Refinery / ACI (`context-management/tools/refinery/` & `.../aci/`)
+#### 2. Refinery / ACI (`wave/tools/refinery/` & `.../aci/`)
 *   **Role:** listed as **Engine #4 (Refinery)** in the AI Map. It performs "Context Atomization" (chunking code into semantic units like `RefineryNode`). The `aci` folder likely contains the core logic (Adaptive Context Intelligence) while `refinery` contains the tools.
 *   **Current Status:** Missing. Currently, `analyze.py` (S3) is doing heavy lifting, but Refinery is a distinct specialized engine for token optimization.
 *   **Significance:** **HIGH**. It is the prerequisite data layer for all efficient AI operations (AEP and HSL).
@@ -53,7 +53,7 @@ The `SUBSYSTEM_INTEGRATION.md` is currently lagging behind the `BACKGROUND_AI_LA
 *   **Significance:** **MEDIUM**. While powerful, it acts more like a heavy-duty specialized tool triggered manually/on-demand rather than a continuous background loop like BARE or AEP.
 *   **Recommendation:** **ADD as S12**. It represents "Deep Intelligence" vs. S3's "Operational Intelligence."
 
-#### 4. HSL Daemon (`context-management/tools/hsl_daemon.py`)
+#### 4. HSL Daemon (`wave/tools/hsl_daemon.py`)
 *   **Role:** The scheduler/watcher that triggers Socratic Audits.
 *   **Current Status:** **S2 (HSL)** is currently listed as a "Framework". The daemon is the runtime implementation.
 *   **Significance:** **HIGH (Functional) / LOW (Architectural)**. It is vital, but it is not distinct enough from HSL to warrant a new top-level ID.
@@ -68,7 +68,7 @@ Add the following rows to the **Subsystem Registry** table in `SUBSYSTEM_INTEGRA
 | ID | Subsystem | Type | Path | Purpose |
 |----|-----------|------|------|---------|
 | **S10** | **AEP** | Engine | `.agent/tools/aep_orchestrator.py` | Task enrichment & promotion (Inbox → Registry) |
-| **S11** | **ACI Refinery** | Engine | `context-management/tools/refinery/` | Context atomization & semantic chunking |
+| **S11** | **ACI Refinery** | Engine | `wave/tools/refinery/` | Context atomization & semantic chunking |
 | **S12** | **Centripetal** | Engine | `.agent/tools/centripetal_scan.py` | Deep 12-round recursive analysis |
 
 ### Updated Integration Data Flow

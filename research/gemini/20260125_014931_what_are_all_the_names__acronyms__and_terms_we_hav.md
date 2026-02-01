@@ -43,7 +43,7 @@ These terms refer to the entire system of background processing.
 *   **Intelligence Layer (Wave)** (Used in `KERNEL.md` to describe the potential/field vs the particle/implementation).
 *   **Adaptive Intelligence Layer** (Used in `registry/INDEX.md` referring to Phase 10).
 *   **Repository Context System** (Used in `REPOSITORY_CONTEXT_SYSTEM.md`).
-*   **Context Management** (The directory name `context-management/` containing these tools).
+*   **Context Management** (The directory name `wave/` containing these tools).
 
 ### 3. Functional Personas (Role-Based Names)
 The documentation frequently personifies these automation tools based on their behavior.

@@ -44,7 +44,7 @@ Consider:
 3. How does this affect the periodic table visualization?
 4. How does Collider calculate/assign Ring?
 
-Reference: standard-model-of-code/schema/fixed/200_ATOMS.md
+Reference: particle/schema/fixed/200_ATOMS.md
 
 ---
 

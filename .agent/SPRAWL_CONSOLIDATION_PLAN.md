@@ -66,14 +66,14 @@ Consolidate to: `.collider/` (single output directory)
 | Root .md files | 11 | 6 (essential only) |
 | `orphans_report.md` | Root | `archive/reports/` |
 | `validated_*.md` | Root | `archive/reports/` |
-| `AGENTKNOWLEDGEDUMP.md` | Root | `context-management/docs/agent_school/` |
+| `AGENTKNOWLEDGEDUMP.md` | Root | `wave/docs/agent_school/` |
 | Timestamp CSV | Not gitignored | Added to `.gitignore` |
 | Archive config | Missing sprawl dirs | Added 4 offload targets |
 
 ## New Task Created
 
 - **#10:** Implement Gemini context caching for FLASH_DEEP tier
-  - Reference: `standard-model-of-code/docs/research/gemini/docs/20260123_gemini_long_context_blueprint.md`
+  - Reference: `particle/docs/research/gemini/docs/20260123_gemini_long_context_blueprint.md`
 
 ## Success Metrics
 

@@ -45,7 +45,7 @@ The `TruthValidator` you mentioned, which is part of the Holographic-Socratic La
 
 The `TruthValidator` answers, "Is the map of our territory still accurate?" The `ConfidenceBooster` needs to answer, "Is this new route on the map a good idea?" These are fundamentally different questions requiring different tools and context.
 
-The manual process for this is already well-defined in **`context-management/docs/WORKFLOW_FACTORY.md`** under the "Socratic Research Loop." It describes exactly what `TASK-120` should automate: using Gemini for internal validation, Perplexity for external validation, and file reads for ground truth to boost the 4D confidence scores.
+The manual process for this is already well-defined in **`wave/docs/WORKFLOW_FACTORY.md`** under the "Socratic Research Loop." It describes exactly what `TASK-120` should automate: using Gemini for internal validation, Perplexity for external validation, and file reads for ground truth to boost the 4D confidence scores.
 
 ---
 

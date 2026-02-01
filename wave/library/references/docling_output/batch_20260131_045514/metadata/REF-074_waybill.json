@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_78ad21356e5a",
+  "ref_id": "REF-074",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769847986,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769847990,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "chunked",
+        "page_count": 0,
+        "chunk_count": 0
+      }
+    }
+  ]
+}

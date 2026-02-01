@@ -1,6 +1,6 @@
 # Attention Map (Generated)
 
-**Generated:** 2026-01-27  
+**Generated:** 2026-01-27
 **Scope:** `full_contextome.zip`
 
 This file answers: **what deserves attention first** vs **what can be safely separated/archived**.
@@ -33,7 +33,7 @@ Interpretation:
 Among active markdown docs:
 - Total active docs: **788**
 - Internal doc links: **64**
-- Isolated docs: **733**  
+- Isolated docs: **733**
 
 This means “knowledge traversal” is currently **mostly impossible** without search — you can’t *browse* the system.
 
@@ -45,12 +45,12 @@ This means “knowledge traversal” is currently **mostly impossible** without 
 These are the things that create *truth* (canon) or define how truth is validated:
 
 - **Theory + specs**
-  - `standard-model-of-code/docs/**`
-  - `context-management/docs/theory/**`
+  - `particle/docs/**`
+  - `wave/docs/theory/**`
   - `.agent/specs/**`
 - **Registries (canonical datasets)**
   - `.agent/registry/**`
-  - `context-management/registry/**`
+  - `wave/registry/**`
   - any `**/registry/**.yaml` or canonical JSON registries
 - **Operating manuals**
   - `ARCHITECTURE_MAP.md`, `PROJECT_MAP.md`, `QUICK_START.md`, `CLAUDE.md`, `AGENTS.md`
@@ -58,11 +58,11 @@ These are the things that create *truth* (canon) or define how truth is validate
 ### Split out of Core (v1) into “Artifacts”
 These are valuable, but they should not block shipping:
 
-- `standard-model-of-code/artifacts/**` (dominant size)
+- `particle/artifacts/**` (dominant size)
 - `.collider-full/**`, `collider_output_small/**`, `architecture_report/**`
-- `context-management/intelligence/**`
-- `standard-model-of-code/docs/research/**` (Gemini/Perplexity traces)
-- `archive/**` and `standard-model-of-code/.archive/**`
+- `wave/intelligence/**`
+- `particle/docs/research/**` (Gemini/Perplexity traces)
+- `archive/**` and `particle/.archive/**`
 
 ---
 

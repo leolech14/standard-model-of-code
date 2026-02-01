@@ -46,7 +46,7 @@ def run_true_symmetry(output_format: str = "full") -> dict:
         dict with symmetry_score, tier, metrics, etc.
     """
     # Add SMoC to path
-    smoc_path = PROJECT_ROOT / "standard-model-of-code"
+    smoc_path = PROJECT_ROOT / "particle"
     sys.path.insert(0, str(smoc_path))
 
     try:
@@ -55,7 +55,7 @@ def run_true_symmetry(output_format: str = "full") -> dict:
         # Focus on key documentation directories (avoid scanning all research docs)
         key_docs_dirs = [
             PROJECT_ROOT,  # README.md, CLAUDE.md, etc.
-            PROJECT_ROOT / "context-management/docs",
+            PROJECT_ROOT / "wave/docs",
             PROJECT_ROOT / ".agent/specs",
             smoc_path / "docs",
         ]
@@ -128,7 +128,7 @@ def run_proxy_symmetry() -> dict:
     total_funcs, documented_funcs = 0, 0
     total_classes, documented_classes = 0, 0
 
-    for py_file in (PROJECT_ROOT / "standard-model-of-code/src").rglob("*.py"):
+    for py_file in (PROJECT_ROOT / "particle/src").rglob("*.py"):
         try:
             tree = ast.parse(py_file.read_text())
             for node in ast.walk(tree):
@@ -159,7 +159,7 @@ def run_proxy_symmetry() -> dict:
     behav_score = 0
     try:
         result = subprocess.run(
-            [str(PROJECT_ROOT / "standard-model-of-code/collider"), "--help"],
+            [str(PROJECT_ROOT / "particle/collider"), "--help"],
             capture_output=True, timeout=5
         )
         if result.returncode == 0:
@@ -168,9 +168,9 @@ def run_proxy_symmetry() -> dict:
         pass
 
     key_docs = [
-        "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
-        "context-management/docs/AI_USER_GUIDE.md",
-        "context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md",
+        "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
+        "wave/docs/AI_USER_GUIDE.md",
+        "wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md",
         ".agent/specs/WAVE_PARTICLE_SYMMETRY.md",
     ]
     docs_found = sum(1 for d in key_docs if (PROJECT_ROOT / d).exists())
@@ -185,8 +185,8 @@ def run_proxy_symmetry() -> dict:
     # EXAMPLES: Code block count
     total_blocks = 0
     for doc in ["README.md", "CLAUDE.md", "ARCHITECTURE_MAP.md",
-                "context-management/docs/AI_USER_GUIDE.md",
-                "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
+                "wave/docs/AI_USER_GUIDE.md",
+                "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
                 ".agent/specs/WAVE_PARTICLE_SYMMETRY.md"]:
         path = PROJECT_ROOT / doc
         if path.exists():
@@ -220,7 +220,7 @@ def run_proxy_symmetry() -> dict:
 
     # FRESHNESS: TODO/FIXME count
     todo_count, fixme_count = 0, 0
-    for search_dir in ["standard-model-of-code/src", "context-management/tools", ".agent/tools"]:
+    for search_dir in ["particle/src", "wave/tools", ".agent/tools"]:
         for py_file in (PROJECT_ROOT / search_dir).rglob("*.py"):
             try:
                 content = py_file.read_text()

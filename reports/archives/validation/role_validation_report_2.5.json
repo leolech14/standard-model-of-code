@@ -16,12 +16,12 @@
     "enricher_wired_correctly": true,
     "bypass_risks": [
       {
-        "file": "standard-model-of-code/src/core/graph_type_inference.py",
+        "file": "particle/src/core/graph_type_inference.py",
         "risk": "The 'apply_graph_inference' function directly modifies 'role' fields. If it is executed after 'StandardModelEnricher', it could re-introduce non-canonical roles (e.g., 'UseCase', 'SubjectUnderTest'), bypassing the normalization process.",
         "severity": "HIGH"
       },
       {
-        "file": "standard-model-of-code/src/core/heuristic_classifier.py",
+        "file": "particle/src/core/heuristic_classifier.py",
         "risk": "The 'apply_heuristics' function directly modifies 'type' fields. If it is executed after 'StandardModelEnricher', it could re-introduce non-canonical roles (e.g., 'DTO'), bypassing the normalization process.",
         "severity": "HIGH"
       }
@@ -29,25 +29,25 @@
   },
   "hardcoded_roles": [
     {
-      "file": "standard-model-of-code/src/core/graph_type_inference.py",
+      "file": "particle/src/core/graph_type_inference.py",
       "line": 49,
       "role_string": "SubjectUnderTest, IntegrationService, UseCase, etc.",
       "recommendation": "The 'INFERENCE_RULES' list is hardcoded. These rules should be defined in a configuration file and loaded dynamically. This centralizes classification logic, making it data-driven and easier to maintain without code changes."
     },
     {
-      "file": "standard-model-of-code/src/core/heuristic_classifier.py",
+      "file": "particle/src/core/heuristic_classifier.py",
       "line": 40,
       "role_string": "'get_', 'set_', '_handler', '_factory', etc.",
       "recommendation": "The 'PREFIX_ROLES', 'SUFFIX_ROLES', and other pattern dictionaries are hardcoded. These patterns should be managed by the 'PatternRepository' and loaded from configuration files, making the classifier data-driven."
     },
     {
-      "file": "standard-model-of-code/src/core/standard_model_enricher.py",
+      "file": "particle/src/core/standard_model_enricher.py",
       "line": 139,
       "role_string": "'helper', 'schema', 'spec', etc.",
       "recommendation": "The 'suffix_map' provides another layer of hardcoded normalization. These mappings should be consolidated into the central 'ROLE_NORMALIZATION' map in 'role_registry.py' to create a single source of truth for all normalization logic."
     },
     {
-      "file": "standard-model-of-code/src/core/graph_type_inference.py",
+      "file": "particle/src/core/graph_type_inference.py",
       "line": 54,
       "role_string": "caller_types={\"Test\"}",
       "recommendation": "The inference rule relies on the non-canonical role 'Test'. While this is handled by the final enricher, it creates a dependency on pre-normalization state. The rule should be updated to check for the canonical role 'Asserter' or a normalized representation to improve robustness."

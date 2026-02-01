@@ -146,9 +146,9 @@ TOKEN BUDGET CHECK
   3. Force anyway: --force (may hit quota)
 
 Top 5 files by token count:
-   1,234,567 tokens - context-management/archive/references/huge.json
-     876,543 tokens - context-management/archive/large_outputs/big.json
-     543,210 tokens - standard-model-of-code/artifacts/analysis.json
+   1,234,567 tokens - wave/archive/references/huge.json
+     876,543 tokens - wave/archive/large_outputs/big.json
+     543,210 tokens - particle/artifacts/analysis.json
      ...
 ```
 

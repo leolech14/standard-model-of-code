@@ -28,7 +28,7 @@ We need to implement:
 CONTEXT:
 - BARE exists at .agent/tools/bare/ (partial implementation)
 - Task Registry at .agent/registry/ (working)
-- Workflow Registry at standard-model-of-code/src/core/registry/workflow_registry.py (working)
+- Workflow Registry at particle/src/core/registry/workflow_registry.py (working)
 - Post-commit hooks exist (.agent/hooks/post-commit)
 
 QUESTIONS:

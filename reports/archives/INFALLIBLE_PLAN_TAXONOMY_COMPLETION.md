@@ -21,7 +21,7 @@
 
 ## TASK 1: Add 20 Missing Canonical Roles
 
-**File:** `standard-model-of-code/src/core/heuristic_classifier.py`
+**File:** `particle/src/core/heuristic_classifier.py`
 
 ### Step 1 of 5: Add Keyword Mappings for Missing Roles
 
@@ -65,7 +65,7 @@ for role, keywords in self.MISSING_CANONICAL_ROLES.items():
 
 **Verification:**
 ```bash
-grep -oE "'[A-Z][a-z]+'" standard-model-of-code/src/core/heuristic_classifier.py | sed "s/'//g" | sort | uniq | wc -l
+grep -oE "'[A-Z][a-z]+'" particle/src/core/heuristic_classifier.py | sed "s/'//g" | sort | uniq | wc -l
 # Expected: 49+ (13 old + 20 new + 16 extra before remapping)
 ```
 
@@ -73,7 +73,7 @@ grep -oE "'[A-Z][a-z]+'" standard-model-of-code/src/core/heuristic_classifier.py
 
 ## TASK 2: Add 8 Missing Atom IDs
 
-**File:** `standard-model-of-code/src/patterns/atoms.json`
+**File:** `particle/src/patterns/atoms.json`
 
 ### Step 2 of 5: Add Missing Atom Objects
 
@@ -132,7 +132,7 @@ Add these 8 atom definitions to the `"atoms"` object:
 
 **Verification:**
 ```bash
-jq '.atoms | keys | length' standard-model-of-code/src/patterns/atoms.json
+jq '.atoms | keys | length' particle/src/patterns/atoms.json
 # Expected: 22 (14 existing + 8 new)
 ```
 
@@ -169,7 +169,7 @@ Replace all `'EventHandler'` with `'Handler'` in heuristic_classifier.py.
 
 **Verification:**
 ```bash
-! grep -q "'EventHandler'" standard-model-of-code/src/core/heuristic_classifier.py
+! grep -q "'EventHandler'" particle/src/core/heuristic_classifier.py
 # Expected: Exit code 0 (no matches)
 ```
 
@@ -197,7 +197,7 @@ Key changes:
 **Verification:**
 ```bash
 EXTRA_ROLES="Adapter|Benchmark|Client|Configuration|Example|Exception|Fixture|Impl|Iterator|Job|Middleware|Policy|Provider|Specification|Test|EventHandler"
-! grep -oE "'($EXTRA_ROLES)'" standard-model-of-code/src/core/heuristic_classifier.py
+! grep -oE "'($EXTRA_ROLES)'" particle/src/core/heuristic_classifier.py
 # Expected: Exit code 0 (no matches)
 ```
 
@@ -205,7 +205,7 @@ EXTRA_ROLES="Adapter|Benchmark|Client|Configuration|Example|Exception|Fixture|Im
 
 **Verification:**
 ```bash
-jq '.roles | keys | length' standard-model-of-code/schema/fixed/roles.json
+jq '.roles | keys | length' particle/schema/fixed/roles.json
 # Expected: 33 (unchanged)
 ```
 
@@ -222,18 +222,18 @@ set -e
 echo "=== TAXONOMY COMPLETION VERIFICATION ==="
 
 # 1. Check atom count
-ATOMS=$(jq '.atoms | keys | length' standard-model-of-code/src/patterns/atoms.json)
+ATOMS=$(jq '.atoms | keys | length' particle/src/patterns/atoms.json)
 echo "Atoms in atoms.json: $ATOMS (expected: 22)"
 [ "$ATOMS" -eq 22 ] || exit 1
 
 # 2. Check canonical roles unchanged
-ROLES=$(jq '.roles | keys | length' standard-model-of-code/schema/fixed/roles.json)
+ROLES=$(jq '.roles | keys | length' particle/schema/fixed/roles.json)
 echo "Roles in roles.json: $ROLES (expected: 33)"
 [ "$ROLES" -eq 33 ] || exit 1
 
 # 3. Check no extra roles in classifier
 EXTRA="Adapter|Benchmark|Client|Configuration|Example|Exception|Fixture|Impl|Iterator|Job|Middleware|Policy|Provider|Specification|Test|EventHandler"
-if grep -qE "'($EXTRA)'" standard-model-of-code/src/core/heuristic_classifier.py; then
+if grep -qE "'($EXTRA)'" particle/src/core/heuristic_classifier.py; then
     echo "ERROR: Extra roles still present in classifier"
     exit 1
 fi
@@ -241,7 +241,7 @@ echo "No extra roles in classifier: PASS"
 
 # 4. Check missing roles added
 for role in Asserter Cache Creator Destroyer Emitter Finder Formatter Getter Guard Helper Listener Loader Manager Mutator Orchestrator Parser Serializer Store Subscriber Transformer; do
-    if ! grep -q "'$role'" standard-model-of-code/src/core/heuristic_classifier.py; then
+    if ! grep -q "'$role'" particle/src/core/heuristic_classifier.py; then
         echo "ERROR: Missing role $role not added"
         exit 1
     fi
@@ -257,8 +257,8 @@ echo "=== ALL VERIFICATIONS PASSED ==="
 ## Commit Template
 
 ```bash
-git add standard-model-of-code/src/patterns/atoms.json \
-        standard-model-of-code/src/core/heuristic_classifier.py
+git add particle/src/patterns/atoms.json \
+        particle/src/core/heuristic_classifier.py
 
 git commit -m "$(cat <<'EOF'
 feat: complete taxonomy - add 20 roles + 8 atoms + reconcile extras

@@ -37,12 +37,12 @@ chmod +x install-and-test-dashboards.sh
 **Fix:**
 ```bash
 # Test Projectome
-cd context-management/viz/unified-dashboard
+cd wave/viz/unified-dashboard
 npm install && npm run dev
 # Open http://localhost:3000
 
 # Test Refinery
-cd context-management/experiments/refinery-platform
+cd wave/experiments/refinery-platform
 npm install && npm run dev
 # Open http://localhost:3001
 ```

@@ -115,7 +115,7 @@ Agent works with PERFECT context
 
 ### 3. OLLAMA INTEGRATION - The Speed Butler ✅
 **File:** `pe` script (lines 39-67)
-**File:** `standard-model-of-code/src/core/ollama_client.py` (246 lines)
+**File:** `particle/src/core/ollama_client.py` (246 lines)
 **Built:** Jan 26, 2026 (pe), Collider development (ollama_client.py)
 
 **What it provides:**
@@ -147,7 +147,7 @@ Agent works with PERFECT context
 ---
 
 ### 4. INDUSTRIAL UI - The Styling Butler ✅
-**File:** `context-management/tools/ai/industrial_ui.py` (434 lines)
+**File:** `wave/tools/ai/industrial_ui.py` (434 lines)
 **Built:** Jan 27, 2026 (updated today)
 
 **What it provides:**
@@ -164,7 +164,7 @@ Agent works with PERFECT context
 ---
 
 ### 5. FABRIC BRIDGE - The Context Butler ✅
-**File:** `context-management/tools/ai/deck/fabric_bridge.py` (410 lines)
+**File:** `wave/tools/ai/deck/fabric_bridge.py` (410 lines)
 **Built:** TODAY (Jan 27, Entry 014)
 
 **What it provides:**
@@ -310,7 +310,7 @@ Returns in <200ms:
      π₃ = f(evolution) - Purpose emerges from graph
      π₄ = Σ(weighted contributions)
 
-     Implementation: standard-model-of-code/src/core/purpose_field.py:45
+     Implementation: particle/src/core/purpose_field.py:45
 
      [R] Read full section  [E] See example  [Q] Quit"
 ```
@@ -331,8 +331,8 @@ Returns architecture map:
 
      Current architecture:
      ├─ .agent/tools/auth/ (MISSING - should exist here)
-     ├─ standard-model-of-code/... (NO auth logic here - pure analysis)
-     └─ context-management/... (NO auth logic - pure context)
+     ├─ particle/... (NO auth logic here - pure analysis)
+     └─ wave/... (NO auth logic - pure context)
 
      Recommendation: Create .agent/tools/auth/
 

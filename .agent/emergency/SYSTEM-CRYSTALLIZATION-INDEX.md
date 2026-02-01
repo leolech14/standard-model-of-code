@@ -219,7 +219,7 @@ When everything works:
 ```bash
 # === PARTICLE ===
 # Check tree-sitter
-cd ~/PROJECTS_all/PROJECT_elements/standard-model-of-code
+cd ~/PROJECTS_all/PROJECT_elements/particle
 uv run python -c "import tree_sitter; print('OK')"
 
 # Check Collider output

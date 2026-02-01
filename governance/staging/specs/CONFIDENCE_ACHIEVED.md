@@ -252,12 +252,12 @@ python analyze.py "query" --set brain_active --explain-context
 ## 📋 FILES CREATED
 
 ```
-context-management/tools/ai/
+wave/tools/ai/
 ├── context_filters.py        (Phase 1: Filtering)
 ├── token_estimator.py        (Phase 3: Estimation)
 └── analyze.py                (Updated: Integration)
 
-context-management/config/
+wave/config/
 ├── analysis_sets.yaml        (Updated: Filtered sets)
 └── analysis_sets_v2.yaml     (Spec: Future enhancements)
 

@@ -55,5 +55,5 @@ ls docs/ | grep "^20260122"
 
 ## Configuration
 
-MCP Server: `context-management/tools/mcp/perplexity_mcp_server.py`
+MCP Server: `wave/tools/mcp/perplexity_mcp_server.py`
 Settings: `~/.claude/settings.json` → mcpServers.perplexity-local

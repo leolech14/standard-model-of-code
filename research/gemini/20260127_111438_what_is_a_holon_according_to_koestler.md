@@ -37,25 +37,25 @@ def get_context(query):
     }
 
     # Load configuration files
-    with open("context-management/config/aci_config.yaml", "r") as f:
+    with open("wave/config/aci_config.yaml", "r") as f:
         aci_config = yaml.safe_load(f)
-    with open("context-management/config/analysis_sets.yaml", "r") as f:
+    with open("wave/config/analysis_sets.yaml", "r") as f:
         analysis_sets = yaml.safe_load(f)
-    with open("context-management/config/documentation_map.yaml", "r") as f:
+    with open("wave/config/documentation_map.yaml", "r") as f:
         documentation_map = yaml.safe_load(f)
-    with open("context-management/config/prompts.yaml", "r") as f:
+    with open("wave/config/prompts.yaml", "r") as f:
         prompts = yaml.safe_load(f)
 
     # Relevant files based on keywords in the query.  More robust
     # intent parsing would improve accuracy here, but this is a basic example.
     if "holon" in query or "Koestler" in query:
         relevant_files = [
-            "context-management/docs/CODESPACE_ALGEBRA.md",
-            "context-management/docs/BACKGROUND_AI_LAYER_MAP.md",
-            "context-management/docs/AI_USER_GUIDE.md",
-            "context-management/config/aci_config.yaml",
-            "context-management/config/research_schemas.yaml",
-            "context-management/config/analysis_sets.yaml"
+            "wave/docs/CODESPACE_ALGEBRA.md",
+            "wave/docs/BACKGROUND_AI_LAYER_MAP.md",
+            "wave/docs/AI_USER_GUIDE.md",
+            "wave/config/aci_config.yaml",
+            "wave/config/research_schemas.yaml",
+            "wave/config/analysis_sets.yaml"
         ]
 
         context["relevant_files"] = relevant_files

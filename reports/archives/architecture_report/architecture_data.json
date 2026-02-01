@@ -44,15 +44,15 @@
     },
     "hot_spots": [
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/layout.js:get",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/layout.js:get",
         338
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:set",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/selection.js:set",
         129
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:add",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/selection.js:add",
         96
       ],
       [
@@ -64,11 +64,11 @@
         66
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:remove",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/selection.js:remove",
         66
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/panels.js:open",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/panels.js:open",
         60
       ],
       [
@@ -76,11 +76,11 @@
         53
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/circuit-breaker.js:test",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/circuit-breaker.js:test",
         52
       ],
       [
-        "/Users/lech/PROJECTS_all/PROJECT_elements/standard-model-of-code/src/core/viz/assets/modules/selection.js:clear",
+        "/Users/lech/PROJECTS_all/PROJECT_elements/particle/src/core/viz/assets/modules/selection.js:clear",
         47
       ]
     ],

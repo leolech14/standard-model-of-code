@@ -38,7 +38,7 @@ from typing import Dict, Any, Optional, List
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Add paths for imports
-sys.path.insert(0, str(REPO_ROOT / "standard-model-of-code" / "src"))
+sys.path.insert(0, str(REPO_ROOT / "particle" / "src"))
 sys.path.insert(0, str(REPO_ROOT / ".agent" / "tools"))
 
 
@@ -96,7 +96,7 @@ def get_git_stats(days: int = 7) -> Dict[str, Any]:
 def get_test_stats() -> Dict[str, Any]:
     """Get test coverage statistics for R_auto."""
     try:
-        collider_path = REPO_ROOT / "standard-model-of-code"
+        collider_path = REPO_ROOT / "particle"
 
         # Use venv pytest
         pytest_path = REPO_ROOT / ".tools_venv" / "bin" / "pytest"
@@ -138,7 +138,7 @@ def get_symmetry_stats() -> Dict[str, Any]:
     """Get Wave-Particle symmetry for MI calculation."""
     try:
         # Check for cached unified_analysis.json
-        analysis_path = REPO_ROOT / "standard-model-of-code" / ".collider" / "unified_analysis.json"
+        analysis_path = REPO_ROOT / "particle" / ".collider" / "unified_analysis.json"
         if not analysis_path.exists():
             analysis_path = REPO_ROOT / "unified_analysis.json"
 

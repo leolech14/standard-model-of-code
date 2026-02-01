@@ -98,7 +98,7 @@ The `boot.sh` script currently outputs a JSON status. It should instead output a
 ```json
 {
   "tools": {
-    "analyze": "python context-management/tools/ai/analyze.py (VERIFIED)",
+    "analyze": "python wave/tools/ai/analyze.py (VERIFIED)",
     "test": "pytest (VERIFIED)"
   }
 }

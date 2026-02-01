@@ -25,7 +25,7 @@ These items are ranked by **ROI (Impact / Effort)**.
 | Rank | Opportunity | Impact | Effort | Risk | What exactly to do |
 |:---|:---|:---:|:---:|:---:|:---|
 | **1** | **Update Manifest Discovery Paths** | **HIGH** | **TRIVIAL** | NONE | **Concept:** The Agent relies on `.agent/manifest.yaml` to "see" the world. <br>**Action:** Update `manifest.yaml` under `agent_system.instances` to explicitly list the specific sub-directories where the "hidden" 26 registries reside (likely inside `legacy/`, `archive/`, or `tools/` subfolders) so the agent is at least *aware* of them. |
-| **2** | **Define the "Contextome"** | **HIGH** | **SMALL** | LOW | **Concept:** Missing "Concept" in the Particle/Wave duality. <br>**Action:** Create `context-management/docs/CONTEXTOME.md`. Define it formally as the "sum total of all context management tools, docs, and semantic models." Add it to `SUBSYSTEM_INTEGRATION.md` as the overarching container for S2, S3, and S4. |
+| **2** | **Define the "Contextome"** | **HIGH** | **SMALL** | LOW | **Concept:** Missing "Concept" in the Particle/Wave duality. <br>**Action:** Create `wave/docs/CONTEXTOME.md`. Define it formally as the "sum total of all context management tools, docs, and semantic models." Add it to `SUBSYSTEM_INTEGRATION.md` as the overarching container for S2, S3, and S4. |
 | **3** | **Prune Empty Registries** | **MED** | **TRIVIAL** | NONE | **Concept:** Noise reduction.<br>**Action:** Run a script to identify and delete any of the 86 registry files (Markdown/YAML) that contain 0 bytes or only headers/comments. If a registry has no Items, it ceases to exist. |
 | **4** | **Corral "Orphan" Tasks** | **MED** | **SMALL** | LOW | **Concept:** Centralization.<br>**Action:** Create a directory `.agent/registry/unprocessed_legacy/`. Move any `.md` or `.yaml` file found in the scan that *looks* like a task list but isn't in `.agent/registry` or `src/` into this folder. This stops the "86 registries" sprawl instantly. |
 | **5** | **Ghost Run Cleanup** | **MED** | **SMALL** | MED | **Concept:** Stale state removal.<br>**Action:** Scan `.agent/runs/`. Identify RUN files older than 7 days that are not linked to an `active/` TASK. Move them to `.agent/runs/archive/orphaned/` to de-clutter the "Active Context" for agents. |
@@ -48,13 +48,13 @@ instances:
 instances:
   active_tasks: .agent/registry/active/
   legacy_pool: .agent/registry/legacy/      # NEW
-  tool_configs: context-management/config/  # NEW
+  tool_configs: wave/config/  # NEW
   research_logs: docs/research/             # NEW
 ```
 
 #### 2. Define the Contextome (The "Vocabulary Fix")
-The project has `standard-model-of-code` (Particle). It lacks the unified definition for the Wave side.
-**Action:** Create `context-management/docs/CONTEXTOME.md`:
+The project has `particle` (Particle). It lacks the unified definition for the Wave side.
+**Action:** Create `wave/docs/CONTEXTOME.md`:
 > **Definition:** The Contextome is the complete set of semantic relationships, documentation, and AI tooling that surrounds the Standard Model of Code.
 > **Constituents:**
 > 1. The Holographic Socratic Layer (HSL)

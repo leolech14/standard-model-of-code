@@ -28,9 +28,9 @@ Based on the provided codebase context, here's a breakdown and recommendation:
 
 *   `.agent/intelligence/`:  This directory is primarily for runtime data, metrics, truths, drift reports, and concepts *generated* by the agent. It's where the agent *stores* its learned intelligence.
 *   `.agent/specs/`: This area holds specifications, workflows, and schemas *related to the agent's internal operations*.
-*   `context-management/docs/`: This directory is for general documentation, AI user guides, and documentation regarding the overall context management system.
-*   `standard-model-of-code/docs`: This directory typically contains documentation for the core components and theoretical underpinnings of the system.
-*   `context-management/config/`: This area specifies configurations for agent and AI operations.
+*   `wave/docs/`: This directory is for general documentation, AI user guides, and documentation regarding the overall context management system.
+*   `particle/docs`: This directory typically contains documentation for the core components and theoretical underpinnings of the system.
+*   `wave/config/`: This area specifies configurations for agent and AI operations.
 
 **3. Analyzing your decision to create `.agent/intelligence/BACKGROUND_AI_LAYER_MAP.md`:**
 
@@ -38,22 +38,22 @@ Based on the provided codebase context, here's a breakdown and recommendation:
 
 **4. Rationale & Recommendation:**
 
-Given the nature of the Background AI Data Processing Layer documentation (a conceptual map and description), it best fits within the `context-management/docs/` directory, potentially as a top-level document or within a more specific subdirectory (e.g., `context-management/docs/aci/`, if it's directly related to Adaptive Context Intelligence).
+Given the nature of the Background AI Data Processing Layer documentation (a conceptual map and description), it best fits within the `wave/docs/` directory, potentially as a top-level document or within a more specific subdirectory (e.g., `wave/docs/aci/`, if it's directly related to Adaptive Context Intelligence).
 
 **Recommended steps:**
 
 *   **Move the file:**
     ```bash
-    mv .agent/intelligence/BACKGROUND_AI_LAYER_MAP.md context-management/docs/BACKGROUND_AI_LAYER_MAP.md
+    mv .agent/intelligence/BACKGROUND_AI_LAYER_MAP.md wave/docs/BACKGROUND_AI_LAYER_MAP.md
     ```
-*   **Consider subdirectory:** If it relates specifically to ACI or some other existing subsystem, create a corresponding folder in context-management/docs and move the file there.
+*   **Consider subdirectory:** If it relates specifically to ACI or some other existing subsystem, create a corresponding folder in wave/docs and move the file there.
 *   **Update references:** Update all references to the file after moving it.
 *   **Add links/references in other relevant documents**:
 
-    *   `context-management/docs/ACI_DATASET_MANAGEMENT.md`: Since this is a key document on ACI, a link to the layer description is crucial.
-    *   `context-management/config/aci_config.yaml`: Add comments to direct anyone looking at the routing and tiers to the documentation file.
+    *   `wave/docs/ACI_DATASET_MANAGEMENT.md`: Since this is a key document on ACI, a link to the layer description is crucial.
+    *   `wave/config/aci_config.yaml`: Add comments to direct anyone looking at the routing and tiers to the documentation file.
     *   `.agent/KERNEL.md`: In the 'SUBSYSTEM INTEGRATION' section, link to this new map for easy understanding. This is essential for new agent boots.
-    *    `context-management/docs/AI_USER_GUIDE.md`: A section on the "Backend" should reference the high-level architecture.
+    *    `wave/docs/AI_USER_GUIDE.md`: A section on the "Backend" should reference the high-level architecture.
     *   Any relevant architecture documents (`COLLIDER_ARCHITECTURE.md`, etc.)
 
 **Example of updating the ACI_DATASET_MANAGEMENT.md file**
@@ -69,7 +69,7 @@ Given the nature of the Background AI Data Processing Layer documentation (a con
 ...
 ```
 
-**In summary, move the file to `context-management/docs/BACKGROUND_AI_LAYER_MAP.md` (or a suitable subdirectory), and then ensure it's well-linked from other relevant documentation.**
+**In summary, move the file to `wave/docs/BACKGROUND_AI_LAYER_MAP.md` (or a suitable subdirectory), and then ensure it's well-linked from other relevant documentation.**
 
 
 ---

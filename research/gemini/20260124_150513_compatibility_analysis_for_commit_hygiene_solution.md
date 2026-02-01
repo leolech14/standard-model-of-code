@@ -53,10 +53,10 @@ Since **Claude Code CLI** is your primary tool, you need a solution that provide
 Your `KERNEL.md` states: *"Git is truth... Tasks live in registry/active/TASK-XXX.yaml"*.
 You can configure `commitlint` to **require** a footer referencing the active task (e.g., `Refs: TASK-001`). This cryptographically binds your **Git History** to your **Task Registry**, ensuring the "4D Confidence Model" is traceable back to code changes.
 
-**4. Implementation Strategy (Fits `context-management`)**
+**4. Implementation Strategy (Fits `wave`)**
 This fits perfectly into your existing structure:
-- **Config:** `.commitlintrc.yaml` goes in `context-management/config/` (Concepts).
-- **Tool:** Hooks install via `context-management/tools/setup_hooks.sh` (Objects).
+- **Config:** `.commitlintrc.yaml` goes in `wave/config/` (Concepts).
+- **Tool:** Hooks install via `wave/tools/setup_hooks.sh` (Objects).
 - **Integration:** It protects the `collider` and `archive` subsystems defined in `SUBSYSTEM_INTEGRATION.md` by ensuring garbage data never triggers the post-commit syncs.
 
 ### Why others failed the compatibility test:

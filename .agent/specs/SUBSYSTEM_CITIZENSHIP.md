@@ -72,7 +72,7 @@ interface:
   invoke:
     method: cli | python_import | api | hook
     command: "python3 {path}/projectome_omniscience.py --output {output}"
-    entrypoint: "context-management/tools/pom/projectome_omniscience.py"
+    entrypoint: "wave/tools/pom/projectome_omniscience.py"
 
   # What this subsystem CONSUMES
   inputs:
@@ -90,7 +90,7 @@ interface:
     - name: pom_manifest.yaml
       type: file
       format: yaml
-      schema: "context-management/tools/pom/manifest.schema.yaml"  # REQUIRED
+      schema: "wave/tools/pom/manifest.schema.yaml"  # REQUIRED
 
   # What this subsystem REQUIRES to run
   requires:
@@ -125,10 +125,10 @@ integrations:
 # REQUIRED: Documentation in canonical locations
 documentation:
   # User-facing docs
-  user_guide: "context-management/docs/specs/POM_USER_GUIDE.md"
+  user_guide: "wave/docs/specs/POM_USER_GUIDE.md"
 
   # Developer-facing docs
-  api_reference: "context-management/tools/pom/README.md"
+  api_reference: "wave/tools/pom/README.md"
 
   # Integration into LOL.yaml
   lol_entry: true  # Will be added to LOL.yaml on approval
@@ -141,7 +141,7 @@ documentation:
 quality:
   # Tests exist and pass
   tests:
-    path: "context-management/tools/pom/tests/"
+    path: "wave/tools/pom/tests/"
     coverage: ">= 50%"  # Minimum
 
   # No unhandled errors

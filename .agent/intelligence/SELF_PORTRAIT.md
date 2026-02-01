@@ -24,8 +24,8 @@ The entire repository. Contains multiple systems working together toward a unifi
 
 ```
 PROJECT_elements/
-├── standard-model-of-code/  (L7: System)
-├── context-management/      (L7: System)
+├── particle/  (L7: System)
+├── wave/      (L7: System)
 ├── .agent/                  (L7: System)
 ├── archive/                 (L7: System - dormant)
 ├── related/                 (L7: System - external)
@@ -42,8 +42,8 @@ Self-contained units that can operate independently but integrate into the large
 
 | System | Path | Purpose | Status |
 |--------|------|---------|--------|
-| **Collider** | `standard-model-of-code/` | Analysis engine (THE product) | ACTIVE |
-| **Wave** | `context-management/` | AI/Intelligence layer | ACTIVE |
+| **Collider** | `particle/` | Analysis engine (THE product) | ACTIVE |
+| **Wave** | `wave/` | AI/Intelligence layer | ACTIVE |
 | **Observer** | `.agent/` | Governance/state | ACTIVE |
 | **Archive** | `archive/` | Historical preservation | DORMANT |
 | **External** | `related/` | Third-party tools | DEPENDENCY |
@@ -58,7 +58,7 @@ The 10 documented subsystems, plus newly discovered ones:
 
 | ID | Subsystem | System | Path | Purpose |
 |----|-----------|--------|------|---------|
-| S1 | Collider Core | Collider | `standard-model-of-code/` | Semantic analysis |
+| S1 | Collider Core | Collider | `particle/` | Semantic analysis |
 | S2 | HSL | Wave | `docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | Validation rules |
 | S3 | analyze.py | Wave | `tools/ai/analyze.py` | AI query interface |
 | S4 | Perplexity MCP | Wave | `tools/mcp/` | External knowledge |
@@ -98,7 +98,7 @@ Individual source files. This is where the "orphan tools" live:
 | `oklch_color.py` | S1 (Collider) | Color utilities |
 | `size_normalizer.py` | S1 (Collider) | Data normalization |
 
-#### Wave System (context-management/) - Orphan Tools
+#### Wave System (wave/) - Orphan Tools
 
 | File | Proposed Tribe | Purpose |
 |------|----------------|---------|

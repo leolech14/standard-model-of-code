@@ -16,7 +16,7 @@ Count the EXACT number of pipeline stages defined in this file. List each stage 
 
 ## Response
 
-Based on the provided codebase context, specifically the `standard-model-of-code/src/core/pipeline/stages/__init__.py` file, the REAL, exact number of pipeline stages defined is **28**.
+Based on the provided codebase context, specifically the `particle/src/core/pipeline/stages/__init__.py` file, the REAL, exact number of pipeline stages defined is **28**.
 
 This count is consistently supported by:
 1.  The introductory comment: "28 stages organized into 5 phases".

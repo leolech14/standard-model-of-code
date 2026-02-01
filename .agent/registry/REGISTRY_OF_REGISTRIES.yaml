@@ -19,7 +19,7 @@ version: "1.0.0"
 schema: "ror_v1"
 last_updated: "2026-01-31T06:50:00Z"
 auto_refresh: true
-refresh_tool: "context-management/tools/ai/cerebras_rapid_intel.py"
+refresh_tool: "wave/tools/ai/cerebras_rapid_intel.py"
 
 # =============================================================================
 # REGISTERED REGISTRIES
@@ -88,7 +88,7 @@ registries:
     name: "Domain Boundaries"
     paths:
       - "DOMAINS.yaml"
-      - "context-management/config/registries/DOMAINS.yaml"
+      - "wave/config/registries/DOMAINS.yaml"
     purpose: "Define logical boundaries (CODOME, CONTEXTOME, etc.)"
     capabilities:
       - boundary_definition
@@ -111,7 +111,7 @@ registries:
   analysis_sets:
     id: REG-006
     name: "Analysis Sets"
-    path: "context-management/config/analysis_sets.yaml"
+    path: "wave/config/analysis_sets.yaml"
     purpose: "Define file sets for analyze.py queries"
     capabilities:
       - file_grouping
@@ -124,7 +124,7 @@ registries:
   pipeline_registry:
     id: REG-007
     name: "Pipeline Stage Registry"
-    path: "standard-model-of-code/src/core/pipeline/stages/__init__.py"
+    path: "particle/src/core/pipeline/stages/__init__.py"
     purpose: "30-stage analysis pipeline"
     contains:
       - "*.py"               # Stage implementations
@@ -142,8 +142,8 @@ registries:
     name: "Validation Tools"
     purpose: "77 validation tools scattered across repo (consolidation needed)"
     paths:
-      - "standard-model-of-code/tools/validate_*.py"
-      - "context-management/tools/refinery/*.py"
+      - "particle/tools/validate_*.py"
+      - "wave/tools/refinery/*.py"
       - ".agent/tools/validate_*.py"
       - "tools/verify_*.py"
     capabilities:
@@ -159,7 +159,7 @@ registries:
   intel_cache:
     id: REG-009
     name: "Cerebras Intelligence Cache"
-    path: "context-management/data/intel/"
+    path: "wave/data/intel/"
     purpose: "Rapid file intelligence at 3000 tokens/sec"
     contains:
       - "file_intel_cache.json"
@@ -178,7 +178,7 @@ registries:
   control_registry:
     id: REG-010
     name: "Visualization Control Registry"
-    path: "standard-model-of-code/schema/viz/controls/CONTROL_REGISTRY.yaml"
+    path: "particle/schema/viz/controls/CONTROL_REGISTRY.yaml"
     purpose: "Define UI controls for visualization components"
     capabilities:
       - control_definition
@@ -188,7 +188,7 @@ registries:
   pattern_registry:
     id: REG-011
     name: "Pattern Registry"
-    path: "standard-model-of-code/data/pattern_registry.json"
+    path: "particle/data/pattern_registry.json"
     purpose: "Catalog of code patterns and anti-patterns"
     capabilities:
       - pattern_matching
@@ -198,7 +198,7 @@ registries:
   atom_registry:
     id: REG-012
     name: "Atom Registry (Canon)"
-    path: "standard-model-of-code/src/output/atom_registry_canon.json"
+    path: "particle/src/output/atom_registry_canon.json"
     purpose: "Canonical definition of 167 code atoms"
     capabilities:
       - atom_classification
@@ -211,7 +211,7 @@ registries:
   cache_registry:
     id: REG-013
     name: "Context Cache Registry"
-    path: "context-management/intelligence/cache_registry.json"
+    path: "wave/intelligence/cache_registry.json"
     purpose: "Track cached context and analysis results"
     capabilities:
       - cache_management
@@ -224,8 +224,8 @@ registries:
   spiral_intel:
     id: REG-014
     name: "Spiral Intelligence System"
-    path: "context-management/data/intel/spiral/"
-    tool: "context-management/tools/ai/cerebras_spiral_intel.py"
+    path: "wave/data/intel/spiral/"
+    tool: "wave/tools/ai/cerebras_spiral_intel.py"
     purpose: "Multi-pass iterative codebase understanding with 4D confidence"
     contains:
       - "file_intel.json"       # Per-file intelligence
@@ -268,7 +268,7 @@ directory_purposes:
       - macros/       # Automation scripts
       - tools/        # Agent-specific tools
 
-  "standard-model-of-code/":
+  "particle/":
     purpose: "Core analysis engine (Collider)"
     subsystem: "S1 - Particle"
     contains:
@@ -278,7 +278,7 @@ directory_purposes:
       - tools/              # CLI tools
       - docs/               # Documentation
 
-  "context-management/":
+  "wave/":
     purpose: "Context and intelligence processing"
     subsystem: "S2 - Wave"
     contains:
@@ -315,11 +315,11 @@ placement_rules:
     should_be_in: "tests/"
 
   - pattern: "validate_*.py"
-    should_be_in: "standard-model-of-code/src/core/utils/validation/"
+    should_be_in: "particle/src/core/utils/validation/"
     current_status: "scattered"
 
   - pattern: "*.schema.yaml"
-    should_be_in: ".agent/schema/ or standard-model-of-code/schema/"
+    should_be_in: ".agent/schema/ or particle/schema/"
 
   - pattern: "CARD-*.yaml"
     should_be_in: ".agent/deck/"
@@ -332,10 +332,10 @@ placement_rules:
 # =============================================================================
 refresh:
   method: "cerebras_rapid_intel"
-  command: "python3 context-management/tools/ai/cerebras_rapid_intel.py sweep"
+  command: "python3 wave/tools/ai/cerebras_rapid_intel.py sweep"
   frequency: "on_demand"
   auto_integrate: true
-  integration_command: "python3 context-management/tools/ai/cerebras_rapid_intel.py integrate"
+  integration_command: "python3 wave/tools/ai/cerebras_rapid_intel.py integrate"
 
 # =============================================================================
 # METRICS

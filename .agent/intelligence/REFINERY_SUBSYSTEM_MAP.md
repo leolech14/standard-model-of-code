@@ -11,19 +11,19 @@
 REFINERY (Knowledge Consolidation Infrastructure)
 │
 ├── CONTEXT REFINERY (Corpus Processing)
-│   └── context-management/tools/refinery/
+│   └── wave/tools/refinery/
 │
 ├── ACI REFINERY (Semantic Chunking)
-│   └── context-management/tools/ai/aci/refinery.py
+│   └── wave/tools/ai/aci/refinery.py
 │
 ├── QUERY SYSTEM (Search & Retrieval) ← BUILT THIS SESSION
-│   └── context-management/tools/refinery/query_chunks.py
+│   └── wave/tools/refinery/query_chunks.py
 │
 ├── REPORTING SYSTEM (Activity & Library) ← BUILT THIS SESSION
-│   └── context-management/tools/refinery/refinery_report.py
+│   └── wave/tools/refinery/refinery_report.py
 │
 └── OUTPUT STORAGE (Intelligence Layer)
-    └── context-management/intelligence/ + .agent/intelligence/chunks/
+    └── wave/intelligence/ + .agent/intelligence/chunks/
 ```
 
 ---
@@ -31,7 +31,7 @@ REFINERY (Knowledge Consolidation Infrastructure)
 ## SUBSYSTEM 1: CONTEXT REFINERY (5 Modules)
 
 ### Location
-`context-management/tools/refinery/`
+`wave/tools/refinery/`
 
 ### Modules
 
@@ -76,7 +76,7 @@ REFINERY (Knowledge Consolidation Infrastructure)
   "boundaries": [
     {
       "name": "brain",
-      "include_patterns": ["context-management/**"],
+      "include_patterns": ["wave/**"],
       "matched_files": [...],
       "file_count": 523
     }
@@ -183,7 +183,7 @@ delta:
 ## SUBSYSTEM 2: ACI REFINERY (1 Large Module)
 
 ### Location
-`context-management/tools/ai/aci/refinery.py` (761 lines)
+`wave/tools/ai/aci/refinery.py` (761 lines)
 
 ### Components
 
@@ -254,7 +254,7 @@ class RefineryNode:
 ## SUBSYSTEM 3: QUERY SYSTEM (Built This Session)
 
 ### Location
-`context-management/tools/refinery/query_chunks.py` (165 lines)
+`wave/tools/refinery/query_chunks.py` (165 lines)
 
 ### Features
 - Text search over 2,673 chunks
@@ -272,7 +272,7 @@ class RefineryNode:
 ## SUBSYSTEM 4: REPORTING SYSTEM (Built This Session)
 
 ### Location
-`context-management/tools/refinery/refinery_report.py` (230 lines)
+`wave/tools/refinery/refinery_report.py` (230 lines)
 
 ### Reports
 
@@ -314,7 +314,7 @@ class RefineryNode:
 ## SUBSYSTEM 5: OUTPUT STORAGE
 
 ### Location 1: Context Intelligence
-`context-management/intelligence/`
+`wave/intelligence/`
 
 ```
 intelligence/
@@ -617,4 +617,3 @@ Activity logs and library views
 **WHICH SUBSYSTEMS SHALL WE BUILD NEXT?**
 
 The top-level architecture has 8 subsystems. We can expand any of them or add new ones.
-

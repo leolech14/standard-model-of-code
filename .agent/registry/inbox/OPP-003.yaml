@@ -9,13 +9,13 @@ urgency: MEDIUM
 
 description: |
   Research outputs are spread across 3 locations:
-  - standard-model-of-code/research/
-  - standard-model-of-code/tools/research/
-  - standard-model-of-code/docs/research/ (CANONICAL)
+  - particle/research/
+  - particle/tools/research/
+  - particle/docs/research/ (CANONICAL)
 
   Action: Consolidate all research to docs/research/
 
-suggested_action: Move all research files to standard-model-of-code/docs/research/
+suggested_action: Move all research files to particle/docs/research/
 
 category: REPO-ORG
 

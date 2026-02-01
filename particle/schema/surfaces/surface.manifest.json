@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Surface Parity Manifest",
+    "description": "Master declaration of all Architectural Surface Zones in the application.",
+    "version": "1.0.0",
+    "zones": {
+        "viz": {
+            "description": "Visualization Interface (DOM <-> JS <-> Tokens)",
+            "definition": "schema/surfaces/viz.surface.json"
+        }
+    }
+}

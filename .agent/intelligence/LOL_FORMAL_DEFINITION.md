@@ -59,7 +59,7 @@ A ≤ B  ⟺  A is contained in B
 ```
 
 Examples:
-- `atom_classifier.py` ≤ `src/patterns/` ≤ `standard-model-of-code/`
+- `atom_classifier.py` ≤ `src/patterns/` ≤ `particle/`
 - `TASK-001.yaml` ≤ `registry/active/` ≤ `.agent/`
 
 This forms a **complete lattice** with:

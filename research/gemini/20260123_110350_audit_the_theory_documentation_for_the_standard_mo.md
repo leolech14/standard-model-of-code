@@ -16,7 +16,7 @@ Audit the theory documentation for the Standard Model of Code. Specifically: 1) 
 
 ## Response
 
-Based on a comprehensive audit of the provided codebase context, specifically the extensive documentation in `context-management/docs/archive/legacy_schema_2025/` (which contains the bulk of the detailed theoretical framework) and references in `context-management/docs/README.md`, here is the audit report regarding the Standard Model of Code's theory.
+Based on a comprehensive audit of the provided codebase context, specifically the extensive documentation in `wave/docs/archive/legacy_schema_2025/` (which contains the bulk of the detailed theoretical framework) and references in `wave/docs/README.md`, here is the audit report regarding the Standard Model of Code's theory.
 
 ### 1. Consolidated & Documented Theories
 
@@ -84,8 +84,8 @@ It is unclear if they are a matrix (64 intersection points) or parallel perspect
 
 **D. Documentation Fragmentation**
 There is a structural gap in the repository itself.
-*   **Legacy Docs:** `context-management/docs/archive/legacy_schema_2025/theory_v2.0.md` contains the richest detail.
-*   **Current Canonical:** `standard-model-of-code/docs/MODEL.md` is referenced as the source of truth but is less detailed in the provided context.
+*   **Legacy Docs:** `wave/docs/archive/legacy_schema_2025/theory_v2.0.md` contains the richest detail.
+*   **Current Canonical:** `particle/docs/MODEL.md` is referenced as the source of truth but is less detailed in the provided context.
 *   **Risk:** Users might rely on the detailed but "archived" v2.0 theory rather than the leaner v3.0 specs.
 
 ### Summary Verdict

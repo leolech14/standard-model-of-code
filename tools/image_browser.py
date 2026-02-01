@@ -8,7 +8,7 @@ Features:
 - Action queue (delete marks generate report, confirm before execute)
 
 Usage:
-    python image_browser.py                           # Default: context-management/archive/references/images
+    python image_browser.py                           # Default: wave/archive/references/images
     python image_browser.py /path/to/images          # Custom folder
     python image_browser.py --port 8080              # Custom port
 """
@@ -25,7 +25,7 @@ from datetime import datetime
 
 DEFAULT_PORT = 8765
 PROJECT_ROOT = Path(__file__).parent.parent
-DEFAULT_IMAGES_DIR = PROJECT_ROOT / "context-management/archive/references/images"
+DEFAULT_IMAGES_DIR = PROJECT_ROOT / "wave/archive/references/images"
 SCORES_FILE = PROJECT_ROOT / "tools/image_scores_precision.csv"
 TAGS_FILE = PROJECT_ROOT / "tools/image_tags.json"
 ACTIONS_FILE = PROJECT_ROOT / "tools/pending_actions.json"

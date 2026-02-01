@@ -113,7 +113,7 @@ properties:
     description: "Original file path (relative to repo root)"
     examples:
       - "src/services/user.py"
-      - "context-management/config/analysis_sets.yaml"
+      - "wave/config/analysis_sets.yaml"
 
   source_line_start:
     type: integer

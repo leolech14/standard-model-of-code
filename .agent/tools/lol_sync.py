@@ -66,7 +66,7 @@ class IntelModel(Enum):
 # Domain classification rules (path patterns) - ORDER MATTERS (first match wins)
 DOMAIN_RULES = [
     # Particle domain (Collider + outputs)
-    ("standard-model-of-code/", Domain.PARTICLE),
+    ("particle/", Domain.PARTICLE),
     ("architecture_report/", Domain.PARTICLE),
     ("collider_output", Domain.PARTICLE),  # collider outputs
     ("evolution_report/", Domain.PARTICLE),
@@ -74,7 +74,7 @@ DOMAIN_RULES = [
     ("temporal_dashboard/", Domain.PARTICLE),
 
     # Wave domain (Context/AI)
-    ("context-management/", Domain.WAVE),
+    ("wave/", Domain.WAVE),
 
     # Observer domain (Agent)
     (".agent/", Domain.OBSERVER),
@@ -232,7 +232,7 @@ CATEGORY_RULES = [
     (lambda p: p.endswith(".css") and "libs/" not in p, Category.SOURCE),  # CSS source files
     (lambda p: p.endswith(".html"), Category.SOURCE),  # fallback for HTML
     # Special executables
-    (lambda p: p == "standard-model-of-code/collider", Category.TOOL),  # main CLI
+    (lambda p: p == "particle/collider", Category.TOOL),  # main CLI
 ]
 
 # Intelligence model rules (for tools only)

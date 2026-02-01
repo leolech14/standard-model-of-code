@@ -1,0 +1,234 @@
+---
+title: "PROJECT_elements - Visual Guide"
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    include-after-body: theme_selector.html
+    toc: true
+    embed-resources: true
+    mermaid-format: svg
+    mermaid:
+      theme: dark
+      themeVariables:
+        cScale0: "#2d2d30"
+        cScale1: "#202022"
+        cScale2: "#2d2d30"
+        cScale3: "#202022"
+        cScale4: "#2d2d30"
+        cScale5: "#202022"
+        cScale6: "#2d2d30"
+        cScale7: "#202022"
+        cScale8: "#2d2d30"
+        cScale9: "#202022"
+        cScale10: "#2d2d30"
+        cScale11: "#202022"
+        cScaleLabel0: "#dcdcdc"
+        cScaleLabel1: "#dcdcdc"
+        cScaleLabel2: "#dcdcdc"
+        cScaleLabel3: "#dcdcdc"
+        primaryColor: "#2d2d30"
+        primaryTextColor: "#dcdcdc"
+        primaryBorderColor: "#5c7c8a"
+        lineColor: "#5c7c8a"
+        secondaryColor: "#161618"
+        tertiaryColor: "#161618"
+        mainBkg: "#202022"
+        textColor: "#dcdcdc"
+---
+
+# 🏗️ PROJECT_elements - Visual Guide
+
+> **System Identity:** PROJECT_elements is the experimental baseline for the 'Standard Model of Code'. It implements a **Four Hemisphere architecture** to solve the problem of AI context drift at scale. Every diagram in this atlas provides a stand-alone technical truth about the system's current state.
+
+This document serves as the definitive visual atlas for the project, mapping the transition from a messy 13GB legacy repository to a high-fidelity, machine-navigable model.
+
+---
+
+## 1. System Architecture (The Symmetry Model)
+
+The project is architected as a **Symmetry**, balancing the "Body" of the code with the "Brain" of its intelligence.
+
+- **The Body**: Contains the `Collider Engine` and the `Codome Graph`. This is where physical implementation lives.
+- **The Brain**: Contains the `Refinery` and `Agent Intelligence`. This is where conceptual understanding is generated.
+- **The Logistics**: The layer of `Dispatchers` and `Couriers` that ensures information remains consistent between both hemispheres.
+
+```{mermaid}
+graph TD
+    subgraph "THE BODY (Implementation)"
+        CE[Collider Engine] --> G[Codome Graph]
+        T[Theory Canon] --> G
+    end
+
+    subgraph "THE BRAIN (Intelligence)"
+        R[Refinery] --> P[Parcels/Waybills]
+        AI[Agent Intelligence] --> P
+    end
+
+    subgraph "LOGISTICS (Synchronization)"
+        D[Dispatcher] --> C[Couriers]
+        C -->|Active| CE
+        C -->|Active| R
+    end
+
+    G <-->|Logistics| P
+```
+
+---
+
+## 2. Data Topology (The Master Flow)
+
+Information flows from the local disk through a refinement process into a persistent global state.
+
+1.  **Ingestion**: Files are synced from the local disk to a `Cloud Mirror`.
+2.  **Extraction**: The `Refinery` chunks code into `Parcels` wrapped in `Waybills` (provenance logs).
+3.  **Synthesis**: Extracted intelligence is published to a `Neo4j Knowledge Graph` and a `Purpose Registry`.
+
+```{mermaid}
+graph TB
+    subgraph "Local Space"
+        Local["Local Disk"]
+        Symmetry["Symmetry Validator"]
+    end
+
+    subgraph "Logistics Layer"
+        GCS_Mirror["Code Mirror (GCS)"]
+        GCS_JSON["Waybill Parcels"]
+        CloudRun["Refinery Engine"]
+    end
+
+    subgraph "Intelligence Layer"
+        Graph["Neo4j Graph Store"]
+        Purpose["Purpose Field (π1-π4)"]
+    end
+
+    Local -->|Sync| GCS_Mirror
+    GCS_Mirror -.-> CloudRun
+    CloudRun -->|Publish| GCS_JSON
+    CloudRun -->|Publish| Graph
+```
+
+---
+
+## 3. The Consolidation Loop (Sequence)
+
+How the system autonomously cleans and optimizes itself. This sequence ensures that any "drift" in the codebase is corrected without manual intervention.
+
+```{mermaid}
+sequenceDiagram
+    autonumber
+    participant D as Dispatcher
+    participant R as Refinery
+    participant C as Courier
+    participant B as The Body
+
+    D->>R: Identify out-of-sync symbols
+    R-->>D: Generate Refined Parcels
+    D->>C: Assign Fix-Task (Link/Placeholder)
+    C->>B: Apply Consolidation Patch
+    B-->>D: Return Verify Status
+```
+
+---
+
+## 4. Data Relationship Schema (ER Diagram)
+
+Defines the "Intimate Properties" of our data structures. Every file in the system is refined into multiple parcels, each linked to a parent waybill for 100% auditability.
+
+```{mermaid}
+erDiagram
+    FILE ||--o{ PARCEL : "refines into"
+    PARCEL ||--|| WAYBILL : "tracked by"
+    SUBSYSTEM ||--o{ FILE : "manages"
+    
+    FILE {
+        string path
+        string hash
+        int size
+    }
+    PARCEL {
+        string parcel_id PK
+        string logic_type
+        int token_count
+    }
+    WAYBILL {
+        string waybill_id PK
+        datetime created_at
+        string author_id
+    }
+```
+
+---
+
+## 5. Lifecycle of a Waybill (State Diagram)
+
+Every concept in the **Brain** hemisphere follows a strict lifecycle to ensure the "Law" (Governance) is always satisfied.
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> Ingested
+    Ingested --> Refinement: Triggered
+    Refinement --> Validating: Output Generated
+    Validating --> Persistent: Law Satisfied
+    Validating --> Failed: Symmetry Broken
+    Persistent --> Archived: Project Completed
+    Failed --> Ingested: Retry Loop
+```
+
+---
+
+## 6. Developer Journey (CLI Experience)
+
+The developer interacts with the `pe` (Project Elements) CLI to manage this complex environment. The goal is to move from manual search to intelligent navigation.
+
+```{mermaid}
+journey
+    title Developer Workflow (pe CLI)
+    section Discovery
+      List subsystems: 5: Developer
+      Search Codome: 4: Developer
+    section Optimization
+      Run Refinery: 5: Developer
+      Fix broken links: 5: Agent
+    section Verification
+      Run Symmetry Audit: 5: Developer
+      Generate Visual Guide: 5: Developer
+```
+
+---
+
+## 7. Project Evolution (Timeline)
+
+The transition from a legacy research repository to a production-ready Standard Model.
+
+```{mermaid}
+timeline
+    title PROJECT_elements Roadmap
+    2024 : Initial Research : Discovery of Codome
+    2025 : The Bloat Phase : 13GB Legacy Growth
+    2026 : The Great Consolidation : Refinery Launch : Symmetry Protocol
+```
+
+---
+
+## 📊 Technical Specifications Summary
+
+| Layer | System | Purpose | Technology |
+|-------|--------|---------|------------|
+| **Observer** | Governance | Quality Gates & Symmetry | Quarto, Mermaid |
+| **Particle** | The Body | Collider Engine (Parsing) | Python, C++ |
+| **Wave** | The Brain | Refinery (Intelligence) | LLM, Neo4j |
+| **Logistics** | The Flow | Dispatchers & Couriers | Async Python |
+
+---
+
+---
+
+## ⚖️ The Symmetry Law
+
+The Standard Model of Code is maintained through the continuous reconciliation of the **Codome** (Implementation) and the **Contextome** (Documentation). By preserving **Intimate Properties** across all hemispheres, we ensure that the project remains a coherent, AI-navigable organism rather than a collection of orphaned files.
+
+---
+
+> [!TIP]
+> **Noise Reduction**: If you find yourself scrolling too much, refer to the [Mermaid Masterclass](file:///Users/lech/PROJECTS_all/PROJECT_elements/governance/MERMAID_MASTERCLASS.md) to learn how to collapse or subgraph these views.

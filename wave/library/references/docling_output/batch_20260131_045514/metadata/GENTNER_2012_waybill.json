@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_a9b8c4e2bd07",
+  "ref_id": "GENTNER_2012",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769847474,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769847477,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "standard",
+        "page_count": 7,
+        "chunk_count": 36
+      }
+    }
+  ]
+}

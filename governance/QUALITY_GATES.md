@@ -126,11 +126,11 @@ python tools/verify_links.py --active-only
 ```
 ❌ GATE FAILED: G3 Link Integrity
 Broken links in active docs (14):
-  context-management/docs/deep/PURPOSE_EMERGENCE.md:23
-    → ../standard-model-of-code/MODEL.md (should be ../../)
+  wave/docs/deep/PURPOSE_EMERGENCE.md:23
+    → ../particle/MODEL.md (should be ../../)
 
   .agent/registry/INDEX.md:45
-    → standard-model-of-code/docs/OPEN_CONCERNS.md (wrong path)
+    → particle/docs/OPEN_CONCERNS.md (wrong path)
 
 Fix: Correct relative paths or use root-relative (/path/to/file)
 ```

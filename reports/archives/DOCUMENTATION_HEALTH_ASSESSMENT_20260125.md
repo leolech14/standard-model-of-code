@@ -78,7 +78,7 @@
 | `docs/research/perplexity/docs/` | 99 | External research | OK |
 | `archive/` | 100+ | Legacy/deprecated | STALE |
 | `docs/specs/` | 39 | Core specifications | GOOD |
-| `context-management/docs/` | 28 | Wave tooling docs | OK |
+| `wave/docs/` | 28 | Wave tooling docs | OK |
 | `docs/research/` | 25 | Research notes | OK |
 | `docs/reports/` | 22 | Analysis reports | OK |
 | `.agent/intelligence/` | 16+ | Agent artifacts | ACTIVE |
@@ -88,20 +88,20 @@
 | Document | Location | Status |
 |----------|----------|:------:|
 | Project CLAUDE.md | `/CLAUDE.md` | ACTIVE |
-| Collider CLAUDE.md | `/standard-model-of-code/CLAUDE.md` | ACTIVE |
+| Collider CLAUDE.md | `/particle/CLAUDE.md` | ACTIVE |
 | Main README | `/README.md` | EXISTS |
-| Model theory | `/standard-model-of-code/docs/MODEL.md` | CANONICAL |
-| Collider usage | `/standard-model-of-code/docs/COLLIDER.md` | CANONICAL |
+| Model theory | `/particle/docs/MODEL.md` | CANONICAL |
+| Collider usage | `/particle/docs/COLLIDER.md` | CANONICAL |
 
 ### 2.3 Glossary Fragmentation (CRITICAL)
 
 | File | Location | Format | Status |
 |------|----------|--------|:------:|
 | GLOSSARY.md | `archive/docs_consolidated_2026-01-19/` | Markdown | ARCHIVED |
-| GLOSSARY.yaml | `standard-model-of-code/docs/` | YAML | ACTIVE |
-| GLOSSARY.md | `context-management/docs/archive/legacy_schema_2025/` | Markdown | LEGACY |
-| GLOSSARY.md | `context-management/docs/` | Markdown | ACTIVE? |
-| GLOSSARY_GAP_MAP.md | `context-management/docs/` | Markdown | META |
+| GLOSSARY.yaml | `particle/docs/` | YAML | ACTIVE |
+| GLOSSARY.md | `wave/docs/archive/legacy_schema_2025/` | Markdown | LEGACY |
+| GLOSSARY.md | `wave/docs/` | Markdown | ACTIVE? |
+| GLOSSARY_GAP_MAP.md | `wave/docs/` | Markdown | META |
 
 **Problem:** No single source of truth for terminology. Terms defined in multiple places with potential conflicts.
 

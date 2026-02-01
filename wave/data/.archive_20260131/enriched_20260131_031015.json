@@ -1,0 +1,816 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:10:15.353401",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama-3.3-70b",
+    "files_enriched": 50,
+    "elapsed_seconds": 369.28
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "Empty or unused Python script.",
+      "summary": "",
+      "semantic_tags": [
+        "code-analysis",
+        "command-line-interface",
+        "repository-analysis",
+        "static-code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:04:07.020157"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "Validates user interface components.",
+      "summary": "",
+      "semantic_tags": [
+        "ui-validation",
+        "headless-browser-testing",
+        "automation-testing",
+        "test-reporting"
+      ],
+      "enriched_at": "2026-01-31T03:04:11.152796"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs Semgrep tool for mining purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "static-code-analysis",
+        "code-pattern-extraction",
+        "rule-mining",
+        "ecosystem-integration"
+      ],
+      "enriched_at": "2026-01-31T03:04:18.564587"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Visualizes graphs using WebGL.",
+      "summary": "",
+      "semantic_tags": [
+        "data-visualization",
+        "webgl",
+        "graph-rendering"
+      ],
+      "enriched_at": "2026-01-31T03:04:24.722491"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Extracts documentation nodes from code.",
+      "summary": "",
+      "semantic_tags": [
+        "documentation-extraction",
+        "content-classification",
+        "node-fragmentation",
+        "information-retrieval"
+      ],
+      "enriched_at": "2026-01-31T03:04:29.474563"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Exports graph data.",
+      "summary": "",
+      "semantic_tags": [
+        "data-export",
+        "graph-conversion",
+        "json-parsing",
+        "parquet-format",
+        "data-migration"
+      ],
+      "enriched_at": "2026-01-31T03:04:33.626537"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Validates control registry.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "authorization",
+        "registry-management",
+        "control-verification"
+      ],
+      "enriched_at": "2026-01-31T03:04:37.741519"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Cleans SCM headers.",
+      "summary": "",
+      "semantic_tags": [
+        "code-refactoring",
+        "query-optimization",
+        "comment-processing",
+        "scm-header-cleanup"
+      ],
+      "enriched_at": "2026-01-31T03:04:41.786582"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Traces pipeline execution.",
+      "summary": "",
+      "semantic_tags": [
+        "pipeline-execution",
+        "data-flow-analysis",
+        "pipeline-validation",
+        "workflow-tracing"
+      ],
+      "enriched_at": "2026-01-31T03:04:45.870536"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs ESLint on codebase for error detection and code quality checks.",
+      "summary": "",
+      "semantic_tags": [
+        "static-code-analysis",
+        "eslint-integration",
+        "frontend-pattern-extraction",
+        "code-migration"
+      ],
+      "enriched_at": "2026-01-31T03:04:49.910691"
+    },
+    {
+      "id": "tools/verify_animation.py::verify_animation_config",
+      "file_path": "tools/verify_animation.py",
+      "atom": "LOG.FNC.M",
+      "layer": "infrastructure",
+      "role": "Store",
+      "purpose": "Verifies animation data.",
+      "summary": "",
+      "semantic_tags": [
+        "animation-verification",
+        "configuration-validation",
+        "visual-effects-testing"
+      ],
+      "enriched_at": "2026-01-31T03:04:54.058357"
+    },
+    {
+      "id": "tools/research/run_corpus.py::get_git_sha",
+      "file_path": "tools/research/run_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Runs a research corpus.",
+      "summary": "",
+      "semantic_tags": [
+        "research",
+        "code-analysis",
+        "repository-cloning",
+        "metrics-collection"
+      ],
+      "enriched_at": "2026-01-31T03:05:01.427506"
+    },
+    {
+      "id": "tools/research/summarize_corpus.py::load_coverage_files",
+      "file_path": "tools/research/summarize_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Summarizes a corpus of text data for research purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "data-aggregation",
+        "statistics-computation",
+        "corpus-analysis",
+        "research-tooling",
+        "metrics-summary"
+      ],
+      "enriched_at": "2026-01-31T03:05:05.607632"
+    },
+    {
+      "id": "tools/research/validate_audit_pack.py::to_project_relative",
+      "file_path": "tools/research/validate_audit_pack.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Transformer",
+      "purpose": "Validates audit packs for research purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "audit-validation",
+        "data-integrity",
+        "research-verification",
+        "artifact-validation"
+      ],
+      "enriched_at": "2026-01-31T03:05:18.321439"
+    },
+    {
+      "id": "tools/research/atom_coverage.py::load_analysis",
+      "file_path": "tools/research/atom_coverage.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Unknown, as no atoms or imports were detected.",
+      "summary": "",
+      "semantic_tags": [
+        "coverage-analysis",
+        "data-extraction",
+        "metrics-computation",
+        "json-parsing"
+      ],
+      "enriched_at": "2026-01-31T03:05:25.973344"
+    },
+    {
+      "id": "tools/research/evaluate_hypotheses.py::HypothesisResult",
+      "file_path": "tools/research/evaluate_hypotheses.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Evaluates research hypotheses.",
+      "summary": "",
+      "semantic_tags": [
+        "hypothesis-testing",
+        "data-validation",
+        "metrics-evaluation",
+        "research-methodology"
+      ],
+      "enriched_at": "2026-01-31T03:05:48.087070"
+    },
+    {
+      "id": "tools/research/regenerate_results.py::regenerate_results",
+      "file_path": "tools/research/regenerate_results.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Regenerates research results.",
+      "summary": "",
+      "semantic_tags": [
+        "code-generation",
+        "data-regeneration",
+        "json-parsing",
+        "result-validation",
+        "coverage-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:06:10.222925"
+    },
+    {
+      "id": "tools/research/atom_inventory.py::load_atoms_from_yaml",
+      "file_path": "tools/research/atom_inventory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Unknown, as no imports, exports, or atoms were detected.",
+      "summary": "",
+      "semantic_tags": [
+        "data-analysis",
+        "atom-categorization",
+        "standard-model-parsing",
+        "data-inventory",
+        "yaml-parsing"
+      ],
+      "enriched_at": "2026-01-31T03:06:14.507369"
+    },
+    {
+      "id": "tools/research/laboratory.py::ExperimentRequest",
+      "file_path": "tools/research/laboratory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Unknown, as no imports, exports, or atoms were detected.",
+      "summary": "",
+      "semantic_tags": [
+        "experiment-execution",
+        "scientific-computing",
+        "data-analysis",
+        "automation",
+        "research-facilitation"
+      ],
+      "enriched_at": "2026-01-31T03:06:27.135431"
+    },
+    {
+      "id": "tools/batch_grade/analyze_results.py::RepoResult",
+      "file_path": "tools/batch_grade/analyze_results.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Analyzes grading results in batches.",
+      "summary": "",
+      "semantic_tags": [
+        "statistical-analysis",
+        "data-processing",
+        "grading-system",
+        "json-parsing",
+        "results-visualization"
+      ],
+      "enriched_at": "2026-01-31T03:06:31.704304"
+    },
+    {
+      "id": "tools/batch_grade/fetch_repos.py::fetch_top_repos",
+      "file_path": "tools/batch_grade/fetch_repos.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Fetches student repositories for batch grading purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "github-api",
+        "repository-fetching",
+        "batch-processing",
+        "code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:06:35.813415"
+    },
+    {
+      "id": "tools/batch_grade/runpod_agent.py::get_runpod",
+      "file_path": "tools/batch_grade/runpod_agent.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Runs grading agent for batch processing.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "automated-grading",
+        "cloud-computing",
+        "api-integration"
+      ],
+      "enriched_at": "2026-01-31T03:06:39.946896"
+    },
+    {
+      "id": "tools/batch_grade/run_batch_cloud.py::shard_repos",
+      "file_path": "tools/batch_grade/run_batch_cloud.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs batch grading on cloud infrastructure.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "cloud-computing",
+        "task-parallelism",
+        "grading-system",
+        "google-cloud-storage"
+      ],
+      "enriched_at": "2026-01-31T03:06:52.621315"
+    },
+    {
+      "id": "tools/batch_grade/run_batch.py::grade_repo",
+      "file_path": "tools/batch_grade/run_batch.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs batch grading process.",
+      "summary": "",
+      "semantic_tags": [
+        "automated-grading",
+        "repository-cloning",
+        "parallel-processing",
+        "code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:06:56.834903"
+    },
+    {
+      "id": "tools/batch_grade/run_batch_local.py::GracefulKiller",
+      "file_path": "tools/batch_grade/run_batch_local.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs batch grading locally.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "grading-system",
+        "parallel-computing",
+        "repository-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:07:04.332359"
+    },
+    {
+      "id": "tools/batch_grade/runpod_parallel.py::create_pod_fast",
+      "file_path": "tools/batch_grade/runpod_parallel.py",
+      "atom": "LOG.FNC.M",
+      "layer": "domain",
+      "role": "Factory",
+      "purpose": "Runs grading tasks in parallel on RunPod.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "parallel-computing",
+        "distributed-grading",
+        "automation",
+        "cloud-computing"
+      ],
+      "enriched_at": "2026-01-31T03:07:17.330317"
+    },
+    {
+      "id": "tools/cloud/run_single_repo.py::RepoAnalyzer",
+      "file_path": "tools/cloud/run_single_repo.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Runs a single repository in the cloud environment.",
+      "summary": "",
+      "semantic_tags": [
+        "repository-analysis",
+        "cloud-computing",
+        "error-handling",
+        "git-integration",
+        "cloud-storage"
+      ],
+      "enriched_at": "2026-01-31T03:07:21.365865"
+    },
+    {
+      "id": "tools/cloud/orchestrate_corpus.py::RepoStatus",
+      "file_path": "tools/cloud/orchestrate_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Orchestrates corpus management in cloud environment.",
+      "summary": "",
+      "semantic_tags": [
+        "cloud-computing",
+        "job-orchestration",
+        "parallel-processing",
+        "gcp-integration",
+        "automation"
+      ],
+      "enriched_at": "2026-01-31T03:07:28.853045"
+    },
+    {
+      "id": "tests/test_graph_type_inference.py::TestInferenceRule",
+      "file_path": "tests/test_graph_type_inference.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests graph type inference functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "type-inference",
+        "graph-analysis",
+        "software-testing"
+      ],
+      "enriched_at": "2026-01-31T03:07:41.759782"
+    },
+    {
+      "id": "tests/test_scope_analyzer.py::parse_python",
+      "file_path": "tests/test_scope_analyzer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Query",
+      "purpose": "Tests scope analyzer functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "lexical-analysis",
+        "static-code-analysis",
+        "scope-resolution",
+        "code-parsing"
+      ],
+      "enriched_at": "2026-01-31T03:07:49.238767"
+    },
+    {
+      "id": "tests/conftest.py::project_root",
+      "file_path": "tests/conftest.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Test",
+      "role": "Store",
+      "purpose": "Provides test configuration and fixtures.",
+      "summary": "",
+      "semantic_tags": [
+        "testing",
+        "fixtures",
+        "mocking",
+        "pytest-configuration \n\nThese tags describe the content of the file",
+        "which is primarily about setting up tests"
+      ],
+      "enriched_at": "2026-01-31T03:08:01.851980"
+    },
+    {
+      "id": "tests/test_output_generator.py::TestStableOutputFilenames",
+      "file_path": "tests/test_output_generator.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Generates test output.",
+      "summary": "",
+      "semantic_tags": [
+        "output-generation",
+        "file-naming-conventions",
+        "json-validation",
+        "html-generation"
+      ],
+      "enriched_at": "2026-01-31T03:08:19.991426"
+    },
+    {
+      "id": "tests/test_event_bus.py::TestEventBusBasics",
+      "file_path": "tests/test_event_bus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests event bus functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "event-handling",
+        "pub-sub-messaging",
+        "module-communication"
+      ],
+      "enriched_at": "2026-01-31T03:08:24.131314"
+    },
+    {
+      "id": "tests/test_cci.py::TestCCIMetrics",
+      "file_path": "tests/test_cci.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Runs tests for CCI functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "software-testing",
+        "metrics-calculation",
+        "code-analysis",
+        "survey-validation"
+      ],
+      "enriched_at": "2026-01-31T03:08:31.531119"
+    },
+    {
+      "id": "tests/test_import_resolution.py::_run_analysis",
+      "file_path": "tests/test_import_resolution.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests import resolution functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "import-resolution",
+        "dependency-analysis",
+        "static-code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:08:45.049163"
+    },
+    {
+      "id": "tests/test_hub_integration.py::TestHubBasics",
+      "file_path": "tests/test_hub_integration.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests hub integration functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "integration-testing",
+        "plugin-architecture",
+        "event-driven-architecture",
+        "registry-management"
+      ],
+      "enriched_at": "2026-01-31T03:08:49.245781"
+    },
+    {
+      "id": "tests/test_control_flow_analyzer.py::parse_python",
+      "file_path": "tests/test_control_flow_analyzer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Query",
+      "purpose": "Tests control flow analyzer functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "code-analysis",
+        "complexity-measurement",
+        "control-flow-analysis",
+        "static-code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:08:53.342753"
+    },
+    {
+      "id": "tests/test_purpose_field.py::TestPurposeFieldDetector",
+      "file_path": "tests/test_purpose_field.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests the purpose field functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "layer-assignment",
+        "hierarchical-modeling",
+        "software-architecture",
+        "object-detection"
+      ],
+      "enriched_at": "2026-01-31T03:08:57.562295"
+    },
+    {
+      "id": "tests/test_identity_matcher.py::test_exact_match",
+      "file_path": "tests/test_identity_matcher.py",
+      "atom": "LOG.FNC.M",
+      "layer": "testing",
+      "role": "Asserter",
+      "purpose": "Tests the identity matcher functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "identity-matching",
+        "string-similarity",
+        "test-coverage",
+        "documentation-validation"
+      ],
+      "enriched_at": "2026-01-31T03:09:01.767754"
+    },
+    {
+      "id": "tests/test_data_flow_analyzer.py::parse_python",
+      "file_path": "tests/test_data_flow_analyzer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Query",
+      "purpose": "Tests data flow analyzer functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "data-flow-analysis",
+        "purity-analysis",
+        "mutation-tracking",
+        "static-code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:09:05.915741"
+    },
+    {
+      "id": "tests/test_insights_engine.py::TestInsightsEngine",
+      "file_path": "tests/test_insights_engine.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests the insights engine functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "intelligence-analysis",
+        "code-analysis",
+        "testing",
+        "software-metrics",
+        "insights-generation"
+      ],
+      "enriched_at": "2026-01-31T03:09:10.281399"
+    },
+    {
+      "id": "tests/test_pipeline_events.py::SimpleState",
+      "file_path": "tests/test_pipeline_events.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests pipeline events functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "event-handling",
+        "pipeline-management",
+        "testing"
+      ],
+      "enriched_at": "2026-01-31T03:09:11.262697"
+    },
+    {
+      "id": "tests/test_parse_errors.py::TestParseErrors",
+      "file_path": "tests/test_parse_errors.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests parsing error handling.",
+      "summary": "",
+      "semantic_tags": [
+        "parse-error-detection",
+        "syntax-validation",
+        "tree-parsing",
+        "python-parsing"
+      ],
+      "enriched_at": "2026-01-31T03:09:18.628891"
+    },
+    {
+      "id": "tests/test_classifier_plugin.py::TestClassifierPluginDI",
+      "file_path": "tests/test_classifier_plugin.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests a classifier plugin.",
+      "summary": "",
+      "semantic_tags": [
+        "classification",
+        "dependency-injection",
+        "testing"
+      ],
+      "enriched_at": "2026-01-31T03:09:26.009146"
+    },
+    {
+      "id": "tests/test_role_registry.py::TestRoleRegistry",
+      "file_path": "tests/test_role_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests role registry functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "role-management",
+        "validation",
+        "normalization",
+        "canonical-data"
+      ],
+      "enriched_at": "2026-01-31T03:09:39.201798"
+    },
+    {
+      "id": "tests/test_pipeline_hub_integration.py::MockStage",
+      "file_path": "tests/test_pipeline_hub_integration.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests pipeline hub integration functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "pipeline-management",
+        "integration-testing",
+        "backward-compatibility"
+      ],
+      "enriched_at": "2026-01-31T03:09:46.812943"
+    },
+    {
+      "id": "tests/test_semantic_indexer.py::simple_graph_data",
+      "file_path": "tests/test_semantic_indexer.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Test",
+      "role": "Store",
+      "purpose": "Tests semantic indexer functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "graph-analysis",
+        "intent-detection",
+        "software-metrics",
+        "unit-tests",
+        "call-graph-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:09:50.893891"
+    },
+    {
+      "id": "tests/test_wave_extractor.py::TestWaveExtractor",
+      "file_path": "tests/test_wave_extractor.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests wave extraction functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "markdown-parsing",
+        "code-extraction",
+        "api-documentation",
+        "testing"
+      ],
+      "enriched_at": "2026-01-31T03:10:03.897399"
+    },
+    {
+      "id": "tests/test_domain_separation_guardrails.py::_run_unified_analysis",
+      "file_path": "tests/test_domain_separation_guardrails.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests domain separation guardrails functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "domain-separation",
+        "static-analysis",
+        "validation",
+        "testing"
+      ],
+      "enriched_at": "2026-01-31T03:10:07.911812"
+    },
+    {
+      "id": "tests/test_contract_output.py::_sample_output",
+      "file_path": "tests/test_contract_output.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests contract output functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "output-normalization",
+        "data-validation",
+        "contract-testing",
+        "confidence-scoring"
+      ],
+      "enriched_at": "2026-01-31T03:10:15.353381"
+    }
+  ]
+}

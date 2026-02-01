@@ -63,7 +63,7 @@ Your proposal mentions "score queries," but `ACI` requires specific dimensions (
 
 #### C. Lifecycle Automation
 A static index is technical debt waiting to happen.
-*   **Missing:** An entry in `context-management/tools/drift_guard.py` to trigger `cerebras_rapid_intel.py` when source files in `src/` change.
+*   **Missing:** An entry in `wave/tools/drift_guard.py` to trigger `cerebras_rapid_intel.py` when source files in `src/` change.
 
 ---
 

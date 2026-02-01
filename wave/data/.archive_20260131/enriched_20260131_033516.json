@@ -1,0 +1,279 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:35:16.869540",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama-3.3-70b",
+    "files_enriched": 20,
+    "elapsed_seconds": 827.34
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:22:37.991046"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:23:46.579409"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Mines Semgrep rules for patterns",
+      "summary": "",
+      "semantic_tags": [
+        "code-analysis",
+        "pattern-extraction",
+        "semgrep-rules"
+      ],
+      "enriched_at": "2026-01-31T03:23:50.543104"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:24:58.986851"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:26:07.397156"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:27:15.860640"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Validates control registry.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "registry",
+        "authorization"
+      ],
+      "enriched_at": "2026-01-31T03:27:16.233946"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Cleans .scm query files",
+      "summary": "",
+      "semantic_tags": [
+        "file-processing",
+        "query-optimization",
+        "code-cleanup"
+      ],
+      "enriched_at": "2026-01-31T03:27:51.817457"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:29:00.333816"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Mines ESLint plugins for patterns",
+      "summary": "",
+      "semantic_tags": [
+        "eslint",
+        "pattern-mining",
+        "code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:29:35.915485"
+    },
+    {
+      "id": "tools/verify_animation.py::verify_animation_config",
+      "file_path": "tools/verify_animation.py",
+      "atom": "LOG.FNC.M",
+      "layer": "infrastructure",
+      "role": "Store",
+      "purpose": "Verifies animation configuration.",
+      "summary": "",
+      "semantic_tags": [
+        "animation",
+        "verification",
+        "configuration",
+        "testing",
+        "validation"
+      ],
+      "enriched_at": "2026-01-31T03:30:11.565543"
+    },
+    {
+      "id": "tools/research/run_corpus.py::get_git_sha",
+      "file_path": "tools/research/run_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Runs corpus analysis for research.",
+      "summary": "",
+      "semantic_tags": [
+        "research",
+        "corpus-analysis",
+        "automation",
+        "metrics",
+        "reproducibility"
+      ],
+      "enriched_at": "2026-01-31T03:30:47.298704"
+    },
+    {
+      "id": "tools/research/summarize_corpus.py::load_coverage_files",
+      "file_path": "tools/research/summarize_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Summarizes corpus research data",
+      "summary": "",
+      "semantic_tags": [
+        "data-aggregation",
+        "research-tools",
+        "corpus-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:31:23.105064"
+    },
+    {
+      "id": "tools/research/validate_audit_pack.py::to_project_relative",
+      "file_path": "tools/research/validate_audit_pack.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Transformer",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:32:31.744837"
+    },
+    {
+      "id": "tools/research/atom_coverage.py::load_analysis",
+      "file_path": "tools/research/atom_coverage.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Analyzes atom coverage metrics.",
+      "summary": "",
+      "semantic_tags": [
+        "data-analysis",
+        "json-parsing",
+        "metrics-computation"
+      ],
+      "enriched_at": "2026-01-31T03:32:40.763967"
+    },
+    {
+      "id": "tools/research/evaluate_hypotheses.py::HypothesisResult",
+      "file_path": "tools/research/evaluate_hypotheses.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:33:49.211350"
+    },
+    {
+      "id": "tools/research/regenerate_results.py::regenerate_results",
+      "file_path": "tools/research/regenerate_results.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Regenerates results.json file",
+      "summary": "",
+      "semantic_tags": [
+        "data-regeneration",
+        "json-processing",
+        "research-tools"
+      ],
+      "enriched_at": "2026-01-31T03:33:49.685618"
+    },
+    {
+      "id": "tools/research/atom_inventory.py::load_atoms_from_yaml",
+      "file_path": "tools/research/atom_inventory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Analyzes atom inventory.",
+      "summary": "",
+      "semantic_tags": [
+        "atom-inventory",
+        "code-analysis",
+        "data-parsing"
+      ],
+      "enriched_at": "2026-01-31T03:34:07.995696"
+    },
+    {
+      "id": "tools/research/laboratory.py::ExperimentRequest",
+      "file_path": "tools/research/laboratory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:35:16.479103"
+    },
+    {
+      "id": "tools/batch_grade/analyze_results.py::RepoResult",
+      "file_path": "tools/batch_grade/analyze_results.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Analyzes batch grade results.",
+      "summary": "",
+      "semantic_tags": [
+        "data-analysis",
+        "json-processing",
+        "statistical-reporting"
+      ],
+      "enriched_at": "2026-01-31T03:35:16.869524"
+    }
+  ]
+}

@@ -26,7 +26,7 @@ The mission of PROJECT_elements is to find the basic constituents of computer pr
 
 PROJECT_elements is structured around a particle/wave architecture, with three primary subsystems:
 
-*   **Particle (standard-model-of-code/):** This is the "doing" layer, collapsing potential into concrete analysis. It contains the Collider engine, which performs semantic code analysis to generate ground truth in the form of `unified_analysis.json`. The Collider breaks code into structural atoms and reassembles patterns. It implements the following stages:
+*   **Particle (particle/):** This is the "doing" layer, collapsing potential into concrete analysis. It contains the Collider engine, which performs semantic code analysis to generate ground truth in the form of `unified_analysis.json`. The Collider breaks code into structural atoms and reassembles patterns. It implements the following stages:
 
     *   AST Parsing
     *   RPBL Classification
@@ -35,7 +35,7 @@ PROJECT_elements is structured around a particle/wave architecture, with three p
     *   Graph Inference
     *   Unified Output
 
-*   **Wave (context-management/):** This is the "thinking" layer, focusing on AI tools and context management. It includes:
+*   **Wave (wave/):** This is the "thinking" layer, focusing on AI tools and context management. It includes:
 
     *   `analyze.py`: An AI query interface that implements the Holographic Socratic Layer (HSL).
     *   `HSL`: The Holographic Socratic Layer, responsible for automated validation rules and detecting drift.
@@ -64,9 +64,9 @@ PROJECT_elements is structured around a particle/wave architecture, with three p
     *   `KERNEL.md`: Bootstrap context for all AI agents.
     *   `SUBSYSTEM_INTEGRATION.md`: Canonical map of subsystem connections.
     *   `manifest.yaml`: Machine-readable discovery metadata.
-*   **Design Specifications:** Located in `.agent/specs/` and `context-management/docs/specs/`. They outline the architecture and functionality of various subsystems.
-*   **Theory:** Located in `standard-model-of-code/docs/`. This includes `MODEL.md` and related documents, which define the Standard Model of Code and its underlying principles.
-*   **Operational Docs:** Located in `context-management/docs/`. These include guides on using AI tools, setting up the environment, and running analyses.
+*   **Design Specifications:** Located in `.agent/specs/` and `wave/docs/specs/`. They outline the architecture and functionality of various subsystems.
+*   **Theory:** Located in `particle/docs/`. This includes `MODEL.md` and related documents, which define the Standard Model of Code and its underlying principles.
+*   **Operational Docs:** Located in `wave/docs/`. These include guides on using AI tools, setting up the environment, and running analyses.
 *   **Task Registry:** Located in `.agent/registry/`. This is a dashboard for tracking tasks and opportunities.
 
 **4. Theory vs. Implementation Alignment:**
@@ -85,7 +85,7 @@ PROJECT_elements is structured around a particle/wave architecture, with three p
 *   **Task Registry Format:** The current Task Registry format uses Markdown files, which are human-readable but machine-fragile. A migration to structured YAML is proposed.
 *   **AEP Cloud Deployment**: The Autonomous Enrichment Pipeline (AEP) is not yet fully deployed to the cloud.
 *   **Limited Macro System:** The macro system is planned but not fully implemented, lacking a trigger engine for auto-execution.
-*   **Orphaned Batch Script:** The `standard-model-of-code/tools/batch_grade/grade` script is an orphan script and should be updated/removed.
+*   **Orphaned Batch Script:** The `particle/tools/batch_grade/grade` script is an orphan script and should be updated/removed.
 
 This comprehensive map should provide a solid foundation for further work on PROJECT_elements.
 

@@ -1,0 +1,68 @@
+# Opportunity: Semantic Index Coverage Gap - CRITICAL
+# Created: 2026-01-31
+# Source: SPRAWL_AUDIT
+
+id: OPP-095
+title: "Expand semantic_index.json from 15 to 300+ files"
+source: SPRAWL_AUDIT
+discovered_at: "2026-01-31T07:40:00Z"
+discovered_by: claude-opus-4.5
+
+description: |
+  CRITICAL COVERAGE GAP:
+  - semantic_index.json covers: 15 files
+  - Actual Python files in project: 590
+  - Coverage: 2.5%
+
+  The semantic_finder.py was just wired to use semantic_index.json
+  (TASK-087), but the index only contains concepts from 15 files!
+
+  This means 97.5% of the codebase has NO semantic coverage.
+
+  The fix (TASK-087) is architecturally correct but the DATA is incomplete.
+
+evidence:
+  - file: "wave/data/intel/semantic_index.json"
+    files_indexed: 15
+    concepts_extracted: 71
+  - actual_files:
+      context_management_tools: 125
+      standard_model_src: 147
+      library_scripts: 71
+      total_estimate: 590
+
+suggested_action: |
+  1. Run cerebras_rapid_intel.py sweep on FULL codebase
+     - wave/tools/
+     - particle/src/
+     - wave/library/scripts/
+
+  2. Update semantic_index.json with 300+ files
+
+  3. Verify semantic_finder.py correctly uses expanded index
+
+  COMMAND:
+  export CEREBRAS_API_KEY=$(doppler secrets get CEREBRAS_API_KEY --plain)
+  python3 cerebras_rapid_intel.py sweep --dir wave/tools
+  python3 cerebras_rapid_intel.py sweep --dir particle/src
+
+urgency: HIGH
+impact: HIGH
+effort: MEDIUM
+risk: LOW
+
+related_to:
+  - "TASK-087"  # Just completed - wired the index
+  - "OPP-087"   # Original opportunity
+
+tags:
+  - semantic-finder
+  - cerebras
+  - coverage
+  - critical
+
+defer_until: null
+promoted_to: null
+in_progress_by: "parallel-agent"
+in_progress_since: "2026-01-31T08:00:00Z"
+notes: "Full sweep running - 5849 files, ~16 min expected"

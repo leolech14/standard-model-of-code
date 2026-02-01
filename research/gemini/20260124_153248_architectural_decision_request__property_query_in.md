@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 ARCHITECTURAL DECISION REQUEST: Property Query Integration Strategy
 
 ## CONTEXT
@@ -133,7 +133,7 @@ implementation_tasks:
         Update all 40 UI controls in `visualize_graph_webgl.py` to directly interact with
         the Property Query system.  This will include changing all of the field names to
         the accepted standards.
-      file_path: "standard-model-of-code/src/core/viz/visualize_graph_webgl.py"
+      file_path: "particle/src/core/viz/visualize_graph_webgl.py"
       test_plan: "Verify all UI controls function as expected through manual testing. Add automated UI tests to exercise UI controls."
   2.  title: "Implement bumpRender() calls for each UI control in Property Query"
       effort: "Medium (20 hours)"
@@ -141,14 +141,14 @@ implementation_tasks:
         In the Property Query update calls, make sure to implement the
         bumpRender() calls. This is the entry point to refresh the viz after each
         UI change.
-      file_path: "standard-model-of-code/src/core/viz/visualize_graph_webgl.py"
+      file_path: "particle/src/core/viz/visualize_graph_webgl.py"
       test_plan: "Verify `bumpRender()` correctly queues new render requests after each change event in the Property Query logic."
   3.  title: "Remove Legacy VIS_STATE Logic"
       effort: "Medium (8 hours)"
       description: >
         Remove all code related to the VIS_STATE module, including the _refreshGraph() function and any functions used for
         pre-computing node color.  Remove window.NODE_COLOR_MODE = 'tier'.
-      file_path: "standard-model-of-code/src/core/viz/visualize_graph_webgl.py"
+      file_path: "particle/src/core/viz/visualize_graph_webgl.py"
       test_plan: "Ensure the visualization still runs without the VIS_STATE logic. Manually verify no code paths accidentally depend on it."
   4.  title: "Retain and Adapt Circuit Breaker Validation Tests"
       effort: "Small (4 hours)"
@@ -156,7 +156,7 @@ implementation_tasks:
         Adapt existing circuit breaker validation tests to work with
         the Property Query system.  All 9 circuit breaker paths
         must pass.
-      file_path: "standard-model-of-code/src/core/viz/visualize_graph_webgl.py"
+      file_path: "particle/src/core/viz/visualize_graph_webgl.py"
       test_plan: "Ensure all circuit breaker tests are adapted to the new Property Query logic."
   5.  title: Validate code and perform a deep check
       effort: Small (2 hours)

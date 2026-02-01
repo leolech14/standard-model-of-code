@@ -25,7 +25,7 @@ TASK 1: DEFINE UNIVERSAL API SCHEMA
 What interface must ALL modules implement to connect to the Hub?
 
 Analyze existing patterns:
-1. BaseStage (standard-model-of-code/src/core/pipeline/base_stage.py) - What contract does it define?
+1. BaseStage (particle/src/core/pipeline/base_stage.py) - What contract does it define?
 2. Registry interfaces - Do all registries follow a pattern?
 3. Event patterns - What event naming conventions exist?
 
@@ -108,7 +108,7 @@ class IHubModule(Protocol):
     """
     Universal interface for any component managed by the Hub.
     """
-    
+
     @property
     def name(self) -> str:
         """Unique identifier (e.g., 'universal_classifier')."""

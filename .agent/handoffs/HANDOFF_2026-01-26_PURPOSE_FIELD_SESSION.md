@@ -34,9 +34,9 @@ f647845 docs(spec): Add PURPOSE_FIELD_INTEGRATION_SPEC for coherence fix
 ```
 
 ### 3. Files Created (Real)
-- `context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md` - Gap analysis and fix proposal
-- `context-management/docs/specs/OBSERVABILITY_TRIAD.md` - Axiom Group G
-- `context-management/docs/specs/AI_CONSUMER_CLASS.md` - Axiom Group H
+- `wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md` - Gap analysis and fix proposal
+- `wave/docs/specs/OBSERVABILITY_TRIAD.md` - Axiom Group G
+- `wave/docs/specs/AI_CONSUMER_CLASS.md` - Axiom Group H
 - `.agent/intelligence/TOOLS_REGISTRY.yaml` - Tool connection definitions
 - `.agent/specs/SUBSYSTEM_CITIZENSHIP.md` - Citizenship protocol
 - `.agent/citizenship/applications/POM.citizenship.yaml` - POM's citizenship application
@@ -150,14 +150,14 @@ ModuleNotFoundError: No module named 'yaml'
 ## KEY FILES TO READ
 
 ### Theory (Canonized)
-- `context-management/docs/CODESPACE_ALGEBRA.md` (Sections 14-15 are new)
-- `standard-model-of-code/docs/theory/THEORY_AXIOMS.md` (Axiom Groups G and H)
-- `context-management/docs/GLOSSARY.md` (Phase States section is new)
+- `wave/docs/CODESPACE_ALGEBRA.md` (Sections 14-15 are new)
+- `particle/docs/theory/THEORY_AXIOMS.md` (Axiom Groups G and H)
+- `wave/docs/GLOSSARY.md` (Phase States section is new)
 
 ### Specs (Created This Session)
-- `context-management/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md` - THE KEY DOCUMENT
-- `context-management/docs/specs/AI_CONSUMER_CLASS.md`
-- `context-management/docs/specs/OBSERVABILITY_TRIAD.md`
+- `wave/docs/specs/PURPOSE_FIELD_INTEGRATION_SPEC.md` - THE KEY DOCUMENT
+- `wave/docs/specs/AI_CONSUMER_CLASS.md`
+- `wave/docs/specs/OBSERVABILITY_TRIAD.md`
 
 ### Registry (New)
 - `.agent/intelligence/TOOLS_REGISTRY.yaml` - Tool definitions and connections
@@ -165,8 +165,8 @@ ModuleNotFoundError: No module named 'yaml'
 - `.agent/specs/SUBSYSTEM_CITIZENSHIP.md` - Citizenship protocol
 
 ### Code Changes
-- `standard-model-of-code/src/core/full_analysis.py` - Stage 3.7 added
-- `context-management/tools/pom/projectome_omniscience.py` - Reads coherence_score
+- `particle/src/core/full_analysis.py` - Stage 3.7 added
+- `wave/tools/pom/projectome_omniscience.py` - Reads coherence_score
 
 ---
 

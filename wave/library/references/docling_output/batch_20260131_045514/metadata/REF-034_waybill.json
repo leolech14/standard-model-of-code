@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_69da19fdf151",
+  "ref_id": "REF-034",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769846628,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769846641,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "standard",
+        "page_count": 21,
+        "chunk_count": 38
+      }
+    }
+  ]
+}

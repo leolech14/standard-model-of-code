@@ -16,7 +16,7 @@ VALIDATE THESE ASSUMPTIONS ABOUT LEGACY UI CONTROLS IN COLLIDER:
 
 CONTEXT: We have a gaps_report.md identifying 3 'orphaned' legacy controls that are supposedly safe to remove from template.html:
 - #node-size (line 1352) - supposedly superseded by #cfg-node-size
-- #edge-opacity (line 1362) - supposedly superseded by #cfg-edge-opacity  
+- #edge-opacity (line 1362) - supposedly superseded by #cfg-edge-opacity
 - #toggle-labels (line 1369) - supposedly superseded by #cfg-toggle-labels
 
 ASSUMPTIONS TO VALIDATE:
@@ -58,7 +58,7 @@ Here is the validation of your assumptions:
 - **Risk:** Hardcoded IDs like `#node-size` predate the `TokenResolver` system. If they exist in `template.html`, they are likely outside the container div that `ControlsEngine` populates.
 - **Verification Action:**
   ```bash
-  grep -C 5 "id=\"node-size\"" standard-model-of-code/src/core/viz/assets/template.html
+  grep -C 5 "id=\"node-size\"" particle/src/core/viz/assets/template.html
   # Verify it is NOT inside the div targeted by ControlsEngine (usually #controls-dock)
   ```
 
@@ -69,7 +69,7 @@ Here is the validation of your assumptions:
 - The map describes a shift to `DataManager` and `ACTIVE_DATAMAPS` state. Old direct DOM manipulation (`document.getElementById`) is inconsistent with the new `DataManager` architecture.
 - **Verification Action:**
   ```bash
-  grep "_handleSliderChange" standard-model-of-code/src/core/viz/assets/modules/sidebar.js
+  grep "_handleSliderChange" particle/src/core/viz/assets/modules/sidebar.js
   # Confirm logic explicitly looks for 'cfg-' prefix or uses a dataset mapping
   ```
 
@@ -81,10 +81,10 @@ Here is the validation of your assumptions:
 - **Verification Action:**
   ```bash
   # Check Python generator for injected JS references
-  grep "node-size" standard-model-of-code/src/core/visualize_graph_webgl.py
-  
+  grep "node-size" particle/src/core/visualize_graph_webgl.py
+
   # Check JS modules
-  grep -r "#node-size" standard-model-of-code/src/core/viz/assets/modules/
+  grep -r "#node-size" particle/src/core/viz/assets/modules/
   ```
 
 ### A4: Not used by external systems (URL/Storage)
@@ -102,7 +102,7 @@ Here is the validation of your assumptions:
 - **Verification Action:**
   ```bash
   # Check if the section contains anything NOT in the legacy list
-  sed -n '/<div.*id="appearance"/,/<\/div>/p' standard-model-of-code/src/core/viz/assets/template.html
+  sed -n '/<div.*id="appearance"/,/<\/div>/p' particle/src/core/viz/assets/template.html
   ```
 
 ---

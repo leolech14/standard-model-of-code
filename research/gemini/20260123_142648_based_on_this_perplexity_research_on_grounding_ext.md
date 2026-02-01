@@ -49,7 +49,7 @@ Instead of sending the raw query directly to Perplexity, we will interject a "Gr
 ### 2. Implementation Answers
 
 #### 1. Where exactly should the context injection code go?
-The logic belongs in **`context-management/tools/ai/analyze.py`**. Specifically, inside the `main()` function within the `if decision.tier == Tier.PERPLEXITY:` block (approx line 1228).
+The logic belongs in **`wave/tools/ai/analyze.py`**. Specifically, inside the `main()` function within the `if decision.tier == Tier.PERPLEXITY:` block (approx line 1228).
 
 #### 2. What existing functions/modules can we reuse?
 *   **`load_semantic_models()`**: (Line 1076 in `analyze.py`) To fetch Domain definitions and Antimatter Laws.
@@ -69,7 +69,7 @@ We need to:
 
 ### 3. Implementation Plan
 
-Here are the specific changes for **`context-management/tools/ai/analyze.py`**.
+Here are the specific changes for **`wave/tools/ai/analyze.py`**.
 
 #### A. Add Helper Function
 Add this function near `load_semantic_models` (approx line 1082) to construct the context packet recommended by Perplexity (YAML/Markdown block).
@@ -77,12 +77,12 @@ Add this function near `load_semantic_models` (approx line 1082) to construct th
 ```python
 def generate_grounded_perplexity_query(client, user_query, project_root):
     """
-    Uses Gemini to rewrite the user query with a 'Context Prefix' 
+    Uses Gemini to rewrite the user query with a 'Context Prefix'
     based on semantic models (Stack, Domain, Constraints).
     """
     # 1. Load Sources
     semantic_config = load_semantic_models()
-    
+
     # 2. Extract High-Level Context (Domain & Constraints)
     # We map 'antimatter' laws to 'Constraints' and definitions to 'Domain'
     domain_context = {
@@ -90,25 +90,25 @@ def generate_grounded_perplexity_query(client, user_query, project_root):
         "constraints": [law['name'] for law in semantic_config.get('antimatter', [])],
         "tech_stack": ["Python 3", "Gemini API", "Vertex AI", "FastAPI"] # Could be dynamic, but static is safer for now
     }
-    
+
     context_str = yaml.dump(domain_context, default_flow_style=False)
 
     # 3. Prompt Gemini to fuse them (The Hybrid Approach)
     prompt = f"""
     You are a Research Proxy. Prepare a query for an external search engine (Perplexity).
-    
+
     USER QUERY: "{user_query}"
-    
+
     PROJECT CONTEXT (YAML):
     {context_str}
-    
+
     INSTRUCTIONS:
     1. Rewrite the user query to be self-contained.
     2. Append a Markdown block named "---context---" containing ONLY relevant stack details and constraints from the YAML above.
     3. Keep the total length under 600 tokens.
     4. Do NOT answer the question. Just output the refined query string.
     """
-    
+
     try:
         response = client.models.generate_content(
             model=FAST_MODEL, # Use Flash for speed
@@ -127,21 +127,21 @@ Update the `if decision.tier == Tier.PERPLEXITY:` block in `main()` (approx line
         # TIER 3: PERPLEXITY - External research
         if decision.tier == Tier.PERPLEXITY:
             print("[PERPLEXITY] External research tier selected.", file=sys.stderr)
-            
+
             # --- START NEW GROUNDING LOGIC ---
             print("[PERPLEXITY] Grounding query with local context...", file=sys.stderr)
-            
+
             # 1. Initialize Gemini Client (needed for grounding step)
             # Note: We ignore project_id here as we just need the client
             grounding_client, _ = create_client()
-            
+
             # 2. Generate Grounded Query
             grounded_query = generate_grounded_perplexity_query(
-                grounding_client, 
-                args.prompt, 
+                grounding_client,
+                args.prompt,
                 PROJECT_ROOT
             )
-            
+
             if args.aci_debug:
                 print(f"\n[Grounding] Rewritten Query:\n{grounded_query}\n", file=sys.stderr)
             # --- END NEW GROUNDING LOGIC ---
@@ -153,10 +153,10 @@ Update the `if decision.tier == Tier.PERPLEXITY:` block in `main()` (approx line
                 start_time = time.time()
                 try:
                     print(f"[PERPLEXITY] Executing research query...", file=sys.stderr)
-                    
+
                     # CHANGED: Pass grounded_query instead of args.prompt
-                    result = perplexity_research(grounded_query) 
-                    
+                    result = perplexity_research(grounded_query)
+
                     duration_ms = int((time.time() - start_time) * 1000)
 
                     # Display results (Existing code follows...)

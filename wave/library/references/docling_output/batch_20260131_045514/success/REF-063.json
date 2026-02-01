@@ -1,0 +1,4640 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.9.0",
+  "name": "REF-063_Clark_Chalmers_1998_ExtendedMind",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 13279425336053638743,
+    "filename": "REF-063_Clark_Chalmers_1998_ExtendedMind.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/pictures/0"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/pictures/1"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/pictures/2"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/groups/1"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/texts/21"
+      },
+      {
+        "$ref": "#/texts/22"
+      },
+      {
+        "$ref": "#/texts/23"
+      },
+      {
+        "$ref": "#/groups/2"
+      },
+      {
+        "$ref": "#/texts/27"
+      },
+      {
+        "$ref": "#/texts/28"
+      },
+      {
+        "$ref": "#/texts/29"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/texts/31"
+      },
+      {
+        "$ref": "#/texts/32"
+      },
+      {
+        "$ref": "#/texts/33"
+      },
+      {
+        "$ref": "#/texts/34"
+      },
+      {
+        "$ref": "#/texts/35"
+      },
+      {
+        "$ref": "#/texts/36"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/texts/40"
+      },
+      {
+        "$ref": "#/texts/41"
+      },
+      {
+        "$ref": "#/texts/42"
+      },
+      {
+        "$ref": "#/texts/43"
+      },
+      {
+        "$ref": "#/texts/44"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/texts/46"
+      },
+      {
+        "$ref": "#/texts/47"
+      },
+      {
+        "$ref": "#/texts/48"
+      },
+      {
+        "$ref": "#/texts/49"
+      },
+      {
+        "$ref": "#/texts/50"
+      },
+      {
+        "$ref": "#/texts/51"
+      },
+      {
+        "$ref": "#/texts/52"
+      },
+      {
+        "$ref": "#/texts/53"
+      },
+      {
+        "$ref": "#/texts/54"
+      },
+      {
+        "$ref": "#/texts/55"
+      },
+      {
+        "$ref": "#/texts/56"
+      },
+      {
+        "$ref": "#/texts/57"
+      },
+      {
+        "$ref": "#/texts/58"
+      },
+      {
+        "$ref": "#/texts/59"
+      },
+      {
+        "$ref": "#/texts/60"
+      },
+      {
+        "$ref": "#/texts/61"
+      },
+      {
+        "$ref": "#/texts/62"
+      },
+      {
+        "$ref": "#/texts/63"
+      },
+      {
+        "$ref": "#/texts/64"
+      },
+      {
+        "$ref": "#/texts/65"
+      },
+      {
+        "$ref": "#/texts/66"
+      },
+      {
+        "$ref": "#/texts/67"
+      },
+      {
+        "$ref": "#/texts/68"
+      },
+      {
+        "$ref": "#/texts/69"
+      },
+      {
+        "$ref": "#/texts/70"
+      },
+      {
+        "$ref": "#/texts/71"
+      },
+      {
+        "$ref": "#/texts/72"
+      },
+      {
+        "$ref": "#/texts/73"
+      },
+      {
+        "$ref": "#/texts/74"
+      },
+      {
+        "$ref": "#/texts/75"
+      },
+      {
+        "$ref": "#/texts/76"
+      },
+      {
+        "$ref": "#/texts/77"
+      },
+      {
+        "$ref": "#/texts/78"
+      },
+      {
+        "$ref": "#/texts/79"
+      },
+      {
+        "$ref": "#/texts/80"
+      },
+      {
+        "$ref": "#/texts/81"
+      },
+      {
+        "$ref": "#/texts/82"
+      },
+      {
+        "$ref": "#/texts/83"
+      },
+      {
+        "$ref": "#/texts/84"
+      },
+      {
+        "$ref": "#/texts/85"
+      },
+      {
+        "$ref": "#/texts/86"
+      },
+      {
+        "$ref": "#/texts/87"
+      },
+      {
+        "$ref": "#/groups/3"
+      },
+      {
+        "$ref": "#/texts/89"
+      },
+      {
+        "$ref": "#/texts/90"
+      },
+      {
+        "$ref": "#/texts/91"
+      },
+      {
+        "$ref": "#/texts/92"
+      },
+      {
+        "$ref": "#/texts/93"
+      },
+      {
+        "$ref": "#/texts/94"
+      },
+      {
+        "$ref": "#/texts/95"
+      },
+      {
+        "$ref": "#/texts/96"
+      },
+      {
+        "$ref": "#/texts/97"
+      },
+      {
+        "$ref": "#/texts/98"
+      },
+      {
+        "$ref": "#/texts/99"
+      },
+      {
+        "$ref": "#/texts/100"
+      },
+      {
+        "$ref": "#/texts/101"
+      },
+      {
+        "$ref": "#/texts/102"
+      },
+      {
+        "$ref": "#/texts/103"
+      },
+      {
+        "$ref": "#/texts/104"
+      },
+      {
+        "$ref": "#/texts/105"
+      },
+      {
+        "$ref": "#/texts/106"
+      },
+      {
+        "$ref": "#/texts/107"
+      },
+      {
+        "$ref": "#/texts/108"
+      },
+      {
+        "$ref": "#/texts/109"
+      },
+      {
+        "$ref": "#/texts/110"
+      },
+      {
+        "$ref": "#/texts/111"
+      },
+      {
+        "$ref": "#/texts/112"
+      },
+      {
+        "$ref": "#/texts/113"
+      },
+      {
+        "$ref": "#/texts/114"
+      },
+      {
+        "$ref": "#/texts/115"
+      },
+      {
+        "$ref": "#/texts/116"
+      },
+      {
+        "$ref": "#/texts/117"
+      },
+      {
+        "$ref": "#/texts/118"
+      },
+      {
+        "$ref": "#/texts/119"
+      },
+      {
+        "$ref": "#/texts/120"
+      },
+      {
+        "$ref": "#/texts/121"
+      },
+      {
+        "$ref": "#/texts/122"
+      },
+      {
+        "$ref": "#/texts/123"
+      },
+      {
+        "$ref": "#/texts/124"
+      },
+      {
+        "$ref": "#/texts/125"
+      },
+      {
+        "$ref": "#/groups/4"
+      },
+      {
+        "$ref": "#/texts/142"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/4"
+        },
+        {
+          "$ref": "#/texts/5"
+        },
+        {
+          "$ref": "#/texts/6"
+        },
+        {
+          "$ref": "#/texts/7"
+        },
+        {
+          "$ref": "#/texts/8"
+        },
+        {
+          "$ref": "#/texts/9"
+        }
+      ],
+      "content_layer": "body",
+      "name": "group",
+      "label": "key_value_area"
+    },
+    {
+      "self_ref": "#/groups/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "name": "group",
+      "label": "key_value_area"
+    },
+    {
+      "self_ref": "#/groups/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/24"
+        },
+        {
+          "$ref": "#/texts/25"
+        },
+        {
+          "$ref": "#/texts/26"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/88"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/126"
+        },
+        {
+          "$ref": "#/texts/127"
+        },
+        {
+          "$ref": "#/texts/128"
+        },
+        {
+          "$ref": "#/texts/129"
+        },
+        {
+          "$ref": "#/texts/130"
+        },
+        {
+          "$ref": "#/texts/131"
+        },
+        {
+          "$ref": "#/texts/132"
+        },
+        {
+          "$ref": "#/texts/133"
+        },
+        {
+          "$ref": "#/texts/134"
+        },
+        {
+          "$ref": "#/texts/135"
+        },
+        {
+          "$ref": "#/texts/136"
+        },
+        {
+          "$ref": "#/texts/137"
+        },
+        {
+          "$ref": "#/texts/138"
+        },
+        {
+          "$ref": "#/texts/139"
+        },
+        {
+          "$ref": "#/texts/140"
+        },
+        {
+          "$ref": "#/texts/141"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 12.587197066908855,
+            "t": 817.000213876233,
+            "r": 71.72372828767352,
+            "b": 800.2107235936975,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            6
+          ]
+        }
+      ],
+      "orig": "STOR \u2022",
+      "text": "STOR \u2022"
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 243.11858742478546,
+            "t": 855.712183724213,
+            "r": 475.38141588560615,
+            "b": 800.2878164553327,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "ANALYSIS",
+      "text": "ANALYSIS"
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/pictures/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 41.07703328753734,
+            "t": 784.7088607930906,
+            "r": 201.90406935328758,
+            "b": 776.3333334111936,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            23
+          ]
+        }
+      ],
+      "orig": "OXFORD UNIVERSITY PRESS",
+      "text": "OXFORD UNIVERSITY PRESS"
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 9.050874765044636,
+            "t": 804.9999998686153,
+            "r": 231.1453439442432,
+            "b": 788.1898732460974,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            15
+          ]
+        }
+      ],
+      "orig": "OXFORD JOURNALS",
+      "text": "OXFORD JOURNALS"
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 653.513,
+            "r": 154.17,
+            "b": 643.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "The Extended Mind",
+      "text": "The Extended Mind"
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 640.513,
+            "r": 280.219,
+            "b": 630.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            40
+          ]
+        }
+      ],
+      "orig": "Author(s): Andy Clark and David Chalmers",
+      "text": "Author(s): Andy Clark and David Chalmers"
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 627.513,
+            "r": 334.064,
+            "b": 617.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            55
+          ]
+        }
+      ],
+      "orig": "Source: Analysis, Vol. 58, No. 1 (Jan., 1998), pp. 7-19",
+      "text": "Source: Analysis, Vol. 58, No. 1 (Jan., 1998), pp. 7-19"
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 614.513,
+            "r": 441.745,
+            "b": 604.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            73
+          ]
+        }
+      ],
+      "orig": "Published by: Oxford University Press on behalf of The Analysis Committee",
+      "text": "Published by: Oxford University Press on behalf of The Analysis Committee"
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 601.513,
+            "r": 115.274,
+            "b": 591.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            11
+          ]
+        }
+      ],
+      "orig": "Stable URL:",
+      "text": "Stable URL:"
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 115.274,
+            "t": 601.513,
+            "r": 280.89,
+            "b": 591.613,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            37
+          ]
+        }
+      ],
+      "orig": "http://www.jstor.org/stable/3328150 .",
+      "text": "http://www.jstor.org/stable/3328150 ."
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 585.513,
+            "r": 194.43,
+            "b": 575.752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            26
+          ]
+        }
+      ],
+      "orig": "Accessed: 05/04/2014 05:33",
+      "text": "Accessed: 05/04/2014 05:33"
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 553.513,
+            "r": 476.53,
+            "b": 531.83,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            160
+          ]
+        }
+      ],
+      "orig": "Your use of the JSTOR archive indicates your acceptance of the Terms & Conditions of Use, available at . http://www.jstor.org/page/info/about/policies/terms.jsp",
+      "text": "Your use of the JSTOR archive indicates your acceptance of the Terms & Conditions of Use, available at . http://www.jstor.org/page/info/about/policies/terms.jsp"
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 517.513,
+            "r": 55.5,
+            "b": 507.613,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": ".",
+      "text": "."
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 504.83,
+            "r": 552.98,
+            "b": 471.83,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            338
+          ]
+        }
+      ],
+      "orig": "JSTOR is a not-for-profit service that helps scholars, researchers, and students discover, use, and build upon a wide range of content in a trusted digital archive. We use information technology and tools to increase productivity and facilitate new forms of scholarship. For more information about JSTOR, please contact support@jstor.org.",
+      "text": "JSTOR is a not-for-profit service that helps scholars, researchers, and students discover, use, and build upon a wide range of content in a trusted digital archive. We use information technology and tools to increase productivity and facilitate new forms of scholarship. For more information about JSTOR, please contact support@jstor.org."
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 457.513,
+            "r": 55.5,
+            "b": 447.613,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": ".",
+      "text": "."
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/pictures/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 50.0,
+            "t": 82.83000000000004,
+            "r": 134.17,
+            "b": 73.83000000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            20
+          ]
+        }
+      ],
+      "orig": "http://www.jstor.org",
+      "text": "http://www.jstor.org"
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 115.0,
+            "t": 147.83000000000004,
+            "r": 549.67,
+            "b": 128.83000000000004,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            132
+          ]
+        }
+      ],
+      "orig": "Oxford University Press and The Analysis Committee are collaborating with JSTOR to digitize, preserve and extend access to Analysis.",
+      "text": "Oxford University Press and The Analysis Committee are collaborating with JSTOR to digitize, preserve and extend access to Analysis."
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 166.28,
+            "t": 25.463999999999942,
+            "r": 428.712,
+            "b": 10.26400000000001,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.64,
+            "t": 611.1850146484375,
+            "r": 180.135,
+            "b": 597.5050146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "The extended mind",
+      "text": "The extended mind",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 55.92,
+            "t": 586.2530146484376,
+            "r": 249.851,
+            "b": 575.8730146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            29
+          ]
+        }
+      ],
+      "orig": "ANDY CLARK  & DAVID CHALMERS'",
+      "text": "ANDY CLARK  & DAVID CHALMERS'",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.82,
+            "t": 559.2160146484375,
+            "r": 138.54,
+            "b": 548.2960146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            16
+          ]
+        }
+      ],
+      "orig": "1.  Introduction",
+      "text": "1.  Introduction",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.1,
+            "t": 542.7760146484375,
+            "r": 385.956,
+            "b": 430.3360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            643
+          ]
+        }
+      ],
+      "orig": "Where  does  the  mind  stop  and  the  rest  of the  world  begin? The  question invites two  standard replies. Some  accept the  boundaries of  skin  and  skull, and  say  that  what  is outside  the  body  is outside  the mind.  Others  are impressed by arguments suggesting that  the  meaning of our  words  'just ain't  in the  head', and  hold  that  this  externalism about  meaning carries over  into  an  externalism about  mind.  We  propose to  pursue a third position. We advocate  a  very  different  sort of  externalism: an  active externalism, based  on  the  active role  of  the  environment in  driving cognitive  processes.",
+      "text": "Where  does  the  mind  stop  and  the  rest  of the  world  begin? The  question invites two  standard replies. Some  accept the  boundaries of  skin  and  skull, and  say  that  what  is outside  the  body  is outside  the mind.  Others  are impressed by arguments suggesting that  the  meaning of our  words  'just ain't  in the  head', and  hold  that  this  externalism about  meaning carries over  into  an  externalism about  mind.  We  propose to  pursue a third position. We advocate  a  very  different  sort of  externalism: an  active externalism, based  on  the  active role  of  the  environment in  driving cognitive  processes."
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.64,
+            "t": 416.4160146484375,
+            "r": 164.94,
+            "b": 403.2160146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            22
+          ]
+        }
+      ],
+      "orig": "2.  Extended cognition",
+      "text": "2.  Extended cognition",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.64,
+            "t": 399.7360146484375,
+            "r": 282.696,
+            "b": 386.2960146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            48
+          ]
+        }
+      ],
+      "orig": "Consider three  cases  of human problem-solving:",
+      "text": "Consider three  cases  of human problem-solving:"
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.4,
+            "t": 337.2160146484375,
+            "r": 381.72,
+            "b": 274.45601464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            344
+          ]
+        }
+      ],
+      "orig": "(2)  A  person sits  in  front  of a similar computer screen, but  this  time  can choose  either to  physically rotate  the  image on the  screen, by  pressing a rotate  button,  or to  mentally rotate  the  image  as before.  We can also suppose,  not  unrealistically, that some  speed  advantage accrues  to the physical rotation operation.",
+      "text": " A  person sits  in  front  of a similar computer screen, but  this  time  can choose  either to  physically rotate  the  image on the  screen, by  pressing a rotate  button,  or to  mentally rotate  the  image  as before.  We can also suppose,  not  unrealistically, that some  speed  advantage accrues  to the physical rotation operation.",
+      "enumerated": true,
+      "marker": "(2)"
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.4,
+            "t": 387.13601464843754,
+            "r": 387.132,
+            "b": 336.2560146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            328
+          ]
+        }
+      ],
+      "orig": "(1)  A  person sits  in  front  of a  computer screen which  displays images of various two-dimensional geometric shapes and  is  asked to  answer questions concerning the  potential fit  of  such  shapes into  depicted 'sockets'. To  assess fit,  the  person must mentally rotate the  shapes to  align them  with  the  sockets.",
+      "text": " A  person sits  in  front  of a  computer screen which  displays images of various two-dimensional geometric shapes and  is  asked to  answer questions concerning the  potential fit  of  such  shapes into  depicted 'sockets'. To  assess fit,  the  person must mentally rotate the  shapes to  align them  with  the  sockets.",
+      "enumerated": true,
+      "marker": "(1)"
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/groups/2"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.16,
+            "t": 274.9360146484375,
+            "r": 386.94,
+            "b": 198.13601464843748,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            473
+          ]
+        }
+      ],
+      "orig": "(3)  Sometime in  the  cyberpunk future, a  person sits  in  front  of a similar computer screen. This  agent,  however, has  the  benefit of a neural implant which  can  perform the  rotation operation as fast  as the  computer in the previous example. The  agent must  still  choose which  internal resource to  use (the  implant or the  good  old-fashioned mental rotation), as  each  resource makes different demands on  attention and  other  concurrent brain activity.",
+      "text": " Sometime in  the  cyberpunk future, a  person sits  in  front  of a similar computer screen. This  agent,  however, has  the  benefit of a neural implant which  can  perform the  rotation operation as fast  as the  computer in the previous example. The  agent must  still  choose which  internal resource to  use (the  implant or the  good  old-fashioned mental rotation), as  each  resource makes different demands on  attention and  other  concurrent brain activity.",
+      "enumerated": true,
+      "marker": "(3)"
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 55.68,
+            "t": 200.53601464843752,
+            "r": 387.732,
+            "b": 111.37601464843749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            577
+          ]
+        }
+      ],
+      "orig": "How  much  cognition is  present in  these  cases? We  suggest that  all  three cases  are  similar. Case  (3)  with  the  neural implant seems clearly to be  on  a par  with  case  (1).  And  case  (2)  with  the  rotation button displays the  same sort  of  computational structure as case  (3),  distributed across  agent  and computer instead of  internalized within the  agent. If  the  rotation in  case  (3) is  cognitive, by  what right do  we  count case  (2)  as  fundamentally different? We  cannot simply  point  to the  skin/skull boundary as  justification, since",
+      "text": "How  much  cognition is  present in  these  cases? We  suggest that  all  three cases  are  similar. Case  (3)  with  the  neural implant seems clearly to be  on  a par  with  case  (1).  And  case  (2)  with  the  rotation button displays the  same sort  of  computational structure as case  (3),  distributed across  agent  and computer instead of  internalized within the  agent. If  the  rotation in  case  (3) is  cognitive, by  what right do  we  count case  (2)  as  fundamentally different? We  cannot simply  point  to the  skin/skull boundary as  justification, since"
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 55.86,
+            "t": 106.41001464843748,
+            "r": 308.271,
+            "b": 80.44401464843747,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            156
+          ]
+        }
+      ],
+      "orig": "1  Authors  are listed in order  of  degree  of belief in the central  thesis ANALYSIS 58.1,  January 1998, pp.  7-19.  ?  Andy  Clark  and  David  Chalmers",
+      "text": "1  Authors  are listed in order  of  degree  of belief in the central  thesis ANALYSIS 58.1,  January 1998, pp.  7-19.  ?  Andy  Clark  and  David  Chalmers"
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.64,
+            "t": 622.0040146484375,
+            "r": 62.64,
+            "b": 614.8040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": "8",
+      "text": "8"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 71.52,
+            "t": 622.0040146484375,
+            "r": 216.224,
+            "b": 614.8040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "ANDY CLARK & DAVID CHALMERS",
+      "text": "ANDY CLARK & DAVID CHALMERS"
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.8,
+            "t": 603.1730146484375,
+            "r": 380.099,
+            "b": 580.7930146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            104
+          ]
+        }
+      ],
+      "orig": "the  legitimacy  of that  boundary  is  precisely  what is at issue. But  nothing else seems  different.",
+      "text": "the  legitimacy  of that  boundary  is  precisely  what is at issue. But  nothing else seems  different."
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.68,
+            "t": 578.0930146484375,
+            "r": 381.766,
+            "b": 430.3130146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            918
+          ]
+        }
+      ],
+      "orig": "The  kind  of case  just  described is  by  no means  as exotic as it  may  at  first appear.  It  is  not  just  the  presence  of  advanced external  computing resources  which  raises  the  issue,  but  rather  the  general  tendency  of human reasoners to lean  heavily  on environmental supports. Thus  consider  the  use of  pen  and  paper  to  perform  long  multiplication (McClelland  et al.  1986, Clark  1989),  the use of  physical  re-arrangements of letter  tiles  to  prompt word recall  in Scrabble  (Kirsh  1995),  the use of instruments such as the nautical slide rule  (Hutchins 1995),  and the  general paraphernalia of language,  books, diagrams,  and culture.  In all these cases the individual brain  performs  some  operations,  while others  are  delegated  to  manipulations  of external  media.  Had  our  brains  been  different, this  distribution of tasks  would doubtless  have  varied.",
+      "text": "The  kind  of case  just  described is  by  no means  as exotic as it  may  at  first appear.  It  is  not  just  the  presence  of  advanced external  computing resources  which  raises  the  issue,  but  rather  the  general  tendency  of human reasoners to lean  heavily  on environmental supports. Thus  consider  the  use of  pen  and  paper  to  perform  long  multiplication (McClelland  et al.  1986, Clark  1989),  the use of  physical  re-arrangements of letter  tiles  to  prompt word recall  in Scrabble  (Kirsh  1995),  the use of instruments such as the nautical slide rule  (Hutchins 1995),  and the  general paraphernalia of language,  books, diagrams,  and culture.  In all these cases the individual brain  performs  some  operations,  while others  are  delegated  to  manipulations  of external  media.  Had  our  brains  been  different, this  distribution of tasks  would doubtless  have  varied."
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.38,
+            "t": 428.21301464843754,
+            "r": 381.319,
+            "b": 229.1930146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1247
+          ]
+        }
+      ],
+      "orig": "In  fact,  even  the  mental  rotation  cases  described in scenarios  (1)  and  (2) are real. The cases reflect  options  available  to  players  of the  computer game  Tetris.  In  Tetris,  falling  geometric  shapes  must be  rapidly  directed into an  appropriate slot  in  an  emerging structure. A rotation  button  can  be used.  David  Kirsh  and  Paul  Maglio  (1994)  calculate that  the  physical  rotation of  a  shape through  90  degrees  takes about 100  milliseconds,  plus about  200 milliseconds  to select  the button.  To  achieve  the same  result  by mental  rotation  takes  about  1000 milliseconds. Kirsh  and  Maglio  go  on to present  compelling  evidence  that  physical rotation  is used  not  just  to  position a  shape  ready  to fit a  slot,  but often to  help  determine  whether  the shape  and  the  slot are  compatible. The  latter  use  constitutes  a case  of what Kirsh  and  Maglio  call an  'epistemic  action'.  Epistemic  actions alter  the world  so as  to aid  and  augment cognitive  processes such  as  recognition  and search.  Merely pragmatic  actions, by contrast,  alter the world because some  physical  change  is desirable  for its own sake  (e.g., putting  cement into a hole in a  dam).",
+      "text": "In  fact,  even  the  mental  rotation  cases  described in scenarios  (1)  and  (2) are real. The cases reflect  options  available  to  players  of the  computer game  Tetris.  In  Tetris,  falling  geometric  shapes  must be  rapidly  directed into an  appropriate slot  in  an  emerging structure. A rotation  button  can  be used.  David  Kirsh  and  Paul  Maglio  (1994)  calculate that  the  physical  rotation of  a  shape through  90  degrees  takes about 100  milliseconds,  plus about  200 milliseconds  to select  the button.  To  achieve  the same  result  by mental  rotation  takes  about  1000 milliseconds. Kirsh  and  Maglio  go  on to present  compelling  evidence  that  physical rotation  is used  not  just  to  position a  shape  ready  to fit a  slot,  but often to  help  determine  whether  the shape  and  the  slot are  compatible. The  latter  use  constitutes  a case  of what Kirsh  and  Maglio  call an  'epistemic  action'.  Epistemic  actions alter  the world  so as  to aid  and  augment cognitive  processes such  as  recognition  and search.  Merely pragmatic  actions, by contrast,  alter the world because some  physical  change  is desirable  for its own sake  (e.g., putting  cement into a hole in a  dam)."
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.38,
+            "t": 227.21301464843748,
+            "r": 379.476,
+            "b": 165.9530146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            411
+          ]
+        }
+      ],
+      "orig": "Epistemic  action,  we  suggest,  demands  spread  of  epistemic  credit.  If,  as we confront  some  task,  a  part  of the world  functions  as a  process  which, were it done in the  head,  we would have no hesitation  in  recognizing  as part  of the  cognitive  process,  then  that  part  of the world is  (so  we  claim) part  of the  cognitive  process.  Cognitive  processes ain't  (all)  in the  head!",
+      "text": "Epistemic  action,  we  suggest,  demands  spread  of  epistemic  credit.  If,  as we confront  some  task,  a  part  of the world  functions  as a  process  which, were it done in the  head,  we would have no hesitation  in  recognizing  as part  of the  cognitive  process,  then  that  part  of the world is  (so  we  claim) part  of the  cognitive  process.  Cognitive  processes ain't  (all)  in the  head!"
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.32,
+            "t": 152.09301464843747,
+            "r": 157.339,
+            "b": 141.9530146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            23
+          ]
+        }
+      ],
+      "orig": "3.  Active  externalism",
+      "text": "3.  Active  externalism",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.5,
+            "t": 135.77301464843754,
+            "r": 378.691,
+            "b": 74.31001464843757,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            394
+          ]
+        }
+      ],
+      "orig": "In these  cases,  the human  organism  is linked  with an external  entity  in a two-way  interaction, creating a  coupled  system  that  can  be  seen  as  a  cognitive system in its own right. All the components  in the system play an active causal role, and they jointly govern behaviour in the same sort of way that cognition  usually does. If we remove the external component  the system's",
+      "text": "In these  cases,  the human  organism  is linked  with an external  entity  in a two-way  interaction, creating a  coupled  system  that  can  be  seen  as  a  cognitive system in its own right. All the components  in the system play an active causal role, and they jointly govern behaviour in the same sort of way that cognition  usually does. If we remove the external component  the system's"
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 267.66,
+            "t": 621.8840146484375,
+            "r": 359.796,
+            "b": 614.5640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            17
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED MIND",
+      "text": "THE EXTENDED MIND"
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 369.96,
+            "t": 619.9640146484376,
+            "r": 375.96,
+            "b": 612.7640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1
+          ]
+        }
+      ],
+      "orig": "9",
+      "text": "9"
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 55.92,
+            "t": 603.2560146484375,
+            "r": 381.504,
+            "b": 565.2160146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            239
+          ]
+        }
+      ],
+      "orig": "behavioural competence will  drop, just  as  it  would  if  we  removed part  of its  brain. Our  thesis is  that  this  sort  of  coupled process counts equally well as  a  cognitive process, whether or  not  it  is  wholly in  the  head.",
+      "text": "behavioural competence will  drop, just  as  it  would  if  we  removed part  of its  brain. Our  thesis is  that  this  sort  of  coupled process counts equally well as  a  cognitive process, whether or  not  it  is  wholly in  the  head."
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.34,
+            "t": 428.6560146484375,
+            "r": 390.792,
+            "b": 340.57601464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            535
+          ]
+        }
+      ],
+      "orig": "In  the  cases  we  describe, by  contrast, the  relevant external features are active, playing a  crucial role  in  the  here-and-now. Because they  are  coupled with  the  human organism, they  have  a direct impact on  the  organism and on its  behaviour. In  these  cases, the  relevant parts of the  world  are  in  the loop,  not  dangling at  the  other end  of a  long  causal chain.  Concentrating on  this  sort  of  coupling leads us  to  an  active externalism, as  opposed to  the passive externalism of Putnam and  Burge.",
+      "text": "In  the  cases  we  describe, by  contrast, the  relevant external features are active, playing a  crucial role  in  the  here-and-now. Because they  are  coupled with  the  human organism, they  have  a direct impact on  the  organism and on its  behaviour. In  these  cases, the  relevant parts of the  world  are  in  the loop,  not  dangling at  the  other end  of a  long  causal chain.  Concentrating on  this  sort  of  coupling leads us  to  an  active externalism, as  opposed to  the passive externalism of Putnam and  Burge."
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.22,
+            "t": 565.5760146484375,
+            "r": 386.58,
+            "b": 427.69601464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            873
+          ]
+        }
+      ],
+      "orig": "This  externalism differs from  the  standard variety advocated by  Putnam (1975)  and  Burge (1979).  When  I believe that  water  is wet  and  my  twin believes that  twin  water  is  wet,  the  external features responsible for  the difference in our beliefs  are  distal  and  historical, at the other  end of a lengthy causal chain.  Features of the  present are  not  relevant: if I  happen to be surrounded by  XYZ  right  now  (maybe I have  teleported to Twin Earth), my  beliefs still  concern standard water, because of  my  history. In these  cases,  the relevant external features are  passive.  Because of their distal nature, they  play no  role  in  driving the  cognitive process in  the  hereand-now. This  is  reflected by  the  fact that  the  actions performed by  me  and my  twin  are  physically indistinguishable, despite our  external differences.",
+      "text": "This  externalism differs from  the  standard variety advocated by  Putnam (1975)  and  Burge (1979).  When  I believe that  water  is wet  and  my  twin believes that  twin  water  is  wet,  the  external features responsible for  the difference in our beliefs  are  distal  and  historical, at the other  end of a lengthy causal chain.  Features of the  present are  not  relevant: if I  happen to be surrounded by  XYZ  right  now  (maybe I have  teleported to Twin Earth), my  beliefs still  concern standard water, because of  my  history. In these  cases,  the relevant external features are  passive.  Because of their distal nature, they  play no  role  in  driving the  cognitive process in  the  hereand-now. This  is  reflected by  the  fact that  the  actions performed by  me  and my  twin  are  physically indistinguishable, despite our  external differences."
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.4,
+            "t": 341.0560146484375,
+            "r": 390.432,
+            "b": 204.01601464843748,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            844
+          ]
+        }
+      ],
+      "orig": "Many  have  complained that  even  if Putnam and  Burge are  right  about the  externality of  content, it  is  not  clear that  these  external aspects play  a causal  or  explanatory role  in  the  generation of action.  In  counterfactual cases  where  internal structure is held  constant but  these  external features are  changed, behaviour looks  just the  same; so  internal structure seems  to be  doing the  crucial work.  We  will  not  adjudicate that  issue here,  but  we note  that  active  externalism is not  threatened by any  such  problem. The external features in a  coupled  system  play  an ineliminable role  -  if we retain internal structure but  change the  external features, behaviour may change completely. The  external features here  are just  as  causally relevant as  typical internal features of  the  brain.2",
+      "text": "Many  have  complained that  even  if Putnam and  Burge are  right  about the  externality of  content, it  is  not  clear that  these  external aspects play  a causal  or  explanatory role  in  the  generation of action.  In  counterfactual cases  where  internal structure is held  constant but  these  external features are  changed, behaviour looks  just the  same; so  internal structure seems  to be  doing the  crucial work.  We  will  not  adjudicate that  issue here,  but  we note  that  active  externalism is not  threatened by any  such  problem. The external features in a  coupled  system  play  an ineliminable role  -  if we retain internal structure but  change the  external features, behaviour may change completely. The  external features here  are just  as  causally relevant as  typical internal features of  the  brain.2"
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.28,
+            "t": 204.01601464843748,
+            "r": 385.104,
+            "b": 164.77601464843752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            220
+          ]
+        }
+      ],
+      "orig": "By  embracing an  active externalism, we allow  a more  natural explanation of all sorts  of actions.  Once  can  explain  my  choice  of words  in Scrabble, for  example, as the  outcome of an extended cognitive process",
+      "text": "By  embracing an  active externalism, we allow  a more  natural explanation of all sorts  of actions.  Once  can  explain  my  choice  of words  in Scrabble, for  example, as the  outcome of an extended cognitive process"
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 59.28,
+            "t": 159.60701464843748,
+            "r": 384.49,
+            "b": 71.13001464843751,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            685
+          ]
+        }
+      ],
+      "orig": "2  Much  of the  appeal  of externalism in the  philosophy of mind  may  stem  from  the intuitive appeal  of active  externalism. Externalists often  make  analogies involving external features in  coupled  systems, and  appeal to the  arbitrariness of boundaries between  brain  and  environment. But  these  intuitions sit  uneasily with  the letter  of standard externalism. In most  of the  Putnam/Burge cases,  the immediate environment  is  irrelevant; only  the  historical environment counts.  Debate has  focused on  the question of  whether mind  must  be  in  the  head, but  a  more  relevant question in  assessing  these  examples might  be:  is  mind  in  the  present?",
+      "text": "2  Much  of the  appeal  of externalism in the  philosophy of mind  may  stem  from  the intuitive appeal  of active  externalism. Externalists often  make  analogies involving external features in  coupled  systems, and  appeal to the  arbitrariness of boundaries between  brain  and  environment. But  these  intuitions sit  uneasily with  the letter  of standard externalism. In most  of the  Putnam/Burge cases,  the immediate environment  is  irrelevant; only  the  historical environment counts.  Debate has  focused on  the question of  whether mind  must  be  in  the  head, but  a  more  relevant question in  assessing  these  examples might  be:  is  mind  in  the  present?"
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.88,
+            "t": 621.7640146484375,
+            "r": 68.216,
+            "b": 614.5640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "IO",
+      "text": "IO"
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 77.16,
+            "t": 621.7640146484375,
+            "r": 221.744,
+            "b": 614.5640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "ANDY CLARK & DAVID CHALMERS",
+      "text": "ANDY CLARK & DAVID CHALMERS"
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.74,
+            "t": 603.9160146484376,
+            "r": 389.064,
+            "b": 528.6160146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            498
+          ]
+        }
+      ],
+      "orig": "involving the  rearrangement of  tiles on  my  tray. Of  course, one  could  always try  to  explain my  action in  terms of internal processes and  a  long  series of 'inputs' and  'actions', but  this  explanation would  be  needlessly complex. If an  isomorphic process were  going on  in  the  head, we  would  feel  no  urge to characterize it  in  this  cumbersome way.  In  a  very real  sense, the  re-arrangement  of tiles  on  the  tray is  not  part of  action; it  is  part of  thought.",
+      "text": "involving the  rearrangement of  tiles on  my  tray. Of  course, one  could  always try  to  explain my  action in  terms of internal processes and  a  long  series of 'inputs' and  'actions', but  this  explanation would  be  needlessly complex. If an  isomorphic process were  going on  in  the  head, we  would  feel  no  urge to characterize it  in  this  cumbersome way.  In  a  very real  sense, the  re-arrangement  of tiles  on  the  tray is  not  part of  action; it  is  part of  thought."
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.68,
+            "t": 379.0960146484375,
+            "r": 383.832,
+            "b": 265.69601464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            713
+          ]
+        }
+      ],
+      "orig": "Some  find  this  sort  of  externalism unpalatable. One  reason may  be  that many  identify the  cognitive with  the  conscious, and  it  seems far  from plausible  that  consciousness extends  outside the  head  in these  cases.  But  not every cognitive process, at  least  on  standard usage, is  a  conscious process. It is  widely  accepted that  all sorts  of  processes beyond  the borders of consciousness play  a  crucial role  in  cognitive processing: in  the  retrieval of memories, linguistic processes, and  skill  acquisition, for  example. So  the mere  fact  that  external processes are  external where consciousness is  internal  is  no  reason to  deny that  those  processes are  cognitive.",
+      "text": "Some  find  this  sort  of  externalism unpalatable. One  reason may  be  that many  identify the  cognitive with  the  conscious, and  it  seems far  from plausible  that  consciousness extends  outside the  head  in these  cases.  But  not every cognitive process, at  least  on  standard usage, is  a  conscious process. It is  widely  accepted that  all sorts  of  processes beyond  the borders of consciousness play  a  crucial role  in  cognitive processing: in  the  retrieval of memories, linguistic processes, and  skill  acquisition, for  example. So  the mere  fact  that  external processes are  external where consciousness is  internal  is  no  reason to  deny that  those  processes are  cognitive."
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.68,
+            "t": 529.2160146484375,
+            "r": 390.348,
+            "b": 378.6160146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            925
+          ]
+        }
+      ],
+      "orig": "The  view  we  advocate here  is  reflected by  a  growing body  of  research in cognitive science. In areas  as diverse as the  theory of situated cognition (Suchman 1987),  studies  of real-world-robotics (Beer  1989),  dynamical approaches to child  development (Thelen and  Smith 1994),  and  research on  the  cognitive properties of  collectives of  agents (Hutchins 1995),  cognition  is often  taken  to be  continuous with  processes in  the  environment.3 Thus,  in  seeing cognition as  extended one  is  not  merely making a  terminological  decision; it makes  a  significant difference to the  methodology of scientific investigation. In  effect,  explanatory methods  that  might  once have  been  thought appropriate only  for  the  analysis of  'inner' processes are now  being  adapted for  the  study of  the  outer, and  there is  promise that  our understanding of  cognition will  become richer for  it.",
+      "text": "The  view  we  advocate here  is  reflected by  a  growing body  of  research in cognitive science. In areas  as diverse as the  theory of situated cognition (Suchman 1987),  studies  of real-world-robotics (Beer  1989),  dynamical approaches to child  development (Thelen and  Smith 1994),  and  research on  the  cognitive properties of  collectives of  agents (Hutchins 1995),  cognition  is often  taken  to be  continuous with  processes in  the  environment.3 Thus,  in  seeing cognition as  extended one  is  not  merely making a  terminological  decision; it makes  a  significant difference to the  methodology of scientific investigation. In  effect,  explanatory methods  that  might  once have  been  thought appropriate only  for  the  analysis of  'inner' processes are now  being  adapted for  the  study of  the  outer, and  there is  promise that  our understanding of  cognition will  become richer for  it."
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.5,
+            "t": 266.6560146484375,
+            "r": 384.828,
+            "b": 168.4960146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            596
+          ]
+        }
+      ],
+      "orig": "More  interestingly, one  might argue that  what  keeps real  cognition processes  in  the  head  is the  requirement that  cognitive processes be  portable. Here,  we  are  moved by  a  vision of  what might  be  called the  Naked  Mind: a  package of resources and  operations we can  always  bring to bear  on a cognitive task,  regardless of  the  local  environment. On  this  view, the  trouble with  coupled systems is  that they  are  too  easily decoupled. The  true cognitive  processes are  those that  lie  at  the  constant core  of  the  system; anything else  is  an  add-on extra.",
+      "text": "More  interestingly, one  might argue that  what  keeps real  cognition processes  in  the  head  is the  requirement that  cognitive processes be  portable. Here,  we  are  moved by  a  vision of  what might  be  called the  Naked  Mind: a  package of resources and  operations we can  always  bring to bear  on a cognitive task,  regardless of  the  local  environment. On  this  view, the  trouble with  coupled systems is  that they  are  too  easily decoupled. The  true cognitive  processes are  those that  lie  at  the  constant core  of  the  system; anything else  is  an  add-on extra."
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.38,
+            "t": 167.4160146484375,
+            "r": 382.896,
+            "b": 104.17601464843756,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            393
+          ]
+        }
+      ],
+      "orig": "There  is  something to this  objection. The brain  (or  brain  and  body) comprises a  package of  basic, portable, cognitive resources that  is  of  interest  in  its  own  right. These  resources may  incorporate bodily  actions into cognitive processes, as  when  we use  our  fingers as  working  memory in a tricky calculation, but  they will  not  encompass the  more contingent aspects",
+      "text": "There  is  something to this  objection. The brain  (or  brain  and  body) comprises a  package of  basic, portable, cognitive resources that  is  of  interest  in  its  own  right. These  resources may  incorporate bodily  actions into cognitive processes, as  when  we use  our  fingers as  working  memory in a tricky calculation, but  they will  not  encompass the  more contingent aspects"
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 58.68,
+            "t": 95.43001464843746,
+            "r": 383.51,
+            "b": 74.37001464843752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            141
+          ]
+        }
+      ],
+      "orig": "3  Philosophical views  of  a  similar spirit can  be  found  in  Haugeland 1995,  McClamrock 1995,  Varela et al.  1991,  and  Wilson  1994.",
+      "text": "3  Philosophical views  of  a  similar spirit can  be  found  in  Haugeland 1995,  McClamrock 1995,  Varela et al.  1991,  and  Wilson  1994."
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 262.08,
+            "t": 621.6440146484375,
+            "r": 354.456,
+            "b": 614.2640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED  MIND",
+      "text": "THE EXTENDED  MIND"
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 365.1,
+            "t": 621.0440146484375,
+            "r": 373.324,
+            "b": 613.8440146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "II",
+      "text": "II"
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 55.68,
+            "t": 603.1360146484375,
+            "r": 384.432,
+            "b": 527.6560146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            449
+          ]
+        }
+      ],
+      "orig": "of  our  external environment, such  as  a  pocket calculator. Still, mere  contingency  of  coupling does  not  rule  out  cognitive status. In  the  distant future we  may  be  able  to  plug  various modules  into  our  brain to  help  us out:  a module for  extra  short-term memory when  we  need  it,  for  example. When a  module is  plugged in,  the  processes involving it  are  just  as  cognitive as  if they  had  been there  all  along.",
+      "text": "of  our  external environment, such  as  a  pocket calculator. Still, mere  contingency  of  coupling does  not  rule  out  cognitive status. In  the  distant future we  may  be  able  to  plug  various modules  into  our  brain to  help  us out:  a module for  extra  short-term memory when  we  need  it,  for  example. When a  module is  plugged in,  the  processes involving it  are  just  as  cognitive as  if they  had  been there  all  along."
+    },
+    {
+      "self_ref": "#/texts/60",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 55.68,
+            "t": 303.4960146484375,
+            "r": 388.62,
+            "b": 128.89601464843747,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1073
+          ]
+        }
+      ],
+      "orig": "Moreover, it  may  be  that  the  biological brain  has  in fact  evolved  and matured in  ways  which  factor  in the  reliable presence of a  manipulable external environment. It  certainly seems  that  evolution has  favoured onboard capacities which  are  especially geared to  parasitizing the  local  environment so  as  to  reduce memory load,  and  even  to  transform the  nature of the  computational problems themselves. Our  visual systems have  evolved to  rely  on  their  environment in  various ways: they  exploit  contingent facts about  the  structure of  natural scenes (e.g.  Ullman and  Richards 1984),  for example, and  they  take  advantage of  the  computational short cuts  afforded by bodily motion  and  locomotion (e.g.  Blake and  Yuille,  1992).  Perhaps there are  other cases  where evolution has  found  it  advantageous to  exploit the  possibility of the  environment being  in  the  cognitive loop.  If  so,  then external coupling is  part of the  truly  basic  package of  cognitive resources that  we  bring to bear  on  the  world.",
+      "text": "Moreover, it  may  be  that  the  biological brain  has  in fact  evolved  and matured in  ways  which  factor  in the  reliable presence of a  manipulable external environment. It  certainly seems  that  evolution has  favoured onboard capacities which  are  especially geared to  parasitizing the  local  environment so  as  to  reduce memory load,  and  even  to  transform the  nature of the  computational problems themselves. Our  visual systems have  evolved to  rely  on  their  environment in  various ways: they  exploit  contingent facts about  the  structure of  natural scenes (e.g.  Ullman and  Richards 1984),  for example, and  they  take  advantage of  the  computational short cuts  afforded by bodily motion  and  locomotion (e.g.  Blake and  Yuille,  1992).  Perhaps there are  other cases  where evolution has  found  it  advantageous to  exploit the  possibility of the  environment being  in  the  cognitive loop.  If  so,  then external coupling is  part of the  truly  basic  package of  cognitive resources that  we  bring to bear  on  the  world."
+    },
+    {
+      "self_ref": "#/texts/61",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 55.86,
+            "t": 528.2560146484375,
+            "r": 388.104,
+            "b": 302.0560146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1427
+          ]
+        }
+      ],
+      "orig": "Even  if one  were  to make  the  portability criterion pivotal, active externalism  would  not be undermined. Counting on our  fingers has  already been  let in the  door,  for  example, and  it is  easy  to  push  things  further. Think  of the  old  image of the  engineer with  a slide  rule  hanging from  his belt  wherever he  goes.  What  if  people  always carried a  pocket  calculator, or  had  them  implanted? The  real  moral of the  portability intuition is  that for  coupled  systems  to  be relevant to  the core of  cognition,  reliable coupling is  required. It  happens that  most  reliable coupling takes  place within the  brain, but  there can  easily be  reliable coupling with  the  environment  as  well.  If  the  resources of  my  calculator or  my  Filofax  are  always there  when  I need  them,  then  they  are  coupled with  me  as  reliably as  we need.  In  effect, they  are  part  of the  basic  package of  cognitive resources that I  bring  to bear  on the  everyday world.  These  systems cannot  be impugned simply  on the  basis  of the  danger of discrete damage, loss,  or malfunction, or  because of  any  occasional decoupling: the  biological brain is  in  similar  danger,  and  occasionally loses  capacities  temporarily in episodes of  sleep,  intoxication, and  emotion. If  the  relevant capacities are generally there  when  they  are  required, this  is  coupling enough.",
+      "text": "Even  if one  were  to make  the  portability criterion pivotal, active externalism  would  not be undermined. Counting on our  fingers has  already been  let in the  door,  for  example, and  it is  easy  to  push  things  further. Think  of the  old  image of the  engineer with  a slide  rule  hanging from  his belt  wherever he  goes.  What  if  people  always carried a  pocket  calculator, or  had  them  implanted? The  real  moral of the  portability intuition is  that for  coupled  systems  to  be relevant to  the core of  cognition,  reliable coupling is  required. It  happens that  most  reliable coupling takes  place within the  brain, but  there can  easily be  reliable coupling with  the  environment  as  well.  If  the  resources of  my  calculator or  my  Filofax  are  always there  when  I need  them,  then  they  are  coupled with  me  as  reliably as  we need.  In  effect, they  are  part  of the  basic  package of  cognitive resources that I  bring  to bear  on the  everyday world.  These  systems cannot  be impugned simply  on the  basis  of the  danger of discrete damage, loss,  or malfunction, or  because of  any  occasional decoupling: the  biological brain is  in  similar  danger,  and  occasionally loses  capacities  temporarily in episodes of  sleep,  intoxication, and  emotion. If  the  relevant capacities are generally there  when  they  are  required, this  is  coupling enough."
+    },
+    {
+      "self_ref": "#/texts/62",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.1,
+            "t": 129.4960146484375,
+            "r": 383.544,
+            "b": 77.8130146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            306
+          ]
+        }
+      ],
+      "orig": "Another example may  be  language, which  appears to be  a  central means by  which cognitive processes are  extended into  the  world. Think  of  a  group of  people  brainstorming around a  table,  or  a  philosopher who  thinks best by writing, developing  her ideas as she goes. It may be that language",
+      "text": "Another example may  be  language, which  appears to be  a  central means by  which cognitive processes are  extended into  the  world. Think  of  a  group of  people  brainstorming around a  table,  or  a  philosopher who  thinks best by writing, developing  her ideas as she goes. It may be that language"
+    },
+    {
+      "self_ref": "#/texts/63",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/64",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 57.0,
+            "t": 622.0040146484375,
+            "r": 67.0,
+            "b": 614.8040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "12",
+      "text": "12"
+    },
+    {
+      "self_ref": "#/texts/65",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 77.28,
+            "t": 621.9440146484375,
+            "r": 221.984,
+            "b": 614.6840146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "ANDY CLARK & DAVID CHALMERS",
+      "text": "ANDY CLARK & DAVID CHALMERS"
+    },
+    {
+      "self_ref": "#/texts/66",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.8,
+            "t": 603.7360146484375,
+            "r": 386.328,
+            "b": 578.5360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            111
+          ]
+        }
+      ],
+      "orig": "evolved,  in  part,  to enable  such  extensions of our  cognitive  resources within  actively coupled systems.",
+      "text": "evolved,  in  part,  to enable  such  extensions of our  cognitive  resources within  actively coupled systems."
+    },
+    {
+      "self_ref": "#/texts/67",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.74,
+            "t": 578.8960146484375,
+            "r": 388.368,
+            "b": 453.3760146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            788
+          ]
+        }
+      ],
+      "orig": "Within  the  lifetime of an  organism, too,  individual learning may  have moulded  the  brain in  ways  that  rely  on  cognitive  extensions  that surrounded us  as  we  learned. Language is  again a  central example here,  as are  the  various physical and  computational artifacts that  are  routinely used as  cognitive extensions by  children in  schools and  by  trainees in  numerous professions. In  such  cases  the  brain develops in a  way  that  complements the  external structures, and  learns to  play its  role  within a  unified, densely coupled system. Once  we  recognize that  the  crucial role  of  the  environment in  constraining the  evolution and  development of  cognition, we see  that extended cognition is  a  core  cognitive process, not  an  add-on extra.",
+      "text": "Within  the  lifetime of an  organism, too,  individual learning may  have moulded  the  brain in  ways  that  rely  on  cognitive  extensions  that surrounded us  as  we  learned. Language is  again a  central example here,  as are  the  various physical and  computational artifacts that  are  routinely used as  cognitive extensions by  children in  schools and  by  trainees in  numerous professions. In  such  cases  the  brain develops in a  way  that  complements the  external structures, and  learns to  play its  role  within a  unified, densely coupled system. Once  we  recognize that  the  crucial role  of  the  environment in  constraining the  evolution and  development of  cognition, we see  that extended cognition is  a  core  cognitive process, not  an  add-on extra."
+    },
+    {
+      "self_ref": "#/texts/68",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.98,
+            "t": 439.8160146484375,
+            "r": 181.356,
+            "b": 426.7360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            26
+          ]
+        }
+      ],
+      "orig": "4.  From cognition to mind",
+      "text": "4.  From cognition to mind",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/69",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.68,
+            "t": 423.01601464843753,
+            "r": 385.62,
+            "b": 335.7760146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            534
+          ]
+        }
+      ],
+      "orig": "So  far  we  have  spoken largely about  'cognitive processing', and  argued for its  extension into  the  environment. Some  might think  that  the  conclusion has  been  bought too  cheaply. Perhaps some  processing takes  place  in  the environment, but  what  of  mind? Everything we  have  said  so  far  is  compatible  with  the  view  that  truly mental  states -  experiences, beliefs, desires, emotions, and  so on  -  are  all  determined by  states  of the  brain.  Perhaps what  is  truly  mental is  internal, after all?",
+      "text": "So  far  we  have  spoken largely about  'cognitive processing', and  argued for its  extension into  the  environment. Some  might think  that  the  conclusion has  been  bought too  cheaply. Perhaps some  processing takes  place  in  the environment, but  what  of  mind? Everything we  have  said  so  far  is  compatible  with  the  view  that  truly mental  states -  experiences, beliefs, desires, emotions, and  so on  -  are  all  determined by  states  of the  brain.  Perhaps what  is  truly  mental is  internal, after all?"
+    },
+    {
+      "self_ref": "#/texts/70",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.8,
+            "t": 336.13601464843754,
+            "r": 388.488,
+            "b": 261.9760146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            454
+          ]
+        }
+      ],
+      "orig": "We  propose to  take  things a  step  further. While  some  mental states, such as  experiences, may  be  determined internally, there are  other cases in  which external factors  make  a  significant contribution. In  particular, we will argue that  beliefs can  be  constituted partly by  features of  the  environment, when  those  features play  the  right sort  of role  in  driving cognitive processes. If  so,  the  mind  extends into  the  world.",
+      "text": "We  propose to  take  things a  step  further. While  some  mental states, such as  experiences, may  be  determined internally, there are  other cases in  which external factors  make  a  significant contribution. In  particular, we will argue that  beliefs can  be  constituted partly by  features of  the  environment, when  those  features play  the  right sort  of role  in  driving cognitive processes. If  so,  the  mind  extends into  the  world."
+    },
+    {
+      "self_ref": "#/texts/71",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.68,
+            "t": 260.7760146484375,
+            "r": 384.372,
+            "b": 160.93601464843755,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            634
+          ]
+        }
+      ],
+      "orig": "First, consider a normal case  of  belief  embedded in  memory. Inga  hears from  a  friend that  there is  an  exhibition at  the  Museum of  Modern Art,  and decides to  go  see  it.  She  thinks for  a  moment and  recalls that  the  museum is  on  53rd  Street, so  she  walks to 53rd  Street and  goes  into  the  museum. It seems  clear that  Inga  believes that  the  museum is  on  53rd  Street, and  that she  believed this  even  before she  consulted her  memory. It  was  not  previously  an occurrent belief,  but  then  neither are  most  of our  beliefs.  The belief  was  somewhere in  memory, waiting to be  accessed.",
+      "text": "First, consider a normal case  of  belief  embedded in  memory. Inga  hears from  a  friend that  there is  an  exhibition at  the  Museum of  Modern Art,  and decides to  go  see  it.  She  thinks for  a  moment and  recalls that  the  museum is  on  53rd  Street, so  she  walks to 53rd  Street and  goes  into  the  museum. It seems  clear that  Inga  believes that  the  museum is  on  53rd  Street, and  that she  believed this  even  before she  consulted her  memory. It  was  not  previously  an occurrent belief,  but  then  neither are  most  of our  beliefs.  The belief  was  somewhere in  memory, waiting to be  accessed."
+    },
+    {
+      "self_ref": "#/texts/72",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.68,
+            "t": 161.89601464843747,
+            "r": 383.4,
+            "b": 75.47301464843747,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            542
+          ]
+        }
+      ],
+      "orig": "Now consider  Otto. Otto suffers  from  Alzheimer's disease,  and  like many  Alzheimer's patients, he  relies on  information in  the  environment to help  structure his life.  Otto  carries a notebook  around with  him  everywhere  he  goes.  When  he  learns new  information, he  writes it  down.  When he needs  some  old information, he looks  it up.  For  Otto,  his  notebook plays  the role  usually  played  by a biological  memory.  Today,  Otto hears about  the exhibition  at the  Museum  of Modern  Art,  and  decides  to go see",
+      "text": "Now consider  Otto. Otto suffers  from  Alzheimer's disease,  and  like many  Alzheimer's patients, he  relies on  information in  the  environment to help  structure his life.  Otto  carries a notebook  around with  him  everywhere  he  goes.  When  he  learns new  information, he  writes it  down.  When he needs  some  old information, he looks  it up.  For  Otto,  his  notebook plays  the role  usually  played  by a biological  memory.  Today,  Otto hears about  the exhibition  at the  Museum  of Modern  Art,  and  decides  to go see"
+    },
+    {
+      "self_ref": "#/texts/73",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/74",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 262.32,
+            "t": 621.0440146484375,
+            "r": 354.636,
+            "b": 613.6640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED  MIND",
+      "text": "THE EXTENDED  MIND"
+    },
+    {
+      "self_ref": "#/texts/75",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 365.28,
+            "t": 619.5440146484375,
+            "r": 375.28,
+            "b": 612.3440146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "13",
+      "text": "13"
+    },
+    {
+      "self_ref": "#/texts/76",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 56.04,
+            "t": 602.8130146484375,
+            "r": 382.194,
+            "b": 579.4730146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            144
+          ]
+        }
+      ],
+      "orig": "it.  He  consults  the  notebook,  which  says  that  the  museum is  on 53rd  Street, so he walks  to 53rd Street  and  goes  into the  museum.",
+      "text": "it.  He  consults  the  notebook,  which  says  that  the  museum is  on 53rd  Street, so he walks  to 53rd Street  and  goes  into the  museum."
+    },
+    {
+      "self_ref": "#/texts/77",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 55.98,
+            "t": 576.0530146484375,
+            "r": 382.791,
+            "b": 467.5130146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            667
+          ]
+        }
+      ],
+      "orig": "Clearly,  Otto walked to  53rd Street  because  he wanted to  go  to  the museum  and  he believed  the  museum  was on 53rd  Street.  And  just  as  Inga had her belief  even before  she consulted  her  memory,  it seems  reasonable to  say  that Otto believed  the museum  was on 53rd Street  even before consulting his  notebook.  For  in  relevant respects the  cases  are  entirely  analogous:  the notebook  plays  for Otto the same  role  that  memory  plays  for Inga.  The information  in the notebook  functions  just  like  the information constituting  an  ordinary  non-occurrent  belief;  it  just happens  that this information  lies  beyond  the skin.",
+      "text": "Clearly,  Otto walked to  53rd Street  because  he wanted to  go  to  the museum  and  he believed  the  museum  was on 53rd  Street.  And  just  as  Inga had her belief  even before  she consulted  her  memory,  it seems  reasonable to  say  that Otto believed  the museum  was on 53rd Street  even before consulting his  notebook.  For  in  relevant respects the  cases  are  entirely  analogous:  the notebook  plays  for Otto the same  role  that  memory  plays  for Inga.  The information  in the notebook  functions  just  like  the information constituting  an  ordinary  non-occurrent  belief;  it  just happens  that this information  lies  beyond  the skin."
+    },
+    {
+      "self_ref": "#/texts/78",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 55.92,
+            "t": 465.65301464843753,
+            "r": 381.029,
+            "b": 293.15301464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1081
+          ]
+        }
+      ],
+      "orig": "The  alternative is to  say  that  Otto  has  no belief  about  the  matter  until  he consults  his  notebook;  at  best,  he  believes that  the  museum  is located  at  the address  in the  notebook.  But  if we follow Otto around  for a  while,  we will see how unnatural  this  way  of  speaking  is. Otto is  constantly  using  his notebook as a matter  of course.  It is central  to his actions  in all sorts of contexts,  in the  way  that  an  ordinary memory  is central  in an  ordinary life. The same information  might  come  up again  and  again, perhaps  being slightly  modified  on  occasion,  before  retreating into  the  recesses of his  artificial  memory. To  say  that  the beliefs  disappear when the notebook  is filed away  seems to miss the  big picture  in  just  the same  way  as  saying  that Inga's beliefs  disappear as soon as she  is  longer  conscious  of them.  In  both cases  the  information is  reliably there  when  needed,  available to consciousness and available  to  guide  action,  in  just  the  way  that we  expect  a belief to be.",
+      "text": "The  alternative is to  say  that  Otto  has  no belief  about  the  matter  until  he consults  his  notebook;  at  best,  he  believes that  the  museum  is located  at  the address  in the  notebook.  But  if we follow Otto around  for a  while,  we will see how unnatural  this  way  of  speaking  is. Otto is  constantly  using  his notebook as a matter  of course.  It is central  to his actions  in all sorts of contexts,  in the  way  that  an  ordinary memory  is central  in an  ordinary life. The same information  might  come  up again  and  again, perhaps  being slightly  modified  on  occasion,  before  retreating into  the  recesses of his  artificial  memory. To  say  that  the beliefs  disappear when the notebook  is filed away  seems to miss the  big picture  in  just  the same  way  as  saying  that Inga's beliefs  disappear as soon as she  is  longer  conscious  of them.  In  both cases  the  information is  reliably there  when  needed,  available to consciousness and available  to  guide  action,  in  just  the  way  that we  expect  a belief to be."
+    },
+    {
+      "self_ref": "#/texts/79",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 55.26,
+            "t": 290.21301464843754,
+            "r": 381.111,
+            "b": 78.3900146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1372
+          ]
+        }
+      ],
+      "orig": "Certainly, insofar  as beliefs  and  desires  are  characterized by  their  explanatory  roles,  Otto's  and  Inga's cases  seem  to be  on a  par: the essential  causal dynamics  of the two cases mirror  each other  precisely. We are  happy  to explain  Inga's action  in terms  of her  occurrent desire  to  go  to the  museum and her  standing  belief  that  the museum  is on 53rd  street,  and  we should be  happy  to  explain  Otto's  action  in the same  way.  The alternative  is to explain  Otto's  action  in  terms  of his  occurrent desire  to  go  to the  museum, his  standing  belief  that  the Museum  is on the location  written  in the notebook, and the accessible  fact that the notebook  says  the Museum  is on 53rd  Street; but  this  complicates the  explanation  unnecessarily. If  we must resort  to  explaining Otto's  action  this  way,  then  we must  also  do so for  the countless  other actions  in which his notebook is  involved;  in each of the explanations,  there will  be an extra term  involving  the notebook. We submit  that to  explain  things  this  way  is to take one  step  too  many.  It is pointlessly  complex,  in the same  way  that  it would  be  pointlessly  complex to  explain  Inga's actions  in terms of  beliefs about her  memory. The notebook is a constant for Otto,  in the same way that memory is a constant for",
+      "text": "Certainly, insofar  as beliefs  and  desires  are  characterized by  their  explanatory  roles,  Otto's  and  Inga's cases  seem  to be  on a  par: the essential  causal dynamics  of the two cases mirror  each other  precisely. We are  happy  to explain  Inga's action  in terms  of her  occurrent desire  to  go  to the  museum and her  standing  belief  that  the museum  is on 53rd  street,  and  we should be  happy  to  explain  Otto's  action  in the same  way.  The alternative  is to explain  Otto's  action  in  terms  of his  occurrent desire  to  go  to the  museum, his  standing  belief  that  the Museum  is on the location  written  in the notebook, and the accessible  fact that the notebook  says  the Museum  is on 53rd  Street; but  this  complicates the  explanation  unnecessarily. If  we must resort  to  explaining Otto's  action  this  way,  then  we must  also  do so for  the countless  other actions  in which his notebook is  involved;  in each of the explanations,  there will  be an extra term  involving  the notebook. We submit  that to  explain  things  this  way  is to take one  step  too  many.  It is pointlessly  complex,  in the same  way  that  it would  be  pointlessly  complex to  explain  Inga's actions  in terms of  beliefs about her  memory. The notebook is a constant for Otto,  in the same way that memory is a constant for"
+    },
+    {
+      "self_ref": "#/texts/80",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 8,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/81",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 57.0,
+            "t": 622.6870146484375,
+            "r": 227.772,
+            "b": 612.5470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            32
+          ]
+        }
+      ],
+      "orig": "14 ANDY CLARK  & DAVID  CHALMERS",
+      "text": "14 ANDY CLARK  & DAVID  CHALMERS",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/82",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 56.04,
+            "t": 603.8560146484375,
+            "r": 387.372,
+            "b": 578.5360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            123
+          ]
+        }
+      ],
+      "orig": "Inga; to  point to it  in  every belief/desire explanation would  be  redundant. In  an  explanation, simplicity is  power.",
+      "text": "Inga; to  point to it  in  every belief/desire explanation would  be  redundant. In  an  explanation, simplicity is  power."
+    },
+    {
+      "self_ref": "#/texts/83",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 55.86,
+            "t": 491.6560146484375,
+            "r": 387.504,
+            "b": 352.9360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            876
+          ]
+        }
+      ],
+      "orig": "This  mirrors the  conclusion of Putnam and  Burge, but  again there  are important differences. In the  Putnam/Burge cases,  the external features constituting differences in belief are  distal  and  historical, so that  twins  in these  cases  produce physically indistinguishable behaviour. In  the  cases  we are  describing, the  relevant external features play  an  active role  in  the  hereand-now, and  have  a direct impact  on behaviour. Where  Otto  walks  to 53rd  Street, Twin  Otto  walks to 51st.  There is  no  question of  explanatory irrelevance for  this  sort  of  external belief content; it  is  introduced precisely because of the  central explanatory role  that  it  plays. Like  the  Putnam and Burge cases,  these  cases  involve differences in reference and  truth-conditions,  but  they  also  involve differences in  the  dynamics of  cognition.4",
+      "text": "This  mirrors the  conclusion of Putnam and  Burge, but  again there  are important differences. In the  Putnam/Burge cases,  the external features constituting differences in belief are  distal  and  historical, so that  twins  in these  cases  produce physically indistinguishable behaviour. In  the  cases  we are  describing, the  relevant external features play  an  active role  in  the  hereand-now, and  have  a direct impact  on behaviour. Where  Otto  walks  to 53rd  Street, Twin  Otto  walks to 51st.  There is  no  question of  explanatory irrelevance for  this  sort  of  external belief content; it  is  introduced precisely because of the  central explanatory role  that  it  plays. Like  the  Putnam and Burge cases,  these  cases  involve differences in reference and  truth-conditions,  but  they  also  involve differences in  the  dynamics of  cognition.4"
+    },
+    {
+      "self_ref": "#/texts/84",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 55.92,
+            "t": 579.1360146484375,
+            "r": 384.024,
+            "b": 491.2960146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            515
+          ]
+        }
+      ],
+      "orig": "If  this  is  right, we  can  even  construct the  case  of  Twin Otto,  who  is  just like  Otto  except that  a  while ago  he  mistakenly wrote  in  his  notebook that the Museum  of Modern Art  was on 51st  Street.  Today, Twin  Otto  is a physical  duplicate of Otto from  the skin  in,  but his notebook  differs. Consequently, Twin Otto is  best characterized as  believing that the museum is  on  51st  Street, where  Otto  believes it  is  on  53rd. In  these cases, a belief is  simply not  in  the  head.",
+      "text": "If  this  is  right, we  can  even  construct the  case  of  Twin Otto,  who  is  just like  Otto  except that  a  while ago  he  mistakenly wrote  in  his  notebook that the Museum  of Modern Art  was on 51st  Street.  Today, Twin  Otto  is a physical  duplicate of Otto from  the skin  in,  but his notebook  differs. Consequently, Twin Otto is  best characterized as  believing that the museum is  on  51st  Street, where  Otto  believes it  is  on  53rd. In  these cases, a belief is  simply not  in  the  head."
+    },
+    {
+      "self_ref": "#/texts/85",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 55.98,
+            "t": 354.2560146484375,
+            "r": 381.84,
+            "b": 303.3760146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            269
+          ]
+        }
+      ],
+      "orig": "The  moral is  that  when  it  comes to  belief, there is  nothing sacred about skull  and  skin.  What  makes some  information count  as  a belief is  the  role it  plays, and  there  is no reason why  the  relevant role  can  be  played  only from  inside the  body.",
+      "text": "The  moral is  that  when  it  comes to  belief, there is  nothing sacred about skull  and  skin.  What  makes some  information count  as  a belief is  the  role it  plays, and  there  is no reason why  the  relevant role  can  be  played  only from  inside the  body."
+    },
+    {
+      "self_ref": "#/texts/86",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 65.64,
+            "t": 166.93601464843755,
+            "r": 382.752,
+            "b": 153.3760146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "To  provide substantial resistance, an  opponent has  to show  that  Otto's",
+      "text": "To  provide substantial resistance, an  opponent has  to show  that  Otto's"
+    },
+    {
+      "self_ref": "#/texts/87",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 55.68,
+            "t": 303.8560146484375,
+            "r": 386.94,
+            "b": 166.09601464843752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            842
+          ]
+        }
+      ],
+      "orig": "Some  will  resist this  conclusion. An  opponent might  put  her  foot  down and  insist that  as  she  uses  the  term 'belief', or  perhaps even  according to standard usage, Otto  simply does  not  qualify as  believing that  the  museum is  on  53rd  Street. We  do  not  intend to debate what  is  standard usage; our broader point  is that  the  notion  of belief ought  to be used  so that  Otto qualifies as  having the  belief in  question. In  all  important respects, Otto's case  is  similar to a  standard case  of  (non-occurrent) belief. The  differences between  Otto's  case  and  Inga's are  striking, but  they  are  superficial. By using the  'belief' notion  in  a  wider way,  it  picks  out  something more  akin to a natural kind.  The  notion  becomes deeper and  more  unified, and  is more  useful in  explanation.",
+      "text": "Some  will  resist this  conclusion. An  opponent might  put  her  foot  down and  insist that  as  she  uses  the  term 'belief', or  perhaps even  according to standard usage, Otto  simply does  not  qualify as  believing that  the  museum is  on  53rd  Street. We  do  not  intend to debate what  is  standard usage; our broader point  is that  the  notion  of belief ought  to be used  so that  Otto qualifies as  having the  belief in  question. In  all  important respects, Otto's case  is  similar to a  standard case  of  (non-occurrent) belief. The  differences between  Otto's  case  and  Inga's are  striking, but  they  are  superficial. By using the  'belief' notion  in  a  wider way,  it  picks  out  something more  akin to a natural kind.  The  notion  becomes deeper and  more  unified, and  is more  useful in  explanation."
+    },
+    {
+      "self_ref": "#/texts/88",
+      "parent": {
+        "$ref": "#/groups/3"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 58.62,
+            "t": 141.21001464843755,
+            "r": 380.57,
+            "b": 79.41001464843748,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            487
+          ]
+        }
+      ],
+      "orig": "4  In  the  terminology of Chalmers (forthcoming): the  twins  in  the  Putnam and  Burge cases  differ only  in  their  relational content  (secondary intension), but  Otto  and  his twin  can  be  seen  to differ in  their  notional content  (primary intension), which  is the sort  of content  that  governs cognition. Notional  content  is  generally internal to a cognitive system, but  in  this  case  the  cognitive system is  itself effectively extended to include the  notebook.",
+      "text": "4  In  the  terminology of Chalmers (forthcoming): the  twins  in  the  Putnam and  Burge cases  differ only  in  their  relational content  (secondary intension), but  Otto  and  his twin  can  be  seen  to differ in  their  notional content  (primary intension), which  is the sort  of content  that  governs cognition. Notional  content  is  generally internal to a cognitive system, but  in  this  case  the  cognitive system is  itself effectively extended to include the  notebook.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/89",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 9,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/90",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 262.08,
+            "t": 620.6840146484375,
+            "r": 354.456,
+            "b": 613.3040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED  MIND",
+      "text": "THE EXTENDED  MIND"
+    },
+    {
+      "self_ref": "#/texts/91",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 364.98,
+            "t": 619.6040146484376,
+            "r": 374.98,
+            "b": 612.4040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "15",
+      "text": "15"
+    },
+    {
+      "self_ref": "#/texts/92",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 55.68,
+            "t": 602.6930146484375,
+            "r": 381.401,
+            "b": 527.9930146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            496
+          ]
+        }
+      ],
+      "orig": "and  Inga's cases  differ  in some  important and  relevant respect.  But  in  what deep  respect are  the  cases  different? To  make  the  case  solely  on  the  grounds that information  is in the head  in one case but not in the other  would be to  beg  the  question.  If  this  difference is relevant  to a difference in  belief,  it is  surely  not  primitively  relevant.  To  justify  the different  treatment,  we must  find  some  more  basic  underlying difference  between  the  two.",
+      "text": "and  Inga's cases  differ  in some  important and  relevant respect.  But  in  what deep  respect are  the  cases  different? To  make  the  case  solely  on  the  grounds that information  is in the head  in one case but not in the other  would be to  beg  the  question.  If  this  difference is relevant  to a difference in  belief,  it is  surely  not  primitively  relevant.  To  justify  the different  treatment,  we must  find  some  more  basic  underlying difference  between  the  two."
+    },
+    {
+      "self_ref": "#/texts/93",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 55.8,
+            "t": 527.9330146484375,
+            "r": 380.72,
+            "b": 390.71301464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            897
+          ]
+        }
+      ],
+      "orig": "It  might  be  suggested that  the cases  are  relevantly different  in that  Inga has more  reliable  access  to the information. After  all,  someone  might  take away  Otto's  notebook at  any time,  but  Inga's  memory  is safer.  It is not implausible  that  constancy  is relevant:  indeed,  the fact that Otto  always uses  his notebook  played  some  role  in our  justifying its  cognitive  status.  If Otto were  consulting  a  guidebook  as a  one-off,  we would be much less likely  to ascribe  him  a  standing belief.  But  in  the  original case,  Otto's  access to the notebook  is  very  reliable -  not  perfectly reliable, to be  sure,  but  then neither  is  Inga's  access  to her  memory. A  surgeon  might  tamper  with her brain,  or more  mundanely, she  might  have  too much  to drink.  The mere possibility  of such  tampering is not  enough  to  deny  her  the belief.",
+      "text": "It  might  be  suggested that  the cases  are  relevantly different  in that  Inga has more  reliable  access  to the information. After  all,  someone  might  take away  Otto's  notebook at  any time,  but  Inga's  memory  is safer.  It is not implausible  that  constancy  is relevant:  indeed,  the fact that Otto  always uses  his notebook  played  some  role  in our  justifying its  cognitive  status.  If Otto were  consulting  a  guidebook  as a  one-off,  we would be much less likely  to ascribe  him  a  standing belief.  But  in  the  original case,  Otto's  access to the notebook  is  very  reliable -  not  perfectly reliable, to be  sure,  but  then neither  is  Inga's  access  to her  memory. A  surgeon  might  tamper  with her brain,  or more  mundanely, she  might  have  too much  to drink.  The mere possibility  of such  tampering is not  enough  to  deny  her  the belief."
+    },
+    {
+      "self_ref": "#/texts/94",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 55.68,
+            "t": 390.8930146484375,
+            "r": 380.174,
+            "b": 228.71301464843748,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1016
+          ]
+        }
+      ],
+      "orig": "One  might  worry  that Otto's  access  to his notebook  in  fact  comes and goes.  He showers  without  the  notebook,  for  example,  and  he cannot  read it when  it is dark.  Surely his belief  cannot  come  and  go  so  easily?  We could get  around  this  problem  by redescribing the  situation,  but in  any  case an occasional  temporary disconnection  does  not threaten our  claim.  After  all, when  Inga  is  asleep,  or when she is  intoxicated,  we do not  say  that her belief  disappears. What  really  counts  is that  the  information is  easily  available  when  the  subject needs  it,  and  this  constraint is satisfied equally  in  the two cases.  If  Otto's  notebook  were  often  unavailable to him  at  times  when the information  in it would be  useful,  there  might  be a  problem,  as the information  would not  be able to  play  the  action-guiding  role that is central  to  belief;  but  if it is  easily  available  in most relevant  situations,  the belief  is not  endangered.",
+      "text": "One  might  worry  that Otto's  access  to his notebook  in  fact  comes and goes.  He showers  without  the  notebook,  for  example,  and  he cannot  read it when  it is dark.  Surely his belief  cannot  come  and  go  so  easily?  We could get  around  this  problem  by redescribing the  situation,  but in  any  case an occasional  temporary disconnection  does  not threaten our  claim.  After  all, when  Inga  is  asleep,  or when she is  intoxicated,  we do not  say  that her belief  disappears. What  really  counts  is that  the  information is  easily  available  when  the  subject needs  it,  and  this  constraint is satisfied equally  in  the two cases.  If  Otto's  notebook  were  often  unavailable to him  at  times  when the information  in it would be  useful,  there  might  be a  problem,  as the information  would not  be able to  play  the  action-guiding  role that is central  to  belief;  but  if it is  easily  available  in most relevant  situations,  the belief  is not  endangered."
+    },
+    {
+      "self_ref": "#/texts/95",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 55.02,
+            "t": 226.4930146484375,
+            "r": 383.242,
+            "b": 78.5100146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            967
+          ]
+        }
+      ],
+      "orig": "Perhaps  a difference  is that  Inga  has better  access  to the information than Otto does?  Inga's  'central' processes  and  her  memory  probably  have a  relatively  high-bandwidth link  between  them,  compared to the  low-grade connection  between  Otto and  his notebook.  But  this alone  does not make a difference between  believing and  not  believing. Consider  Inga's  museumgoing  friend  Lucy,  whose  biological  memory  has  only  a  low-grade  link  to her central  systems,  due to  nonstandard biology  or  past  misadventures. Processing in  Lucy's case  might  be  less  efficient, but as  long  as  the relevant information  is  accessible, Lucy  clearly  believes  that  the  museum  is on 53rd Street.  If  the connection  was too indirect -  if  Lucy  had  to  struggle hard  to retrieve the  information with  mixed  results,  or  a  psychotherapist's aid  were needed -  we  might  become more reluctant to  ascribe the  belief,  but such",
+      "text": "Perhaps  a difference  is that  Inga  has better  access  to the information than Otto does?  Inga's  'central' processes  and  her  memory  probably  have a  relatively  high-bandwidth link  between  them,  compared to the  low-grade connection  between  Otto and  his notebook.  But  this alone  does not make a difference between  believing and  not  believing. Consider  Inga's  museumgoing  friend  Lucy,  whose  biological  memory  has  only  a  low-grade  link  to her central  systems,  due to  nonstandard biology  or  past  misadventures. Processing in  Lucy's case  might  be  less  efficient, but as  long  as  the relevant information  is  accessible, Lucy  clearly  believes  that  the  museum  is on 53rd Street.  If  the connection  was too indirect -  if  Lucy  had  to  struggle hard  to retrieve the  information with  mixed  results,  or  a  psychotherapist's aid  were needed -  we  might  become more reluctant to  ascribe the  belief,  but such"
+    },
+    {
+      "self_ref": "#/texts/96",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 10,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/97",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 56.64,
+            "t": 622.0040146484375,
+            "r": 66.64,
+            "b": 614.8040146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "16",
+      "text": "16"
+    },
+    {
+      "self_ref": "#/texts/98",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 76.8,
+            "t": 622.0040146484375,
+            "r": 221.504,
+            "b": 614.6840146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "ANDY CLARK & DAVID CHALMERS",
+      "text": "ANDY CLARK & DAVID CHALMERS"
+    },
+    {
+      "self_ref": "#/texts/99",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 55.8,
+            "t": 603.9160146484376,
+            "r": 381.948,
+            "b": 580.8160146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            93
+          ]
+        }
+      ],
+      "orig": "cases  are  well  beyond Otto's situation, in  which  the  information is  easily accessible.",
+      "text": "cases  are  well  beyond Otto's situation, in  which  the  information is  easily accessible."
+    },
+    {
+      "self_ref": "#/texts/100",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 55.38,
+            "t": 579.4960146484375,
+            "r": 386.892,
+            "b": 328.3360146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1602
+          ]
+        }
+      ],
+      "orig": "Another suggestion could  be  that  Otto  has  access to the  relevant information  only by perception, whereas  Inga  has more  direct  access  -  by introspection, perhaps. In  some ways,  however, to  put  things this  way  is  to beg  the  question. After  all,  we  are  in  effect  advocating a  point  of view  on which  Otto's internal processes and  his  notebook constitute a  single cognitive  system. From  the  standpoint of this  system, the  flow  of information between notebook and  brain is  not  perceptual at  all; it  does  not  involve the impact of  something outside the  system. It  is  more akin  to  information flow within the  brain. The  only  deep way  in  which the  access is  perceptual is  that in Otto's case,  there  is a  distinctly perceptual phenomenology associated with  the  retrieval of  the  information, whereas in  Inga's case  there is  not.  But why  should the  nature of an  associated phenomenology make  a difference to  the  status of  a  belief? Inga's memory may  have some  associated phenomenology, but  it  is  still  a belief. The  phenomenology is  not  visual, to be  sure. But  for  visual  phenomenology consider the  Terminator, from  the  Arnold Schwarzenegger movie  of the  same name.  When  he  recalls some  information from  memory,  it  is  'displayed' before  him in  his visual field (presumably he  is  conscious of  it,  as  there are  frequent shots  depicting his point of  view). The  fact  that  standing memories are  recalled in  this  unusual way  surely makes  little  difference to their  status as  standing beliefs.",
+      "text": "Another suggestion could  be  that  Otto  has  access to the  relevant information  only by perception, whereas  Inga  has more  direct  access  -  by introspection, perhaps. In  some ways,  however, to  put  things this  way  is  to beg  the  question. After  all,  we  are  in  effect  advocating a  point  of view  on which  Otto's internal processes and  his  notebook constitute a  single cognitive  system. From  the  standpoint of this  system, the  flow  of information between notebook and  brain is  not  perceptual at  all; it  does  not  involve the impact of  something outside the  system. It  is  more akin  to  information flow within the  brain. The  only  deep way  in  which the  access is  perceptual is  that in Otto's case,  there  is a  distinctly perceptual phenomenology associated with  the  retrieval of  the  information, whereas in  Inga's case  there is  not.  But why  should the  nature of an  associated phenomenology make  a difference to  the  status of  a  belief? Inga's memory may  have some  associated phenomenology, but  it  is  still  a belief. The  phenomenology is  not  visual, to be  sure. But  for  visual  phenomenology consider the  Terminator, from  the  Arnold Schwarzenegger movie  of the  same name.  When  he  recalls some  information from  memory,  it  is  'displayed' before  him in  his visual field (presumably he  is  conscious of  it,  as  there are  frequent shots  depicting his point of  view). The  fact  that  standing memories are  recalled in  this  unusual way  surely makes  little  difference to their  status as  standing beliefs."
+    },
+    {
+      "self_ref": "#/texts/101",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 55.08,
+            "t": 279.3760146484375,
+            "r": 386.928,
+            "b": 166.09601464843752,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            756
+          ]
+        }
+      ],
+      "orig": "Perhaps the  intuition that  Otto's is  not  a  true  belief comes  from  a  residual  feeling that  the  only  true  beliefs are  occurrent beliefs. If  we take  this feeling seriously, Inga's belief will  be  ruled out  too,  as  will  many  beliefs that we  attribute in  everyday life.  This  would  be  an  extreme view,  but  it  may  be the  most  consistent way  to  deny  Otto's belief. Upon  even  a  slightly less extreme view  -  the  view  that  a belief must  be  available for  consciousness, for  example -  Otto's notebook entry seems to  qualify just  as  well  as  Inga's memory. Once  dispositional beliefs are  let  in  the  door, it  is  difficult to  resist the  conclusion that  Otto's notebook has  all  the  relevant dispositions.",
+      "text": "Perhaps the  intuition that  Otto's is  not  a  true  belief comes  from  a  residual  feeling that  the  only  true  beliefs are  occurrent beliefs. If  we take  this feeling seriously, Inga's belief will  be  ruled out  too,  as  will  many  beliefs that we  attribute in  everyday life.  This  would  be  an  extreme view,  but  it  may  be the  most  consistent way  to  deny  Otto's belief. Upon  even  a  slightly less extreme view  -  the  view  that  a belief must  be  available for  consciousness, for  example -  Otto's notebook entry seems to  qualify just  as  well  as  Inga's memory. Once  dispositional beliefs are  let  in  the  door, it  is  difficult to  resist the  conclusion that  Otto's notebook has  all  the  relevant dispositions."
+    },
+    {
+      "self_ref": "#/texts/102",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 55.2,
+            "t": 329.6560146484375,
+            "r": 381.432,
+            "b": 279.01601464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            273
+          ]
+        }
+      ],
+      "orig": "These  various small  differences between Otto's and  Inga's cases  are  all shallow  differences. To  focus  on  them would  be  to  miss  the  way  in  which for  Otto,  notebook entries play  just the  sort of  role that  beliefs play  in  guiding  most  people's lives.",
+      "text": "These  various small  differences between Otto's and  Inga's cases  are  all shallow  differences. To  focus  on  them would  be  to  miss  the  way  in  which for  Otto,  notebook entries play  just the  sort of  role that  beliefs play  in  guiding  most  people's lives."
+    },
+    {
+      "self_ref": "#/texts/103",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 55.2,
+            "t": 153.4960146484375,
+            "r": 178.308,
+            "b": 140.65601464843758,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "5.  Beyond the  outer limits",
+      "text": "5.  Beyond the  outer limits",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/104",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 54.84,
+            "t": 137.29601464843745,
+            "r": 380.524,
+            "b": 74.27301464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            387
+          ]
+        }
+      ],
+      "orig": "If  the  thesis  is  accepted, how  far  should we  go?  All  sorts  of  puzzle cases spring to mind.  What  of the  amnesic villagers in One  Hundred Years of Solitude,  who forget  the names  for everything  and so hang  labels  everywhere?  Does the information  in  my  Filofax  count  as  part  of my memory? If Otto's  notebook has been  tampered  with, does he believe  the newly-",
+      "text": "If  the  thesis  is  accepted, how  far  should we  go?  All  sorts  of  puzzle cases spring to mind.  What  of the  amnesic villagers in One  Hundred Years of Solitude,  who forget  the names  for everything  and so hang  labels  everywhere?  Does the information  in  my  Filofax  count  as  part  of my memory? If Otto's  notebook has been  tampered  with, does he believe  the newly-"
+    },
+    {
+      "self_ref": "#/texts/105",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 11,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/106",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 262.38,
+            "t": 620.1440146484375,
+            "r": 355.116,
+            "b": 612.7640146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED  MIND",
+      "text": "THE EXTENDED  MIND"
+    },
+    {
+      "self_ref": "#/texts/107",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 365.16,
+            "t": 619.2440146484375,
+            "r": 375.16,
+            "b": 612.0440146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "17",
+      "text": "17"
+    },
+    {
+      "self_ref": "#/texts/108",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 56.52,
+            "t": 602.9330146484375,
+            "r": 384.419,
+            "b": 578.3330146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            169
+          ]
+        }
+      ],
+      "orig": "installed  information? Do I believe  the  contents  of the  page  in front  of me before  I read  it?  Is  my  cognitive  state  somehow  spread  across  the  Internet?",
+      "text": "installed  information? Do I believe  the  contents  of the  page  in front  of me before  I read  it?  Is  my  cognitive  state  somehow  spread  across  the  Internet?"
+    },
+    {
+      "self_ref": "#/texts/109",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 56.4,
+            "t": 577.2530146484376,
+            "r": 382.36,
+            "b": 403.0730146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1087
+          ]
+        }
+      ],
+      "orig": "We do not think  that there  are  categorical answers  to all of these  questions,  and  we will not  give  them.  But  to  help  understand what is involved in  ascriptions  of extended  belief,  we can at least examine  the features  of our  central  case  that  make  the  notion  so  clearly  applicable there.  First,  the notebook  is a constant  in Otto's  life  -  in  cases  where  the  information in  the notebook  would be  relevant,  he will  rarely take action  without  consulting it.  Second,  the information  in the notebook is  directly  available  without difficulty. Third,  upon retrieving information  from  the notebook  he automatically  endorses  it.  Fourth,  the information  in the notebook has been consciously  endorsed  at some  point  in the  past,  and indeed  is there  as a consequence  of this endorsement.5 The status of the fourth feature  as a criterion  for belief is  arguable  (perhaps  one can  acquire  beliefs  through subliminal perception,  or  through  memory  tampering?), but  the first  three features certainly  play  a crucial  role.",
+      "text": "We do not think  that there  are  categorical answers  to all of these  questions,  and  we will not  give  them.  But  to  help  understand what is involved in  ascriptions  of extended  belief,  we can at least examine  the features  of our  central  case  that  make  the  notion  so  clearly  applicable there.  First,  the notebook  is a constant  in Otto's  life  -  in  cases  where  the  information in  the notebook  would be  relevant,  he will  rarely take action  without  consulting it.  Second,  the information  in the notebook is  directly  available  without difficulty. Third,  upon retrieving information  from  the notebook  he automatically  endorses  it.  Fourth,  the information  in the notebook has been consciously  endorsed  at some  point  in the  past,  and indeed  is there  as a consequence  of this endorsement.5 The status of the fourth feature  as a criterion  for belief is  arguable  (perhaps  one can  acquire  beliefs  through subliminal perception,  or  through  memory  tampering?), but  the first  three features certainly  play  a crucial  role."
+    },
+    {
+      "self_ref": "#/texts/110",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 56.04,
+            "t": 402.77301464843754,
+            "r": 384.616,
+            "b": 240.47301464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1080
+          ]
+        }
+      ],
+      "orig": "Insofar  as  increasingly exotic  puzzle  cases  lack  these  features, the  applicability  of the notion of 'belief' gradually  falls of. If I  rarely  take relevant action without  consulting  my Filofax,  for  example,  its status within  my cognitive  system  will resemble that  of the  notebook  in Otto's.  But  if I often act  without  consultation -  for  example, if  I  sometimes answer  relevant questions  with 'I  don't  know'  -  then  information in it counts  less  clearly as  part of  my  belief  system.  The  Internet is  likely to  fail  on  multiple counts,  unless  I am  unusually  computer-reliant, facile with the  technology,  and  trusting, but  information in certain  files  on  my  computer  may  qualify. In  intermediate  cases,  the  question  of whether  a belief  is  present  may  be  indeterminate, or  the  answer may  depend  on the  varying  standards that  are  at  play  in  various contexts  in which  the  question  might  be asked.  But  any  indeterminacy here  does  not mean  that  in the central cases,  the answer  is not clear.",
+      "text": "Insofar  as  increasingly exotic  puzzle  cases  lack  these  features, the  applicability  of the notion of 'belief' gradually  falls of. If I  rarely  take relevant action without  consulting  my Filofax,  for  example,  its status within  my cognitive  system  will resemble that  of the  notebook  in Otto's.  But  if I often act  without  consultation -  for  example, if  I  sometimes answer  relevant questions  with 'I  don't  know'  -  then  information in it counts  less  clearly as  part of  my  belief  system.  The  Internet is  likely to  fail  on  multiple counts,  unless  I am  unusually  computer-reliant, facile with the  technology,  and  trusting, but  information in certain  files  on  my  computer  may  qualify. In  intermediate  cases,  the  question  of whether  a belief  is  present  may  be  indeterminate, or  the  answer may  depend  on the  varying  standards that  are  at  play  in  various contexts  in which  the  question  might  be asked.  But  any  indeterminacy here  does  not mean  that  in the central cases,  the answer  is not clear."
+    },
+    {
+      "self_ref": "#/texts/111",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 55.68,
+            "t": 240.77301464843754,
+            "r": 381.016,
+            "b": 139.4330146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            666
+          ]
+        }
+      ],
+      "orig": "What about  socially  extended  cognition?  Could  my  mental states be partly  constituted  by  the states  of other  thinkers?  We see no reason  why not,  in  principle. In  an  unusually  interdependent couple,  it is  entirely  possible  that  one  partner's beliefs  will  play  the  same  sort  of role  for  the  other  as the notebook  plays  for Otto. What  is central  is a  high  degree  of  trust,  reliance,  and  accessibility. In other  social  relationships these  criteria  may  not be so  clearly  fulfilled,  but  they might  nevertheless be fulfilled  in  specific domains.  For  example,  the waiter  at  my  favourite  restaurant might  act as",
+      "text": "What about  socially  extended  cognition?  Could  my  mental states be partly  constituted  by  the states  of other  thinkers?  We see no reason  why not,  in  principle. In  an  unusually  interdependent couple,  it is  entirely  possible  that  one  partner's beliefs  will  play  the  same  sort  of role  for  the  other  as the notebook  plays  for Otto. What  is central  is a  high  degree  of  trust,  reliance,  and  accessibility. In other  social  relationships these  criteria  may  not be so  clearly  fulfilled,  but  they might  nevertheless be fulfilled  in  specific domains.  For  example,  the waiter  at  my  favourite  restaurant might  act as"
+    },
+    {
+      "self_ref": "#/texts/112",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "footnote",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 58.44,
+            "t": 129.09001464843755,
+            "r": 382.0,
+            "b": 75.57001464843756,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            424
+          ]
+        }
+      ],
+      "orig": "s  The  constancy  and  past-endorsement criteria may suggest  that  history  is  partly constitutive of belief.  One  might react  to this  by  removing any  historical component (giving a  purely dispositional reading of the  constancy criterion and  eliminating the past-endorsement criterion, for  example), or one  might allow  such  a  component as long  as  the  main  burden is  carried by  features of the  present.",
+      "text": "s  The  constancy  and  past-endorsement criteria may suggest  that  history  is  partly constitutive of belief.  One  might react  to this  by  removing any  historical component (giving a  purely dispositional reading of the  constancy criterion and  eliminating the past-endorsement criterion, for  example), or one  might allow  such  a  component as long  as  the  main  burden is  carried by  features of the  present."
+    },
+    {
+      "self_ref": "#/texts/113",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 12,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/114",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 57.0,
+            "t": 622.1240146484375,
+            "r": 67.0,
+            "b": 614.9240146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "18",
+      "text": "18"
+    },
+    {
+      "self_ref": "#/texts/115",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 77.04,
+            "t": 622.1240146484375,
+            "r": 221.744,
+            "b": 614.6840146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            28
+          ]
+        }
+      ],
+      "orig": "ANDY  CLARK & DAVID CHALMERS",
+      "text": "ANDY  CLARK & DAVID CHALMERS"
+    },
+    {
+      "self_ref": "#/texts/116",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 56.04,
+            "t": 602.0930146484375,
+            "r": 379.69,
+            "b": 566.2730146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            244
+          ]
+        }
+      ],
+      "orig": "a repository  of  my  beliefs  about  my  favourite  meals  (this  might  even be construed  as a case  of extended  desire).  In other  cases,  one's  beliefs  might be embodied  in one's  secretary, one's  accountant,  or one's  collaborator.",
+      "text": "a repository  of  my  beliefs  about  my  favourite  meals  (this  might  even be construed  as a case  of extended  desire).  In other  cases,  one's  beliefs  might be embodied  in one's  secretary, one's  accountant,  or one's  collaborator."
+    },
+    {
+      "self_ref": "#/texts/117",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 55.68,
+            "t": 566.0930146484375,
+            "r": 382.419,
+            "b": 441.59301464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            795
+          ]
+        }
+      ],
+      "orig": "In  each  of these  cases,  the  major  burden  of the  coupling  between  agents is  carried by language.  Without  language, we  might  be  much  more  akin  to discrete  Cartesian 'inner' minds,  in  which  high-level cognition  relies  largely on internal  resources. But  the advent  of  language has allowed  us to  spread this burden  into the world.  Language, thus  construed,  is not a mirror  of our  inner  states  but  a  complement to them.  It  serves  as a  tool whose  role  is to extend  cognition  in  ways  that on-board  devices  cannot.  Indeed,  it  may be  that  the  intellectual explosion  in  recent  evolutionary time  is  due  as  much to this  linguistically-enabled extension  of  cognition  as to  any  independent development  in our inner  cognitive  resources.",
+      "text": "In  each  of these  cases,  the  major  burden  of the  coupling  between  agents is  carried by language.  Without  language, we  might  be  much  more  akin  to discrete  Cartesian 'inner' minds,  in  which  high-level cognition  relies  largely on internal  resources. But  the advent  of  language has allowed  us to  spread this burden  into the world.  Language, thus  construed,  is not a mirror  of our  inner  states  but  a  complement to them.  It  serves  as a  tool whose  role  is to extend  cognition  in  ways  that on-board  devices  cannot.  Indeed,  it  may be  that  the  intellectual explosion  in  recent  evolutionary time  is  due  as  much to this  linguistically-enabled extension  of  cognition  as to  any  independent development  in our inner  cognitive  resources."
+    },
+    {
+      "self_ref": "#/texts/118",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 55.44,
+            "t": 440.33301464843754,
+            "r": 380.605,
+            "b": 305.15301464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            891
+          ]
+        }
+      ],
+      "orig": "What, finally,  of the self?  Does the extended  mind  imply  an extended self? It seems so.  Most of us  already  accept  that the self  outstrips  the boundaries of  consciousness; my dispositional beliefs,  for  example,  constitute  in some  deep  sense  part  of who I am.  If  so,  then  these  boundaries may also  fall  beyond  the  skin.  The  information in Otto's notebook,  for  example, is  a  central part  of his  identity as  a  cognitive  agent. What  this  comes  to is  that Otto  himself is  best  regarded as  an  extended system, a  coupling of  biological organism  and  external  resources. To  consistently resist  this  conclusion,  we would have to  shrink the self into a mere bundle of  occurrent  states, severely  threatening its  deep psychological  continuity.  Far better  to take the broader  view,  and  see  agents  themselves as  spread  into the world.",
+      "text": "What, finally,  of the self?  Does the extended  mind  imply  an extended self? It seems so.  Most of us  already  accept  that the self  outstrips  the boundaries of  consciousness; my dispositional beliefs,  for  example,  constitute  in some  deep  sense  part  of who I am.  If  so,  then  these  boundaries may also  fall  beyond  the  skin.  The  information in Otto's notebook,  for  example, is  a  central part  of his  identity as  a  cognitive  agent. What  this  comes  to is  that Otto  himself is  best  regarded as  an  extended system, a  coupling of  biological organism  and  external  resources. To  consistently resist  this  conclusion,  we would have to  shrink the self into a mere bundle of  occurrent  states, severely  threatening its  deep psychological  continuity.  Far better  to take the broader  view,  and  see  agents  themselves as  spread  into the world."
+    },
+    {
+      "self_ref": "#/texts/119",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 55.08,
+            "t": 303.8930146484375,
+            "r": 381.525,
+            "b": 179.8730146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            772
+          ]
+        }
+      ],
+      "orig": "As with  any reconception  of  ourselves,  this view will have  significant consequences. There  are  obvious  consequences for  philosophical  views of the mind and for the  methodology  of research  in  cognitive science,  but there  will also be effects  in the moral  and social  domains.  It  may be,  for example,  that in some cases  interfering with someone's  environment  will have the same moral  significance as  interfering with their  person.  And if the view is taken  seriously, certain  forms  of social  activity  might  be  reconceived as less akin to communication  and  action,  and as more akin to thought.  In  any  case,  once  the  hegemony of skin and skull  is  usurped,  we may  be able  to see ourselves more  truly  as creatures of the world.",
+      "text": "As with  any reconception  of  ourselves,  this view will have  significant consequences. There  are  obvious  consequences for  philosophical  views of the mind and for the  methodology  of research  in  cognitive science,  but there  will also be effects  in the moral  and social  domains.  It  may be,  for example,  that in some cases  interfering with someone's  environment  will have the same moral  significance as  interfering with their  person.  And if the view is taken  seriously, certain  forms  of social  activity  might  be  reconceived as less akin to communication  and  action,  and as more akin to thought.  In  any  case,  once  the  hegemony of skin and skull  is  usurped,  we may  be able  to see ourselves more  truly  as creatures of the world."
+    },
+    {
+      "self_ref": "#/texts/120",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 254.4,
+            "t": 163.5300146484375,
+            "r": 376.98,
+            "b": 129.81001464843757,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "Washington University St.  Louis,  MO  63130,  USA andy@twinearth.wustl.edu",
+      "text": "Washington University St.  Louis,  MO  63130,  USA andy@twinearth.wustl.edu"
+    },
+    {
+      "self_ref": "#/texts/121",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 248.88,
+            "t": 114.21001464843755,
+            "r": 376.74,
+            "b": 80.67001464843747,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            78
+          ]
+        }
+      ],
+      "orig": "University of  California Santa Cruz, CA 95064,  USA chalmers@paradox.ucsc.edu",
+      "text": "University of  California Santa Cruz, CA 95064,  USA chalmers@paradox.ucsc.edu"
+    },
+    {
+      "self_ref": "#/texts/122",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 13,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    },
+    {
+      "self_ref": "#/texts/123",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 262.08,
+            "t": 622.5070146484375,
+            "r": 357.603,
+            "b": 614.3470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "THE EXTENDED  MIND",
+      "text": "THE EXTENDED  MIND"
+    },
+    {
+      "self_ref": "#/texts/124",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 365.16,
+            "t": 621.0070146484375,
+            "r": 376.41,
+            "b": 612.9070146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            2
+          ]
+        }
+      ],
+      "orig": "19",
+      "text": "19"
+    },
+    {
+      "self_ref": "#/texts/125",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.16,
+            "t": 600.6530146484375,
+            "r": 110.214,
+            "b": 590.7530146484376,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "References",
+      "text": "References",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/126",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.1,
+            "t": 585.8470146484375,
+            "r": 345.033,
+            "b": 576.5470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            83
+          ]
+        }
+      ],
+      "orig": "Beer,  R. 1989.  Intelligence  as  Adaptive  Behavior.  New York:  Academic  Press.",
+      "text": "Beer,  R. 1989.  Intelligence  as  Adaptive  Behavior.  New York:  Academic  Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/127",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.1,
+            "t": 574.8070146484375,
+            "r": 349.533,
+            "b": 565.7470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            81
+          ]
+        }
+      ],
+      "orig": "Blake,  A. and A.  Yuille,  eds. 1992. Active Vision.  Cambridge,  MA: MIT Press.",
+      "text": "Blake,  A. and A.  Yuille,  eds. 1992. Active Vision.  Cambridge,  MA: MIT Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/128",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.04,
+            "t": 564.6070146484375,
+            "r": 376.317,
+            "b": 544.3870146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            155
+          ]
+        }
+      ],
+      "orig": "Burge,  T. 1979. Individualism and the mental.  Midwest  Studies  in  Philosophy  4: 73-122. Chalmers,  D.  J. (forthcoming).  The  components  of content.",
+      "text": "Burge,  T. 1979. Individualism and the mental.  Midwest  Studies  in  Philosophy  4: 73-122. Chalmers,  D.  J. (forthcoming).  The  components  of content.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/129",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 543.0670146484375,
+            "r": 223.233,
+            "b": 533.8270146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            45
+          ]
+        }
+      ],
+      "orig": "Clark,  A. 1989.  Microcognition.  MIT Press.",
+      "text": "Clark,  A. 1989.  Microcognition.  MIT Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/130",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.28,
+            "t": 532.5070146484375,
+            "r": 379.638,
+            "b": 511.98701464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            129
+          ]
+        }
+      ],
+      "orig": "Haugeland, J.  1995.  Mind embodied and embedded. In Mind and  Cognition,  eds Y. Houng  and  J.  Ho.  Taipei:  Academia  Sinica.",
+      "text": "Haugeland, J.  1995.  Mind embodied and embedded. In Mind and  Cognition,  eds Y. Houng  and  J.  Ho.  Taipei:  Academia  Sinica.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/131",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 510.9670146484375,
+            "r": 323.793,
+            "b": 501.6670146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            71
+          ]
+        }
+      ],
+      "orig": "Hutchins, E. 1995.  Cognition  in the Wild.  Cambridge,  MA: MIT Press.",
+      "text": "Hutchins, E. 1995.  Cognition  in the Wild.  Cambridge,  MA: MIT Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/132",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 500.04701464843754,
+            "r": 340.497,
+            "b": 490.98701464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            86
+          ]
+        }
+      ],
+      "orig": "Kirsh,  D. 1995. The  intelligent  use of  space. Artificial  Intelligence  73: 31-68.",
+      "text": "Kirsh,  D. 1995. The  intelligent  use of  space. Artificial  Intelligence  73: 31-68.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/133",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 489.36701464843753,
+            "r": 378.399,
+            "b": 469.2670146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            122
+          ]
+        }
+      ],
+      "orig": "Kirsh,  D.  and P.  Maglio.  1994.  On  distinguishing  epistemic  from  pragmatic  action. Cognitive  Science 18: 513-49.",
+      "text": "Kirsh,  D.  and P.  Maglio.  1994.  On  distinguishing  epistemic  from  pragmatic  action. Cognitive  Science 18: 513-49.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/134",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.7,
+            "t": 467.7670146484375,
+            "r": 371.373,
+            "b": 458.9470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            87
+          ]
+        }
+      ],
+      "orig": "McClamrock,  R. 1995. Existential  Cognition. Chicago:  University  of  Chicago  Press.",
+      "text": "McClamrock,  R. 1995. Existential  Cognition. Chicago:  University  of  Chicago  Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/135",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 456.36701464843753,
+            "r": 379.512,
+            "b": 427.7470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            224
+          ]
+        }
+      ],
+      "orig": "McClelland, J. L,  D.  E. Rumelhart,  and G. E. Hinton  1986.  The  appeal  of  parallel distributed  processing.  In Parallel  Distributed  Processing,  Volume  2,  eds. McClelland and Rumelhart.  Cambridge,  MA: MIT Press.",
+      "text": "McClelland, J. L,  D.  E. Rumelhart,  and G. E. Hinton  1986.  The  appeal  of  parallel distributed  processing.  In Parallel  Distributed  Processing,  Volume  2,  eds. McClelland and Rumelhart.  Cambridge,  MA: MIT Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/136",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 425.4070146484375,
+            "r": 378.66,
+            "b": 406.2670146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            150
+          ]
+        }
+      ],
+      "orig": "Putnam,  H. 1975. The  meaning  of  'meaning'. In  Language,  Mind,  and  Knowledge,  ed. K. Gunderson.  Minneapolis:  University  of Minnesota Press.",
+      "text": "Putnam,  H. 1975. The  meaning  of  'meaning'. In  Language,  Mind,  and  Knowledge,  ed. K. Gunderson.  Minneapolis:  University  of Minnesota Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/137",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.82,
+            "t": 403.0870146484375,
+            "r": 380.286,
+            "b": 385.6270146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            89
+          ]
+        }
+      ],
+      "orig": "Suchman, L.  1987.  Plans and  Situated Actions.  Cambridge:  Cambridge University Press.",
+      "text": "Suchman, L.  1987.  Plans and  Situated Actions.  Cambridge:  Cambridge University Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/138",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 381.7270146484375,
+            "r": 377.907,
+            "b": 362.4670146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            108
+          ]
+        }
+      ],
+      "orig": "Thelen, E.  and L. Smith. 1994.  A  Dynamic Systems  Approach  to the  Development of Cognition  and Action.",
+      "text": "Thelen, E.  and L. Smith. 1994.  A  Dynamic Systems  Approach  to the  Development of Cognition  and Action.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/139",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.7,
+            "t": 360.60701464843754,
+            "r": 354.96,
+            "b": 352.1470146484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            79
+          ]
+        }
+      ],
+      "orig": "Ullman,  S. and W. Richards.  1984.  Image Understanding.  Norwood, NJ:  Ablex.",
+      "text": "Ullman,  S. and W. Richards.  1984.  Image Understanding.  Norwood, NJ:  Ablex.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/140",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.7,
+            "t": 349.80701464843753,
+            "r": 379.101,
+            "b": 331.98701464843754,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            96
+          ]
+        }
+      ],
+      "orig": "Varela,  F.,  E. Thompson  and  E.  Rosch. 1991.  The Embodied Mind.  Cambridge,  MA: MIT Press.",
+      "text": "Varela,  F.,  E. Thompson  and  E.  Rosch. 1991.  The Embodied Mind.  Cambridge,  MA: MIT Press.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/141",
+      "parent": {
+        "$ref": "#/groups/4"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 56.64,
+            "t": 328.3270146484375,
+            "r": 286.677,
+            "b": 319.86701464843753,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            60
+          ]
+        }
+      ],
+      "orig": "Wilson,  R. 1994. Wide  computationalism.  Mind 103: 351-72.",
+      "text": "Wilson,  R. 1994. Wide  computationalism.  Mind 103: 351-72.",
+      "enumerated": false,
+      "marker": ""
+    },
+    {
+      "self_ref": "#/texts/142",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 14,
+          "bbox": {
+            "l": 120.73,
+            "t": 18.488014648437456,
+            "r": 311.321,
+            "b": 7.449014648437469,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions",
+      "text": "This content downloaded from 131.155.215.185 on Sat, 5 Apr 2014 05:33:44 AM All use subject to JSTOR Terms and Conditions"
+    }
+  ],
+  "pictures": [
+    {
+      "self_ref": "#/pictures/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/2"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 49.2554931640625,
+            "t": 799.3495025634766,
+            "r": 271.6415100097656,
+            "b": 706.0012359619141,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 284.96484375,
+            "t": 797.8406219482422,
+            "r": 509.962158203125,
+            "b": 723.5366668701172,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/15"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 49.50397872924805,
+            "t": 151.3173828125,
+            "r": 131.78111267089844,
+            "b": 73.79522705078125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    }
+  ],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 595.0,
+        "height": 878.0
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 4
+    },
+    "5": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 5
+    },
+    "6": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 6
+    },
+    "7": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 7
+    },
+    "8": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 8
+    },
+    "9": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 9
+    },
+    "10": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 10
+    },
+    "11": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 11
+    },
+    "12": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 12
+    },
+    "13": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 13
+    },
+    "14": {
+      "size": {
+        "width": 432.0,
+        "height": 674.1400146484375
+      },
+      "page_no": 14
+    }
+  }
+}

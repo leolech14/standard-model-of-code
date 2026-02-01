@@ -32,7 +32,7 @@
 
 **Infrastructure Created:**
 ```
-standard-model-of-code/tools/cloud/
+particle/tools/cloud/
 ├── Dockerfile (39 lines)                    - Python 3.12-slim cloud runner
 ├── orchestrate_corpus.py (391 lines)        - Corpus orchestration engine
 ├── run_single_repo.py (358 lines)           - Single repo analyzer for cloud
@@ -94,7 +94,7 @@ OPP-064: Hierarchical Tree Layout
 **Message:** "feat(refinery): Implement full context refinery pipeline"
 
 **Files created:**
-- `context-management/tools/ai/aci/refinery.py` (761 lines)
+- `wave/tools/ai/aci/refinery.py` (761 lines)
 
 **Features:**
 - Semantic chunking (not fixed-size tokens)
@@ -234,7 +234,7 @@ gcloud functions deploy auto-boost \
 
 ### JAN 25 - REFINERY CORPUS STATE SYNTHESIS
 
-**Module:** `context-management/tools/refinery/`
+**Module:** `wave/tools/refinery/`
 
 **Components:**
 ```

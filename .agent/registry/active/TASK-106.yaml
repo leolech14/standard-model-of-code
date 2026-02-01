@@ -56,8 +56,8 @@ description: |
   Subdirectories by source: smc/, cm/, tools/
 
   archive/
-  ├── smc/        # standard-model-of-code archives
-  ├── cm/         # context-management archives
+  ├── smc/        # particle archives
+  ├── cm/         # wave archives
   ├── tools/      # tools archives
   └── INDEX.md
 
@@ -67,19 +67,19 @@ description: |
 directories:
   - pattern: "archive/"
     locations:
-      - "standard-model-of-code/archive/"
-      - "context-management/archive/"
+      - "particle/archive/"
+      - "wave/archive/"
     target: "archive/"
 
   - pattern: ".archive/"
     locations:
-      - "standard-model-of-code/.archive/"
+      - "particle/.archive/"
     target: "archive/smc/"
 
   - pattern: "docs/archive/"
     locations:
-      - "context-management/docs/archive/"
-      - "context-management/docs/theory/archive/"
+      - "wave/docs/archive/"
+      - "wave/docs/theory/archive/"
     target: "archive/cm/"
 
 # =============================================================================
@@ -104,22 +104,22 @@ steps:
       mkdir -p archive/{smc,cm,tools}
 
   - id: 2
-    action: "Move standard-model-of-code archives"
+    action: "Move particle archives"
     agent: Bash
     command: |
       # Move hidden .archive
-      mv standard-model-of-code/.archive/* archive/smc/ 2>/dev/null || true
+      mv particle/.archive/* archive/smc/ 2>/dev/null || true
 
       # Move visible archive
-      mv standard-model-of-code/archive/* archive/smc/ 2>/dev/null || true
+      mv particle/archive/* archive/smc/ 2>/dev/null || true
 
   - id: 3
-    action: "Move context-management archives"
+    action: "Move wave archives"
     agent: Bash
     command: |
-      mv context-management/archive/* archive/cm/ 2>/dev/null || true
-      mv context-management/docs/archive/* archive/cm/ 2>/dev/null || true
-      mv context-management/docs/theory/archive/* archive/cm/ 2>/dev/null || true
+      mv wave/archive/* archive/cm/ 2>/dev/null || true
+      mv wave/docs/archive/* archive/cm/ 2>/dev/null || true
+      mv wave/docs/theory/archive/* archive/cm/ 2>/dev/null || true
 
   - id: 4
     action: "Create INDEX.md"
@@ -133,13 +133,13 @@ steps:
       ## Structure
 
       ### [smc/](./smc/)
-      Archives from standard-model-of-code/
+      Archives from particle/
       - Legacy experiments
       - Deprecated schemas
       - Historical documentation
 
       ### [cm/](./cm/)
-      Archives from context-management/
+      Archives from wave/
       - Old tooling
       - Deprecated configs
       - Historical reports
@@ -168,11 +168,11 @@ steps:
     action: "Remove old archive directories"
     agent: Bash
     command: |
-      rm -rf standard-model-of-code/.archive/
-      rm -rf standard-model-of-code/archive/
-      rm -rf context-management/archive/
-      rm -rf context-management/docs/archive/
-      rm -rf context-management/docs/theory/archive/
+      rm -rf particle/.archive/
+      rm -rf particle/archive/
+      rm -rf wave/archive/
+      rm -rf wave/docs/archive/
+      rm -rf wave/docs/theory/archive/
 
   - id: 6
     action: "Verify consolidation"
@@ -193,8 +193,8 @@ steps:
       git commit -m "chore(archive): Standardize archive naming (3 patterns to 1)
 
       Consolidated all archives to archive/ at root:
-      - archive/smc/ (from standard-model-of-code)
-      - archive/cm/ (from context-management)
+      - archive/smc/ (from particle)
+      - archive/cm/ (from wave)
       - archive/tools/ (for future use)
 
       Removed patterns:

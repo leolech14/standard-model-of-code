@@ -1,0 +1,49 @@
+# Opportunity: Data Directory Cleanup - Timestamped Duplicates
+# Created: 2026-01-31
+# Source: SPRAWL_AUDIT
+
+id: OPP-093
+title: "Clean up timestamped data files - keep only _latest"
+source: SPRAWL_AUDIT
+discovered_at: "2026-01-31T07:40:00Z"
+discovered_by: claude-opus-4.5
+
+description: |
+  Multiple timestamped JSON files accumulating in data directories:
+  - data/tags/: 4 old versions + tags_latest.json
+  - data/enriched/: 11 old versions + enriched_latest.json
+  - data/repo_map/: 4 old versions + repo_map_latest.json
+
+  Total: 19 old versions that should be pruned.
+
+  Only _latest files are needed for operation; timestamped versions
+  were generated during development but serve no production purpose.
+
+evidence:
+  - path: "wave/data/tags/"
+    files: 5
+    pattern: "tags_YYYYMMDD_HHMMSS.json"
+  - path: "wave/data/enriched/"
+    files: 12
+    pattern: "enriched_YYYYMMDD_HHMMSS.json"
+  - path: "wave/data/repo_map/"
+    files: 5
+    pattern: "repo_map_YYYYMMDD_HHMMSS.json"
+
+suggested_action: |
+  1. Create backup archive of all timestamped files
+  2. Remove timestamped files, keep only *_latest.*
+  3. Update generation scripts to only create _latest (no timestamps)
+
+urgency: LOW
+impact: LOW
+effort: LOW
+risk: LOW
+
+tags:
+  - cleanup
+  - data-hygiene
+  - sprawl
+
+defer_until: null
+promoted_to: null

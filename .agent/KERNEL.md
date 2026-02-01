@@ -47,11 +47,11 @@ The pattern applies at every level:
 
 ```
 PROJECT_elements/                 # Particle/Wave Architecture
-├── standard-model-of-code/       # PARTICLE (measurement, collapse)
+├── particle/       # PARTICLE (measurement, collapse)
 │   ├── docs/specs/               # Concepts (MODEL.md, schemas)
 │   └── src/                      # Objects (implementation)
 │
-├── context-management/           # WAVE (potential, field)
+├── wave/           # WAVE (potential, field)
 │   ├── docs/                     # Concepts (guides, specs)
 │   └── tools/                    # Objects (scripts, servers)
 │
@@ -260,13 +260,13 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 | Active tasks | `.agent/registry/active/` |
 | Task dashboard | `.agent/registry/INDEX.md` |
 | Run history | `.agent/runs/` |
-| Project config | `CLAUDE.md`, `context-management/docs/` |
-| Collider code | `standard-model-of-code/src/` |
-| AI tools | `context-management/tools/` |
+| Project config | `CLAUDE.md`, `wave/docs/` |
+| Collider code | `particle/src/` |
+| AI tools | `wave/tools/` |
 | **Commit hygiene** | `.pre-commit-config.yaml`, `commitlint.config.js` |
 | **Subsystem integration** | `.agent/SUBSYSTEM_INTEGRATION.md` |
 | **BARE spec** | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` |
-| **Background AI Layer** | `context-management/docs/BACKGROUND_AI_LAYER_MAP.md` |
+| **Background AI Layer** | `wave/docs/BACKGROUND_AI_LAYER_MAP.md` |
 | **Consolidation report** | `.agent/docs/CONSOLIDATION_REPORT.md` |
 
 ---
@@ -281,13 +281,13 @@ pre-commit install --hook-type commit-msg --hook-type pre-commit
 ./collider full <path> --output <dir>
 
 # Query with Gemini
-python context-management/tools/ai/analyze.py "<query>"
+python wave/tools/ai/analyze.py "<query>"
 
 # Run tests
-cd standard-model-of-code && pytest tests/ -q
+cd particle && pytest tests/ -q
 
 # Mirror to GCS
-python context-management/tools/archive/archive.py mirror
+python wave/tools/archive/archive.py mirror
 ```
 
 ---

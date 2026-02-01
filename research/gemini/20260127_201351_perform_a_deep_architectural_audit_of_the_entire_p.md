@@ -11,7 +11,7 @@
 ## Query
 
 Perform a deep architectural audit of the entire PROJECT_elements repository (Projectome) based on the attached directory structure.
-1. Validate the current Top-Level (Level 0) split: Brain (context-management/) vs Body (standard-model-of-code/).
+1. Validate the current Top-Level (Level 0) split: Brain (wave/) vs Body (particle/).
 2. For Level 1 sub-directories (inside Brain and Body), verify their purpose and justifying hemisphere.
 3. Identify any remaining 'Asymmetric Scatter' or 'Dark Matter' (files/dirs that are misplaced or lack purpose-alignment).
 4. Specifically check 'archive', 'data', and 'operational scripts' - which hemisphere should they reside in?
@@ -37,13 +37,13 @@ The `PROJECT_elements` repository, or "Projectome," is conceptualized with a cle
 ### 1. Validation of Current Top-Level (Level 0) Split
 
 The theoretical split is:
-*   **Brain:** `context-management/` (Expected Contextome)
-*   **Body:** `standard-model-of-code/` (Expected Codome)
+*   **Brain:** `wave/` (Expected Contextome)
+*   **Body:** `particle/` (Expected Codome)
 
 **Validation:**
-The intent of this top-level split is clear: `standard-model-of-code/` for the core application logic and executables, and `context-management/` for all supporting information, intelligence, and contextual data.
+The intent of this top-level split is clear: `particle/` for the core application logic and executables, and `wave/` for all supporting information, intelligence, and contextual data.
 
-However, the current implementation exhibits **significant `Active Drift` and `Asymmetric Scatter`**, as acknowledged in `PROJECTOME_TOTALITY_REPORT.md`. Many Contextome-aligned files and directories are found within `standard-model-of-code/`, and conversely, several Codome-aligned components are located within `context-management/`. This indicates a conceptual split that is not strictly enforced in the physical file system.
+However, the current implementation exhibits **significant `Active Drift` and `Asymmetric Scatter`**, as acknowledged in `PROJECTOME_TOTALITY_REPORT.md`. Many Contextome-aligned files and directories are found within `particle/`, and conversely, several Codome-aligned components are located within `wave/`. This indicates a conceptual split that is not strictly enforced in the physical file system.
 
 ---
 
@@ -51,7 +51,7 @@ However, the current implementation exhibits **significant `Active Drift` and `A
 
 Below is an audit of the immediate sub-directories, verifying their purpose and assigning them to their ideal hemisphere, highlighting misplacements.
 
-#### `standard-model-of-code/` (Expected Codome - Body)
+#### `particle/` (Expected Codome - Body)
 
 | Directory / File                                | Current Hemisphere | Ideal Hemisphere | Why                                                                                                                                                                                                                                                                  | Misplaced? |
 | :---------------------------------------------- | :----------------- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
@@ -106,7 +106,7 @@ Below is an audit of the immediate sub-directories, verifying their purpose and 
 | `requirements.lock`                             | Contextome         | Contextome       | Dependency lock file; non-executable information.                                                                                                                                                                                                                    | Yes        |
 | `HANDLER_WIRING_AUDIT.md`                       | Contextome         | Contextome       | Documentation.                                                                                                                                                                                                                                                       | Yes        |
 
-#### `context-management/` (Expected Contextome - Brain)
+#### `wave/` (Expected Contextome - Brain)
 
 | Directory / File                                | Current Hemisphere | Ideal Hemisphere | Why                                                                                                                                                                                                                                                  | Misplaced? |
 | :---------------------------------------------- | :----------------- | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
@@ -133,18 +133,18 @@ Below is an audit of the immediate sub-directories, verifying their purpose and 
 
 The audit reveals significant "Asymmetric Scatter" across the repository:
 
-**In `standard-model-of-code/` (The Body, expected Codome):**
+**In `particle/` (The Body, expected Codome):**
 *   **Root-level files:** Almost all non-executable files (`.md`, `.txt`, `.ini`, `.toml`, `requirements.txt`, `uv.lock`, `CHANGELOG.md`, `CODEOWNERS`, `pyproject.toml`, `MANIFEST.in`, `ROADMAP.md`, `CONTRIBUTING.md`, `tox.ini`, `commitlint.config.js`, `collider.egg-info/`, etc.) are Contextome but reside directly in the Codome's root.
 *   **Contextome directories:** `research/`, `artifacts/`, `archive/`, `output/`, `docs/`, `schema/`, `audio/`, `data/`, `_contextpack_staging`. These directories primarily hold non-executable information and are conceptually part of the Contextome, not the core executable Body.
 *   **Hybrid/Ambiguous:** `experiments/` and `tests/specs/`, `tests/fixtures/` contain information (data/specs) that belong to Contextome, even if related to testing code.
 *   **Within `src/`:** `src/output/`, `src/data/`, `src/collider.egg-info/` are also Contextome in nature, indicating the internal structure of the `src/` directory itself has some drift.
 
-**In `context-management/` (The Brain, expected Contextome):**
+**In `wave/` (The Brain, expected Contextome):**
 *   **Codome directories:**
     *   `tools/`: This is the most significant piece of Codome found in the Contextome. It contains executable Python scripts and sub-directories like `ai/` and `ops/`, which are explicitly described as Codome in the `PROJECTOME_TOTALITY_REPORT.md` ("AI Intelligence (`tools/ai/`)").
     *   `tests/`: Contains executable test scripts (`test_aci_caching.py`) that belong to the Codome.
 
-**Summary of Scatter:** The problem is pervasive. The root of `standard-model-of-code/` is highly polluted with contextual information. `context-management/` incorrectly hosts executable logic and tests. This indicates a lack of consistent enforcement of the Brain/Body split.
+**Summary of Scatter:** The problem is pervasive. The root of `particle/` is highly polluted with contextual information. `wave/` incorrectly hosts executable logic and tests. This indicates a lack of consistent enforcement of the Brain/Body split.
 
 ---
 
@@ -167,14 +167,14 @@ The audit reveals significant "Asymmetric Scatter" across the repository:
 ### Recommendations for Improvement:
 
 1.  **Strict Enforcement of Level 0 Split:**
-    *   **Move all Contextome files/directories from `standard-model-of-code/` to `context-management/`.** This includes all `.md`, `.txt`, `.ini`, `.toml`, `requirements.txt`, `uv.lock`, `schema/`, `output/`, `archive/`, `data/`, `docs/`, and `experiments/` (unless `experiments/` explicitly contains *active executable code* for a new feature, in which case it should be within `src/` or a dedicated `experimental_features/` within Codome, clearly separated from experimental data).
-    *   **Move all Codome files/directories from `context-management/` to `standard-model-of-code/`.** This primarily targets `context-management/tools/` and `context-management/tests/`. These are executable logic and should reside with the Body.
+    *   **Move all Contextome files/directories from `particle/` to `wave/`.** This includes all `.md`, `.txt`, `.ini`, `.toml`, `requirements.txt`, `uv.lock`, `schema/`, `output/`, `archive/`, `data/`, `docs/`, and `experiments/` (unless `experiments/` explicitly contains *active executable code* for a new feature, in which case it should be within `src/` or a dedicated `experimental_features/` within Codome, clearly separated from experimental data).
+    *   **Move all Codome files/directories from `wave/` to `particle/`.** This primarily targets `wave/tools/` and `wave/tests/`. These are executable logic and should reside with the Body.
 
-2.  **Harmonize `tools/` directories:** Consolidate all executable tools under `standard-model-of-code/tools/` or, for application-specific tools, within `standard-model-of-code/src/tools/`. The current structure suggests `standard-model-of-code/tools/` for project-level utilities and `standard-model-of-code/src/tools/` for in-application utilities. This is a reasonable pattern.
+2.  **Harmonize `tools/` directories:** Consolidate all executable tools under `particle/tools/` or, for application-specific tools, within `particle/src/tools/`. The current structure suggests `particle/tools/` for project-level utilities and `particle/src/tools/` for in-application utilities. This is a reasonable pattern.
 
 3.  **Clarify `experiments/` purpose:** Define clear conventions for `experiments/`. If they are primarily experimental code, they belong in the Codome. If they are experimental data, results, or research notes, they belong in the Contextome. The report labels them as "Asymmetric Scatter," indicating this ambiguity is recognized.
 
-4.  **Review `schema/` and `data/` within `src/`:** Re-evaluate `standard-model-of-code/src/output/` and `standard-model-of-code/src/data/`. If these are transient or persistent outputs/inputs of the `src` application, they are still information. Consider moving them to a dedicated `standard-model-of-code/data/` or `standard-model-of-code/output/` at the root (which would then be moved to `context-management/data/` and `context-management/output/` as per the larger consolidation). If they are *small, tightly coupled data/schemas* essential for the immediate execution of a specific `src` module and cannot be easily decoupled without breaking the module's atomic function, a pragmatic exception might be made, but this should be rare and documented.
+4.  **Review `schema/` and `data/` within `src/`:** Re-evaluate `particle/src/output/` and `particle/src/data/`. If these are transient or persistent outputs/inputs of the `src` application, they are still information. Consider moving them to a dedicated `particle/data/` or `particle/output/` at the root (which would then be moved to `wave/data/` and `wave/output/` as per the larger consolidation). If they are *small, tightly coupled data/schemas* essential for the immediate execution of a specific `src` module and cannot be easily decoupled without breaking the module's atomic function, a pragmatic exception might be made, but this should be rare and documented.
 
 By implementing these changes, the `PROJECT_elements` repository can achieve a much cleaner separation that aligns with its stated "Projectome: Brain vs. Body" architectural model, reducing "Active Drift" and eliminating "Dark Matter."
 

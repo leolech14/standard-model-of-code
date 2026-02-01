@@ -15,7 +15,7 @@
 Validating 3 improvements to 'purpose from connections' in Collider:
 
 1. CREATE TESTS for graph_type_inference.py (0 tests currently)
-2. ADD DOCS to context-management/docs/deep/PURPOSE_EMERGENCE.md  
+2. ADD DOCS to wave/docs/deep/PURPOSE_EMERGENCE.md
 3. CREATE OPP for ConAff enhancement in .agent/registry/inbox/
 
 Priority order correct? Any risks? Should OPP use ruamel.yaml?
@@ -28,10 +28,10 @@ As a senior software engineer analyzing the provided codebase, I concur with the
 
 ### Project Context Summary:
 
-*   **Core Principle:** `PROJECT_elements` treats code as a "wave function" collapsed into "particles" by the **Collider** tool (`standard-model-of-code/`).
+*   **Core Principle:** `PROJECT_elements` treats code as a "wave function" collapsed into "particles" by the **Collider** tool (`particle/`).
 *   **AI Integration:** AI agents (`.agent/`) observe and interact with this data, guided by **ACI** (Adaptive Context Intelligence) and improved by **BARE** (Background Auto-Refinement Engine).
 *   **Emphasis on Data Integrity:** `unified_analysis.json` is the "collapsed particle" output, critical for AI reasoning.
-*   **Documentation Focus:** Extensive documentation (`context-management/docs/`, `.agent/specs/`) is crucial for both human and AI understanding.
+*   **Documentation Focus:** Extensive documentation (`wave/docs/`, `.agent/specs/`) is crucial for both human and AI understanding.
 *   **Structured Workflows:** Tasks are managed in a registry (`.agent/registry/`) with 4D Confidence scores, and BARE's Opportunity Explorer populates an `inbox`.
 *   **Code Quality:** `pre-commit` hooks enforce strict quality standards, and `DEEP_GHOSTS_REPORT.md` highlights existing documentation and invocation inconsistencies, emphasizing the need for meticulousness.
 
@@ -41,7 +41,7 @@ As a senior software engineer analyzing the provided codebase, I concur with the
 
 #### 1. CREATE TESTS for `graph_type_inference.py` (0 tests currently)
 
-*   **Location Inference:** Given the Collider's role in "Edge Building" and "Graph Assembly" (`AGENTKNOWLEDGEDUMP.md`), and the existence of large graph analysis components like `standard-model-of-code/src/core/edge_extractor.py` (`DEEP_GHOSTS_REPORT.md`), `graph_type_inference.py` is almost certainly a core, critical component within `standard-model-of-code/src/core/` that directly influences the quality and correctness of the "particle" data.
+*   **Location Inference:** Given the Collider's role in "Edge Building" and "Graph Assembly" (`AGENTKNOWLEDGEDUMP.md`), and the existence of large graph analysis components like `particle/src/core/edge_extractor.py` (`DEEP_GHOSTS_REPORT.md`), `graph_type_inference.py` is almost certainly a core, critical component within `particle/src/core/` that directly influences the quality and correctness of the "particle" data.
 *   **Priority:** **Highest (P0)**.
     *   **Reasoning:** Zero tests for a core component responsible for inferring types from connections (a fundamental aspect of "purpose from connections") poses a significant risk. Any bug or regression in this module directly impacts the accuracy of the Collider's output (`unified_analysis.json`), rendering all downstream AI analysis (by GEMINI, BARE, ACI) potentially flawed. The project heavily relies on the integrity of this "particle" data. The `DEEP_GHOSTS_REPORT.md` implicitly reinforces this by calling out the complexity of graph-related files.
 *   **Risks:**
@@ -49,9 +49,9 @@ As a senior software engineer analyzing the provided codebase, I concur with the
     *   **Revealing Bugs:** This process might expose existing, unhandled edge cases or logical errors within `graph_type_inference.py`, potentially delaying the task itself.
     *   **Test Maintenance:** Tests must be maintained as the inference logic evolves to avoid becoming brittle.
 
-#### 2. ADD DOCS to `context-management/docs/deep/PURPOSE_EMERGENCE.md`
+#### 2. ADD DOCS to `wave/docs/deep/PURPOSE_EMERGENCE.md`
 
-*   **Location & Importance:** `CLAUDE.md` and `ARCHITECTURE_MAP.md` confirm `context-management/docs/deep/` as the home for "Deep Docs" and theory. The `AGENTKNOWLEDGEDUMP.md` extensively details "Atom Hierarchy," "8 Dimensions," and "33 Canonical Roles," which are all mechanisms for "purpose emergence."
+*   **Location & Importance:** `CLAUDE.md` and `ARCHITECTURE_MAP.md` confirm `wave/docs/deep/` as the home for "Deep Docs" and theory. The `AGENTKNOWLEDGEDUMP.md` extensively details "Atom Hierarchy," "8 Dimensions," and "33 Canonical Roles," which are all mechanisms for "purpose emergence."
 *   **Priority:** **High (P1)**.
     *   **Reasoning:** While not a direct functional bug, the lack of dedicated, deep documentation for "purpose emergence" (a core concept in the "Quantum Code Metaphor") is a significant knowledge gap. This hinders human understanding, onboarding, and more importantly, limits the effectiveness of AI agents like GEMINI (focused on Theory & Context Management) and BARE (for validating truths and identifying opportunities). The `DEEP_GHOSTS_REPORT.md` highlights the existing challenges with documentation accuracy and broken references, underscoring the importance of carefully managed documentation.
 *   **Risks:**
@@ -76,7 +76,7 @@ As a senior software engineer analyzing the provided codebase, I concur with the
 The proposed priority order is **correct**:
 
 1.  **CREATE TESTS for `graph_type_inference.py` (P0)**: Foundational correctness and reliability of the core data are non-negotiable.
-2.  **ADD DOCS to `context-management/docs/deep/PURPOSE_EMERGENCE.md` (P1)**: Critical for understanding, knowledge transfer, and enabling AI agents to reason effectively about the system's core concepts.
+2.  **ADD DOCS to `wave/docs/deep/PURPOSE_EMERGENCE.md` (P1)**: Critical for understanding, knowledge transfer, and enabling AI agents to reason effectively about the system's core concepts.
 3.  **CREATE OPP for ConAff enhancement in `.agent/registry/inbox/` (P2)**: An important long-term enhancement, but the system is designed to triage and prioritize such items through BARE.
 
 ### Should OPP use `ruamel.yaml`?

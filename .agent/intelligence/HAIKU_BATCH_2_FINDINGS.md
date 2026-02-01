@@ -2,7 +2,7 @@
 
 **Date:** 2026-01-28
 **Agents:** 3 Haiku 4.5 (targeted exploration)
-**Focus:** standard-model-of-code/ subsystem
+**Focus:** particle/ subsystem
 **Cost:** ~$0.15
 
 ---

@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>l0_axioms – PROJECT_elements Reader</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-60b3e774b6b9bc5eac144386c1887cee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Particle (Standard Model)</li><li class="breadcrumb-item"><a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html">Theory</a></li><li class="breadcrumb-item"><a href="../../staging/particle_theory/L0_AXIOMS.html">L0 Axioms</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">PROJECT_elements Reader</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Governance</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../VISUAL_GUIDE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🏗️ Visual Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../QUALITY_GATES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quality Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../REPO_STRUCTURE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repo Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../TOPOLOGY_MAP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Topology Map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ARCHITECTURE_AUDIT_2026.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture Audit 2026</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../PIPELINES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipelines</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Particle (Standard Model)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analogy Scoring Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/COMPLETE_THEORY_READING_GUIDE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Complete Theory Reading Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L0_AXIOMS.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">L0 Axioms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L1_DEFINITIONS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L1 Definitions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L2_LAWS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L2 Laws</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L3_APPLICATIONS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L3 Applications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/PROJECTOME_THEORY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projectome Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/THEORY_AXIOMS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theory Axioms</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Wave (Intelligence)</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#l0-axioms-of-the-standard-model-of-code" id="toc-l0-axioms-of-the-standard-model-of-code" class="nav-link active" data-scroll-target="#l0-axioms-of-the-standard-model-of-code">L0: Axioms of the Standard Model of Code</a>
+  <ul class="collapse">
+  <li><a href="#purpose-of-this-layer" id="toc-purpose-of-this-layer" class="nav-link" data-scroll-target="#purpose-of-this-layer">Purpose of This Layer</a></li>
+  <li><a href="#primitive-notions-undefined-terms" id="toc-primitive-notions-undefined-terms" class="nav-link" data-scroll-target="#primitive-notions-undefined-terms">0. Primitive Notions (Undefined Terms)</a></li>
+  <li><a href="#axiom-group-a-set-structure-the-universes" id="toc-axiom-group-a-set-structure-the-universes" class="nav-link" data-scroll-target="#axiom-group-a-set-structure-the-universes">AXIOM GROUP A: Set Structure (The Universes)</a>
+  <ul class="collapse">
+  <li><a href="#a1.-mece-partition-axiom" id="toc-a1.-mece-partition-axiom" class="nav-link" data-scroll-target="#a1.-mece-partition-axiom">A1. MECE Partition Axiom</a></li>
+  <li><a href="#a1.1-necessity-of-partition-lawveres-theorem" id="toc-a1.1-necessity-of-partition-lawveres-theorem" class="nav-link" data-scroll-target="#a1.1-necessity-of-partition-lawveres-theorem">A1.1 Necessity of Partition (Lawvere’s Theorem)</a></li>
+  <li><a href="#a2.-cardinality-preservation" id="toc-a2.-cardinality-preservation" class="nav-link" data-scroll-target="#a2.-cardinality-preservation">A2. Cardinality Preservation</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-b-graph-structure-topology" id="toc-axiom-group-b-graph-structure-topology" class="nav-link" data-scroll-target="#axiom-group-b-graph-structure-topology">AXIOM GROUP B: Graph Structure (Topology)</a>
+  <ul class="collapse">
+  <li><a href="#b1.-directed-graph-axiom" id="toc-b1.-directed-graph-axiom" class="nav-link" data-scroll-target="#b1.-directed-graph-axiom">B1. Directed Graph Axiom</a></li>
+  <li><a href="#b2.-transitivity-of-reachability" id="toc-b2.-transitivity-of-reachability" class="nav-link" data-scroll-target="#b2.-transitivity-of-reachability">B2. Transitivity of Reachability</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-c-level-structure-the-holarchy" id="toc-axiom-group-c-level-structure-the-holarchy" class="nav-link" data-scroll-target="#axiom-group-c-level-structure-the-holarchy">AXIOM GROUP C: Level Structure (The Holarchy)</a>
+  <ul class="collapse">
+  <li><a href="#c1.-total-order-on-levels" id="toc-c1.-total-order-on-levels" class="nav-link" data-scroll-target="#c1.-total-order-on-levels">C1. Total Order on Levels</a></li>
+  <li><a href="#c2.-containment-implies-level-ordering" id="toc-c2.-containment-implies-level-ordering" class="nav-link" data-scroll-target="#c2.-containment-implies-level-ordering">C2. Containment Implies Level Ordering</a></li>
+  <li><a href="#c3.-zone-boundaries-as-phase-transitions" id="toc-c3.-zone-boundaries-as-phase-transitions" class="nav-link" data-scroll-target="#c3.-zone-boundaries-as-phase-transitions">C3. Zone Boundaries as Phase Transitions</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-d-purpose-field-teleology" id="toc-axiom-group-d-purpose-field-teleology" class="nav-link" data-scroll-target="#axiom-group-d-purpose-field-teleology">AXIOM GROUP D: Purpose Field (Teleology)</a>
+  <ul class="collapse">
+  <li><a href="#d1.-purpose-field-definition" id="toc-d1.-purpose-field-definition" class="nav-link" data-scroll-target="#d1.-purpose-field-definition">D1. Purpose Field Definition</a></li>
+  <li><a href="#d2.-purpose-identity" id="toc-d2.-purpose-identity" class="nav-link" data-scroll-target="#d2.-purpose-identity">D2. Purpose = Identity</a></li>
+  <li><a href="#d3.-transcendence-axiom" id="toc-d3.-transcendence-axiom" class="nav-link" data-scroll-target="#d3.-transcendence-axiom">D3. Transcendence Axiom</a></li>
+  <li><a href="#d4.-focusing-funnel-shape-across-levels" id="toc-d4.-focusing-funnel-shape-across-levels" class="nav-link" data-scroll-target="#d4.-focusing-funnel-shape-across-levels">D4. Focusing Funnel (Shape Across Levels)</a></li>
+  <li><a href="#d5.-emergence-signal" id="toc-d5.-emergence-signal" class="nav-link" data-scroll-target="#d5.-emergence-signal">D5. Emergence Signal</a></li>
+  <li><a href="#d6.-crystallization-distinction" id="toc-d6.-crystallization-distinction" class="nav-link" data-scroll-target="#d6.-crystallization-distinction">D6. Crystallization Distinction</a></li>
+  <li><a href="#d7.-dynamic-purpose-equation" id="toc-d7.-dynamic-purpose-equation" class="nav-link" data-scroll-target="#d7.-dynamic-purpose-equation">D7. Dynamic Purpose Equation</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-e-constructal-law-flow-optimization" id="toc-axiom-group-e-constructal-law-flow-optimization" class="nav-link" data-scroll-target="#axiom-group-e-constructal-law-flow-optimization">AXIOM GROUP E: Constructal Law (Flow Optimization)</a>
+  <ul class="collapse">
+  <li><a href="#e1.-constructal-principle" id="toc-e1.-constructal-principle" class="nav-link" data-scroll-target="#e1.-constructal-principle">E1. Constructal Principle</a></li>
+  <li><a href="#e2.-flow-resistance" id="toc-e2.-flow-resistance" class="nav-link" data-scroll-target="#e2.-flow-resistance">E2. Flow Resistance</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-f-emergence" id="toc-axiom-group-f-emergence" class="nav-link" data-scroll-target="#axiom-group-f-emergence">AXIOM GROUP F: Emergence</a>
+  <ul class="collapse">
+  <li><a href="#f1.-emergence-definition-tononiiit" id="toc-f1.-emergence-definition-tononiiit" class="nav-link" data-scroll-target="#f1.-emergence-definition-tononiiit">F1. Emergence Definition (Tononi/IIT)</a></li>
+  <li><a href="#f2.-emergence-metric-information-theoretic" id="toc-f2.-emergence-metric-information-theoretic" class="nav-link" data-scroll-target="#f2.-emergence-metric-information-theoretic">F2. Emergence Metric (Information-Theoretic)</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-g-observability-peircean-triad" id="toc-axiom-group-g-observability-peircean-triad" class="nav-link" data-scroll-target="#axiom-group-g-observability-peircean-triad">AXIOM GROUP G: Observability (Peircean Triad)</a>
+  <ul class="collapse">
+  <li><a href="#g1.-observability-completeness" id="toc-g1.-observability-completeness" class="nav-link" data-scroll-target="#g1.-observability-completeness">G1. Observability Completeness</a></li>
+  <li><a href="#g2.-peircean-correspondence" id="toc-g2.-peircean-correspondence" class="nav-link" data-scroll-target="#g2.-peircean-correspondence">G2. Peircean Correspondence</a></li>
+  <li><a href="#g3.-minimal-triad-theorem" id="toc-g3.-minimal-triad-theorem" class="nav-link" data-scroll-target="#g3.-minimal-triad-theorem">G3. Minimal Triad Theorem</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-h-consumer-classes-ai-native-design" id="toc-axiom-group-h-consumer-classes-ai-native-design" class="nav-link" data-scroll-target="#axiom-group-h-consumer-classes-ai-native-design">AXIOM GROUP H: Consumer Classes (AI-Native Design)</a>
+  <ul class="collapse">
+  <li><a href="#h1.-three-consumer-classes" id="toc-h1.-three-consumer-classes" class="nav-link" data-scroll-target="#h1.-three-consumer-classes">H1. Three Consumer Classes</a></li>
+  <li><a href="#h2.-universal-consumer-property" id="toc-h2.-universal-consumer-property" class="nav-link" data-scroll-target="#h2.-universal-consumer-property">H2. Universal Consumer Property</a></li>
+  <li><a href="#h3.-mediation-principle" id="toc-h3.-mediation-principle" class="nav-link" data-scroll-target="#h3.-mediation-principle">H3. Mediation Principle</a></li>
+  <li><a href="#h4.-stone-tool-principle" id="toc-h4.-stone-tool-principle" class="nav-link" data-scroll-target="#h4.-stone-tool-principle">H4. Stone Tool Principle</a></li>
+  <li><a href="#h5.-collaboration-level-theorem" id="toc-h5.-collaboration-level-theorem" class="nav-link" data-scroll-target="#h5.-collaboration-level-theorem">H5. Collaboration Level Theorem</a></li>
+  </ul></li>
+  <li><a href="#mathematical-foundations" id="toc-mathematical-foundations" class="nav-link" data-scroll-target="#mathematical-foundations">MATHEMATICAL FOUNDATIONS</a>
+  <ul class="collapse">
+  <li><a href="#category-theory-functors-between-universes" id="toc-category-theory-functors-between-universes" class="nav-link" data-scroll-target="#category-theory-functors-between-universes">10.1 Category Theory (Functors Between Universes)</a></li>
+  <li><a href="#semiotics-sign-theory-foundations" id="toc-semiotics-sign-theory-foundations" class="nav-link" data-scroll-target="#semiotics-sign-theory-foundations">10.2 Semiotics (Sign Theory Foundations)</a></li>
+  <li><a href="#fundamentality-and-grounding-metaphysical-foundations" id="toc-fundamentality-and-grounding-metaphysical-foundations" class="nav-link" data-scroll-target="#fundamentality-and-grounding-metaphysical-foundations">10.3 Fundamentality and Grounding (Metaphysical Foundations)</a></li>
+  <li><a href="#profunctors-many-to-many-concordances" id="toc-profunctors-many-to-many-concordances" class="nav-link" data-scroll-target="#profunctors-many-to-many-concordances">10.4 Profunctors (Many-to-Many Concordances)</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-i-recursive-intelligence-the-godelian-triad" id="toc-axiom-group-i-recursive-intelligence-the-godelian-triad" class="nav-link" data-scroll-target="#axiom-group-i-recursive-intelligence-the-godelian-triad">AXIOM GROUP I: Recursive Intelligence (The Godelian Triad)</a>
+  <ul class="collapse">
+  <li><a href="#i1.-triadic-necessity-axiom" id="toc-i1.-triadic-necessity-axiom" class="nav-link" data-scroll-target="#i1.-triadic-necessity-axiom">I1. Triadic Necessity Axiom</a></li>
+  <li><a href="#i2.-cross-observability-necessity-of-peerage" id="toc-i2.-cross-observability-necessity-of-peerage" class="nav-link" data-scroll-target="#i2.-cross-observability-necessity-of-peerage">I2. Cross-Observability (Necessity of Peerage)</a></li>
+  <li><a href="#i3.-peerage-knowledge" id="toc-i3.-peerage-knowledge" class="nav-link" data-scroll-target="#i3.-peerage-knowledge">I3. Peerage Knowledge</a></li>
+  </ul></li>
+  <li><a href="#axiom-group-j-information-topology-space-reflection" id="toc-axiom-group-j-information-topology-space-reflection" class="nav-link" data-scroll-target="#axiom-group-j-information-topology-space-reflection">AXIOM GROUP J: Information Topology (Space &amp; Reflection)</a>
+  <ul class="collapse">
+  <li><a href="#j1.-location-invariance-axiom" id="toc-j1.-location-invariance-axiom" class="nav-link" data-scroll-target="#j1.-location-invariance-axiom">J1. Location-Invariance Axiom</a></li>
+  <li><a href="#j2.-axiom-of-recursive-self-ingestion" id="toc-j2.-axiom-of-recursive-self-ingestion" class="nav-link" data-scroll-target="#j2.-axiom-of-recursive-self-ingestion">J2. Axiom of Recursive Self-Ingestion</a></li>
+  </ul></li>
+  <li><a href="#validation-results" id="toc-validation-results" class="nav-link" data-scroll-target="#validation-results">VALIDATION RESULTS</a>
+  <ul class="collapse">
+  <li><a href="#axiom-group-d-purpose-field-validated" id="toc-axiom-group-d-purpose-field-validated" class="nav-link" data-scroll-target="#axiom-group-d-purpose-field-validated">Axiom Group D (Purpose Field): ✅ VALIDATED</a></li>
+  <li><a href="#axiom-group-f-emergence-validated" id="toc-axiom-group-f-emergence-validated" class="nav-link" data-scroll-target="#axiom-group-f-emergence-validated">Axiom Group F (Emergence): ✅ VALIDATED</a></li>
+  <li><a href="#axiom-group-e-constructal-partially-validated" id="toc-axiom-group-e-constructal-partially-validated" class="nav-link" data-scroll-target="#axiom-group-e-constructal-partially-validated">Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED</a></li>
+  <li><a href="#axiom-group-a-mece-partition-validated-novel-application" id="toc-axiom-group-a-mece-partition-validated-novel-application" class="nav-link" data-scroll-target="#axiom-group-a-mece-partition-validated-novel-application">Axiom Group A (MECE Partition): ✅ VALIDATED (Novel Application)</a></li>
+  <li><a href="#overall-validation-table" id="toc-overall-validation-table" class="nav-link" data-scroll-target="#overall-validation-table">Overall Validation Table</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a>
+  <ul class="collapse">
+  <li><a href="#project-documents" id="toc-project-documents" class="nav-link" data-scroll-target="#project-documents">Project Documents</a></li>
+  <li><a href="#semiotics" id="toc-semiotics" class="nav-link" data-scroll-target="#semiotics">Semiotics</a></li>
+  <li><a href="#metaphysics" id="toc-metaphysics" class="nav-link" data-scroll-target="#metaphysics">Metaphysics</a></li>
+  <li><a href="#mathematics" id="toc-mathematics" class="nav-link" data-scroll-target="#mathematics">Mathematics</a></li>
+  <li><a href="#physics-complex-systems" id="toc-physics-complex-systems" class="nav-link" data-scroll-target="#physics-complex-systems">Physics &amp; Complex Systems</a></li>
+  </ul></li>
+  <li><a href="#navigation" id="toc-navigation" class="nav-link" data-scroll-target="#navigation">Navigation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Particle (Standard Model)</li><li class="breadcrumb-item"><a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html">Theory</a></li><li class="breadcrumb-item"><a href="../../staging/particle_theory/L0_AXIOMS.html">L0 Axioms</a></li></ol></nav></header>
+
+
+
+
+<section id="l0-axioms-of-the-standard-model-of-code" class="level1">
+<h1>L0: Axioms of the Standard Model of Code</h1>
+<p><strong>📍 Navigation:</strong> <a href="./THEORY_INDEX.md#FIXED">Theory Index</a> | <strong>Next:</strong> <a href="../../staging/particle_theory/L1_DEFINITIONS.html#FIXED">L1: Definitions →</a></p>
+<p><strong>Layer:</strong> 0 (Bedrock) <strong>Status:</strong> VALIDATED <strong>Depends on:</strong> Nothing (this is the foundation) <strong>Version:</strong> 2.0.0 <strong>Created:</strong> 2026-01-27</p>
+<hr>
+<section id="purpose-of-this-layer" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-of-this-layer">Purpose of This Layer</h2>
+<p>This document contains the <strong>formal axioms</strong> that MUST hold for the Standard Model of Code to be coherent. These are not definitions (that’s L1), not behavioral laws (that’s L2), and not measurements (that’s L3). These are <strong>foundational truths</strong> that everything else builds on.</p>
+<p>Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).</p>
+<hr>
+</section>
+<section id="primitive-notions-undefined-terms" class="level2">
+<h2 class="anchored" data-anchor-id="primitive-notions-undefined-terms">0. Primitive Notions (Undefined Terms)</h2>
+<p>These are the fundamental entities that cannot be defined in terms of simpler concepts:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 24%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Name</th>
+<th>Intuition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>P</strong></td>
+<td>Projectome</td>
+<td>Universe of all project artifacts (files)</td>
+</tr>
+<tr class="even">
+<td><strong>N</strong></td>
+<td>Nodes</td>
+<td>Discrete code entities (functions, classes, methods, variables)</td>
+</tr>
+<tr class="odd">
+<td><strong>E</strong></td>
+<td>Edges</td>
+<td>Relationships between nodes (calls, imports, contains, etc.)</td>
+</tr>
+<tr class="even">
+<td><strong>L</strong></td>
+<td>Levels</td>
+<td>Scale hierarchy (16 levels from Bit to Universe)</td>
+</tr>
+<tr class="odd">
+<td><strong>executable()</strong></td>
+<td>Executability predicate</td>
+<td>Boolean function: can this artifact be parsed/compiled/run?</td>
+</tr>
+</tbody>
+</table>
+<p>These primitives are taken as given. The axioms below impose structure on them.</p>
+<hr>
+</section>
+<section id="axiom-group-a-set-structure-the-universes" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-a-set-structure-the-universes">AXIOM GROUP A: Set Structure (The Universes)</h2>
+<section id="a1.-mece-partition-axiom" class="level3">
+<h3 class="anchored" data-anchor-id="a1.-mece-partition-axiom">A1. MECE Partition Axiom</h3>
+<pre><code>P = C ⊔ X                    (Projectome is disjoint union)
+C ∩ X = ∅                    (Codome and Contextome are disjoint)
+C ∪ X = P                    (Together they cover everything)
+
+WHERE:
+  C = {f ∈ P | executable(f)}      Codome (executable artifacts)
+  X = {f ∈ P | ¬executable(f)}     Contextome (non-executable artifacts)</code></pre>
+<p><strong>Interpretation:</strong> Every project artifact belongs to exactly one of two universes: - <strong>CODOME</strong> if it can be parsed/compiled/executed (.py, .js, .ts, .go, .css, .html, .sql, .sh) - <strong>CONTEXTOME</strong> if it cannot (.md, .yaml, .json configs, research outputs, agent state)</p>
+<p>This is a <strong>MECE partition</strong> (Mutually Exclusive, Collectively Exhaustive). In category theory, it is a <strong>coproduct</strong> (disjoint union). In type theory, it is a <strong>sum type</strong>.</p>
+</section>
+<section id="a1.1-necessity-of-partition-lawveres-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="a1.1-necessity-of-partition-lawveres-theorem">A1.1 Necessity of Partition (Lawvere’s Theorem)</h3>
+<p><strong>THEOREM:</strong> The partition P = C ⊔ X is <strong>MATHEMATICALLY NECESSARY</strong>, not an arbitrary engineering choice.</p>
+<p><strong>PROOF (via Lawvere’s Fixed-Point Theorem, 1969):</strong></p>
+<pre><code>Let A = C (Codome - the system of executable code)
+Let B = {true, false} (semantic meanings)
+Let B^A = all possible interpretations of code
+
+Consider negation: ¬ : B → B where ¬(true) = false, ¬(false) = true
+Negation has NO fixed point (∀b: ¬(b) ≠ b)
+
+Lawvere's Theorem states:
+  IF there exists a surjection φ: A → B^A
+  THEN every function f: B → B has a fixed point
+
+Contrapositive:
+  Since ¬ has no fixed point
+  ∴ There is NO surjection C → B^C
+  ∴ Code cannot fully specify its own semantics
+  ∴ Semantics must come from EXTERNAL source (X = Contextome)
+  ∴ Partition P = C ⊔ X is necessary for semantic completeness ∎</code></pre>
+<p><strong>Academic Source:</strong> Lawvere, F. W. (1969). “Diagonal Arguments and Cartesian Closed Categories.” Lecture Notes in Mathematics 92, Springer. Reprinted: Theory and Applications of Categories, No.&nbsp;15, 2006.</p>
+<p><strong>Validation:</strong> Gemini 3 Pro (2026-01-25) confirmed: “The proof is VALID. The application to software documentation necessity appears NOVEL.”</p>
+<p><strong>Philosophical Connection:</strong> This is the same diagonal argument underlying Gödel’s incompleteness and Tarski’s undefinability. The CODOME cannot be its own metalanguage. The CONTEXTOME is the explicit meta-layer.</p>
+<p><strong>See:</strong> <code>../../../context-management/docs/theory/FOUNDATIONS_INTEGRATION.md</code> for complete formal proof with all lemmas.</p>
+</section>
+<section id="a2.-cardinality-preservation" class="level3">
+<h3 class="anchored" data-anchor-id="a2.-cardinality-preservation">A2. Cardinality Preservation</h3>
+<pre><code>|P| = |C| + |X|              File count preserved across partition
+|N| ≥ |C|                    Nodes outnumber files (containment)</code></pre>
+<hr>
+</section>
+</section>
+<section id="axiom-group-b-graph-structure-topology" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-b-graph-structure-topology">AXIOM GROUP B: Graph Structure (Topology)</h2>
+<section id="b1.-directed-graph-axiom" class="level3">
+<h3 class="anchored" data-anchor-id="b1.-directed-graph-axiom">B1. Directed Graph Axiom</h3>
+<pre><code>G = (N, E)                   Code is a directed graph
+
+E ⊆ N × N × T                Edges are typed
+
+T = {calls, imports, inherits, implements, contains, uses, references, ...}</code></pre>
+<p><strong>Interpretation:</strong> All code structure can be represented as a directed graph where nodes are code entities and edges are relationships. This is not a model or approximation – it is the actual structure.</p>
+</section>
+<section id="b2.-transitivity-of-reachability" class="level3">
+<h3 class="anchored" data-anchor-id="b2.-transitivity-of-reachability">B2. Transitivity of Reachability</h3>
+<pre><code>A: N × N → {0,1}             Adjacency matrix
+A(i,j) = 1 ⟺ (nᵢ, nⱼ, t) ∈ E for some type t
+
+A⁺ = transitive closure of A
+(A⁺)ᵢⱼ &gt; 0 ⟺ ∃ path from nᵢ to nⱼ</code></pre>
+<p><strong>Derived concepts:</strong> - <strong>Reachable set</strong>: R(n) = {m | (A⁺)(n,m) &gt; 0} - <strong>Dead code</strong>: nodes with |R(n)| = 0 from entry points - <strong>Connected components</strong>: equivalence classes under undirected reachability</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-c-level-structure-the-holarchy" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-c-level-structure-the-holarchy">AXIOM GROUP C: Level Structure (The Holarchy)</h2>
+<section id="c1.-total-order-on-levels" class="level3">
+<h3 class="anchored" data-anchor-id="c1.-total-order-on-levels">C1. Total Order on Levels</h3>
+<pre><code>(L, ≤) is a total order (chain)
+
+L = {L₋₃, L₋₂, L₋₁, L₀, L₁, L₂, L₃, L₄, L₅, L₆, L₇, L₈, L₉, L₁₀, L₁₁, L₁₂}
+
+L₋₃ ≤ L₋₂ ≤ L₋₁ ≤ L₀ ≤ ... ≤ L₁₂
+
+⊥ = L₋₃ (BIT)        Bottom element (most fundamental)
+⊤ = L₁₂ (UNIVERSE)   Top element (most abstract)</code></pre>
+<p><strong>Properties:</strong> - <strong>Total</strong>: ∀a,b ∈ L: a ≤ b ∨ b ≤ a (any two levels are comparable) - <strong>Antisymmetric</strong>: a ≤ b ∧ b ≤ a ⟹ a = b - <strong>Transitive</strong>: a ≤ b ∧ b ≤ c ⟹ a ≤ c - <strong>Well-founded</strong>: Has a minimal element (L₋₃), no infinite descending chains</p>
+<p>This makes (L, ≤) a <strong>lattice</strong> (specifically, a chain). The Standard Model’s level hierarchy is order-theoretically rigorous.</p>
+</section>
+<section id="c2.-containment-implies-level-ordering" class="level3">
+<h3 class="anchored" data-anchor-id="c2.-containment-implies-level-ordering">C2. Containment Implies Level Ordering</h3>
+<pre><code>contains(e₁, e₂) ⟹ λ(e₁) &gt; λ(e₂)
+
+WHERE:
+  λ: Entity → L          Level assignment function
+  contains: Entity × Entity → Bool</code></pre>
+<p><strong>Examples:</strong> - File (L5) contains Class (L4) contains Method (L3) contains Block (L2) contains Statement (L1) - Package (L6) contains Files (L5) - System (L7) contains Packages (L6)</p>
+<p><strong>Corollary:</strong> If A contains B and B contains C, then λ(A) &gt; λ(B) &gt; λ(C) by transitivity.</p>
+</section>
+<section id="c3.-zone-boundaries-as-phase-transitions" class="level3">
+<h3 class="anchored" data-anchor-id="c3.-zone-boundaries-as-phase-transitions">C3. Zone Boundaries as Phase Transitions</h3>
+<pre><code>ZONES = {PHYSICAL, SYNTACTIC, SEMANTIC, SYSTEMIC, COSMOLOGICAL}
+
+zone_map: L → ZONES
+
+zone_map(L₋₃..L₋₁) = PHYSICAL
+zone_map(L₀) = SYNTACTIC
+zone_map(L₁..L₃) = SEMANTIC
+zone_map(L₄..L₇) = SYSTEMIC
+zone_map(L₈..L₁₂) = COSMOLOGICAL</code></pre>
+<p><strong>Zone boundaries</strong> mark where the type of dominant morphisms changes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Boundary</th>
+<th>Below</th>
+<th>Above</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L₋₁ | L₀</td>
+<td>Encoding relations (byte order, charset)</td>
+<td>Syntactic adjacency</td>
+</tr>
+<tr class="even">
+<td>L₀ | L₁</td>
+<td>Token adjacency</td>
+<td>Statement sequencing, control flow</td>
+</tr>
+<tr class="odd">
+<td>L₃ | L₄</td>
+<td>Function-level semantics</td>
+<td>Containment, composition, OOP</td>
+</tr>
+<tr class="even">
+<td>L₇ | L₈</td>
+<td>Intra-system coupling</td>
+<td>Inter-system boundaries, ecosystem</td>
+</tr>
+</tbody>
+</table>
+<p>These are <strong>phase transitions</strong> in the order-theoretic sense: the invariants that survive abstraction change discontinuously.</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-d-purpose-field-teleology" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-d-purpose-field-teleology">AXIOM GROUP D: Purpose Field (Teleology)</h2>
+<section id="d1.-purpose-field-definition" class="level3">
+<h3 class="anchored" data-anchor-id="d1.-purpose-field-definition">D1. Purpose Field Definition</h3>
+<pre><code>𝒫: N → ℝᵏ                    Purpose is a vector field over nodes
+
+Purpose assigns a k-dimensional vector to every node.
+The vector encodes "what this node is FOR."</code></pre>
+<p><strong>Key insight:</strong> Purpose is RELATIONAL, not intrinsic. It emerges from graph context, not from reading the node in isolation.</p>
+</section>
+<section id="d2.-purpose-identity" class="level3">
+<h3 class="anchored" data-anchor-id="d2.-purpose-identity">D2. Purpose = Identity</h3>
+<pre><code>IDENTITY(n) ≡ 𝒫(n)
+
+An entity IS what it is FOR.</code></pre>
+<p><strong>Philosophical source:</strong> Aristotle’s teleology (“the final cause”), operationalized via graph topology.</p>
+</section>
+<section id="d3.-transcendence-axiom" class="level3">
+<h3 class="anchored" data-anchor-id="d3.-transcendence-axiom">D3. Transcendence Axiom</h3>
+<pre><code>𝒫(entity) = f(role_in_parent)
+
+An entity at level L has no INTRINSIC purpose.
+Its purpose EMERGES from participation in level L+1.
+
+PURPOSE IS RELATIONAL, NOT INTRINSIC.</code></pre>
+<p><strong>Example:</strong> - A <code>save()</code> method (L3) has no meaning in isolation - Its purpose emerges from being part of a <code>Repository</code> class (L4) - The Repository’s purpose emerges from its role in a persistence system (L7)</p>
+</section>
+<section id="d4.-focusing-funnel-shape-across-levels" class="level3">
+<h3 class="anchored" data-anchor-id="d4.-focusing-funnel-shape-across-levels">D4. Focusing Funnel (Shape Across Levels)</h3>
+<pre><code>‖𝒫(L)‖ grows with L           Purpose magnitude increases
+Var(θ(L)) decreases with L    Purpose direction variance decreases
+
+WHERE:
+  ‖𝒫(L)‖ = avg purpose magnitude at level L
+  θ(L) = purpose direction (angle in ℝᵏ)
+  Var(θ) = variance in direction across entities at L</code></pre>
+<p><strong>Interpretation:</strong> - <strong>Low levels (L₀-L₃):</strong> Diffuse purposes, high variance (tokens/statements serve many roles) - <strong>High levels (L₉-L₁₂):</strong> Focused purposes, low variance (systems have singular strategic purpose)</p>
+<p>This is the <strong>funnel shape</strong>: purpose sharpens as you ascend levels.</p>
+</section>
+<section id="d5.-emergence-signal" class="level3">
+<h3 class="anchored" data-anchor-id="d5.-emergence-signal">D5. Emergence Signal</h3>
+<pre><code>‖𝒫(parent)‖ &gt; Σᵢ ‖𝒫(childᵢ)‖
+
+WHEN this inequality holds, emergent properties exist.
+"Whole &gt; sum of parts" = new layer of abstraction</code></pre>
+<p><strong>Example:</strong> A Repository class (parent) has purpose “data persistence.” Its individual methods (children) have purposes “validate input,” “execute query,” “handle error.” The Repository purpose is qualitatively different from the sum of method purposes.</p>
+</section>
+<section id="d6.-crystallization-distinction" class="level3">
+<h3 class="anchored" data-anchor-id="d6.-crystallization-distinction">D6. Crystallization Distinction</h3>
+<pre><code>𝒫_human(t) = f(context(t), need(t), learning(t))    [DYNAMIC]
+𝒫_code(t) = 𝒫_human(t_commit)                       [CRYSTALLIZED]
+
+d𝒫_human/dt ≠ 0    (human intent continuously evolves)
+d𝒫_code/dt = 0     (code purpose frozen between commits)
+
+DRIFT:
+  Δ𝒫(t) = 𝒫_human(t) - 𝒫_code(t)
+
+TECHNICAL DEBT:
+  Debt(T) = ∫[t_commit to T] |d𝒫_human/dt| dt</code></pre>
+<p><strong>Key insight:</strong> Code crystallizes a snapshot of human intent. Drift accumulates as human understanding evolves but code doesn’t.</p>
+</section>
+<section id="d7.-dynamic-purpose-equation" class="level3">
+<h3 class="anchored" data-anchor-id="d7.-dynamic-purpose-equation">D7. Dynamic Purpose Equation</h3>
+<pre><code>d𝒫/dt = -∇Incoherence(𝕮)
+
+Purpose evolves to RESOLVE INCOHERENCE.
+Development = gradient descent on incoherence.</code></pre>
+<p><strong>Validated against:</strong> Friston’s Free Energy Principle (see validation section).</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-e-constructal-law-flow-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-e-constructal-law-flow-optimization">AXIOM GROUP E: Constructal Law (Flow Optimization)</h2>
+<section id="e1.-constructal-principle" class="level3">
+<h3 class="anchored" data-anchor-id="e1.-constructal-principle">E1. Constructal Principle</h3>
+<pre><code>Code evolves toward configurations that provide
+easier access to flow (data, control, dependencies).
+
+d𝕮/dt = ∇H
+
+WHERE:
+  𝕮 = codebase configuration
+  H = constructal health metric (flow ease)</code></pre>
+<p><strong>Source:</strong> Bejan, A. &amp; Lorente, S. (2008). “Design with Constructal Theory.” Wiley.</p>
+<p><strong>Interpretation:</strong> Just as river networks evolve to minimize flow resistance, code structure evolves to minimize dependency resistance, information bottlenecks, and change friction.</p>
+</section>
+<section id="e2.-flow-resistance" class="level3">
+<h3 class="anchored" data-anchor-id="e2.-flow-resistance">E2. Flow Resistance</h3>
+<pre><code>R(path) = Σ obstacles along path
+
+Refactoring = reducing R
+Technical debt = accumulated R</code></pre>
+<p><strong>Four flow substances:</strong> 1. <strong>Static flow</strong>: Dependencies, imports, calls 2. <strong>Runtime flow</strong>: Data flow, control flow 3. <strong>Change flow</strong>: How easily changes propagate 4. <strong>Human flow</strong>: How easily understanding propagates</p>
+<p><strong>Status:</strong> Empirically validated but debated as mathematical axiom. Treat as <strong>heuristic principle</strong>, not formal theorem.</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-f-emergence" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-f-emergence">AXIOM GROUP F: Emergence</h2>
+<section id="f1.-emergence-definition-tononiiit" class="level3">
+<h3 class="anchored" data-anchor-id="f1.-emergence-definition-tononiiit">F1. Emergence Definition (Tononi/IIT)</h3>
+<pre><code>EMERGENCE occurs when the macro-level predicts as well as the micro-level:
+
+P(X_{t+1} | S_macro(t)) ≥ P(X_{t+1} | S_micro(t))
+
+WHERE:
+  S_macro = higher-level state description (e.g., "this is a Repository")
+  S_micro = lower-level state description (list of all methods)</code></pre>
+<p><strong>Interpretation:</strong> If knowing “it’s a Repository” predicts behavior as well as knowing all individual methods, the Repository concept has <strong>emergent reality</strong>.</p>
+</section>
+<section id="f2.-emergence-metric-information-theoretic" class="level3">
+<h3 class="anchored" data-anchor-id="f2.-emergence-metric-information-theoretic">F2. Emergence Metric (Information-Theoretic)</h3>
+<pre><code>ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)
+
+WHERE:
+  I(X;Y) = mutual information
+  Output = behavior/predictions
+
+ε &gt; 1  →  Positive emergence (system has info components lack)
+ε = 1  →  No emergence (system = parts)
+ε &lt; 1  →  Negative emergence (components interfere)</code></pre>
+<p><strong>Validated against:</strong> Tononi, G. et al.&nbsp;(2020). “Integrated Information Theory 4.0.” Consciousness &amp; Cognition.</p>
+<p><strong>Connection to Axiom D5:</strong> This gives a computable version of the “whole &gt; parts” test.</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-g-observability-peircean-triad" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-g-observability-peircean-triad">AXIOM GROUP G: Observability (Peircean Triad)</h2>
+<section id="g1.-observability-completeness" class="level3">
+<h3 class="anchored" data-anchor-id="g1.-observability-completeness">G1. Observability Completeness</h3>
+<pre><code>COMPLETE_OBSERVABILITY(S) ⟺
+  ∃ structural_observer : P → Manifest        ∧  [POM, Registry of Registries]
+  ∃ operational_observer : Pipeline → Metrics  ∧  [observability.py, perf stats]
+  ∃ generative_observer : Dialogue → Trace        [session logs, AI turns]</code></pre>
+<p><strong>Interpretation:</strong> A system is completely observable when we can observe: 1. <strong>Structure</strong> (what exists – POM, file trees, schemas) 2. <strong>Operation</strong> (what happens – metrics, performance, execution) 3. <strong>Generation</strong> (what is created – AI sessions, commits, evolution)</p>
+</section>
+<section id="g2.-peircean-correspondence" class="level3">
+<h3 class="anchored" data-anchor-id="g2.-peircean-correspondence">G2. Peircean Correspondence</h3>
+<pre><code>STRUCTURAL  ↔ Thirdness (mediation, interpretation, rules)
+OPERATIONAL ↔ Secondness (brute fact, existence, actuality)
+GENERATIVE  ↔ Firstness (possibility, potentiality, becoming)</code></pre>
+<p><strong>Source:</strong> Peirce, C. S. – Triadic sign theory. See: Atkin, A. (2010). “Peirce’s Theory of Signs.” Stanford Encyclopedia of Philosophy.</p>
+</section>
+<section id="g3.-minimal-triad-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="g3.-minimal-triad-theorem">G3. Minimal Triad Theorem</h3>
+<pre><code>Two observers are INSUFFICIENT for complete observability.
+The triad {STRUCTURAL, OPERATIONAL, GENERATIVE} is MINIMAL.</code></pre>
+<p><strong>Proof sketch:</strong> Missing any one creates a blind spot: - Without STRUCTURAL: cannot know what exists (only what happens) - Without OPERATIONAL: cannot know what happens (only what is declared) - Without GENERATIVE: cannot know how system evolves (only current state)</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-h-consumer-classes-ai-native-design" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-h-consumer-classes-ai-native-design">AXIOM GROUP H: Consumer Classes (AI-Native Design)</h2>
+<section id="h1.-three-consumer-classes" class="level3">
+<h3 class="anchored" data-anchor-id="h1.-three-consumer-classes">H1. Three Consumer Classes</h3>
+<pre><code>CONSUMER = {END_USER, DEVELOPER, AI_AGENT}
+
+WHERE:
+  END_USER   = Human using software product (needs UI, workflows)
+  DEVELOPER  = Human building/maintaining (needs clarity, documentation)
+  AI_AGENT   = Non-human consumer (needs structure, schemas, APIs)</code></pre>
+</section>
+<section id="h2.-universal-consumer-property" class="level3">
+<h3 class="anchored" data-anchor-id="h2.-universal-consumer-property">H2. Universal Consumer Property</h3>
+<pre><code>AI_AGENT ∈ Consumer(L₀) ∩ Consumer(L₁) ∩ Consumer(L₂)
+
+AI_AGENT can consume ALL Tarski meta-levels.
+AI_AGENT is the UNIVERSAL consumer.</code></pre>
+<p><strong>Interpretation:</strong> - <strong>L₀</strong> (object language): AI can parse code directly - <strong>L₁</strong> (meta-language): AI can read documentation/specs - <strong>L₂</strong> (meta-meta-language): AI can reason about meta-properties</p>
+<p>Humans struggle with L₀ (raw code) and L₂ (meta-reasoning). AI bridges all three.</p>
+</section>
+<section id="h3.-mediation-principle" class="level3">
+<h3 class="anchored" data-anchor-id="h3.-mediation-principle">H3. Mediation Principle</h3>
+<pre><code>OPTIMAL_DESIGN: Optimize for AI_AGENT consumption.
+AI_AGENT mediates for END_USER and DEVELOPER.
+
+Human interface = Natural language (L₁ Contextome)
+Machine interface = Structured data (L₀ Codome, L₂ schemas/tools)</code></pre>
+</section>
+<section id="h4.-stone-tool-principle" class="level3">
+<h3 class="anchored" data-anchor-id="h4.-stone-tool-principle">H4. Stone Tool Principle</h3>
+<pre><code>Tools MAY be designed that humans cannot directly use.
+
+STONE_TOOL_TEST(tool) = "Can a human use this without AI mediation?"
+
+If FALSE → AI-native tool (valid design choice)</code></pre>
+<p><strong>Examples:</strong> - <strong>Passes test:</strong> <code>git commit</code> (human-usable) - <strong>Fails test:</strong> GraphRAG embeddings, 50MB JSON schema (requires AI to navigate)</p>
+<p><strong>Philosophical grounding:</strong> Just as stone tools extended human physical reach, AI-native tools extend human cognitive reach. The tool need not fit the unaided human hand.</p>
+</section>
+<section id="h5.-collaboration-level-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="h5.-collaboration-level-theorem">H5. Collaboration Level Theorem</h3>
+<pre><code>Human-AI collaboration occurs at L₁ (CONTEXTOME).
+
+HUMAN operates:   L₁ (natural language, intent, specifications)
+AI operates:      L₀ (code parsing/generation), L₂ (tool execution, meta-reasoning)
+AI bridges:       L₁ ↔ L₀, L₁ ↔ L₂
+
+Programming = CONTEXTOME curation at L₁</code></pre>
+<p><strong>Implication:</strong> The rise of AI shifts programming from “writing code” to “specifying intent.” CONTEXTOME becomes the primary human workspace.</p>
+<p><strong>Validation:</strong> Gemini 3 Pro rated this “Genuine paradigm shift” (9/10 hotness).</p>
+<hr>
+</section>
+</section>
+<section id="mathematical-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-foundations">MATHEMATICAL FOUNDATIONS</h2>
+<section id="category-theory-functors-between-universes" class="level3">
+<h3 class="anchored" data-anchor-id="category-theory-functors-between-universes">10.1 Category Theory (Functors Between Universes)</h3>
+<section id="the-two-categories" class="level4">
+<h4 class="anchored" data-anchor-id="the-two-categories">The Two Categories</h4>
+<p><strong>Category C (CODOME):</strong> - <strong>Objects:</strong> Code entities across levels (tokens, statements, nodes, containers, files, packages, subsystems) - <strong>Morphisms:</strong> Containment (part-of), dependency (imports, calls, type-use, dataflow)</p>
+<p><strong>Category X (CONTEXTOME):</strong> - <strong>Objects:</strong> Doc entities (words, sentences, paragraphs, headings, sections, files, spec groups) - <strong>Morphisms:</strong> Containment, reference/citation/link edges, defines/claims/specifies edges</p>
+</section>
+<section id="the-documentation-functor" class="level4">
+<h4 class="anchored" data-anchor-id="the-documentation-functor">The Documentation Functor</h4>
+<p>In reality, some code has no docs. So the documentation map <strong>F</strong> is <strong>partial</strong>.</p>
+<p><strong>Option A – Total functor into extended category with ⊥:</strong></p>
+<pre><code>F : C → X_⊥
+
+WHERE:
+  X_⊥ = X ∪ {⊥}        X extended with null-doc object
+  F(c) = ⊥             exactly when c is UNVOICED (no docs)</code></pre>
+<p><strong>Option B – Kleisli functor for the Maybe monad:</strong></p>
+<p>Treat documentation as an effect: mapping may fail. Then F lands in “Maybe X”.</p>
+</section>
+<section id="functor-algebra-of-concordance-states" class="level4">
+<h4 class="anchored" data-anchor-id="functor-algebra-of-concordance-states">Functor Algebra of Concordance States</h4>
+<p>The 2×2 concordance state space becomes <strong>functor algebra</strong>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>State</th>
+<th>Functor Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>UNVOICED</strong></td>
+<td>F(c) = ⊥ (code exists, no docs)</td>
+</tr>
+<tr class="even">
+<td><strong>UNREALIZED</strong></td>
+<td>∃x ∈ X: x ∉ Im(F) (docs exist, no code)</td>
+</tr>
+<tr class="odd">
+<td><strong>DISCORDANT</strong></td>
+<td>F(c) exists, purpose mismatch (drift &gt; ε)</td>
+</tr>
+<tr class="even">
+<td><strong>CONCORDANT</strong></td>
+<td>F(c) exists, purpose match (drift ≤ ε)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="purpose-preservation-as-approximate-naturality" class="level4">
+<h4 class="anchored" data-anchor-id="purpose-preservation-as-approximate-naturality">Purpose Preservation as Approximate Naturality</h4>
+<p>Define purpose extractors:</p>
+<pre><code>Ψ_C : C → Sem          (purpose from code)
+Ψ_X : X → Sem          (purpose from docs)
+
+WHERE Sem = semantic space (vectors, or metric space)</code></pre>
+<p>The <strong>ideal concordance condition</strong> is diagram commutativity:</p>
+<pre><code>        F
+   C -------&gt; X
+   |           |
+Ψ_C |           | Ψ_X
+   |           |
+   v    ≈      v
+  Sem -------&gt; Sem
+        id</code></pre>
+<p>The “≈” is formalized as <strong>bounded error</strong>:</p>
+<pre><code>d(Ψ_C(c), Ψ_X(F(c))) ≤ ε       (concordance condition)
+
+When this holds: CONCORDANT
+When it fails: DISCORDANT</code></pre>
+<p>This is <strong>exactly</strong> what concordance score measures.</p>
+</section>
+</section>
+<section id="semiotics-sign-theory-foundations" class="level3">
+<h3 class="anchored" data-anchor-id="semiotics-sign-theory-foundations">10.2 Semiotics (Sign Theory Foundations)</h3>
+<section id="peirces-triadic-sign-irreducible-triad" class="level4">
+<h4 class="anchored" data-anchor-id="peirces-triadic-sign-irreducible-triad">Peirce’s Triadic Sign (Irreducible Triad)</h4>
+<p>Peirce’s basic structure is irreducibly triadic (SEP, “Peirce’s Theory of Signs”):</p>
+<pre><code>Sign Relation = (Sign, Object, Interpretant)
+
+WHERE:
+  Sign        = representamen (the sign vehicle)
+  Object      = what is represented
+  Interpretant = the effect/understanding produced</code></pre>
+<p><strong>The SMoC Mapping for Concordances:</strong></p>
+<p>For a purpose <strong>π</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 73%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Peirce Component</th>
+<th>SMoC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Object</strong></td>
+<td>The intended purpose π (the shared WHY)</td>
+</tr>
+<tr class="even">
+<td><strong>Sign (system 1)</strong></td>
+<td>CODOME slice C_π (executable signs – code that also runs)</td>
+</tr>
+<tr class="odd">
+<td><strong>Sign (system 2)</strong></td>
+<td>CONTEXTOME slice X_π (discursive signs – docs/specs)</td>
+</tr>
+<tr class="even">
+<td><strong>Interpretant</strong></td>
+<td>Purpose vectors + alignment score σ (concordance machinery)</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>Concordance</strong> is a measurable <strong>interpretant-agreement test</strong> between two sign systems about the same object.</p>
+</section>
+<section id="morriss-trichotomy-syntacticssemanticspragmatics" class="level4">
+<h4 class="anchored" data-anchor-id="morriss-trichotomy-syntacticssemanticspragmatics">Morris’s Trichotomy (Syntactics/Semantics/Pragmatics)</h4>
+<p>Morris (1938, “Foundations of the Theory of Signs”) defines:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Relations</th>
+<th>SMoC Mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Syntactics</strong></td>
+<td>Signs to signs</td>
+<td>CODOME (AST structure, symbol relations, call edges)</td>
+</tr>
+<tr class="even">
+<td><strong>Semantics</strong></td>
+<td>Signs to objects</td>
+<td>Shared: CODOME (behavioral semantics via execution), CONTEXTOME (declarative semantics via specs)</td>
+</tr>
+<tr class="odd">
+<td><strong>Pragmatics</strong></td>
+<td>Signs to interpreters</td>
+<td>CONTEXTOME (intent, constraints, rationale, governance)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Concordances</strong> are the bridge between planes: the auditable interface between syntactic reality, semantic commitments, and pragmatic intention.</p>
+</section>
+<section id="lotmans-semiosphere-boundary-translation" class="level4">
+<h4 class="anchored" data-anchor-id="lotmans-semiosphere-boundary-translation">Lotman’s Semiosphere (Boundary Translation)</h4>
+<p>Lotman (1984/2005, “On the Semiosphere”) states:</p>
+<blockquote class="blockquote">
+<p>“No semiosis can exist without a semiotic space… The whole semiotic space may be regarded as a unified mechanism (if not organism).”</p>
+</blockquote>
+<p><strong>The SMoC Mapping:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 71%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Lotman Concept</th>
+<th>SMoC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Semiosphere</strong> (containing space)</td>
+<td>PROJECTOME (the total semiotic space)</td>
+</tr>
+<tr class="even">
+<td><strong>Core/periphery</strong></td>
+<td>CODOME (core machine-semiotic layer), CONTEXTOME (cultural-discursive periphery)</td>
+</tr>
+<tr class="odd">
+<td><strong>Boundary filters</strong> (bilingual translation)</td>
+<td>CONCORDANCES (translate between execution language and intention language)</td>
+</tr>
+</tbody>
+</table>
+<p>Lotman’s “boundary translation filters” are <strong>measurable</strong> in SMoC via alignment scores.</p>
+</section>
+</section>
+<section id="fundamentality-and-grounding-metaphysical-foundations" class="level3">
+<h3 class="anchored" data-anchor-id="fundamentality-and-grounding-metaphysical-foundations">10.3 Fundamentality and Grounding (Metaphysical Foundations)</h3>
+<section id="what-ontological-fundamentalism-is" class="level4">
+<h4 class="anchored" data-anchor-id="what-ontological-fundamentalism-is">What Ontological Fundamentalism Is</h4>
+<p>Markosian (2005, “Against Ontological Fundamentalism”, Facta Philosophica 7(1): 69-83) defines <strong>ontological fundamentalism</strong> as:</p>
+<blockquote class="blockquote">
+<p>“Only the mereological simples at the bottom level are maximally real; higher-level entities are less real or not real.”</p>
+</blockquote>
+<p><strong>Markosian’s critique:</strong> This creates “degrees of reality” that produce quantifier confusion and common-sense violations.</p>
+</section>
+<section id="smocs-stance-relative-fundamentality" class="level4">
+<h4 class="anchored" data-anchor-id="smocs-stance-relative-fundamentality">SMoC’s Stance: Relative Fundamentality</h4>
+<p>The Standard Model has a level hierarchy (L₋₃ to L₁₂) but <strong>does NOT claim higher levels are “less real.”</strong></p>
+<p>Instead, SMoC adopts <strong>relative fundamentality</strong> (SEP, “Fundamentality”):</p>
+<blockquote class="blockquote">
+<p>A priority ordering used for explanation, tied to dependence/grounding, without implying existence gradients.</p>
+</blockquote>
+<p><strong>SMoC explicitly rejects:</strong> “L₀ tokens are more real than L₇ systems.” <strong>SMoC explicitly adopts:</strong> “L₀ tokens are more constructionally primitive than L₇ systems.”</p>
+</section>
+<section id="three-kinds-of-grounding-in-smoc" class="level4">
+<h4 class="anchored" data-anchor-id="three-kinds-of-grounding-in-smoc">Three Kinds of Grounding in SMoC</h4>
+<p>The metaphysical grounding literature (SEP, “Metaphysical Grounding”) emphasizes grounding as hyperintensional explanation.</p>
+<p>SMoC operationalizes three kinds:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Grounding Type</th>
+<th>Definition</th>
+<th>Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Behavioral</strong></td>
+<td>Runtime behavior grounds claims about correctness</td>
+<td>CODOME → observable properties</td>
+</tr>
+<tr class="even">
+<td><strong>Intentional</strong></td>
+<td>Specs/requirements ground what counts as correct</td>
+<td>CONTEXTOME → correctness criteria</td>
+</tr>
+<tr class="odd">
+<td><strong>Structural</strong></td>
+<td>Architecture constraints ground admissible implementations</td>
+<td>Level structure → design space</td>
+</tr>
+</tbody>
+</table>
+<p>This produces a <strong>multi-grounding graph</strong> across levels and across -omes.</p>
+</section>
+<section id="the-fundamentality-lattice-is-task-relative" class="level4">
+<h4 class="anchored" data-anchor-id="the-fundamentality-lattice-is-task-relative">The Fundamentality Lattice Is Task-Relative</h4>
+<p>In SMoC, “fundamental” means different things for different tasks:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 63%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Fundamental Levels</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Parsing</strong></td>
+<td>L₀-L₃ (tokens, statements, functions)</td>
+<td>Syntactic granularity needed</td>
+</tr>
+<tr class="even">
+<td><strong>Refactoring</strong></td>
+<td>L₃-L₆ (functions, classes, files, packages)</td>
+<td>Scope of typical refactor</td>
+</tr>
+<tr class="odd">
+<td><strong>Architecture</strong></td>
+<td>L₆-L₉ (packages, systems, platform)</td>
+<td>Strategic decisions</td>
+</tr>
+<tr class="even">
+<td><strong>Business alignment</strong></td>
+<td>L₉-L₁₂ (platform, organization, domain, universe)</td>
+<td>Strategic alignment</td>
+</tr>
+</tbody>
+</table>
+<p>This is <strong>relative fundamentality</strong> expressed as operational policy.</p>
+</section>
+<section id="four-fundamentalism-stances-operating-modes" class="level4">
+<h4 class="anchored" data-anchor-id="four-fundamentalism-stances-operating-modes">Four Fundamentalism Stances (Operating Modes)</h4>
+<p>Rather than argue whether code or docs are “more important,” SMoC defines four measurable <strong>stances</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 23%">
+<col style="width: 16%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stance</th>
+<th>Priority</th>
+<th>Motto</th>
+<th>Primary Metrics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Executability Fundamentalism</strong></td>
+<td>CODOME-first</td>
+<td>“If it doesn’t run, it’s not real”</td>
+<td>Test pass rate, coverage, runtime correctness</td>
+</tr>
+<tr class="even">
+<td><strong>Intentional Fundamentalism</strong></td>
+<td>CONTEXTOME-first</td>
+<td>“If it isn’t specified, it’s not legitimate”</td>
+<td>Doc coverage, spec realizability, requirement traceability</td>
+</tr>
+<tr class="odd">
+<td><strong>Structural Fundamentalism</strong></td>
+<td>Concordance-first</td>
+<td>“Relations are fundamental, not entities”</td>
+<td>Alignment scores, drift metrics, symmetry</td>
+</tr>
+<tr class="even">
+<td><strong>Whole-first Fundamentalism</strong></td>
+<td>PROJECTOME-first</td>
+<td>“The project-as-whole is prior”</td>
+<td>System health, holistic Q-scores</td>
+</tr>
+</tbody>
+</table>
+<p>The fourth echoes Schaffer (2010, “Monism: The Priority of the Whole”, Philosophical Review).</p>
+<p><strong>These are not philosophical truths. They are operating modes.</strong> Each implies different thresholds and pipeline behaviors. A healthy project may switch stances depending on context.</p>
+</section>
+</section>
+<section id="profunctors-many-to-many-concordances" class="level3">
+<h3 class="anchored" data-anchor-id="profunctors-many-to-many-concordances">10.4 Profunctors (Many-to-Many Concordances)</h3>
+<p>A Concordance is not just a mapping; it is a <strong>many-to-many weighted alignment</strong>.</p>
+<p>This is naturally a <strong>profunctor</strong> (distributor / bimodule):</p>
+<pre><code>R : C^op × X → [0, 1]
+
+Interpretation: R(c, x) = "alignment strength between code entity c and doc entity x"</code></pre>
+<p>This is <strong>enriched category theory</strong>: instead of hom-sets being sets, they are similarity scores in the unit interval [0,1].</p>
+<p><strong>For concordance k with purpose π:</strong></p>
+<pre><code>R_k : C_π^op × X_π → [0, 1]
+R_k(c, x) = sim(Ψ_C(c), Ψ_X(x))    (cosine similarity of purpose vectors)
+
+Concordance score:
+  σ(k) = (1 / |C_π|) · Σ_{c ∈ C_π} max_{x ∈ X_π} R_k(c, x)</code></pre>
+<p>The concordance system is not “inspired by” category theory – it <strong>IS</strong> a standard categorical construction.</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-i-recursive-intelligence-the-godelian-triad" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-i-recursive-intelligence-the-godelian-triad">AXIOM GROUP I: Recursive Intelligence (The Godelian Triad)</h2>
+<section id="i1.-triadic-necessity-axiom" class="level3">
+<h3 class="anchored" data-anchor-id="i1.-triadic-necessity-axiom">I1. Triadic Necessity Axiom</h3>
+<pre><code>A Projectome P is Semantic-Complete ⟺ {C, X, R} exists.
+
+WHERE:
+  C (Codome)     = Object Level ( mute instruction )
+  X (Contextome) = Meta Level   ( semantic description )
+  R (Refinery)   = Observer    ( computational witness )</code></pre>
+<p><strong>Interpretation:</strong> Per Gödel’s Incompleteness Theorem, a system cannot fully describe or prove its own meaning from within. Complete intelligence requires a stable triad where each component provides the “outside perspective” for another.</p>
+</section>
+<section id="i2.-cross-observability-necessity-of-peerage" class="level3">
+<h3 class="anchored" data-anchor-id="i2.-cross-observability-necessity-of-peerage">I2. Cross-Observability (Necessity of Peerage)</h3>
+<pre><code>- X observes C via ψ_X  (The Meta-Layer describes the Object-Layer)
+- R observes C via parsing (The Witness maps the implementation)
+- R updates X via synthesis (The Witness refines the description)
+- C manifests X via R (The Object-Layer realizes the Meta-Intent)</code></pre>
+<p><strong>Role of the Refinery:</strong> The Refinery is the <strong>Tarski Metalanguage Processor</strong>. It is the only component that sits ontologically “Offshore” enough to perform the mapping between mute code and semantic intent.</p>
+</section>
+<section id="i3.-peerage-knowledge" class="level3">
+<h3 class="anchored" data-anchor-id="i3.-peerage-knowledge">I3. Peerage Knowledge</h3>
+<p>The three components “know” each other not through direct coupling, but through <strong>Structural Concordance</strong>. They are semantically co-present in the Unified Knowledge Graph.</p>
+<hr>
+</section>
+</section>
+<section id="axiom-group-j-information-topology-space-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="axiom-group-j-information-topology-space-reflection">AXIOM GROUP J: Information Topology (Space &amp; Reflection)</h2>
+<section id="j1.-location-invariance-axiom" class="level3">
+<h3 class="anchored" data-anchor-id="j1.-location-invariance-axiom">J1. Location-Invariance Axiom</h3>
+<pre><code>∀e ∈ P: Semantic_Truth(e) is invariant under change of physical location.</code></pre>
+<p><strong>Interpretation:</strong> The coordinate system of the Standard Model is <strong>ontological</strong> (Role/Layer/Dimension/Domain), not physical. Whether a system (like the Refinery) runs locally or “offshore” (GCS) is an implementation detail. Information Truth is determined by a node’s topological position in the Knowledge Graph, not its geographical coordinates.</p>
+</section>
+<section id="j2.-axiom-of-recursive-self-ingestion" class="level3">
+<h3 class="anchored" data-anchor-id="j2.-axiom-of-recursive-self-ingestion">J2. Axiom of Recursive Self-Ingestion</h3>
+<pre><code>∀s ∈ Subsystems: s can consume source(s) as Context.</code></pre>
+<p><strong>Interpretation:</strong> A subsystem can process its own definition to achieve “Self-Awareness” in the context of the Projectome. This ensures that the system has no “Godelian blind spots.” By refining its own implementation, the Refinery achieves total coverage of the <strong>active Projectome</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="validation-results" class="level2">
+<h2 class="anchored" data-anchor-id="validation-results">VALIDATION RESULTS</h2>
+<section id="axiom-group-d-purpose-field-validated" class="level3">
+<h3 class="anchored" data-anchor-id="axiom-group-d-purpose-field-validated">Axiom Group D (Purpose Field): ✅ VALIDATED</h3>
+<p><strong>Supporting Framework:</strong> Free Energy Principle (Friston et al., 2021)</p>
+<p>Our axiom <code>d𝒫/dt = -∇Incoherence(𝕮)</code> directly maps to Friston’s formulation of gradient descent on variational free energy.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>SMoC Axiom</th>
+<th>Friston’s FEP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Incoherence(𝕮)</td>
+<td>Variational Free Energy F</td>
+</tr>
+<tr class="even">
+<td>d𝒫/dt = -∇Incoherence</td>
+<td>Gradient flow minimizing F</td>
+</tr>
+<tr class="odd">
+<td>Purpose field 𝒫</td>
+<td>Internal states tracking external states</td>
+</tr>
+<tr class="even">
+<td>Crystallization</td>
+<td>Markov blanket (conditional independence)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict:</strong> Mathematically well-formed. Aligns with established physics of random dynamical systems.</p>
+<p><strong>Academic Sources:</strong> - Friston, K. (2022). “The Free Energy Principle Made Simpler.” arXiv:2201.06387 - Ramstead, M. et al.&nbsp;(2021). “On Bayesian Mechanics.” Interface Focus 13(3).</p>
+</section>
+<section id="axiom-group-f-emergence-validated" class="level3">
+<h3 class="anchored" data-anchor-id="axiom-group-f-emergence-validated">Axiom Group F (Emergence): ✅ VALIDATED</h3>
+<p><strong>Supporting Framework:</strong> Integrated Information Theory (Tononi)</p>
+<p>Our emergence metric <code>ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)</code> aligns with IIT’s Φ (integrated information).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>SMoC Axiom</th>
+<th>Tononi’s IIT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ε &gt; 1 (emergence)</td>
+<td>Φ &gt; 0 (integrated information)</td>
+</tr>
+<tr class="even">
+<td>“Whole &gt; parts”</td>
+<td>“Above and beyond its parts”</td>
+</tr>
+<tr class="odd">
+<td>Emergence signal</td>
+<td>Causal emergence in IIT 4.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict:</strong> Mathematically valid. Supported by rigorous category-theoretic formalization in IIT literature.</p>
+<p><strong>Academic Source:</strong> Tononi, G. et al.&nbsp;(2020). “Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms.” Consciousness &amp; Cognition.</p>
+</section>
+<section id="axiom-group-e-constructal-partially-validated" class="level3">
+<h3 class="anchored" data-anchor-id="axiom-group-e-constructal-partially-validated">Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED</h3>
+<p>Bejan’s Constructal Law is <strong>empirically validated</strong> across multiple physical and biological systems but <strong>debated as universal mathematical axiom</strong>. In SMoC, treat as: - <strong>Heuristic principle</strong> for understanding code evolution - <strong>Design guideline</strong> (minimize flow resistance) - <strong>NOT a formal theorem</strong> requiring proof</p>
+</section>
+<section id="axiom-group-a-mece-partition-validated-novel-application" class="level3">
+<h3 class="anchored" data-anchor-id="axiom-group-a-mece-partition-validated-novel-application">Axiom Group A (MECE Partition): ✅ VALIDATED (Novel Application)</h3>
+<p>The Lawvere proof (A1.1) is <strong>standard mathematics</strong>. The application to software documentation necessity appears <strong>NOVEL</strong> (no prior literature found).</p>
+</section>
+<section id="overall-validation-table" class="level3">
+<h3 class="anchored" data-anchor-id="overall-validation-table">Overall Validation Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 33%">
+<col style="width: 14%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Axiom Group</th>
+<th>Mathematical Field</th>
+<th>Status</th>
+<th>Academic Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A (Set Structure)</td>
+<td>Set Theory</td>
+<td>✅ VALIDATED</td>
+<td>Lawvere (1969), standard partitions</td>
+</tr>
+<tr class="even">
+<td>B (Graph)</td>
+<td>Graph Theory</td>
+<td>✅ STANDARD</td>
+<td>Directed graphs, reachability</td>
+</tr>
+<tr class="odd">
+<td>C (Levels)</td>
+<td>Order Theory</td>
+<td>✅ STANDARD</td>
+<td>Total orders, lattices</td>
+</tr>
+<tr class="even">
+<td>D (Purpose)</td>
+<td>Dynamical Systems</td>
+<td>✅ VALIDATED</td>
+<td>Friston FEP (2022)</td>
+</tr>
+<tr class="odd">
+<td>E (Constructal)</td>
+<td>Thermodynamics</td>
+<td>⚠️ HEURISTIC</td>
+<td>Bejan (2008) - empirical</td>
+</tr>
+<tr class="even">
+<td>F (Emergence)</td>
+<td>Information Theory</td>
+<td>✅ VALIDATED</td>
+<td>Tononi IIT (2020)</td>
+</tr>
+<tr class="odd">
+<td>G (Observability)</td>
+<td>Semiotics</td>
+<td>✅ VALIDATED</td>
+<td>Peirce triadic structure</td>
+</tr>
+<tr class="even">
+<td>H (Consumer Classes)</td>
+<td>Software Engineering</td>
+<td>✅ VALIDATED</td>
+<td>Gemini 3 Pro assessment (9/10)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="project-documents" class="level3">
+<h3 class="anchored" data-anchor-id="project-documents">Project Documents</h3>
+<ul>
+<li><code>../../MODEL.md</code> – Core model (builds on these axioms)</li>
+<li><code>L1_DEFINITIONS.md</code> – What EXISTS (depends on these axioms)</li>
+<li><code>L2_LAWS.md</code> – How things BEHAVE (depends on axioms + definitions)</li>
+<li><code>../../../context-management/docs/theory/FOUNDATIONS_INTEGRATION.md</code> – Lawvere proof with all lemmas</li>
+<li><code>../../../context-management/docs/CODESPACE_ALGEBRA.md</code> – Full mathematical elaboration</li>
+</ul>
+</section>
+<section id="semiotics" class="level3">
+<h3 class="anchored" data-anchor-id="semiotics">Semiotics</h3>
+<ul>
+<li>Morris, C. W. (1938). “Foundations of the Theory of Signs.” International Encyclopedia of Unified Science, Vol. 1, No.&nbsp;2.</li>
+<li>Peirce, C. S. – Triadic sign theory. Atkin, A. (2010). “Peirce’s Theory of Signs.” Stanford Encyclopedia of Philosophy.</li>
+<li>Lotman, J. (1984/2005). “On the Semiosphere.” Sign Systems Studies 33(1): 205-229.</li>
+</ul>
+</section>
+<section id="metaphysics" class="level3">
+<h3 class="anchored" data-anchor-id="metaphysics">Metaphysics</h3>
+<ul>
+<li>Markosian, N. (2005). “Against Ontological Fundamentalism.” Facta Philosophica 7(1): 69-83.</li>
+<li>Tahko, T. E. (2018). “Fundamentality.” Stanford Encyclopedia of Philosophy.</li>
+<li>Bliss, R. &amp; Trogdon, K. (2014/2021). “Metaphysical Grounding.” Stanford Encyclopedia of Philosophy.</li>
+<li>Schaffer, J. (2010). “Monism: The Priority of the Whole.” The Philosophical Review 119(1): 31-76.</li>
+</ul>
+</section>
+<section id="mathematics" class="level3">
+<h3 class="anchored" data-anchor-id="mathematics">Mathematics</h3>
+<ul>
+<li>Lawvere, F. W. (1969/2006). “Diagonal Arguments and Cartesian Closed Categories.” Lecture Notes in Mathematics 92. Reprinted: Theory and Applications of Categories, No.&nbsp;15, 2006.</li>
+<li>Mac Lane, S. (1971). “Categories for the Working Mathematician.” Springer.</li>
+</ul>
+</section>
+<section id="physics-complex-systems" class="level3">
+<h3 class="anchored" data-anchor-id="physics-complex-systems">Physics &amp; Complex Systems</h3>
+<ul>
+<li>Friston, K. (2022). “The Free Energy Principle Made Simpler But Not Too Simple.” arXiv:2201.06387.</li>
+<li>Tononi, G. et al.&nbsp;(2020). “Integrated Information Theory 4.0.” Consciousness &amp; Cognition.</li>
+<li>Bejan, A. &amp; Lorente, S. (2008). “Design with Constructal Theory.” Wiley.</li>
+</ul>
+<hr>
+<p><em>This is Layer 0. Everything else depends on this.</em> <em>All axioms are either validated against academic literature or explicitly marked as heuristic.</em></p>
+<hr>
+</section>
+</section>
+<section id="navigation" class="level2">
+<h2 class="anchored" data-anchor-id="navigation">Navigation</h2>
+<p><strong>📍 Up:</strong> <a href="./THEORY_INDEX.md#FIXED">Theory Index</a> <strong>➡️ Next:</strong> <a href="../../staging/particle_theory/L1_DEFINITIONS.html#FIXED">L1: Definitions</a> - Terms derived from these axioms <strong>🔄 Loop:</strong> <a href="../../staging/particle_theory/L3_APPLICATIONS.html#FIXED">L3: Applications</a> - Practical implementations that validate these axioms</p>
+<p><strong>See also:</strong> - <a href="../../staging/particle_theory/THEORY_AXIOMS.html#FIXED">THEORY_AXIOMS.md</a> - Formal proof framework - <a href="./STANDARD_MODEL_COMPLETE.md#FIXED">STANDARD_MODEL_COMPLETE.md</a> - All layers integrated</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/github\.com\/leolech14\/standard-model-of-code");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>PROJECT_elements v1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/leolech14/standard-model-of-code">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

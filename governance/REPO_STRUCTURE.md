@@ -32,7 +32,7 @@ Central command layer. Decisions, roadmaps, quality gates.
 
 ---
 
-## `/standard-model-of-code/` (PARTICLE - Body)
+## `/particle/` (PARTICLE - Body)
 
 Collider engine and Standard Model theory.
 
@@ -45,7 +45,7 @@ Collider engine and Standard Model theory.
 
 ---
 
-## `/context-management/` (WAVE - Brain)
+## `/wave/` (WAVE - Brain)
 
 AI context intelligence and tools.
 
@@ -73,7 +73,7 @@ Agent orchestration and task management.
 
 ## `/research/` (RESEARCH - AI Outputs)
 
-**Consolidated 2026-02-01** from `standard-model-of-code/docs/research/`
+**Consolidated 2026-02-01** from `particle/docs/research/`
 
 | Path | Purpose | Files |
 |------|---------|-------|
@@ -116,8 +116,8 @@ Agent orchestration and task management.
 
 | Path | Content |
 |------|---------|
-| `smc/` | From standard-model-of-code |
-| `cm/` | From context-management |
+| `smc/` | From particle |
+| `cm/` | From wave |
 | `tools/` | Archived tools |
 
 ---
@@ -147,8 +147,8 @@ Top-level documentation and visual assets.
 
 | Subsystem | Role | Root |
 |-----------|------|------|
-| PARTICLE | Body (Collider) | `standard-model-of-code/` |
-| WAVE | Brain (AI/Context) | `context-management/` |
+| PARTICLE | Body (Collider) | `particle/` |
+| WAVE | Brain (AI/Context) | `wave/` |
 | OBSERVER | Governance | `.agent/`, `governance/` |
 | RESEARCH | AI Outputs | `research/` |
 | REPORTS | Analysis | `reports/` |

@@ -4,7 +4,7 @@
 
 ## Session Artifacts
 === NEW FILES ===
-?? context-management/experiments/refinery-platform/SESSION_2026-01-28_FINAL_SUMMARY.md
+?? wave/experiments/refinery-platform/SESSION_2026-01-28_FINAL_SUMMARY.md
 
 === MODIFIED FILES ===
  M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl

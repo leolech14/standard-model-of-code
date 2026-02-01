@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Relational Atlas — Unified Inventory</title>
+
+  <!-- Canonical Schema Reference -->
+  <link rel="schema" href="../standard-model-of-code/schema/relations.yaml" type="text/yaml" />
+  <link rel="alternate" href="../standard-model-of-code/schema/relations.jsonld" type="application/ld+json" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "Relational Atlas",
+    "description": "Unified inventory of relational concepts: linguistic particles, topological relations, and cognitive schemas",
+    "about": [
+      {"@type": "Thing", "name": "Spatial Relations", "url": "http://www.opengis.net/ont/geosparql"},
+      {"@type": "Thing", "name": "RCC-8", "url": "http://www.w3.org/ns/rcc8"},
+      {"@type": "Thing", "name": "Cognitive Linguistics"}
+    ],
+    "keywords": ["topology", "RCC-8", "DE-9IM", "phrasal verbs", "spatial relations", "GeoSPARQL"],
+    "version": "1.0.0"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #0f1620;
+      --panel2: #0c121a;
+      --text: #e7edf5;
+      --muted: #aab6c5;
+      --faint: #71839a;
+      --line: #203040;
+      --accent: #78a6ff;
+      --accent2: #7cf0c5;
+      --warn: #ffcc66;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(120, 166, 255, .14), transparent 55%),
+        radial-gradient(1200px 800px at 80% 30%, rgba(124, 240, 197, .10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 18px 64px
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: .2px
+    }
+
+    .title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(15, 22, 32, .55);
+      box-shadow: var(--shadow);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chip b {
+      color: var(--text);
+      font-weight: 600
+    }
+
+    input[type="search"],
+    select {
+      background: rgba(15, 22, 32, .75);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      outline: none;
+      min-width: 240px;
+    }
+
+    select {
+      min-width: 210px
+    }
+
+    input[type="search"]::placeholder {
+      color: var(--faint)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 14px;
+      align-items: start
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15, 22, 32, .90), rgba(12, 18, 26, .90));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel .hd {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid rgba(32, 48, 64, .7);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .panel .hd h2 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: .2px
+    }
+
+    .panel .hd .small {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px
+    }
+
+    .panel .bd {
+      padding: 12px 14px 14px
+    }
+
+    .navlist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .navbtn {
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(32, 48, 64, .8);
+      background: rgba(11, 15, 20, .35);
+      color: var(--text);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform .05s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .navbtn:hover {
+      border-color: rgba(120, 166, 255, .55);
+      background: rgba(120, 166, 255, .08)
+    }
+
+    .navbtn:active {
+      transform: translateY(1px)
+    }
+
+    .navbtn .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px
+    }
+
+    .navbtn .meta .name {
+      font-size: 13px;
+      font-weight: 650
+    }
+
+    .navbtn .meta .desc {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .count {
+      font-family: var(--mono);
+      color: var(--accent2);
+      font-size: 12px;
+      padding: 4px 8px;
+      border: 1px solid rgba(124, 240, 197, .35);
+      border-radius: 999px;
+      background: rgba(124, 240, 197, .08);
+      white-space: nowrap;
+    }
+
+    .section {
+      display: none
+    }
+
+    .section.active {
+      display: block
+    }
+
+    .kicker {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0 0 12px
+    }
+
+    .hgroup {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 10px
+    }
+
+    .hgroup h3 {
+      margin: 0;
+      font-size: 16px
+    }
+
+    .hgroup .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 12px 0
+    }
+
+    @media (max-width: 980px) {
+      .cards {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .card {
+      border: 1px solid rgba(32, 48, 64, .85);
+      background: rgba(11, 15, 20, .25);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .card h4 {
+      margin: 0 0 6px;
+      font-size: 13px
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(120, 166, 255, .28);
+      background: rgba(120, 166, 255, .08);
+      color: var(--text);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid rgba(32, 48, 64, .85);
+      background: rgba(11, 15, 20, .25);
+    }
+
+    th,
+    td {
+      padding: 10px 10px;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(32, 48, 64, .55)
+    }
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      background: rgba(15, 22, 32, .85);
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    td {
+      font-size: 13px
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent2);
+      background: rgba(124, 240, 197, .08);
+      border: 1px solid rgba(124, 240, 197, .25);
+      padding: 2px 6px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .note {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(32, 48, 64, .8);
+      background: rgba(255, 204, 102, .06);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .note b {
+      color: var(--warn)
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px
+    }
+
+    @media (max-width: 980px) {
+      .split {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .mini {
+      border: 1px solid rgba(32, 48, 64, .85);
+      background: rgba(11, 15, 20, .18);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .mini h4 {
+      margin: 0 0 6px;
+      font-size: 13px
+    }
+
+    .mini ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .mini li {
+      margin: 5px 0
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(32, 48, 64, .85);
+      background: rgba(15, 22, 32, .7);
+    }
+
+    .diagram {
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .diagram img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: transparent;
+    }
+
+    .diagram-caption {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .ascii {
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.3;
+      color: var(--accent2);
+      background: rgba(11, 15, 20, .5);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      white-space: pre;
+      text-align: left;
+      margin: 12px 0;
+    }
+
+    .ascii-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .ascii-cell {
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.2;
+      color: var(--accent2);
+      background: rgba(11, 15, 20, .5);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      white-space: pre;
+      text-align: center;
+    }
+
+    .ascii-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 6px;
+      font-family: var(--sans);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Relational Atlas</h1>
+        <p><b>Unified Inventory</b>: Linguistic particles + Topological relations — the same cognitive
+          primitives.</p>
+      </div>
+      <div class="controls">
+        <span class="chip"><b>Two Domains</b> One Pattern</span>
+        <input id="q" type="search" placeholder="Search: containment, within, UP, touches…" />
+        <select id="jump">
+          <option value="map">Overview — The Connection</option>
+          <option value="particles">Linguistic Particles (12)</option>
+          <option value="topology">Topological Relations (10)</option>
+          <option value="rcc8">RCC-8 (8)</option>
+          <option value="rules">Topology Rules (16)</option>
+          <option value="errors">GIS Error Types (7)</option>
+          <option value="nontopo">Non-Topological Relations</option>
+          <option value="unified">Unified Primitives</option>
+          <option value="crossref">Master Cross-Reference</option>
+          <option value="phrasal">Phrasal Verb Sense Labels</option>
+          <option value="syntax">Phrasal Syntax Rules</option>
+        </select>
+      </div>
+    </header>
+
+    <div class="grid">
+      <aside class="panel" aria-label="Navigation">
+        <div class="hd">
+          <div>
+            <h2>Inventory Navigation</h2>
+            <div class="small">Two domains, one set of primitives</div>
+          </div>
+          <div class="count" id="matchCount">all</div>
+        </div>
+        <div class="bd">
+          <div class="navlist" id="nav"></div>
+        </div>
+      </aside>
+
+      <main class="panel" aria-label="Content">
+        <div class="hd">
+          <div>
+            <h2 id="sectionTitle">Overview — The Connection</h2>
+            <div class="small" id="sectionSubtitle">How linguistic particles and topological relations are
+              the same primitives.</div>
+          </div>
+          <div class="count" id="sectionCount">7 sections</div>
+        </div>
+        <div class="bd" id="content"></div>
+      </main>
+    </div>
+
+    <div class="footer">
+      <div class="badge">Linguistic: <code>in/out</code> = Topology: <code>within/contains</code></div>
+      <div class="badge">Both derive from <b>spatial image schemas</b></div>
+    </div>
+  </div>
+
+  <script>
+    const sections = [
+      {
+        id: 'map',
+        title: 'Overview — The Connection',
+        subtitle: 'How linguistic particles and topological relations are the same primitives.',
+        countLabel: '2 domains',
+        html: `
+          <p class="kicker">You discovered the same pattern in two different domains: <span class="pill">Language</span> and <span class="pill">GIS/Topology</span>.</p>
+
+          <div class="cards">
+            <div class="card">
+              <h4>Linguistic Particles</h4>
+              <p><code>in/out</code>, <code>on/off</code>, <code>up/down</code> — modify verbs as relational operators.</p>
+            </div>
+            <div class="card">
+              <h4>Topological Relations</h4>
+              <p><code>within</code>, <code>contains</code>, <code>touches</code>, <code>overlaps</code> — describe spatial relationships.</p>
+            </div>
+            <div class="card">
+              <h4>The Deep Pattern</h4>
+              <p>Both are <b>small inventories of primitive relations</b> derived from spatial cognition.</p>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Cognitive Schema</th>
+                <th>Linguistic Particle</th>
+                <th>Topological Relation</th>
+                <th>What It Encodes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Containment</b></td><td><code>in / out</code></td><td><code>within / contains</code></td><td>Inside vs outside a boundary</td></tr>
+              <tr><td><b>Contact</b></td><td><code>on / off</code></td><td><code>touches / disjoint</code></td><td>Surface contact vs separation</td></tr>
+              <tr><td><b>Traversal</b></td><td><code>through</code></td><td><code>crosses</code></td><td>Passing from one side to another</td></tr>
+              <tr><td><b>Covering</b></td><td><code>over</code></td><td><code>covers / overlaps</code></td><td>One thing spanning another</td></tr>
+              <tr><td><b>Adjacency</b></td><td><code>along</code></td><td><code>adjacent</code></td><td>Beside / following a path</td></tr>
+              <tr><td><b>Verticality</b></td><td><code>up / down</code></td><td>(metaphorical extension)</td><td>Increase/decrease, completion</td></tr>
+              <tr><td><b>Return</b></td><td><code>back</code></td><td>(temporal/state)</td><td>Restore, reverse</td></tr>
+              <tr><td><b>Distance</b></td><td><code>away</code></td><td><code>nearestTo / distance</code></td><td>Increasing separation</td></tr>
+            </tbody>
+          </table>
+
+          <div class="note"><b>Key insight:</b> Both domains derive from <b>spatial image schemas</b> — cognitive structures we use to understand space, and then extend metaphorically to abstract domains.</div>
+
+          <div class="diagram">
+            <img src="groups_map_v2.png" alt="Inventory of Relation Groups">
+            <div class="diagram-caption">Complete inventory: 7 groups, ~42 relations total</div>
+          </div>
+
+          <div class="ascii">
+┌─────────────────────────────────────────────────────────────────┐
+│                  INVENTÁRIO DE RELAÇÕES (7 Grupos)              │
+├─────────────────────────────────────────────────────────────────┤
+│  1) Primitivas (6)        ┌─┬─┐                                 │
+│                           └─┴─┘ ──→ ○                           │
+├─────────────────────────────────────────────────────────────────┤
+│  2) Topológicas OGC (10)   ╱  ╲     ○───○                       │
+│                           ╲  ╱                                  │
+├─────────────────────────────────────────────────────────────────┤
+│  3) RCC-8 (8)              ○  ○    ○○    (○)                    │
+│                           DC  EC   PO    EQ                     │
+├─────────────────────────────────────────────────────────────────┤
+│  4) Dependência (5)       [A]──→[B]                             │
+├─────────────────────────────────────────────────────────────────┤
+│  5) Visibilidade (4)       ○                                    │
+│                           ╱│╲                                   │
+├─────────────────────────────────────────────────────────────────┤
+│  6) Métricas (2)          ○←──d──→○                             │
+├─────────────────────────────────────────────────────────────────┤
+│  7) Fluxo (1)             ╲ ╲                                   │
+│                            ──○──→                               │
+└─────────────────────────────────────────────────────────────────┘
+          </div>
+        `
+      },
+
+      {
+        id: 'particles',
+        title: 'Linguistic Particles (12)',
+        subtitle: 'The core particle operators in English phrasal verbs.',
+        countLabel: '12 particles',
+        html: `
+          <p class="kicker">Particles come from <b>spatial relations</b> and get reused metaphorically. This makes them predictable enough to inventory.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Particle</th>
+                <th>Core Spatial Schema</th>
+                <th>Applied When…</th>
+                <th>Typical Outcomes</th>
+                <th>Examples</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>in</code></td><td>containment / entry</td><td>joining, adding, registering</td><td>include / participate / check-in</td><td>check in, join in, fill in</td></tr>
+              <tr><td><code>out</code></td><td>exit / removal</td><td>removal, discovery, depletion</td><td>extract / reveal / exhaust</td><td>take out, find out, run out</td></tr>
+              <tr><td><code>on</code></td><td>contact / surface</td><td>activation, continuation, attachment</td><td>activate / continue</td><td>turn on, carry on, hold on</td></tr>
+              <tr><td><code>off</code></td><td>separation</td><td>deactivation, departure, cancellation</td><td>deactivate / detach / postpone</td><td>turn off, take off, call off</td></tr>
+              <tr><td><code>up</code></td><td>verticality ↑</td><td>increase, completion, emergence</td><td>increase / finish / appear</td><td>speed up, clean up, come up</td></tr>
+              <tr><td><code>down</code></td><td>verticality ↓</td><td>decrease, recording, breakdown</td><td>reduce / write / fail</td><td>slow down, write down, break down</td></tr>
+              <tr><td><code>back</code></td><td>return</td><td>restoring, reversing, responding</td><td>restore / reverse</td><td>give back, take back</td></tr>
+              <tr><td><code>away</code></td><td>distance</td><td>disposal, ongoing action, fading</td><td>discard / keep doing / disappear</td><td>throw away, work away, fade away</td></tr>
+              <tr><td><code>through</code></td><td>traversal</td><td>endurance, completion, processing</td><td>finish / endure / process</td><td>get through, go through, read through</td></tr>
+              <tr><td><code>over</code></td><td>across/cover</td><td>transfer, review, repeat</td><td>take control / review / redo</td><td>take over, go over, do over</td></tr>
+              <tr><td><code>around</code></td><td>circling</td><td>informal activity, avoidance</td><td>hang / explore / avoid directness</td><td>hang around, look around</td></tr>
+              <tr><td><code>along</code></td><td>along a path</td><td>accompanying, progressing</td><td>bring / proceed</td><td>bring along, move along</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Use this table as your options list:</b> when you meet a new phrasal verb, first ask which operator family the particle suggests.</div>
+        `
+      },
+
+      {
+        id: 'topology',
+        title: 'Topological Relations (OGC/GeoSPARQL)',
+        subtitle: 'The standard spatial predicates used in GIS and databases.',
+        countLabel: '10 relations',
+        html: `
+          <p class="kicker">These are the <b>canonical topological predicates</b> from DE-9IM / OGC Simple Features / GeoSPARQL standards.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Relation</th>
+                <th>Definition</th>
+                <th>Linguistic Parallel</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Equals</code></td><td>Same geometry (identical)</td><td>—</td><td>Two coincident polygons</td></tr>
+              <tr><td><code>Disjoint</code></td><td>No shared points</td><td><code>off</code> (separated)</td><td>Two non-touching regions</td></tr>
+              <tr><td><code>Intersects</code></td><td>Any shared point(s)</td><td>—</td><td>Overlapping areas</td></tr>
+              <tr><td><code>Touches</code></td><td>Share boundary only (no interior overlap)</td><td><code>on</code> (contact)</td><td>Adjacent parcels</td></tr>
+              <tr><td><code>Crosses</code></td><td>Pass through each other</td><td><code>through</code></td><td>Road crossing a river</td></tr>
+              <tr><td><code>Within</code></td><td>A completely inside B</td><td><code>in</code></td><td>Point inside polygon</td></tr>
+              <tr><td><code>Contains</code></td><td>B completely inside A (inverse of Within)</td><td><code>in</code> (inverse)</td><td>Polygon containing point</td></tr>
+              <tr><td><code>Overlaps</code></td><td>Partial intersection (same dimension)</td><td><code>over</code></td><td>Two overlapping polygons</td></tr>
+              <tr><td><code>Covers</code></td><td>A covers B (B may touch boundary)</td><td><code>over</code></td><td>Larger region covering smaller</td></tr>
+              <tr><td><code>CoveredBy</code></td><td>A is covered by B (inverse of Covers)</td><td><code>in</code></td><td>Smaller region inside larger</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Key principle:</b> These predicates are based on the intersection of <b>interior</b>, <b>boundary</b>, and <b>exterior</b> of geometries (the DE-9IM model).</div>
+
+          <div class="diagram">
+            <img src="ogc_topology_v2.png" alt="OGC/GeoSPARQL Topological Relations">
+            <div class="diagram-caption">Visual reference: 10 OGC topological predicates</div>
+          </div>
+
+          <div class="ascii-grid">
+<div class="ascii-cell">  ┌───┐
+  │ A │
+  └───┘
+<div class="ascii-label">Equals</div></div>
+<div class="ascii-cell">  ○     ○
+  A     B
+<div class="ascii-label">Disjoint</div></div>
+<div class="ascii-cell">  ○────○
+  A    B
+<div class="ascii-label">Touches</div></div>
+<div class="ascii-cell">   ╲ ╱
+    ╳
+   ╱ ╲
+<div class="ascii-label">Crosses</div></div>
+<div class="ascii-cell"> ┌─────┐
+ │ ┌─┐ │
+ │ │●│ │
+ │ └─┘ │
+ └─────┘
+<div class="ascii-label">Within</div></div>
+<div class="ascii-cell"> ┌─────┐
+ │ [A] │
+ │     │
+ └─────┘
+<div class="ascii-label">Contains</div></div>
+<div class="ascii-cell">  ┌──╱──┐
+  │ ╱▒▒ │
+  ╱─▒▒──┘
+<div class="ascii-label">Overlaps</div></div>
+<div class="ascii-cell"> ┌─────┐
+ │░░░░░│
+ │░░A░░│
+ └─────┘
+<div class="ascii-label">Covers</div></div>
+          </div>
+        `
+      },
+
+      {
+        id: 'rcc8',
+        title: 'RCC-8 (Qualitative Spatial Reasoning)',
+        subtitle: 'A closed inventory of 8 relations for reasoning about regions.',
+        countLabel: '8 relations',
+        html: `
+          <p class="kicker">RCC-8 is a <b>JEPD</b> (Jointly Exhaustive, Pairwise Disjoint) set — exactly one relation holds between any two regions.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Linguistic Parallel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>DC</code></td><td>Disconnected</td><td>No shared points</td><td><code>off</code> / disjoint</td></tr>
+              <tr><td><code>EC</code></td><td>Externally Connected</td><td>Touch at boundary only</td><td><code>on</code> / touches</td></tr>
+              <tr><td><code>PO</code></td><td>Partial Overlap</td><td>Interiors overlap, neither contains other</td><td><code>over</code></td></tr>
+              <tr><td><code>EQ</code></td><td>Equal</td><td>Same region</td><td>—</td></tr>
+              <tr><td><code>TPP</code></td><td>Tangential Proper Part</td><td>A inside B, touching boundary</td><td><code>in</code> (at edge)</td></tr>
+              <tr><td><code>NTPP</code></td><td>Non-Tangential Proper Part</td><td>A inside B, not touching boundary</td><td><code>in</code> (deep inside)</td></tr>
+              <tr><td><code>TPPi</code></td><td>Inverse of TPP</td><td>B is TPP of A</td><td>contains (at edge)</td></tr>
+              <tr><td><code>NTPPi</code></td><td>Inverse of NTPP</td><td>B is NTPP of A</td><td>contains (deep inside)</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Why RCC-8 matters:</b> It's <b>complete</b> (covers all cases) and <b>disjoint</b> (no overlaps), making it ideal for logical reasoning and inference.</div>
+
+          <div class="diagram">
+            <img src="rcc8_diagram_v2.png" alt="RCC-8 Relations Diagram">
+            <div class="diagram-caption">RCC-8: 8 mutually exclusive relations for regions</div>
+          </div>
+
+          <div class="ascii-grid">
+<div class="ascii-cell">  ○   ○
+  A   B
+<div class="ascii-label">DC (Disconnected)</div></div>
+<div class="ascii-cell">  ○──○
+  A  B
+<div class="ascii-label">EC (Externally Connected)</div></div>
+<div class="ascii-cell"> ┌──╱──┐
+ │ ╱▒▒ │
+<div class="ascii-label">PO (Partial Overlap)</div></div>
+<div class="ascii-cell">  ┌──┐
+  │AB│
+  └──┘
+<div class="ascii-label">EQ (Equal)</div></div>
+<div class="ascii-cell">┌────┐
+│ ┌A┐│
+│ └─┘│B
+└────┘
+<div class="ascii-label">TPP (Tangential)</div></div>
+<div class="ascii-cell">┌────┐
+│    │
+│ ○A │B
+│    │
+└────┘
+<div class="ascii-label">NTPP (Non-Tang.)</div></div>
+<div class="ascii-cell">┌A───┐
+│ ┌─┐│
+│ │B││
+│ └─┘│
+└────┘
+<div class="ascii-label">TPPi (inverse)</div></div>
+<div class="ascii-cell">┌────┐
+│    │A
+│ ○B │
+│    │
+└────┘
+<div class="ascii-label">NTPPi (inverse)</div></div>
+          </div>
+        `
+      },
+
+      {
+        id: 'unified',
+        title: 'Unified Primitives',
+        subtitle: 'The fundamental relation types underlying both domains.',
+        countLabel: '6 primitives',
+        html: `
+          <p class="kicker">These are the <b>building blocks</b> from which all other relations can be derived.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Primitive</th>
+                <th>Description</th>
+                <th>In Topology</th>
+                <th>In Language</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>partOf</code></td><td>A is part of B (mereology)</td><td>Component of / contained</td><td><code>in</code></td></tr>
+              <tr><td><code>connectedTo</code></td><td>A and B share a point/contact</td><td>Touches / intersects</td><td><code>on</code></td></tr>
+              <tr><td><code>boundaryOf</code></td><td>A is the boundary of B</td><td>Edge / perimeter</td><td>(edge cases)</td></tr>
+              <tr><td><code>interiorPartOf</code></td><td>A is inside B, not touching boundary</td><td>NTPP in RCC-8</td><td><code>in</code> (deep)</td></tr>
+              <tr><td><code>locatedIn</code></td><td>A is located within scope of B</td><td>Within</td><td><code>in</code> / scope</td></tr>
+              <tr><td><code>dependsOn</code></td><td>A requires B</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+
+          <div class="split">
+            <div class="mini">
+              <h4>Hierarchy of Relations</h4>
+              <ul>
+                <li><b>L0:</b> Identity / classification</li>
+                <li><b>L1:</b> Part-whole (mereology)</li>
+                <li><b>L2:</b> Boundary / incidence</li>
+                <li><b>L3:</b> Topological (within/touches/overlaps)</li>
+                <li><b>L4:</b> Metric (distance/nearest)</li>
+                <li><b>L5:</b> Flow (directed connectivity)</li>
+              </ul>
+            </div>
+            <div class="mini">
+              <h4>Formal Foundations</h4>
+              <ul>
+                <li><b>Mereology:</b> part-whole relations</li>
+                <li><b>Topology:</b> connection without metric</li>
+                <li><b>Geometry:</b> adds distance/measurement</li>
+                <li><b>Graph Theory:</b> connectivity/flow</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note"><b>The insight:</b> English particles encode these primitives grammatically; GIS predicates formalize them mathematically. Same cognitive source.</div>
+
+          <div class="diagram">
+            <img src="primitives_diagram_v2.png" alt="6 Primitive Relations">
+            <div class="diagram-caption">Grupo 1: 6 relational primitives (building blocks for all others)</div>
+          </div>
+
+          <div class="ascii-grid">
+<div class="ascii-cell">┌─────┐
+│ ┌─┐ │
+│ │A│ │ B
+│ └─┘ │
+└─────┘
+<div class="ascii-label">partOf</div></div>
+<div class="ascii-cell">  ○───○
+  A   B
+<div class="ascii-label">connectedTo</div></div>
+<div class="ascii-cell"> ╔═════╗
+ ║     ║
+ ║     ║
+ ╚═════╝
+<div class="ascii-label">boundaryOf</div></div>
+<div class="ascii-cell">┌─────┐
+│     │
+│  ●  │
+│     │
+└─────┘
+<div class="ascii-label">interiorPartOf</div></div>
+<div class="ascii-cell">┌─────────┐
+│ ┌─────┐ │
+│ │scope│ │
+│ └─────┘ │
+└─────────┘
+<div class="ascii-label">locatedIn</div></div>
+<div class="ascii-cell"> [A]──→[B]
+<div class="ascii-label">dependsOn</div></div>
+          </div>
+        `
+      },
+
+      {
+        id: 'phrasal',
+        title: 'Phrasal Verb Sense Labels',
+        subtitle: 'Control polysemy by assigning sense labels to particles.',
+        countLabel: 'labels',
+        html: `
+          <p class="kicker">Same particle, multiple meanings → use <b>sense labels</b> to keep your inventory clean.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Particle</th>
+                <th>Sense Label</th>
+                <th>Meaning</th>
+                <th>Examples</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>OUT</code></td><td><code>OUT-REVEAL</code></td><td>discover/solve</td><td>find out, figure out</td></tr>
+              <tr><td><code>OUT</code></td><td><code>OUT-EXHAUST</code></td><td>be depleted</td><td>run out, wear out</td></tr>
+              <tr><td><code>OUT</code></td><td><code>OUT-REMOVE</code></td><td>extract</td><td>take out, pull out</td></tr>
+              <tr><td><code>UP</code></td><td><code>UP-COMP</code></td><td>completion</td><td>clean up, eat up, use up</td></tr>
+              <tr><td><code>UP</code></td><td><code>UP-INC</code></td><td>increase</td><td>speed up, heat up</td></tr>
+              <tr><td><code>UP</code></td><td><code>UP-SET</code></td><td>create/arrange</td><td>set up, line up</td></tr>
+              <tr><td><code>OFF</code></td><td><code>OFF-DEACT</code></td><td>deactivate</td><td>turn off</td></tr>
+              <tr><td><code>OFF</code></td><td><code>OFF-POSTP</code></td><td>postpone/cancel</td><td>put off, call off</td></tr>
+              <tr><td><code>DOWN</code></td><td><code>DOWN-REC</code></td><td>record</td><td>write down, note down</td></tr>
+              <tr><td><code>OVER</code></td><td><code>OVER-REVIEW</code></td><td>review</td><td>go over, look over</td></tr>
+              <tr><td><code>THROUGH</code></td><td><code>THRU-ENDURE</code></td><td>endure/finish</td><td>get through, go through</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Rule of thumb:</b> If you can explain the meaning via the core spatial relation → compositional. If not → mark as idiomatic.</div>
+        `
+      },
+
+      {
+        id: 'syntax',
+        title: 'Phrasal Syntax Rules',
+        subtitle: 'How to place objects and pronouns correctly.',
+        countLabel: 'rules',
+        html: `
+          <table>
+            <thead>
+              <tr>
+                <th>Situation</th>
+                <th>Rule</th>
+                <th>Correct</th>
+                <th>Incorrect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Separable phrasal + pronoun</td>
+                <td>Pronoun goes in the middle</td>
+                <td><code>turn it off</code></td>
+                <td><code>turn off it</code></td>
+              </tr>
+              <tr>
+                <td>Separable phrasal + noun</td>
+                <td>Object can go middle or end</td>
+                <td><code>turn the light off</code> / <code>turn off the light</code></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Inseparable phrasal</td>
+                <td>Object after particle</td>
+                <td><code>look after the kids</code></td>
+                <td><code>look the kids after</code></td>
+              </tr>
+              <tr>
+                <td>Prepositional verb</td>
+                <td>Never separate</td>
+                <td><code>look at it</code></td>
+                <td><code>look it at</code></td>
+              </tr>
+              <tr>
+                <td>Phrasal-prepositional (3-word)</td>
+                <td>Fixed unit, object after preposition</td>
+                <td><code>put up with it</code></td>
+                <td><code>put it up with</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="split">
+            <div class="mini">
+              <h4>Quick Tests</h4>
+              <ul>
+                <li><b>Separation:</b> Can you move the particle after the object?</li>
+                <li><b>Pronoun:</b> If separable, pronoun must go in the middle.</li>
+                <li><b>Object requirement:</b> Prepositions must take an object.</li>
+              </ul>
+            </div>
+            <div class="mini">
+              <h4>Construction Types</h4>
+              <ul>
+                <li><b>Phrasal verb:</b> V + particle (turn off)</li>
+                <li><b>Prepositional verb:</b> V + prep + obj (look at)</li>
+                <li><b>Phrasal-prepositional:</b> V + particle + prep (put up with)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note"><b>Most common mistake:</b> <code>turn off it</code> instead of <code>turn it off</code>.</div>
+        `
+      },
+
+      {
+        id: 'rules',
+        title: 'Topology Rules (GIS Constraints)',
+        subtitle: 'Integrity constraints that enforce spatial relationships.',
+        countLabel: '16 rules',
+        html: `
+          <p class="kicker">These are <b>enforcement rules</b> used in geodatabases to maintain data quality.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Rule</th>
+                <th>Applies To</th>
+                <th>Description</th>
+                <th>When Violated</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Must Not Overlap</code></td><td>Polygons</td><td>No two features share interior space</td><td>Parcel overlaps neighbor</td></tr>
+              <tr><td><code>Must Not Have Gaps</code></td><td>Polygons</td><td>Complete coverage required</td><td>Missing area in land use</td></tr>
+              <tr><td><code>Must Be Covered By</code></td><td>Points/Lines</td><td>Features must fall within another layer</td><td>Building outside parcel</td></tr>
+              <tr><td><code>Must Cover Each Other</code></td><td>Polygons</td><td>Mutual containment</td><td>Admin boundary mismatch</td></tr>
+              <tr><td><code>Must Be Covered By Boundary Of</code></td><td>Lines</td><td>Line must lie on polygon edge</td><td>Fence not on parcel edge</td></tr>
+              <tr><td><code>Boundary Must Be Covered By</code></td><td>Polygons</td><td>Edges must match line layer</td><td>Coast doesn't match shoreline</td></tr>
+              <tr><td><code>Must Not Overlap With</code></td><td>Polygons</td><td>Cross-layer non-overlap</td><td>Lake overlaps forest</td></tr>
+              <tr><td><code>Must Be Inside</code></td><td>Points</td><td>Points contained in polygons</td><td>Well outside water district</td></tr>
+              <tr><td><code>Must Not Have Dangles</code></td><td>Lines</td><td>Endpoints must connect</td><td>Unsnapped road end</td></tr>
+              <tr><td><code>Must Not Have Pseudos</code></td><td>Lines</td><td>No unnecessary vertices</td><td>Extra node on straight line</td></tr>
+              <tr><td><code>Must Not Self-Overlap</code></td><td>Lines</td><td>Line doesn't cross itself</td><td>Road doubles back</td></tr>
+              <tr><td><code>Must Not Self-Intersect</code></td><td>Lines</td><td>Line doesn't touch itself</td><td>Pipeline loops</td></tr>
+              <tr><td><code>Must Be Single Part</code></td><td>Polygons</td><td>No multipart features</td><td>Island in lake polygon</td></tr>
+              <tr><td><code>Must Not Intersect</code></td><td>Lines</td><td>Lines cannot cross</td><td>Underground pipe crosses stream</td></tr>
+              <tr><td><code>Must Not Intersect Or Touch Interior</code></td><td>Lines</td><td>Stricter non-intersection</td><td>Power line touches road mid-segment</td></tr>
+              <tr><td><code>Endpoint Must Be Covered By</code></td><td>Lines</td><td>Endpoints snap to points</td><td>Valve not at pipe end</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Key pattern:</b> Rules enforce the same primitives: containment (Must Be Inside), contact (Must Be Covered By), disjointness (Must Not Overlap).</div>
+        `
+      },
+
+      {
+        id: 'errors',
+        title: 'GIS Error Types',
+        subtitle: 'Common spatial data quality problems.',
+        countLabel: '7 errors',
+        html: `
+          <p class="kicker">These are the <b>symptoms</b> when topology rules are violated.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Error Type</th>
+                <th>Description</th>
+                <th>Underlying Primitive</th>
+                <th>How to Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Dangle</code></td><td>Line endpoint not connected</td><td>Broken <code>connectedTo</code></td><td>Extend/snap to nearest</td></tr>
+              <tr><td><code>Overshoot</code></td><td>Line extends past intersection</td><td>Excess <code>crosses</code></td><td>Trim to intersection</td></tr>
+              <tr><td><code>Undershoot</code></td><td>Line falls short of intersection</td><td>Missing <code>touches</code></td><td>Extend to target</td></tr>
+              <tr><td><code>Sliver</code></td><td>Tiny polygon from overlay errors</td><td>False <code>overlaps</code></td><td>Merge with neighbor</td></tr>
+              <tr><td><code>Gap</code></td><td>Missing area between polygons</td><td>Missing coverage</td><td>Fill or merge edges</td></tr>
+              <tr><td><code>Overlap</code></td><td>Polygons share interior</td><td>Unwanted <code>overlaps</code></td><td>Delete duplicate area</td></tr>
+              <tr><td><code>Self-Intersection</code></td><td>Feature crosses itself</td><td>Invalid geometry</td><td>Split or simplify</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Pattern:</b> Each error type maps to a violation of a topological primitive.</div>
+        `
+      },
+
+      {
+        id: 'nontopo',
+        title: 'Non-Topological Relations',
+        subtitle: 'Metric, directional, and network relations beyond pure topology.',
+        countLabel: '12 relations',
+        html: `
+          <p class="kicker">Topology ignores <b>distance</b> and <b>direction</b>. These relations add those dimensions.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Relation</th>
+                <th>Description</th>
+                <th>Linguistic Parallel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td rowspan="4"><b>Metric</b></td><td><code>nearestTo</code></td><td>Closest feature by distance</td><td>—</td></tr>
+              <tr><td><code>distance</code></td><td>Euclidean/network distance</td><td><code>away</code></td></tr>
+              <tr><td><code>buffer</code></td><td>Within distance threshold</td><td>near/around</td></tr>
+              <tr><td><code>fartherThan</code></td><td>Beyond distance threshold</td><td><code>away</code></td></tr>
+              <tr><td rowspan="4"><b>Directional</b></td><td><code>northOf</code></td><td>Cardinal direction</td><td>—</td></tr>
+              <tr><td><code>above/below</code></td><td>Vertical relation (3D)</td><td><code>up/down</code></td></tr>
+              <tr><td><code>upstream/downstream</code></td><td>Flow direction</td><td>—</td></tr>
+              <tr><td><code>before/after</code></td><td>Sequence along path</td><td><code>back</code></td></tr>
+              <tr><td rowspan="4"><b>Network/Flow</b></td><td><code>flowsInto</code></td><td>Directed connectivity</td><td><code>through</code></td></tr>
+              <tr><td><code>reachableFrom</code></td><td>Path exists in graph</td><td>—</td></tr>
+              <tr><td><code>suppliedBy</code></td><td>Resource origin</td><td>—</td></tr>
+              <tr><td><code>dependsOn</code></td><td>Causal dependency</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="note"><b>Hierarchy:</b> L3 (Topological) → L4 (Metric) → L5 (Flow). Each layer adds constraints.</div>
+
+          <div class="diagram">
+            <img src="flow_diagram_v2.png" alt="Flow Relations">
+            <div class="diagram-caption">Grupo 7 — Flow: connectivity + direction</div>
+          </div>
+
+          <div class="ascii">
+                    ╲          ╱
+                     ╲        ╱
+                      ↘      ↙
+                        ◎────→  flowsInto
+                      ↗      ↖
+                     ╱        ╲
+                    ╱          ╲
+
+        Fluxo = conectividade + direção
+
+    ○←──d──→○           ↑ N
+    distance            │
+                        ├──→ E
+    ●───────→●          
+    reachableFrom       upstream/downstream
+          </div>
+        `
+      },
+
+      {
+        id: 'crossref',
+        title: 'Master Cross-Reference',
+        subtitle: 'Complete mapping: Cognitive Schema → Particle → OGC → RCC-8 → Rules.',
+        countLabel: 'complete',
+        html: `
+          <p class="kicker">One table to rule them all: trace any concept across all four systems.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Schema</th>
+                <th>Particle</th>
+                <th>OGC/GeoSPARQL</th>
+                <th>RCC-8</th>
+                <th>Topology Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Containment</b></td><td><code>in</code></td><td><code>Within</code></td><td><code>NTPP / TPP</code></td><td>Must Be Inside</td></tr>
+              <tr><td><b>Containment (inv)</b></td><td><code>out</code></td><td><code>Contains</code></td><td><code>NTPPi / TPPi</code></td><td>Must Be Covered By</td></tr>
+              <tr><td><b>Contact</b></td><td><code>on</code></td><td><code>Touches</code></td><td><code>EC</code></td><td>Must Be Covered By Boundary Of</td></tr>
+              <tr><td><b>Separation</b></td><td><code>off</code></td><td><code>Disjoint</code></td><td><code>DC</code></td><td>Must Not Overlap</td></tr>
+              <tr><td><b>Traversal</b></td><td><code>through</code></td><td><code>Crosses</code></td><td>—</td><td>Must Not Intersect (violation)</td></tr>
+              <tr><td><b>Covering</b></td><td><code>over</code></td><td><code>Covers / Overlaps</code></td><td><code>PO</code></td><td>Must Cover Each Other</td></tr>
+              <tr><td><b>Adjacency</b></td><td><code>along</code></td><td><code>Touches</code> (linear)</td><td><code>EC</code></td><td>Boundary Must Be Covered By</td></tr>
+              <tr><td><b>Equality</b></td><td>—</td><td><code>Equals</code></td><td><code>EQ</code></td><td>—</td></tr>
+              <tr><td><b>Increase</b></td><td><code>up</code></td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td><b>Decrease</b></td><td><code>down</code></td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td><b>Return</b></td><td><code>back</code></td><td>—</td><td>—</td><td>—</td></tr>
+              <tr><td><b>Distance</b></td><td><code>away</code></td><td><code>nearestTo</code> (metric)</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="split">
+            <div class="mini">
+              <h4>Legend: Sources</h4>
+              <ul>
+                <li><b>OGC/GeoSPARQL:</b> Open Geospatial Consortium standards</li>
+                <li><b>RCC-8:</b> Region Connection Calculus (AI/Logic)</li>
+                <li><b>Topology Rules:</b> Esri ArcGIS Geodatabase</li>
+                <li><b>Particles:</b> Cognitive Linguistics (Lakoff, Talmy)</li>
+              </ul>
+            </div>
+            <div class="mini">
+              <h4>Key Insight</h4>
+              <ul>
+                <li>Spatial cognition → grammatical particles (language)</li>
+                <li>Spatial cognition → formal predicates (GIS/logic)</li>
+                <li>Same 8-10 primitives in all systems</li>
+                <li>Use this table to translate between domains</li>
+              </ul>
+            </div>
+          </div>
+          <div class="note"><b>This is the complete map.</b> Every relation in every system maps back to the same cognitive schemas.</div>
+        `
+      }
+    ];
+
+    const navItems = [
+      { id: 'map', name: 'Overview — The Connection', desc: 'Two domains, one pattern', count: '2' },
+      { id: 'particles', name: 'Linguistic Particles', desc: '12 relational operators', count: '12' },
+      { id: 'topology', name: 'Topological Relations', desc: 'OGC/GeoSPARQL predicates', count: '10' },
+      { id: 'rcc8', name: 'RCC-8', desc: 'Qualitative spatial reasoning', count: '8' },
+      { id: 'rules', name: 'Topology Rules', desc: 'GIS integrity constraints', count: '16' },
+      { id: 'errors', name: 'GIS Error Types', desc: 'Data quality problems', count: '7' },
+      { id: 'nontopo', name: 'Non-Topological', desc: 'Metric, directional, flow', count: '12' },
+      { id: 'unified', name: 'Unified Primitives', desc: 'The building blocks', count: '6' },
+      { id: 'crossref', name: 'Master Cross-Reference', desc: 'Complete unified map', count: '✓' },
+      { id: 'phrasal', name: 'Phrasal Sense Labels', desc: 'Polysemy control', count: 'labels' },
+      { id: 'syntax', name: 'Phrasal Syntax Rules', desc: 'Object/pronoun placement', count: 'rules' }
+    ];
+
+    const nav = document.getElementById('nav');
+    const content = document.getElementById('content');
+    const sectionTitle = document.getElementById('sectionTitle');
+    const sectionSubtitle = document.getElementById('sectionSubtitle');
+    const sectionCount = document.getElementById('sectionCount');
+    const q = document.getElementById('q');
+    const matchCount = document.getElementById('matchCount');
+    const jump = document.getElementById('jump');
+
+    function esc(s) { return (s || '').toLowerCase(); }
+
+    function renderNav(filter = '') {
+      nav.innerHTML = '';
+      const f = esc(filter);
+      const filtered = navItems.filter(it => {
+        if (!f) return true;
+        const hay = esc(it.name + ' ' + it.desc + ' ' + it.id);
+        return hay.includes(f);
+      });
+      matchCount.textContent = f ? `${filtered.length} match` : 'all';
+
+      filtered.forEach(it => {
+        const btn = document.createElement('button');
+        btn.className = 'navbtn';
+        btn.dataset.id = it.id;
+        btn.innerHTML = `
+          <div class="meta">
+            <div class="name">${it.name}</div>
+            <div class="desc">${it.desc}</div>
+          </div>
+          <div class="count">${it.count}</div>
+        `;
+        btn.addEventListener('click', () => activate(it.id));
+        nav.appendChild(btn);
+      });
+    }
+
+    function renderSections(filter = '') {
+      content.innerHTML = '';
+      const f = esc(filter);
+      const filtered = sections.filter(s => {
+        if (!f) return true;
+        const hay = esc(s.title + ' ' + s.subtitle + ' ' + s.html);
+        return hay.includes(f);
+      });
+
+      filtered.forEach(s => {
+        const sec = document.createElement('section');
+        sec.className = 'section';
+        sec.id = `sec-${s.id}`;
+        sec.innerHTML = `
+          <div class="hgroup">
+            <h3>${s.title}</h3>
+            <p class="sub">${s.subtitle}</p>
+          </div>
+          ${s.html}
+        `;
+        content.appendChild(sec);
+      });
+
+      if (filtered.length) {
+        activate(filtered[0].id, { silentScroll: true });
+      }
+    }
+
+    function activate(id, opts = {}) {
+      [...document.querySelectorAll('.section')].forEach(s => s.classList.remove('active'));
+      const sec = document.getElementById(`sec-${id}`);
+      if (!sec) return;
+      sec.classList.add('active');
+
+      const s = sections.find(x => x.id === id);
+      if (s) {
+        sectionTitle.textContent = s.title;
+        sectionSubtitle.textContent = s.subtitle;
+        sectionCount.textContent = s.countLabel;
+        jump.value = id;
+      }
+
+      [...document.querySelectorAll('.navbtn')].forEach(b => {
+        b.style.borderColor = 'rgba(32,48,64,.8)';
+        b.style.background = 'rgba(11,15,20,.35)';
+      });
+      const currentBtn = [...document.querySelectorAll('.navbtn')].find(b => b.dataset.id === id);
+      if (currentBtn) {
+        currentBtn.style.borderColor = 'rgba(120,166,255,.65)';
+        currentBtn.style.background = 'rgba(120,166,255,.10)';
+      }
+
+      if (!opts.silentScroll && window.innerWidth < 980) {
+        document.querySelector('main.panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Init
+    renderNav('');
+    renderSections('');
+    activate('map', { silentScroll: true });
+
+    q.addEventListener('input', (e) => {
+      const val = e.target.value || '';
+      renderNav(val);
+      renderSections(val);
+    });
+
+    jump.addEventListener('change', (e) => activate(e.target.value));
+  </script>
+</body>
+
+</html>

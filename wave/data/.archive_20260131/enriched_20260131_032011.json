@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:20:11.294036",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "zai-glm-4.7",
+    "files_enriched": 10,
+    "elapsed_seconds": 434.22
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:13:18.493005"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:14:13.796227"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:15:32.431941"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:15:57.277244"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:16:20.573736"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:17:29.481395"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:18:15.233357"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:18:37.855004"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:19:24.778833"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "",
+      "summary": "",
+      "semantic_tags": [],
+      "enriched_at": "2026-01-31T03:20:11.293922"
+    }
+  ]
+}

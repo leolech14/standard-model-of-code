@@ -13,12 +13,12 @@
 Analyze the alignment between these PROJECT_elements subsystems and recommend permanent integration points:
 
 1. BARE (Background Auto-Refinement Engine) - .agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md
-2. Holographic-Socratic Layer (HSL) - context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md  
-3. analyze.py (Gemini queries) - context-management/tools/ai/analyze.py
-4. Perplexity MCP Server - context-management/tools/mcp/perplexity_mcp_server.py
-5. Collider - standard-model-of-code/
+2. Holographic-Socratic Layer (HSL) - wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
+3. analyze.py (Gemini queries) - wave/tools/ai/analyze.py
+4. Perplexity MCP Server - wave/tools/mcp/perplexity_mcp_server.py
+5. Collider - particle/
 6. Task Registry - .agent/registry/LEARNING_SYSTEM_TASK_REGISTRY.md
-7. Archive/Mirror - context-management/tools/archive/
+7. Archive/Mirror - wave/tools/archive/
 
 Questions:
 - Where do these systems overlap?
@@ -84,7 +84,7 @@ The intended end-to-end data flow forms a self-improving loop:
 
 | Redundancy/Inefficiency | Analysis | Recommendation |
 | :--- | :--- | :--- |
-| **HSL vs. `analyze.py --verify`** | This is not a redundancy but a **concept/implementation** pair. The HSL documentation describes the *system*, and `analyze.py` is its *engine*. | **Formalize this relationship**. Update `HOLOGRAPHIC_SOCRATIC_LAYER.md` to explicitly state: "The HSL is implemented via the `--verify` flag in `context-management/tools/ai/analyze.py`." |
+| **HSL vs. `analyze.py --verify`** | This is not a redundancy but a **concept/implementation** pair. The HSL documentation describes the *system*, and `analyze.py` is its *engine*. | **Formalize this relationship**. Update `HOLOGRAPHIC_SOCRATIC_LAYER.md` to explicitly state: "The HSL is implemented via the `--verify` flag in `wave/tools/ai/analyze.py`." |
 | **Manual Task Registry** | The `LEARNING_SYSTEM_TASK_REGISTRY.md` and `DOCS_REORG_TASK_REGISTRY.md` appear to be markdown files. This is a major bottleneck for automation, requiring a human or a fragile script to parse text. | **Upgrade the Task Registry**. Convert it to a structured format like `tasks.yaml` or a simple SQLite database. This makes it machine-readable, allowing BARE to poll and claim tasks automatically. |
 | **Multiple AI Query Tools** | The `AI_USER_GUIDE.md` mentions Vertex AI Agent Builder, `analyze.py`, etc. This could cause confusion. | **This is a feature, not a bug**. The tools serve different roles (Librarian vs. Surgeon). **Clarify the "When to use what" guide**. Create a `WORKFLOW_FACTORY.md` that maps query types to the appropriate tool (e.g., "For verifiable citations, use `forensic` mode. For architectural questions, use `architect` mode."). |
 
@@ -130,7 +130,7 @@ flowchart TD
         F[semantic_models.yaml<br/>(Antimatter Laws)]
         G(Perplexity MCP)
     end
-    
+
     subgraph "ACTION & FEEDBACK LOOP"
         H(Task Registry<br/><b>[PROPOSED: tasks.yaml]</b>)
         I(BARE<br/>Auto-Refinement Engine)
@@ -144,7 +144,7 @@ flowchart TD
 
     %% Data Flows
     A --> B --"Generates"--> C
-    
+
     C --> D --"Consumes"--> D
     F --> E --"Defines Invariants"--> E
     E -.->|Triggers| D

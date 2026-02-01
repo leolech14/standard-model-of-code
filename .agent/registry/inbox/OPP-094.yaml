@@ -1,0 +1,45 @@
+# Opportunity: Collider Runs Deduplication
+# Created: 2026-01-31
+# Source: SPRAWL_AUDIT
+
+id: OPP-094
+title: "Remove duplicate Collider run outputs from Jan 21"
+source: SPRAWL_AUDIT
+discovered_at: "2026-01-31T07:40:00Z"
+discovered_by: claude-opus-4.5
+
+description: |
+  Three nearly identical 12MB Collider outputs from the same day:
+  - output_llm-oriented_src_20260121_074317.json (12MB)
+  - output_llm-oriented_src_20260121_080924.json (12MB)
+  - output_llm-oriented_src_20260121_082117.json (12MB)
+  - unified_analysis.json (11MB)
+
+  Total: ~47MB of duplicate/redundant data.
+
+  These appear to be multiple runs from the same analysis session.
+  Only the final successful run should be retained.
+
+evidence:
+  - path: "wave/data/collider_runs/"
+    total_size: "52MB"
+    unique_content: "~12MB"
+    waste: "~35-40MB duplicates"
+
+suggested_action: |
+  1. Verify which run is the final/correct one
+  2. Archive or delete the earlier duplicate runs
+  3. Consider adding run deduplication to Collider workflow
+
+urgency: LOW
+impact: MEDIUM
+effort: LOW
+risk: LOW
+
+tags:
+  - cleanup
+  - collider
+  - sprawl
+
+defer_until: null
+promoted_to: null

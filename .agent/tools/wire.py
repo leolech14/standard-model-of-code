@@ -30,7 +30,7 @@ from typing import Optional
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent.parent
 INTELLIGENCE_DIR = REPO_ROOT / ".agent" / "intelligence"
-COLLIDER_DIR = REPO_ROOT / "standard-model-of-code"
+COLLIDER_DIR = REPO_ROOT / "particle"
 
 # Tool paths
 LOL_SYNC = SCRIPT_DIR / "lol_sync.py"
@@ -38,7 +38,7 @@ LOL_SMOC_MERGER = SCRIPT_DIR / "lol_smoc_merger.py"
 LOL_UNIFY = SCRIPT_DIR / "lol_unify.py"
 SYMMETRY_CHECK = SCRIPT_DIR / "symmetry_check.py"
 COMM_FABRIC = REPO_ROOT / ".agent" / "intelligence" / "comms" / "fabric.py"
-REFINERY_SCRIPT = REPO_ROOT / "context-management" / "tools" / "ai" / "aci" / "refinery.py"
+REFINERY_SCRIPT = REPO_ROOT / "wave" / "tools" / "ai" / "aci" / "refinery.py"
 
 # Output paths
 LOL_CSV = INTELLIGENCE_DIR / "LOL.csv"
@@ -401,14 +401,14 @@ def run_pipeline(skip_collider: bool = False, dashboard_only: bool = False):
 
         stages.append(PipelineStage(
             "REFINERY_CORE",
-            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "standard-model-of-code" / "src" / "core"),
+            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "particle" / "src" / "core"),
              "--export", str(CHUNKS_DIR / "core_chunks.json")],
             "Atomize Collider core (pipeline, analysis, graph)"
         ))
 
         stages.append(PipelineStage(
             "REFINERY_ACI",
-            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "context-management" / "tools" / "ai" / "aci"),
+            ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "wave" / "tools" / "ai" / "aci"),
              "--export", str(CHUNKS_DIR / "aci_chunks.json")],
             "Atomize ACI tools (refinery, research, tier router)"
         ))

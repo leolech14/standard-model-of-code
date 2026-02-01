@@ -18,7 +18,7 @@
 
 **Verification:**
 ```bash
-$ grep -c "L[0-5]" context-management/docs/specs/CLOUD_REFINERY_SPEC.md
+$ grep -c "L[0-5]" wave/docs/specs/CLOUD_REFINERY_SPEC.md
 0  # Clean
 ```
 
@@ -120,7 +120,7 @@ $ ./pe wire --quick
 **Status:** COMPLETE - IMPROVED VERSION
 **Changes:**
 - Created filesystem_watcher.py (smart debouncing)
-- Watches: .agent/, context-management/, standard-model-of-code/src/
+- Watches: .agent/, wave/, particle/src/
 - Ignores: chunks/, state/, .git/ (butler output)
 - Triggers: Only after 5min quiet period
 - Runs: wire --quick (not full wire)

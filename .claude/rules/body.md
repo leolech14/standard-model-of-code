@@ -1,12 +1,12 @@
 ---
 paths:
-  - "standard-model-of-code/**"
+  - "particle/**"
 ---
 
 # Particle (Collider) Rules
 
 ## Before Making Changes
-- Read `standard-model-of-code/CLAUDE.md` first
+- Read `particle/CLAUDE.md` first
 - Run existing tests: `pytest tests/ -q`
 
 ## Code Style

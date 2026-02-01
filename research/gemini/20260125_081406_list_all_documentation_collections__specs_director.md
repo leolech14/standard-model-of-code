@@ -19,7 +19,7 @@ List ALL documentation collections: specs directories, research outputs, reports
 Based on the codebase context provided, here are the documentation collections categorized by directory structure:
 
 ### 1. Core Documentation (Theory & Usage)
-*   **Path:** `standard-model-of-code/docs/`
+*   **Path:** `particle/docs/`
 *   **File Count:** ~12 files
 *   **Topics Covered:**
     *   **Theory:** The Standard Model of Code foundations (Atoms, Roles, RPBL), Knowledge Tree provenance, and theoretical expansions.
@@ -27,7 +27,7 @@ Based on the codebase context provided, here are the documentation collections c
     *   **Strategy:** Competitive analysis, open concerns/bugs, roadmap possibilities, and project philosophy.
 
 ### 2. Reports & Audits (Snapshots & Forensics)
-*   **Path:** `standard-model-of-code/docs/reports/`
+*   **Path:** `particle/docs/reports/`
 *   **File Count:** 22 files
 *   **Topics Covered:**
     *   **Architecture Audits:** Anti-pattern investigations, gap analyses, and debt registries.
@@ -36,7 +36,7 @@ Based on the codebase context provided, here are the documentation collections c
     *   **System Audits:** Design token system validation and frontend/backend gap analysis.
 
 ### 3. Active Research (Protocols & Findings)
-*   **Path:** `standard-model-of-code/docs/research/`
+*   **Path:** `particle/docs/research/`
 *   **File Count:** 9 files
 *   **Topics Covered:**
     *   **Methodology:** AI orchestration protocols and decision templates for promoting research claims.
@@ -44,32 +44,32 @@ Based on the codebase context provided, here are the documentation collections c
     *   **Discoveries:** "Codome" edge discovery (invisible callers) and semantic matching research.
 
 ### 4. Legal & Intellectual Property
-*   **Path:** `standard-model-of-code/docs/legal/`
+*   **Path:** `particle/docs/legal/`
 *   **File Count:** 3 files
 *   **Topics Covered:**
     *   **Protection:** Enumerated original claims (IP) and disclosure policies.
     *   **Provenance:** Prior art bibliography distinguishing original work from referenced giants (Koestler, Popper, etc.).
 
 ### 5. Business Strategy
-*   **Path:** `standard-model-of-code/docs/business/`
+*   **Path:** `particle/docs/business/`
 *   **File Count:** 1 file
 *   **Topics Covered:**
     *   **Market Fit:** Product-market fit analysis (specifically regarding GraphRAG integration).
 
 ### 6. Implementation Plans
-*   **Path:** `standard-model-of-code/docs/plans/`
+*   **Path:** `particle/docs/plans/`
 *   **File Count:** 1 file
 *   **Topics Covered:**
     *   **Hardening:** Specific, executable engineering plans (e.g., Role Registry hardening).
 
 ### 7. Registry & History
-*   **Path:** `standard-model-of-code/docs/registry/`
+*   **Path:** `particle/docs/registry/`
 *   **File Count:** 1 file
 *   **Topics Covered:**
     *   **Chronology:** The evolutionary timeline of the project, including the pivot from AI-centric to deterministic analysis.
 
 ### 8. Figures & Assets
-*   **Path:** `standard-model-of-code/docs/figures/`
+*   **Path:** `particle/docs/figures/`
 *   **File Count:** 1 file
 *   **Topics Covered:**
     *   **Visualization:** Prompts for generating scientific-grade diagrams and illustrations.

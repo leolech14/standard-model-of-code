@@ -44,17 +44,17 @@ description: |
   ## Problem
   7 intelligence directories exist, causing confusion:
   1. .agent/intelligence/ (46MB) - CANONICAL, agent-generated
-  2. context-management/intelligence/ (4.2MB) - integration point
-  3. standard-model-of-code/.archive/docs_archive/context-management/intelligence/ - DUPLICATE
-  4. context-management/docs/theory/context-management/intelligence/ - DUPLICATE
-  5. standard-model-of-code/docs/theory/context-management/intelligence/ - DUPLICATE
-  6. context-management/tools/ai/aci/context-management/intelligence/ - DUPLICATE
-  7. context-management/tools/refinery/context-management/intelligence/ - DUPLICATE
+  2. wave/intelligence/ (4.2MB) - integration point
+  3. particle/.archive/docs_archive/wave/intelligence/ - DUPLICATE
+  4. wave/docs/theory/wave/intelligence/ - DUPLICATE
+  5. particle/docs/theory/wave/intelligence/ - DUPLICATE
+  6. wave/tools/ai/aci/wave/intelligence/ - DUPLICATE
+  7. wave/tools/refinery/wave/intelligence/ - DUPLICATE
 
   ## Solution
   Keep only 2 directories:
   - .agent/intelligence/ (canonical source)
-  - context-management/intelligence/ (integration point for tools)
+  - wave/intelligence/ (integration point for tools)
 
   Delete the 5 nested duplicates after preserving any unique content.
 
@@ -68,29 +68,29 @@ directories:
       size: "46MB"
       contents: "autopilot_logs, confidence_reports, deck state"
 
-    - path: "context-management/intelligence/"
+    - path: "wave/intelligence/"
       role: "integration"
       size: "4.2MB"
       contents: "HLS daemon logs, intel caches"
 
   delete:
-    - path: "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
+    - path: "particle/.archive/docs_archive/wave/intelligence/"
       size: "1.8MB"
       likely_duplicate: true
 
-    - path: "context-management/docs/theory/context-management/intelligence/"
+    - path: "wave/docs/theory/wave/intelligence/"
       size: "388KB"
       likely_duplicate: true
 
-    - path: "standard-model-of-code/docs/theory/context-management/intelligence/"
+    - path: "particle/docs/theory/wave/intelligence/"
       size: "804KB"
       likely_duplicate: true
 
-    - path: "context-management/tools/ai/aci/context-management/intelligence/"
+    - path: "wave/tools/ai/aci/wave/intelligence/"
       size: "408KB"
       likely_duplicate: true
 
-    - path: "context-management/tools/refinery/context-management/intelligence/"
+    - path: "wave/tools/refinery/wave/intelligence/"
       size: "696KB"
       likely_duplicate: true
 
@@ -114,7 +114,7 @@ steps:
     command: |
       grep -r "intelligence/" --include="*.py" --include="*.yaml" --include="*.md" \
         | grep -v ".agent/intelligence" \
-        | grep -v "context-management/intelligence"
+        | grep -v "wave/intelligence"
 
   - id: 2
     action: "Compare directory contents for unique files"
@@ -138,11 +138,11 @@ steps:
     action: "Delete duplicate directories"
     agent: Bash
     command: |
-      rm -rf "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
-      rm -rf "context-management/docs/theory/context-management/intelligence/"
-      rm -rf "standard-model-of-code/docs/theory/context-management/intelligence/"
-      rm -rf "context-management/tools/ai/aci/context-management/intelligence/"
-      rm -rf "context-management/tools/refinery/context-management/intelligence/"
+      rm -rf "particle/.archive/docs_archive/wave/intelligence/"
+      rm -rf "wave/docs/theory/wave/intelligence/"
+      rm -rf "particle/docs/theory/wave/intelligence/"
+      rm -rf "wave/tools/ai/aci/wave/intelligence/"
+      rm -rf "wave/tools/refinery/wave/intelligence/"
 
   - id: 5
     action: "Update any broken references"
@@ -165,14 +165,14 @@ steps:
 
       Kept:
       - .agent/intelligence/ (canonical, 46MB)
-      - context-management/intelligence/ (integration)
+      - wave/intelligence/ (integration)
 
       Deleted 5 duplicates:
-      - standard-model-of-code/.archive/.../intelligence/
-      - context-management/docs/theory/.../intelligence/
-      - standard-model-of-code/docs/theory/.../intelligence/
-      - context-management/tools/ai/aci/.../intelligence/
-      - context-management/tools/refinery/.../intelligence/
+      - particle/.archive/.../intelligence/
+      - wave/docs/theory/.../intelligence/
+      - particle/docs/theory/.../intelligence/
+      - wave/tools/ai/aci/.../intelligence/
+      - wave/tools/refinery/.../intelligence/
 
       Part of TASK-103, BATCH-CONSOLIDATION-2026-01-31
 
@@ -190,9 +190,9 @@ risks:
     severity: HIGH
     mitigation: "Content comparison in step 2, archive in step 3"
 
-  - risk: "Nested context-management dirs cause confusion"
+  - risk: "Nested wave dirs cause confusion"
     severity: LOW
-    mitigation: "Delete all nested context-management/intelligence/ patterns"
+    mitigation: "Delete all nested wave/intelligence/ patterns"
 
 # =============================================================================
 # METADATA

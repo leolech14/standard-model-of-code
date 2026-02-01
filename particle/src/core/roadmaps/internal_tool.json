@@ -1,0 +1,119 @@
+{
+    "name": "Internal Design Tool",
+    "description": "An internal tool focused on mapping, design, and analysis. Prioritizes observability, parsing, and visualization over robust security or scalability.",
+    "archetype": "internal_tool",
+    "capabilities": {
+        "required": [
+            {
+                "name": "Parsing Engine",
+                "description": "Ability to read and parse source code or data",
+                "patterns": [
+                    "parser",
+                    "ast",
+                    "extractor",
+                    "reader",
+                    "ingest"
+                ],
+                "min_confidence": 0.5
+            },
+            {
+                "name": "Graph Representation",
+                "description": "Internal model of relationships",
+                "patterns": [
+                    "graph",
+                    "node",
+                    "edge",
+                    "network",
+                    "matrix"
+                ],
+                "min_confidence": 0.5
+            },
+            {
+                "name": "Visualization/Output",
+                "description": "Way to present findings to users",
+                "patterns": [
+                    "viz",
+                    "visual",
+                    "renderer",
+                    "plot",
+                    "chart",
+                    "report",
+                    "export"
+                ],
+                "min_confidence": 0.5
+            },
+            {
+                "name": "CLI/Interface",
+                "description": "Command line interface for interaction",
+                "patterns": [
+                    "cli",
+                    "command",
+                    "argparse",
+                    "click",
+                    "typer",
+                    "main"
+                ],
+                "min_confidence": 0.6
+            }
+        ],
+        "optional": [
+            {
+                "name": "Caching",
+                "description": "Performance optimization",
+                "patterns": [
+                    "cache",
+                    "memoize",
+                    "store"
+                ],
+                "min_confidence": 0.4
+            },
+            {
+                "name": "Telemetry",
+                "description": "Usage tracking (optional for internal)",
+                "patterns": [
+                    "telemetry",
+                    "track",
+                    "analytics",
+                    "stats"
+                ],
+                "min_confidence": 0.4
+            }
+        ],
+        "forbidden": [
+            {
+                "name": "Complex Auth",
+                "description": "Over-engineered auth not needed for v1 internal tools",
+                "patterns": [
+                    "oauth",
+                    "jwt",
+                    "sso",
+                    "identity_provider"
+                ]
+            },
+            {
+                "name": "Billing",
+                "description": "Monetization not needed for internal tools",
+                "patterns": [
+                    "stripe",
+                    "billing",
+                    "payment",
+                    "subscription"
+                ]
+            }
+        ]
+    },
+    "maturity_stages": {
+        "v1_mvp": [
+            "Parsing Engine",
+            "CLI/Interface"
+        ],
+        "v2_usable": [
+            "Graph Representation",
+            "Visualization/Output"
+        ],
+        "v3_robust": [
+            "Caching",
+            "Telemetry"
+        ]
+    }
+}

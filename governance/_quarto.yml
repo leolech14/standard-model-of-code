@@ -1,0 +1,76 @@
+project:
+  type: website
+  output-dir: ../docs/reader
+website:
+  title: PROJECT_elements Reader
+  site-url: https://github.com/leolech14/particle
+  description: Official Documentation Reader for the PROJECT_elements Standard Model.
+  sidebar:
+    style: floating
+    background: '#202022'
+    border: true
+    collapse-level: 2
+    contents:
+    - section: Governance
+      contents:
+      - text: "\U0001F4D8 The Missing Manual"
+        href: THE_MISSING_MANUAL.md
+      - text: "\U0001F3D7\uFE0F Visual Guide"
+        href: VISUAL_GUIDE.qmd
+      - text: "\U0001F6E1\uFE0F Quality Gates"
+        href: QUALITY_GATES.md
+      - text: "\U0001F4C2 Repo Structure"
+        href: REPO_STRUCTURE.md
+      - text: "\U0001F5FA\uFE0F Topology Map"
+        href: TOPOLOGY_MAP.md
+      - text: "\U0001F50D Audit 2026"
+        href: ARCHITECTURE_AUDIT_2026.md
+      - text: "\u2699\uFE0F Pipelines"
+        href: PIPELINES.md
+    - section: Standard Model
+      contents:
+      - text: Theory Axioms
+        href: ../particle/docs/theory/THEORY_AXIOMS.md
+      - text: Theory Complete All
+        href: ../particle/docs/theory/THEORY_COMPLETE_ALL.md
+      - text: Pipeline Stages
+        href: ../particle/docs/specs/PIPELINE_STAGES.md
+    - section: Intelligence
+      contents:
+      - text: Contextome
+        href: ../wave/docs/CONTEXTOME.md
+      - text: Projectome
+        href: ../wave/docs/PROJECTOME.md
+      - text: Registry Report
+        href: ../wave/registry/REGISTRY_REPORT.md
+  page-footer:
+    left: PROJECT_elements v1.0
+    right:
+    - icon: github
+      href: https://github.com/leolech14/particle
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    include-after-body: theme_selector.html
+    toc: true
+    toc-depth: 3
+    title-block-banner: false
+    anchor-sections: true
+    smooth-scroll: true
+    embed-resources: false
+    mermaid:
+      theme: dark
+      themeVariables:
+        cScale0: '#2d2d30'
+        cScale1: '#202022'
+        cScale2: '#2d2d30'
+        cScale3: '#202022'
+        primaryColor: '#2d2d30'
+        primaryTextColor: '#dcdcdc'
+        primaryBorderColor: '#5c7c8a'
+        lineColor: '#5c7c8a'
+        secondaryColor: '#161618'
+        tertiaryColor: '#161618'
+        mainBkg: '#202022'
+        textColor: '#dcdcdc'

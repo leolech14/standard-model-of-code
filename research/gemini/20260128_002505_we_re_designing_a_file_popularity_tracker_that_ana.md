@@ -54,7 +54,7 @@ Therefore: Create a separate subsystem seems to be the best choice. This can be 
 - CARD_TST_003: Establish 2026-01-27 with Testing
 
 The implementation would follow the following procedure:
-*   Create a new subsystem (S15) in context-management/tools/file_popularity/
+*   Create a new subsystem (S15) in wave/tools/file_popularity/
 *   Define the interface (inputs/outputs) of the subsystem
 *   Implement the logic to analyze file modification history and generate insights.
 *   Implement the mechanism to trigger the data flow from the new subsystem to the Refinery.

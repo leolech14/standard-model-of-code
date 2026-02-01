@@ -27,8 +27,8 @@ Based on the provided codebase context, here is the structural breakdown and the
 
 | Region (Realm) | Physics Metaphor | Directory Path | Primary Theory Focus |
 | :--- | :--- | :--- | :--- |
-| **PARTICLE** | Measurement / Collapsed | `standard-model-of-code/` | The Standard Model (Atoms, Dimensions), The Collider (Measurement) |
-| **WAVE** | Potential / Reasoning | `context-management/` | Codespace Algebra, Topology, ACI Science, Holographic Validation |
+| **PARTICLE** | Measurement / Collapsed | `particle/` | The Standard Model (Atoms, Dimensions), The Collider (Measurement) |
+| **WAVE** | Potential / Reasoning | `wave/` | Codespace Algebra, Topology, ACI Science, Holographic Validation |
 | **OBSERVER** | Decision / Action | `.agent/` | Governance, Teleology (Purpose), Auto-Refinement (BARE) |
 
 ---
@@ -42,42 +42,42 @@ Here is the exhaustive enumeration of theoretical artifacts, categorized by abst
 
 | Artifact | Location | Theoretical Contribution |
 | :--- | :--- | :--- |
-| **The Standard Model** | `standard-model-of-code/docs/MODEL.md` | **The Canonical Source.** Defines the 16 Levels (Bit to Universe), 8 Dimensions, and RPBL profiles. |
-| **The Glossary** | `context-management/docs/GLOSSARY.md` | Formal definitions of Projectome, Codome, Contextome, and the "Loop of Truth". |
-| **Atom Definition** | `standard-model-of-code/schema/atoms.schema.json` | The formal schema defining the fundamental particle of code. |
-| **Dimension Logic** | `standard-model-of-code/src/core/dimensions.py` | Code-as-Theory. Defines the 8D coordinate space (WHAT, LAYER, ROLE, etc.). |
-| **Role Registry** | `standard-model-of-code/schema/fixed/roles.json` | *implied via context* - The 33 Canonical Roles (The "Why" dimension). |
+| **The Standard Model** | `particle/docs/MODEL.md` | **The Canonical Source.** Defines the 16 Levels (Bit to Universe), 8 Dimensions, and RPBL profiles. |
+| **The Glossary** | `wave/docs/GLOSSARY.md` | Formal definitions of Projectome, Codome, Contextome, and the "Loop of Truth". |
+| **Atom Definition** | `particle/schema/atoms.schema.json` | The formal schema defining the fundamental particle of code. |
+| **Dimension Logic** | `particle/src/core/dimensions.py` | Code-as-Theory. Defines the 8D coordinate space (WHAT, LAYER, ROLE, etc.). |
+| **Role Registry** | `particle/schema/fixed/roles.json` | *implied via context* - The 33 Canonical Roles (The "Why" dimension). |
 
 ### CATEGORY 2: CORE THEORY
 *Structural Frameworks and Topologies.*
 
 | Artifact | Location | Theoretical Contribution |
 | :--- | :--- | :--- |
-| **Collider Theory** | `standard-model-of-code/docs/COLLIDER.md` | The theory of measurement. How to collapse code waves into static graphs. |
-| **Projectome Topology** | `context-management/docs/TOPOLOGY_MAP.md` | The spatial model of the repository. Defines the relationship between the 3 Realms. |
-| **Codome Definition** | `context-management/docs/CODOME.md` | Theory of the executable universe ($C$). Boundary definitions. |
-| **Contextome Definition** | `context-management/docs/CONTEXTOME.md` | Theory of the non-executable universe ($X$). "The Meaning Layer." |
-| **Concordances** | `context-management/docs/CONCORDANCES.md` | Formerly "Domains". Theory of Purpose Alignment between Code and Docs. |
-| **Universe Algebra** | `context-management/docs/PROJECTOME.md` | Set algebra defining $P = C \sqcup X$ and the exclusion principles. |
+| **Collider Theory** | `particle/docs/COLLIDER.md` | The theory of measurement. How to collapse code waves into static graphs. |
+| **Projectome Topology** | `wave/docs/TOPOLOGY_MAP.md` | The spatial model of the repository. Defines the relationship between the 3 Realms. |
+| **Codome Definition** | `wave/docs/CODOME.md` | Theory of the executable universe ($C$). Boundary definitions. |
+| **Contextome Definition** | `wave/docs/CONTEXTOME.md` | Theory of the non-executable universe ($X$). "The Meaning Layer." |
+| **Concordances** | `wave/docs/CONCORDANCES.md` | Formerly "Domains". Theory of Purpose Alignment between Code and Docs. |
+| **Universe Algebra** | `wave/docs/PROJECTOME.md` | Set algebra defining $P = C \sqcup X$ and the exclusion principles. |
 
 ### CATEGORY 3: EXTENDED THEORY
 *Advanced Physics, Mathematics, and Dynamics.*
 
 | Artifact | Location | Theoretical Contribution |
 | :--- | :--- | :--- |
-| **Codespace Algebra** | `context-management/docs/CODESPACE_ALGEBRA.md` | **Highest Density Theory.** Purpose Field ($\mathcal{P}$), Magneto-Gradient Dynamics, Constructal Law application, and the "Crystallization" of intent. |
-| **Holographic Layer** | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | Theory of semantic validation. "Antimatter Laws" that detect architectural drift. |
-| **ACI Science** | `context-management/docs/ACI_DATASET_MANAGEMENT.md` | Cognitive science of AI attention (U-shaped curves) applied to context engineering. |
-| **AI Consumer Class** | `context-management/docs/specs/AI_CONSUMER_CLASS.md` | *referenced* - Axiom Group H. "Stone Tool Principle" (Tools designed for AI, not humans). |
-| **Observability Triad** | `context-management/docs/specs/OBSERVABILITY_TRIAD.md` | *referenced* - Axiom G. Tarski Hierarchy applied to system observability. |
+| **Codespace Algebra** | `wave/docs/CODESPACE_ALGEBRA.md` | **Highest Density Theory.** Purpose Field ($\mathcal{P}$), Magneto-Gradient Dynamics, Constructal Law application, and the "Crystallization" of intent. |
+| **Holographic Layer** | `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | Theory of semantic validation. "Antimatter Laws" that detect architectural drift. |
+| **ACI Science** | `wave/docs/ACI_DATASET_MANAGEMENT.md` | Cognitive science of AI attention (U-shaped curves) applied to context engineering. |
+| **AI Consumer Class** | `wave/docs/specs/AI_CONSUMER_CLASS.md` | *referenced* - Axiom Group H. "Stone Tool Principle" (Tools designed for AI, not humans). |
+| **Observability Triad** | `wave/docs/specs/OBSERVABILITY_TRIAD.md` | *referenced* - Axiom G. Tarski Hierarchy applied to system observability. |
 
 ### CATEGORY 4: SPECIFICATIONS (APPLIED THEORY)
 *Where theory crystallizes into rules and logic.*
 
 | Artifact | Location | Theoretical Contribution |
 | :--- | :--- | :--- |
-| **Semantic Models** | `context-management/config/semantic_models.yaml` | The "Map" of Truth. Defines Invariants and Antimatter Laws (e.g., AM001 Context Myopia). |
-| **Analysis Sets** | `context-management/config/analysis_sets.yaml` | Theory of Data Boxing. How to slice the Projectome for specific cognitive tasks. |
+| **Semantic Models** | `wave/config/semantic_models.yaml` | The "Map" of Truth. Defines Invariants and Antimatter Laws (e.g., AM001 Context Myopia). |
+| **Analysis Sets** | `wave/config/analysis_sets.yaml` | Theory of Data Boxing. How to slice the Projectome for specific cognitive tasks. |
 | **BARE Spec** | `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md` | Theory of self-refinement. TruthValidator and ConfidenceBooster logic. |
 | **Agent Kernel** | `.agent/KERNEL.md` | The boot protocol. Theoretical constraints on agent behavior and memory. |
 | **AEP Spec** | `.agent/specs/AUTONOMOUS_ENRICHMENT_PIPELINE.md` | *referenced* - Theory of autonomous task promotion and 4D confidence scoring. |
@@ -87,10 +87,10 @@ Here is the exhaustive enumeration of theoretical artifacts, categorized by abst
 
 | Artifact | Location | Theoretical Contribution |
 | :--- | :--- | :--- |
-| **Timeline Analysis** | `context-management/docs/TIMELINE_ANALYSIS.md` | Evolutionary history of the theory (Spectrometer $\to$ Collider). |
-| **Research Schemas** | `context-management/config/research_schemas.yaml` | Methodologies for validating theoretical claims (Consensus, Dialectic, Bayesian). |
-| **Insights Report** | `context-management/docs/archive/CODEBASE_INSIGHTS_REPORT.md` | Empirical proof that 8D+8L analysis yields actionable insights. |
-| **Pipeline Verify** | `context-management/docs/archive/END_TO_END_VERIFICATION.md` | Validation that the theoretical lenses (R1-R8) function in reality. |
+| **Timeline Analysis** | `wave/docs/TIMELINE_ANALYSIS.md` | Evolutionary history of the theory (Spectrometer $\to$ Collider). |
+| **Research Schemas** | `wave/config/research_schemas.yaml` | Methodologies for validating theoretical claims (Consensus, Dialectic, Bayesian). |
+| **Insights Report** | `wave/docs/archive/CODEBASE_INSIGHTS_REPORT.md` | Empirical proof that 8D+8L analysis yields actionable insights. |
+| **Pipeline Verify** | `wave/docs/archive/END_TO_END_VERIFICATION.md` | Validation that the theoretical lenses (R1-R8) function in reality. |
 
 ---
 
@@ -103,9 +103,9 @@ Here is the exhaustive enumeration of theoretical artifacts, categorized by abst
 2.  **The "Antimatter" Concept:** This is not just a bug list. It is a theoretical construct defined in `semantic_models.yaml` representing patterns that violate the fundamental physics of the project (e.g., "Context Myopia").
 
 3.  **Missing/Referenced Files:** Several key theoretical documents are referenced in the context but their full content was not in the provided dump (though their existence is confirmed by the map):
-    *   `context-management/docs/specs/AI_CONSUMER_CLASS.md`
-    *   `context-management/docs/specs/OBSERVABILITY_TRIAD.md`
-    *   `standard-model-of-code/schema/fixed/roles.json`
+    *   `wave/docs/specs/AI_CONSUMER_CLASS.md`
+    *   `wave/docs/specs/OBSERVABILITY_TRIAD.md`
+    *   `particle/schema/fixed/roles.json`
 
 ---
 

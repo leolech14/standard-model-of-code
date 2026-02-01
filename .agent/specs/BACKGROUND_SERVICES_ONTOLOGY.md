@@ -3,7 +3,7 @@
 > SMoC-native naming using the 33 canonical roles
 
 **Date:** 2026-01-25
-**Naming Source:** `standard-model-of-code/schema/fixed/roles.json`
+**Naming Source:** `particle/schema/fixed/roles.json`
 
 ---
 
@@ -103,17 +103,17 @@ PROJECT_elements
 └── task_registry.py      → task_store.py
 ```
 
-### S2: HSL (context-management/tools/)
+### S2: HSL (wave/tools/)
 
 ```
-context-management/tools/
+wave/tools/
 └── hsl_daemon.py         → drift_guard.py
 ```
 
-### S3: ACI (context-management/tools/ai/aci/)
+### S3: ACI (wave/tools/ai/aci/)
 
 ```
-context-management/tools/ai/aci/
+wave/tools/ai/aci/
 ├── query_analyzer.py     → intent_parser.py
 ├── semantic_matcher.py   → semantic_finder.py
 ├── tier_router.py        → tier_orchestrator.py

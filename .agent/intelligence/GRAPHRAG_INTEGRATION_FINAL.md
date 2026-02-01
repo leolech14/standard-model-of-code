@@ -8,7 +8,7 @@
 
 ### ANTES (Text Search)
 
-**Arquivo:** `context-management/tools/refinery/query_chunks.py`
+**Arquivo:** `wave/tools/refinery/query_chunks.py`
 **Método:** Brute-force text matching
 ```python
 for chunk in all_chunks:
@@ -89,7 +89,7 @@ def compute_purpose_enriched(node, graph, neo4j_conn):
     }
 ```
 
-**Arquivo a criar:** `standard-model-of-code/src/core/purpose_field_graphrag.py`
+**Arquivo a criar:** `particle/src/core/purpose_field_graphrag.py`
 
 ---
 
@@ -127,7 +127,7 @@ Recommended reading:
 - [GraphRAG suggests relevant papers]
 ```
 
-**Arquivo a modificar:** `standard-model-of-code/src/core/brain_download.py`
+**Arquivo a modificar:** `particle/src/core/brain_download.py`
 
 ---
 
@@ -135,7 +135,7 @@ Recommended reading:
 
 ### A. Código Legacy (Manter como Referência)
 
-**Criar:** `standard-model-of-code/.archive/pre-graphrag/`
+**Criar:** `particle/.archive/pre-graphrag/`
 
 **Arquivar:**
 
@@ -281,7 +281,7 @@ graphrag)
 
 ### TASK C: Add to Collider Brain Download (1h)
 
-**Modificar:** `standard-model-of-code/src/core/brain_download.py`
+**Modificar:** `particle/src/core/brain_download.py`
 
 **Adicionar após seção 11:**
 

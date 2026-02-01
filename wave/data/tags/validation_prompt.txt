@@ -1,0 +1,146 @@
+Review these Cerebras-generated file classifications.
+For each, mark as: CORRECT, PARTIAL (some wrong), or WRONG.
+
+
+File: context-management/archive/scripts/comparative_analysis_failures.py
+Cerebras: D1=SCRIPT, D2=APPLICATION, D3=ANALYZER
+Reasoning: The script is analyzing comparative data and computing root causes, indicating an internal application-level analyzer role.
+
+
+File: standard-model-of-code/src/scripts/migrate_roles.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=UTILITY
+Reasoning: This script is classified as a utility script due to its role in migrating deprecated roles to canonical equivalents.
+
+
+File: standard-model-of-code/src/core/pipeline/stages/markov_matrix.py
+Cerebras: D1=TRANSFORMER, D2=CORE, D3=SERVICE
+Reasoning: This code is classified as a transformer because it takes input data, applies a transformation to it, and produces output data, which is a key characteristic of a transformer.
+
+
+File: context-management/tools/mcp/mcp_factory/core/server.py
+Cerebras: D1=SERVICE, D2=INFRASTRUCTURE, D3=SERVICE
+Reasoning: This code implements a JSON-RPC 2.0 server, which is a service that handles requests and responses, indicating it is a service-oriented component.
+
+
+File: standard-model-of-code/src/core/plugin/base_plugin.py
+Cerebras: D1=FACTORY, D2=INFRASTRUCTURE, D3=FACTORY
+Reasoning: The code defines a base class for plugins, which is a factory pattern, and is part of the infrastructure layer, managing the lifecycle of plugins.
+
+
+File: standard-model-of-code/src/core/execution_flow.py
+Cerebras: D1=UTIL, D2=CORE, D3=SERVICE
+Reasoning: This code is classified as a utility due to its analysis and detection capabilities of code execution flow.
+
+
+File: standard-model-of-code/src/core/pipeline/stages/base_analysis.py
+Cerebras: D1=SERVICE, D2=CORE, D3=SERVICE
+Reasoning: This code is classified as a core service due to its role in performing base analysis and constructing graphs, which is a fundamental operation in the system.
+
+
+File: context-management/archive/orphaned_tools_2025/scan_repo_truth_sources.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=EXTRACTOR
+Reasoning: The script appears to be scanning a repository for specific files and directories, indicating an infrastructure-level extraction task.
+
+
+File: context-management/tools/mcp/mcp_factory/scaffold.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=FACTORY
+Reasoning: The code is a Python script that generates a new MCP server from a template, indicating a factory role in the infrastructure layer.
+
+
+File: standard-model-of-code/src/core/data_management.py
+Cerebras: D1=REPOSITORY, D2=DOMAIN, D3=REPOSITORY
+Reasoning: This code is classified as a repository due to its focus on data management and validation, indicating a high level of confidence in its role within the domain layer.
+
+
+File: standard-model-of-code/tools/research/run_corpus.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=UTIL
+Reasoning: This script is classified as a utility script due to its functionality of cloning repositories, running analysis, and producing metrics, which is a typical task in a development environment.
+
+
+File: context-management/archive/intelligence/legacy/palace-dashboard/routers/butlers.py
+Cerebras: D1=CONTROLLER, D2=APPLICATION, D3=CONTROLLER
+Reasoning: This code defines API endpoints for monitoring butler status, indicating a controller role within the application layer.
+
+
+File: tools/verify_counts.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=VALIDATOR
+Reasoning: This script is classified as a validator script due to its purpose of verifying counts and detecting 'Count Drift' in the codebase.
+
+
+File: standard-model-of-code/tools/visualize_graph_webgl.py
+Cerebras: D1=UTIL, D2=PRESENTATION, D3=CONTROLLER
+Reasoning: The code is a Python script that generates a WebGL visualization HTML file, indicating a utility role in the presentation layer.
+
+
+File: standard-model-of-code/archive/legacy_experiments/dashboard/routers/cloud_jobs.py
+Cerebras: D1=CONTROLLER, D2=APPLICATION, D3=CONTROLLER
+Reasoning: This code defines API endpoints for controlling and monitoring Cloud Run Jobs, indicating a controller role in the application layer.
+
+
+File: standard-model-of-code/src/core/universal_detector.py
+Cerebras: D1=SERVICE, D2=APPLICATION, D3=SERVICE
+Reasoning: The code defines a UniversalPatternDetector class that orchestrates various components to analyze a repository, indicating a service-oriented design.
+
+
+File: context-management/archive/spectrometer_legacy/spectrometer_v6_working.py
+Cerebras: D1=UTIL, D2=INFRASTRUCTURE, D3=SERVICE
+Reasoning: The code appears to be a utility script for parsing and analyzing code structures, suggesting a utility or infrastructure layer classification.
+
+
+File: standard-model-of-code/src/core/god_class_detector_lite.py
+Cerebras: D1=UTIL, D2=INFRASTRUCTURE, D3=SERVICE
+Reasoning: The code is a utility class for detecting God Classes in software design, indicating its role as a service within the infrastructure layer.
+
+
+File: standard-model-of-code/src/core/pipeline/stages/output_generation.py
+Cerebras: D1=SERVICE, D2=APPLICATION, D3=SERVICE
+Reasoning: This code is classified as a service because it generates output artifacts based on input data, and its role is to provide a specific functionality within the application layer.
+
+
+File: standard-model-of-code/tests/fixtures/toy_entry_flask/app.py
+Cerebras: D1=CONTROLLER, D2=PRESENTATION, D3=CONTROLLER
+Reasoning: This code defines a Flask application with routes, indicating it is a web controller.
+
+
+File: context-management/services/graph_rag/graph_rag_service.py
+Cerebras: D1=SERVICE, D2=APPLICATION, D3=SERVICE
+Reasoning: This code defines a service class that orchestrates queries against a Neo4j Knowledge Graph, indicating a clear service-oriented design pattern.
+
+
+File: standard-model-of-code/tests/test_purpose_field.py
+Cerebras: D1=TEST, D2=TEST, D3=VALIDATOR
+Reasoning: The code is a test suite for a purpose field detector, indicating its primary function is to validate the detector's functionality.
+
+
+File: context-management/tools/ai/analyze/search/__init__.py
+Cerebras: D1=REPOSITORY, D2=INFRASTRUCTURE, D3=REPOSITORY
+Reasoning: The code is classified as a repository due to its role in storing and retrieving indexed files, with an external boundary due to its dependence on the Gemini File Search API.
+
+
+File: context-management/archive/spectrometer_legacy/spectrometer_v3_universal.py
+Cerebras: D1=SCRIPT, D2=APPLICATION, D3=ANALYZER
+Reasoning: The script appears to be a code analysis tool with a specific purpose, suggesting a high degree of confidence in its classification as a script.
+
+
+File: standard-model-of-code/.archive/legacy_viz/viz_generator.py
+Cerebras: D1=SERVICE, D2=PRESENTATION, D3=CONTROLLER
+Reasoning: The code generates interactive HTML visualizations, suggesting a presentation layer service that controls the visualization process.
+
+
+File: standard-model-of-code/scripts/extract_sections.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=EXTRACTOR
+Reasoning: This script extracts and merges sections from a document based on specific markers, indicating a utility or tool role within the infrastructure layer.
+
+
+File: context-management/archive/scripts/1440_csv_corrected.py
+Cerebras: D1=SCRIPT, D2=INFRASTRUCTURE, D3=UTIL
+Reasoning: The code is a Python script that generates CSV files based on predefined data structures, indicating a utility role within the infrastructure layer.
+
+
+File: .agent/tools/sprint.py
+Cerebras: D1=CLI, D2=APPLICATION, D3=CONTROLLER
+Reasoning: The script manages sprint lifecycle transitions and interacts with files, indicating a command-line interface with stateful and impure operations.
+
+
+Respond with JSON array:
+[{"file": "path", "verdict": "CORRECT|PARTIAL|WRONG", "notes": "if wrong, explain"}]

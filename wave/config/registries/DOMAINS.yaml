@@ -1,0 +1,181 @@
+# DOMAINS REGISTRY - Code↔Context Symmetry Tracking
+# Ensures every domain has BOTH implementation AND documentation
+# Version: 1.0.0
+# Updated: 2026-01-27
+
+domains:
+  - name: Collider_Pipeline
+    description: "32-stage code analysis pipeline (Codome processing)"
+    codome:
+      paths:
+        - particle/src/core/full_analysis.py
+        - particle/src/core/pipeline/
+      entrypoints:
+        - full_analysis.py::run_full_analysis()
+    contextome:
+      paths:
+        - particle/docs/specs/PIPELINE_STAGES.md
+        - particle/docs/COLLIDER.md
+      canonical: particle/src/core/pipeline/stages/__init__.py
+    registries:
+      - particle/src/core/pipeline/stages/__init__.py
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: true  # 32 stages verified 2026-01-28
+
+  - name: Refinery_Pipeline
+    description: "4-stage context atomization pipeline (Contextome processing)"
+    codome:
+      paths:
+        - wave/tools/ai/aci/refinery.py
+      entrypoints:
+        - refinery.py::Refinery.process_file()
+    contextome:
+      paths:
+        - wave/docs/specs/REFINERY_PIPELINE_STAGES.md
+      canonical: wave/tools/ai/aci/refinery.py
+    registries:
+      - wave/tools/ai/aci/refinery.py
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: true  # 4 stages verified 2026-01-28
+
+  - name: Visualization
+    description: "3D force-directed graph UI"
+    codome:
+      paths:
+        - particle/src/core/viz/
+        - particle/tools/visualize_graph_webgl.py
+      entrypoints:
+        - visualize_graph_webgl.py::generate_html()
+    contextome:
+      paths:
+        - particle/docs/specs/VISUALIZATION_UI_SPEC.md
+        - particle/docs/specs/UI_CONTROLS_SCHEMA.md
+        - particle/docs/reports/VIZ_SESSION_2026-01-27_COMPLETE.md
+      canonical: particle/docs/specs/VISUALIZATION_UI_SPEC.md
+    registries:
+      - particle/src/core/viz/assets/modules/registries/ControlRegistry.js
+      - particle/schema/viz/
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: true  # 78 controls in schema, circuit breaker validates
+
+  - name: Atoms
+    description: "3,610 atom taxonomy (T0/T1/T2)"
+    codome:
+      paths:
+        - particle/src/core/atom_loader.py
+        - particle/src/patterns/atom_classifier.py
+      entrypoints:
+        - atom_loader.py::load_atoms()
+    contextome:
+      paths:
+        - particle/docs/MODEL.md
+        - particle/docs/reports/ATOM_STATISTICAL_ANALYSIS.md
+      canonical: particle/docs/MODEL.md
+    registries:
+      - particle/src/patterns/ATOMS_T0.yaml
+      - particle/src/patterns/ATOMS_T1.yaml
+      - particle/src/patterns/t2_base/ATOMS_T2_BASE.yaml
+      - particle/src/patterns/t2_mined/ATOMS_T2_OTHER.yaml
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: false  # Index claims 43/24, registry has 42/21
+      - uniqueness: true  # NOW TRUE (was false, fixed 2026-01-27)
+
+  - name: Governance
+    description: "Decision deck + task registry + autopilot"
+    codome:
+      paths:
+        - .agent/tools/autopilot.py
+        - .agent/tools/wire.py
+        - wave/tools/ai/deck/deck_router.py
+      entrypoints:
+        - autopilot.py::run()
+        - ./pe deck
+    contextome:
+      paths:
+        - .agent/intelligence/
+        - .agent/deck/
+        - wave/docs/operations/
+      canonical: .agent/META_REGISTRY.yaml
+    registries:
+      - .agent/registry/
+      - .agent/deck/
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: false  # KERNEL.md deleted, broken refs
+      - counts_match: unknown
+
+  - name: AI_Tools
+    description: "analyze.py + refinery + HSL + Perplexity"
+    codome:
+      paths:
+        - wave/tools/ai/analyze.py
+        - wave/tools/ai/aci/refinery.py
+      entrypoints:
+        - analyze.py --set <set> "<query>"
+        - ./pe ask
+    contextome:
+      paths:
+        - wave/docs/deep/AI_USER_GUIDE.md
+        - wave/config/analysis_sets.yaml
+      canonical: wave/docs/deep/AI_USER_GUIDE.md
+    registries:
+      - wave/config/analysis_sets.yaml
+      - wave/config/semantic_models.yaml
+    health_checks:
+      - code_exists: true
+      - context_exists: true
+      - references_resolve: true
+      - counts_match: unknown
+
+# Symmetry validation rules
+symmetry_rules:
+  - name: bidirectional_reference
+    description: "If code mentions a doc, that doc must mention the code"
+    priority: P1
+
+  - name: registry_match
+    description: "Registry counts must match generated index counts"
+    priority: P0
+
+  - name: entrypoint_documented
+    description: "Every CLI entrypoint must have usage docs"
+    priority: P1
+
+  - name: orphan_detection
+    description: "No isolated docs (must be reachable from INDEX.md)"
+    priority: P2
+
+# Known drift (from ChatGPT audit)
+drift_detected:
+  - domain: Pipeline
+    issue: "PIPELINE_STAGES.md says 28 stages, REGISTRY_OF_REGISTRIES.md says 18"
+    severity: P0
+    fix: "Make PIPELINE_STAGES.md canonical, regenerate summary"
+
+  - domain: Atoms
+    issue: "ATOMS_UNIVERSAL_INDEX.yaml claims T0=43 T1=24, registry has T0=42 T1=21"
+    severity: P0
+    fix: "Regenerate index from YAML sources"
+
+  - domain: Governance
+    issue: "KERNEL.md deleted, broken references in .agent/registry/INDEX.md"
+    severity: P1
+    fix: "Update INDEX.md to point to AGENT_KERNEL.md or remove reference"
+
+  - domain: Documentation
+    issue: "733/788 active docs have no internal links (isolated)"
+    severity: P1
+    fix: "Add @PROVIDES/@DEPENDS_ON to all docs, autogenerate backlinks"

@@ -82,5 +82,5 @@ They exist to support development workflow across all realms.
 ## See Also
 
 - `scripts/` - Shell scripts
-- `context-management/tools/` - Wave realm tools
-- `standard-model-of-code/tools/` - Particle realm tools
+- `wave/tools/` - Wave realm tools
+- `particle/tools/` - Particle realm tools

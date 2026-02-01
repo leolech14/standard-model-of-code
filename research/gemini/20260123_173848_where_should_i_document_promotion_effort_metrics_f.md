@@ -10,7 +10,7 @@
 
 ## Query
 
-Where should I document PROMOTION EFFORT METRICS for the task refinery system? This includes: average confidence boost per OPP (+22%), refinement steps (avg 2), tools used (Forensic, Perplexity, Gemini), time per promotion (~20-40 min). Options: (A) .agent/docs/, (B) context-management/docs/workflows/, (C) .agent/registry/METRICS.md, (D) context-management/docs/operations/. Which location follows existing conventions?
+Where should I document PROMOTION EFFORT METRICS for the task refinery system? This includes: average confidence boost per OPP (+22%), refinement steps (avg 2), tools used (Forensic, Perplexity, Gemini), time per promotion (~20-40 min). Options: (A) .agent/docs/, (B) wave/docs/workflows/, (C) .agent/registry/METRICS.md, (D) wave/docs/operations/. Which location follows existing conventions?
 
 ---
 
@@ -24,9 +24,9 @@ Here's why:
 
 *   **(A) .agent/docs/:** This location could be used for conceptual documents related to the agent or the kernel, but not for tracking specific performance metrics.
 
-*   **(B) context-management/docs/workflows/:** This directory would be more suited for defining the workflow itself, rather than its performance metrics.
+*   **(B) wave/docs/workflows/:** This directory would be more suited for defining the workflow itself, rather than its performance metrics.
 
-*   **(D) context-management/docs/operations/:** This directory appears to be used for operational manuals and deployment strategies, not for tracking specific metrics of subsystems.
+*   **(D) wave/docs/operations/:** This directory appears to be used for operational manuals and deployment strategies, not for tracking specific metrics of subsystems.
 
 Therefore, the most accurate location to store promotion effort metrics is in `.agent/registry/METRICS.yaml`. Since the example prompt specifies to save into `.agent/registry/METRICS.md`, if the file will be edited automatically by the agent, then the format of the file should be `.yaml`. If the file is designed for humans to read (not edited automatically by the agent), then store in markdown (`.md`).
 

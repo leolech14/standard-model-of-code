@@ -16,9 +16,9 @@ DUPLICATION AUDIT of research infrastructure.
 
 Compare these systems for DUPLICATION vs COMPLEMENTARITY:
 
-SYSTEM A: context-management/tools/ai/ (AI query layer)
-SYSTEM B: standard-model-of-code/tools/research/ (Corpus validation)
-SYSTEM C: context-management/tools/refinery/ (Context atomization)
+SYSTEM A: wave/tools/ai/ (AI query layer)
+SYSTEM B: particle/tools/research/ (Corpus validation)
+SYSTEM C: wave/tools/refinery/ (Context atomization)
 
 QUESTIONS:
 1. Are any modules DUPLICATES that should be consolidated?
@@ -47,7 +47,7 @@ Based on the provided codebase context, here is the analysis of **System A** (AI
 
 #### The "Research" Homonym (System A vs. System B)
 *   **System A (`tools/ai/research/`)**: Uses "Research" as a **verb** (e.g., `perplexity_research.py`, `precision_fetcher.py`). It means "Go fetch external knowledge."
-*   **System B (`standard-model-of-code/tools/research/`)**: Uses "Research" as a **noun** (e.g., `run_corpus.py`, `evaluate_hypotheses.py`). It means "The scientific study of the Standard Model of Code."
+*   **System B (`particle/tools/research/`)**: Uses "Research" as a **noun** (e.g., `run_corpus.py`, `evaluate_hypotheses.py`). It means "The scientific study of the Standard Model of Code."
 *   **Verdict:** Not a code duplicate, but a naming collision that confuses the domain boundary.
 
 ---
@@ -55,7 +55,7 @@ Based on the provided codebase context, here is the analysis of **System A** (AI
 ### 2. Actual PURPOSE of Each Module (Evidence-Based)
 
 #### SYSTEM A: The "Brain" (Runtime Intelligence)
-**Location:** `context-management/tools/ai/`
+**Location:** `wave/tools/ai/`
 **Evidence:** `analyze.py`, `aci/`, `perplexity_research.py`
 **Purpose:**
 *   **Interactive Interface:** Acts as the CLI entry point (`analyze.py`) for the user to query the codebase.
@@ -64,7 +64,7 @@ Based on the provided codebase context, here is the analysis of **System A** (AI
 *   **Role:** The **Agent**. It consumes data to answer questions.
 
 #### SYSTEM B: The "Lab" (Scientific Validation)
-**Location:** `standard-model-of-code/tools/research/`
+**Location:** `particle/tools/research/`
 **Evidence:** `run_corpus.py`, `atom_coverage.py`, `evaluate_hypotheses.py`
 **Purpose:**
 *   **Batch Processing:** Runs the `collider` binary against hundreds of external repositories (`run_corpus.py`).
@@ -73,7 +73,7 @@ Based on the provided codebase context, here is the analysis of **System A** (AI
 *   **Role:** The **Scientist**. It produces proofs and artifacts. It does not help the user query the code; it validates the theory *behind* the code.
 
 #### SYSTEM C: The "Librarian" (Static Inventory)
-**Location:** `context-management/tools/refinery/`
+**Location:** `wave/tools/refinery/`
 **Evidence:** `corpus_inventory.py`, `atom_generator.py`
 **Purpose:**
 *   **Map Making:** Scans the local filesystem to create a static inventory (`corpus_inventory.json`).
@@ -132,7 +132,7 @@ System B is a specific scientific instrument for the "Standard Model of Code" pr
 **Status:** **PARTIAL CONSOLIDATION / REFACTOR.**
 There is technical debt here. "Refinery" exists in both places doing similar but slightly different things (File Metadata vs. Content Chunking).
 
-*   **Action:** Move `context-management/tools/ai/aci/refinery.py` **INTO** `context-management/tools/refinery/`.
+*   **Action:** Move `wave/tools/ai/aci/refinery.py` **INTO** `wave/tools/refinery/`.
 *   **Why:** "Refinery" should be the single source of truth for turning a file into a Node, whether that Node is a "File Summary" (Inventory) or a "Code Chunk" (RAG).
 *   **Result:** System A becomes purely the *User Interface/Logic*, and System C becomes the unified *Ingestion/Data Layer*.
 

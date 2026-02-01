@@ -20,17 +20,17 @@ Okay, here's the list of files I have access to and verification of access to th
 
 **Files I Have Access To:**
 
-*   `context-management/archive/references/COMPLETION_REPORT.md`
-*   `context-management/archive/references/CONFIDENCE_ASSESSMENT.md`
-*   `context-management/archive/references/CONFIDENCE_TRIPLE_VALIDATED.md`
-*   `context-management/archive/references/ERRORS_AND_IMPROVEMENTS.md`
-*   `context-management/archive/references/FINAL_AUDIT.md`
-*   `context-management/archive/references/FINAL_CONFIDENCE_REPORT.md`
-*   `context-management/archive/references/FINAL_STATUS.md`
-*   `context-management/archive/references/INTEGRATION_COMPLETE.md`
-*   `context-management/archive/references/QUALITY_SELF_EVAL.md`
-*   `context-management/archive/references/README.md`
-*   `context-management/archive/references/VALIDATION_AND_INTEGRATION_PLAN.md`
+*   `wave/archive/references/COMPLETION_REPORT.md`
+*   `wave/archive/references/CONFIDENCE_ASSESSMENT.md`
+*   `wave/archive/references/CONFIDENCE_TRIPLE_VALIDATED.md`
+*   `wave/archive/references/ERRORS_AND_IMPROVEMENTS.md`
+*   `wave/archive/references/FINAL_AUDIT.md`
+*   `wave/archive/references/FINAL_CONFIDENCE_REPORT.md`
+*   `wave/archive/references/FINAL_STATUS.md`
+*   `wave/archive/references/INTEGRATION_COMPLETE.md`
+*   `wave/archive/references/QUALITY_SELF_EVAL.md`
+*   `wave/archive/references/README.md`
+*   `wave/archive/references/VALIDATION_AND_INTEGRATION_PLAN.md`
 
 **Verification of Access to Reference Library Metadata:**
 

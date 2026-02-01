@@ -52,9 +52,9 @@ The "Ghost Data" was real, but it was treated as "legacy trash" rather than "can
 To fix this, we inverted the relationship. Instead of hiding these files, we elevated them to the highest tier of documentation.
 
 ### New Directory Structure
-Created `context-management/reference_datasets/`:
+Created `wave/reference_datasets/`:
 ```text
-context-management/
+wave/
 └── reference_datasets/
     ├── HADRONS_96.md    <-- PROMOTED (Canonical list)
     └── RPBL_1440.csv    <-- PROMOTED (Raw validation grid)
@@ -87,5 +87,4 @@ The "Codex" agent's confusion was a valuable signal. It acted as a canary in the
 
 **Status:**
 - **Before:** Opaque. "Go look at Grok thread 2."
-- **After:** Clear. "Read `context-management/reference_datasets/` for data, `MODEL.md` for theory."
-
+- **After:** Clear. "Read `wave/reference_datasets/` for data, `MODEL.md` for theory."

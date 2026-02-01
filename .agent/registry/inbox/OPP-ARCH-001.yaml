@@ -6,7 +6,7 @@ effort: XS
 impact: HIGH
 source:
   discovery: Code Archaeology Session 2026-01-26
-  file: context-management/tools/ai/analyze.py
+  file: wave/tools/ai/analyze.py
   evidence:
   - 'Line 1668: class SocraticValidator (first definition)'
   - 'Line 1995: class SocraticValidator (exact duplicate)'

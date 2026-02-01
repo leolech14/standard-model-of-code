@@ -6,7 +6,7 @@ effort: L
 impact: HIGH
 source:
   discovery: Code Archaeology Session 2026-01-26
-  file: context-management/tools/ai/analyze.py
+  file: wave/tools/ai/analyze.py
   evidence:
   - 3,441 lines in single file
   - Duplicate SocraticValidator class (OPP-ARCH-001)
@@ -37,7 +37,7 @@ current_structure: 'analyze.py (3,441 lines)
   └── SocraticValidator (line 1995) ← ACTIVE
 
   '
-proposed_structure: 'context-management/tools/ai/
+proposed_structure: 'wave/tools/ai/
 
   ├── analyze.py           # CLI entry point only (~100 lines)
 

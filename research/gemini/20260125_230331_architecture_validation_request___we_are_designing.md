@@ -24,7 +24,7 @@ PROPOSED ARCHITECTURE:
    - Steps: invoke tdj.py --scan
    - Output: tdj.jsonl
 
-2. TOOL LAYER (context-management/tools/maintenance/tdj.py)
+2. TOOL LAYER (wave/tools/maintenance/tdj.py)
    - Single Python file
    - Commands: --scan, --watch, --query, --context
    - No external dependencies beyond stdlib + watchdog
@@ -72,7 +72,7 @@ The 4-layer architecture aligns perfectly with the project's topology:
 *   **Data (Contextome):** Defines *state*.
 *   **Registry (Manifest):** Defines *discoverability*.
 
-**THE RISK:** You currently have `context-management/tools/maintenance/timestamps.py` which generates `project_elements_file_timestamps.csv` (referenced in `ASSET_INVENTORY.md` and `TIMELINE_ANALYSIS.md`).
+**THE RISK:** You currently have `wave/tools/maintenance/timestamps.py` which generates `project_elements_file_timestamps.csv` (referenced in `ASSET_INVENTORY.md` and `TIMELINE_ANALYSIS.md`).
 *   **AM001 Violation:** Creating `tdj.py` alongside `timestamps.py` creates "Zombie Code" and split truth.
 *   **Correction:** `tdj.py` must **replace** `timestamps.py`. The macro should handle the migration (archiving the old CSV).
 
@@ -142,7 +142,7 @@ trigger:
   type: schedule
   cron: "0 6 * * *"
 steps:
-  - tool: context-management/tools/maintenance/tdj.py
+  - tool: wave/tools/maintenance/tdj.py
     args: ["--scan", "--output", ".agent/intelligence/tdj.jsonl"]
 ```
 

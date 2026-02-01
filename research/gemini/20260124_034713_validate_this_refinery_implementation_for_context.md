@@ -49,7 +49,7 @@ Here's the result:
         "Implement chunk size limits.",
         "Incorporate dependency awareness and context embeddings."
       ],
-      "evidence": "context-management/tools/refinery/python_chunker.py:L20"
+      "evidence": "wave/tools/refinery/python_chunker.py:L20"
     },
     "MarkdownChunker": {
       "description": "Splits Markdown files by headers.",
@@ -64,7 +64,7 @@ Here's the result:
         "Implement chunk size limits.",
         "Incorporate semantic embeddings to maintain cross-header contexts."
       ],
-      "evidence": "context-management/tools/refinery/markdown_chunker.py:L15"
+      "evidence": "wave/tools/refinery/markdown_chunker.py:L15"
     },
     "YamlChunker": {
       "description": "Splits YAML files by top-level keys.",
@@ -79,7 +79,7 @@ Here's the result:
         "Implement chunk size limits.",
         "Incorporate graph traversals to resolve cross-references and maintain context."
       ],
-      "evidence": "context-management/tools/refinery/yaml_chunker.py:L10"
+      "evidence": "wave/tools/refinery/yaml_chunker.py:L10"
     },
     "RelevanceScoring": {
       "description": "Scores chunks based on type, length, and docstrings.",
@@ -94,7 +94,7 @@ Here's the result:
         "Incorporate semantic vector embeddings for relevance calculations.",
         "Implement a context positioning strategy for critical files and semantic anchors (sandwiches, front-loading)."
       ],
-      "evidence": "context-management/tools/refinery/relevance_scorer.py:L50"
+      "evidence": "wave/tools/refinery/relevance_scorer.py:L50"
     }
   },
   "critical_gaps": [
@@ -107,19 +107,19 @@ Here's the result:
     {
       "gap_type": "Cross-Chunk Awareness",
       "description": "The system lacks awareness of relationships between chunks.",
-      "recommendation": "Implement graph traversals for dependency relationships to identify correlated code regions. This may involve edge traversal as outlined in ACI dataset management documentation (context-management/docs/ACI_DATASET_MANAGEMENT.md).",
+      "recommendation": "Implement graph traversals for dependency relationships to identify correlated code regions. This may involve edge traversal as outlined in ACI dataset management documentation (wave/docs/ACI_DATASET_MANAGEMENT.md).",
       "severity": "HIGH"
     },
     {
       "gap_type": "Context Positioning",
       "description": "The system doesn't take advantage of LLM attention windows (U-shaped attention).",
-      "recommendation": "Implement a context positioning strategy to prioritize critical files and semantic anchors by front-loading or using sandwich strategies as described in ACI dataset management documentation (context-management/docs/ACI_DATASET_MANAGEMENT.md).",
+      "recommendation": "Implement a context positioning strategy to prioritize critical files and semantic anchors by front-loading or using sandwich strategies as described in ACI dataset management documentation (wave/docs/ACI_DATASET_MANAGEMENT.md).",
       "severity": "MEDIUM"
     },
     {
       "gap_type": "Chunk Size Optimization",
       "description": "The chunkers use static delimiters (functions, headers, keys) without considering overall chunk size (tokens).",
-      "recommendation": "Implement chunk size limits and chunk merging to ensure manageable input for LLMs. Refer to budget tiers in the ACI configuration (context-management/config/aci_config.yaml).",
+      "recommendation": "Implement chunk size limits and chunk merging to ensure manageable input for LLMs. Refer to budget tiers in the ACI configuration (wave/config/aci_config.yaml).",
       "severity": "MEDIUM"
     },
     {

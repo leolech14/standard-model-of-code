@@ -1,0 +1,208 @@
+# File Explorer Tool Specification
+# Validated by: Gemini Flash, Gemini Pro, Perplexity (2026-01-31)
+
+meta:
+  name: file-explorer
+  version: 1.0.0
+  type: gui_application
+  subtype: web_file_browser
+  created: 2026-01-31
+  status: refactoring_required
+  rpbl_class: P-Tier  # Current: Prototype (target: B-Tier)
+
+identity:
+  what: Web-based file browser with REST API and biometric authentication
+  why: Visual file management with preview capabilities for all file types
+  how: Python HTTP server serving embedded HTML/CSS/JS UI
+
+classification:
+  layer: L5_Application  # User-facing application
+  dimension: Tool        # Utility tool
+  atom_type: Service     # Long-running process with API
+
+architecture:
+  pattern: monolithic_embedded_ui
+  server: http.server.SimpleHTTPRequestHandler
+  frontend: embedded_html_css_js
+  auth: macos_local_authentication  # Touch ID / Face ID
+  binding: localhost_only  # 127.0.0.1:9000
+
+components:
+  server:
+    class: FileExplorerHandler
+    base: SimpleHTTPRequestHandler
+    methods: 34
+
+  api:
+    endpoints: 20
+    style: rest_like
+    format: json
+    auth_required: true
+
+  ui:
+    type: single_page_app
+    framework: vanilla_js
+    css_system: oklch_color_variables
+    features:
+      - grid_view_with_previews
+      - list_view
+      - column_view
+      - lightbox_preview
+      - drag_and_drop
+      - context_menu
+      - keyboard_shortcuts
+
+endpoints:
+  browse:
+    - GET /api/list?path=
+    - GET /api/folder-preview?path=&limit=&depth=
+    - GET /api/preview?path=
+    - GET /api/content?path=
+    - GET /api/thumbnail?path=&size=
+    - GET /file/{path}
+
+  mutate:
+    - POST /api/create-folder
+    - POST /api/rename
+    - POST /api/duplicate
+    - POST /api/delete
+    - POST /api/paste
+    - POST /api/compress
+    - POST /api/move-items
+    - POST /api/create-folder-with-items
+    - POST /api/extract-archive
+    - POST /api/upload
+
+  utility:
+    - GET /api/open?path=
+    - POST /api/open-with-app
+    - POST /api/undo
+    - POST /api/redo
+    - POST /api/history-status
+
+features:
+  complete:
+    critical:
+      - grid_view_with_previews
+      - search_filter_by_name
+      - type_filters_17_categories
+      - new_folder_creation
+      - context_menu
+      - touch_id_authentication
+      - lightbox_preview
+      - navigation_back_forward_parent
+      - copy_cut_paste
+
+    high:
+      - lightbox_sidebar_format_badge
+      - lightbox_zoom_controls
+      - area_selection
+      - drag_and_drop
+      - undo_redo
+      - keyboard_shortcuts
+      - sort_options
+      - format_specific_tools
+
+    medium:
+      - list_view_mode
+      - column_view_mode
+      - external_drag_in_finder
+      - 3d_model_preview
+      - code_syntax_highlighting
+      - markdown_rendering
+      - pdf_preview
+      - format_color_bindings_oklch
+
+  missing:
+    low:
+      - favorites_bookmarks
+      - thumbnail_caching
+
+metrics:
+  lines_of_code: 7630
+  file_size_kb: 284
+  api_endpoints: 20
+  js_functions: 105
+  css_variables: 45
+  completion_percent: 95
+
+security:
+  authentication: biometric_touch_id
+  binding: localhost_only
+  path_validation: resolve_relative_to_root
+  session: cookie_based_token
+
+  known_issues:
+    - json_parse_unhandled_exception
+    - content_length_no_limit
+    - zip_slip_vulnerability
+    - thread_unsafe_globals
+
+quality:
+  tests: none
+  documentation: minimal
+  type_hints: partial
+
+  audit_findings:
+    critical: 2
+    high: 3
+    medium: 6
+    low: 2
+
+formalization:
+  current_location: tools/file_explorer.py
+  proposed_location: tools/file_explorer/
+  validation_status: APPROVED  # Gemini Flash + Pro + Perplexity
+
+  # Validated Ring Architecture (Gemini Pro)
+  ring_architecture:
+    ring_0_core:
+      path: core/
+      responsibility: Pure filesystem operations
+      files: [filesystem.py]
+    ring_1_service:
+      path: service/
+      responsibility: Business logic orchestration
+      files: [file_operations.py]
+    ring_2_api:
+      path: api/
+      responsibility: HTTP interface, validation
+      files: [routes.py, schemas.py, openapi.yaml]
+    ring_3_ui:
+      path: ui/
+      responsibility: Presentation layer
+      files: [index.html, styles.css, app.js]
+      gitignore: [node_modules/, dist/]
+
+  proposed_structure:
+    - __init__.py
+    - __main__.py        # ./pe file-explorer start
+    - TOOL_SPEC.yaml
+    - VALIDATION_REPORT.md
+    - api/
+    - service/
+    - core/
+    - ui/
+    - tests/
+
+  entry_point: file_explorer:main
+  cli_command: "./pe file-explorer start"
+
+dependencies:
+  runtime:
+    - python_stdlib_only
+  system:
+    - macos_local_authentication_framework
+  optional: []
+
+integration:
+  collider: false  # Not yet integrated
+  refinery: false
+  tool_registry: pending
+
+questions_for_validation:
+  - Is monolithic embedded UI the right pattern for a file browser tool?
+  - Should this be extracted to separate frontend/backend?
+  - How should it integrate with Collider's analysis pipeline?
+  - What's the best practice for localhost-only GUI tools?
+  - Should the API follow REST strictly or is RPC-style acceptable for local tools?

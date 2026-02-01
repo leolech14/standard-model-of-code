@@ -1,0 +1,802 @@
+                                                     ®
+
+
+
+
+Systems Engineering and
+   System Definitions
+                                      Version: 1.0
+
+                               Issued on: 8 January 2019
+
+                                      AUTHOR TEAM
+ Hillary Sillitto, James Martin, Dorothy McKinney, Regina Griego, Dov Dori, Daniel Krob,
+                        Patrick Godfrey, Eileen Arnold, Scott Jackson
+                                                                                                 2
+
+                        COPYRIGHT INFORMATION
+
+This INCOSE Technical Product was prepared by the International Council on Systems Engineering
+(INCOSE). It is approved by the INCOSE Technical Operations Leadership for release as an
+INCOSE Technical Product.
+
+Copyright (c) 2019 by INCOSE, published under Open Access.
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                            ®
+                                                                                                                     3
+
+                                 EXECUTIVE SUMMARY
+
+The Fellows Initiative on System and Systems Engineering Definitions was established in 2016, to:
+
+  1. review current INCOSE definitions of SYSTEM and SYSTEMS ENGINEERING; and
+  2. recommend any changes necessary to align the definitions to current practice and to the aspirations of
+     INCOSE’s 2025 Vision.
+
+This document presents the final proposals from the initiative. It takes into account the extensive comments
+received during the review of the previous draft in September 2018. The review was open to all INCOSE
+members, and attracted over 350 individual comments and suggestions.
+
+The three key recommendations – for definitions of systems engineering, engineered system, and a general
+definition of system - are presented below, with a very brief contextual explanation. After the table of contents,
+the main body of this document provides more explanation of these definitions, and also defines other specific
+system types and categories that are important for the systems engineering community.
+
+
+Systems Engineering is a transdisciplinary and integrative approach to enable the successful realization,
+use, and retirement of engineered systems, using systems principles and concepts, and scientific,
+technological, and management methods.
+
+
+We use the terms “engineering” and “engineered” in their widest sense: “the action of working artfully to
+bring something about”. “Engineered systems” may be composed of any or all of people, products, services,
+information, processes, and natural elements.
+
+An engineered system is a system designed or adapted to interact with an anticipated operational
+environment to achieve one or more intended purposes while complying with applicable constraints.
+
+Thus, an “engineered system” is a system – not necessarily a technological one - which has been or will be
+“systems engineered” for a purpose.
+
+Finally, a very general and inclusive definition of “system” is provided:
+
+A system is an arrangement of parts or elements that together exhibit behavior or meaning that the individual
+constituents do not.
+
+Systems can be either physical or conceptual, or a combination of both. Systems in the physical universe
+are composed of matter and energy, may embody information encoded in matter-energy carriers, and exhibit
+observable behavior. Conceptual systems are abstract systems of pure information, and do not directly exhibit
+behavior, but exhibit “meaning”. In both cases, the system’s properties (as a whole) result, or emerge from:
+
+  •     the parts or elements and their individual properties; AND
+  •     the relationships and interactions between and among the parts, the system and its environment.
+
+
+      Systems Engineering and System Definitions
+      INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                               ®
+                                                                                         4
+
+                               TABLE OF CONTENTS
+
+EXECUTIVE SUMMARY                                                               3
+
+TABLE OF CONTENTS											                                                    4
+
+SYSTEMS ENGINEERING											                                                  5
+   TRANSDISCIPLINARY APPROACH									                                          5
+   INTEGRATIVE APPROACH										                                               6
+   SYSTEMS PRINCIPLES AND CONCEPTS									                                     6
+   ENGINEERING AND ENGINEERED									                                          6
+
+ENGINEERED SYSTEM											                                                    7
+   ENTERPRISES												                                                      7
+   SERVICES													                                                        7
+
+DEFINITION OF SYSTEM: GENERAL CASE                                              8
+
+PHYSICAL AND CONCEPTUAL SYSTEMS								                                         8
+   PHYSICAL SYSTEMS											                                                  9
+   CONCEPTUAL SYSTEMS											                                                9
+   PHYSICAL AND CONCEPTUAL COMPONENTS OF ENGINEERED SYSTEMS				                 10
+   THE CONSTRUCTIVIST PERSPECTIVE – SYSTEMS AS CONCEPTUAL MODELS OF REALITY		   11
+
+OPEN AND CLOSED SYSTEMS										                                               11
+
+NATURAL, ARTIFICIAL AND HYBRID SYSTEMS							                                   12
+
+SOCIAL AND SOCIO-TECHNICAL SYSTEMS								                                      12
+
+SPECIAL CASES – SUBTYPES AND EXEMPLARS RELEVANT TO SYSTEMS ENGINEERING          13
+   BIOLOGICAL AND LIVING SYSTEMS                                                13
+   VIABLE AND SELF-REPLICATING SYSTEMS								                                  13
+   COMPLEX SYSTEMS                                                              14
+   ANTICIPATORY SYSTEMS											                                              14
+
+REFERENCES.												                                                         15
+
+APPENDIX: TYPICAL FEATURES OF SYSTEMS ENGINEERING					                          16
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                     ®
+                                                                                                                 5
+
+                            SYSTEMS ENGINEERING
+Systems Engineering is a transdisciplinary and integrative approach to enable the successful realization,
+use, and retirement of engineered systems, using systems principles and concepts, and scientific,
+technological, and management methods.
+
+We use the terms “engineering” and “engineered” in their widest sense: “the action of working artfully to
+bring something about”. “Engineered systems” may be composed of any or all of people, products, services,
+information, processes, and natural elements.
+
+Systems Engineering focuses on:
+  • establishing, balancing and integrating stakeholders’ goals, purpose and success criteria, and defining
+     actual or anticipated customer needs, operational concept and required functionality, starting early in the
+     development cycle;
+  • establishing an appropriate life cycle model, process approach and governance structures, considering
+     the levels of complexity, uncertainty, change, and variety;
+  • generating and evaluating alternative solution concepts and architectures;
+  • baselining and modelling requirements and selected solution architecture for each phase of the
+     endeavor;
+  • performing design synthesis and system verification and validation;
+  • while considering both the problem and solution domains, taking into account necessary enabling
+     systems and services, identifying the role that the parts and the relationships between the parts play with
+     respect to the overall behavior and performance of the system, and determining how to balance all of
+     these factors to achieve a satisfactory outcome.
+
+Systems Engineering provides facilitation, guidance and leadership to integrate the relevant disciplines and
+specialty groups into a cohesive effort, forming an appropriately structured development process that proceeds
+from concept to production, operation, evolution and eventual disposal.
+
+Systems Engineering considers both the business and the technical needs of customers with the goal of
+providing a quality solution that meets the needs of users and other stakeholders, is fit for the intended
+purpose in real-world operation, and avoids or minimizes adverse unintended consequences.
+
+The goal of all Systems Engineering activities is to manage risk, including the risk of not delivering what the
+customer wants and needs, the risk of late delivery, the risk of excess cost, and the risk of negative unintended
+consequences. One measure of utility of Systems Engineering activities is the degree to which such risk is
+reduced. Conversely, a measure of acceptability of absence of a System Engineering activity is the level of
+excess risk incurred as a result.
+
+
+TRANSDISCIPLINARY APPROACH
+Transdisciplinarity is described in Wikipedia as an approach which “crosses many disciplinary boundaries to
+create a holistic approach.” This emphasis on a holistic approach distinguishes it from cross-disciplinary, which
+focuses mainly on working across multiple disciplines while allowing each discipline to apply their own methods
+and approaches. Systems engineering is simultaneously cross-disciplinary and transdisciplinary. (The cross-
+disciplinary aspect is discussed in the next section on the Integrative Approach.)
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                             ®
+                                                                                                                  6
+The transdisciplinary approach originated in the social sciences. It “transcends” all of the disciplines involved,
+and organizes the effort around common purpose, shared understanding and “learning together” in the context
+of real-world problems or themes. It is usable at any level, from complex to simple, from global to personal. A
+transdisciplinary approach is needed when the problem cannot readily be “solved” and the best that can likely
+be achieved is instead a “resolution.” The participants in the endeavor need to “transcend” their particular
+disciplinary approach to instead come to some overall useful compromise or synergistic understanding that
+their disciplines cannot come to on their own (even when working together in a normal integrative approach
+with other disciplines).
+
+
+INTEGRATIVE APPROACH
+The integrative approach has long been used in systems engineering and usually involves either
+interdisciplinary (e.g.. integrated product teams) or multi-disciplinary (e.g.. joint technical reviews) methods.
+The integrative approach by itself can be adequate where the situation is not overly complex and there are
+smaller numbers of stakeholders potentially impacted. The integrative approach can be used when dealing
+with a highly precedented situation that has been encountered before and a path to the solution can be readily
+identified and understood (albeit there will still be many challenges along the way, technical and otherwise).
+The integrative approach includes the traditional multi-disciplinary and inter-disciplinary approaches commonly
+used in systems engineering practice. The transdisciplinary approach may be needed in unprecedented
+situations or where there is a significant degree of complexity involved. See Madni (2018).
+
+
+SYSTEMS PRINCIPLES AND CONCEPTS
+Systems principles and concepts are the ways that systems thinking and the systems sciences infuse systems
+engineering. Examples of some of the principles, concepts and supporting tools are: mental models, system
+archetypes, holistic thinking, separation of concerns, abstraction, modularity and encapsulation, causal loop
+diagrams, and systems mapping. (The Systems Engineering Body of Knowledge describes many of these,
+and more, at https://www.sebokwiki.org/wiki/Principles_of_Systems_Thinking).
+
+
+ENGINEERING AND ENGINEERED
+Both ancient and modern definitions of Engineering allow for the wide interpretation intended here. For
+example, Google dictionary defines Engineering in two ways:
+
+  1. the branch of science and technology concerned with the design, building, and use of engines,
+     machines, and structures.
+  2. the action of working artfully to bring something about.
+
+And Wikipedia:
+
+  •     Engineering is the creative application of science, mathematical methods, and empirical evidence to the
+        innovation, design, construction, operation and maintenance of structures, machines, materials, devices,
+        systems, processes, and organizations.
+  •     The term engineering is derived from the Latin ingenium, meaning “cleverness” and ingeniare, meaning
+        “to contrive, devise”.
+
+
+
+
+      Systems Engineering and System Definitions
+      INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                              ®
+                                                                                                                     7
+
+                             ENGINEERED SYSTEMS
+An engineered system is a system designed or adapted to interact with an anticipated operational
+environment to achieve one or more intended purposes while complying with applicable constraints.
+
+The following may be useful as a working definition that focuses on what it “is”: An engineered system is a
+composite of people, products, services, information, and processes (and possibly natural components) that
+provides a capability that satisfies a stated customer need or objective.
+
+Thus, an “engineered system” is a system – not necessarily a technological one - which has been or will be
+“systems engineered” for a purpose. Note that the required behavior of such a system might be achieved by
+influence and self-organization, rather than by top-down direction.
+
+The people component can be individuals, roles, organizations, organizational units, governance structures,
+etc. The products component can be hardware, software, firmware, data, facilities, etc. The services
+component can be business services, information services, application services, infrastructure services, etc.
+The information component can be individual information items, information categories, information structures,
+documentation, knowledge elements, etc. The processes component can be procedures, methods, techniques,
+work instructions, policies, directives, etc. Capability is an ability to do something in the anticipated operational
+environment.
+
+The category of “engineered system” includes the sub-categories of products, services and enterprises.
+Services and enterprises usually depend on technological products but are essentially forms of socio-technical
+systems.
+
+
+ENTERPRISES
+“Enterprise” is intended to mean a large undertaking, especially one of large scope, complication and risk – “a
+complex web of interactions distributed across geography and time” (Rebovitch & White, 2011). We do not
+just mean a large organization, since an enterprise often has multiple organizations that participate in the
+enterprise to the extent that each organization will derive some benefit from its participation. An enterprise is an
+endeavor usually requiring special initiative and boldness. Not all large activities are enterprises since their size
+does not necessarily entail taking large risk or dealing with a complicated situation.
+
+
+SERVICES
+“Service” is intended to mean actions taken to satisfy needs of individuals or organizations. The term service
+initially was used in the last century to describe actions which involved no tangible products at all. Early in this
+century (per Wikipedia at https://en.wikipedia.org/wiki/Managed_services) “managed services” emerged as a
+business model. The “service economy” (per Wikipedia at https://en.wikipedia.org/wiki/Service_economy) has
+resulted in an evolution in the meaning ascribed to “service”: “The old dichotomy between product and service
+has been replaced by a service-product continuum. Many products are being transformed into services. The
+Cambridge dictionary at https://dictionary.cambridge.org/us/dictionary/english/service says service is “work
+done or help provided, especially for the public or for a person or an organization.”
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                                 ®
+                                                                                                                 8
+
+     DEFINITION OF SYSTEM: GENERAL CASE
+
+A system is an arrangement of parts or elements that together exhibit behavior or meaning that the individual
+constituents do not.
+
+“Parts” is the more general term, going back to Aristotle’s phrase “the whole is more than the sum of the parts”.
+“Elements” has become established as the preferred term in recent systems engineering usage. The two terms
+are sometimes used interchangeably, but in some domains they have specific meanings (e.g. mechanical part,
+chemical element, part of a whole, part played by an actor or role).
+
+The concept of “behavior or meaning of the whole not exhibited by the individual constituents” is often
+referred to as “emergence”, and is the defining characteristic of “systems” that distinguishes them from “non-
+systems”. However, we avoid using the term in this definition because of the risk of confusion with the other
+notion of “emergence”, which denotes surprise where such properties “emerge” that could not be foreseen or
+anticipated.
+
+The goal of systems engineering is, then, to select, adjust, and arrange the parts or elements so as to achieve
+the desired whole-system properties when the system of interest is used as intended.
+
+
+
+       PHYSICAL AND CONCEPTUAL SYSTEMS
+Systems can be either physical or conceptual, or a combination of both. Systems in the physical universe
+are composed of matter and energy, may embody information encoded in matter-energy carriers, and exhibit
+observable behavior. Conceptual systems are abstract systems of pure information, do not directly exhibit
+behavior, but exhibit “meaning”. In both cases, a system’s properties result, or emerge from:
+  • the parts or elements and their individual properties; AND
+  • the relationships and interactions between and among the constituents, the system and its environment;
+      where:
+  • a “property” is an attribute, quality, or characteristic of something;
+  • “between” refers to binary interactions or relationships (binary means between two constituents),
+      whereas “among” refers to relationships and interactions involving more than two constituents (in graph
+      theory, such a relationship involving N parts or elements is referred to as “N-ary”);
+  • It is often argued that in physical systems we only need to consider interactions, but relationships
+      are also important (e.g.. is part of, is assembled to, is vulnerable to, is owned by, costs, weighs....);
+      interactions can be considered as a special type of relationship, but because of their importance in
+      systems engineering, they are mentioned explicitly.
+
+We can consider the structural ontology of physical and conceptual systems to be the same, at the
+fundamental level of parts and relationships – this is what allows us to model physical systems using
+conceptual systems; but the process ontology is quite different. A physical system can perform and manage
+processes internal to the system; whereas any change to, or use of, a conceptual system involves processes
+performed by external physical systems interacting with the conceptual system.
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                             ®
+                                                                                                                  9
+
+Thus:
+
+PHYSICAL SYSTEMS
+
+A physical system is an arrangement of parts or elements that together exhibit behavior that the individual
+constituents do not. (This definition includes biological systems and living systems.)
+
+Physical systems are composed of matter and energy. Information is embedded in physical systems, and is
+stored and transported, in matter/energy carriers. The behavior of physical systems manifests itself as flows
+and exchanges of matter, energy and information, and interaction through force fields. The emergent property
+by which physical systems can be identified is that they perform processes to transform matter, energy and
+information in ways that their individual parts cannot. (NB “physical systems” includes biological and living
+systems, because they exist in the physical universe.)
+
+Systems exhibit variable degrees of coupling and cohesion. A physical system may be a single complex object,
+such as an organism; or an “object aggregate”, a collection of objects that are inter-related in a way that makes
+them distinct from the rest of the universe. To be considered a system, the collection must exhibit observable
+properties not exhibited by the parts, separately or in other combinations: typically, transformation processes
+that cause observable effects, and binding processes that maintain observable cohesion.
+
+Our knowledge of physical systems is ultimately limited by what can be observed, and is further limited by
+what observations we have chosen to make. Rosen (2012) explains this very clearly in terms of “the modelling
+relation” between models and observables. Our (inevitably partial) understanding of physical systems is
+expressed as models and narratives. (Allen & Starr, 2017)
+
+“Observability” of a real system does not mean it is being, or has been, observed. It simply requires information
+about the system’s state and effects to be accessible, in principle, to a notional sensor or “meter”. What is
+observed depends a) on what an “observer” can, and chooses to, measure; b) on the frame of reference
+used for the observation; and c) (as Allen and Starr (2017) emphasize) on the scale of the measurement. Not
+all phenomena of interest can be observed directly; in practice, many are observed indirectly, essentially by
+inference due to cause-effect chaining.
+
+
+CONCEPTUAL SYSTEMS
+Conceptual systems are composed of information or knowledge. Information in a conceptual system can be
+stored or transported in a physical system by being encoded into the matter or energy states of the physical
+system. Thus:
+
+A conceptual system is an arrangement of parts or elements that together exhibit meaning that the individual
+constituents do not.
+
+A conceptual system is a “knowledge structure” and is composed of information and knowledge elements. The
+elements of a conceptual system are related to each other but do not interact with each other. The conceptual
+system interacts with physical systems which create, modify and interpret it. Its emergent property is meaning,
+as intended by its creator or editor. This depends on the semantics (meaning of the elements) and syntax
+(meaning of the relationships between the elements). The perceived meaning will match the intended meaning
+only if the semantics and syntax are shared between creator, editor and interpreter. A conceptual system can
+help us to interpret the state (past, present, or expected future) of the universe.
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                              ®
+                                                                                                                   10
+A conceptual system only exists as long as it is hosted in a matter/energy carrier, whether that is, for example,
+a computer memory, a book manuscript, tablets of stone, an idea in a biological consciousness, or information
+stored in DNA. Once the last record, consciousness or preserved pattern of the concept has disappeared,
+the concept has disappeared as well. (When the last copy of a book is burnt, the last file deleted, and the last
+person who read it has died or succumbed to dementia, that “conceptual system” has ceased to exist.)
+
+Thus, conceptual systems are generated, evolve and decay not unlike physical systems. A practical case in
+point is computer software, an important kind of conceptual system, where the evolution of the code tends
+to be accompanied by an increase in entropy until the code becomes unmaintainable. The term “entropy” is
+often used in this context. The thermodynamic analogy holds well in terms of the increasing effort required to
+maintain software and keep it working as it becomes more disorganized.
+
+The appearance or behavior of physical systems often embodies and conveys meaning. For example,
+poisonous animals may have distinctive markings as “warnings” to predators, and engineered products convey
+meaning with labels, the relationships between parts, or provide obvious affordances for interaction.
+
+
+PHYSICAL AND CONCEPTUAL COMPONENTS OF ENGINEERED SYSTEMS
+Engineered systems include products, services and enterprises. Services and enterprises usually depend
+on technological products but are essentially forms of socio-technical systems. “Engineered systems” may
+include hardware, software, firmware, processes, people, organizations, governance structures, information,
+knowledge, techniques, facilities, services, other support elements, and (usually modified) natural elements.
+
+An important task in the “systems engineering” of engineered systems is therefore to establish or confirm
+the operational concept: how the system will be used to create value, while avoiding unintended negative
+consequences.
+
+Thus, Systems Engineering involves both conceptual and physical systems; and engineered systems almost
+invariably include both physical and conceptual elements. In such cases, an engineered system can be
+thought of as a physical system and a conceptual system combined.
+
+Even in the case of a pure “physical system”, we make our systems usable, for example, by overlaying
+concepts that are embedded in the design as symbols, colors, shapes and other signs that convey meaning to
+the user on how to use the system, how to turn it on and off, which parts of the system are safe to touch, when
+is there some condition to be aware of, and so on.
+
+Systems engineering often produces conceptual systems - models of the current “problem situation”, the
+perceived problem or opportunity, and the envisaged future solution and the effect it will have on the problem
+situation.
+
+Once the conceptual model of the proposed solution is demonstrated to have sufficient likelihood of solving
+or ameliorating the problem situation, that conceptual model becomes the blueprint for the physical system.
+The conceptual model of the proposed solution can be used as a reference point for the “as intended” system.
+The physical “as built” system can be compared to the conceptual model, and each may inform the other. The
+relative timing of the model activity and the build activity will depend on the balance of risk and reward for each
+project.
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                               ®
+                                                                                                                  11
+Once the physical system is deployed, we examine the effects produced by the system in the real world, and if
+necessary, update the conceptual models to reflect reality. These updated conceptual models are then used as
+the basis for changes to the system to meet changing needs and circumstances.
+
+In the context of Systems Engineering, another very important form of conceptual system is the “Process
+Instruction”. This includes computer software, and also policy and process documents that tell people how to
+make, use, support and retire the system of interest. A process instruction is a conceptual system; whereas a
+process is a transformation of matter, energy or information, done to or by a physical system.
+
+
+THE CONSTRUCTIVIST PERSPECTIVE –
+SYSTEMS AS CONCEPTUAL MODELS OF REALITY
+In the constructivist worldview, a system is not something presented to the observer, it is something to be
+recognized by an observer. In such cases, the word “system” does not refer to existing things in the real world
+but rather to a way of organizing our thoughts about what is real and make sense. This constructivist view
+of reality states that systems do not exist in the real world independently of the human mind. In this view, a
+system cannot be understood by analysis of the parts because of their complex interactions and because
+purpose or meaning can only be perceived in the whole. A system (from this perspective) is in itself always
+an abstraction chosen with the emphasis on either structural or functional aspects. A system is then anything
+unitary enough to deserve a name. A system is thus represented by a set of variables sufficiently isolated to
+stay constant long enough for us to discuss it as a coherent whole. This notion of a system is one way we,
+as humans, can organize our thoughts about what we see, or conceptualize, about how relationships and
+interactions between parts or elements result in outcomes.
+
+
+                    OPEN AND CLOSED SYSTEMS
+A system can be either closed or open:
+
+A closed system is a system that is completely isolated from its environment.
+
+
+This is the definition commonly used in the system literature, which we have chosen to follow. This is different
+from the thermodynamics definition, which differentiates between systems that are “closed” (no material flow)
+and “isolated” (no material or energy flow).
+
+The physical universe, as we currently understand it, appears to be a closed system.
+
+An open system is a system that has flows of information, energy, and/or matter between the system and its
+environment, and which adapts to the exchange.
+
+This a fundamental systems science definition. It differs from the meaning of “open system” in IT and related
+fields, where the term is used in the sense of “open system architecture” that allows for a vendor-independent,
+non-proprietary, computer system or device design based on official and/or popular standards.
+
+All physical systems of interest to systems engineering are open systems. However, there can be special
+cases in systems engineering where it is convenient to treat a system as if it is closed, if there are no
+significant external relationships or interactions to contend with.
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                              ®
+                                                                                                                   12
+Entropy increases in a closed system. In open systems, the entropy is kept low, or decreases, essentially
+at the expense of entropy increasing somewhere else, so the entropy of the universe continues to increase.
+Thus, systems tend to maintain their organization at the expense of increased disorder elsewhere, which is a
+common cause of unintended consequences.
+
+It follows that a more fundamental definition of “system” could be “a persistent region of low entropy (= high
+organization) in physical or conceptual space-time”. Then, it would follow that “systemness is the phenomenon
+that allows regions of organization to persist in a dissipative universe”.
+
+
+ NATURAL, ARTIFICIAL, AND HYBRID SYSTEMS
+We now introduce our preferred terminology to distinguish between naturally occurring and human-made
+systems, while noting that many systems are a hybrid of the two, so this is not a binary classification.
+
+A natural system is a system that occurs in nature without intervention by human agents.
+
+Natural systems exhibit properties such as viability, resilience, and self-organization that offer exemplars for
+engineered systems. Biomimicry refers to the practice of using natural systems as patterns for artificial ones.
+
+An artificial system is a system constructed by human agents, or otherwise caused by them to come into
+being.
+
+Human agents can be humans, or they can be processes, methods or tools created by humans that effect
+change indirectly to create the artificial system.
+
+A hybrid system is a system with both natural and artificial elements, or a natural system influenced (e.g.. by
+selective breeding) or modified (e.g.. by genetic engineering) by intentional agents.
+
+An engineered system means a system - artificial or hybrid, conceptual and/or physical - that was properly
+systems-engineered in the sense of the definition. Otherwise a human-made system is artificial or hybrid, but
+not engineered. Of course, there can be the case of a badly engineered system – such as a system where the
+operational environment is not well anticipated and the “applicable constraints” poorly selected.
+
+
+    SOCIAL AND SOCIO-TECHNICAL SYSTEMS
+Some authorities maintain that there are three kinds of system: natural, social and “artificial”.
+
+In this viewpoint, a social system is any system made up primarily of intentional agents, which is not driven
+by natural forces but rather the force of willpower and cunning and various other intentional qualities; while an
+artificial system is one composed of deliberately created artefacts.
+
+The term “human activity systems” is often used for social systems where the intentional agents are humans.
+Groups of agents working to a common purpose are not unique to humans; many animals live in social
+systems, and there is a spectrum of social systems, ranging from those composed of humans where the social
+system is deliberately constructed and maintained and can adapt rapidly, to simpler ones such as ant colonies
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                              ®
+                                                                                                                    13
+where the “intentional behavior” appears to be hard-wired in genetic material.
+
+Systems Engineering takes place within a social system, and typically produces part or all of a socio-technical
+system, a system with closely coupled social and technical parts.
+
+There are many definitions in the literature for these and related system types; we do not attempt to offer firm
+definitions for these categories.
+
+ SPECIAL CASES – SUBTYPES AND EXEMPLARS RELEVANT
+             TO SYSTEMS ENGINEERING
+
+BIOLOGICAL AND LIVING SYSTEMS
+Biological and Living systems (Miller, 1978) are examples of a large and important class of dynamic open
+systems, which exchange energy and waste with their environment to maintain themselves, at the expense of
+increasing entropy in their environment.
+
+Living systems exploit matter and energy as well as information and knowledge elements. Their behavior
+manifests itself through flows of material, energy, and information; but also through collective knowledge that
+is transferred from generation to generation. Living systems have both conceptual and physical aspects, but
+they are unique in that their emergent behaviors are associated with learning and adaptation. Human systems
+are especially accomplished among living systems in their ability to express meaning in the form of complex
+language and use that to drive emergent behaviors of other physical, conceptual, and living systems to their
+goals.
+
+
+VIABLE AND SELF-REPLICATING SYSTEMS
+There is a significant literature - Beer’s (1972) Viable Systems Model, Hitchins (2007) - on “viable systems”,
+using the term in the sense of “capable of existence and development as an independent unit”, or “capable
+of surviving or living successfully, especially under particular environmental conditions”. Successful biological
+and organizational systems are viable in this sense. Viability in this sense is also a desirable attribute of many
+engineered systems. Hence, we offer a definition:
+
+A viable system is an open system that, within certain environmental limits, can: sustain itself by exchanging
+matter, energy and information with its environment; detect and survive external threats; maintain and repair
+its internal organization in the face of disruption; and adapt to a changing environment (e.g.. by evolving its
+capabilities); while maintaining its internal equilibrium (homeostasis).
+
+Living systems, as well as being “viable”, are also self-replicating and capable of adaptation and evolution:
+
+
+A self-replicating system is an open system that, within certain life cycle limits, can: reproduce itself by
+exchanging matter, energy and information either with its environment or with a second system of a compatible
+type; and pass on its attributes to the reproduced child system.
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                                ®
+                                                                                                                   14
+COMPLEX SYSTEMS
+Of numerous ways of defining complex systems, this one seems useful and relevant to SE:
+
+A complex system is a system in which there are non-trivial relationships between cause and effect: each
+effect may be due to multiple causes; each cause may contribute to multiple effects; causes and effects
+may be related as feedback loops, both positive and negative; and cause-effect chains are cyclic and highly
+entangled rather than linear and separable.
+
+The non-trivial nature of the relationships in a complex system make the whole system non- deterministic,
+ambiguous or chaotic (in the mathematical sense that a very small change in initial conditions may produce a
+very large change in outcome), even if the individual relationships within the system are well understood.
+
+Complexity as defined above is a property of the system of interest. Complexity is also created in the wider
+system comprising the system of interest and its stakeholders when the system is not fully understood, and
+when different stakeholders have different partial understandings of the system and of other stakeholders’
+concerns. A major goal of Systems Engineering is to reduce this “perceived complexity” by establishing shared
+and valid models of the system, in order to improve stakeholders’ knowledge and understanding of the system
+and its context.
+
+An example of cyclic cause and effect is the biological process of mutualistic symbiosis, in which each of a
+pair of systems uses the other’s waste as raw material for its own processes. The systems import energy from
+the environment to sustain the symbiotic processes, so the second law of thermodynamics is not violated. The
+“Circular Economy” takes this concept and applies it to industrial value chains, to turn them into value loops
+that are closed cycle apart from import of energy. Waste from one process is the feedstock for the next. If the
+energy comes from the sun, the value loop can be sustainable as long as energy is available from the sun.
+
+The INCOSE Complexity Primer (https://www.incose.org/docs/default-source/ProductsPublications/a-
+complexity-primer-for-systems-engineers.pdf) provides a concise introduction to complex systems.
+
+The difference between Complicated and Complex is discussed in, for example, Snowden and Boone (2007),
+and the INCOSE Complexity Primer (INCOSE, 2015). Complicated systems can be viewed as knowable
+and deterministic, and once developed their configuration can be “frozen”; whereas complex systems are
+not fully knowable or deterministic, may be dynamically reconfigurable, and continue to co-evolve with their
+environment throughout their life cycle.
+
+
+ANTICIPATORY SYSTEMS
+Finally, systems covered by Rosen’s (1985, 2012) concept of “anticipatory systems” are ubiquitous in the
+natural world, and increasingly relevant to SE as we move towards intelligent and autonomous systems. An
+anticipatory system’s present behavior depends upon anticipated ‘‘future states’’ or ‘‘future inputs’’ generated
+by an internal predictive model. The following definition is an interpretation, not Rosen’s original.
+
+An anticipatory system is a physical system that has an internal model of itself and its environment and an
+internal decision-making function, enabling it to anticipate potential changes in the environment and make
+appropriate adaptations to be ready for the anticipated change.
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                               ®
+                                                                                                              15
+
+                                          REFERENCES
+Allen & Starr (2017) Hierarchy – Perspectives for Ecological Complexity, Chicago University Press, 2017
+
+Beer S (1972) Brain of the Firm, Allen Lane, The Penguin Press, London, 1972
+
+Hitchins D (2007) Systems Engineering – a 21st Century Systems Methodology, Wiley, 2007
+
+INCOSE (2014) INCOSE Systems Engineering Vision 2025 – a world in motion, INCOSE, 2014
+
+INCOSE (2015) Complexity Primer for Systems Engineers, INCOSE, 2015
+
+Madni A (2018) Transdisciplinary Systems Engineering: Exploiting Convergence in a Hyper-Connected World,
+Springer, 2018
+
+Miller G (1978) Living Systems, McGraw-Hill, New York, 1978
+
+Rebovitch & White (2010) Enterprise Systems Engineering - Advances in the Theory and Practice p.4, CRC
+Press, Taylor & Francis, 2010
+
+Rosen R (1985, 2012) Anticipatory Systems: Philosophical, Mathematical, and Methodological Foundations,
+2nd Ed., Springer, 2012
+
+Snowden and Boone (2007), A Leader’s Framework for Decision Making, Harvard Business Review, Nov 2007
+
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                          ®
+                                                                                                                      16
+
+APPENDIX: TYPICAL FEATURES OF SYSTEMS ENGINEERING
+Systems Engineering considers and balances the business, technical, personal and societal needs of the
+system’s stakeholders, including customers, beneficiaries, users, owners, and relevant third parties, with the
+goal of providing a quality solution that is fit for its intended purpose in real-world operation. The scope is the
+total or “whole system” solution, not just the engineered artifacts that may be key elements of the solution.
+Business needs deal with the factors that justify expenditure of time and resources on the activities that occur
+during the various stages of a system.
+
+Systems Engineering (SE) focuses on ten key activities:
+
+  1. establishing stakeholders’ success criteria and concerns, and defining actual or anticipated customer
+      needs and required functionality, early in the development cycle, and revising them as new information is
+      gained and lessons are learned;
+  2. investigating the solution space, proposing alternative solution and operational concepts, weighing their
+      value (viability, utility, benefit at cost) and selecting the optimal or most appropriate concept(s);
+  3. architecting a solution or set of solutions based on the selected concept(s) while considering potential
+      concepts of employment and usage;
+  4. modelling (or otherwise evaluating) the solution at each relevant phase of the endeavor, considering both
+      normal and exceptional scenarios, and an appropriate diversity of viewpoints, in order to:
+        a. establish required capability and performance;
+        b. increase confidence that the solution will work as expected and required, while avoiding or
+            minimizing undesirable unintended consequences;
+        c. ensure the solution is resilient and can evolve if required to adapt to anticipated or possible changes
+            in the user needs and operational environments;
+        d. provide ongoing prediction and assessment of system effectiveness and value;
+  5. defining and managing the interfaces, both within the system and between the system and the rest of the
+      world (noting that increasingly, systems engineering is conducted in a brown-field rather than a green-
+      field environment, so legacy systems may be a major or key part of the overall solution);
+  6. establishing appropriate process and life cycle models that consider complexity, uncertainty, change and
+      variety, and implementing system management and governance processes for both development and
+      through-life use and disposal;
+  7. proceeding with detailed design synthesis, integration, and solution verification and validation (ensuring
+      the solution is fit for the intended purpose) while considering the complete problem (including aspects of
+      dependability such as safety, security, reliability, availability, logistic support, and disaster recovery), all
+      necessary enabling systems and services, and end-of-life processes (e.g.. transition to a replacement
+      system, recycling of the retired one, nuclear decommissioning and waste disposal…);
+  8. providing the SE knowledge and information required by all stakeholder groups to ensure coherence
+      of the whole endeavor – typically including a vision statement, operational concepts, business drivers,
+      analyses and recommendations for decision support and the business case, architecture definition,
+      organizational policies and processes, required properties and interfaces of the system and its elements
+      (including common standards to ensure interoperability), verification and validation criteria, analysis
+      and interpretation of test and evaluation results, anticipated operational usage, and appropriate system
+      configurations for different scenarios;
+  9. supporting transition to use, considering all aspects including people, processes, information and
+      technology;
+  10. periodically re-evaluating status, risks and opportunities, stakeholder feedback, observed or anticipated
+      unintended consequences, and anticipated system effectiveness and value, and recommending any
+
+
+
+   Systems Engineering and System Definitions
+   INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                                  ®
+                                                                                                                     17
+        appropriate corrective, mitigation or recovery actions to ensure continuing system success. Such
+        activities during the operational phase can include upgrade activities, obsolescence management,
+        maintenance and repair activities, manufacturing changes, changing operational processes, user
+        training, instituting metrics and incentives, assessing information quality and integrity, and making other
+        changes to the system.
+
+SE provides guidance, facilitation and leadership to integrate all the disciplines and specialty groups into a
+team effort, forming an appropriately structured and coherent development process that proceeds from concept
+to production (if relevant), operation, evolution and eventual disposal.
+
+SE is essentially collaborative in nature, working with and facilitating collaboration between all contributors to
+system success, recognizing the need to respect diverse points of view.
+
+  •     In some projects and in some organizations, SE may include a strong governance, technical
+        management and resource management component.
+  •     In other projects and organizations, SE may have an almost entirely technical, advisory and “glue” role, if
+        appropriate management and implementation structures already exist.
+  •     SE may need to be applied at multiple levels of a complex project, program or enterprise.
+  •     The roles, responsibilities and accountabilities of SE, and how SE will interact with its internal and
+        external stakeholders, should be documented in a management plan.
+
+Fundamentally, SE is a learning journey; and the output of SE is information, and shared models. SE
+synthesizes and provides the information required to describe the solution system, and to enable its successful
+realization and use.
+
+SE aims to provide effective solutions to complicated, complex and unprecedented problems, integrating
+the efforts of engineering and other disciplines and specializations. A high leverage task in the “systems-
+engineering” of engineered systems is to establish or confirm the operational concept: how the system will be
+used to create value, while avoiding negative consequences.
+
+The difference between Complicated and Complex is discussed in, for example, Snowden and Boone (2007),
+and the INCOSE Complexity Primer (INCOSE, 2015). Complicated systems can be viewed as knowable
+and deterministic, and once developed their configuration can be “frozen”; whereas complex systems are
+not fully knowable or deterministic, may be dynamically reconfigurable, and continue to co- evolve with their
+environment throughout their life cycle.
+
+Most 20th century engineered systems were complicated; most 21st century engineered systems will be
+complex. In complex situations, we need to apply SE to the “ecosystem transformation” as well as to individual
+projects.
+
+
+
+
+      Systems Engineering and System Definitions
+      INCOSE-TP-2020-002-06 | 22 July 2019
+                                                                                                                 ®
+                                 ®
+
+
+
+
+             INCOSE Publications Office
+          7670 Opportunity Road, Suite 220
+           San Diego, CA 92111-2222 USA
+
+Copyright © 2019 International Council on Systems Engineering
+

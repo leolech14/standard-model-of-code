@@ -1,4 +1,4 @@
-# Research: Audit the brain_list.txt. Identify all executable logic (Codome) residing in context-management/. Sp...
+# Research: Audit the brain_list.txt. Identify all executable logic (Codome) residing in wave/. Sp...
 
 > **Date:** 2026-01-27 22:47:03
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-Audit the brain_list.txt. Identify all executable logic (Codome) residing in context-management/. Specifically evaluate if 'tools/' constitutes a hemisphere violation.
+Audit the brain_list.txt. Identify all executable logic (Codome) residing in wave/. Specifically evaluate if 'tools/' constitutes a hemisphere violation.
 
 ---
 
@@ -18,25 +18,25 @@ Audit the brain_list.txt. Identify all executable logic (Codome) residing in con
 
 Based on the provided `brain_list.txt` and the `PROJECTOME_TOTALITY_REPORT.md`:
 
-### 1. Executable Logic (Codome) Residing in `context-management/`
+### 1. Executable Logic (Codome) Residing in `wave/`
 
 According to `PROJECTOME_TOTALITY_REPORT.md`, the **Codome (C)** consists of "All executable instructions (`.py`, `.js`, `.ts`)".
-Scanning `brain_list.txt` for files matching these criteria within `context-management/`:
+Scanning `brain_list.txt` for files matching these criteria within `wave/`:
 
-*   **Under `context-management/tools/`:**
+*   **Under `wave/tools/`:**
     *   `refs_cli.py`
     *   `activity_watcher.py`
     *   `refine_context_loop.py`
     *   `drift_guard.py`
     *   `analyze_logs.py`
     *   `continuous_cartographer.py`
-*   **Under `context-management/tests/`:**
+*   **Under `wave/tests/`:**
     *   `test_aci_caching.py`
 
 No `.js` or `.ts` files were found in the provided `brain_list.txt`.
 The report also mentions `src/core/`, `viz/`, and `tools/ai/` as parts of the Codome, but `brain_list.txt` does not list specific `.py`, `.js`, or `.ts` files directly within `src/core/` or `viz/`, nor under `tools/ai/`.
 
-**Note on `sync_refs_cloud.sh`**: The file `context-management/tools/sync_refs_cloud.sh` is an executable shell script. However, the `PROJECTOME_TOTALITY_REPORT.md` strictly defines Codome as files ending in `.py`, `.js`, or `.ts`. If this definition is followed rigidly, `sync_refs_cloud.sh` would be an executable that falls outside the formal definition of the Codome, potentially classifying it as "Dark Matter" or simply uncategorized within the `C \sqcup X` framework.
+**Note on `sync_refs_cloud.sh`**: The file `wave/tools/sync_refs_cloud.sh` is an executable shell script. However, the `PROJECTOME_TOTALITY_REPORT.md` strictly defines Codome as files ending in `.py`, `.js`, or `.ts`. If this definition is followed rigidly, `sync_refs_cloud.sh` would be an executable that falls outside the formal definition of the Codome, potentially classifying it as "Dark Matter" or simply uncategorized within the `C \sqcup X` framework.
 
 ### 2. Evaluation of 'tools/' as a Hemisphere Violation
 
@@ -47,14 +47,14 @@ The `PROJECTOME_TOTALITY_REPORT.md` describes the Projectome ($P$) as a disjoint
 
 This explicit partitioning *within* the `tools/` directory is crucial. The report itself indicates that `tools/` acts as a high-level organizational domain that contains components belonging to *both* hemispheres.
 
-**Analysis of `context-management/tools/` contents:**
+**Analysis of `wave/tools/` contents:**
 
 *   It directly contains several `.py` files (identified above), which are Codome elements.
 *   It contains the `tools/ai/` subdirectory, explicitly defined as Codome.
 *   It contains the `tools/refinery/` subdirectory, explicitly defined as Contextome.
 *   It contains `sync_refs_cloud.sh`, an executable, which falls outside the strict Codome definition but is clearly executable logic.
 
-Given these points, the `context-management/tools/` directory **does not constitute a hemisphere violation** as defined by the `PROJECTOME_TOTALITY_REPORT.md`. The report explicitly delineates sub-components within `tools/` into both the Codome (`tools/ai/`) and the Contextome (`tools/refinery/`). This implies that `tools/` is an intentional aggregation point for various project utilities, some of which are executable (Codome) and some informational/logistical (Contextome). The "disjoint union" principle ($P = C \sqcup X$) applies to the individual files, not necessarily to every intermediate directory in the file system hierarchy. A directory can logically group elements from both hemispheres, provided the elements themselves are correctly classified.
+Given these points, the `wave/tools/` directory **does not constitute a hemisphere violation** as defined by the `PROJECTOME_TOTALITY_REPORT.md`. The report explicitly delineates sub-components within `tools/` into both the Codome (`tools/ai/`) and the Contextome (`tools/refinery/`). This implies that `tools/` is an intentional aggregation point for various project utilities, some of which are executable (Codome) and some informational/logistical (Contextome). The "disjoint union" principle ($P = C \sqcup X$) applies to the individual files, not necessarily to every intermediate directory in the file system hierarchy. A directory can logically group elements from both hemispheres, provided the elements themselves are correctly classified.
 
 ---
 

@@ -34,7 +34,7 @@ python analyze.py "explain cleanup" --set brain_active
 
 ### 1. `brain_active` (Recommended)
 
-**Use when:** Analyzing context-management code/docs
+**Use when:** Analyzing wave code/docs
 
 ```bash
 python analyze.py "how does ACI work" --set brain_active
@@ -230,7 +230,7 @@ python analyze.py "query" --set body  # TOO LARGE
 
 ## 🔧 CREATING CUSTOM FILTERED SETS
 
-Edit `context-management/config/analysis_sets.yaml`:
+Edit `wave/config/analysis_sets.yaml`:
 
 ```yaml
 my_custom_set:

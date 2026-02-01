@@ -32,8 +32,8 @@ git log --format=format: --name-only | sort | uniq -c | sort -rn | head -50
 ```
 
 **Questions to answer**:
-- When was standard-model-of-code/ created?
-- When was context-management/ created?
+- When was particle/ created?
+- When was wave/ created?
 - When was .agent/ created?
 - What were the "epochs" of development?
 
@@ -175,7 +175,7 @@ Phase 1 (WHENCE)           Phase 2 (WHERE)           Phase 3 (WHITHER)
 | REPO_HISTORY | `.agent/intelligence/REPO_HISTORY.jsonl` | ✅ Ready |
 | Symmetry Check | `.agent/tools/symmetry_check.py` | ✅ Ready |
 | Git | system | ✅ Ready |
-| analyze.py | `context-management/tools/ai/analyze.py` | ✅ Ready |
+| analyze.py | `wave/tools/ai/analyze.py` | ✅ Ready |
 
 ---
 

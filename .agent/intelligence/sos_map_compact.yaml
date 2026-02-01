@@ -18,13 +18,13 @@ realms:
       - id: S1
         name: Collider
         type: Engine
-        path: standard-model-of-code/
+        path: particle/
         purpose: "Semantic code analysis (ground truth)"
         outputs: [unified_analysis.json, collider_report.html]
       - id: S9
         name: Laboratory
         type: Bridge
-        path: standard-model-of-code/tools/research/laboratory.py
+        path: particle/tools/research/laboratory.py
         purpose: "Scientist facade (Particle-side API)"
         api: "run_experiment(ExperimentRequest) -> ExperimentResult"
 
@@ -34,24 +34,24 @@ realms:
       - id: S3
         name: analyze.py
         type: Engine
-        path: context-management/tools/ai/analyze.py
+        path: wave/tools/ai/analyze.py
         purpose: "AI query interface (implements HSL)"
         tiers: [instant, rag, long_context, deep]
       - id: S2
         name: HSL
         type: Framework
-        path: context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
+        path: wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md
         purpose: "Automated validation rules"
         implementation: "analyze.py --verify"
       - id: S4
         name: Perplexity MCP
         type: Utility
-        path: context-management/tools/mcp/perplexity_mcp_server.py
+        path: wave/tools/mcp/perplexity_mcp_server.py
         purpose: "External knowledge queries"
       - id: S9b
         name: Laboratory Bridge
         type: Client
-        path: context-management/tools/ai/laboratory_bridge.py
+        path: wave/tools/ai/laboratory_bridge.py
         purpose: "Agent client (Wave-side caller)"
         functions: [run_laboratory, measure_coverage, evaluate_hypothesis]
 
@@ -74,7 +74,7 @@ realms:
       - id: S7
         name: Archive/Mirror
         type: Utility
-        path: context-management/tools/archive/
+        path: wave/tools/archive/
         purpose: "Cloud sync (GCS)"
         bucket: gs://elements-archive-2026/
       - id: S8

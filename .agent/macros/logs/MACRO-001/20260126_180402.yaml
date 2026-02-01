@@ -10,9 +10,9 @@ steps:
 - step_id: inventory_artifacts
   tool: Bash
   outcome: SUCCESS
-  output: "=== NEW FILES ===\n?? standard-model-of-code/src/core/queries/go/boundary.scm\n\
-    ?? standard-model-of-code/src/core/queries/go/state.scm\n?? standard-model-of-code/src/core/queries/typescript/boundary.scm\n\
-    ?? standard-model-of-code/src/core/queries/typescript/lifecycle.scm\n?? standard-model-of-code/src/core/queries/typescript/state.scm\n\
+  output: "=== NEW FILES ===\n?? particle/src/core/queries/go/boundary.scm\n\
+    ?? particle/src/core/queries/go/state.scm\n?? particle/src/core/queries/typescript/boundary.scm\n\
+    ?? particle/src/core/queries/typescript/lifecycle.scm\n?? particle/src/core/queries/typescript/state.scm\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n"
   error: null
@@ -46,9 +46,9 @@ steps:
   output: Written to /Users/lech/PROJECTS_all/PROJECT_elements/.agent/intelligence/SKEPTICAL_AUDIT_20260126.md
   error: null
 variables:
-  session_artifacts: "=== NEW FILES ===\n?? standard-model-of-code/src/core/queries/go/boundary.scm\n\
-    ?? standard-model-of-code/src/core/queries/go/state.scm\n?? standard-model-of-code/src/core/queries/typescript/boundary.scm\n\
-    ?? standard-model-of-code/src/core/queries/typescript/lifecycle.scm\n?? standard-model-of-code/src/core/queries/typescript/state.scm\n\
+  session_artifacts: "=== NEW FILES ===\n?? particle/src/core/queries/go/boundary.scm\n\
+    ?? particle/src/core/queries/go/state.scm\n?? particle/src/core/queries/typescript/boundary.scm\n\
+    ?? particle/src/core/queries/typescript/lifecycle.scm\n?? particle/src/core/queries/typescript/state.scm\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n"
   dead_code_findings: Requires manual AI execution

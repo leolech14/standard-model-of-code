@@ -141,10 +141,10 @@ registries:
     purpose: Background auto-refinement (BARE TruthValidator output) # Aligned with S6 BARE
 
   # External & Legacy Registries
-  - path: standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md
+  - path: particle/docs/specs/REGISTRY_OF_REGISTRIES.md
     type: theory
     purpose: Semantic code analysis (ontological ground truth) # Aligned with S1 Collider
-  - path: context-management/registry/REGISTRY.json
+  - path: wave/registry/REGISTRY.json
     type: archive-config
     purpose: Cloud sync (GCS) # Aligned with S7 Archive/Mirror
 ```

@@ -1,0 +1,61 @@
+{
+    "zone": "viz",
+    "description": "Visualization Surface Contract",
+    "contracts": {
+        "command-bar": {
+            "type": "collection",
+            "items": [
+                "view",
+                "filter",
+                "style",
+                "oklch",
+                "files",
+                "flow",
+                "3d",
+                "settings"
+            ],
+            "requirements": {
+                "dom_id": "cmd-{item}",
+                "handler_function": "handleCmd{Item}",
+                "token_path": "command-bar.buttons.{item}"
+            }
+        },
+        "floating-panels": {
+            "type": "collection",
+            "items": [
+                "view",
+                "filter",
+                "style",
+                "settings"
+            ],
+            "requirements": {
+                "dom_id": "panel-{item}",
+                "handler_function": "togglePanel{Item}",
+                "token_path": "floating-panels.{item}"
+            }
+        },
+        "side-dock": {
+            "type": "collection",
+            "items": [
+                "topo",
+                "minimap",
+                "presets",
+                "schemes",
+                "layouts",
+                "datamaps",
+                "info"
+            ],
+            "requirements": {
+                "dom_id": "dock-{item}",
+                "token_path": "side-dock.sections.{item}"
+            }
+        },
+        "bottom-dock": {
+            "type": "singleton",
+            "requirements": {
+                "dom_id": "bottom-dock",
+                "token_path": "bottom-dock"
+            }
+        }
+    }
+}

@@ -16,7 +16,7 @@ What is the purpose of _log_turn function?
 
 ## Response
 
-Based on the **Adaptive Context Intelligence (ACI)** documentation provided in `context-management/docs/ACI_DATASET_MANAGEMENT.md` and the configuration in `aci_config.yaml`, the `_log_turn` function serves as the **recording mechanism for the ACI Feedback Loop**.
+Based on the **Adaptive Context Intelligence (ACI)** documentation provided in `wave/docs/ACI_DATASET_MANAGEMENT.md` and the configuration in `aci_config.yaml`, the `_log_turn` function serves as the **recording mechanism for the ACI Feedback Loop**.
 
 ### Purpose
 Its primary purpose is to persist metadata about a single AI interaction "turn" (a query and its response) to the feedback ledger. This allows the system to "learn" from past performance and optimize future tier routing (e.g., suggesting a stronger model if retries are high).
@@ -32,7 +32,7 @@ According to the Feedback Loop specification, `_log_turn` captures the following
 
 ### Storage Mechanism
 It writes these records to the YAML file defined in `aci_config.yaml`:
-> **Path:** `.agent/intelligence/aci_feedback.yaml`  
+> **Path:** `.agent/intelligence/aci_feedback.yaml`
 > **Constraint:** It likely enforces the `max_entries: 1000` limit defined in the config.
 
 ### Strategic Goal

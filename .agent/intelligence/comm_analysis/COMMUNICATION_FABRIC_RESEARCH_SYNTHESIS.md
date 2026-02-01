@@ -235,7 +235,7 @@ The Communication Fabric framework is:
 ## References
 
 Full academic citations available in:
-`standard-model-of-code/docs/research/perplexity/docs/20260126_181437_research_the_academic_foundations_for_applying_con.md`
+`particle/docs/research/perplexity/docs/20260126_181437_research_the_academic_foundations_for_applying_con.md`
 
 Key sources:
 - [1] arxiv.org/pdf/1001.3473.pdf - Shannon entropy for OO metrics

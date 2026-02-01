@@ -232,7 +232,7 @@ def unify_all(entities: dict, temporal: dict, purpose: dict) -> dict:
         # Add purpose data
         # Try different path variations for matching
         purpose_match = None
-        for try_path in [path, path.replace("standard-model-of-code/", ""), f"src/{path}"]:
+        for try_path in [path, path.replace("particle/", ""), f"src/{path}"]:
             if try_path in purpose:
                 purpose_match = purpose[try_path]
                 break

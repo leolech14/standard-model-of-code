@@ -23,7 +23,7 @@
 **Command:**
 ```bash
 .tools_venv/bin/python .agent/tools/collider_to_neo4j.py \
-  .collider-full/output_llm-oriented_standard-model-of-code_20260126_050447.json
+  .collider-full/output_llm-oriented_particle_20260126_050447.json
 ```
 
 ### 3. Simple Query Test ✅
@@ -168,4 +168,3 @@ Friston (2010): The free-energy principle
 **Browser:** http://localhost:7474 (login: neo4j/neo4j, set new password)
 **Then:** Run import scripts
 **Result:** First GraphRAG queries em 10 minutos!
-

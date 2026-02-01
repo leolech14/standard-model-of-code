@@ -1,0 +1,419 @@
+{
+    "@context": {
+        "@vocab": "https://elements.dev/schema/relations#",
+        "ogc": "http://www.opengis.net/ont/geosparql#",
+        "rcc": "http://www.w3.org/ns/rcc8#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "skos": "http://www.w3.org/2004/02/skos/core#"
+    },
+    "@id": "https://elements.dev/schema/relations",
+    "@type": "RelationalSchema",
+    "version": "1.0.0",
+    "title": "Relational Atlas - Canonical Schema",
+    "description": "Complete inventory of relational concepts mapping cognitive schemas, linguistic particles, and formal topological predicates.",
+    "primitives": [
+        {
+            "@id": "partOf",
+            "@type": "Primitive",
+            "rdfs:label": "partOf",
+            "rdfs:comment": "A is part of B (mereological containment)",
+            "symbol": "⊂",
+            "inverse": "hasPart",
+            "ogcMapping": [
+                "ogc:sfWithin"
+            ],
+            "rccMapping": [
+                "rcc:TPP",
+                "rcc:NTPP"
+            ],
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "connectedTo",
+            "@type": "Primitive",
+            "rdfs:label": "connectedTo",
+            "rdfs:comment": "A and B share a point or boundary",
+            "symbol": "◯—◯",
+            "symmetric": true,
+            "ogcMapping": [
+                "ogc:sfTouches"
+            ],
+            "rccMapping": [
+                "rcc:EC"
+            ],
+            "linguisticParticle": "on"
+        },
+        {
+            "@id": "boundaryOf",
+            "@type": "Primitive",
+            "rdfs:label": "boundaryOf",
+            "rdfs:comment": "A is the boundary/edge of B",
+            "symbol": "∂",
+            "inverse": "hasBoundary"
+        },
+        {
+            "@id": "interiorPartOf",
+            "@type": "Primitive",
+            "rdfs:label": "interiorPartOf",
+            "rdfs:comment": "A is inside B, not touching boundary",
+            "symbol": "●∈□",
+            "inverse": "hasInteriorPart",
+            "rccMapping": [
+                "rcc:NTPP"
+            ],
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "locatedIn",
+            "@type": "Primitive",
+            "rdfs:label": "locatedIn",
+            "rdfs:comment": "A is located within scope of B",
+            "symbol": "⊏",
+            "inverse": "contains",
+            "ogcMapping": [
+                "ogc:sfWithin"
+            ],
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "dependsOn",
+            "@type": "Primitive",
+            "rdfs:label": "dependsOn",
+            "rdfs:comment": "A requires B (causal/existential dependency)",
+            "symbol": "→",
+            "inverse": "enables"
+        }
+    ],
+    "ogcTopology": [
+        {
+            "@id": "Equals",
+            "de9im": "T*F**FFF*",
+            "symmetric": true,
+            "rccMapping": [
+                "rcc:EQ"
+            ]
+        },
+        {
+            "@id": "Disjoint",
+            "de9im": "FF*FF****",
+            "symmetric": true,
+            "rccMapping": [
+                "rcc:DC"
+            ],
+            "linguisticParticle": [
+                "off",
+                "away"
+            ]
+        },
+        {
+            "@id": "Intersects",
+            "description": "Any shared point(s)",
+            "symmetric": true
+        },
+        {
+            "@id": "Touches",
+            "de9im": "FT*******",
+            "symmetric": true,
+            "rccMapping": [
+                "rcc:EC"
+            ],
+            "linguisticParticle": "on"
+        },
+        {
+            "@id": "Crosses",
+            "de9im": "T*T******",
+            "symmetric": true,
+            "linguisticParticle": "through"
+        },
+        {
+            "@id": "Within",
+            "de9im": "T*F**F***",
+            "symmetric": false,
+            "inverse": "Contains",
+            "rccMapping": [
+                "rcc:TPP",
+                "rcc:NTPP"
+            ],
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "Contains",
+            "de9im": "T*****FF*",
+            "symmetric": false,
+            "inverse": "Within",
+            "rccMapping": [
+                "rcc:TPPi",
+                "rcc:NTPPi"
+            ]
+        },
+        {
+            "@id": "Overlaps",
+            "de9im": "T*T***T**",
+            "symmetric": true,
+            "rccMapping": [
+                "rcc:PO"
+            ],
+            "linguisticParticle": "over"
+        },
+        {
+            "@id": "Covers",
+            "symmetric": false,
+            "inverse": "CoveredBy",
+            "rccMapping": [
+                "rcc:TPPi",
+                "rcc:NTPPi",
+                "rcc:EQ"
+            ]
+        },
+        {
+            "@id": "CoveredBy",
+            "symmetric": false,
+            "inverse": "Covers",
+            "rccMapping": [
+                "rcc:TPP",
+                "rcc:NTPP",
+                "rcc:EQ"
+            ],
+            "linguisticParticle": "in"
+        }
+    ],
+    "rcc8": [
+        {
+            "@id": "DC",
+            "name": "Disconnected",
+            "ogcMapping": "Disjoint",
+            "symmetric": true,
+            "linguisticParticle": "off"
+        },
+        {
+            "@id": "EC",
+            "name": "Externally Connected",
+            "ogcMapping": "Touches",
+            "symmetric": true,
+            "linguisticParticle": "on"
+        },
+        {
+            "@id": "PO",
+            "name": "Partial Overlap",
+            "ogcMapping": "Overlaps",
+            "symmetric": true,
+            "linguisticParticle": "over"
+        },
+        {
+            "@id": "EQ",
+            "name": "Equal",
+            "ogcMapping": "Equals",
+            "symmetric": true
+        },
+        {
+            "@id": "TPP",
+            "name": "Tangential Proper Part",
+            "ogcMapping": [
+                "Within",
+                "CoveredBy"
+            ],
+            "inverse": "TPPi",
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "NTPP",
+            "name": "Non-Tangential Proper Part",
+            "ogcMapping": "Within",
+            "inverse": "NTPPi",
+            "linguisticParticle": "in"
+        },
+        {
+            "@id": "TPPi",
+            "name": "TPP Inverse",
+            "ogcMapping": [
+                "Contains",
+                "Covers"
+            ],
+            "inverse": "TPP"
+        },
+        {
+            "@id": "NTPPi",
+            "name": "NTPP Inverse",
+            "ogcMapping": "Contains",
+            "inverse": "NTPP"
+        }
+    ],
+    "particles": [
+        {
+            "@id": "in",
+            "schema": "containment",
+            "antonym": "out",
+            "topology": [
+                "Within",
+                "TPP",
+                "NTPP"
+            ]
+        },
+        {
+            "@id": "out",
+            "schema": "containment",
+            "antonym": "in",
+            "topology": [
+                "Disjoint",
+                "DC"
+            ]
+        },
+        {
+            "@id": "on",
+            "schema": "contact",
+            "antonym": "off",
+            "topology": [
+                "Touches",
+                "EC"
+            ]
+        },
+        {
+            "@id": "off",
+            "schema": "contact",
+            "antonym": "on",
+            "topology": [
+                "Disjoint",
+                "DC"
+            ]
+        },
+        {
+            "@id": "up",
+            "schema": "verticality",
+            "antonym": "down",
+            "topology": []
+        },
+        {
+            "@id": "down",
+            "schema": "verticality",
+            "antonym": "up",
+            "topology": []
+        },
+        {
+            "@id": "back",
+            "schema": "return",
+            "antonym": "away",
+            "topology": []
+        },
+        {
+            "@id": "away",
+            "schema": "distance",
+            "antonym": "back",
+            "topology": [
+                "Disjoint"
+            ]
+        },
+        {
+            "@id": "through",
+            "schema": "traversal",
+            "topology": [
+                "Crosses"
+            ]
+        },
+        {
+            "@id": "over",
+            "schema": "covering",
+            "antonym": "under",
+            "topology": [
+                "Covers",
+                "Overlaps"
+            ]
+        },
+        {
+            "@id": "around",
+            "schema": "circumference",
+            "topology": []
+        },
+        {
+            "@id": "along",
+            "schema": "path",
+            "topology": []
+        }
+    ],
+    "cognitiveSchemas": [
+        {
+            "@id": "containment",
+            "particles": [
+                "in",
+                "out"
+            ],
+            "topology": [
+                "Within",
+                "Contains"
+            ]
+        },
+        {
+            "@id": "contact",
+            "particles": [
+                "on",
+                "off"
+            ],
+            "topology": [
+                "Touches",
+                "Disjoint"
+            ]
+        },
+        {
+            "@id": "verticality",
+            "particles": [
+                "up",
+                "down"
+            ],
+            "topology": []
+        },
+        {
+            "@id": "traversal",
+            "particles": [
+                "through"
+            ],
+            "topology": [
+                "Crosses"
+            ]
+        },
+        {
+            "@id": "covering",
+            "particles": [
+                "over"
+            ],
+            "topology": [
+                "Covers",
+                "Overlaps"
+            ]
+        },
+        {
+            "@id": "return",
+            "particles": [
+                "back"
+            ],
+            "topology": []
+        },
+        {
+            "@id": "distance",
+            "particles": [
+                "away"
+            ],
+            "topology": [
+                "Disjoint"
+            ]
+        },
+        {
+            "@id": "path",
+            "particles": [
+                "along",
+                "around"
+            ],
+            "topology": []
+        }
+    ],
+    "meta": {
+        "totalRelations": 42,
+        "layers": 7,
+        "sources": [
+            "OGC Simple Features (ISO 19125)",
+            "GeoSPARQL (OGC 11-052r4)",
+            "RCC-8 (Randell, Cui, Cohn 1992)",
+            "DE-9IM (Clementini, Di Felice 1995)",
+            "Cognitive Linguistics Image Schemas (Lakoff, Johnson)"
+        ]
+    }
+}

@@ -20,26 +20,26 @@ The repository is structured around two primary, high-level subsystems, each res
 
 ### High-Level Repository File Structure
 
-*   **`standard-model-of-code/`**: Contains the core code parsing engine ("Collider"), its associated schemas, and documentation.
-*   **`context-management/`**: Houses AI tools, cloud integration, and data logistics components.
+*   **`particle/`**: Contains the core code parsing engine ("Collider"), its associated schemas, and documentation.
+*   **`wave/`**: Houses AI tools, cloud integration, and data logistics components.
 
 ### Key Subsystems
 
 1.  **Standard Model of Code (The Body)**
     *   **Purpose:** This is the "Collider engine" responsible for parsing code and identifying its "basic constituents." It acts as the core code analysis component.
     *   **Key Locations:**
-        *   `standard-model-of-code/src/core/`: The heart of the Collider engine.
-        *   `standard-model-of-code/schema/*.yaml`: Defines the "Atom schemas" or structures for parsed code elements.
-        *   `standard-model-of-code/docs/`: Contains "Theory docs" related to the code model.
+        *   `particle/src/core/`: The heart of the Collider engine.
+        *   `particle/schema/*.yaml`: Defines the "Atom schemas" or structures for parsed code elements.
+        *   `particle/docs/`: Contains "Theory docs" related to the code model.
 
 2.  **Context Management (The Brain)**
     *   **Purpose:** Manages AI capabilities, cloud interactions ("cloud mirror"), and the broader data/context pipeline.
     *   **Key Locations:**
-        *   **AI Tools (`context-management/tools/ai/`):** Contains utilities for AI queries and "Socratic Verification" (an "Antimatter Law Check" for detecting documentation/implementation drift).
-        *   **Refinery (Logistics) (`context-management/tools/refinery/`):** Handles data ingestion, provenance tracking, and "Physics" within a "Logistics Pipeline." It has its own theoretical documentation (`context-management/intelligence/concepts/THEORY_DATA_LOGISTICS.md`).
-        *   **Holographic-Socratic Layer:** An AI-powered guardian (utilizing AI tools from `context-management/tools/ai/` and configurations from `context-management/config/semantic_models.yaml`) that continuously detects drift between documentation and implementation.
+        *   **AI Tools (`wave/tools/ai/`):** Contains utilities for AI queries and "Socratic Verification" (an "Antimatter Law Check" for detecting documentation/implementation drift).
+        *   **Refinery (Logistics) (`wave/tools/refinery/`):** Handles data ingestion, provenance tracking, and "Physics" within a "Logistics Pipeline." It has its own theoretical documentation (`wave/intelligence/concepts/THEORY_DATA_LOGISTICS.md`).
+        *   **Holographic-Socratic Layer:** An AI-powered guardian (utilizing AI tools from `wave/tools/ai/` and configurations from `wave/config/semantic_models.yaml`) that continuously detects drift between documentation and implementation.
 
-In essence, `standard-model-of-code` is the engine that understands the code's structure, while `context-management` leverages AI to derive insights, manage data flow, and ensure consistency across the project.
+In essence, `particle` is the engine that understands the code's structure, while `wave` leverages AI to derive insights, manage data flow, and ensure consistency across the project.
 
 ---
 

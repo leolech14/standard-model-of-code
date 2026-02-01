@@ -111,9 +111,9 @@
 ---
 
 ### D. Standard Model Docs (60+ files) ✅ MANTER
-- standard-model-of-code/docs/research/gemini/sessions/ (novos)
-- standard-model-of-code/docs/research/perplexity/docs/ (novos)
-- standard-model-of-code/docs/theory/*.md (novos)
+- particle/docs/research/gemini/sessions/ (novos)
+- particle/docs/research/perplexity/docs/ (novos)
+- particle/docs/theory/*.md (novos)
 
 **Ação:** COMMIT - research archive automático
 
@@ -163,7 +163,7 @@ git add .agent/intelligence/chunks/
 git add .agent/intelligence/concepts/
 
 # Add research
-git add standard-model-of-code/docs/research/
+git add particle/docs/research/
 
 # Add logs (recent only)
 git add .agent/intelligence/autopilot_logs/autopilot_20260127.jsonl
@@ -224,4 +224,3 @@ rm /tmp/neo4j_*.txt /tmp/gemini_*.txt
 ---
 
 **EXECUTE CLEANUP NOW?**
-

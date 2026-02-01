@@ -16,7 +16,7 @@ from collections import defaultdict
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 COLLIDER_OUTPUT = REPO_ROOT / ".collider-full"
-SCHEMA_PATH = REPO_ROOT / "standard-model-of-code" / "schema" / "particle.schema.json"
+SCHEMA_PATH = REPO_ROOT / "particle" / "schema" / "particle.schema.json"
 OUTPUT_CSV = REPO_ROOT / ".agent" / "intelligence" / "COLLIDER_COVERAGE.csv"
 
 

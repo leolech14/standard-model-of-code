@@ -8,7 +8,7 @@
 
 ### 1. 🏛️ O Templo Axiomático
 ```
-standard-model-of-code/docs/theory/
+particle/docs/theory/
 ├── THEORY_INDEX.md          ← COMEÇA AQUI (mapa de tudo)
 ├── L0_AXIOMS.md             ← 50+ axiomas formais
 ├── THEORY_AXIOMS.md         ← Validação Gemini (grupos A-H)
@@ -22,7 +22,7 @@ standard-model-of-code/docs/theory/
 
 ### 2. 📚 A Biblioteca de Contexto
 ```
-context-management/docs/
+wave/docs/
 ├── deep/
 │   ├── THEORY_AMENDMENT_2026-01.md    ← A1:Tools, A2:Dark Matter, A3:Confidence
 │   ├── ONTOLOGICAL_FOUNDATIONS.md     ← Semiotics, Category Theory
@@ -58,7 +58,7 @@ context-management/docs/
 
 ### 4. 🔬 O Arquivo de Pesquisa
 ```
-standard-model-of-code/docs/research/
+particle/docs/research/
 ├── gemini/
 │   ├── sessions/     243 JSON  ← Conversas completas
 │   └── docs/         246 MD    ← Research reports
@@ -74,7 +74,7 @@ standard-model-of-code/docs/research/
 
 ### 5. 📋 As Especificações Técnicas
 ```
-standard-model-of-code/docs/specs/
+particle/docs/specs/
 ├── VISUALIZATION_UI_SPEC.md           ← UI theory
 ├── TREE_SITTER_INTEGRATION_SPEC.md    ← Parser theory
 ├── CODOME_LANDSCAPE.md                ← Landscape theory
@@ -88,7 +88,7 @@ standard-model-of-code/docs/specs/
 
 ### 6. 🗂️ Os Registros Canônicos
 ```
-standard-model-of-code/schema/fixed/
+particle/schema/fixed/
 ├── atoms.json           ← 3,525 atoms definidos
 ├── roles.json           ← 33 roles canônicos
 ├── dimensions.json      ← 8 dimensões
@@ -106,7 +106,7 @@ standard-model-of-code/schema/fixed/
 
 ### 7. 🌊 O Oceano de Referências
 ```
-context-management/docs/theory/references/
+wave/docs/theory/references/
 ├── md/          ← 150+ papers em markdown
 │   ├── PEIRCE_*.md
 │   ├── FRISTON_*.md
@@ -123,7 +123,7 @@ context-management/docs/theory/references/
 ## ESTRATÉGIA DE PROCURA (Priorizada)
 
 ### Fase 1: Núcleo Formal (1 hora)
-1. `standard-model-of-code/docs/theory/THEORY_INDEX.md` - LER PRIMEIRO
+1. `particle/docs/theory/THEORY_INDEX.md` - LER PRIMEIRO
 2. `L0_AXIOMS.md` - Extrair todos os axiomas A-H
 3. `THEORY_AXIOMS.md` - Validação + grupos
 4. `.agent/intelligence/ONTOLOGIA_SISTEMAS_FLUXO.md` - Integração completa
@@ -131,14 +131,14 @@ context-management/docs/theory/references/
 **Output:** ~150 teorias formais
 
 ### Fase 2: Extensões (2 horas)
-5. `context-management/docs/deep/THEORY_AMENDMENT_2026-01.md`
-6. `context-management/docs/theory/THEORY.md` (171KB - ler seções principais)
+5. `wave/docs/deep/THEORY_AMENDMENT_2026-01.md`
+6. `wave/docs/theory/THEORY.md` (171KB - ler seções principais)
 7. `.agent/intelligence/comm_analysis/*.md` (15 arquivos desta sessão)
 
 **Output:** +60 teorias
 
 ### Fase 3: Especializações (1 hora)
-8. Scan `standard-model-of-code/docs/specs/*.md` (30+ specs)
+8. Scan `particle/docs/specs/*.md` (30+ specs)
 9. Scan `.agent/specs/*.md` (automação, dashboard)
 10. Schemas `*.json` (atoms, roles, dimensions)
 
@@ -158,25 +158,25 @@ context-management/docs/theory/references/
 ### Axiomas
 **Buscar:**
 ```bash
-grep -r "^###.*Axiom [A-H][0-9]" standard-model-of-code/docs/theory/
+grep -r "^###.*Axiom [A-H][0-9]" particle/docs/theory/
 grep -r "^\*\*Axiom" .agent/intelligence/
 ```
 
 ### Teoremas
 ```bash
-grep -r "^### Theorem" standard-model-of-code/docs/theory/
+grep -r "^### Theorem" particle/docs/theory/
 grep -r "^### T[0-9]" .agent/intelligence/
 ```
 
 ### Leis
 ```bash
-grep -r "Law" standard-model-of-code/docs/theory/*.md | grep "^###"
+grep -r "Law" particle/docs/theory/*.md | grep "^###"
 grep -r "Lei Construtal\|Law" .agent/intelligence/*.md
 ```
 
 ### Frameworks
 ```bash
-grep -r "Framework" standard-model-of-code/docs/ context-management/docs/
+grep -r "Framework" particle/docs/ wave/docs/
 grep -r "^## .*Theory$" **/*.md
 ```
 
@@ -219,4 +219,3 @@ Graph grows recursive
 ---
 
 **PRÓXIMO:** Executar scan automatizado com teoria_cataloger.py melhorado OU catalogação manual via estes haikus?
-

@@ -26,7 +26,7 @@
 
 | Metric | Value |
 |--------|-------|
-| File | `context-management/tools/ai/aci/history_loader.py` |
+| File | `wave/tools/ai/aci/history_loader.py` |
 | Lines | 469 |
 | Size | 16,334 bytes |
 | Created | 2026-01-25T20:22:43 |
@@ -35,7 +35,7 @@
 
 **Evidence:**
 ```bash
-grep -r "HistoryLoader\|load_for_gemini\|load_for_rag" context-management/tools/ai --include="*.py"
+grep -r "HistoryLoader\|load_for_gemini\|load_for_rag" wave/tools/ai --include="*.py"
 # Result: Only appears in the file itself + __init__.py exports
 ```
 
@@ -51,7 +51,7 @@ grep -r "HistoryLoader\|load_for_gemini\|load_for_rag" context-management/tools/
 | `claude_history_ingest` | YAML exists | No executor |
 | `mind_map_builder` | YAML exists | No executor |
 
-**Location:** `context-management/config/research_schemas.yaml` lines 434-589
+**Location:** `wave/config/research_schemas.yaml` lines 434-589
 
 **Gap:** `execute_research()` in `research_orchestrator.py` does not check for special source types. The schemas define *what to do* but nothing knows *how to do it*.
 
@@ -239,7 +239,7 @@ steps:
     tool: Grep
     params:
       pattern: "{new_function_names}"
-      path: "context-management/tools/ai"
+      path: "wave/tools/ai"
     expect: "All new functions are called somewhere"
 
   - id: check_integration

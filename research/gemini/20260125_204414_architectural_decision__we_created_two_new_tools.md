@@ -10,7 +10,7 @@
 
 ## Query
 
-Architectural decision: We created two new tools - boundary_analyzer.py (validates CODOME/CONTEXTOME structure) and gemini_status.py (API usage observability). 
+Architectural decision: We created two new tools - boundary_analyzer.py (validates CODOME/CONTEXTOME structure) and gemini_status.py (API usage observability).
 
 Current placement:
 - boundary_analyzer.py → tools/maintenance/
@@ -32,8 +32,8 @@ This is a clear architectural decision point, and the distinction between "AI-po
 
 **Decisive Answer:**
 
-*   `boundary_analyzer.py` **SHOULD remain in `context-management/tools/ai/`**.
-*   `gemini_status.py` **SHOULD be moved to `context-management/tools/maintenance/`**.
+*   `boundary_analyzer.py` **SHOULD remain in `wave/tools/ai/`**.
+*   `gemini_status.py` **SHOULD be moved to `wave/tools/maintenance/`**.
 
 ---
 

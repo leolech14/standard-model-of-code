@@ -59,7 +59,7 @@ The audit reveals a codebase in a state of **"Active Drift"**. While individual 
 
 Therefore, the current codebase architecture **does not fully comply** with the Theory Canon's invariants. Addressing these detected liabilities, especially the HIGH severity Antimatter Law violations, is critical for achieving a coherent and robust architecture.
 
-**Source**: `context-management/docs/reports/socratic_audit_latest.md` (Generated: 2026-01-26)
+**Source**: `wave/docs/reports/socratic_audit_latest.md` (Generated: 2026-01-26)
 
 ---
 

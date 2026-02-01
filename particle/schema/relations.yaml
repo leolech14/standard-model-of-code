@@ -1,0 +1,524 @@
+# =============================================================================
+# RELATIONAL SCHEMA — Canonical Definitions
+# =============================================================================
+# PURPOSE: Machine-readable schema defining all relational concepts.
+# This is the single source of truth for relational primitives, topological
+# relations, linguistic particles, and their cross-domain mappings.
+# =============================================================================
+
+version: "1.0.0"
+schema_id: "relations-atlas-canonical"
+last_updated: "2026-01-30"
+
+# =============================================================================
+# LAYER 1: PRIMITIVES (6)
+# The foundational building blocks from which all other relations derive.
+# =============================================================================
+primitives:
+  - id: partOf
+    description: "A is part of B (mereological containment)"
+    symbol: "⊂"
+    inverse: haspart
+    topology: [Within, TPP, NTPP]
+    linguistic: [in]
+    formal_system: mereology
+
+  - id: connectedTo
+    description: "A and B share a point or boundary (contact)"
+    symbol: "◯—◯"
+    inverse: connectedTo  # symmetric
+    topology: [Touches, EC]
+    linguistic: [on]
+    formal_system: topology
+
+  - id: boundaryOf
+    description: "A is the boundary/edge of B"
+    symbol: "∂"
+    inverse: hasBoundary
+    topology: []
+    linguistic: []
+    formal_system: topology
+
+  - id: interiorPartOf
+    description: "A is inside B, not touching boundary"
+    symbol: "●∈□"
+    inverse: hasInteriorPart
+    topology: [NTPP]
+    linguistic: [in]
+    formal_system: mereotopology
+
+  - id: locatedIn
+    description: "A is located within scope of B"
+    symbol: "⊏"
+    inverse: contains
+    topology: [Within]
+    linguistic: [in]
+    formal_system: spatial
+
+  - id: dependsOn
+    description: "A requires B (causal/existential dependency)"
+    symbol: "→"
+    inverse: enables
+    topology: []
+    linguistic: []
+    formal_system: dependency
+
+# =============================================================================
+# LAYER 2: OGC/GeoSPARQL TOPOLOGICAL RELATIONS (10)
+# Standard spatial predicates based on DE-9IM matrix.
+# =============================================================================
+ogc_topology:
+  - id: Equals
+    de9im: "T*F**FFF*"
+    description: "Same geometry (identical)"
+    rcc8: [EQ]
+    primitive: []
+    linguistic: []
+    symmetric: true
+
+  - id: Disjoint
+    de9im: "FF*FF****"
+    description: "No shared points"
+    rcc8: [DC]
+    primitive: []
+    linguistic: [off, away]
+    symmetric: true
+
+  - id: Intersects
+    de9im: "T********" # negation of Disjoint
+    description: "Any shared point(s)"
+    rcc8: [EC, PO, TPP, NTPP, TPPi, NTPPi, EQ]
+    primitive: [connectedTo]
+    linguistic: []
+    symmetric: true
+
+  - id: Touches
+    de9im: "FT*******" # or "F**T*****" or "F***T****"
+    description: "Share boundary only (no interior overlap)"
+    rcc8: [EC]
+    primitive: [connectedTo]
+    linguistic: [on]
+    symmetric: true
+
+  - id: Crosses
+    de9im: "T*T******" # for line/line
+    description: "Pass through each other"
+    rcc8: []
+    primitive: []
+    linguistic: [through]
+    symmetric: true
+    applies_to: [line-line, line-polygon]
+
+  - id: Within
+    de9im: "T*F**F***"
+    description: "A completely inside B"
+    rcc8: [TPP, NTPP]
+    primitive: [partOf, locatedIn]
+    linguistic: [in]
+    symmetric: false
+    inverse: Contains
+
+  - id: Contains
+    de9im: "T*****FF*"
+    description: "B completely inside A (inverse of Within)"
+    rcc8: [TPPi, NTPPi]
+    primitive: []
+    linguistic: []
+    symmetric: false
+    inverse: Within
+
+  - id: Overlaps
+    de9im: "T*T***T**"
+    description: "Partial intersection (same dimension)"
+    rcc8: [PO]
+    primitive: []
+    linguistic: [over]
+    symmetric: true
+
+  - id: Covers
+    de9im: "T*****FF*" # B on boundary allowed
+    description: "A covers B (B may touch boundary)"
+    rcc8: [TPPi, NTPPi, EQ]
+    primitive: []
+    linguistic: [over]
+    symmetric: false
+    inverse: CoveredBy
+
+  - id: CoveredBy
+    de9im: "T*F**F***" # A on boundary allowed
+    description: "A is covered by B (inverse of Covers)"
+    rcc8: [TPP, NTPP, EQ]
+    primitive: [partOf]
+    linguistic: [in]
+    symmetric: false
+    inverse: Covers
+
+# =============================================================================
+# LAYER 3: RCC-8 (8)
+# Jointly Exhaustive, Pairwise Disjoint (JEPD) calculus for regions.
+# Exactly one relation holds between any two regions.
+# =============================================================================
+rcc8:
+  - id: DC
+    name: "Disconnected"
+    description: "No shared points"
+    ogc: [Disjoint]
+    linguistic: [off]
+    symmetric: true
+
+  - id: EC
+    name: "Externally Connected"
+    description: "Touch at boundary only"
+    ogc: [Touches]
+    linguistic: [on]
+    symmetric: true
+
+  - id: PO
+    name: "Partial Overlap"
+    description: "Interiors overlap, neither contains other"
+    ogc: [Overlaps]
+    linguistic: [over]
+    symmetric: true
+
+  - id: EQ
+    name: "Equal"
+    description: "Same region"
+    ogc: [Equals]
+    linguistic: []
+    symmetric: true
+
+  - id: TPP
+    name: "Tangential Proper Part"
+    description: "A inside B, touching boundary"
+    ogc: [Within, CoveredBy]
+    linguistic: [in]
+    symmetric: false
+    inverse: TPPi
+
+  - id: NTPP
+    name: "Non-Tangential Proper Part"
+    description: "A inside B, not touching boundary"
+    ogc: [Within]
+    linguistic: [in]
+    symmetric: false
+    inverse: NTPPi
+
+  - id: TPPi
+    name: "Inverse of TPP"
+    description: "B is TPP of A (A contains B at edge)"
+    ogc: [Contains, Covers]
+    linguistic: []
+    symmetric: false
+    inverse: TPP
+
+  - id: NTPPi
+    name: "Inverse of NTPP"
+    description: "B is NTPP of A (A contains B deep inside)"
+    ogc: [Contains]
+    linguistic: []
+    symmetric: false
+    inverse: NTPP
+
+# =============================================================================
+# LAYER 4: LINGUISTIC PARTICLES (12)
+# English phrasal verb particles derived from spatial image schemas.
+# =============================================================================
+particles:
+  - id: in
+    schema: containment
+    core_meaning: "inside a bounded region"
+    extensions: [inclusion, participation, involvement]
+    topology: [Within, TPP, NTPP]
+    antonym: out
+    examples: ["break in", "come in", "fill in"]
+
+  - id: out
+    schema: containment
+    core_meaning: "exit from bounded region"
+    extensions: [exclusion, revelation, completion]
+    topology: [Disjoint]
+    antonym: in
+    examples: ["break out", "find out", "work out"]
+
+  - id: on
+    schema: contact
+    core_meaning: "surface contact"
+    extensions: [activation, continuation, attachment]
+    topology: [Touches, EC]
+    antonym: off
+    examples: ["turn on", "carry on", "put on"]
+
+  - id: off
+    schema: contact
+    core_meaning: "separation from surface"
+    extensions: [deactivation, departure, reduction]
+    topology: [Disjoint, DC]
+    antonym: on
+    examples: ["turn off", "take off", "cut off"]
+
+  - id: up
+    schema: verticality
+    core_meaning: "upward movement"
+    extensions: [increase, completion, intensification]
+    topology: []  # metaphorical only
+    antonym: down
+    examples: ["speed up", "use up", "give up"]
+
+  - id: down
+    schema: verticality
+    core_meaning: "downward movement"
+    extensions: [decrease, recording, cessation]
+    topology: []  # metaphorical only
+    antonym: up
+    examples: ["slow down", "write down", "break down"]
+
+  - id: back
+    schema: return
+    core_meaning: "return to origin"
+    extensions: [reversal, restoration, reciprocity]
+    topology: []  # temporal/state
+    antonym: away
+    examples: ["come back", "pay back", "hold back"]
+
+  - id: away
+    schema: distance
+    core_meaning: "increasing separation"
+    extensions: [disappearance, continuous action]
+    topology: [Disjoint]
+    antonym: back
+    examples: ["go away", "throw away", "fade away"]
+
+  - id: through
+    schema: traversal
+    core_meaning: "passage from one side to another"
+    extensions: [completion, endurance, examination]
+    topology: [Crosses]
+    antonym: null
+    examples: ["go through", "see through", "follow through"]
+
+  - id: over
+    schema: covering
+    core_meaning: "above/across surface"
+    extensions: [completion, repetition, excess]
+    topology: [Covers, Overlaps]
+    antonym: under
+    examples: ["look over", "do over", "take over"]
+
+  - id: around
+    schema: circumference
+    core_meaning: "circular path"
+    extensions: [avoidance, exploration, informal activity]
+    topology: []
+    antonym: null
+    examples: ["hang around", "look around", "come around"]
+
+  - id: along
+    schema: path
+    core_meaning: "following a trajectory"
+    extensions: [accompaniment, progress]
+    topology: []
+    antonym: null
+    examples: ["come along", "move along", "get along"]
+
+# =============================================================================
+# LAYER 5: DEPENDENCY RELATIONS (5)
+# Program/code structure relations.
+# =============================================================================
+dependencies:
+  - id: imports
+    description: "Module A imports module B"
+    direction: unidirectional
+    transitivity: false
+
+  - id: extends
+    description: "Class A extends class B"
+    direction: unidirectional
+    transitivity: true
+
+  - id: implements
+    description: "Class A implements interface B"
+    direction: unidirectional
+    transitivity: false
+
+  - id: calls
+    description: "Function A calls function B"
+    direction: unidirectional
+    transitivity: true
+
+  - id: references
+    description: "Entity A references entity B"
+    direction: unidirectional
+    transitivity: false
+
+# =============================================================================
+# LAYER 6: METRIC RELATIONS (2+)
+# Distance-based relations (not purely topological).
+# =============================================================================
+metrics:
+  - id: nearestTo
+    description: "Closest feature by distance"
+    requires: distance_function
+    symmetric: false
+
+  - id: distance
+    description: "Euclidean/network distance between features"
+    unit: meters
+    symmetric: true
+
+  - id: buffer
+    description: "Within distance threshold"
+    parameter: radius
+
+  - id: fartherThan
+    description: "Beyond distance threshold"
+    parameter: threshold
+
+# =============================================================================
+# LAYER 7: FLOW RELATIONS (1+)
+# Directed connectivity with semantics.
+# =============================================================================
+flow:
+  - id: flowsInto
+    description: "Directed connectivity (stream → confluence)"
+    direction: unidirectional
+    transitivity: true
+    domain: [hydrology, data_pipelines]
+
+  - id: upstream
+    description: "Inverse flow direction"
+    inverse: downstream
+
+  - id: downstream
+    description: "Forward flow direction"
+    inverse: upstream
+
+  - id: reachableFrom
+    description: "Path exists in directed graph"
+    transitivity: true
+
+# =============================================================================
+# COGNITIVE SCHEMAS (Cross-cutting)
+# The underlying image schemas that ground all relations.
+# =============================================================================
+schemas:
+  - id: containment
+    description: "Inside vs outside a bounded region"
+    particles: [in, out]
+    topology: [Within, Contains]
+
+  - id: contact
+    description: "Surface attachment vs separation"
+    particles: [on, off]
+    topology: [Touches, Disjoint]
+
+  - id: verticality
+    description: "Upward vs downward movement (often metaphorical)"
+    particles: [up, down]
+    topology: []
+
+  - id: traversal
+    description: "Passage through a medium"
+    particles: [through]
+    topology: [Crosses]
+
+  - id: covering
+    description: "One entity spanning another"
+    particles: [over]
+    topology: [Covers, Overlaps]
+
+  - id: return
+    description: "Movement back to origin"
+    particles: [back]
+    topology: []
+
+  - id: distance
+    description: "Separation/proximity"
+    particles: [away]
+    topology: [Disjoint]
+
+  - id: path
+    description: "Following a trajectory"
+    particles: [along, around]
+    topology: []
+
+# =============================================================================
+# CROSS-REFERENCE MATRIX
+# Complete mapping: Schema → Particle → OGC → RCC-8
+# =============================================================================
+crossref:
+  - schema: containment
+    particle: in
+    ogc: Within
+    rcc8: [TPP, NTPP]
+    primitive: [partOf, locatedIn]
+
+  - schema: containment
+    particle: out
+    ogc: Disjoint
+    rcc8: [DC]
+    primitive: []
+
+  - schema: contact
+    particle: on
+    ogc: Touches
+    rcc8: [EC]
+    primitive: [connectedTo]
+
+  - schema: contact
+    particle: off
+    ogc: Disjoint
+    rcc8: [DC]
+    primitive: []
+
+  - schema: traversal
+    particle: through
+    ogc: Crosses
+    rcc8: []
+    primitive: []
+
+  - schema: covering
+    particle: over
+    ogc: [Covers, Overlaps]
+    rcc8: [PO]
+    primitive: []
+
+  - schema: distance
+    particle: away
+    ogc: Disjoint
+    rcc8: [DC]
+    primitive: []
+    metric: [distance, fartherThan]
+
+# =============================================================================
+# METADATA
+# =============================================================================
+meta:
+  total_relations: 42
+  layers:
+    - name: Primitives
+      count: 6
+      formal_system: mereotopology
+    - name: OGC Topology
+      count: 10
+      formal_system: DE-9IM
+    - name: RCC-8
+      count: 8
+      formal_system: qualitative_spatial_reasoning
+    - name: Particles
+      count: 12
+      formal_system: cognitive_linguistics
+    - name: Dependencies
+      count: 5
+      formal_system: graph_theory
+    - name: Metrics
+      count: 4
+      formal_system: distance_geometry
+    - name: Flow
+      count: 4
+      formal_system: directed_graphs
+  sources:
+    - "OGC Simple Features (ISO 19125)"
+    - "GeoSPARQL (OGC 11-052r4)"
+    - "RCC-8 (Randell, Cui, Cohn 1992)"
+    - "DE-9IM (Clementini, Di Felice 1995)"
+    - "Cognitive Linguistics Image Schemas (Lakoff, Johnson)"

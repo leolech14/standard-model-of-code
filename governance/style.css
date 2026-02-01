@@ -1,0 +1,343 @@
+/* --- OBSIDIAN MINIMAL DESIGN SYSTEM (v2 Reader) --- */
+:root {
+    --bg-main: #161618;
+    --surface: #202022;
+    --text-primary: #dcdcdc;
+    --text-secondary: #a0a0a5;
+    --accent: #5c7c8a;
+    --border: #2d2d30;
+    --sidebar-width: 300px;
+    --font-main: 'Inter', -apple-system, system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-main) !important;
+    margin: 0;
+    line-height: 1.7;
+    display: flex;
+}
+
+/* --- FIXES BASED ON USER FEEDBACK --- */
+
+/* 1. Tame the GitHub Icon */
+.quarto-color-scheme-toggle,
+.nav-link i.bi-github,
+.nav-link .bi-github {
+    color: var(--text-secondary) !important;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+
+.quarto-color-scheme-toggle:hover,
+.nav-link:hover i.bi-github {
+    opacity: 1;
+    color: var(--accent) !important;
+}
+
+/* 2. High Contrast Selection */
+::selection {
+    background: #4a6fa5 !important;
+    /* Soft high-contrast blue */
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+/* 3. Fix Mermaid Horizontal Srcoll */
+.cell-output-display,
+.mermaid {
+    overflow-x: auto;
+    /* Allow scroll if absolutely necessary */
+    width: 100%;
+}
+
+.mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+    width: auto !important;
+    /* Allow it to shrink */
+}
+
+
+/* --- THE SIDEBAR --- */
+#quarto-sidebar,
+.sidebar {
+    width: var(--sidebar-width) !important;
+    background: var(--surface) !important;
+    border-right: 1px solid var(--border) !important;
+    height: 100vh !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding: 2rem 1rem !important;
+    z-index: 1000;
+}
+
+#quarto-content {
+    margin-left: var(--sidebar-width) !important;
+    padding: 0 2rem !important;
+    /* Reduced from 4rem */
+    max-width: none;
+    /* Full width minus sidebar */
+    width: calc(100vw - var(--sidebar-width) - 4rem);
+    /* Use available space */
+}
+
+/* Sidebar Tree Styling */
+.sidebar-tree {
+    list-style: none;
+    padding-left: 0;
+}
+
+.tree-item {
+    margin-bottom: 0.5rem;
+    font-size: 0.9em;
+}
+
+.tree-folder {
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    margin-top: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.3rem;
+}
+
+.tree-link {
+    color: var(--text-secondary) !important;
+    text-decoration: none;
+    display: block;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.tree-link:hover {
+    background: var(--bg-main);
+    color: var(--accent) !important;
+}
+
+.tree-link.active {
+    background: var(--accent-muted);
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+/* --- CONTENT STYLING --- */
+h1,
+h2,
+h3,
+h4,
+.title {
+    color: var(--accent) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em;
+}
+
+.mermaid svg {
+    background-color: #0f0f11 !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px;
+    padding: 2rem;
+    margin: 2rem 0;
+    width: 100% !important;
+}
+
+/* Theme Selector UI (Floating atop content) */
+#theme-selector {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    z-index: 2000;
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+}
+
+.theme-btn {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+/* --- ADDITIONAL FIXES (User Feedback Round 2) --- */
+
+/* 4. Fix Footer White Background */
+.footer,
+footer,
+.quarto-footer,
+#quarto-footer,
+.page-footer,
+.nav-footer {
+    background-color: var(--surface) !important;
+    color: var(--text-secondary) !important;
+    border-top: 1px solid var(--border) !important;
+}
+
+.nav-footer a,
+.nav-footer i {
+    color: var(--text-secondary) !important;
+    opacity: 0.5;
+}
+
+.nav-footer a:hover,
+.nav-footer i:hover {
+    color: var(--accent) !important;
+    opacity: 1;
+}
+
+/* 5. Mermaid Responsive Sizing (Scale-down, Scroll if Necessary) */
+.mermaid,
+.cell-output,
+.cell-output-display {
+    max-width: 100% !important;
+    overflow-x: auto;
+    /* Allow scroll as last resort */
+    overflow-y: visible;
+}
+
+.mermaid svg {
+    max-width: 100%;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+    /* Let SVG scale naturally via viewBox */
+    object-fit: contain;
+}
+
+/* 6. Fix Inline Code Purple Background */
+code,
+code:not(pre > code),
+.sourceCode,
+p code,
+li code,
+td code {
+    background-color: #2d2d30 !important;
+    /* Muted dark grey */
+    color: #a8c7fa !important;
+    /* Soft blue text */
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: none !important;
+}
+
+/* 7. Fix Fenced Code Block Readability */
+pre,
+pre code,
+.sourceCode pre,
+div.sourceCode {
+    background-color: #0d0d0f !important;
+    /* Near-black for max contrast */
+    color: #e0e0e0 !important;
+    /* Bright grey default */
+    padding: 1rem !important;
+    border-radius: 6px;
+    border: 1px solid var(--border) !important;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Syntax Highlighting Overrides (Brighter Colors) */
+.sourceCode .kw {
+    color: #c586c0 !important;
+}
+
+/* Keywords - Magenta */
+.sourceCode .cf {
+    color: #c586c0 !important;
+}
+
+/* Control Flow */
+.sourceCode .dt {
+    color: #4ec9b0 !important;
+}
+
+/* Data Types - Teal */
+.sourceCode .dv {
+    color: #b5cea8 !important;
+}
+
+/* Decimal Values - Green */
+.sourceCode .bn {
+    color: #b5cea8 !important;
+}
+
+/* Base N */
+.sourceCode .fl {
+    color: #b5cea8 !important;
+}
+
+/* Float */
+.sourceCode .ch {
+    color: #ce9178 !important;
+}
+
+/* Char */
+.sourceCode .st {
+    color: #ce9178 !important;
+}
+
+/* String - Orange */
+.sourceCode .co {
+    color: #6a9955 !important;
+}
+
+/* Comment - Green (dim) */
+.sourceCode .ot {
+    color: #dcdcaa !important;
+}
+
+/* Other */
+.sourceCode .fu {
+    color: #dcdcaa !important;
+}
+
+/* Function - Yellow */
+.sourceCode .bu {
+    color: #4fc1ff !important;
+}
+
+/* Built-in - Bright Blue */
+.sourceCode .op {
+    color: #d4d4d4 !important;
+}
+
+/* Operator */
+.sourceCode .pp {
+    color: #c586c0 !important;
+}
+
+/* Preprocessor */
+.sourceCode .im {
+    color: #4ec9b0 !important;
+}
+
+/* Import */
+.sourceCode .va {
+    color: #9cdcfe !important;
+}
+
+/* Variable - Light Blue */
+.sourceCode .at {
+    color: #9cdcfe !important;
+}
+
+/* Attribute */
+
+/* First line fix - ensure it's not darker */
+pre code span:first-child,
+.sourceCode span:first-child {
+    color: inherit !important;
+}

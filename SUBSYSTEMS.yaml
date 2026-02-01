@@ -7,15 +7,15 @@ subsystems:
   - name: PARTICLE
     description: "Collider engine + Standard Model theory (the 'Body')"
     root_dirs:
-      code: standard-model-of-code/src/core
-      context: standard-model-of-code/docs
+      code: particle/src/core
+      context: particle/docs
     entrypoints:
-      - standard-model-of-code/cli.py
-      - standard-model-of-code/src/core/full_analysis.py
+      - particle/cli.py
+      - particle/src/core/full_analysis.py
     canonical_docs:
-      - standard-model-of-code/docs/MODEL.md
-      - standard-model-of-code/docs/theory/THEORY_AXIOMS.md
-      - standard-model-of-code/CLAUDE.md
+      - particle/docs/MODEL.md
+      - particle/docs/theory/THEORY_AXIOMS.md
+      - particle/CLAUDE.md
     generated_outputs:
       - "*.collider/"
       - unified_analysis.json
@@ -29,15 +29,15 @@ subsystems:
   - name: WAVE
     description: "AI tools + context management (the 'Brain')"
     root_dirs:
-      code: context-management/tools/ai
-      context: context-management/docs
+      code: wave/tools/ai
+      context: wave/docs
     entrypoints:
-      - context-management/tools/ai/analyze.py
-      - context-management/tools/ai/aci/refinery.py
+      - wave/tools/ai/analyze.py
+      - wave/tools/ai/aci/refinery.py
     canonical_docs:
-      - context-management/docs/AI_USER_GUIDE.md
-      - context-management/docs/PROJECTOME.md
-      - context-management/docs/CONTEXTOME.md
+      - wave/docs/AI_USER_GUIDE.md
+      - wave/docs/PROJECTOME.md
+      - wave/docs/CONTEXTOME.md
     generated_outputs:
       - research/gemini/           # Consolidated 2026-02-01
       - research/perplexity/       # Consolidated 2026-02-01
@@ -45,7 +45,7 @@ subsystems:
     status: active
     maturity: production
     validators:
-      - python context-management/tools/ai/analyze.py --briefing
+      - python wave/tools/ai/analyze.py --briefing
 
   - name: OBSERVER
     description: "Governance + task registry + decision deck"
@@ -70,11 +70,11 @@ subsystems:
   - name: TEMPORAL_INTELLIGENCE
     description: "File popularity tracking + temporal analytics (S15)"
     root_dirs:
-      code: standard-model-of-code/scripts
+      code: particle/scripts
       context: .agent/intelligence
     entrypoints:
-      - standard-model-of-code/scripts/generate_repo_timestamps.py
-      - standard-model-of-code/scripts/file_popularity_tracker.py
+      - particle/scripts/generate_repo_timestamps.py
+      - particle/scripts/file_popularity_tracker.py
     canonical_docs:
       - .agent/intelligence/TOOLS_REGISTRY.yaml
     generated_outputs:
@@ -118,7 +118,7 @@ subsystems:
     status: active
     maturity: production
     validators: []
-    note: "Consolidated 2026-02-01 from standard-model-of-code/docs/research/"
+    note: "Consolidated 2026-02-01 from particle/docs/research/"
 
   - name: REPORTS
     description: "Unified analysis and audit reports"

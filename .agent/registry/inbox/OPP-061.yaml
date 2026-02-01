@@ -1,6 +1,6 @@
 # OPP-061: HSL Local-First Reliability
 # Priority: P0 (Critical Path)
-# Source: context-management/docs/operations/DECISION_BRIEF_LOCAL_FIRST.md
+# Source: wave/docs/operations/DECISION_BRIEF_LOCAL_FIRST.md
 
 id: OPP-061
 title: "Fix HSL Daemon Locally"

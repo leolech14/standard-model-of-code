@@ -88,7 +88,7 @@ We implement a 3-layer routing logic in a Python script (`pe`).
 
 ### 2. Implementation Details
 
-#### A. Configuration: `context-management/config/cli_routing.yaml`
+#### A. Configuration: `wave/config/cli_routing.yaml`
 We create a new mapping file. While `aci_config.yaml` maps intents to *context sets*, this maps intents to *tools*.
 
 ```yaml
@@ -119,21 +119,21 @@ routes:
       - "^explain"
       - "^what is"
       - "^where is"
-    command: "python context-management/tools/ai/analyze.py '{query}' --mode standard"
+    command: "python wave/tools/ai/analyze.py '{query}' --mode standard"
 
   - name: "socratic_audit"
     patterns:
       - "^verify"
       - "^audit"
       - "^check drift"
-    command: "python context-management/tools/ai/analyze.py --verify pipeline"
+    command: "python wave/tools/ai/analyze.py --verify pipeline"
 
   - name: "fix_request"
     patterns:
       - "^fix"
       - "^debug"
       - "^solve"
-    command: "python context-management/tools/ai/analyze.py '{query}' --set debug"
+    command: "python wave/tools/ai/analyze.py '{query}' --set debug"
 
   - name: "task_management"
     patterns:
@@ -154,7 +154,7 @@ import yaml
 import subprocess
 import shlex
 
-CONFIG_PATH = "context-management/config/cli_routing.yaml"
+CONFIG_PATH = "wave/config/cli_routing.yaml"
 
 def load_config():
     with open(CONFIG_PATH, 'r') as f:
@@ -165,21 +165,21 @@ def run_command(cmd, query_arg=None):
         # Safety: rudimentary injection prevention
         # In production, use subprocess list args strictly
         cmd = cmd.replace("{query}", query_arg)
-    
+
     print(f"🚀 Routing to: {cmd}")
     subprocess.call(cmd, shell=True)
 
 def layer_3_llm_router(query):
     # Fallback to ACI's classifier (Conceptual implementation)
-    # Uses context-management/tools/ai/aci/intent_parser.py
+    # Uses wave/tools/ai/aci/intent_parser.py
     print(f"🤔 Analyzing intent for: '{query}'...")
-    
+
     # Construct a routing prompt for Gemini Flash
     # This invokes analyze.py itself to decide the tool, then runs it
     # Ideally, integrate intent_parser.py directly to avoid startup overhead
-    
+
     # For now, default to general analysis
-    fallback_cmd = f"python context-management/tools/ai/analyze.py '{query}'"
+    fallback_cmd = f"python wave/tools/ai/analyze.py '{query}'"
     run_command(fallback_cmd)
 
 def main():
@@ -196,9 +196,9 @@ def main():
         # Pass through exactly as entered
         full_cmd = f"./{user_input} {remaining_args}" if os.path.exists(user_input) else f"{user_input} {remaining_args}"
         # Handle python scripts mapped as tools
-        if user_input == "analyze": 
-             full_cmd = f"python context-management/tools/ai/analyze.py {remaining_args}"
-        
+        if user_input == "analyze":
+             full_cmd = f"python wave/tools/ai/analyze.py {remaining_args}"
+
         subprocess.call(full_cmd, shell=True)
         return
 
@@ -250,7 +250,7 @@ We utilize `aci_config.yaml` *indirectly*.
 
 ### Implementation Checklist
 
-1.  [ ] Create `context-management/config/cli_routing.yaml`.
+1.  [ ] Create `wave/config/cli_routing.yaml`.
 2.  [ ] Create `pe` script at project root and `chmod +x pe`.
 3.  [ ] Verify `cli_routing.yaml` includes your most frequent commands.
 4.  [ ] Test `./pe collider` (Escape Hatch).

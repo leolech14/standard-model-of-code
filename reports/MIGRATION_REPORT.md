@@ -1,28 +1,28 @@
 # Reports Directory Consolidation - TASK-105
 
-**Executed:** 2026-01-31  
+**Executed:** 2026-01-31
 **Status:** COMPLETE
 
 ## Summary
 
 Unified 6 scattered report directories into 1 organized structure at project root.
 
-**Before:** 6 locations  
-**After:** 1 location (`/reports/`)  
-**Files migrated:** 81 files + 1 INDEX.md = 82 total  
+**Before:** 6 locations
+**After:** 1 location (`/reports/`)
+**Files migrated:** 81 files + 1 INDEX.md = 82 total
 **Total size:** 25MB
 
 ## Migration Map
 
 | Source | Destination | Files | Notes |
 |--------|-------------|-------|-------|
-| `context-management/reports/refinery/` | `reports/refinery/` | 10 | Includes symlinks |
-| `context-management/reports/*.md` | `reports/audits/` | 2 | Socratic + consolidation |
-| `context-management/docs/reports/` | `reports/archives/` | 16 | 24MB archive |
-| `standard-model-of-code/docs/reports/` | `reports/archives/` | 20 | Architecture reports |
-| `context-management/library/reports/` | `reports/audits/` | 3 | Validation reports |
+| `wave/reports/refinery/` | `reports/refinery/` | 10 | Includes symlinks |
+| `wave/reports/*.md` | `reports/audits/` | 2 | Socratic + consolidation |
+| `wave/docs/reports/` | `reports/archives/` | 16 | 24MB archive |
+| `particle/docs/reports/` | `reports/archives/` | 20 | Architecture reports |
+| `wave/library/reports/` | `reports/audits/` | 3 | Validation reports |
 | `governance/staging/reports/` | `reports/audits/` | 8 | Strategic audits |
-| `standard-model-of-code/docs/ui/score/reports/` | (removed) | 0 | Empty directory |
+| `particle/docs/ui/score/reports/` | (removed) | 0 | Empty directory |
 
 ## Final Structure
 
@@ -37,13 +37,13 @@ reports/
 ## Directories Removed
 
 All 6 original report directories successfully removed:
-- ✓ `context-management/reports/refinery/`
-- ✓ `context-management/reports/`
-- ✓ `context-management/docs/reports/`
-- ✓ `standard-model-of-code/docs/reports/`
-- ✓ `context-management/library/reports/`
+- ✓ `wave/reports/refinery/`
+- ✓ `wave/reports/`
+- ✓ `wave/docs/reports/`
+- ✓ `particle/docs/reports/`
+- ✓ `wave/library/reports/`
 - ✓ `governance/staging/reports/`
-- ✓ `standard-model-of-code/docs/ui/score/reports/` (was empty)
+- ✓ `particle/docs/ui/score/reports/` (was empty)
 
 ## Verification
 
@@ -63,8 +63,8 @@ $ find . -type d -name "reports"
 
 **Python code paths NOT updated** - Following tools still reference old locations:
 
-- `context-management/tools/refinery/docs_auditor.py`
-- `context-management/tools/refinery/report_generator.py`
+- `wave/tools/refinery/docs_auditor.py`
+- `wave/tools/refinery/report_generator.py`
 - Any other tooling that hardcodes report paths
 
 **Action required:** Update import paths in follow-up task.

@@ -22,7 +22,7 @@ if any(part in skip_dirs for part in file_path.parts):
     continue  # Only skips if directory name exactly matches
 ```
 
-**File:** `context-management/tools/ai/aci/refinery.py:551-558`
+**File:** `wave/tools/ai/aci/refinery.py:551-558`
 **Status:** ✅ APPLIED
 
 ---
@@ -41,15 +41,15 @@ boundaries:
 **Honest reporting:** Returns `None` when data is unreliable (contains lists truncated to 50)
 
 **Files:**
-- `context-management/tools/refinery/state_synthesizer.py` - Added functions
-- `context-management/intelligence/state/live.yaml` - Now shows metrics
+- `wave/tools/refinery/state_synthesizer.py` - Added functions
+- `wave/intelligence/state/live.yaml` - Now shows metrics
 
 **Status:** ✅ APPLIED
 
 ---
 
 ### 3. Query Interface Created ✅
-**Created:** `context-management/tools/refinery/query_chunks.py`
+**Created:** `wave/tools/refinery/query_chunks.py`
 
 **Features:**
 - Text search with relevance ranking
@@ -80,7 +80,7 @@ Found 3 matches for: 'Communication Fabric'
 
 ### STEP 1: Resolve Naming Collision (5 min)
 
-**File:** `context-management/docs/specs/CLOUD_REFINERY_SPEC.md`
+**File:** `wave/docs/specs/CLOUD_REFINERY_SPEC.md`
 
 **Change:**
 ```diff
@@ -110,7 +110,7 @@ Found 3 matches for: 'Communication Fabric'
 
 **Verification:**
 ```bash
-grep -c "R0\|R1\|R2\|R3\|R4\|R5" context-management/docs/specs/CLOUD_REFINERY_SPEC.md
+grep -c "R0\|R1\|R2\|R3\|R4\|R5" wave/docs/specs/CLOUD_REFINERY_SPEC.md
 # Should find multiple matches
 ```
 
@@ -124,7 +124,7 @@ grep -c "R0\|R1\|R2\|R3\|R4\|R5" context-management/docs/specs/CLOUD_REFINERY_SP
 
 ```python
 # Stage 7-9: Refinery (Knowledge Consolidation)
-REFINERY_SCRIPT = REPO_ROOT / "context-management" / "tools" / "ai" / "aci" / "refinery.py"
+REFINERY_SCRIPT = REPO_ROOT / "wave" / "tools" / "ai" / "aci" / "refinery.py"
 CHUNKS_DIR = INTELLIGENCE_DIR / "chunks"
 
 # Ensure chunks directory exists
@@ -139,14 +139,14 @@ stages.append(PipelineStage(
 
 stages.append(PipelineStage(
     "REFINERY_CORE",
-    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "standard-model-of-code" / "src" / "core"),
+    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "particle" / "src" / "core"),
      "--export", str(CHUNKS_DIR / "core_chunks.json")],
     "Atomize Collider core (pipeline, analysis, graph)"
 ))
 
 stages.append(PipelineStage(
     "REFINERY_ACI",
-    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "context-management" / "tools" / "ai" / "aci"),
+    ["python3", str(REFINERY_SCRIPT), str(REPO_ROOT / "wave" / "tools" / "ai" / "aci"),
      "--export", str(CHUNKS_DIR / "aci_chunks.json")],
     "Atomize ACI tools (refinery, research, tier router)"
 ))
@@ -260,19 +260,19 @@ cmd_refinery() {
 
 ### 1. Test Refinery Directly
 ```bash
-python3 context-management/tools/ai/aci/refinery.py .agent/tools/ --export /tmp/verify_skip.json
+python3 wave/tools/ai/aci/refinery.py .agent/tools/ --export /tmp/verify_skip.json
 # Should process ~42 files, skip __pycache__ if exists
 ```
 
 ### 2. Test State Synthesis
 ```bash
-python3 context-management/tools/refinery/state_synthesizer.py
+python3 wave/tools/refinery/state_synthesizer.py
 # Should show overlap_factor: None (honest about truncated data)
 ```
 
 ### 3. Test Query
 ```bash
-python3 context-management/tools/refinery/query_chunks.py "pipeline"
+python3 wave/tools/refinery/query_chunks.py "pipeline"
 # Should return matches from chunks
 ```
 
@@ -344,13 +344,13 @@ If anything breaks:
 
 3. **Refinery changes:**
    ```bash
-   git checkout context-management/tools/ai/aci/refinery.py
-   git checkout context-management/tools/refinery/state_synthesizer.py
+   git checkout wave/tools/ai/aci/refinery.py
+   git checkout wave/tools/refinery/state_synthesizer.py
    ```
 
 4. **Remove new file:**
    ```bash
-   rm context-management/tools/refinery/query_chunks.py
+   rm wave/tools/refinery/query_chunks.py
    ```
 
 ---

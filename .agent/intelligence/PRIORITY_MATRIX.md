@@ -81,7 +81,7 @@ TOTAL          81/100   95     +9    Gap to Gold
 
 **Status:** ✅ INVALIDATED (2026-01-25)
 
-**Original Target:** `context-management/tools/`
+**Original Target:** `wave/tools/`
 ```
 repo_archaeologist.py  ~600 lines  ❌ FILE NOT FOUND
 present_architect.py   ~600 lines  ❌ FILE NOT FOUND
@@ -96,13 +96,13 @@ future_visionary.py    ~600 lines  ❌ FILE NOT FOUND
 
 ### P2: Split analyze.py [STRATEGIC]
 
-**Target:** `context-management/tools/ai/analyze.py` (3,143 lines)
+**Target:** `wave/tools/ai/analyze.py` (3,143 lines)
 
 **Current State:** Monolith handling 4 tiers + 6 modes + interactive
 
 **Proposed Structure:**
 ```
-context-management/tools/ai/
+wave/tools/ai/
 ├── analyze.py           # CLI entry (200 lines)
 ├── tiers/
 │   ├── instant.py       # INSTANT tier

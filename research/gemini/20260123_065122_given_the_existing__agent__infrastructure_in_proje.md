@@ -66,7 +66,7 @@ Agents would use the MRS as a primary discovery mechanism during their boot prot
 
 1.  **Boot:** Agent starts, reads `KERNEL.md`.
 2.  **Discover Registries:** The agent is directed by `manifest.yaml` to load the MRS file (`.agent/registry/meta_registry.yaml`).
-3.  **Iterate and Ingest:** The agent parses the MRS and finds the paths to all active task registries across the entire project (e.g., `../registry/active`, `../../context-management/tools/mcp/mcp_factory/TASK_CONFIDENCE_REGISTRY.md`).
+3.  **Iterate and Ingest:** The agent parses the MRS and finds the paths to all active task registries across the entire project (e.g., `../registry/active`, `../../wave/tools/mcp/mcp_factory/TASK_CONFIDENCE_REGISTRY.md`).
 4.  **Aggregate:** The agent iterates through these paths, loading all tasks with `status: SCOPED` or `status: PLANNED` into a single in-memory list.
 5.  **Reason Globally:** The agent can now answer questions like: "What are the top 3 highest-confidence, un-claimed tasks *across the entire project*?" It can then claim the most important task, regardless of which subsystem it belongs to. This is impossible today without significant manual effort.
 

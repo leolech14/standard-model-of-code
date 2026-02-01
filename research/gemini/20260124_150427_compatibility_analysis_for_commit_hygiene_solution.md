@@ -50,7 +50,7 @@ Okay, given your requirements and the codebase context, the **most compatible an
 Here's how it relates to your known patterns:
 
 *   **`forensic` Mode**: The system prompt now has MORE things to check, e.g.,
-    > `[context-management/tools/archive/archive.py:L45-L48]` "timeout=30" --ALSO--> [ALL commit messages are valid Conventional Commits].
+    > `[wave/tools/archive/archive.py:L45-L48]` "timeout=30" --ALSO--> [ALL commit messages are valid Conventional Commits].
 
 *   **`architect` Mode**: Same, you've injected style awareness alongside architecture awareness.
 **Implementation Steps**

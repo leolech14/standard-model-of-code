@@ -56,7 +56,7 @@
 **Actions:**
 1. Run link checker: `python tools/verify_links.py --active-only --list`
 2. Fix top 5 (highest priority):
-   - `context-management/docs/deep/PURPOSE_EMERGENCE.md` (wrong ../)
+   - `wave/docs/deep/PURPOSE_EMERGENCE.md` (wrong ../)
    - `.agent/registry/INDEX.md` (wrong path to OPEN_CONCERNS)
    - Gemini research doc (wrong relative path)
 3. Standardize on root-relative links (`/path/from/root`)
@@ -415,3 +415,80 @@ See DEFINITION_OF_DONE.md - no research-only sessions.
 ---
 
 **The finish line is clear. 20 hours to v1. No more "almost done."**
+
+---
+
+## POST-V1: Dynamic Observers (v2.0 Roadmap)
+
+**Goal:** Complete SMC theory implementation - Axiom E2 (Four Flows) and G1 (Three Observers)
+
+**Prerequisite:** v1.0.0 shipped and stable
+
+### What's Missing from Theory
+
+Current Collider implements **1 of 4 flow substances** and **2 of 3 observers**:
+
+```
+CURRENT STATE:
+  Axiom E2: Static Flow ✅ | Runtime Flow ❌ | Change Flow ❌ | Human Flow ❌
+  Axiom G1: Structural ✅ | Operational ❌ | Generative ⚠️ (partial)
+
+TARGET STATE (v2.0):
+  All flows implemented, all observers active
+  Toggle system for gradual activation
+```
+
+### Implementation Plan
+
+**Full specification:** `particle/docs/specs/DYNAMIC_OBSERVERS_IMPLEMENTATION_PLAN.md`
+**Task registry:** `.agent/deck/DYNAMIC_OBSERVERS_REGISTRY.yaml`
+
+| Phase | Modules | Tasks | Estimated |
+|-------|---------|-------|-----------|
+| Phase 1 | Toggle infrastructure | 6 tasks | 24h |
+| Phase 2 | Coverage integration | 6 tasks | 28h |
+| Phase 3 | Profiler integration | 6 tasks | 28h |
+| Phase 4 | Git mining (Change Flow) | 7 tasks | 40h |
+| Phase 5 | Social analysis (Human Flow) | 7 tasks | 40h |
+| Phase 6 | Operational metrics (DORA) | 6 tasks | 32h |
+| Phase 7 | Multi-layer Neo4j graph | 7 tasks | 56h |
+| Phase 8 | Unified Observer API | 6 tasks | 36h |
+
+**Total:** 75 tasks, ~314 hours, 8-12 weeks
+
+### New Packages to Create
+
+```
+particle/src/
+├── dynamics/          # Runtime Flow (Operational Observer)
+├── evolution/         # Change Flow (Temporal Observer)
+├── social/            # Human Flow (Knowledge Observer)
+├── operational/       # DORA metrics, incident correlation
+└── observers/         # Unified observer framework
+```
+
+### Key Deliverables
+
+1. **RuntimeFlowIngestor** - Ingest OpenTelemetry/profiler data
+2. **TemporalObserver** - PyDriller-based git mining
+3. **SocialGraphAnalyzer** - Truck factor, knowledge islands
+4. **OperationalFeedbackLoop** - DORA metrics, incident correlation
+5. **MultiLayerGraph** - Unified Neo4j representation
+
+### Dependencies
+
+- PyDriller (git mining)
+- OpenTelemetry SDK
+- Coverage.py
+- Neo4j driver
+
+### Start Criteria
+
+- [ ] v1.0.0 released and stable
+- [ ] 5/5 P0 gates passing
+- [ ] CI/CD pipeline operational
+- [ ] Team trained on v1 architecture
+
+---
+
+**v2.0 transforms Collider from a "Code X-Ray" (Static) into a complete "MRI" (Dynamic & Functional).**

@@ -1,5 +1,5 @@
 {
-  "dataset_name": "standard-model-of-code",
+  "dataset_name": "particle",
   "summary": "This analysis explores a software codebase (Collider) through the lens of communication theory, focusing on information flow, sign systems, and control mechanisms. The codebase implements various stages of code analysis, suggesting complex communication patterns within the system and between the system and its users or other components.",
   "shannon": {
     "sources": [

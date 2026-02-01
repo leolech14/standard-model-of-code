@@ -1,7 +1,7 @@
 # ============================================================
 # TASK BATCH: Phase 10 - Adaptive Intelligence Layer (SURVEY)
 # ============================================================
-# Roadmap: standard-model-of-code/ROADMAP.md (Phase 10)
+# Roadmap: particle/ROADMAP.md (Phase 10)
 # ============================================================
 
 id: BATCH-010
@@ -120,6 +120,6 @@ related:
     - OPP-058  # File viz toggle bug (discovered this need)
     - OPP-059  # File viz restore bug
   research:
-    - "standard-model-of-code/docs/research/gemini/docs/20260123_085448_*.md"
+    - "particle/docs/research/gemini/docs/20260123_085448_*.md"
   documentation:
-    - "standard-model-of-code/ROADMAP.md#phase-10"
+    - "particle/ROADMAP.md#phase-10"

@@ -1,0 +1,106 @@
+{
+  "schema_version": "2.0.0",
+  "description": "The 33 canonical roles (WHY dimension) from Standard Model V2 theory",
+  "count": 33,
+  "roles": {
+    "Query": {
+      "purpose": "Retrieve data without modification"
+    },
+    "Finder": {
+      "purpose": "Search for data based on criteria"
+    },
+    "Loader": {
+      "purpose": "Load data from storage/source"
+    },
+    "Getter": {
+      "purpose": "Access property/attribute"
+    },
+    "Command": {
+      "purpose": "Execute an action that changes state"
+    },
+    "Creator": {
+      "purpose": "Create new entity/record"
+    },
+    "Mutator": {
+      "purpose": "Modify existing entity/state"
+    },
+    "Destroyer": {
+      "purpose": "Delete/remove entity"
+    },
+    "Factory": {
+      "purpose": "Create and configure new instances"
+    },
+    "Builder": {
+      "purpose": "Construct complex objects step by step"
+    },
+    "Repository": {
+      "purpose": "Abstract data persistence operations"
+    },
+    "Store": {
+      "purpose": "Manage application state"
+    },
+    "Cache": {
+      "purpose": "Temporarily store data for performance"
+    },
+    "Service": {
+      "purpose": "Coordinate business operations"
+    },
+    "Controller": {
+      "purpose": "Handle external requests"
+    },
+    "Manager": {
+      "purpose": "Manage resources or components"
+    },
+    "Orchestrator": {
+      "purpose": "Coordinate complex workflows"
+    },
+    "Validator": {
+      "purpose": "Verify data meets constraints"
+    },
+    "Guard": {
+      "purpose": "Protect access or enforce conditions"
+    },
+    "Asserter": {
+      "purpose": "Assert truth of conditions"
+    },
+    "Transformer": {
+      "purpose": "Convert data format"
+    },
+    "Mapper": {
+      "purpose": "Map between types"
+    },
+    "Serializer": {
+      "purpose": "Serialize properties to output format"
+    },
+    "Parser": {
+      "purpose": "Parse input format to data"
+    },
+    "Handler": {
+      "purpose": "React to events"
+    },
+    "Listener": {
+      "purpose": "Passive event observation"
+    },
+    "Subscriber": {
+      "purpose": "Subscribe to event stream"
+    },
+    "Emitter": {
+      "purpose": "Emit/publish events"
+    },
+    "Utility": {
+      "purpose": "General constant/stateless helper"
+    },
+    "Formatter": {
+      "purpose": "Format output for display"
+    },
+    "Helper": {
+      "purpose": "Specific assistive logic"
+    },
+    "Internal": {
+      "purpose": "Private implementation detail"
+    },
+    "Lifecycle": {
+      "purpose": "Manage object/process lifecycle"
+    }
+  }
+}

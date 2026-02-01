@@ -1,0 +1,1149 @@
+# Dynamic Observers Task Registry
+# Implements SMC Axiom E2 (Four Flows) and G1 (Three Observers)
+# Generated: 2026-01-31
+# Status: ACTIVE - Architecture validated
+#
+# Related Documents:
+#   - Implementation Plan: particle/docs/specs/DYNAMIC_OBSERVERS_IMPLEMENTATION_PLAN.md
+#   - Theory (Axiom E2): particle/docs/theory/L0_AXIOMS.md
+#   - Theory (Axiom G1): particle/docs/theory/L0_AXIOMS.md
+#   - Research Prompt: particle/docs/research/prompts/SONAR_PRO_IMPLEMENTATION_GAPS.md
+#   - Onboarding: particle/docs/foundations/ieee-vocabulary/SMC_ONBOARDING.md
+#   - Roadmap: governance/ROADMAP.md (POST-V1 section)
+#   - Tools Registry: .agent/intelligence/TOOLS_REGISTRY.yaml (T100-T105)
+#   - DATABASE SCHEMA: particle/src/core/database/SCHEMA_V2_PLANNING.md ← NEW
+#
+# Existing Infrastructure (reduces effort):
+#   - tracked_files + DeltaResult → Change Flow foundation
+#   - metadata_json → Quick prototyping fallback
+#   - Feature Registry pattern → Toggle infrastructure
+#   - Transaction wrapping → Multi-table atomic inserts
+#   - Migration infrastructure → Versioned schema additions
+#
+# Validation:
+#   - Gemini 3 Pro analysis: 2026-01-31
+#   - Architecture: Confirmed toggle-based gradual rollout
+#   - Phase ordering: Optimized for incremental value
+
+metadata:
+  project: SMC Dynamic Observers + Control Room
+  total_phases: 9
+  total_tasks: 82
+  estimated_total_hours: 468
+  target_completion: 2026-Q2/Q3
+  prerequisite: v1.0.0 stable
+  validation:
+    cerebras_score: 85%
+    gemini_adjusted: 78%
+    consensus: 82%
+  added_2026_02_01:
+    - DYN-076 to DYN-080 (validation gaps)
+    - DYN-081 (File Explorer security extraction)
+    - DYN-082 (Control Room - EXPANSION)
+
+# =============================================================================
+# PHASE 1: FOUNDATION (Week 1-2)
+# Goal: Build toggle infrastructure and base observer framework
+# =============================================================================
+
+tasks:
+  # --- Phase 1: Foundation ---
+  - id: DYN-001
+    title: "Create observers_config.yaml schema"
+    description: "Define the master toggle configuration schema for all observers and flows. Include validation rules and default values."
+    phase: 1
+    priority: P0
+    estimated_hours: 4
+    dependencies: []
+    files_to_create:
+      - config/observers_config.yaml
+      - schema/observers_config.schema.json
+    files_to_modify: []
+    test_criteria: "Schema validates against JSON Schema, default config loads without errors"
+
+  - id: DYN-002
+    title: "Implement config loader with toggle support"
+    description: "Create ObserverConfig dataclass that loads YAML config, supports environment variable overrides, and provides is_enabled() checks for each component."
+    phase: 1
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-001]
+    files_to_create:
+      - src/observers/__init__.py
+      - src/observers/config.py
+    files_to_modify: []
+    test_criteria: "Config loads, toggles work, env overrides work (COLLIDER_ENABLE_RUNTIME=true)"
+
+  - id: DYN-003
+    title: "Create BaseObserver abstract class"
+    description: "Define abstract observer interface with methods: observe(), get_metrics(), enrich_graph(), is_enabled(). Include lifecycle hooks: setup(), teardown()."
+    phase: 1
+    priority: P0
+    estimated_hours: 4
+    dependencies: [DYN-002]
+    files_to_create:
+      - src/observers/base_observer.py
+    files_to_modify: []
+    test_criteria: "Abstract class defined, cannot instantiate directly, concrete subclasses work"
+
+  - id: DYN-004
+    title: "Wrap existing static analysis as StructuralObserver"
+    description: "Create StructuralObserver that wraps the existing full_analysis.py functionality. Must produce identical output to current pipeline."
+    phase: 1
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-003]
+    files_to_create:
+      - src/observers/structural_observer.py
+    files_to_modify: []
+    test_criteria: "StructuralObserver output == full_analysis.py output (diff test)"
+
+  - id: DYN-005
+    title: "Create multi-layer graph data structure"
+    description: "Implement MultiLayerGraph class that can hold multiple graph layers (structural, runtime, temporal, social, operational) with unified node IDs."
+    phase: 1
+    priority: P1
+    estimated_hours: 8
+    dependencies: [DYN-003]
+    files_to_create:
+      - src/observers/multi_layer_graph.py
+    files_to_modify: []
+    test_criteria: "Can add/query nodes across layers, layer isolation works, unified ID resolution"
+
+  - id: DYN-006
+    title: "Add --observers flag to CLI"
+    description: "Extend cli.py to support --observers flag (comma-separated list), --enable-observer, --disable-observer, --list-observers commands."
+    phase: 1
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-002, DYN-004]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --observers structural works, --list-observers shows available"
+
+  - id: DYN-007
+    title: "Add observer tests for Phase 1"
+    description: "Create test suite for observer infrastructure: config loading, toggle behavior, StructuralObserver equivalence."
+    phase: 1
+    priority: P1
+    estimated_hours: 6
+    dependencies: [DYN-004, DYN-005, DYN-006]
+    files_to_create:
+      - tests/test_observer_config.py
+      - tests/test_structural_observer.py
+      - tests/test_multi_layer_graph.py
+    files_to_modify: []
+    test_criteria: "pytest tests/test_observer*.py passes with >90% coverage"
+
+  # --- Phase 2: Coverage Integration ---
+  - id: DYN-010
+    title: "Create dynamics package structure"
+    description: "Initialize src/dynamics/ package with __init__.py, config.py (DynamicsConfig), and package docstrings."
+    phase: 2
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-002]
+    files_to_create:
+      - src/dynamics/__init__.py
+      - src/dynamics/config.py
+    files_to_modify: []
+    test_criteria: "Package imports cleanly, config loads"
+
+  - id: DYN-011
+    title: "Implement Coverage.py parser"
+    description: "Create CoverageMapper that reads .coverage SQLite files and Coverage.py JSON reports. Extract line coverage data per file."
+    phase: 2
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-010]
+    files_to_create:
+      - src/dynamics/coverage_mapper.py
+    files_to_modify: []
+    test_criteria: "Parses .coverage file, extracts hit/miss lines, handles missing files gracefully"
+
+  - id: DYN-012
+    title: "Implement identity resolver (line to node_id)"
+    description: "Create IdentityResolver that maps (file, line_number) to AST node IDs using the RangeIndex from Tree-sitter. Handle edge cases: multi-line nodes, nested scopes."
+    phase: 2
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-011]
+    files_to_create:
+      - src/dynamics/identity_resolver.py
+    files_to_modify: []
+    test_criteria: "resolve(file, line) returns correct node_id, handles ambiguous lines"
+
+  - id: DYN-013
+    title: "Create dynamics schema"
+    description: "Define JSON schema for runtime/coverage data: execution_count, coverage_percent, latency metrics, timestamps."
+    phase: 2
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-011]
+    files_to_create:
+      - schema/dynamics_schema.json
+    files_to_modify: []
+    test_criteria: "Schema validates sample data, integrates with particle.schema.json"
+
+  - id: DYN-014
+    title: "Add coverage data to unified_analysis.json"
+    description: "Extend UnifiedNode to include optional runtime.coverage_percent field. Update brain_download.py to output coverage data when available."
+    phase: 2
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-012, DYN-013]
+    files_to_create: []
+    files_to_modify:
+      - src/core/brain_download.py
+      - src/core/unified_analysis.py
+      - schema/particle.schema.json
+    test_criteria: "unified_analysis.json contains runtime.coverage_percent for nodes"
+
+  - id: DYN-015
+    title: "Visualize coverage in HTML output"
+    description: "Update viz components to color-code nodes by coverage: green (>80%), yellow (50-80%), red (<50%), gray (no data)."
+    phase: 2
+    priority: P2
+    estimated_hours: 6
+    dependencies: [DYN-014]
+    files_to_create: []
+    files_to_modify:
+      - src/core/viz/assets/app.js
+      - src/core/viz/assets/style.css
+    test_criteria: "HTML visualization shows coverage colors, legend visible"
+
+  - id: DYN-016
+    title: "Add --coverage-file CLI flag"
+    description: "Add --coverage-file flag to cli.py that enables coverage integration when provided."
+    phase: 2
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-014]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --coverage-file .coverage produces coverage data"
+
+  - id: DYN-017
+    title: "Add Phase 2 tests"
+    description: "Test coverage mapper, identity resolver, and integration with analysis pipeline."
+    phase: 2
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-014, DYN-015, DYN-016]
+    files_to_create:
+      - tests/test_coverage_mapper.py
+      - tests/test_identity_resolver.py
+      - tests/fixtures/sample_coverage/
+    files_to_modify: []
+    test_criteria: "All coverage tests pass with sample .coverage files"
+
+  # --- Phase 3: Profiler Integration ---
+  - id: DYN-020
+    title: "Implement cProfile output parser"
+    description: "Create ProfilerMapper that reads cProfile .prof files (pstats format). Extract function-level: ncalls, tottime, cumtime."
+    phase: 3
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-012]
+    files_to_create:
+      - src/dynamics/profiler_mapper.py
+    files_to_modify: []
+    test_criteria: "Parses .prof files, extracts timing data, maps to function names"
+
+  - id: DYN-021
+    title: "Implement py-spy output parser"
+    description: "Add py-spy speedscope JSON parser to ProfilerMapper. Handle flamegraph format and sampling data."
+    phase: 3
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-020]
+    files_to_create: []
+    files_to_modify:
+      - src/dynamics/profiler_mapper.py
+    test_criteria: "Parses py-spy JSON, converts to same internal format as cProfile"
+
+  - id: DYN-022
+    title: "Add execution_count to node schema"
+    description: "Extend particle.schema.json with runtime.execution_count field. Update UnifiedNode dataclass."
+    phase: 3
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-020]
+    files_to_create: []
+    files_to_modify:
+      - schema/particle.schema.json
+      - src/core/unified_analysis.py
+    test_criteria: "Schema validates, nodes can have execution_count"
+
+  - id: DYN-023
+    title: "Add latency metrics to node schema"
+    description: "Extend particle.schema.json with runtime.avg_latency_ms, runtime.p99_latency_ms fields."
+    phase: 3
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-022]
+    files_to_create: []
+    files_to_modify:
+      - schema/particle.schema.json
+      - src/core/unified_analysis.py
+    test_criteria: "Schema validates, nodes can have latency metrics"
+
+  - id: DYN-024
+    title: "Create RuntimeIngestor stage"
+    description: "Create RuntimeIngestor class that combines coverage + profiler data and enriches the graph. Register as optional pipeline stage."
+    phase: 3
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-020, DYN-022, DYN-023]
+    files_to_create:
+      - src/dynamics/runtime_ingestor.py
+    files_to_modify: []
+    test_criteria: "Ingestor produces enriched nodes with runtime data"
+
+  - id: DYN-025
+    title: "Add hotspot detection"
+    description: "Implement hotspot detection: nodes with execution_count > 95th percentile AND avg_latency > 90th percentile flagged as is_hotspot=true."
+    phase: 3
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-024]
+    files_to_create: []
+    files_to_modify:
+      - src/dynamics/runtime_ingestor.py
+    test_criteria: "Hotspots correctly identified in test data"
+
+  - id: DYN-026
+    title: "Add --profile-file CLI flag"
+    description: "Add --profile-file flag to cli.py, supports both .prof and py-spy JSON."
+    phase: 3
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-024]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --profile-file profile.prof works"
+
+  - id: DYN-027
+    title: "Add Phase 3 tests"
+    description: "Test profiler parsing, hotspot detection, and integration."
+    phase: 3
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-024, DYN-025, DYN-026]
+    files_to_create:
+      - tests/test_profiler_mapper.py
+      - tests/test_runtime_ingestor.py
+      - tests/fixtures/sample_profiles/
+    files_to_modify: []
+    test_criteria: "All profiler tests pass"
+
+  # --- Phase 4: Git Mining ---
+  - id: DYN-030
+    title: "Create evolution package structure"
+    description: "Initialize src/evolution/ package with __init__.py, config.py (EvolutionConfig)."
+    phase: 4
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-002]
+    files_to_create:
+      - src/evolution/__init__.py
+      - src/evolution/config.py
+    files_to_modify: []
+    test_criteria: "Package imports cleanly"
+
+  - id: DYN-031
+    title: "Implement GitMiner with PyDriller"
+    description: "Create GitMiner class that traverses git history using PyDriller. Extract: commits, authors, modified files, timestamps. Support --history-depth limit."
+    phase: 4
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-030]
+    files_to_create:
+      - src/evolution/git_miner.py
+    files_to_modify: []
+    test_criteria: "Mines history, respects depth limit, handles non-git repos gracefully"
+
+  - id: DYN-032
+    title: "Implement temporal coupling matrix"
+    description: "Create TemporalCoupling class that computes co-change matrix: P(file_b changes | file_a changed). Use Jaccard similarity with configurable threshold."
+    phase: 4
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-031]
+    files_to_create:
+      - src/evolution/temporal_coupling.py
+    files_to_modify: []
+    test_criteria: "Matrix computed, high-coupling pairs identified, threshold filtering works"
+
+  - id: DYN-033
+    title: "Implement churn analyzer"
+    description: "Create ChurnAnalyzer that computes per-file: total_churn, avg_churn_per_window, volatility classification (high/medium/low)."
+    phase: 4
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-031]
+    files_to_create:
+      - src/evolution/churn_analyzer.py
+    files_to_modify: []
+    test_criteria: "Churn metrics computed, volatility classified correctly"
+
+  - id: DYN-034
+    title: "Create evolution schema"
+    description: "Define JSON schema for temporal data: churn_rate, stability, last_modified, modification_count, temporal_coupling array."
+    phase: 4
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-032, DYN-033]
+    files_to_create:
+      - schema/evolution_schema.json
+    files_to_modify: []
+    test_criteria: "Schema validates sample temporal data"
+
+  - id: DYN-035
+    title: "Add evolution fields to node schema"
+    description: "Extend particle.schema.json with evolution.churn_rate, evolution.stability, evolution.temporal_coupling fields."
+    phase: 4
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-034]
+    files_to_create: []
+    files_to_modify:
+      - schema/particle.schema.json
+      - src/core/unified_analysis.py
+    test_criteria: "Schema validates, nodes can have evolution data"
+
+  - id: DYN-036
+    title: "Implement impact predictor"
+    description: "Create ImpactPredictor that combines temporal coupling + static deps to predict blast radius for changes."
+    phase: 4
+    priority: P2
+    estimated_hours: 6
+    dependencies: [DYN-032]
+    files_to_create:
+      - src/evolution/impact_predictor.py
+    files_to_modify: []
+    test_criteria: "predict_impact(file) returns ranked list of likely-affected files"
+
+  - id: DYN-037
+    title: "Add --git-history CLI flags"
+    description: "Add --git-history flag to enable mining, --history-depth N to limit commits analyzed."
+    phase: 4
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-035]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --git-history --history-depth 100 works"
+
+  - id: DYN-038
+    title: "Add Phase 4 tests"
+    description: "Test git mining, temporal coupling, churn analysis. Create test repo fixture."
+    phase: 4
+    priority: P1
+    estimated_hours: 6
+    dependencies: [DYN-035, DYN-036, DYN-037]
+    files_to_create:
+      - tests/test_git_miner.py
+      - tests/test_temporal_coupling.py
+      - tests/test_churn_analyzer.py
+      - tests/fixtures/sample_git_repo/
+    files_to_modify: []
+    test_criteria: "All evolution tests pass"
+
+  # --- Phase 5: Knowledge Analysis ---
+  - id: DYN-040
+    title: "Create social package structure"
+    description: "Initialize src/social/ package with __init__.py, config.py (SocialConfig)."
+    phase: 5
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-002]
+    files_to_create:
+      - src/social/__init__.py
+      - src/social/config.py
+    files_to_modify: []
+    test_criteria: "Package imports cleanly"
+
+  - id: DYN-041
+    title: "Implement authorship analyzer"
+    description: "Create AuthorshipAnalyzer using git blame. Map files to primary_author (most commits) and author_count."
+    phase: 5
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-040, DYN-031]
+    files_to_create:
+      - src/social/authorship_analyzer.py
+    files_to_modify: []
+    test_criteria: "Files mapped to authors correctly, handles renames"
+
+  - id: DYN-042
+    title: "Implement truck factor algorithm"
+    description: "Create TruckFactor class implementing greedy algorithm: find minimum developers to cover all critical files."
+    phase: 5
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-041]
+    files_to_create:
+      - src/social/truck_factor.py
+    files_to_modify: []
+    test_criteria: "Truck factor computed, essential developers identified"
+
+  - id: DYN-043
+    title: "Implement knowledge island detection"
+    description: "Create KnowledgeIslands class that flags files with: single author, zero reviews, no documentation, no recent modifications by others."
+    phase: 5
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-041]
+    files_to_create:
+      - src/social/knowledge_islands.py
+    files_to_modify: []
+    test_criteria: "Knowledge islands detected, risk levels assigned"
+
+  - id: DYN-044
+    title: "Create social schema"
+    description: "Define JSON schema for social data: primary_author, author_count, knowledge_risk, review_count."
+    phase: 5
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-041, DYN-042, DYN-043]
+    files_to_create:
+      - schema/social_schema.json
+    files_to_modify: []
+    test_criteria: "Schema validates sample social data"
+
+  - id: DYN-045
+    title: "Add social fields to node schema"
+    description: "Extend particle.schema.json with social.primary_author, social.author_count, social.knowledge_risk fields."
+    phase: 5
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-044]
+    files_to_create: []
+    files_to_modify:
+      - schema/particle.schema.json
+      - src/core/unified_analysis.py
+    test_criteria: "Schema validates, nodes can have social data"
+
+  - id: DYN-046
+    title: "Implement Conway validator"
+    description: "Create ConwayValidator that compares code ownership boundaries to architectural boundaries. Flag misalignments."
+    phase: 5
+    priority: P2
+    estimated_hours: 6
+    dependencies: [DYN-041]
+    files_to_create:
+      - src/social/conway_validator.py
+    files_to_modify: []
+    test_criteria: "Cross-boundary dependencies detected, congruence score computed"
+
+  - id: DYN-047
+    title: "Add --social-analysis CLI flag"
+    description: "Add --social-analysis flag to enable knowledge/authorship analysis."
+    phase: 5
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-045]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --social-analysis works"
+
+  - id: DYN-048
+    title: "Add Phase 5 tests"
+    description: "Test authorship, truck factor, knowledge islands."
+    phase: 5
+    priority: P1
+    estimated_hours: 6
+    dependencies: [DYN-045, DYN-046, DYN-047]
+    files_to_create:
+      - tests/test_authorship_analyzer.py
+      - tests/test_truck_factor.py
+      - tests/test_knowledge_islands.py
+    files_to_modify: []
+    test_criteria: "All social tests pass"
+
+  # --- Phase 6: Operational Integration ---
+  - id: DYN-050
+    title: "Create operational package structure"
+    description: "Initialize src/operational/ package with __init__.py, config.py (OperationalConfig)."
+    phase: 6
+    priority: P0
+    estimated_hours: 2
+    dependencies: [DYN-002]
+    files_to_create:
+      - src/operational/__init__.py
+      - src/operational/config.py
+    files_to_modify: []
+    test_criteria: "Package imports cleanly"
+
+  - id: DYN-051
+    title: "Implement DORA metric calculator"
+    description: "Create DORAMetrics class that computes: deployment_frequency, lead_time, change_failure_rate, mttr from CI/CD logs."
+    phase: 6
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-050, DYN-031]
+    files_to_create:
+      - src/operational/dora_metrics.py
+    files_to_modify: []
+    test_criteria: "DORA metrics computed from sample CI log, handles missing data"
+
+  - id: DYN-052
+    title: "Implement incident correlator"
+    description: "Create IncidentCorrelator that maps incidents to code changes using timestamp proximity and file paths."
+    phase: 6
+    priority: P1
+    estimated_hours: 8
+    dependencies: [DYN-051]
+    files_to_create:
+      - src/operational/incident_correlator.py
+    files_to_modify: []
+    test_criteria: "Incidents mapped to commits, culprit changes scored"
+
+  - id: DYN-053
+    title: "Create operational schema"
+    description: "Define JSON schema for operational data: failure_rate, incident_count, deployment_count, mttr_hours."
+    phase: 6
+    priority: P1
+    estimated_hours: 3
+    dependencies: [DYN-051, DYN-052]
+    files_to_create:
+      - schema/operational_schema.json
+    files_to_modify: []
+    test_criteria: "Schema validates sample operational data"
+
+  - id: DYN-054
+    title: "Add operational fields to node schema"
+    description: "Extend particle.schema.json with operational.failure_rate, operational.incident_count fields."
+    phase: 6
+    priority: P2
+    estimated_hours: 3
+    dependencies: [DYN-053]
+    files_to_create: []
+    files_to_modify:
+      - schema/particle.schema.json
+      - src/core/unified_analysis.py
+    test_criteria: "Schema validates, nodes can have operational data"
+
+  - id: DYN-055
+    title: "Implement failure predictor ML model"
+    description: "Create FailurePredictor using sklearn RandomForest: predict defect probability from code metrics."
+    phase: 6
+    priority: P2
+    estimated_hours: 10
+    dependencies: [DYN-052]
+    files_to_create:
+      - src/operational/failure_predictor.py
+    files_to_modify: []
+    test_criteria: "Model trains, predicts risk scores, feature importance computed"
+
+  - id: DYN-056
+    title: "Add --dora-metrics CLI flags"
+    description: "Add --dora-metrics flag and --ci-log <file> to enable DORA computation."
+    phase: 6
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-054]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --dora-metrics --ci-log history.json works"
+
+  - id: DYN-057
+    title: "Add Phase 6 tests"
+    description: "Test DORA metrics, incident correlation, failure prediction."
+    phase: 6
+    priority: P1
+    estimated_hours: 6
+    dependencies: [DYN-054, DYN-055, DYN-056]
+    files_to_create:
+      - tests/test_dora_metrics.py
+      - tests/test_incident_correlator.py
+      - tests/fixtures/sample_ci_logs/
+    files_to_modify: []
+    test_criteria: "All operational tests pass"
+
+  # --- Phase 7: Multi-Layer Graph ---
+  - id: DYN-060
+    title: "Design multi-layer Neo4j schema"
+    description: "Document Neo4j schema: node labels per layer, relationship types, property names. Include Cypher examples."
+    phase: 7
+    priority: P0
+    estimated_hours: 4
+    dependencies: [DYN-005]
+    files_to_create:
+      - docs/specs/MULTI_LAYER_NEO4J_SCHEMA.md
+    files_to_modify: []
+    test_criteria: "Schema documented with examples"
+
+  - id: DYN-061
+    title: "Implement graph layer abstraction"
+    description: "Extend MultiLayerGraph with methods: add_layer(), merge_layers(), query_cross_layer()."
+    phase: 7
+    priority: P0
+    estimated_hours: 8
+    dependencies: [DYN-060]
+    files_to_create: []
+    files_to_modify:
+      - src/observers/multi_layer_graph.py
+    test_criteria: "Layer operations work, cross-layer queries return correct results"
+
+  - id: DYN-062
+    title: "Export structural layer to Neo4j"
+    description: "Create Neo4jExporter that exports the structural graph layer with proper labels/properties."
+    phase: 7
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-060]
+    files_to_create:
+      - src/observers/neo4j_export.py
+    files_to_modify: []
+    test_criteria: "Structural layer exports to Neo4j, Cypher queries work"
+
+  - id: DYN-063
+    title: "Export runtime layer to Neo4j"
+    description: "Extend Neo4jExporter to add runtime layer: :Runtime label, execution_count, latency properties."
+    phase: 7
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-062, DYN-024]
+    files_to_create: []
+    files_to_modify:
+      - src/observers/neo4j_export.py
+    test_criteria: "Runtime layer exports, can query hotspots in Neo4j"
+
+  - id: DYN-064
+    title: "Export temporal layer to Neo4j"
+    description: "Extend Neo4jExporter to add temporal layer: :Temporal label, CO_CHANGES relationships."
+    phase: 7
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-062, DYN-035]
+    files_to_create: []
+    files_to_modify:
+      - src/observers/neo4j_export.py
+    test_criteria: "Temporal layer exports, can query coupling in Neo4j"
+
+  - id: DYN-065
+    title: "Export social layer to Neo4j"
+    description: "Extend Neo4jExporter to add social layer: :Social label, AUTHORED_BY relationships to :Developer nodes."
+    phase: 7
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-062, DYN-045]
+    files_to_create: []
+    files_to_modify:
+      - src/observers/neo4j_export.py
+    test_criteria: "Social layer exports, can query ownership in Neo4j"
+
+  - id: DYN-066
+    title: "Implement cross-layer queries"
+    description: "Implement common cross-layer queries: 'high-complexity + single-author', 'hotspot + high-churn', 'incident-prone + low-coverage'."
+    phase: 7
+    priority: P2
+    estimated_hours: 6
+    dependencies: [DYN-063, DYN-064, DYN-065]
+    files_to_create:
+      - src/observers/cross_layer_queries.py
+    files_to_modify: []
+    test_criteria: "Cross-layer queries return correct results"
+
+  - id: DYN-067
+    title: "Add --export-neo4j CLI flags"
+    description: "Add --export-neo4j flag and --all-layers flag to enable Neo4j export."
+    phase: 7
+    priority: P1
+    estimated_hours: 2
+    dependencies: [DYN-066]
+    files_to_create: []
+    files_to_modify:
+      - cli.py
+    test_criteria: "./collider full . --export-neo4j --all-layers works"
+
+  - id: DYN-068
+    title: "Add Phase 7 tests"
+    description: "Test Neo4j export, multi-layer queries. Requires Neo4j test container."
+    phase: 7
+    priority: P1
+    estimated_hours: 8
+    dependencies: [DYN-066, DYN-067]
+    files_to_create:
+      - tests/test_neo4j_export.py
+      - tests/test_cross_layer_queries.py
+    files_to_modify:
+      - tests/conftest.py  # Add Neo4j fixture
+    test_criteria: "All Neo4j tests pass (with testcontainers)"
+
+  # --- Phase 8: Unified Observer API ---
+  - id: DYN-070
+    title: "Implement OperationalObserver"
+    description: "Create OperationalObserver that wraps dynamics + operational packages. Implements BaseObserver interface."
+    phase: 8
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-024, DYN-051]
+    files_to_create:
+      - src/observers/operational_observer.py
+    files_to_modify: []
+    test_criteria: "OperationalObserver produces enriched graph with runtime + operational data"
+
+  - id: DYN-071
+    title: "Implement GenerativeObserver"
+    description: "Create GenerativeObserver that wraps .agent/ integration. Track AI sessions, commits, and evolution."
+    phase: 8
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-003]
+    files_to_create:
+      - src/observers/generative_observer.py
+    files_to_modify: []
+    test_criteria: "GenerativeObserver produces session tracking data"
+
+  - id: DYN-072
+    title: "Create unified observe() API"
+    description: "Create top-level observe(path, observers=[]) function that orchestrates all enabled observers and returns MultiLayerGraph."
+    phase: 8
+    priority: P0
+    estimated_hours: 6
+    dependencies: [DYN-070, DYN-071]
+    files_to_create: []
+    files_to_modify:
+      - src/observers/__init__.py
+    test_criteria: "observe() returns complete multi-layer graph with all dimensions"
+
+  - id: DYN-073
+    title: "Update full_analysis.py to use observers"
+    description: "Refactor full_analysis.py to optionally use observer framework instead of hardcoded stages."
+    phase: 8
+    priority: P1
+    estimated_hours: 8
+    dependencies: [DYN-072]
+    files_to_create: []
+    files_to_modify:
+      - src/core/full_analysis.py
+    test_criteria: "full_analysis.py with --use-observers produces equivalent output"
+
+  - id: DYN-074
+    title: "Add observer status to health report"
+    description: "Extend brain_download.py to include observer_status section: which observers ran, their metrics."
+    phase: 8
+    priority: P1
+    estimated_hours: 4
+    dependencies: [DYN-072]
+    files_to_create: []
+    files_to_modify:
+      - src/core/brain_download.py
+    test_criteria: "unified_analysis.json includes observer_status section"
+
+  - id: DYN-075
+    title: "Document observer API"
+    description: "Write comprehensive API documentation for observer framework: interfaces, usage examples, extension guide."
+    phase: 8
+    priority: P2
+    estimated_hours: 6
+    dependencies: [DYN-072, DYN-073, DYN-074]
+    files_to_create:
+      - docs/specs/OBSERVER_API.md
+      - docs/guides/EXTENDING_OBSERVERS.md
+    files_to_modify: []
+    test_criteria: "Documentation complete with examples"
+
+  - id: DYN-076
+    title: "Add Phase 8 tests"
+    description: "Test unified observer API, integration with full_analysis.py."
+    phase: 8
+    priority: P1
+    estimated_hours: 6
+    dependencies: [DYN-073, DYN-074]
+    files_to_create:
+      - tests/test_unified_observer_api.py
+      - tests/test_full_analysis_observers.py
+    files_to_modify: []
+    test_criteria: "All observer API tests pass"
+
+  - id: DYN-077
+    title: "Final integration test"
+    description: "Create end-to-end integration test: run all observers on test repo, verify all dimensions populated."
+    phase: 8
+    priority: P0
+    estimated_hours: 4
+    dependencies: [DYN-076]
+    files_to_create:
+      - tests/integration/test_full_pipeline_all_observers.py
+    files_to_modify: []
+    test_criteria: "./collider full . --enable-all-observers produces complete multi-dimensional analysis"
+
+# =============================================================================
+# SUMMARY
+# =============================================================================
+
+summary:
+  phases:
+    1:
+      name: "Foundation"
+      tasks: 7
+      hours: 40
+      deliverable: "Toggle infrastructure, StructuralObserver, MultiLayerGraph"
+    2:
+      name: "Coverage Integration"
+      tasks: 8
+      hours: 27
+      deliverable: "Coverage.py mapping to nodes, visualization"
+    3:
+      name: "Profiler Integration"
+      tasks: 8
+      hours: 32
+      deliverable: "cProfile/py-spy parsing, hotspot detection"
+    4:
+      name: "Git Mining"
+      tasks: 9
+      hours: 41
+      deliverable: "Temporal coupling, churn analysis, impact prediction"
+    5:
+      name: "Knowledge Analysis"
+      tasks: 9
+      hours: 40
+      deliverable: "Truck factor, knowledge islands, Conway validation"
+    6:
+      name: "Operational Integration"
+      tasks: 8
+      hours: 42
+      deliverable: "DORA metrics, incident correlation, failure prediction"
+    7:
+      name: "Multi-Layer Graph"
+      tasks: 9
+      hours: 46
+      deliverable: "Neo4j export, cross-layer queries"
+    8:
+      name: "Unified Observer API"
+      tasks: 8
+      hours: 46
+      deliverable: "Complete observer framework, documentation"
+
+  totals:
+    tasks: 75
+    hours: 314
+    weeks: "~8-12 (assuming 30-40 hrs/week)"
+
+  dependencies_critical_path:
+    - DYN-001 → DYN-002 → DYN-003 → DYN-004  # Foundation
+    - DYN-003 → DYN-010 → DYN-011 → DYN-012 → DYN-024  # Runtime
+    - DYN-003 → DYN-030 → DYN-031 → DYN-032  # Temporal
+    - DYN-003 → DYN-040 → DYN-041 → DYN-042  # Social
+    - DYN-024 → DYN-070 → DYN-072 → DYN-077  # Integration
+
+# =============================================================================
+# PHASE 9: VALIDATION GAPS + CONTROL ROOM (Added 2026-02-01)
+# Source: Cerebras + Gemini cross-validation
+# =============================================================================
+
+  # --- Validation Gap Tasks (from Gemini review) ---
+  - id: DYN-076
+    title: "Add security/access control for operational data"
+    description: |
+      Operational observer ingests sensitive runtime data (performance metrics,
+      incident logs, deployment info). Implement:
+      - Access control for runtime_metrics table
+      - Data anonymization for sensitive fields
+      - Role-based query restrictions
+      - Audit logging for data access
+    phase: 9
+    priority: P0
+    estimated_hours: 12
+    dependencies: [DYN-050]
+    source: "Gemini validation - identified as HIGH risk"
+    files_to_create:
+      - src/operational/access_control.py
+      - src/operational/anonymizer.py
+    test_criteria: "Unauthorized queries blocked, audit log populated"
+
+  - id: DYN-077
+    title: "Add cross-layer graph query tests"
+    description: |
+      The multi-layer graph success depends on cross-layer queries working.
+      Create comprehensive test suite:
+      - Test structural → runtime joins
+      - Test temporal → social correlations
+      - Test all 5 layers in single query
+      - Performance benchmarks for cross-layer queries
+    phase: 9
+    priority: P0
+    estimated_hours: 16
+    dependencies: [DYN-066]
+    source: "Gemini validation - critical for architecture"
+    files_to_create:
+      - tests/test_multi_layer_queries.py
+      - tests/fixtures/multi_layer_fixtures.py
+    test_criteria: "100% cross-layer query coverage, <100ms for 5-layer join"
+
+  - id: DYN-078
+    title: "Add data validation in ingestion pipelines"
+    description: |
+      Prevent data corruption by validating all ingested data:
+      - Schema validation for OpenTelemetry data
+      - Git data integrity checks
+      - Authorship email normalization
+      - Incident data sanitization
+      - Error handling with graceful degradation
+    phase: 9
+    priority: P1
+    estimated_hours: 10
+    dependencies: [DYN-024, DYN-031, DYN-041]
+    source: "Gemini validation - data integrity"
+    files_to_create:
+      - src/core/validation/ingestion_validator.py
+    test_criteria: "Malformed data rejected with clear errors, valid data passes"
+
+  - id: DYN-079
+    title: "Design incremental graph update strategy"
+    description: |
+      Cannot recompute full graph per commit. Design incremental updates:
+      - Detect changed nodes from DeltaResult
+      - Update only affected subgraph
+      - Maintain temporal versioning
+      - Support rollback to previous state
+      Leverage existing tracked_files + BLAKE3 hashing.
+    phase: 9
+    priority: P1
+    estimated_hours: 20
+    dependencies: [DYN-066]
+    source: "Gemini validation - performance"
+    files_to_create:
+      - src/observers/incremental_updater.py
+      - docs/specs/INCREMENTAL_UPDATE_STRATEGY.md
+    test_criteria: "10x faster than full recompute for <5% change"
+
+  - id: DYN-080
+    title: "Add API cost controls for Generative Observer"
+    description: |
+      Generative observer uses AI models which cost money. Implement:
+      - Selective triggering (not every commit)
+      - Cost budget per day/week
+      - Fallback to cached results
+      - Batch processing for efficiency
+      - Usage metrics and alerts
+    phase: 9
+    priority: P2
+    estimated_hours: 8
+    dependencies: [DYN-071]
+    source: "Gemini validation - operational cost"
+    files_to_create:
+      - src/observers/cost_controller.py
+      - config/generative_budget.yaml
+    test_criteria: "Daily budget enforced, fallback works when exceeded"
+
+  # --- Control Room Tasks (User request) ---
+  - id: DYN-081
+    title: "Extract File Explorer access control patterns"
+    description: |
+      The existing tools/file_explorer.py has production-ready security:
+      - Touch ID / Face ID via macOS LocalAuthentication (Swift)
+      - Secure token-based session auth
+      - Path validation (sandbox enforcement)
+      - request_biometric_auth() function
+
+      Extract these patterns into reusable security module:
+      - src/security/biometric_auth.py (Touch ID wrapper)
+      - src/security/session_tokens.py (token management)
+      - src/security/path_validator.py (sandbox enforcement)
+
+      Source: tools/file_explorer.py (lines 108-168)
+    phase: 9
+    priority: P1
+    estimated_hours: 8
+    dependencies: []
+    source: "User request - reuse existing code"
+    files_to_extract_from:
+      - tools/file_explorer.py
+    files_to_create:
+      - src/security/__init__.py
+      - src/security/biometric_auth.py
+      - src/security/session_tokens.py
+      - src/security/path_validator.py
+    test_criteria: "Touch ID auth works, tokens expire correctly, path escapes blocked"
+
+  - id: DYN-082
+    title: "Create Control Room by merging File Explorer + Refinery Dashboard"
+    description: |
+      Merge two existing UIs into unified Control Room:
+
+      FROM tools/file_explorer.py:
+      - Higgsfield-style preview grid
+      - Touch ID authentication
+      - Full file preview (code, images, video, PDF)
+      - Undo/redo with trash
+      - Syntax highlighting (50+ languages)
+
+      FROM refinery-dashboard.zip:
+      - Pipeline Inspector (Collider, Refinery, ACI stages)
+      - Artifact Inspector
+      - Infrastructure Inspector (buffer, cluster, network)
+      - FileSystem Explorer component
+      - Runs Timeline
+      - Storage Analysis
+      - Pipeline Metrics
+      - Command Palette (Cmd+K)
+      - Keyboard shortcuts
+      - Toast notifications
+
+      CONTROL ROOM VISION:
+      - Single React app with Python backend
+      - Real-time observer status (all 3 observers)
+      - Multi-layer graph visualization
+      - Secure access via Touch ID
+      - Live pipeline monitoring
+      - Artifact exploration with previews
+      - Cross-layer query interface
+
+      This is an EXPANSION task - will spawn sub-tasks.
+    phase: 9
+    priority: P0
+    estimated_hours: 80
+    dependencies: [DYN-076, DYN-077, DYN-081]
+    source: "User request - unified Control Room"
+    files_to_merge:
+      - tools/file_explorer.py
+      - refinery-dashboard.zip
+    files_to_create:
+      - observer/README.md
+      - observer/package.json
+      - observer/src/App.tsx
+      - observer/src/components/ObserverStatus.tsx
+      - observer/src/components/MultiLayerGraph.tsx
+      - observer/src/components/SecureGate.tsx
+      - observer/backend/server.py
+      - observer/backend/auth.py
+    expansion_tasks:
+      - "DYN-082a: Setup React + Vite project structure"
+      - "DYN-082b: Port FileSystem.tsx from refinery-dashboard"
+      - "DYN-082c: Port PipelineInspector.tsx from refinery-dashboard"
+      - "DYN-082d: Create ObserverStatus.tsx (3 observers)"
+      - "DYN-082e: Create MultiLayerGraph.tsx (5 layers)"
+      - "DYN-082f: Create SecureGate.tsx (Touch ID wrapper)"
+      - "DYN-082g: Create Python backend with FastAPI"
+      - "DYN-082h: Integrate biometric auth from DYN-081"
+      - "DYN-082i: Add Command Palette with observer commands"
+      - "DYN-082j: Add real-time WebSocket updates"
+    test_criteria: "Touch ID gates access, all observers visible, pipelines inspectable"
+
+# =============================================================================
+# PHASE 9 SUMMARY
+# =============================================================================
+  9:
+    name: "Validation Gaps + Control Room"
+    tasks: 7
+    hours: 154
+    deliverable: "Security hardening, cross-layer tests, unified Control Room UI"
+    source: "Cerebras + Gemini cross-validation + User request"
+
+# Updated totals
+  totals_updated:
+    tasks: 82
+    hours: 468
+    weeks: "~12-16 (assuming 30-40 hrs/week)"
+    phases: 9

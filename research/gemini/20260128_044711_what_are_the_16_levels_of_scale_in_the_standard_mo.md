@@ -37,7 +37,7 @@ The 16 levels of scale in the Standard Model of Code, from L-3 to L12, are:
 | L-2   | BYTE         |
 | L-3   | BIT/QUBIT    |
 
-*(Source: `standard-model-of-code/docs/MODEL.md` and `standard-model-of-code/docs/theory/L1_DEFINITIONS.md`)*
+*(Source: `particle/docs/MODEL.md` and `particle/docs/theory/L1_DEFINITIONS.md`)*
 
 ---
 

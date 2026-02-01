@@ -62,10 +62,10 @@ repos:
       # The Semantic Firewall: Enforce Antimatter Laws before commit
       - id: socratic-check
         name: Socratic Layer Verification
-        entry: .tools_venv/bin/python context-management/tools/ai/analyze.py --verify pipeline
+        entry: .tools_venv/bin/python wave/tools/ai/analyze.py --verify pipeline
         language: system
         pass_filenames: false
-      
+
       # The Hygiene Check: Enforce Semantic Commit Messages (L11 Domains)
       - id: commitlint
         name: Commitlint

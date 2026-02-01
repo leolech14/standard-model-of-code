@@ -16,7 +16,7 @@ VALIDATE AGENT APPROACH: Agent completed emergency triage (archived 695MB .repos
 
 ## Response
 
-You are right to correct the agent. Skipping the **Refinery** and jumping straight to **Execution** is a violation of the **Socratic Research Loop** defined in `context-management/docs/WORKFLOW_FACTORY.md`. It creates "Heisenbug Code" (Action without Intent) and violates the `AGENT_KERNEL.md` directive to "Never stop without path forward."
+You are right to correct the agent. Skipping the **Refinery** and jumping straight to **Execution** is a violation of the **Socratic Research Loop** defined in `wave/docs/WORKFLOW_FACTORY.md`. It creates "Heisenbug Code" (Action without Intent) and violates the `AGENT_KERNEL.md` directive to "Never stop without path forward."
 
 Here is the correct **Recentering Protocol**, the **Opportunities** to register, and the **Priority Matrix**.
 
@@ -54,13 +54,13 @@ The agent must adhere to the **OPP → REFINERY → TASK** pipeline. Raw confide
 Based on your emergency triage and the current state of the repo (`DECISION_BRIEF_LOCAL_FIRST.md` and `AGENTKNOWLEDGEDUMP.md`), these are the Opportunities that must be registered:
 
 #### OPP-001: HSL Local-First Reliability (The Critical Path)
-*   **Source:** `context-management/docs/operations/DECISION_BRIEF_LOCAL_FIRST.md`
+*   **Source:** `wave/docs/operations/DECISION_BRIEF_LOCAL_FIRST.md`
 *   **Context:** HSL daemon fails with exit code 1. Cloud deployment is blocked until local fix.
 *   **Goal:** Achieve "Local Reliability" (Phase 1).
 *   **Refinery Needs:** Determine exact logging strategy for the daemon failure.
 
 #### OPP-002: BARE Phase 2 Implementation (CrossValidator)
-*   **Source:** `context-management/docs/agent_school/AGENTKNOWLEDGEDUMP.md`
+*   **Source:** `wave/docs/agent_school/AGENTKNOWLEDGEDUMP.md`
 *   **Context:** Phase 1 (TruthValidator) is done. Phase 2 detects code-docs drift.
 *   **Goal:** Implement `CrossValidator` class.
 *   **Refinery Needs:** Validate `semantic_models.yaml` schema against `CrossValidator` logic.

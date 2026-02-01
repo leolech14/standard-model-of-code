@@ -1,0 +1,317 @@
+[
+  {
+    "id": "L1",
+    "name": "CQRS – Commands",
+    "statement": "A CommandHandler never returns domain data.",
+    "scope": [
+      "CommandHandler"
+    ],
+    "violation_example": "CommandHandler::FindById",
+    "pattern": {
+      "particle_types": [
+        "CommandHandler"
+      ],
+      "forbidden_return_types": [
+        "Entity",
+        "ValueObject",
+        "AggregateRoot",
+        "ReadModel"
+      ],
+      "check": "return_type_not_in(particle, forbidden_return_types)"
+    },
+    "detector": "core.antimatter_evaluator.check_command_returns",
+    "severity": "warning",
+    "threshold": 0.55
+  },
+  {
+    "id": "L2",
+    "name": "CQRS – Queries",
+    "statement": "A QueryHandler never mutates domain state.",
+    "scope": [
+      "QueryHandler"
+    ],
+    "violation_example": "QueryHandler::Save",
+    "pattern": {
+      "particle_types": [
+        "QueryHandler"
+      ],
+      "forbidden_edges": [
+        "WRITES",
+        "MUTATES"
+      ],
+      "forbidden_calls": [
+        "save",
+        "delete",
+        "update",
+        "create",
+        "add",
+        "remove"
+      ],
+      "check": "no_edges(particle, forbidden_edges) AND no_calls(particle, forbidden_calls)"
+    },
+    "detector": "core.antimatter_evaluator.check_query_mutation",
+    "severity": "error",
+    "threshold": 0.55
+  },
+  {
+    "id": "L3",
+    "name": "Referential Purity",
+    "statement": "A PureFunction has no side effects (I/O, mutation, time).",
+    "scope": [
+      "PureFunction"
+    ],
+    "violation_example": "PureFunction::ExternalIO",
+    "pattern": {
+      "particle_types": [
+        "PureFunction"
+      ],
+      "forbidden_edges": [
+        "WRITES",
+        "READS_EXTERNAL"
+      ],
+      "forbidden_imports": [
+        "os",
+        "sys",
+        "io",
+        "requests",
+        "httpx",
+        "aiohttp",
+        "urllib",
+        "socket"
+      ],
+      "forbidden_calls": [
+        "print",
+        "open",
+        "write",
+        "datetime.now",
+        "time.time",
+        "random"
+      ],
+      "check": "no_edges(particle, forbidden_edges) AND no_imports(particle, forbidden_imports) AND no_calls(particle, forbidden_calls)"
+    },
+    "detector": "core.antimatter_evaluator.check_purity_violation",
+    "severity": "error",
+    "threshold": 0.55
+  },
+  {
+    "id": "L4",
+    "name": "Entity Identity",
+    "statement": "An Entity always carries a persistent identifier.",
+    "scope": [
+      "Entity"
+    ],
+    "violation_example": "Entity::Stateless",
+    "pattern": {
+      "particle_types": [
+        "Entity"
+      ],
+      "required_fields": [
+        "id",
+        "uuid",
+        "_id",
+        "entity_id",
+        "identifier"
+      ],
+      "check": "has_any_field(particle, required_fields)"
+    },
+    "detector": "core.antimatter_evaluator.check_entity_identity",
+    "severity": "error",
+    "threshold": 0.60
+  },
+  {
+    "id": "L5",
+    "name": "Value Object Immutability",
+    "statement": "A ValueObject never has identity; equality is by value.",
+    "scope": [
+      "ValueObject"
+    ],
+    "violation_example": "ValueObject::HasIdentity",
+    "pattern": {
+      "particle_types": [
+        "ValueObject"
+      ],
+      "forbidden_methods": [
+        "set_",
+        "update_",
+        "mutate_",
+        "__setattr__"
+      ],
+      "forbidden_fields": [
+        "id",
+        "_id"
+      ],
+      "check": "no_methods(particle, forbidden_methods) AND no_fields(particle, forbidden_fields)"
+    },
+    "detector": "core.antimatter_evaluator.check_value_object_mutability",
+    "severity": "warning",
+    "threshold": 0.55
+  },
+  {
+    "id": "L6",
+    "name": "Repository Impurity",
+    "statement": "A RepositoryImpl is never pure (it performs I/O).",
+    "scope": [
+      "RepositoryImpl",
+      "Repository"
+    ],
+    "violation_example": "RepositoryImpl::PureFunction",
+    "pattern": {
+      "particle_types": [
+        "RepositoryImpl"
+      ],
+      "required_edges": [
+        "READS",
+        "WRITES"
+      ],
+      "check": "has_any_edge(particle, required_edges)",
+      "inversion": true,
+      "inversion_message": "Repository without I/O edges is likely miscategorized"
+    },
+    "detector": "core.antimatter_evaluator.check_repository_purity",
+    "severity": "warning",
+    "threshold": 0.50
+  },
+  {
+    "id": "L7",
+    "name": "Fire-and-Forget Events",
+    "statement": "An EventHandler never returns a value.",
+    "scope": [
+      "EventHandler"
+    ],
+    "violation_example": "EventHandler::ReturnsValue",
+    "pattern": {
+      "particle_types": [
+        "EventHandler"
+      ],
+      "expected_return": [
+        "None",
+        "void",
+        "null"
+      ],
+      "check": "return_type_in(particle, expected_return) OR no_return(particle)"
+    },
+    "detector": "core.antimatter_evaluator.check_event_handler_return",
+    "severity": "warning",
+    "threshold": 0.55
+  },
+  {
+    "id": "L8",
+    "name": "External APIs",
+    "statement": "An APIHandler always crosses an external boundary.",
+    "scope": [
+      "APIHandler",
+      "Controller",
+      "Endpoint"
+    ],
+    "violation_example": "APIHandler::InternalOnly",
+    "pattern": {
+      "particle_types": [
+        "APIHandler",
+        "Controller",
+        "Endpoint"
+      ],
+      "required_dimension": {
+        "Boundary": "External"
+      },
+      "required_decorators": [
+        "@app.",
+        "@router.",
+        "@api.",
+        "@get",
+        "@post",
+        "@put",
+        "@delete"
+      ],
+      "check": "dimension_equals(particle, 'Boundary', 'External') OR has_any_decorator(particle, required_decorators)"
+    },
+    "detector": "core.antimatter_evaluator.check_api_boundary",
+    "severity": "info",
+    "threshold": 0.50
+  },
+  {
+    "id": "L9",
+    "name": "Stateless Services",
+    "statement": "An Application Service does not keep state between calls.",
+    "scope": [
+      "ApplicationService",
+      "DomainService"
+    ],
+    "violation_example": "Service::GlobalState",
+    "pattern": {
+      "particle_types": [
+        "ApplicationService",
+        "DomainService"
+      ],
+      "forbidden_patterns": [
+        "self._cache",
+        "self._state",
+        "self._data",
+        "cls._"
+      ],
+      "forbidden_dimension": {
+        "State": "Stateful"
+      },
+      "check": "dimension_not_equals(particle, 'State', 'Stateful') AND no_patterns(particle, forbidden_patterns)"
+    },
+    "detector": "core.antimatter_evaluator.check_service_state",
+    "severity": "warning",
+    "threshold": 0.55
+  },
+  {
+    "id": "L10",
+    "name": "Test Isolation",
+    "statement": "A TestFunction never touches production data.",
+    "scope": [
+      "TestFunction",
+      "Test"
+    ],
+    "violation_example": "TestFunction::ModifiesProductionData",
+    "pattern": {
+      "particle_types": [
+        "Test"
+      ],
+      "forbidden_imports": [
+        "production_db",
+        "prod_config"
+      ],
+      "required_path_patterns": [
+        "test_",
+        "_test.py",
+        "tests/"
+      ],
+      "forbidden_edges_to": [
+        "ProductionDatabase",
+        "ProductionConfig"
+      ],
+      "check": "file_matches(particle, required_path_patterns) AND no_imports(particle, forbidden_imports)"
+    },
+    "detector": "core.antimatter_evaluator.check_test_isolation",
+    "severity": "error",
+    "threshold": 0.60
+  },
+  {
+    "id": "L11",
+    "name": "Validator Rejection",
+    "statement": "A Validator never accepts invalid input/state.",
+    "scope": [
+      "Validator"
+    ],
+    "violation_example": "Validator::AcceptsInvalid",
+    "pattern": {
+      "particle_types": [
+        "Validator"
+      ],
+      "required_patterns": [
+        "raise",
+        "return False",
+        "ValidationError",
+        "ValueError",
+        "assert"
+      ],
+      "check": "has_any_pattern(particle, required_patterns)"
+    },
+    "detector": "core.antimatter_evaluator.check_validator_rejection",
+    "severity": "warning",
+    "threshold": 0.55
+  }
+]

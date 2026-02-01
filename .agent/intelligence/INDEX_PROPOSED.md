@@ -2,8 +2,8 @@
 
 This is a **human + agent navigation hub**.
 
-> Generated draft: 2026-01-27  
-> Source snapshot: `full_contextome.zip`  
+> Generated draft: 2026-01-27
+> Source snapshot: `full_contextome.zip`
 
 ---
 
@@ -18,22 +18,22 @@ This is a **human + agent navigation hub**.
 
 ## The three hemispheres
 
-### BODY — Collider / Standard Model of Code (`standard-model-of-code/`)
+### BODY — Collider / Standard Model of Code (`particle/`)
 
-- Home: [`standard-model-of-code/README.md`](../standard-model-of-code/README.md)
-- Docs hub: [`standard-model-of-code/docs/README.md`](../standard-model-of-code/docs/README.md)
-- Theory: [`standard-model-of-code/docs/MODEL.md`](../standard-model-of-code/docs/MODEL.md)
-- Practice: [`standard-model-of-code/docs/COLLIDER.md`](../standard-model-of-code/docs/COLLIDER.md)
-- Specs: [`standard-model-of-code/docs/specs/README.md`](../standard-model-of-code/docs/specs/README.md)
-- Reports: [`standard-model-of-code/docs/reports/README.md`](../standard-model-of-code/docs/reports/README.md)
+- Home: [`particle/README.md`](../particle/README.md)
+- Docs hub: [`particle/docs/README.md`](../particle/docs/README.md)
+- Theory: [`particle/docs/MODEL.md`](../particle/docs/MODEL.md)
+- Practice: [`particle/docs/COLLIDER.md`](../particle/docs/COLLIDER.md)
+- Specs: [`particle/docs/specs/README.md`](../particle/docs/specs/README.md)
+- Reports: [`particle/docs/reports/README.md`](../particle/docs/reports/README.md)
 
-### BRAIN — Context management (`context-management/`)
+### BRAIN — Context management (`wave/`)
 
-- Docs hub: [`context-management/docs/README.md`](../context-management/docs/README.md)
-- Unified theory narrative: [`context-management/docs/theory/THEORY.md`](../context-management/docs/theory/THEORY.md)
-- Deep docs: [`context-management/docs/deep/`](../context-management/docs/deep/)
-- Tools: [`context-management/tools/`](../context-management/tools/)
-- MCP Factory: [`context-management/tools/mcp/mcp_factory/INDEX.md`](../context-management/tools/mcp/mcp_factory/INDEX.md)
+- Docs hub: [`wave/docs/README.md`](../wave/docs/README.md)
+- Unified theory narrative: [`wave/docs/theory/THEORY.md`](../wave/docs/theory/THEORY.md)
+- Deep docs: [`wave/docs/deep/`](../wave/docs/deep/)
+- Tools: [`wave/tools/`](../wave/tools/)
+- MCP Factory: [`wave/tools/mcp/mcp_factory/INDEX.md`](../wave/tools/mcp/mcp_factory/INDEX.md)
 
 ### OBSERVER — Governance (`.agent/`)
 
@@ -66,10 +66,10 @@ These are generated indexes (not canon), useful for exploration:
 
 ## Note on artifacts
 
-This pack contains large generated outputs (JSON).  
+This pack contains large generated outputs (JSON).
 For “v1 Core”, treat these as **separate**:
 
-- `standard-model-of-code/artifacts/**`
+- `particle/artifacts/**`
 - `.collider-full/**`, `collider_output_small/**`, `architecture_report/**`
-- `context-management/intelligence/**`
+- `wave/intelligence/**`
 - `archive/**`

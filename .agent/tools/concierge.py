@@ -197,8 +197,8 @@ def render_json(git, meters, task, inbox_count, inbox_preview):
         },
         "commands": {
             "analyze": "./collider full <path> --output <dir>",
-            "test": "cd standard-model-of-code && pytest tests/ -q",
-            "ai": "doppler run -- python context-management/tools/ai/analyze.py"
+            "test": "cd particle && pytest tests/ -q",
+            "ai": "doppler run -- python wave/tools/ai/analyze.py"
         }
     }
     print(json.dumps(output, indent=2))
@@ -246,7 +246,7 @@ def main():
 {CYAN}Step 5:{RESET} Done
   - Provide summary of what changed and why
 
-{DIM}For deep docs: context-management/docs/deep/{RESET}
+{DIM}For deep docs: wave/docs/deep/{RESET}
 """)
         return
 

@@ -1,0 +1,200 @@
+# =============================================================================
+# DOCLING KUBERNETES DEPLOYMENT
+# =============================================================================
+# Production-ready Kubernetes manifests for Docling Serve
+# Deploy with: kubectl apply -f docling_kubernetes.yaml
+# =============================================================================
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: docling
+  labels:
+    app: docling-serve
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docling-config
+  namespace: docling
+data:
+  DOCLING_SERVE_ENABLE_UI: "true"
+  DOCLING_SERVE_HOST: "0.0.0.0"
+  DOCLING_SERVE_PORT: "5001"
+  OMP_NUM_THREADS: "4"
+  DOCLING_MAX_PAGE_LIMIT: "500"
+  DOCLING_TIMEOUT_SECONDS: "300"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docling-serve
+  namespace: docling
+  labels:
+    app: docling-serve
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docling-serve
+  template:
+    metadata:
+      labels:
+        app: docling-serve
+    spec:
+      containers:
+      - name: docling-serve
+        image: quay.io/docling-project/docling-serve:latest
+        ports:
+        - containerPort: 5001
+          name: http
+        envFrom:
+        - configMapRef:
+            name: docling-config
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4"
+          limits:
+            memory: "16Gi"
+            cpu: "8"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: cache
+          mountPath: /tmp/docling_cache
+      volumes:
+      - name: cache
+        emptyDir:
+          sizeLimit: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docling-serve
+  namespace: docling
+spec:
+  selector:
+    app: docling-serve
+  ports:
+  - port: 80
+    targetPort: 5001
+    name: http
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docling-ingress
+  namespace: docling
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  rules:
+  - host: docling.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: docling-serve
+            port:
+              number: 80
+
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: docling-hpa
+  namespace: docling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: docling-serve
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+# GPU-enabled deployment (NVIDIA)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docling-serve-gpu
+  namespace: docling
+  labels:
+    app: docling-serve-gpu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docling-serve-gpu
+  template:
+    metadata:
+      labels:
+        app: docling-serve-gpu
+    spec:
+      containers:
+      - name: docling-serve
+        image: quay.io/docling-project/docling-serve-cu126:latest
+        ports:
+        - containerPort: 5001
+        envFrom:
+        - configMapRef:
+            name: docling-config
+        resources:
+          requests:
+            memory: "16Gi"
+            cpu: "4"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "32Gi"
+            cpu: "8"
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: cache
+          mountPath: /tmp/docling_cache
+      volumes:
+      - name: cache
+        emptyDir:
+          sizeLimit: 20Gi
+      tolerations:
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      nodeSelector:
+        accelerator: nvidia-gpu

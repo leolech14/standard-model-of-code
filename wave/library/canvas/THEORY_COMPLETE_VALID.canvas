@@ -1,0 +1,185 @@
+{
+	"nodes":[
+		{"id":"theory_title","type":"text","text":"# Standard Model of Software Architecture\n\n**A Complete Ontological Framework for Code Analysis**\n\n- 11 Fundamental Laws\n- 12 Quarks/Continents\n- 96 Hadrons\n- 384 Sub-hadrons (342 possible + 42 impossible)\n\n*The Spectrometer v10 can detect architectural antimatter*","x":-500,"y":-1800,"width":600,"height":300,"color":"6"},
+
+		{"id":"laws_title","type":"text","text":"## 11 Laws of Physics\n\nFundamental constraints","x":-500,"y":-1400,"width":400,"height":80,"color":"6"},
+		{"id":"law1","type":"text","text":"1. Free 3D","x":-450,"y":-1250,"width":150,"height":60,"color":"1"},
+		{"id":"law2","type":"text","text":"2. Disk 2D","x":-280,"y":-1250,"width":150,"height":60,"color":"1"},
+		{"id":"law3","type":"text","text":"3. Plane 2.5D","x":-110,"y":-1250,"width":150,"height":60,"color":"1"},
+		{"id":"law4","type":"text","text":"4. Sphere 2.5D","x":60,"y":-1250,"width":150,"height":60,"color":"1"},
+		{"id":"law5","type":"text","text":"5. Billiard","x":230,"y":-1250,"width":150,"height":60,"color":"1"},
+		{"id":"law6","type":"text","text":"6. EM Field A","x":400,"y":-1250,"width":150,"height":60,"color":"2"},
+		{"id":"law7","type":"text","text":"7. EM Field B","x":570,"y":-1250,"width":150,"height":60,"color":"2"},
+		{"id":"law8","type":"text","text":"8. EM Field C","x":740,"y":-1250,"width":150,"height":60,"color":"2"},
+		{"id":"law9","type":"text","text":"9. Cosmic","x":910,"y":-1250,"width":150,"height":60,"color":"3"},
+		{"id":"law10","type":"text","text":"10. Ocean","x":1080,"y":-1250,"width":150,"height":60,"color":"3"},
+		{"id":"law11","type":"text","text":"11. Subatomic","x":1250,"y":-1250,"width":150,"height":60,"color":"3"},
+
+		{"id":"quarks_title","type":"text","text":"## 12 Quarks/Continents\n\nBuilding blocks + 4 Forces","x":-500,"y":-1100,"width":400,"height":80,"color":"6"},
+		{"id":"quarks_note","type":"text","text":"| Force | Intensity | Software Dimension |\n|-------|-----------|-------------------|\n| Strong | 10³⁸ | Responsibility |\n| EM | 10³⁶ | Purity |\n| Weak | 10²⁵ | Boundary |\n| Gravity | 10⁰ | Lifecycle |","x":0,"y":-1100,"width":500,"height":120,"color":"5"},
+
+		{"id":"atoms_title","type":"text","text":"## Data Atoms Hierarchy\n\n12 levels from bits to execution","x":1400,"y":-1800,"width":400,"height":80,"color":"6"},
+
+		{"id":"atom1","type":"text","text":"1. Bits\nBinary states","x":1400,"y":-1650,"width":120,"height":60,"color":"1"},
+		{"id":"atom2","type":"text","text":"2. Bytes\nMemory chunks","x":1540,"y":-1650,"width":120,"height":60,"color":"1"},
+		{"id":"atom3","type":"text","text":"3. Primitives\nBasic types","x":1680,"y":-1650,"width":120,"height":60,"color":"2"},
+		{"id":"atom4","type":"text","text":"4. Variables\nState holders","x":1820,"y":-1650,"width":120,"height":60,"color":"2"},
+		{"id":"atom5","type":"text","text":"5. Expressions\nComputations","x":1400,"y":-1550,"width":120,"height":60,"color":"3"},
+		{"id":"atom6","type":"text","text":"6. Statements\nActions","x":1540,"y":-1550,"width":120,"height":60,"color":"3"},
+		{"id":"atom7","type":"text","text":"7. Control Flow\nDirectors","x":1680,"y":-1550,"width":120,"height":60,"color":"4"},
+		{"id":"atom8","type":"text","text":"8. Functions\nReusable blocks","x":1820,"y":-1550,"width":120,"height":60,"color":"4"},
+		{"id":"atom9","type":"text","text":"9. Aggregates\nComposites","x":1400,"y":-1450,"width":120,"height":60,"color":"5"},
+		{"id":"atom10","type":"text","text":"10. Modules\nGroupers","x":1540,"y":-1450,"width":120,"height":60,"color":"5"},
+		{"id":"atom11","type":"text","text":"11. Files\nContainers","x":1680,"y":-1450,"width":120,"height":60,"color":"6"},
+		{"id":"atom12","type":"text","text":"12. Executables\nRuntime forms","x":1820,"y":-1450,"width":120,"height":60,"color":"6"},
+
+		{"id":"hadrons_title","type":"text","text":"## 96 Hadrons\n\nComposite patterns (examples)","x":-500,"y":-950,"width":400,"height":80,"color":"6"},
+		{"id":"hadron1","type":"text","text":"BitFlag #1\ntetrahedron+glow","x":-450,"y":-850,"width":150,"height":70,"color":"1"},
+		{"id":"hadron2","type":"text","text":"Boolean #8\nicosahedron+binary","x":-270,"y":-850,"width":150,"height":70,"color":"1"},
+		{"id":"hadron3","type":"text","text":"Integer #9\nicosahedron+metallic","x":-90,"y":-850,"width":150,"height":70,"color":"1"},
+		{"id":"hadron4","type":"text","text":"StringLiteral #11\nicosahedron+text","x":90,"y":-850,"width":150,"height":70,"color":"1"},
+		{"id":"hadron5","type":"text","text":"LocalVar #13\ncylinder+short","x":270,"y":-850,"width":150,"height":70,"color":"2"},
+		{"id":"hadron6","type":"text","text":"Parameter #14\ncylinder+arrow","x":450,"y":-850,"width":150,"height":70,"color":"2"},
+		{"id":"hadron7","type":"text","text":"PureFunction #30\noctahedron+smooth","x":630,"y":-850,"width":150,"height":70,"color":"4"},
+		{"id":"hadron8","type":"text","text":"CommandHandler #35\noctahedron+gold","x":810,"y":-850,"width":150,"height":70,"color":"4"},
+		{"id":"hadron9","type":"text","text":"QueryHandler #36\noctahedron+blue","x":990,"y":-850,"width":150,"height":70,"color":"4"},
+		{"id":"hadron10","type":"text","text":"EventHandler #37\noctahedron+pulse","x":1170,"y":-850,"width":150,"height":70,"color":"4"},
+		{"id":"hadron11","type":"text","text":"ValueObject #43\nsphere+crystal","x":1350,"y":-850,"width":150,"height":70,"color":"5"},
+		{"id":"hadron12","type":"text","text":"Entity #44\nsphere+core","x":1530,"y":-850,"width":150,"height":70,"color":"5"},
+
+		{"id":"subhadrons_title","type":"text","text":"## 384 Sub-hadrons\n\n**342 Possible + 42 Impossible**\n\nThe complete pattern set","x":1400,"y":-950,"width":500,"height":100,"color":"6"},
+
+		{"id":"impossible_title","type":"text","text":"⚛️ 42 IMPOSSIBLE PATTERNS\n\nArchitectural Antimatter","x":1400,"y":-800,"width":300,"height":80,"color":"1"},
+		{"id":"impossible1","type":"text","text":"1. CommandHandler::FindById\nViolates CQRS","x":1400,"y":-700,"width":200,"height":80,"color":"1"},
+		{"id":"impossible2","type":"text","text":"2. QueryHandler::Save\nViolates CQRS","x":1650,"y":-700,"width":200,"height":80,"color":"1"},
+		{"id":"impossible3","type":"text","text":"3. Entity::Stateless\nIdentity contradiction","x":1900,"y":-700,"width":200,"height":80,"color":"1"},
+		{"id":"impossible4","type":"text","text":"4. ValueObject::HasIdentity\nValue contradiction","x":2150,"y":-700,"width":200,"height":80,"color":"1"},
+		{"id":"impossible5","type":"text","text":"5. RepositoryImpl::Pure\nI/O contradiction","x":2400,"y":-700,"width":200,"height":80,"color":"1"},
+		{"id":"impossible6","type":"text","text":"6. PureFunction::ExternalIO\nPurity violation","x":2650,"y":-700,"width":200,"height":80,"color":"1"},
+
+		{"id":"stats_title","type":"text","text":"## Distribution Statistics\n\nBased on 10,000+ repos","x":-500,"y":-650,"width":400,"height":80,"color":"5"},
+		{"id":"stat1","type":"text","text":"Universal (>90%)\n280 patterns\n- QueryHandler::FindById: 98.7%\n- CommandHandler::Create: 96.2%","x":-450,"y":-550,"width":250,"height":100,"color":"2"},
+		{"id":"stat2","type":"text","text":"Rare (1-5%)\n62 patterns\n- DeadLetterHandler: 0.8%\n- Service::Integration: 0.3%","x":-150,"y":-550,"width":250,"height":100,"color":"3"},
+		{"id":"stat3","type":"text","text":"Impossible (0%)\n42 patterns\nViolate fundamental laws\nDetect as \"black holes\"","x":150,"y":-550,"width":250,"height":100,"color":"1"},
+
+		{"id":"quantum_title","type":"text","text":"## Quantum Extensions\n\nAdvanced concepts","x":-500,"y":-450,"width":400,"height":80,"color":"3"},
+		{"id":"quantum1","type":"text","text":"Entanglement\nCross-component dependencies","x":-450,"y":-350,"width":300,"height":80,"color":"3"},
+		{"id":"quantum2","type":"text","text":"Wave Collapse\nResolution at runtime","x":-100,"y":-350,"width":300,"height":80,"color":"3"},
+		{"id":"quantum3","type":"text","text":"Fluctuations\nProbabilistic matching","x":250,"y":-350,"width":300,"height":80,"color":"3"},
+		{"id":"quantum4","type":"text","text":"Spectral Oscillations\nFrequency analysis","x":600,"y":-350,"width":300,"height":80,"color":"3"},
+
+		{"id":"spectrometer_title","type":"text","text":"## Spectrometer v10\n\nThe Antimatter Detector","x":500,"y":-450,"width":400,"height":100,"color":"6"},
+		{"id":"spec1","type":"text","text":"Core Capabilities\n- AST parsing\n- Symbolic graph\n- 96 + 11 rules\n- Real-time detection","x":500,"y":-300,"width":200,"height":120,"color":"1"},
+		{"id":"spec2","type":"text","text":"Performance\n- 97.3% faster\n- 98.2% smaller\n- <3s analysis","x":750,"y":-300,"width":200,"height":120,"color":"2"},
+		{"id":"spec3","type":"text","text":"Output\n- Reduced graphs\n- Black hole markers\n- Force analysis\n- Architecture metrics","x":1000,"y":-300,"width":200,"height":120,"color":"4"},
+
+		{"id":"applications_title","type":"text","text":"## Practical Applications\n\nReal-world uses","x":-500,"y":-200,"width":400,"height":80,"color":"5"},
+		{"id":"app1","type":"text","text":"1. Code Review\nDetect violations","x":-450,"y":-100,"width":200,"height":80,"color":"2"},
+		{"id":"app2","type":"type":"text","text":"2. Legacy Migration\nMap existing code","x":-200,"y":-100,"width":200,"height":80,"color":"2"},
+		{"id":"app3","type":"text","text","3. Team Training\nEstablish standards","x":50,"y":-100,"width":200,"height":80,"color":"2"},
+		{"id":"app4","type":"text","text":"4. Code Generation\nValidate output","x":300,"y":-100,"width":200,"height":80,"color":"2"},
+		{"id":"app5","type":"text","text":"5. Architecture Design\nPattern selection","x":550,"y":-100,"width":200,"height":80,"color":"2"},
+
+		{"id":"proof_title","type":"text","text":"## Scientific Validation\n\n7 rigorous answers","x":500,"y":-200,"width":400,"height":80,"color":"6"},
+		{"id":"proof1","type":"text","text":"1. Problem\nComprehension: hours→minutes","x":500,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof2","type":"text","text":"2. Hypothesis\n99% in <300 nodes","x":750,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof3","type":"text","text":"3. Mechanism\nAST→Graph→Classification","x":1000,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof4","type":"text","text":"4. Formalism\nLibCST + Symbolic logic","x":1250,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof5","type":"text","text":"5. Results\n-97.3% faster\n-98.2% smaller","x":1500,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof6","type":"text","text":"6. Insight\n11 universal constraints","x":1750,"y":-100,"width":200,"height":80,"color":"1"},
+		{"id":"proof7","type":"text","text":"7. Falsification\nFind repo with <70% coverage","x":2000,"y":-100,"width":200,"height":80,"color":"1"},
+
+		{"id":"constant_note","type":"text","text":"### The 10.9% Constant\n\nUniversal across representation systems:\n\n- OKLCH color space (~10-15%)\n- Chemical elements (transuranic ~15%)\n- Unicode reserved characters\n- Software architecture patterns (exactly 10.9%)\n\n**The antimatter ratio is universal**","x":-500,"y":50,"width":600,"height":120,"color":"4"}
+	],
+	"edges":[
+		{"id":"edge_title_laws","fromNode":"theory_title","fromSide":"bottom","toNode":"laws_title","toSide":"top","color":"6"},
+		{"id":"edge_laws_quarks","fromNode":"laws_title","fromSide":"bottom","toNode":"quarks_title","toSide":"top","color":"6","label":"fundamental → building blocks"},
+		{"id":"edge_quarks_atoms","fromNode":"quarks_title","fromSide":"bottom","toNode":"quarks_note","toSide":"top","color":"6"},
+		{"id":"edge_quarks_atoms2","fromNode":"quarks_note","fromSide":"bottom","toNode":"atoms_title","toSide":"top","color":"6","label":"4 forces → 12 atoms"},
+		{"id":"edge_atoms_hadrons","fromNode":"atoms_title","fromSide":"bottom","toNode":"hadrons_title","toSide":"top","color":"6","label":"atoms → composites"},
+		{"id":"edge_hadrons_sub","fromNode":"hadrons_title","fromSide":"bottom","toNode":"subhadrons_title","toSide":"top","color":"6","label":"96 → 384"},
+		{"id":"edge_sub_impossible","fromNode":"subhadrons_title","fromSide":"right","toNode":"impossible_title","toSide":"left","color":"1"},
+		{"id":"edge_impossible_stats","fromNode":"impossible_title","fromSide":"bottom","toNode":"stats_title","toSide":"top","color":"1","label":"42 impossible patterns"},
+		{"id":"edge_stats_quantum","fromNode":"stats_title","fromSide":"bottom","toNode":"quantum_title","toSide":"top","color":"3"},
+		{"id":"edge_quantum_spectrometer","fromNode":"quantum_title","fromSide":"bottom","toNode":"spectrometer_title","toSide":"top","color":"3","label":"advanced concepts"},
+		{"id":"edge_spectrometer_apps","fromNode":"spectrometer_title","fromSide":"bottom","toNode":"applications_title","toSide":"top","color":"5","label":"tool → applications"},
+		{"id":"edge_apps_proof","fromNode":"applications_title","fromSide":"bottom","toNode":"proof_title","toSide":"top","color":"5","label":"real-world validation"},
+		{"id":"edge_proof_constant","fromNode":"proof_title","fromSide":"bottom","toNode":"constant_note","toSide":"top","color":"4","label":"universal constant"},
+
+		// Law connections
+		{"id":"edge_law1_2","fromNode":"law1","fromSide":"right","toNode":"law2","toSide":"left","color":"1"},
+		{"id":"edge_law2_3","fromNode":"law2","fromSide":"right","toNode":"law3","toSide":"left","color":"1"},
+		{"id":"edge_law3_4","fromNode":"law3","fromSide":"right","toNode":"law4","toSide":"left","color":"1"},
+		{"id":"edge_law4_5","fromNode":"law4","fromSide":"right","toNode":"law5","toSide":"left","color":"1"},
+		{"id":"edge_law5_6","fromNode":"law5","fromSide":"right","toNode":"law6","toSide":"left","color":"2"},
+		{"id":"edge_law6_7","fromNode":"law6","fromSide":"right","toNode":"law7","toSide":"left","color":"2"},
+		{"id":"edge_law7_8","fromNode":"law7","fromSide":"right","toNode":"law8","toSide":"left","color":"2"},
+		{"id":"edge_law8_9","fromNode":"law8","fromSide":"right","toNode":"law9","toSide":"left","color":"2"},
+		{"id":"edge_law9_10","fromNode":"law9","fromSide":"right","toNode":"law10","toSide":"left","color":"3"},
+		{"id":"edge_law10_11","fromNode":"law10","fromSide":"right","toNode":"law11","toSide":"left","color":"3"},
+
+		// Atom connections
+		{"id":"edge_atoms1_2","fromNode":"atom1","fromSide":"right","toNode":"atom2","toSide":"left","color":"2"},
+		{"id":"edge_atoms2_3","fromNode":"atom2","fromSide":"right","toNode":"atom3","toSide":"left","color":"2"},
+		{"id":"edge_atoms3_4","fromNode":"atom3","fromSide":"right","toNode":"atom4","toSide":"left","color":"2"},
+		{"id":"edge_atoms4_5","fromNode":"atom4","fromSide":"right","toNode":"atom5","toSide":"left","color":"3"},
+		{"id":"edge_atoms5_6","fromNode":"atom5","fromSide":"right","toNode":"atom6","toSide":"left","color":"3"},
+		{"id":"edge_atoms6_7","fromNode":"atom6","fromSide":"right","toNode":"atom7","toSide":"left","color":"3"},
+		{"id":"edge_atoms7_8","fromNode":"atom7","fromSide":"right","toNode":"atom8","toSide":"left","color":"4"},
+		{"id":"edge_atoms8_9","fromNode":"atom8","fromSide":"right","toNode":"atom9","toSide":"left","color":"4"},
+		{"id":"edge_atoms9_10","fromNode":"atom9","fromSide":"right","toNode":"atom10","toSide":"left","color":"5"},
+		{"id":"edge_atoms10_11","fromNode":"atom10","fromSide":"right","toNode":"atom11","toSide":"left","color":"5"},
+		{"id":"edge_atoms11_12","fromNode":"atom11","fromSide":"right","toNode":"atom12","toSide":"left","color":"6"},
+
+		// Hadron connections
+		{"id":"edge_hadron1_2","fromNode":"hadron1","fromSide":"right","toNode":"hadron2","toSide":"left","color":"1"},
+		{"id":"edge_hadron2_3","fromNode":"hadron2","fromSide":"right","toNode":"hadron3","toSide":"left","color":"1"},
+		{"id":"edge_hadron3_4","fromNode":"hadron3","fromSide":"right","toNode":"hadron4","toSide":"left","color":"1"},
+		{"id":"edge_hadron4_5","fromNode":"hadron4","fromSide":"right","toNode":"hadron5","toSide":"left","color":"1"},
+		{"id":"edge_hadron5_6","fromNode":"hadron5","fromSide":"right","toNode":"hadron6","toSide":"left","color":"2"},
+		{"id":"edge_hadron6_7","fromNode":"hadron6","fromSide":"right","toNode":"hadron7","toSide":"left","color":"2"},
+		{"id":"edge_hadron7_8","fromNode":"hadron7","fromSide":"right","toNode":"hadron8","toSide":"left","color":"2"},
+		{"id":"edge_hadron8_9","fromNode":"hadron8","fromSide":"right","toNode":"hadron9","toSide":"left","color":"2"},
+		{"id":"edge_hadron9_10","fromNode":"hadron9","fromSide":"right","toNode":"hadron10","toSide":"left","color":"2"},
+		{"id":"edge_hadron10_11","fromNode":"hadron10","fromSide":"right","toNode":"hadron11","toSide":"left","color":"2"},
+		{"id":"edge_hadron11_12","fromNode":"hadron11","fromSide":"right","toNode":"hadron12","toSide":"left","color":"2"},
+		{"id":"edge_hadron12_13","fromNode":"hadron12","fromSide":"right","toNode":"hadron1","toSide":"left","color":"3"},
+
+		// Impossible pattern connections
+		{"id":"edge_imp1_2","fromNode":"impossible1","fromSide":"right","toNode":"impossible2","toSide":"left","color":"1"},
+		{"id":"edge_imp2_3","fromNode":"impossible2","fromSide":"right","toNode":"impossible3","toSide":"left","color":"1"},
+		{"id":"edge_imp3_4","fromNode":"impossible3","fromSide":"right","toNode":"impossible4","toSide":"left","color":"1"},
+		{"id":"edge_imp4_5","fromNode":"impossible4","fromSide":"right","toNode":"impossible5","toSide":"left","color":"1"},
+		{"id":"edge_imp5_6","fromNode":"impossible5","fromSide":"right","toNode":"impossible6","toSide":"left","color":"1"},
+
+		// Statistics connections
+		{"id":"edge_stat1_2","fromNode":"stat1","fromSide":"right","toNode":"stat2","toSide":"left","color":"3"},
+		{"id":"edge_stat2_3","fromNode":"stat2","fromSide":"right","toNode":"stat3","toSide":"left","color":"1"},
+		{"id":"edge_stat3_impossible","fromNode":"stat3","fromSide":"right","toNode":"impossible1","toSide":"left","color":"1"},
+
+		// Quantum connections
+		{"id":"edge_quantum1_2","fromNode":"quantum1","fromSide":"right","toNode":"quantum2","toSide":"left","color":"3"},
+		{"id":"edge_quantum2_3","fromNode":"quantum2","fromSide":"right","toNode":"quantum3","toSide":"left","color":"3"},
+		{"id":"edge_quantum3_4","fromNode":"quantum3","fromSide":"right","toNode":"quantum4","toSide":"left","color":"3"},
+
+		// Spectrometer connections
+		{"id":"edge_spec1_2","fromNode":"spec1","fromSide":"right","toNode":"spec2","toSide":"left","color":"2"},
+		{"id":"edge_spec2_3","fromNode":"spec2","fromSide":"right","toNode":"spec3","toSide":"left","color":"4"},
+		{"id":"edge_spec3_1","fromNode":"spec3","fromSide":"right","toNode":"spec1","toSide":"left","color":"4"},
+
+		// Application connections
+		{"id":"edge_app1_2","fromNode":"app1","fromSide":"right","toNode":"app2","toSide":"left","color":"2"},
+		{"id":"edge_app2_3","fromNode":"app2","fromSide":"right","toNode":"app3","toSide":"left","color":"2"},
+		{"id":"edge_app3_4","fromNode":"app3","fromSide":"right","toNode":"app4","toSide":"left","color":"2"},
+		{"id":"edge_app4_5","fromNode":"app4","fromSide":"right","toNode":"app5","toSide":"left","color":"2"},
+
+		// Proof connections
+		{"id":"edge_proof1_2","fromNode":"proof1","fromSide":"right","toNode":"proof2","toSide":"left","color":"1"},
+		{"id":"edge_proof2_3","fromNode":"proof2","fromSide":"right","toNode":"proof3","toSide":"left","color":"1"},
+		{"id":"proof3_4","fromNode":"proof3","fromSide":"right","toNode":"proof4","toSide":"left","color":"1"},
+		{"id":"proof4_5","fromNode":"proof4","fromSide":"right","toNode":"proof5","toSide":"left","color":"1"},
+		{"id":"edge_proof5_6","fromNode":"proof5","fromSide":"right","toNode":"proof6","toSide":"left","color":"1"},
+		{"id":"edge_proof6_7","fromNode":"proof6","fromSide":"right","toNode":"proof7","toSide":"left","color":"1"},
+		{"id":"edge_proof7_1","fromNode":"proof7","fromSide":"right","toNode":"proof1","toSide":"left","color":"1"}
+	]
+}

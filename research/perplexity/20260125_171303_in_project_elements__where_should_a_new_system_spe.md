@@ -8,21 +8,21 @@
 
 ## Query
 
-In PROJECT_elements, where should a new system spec for 'Cloud Refinery' (a 24/7 cloud intelligence layer that refines Collider output into a Projectome) be documented? Options: 1) context-management/docs/specs/, 2) .agent/specs/, 3) standard-model-of-code/docs/specs/. Consider existing spec locations and the Wave/Particle/Observer architecture.
+In PROJECT_elements, where should a new system spec for 'Cloud Refinery' (a 24/7 cloud intelligence layer that refines Collider output into a Projectome) be documented? Options: 1) wave/docs/specs/, 2) .agent/specs/, 3) particle/docs/specs/. Consider existing spec locations and the Wave/Particle/Observer architecture.
 
 ---
 
 ## Response
 
-**The new system spec for 'Cloud Refinery' should be documented in `context-management/docs/specs/`.**
+**The new system spec for 'Cloud Refinery' should be documented in `wave/docs/specs/`.**
 
 This choice aligns with the **Wave/Particle/Observer architecture**, where **Cloud Refinery** acts as an intelligence layer (likely an **Observer**-like component) that processes and refines raw **Collider output** (potentially **Particle**-data streams) into a structured **Projectome**. In such architectures:
 
-- `context-management/docs/specs/` is the standard location for specs handling **contextual refinement**, data integration, and higher-level processing layers, as it manages the observational context over raw inputs[5].
+- `wave/docs/specs/` is the standard location for specs handling **contextual refinement**, data integration, and higher-level processing layers, as it manages the observational context over raw inputs[5].
 - `.agent/specs/` is typically reserved for agent-specific behaviors or low-level **Particle** implementations, not system-wide refinery layers.
-- `standard-model-of-code/docs/specs/` focuses on foundational code models or **Wave**-propagation standards, not application-specific refineries.
+- `particle/docs/specs/` focuses on foundational code models or **Wave**-propagation standards, not application-specific refineries.
 
-Existing specs in `context-management/docs/specs/` already cover similar observational and refinement processes, ensuring consistency for a 24/7 cloud intelligence system[1][3]. Place the spec file as `cloud-refinery.md` or similar, detailing inputs (Collider output), outputs (Projectome), and architecture mappings.
+Existing specs in `wave/docs/specs/` already cover similar observational and refinement processes, ensuring consistency for a 24/7 cloud intelligence system[1][3]. Place the spec file as `cloud-refinery.md` or similar, detailing inputs (Collider output), outputs (Projectome), and architecture mappings.
 
 ---
 

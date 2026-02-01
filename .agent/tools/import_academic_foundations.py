@@ -6,7 +6,7 @@ Import Academic Foundations to Neo4j
 Imports the 9 analyzed academic papers from reference library.
 These provide theoretical grounding for SMoC concepts.
 
-Source: context-management/archive/references/metadata/*.json
+Source: wave/archive/references/metadata/*.json
 Output: Neo4j nodes (AcademicPaper, Concept, Theory)
 
 Usage:
@@ -20,7 +20,7 @@ from neo4j import GraphDatabase
 
 # Paths
 REPO_ROOT = Path(__file__).parent.parent.parent
-METADATA_DIR = REPO_ROOT / "context-management" / "archive" / "references" / "metadata"
+METADATA_DIR = REPO_ROOT / "wave" / "archive" / "references" / "metadata"
 
 # Neo4j config
 NEO4J_URI = "bolt://localhost:7687"

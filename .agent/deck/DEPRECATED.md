@@ -5,7 +5,7 @@ This directory has been **consolidated** into the AI subsystem.
 ## New Location
 
 ```
-context-management/tools/ai/deck/
+wave/tools/ai/deck/
 ```
 
 ## Access via ./pe
@@ -28,7 +28,7 @@ Per Perplexity validation (20260126_012105):
 ## Do Not Delete
 
 Keep these files as reference for card definitions.
-The Python router at `context-management/tools/ai/deck/deck_router.py` loads from its new location.
+The Python router at `wave/tools/ai/deck/deck_router.py` loads from its new location.
 
 ---
 Consolidated: 2026-01-26

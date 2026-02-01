@@ -25,11 +25,11 @@ For each, report PASS/FAIL with the actual line number where the code exists.
 
 ## Response
 
-Based on the analysis of `context-management/tools/ai/analyze.py`, here is the verification report for the ACI integration.
+Based on the analysis of `wave/tools/ai/analyze.py`, here is the verification report for the ACI integration.
 
 ### ACI Integration Verification Report
 
-**Target File:** `context-management/tools/ai/analyze.py`
+**Target File:** `wave/tools/ai/analyze.py`
 
 | Check Item | Status | Evidence (Code Snippet) |
 | :--- | :--- | :--- |

@@ -1,0 +1,2565 @@
+{
+  "schema_name": "DoclingDocument",
+  "version": "1.9.0",
+  "name": "PRIGOGINE_2008_DissipativeStructures",
+  "origin": {
+    "mimetype": "application/pdf",
+    "binary_hash": 1389401953697219990,
+    "filename": "PRIGOGINE_2008_DissipativeStructures.pdf"
+  },
+  "furniture": {
+    "self_ref": "#/furniture",
+    "children": [],
+    "content_layer": "furniture",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "body": {
+    "self_ref": "#/body",
+    "children": [
+      {
+        "$ref": "#/texts/0"
+      },
+      {
+        "$ref": "#/texts/1"
+      },
+      {
+        "$ref": "#/texts/2"
+      },
+      {
+        "$ref": "#/texts/3"
+      },
+      {
+        "$ref": "#/texts/4"
+      },
+      {
+        "$ref": "#/texts/5"
+      },
+      {
+        "$ref": "#/texts/6"
+      },
+      {
+        "$ref": "#/texts/7"
+      },
+      {
+        "$ref": "#/pictures/0"
+      },
+      {
+        "$ref": "#/texts/8"
+      },
+      {
+        "$ref": "#/texts/9"
+      },
+      {
+        "$ref": "#/texts/10"
+      },
+      {
+        "$ref": "#/texts/11"
+      },
+      {
+        "$ref": "#/texts/12"
+      },
+      {
+        "$ref": "#/pictures/1"
+      },
+      {
+        "$ref": "#/texts/13"
+      },
+      {
+        "$ref": "#/pictures/2"
+      },
+      {
+        "$ref": "#/texts/14"
+      },
+      {
+        "$ref": "#/texts/15"
+      },
+      {
+        "$ref": "#/texts/16"
+      },
+      {
+        "$ref": "#/texts/17"
+      },
+      {
+        "$ref": "#/texts/18"
+      },
+      {
+        "$ref": "#/texts/19"
+      },
+      {
+        "$ref": "#/texts/20"
+      },
+      {
+        "$ref": "#/texts/21"
+      },
+      {
+        "$ref": "#/texts/22"
+      },
+      {
+        "$ref": "#/texts/23"
+      },
+      {
+        "$ref": "#/texts/24"
+      },
+      {
+        "$ref": "#/texts/25"
+      },
+      {
+        "$ref": "#/texts/26"
+      },
+      {
+        "$ref": "#/texts/27"
+      },
+      {
+        "$ref": "#/texts/28"
+      },
+      {
+        "$ref": "#/pictures/3"
+      },
+      {
+        "$ref": "#/texts/29"
+      },
+      {
+        "$ref": "#/texts/30"
+      },
+      {
+        "$ref": "#/texts/31"
+      },
+      {
+        "$ref": "#/texts/32"
+      },
+      {
+        "$ref": "#/texts/33"
+      },
+      {
+        "$ref": "#/texts/34"
+      },
+      {
+        "$ref": "#/texts/35"
+      },
+      {
+        "$ref": "#/texts/36"
+      },
+      {
+        "$ref": "#/texts/37"
+      },
+      {
+        "$ref": "#/texts/38"
+      },
+      {
+        "$ref": "#/texts/39"
+      },
+      {
+        "$ref": "#/pictures/4"
+      },
+      {
+        "$ref": "#/texts/40"
+      },
+      {
+        "$ref": "#/texts/41"
+      },
+      {
+        "$ref": "#/pictures/5"
+      },
+      {
+        "$ref": "#/texts/43"
+      },
+      {
+        "$ref": "#/texts/44"
+      },
+      {
+        "$ref": "#/texts/45"
+      },
+      {
+        "$ref": "#/pictures/6"
+      },
+      {
+        "$ref": "#/texts/46"
+      },
+      {
+        "$ref": "#/texts/47"
+      },
+      {
+        "$ref": "#/texts/48"
+      },
+      {
+        "$ref": "#/texts/49"
+      },
+      {
+        "$ref": "#/texts/50"
+      },
+      {
+        "$ref": "#/texts/51"
+      },
+      {
+        "$ref": "#/texts/52"
+      },
+      {
+        "$ref": "#/texts/53"
+      },
+      {
+        "$ref": "#/texts/54"
+      },
+      {
+        "$ref": "#/texts/55"
+      },
+      {
+        "$ref": "#/texts/56"
+      },
+      {
+        "$ref": "#/groups/0"
+      },
+      {
+        "$ref": "#/pictures/7"
+      },
+      {
+        "$ref": "#/texts/62"
+      },
+      {
+        "$ref": "#/texts/63"
+      },
+      {
+        "$ref": "#/groups/1"
+      },
+      {
+        "$ref": "#/pictures/8"
+      },
+      {
+        "$ref": "#/texts/70"
+      }
+    ],
+    "content_layer": "body",
+    "name": "_root_",
+    "label": "unspecified"
+  },
+  "groups": [
+    {
+      "self_ref": "#/groups/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/57"
+        },
+        {
+          "$ref": "#/texts/58"
+        },
+        {
+          "$ref": "#/texts/59"
+        },
+        {
+          "$ref": "#/texts/60"
+        },
+        {
+          "$ref": "#/texts/61"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    },
+    {
+      "self_ref": "#/groups/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/64"
+        },
+        {
+          "$ref": "#/texts/65"
+        },
+        {
+          "$ref": "#/texts/66"
+        },
+        {
+          "$ref": "#/texts/67"
+        },
+        {
+          "$ref": "#/texts/68"
+        },
+        {
+          "$ref": "#/texts/69"
+        }
+      ],
+      "content_layer": "body",
+      "name": "list",
+      "label": "list"
+    }
+  ],
+  "texts": [
+    {
+      "self_ref": "#/texts/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 282.868,
+            "t": 620.118995859375,
+            "r": 384.095,
+            "b": 610.6019958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "Design and Nature IV  293",
+      "text": "Design and Nature IV  293"
+    },
+    {
+      "self_ref": "#/texts/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 496.777995859375,
+            "r": 305.266,
+            "b": 460.623995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            50
+          ]
+        }
+      ],
+      "orig": "Dissipative structures in nature and human systems",
+      "text": "Dissipative structures in nature and human systems",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 444.23899585937494,
+            "r": 377.486,
+            "b": 393.51899585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            218
+          ]
+        }
+      ],
+      "orig": "E. B. P. Tiezzi 1 , R. M. Pulselli 2 , N. Marchettini 2 & E. Tiezzi 2 1 Department of Mathematics and Informatics, University of Siena, Italy 2 Department of Chemical and Biosystems Sciences, University of Siena, Italy",
+      "text": "E. B. P. Tiezzi 1 , R. M. Pulselli 2 , N. Marchettini 2 & E. Tiezzi 2 1 Department of Mathematics and Informatics, University of Siena, Italy 2 Department of Chemical and Biosystems Sciences, University of Siena, Italy"
+    },
+    {
+      "self_ref": "#/texts/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 368.33699585937495,
+            "r": 104.525,
+            "b": 355.05299585937496,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            8
+          ]
+        }
+      ],
+      "orig": "Abstract",
+      "text": "Abstract",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 340.397995859375,
+            "r": 385.461,
+            "b": 182.71199585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            1139
+          ]
+        }
+      ],
+      "orig": "Evolutionary physics studies the general behaviour of non equilibrium systems, subject to non-linear rules. Through the observation of these systems, physical chemistry begins to understand  phenomena  that  have complex  and  selforganising  behaviour.  In  practice,  in  order  to  understand  life  and  its  ability  to self-organise, evolutionary physical chemistry studies phenomena which present novelties,  i.e.,  in  which  order  is  horn  from  chaos  ( order  out  of chaos is  an expression dear to the school of Ilya Prigogine, father of evolutionary physics and  winner  of  the  Nobel  Prize  in  Chemistry  in  1977).  This  paper  presents  a discussion  on  self-organization  processes  in  dissipative  structures,  in  order  to highlight the general conditions for raising complexity and generating order in nature.  In  particular,  variation  of  entropy  and  thermodynamic  information  in self-organizing systems were briefly introduced. Examples of dissipative structures in nature were presented, such as oscillatory reactions, hurricanes, and also human society. This would inform next generation designers.",
+      "text": "Evolutionary physics studies the general behaviour of non equilibrium systems, subject to non-linear rules. Through the observation of these systems, physical chemistry begins to understand  phenomena  that  have complex  and  selforganising  behaviour.  In  practice,  in  order  to  understand  life  and  its  ability  to self-organise, evolutionary physical chemistry studies phenomena which present novelties,  i.e.,  in  which  order  is  horn  from  chaos  ( order  out  of chaos is  an expression dear to the school of Ilya Prigogine, father of evolutionary physics and  winner  of  the  Nobel  Prize  in  Chemistry  in  1977).  This  paper  presents  a discussion  on  self-organization  processes  in  dissipative  structures,  in  order  to highlight the general conditions for raising complexity and generating order in nature.  In  particular,  variation  of  entropy  and  thermodynamic  information  in self-organizing systems were briefly introduced. Examples of dissipative structures in nature were presented, such as oscillatory reactions, hurricanes, and also human society. This would inform next generation designers."
+    },
+    {
+      "self_ref": "#/texts/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.826,
+            "t": 177.43799585937495,
+            "r": 385.239,
+            "b": 157.75199585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            121
+          ]
+        }
+      ],
+      "orig": "Keywords: dissipative structures, entropy, information, non equilibrium thermodynamics, B\u00e8nard Cells, hurricanes, cities.",
+      "text": "Keywords: dissipative structures, entropy, information, non equilibrium thermodynamics, B\u00e8nard Cells, hurricanes, cities."
+    },
+    {
+      "self_ref": "#/texts/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 144.47699585937494,
+            "r": 143.147,
+            "b": 131.19299585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            14
+          ]
+        }
+      ],
+      "orig": "1 Introduction",
+      "text": "1 Introduction",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 56.825,
+            "t": 116.59799585937492,
+            "r": 385.451,
+            "b": 62.41099585937491,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            404
+          ]
+        }
+      ],
+      "orig": "A Dissipative Structure is a thermodynamically open system operating far from thermodynamic equilibrium, that exchanges energy, matter, and information with the  external  environment.  In  this  kind  of  systems,  organization  can  emerge through a spontaneous self-organization process, by virtue of the exchanges with the external environment, that generates a formation of both spatial and temporal",
+      "text": "A Dissipative Structure is a thermodynamically open system operating far from thermodynamic equilibrium, that exchanges energy, matter, and information with the  external  environment.  In  this  kind  of  systems,  organization  can  emerge through a spontaneous self-organization process, by virtue of the exchanges with the external environment, that generates a formation of both spatial and temporal"
+    },
+    {
+      "self_ref": "#/texts/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 19.158995859374954,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            138
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114, doi:10.2495/DN080301",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114, doi:10.2495/DN080301"
+    },
+    {
+      "self_ref": "#/texts/9",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.693,
+            "t": 620.118995859375,
+            "r": 156.919,
+            "b": 610.6029958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "294  Design and Nature IV",
+      "text": "294  Design and Nature IV"
+    },
+    {
+      "self_ref": "#/texts/10",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.825,
+            "t": 592.757995859375,
+            "r": 385.396,
+            "b": 573.070995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            83
+          ]
+        }
+      ],
+      "orig": "ordered structures, in which interacting constituents show long-range correlations.",
+      "text": "ordered structures, in which interacting constituents show long-range correlations."
+    },
+    {
+      "self_ref": "#/texts/11",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.825,
+            "t": 569.7179958593749,
+            "r": 385.397,
+            "b": 435.07199585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            911
+          ]
+        }
+      ],
+      "orig": "Example of self-organization process in dissipative structures are the oscillatory chemical reactions. In the fifties and sixties, two Russian scientists, Boris  Belousov  and  Anatal  Zhabotinsky,  discovered  the  most  famous  of  all oscillatory chemical reactions and described it in detail (it is now known as the Belousov-Zhabotinsky  reaction  or  simply  the  BZ  reaction).  The  discovery sparked an intense debate in the field of applied physical chemistry. Oscillatory reactions are events in which complex reactions produce spontaneous variations in  certain  chemicals  present  in  a  solution.  Under  suitable  test  conditions,  this phenomenon creates spectacular and rapid changes in colour. In particular. the periodic  variations  of  the  concentration  of  the  reaction  intermediators  and catalysts  corresponds  to  a  progressive  variation  of  their  geometry,  form  and colour.",
+      "text": "Example of self-organization process in dissipative structures are the oscillatory chemical reactions. In the fifties and sixties, two Russian scientists, Boris  Belousov  and  Anatal  Zhabotinsky,  discovered  the  most  famous  of  all oscillatory chemical reactions and described it in detail (it is now known as the Belousov-Zhabotinsky  reaction  or  simply  the  BZ  reaction).  The  discovery sparked an intense debate in the field of applied physical chemistry. Oscillatory reactions are events in which complex reactions produce spontaneous variations in  certain  chemicals  present  in  a  solution.  Under  suitable  test  conditions,  this phenomenon creates spectacular and rapid changes in colour. In particular. the periodic  variations  of  the  concentration  of  the  reaction  intermediators  and catalysts  corresponds  to  a  progressive  variation  of  their  geometry,  form  and colour."
+    },
+    {
+      "self_ref": "#/texts/12",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 56.825,
+            "t": 431.717995859375,
+            "r": 385.389,
+            "b": 343.09199585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            646
+          ]
+        }
+      ],
+      "orig": "The  creation  of  spatiotemporal structures is extremely interesting because it causes  macroscopic  self-organisation  that  depends  on  microscopic  interaction between organic and inorganic elements in the system. Order is created from an initial state of uniformity and chaos. Interaction between the elements is induced by kinetics and internal diffusion; it is required to create structures organised in space and time. Oscillations can only be observed in systems in which there is a constant  exchange of energy and matter with the exterior, systems that are far from equilibrium, i.e., in a dynamic, variable and non homogeneous state.",
+      "text": "The  creation  of  spatiotemporal structures is extremely interesting because it causes  macroscopic  self-organisation  that  depends  on  microscopic  interaction between organic and inorganic elements in the system. Order is created from an initial state of uniformity and chaos. Interaction between the elements is induced by kinetics and internal diffusion; it is required to create structures organised in space and time. Oscillations can only be observed in systems in which there is a constant  exchange of energy and matter with the exterior, systems that are far from equilibrium, i.e., in a dynamic, variable and non homogeneous state."
+    },
+    {
+      "self_ref": "#/texts/13",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "caption",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 96.305,
+            "t": 73.75699585937491,
+            "r": 345.771,
+            "b": 65.59099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            54
+          ]
+        }
+      ],
+      "orig": "Figure 1: An example of Belousov-Zhabotinsky reaction.",
+      "text": "Figure 1: An example of Belousov-Zhabotinsky reaction."
+    },
+    {
+      "self_ref": "#/texts/14",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    },
+    {
+      "self_ref": "#/texts/15",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 282.868,
+            "t": 620.118995859375,
+            "r": 384.095,
+            "b": 610.6019958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "Design and Nature IV  295",
+      "text": "Design and Nature IV  295"
+    },
+    {
+      "self_ref": "#/texts/16",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.824,
+            "t": 592.757995859375,
+            "r": 385.436,
+            "b": 504.070995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            663
+          ]
+        }
+      ],
+      "orig": "According to Prigogine, in the condition of non-equilibrium, which seems to be the absence of physical order, fluctuations of energy can produce order out of chaos .  The  arising  of  space  configurations  and  time  rhythms  in  dissipative structures  is  a  phenomenon  known  as  'order  by  fluctuations'.  Prigogine  and Stengers  [1]  said:  'we  can  imagine  dissipative  structures  as giant  fluctuations maintained by flows of energy and matter'. Therefore, dissipative structures are the  result  of  fluctuations  maintained  in  a  steady  state;  once  established,  steady states can be maintained with respect to a huge class of perturbations.",
+      "text": "According to Prigogine, in the condition of non-equilibrium, which seems to be the absence of physical order, fluctuations of energy can produce order out of chaos .  The  arising  of  space  configurations  and  time  rhythms  in  dissipative structures  is  a  phenomenon  known  as  'order  by  fluctuations'.  Prigogine  and Stengers  [1]  said:  'we  can  imagine  dissipative  structures  as giant  fluctuations maintained by flows of energy and matter'. Therefore, dissipative structures are the  result  of  fluctuations  maintained  in  a  steady  state;  once  established,  steady states can be maintained with respect to a huge class of perturbations."
+    },
+    {
+      "self_ref": "#/texts/17",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 490.856995859375,
+            "r": 367.183,
+            "b": 463.772995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            78
+          ]
+        }
+      ],
+      "orig": "2 Variation of entropy and thermodynamic information in dissipative structures",
+      "text": "2 Variation of entropy and thermodynamic information in dissipative structures",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/18",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 449.11799585937496,
+            "r": 385.351,
+            "b": 383.47099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            473
+          ]
+        }
+      ],
+      "orig": "Jeffrey  Wicken  [2-4]  studied  processes  of  increasing  complexity  and  selforganization  in  terms  of  thermodynamic  information.  He  observed  that  the formation  of  dissipative  structures,  such  as  living  systems,  and  their  evolution are due to processes of energy and matter randomization, with 'randomization' meaning  a  random  distribution,  allocation  or  delivery  of  energy  and  matter inflows that allows complexity increase within a system.",
+      "text": "Jeffrey  Wicken  [2-4]  studied  processes  of  increasing  complexity  and  selforganization  in  terms  of  thermodynamic  information.  He  observed  that  the formation  of  dissipative  structures,  such  as  living  systems,  and  their  evolution are due to processes of energy and matter randomization, with 'randomization' meaning  a  random  distribution,  allocation  or  delivery  of  energy  and  matter inflows that allows complexity increase within a system."
+    },
+    {
+      "self_ref": "#/texts/19",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 380.11799585937496,
+            "r": 385.295,
+            "b": 360.49099585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            133
+          ]
+        }
+      ],
+      "orig": "According  to  Wicken,  the  macroscopic  thermodynamic  information  IM  of  a specific state is given by the addition of two terms:",
+      "text": "According  to  Wicken,  the  macroscopic  thermodynamic  information  IM  of  a specific state is given by the addition of two terms:"
+    },
+    {
+      "self_ref": "#/texts/20",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 190.984,
+            "t": 354.13799585937494,
+            "r": 385.299,
+            "b": 345.03399585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            18
+          ]
+        }
+      ],
+      "orig": "I M = Iw + I e (1)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/21",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 339.61799585937496,
+            "r": 385.358,
+            "b": 297.010995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            283
+          ]
+        }
+      ],
+      "orig": "where    Iw  =k ln wi =  -S    is  the  negentropic  component  of  the  chemical information depending on the decreasing number of microstates and Ie = ( Ei -A)/T represents the energetic component. The latter relates to the entropy output from the system due to energy dissipation.",
+      "text": "where    Iw  =k ln wi =  -S    is  the  negentropic  component  of  the  chemical information depending on the decreasing number of microstates and Ie = ( Ei -A)/T represents the energetic component. The latter relates to the entropy output from the system due to energy dissipation."
+    },
+    {
+      "self_ref": "#/texts/22",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 293.657995859375,
+            "r": 233.203,
+            "b": 284.55399585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            42
+          ]
+        }
+      ],
+      "orig": "In particular, negentropy I w is given by:",
+      "text": "In particular, negentropy I w is given by:"
+    },
+    {
+      "self_ref": "#/texts/23",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 186.005,
+            "t": 279.13799585937494,
+            "r": 385.3,
+            "b": 270.03399585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            19
+          ]
+        }
+      ],
+      "orig": "I w = Ith + I c (2)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/24",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 264.67799585937496,
+            "r": 385.41,
+            "b": 198.97099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            494
+          ]
+        }
+      ],
+      "orig": "Where Ith  is  the  thermal  information  and  I c is  the  configurational  information. The former refers to the distribution of the state's thermal energy, and the latter to the number of microstates in any possible configuration. In other words, these components are concerned with the reciprocal structuring and energetic relations among the elements in the macrostate (intra-molecules information) due to the increased differentiation of microstates and their inter-molecules information.",
+      "text": "Where Ith  is  the  thermal  information  and  I c is  the  configurational  information. The former refers to the distribution of the state's thermal energy, and the latter to the number of microstates in any possible configuration. In other words, these components are concerned with the reciprocal structuring and energetic relations among the elements in the macrostate (intra-molecules information) due to the increased differentiation of microstates and their inter-molecules information."
+    },
+    {
+      "self_ref": "#/texts/25",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 195.67799585937496,
+            "r": 385.379,
+            "b": 164.47099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            176
+          ]
+        }
+      ],
+      "orig": "According to the principle of the second law of thermodynamics, the variation of information, including a system and the environment, must be negative, while entropy increases:",
+      "text": "According to the principle of the second law of thermodynamics, the variation of information, including a system and the environment, must be negative, while entropy increases:"
+    },
+    {
+      "self_ref": "#/texts/26",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 175.204,
+            "t": 160.89499585937494,
+            "r": 385.384,
+            "b": 148.29399585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            31
+          ]
+        }
+      ],
+      "orig": "\u2206 I c + \u2206 I th + \u2206 I e <  0 (3)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/27",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 56.825,
+            "t": 142.93799585937495,
+            "r": 385.349,
+            "b": 77.23099585937496,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            410
+          ]
+        }
+      ],
+      "orig": "This  represents  the  thermodynamic  limits  to  chemical  information  transfer between two different states. Considering an energy flow from a hot source to a cold sink, entropy always increases (dSs > 0). As asserted by Harold Morowitz [5], the entropy of an intermediate system, behaving like a dissipative structure, may decrease (dSi <0) if there is an energy flow, with the only restriction being that:",
+      "text": "This  represents  the  thermodynamic  limits  to  chemical  information  transfer between two different states. Considering an energy flow from a hot source to a cold sink, entropy always increases (dSs > 0). As asserted by Harold Morowitz [5], the entropy of an intermediate system, behaving like a dissipative structure, may decrease (dSi <0) if there is an energy flow, with the only restriction being that:"
+    },
+    {
+      "self_ref": "#/texts/28",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 183.485,
+            "t": 70.93799585937495,
+            "r": 385.298,
+            "b": 61.83399585937491,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            15
+          ]
+        }
+      ],
+      "orig": "- dSi \u2264 dSs (4)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/29",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    },
+    {
+      "self_ref": "#/texts/30",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.693,
+            "t": 620.118995859375,
+            "r": 156.919,
+            "b": 610.6029958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "296  Design and Nature IV",
+      "text": "296  Design and Nature IV"
+    },
+    {
+      "self_ref": "#/texts/31",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 592.757995859375,
+            "r": 385.338,
+            "b": 560.830995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            213
+          ]
+        }
+      ],
+      "orig": "In this case, the negative variation of entropy in the system corresponds to a positive variation of information given by the components \u2206 I th and \u2206 I c . In terms of information, inequality (4) is equivalent to:",
+      "text": "In this case, the negative variation of entropy in the system corresponds to a positive variation of information given by the components \u2206 I th and \u2206 I c . In terms of information, inequality (4) is equivalent to:"
+    },
+    {
+      "self_ref": "#/texts/32",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "formula",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 177.665,
+            "t": 560.194995859375,
+            "r": 385.307,
+            "b": 547.593995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            27
+          ]
+        }
+      ],
+      "orig": "\u2206 I th + \u2206 I c < -\u2206 I e (5)",
+      "text": ""
+    },
+    {
+      "self_ref": "#/texts/33",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 547.954995859375,
+            "r": 385.302,
+            "b": 512.5309958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            206
+          ]
+        }
+      ],
+      "orig": "where the term ( \u2206 I th + \u2206 Ic) represents the information within the (intermediate) system and the term (-\u2206 Ie) corresponds to the disorder generated by the entropy dissipation to the external environment.",
+      "text": "where the term ( \u2206 I th + \u2206 Ic) represents the information within the (intermediate) system and the term (-\u2206 Ie) corresponds to the disorder generated by the entropy dissipation to the external environment."
+    },
+    {
+      "self_ref": "#/texts/34",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 509.23799585937496,
+            "r": 385.34,
+            "b": 420.551995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            598
+          ]
+        }
+      ],
+      "orig": "We may apply this reasoning to the biosphere, which is a closed thermodynamic system: the continuous radiant energy inflow from an external source (the sun) demands an energy randomization, before part of the low quality energy leaves the planet. Over millions of years, this has led to the emergence of new  organized  structures  and  to  a  higher  diversification  (life,  evolution,  biodiversity), corresponding to an increase of information. The processes by which complex  chemical  and  biological  structures  emerge  with  time  from  simpler structures was named Anamorphosis by Wicken.",
+      "text": "We may apply this reasoning to the biosphere, which is a closed thermodynamic system: the continuous radiant energy inflow from an external source (the sun) demands an energy randomization, before part of the low quality energy leaves the planet. Over millions of years, this has led to the emergence of new  organized  structures  and  to  a  higher  diversification  (life,  evolution,  biodiversity), corresponding to an increase of information. The processes by which complex  chemical  and  biological  structures  emerge  with  time  from  simpler structures was named Anamorphosis by Wicken."
+    },
+    {
+      "self_ref": "#/texts/35",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 409.376995859375,
+            "r": 349.483,
+            "b": 382.29299585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            67
+          ]
+        }
+      ],
+      "orig": "3 Dissipative structures in nature and human systems: some examples",
+      "text": "3 Dissipative structures in nature and human systems: some examples",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/36",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 369.61799585937496,
+            "r": 385.433,
+            "b": 269.47199585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            712
+          ]
+        }
+      ],
+      "orig": "In complex systems, organization usually emerges spontaneously. According to the  law  of least  resistance [6],  constitutive  elements  within  a  self-organizing system  modify  their  interactions  with  other  elements,  looking  for  the  most advantageous. Interactions between system constituents, that are neither isolated nor  free,  involve  continuous  reciprocal  adaptation;  each  individual  acts  and reacts according to actions and reactions of the other individuals. This process, generated by competition and cooperation among the components, each pursuing its  own aims, does not stop until organization that guarantees harmonious, non conflicting interactions among individuals is achieved.",
+      "text": "In complex systems, organization usually emerges spontaneously. According to the  law  of least  resistance [6],  constitutive  elements  within  a  self-organizing system  modify  their  interactions  with  other  elements,  looking  for  the  most advantageous. Interactions between system constituents, that are neither isolated nor  free,  involve  continuous  reciprocal  adaptation;  each  individual  acts  and reacts according to actions and reactions of the other individuals. This process, generated by competition and cooperation among the components, each pursuing its  own aims, does not stop until organization that guarantees harmonious, non conflicting interactions among individuals is achieved."
+    },
+    {
+      "self_ref": "#/texts/37",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 266.11799585937496,
+            "r": 385.433,
+            "b": 165.97199585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            711
+          ]
+        }
+      ],
+      "orig": "The main condition to maintain a state far from thermodynamic equilibrium, according to the concept of dissipative structures, is that the system must not be isolated  and  must  exchange  energy  and  matter  with  the  external  environment. This situation highlights the importance  of  interactions with the external environment; these also involve the constituents of the system for selforganization.  Nicolis  and  Prigogine  [7]  provide  some  examples.  A  cubic centimetre  of  water  at  ambient  temperature  is  characterised  by  the  disordered thermal  motion  of  its  molecules;  if  it  is  subject  to  a  winter  storm,  it  selforganizes in the peculiar dendritic structure of a snowflake.",
+      "text": "The main condition to maintain a state far from thermodynamic equilibrium, according to the concept of dissipative structures, is that the system must not be isolated  and  must  exchange  energy  and  matter  with  the  external  environment. This situation highlights the importance  of  interactions with the external environment; these also involve the constituents of the system for selforganization.  Nicolis  and  Prigogine  [7]  provide  some  examples.  A  cubic centimetre  of  water  at  ambient  temperature  is  characterised  by  the  disordered thermal  motion  of  its  molecules;  if  it  is  subject  to  a  winter  storm,  it  selforganizes in the peculiar dendritic structure of a snowflake."
+    },
+    {
+      "self_ref": "#/texts/38",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 162.67899585937494,
+            "r": 385.356,
+            "b": 142.99199585937492,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            144
+          ]
+        }
+      ],
+      "orig": "There  many  examples  in  which  groups  of  agents,  pursuing  their  own consistency, transcend themselves and acquire collective properties.",
+      "text": "There  many  examples  in  which  groups  of  agents,  pursuing  their  own consistency, transcend themselves and acquire collective properties."
+    },
+    {
+      "self_ref": "#/texts/39",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 56.825,
+            "t": 139.63899585937497,
+            "r": 385.383,
+            "b": 62.47199585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            504
+          ]
+        }
+      ],
+      "orig": "The  Scientific  Visualization  Studio  (Goddard  Space  Flight  Center  della NASA),  visualized the trajectory of Hurricane Katrina, in  August  2005, analyzing data of sea surface temperature and clouds formation. This visualization shows the cold water trail left by Hurricane Katrina from August 23 through 30, 2005. They highlighted that  'hurricane winds are sustained by the heat energy of the ocean, so the ocean is cooled as the hurricane passes and the energy is extracted to power the winds'.",
+      "text": "The  Scientific  Visualization  Studio  (Goddard  Space  Flight  Center  della NASA),  visualized the trajectory of Hurricane Katrina, in  August  2005, analyzing data of sea surface temperature and clouds formation. This visualization shows the cold water trail left by Hurricane Katrina from August 23 through 30, 2005. They highlighted that  'hurricane winds are sustained by the heat energy of the ocean, so the ocean is cooled as the hurricane passes and the energy is extracted to power the winds'."
+    },
+    {
+      "self_ref": "#/texts/40",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    },
+    {
+      "self_ref": "#/texts/41",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 282.868,
+            "t": 620.118995859375,
+            "r": 384.095,
+            "b": 610.6019958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "Design and Nature IV  297",
+      "text": "Design and Nature IV  297"
+    },
+    {
+      "self_ref": "#/texts/42",
+      "parent": {
+        "$ref": "#/pictures/5"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "caption",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.825,
+            "t": 263.53699585937494,
+            "r": 385.334,
+            "b": 197.89099585937493,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            397
+          ]
+        }
+      ],
+      "orig": "Figure 2: Cold water trail left by Hurricane Katrina. Elaboration of data of Sea  surface  temperatures  and  satellite  images  from  August  23 through 30, 2005. The sea surface temperatures are 3-day moving averages based on the AMSR-E instrument on the Aqua Satellite, while the cloud images were taken by the Imager on the GOES-12 Satellite (available at: http://svs.gsfc.nasa.gov/goto?3222).",
+      "text": "Figure 2: Cold water trail left by Hurricane Katrina. Elaboration of data of Sea  surface  temperatures  and  satellite  images  from  August  23 through 30, 2005. The sea surface temperatures are 3-day moving averages based on the AMSR-E instrument on the Aqua Satellite, while the cloud images were taken by the Imager on the GOES-12 Satellite (available at: http://svs.gsfc.nasa.gov/goto?3222)."
+    },
+    {
+      "self_ref": "#/texts/43",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.826,
+            "t": 184.57799585937494,
+            "r": 385.347,
+            "b": 164.89099585937493,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            118
+          ]
+        }
+      ],
+      "orig": "Hurricanes behave like dissipative structures. Thought and life also belong to the category of complex living systems.",
+      "text": "Hurricanes behave like dissipative structures. Thought and life also belong to the category of complex living systems."
+    },
+    {
+      "self_ref": "#/texts/44",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.826,
+            "t": 161.53799585937497,
+            "r": 385.392,
+            "b": 107.4109958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            378
+          ]
+        }
+      ],
+      "orig": "Societies, too, result from the aggregation of groups of individuals, and show emerging collective properties that single elements do not have [8]. For example, we  know  that  certain  individual  behaviour  is  induced  by  society  and  how difficult  it  is  to  change  a  social  behavioural  trend  or  an  economy,  despite widespread awareness of the need to do so [9].",
+      "text": "Societies, too, result from the aggregation of groups of individuals, and show emerging collective properties that single elements do not have [8]. For example, we  know  that  certain  individual  behaviour  is  induced  by  society  and  how difficult  it  is  to  change  a  social  behavioural  trend  or  an  economy,  despite widespread awareness of the need to do so [9]."
+    },
+    {
+      "self_ref": "#/texts/45",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 56.825,
+            "t": 104.05799585937496,
+            "r": 385.35,
+            "b": 61.390995859374925,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            319
+          ]
+        }
+      ],
+      "orig": "The configuration of a complex system, or organization of parts into a whole, depends  on  interactions  among  constituents  of  the  system  (responsible  for  the entropy change di S) and perturbations from the external environment (responsible  for  the  entropy  change  deS)  [10].  The  configuration  is  always",
+      "text": "The configuration of a complex system, or organization of parts into a whole, depends  on  interactions  among  constituents  of  the  system  (responsible  for  the entropy change di S) and perturbations from the external environment (responsible  for  the  entropy  change  deS)  [10].  The  configuration  is  always"
+    },
+    {
+      "self_ref": "#/texts/46",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    },
+    {
+      "self_ref": "#/texts/47",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.693,
+            "t": 620.118995859375,
+            "r": 156.919,
+            "b": 610.6029958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "298  Design and Nature IV",
+      "text": "298  Design and Nature IV"
+    },
+    {
+      "self_ref": "#/texts/48",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 592.757995859375,
+            "r": 385.401,
+            "b": 573.070995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            93
+          ]
+        }
+      ],
+      "orig": "dynamic:  it  is  not  static  in  time  but  changes  whenever  external  conditions change.",
+      "text": "dynamic:  it  is  not  static  in  time  but  changes  whenever  external  conditions change."
+    },
+    {
+      "self_ref": "#/texts/49",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 569.7179958593749,
+            "r": 385.409,
+            "b": 527.050995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            301
+          ]
+        }
+      ],
+      "orig": "The  ability  to  self-organize  into  complex  structures  and  to  self-maintain  in space and time is aimed at conserving a steady state (dynamicity, diversity, life), far  from  thermodynamic  equilibrium  and  with  low  entropy,  by  virtue  of interactions among constituents and other systems.",
+      "text": "The  ability  to  self-organize  into  complex  structures  and  to  self-maintain  in space and time is aimed at conserving a steady state (dynamicity, diversity, life), far  from  thermodynamic  equilibrium  and  with  low  entropy,  by  virtue  of interactions among constituents and other systems."
+    },
+    {
+      "self_ref": "#/texts/50",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 523.757995859375,
+            "r": 340.674,
+            "b": 515.590995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            68
+          ]
+        }
+      ],
+      "orig": "How can a society or a city be conceived as a dissipative structure?",
+      "text": "How can a society or a city be conceived as a dissipative structure?"
+    },
+    {
+      "self_ref": "#/texts/51",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 512.237995859375,
+            "r": 385.417,
+            "b": 423.551995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            649
+          ]
+        }
+      ],
+      "orig": "Absorption  of  external  input  (negentropy)  and  emission  of  internal  output (entropy, heat)  is  a  principle  that  works  for  social  systems,  economics,  human settlements  and  all  their  dynamics.  Cities  absorb  flows  of  high  quality  energy from the external environment and emit heat, wastes and pollutants; their internal entropy  decreases  by  self-organization  in  the  form  of  structures,  information, social patterns and economy. Resource flows feed these dissipative cities, as if they were ecosystems composed  of organisms and are metabolized and continuously used to sustain its ordered structure during the time.",
+      "text": "Absorption  of  external  input  (negentropy)  and  emission  of  internal  output (entropy, heat)  is  a  principle  that  works  for  social  systems,  economics,  human settlements  and  all  their  dynamics.  Cities  absorb  flows  of  high  quality  energy from the external environment and emit heat, wastes and pollutants; their internal entropy  decreases  by  self-organization  in  the  form  of  structures,  information, social patterns and economy. Resource flows feed these dissipative cities, as if they were ecosystems composed  of organisms and are metabolized and continuously used to sustain its ordered structure during the time."
+    },
+    {
+      "self_ref": "#/texts/52",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 420.25799585937494,
+            "r": 385.441,
+            "b": 400.57199585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            137
+          ]
+        }
+      ],
+      "orig": "Cities are physical systems in contact with various sources and sinks; matter and energy flow through them from the sources to the sinks.",
+      "text": "Cities are physical systems in contact with various sources and sinks; matter and energy flow through them from the sources to the sinks."
+    },
+    {
+      "self_ref": "#/texts/53",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 387.356995859375,
+            "r": 139.87,
+            "b": 374.07299585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            13
+          ]
+        }
+      ],
+      "orig": "4 Conclusions",
+      "text": "4 Conclusions",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/54",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 359.41799585937497,
+            "r": 385.349,
+            "b": 270.79199585937494,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            663
+          ]
+        }
+      ],
+      "orig": "Evolutionary  thermodynamics  and  complex  system  theory  provide  a  potential scientific background for understanding the general behaviour of living systems. They  provide  an  opportunity  for  understanding  nature,  cities,  society  and  life. Knowledge  of  nature  must  come  from  a  global,  systemic  view  of  events  and from  study  of  interactions  between  different  elements  in  the  various  forms  of matter,  energy  and  information  in  time  and  space  [11].  The  perception  of complexity and dissipation  in  far  from  equilibrium  systems  gives  a  theoretical framework that also works for reloading principles of aesthetics.",
+      "text": "Evolutionary  thermodynamics  and  complex  system  theory  provide  a  potential scientific background for understanding the general behaviour of living systems. They  provide  an  opportunity  for  understanding  nature,  cities,  society  and  life. Knowledge  of  nature  must  come  from  a  global,  systemic  view  of  events  and from  study  of  interactions  between  different  elements  in  the  various  forms  of matter,  energy  and  information  in  time  and  space  [11].  The  perception  of complexity and dissipation  in  far  from  equilibrium  systems  gives  a  theoretical framework that also works for reloading principles of aesthetics."
+    },
+    {
+      "self_ref": "#/texts/55",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "text",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 267.43799585937495,
+            "r": 385.37,
+            "b": 201.79099585937496,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            442
+          ]
+        }
+      ],
+      "orig": "The  challenge  and  novelty  of  contemporary  design  would  probably  be  in considering  the  dynamics  of  natural  systems,  flows  of  energy  and  matter, information exchange and the spontaneous formation of ordered structures. The task  of  the  next  generation  of  designers,  aware  of  the  complexity  of  the dissipative  systems  far  from  thermodynamic  equilibrium,  is  to  think  coherent shapes within a dynamic world.",
+      "text": "The  challenge  and  novelty  of  contemporary  design  would  probably  be  in considering  the  dynamics  of  natural  systems,  flows  of  energy  and  matter, information exchange and the spontaneous formation of ordered structures. The task  of  the  next  generation  of  designers,  aware  of  the  complexity  of  the dissipative  systems  far  from  thermodynamic  equilibrium,  is  to  think  coherent shapes within a dynamic world."
+    },
+    {
+      "self_ref": "#/texts/56",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "section_header",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 188.57699585937496,
+            "r": 115.817,
+            "b": 175.29299585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            10
+          ]
+        }
+      ],
+      "orig": "References",
+      "text": "References",
+      "level": 1
+    },
+    {
+      "self_ref": "#/texts/57",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 160.637995859375,
+            "r": 352.303,
+            "b": 152.47099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            75
+          ]
+        }
+      ],
+      "orig": "[1] Prigogine, I., Stengers, I., The new alliance . Gallimard, Paris, 1979.",
+      "text": "Prigogine, I., Stengers, I., The new alliance . Gallimard, Paris, 1979.",
+      "enumerated": true,
+      "marker": "[1]"
+    },
+    {
+      "self_ref": "#/texts/58",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 149.17799585937496,
+            "r": 385.312,
+            "b": 129.49099585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            120
+          ]
+        }
+      ],
+      "orig": "[2] Wicken, J. S., Information transformation in molecular evolution. Journal of Theoretical Biology , 72, 1978, 191-204",
+      "text": "Wicken, J. S., Information transformation in molecular evolution. Journal of Theoretical Biology , 72, 1978, 191-204",
+      "enumerated": true,
+      "marker": "[2]"
+    },
+    {
+      "self_ref": "#/texts/59",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 126.137995859375,
+            "r": 385.294,
+            "b": 106.51099585937493,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            127
+          ]
+        }
+      ],
+      "orig": "[3] Wicken, J.S., Entropy gradient: A heuristic approach to chemical equilibrium. Journal of Chemical Education , 55, 1978, 701",
+      "text": "Wicken, J.S., Entropy gradient: A heuristic approach to chemical equilibrium. Journal of Chemical Education , 55, 1978, 701",
+      "enumerated": true,
+      "marker": "[3]"
+    },
+    {
+      "self_ref": "#/texts/60",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 103.15799585937498,
+            "r": 385.302,
+            "b": 83.47099585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            135
+          ]
+        }
+      ],
+      "orig": "[4] Wicken  J.S., Self-organization vs. self-ordering events in life-origin models. Journal of Theoretical Biology , 77, 1979, 349-365.",
+      "text": "Wicken  J.S., Self-organization vs. self-ordering events in life-origin models. Journal of Theoretical Biology , 77, 1979, 349-365.",
+      "enumerated": true,
+      "marker": "[4]"
+    },
+    {
+      "self_ref": "#/texts/61",
+      "parent": {
+        "$ref": "#/groups/0"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 56.825,
+            "t": 80.17799585937496,
+            "r": 321.13,
+            "b": 72.01199585937502,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            62
+          ]
+        }
+      ],
+      "orig": "[5] Morowitz, H., Energy flow in biology . Ox Bow Press, 1979.",
+      "text": "Morowitz, H., Energy flow in biology . Ox Bow Press, 1979.",
+      "enumerated": true,
+      "marker": "[5]"
+    },
+    {
+      "self_ref": "#/texts/62",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    },
+    {
+      "self_ref": "#/texts/63",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_header",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 282.868,
+            "t": 620.118995859375,
+            "r": 384.095,
+            "b": 610.6019958593749,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            25
+          ]
+        }
+      ],
+      "orig": "Design and Nature IV  299",
+      "text": "Design and Nature IV  299"
+    },
+    {
+      "self_ref": "#/texts/64",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.825,
+            "t": 592.757995859375,
+            "r": 385.299,
+            "b": 561.550995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            163
+          ]
+        }
+      ],
+      "orig": "[6] Nicolis G., Physics of Far-From-Equilibrium Systems and Selforganization ;  in  Davies P. (Ed.), The New Physics ;  Cambridge University Press: New York, 1989.",
+      "text": "Nicolis G., Physics of Far-From-Equilibrium Systems and Selforganization ;  in  Davies P. (Ed.), The New Physics ;  Cambridge University Press: New York, 1989.",
+      "enumerated": true,
+      "marker": "[6]"
+    },
+    {
+      "self_ref": "#/texts/65",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.825,
+            "t": 558.257995859375,
+            "r": 385.299,
+            "b": 538.570995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            93
+          ]
+        }
+      ],
+      "orig": "[7] G. Nicolis and I. Prigogine, Exploring Complexity. An introduction , Piper, Munich, 1987.",
+      "text": "G. Nicolis and I. Prigogine, Exploring Complexity. An introduction , Piper, Munich, 1987.",
+      "enumerated": true,
+      "marker": "[7]"
+    },
+    {
+      "self_ref": "#/texts/66",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.825,
+            "t": 535.2179958593749,
+            "r": 385.333,
+            "b": 504.070995859375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            214
+          ]
+        }
+      ],
+      "orig": "[8] Pulselli  R.M.,  Ratti  C.,  Tiezzi  E.,  City  out  of  chaos:  social  patterns  and organization  in  urban  systems. International  Journal  of  Ecodynamics , WITpress, Southampton, 1(2), 2006, pp. 125-134.",
+      "text": "Pulselli  R.M.,  Ratti  C.,  Tiezzi  E.,  City  out  of  chaos:  social  patterns  and organization  in  urban  systems. International  Journal  of  Ecodynamics , WITpress, Southampton, 1(2), 2006, pp. 125-134.",
+      "enumerated": true,
+      "marker": "[8]"
+    },
+    {
+      "self_ref": "#/texts/67",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.825,
+            "t": 500.717995859375,
+            "r": 385.347,
+            "b": 469.57199585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            226
+          ]
+        }
+      ],
+      "orig": "[9] Pulselli R.M., Pulselli F.M., Marchettini N., 'The conjunction of non living and  living  in  human  systems:  why  do  novelties  emerge?',  International Journal of Ecodynamics, WITpress, Southampton, 2(4), 2007, 245-249",
+      "text": "Pulselli R.M., Pulselli F.M., Marchettini N., 'The conjunction of non living and  living  in  human  systems:  why  do  novelties  emerge?',  International Journal of Ecodynamics, WITpress, Southampton, 2(4), 2007, 245-249",
+      "enumerated": true,
+      "marker": "[9]"
+    },
+    {
+      "self_ref": "#/texts/68",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.825,
+            "t": 466.217995859375,
+            "r": 385.316,
+            "b": 446.59199585937495,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            89
+          ]
+        }
+      ],
+      "orig": "[10]  Tiezzi E., Steps towards an evolutionary physics ; WITpress, Southampton, UK, 2007.",
+      "text": " Tiezzi E., Steps towards an evolutionary physics ; WITpress, Southampton, UK, 2007.",
+      "enumerated": true,
+      "marker": "[10]"
+    },
+    {
+      "self_ref": "#/texts/69",
+      "parent": {
+        "$ref": "#/groups/1"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "list_item",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 56.826,
+            "t": 443.23799585937496,
+            "r": 350.321,
+            "b": 435.07199585937497,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            70
+          ]
+        }
+      ],
+      "orig": "[11]  Tiezzi E., Beauty and Science ; WITpress, Southampton, UK, 2004.",
+      "text": " Tiezzi E., Beauty and Science ; WITpress, Southampton, UK, 2004.",
+      "enumerated": true,
+      "marker": "[11]"
+    },
+    {
+      "self_ref": "#/texts/70",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "furniture",
+      "label": "page_footer",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 75.524,
+            "t": 43.75699585937491,
+            "r": 304.974,
+            "b": 27.662995859374973,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            117
+          ]
+        }
+      ],
+      "orig": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,",
+      "text": "www.witpress.com, ISSN 1743-3541 (on-line) \u00a9 2008 WIT Press WIT Transactions on Ecology and the Environment, Vol 114,"
+    }
+  ],
+  "pictures": [
+    {
+      "self_ref": "#/pictures/0",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 1,
+          "bbox": {
+            "l": 55.827659606933594,
+            "t": 44.75006103515625,
+            "r": 69.94380187988281,
+            "b": 27.7198486328125,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/1",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 90.71798706054688,
+            "t": 332.0137634277344,
+            "r": 347.8403625488281,
+            "b": 85.2587890625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/2",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 2,
+          "bbox": {
+            "l": 55.92277526855469,
+            "t": 44.57354736328125,
+            "r": 69.76078033447266,
+            "b": 27.752685546875,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/3",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 3,
+          "bbox": {
+            "l": 55.81523895263672,
+            "t": 44.50848388671875,
+            "r": 69.83319854736328,
+            "b": 27.743896484375,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/4",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 4,
+          "bbox": {
+            "l": 55.85923767089844,
+            "t": 44.5286865234375,
+            "r": 69.83049011230469,
+            "b": 27.740478515625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/5",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [
+        {
+          "$ref": "#/texts/42"
+        }
+      ],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 76.56383514404297,
+            "t": 596.7863082885742,
+            "r": 362.4076843261719,
+            "b": 275.71063232421875,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [
+        {
+          "$ref": "#/texts/42"
+        }
+      ],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/6",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 5,
+          "bbox": {
+            "l": 55.865726470947266,
+            "t": 44.61846923828125,
+            "r": 69.84022521972656,
+            "b": 27.74176025390625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/7",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 6,
+          "bbox": {
+            "l": 55.83738327026367,
+            "t": 44.5997314453125,
+            "r": 69.80115509033203,
+            "b": 27.73492431640625,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    },
+    {
+      "self_ref": "#/pictures/8",
+      "parent": {
+        "$ref": "#/body"
+      },
+      "children": [],
+      "content_layer": "body",
+      "label": "picture",
+      "prov": [
+        {
+          "page_no": 7,
+          "bbox": {
+            "l": 55.93976593017578,
+            "t": 44.582275390625,
+            "r": 69.78419494628906,
+            "b": 27.77117919921875,
+            "coord_origin": "BOTTOMLEFT"
+          },
+          "charspan": [
+            0,
+            0
+          ]
+        }
+      ],
+      "captions": [],
+      "references": [],
+      "footnotes": [],
+      "annotations": []
+    }
+  ],
+  "tables": [],
+  "key_value_items": [],
+  "form_items": [],
+  "pages": {
+    "1": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 1
+    },
+    "2": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 2
+    },
+    "3": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 3
+    },
+    "4": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 4
+    },
+    "5": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 5
+    },
+    "6": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 6
+    },
+    "7": {
+      "size": {
+        "width": 439.3700866699219,
+        "height": 651.968505859375
+      },
+      "page_no": 7
+    }
+  }
+}

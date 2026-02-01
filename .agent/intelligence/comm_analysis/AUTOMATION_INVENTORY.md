@@ -89,8 +89,8 @@ post-commit → autopilot.py post-commit --safe
 **Type:** File watcher + activity debouncer
 
 **Watches:**
-- `context-management/config/semantic_models.yaml`
-- `standard-model-of-code/src/core/**`
+- `wave/config/semantic_models.yaml`
+- `particle/src/core/**`
 
 **Behavior:**
 - Poll interval: 5 minutes

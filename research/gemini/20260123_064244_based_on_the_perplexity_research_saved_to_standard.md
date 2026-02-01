@@ -1,4 +1,4 @@
-# Research: Based on the Perplexity research saved to standard-model-of-code/docs/research/perplexity/ about Reg...
+# Research: Based on the Perplexity research saved to particle/docs/research/perplexity/ about Reg...
 
 > **Date:** 2026-01-23 06:42:44
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-Based on the Perplexity research saved to standard-model-of-code/docs/research/perplexity/ about Registry of Registries patterns, and the existing REGISTRY_OF_REGISTRIES.md in standard-model-of-code/docs/specs/, design a new AUTO-DISCOVERY, OMNIPRESENT, ALWAYS-CONSCIOUS Registry of Registries system for PROJECT_elements. 
+Based on the Perplexity research saved to particle/docs/research/perplexity/ about Registry of Registries patterns, and the existing REGISTRY_OF_REGISTRIES.md in particle/docs/specs/, design a new AUTO-DISCOVERY, OMNIPRESENT, ALWAYS-CONSCIOUS Registry of Registries system for PROJECT_elements.
 
 The design should include:
 1. Auto-discovery mechanism that scans for registry patterns (YAML, JSON, MD files with 'Registry' in name or content)

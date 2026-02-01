@@ -15,14 +15,14 @@ CONTEXT: Project has t...
 HONEST OPINION: Evaluate naming analogies for PROJECT_elements architecture.
 
 CONTEXT: Project has two main directories:
-- standard-model-of-code/ = Collider engine, code analysis, concrete outputs
-- context-management/ = AI tools, orchestration, planning, research
+- particle/ = Collider engine, code analysis, concrete outputs
+- wave/ = AI tools, orchestration, planning, research
 
 CURRENT NAMING: 'Body/Brain' (user rejected - no human anatomy metaphors)
 
 CANDIDATE ANALOGIES:
 1. **Up/Down** - Up=abstract/planning, Down=concrete/execution
-2. **Idea/Application** - Idea=conceptual, Application=concrete  
+2. **Idea/Application** - Idea=conceptual, Application=concrete
 3. **Concepts/Objects** - Types vs instances (philosophical)
 4. **Knowledge/Action** - Contemplative vs doing (with Care qualifier)
 5. **Particle/Wave** - Fits physics theme (atoms, collider, standard model)
@@ -59,7 +59,7 @@ I recommend structuring your documentation with `Particle/Wave` as the primary a
 
 Here is a breakdown of each option, rated on Clarity, Coherence, Precision, and Memorability.
 
-| Candidate | `standard-model-of-code` | `context-management` | Grade | Summary |
+| Candidate | `particle` | `wave` | Grade | Summary |
 | :--- | :--- | :--- | :--- | :--- |
 | **Particle/Wave** | **Particle** (concrete analysis) | **Wave** (potential, context) | **A+** | Thematically perfect, precise, and profoundly descriptive. |
 | **Knowledge/Action** | **Action** (analysis engine) | **Knowledge** (AI, research) | **B+** | Excellent for describing purpose, but less unique. |
@@ -75,8 +75,8 @@ Here is a breakdown of each option, rated on Clarity, Coherence, Precision, and 
 #### 1. Particle/Wave (Grade: A+)
 This is the clear winner. It elevates the project's entire conceptual framework.
 
-*   `standard-model-of-code` -> **The Particle**: This is perfect. The Collider engine is a measurement tool. It takes the quantum soup of source code and "collapses the wave function" into a concrete, measurable `unified_analysis.json`—a particle of knowledge with definite properties (nodes, edges, metrics).
-*   `context-management` -> **The Wave**: This is also a brilliant fit. This directory holds the AI, the research, the planning, the `COLLIDER_ARCHITECTURE.md`. It represents the field of potential, the strategic context, the probabilistic models, and the superposition of all possible future states. The AI tools "see the hypercomplex topology" (a wave-like concept) before the Collider creates a particle.
+*   `particle` -> **The Particle**: This is perfect. The Collider engine is a measurement tool. It takes the quantum soup of source code and "collapses the wave function" into a concrete, measurable `unified_analysis.json`—a particle of knowledge with definite properties (nodes, edges, metrics).
+*   `wave` -> **The Wave**: This is also a brilliant fit. This directory holds the AI, the research, the planning, the `COLLIDER_ARCHITECTURE.md`. It represents the field of potential, the strategic context, the probabilistic models, and the superposition of all possible future states. The AI tools "see the hypercomplex topology" (a wave-like concept) before the Collider creates a particle.
 
 *   **Coherence:** Creates a powerful, unified narrative. You aren't just building a "Standard Model"; you are treating code with the principles of quantum mechanics.
 *   **Precision:** The mapping is surprisingly precise and captures the essence of each component's role.
@@ -85,8 +85,8 @@ This is the clear winner. It elevates the project's entire conceptual framework.
 #### 2. Knowledge/Action (Grade: B+)
 A strong, clear, and professional choice, but it lacks the unique flavor of Particle/Wave.
 
-*   `standard-model-of-code` -> **The Action**: The Collider engine *acts* on the codebase.
-*   `context-management` -> **The Knowledge**: The AI tools and documentation represent the accumulated knowledge and intelligence.
+*   `particle` -> **The Action**: The Collider engine *acts* on the codebase.
+*   `wave` -> **The Knowledge**: The AI tools and documentation represent the accumulated knowledge and intelligence.
 
 *   **Clarity:** Very high. Everyone understands this dichotomy.
 *   **Coherence:** Doesn't clash with the physics theme, but doesn't actively support it either.
@@ -95,8 +95,8 @@ A strong, clear, and professional choice, but it lacks the unique flavor of Part
 #### 3. Engine/Control (Grade: B)
 This is a solid, industrial-age metaphor. It's good, but maybe not "Alien Architecture" good.
 
-*   `standard-model-of-code` -> **The Engine**: Fits perfectly. "Collider engine" is already in use.
-*   `context-management` -> **The Control System**: This is the weak point. "Control" implies a simple dashboard or set of levers. Your `context-management` directory is a sophisticated AI-driven planning and reasoning system. Calling it "Control" undersells its intelligence.
+*   `particle` -> **The Engine**: Fits perfectly. "Collider engine" is already in use.
+*   `wave` -> **The Control System**: This is the weak point. "Control" implies a simple dashboard or set of levers. Your `wave` directory is a sophisticated AI-driven planning and reasoning system. Calling it "Control" undersells its intelligence.
 
 *   **Precision:** "Engine" is precise. "Control" is imprecise.
 *   **Verdict:** Good for describing the mechanical relationship, but not the intellectual one. Use it as a tertiary metaphor.
@@ -104,16 +104,16 @@ This is a solid, industrial-age metaphor. It's good, but maybe not "Alien Archit
 #### 4. Idea/Application (Grade: C)
 Weak due to ambiguity.
 
-*   `standard-model-of-code` -> **The Application**: This is confusing. Is it a desktop app? A web app? The whole project is an application.
-*   `context-management` -> **The Idea**: This is okay, but "Knowledge" is better.
+*   `particle` -> **The Application**: This is confusing. Is it a desktop app? A web app? The whole project is an application.
+*   `wave` -> **The Idea**: This is okay, but "Knowledge" is better.
 
 *   **Verdict:** Avoid. The term "Application" is too overloaded in software engineering.
 
 #### 5. Concepts/Objects (Grade: C-)
 Too academic and easily confused with Object-Oriented Programming.
 
-*   `standard-model-of-code` -> **The Objects**: Again, "Objects" is an extremely overloaded term.
-*   `context-management` -> **The Concepts**: Accurate, but dry and not very inspiring.
+*   `particle` -> **The Objects**: Again, "Objects" is an extremely overloaded term.
+*   `wave` -> **The Concepts**: Accurate, but dry and not very inspiring.
 
 *   **Verdict:** Avoid. Creates more confusion than clarity.
 
@@ -155,8 +155,8 @@ This is the corporate-speak default. It's what you use when you have no better i
 
     | Hemisphere | Directory | Duality | Purpose | Mechanic |
     | :--- | :--- | :--- | :--- | :--- |
-    | **The Wave** | `context-management/` | Potential, Field | **Knowledge** | **Control** |
-    | **The Particle** | `standard-model-of-code/`| Manifestation, Object | **Action** | **Engine** |
+    | **The Wave** | `wave/` | Potential, Field | **Knowledge** | **Control** |
+    | **The Particle** | `particle/`| Manifestation, Object | **Action** | **Engine** |
 
     ## The Wave Hemisphere (Knowledge & Control)
 

@@ -9,7 +9,7 @@
 
 ### Location
 ```
-standard-model-of-code/docs/research/
+particle/docs/research/
 ├── gemini/                      # Gemini API queries
 │   ├── sessions/                # Full conversation JSON (243 files)
 │   ├── docs/                    # Markdown summaries (246 files)
@@ -104,7 +104,7 @@ Example: 20260127_060622_research_question__what_are_the_minimal_essential.md
 ## AUTO-SAVE MECHANISM
 
 ### Code Location
-`context-management/tools/ai/analyze.py`
+`wave/tools/ai/analyze.py`
 
 ```python
 # Line 383
@@ -170,10 +170,10 @@ print(f"[Auto-saved to: {saved_path}]")
 ### By Date:
 ```bash
 # Today's Gemini queries
-ls -lt standard-model-of-code/docs/research/gemini/sessions/20260127_*.json
+ls -lt particle/docs/research/gemini/sessions/20260127_*.json
 
 # Today's Perplexity queries
-ls -lt standard-model-of-code/docs/research/perplexity/docs/20260127_*.md
+ls -lt particle/docs/research/perplexity/docs/20260127_*.md
 ```
 
 ### By Topic:
@@ -182,7 +182,7 @@ ls -lt standard-model-of-code/docs/research/perplexity/docs/20260127_*.md
 ./pe refinery search "integration architecture"
 
 # Search Perplexity research
-grep -r "multi-service" standard-model-of-code/docs/research/perplexity/docs/
+grep -r "multi-service" particle/docs/research/perplexity/docs/
 ```
 
 ### Via Refinery:
@@ -275,8 +275,8 @@ _Auto-saved: perplexity/docs/YYYYMMDD_HHMMSS_query.md_
 - Every Perplexity query → 2 files (docs.md, raw.json)
 
 **Where:**
-- `standard-model-of-code/docs/research/gemini/` (732 files, 5.7 MB)
-- `standard-model-of-code/docs/research/perplexity/` (336 files, 8.3 MB)
+- `particle/docs/research/gemini/` (732 files, 5.7 MB)
+- `particle/docs/research/perplexity/` (336 files, 8.3 MB)
 
 **How Many:**
 - **Total:** 1,068 research files

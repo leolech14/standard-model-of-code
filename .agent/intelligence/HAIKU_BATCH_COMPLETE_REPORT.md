@@ -58,7 +58,7 @@
 **Facts Verified:** 16
 **Critical Gaps:** 3
 
-### WAVE (context-management/) Findings:
+### WAVE (wave/) Findings:
 1. ❌ 38/43 tools unregistered in TOOLS_REGISTRY.yaml (88%)
 2. ✅ HSL implemented (SocraticValidator in analyze.py)
 3. ❌ Charts tool (T005) not implemented
@@ -121,8 +121,8 @@
 **Claim:** PARTICLE/WAVE/OBSERVER is fundamental trinity
 
 **Haiku Verification:**
-- ✅ PARTICLE verified (standard-model-of-code/)
-- ✅ WAVE verified (context-management/)
+- ✅ PARTICLE verified (particle/)
+- ✅ WAVE verified (wave/)
 - ✅ OBSERVER verified (.agent/)
 - ✅ All three have distinct responsibilities
 - ✅ Cross-connections exist in code

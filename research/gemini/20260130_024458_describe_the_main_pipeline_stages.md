@@ -16,7 +16,7 @@ Describe the main pipeline stages
 
 ## Response
 
-The `standard-model-of-code/src/core/full_analysis.py` script orchestrates a comprehensive, multi-stage analysis pipeline for a given codebase. It processes source code through various theoretical frameworks and analytical modules to produce a rich, multi-dimensional graph model.
+The `particle/src/core/full_analysis.py` script orchestrates a comprehensive, multi-stage analysis pipeline for a given codebase. It processes source code through various theoretical frameworks and analytical modules to produce a rich, multi-dimensional graph model.
 
 The main pipeline stages, as observed in the `run_full_analysis` function, are:
 

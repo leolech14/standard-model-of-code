@@ -1,0 +1,24 @@
+{
+  "parcel_id": "pcl_fa44c35f23e5",
+  "ref_id": "PRIGOGINE_1984",
+  "route": [
+    {
+      "event": "processing_started",
+      "timestamp": 1769848298,
+      "agent": "docling.processor.py",
+      "context": {
+        "batch_id": "batch_20260131_045514"
+      }
+    },
+    {
+      "event": "processing_completed",
+      "timestamp": 1769848370,
+      "agent": "docling.processor.py",
+      "context": {
+        "strategy": "standard",
+        "page_count": 385,
+        "chunk_count": 631
+      }
+    }
+  ]
+}

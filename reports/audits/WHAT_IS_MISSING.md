@@ -10,7 +10,7 @@
 
 ### **1. analyze.py UnboundLocalError**
 
-**Location:** `context-management/tools/ai/analyze.py:3189`
+**Location:** `wave/tools/ai/analyze.py:3189`
 
 **Error:**
 ```python

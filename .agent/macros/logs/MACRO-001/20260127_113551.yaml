@@ -42,7 +42,7 @@ steps:
   output: ''
   error: "Traceback (most recent call last):\n  File \"<string>\", line 2, in <module>\n\
     \    from aci import (\n    ...<5 lines>...\n    )\nImportError: cannot import\
-    \ name 'HistoryLoader' from 'aci' (/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/__init__.py)\n"
+    \ name 'HistoryLoader' from 'aci' (/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/__init__.py)\n"
   exit_code: 1
 - step_id: check_validation_theater
   tool: Task

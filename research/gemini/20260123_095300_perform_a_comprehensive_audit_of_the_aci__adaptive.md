@@ -46,8 +46,8 @@ The ACI system is **structurally sound regarding configuration and routing logic
 The configuration system is correctly wired. The code actively prevents hardcoded defaults by loading `aci_config.yaml`.
 
 *   **Loader Verification**:
-    *   `context-management/tools/ai/aci/__init__.py:26`: `_load_aci_config` correctly resolves the path to `../../../../config/aci_config.yaml`.
-    *   `context-management/tools/ai/aci/__init__.py:47`: Exports `ACI_CONFIG` as a singleton.
+    *   `wave/tools/ai/aci/__init__.py:26`: `_load_aci_config` correctly resolves the path to `../../../../config/aci_config.yaml`.
+    *   `wave/tools/ai/aci/__init__.py:47`: Exports `ACI_CONFIG` as a singleton.
 *   **Consumer Verification**:
     *   `query_analyzer.py:22`: Imports `ACI_CONFIG` via `_get_config`.
     *   `query_analyzer.py:160`: `get_intent_keywords` merges config values with defaults, ensuring user overrides work.
@@ -87,21 +87,21 @@ While `analyze.py` imports ACI modules, the execution logic has significant flaw
 **Severity: CRITICAL**
 `analyze.py` is designed to accept a single string for `--set`. ACI returns a list of sets. Currently, `analyze.py` ignores all but the first set.
 
-*   **Citation**: `context-management/tools/ai/analyze.py:1137`
+*   **Citation**: `wave/tools/ai/analyze.py:1137`
 *   **Fix**: `analyze.py` needs logic to merge patterns from multiple sets dynamically, rather than relying on `resolve_set` which only handles static includes defined in YAML.
 
 #### Gap 2: Missing Feedback Logging
 **Severity: HIGH**
 The feedback loop is not closed for standard queries.
 
-*   **Citation**: `context-management/tools/ai/analyze.py:1461` (End of execution)
+*   **Citation**: `wave/tools/ai/analyze.py:1461` (End of execution)
 *   **Fix**: Add `log_aci_query` calls after `answer_from_truths` and at the end of the standard execution flow (Long Context/One-Shot).
 
 #### Gap 3: Context Optimizer Disconnect
 **Severity: MEDIUM**
 `context_optimizer.py` contains sophisticated logic for token estimation, hard caps, and "sandwiching" critical files. However, `analyze.py` re-implements a simpler version of this logic inside `build_context_from_files` and `resolve_set`, largely ignoring the `OptimizedContext` object ACI provides.
 
-*   **Citation**: `context-management/tools/ai/aci/context_optimizer.py:144` (Defines `optimize_context`) vs `analyze.py` (Never calls `optimize_context`).
+*   **Citation**: `wave/tools/ai/aci/context_optimizer.py:144` (Defines `optimize_context`) vs `analyze.py` (Never calls `optimize_context`).
 
 ### Summary of Required Fixes
 

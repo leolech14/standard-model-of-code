@@ -19,17 +19,17 @@ steps:
     ?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n?? .agent/macros/logs/MACRO-001/20260126_183330.yaml\n\
     ?? .agent/macros/logs/MACRO-001/20260126_183756.yaml\n?? .agent/macros/logs/MACRO-001/20260127_022725.yaml\n\
     ?? AUDIT_MANIFEST.md\n?? INDEX.md\n?? PROJECT_METADATA.md\n?? THEORY_MAP.md\n\
-    ?? context-management/docs/deep/THEORY_AMENDMENT_2026-01.md\n?? context-management/docs/specs/ANALYZE_OUTPUT_CONTRACT.md\n\
-    ?? context-management/tools/ai/deck/fabric_bridge.py\n\n=== MODIFIED FILES ===\n\
+    ?? wave/docs/deep/THEORY_AMENDMENT_2026-01.md\n?? wave/docs/specs/ANALYZE_OUTPUT_CONTRACT.md\n\
+    ?? wave/tools/ai/deck/fabric_bridge.py\n\n=== MODIFIED FILES ===\n\
     \ M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n M .agent/intelligence/aci_feedback.yaml\n\
     \ M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n M .agent/intelligence/boundary_analysis.json\n\
     \ M .agent/intelligence/chunks/aci_chunks.json\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M .agent/tools/wire.py\n M CLAUDE.md\n M context-management/config/analysis_sets.yaml\n\
-    \ M context-management/config/research_schemas.yaml\n M context-management/docs/GLOSSARY.md\n\
-    \ M context-management/docs/specs/AI_CONSUMER_CLASS.md\n M context-management/tools/ai/analyze.py\n\
-    \ M context-management/tools/ai/deck/deck_router.py\n M context-management/tools/ai/industrial_ui.py\n\
-    \ M pe\n M project_elements_file_timestamps.csv\n M standard-model-of-code/CLAUDE.md\n"
+    \ M .agent/tools/wire.py\n M CLAUDE.md\n M wave/config/analysis_sets.yaml\n\
+    \ M wave/config/research_schemas.yaml\n M wave/docs/GLOSSARY.md\n\
+    \ M wave/docs/specs/AI_CONSUMER_CLASS.md\n M wave/tools/ai/analyze.py\n\
+    \ M wave/tools/ai/deck/deck_router.py\n M wave/tools/ai/industrial_ui.py\n\
+    \ M pe\n M project_elements_file_timestamps.csv\n M particle/CLAUDE.md\n"
   error: null
   exit_code: 0
 - step_id: check_dead_code
@@ -70,17 +70,17 @@ variables:
     ?? .agent/macros/logs/MACRO-001/20260126_182536.yaml\n?? .agent/macros/logs/MACRO-001/20260126_183330.yaml\n\
     ?? .agent/macros/logs/MACRO-001/20260126_183756.yaml\n?? .agent/macros/logs/MACRO-001/20260127_022725.yaml\n\
     ?? AUDIT_MANIFEST.md\n?? INDEX.md\n?? PROJECT_METADATA.md\n?? THEORY_MAP.md\n\
-    ?? context-management/docs/deep/THEORY_AMENDMENT_2026-01.md\n?? context-management/docs/specs/ANALYZE_OUTPUT_CONTRACT.md\n\
-    ?? context-management/tools/ai/deck/fabric_bridge.py\n\n=== MODIFIED FILES ===\n\
+    ?? wave/docs/deep/THEORY_AMENDMENT_2026-01.md\n?? wave/docs/specs/ANALYZE_OUTPUT_CONTRACT.md\n\
+    ?? wave/tools/ai/deck/fabric_bridge.py\n\n=== MODIFIED FILES ===\n\
     \ M .agent/intelligence/SKEPTICAL_AUDIT_20260126.md\n M .agent/intelligence/aci_feedback.yaml\n\
     \ M .agent/intelligence/autopilot_logs/autopilot_20260126.jsonl\n M .agent/intelligence/boundary_analysis.json\n\
     \ M .agent/intelligence/chunks/aci_chunks.json\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M .agent/tools/wire.py\n M CLAUDE.md\n M context-management/config/analysis_sets.yaml\n\
-    \ M context-management/config/research_schemas.yaml\n M context-management/docs/GLOSSARY.md\n\
-    \ M context-management/docs/specs/AI_CONSUMER_CLASS.md\n M context-management/tools/ai/analyze.py\n\
-    \ M context-management/tools/ai/deck/deck_router.py\n M context-management/tools/ai/industrial_ui.py\n\
-    \ M pe\n M project_elements_file_timestamps.csv\n M standard-model-of-code/CLAUDE.md\n"
+    \ M .agent/tools/wire.py\n M CLAUDE.md\n M wave/config/analysis_sets.yaml\n\
+    \ M wave/config/research_schemas.yaml\n M wave/docs/GLOSSARY.md\n\
+    \ M wave/docs/specs/AI_CONSUMER_CLASS.md\n M wave/tools/ai/analyze.py\n\
+    \ M wave/tools/ai/deck/deck_router.py\n M wave/tools/ai/industrial_ui.py\n\
+    \ M pe\n M project_elements_file_timestamps.csv\n M particle/CLAUDE.md\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution
   bloat_analysis: Requires manual AI execution

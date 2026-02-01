@@ -23,8 +23,8 @@ steps:
     ?? .agent/macros/logs/MACRO-001/20260127_113549.yaml\n?? .agent/macros/logs/MACRO-001/20260127_113551.yaml\n\
     \n=== MODIFIED FILES ===\n M .agent/META_REGISTRY.yaml\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/research_schemas.yaml\n\
-    \ M standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/research_schemas.yaml\n\
+    \ M particle/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
   error: null
   exit_code: 0
 - step_id: check_dead_code
@@ -69,8 +69,8 @@ variables:
     ?? .agent/macros/logs/MACRO-001/20260127_113549.yaml\n?? .agent/macros/logs/MACRO-001/20260127_113551.yaml\n\
     \n=== MODIFIED FILES ===\n M .agent/META_REGISTRY.yaml\n M .agent/macros/library/MACRO-001-skeptical-audit.yaml\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n\
-    \ M context-management/config/documentation_map.yaml\n M context-management/config/research_schemas.yaml\n\
-    \ M standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
+    \ M wave/config/documentation_map.yaml\n M wave/config/research_schemas.yaml\n\
+    \ M particle/docs/specs/REGISTRY_OF_REGISTRIES.md\n"
   dead_code_findings: Requires manual AI execution
   validation_analysis: Requires manual AI execution
   bloat_analysis: Requires manual AI execution

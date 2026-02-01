@@ -1,0 +1,31 @@
+#!/bin/bash
+# Quick Cerebras chat - ultra-fast LLM queries
+# Usage: cerebras "your prompt"
+#        cerebras -m qwen-3-235b "your prompt"
+
+MODEL="llama-3.3-70b"
+while getopts "m:" opt; do
+  case $opt in
+    m) MODEL="$OPTARG" ;;
+  esac
+done
+shift $((OPTIND-1))
+
+PROMPT="$*"
+if [ -z "$PROMPT" ]; then
+  echo "Usage: cerebras [-m model] \"your prompt\""
+  echo ""
+  echo "Models: llama-3.3-70b (default), qwen-3-235b-a22b-instruct-2507, zai-glm-4.7, qwen-3-32b"
+  exit 1
+fi
+
+KEY=$(doppler secrets get CEREBRAS_API_KEY --plain)
+
+curl -s "https://api.cerebras.ai/v1/chat/completions" \
+  -H "Authorization: Bearer $KEY" \
+  -H "Content-Type: application/json" \
+  -d "$(jq -n --arg model "$MODEL" --arg prompt "$PROMPT" '{
+    model: $model,
+    messages: [{role: "user", content: $prompt}],
+    max_tokens: 4096
+  }')" | jq -r '.choices[0].message.content // .error.message'

@@ -29,7 +29,7 @@ CASCADE:  Collider → unified_analysis.json → Purpose Field → POM → ACI �
 | **Subsystem ID** | S1 |
 | **Realm** | PARTICLE (deterministic) |
 | **Role** | The Analysis Engine |
-| **Location** | `standard-model-of-code/` |
+| **Location** | `particle/` |
 | **Entry Point** | `./pe collider full <path> --output <dir>` |
 | **CLI** | `cli.py` (1063+ lines) |
 
@@ -276,7 +276,7 @@ dependencies = [
 ### Step 1: Verify Current State
 
 ```bash
-cd ~/PROJECTS_all/PROJECT_elements/standard-model-of-code
+cd ~/PROJECTS_all/PROJECT_elements/particle
 
 # Check if tree-sitter importable
 uv run python -c "import tree_sitter; print('tree-sitter OK')"
@@ -288,7 +288,7 @@ uv run python -c "import tree_sitter_python; print('python grammar OK')"
 ### Step 2: Install Dependencies
 
 ```bash
-cd ~/PROJECTS_all/PROJECT_elements/standard-model-of-code
+cd ~/PROJECTS_all/PROJECT_elements/particle
 
 # Option A: Using uv (preferred)
 uv pip install tree-sitter tree-sitter-python tree-sitter-javascript tree-sitter-typescript

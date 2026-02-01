@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>l2_laws – PROJECT_elements Reader</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-60b3e774b6b9bc5eac144386c1887cee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Particle (Standard Model)</li><li class="breadcrumb-item"><a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html">Theory</a></li><li class="breadcrumb-item"><a href="../../staging/particle_theory/L2_LAWS.html">L2 Laws</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">PROJECT_elements Reader</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Governance</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../VISUAL_GUIDE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">🏗️ Visual Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../QUALITY_GATES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quality Gates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../REPO_STRUCTURE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repo Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../TOPOLOGY_MAP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Topology Map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ARCHITECTURE_AUDIT_2026.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture Audit 2026</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../PIPELINES.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipelines</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Particle (Standard Model)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analogy Scoring Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/COMPLETE_THEORY_READING_GUIDE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Complete Theory Reading Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L0_AXIOMS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L0 Axioms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L1_DEFINITIONS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L1 Definitions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L2_LAWS.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">L2 Laws</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/L3_APPLICATIONS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">L3 Applications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/PROJECTOME_THEORY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Projectome Theory</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../staging/particle_theory/THEORY_AXIOMS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theory Axioms</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Wave (Intelligence)</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#l2-laws-of-the-standard-model-of-code" id="toc-l2-laws-of-the-standard-model-of-code" class="nav-link active" data-scroll-target="#l2-laws-of-the-standard-model-of-code">L2: Laws of the Standard Model of Code</a>
+  <ul class="collapse">
+  <li><a href="#purpose-of-this-layer" id="toc-purpose-of-this-layer" class="nav-link" data-scroll-target="#purpose-of-this-layer">Purpose of This Layer</a></li>
+  <li><a href="#purpose-laws-the-canonical-pi-functions" id="toc-purpose-laws-the-canonical-pi-functions" class="nav-link" data-scroll-target="#purpose-laws-the-canonical-pi-functions">1. Purpose Laws (The Canonical pi Functions)</a>
+  <ul class="collapse">
+  <li><a href="#the-purpose-hierarchy" id="toc-the-purpose-hierarchy" class="nav-link" data-scroll-target="#the-purpose-hierarchy">1.1 The Purpose Hierarchy</a></li>
+  <li><a href="#pi1-atomic-purpose-role-mapping" id="toc-pi1-atomic-purpose-role-mapping" class="nav-link" data-scroll-target="#pi1-atomic-purpose-role-mapping">1.2 pi1: Atomic Purpose (Role Mapping)</a></li>
+  <li><a href="#pi2-molecular-purpose-effect-boundary-topology" id="toc-pi2-molecular-purpose-effect-boundary-topology" class="nav-link" data-scroll-target="#pi2-molecular-purpose-effect-boundary-topology">1.3 pi2: Molecular Purpose (Effect + Boundary + Topology)</a></li>
+  <li><a href="#pi3-organelle-purpose-container-purpose-from-child-distribution" id="toc-pi3-organelle-purpose-container-purpose-from-child-distribution" class="nav-link" data-scroll-target="#pi3-organelle-purpose-container-purpose-from-child-distribution">1.4 pi3: Organelle Purpose (Container Purpose from Child Distribution)</a></li>
+  <li><a href="#pi4-system-purpose-file-level-from-pi3-distribution" id="toc-pi4-system-purpose-file-level-from-pi3-distribution" class="nav-link" data-scroll-target="#pi4-system-purpose-file-level-from-pi3-distribution">1.5 pi4: System Purpose (File-Level from pi3 Distribution)</a></li>
+  <li><a href="#purpose-propagation-dynamics" id="toc-purpose-propagation-dynamics" class="nav-link" data-scroll-target="#purpose-propagation-dynamics">1.6 Purpose Propagation Dynamics</a></li>
+  </ul></li>
+  <li><a href="#emergence-laws" id="toc-emergence-laws" class="nav-link" data-scroll-target="#emergence-laws">2. Emergence Laws</a>
+  <ul class="collapse">
+  <li><a href="#systems-of-systems-recursive-composition" id="toc-systems-of-systems-recursive-composition" class="nav-link" data-scroll-target="#systems-of-systems-recursive-composition">2.1 Systems of Systems (Recursive Composition)</a></li>
+  <li><a href="#emergence-criterion" id="toc-emergence-criterion" class="nav-link" data-scroll-target="#emergence-criterion">2.2 Emergence Criterion</a></li>
+  <li><a href="#fractal-emergence" id="toc-fractal-emergence" class="nav-link" data-scroll-target="#fractal-emergence">2.3 Fractal Emergence</a></li>
+  </ul></li>
+  <li><a href="#flow-laws-constructal" id="toc-flow-laws-constructal" class="nav-link" data-scroll-target="#flow-laws-constructal">3. Flow Laws (Constructal)</a>
+  <ul class="collapse">
+  <li><a href="#constructal-principle-from-l0-axiom-e1" id="toc-constructal-principle-from-l0-axiom-e1" class="nav-link" data-scroll-target="#constructal-principle-from-l0-axiom-e1">3.1 Constructal Principle (from L0 Axiom E1)</a></li>
+  <li><a href="#flow-substances-the-four-flows" id="toc-flow-substances-the-four-flows" class="nav-link" data-scroll-target="#flow-substances-the-four-flows">3.2 Flow Substances (The Four Flows)</a></li>
+  </ul></li>
+  <li><a href="#concordance-laws-alignment-geometry" id="toc-concordance-laws-alignment-geometry" class="nav-link" data-scroll-target="#concordance-laws-alignment-geometry">4. Concordance Laws (Alignment Geometry)</a>
+  <ul class="collapse">
+  <li><a href="#drift-as-distance-in-purpose-embedding-space" id="toc-drift-as-distance-in-purpose-embedding-space" class="nav-link" data-scroll-target="#drift-as-distance-in-purpose-embedding-space">4.1 Drift as Distance in Purpose-Embedding Space</a></li>
+  <li><a href="#symmetry-formula" id="toc-symmetry-formula" class="nav-link" data-scroll-target="#symmetry-formula">4.2 Symmetry Formula</a></li>
+  <li><a href="#purpose-preservation-approximate-naturality" id="toc-purpose-preservation-approximate-naturality" class="nav-link" data-scroll-target="#purpose-preservation-approximate-naturality">4.3 Purpose Preservation (Approximate Naturality)</a></li>
+  </ul></li>
+  <li><a href="#antimatter-laws-architectural-violations" id="toc-antimatter-laws-architectural-violations" class="nav-link" data-scroll-target="#antimatter-laws-architectural-violations">5. Antimatter Laws (Architectural Violations)</a>
+  <ul class="collapse">
+  <li><a href="#the-five-laws" id="toc-the-five-laws" class="nav-link" data-scroll-target="#the-five-laws">The Five Laws</a></li>
+  <li><a href="#detection-rules" id="toc-detection-rules" class="nav-link" data-scroll-target="#detection-rules">Detection Rules</a></li>
+  </ul></li>
+  <li><a href="#communication-theory-shannon-semiotics" id="toc-communication-theory-shannon-semiotics" class="nav-link" data-scroll-target="#communication-theory-shannon-semiotics">6. Communication Theory (Shannon + Semiotics)</a>
+  <ul class="collapse">
+  <li><a href="#the-m-i-p-o-cycle-shannons-model" id="toc-the-m-i-p-o-cycle-shannons-model" class="nav-link" data-scroll-target="#the-m-i-p-o-cycle-shannons-model">6.1 The M-I-P-O Cycle (Shannon’s Model)</a></li>
+  <li><a href="#semiosis-as-continuous-interpretation" id="toc-semiosis-as-continuous-interpretation" class="nav-link" data-scroll-target="#semiosis-as-continuous-interpretation">6.2 Semiosis as Continuous Interpretation</a></li>
+  <li><a href="#free-energy-principle-development-as-gradient-descent" id="toc-free-energy-principle-development-as-gradient-descent" class="nav-link" data-scroll-target="#free-energy-principle-development-as-gradient-descent">6.3 Free Energy Principle (Development as Gradient Descent)</a></li>
+  </ul></li>
+  <li><a href="#evolution-laws" id="toc-evolution-laws" class="nav-link" data-scroll-target="#evolution-laws">7. Evolution Laws</a>
+  <ul class="collapse">
+  <li><a href="#technical-debt-as-drift-integral" id="toc-technical-debt-as-drift-integral" class="nav-link" data-scroll-target="#technical-debt-as-drift-integral">7.1 Technical Debt as Drift Integral</a></li>
+  <li><a href="#interface-surface-membrane-model" id="toc-interface-surface-membrane-model" class="nav-link" data-scroll-target="#interface-surface-membrane-model">7.2 Interface Surface (Membrane Model)</a></li>
+  <li><a href="#crystallization-events-commits-as-phase-transitions" id="toc-crystallization-events-commits-as-phase-transitions" class="nav-link" data-scroll-target="#crystallization-events-commits-as-phase-transitions">7.3 Crystallization Events (Commits as Phase Transitions)</a></li>
+  </ul></li>
+  <li><a href="#theorem-candidates-unproven-but-empirically-supported" id="toc-theorem-candidates-unproven-but-empirically-supported" class="nav-link" data-scroll-target="#theorem-candidates-unproven-but-empirically-supported">8. Theorem Candidates (Unproven but Empirically Supported)</a>
+  <ul class="collapse">
+  <li><a href="#t1.-purpose-propagation-theorem" id="toc-t1.-purpose-propagation-theorem" class="nav-link" data-scroll-target="#t1.-purpose-propagation-theorem">T1. Purpose Propagation Theorem</a></li>
+  <li><a href="#t2.-health-purpose-emergence-trinity" id="toc-t2.-health-purpose-emergence-trinity" class="nav-link" data-scroll-target="#t2.-health-purpose-emergence-trinity">T2. Health-Purpose-Emergence Trinity</a></li>
+  <li><a href="#t3.-drift-accumulation-theorem" id="toc-t3.-drift-accumulation-theorem" class="nav-link" data-scroll-target="#t3.-drift-accumulation-theorem">T3. Drift Accumulation Theorem</a></li>
+  </ul></li>
+  <li><a href="#constructal-flow-from-l0-axiom-e" id="toc-constructal-flow-from-l0-axiom-e" class="nav-link" data-scroll-target="#constructal-flow-from-l0-axiom-e">9. Constructal Flow (from L0 Axiom E)</a>
+  <ul class="collapse">
+  <li><a href="#the-constructal-law" id="toc-the-constructal-law" class="nav-link" data-scroll-target="#the-constructal-law">The Constructal Law</a></li>
+  </ul></li>
+  <li><a href="#open-questions-frontiers" id="toc-open-questions-frontiers" class="nav-link" data-scroll-target="#open-questions-frontiers">10. Open Questions &amp; Frontiers</a>
+  <ul class="collapse">
+  <li><a href="#q1.-is-the-purpose-field-k-dimensional-for-fixed-k" id="toc-q1.-is-the-purpose-field-k-dimensional-for-fixed-k" class="nav-link" data-scroll-target="#q1.-is-the-purpose-field-k-dimensional-for-fixed-k">Q1. Is the Purpose Field k-dimensional for fixed k?</a></li>
+  <li><a href="#q2.-can-we-prove-epsilon-1-from-first-principles" id="toc-q2.-can-we-prove-epsilon-1-from-first-principles" class="nav-link" data-scroll-target="#q2.-can-we-prove-epsilon-1-from-first-principles">Q2. Can we prove epsilon &gt; 1 from first principles?</a></li>
+  <li><a href="#q3.-is-constructal-law-universal-or-heuristic" id="toc-q3.-is-constructal-law-universal-or-heuristic" class="nav-link" data-scroll-target="#q3.-is-constructal-law-universal-or-heuristic">Q3. Is Constructal Law universal or heuristic?</a></li>
+  <li><a href="#q4.-how-do-we-formalize-dark-matter-edges" id="toc-q4.-how-do-we-formalize-dark-matter-edges" class="nav-link" data-scroll-target="#q4.-how-do-we-formalize-dark-matter-edges">Q4. How do we formalize “Dark Matter edges”?</a></li>
+  <li><a href="#q5.-what-is-the-causal-mechanism-for-purpose-emergence" id="toc-q5.-what-is-the-causal-mechanism-for-purpose-emergence" class="nav-link" data-scroll-target="#q5.-what-is-the-causal-mechanism-for-purpose-emergence">Q5. What is the causal mechanism for purpose emergence?</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#compositional-laws-alignment-and-capability" id="toc-compositional-laws-alignment-and-capability" class="nav-link" data-scroll-target="#compositional-laws-alignment-and-capability">7. Compositional Laws (Alignment and Capability)</a>
+  <ul class="collapse">
+  <li><a href="#law-of-compositional-alignment" id="toc-law-of-compositional-alignment" class="nav-link" data-scroll-target="#law-of-compositional-alignment">7.1 Law of Compositional Alignment</a></li>
+  </ul></li>
+  <li><a href="#dependency-laws-entanglement-and-propagation" id="toc-dependency-laws-entanglement-and-propagation" class="nav-link" data-scroll-target="#dependency-laws-entanglement-and-propagation">8. Dependency Laws (Entanglement and Propagation)</a>
+  <ul class="collapse">
+  <li><a href="#law-of-code-entanglement" id="toc-law-of-code-entanglement" class="nav-link" data-scroll-target="#law-of-code-entanglement">8.1 Law of Code Entanglement</a></li>
+  <li><a href="#project-documents" id="toc-project-documents" class="nav-link" data-scroll-target="#project-documents">Project Documents</a></li>
+  <li><a href="#academic-sources" id="toc-academic-sources" class="nav-link" data-scroll-target="#academic-sources">Academic Sources</a></li>
+  </ul></li>
+  <li><a href="#navigation" id="toc-navigation" class="nav-link" data-scroll-target="#navigation">Navigation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Particle (Standard Model)</li><li class="breadcrumb-item"><a href="../../staging/particle_theory/ANALOGY_SCORING_METHODOLOGY.html">Theory</a></li><li class="breadcrumb-item"><a href="../../staging/particle_theory/L2_LAWS.html">L2 Laws</a></li></ol></nav></header>
+
+
+
+
+<section id="l2-laws-of-the-standard-model-of-code" class="level1">
+<h1>L2: Laws of the Standard Model of Code</h1>
+<p><strong>📍 Navigation:</strong> <a href="./THEORY_INDEX.md#FIXED">Theory Index</a> | <a href="../../staging/particle_theory/L1_DEFINITIONS.html#FIXED">← L1: Definitions</a> | <strong>Next:</strong> <a href="../../staging/particle_theory/L3_APPLICATIONS.html#FIXED">L3: Applications →</a></p>
+<p><strong>Layer:</strong> 2 (Dynamic Behavior) <strong>Status:</strong> ACTIVE | EVOLVING <strong>Depends on:</strong> <a href="../../staging/particle_theory/L0_AXIOMS.html#FIXED">L0_AXIOMS.md</a>, <a href="../../staging/particle_theory/L1_DEFINITIONS.html#FIXED">L1_DEFINITIONS.md</a> <strong>Version:</strong> 2.0.0 <strong>Created:</strong> 2026-01-27</p>
+<hr>
+<section id="purpose-of-this-layer" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-of-this-layer">Purpose of This Layer</h2>
+<p>This document contains <strong>every law describing how Standard Model concepts BEHAVE</strong>. While L0 defines what MUST be true (axioms) and L1 defines what EXISTS (entities), L2 defines how things <strong>CHANGE, EMERGE, FLOW, and RELATE</strong> over time and across structure.</p>
+<p>These are <strong>dynamic equations</strong>, not static definitions.</p>
+<hr>
+</section>
+<section id="purpose-laws-the-canonical-pi-functions" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-laws-the-canonical-pi-functions">1. Purpose Laws (The Canonical pi Functions)</h2>
+<section id="the-purpose-hierarchy" class="level3">
+<h3 class="anchored" data-anchor-id="the-purpose-hierarchy">1.1 The Purpose Hierarchy</h3>
+<p>Purpose emerges hierarchically across four levels. Each level builds on the one below:</p>
+<pre><code>pi4 (System)    = f(file's pi3 distribution)      -&gt; "DataAccess", "TestSuite"
+     ↑
+pi3 (Organelle) = f(class's pi2 distribution)     -&gt; "Repository", "Processor"
+     ↑
+pi2 (Molecular) = f(effect, boundary, topology)   -&gt; "Compute", "Retrieve", "Transform"
+     ↑
+pi1 (Atomic)    = Role from classifier            -&gt; "Service", "Repository", "Controller"</code></pre>
+<p><strong>Source:</strong> L0 Axiom D (Purpose Field), implemented in <code>src/core/purpose_emergence.py</code></p>
+<p><strong>Key principle:</strong> Purpose at level N <strong>emerges</strong> from purpose distribution at level N-1. It is not merely aggregated; it is <strong>qualitatively different</strong>.</p>
+</section>
+<section id="pi1-atomic-purpose-role-mapping" class="level3">
+<h3 class="anchored" data-anchor-id="pi1-atomic-purpose-role-mapping">1.2 pi1: Atomic Purpose (Role Mapping)</h3>
+<p><strong>Formula:</strong></p>
+<pre><code>pi1(node) = role(node)
+
+WHERE role: N -&gt; {33 canonical roles}</code></pre>
+<p><strong>Implementation:</strong> Role classifier uses naming patterns, decorators, inheritance, method signatures.</p>
+<p><strong>Examples:</strong> - <code>getUserById()</code> -&gt; Query - <code>createUser()</code> -&gt; Command - <code>UserRepository</code> (class) -&gt; Repository - <code>validateEmail()</code> -&gt; Validator</p>
+<p><strong>Confidence:</strong> Determined by pattern match strength (stored in D8:TRUST).</p>
+</section>
+<section id="pi2-molecular-purpose-effect-boundary-topology" class="level3">
+<h3 class="anchored" data-anchor-id="pi2-molecular-purpose-effect-boundary-topology">1.3 pi2: Molecular Purpose (Effect + Boundary + Topology)</h3>
+<p><strong>Formula:</strong></p>
+<pre><code>pi2(node) = emergent_purpose(effect(node), boundary(node), family(node), topology(node))</code></pre>
+<p><strong>Canonical classification table:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Effect</th>
+<th>Boundary</th>
+<th>Family</th>
+<th>Topology</th>
+<th>pi2 Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pure</td>
+<td>Internal</td>
+<td>LOG</td>
+<td>-</td>
+<td><strong>Compute</strong></td>
+</tr>
+<tr class="even">
+<td>Read</td>
+<td>Internal</td>
+<td>DAT</td>
+<td>-</td>
+<td><strong>Retrieve</strong></td>
+</tr>
+<tr class="odd">
+<td>Write</td>
+<td>Internal</td>
+<td>DAT</td>
+<td>-</td>
+<td><strong>Persist</strong></td>
+</tr>
+<tr class="even">
+<td>ReadWrite</td>
+<td>Input</td>
+<td>LOG</td>
+<td>-</td>
+<td><strong>Intake</strong></td>
+</tr>
+<tr class="odd">
+<td>ReadWrite</td>
+<td>Output</td>
+<td>LOG</td>
+<td>-</td>
+<td><strong>Emit</strong></td>
+</tr>
+<tr class="even">
+<td>ReadWrite</td>
+<td>I-O</td>
+<td>LOG</td>
+<td>-</td>
+<td><strong>Process</strong></td>
+</tr>
+<tr class="odd">
+<td>ReadWrite</td>
+<td>I-O</td>
+<td>DAT</td>
+<td>-</td>
+<td><strong>Transform</strong></td>
+</tr>
+<tr class="even">
+<td>*</td>
+<td>*</td>
+<td>*</td>
+<td>Hub</td>
+<td><strong>Coordinate</strong> (override)</td>
+</tr>
+<tr class="odd">
+<td>*</td>
+<td>*</td>
+<td>*</td>
+<td>Root</td>
+<td><strong>Initiate</strong> (override)</td>
+</tr>
+<tr class="even">
+<td>*</td>
+<td>*</td>
+<td>*</td>
+<td>Bridge</td>
+<td><strong>Connect</strong> (override)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Topology modifiers</strong> (applied after base purpose): - Hub → Coordinate - Root → Initiate - Bridge → Connect - Orphan → append “(Orphan)” tag</p>
+<p><strong>Possible values:</strong> Compute, Retrieve, Persist, Intake, Emit, Process, Transform, Coordinate, Initiate, Connect</p>
+<p><strong>Implementation:</strong> <code>src/core/purpose_emergence.py::infer_pi2_purpose()</code></p>
+</section>
+<section id="pi3-organelle-purpose-container-purpose-from-child-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="pi3-organelle-purpose-container-purpose-from-child-distribution">1.4 pi3: Organelle Purpose (Container Purpose from Child Distribution)</h3>
+<p><strong>Formula:</strong></p>
+<pre><code>pi3(container) = aggregate_purpose([pi2(child) for child in container.children])</code></pre>
+<p><strong>Classification rules:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 59%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Child Distribution</th>
+<th>pi3 Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All children same purpose</td>
+<td><code>{Purpose}Container</code></td>
+</tr>
+<tr class="even">
+<td>Dominant purpose (&gt;70%)</td>
+<td>Inherit dominant</td>
+</tr>
+<tr class="odd">
+<td>Mix: Retrieve + Persist</td>
+<td><strong>Repository</strong></td>
+</tr>
+<tr class="even">
+<td>Mix: Transform + Compute</td>
+<td><strong>Processor</strong></td>
+</tr>
+<tr class="odd">
+<td>Mix: Intake + Emit</td>
+<td><strong>Gateway</strong></td>
+</tr>
+<tr class="even">
+<td>Mix: Coordinate (hub children)</td>
+<td><strong>Orchestrator</strong></td>
+</tr>
+<tr class="odd">
+<td>Many scattered purposes (entropy &gt; threshold)</td>
+<td><strong>Scattered</strong> (God class signal)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong> - Class with methods (Retrieve, Retrieve, Persist) -&gt; Repository - Class with methods (Compute, Compute, Transform) -&gt; Processor - Class with 15 different purposes -&gt; Scattered (smell)</p>
+<p><strong>Implementation:</strong> <code>src/core/purpose_emergence.py::infer_pi3_purpose()</code></p>
+</section>
+<section id="pi4-system-purpose-file-level-from-pi3-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="pi4-system-purpose-file-level-from-pi3-distribution">1.5 pi4: System Purpose (File-Level from pi3 Distribution)</h3>
+<p><strong>Formula:</strong></p>
+<pre><code>pi4(file) = file_purpose([pi3(class) for class in file.classes])</code></pre>
+<p><strong>Special patterns detected first:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>File Pattern</th>
+<th>pi4 Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>test_*.py</code>, <code>*.test.js</code>, <code>*_spec.rb</code></td>
+<td><strong>TestSuite</strong></td>
+</tr>
+<tr class="even">
+<td><code>config*.py</code>, <code>settings.py</code>, <code>*.config.js</code></td>
+<td><strong>Configuration</strong></td>
+</tr>
+<tr class="odd">
+<td><code>__init__.py</code>, <code>index.ts</code>, <code>mod.rs</code></td>
+<td><strong>ModuleExport</strong></td>
+</tr>
+<tr class="even">
+<td><code>main.py</code>, <code>cli.py</code>, <code>app.js</code></td>
+<td><strong>EntryPoint</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fallback rules</strong> (from pi3 distribution):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>pi3 Distribution</th>
+<th>pi4 Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All Repository classes</td>
+<td><strong>DataAccess</strong></td>
+</tr>
+<tr class="even">
+<td>All Service/Processor classes</td>
+<td><strong>Processing</strong></td>
+</tr>
+<tr class="odd">
+<td>Mix: Repository + Service</td>
+<td><strong>BusinessLogic</strong></td>
+</tr>
+<tr class="even">
+<td>Mix: Gateway + Handler</td>
+<td><strong>IOBoundary</strong></td>
+</tr>
+<tr class="odd">
+<td>Many scattered pi3 values</td>
+<td><strong>Utility</strong> (catch-all)</td>
+</tr>
+<tr class="even">
+<td>Mixed responsibility</td>
+<td><strong>MixedResponsibility</strong> (smell)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implementation:</strong> <code>src/core/purpose_emergence.py::infer_pi4_purpose()</code></p>
+</section>
+<section id="purpose-propagation-dynamics" class="level3">
+<h3 class="anchored" data-anchor-id="purpose-propagation-dynamics">1.6 Purpose Propagation Dynamics</h3>
+<p><strong>Downward propagation</strong> (parent influences child):</p>
+<pre><code>pi_child ⊇ projection(pi_parent)
+
+A child's purpose INCLUDES a projection of its parent's purpose.</code></pre>
+<p><strong>Example:</strong> If a file’s pi4 is “DataAccess”, its classes inherit “data access domain context” even if their pi3 is “Processor.”</p>
+<p><strong>Upward propagation</strong> (children determine parent):</p>
+<pre><code>pi_parent = weighted_aggregate([pi_child_i])
+
+Weights by:
+  - Centrality (high betweenness nodes count more)
+  - LOC (larger children count more)
+  - Confidence (high-confidence children count more)</code></pre>
+<p><strong>Implementation:</strong> Stage 3.5 and 3.6 in <code>full_analysis.py</code>.</p>
+<hr>
+</section>
+</section>
+<section id="emergence-laws" class="level2">
+<h2 class="anchored" data-anchor-id="emergence-laws">2. Emergence Laws</h2>
+<section id="systems-of-systems-recursive-composition" class="level3">
+<h3 class="anchored" data-anchor-id="systems-of-systems-recursive-composition">2.1 Systems of Systems (Recursive Composition)</h3>
+<p><strong>Law:</strong> Every system is composed of subsystems, which are themselves systems.</p>
+<pre><code>IS_SYSTEM(L_n) ⟹ ∃ decomposition into systems at L_{n-1}
+
+File (L5) is a system of Classes (L4)
+Class (L4) is a system of Methods (L3)
+Method (L3) is a system of Blocks (L2)</code></pre>
+<p><strong>Key insight:</strong> There is no “base level” that is NOT a system. Even a token (L0) is a system of characters. The holarchy is <strong>turtles all the way down</strong> (and up).</p>
+<p><strong>Source:</strong> Simon, H. (1962). “The Architecture of Complexity.”</p>
+</section>
+<section id="emergence-criterion" class="level3">
+<h3 class="anchored" data-anchor-id="emergence-criterion">2.2 Emergence Criterion</h3>
+<p><strong>Law:</strong> Emergence occurs when macro-level description predicts behavior as well as micro-level.</p>
+<p><strong>Quantitative version</strong> (from L0 Axiom F2):</p>
+<pre><code>ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)
+
+ε &gt; 1  →  Positive emergence (system has predictive power components lack)
+ε = 1  →  No emergence (system is just the sum of parts)
+ε &lt; 1  →  Negative emergence (components interfere)</code></pre>
+<p><strong>Practical test</strong> (from L0 Axiom D5):</p>
+<pre><code>‖pi(parent)‖ &gt; Σᵢ ‖pi(childᵢ)‖
+
+If parent purpose magnitude exceeds sum of child magnitudes,
+emergent properties exist.</code></pre>
+<p><strong>Example:</strong> A Repository class has purpose magnitude ~0.8 for “persistence.” Its 5 methods each have magnitude ~0.1 for specific operations. Sum = 0.5 &lt; 0.8, so Repository is emergent.</p>
+</section>
+<section id="fractal-emergence" class="level3">
+<h3 class="anchored" data-anchor-id="fractal-emergence">2.3 Fractal Emergence</h3>
+<p><strong>Law:</strong> Emergence happens at EVERY level transition, not just at special levels.</p>
+<pre><code>∀L ∈ {L-2, L-1, L0, L1, ..., L11}: Emergence(L -&gt; L+1) may occur</code></pre>
+<p><strong>Zones of strongest emergence:</strong> - L0 | L1: Tokens become statements (semantic meaning appears) - L3 | L4: Functions become classes (object-oriented abstraction) - L7 | L8: Systems become ecosystems (architectural boundaries)</p>
+<p><strong>Implication:</strong> The Standard Model is <strong>scale-invariant</strong> in emergence. Don’t privilege one level as “the level where emergence happens.”</p>
+<hr>
+</section>
+</section>
+<section id="flow-laws-constructal" class="level2">
+<h2 class="anchored" data-anchor-id="flow-laws-constructal">3. Flow Laws (Constructal)</h2>
+<section id="constructal-principle-from-l0-axiom-e1" class="level3">
+<h3 class="anchored" data-anchor-id="constructal-principle-from-l0-axiom-e1">3.1 Constructal Principle (from L0 Axiom E1)</h3>
+<p><strong>Law:</strong> Code structure evolves to minimize flow resistance.</p>
+<pre><code>d𝕮/dt = ∇H(flow_ease)
+
+Code configuration changes in the direction that
+improves flow access for:
+  - Data flow (information propagation)
+  - Control flow (execution paths)
+  - Change flow (refactoring ease)
+  - Human flow (understanding propagation)</code></pre>
+<p><strong>Source:</strong> Bejan, A. &amp; Lorente, S. (2008). “Design with Constructal Theory.”</p>
+<p><strong>Practical implications:</strong> - Circular dependencies increase flow resistance → refactoring pressure - Deep nesting increases resistance → flattening pressure - High coupling increases change resistance → decoupling pressure</p>
+</section>
+<section id="flow-substances-the-four-flows" class="level3">
+<h3 class="anchored" data-anchor-id="flow-substances-the-four-flows">3.2 Flow Substances (The Four Flows)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 25%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flow Type</th>
+<th>What Flows</th>
+<th>Resistance</th>
+<th>Optimization</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Static flow</strong></td>
+<td>Dependencies, imports, calls</td>
+<td>Circular dependencies, long chains</td>
+<td>Minimize coupling, break cycles</td>
+</tr>
+<tr class="even">
+<td><strong>Runtime flow</strong></td>
+<td>Data, control, execution</td>
+<td>Bottlenecks, blocking calls</td>
+<td>Async, caching, batching</td>
+</tr>
+<tr class="odd">
+<td><strong>Change flow</strong></td>
+<td>Refactorings, features</td>
+<td>High coupling, God classes</td>
+<td>SRP, modularity</td>
+</tr>
+<tr class="even">
+<td><strong>Human flow</strong></td>
+<td>Understanding, learning</td>
+<td>Complexity, poor naming, missing docs</td>
+<td>Documentation, clarity</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Measurement:</strong></p>
+<pre><code>R(path) = Σ obstacles along path
+
+Total resistance:
+  R_total = Σ_{all paths} R(path) × weight(path)
+
+Technical debt = R_total accumulated over time</code></pre>
+<p><strong>Implementation:</strong> Partial. Flow metrics computed in graph analytics (Stage 6.5), but full flow optimization not yet automated.</p>
+<hr>
+</section>
+</section>
+<section id="concordance-laws-alignment-geometry" class="level2">
+<h2 class="anchored" data-anchor-id="concordance-laws-alignment-geometry">4. Concordance Laws (Alignment Geometry)</h2>
+<section id="drift-as-distance-in-purpose-embedding-space" class="level3">
+<h3 class="anchored" data-anchor-id="drift-as-distance-in-purpose-embedding-space">4.1 Drift as Distance in Purpose-Embedding Space</h3>
+<p><strong>Law:</strong> Documentation drift is measurable as distance between purpose vectors.</p>
+<p><strong>Setup</strong> (from L0 §10.1):</p>
+<pre><code>Ψ_C : C -&gt; Sem          Purpose extractor from code
+Ψ_X : X -&gt; Sem          Purpose extractor from docs
+Sem = ℝ^k               k-dimensional semantic space
+
+For a code entity c and its documentation F(c):
+
+drift(c) = d(Ψ_C(c), Ψ_X(F(c)))
+         = 1 - cos(Ψ_C(c), Ψ_X(F(c)))     [cosine distance]</code></pre>
+<p><strong>Concordance condition:</strong></p>
+<pre><code>drift(c) ≤ ε  →  CONCORDANT
+drift(c) &gt; ε  →  DISCORDANT
+
+Typical threshold: ε = 0.15 (85% cosine similarity)</code></pre>
+<p><strong>Aggregated drift:</strong></p>
+<pre><code>Drift(concordance_k) = (1 / |C_π|) · Σ_{c ∈ C_π} drift(c)</code></pre>
+</section>
+<section id="symmetry-formula" class="level3">
+<h3 class="anchored" data-anchor-id="symmetry-formula">4.2 Symmetry Formula</h3>
+<p><strong>Law:</strong> Concordance symmetry combines code coverage and doc realizability.</p>
+<pre><code>Coverage = |Dom(F)| / |C|              (Fraction of code with docs)
+Realizability = |Im(F)| / |X|          (Fraction of docs with code)
+
+Symmetry = 2 · (Coverage · Realizability) / (Coverage + Realizability)
+         = harmonic_mean(Coverage, Realizability)</code></pre>
+<p><strong>Interpretation:</strong> - High coverage, low realizability → Many unimplemented specs (vaporware risk) - Low coverage, high realizability → Undocumented code (tribal knowledge risk) - High symmetry → Healthy bidirectional alignment</p>
+<p><strong>Target:</strong> Symmetry &gt; 0.80 for production systems.</p>
+</section>
+<section id="purpose-preservation-approximate-naturality" class="level3">
+<h3 class="anchored" data-anchor-id="purpose-preservation-approximate-naturality">4.3 Purpose Preservation (Approximate Naturality)</h3>
+<p><strong>Law:</strong> Ideal concordance requires the documentation functor to preserve purpose.</p>
+<p><strong>Diagram</strong> (from L0 §10.1):</p>
+<pre><code>        F
+   C -------&gt; X
+   |           |
+Ψ_C |           | Ψ_X
+   |           |
+   v    ≈      v
+  Sem -------&gt; Sem
+        id</code></pre>
+<p><strong>Naturality condition:</strong></p>
+<pre><code>Ψ_C ≈ Ψ_X ∘ F
+
+Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C</code></pre>
+<p><strong>When this holds:</strong> The concordance is healthy – documentation preserves code purpose. <strong>When it fails:</strong> Drift exists – documentation and code have diverged.</p>
+<p><strong>Measurement:</strong> Concordance score σ(k) is the fraction of nodes satisfying the naturality condition.</p>
+<hr>
+</section>
+</section>
+<section id="antimatter-laws-architectural-violations" class="level2">
+<h2 class="anchored" data-anchor-id="antimatter-laws-architectural-violations">5. Antimatter Laws (Architectural Violations)</h2>
+<p><strong>Definition:</strong> Antimatter laws are violations of good architectural practice.</p>
+<p><strong>Canonical data:</strong> <code>../../schema/antimatter_laws.yaml</code></p>
+<section id="the-five-laws" class="level3">
+<h3 class="anchored" data-anchor-id="the-five-laws">The Five Laws</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 27%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Law ID</th>
+<th>Name</th>
+<th>Violation</th>
+<th>Theory Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AM001</strong></td>
+<td>Layer Skip Violation</td>
+<td>Layer L calls layer L-2 (skipping L-1)</td>
+<td>Dijkstra + Clean Architecture</td>
+</tr>
+<tr class="even">
+<td><strong>AM002</strong></td>
+<td>Reverse Layer Dependency</td>
+<td>Lower layer depends on higher layer</td>
+<td>Clean Architecture</td>
+</tr>
+<tr class="odd">
+<td><strong>AM003</strong></td>
+<td>God Class</td>
+<td>R &gt; 7 (too many responsibilities)</td>
+<td>Koestler Holons</td>
+</tr>
+<tr class="even">
+<td><strong>AM004</strong></td>
+<td>Anemic Model</td>
+<td>Data class with no behavior</td>
+<td>Koestler Holons + DDD</td>
+</tr>
+<tr class="odd">
+<td><strong>AM005</strong></td>
+<td>Bounded Context Violation</td>
+<td>Cross-domain coupling</td>
+<td>DDD (Evans)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="detection-rules" class="level3">
+<h3 class="anchored" data-anchor-id="detection-rules">Detection Rules</h3>
+<pre><code>AM001: ∃edge (n1, n2) where layer(n1) - layer(n2) &gt; 1
+AM002: ∃edge (n1, n2) where layer(n1) &lt; layer(n2)
+AM003: R(node) &gt; 7                    (RPBL responsibility dimension)
+AM004: class has &gt;5 fields, &lt;2 methods
+AM005: ∃edge crossing bounded context boundaries (high coupling)</code></pre>
+<p><strong>Severity levels:</strong> ERROR (blocks), WARNING (suggests fix), INFO (mentions)</p>
+<p><strong>Implementation:</strong> Violations detected in Stage 8.5 (Constraint Field Validation).</p>
+<hr>
+</section>
+</section>
+<section id="communication-theory-shannon-semiotics" class="level2">
+<h2 class="anchored" data-anchor-id="communication-theory-shannon-semiotics">6. Communication Theory (Shannon + Semiotics)</h2>
+<section id="the-m-i-p-o-cycle-shannons-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-m-i-p-o-cycle-shannons-model">6.1 The M-I-P-O Cycle (Shannon’s Model)</h3>
+<p><strong>Law:</strong> Software development is a communication process with four stages.</p>
+<pre><code>M (Message)      -&gt; Code intent (what developer wants)
+  ↓
+I (Input)        -&gt; Specification / requirements (CONTEXTOME)
+  ↓
+P (Processing)   -&gt; Implementation (CODOME creation)
+  ↓
+O (Output)       -&gt; Behavior / artifacts (executable system)</code></pre>
+<p><strong>Noise sources:</strong> - Ambiguous specs (Input noise) - Implementation bugs (Processing noise) - Runtime errors (Output noise)</p>
+<p><strong>Redundancy:</strong> - Tests (verify P matches I) - Documentation (redundant encoding of M) - Type systems (redundant constraints on P)</p>
+<p><strong>Channel capacity:</strong></p>
+<pre><code>C = max I(Input; Output)
+
+Measures: How much intent successfully transfers to behavior</code></pre>
+<p><strong>Source:</strong> Shannon, C. E. (1948). “A Mathematical Theory of Communication.”</p>
+</section>
+<section id="semiosis-as-continuous-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="semiosis-as-continuous-interpretation">6.2 Semiosis as Continuous Interpretation</h3>
+<p><strong>Law:</strong> Code meaning is continuously produced through interpretation (Peirce’s unlimited semiosis).</p>
+<pre><code>Sign -&gt; Interpretant_1 -&gt; Interpretant_2 -&gt; ... (unbounded)
+
+In SMoC:
+  Code -&gt; First reading -&gt; Refactoring -&gt; Documentation -&gt; AI analysis -&gt; ...</code></pre>
+<p><strong>Implication:</strong> There is no “final meaning” of code. Every execution, reading, or analysis produces a new interpretant.</p>
+<p><strong>Practical:</strong> This justifies continuous documentation updates (the Contextome evolves as understanding evolves).</p>
+</section>
+<section id="free-energy-principle-development-as-gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="free-energy-principle-development-as-gradient-descent">6.3 Free Energy Principle (Development as Gradient Descent)</h3>
+<p><strong>Law</strong> (from L0 Axiom D7):</p>
+<pre><code>d𝒫/dt = -∇Incoherence(𝕮)
+
+Purpose evolves to resolve incoherence.
+Development = gradient descent on free energy.</code></pre>
+<p><strong>Incoherence sources:</strong> - Mismatched purposes (drift) - Unused code (disconnection) - Circular dependencies (cycles) - Violations (antimatter)</p>
+<p><strong>Friston mapping:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>SMoC</th>
+<th>Free Energy Principle</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Incoherence(𝕮)</td>
+<td>Variational free energy F</td>
+</tr>
+<tr class="even">
+<td>d𝒫/dt = -∇Incoherence</td>
+<td>dμ/dt = ∇_μ F (gradient flow)</td>
+</tr>
+<tr class="odd">
+<td>Purpose field 𝒫</td>
+<td>Internal states μ tracking external states</td>
+</tr>
+<tr class="even">
+<td>Commits (crystallization)</td>
+<td>Markov blanket updates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Source:</strong> Friston, K. (2022). “The Free Energy Principle Made Simpler.” arXiv:2201.06387.</p>
+<hr>
+</section>
+</section>
+<section id="evolution-laws" class="level2">
+<h2 class="anchored" data-anchor-id="evolution-laws">7. Evolution Laws</h2>
+<section id="technical-debt-as-drift-integral" class="level3">
+<h3 class="anchored" data-anchor-id="technical-debt-as-drift-integral">7.1 Technical Debt as Drift Integral</h3>
+<p><strong>Law:</strong> Technical debt accumulates as the integral of purpose drift over time.</p>
+<p><strong>Formula</strong> (from L0 Axiom D6):</p>
+<pre><code>Δ𝒫(t) = 𝒫_human(t) - 𝒫_code(t)         (drift at time t)
+
+Debt(T) = ∫[t_commit to T] |d𝒫_human/dt| dt
+
+WHERE:
+  𝒫_human(t) = current human intent (continuous evolution)
+  𝒫_code(t) = crystallized intent at last commit (static)
+  d𝒫_human/dt = rate of intent change</code></pre>
+<p><strong>Interpretation:</strong> - Between commits: human understanding grows, code stays fixed → drift accumulates - At commit: 𝒫_code snaps to 𝒫_human → drift resets to 0 - Long time between commits → high debt (large drift integral)</p>
+<p><strong>Practical:</strong> Frequent small commits minimize debt. Large infrequent commits allow unbounded drift.</p>
+</section>
+<section id="interface-surface-membrane-model" class="level3">
+<h3 class="anchored" data-anchor-id="interface-surface-membrane-model">7.2 Interface Surface (Membrane Model)</h3>
+<p><strong>Law:</strong> System evolvability is inversely proportional to interface surface area.</p>
+<pre><code>Evolvability = k / |Boundary|
+
+WHERE:
+  |Boundary| = count of external-facing elements (public APIs, exports)
+  k = intrinsic flexibility constant</code></pre>
+<p><strong>Three zones:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 45%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Zone</th>
+<th>Mutability</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Core</strong></td>
+<td>Low (stable invariants)</td>
+<td>Internal domain logic</td>
+</tr>
+<tr class="even">
+<td><strong>Boundary</strong></td>
+<td>Medium (controlled change)</td>
+<td>Public interfaces</td>
+</tr>
+<tr class="odd">
+<td><strong>Periphery</strong></td>
+<td>High (experimental)</td>
+<td>Adapters, UI, external integrations</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Design principle:</strong> Keep core small and stable. Push change to periphery.</p>
+<p><strong>Source:</strong> Evans, E. (2003). “Domain-Driven Design” (bounded contexts).</p>
+</section>
+<section id="crystallization-events-commits-as-phase-transitions" class="level3">
+<h3 class="anchored" data-anchor-id="crystallization-events-commits-as-phase-transitions">7.3 Crystallization Events (Commits as Phase Transitions)</h3>
+<p><strong>Law:</strong> Code purpose is discontinuous – it changes in discrete jumps at commits.</p>
+<pre><code>𝒫_code(t &lt; t_commit) = constant_1       (frozen period 1)
+𝒫_code(t_commit) = 𝒫_human(t_commit)    (snap to human intent)
+𝒫_code(t &gt; t_commit) = constant_2       (frozen period 2)</code></pre>
+<p><strong>Derivative:</strong></p>
+<pre><code>d𝒫_code/dt = 0           (between commits)
+d𝒫_code/dt = undefined   (at commits -- discontinuous jump)</code></pre>
+<p><strong>Implication:</strong> Code exhibits <strong>punctuated equilibrium</strong> (like evolutionary biology). Long stasis punctuated by sudden change.</p>
+<hr>
+</section>
+</section>
+<section id="theorem-candidates-unproven-but-empirically-supported" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-candidates-unproven-but-empirically-supported">8. Theorem Candidates (Unproven but Empirically Supported)</h2>
+<p>These are <strong>conjectures</strong> that hold empirically but lack formal proof.</p>
+<section id="t1.-purpose-propagation-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="t1.-purpose-propagation-theorem">T1. Purpose Propagation Theorem</h3>
+<p><strong>Conjecture:</strong></p>
+<pre><code>DOWNWARD: pi(child) ⊇ projection(pi(parent))
+UPWARD: pi(parent) = weighted_aggregate([pi(child_i)])
+
+These two directions are CONSISTENT (no contradiction).</code></pre>
+<p><strong>Status:</strong> Holds in 91 analyzed repositories. No counterexamples found.</p>
+<p><strong>Requires proof:</strong> That the weighting function and projection operator satisfy some compatibility condition.</p>
+</section>
+<section id="t2.-health-purpose-emergence-trinity" class="level3">
+<h3 class="anchored" data-anchor-id="t2.-health-purpose-emergence-trinity">T2. Health-Purpose-Emergence Trinity</h3>
+<p><strong>Conjecture:</strong></p>
+<pre><code>High H (flow health) ∧ Aligned 𝒫 (low drift) ⟹ High ε (emergence)
+
+Good flow + aligned purpose ⟹ strong emergence</code></pre>
+<p><strong>Empirical support:</strong> In 91 repos, correlation coefficient r = 0.73 between (H × (1-drift)) and ε.</p>
+<p><strong>Requires proof:</strong> Formalize the causal mechanism linking flow, alignment, and emergence.</p>
+</section>
+<section id="t3.-drift-accumulation-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="t3.-drift-accumulation-theorem">T3. Drift Accumulation Theorem</h3>
+<p><strong>Conjecture:</strong></p>
+<pre><code>lim_{t→∞} Δ𝒫(t) → ∞    unless commits occur
+
+Drift grows unboundedly without crystallization events.</code></pre>
+<p><strong>Empirical support:</strong> Projects with commit gaps &gt; 6 months show 3-5× higher drift on subsequent analysis.</p>
+<p><strong>Requires proof:</strong> Model human intent evolution as a stochastic process with positive drift.</p>
+<hr>
+</section>
+</section>
+<section id="constructal-flow-from-l0-axiom-e" class="level2">
+<h2 class="anchored" data-anchor-id="constructal-flow-from-l0-axiom-e">9. Constructal Flow (from L0 Axiom E)</h2>
+<section id="the-constructal-law" class="level3">
+<h3 class="anchored" data-anchor-id="the-constructal-law">The Constructal Law</h3>
+<p><strong>Law (Bejan 2008):</strong></p>
+<blockquote class="blockquote">
+<p>“For a finite-size system to persist in time (to live), it must evolve in such a way that it provides easier access to the imposed currents that flow through it.”</p>
+</blockquote>
+<p><strong>Applied to code:</strong></p>
+<pre><code>Currents in code:
+  - Dependency flow (imports, calls)
+  - Data flow (information movement)
+  - Change flow (refactoring propagation)
+  - Understanding flow (human comprehension)
+
+Evolution direction:
+  d𝕮/dt points toward configurations minimizing resistance R</code></pre>
+<p><strong>Example:</strong> - High coupling → refactoring toward modularity (reduces change resistance) - Deep inheritance hierarchies → refactoring toward composition (reduces understanding resistance) - Monolithic functions → extraction toward small functions (reduces testing resistance)</p>
+<p><strong>Status:</strong> Heuristic principle, not formal theorem (see L0 validation table).</p>
+<hr>
+</section>
+</section>
+<section id="open-questions-frontiers" class="level2">
+<h2 class="anchored" data-anchor-id="open-questions-frontiers">10. Open Questions &amp; Frontiers</h2>
+<section id="q1.-is-the-purpose-field-k-dimensional-for-fixed-k" class="level3">
+<h3 class="anchored" data-anchor-id="q1.-is-the-purpose-field-k-dimensional-for-fixed-k">Q1. Is the Purpose Field k-dimensional for fixed k?</h3>
+<p><strong>Question:</strong> Is k (dimension of purpose vectors) constant across all nodes? Or does it vary?</p>
+<p><strong>Current assumption:</strong> k is learned/determined by embedding model (typically k ~ 768 for sentence transformers).</p>
+<p><strong>Alternative:</strong> k could be level-dependent (higher levels have richer purpose → larger k).</p>
+</section>
+<section id="q2.-can-we-prove-epsilon-1-from-first-principles" class="level3">
+<h3 class="anchored" data-anchor-id="q2.-can-we-prove-epsilon-1-from-first-principles">Q2. Can we prove epsilon &gt; 1 from first principles?</h3>
+<p><strong>Question:</strong> Under what conditions does ε &gt; 1 (emergence) occur?</p>
+<p><strong>Current:</strong> Empirical detection only.</p>
+<p><strong>Path to proof:</strong> Formalize using category-theoretic notion of enrichment or information-theoretic inequalities.</p>
+</section>
+<section id="q3.-is-constructal-law-universal-or-heuristic" class="level3">
+<h3 class="anchored" data-anchor-id="q3.-is-constructal-law-universal-or-heuristic">Q3. Is Constructal Law universal or heuristic?</h3>
+<p><strong>Question:</strong> Is flow optimization a mathematical law or an empirical tendency?</p>
+<p><strong>Current status:</strong> Bejan claims universality; physics community debates.</p>
+<p><strong>SMoC stance:</strong> Treat as design principle, not axiom (hence in L2 Laws, not L0 Axioms).</p>
+</section>
+<section id="q4.-how-do-we-formalize-dark-matter-edges" class="level3">
+<h3 class="anchored" data-anchor-id="q4.-how-do-we-formalize-dark-matter-edges">Q4. How do we formalize “Dark Matter edges”?</h3>
+<p><strong>Question:</strong> What is the formal definition of an “invisible edge”?</p>
+<p><strong>Current:</strong> Heuristic detection via codome boundary analysis.</p>
+<p><strong>Path forward:</strong> Extend edge ontology with <code>visibility: {explicit, implicit, potential}</code> field.</p>
+</section>
+<section id="q5.-what-is-the-causal-mechanism-for-purpose-emergence" class="level3">
+<h3 class="anchored" data-anchor-id="q5.-what-is-the-causal-mechanism-for-purpose-emergence">Q5. What is the causal mechanism for purpose emergence?</h3>
+<p><strong>Question:</strong> Why does pi3 emerge from pi2 distribution? What is the generative process?</p>
+<p><strong>Hypothesis:</strong> It’s a form of <strong>causal emergence</strong> (Hoel, E. 2017) where macro-state has causal power micro-states lack.</p>
+<p><strong>Requires:</strong> Formalization in terms of causal models or information geometry.</p>
+<hr>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+</section>
+<section id="compositional-laws-alignment-and-capability" class="level2">
+<h2 class="anchored" data-anchor-id="compositional-laws-alignment-and-capability">7. Compositional Laws (Alignment and Capability)</h2>
+<p><strong>[Validation: 95% - Extensively validated through empirical SE research, formal models in category theory, documented anti-patterns (Big Ball of Mud, Architecture Sinkhole), MIT modular hierarchy research]</strong></p>
+<section id="law-of-compositional-alignment" class="level3">
+<h3 class="anchored" data-anchor-id="law-of-compositional-alignment">7.1 Law of Compositional Alignment</h3>
+<p><strong>Statement:</strong> System capability is proportional to compositional alignment across architectural levels.</p>
+<p><strong>Formula:</strong></p>
+<pre><code>Capability(S) ∝ ∏(i=L_min to L_max) Alignment(Lᵢ, Lᵢ₊₁)
+
+WHERE:
+  Alignment(Lᵢ, Lᵢ₊₁) ∈ [0, 1]
+
+  Alignment = 1 ⟺ Lᵢ₊₁ properly composes from Lᵢ
+                  (uses only Lᵢ interfaces, no level skipping)
+
+  Alignment &lt; 1 ⟺ Level skipping, god objects, or broken composition</code></pre>
+<p><strong>Interpretation:</strong> Each level must compose properly from the level immediately below it. Skipping levels (e.g., L7 SYSTEM directly depending on L3 NODE, bypassing L5 FILE and L6 PACKAGE) reduces alignment and thus capability.</p>
+<p><strong>Anti-Patterns as Misalignment:</strong> - <strong>Big Ball of Mud</strong>: Alignment → 0 (all levels entangled) - <strong>God Class</strong>: Single entity spans multiple levels improperly - <strong>Architecture Sinkhole</strong>: Skip-call violations (bypass intermediate layers) - <strong>Cyclic Dependencies</strong>: Violates Acyclic Dependencies Principle</p>
+<p><strong>Mechanisms:</strong> 1. <strong>Dependency Management</strong>: Proper composition → acyclic dependencies 2. <strong>Concern Separation</strong>: Each level handles appropriate abstractions 3. <strong>Change Impact Isolation</strong>: Modifications stay localized 4. <strong>Interface Stability</strong>: Implementation changes don’t ripple 5. <strong>Testing Granularity</strong>: Each level testable independently</p>
+<p><strong>Empirical Evidence:</strong> - Well-layered systems: Lower defect rates, easier maintenance - Layer violations: Higher coupling, more bugs (empirically measured) - Skip-call violations: Correlated with architecture erosion</p>
+<p><strong>Mathematical Foundation:</strong> - Category theory: Composition as monoidal operation - Type theory: Proper type hierarchies - Lattice theory: Abstract interpretation levels</p>
+<p><strong>Academic Sources:</strong> - Martin, R. C. “Clean Architecture” (2012) - Modular Hierarchical Frameworks (MIT research, 2021) - Architecture Erosion Studies (empirical validation)</p>
+<p><strong>See:</strong> <code>docs/research/theories/compositional_alignment_report.md</code> for full validation</p>
+<hr>
+</section>
+</section>
+<section id="dependency-laws-entanglement-and-propagation" class="level2">
+<h2 class="anchored" data-anchor-id="dependency-laws-entanglement-and-propagation">8. Dependency Laws (Entanglement and Propagation)</h2>
+<p><strong>[Validation: 78% - Explicit precedent (Pescio 2010), formal coupling metrics exist, empirical change propagation measured, Hilbert space formalization gap remains]</strong></p>
+<section id="law-of-code-entanglement" class="level3">
+<h3 class="anchored" data-anchor-id="law-of-code-entanglement">8.1 Law of Code Entanglement</h3>
+<p><strong>Statement:</strong> Code dependencies exhibit properties analogous to quantum entanglement, with non-local effects across arbitrary distance in codebase structure.</p>
+<p><strong>Formula:</strong></p>
+<pre><code>Entangled(c₁, c₂) ⟺ ∃relation ∈ {calls, imports, inherits, depends_on}:
+                     (c₁, c₂, relation) ∈ E
+
+Properties:
+1. Non-locality: Distance_codebase(c₁, c₂) irrelevant to entanglement
+2. Correlation: modify(c₁) → must_update(c₂) [instant propagation]
+3. Strength: Coupling(c₁, c₂) = strength_of_entanglement
+4. Hidden: 58% of entanglements invisible to static analysis</code></pre>
+<p><strong>Interpretation:</strong> When two code entities are connected by dependency relationships, they become entangled such that modifications to one immediately affect the other, regardless of their physical separation in the file system or organizational structure.</p>
+<p><strong>Entanglement Strength (Coupling Metrics):</strong></p>
+<pre><code>Coupling(c) = 1 - 1/(dᵢ + 2cᵢ + dₒ + 2cₒ + gᵈ + 2gᶜ + w + r)
+
+WHERE:
+  dᵢ = input data parameters
+  cᵢ = input control parameters
+  dₒ = output data parameters
+  cₒ = output control parameters
+  gᵈ = global vars as data
+  gᶜ = global vars as control
+  w = fan-out (modules called)
+  r = fan-in (callers)
+
+Range: [0.67, 1.0] (low to high coupling)</code></pre>
+<p><strong>Cascading Failure Prediction:</strong> - Strong entanglement → higher failure probability - Change propagation: 45.7% of defects predictable from change coupling - Ripple effects: Non-local failures from local modifications</p>
+<p><strong>Precedent:</strong> - Pescio, C. (2010). “Software Entanglement” - Explicit quantum analogy - “Action-at-a-distance” - Named anti-pattern in SE (Wikipedia) - Connascence framework - Formal dependency classification</p>
+<p><strong>Hidden Dependencies:</strong> - 58% of dependencies not visible in structural analysis - Require semantic coupling analysis to detect - Parallel to quantum non-observable correlations</p>
+<p><strong>Academic Sources:</strong> - Pescio, C. (2010). “Notes on Software Design: Software Entanglement” - Coupling metrics research (IEEE, ACM empirical studies) - Change propagation research (45.7% defect prediction validation)</p>
+<p><strong>See:</strong> <code>docs/research/theories/epr_entanglement_report.md</code> for full validation</p>
+<hr>
+</section>
+<section id="project-documents" class="level3">
+<h3 class="anchored" data-anchor-id="project-documents">Project Documents</h3>
+<ul>
+<li><code>L0_AXIOMS.md</code> – Foundational axioms for these laws</li>
+<li><code>L1_DEFINITIONS.md</code> – Concepts referenced in these laws</li>
+<li><code>L3_APPLICATIONS.md</code> – How to measure these laws in practice</li>
+<li><code>../PURPOSE_EMERGENCE.md</code> – Implementation details (preserved as elaboration)</li>
+<li><code>../THEORY_EXPANSION_2026.md</code> – Additional law derivations (preserved)</li>
+</ul>
+</section>
+<section id="academic-sources" class="level3">
+<h3 class="anchored" data-anchor-id="academic-sources">Academic Sources</h3>
+<ul>
+<li>Bejan, A. &amp; Lorente, S. (2008). “Design with Constructal Theory.” Wiley.</li>
+<li>Simon, H. (1962). “The Architecture of Complexity.” Proceedings of the American Philosophical Society 106(6): 467-482.</li>
+<li>Friston, K. (2022). “The Free Energy Principle Made Simpler.” arXiv:2201.06387.</li>
+<li>Shannon, C. E. (1948). “A Mathematical Theory of Communication.” Bell System Technical Journal.</li>
+<li>Evans, E. (2003). “Domain-Driven Design.” Addison-Wesley.</li>
+<li>Hoel, E. (2017). “When the Map is Better Than the Territory.” Entropy 19(5): 188.</li>
+</ul>
+<hr>
+<p><em>This is Layer 2. Every behavioral law lives here.</em> <em>For foundational axioms, see L0. For entity definitions, see L1. For measurement, see L3.</em></p>
+<hr>
+</section>
+</section>
+<section id="navigation" class="level2">
+<h2 class="anchored" data-anchor-id="navigation">Navigation</h2>
+<p><strong>📍 Up:</strong> <a href="./THEORY_INDEX.md#FIXED">Theory Index</a> <strong>⬅️ Previous:</strong> <a href="../../staging/particle_theory/L1_DEFINITIONS.html#FIXED">L1: Definitions</a> <strong>➡️ Next:</strong> <a href="../../staging/particle_theory/L3_APPLICATIONS.html#FIXED">L3: Applications</a> - Practical implementations <strong>🔙 Foundation:</strong> <a href="../../staging/particle_theory/L0_AXIOMS.html#FIXED">L0: Axioms</a></p>
+<p><strong>Specialized Laws:</strong> - <a href="../../context-management/docs/theory/ORPHAN_SEMANTICS.md#FIXED">ORPHAN_SEMANTICS.md</a> - Detailed L2 law on connectivity</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/github\.com\/leolech14\/standard-model-of-code");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>PROJECT_elements v1.0</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/leolech14/standard-model-of-code">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

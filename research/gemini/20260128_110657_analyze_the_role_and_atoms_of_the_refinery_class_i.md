@@ -1,4 +1,4 @@
-# Research: Analyze the role and atoms of the Refinery class in context-management/tools/ai/aci/refinery.py. Doe...
+# Research: Analyze the role and atoms of the Refinery class in wave/tools/ai/aci/refinery.py. Doe...
 
 > **Date:** 2026-01-28 11:06:57
 > **Source:** gemini
@@ -10,13 +10,13 @@
 
 ## Query
 
-Analyze the role and atoms of the Refinery class in context-management/tools/ai/aci/refinery.py. Does it use the newly registered Transformer/Refinement roles?
+Analyze the role and atoms of the Refinery class in wave/tools/ai/aci/refinery.py. Does it use the newly registered Transformer/Refinement roles?
 
 ---
 
 ## Response
 
-The `Refinery` class, located at `context-management/tools/ai/aci/refinery.py`, serves as the **Context Atomization Engine** within the Adaptive Context Intelligence (ACI) system. Its primary role is to break down large content (code, documentation, configuration files) into smaller, semantically meaningful units, enrich them with metadata, and prepare them for further processing and AI consumption.
+The `Refinery` class, located at `wave/tools/ai/aci/refinery.py`, serves as the **Context Atomization Engine** within the Adaptive Context Intelligence (ACI) system. Its primary role is to break down large content (code, documentation, configuration files) into smaller, semantically meaningful units, enrich them with metadata, and prepare them for further processing and AI consumption.
 
 Let's break down its role, its "atoms," and its usage of "Transformer/Refinement roles."
 
@@ -61,7 +61,7 @@ A `RefineryNode` encapsulates the following information:
 
 ### Use of "Transformer/Refinement Roles"
 
-The user's query refers to "Transformer/Refinement roles," which align with concepts defined in `context-management/tools/ai/aci/semantic_finder.py`, specifically within the `ROLE_CLUSTERS` dictionary (e.g., `"transformation": ["Transformer", "Mapper", "Converter", "Adapter", "Translator"]`).
+The user's query refers to "Transformer/Refinement roles," which align with concepts defined in `wave/tools/ai/aci/semantic_finder.py`, specifically within the `ROLE_CLUSTERS` dictionary (e.g., `"transformation": ["Transformer", "Mapper", "Converter", "Adapter", "Translator"]`).
 
 Here's how `Refinery` interacts with these concepts:
 

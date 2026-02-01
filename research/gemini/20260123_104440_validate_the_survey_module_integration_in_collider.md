@@ -57,7 +57,7 @@ Based on the metrics provided and the codebase context, here is the validation a
 *   **Conclusion**: The drop to 795 nodes represents the *actual* cognitive complexity of your custom logic. This is the desired state.
 
 #### 2. The Missing Files (`modules/`) (Root Cause Analysis)
-The files `main.js`, `theory.js`, `index.js` reside in `standard-model-of-code/src/core/viz/assets/modules/`.
+The files `main.js`, `theory.js`, `index.js` reside in `particle/src/core/viz/assets/modules/`.
 
 **Most Likely Cause: "Broad Pattern Matching"**
 The Survey Module likely employs a default exclusion list containing one of the following patterns:
@@ -65,11 +65,11 @@ The Survey Module likely employs a default exclusion list containing one of the 
 2.  **`**/assets/**`**: Intended to skip images/css, but your architecture places **logic** (`.js`) inside an `assets` directory.
 
 **Reference**:
-In `context-management/config/analysis_sets.yaml`, the `viz_core` set explicitly attempts to include these:
+In `wave/config/analysis_sets.yaml`, the `viz_core` set explicitly attempts to include these:
 ```yaml
 viz_core:
   patterns:
-    - "standard-model-of-code/src/core/viz/assets/modules/*.js"
+    - "particle/src/core/viz/assets/modules/*.js"
 ```
 If the Survey Module applies exclusions *before* inclusion patterns are processed, or if it acts as a hard filter, these files are dropped despite being requested.
 
@@ -98,9 +98,9 @@ Change the exclusion regex from loose matching to strict directory matching.
 Run the forensic mode on the missing files to verify they are parseable:
 
 ```bash
-python context-management/tools/ai/analyze.py \
+python wave/tools/ai/analyze.py \
   --mode forensic \
-  --file "standard-model-of-code/src/core/viz/assets/modules/main.js"
+  --file "particle/src/core/viz/assets/modules/main.js"
 ```
 
 If this returns data, the Survey Module's file walker is the culprit. If this returns nothing, the parser is the culprit.

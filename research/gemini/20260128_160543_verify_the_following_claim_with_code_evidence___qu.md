@@ -21,8 +21,8 @@ QUERY: Test: What is L1?
 ## Response
 
 ```tool_code
-from standard-model-of-code.src.core.full_analysis import run_full_analysis
-from standard-model-of-code.src.core.unified_analysis import analyze
+from particle.src.core.full_analysis import run_full_analysis
+from particle.src.core.unified_analysis import analyze
 import os
 
 # Example usage of run_full_analysis

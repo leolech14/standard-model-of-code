@@ -21,25 +21,25 @@ Deployed multiple Haiku subagents for parallel task execution with clear DOD.
 - **Fix**: Created launchd plist with EnvironmentVariables
 - **Files**:
   - `~/Library/LaunchAgents/com.elements.hsl.plist` (system)
-  - `context-management/docs/operations/HSL_DAEMON_SETUP.md` (docs)
+  - `wave/docs/operations/HSL_DAEMON_SETUP.md` (docs)
 - **Validation**: `launchctl list | grep hsl` shows service running
 
 ### TASK-065 Step 2: Rate Limit Handling [COMPLETE]
 - **Problem**: Socratic audit fails with 429 RESOURCE_EXHAUSTED
 - **Fix**: Added exponential backoff retry logic to analyze.py
-- **Files**: `context-management/tools/ai/analyze.py`
+- **Files**: `wave/tools/ai/analyze.py`
 - **Pattern**: 5 retries, base delay 1s, exponential backoff with jitter
 
 ### TASK-019 Step 1: Cache Registry [COMPLETE]
 - **Problem**: No tracking for Gemini cached contexts
 - **Fix**: Created cache_registry.py module
-- **Files**: `context-management/tools/ai/aci/cache_registry.py`
+- **Files**: `wave/tools/ai/aci/cache_registry.py`
 - **Features**: CacheEntry dataclass, CacheRegistry class, workspace_key generation
 
 ### TASK-019 Step 2: Dynamic Token Limits [COMPLETE]
 - **Problem**: Hardcoded MAX_FLASH_DEEP_TOKENS
 - **Fix**: Added get_model_token_limit() with API lookup + fallback
-- **Files**: `context-management/tools/ai/aci/tier_router.py`
+- **Files**: `wave/tools/ai/aci/tier_router.py`
 
 ### TASK-059: GCS Offload [COMPLETE]
 - **Uploaded**: 1.6 GB to gs://elements-archive-2026/archive_20260123_195806
@@ -69,8 +69,8 @@ Deployed multiple Haiku subagents for parallel task execution with clear DOD.
 ## Artifacts
 
 - Session logs: This file
-- GCS manifest: `context-management/tools/archive/manifests/archive_20260123_195806.json`
-- Cache registry: `context-management/intelligence/cache_registry.json`
+- GCS manifest: `wave/tools/archive/manifests/archive_20260123_195806.json`
+- Cache registry: `wave/intelligence/cache_registry.json`
 
 ## Verification Commands
 
@@ -82,8 +82,8 @@ git log --oneline -5
 launchctl list | grep hsl
 
 # Test rate limiting
-.tools_venv/bin/python context-management/tools/ai/analyze.py "test" --set brain
+.tools_venv/bin/python wave/tools/ai/analyze.py "test" --set brain
 
 # Test cache registry
-.tools_venv/bin/python context-management/tools/ai/aci/cache_registry.py
+.tools_venv/bin/python wave/tools/ai/aci/cache_registry.py
 ```

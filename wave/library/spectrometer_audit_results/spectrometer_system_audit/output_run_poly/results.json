@@ -1,0 +1,277 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-14T14:40:42.285025",
+    "spectrometer_version": "V12.1",
+    "mode": "comprehensive_analysis"
+  },
+  "summary": {
+    "total_particles_found": 9,
+    "files_analyzed": 2,
+    "files_with_particles": 2,
+    "coverage_percentage": 100.0,
+    "unique_particle_types": 2,
+    "top_particle_types": [
+      [
+        "Unknown",
+        8
+      ],
+      [
+        "Service",
+        1
+      ]
+    ],
+    "unknown_particles": 8,
+    "recognized_particles": 1,
+    "recognized_percentage": 11.11111111111111,
+    "average_confidence": 35.0,
+    "average_rpbl_score": 5.055555555555555,
+    "high_confidence_particles": 0,
+    "medium_confidence_particles": 1
+  },
+  "detailed_stats": {
+    "file_analysis": {
+      "total_files_processed": 2,
+      "files_with_particles": 2,
+      "files_without_particles": 0,
+      "file_coverage_percentage": 100.0,
+      "average_file_size": 17144.0,
+      "total_lines_analyzed": 1014,
+      "total_characters_analyzed": 34288
+    },
+    "particle_analysis": {
+      "total_particles_detected": 9,
+      "unique_particle_types": 2,
+      "particle_type_distribution": {
+        "Unknown": {
+          "count": 8,
+          "total_confidence": 240.0,
+          "total_rpbl": 40.0,
+          "responsibility_sum": 40,
+          "purity_sum": 40,
+          "boundary_sum": 40,
+          "lifecycle_sum": 40,
+          "average_confidence": 30.0,
+          "average_rpbl": 5.0,
+          "average_responsibility": 5.0,
+          "average_purity": 5.0,
+          "average_boundary": 5.0,
+          "average_lifecycle": 5.0
+        },
+        "Service": {
+          "count": 1,
+          "total_confidence": 75.0,
+          "total_rpbl": 5.5,
+          "responsibility_sum": 7,
+          "purity_sum": 4,
+          "boundary_sum": 6,
+          "lifecycle_sum": 5,
+          "average_confidence": 75.0,
+          "average_rpbl": 5.5,
+          "average_responsibility": 7.0,
+          "average_purity": 4.0,
+          "average_boundary": 6.0,
+          "average_lifecycle": 5.0
+        }
+      },
+      "particles_per_file": 4.5,
+      "max_particles_in_file": 8
+    },
+    "touchpoint_analysis": {
+      "total_touchpoints_detected": 55,
+      "unique_touchpoint_types": 3,
+      "touchpoint_distribution": {
+        "identity": 29,
+        "data_access": 16,
+        "validation": 10
+      }
+    },
+    "language_analysis": {
+      "languages_detected": [
+        "python",
+        "java"
+      ],
+      "number_of_languages": 2
+    },
+    "processing_time_seconds": 9.059906005859375e-06
+  },
+  "particles": [
+    {
+      "type": "Unknown",
+      "name": "GodClassPython",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/god_class_example.py",
+      "line": 16,
+      "confidence": 30.0,
+      "evidence": "class GodClassPython:",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "GodClassExample",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 13,
+      "confidence": 30.0,
+      "evidence": "public class GodClassExample {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Customer",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 348,
+      "confidence": 30.0,
+      "evidence": "private class Customer {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Order",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 358,
+      "confidence": 30.0,
+      "evidence": "private class Order {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "Item",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 369,
+      "confidence": 30.0,
+      "evidence": "private class Item {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "NetworkClient",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 375,
+      "confidence": 30.0,
+      "evidence": "private class NetworkClient {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Unknown",
+      "name": "FileLogger",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 381,
+      "confidence": 30.0,
+      "evidence": "private class FileLogger {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    },
+    {
+      "type": "Service",
+      "name": "EmailService",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 385,
+      "confidence": 75.0,
+      "evidence": "private class EmailService {",
+      "responsibility": 7,
+      "purity": 4,
+      "boundary": 6,
+      "lifecycle": 5,
+      "rpbl_score": 5.5,
+      "description": "Business logic coordination across domain objects"
+    },
+    {
+      "type": "Unknown",
+      "name": "Validator",
+      "symbol_kind": "class",
+      "file_path": "/mnt/data/spectrometer_system_audit/test_polyglot_god_classes/GodClassExample.java",
+      "line": 390,
+      "confidence": 30.0,
+      "evidence": "private class Validator {",
+      "responsibility": 5,
+      "purity": 5,
+      "boundary": 5,
+      "lifecycle": 5,
+      "rpbl_score": 5.0,
+      "description": "Unknown particle type"
+    }
+  ],
+  "performance": {
+    "files_per_second": 220752.84210526315,
+    "lines_per_second": 111921690.94736843,
+    "characters_per_second": 3784586725.0526314,
+    "avg_time_per_file": 4.5299530029296875e-06,
+    "success_rate": 100.0
+  },
+  "dependencies": {
+    "external_packages": [
+      {
+        "package": "requests",
+        "count": 1
+      }
+    ],
+    "stdlib_packages": [
+      {
+        "package": "tkinter",
+        "count": 2
+      },
+      {
+        "package": "sqlite3",
+        "count": 1
+      },
+      {
+        "package": "json",
+        "count": 1
+      },
+      {
+        "package": "smtplib",
+        "count": 1
+      },
+      {
+        "package": "datetime",
+        "count": 1
+      },
+      {
+        "package": "typing",
+        "count": 1
+      }
+    ],
+    "internal_edges": [],
+    "unknown_dependency_count": 5
+  }
+}

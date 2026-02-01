@@ -22,11 +22,11 @@ Based on the provided codebase context, here is the documentation location and i
 
 The **Stone Tool Principle** (formally **Axiom H4**) is primarily documented in two locations:
 
-*   **Primary Definition:** `context-management/docs/CODESPACE_ALGEBRA.md`
+*   **Primary Definition:** `wave/docs/CODESPACE_ALGEBRA.md`
     *   **Section:** 15. CONSUMER CLASSES (AI-Native)
     *   **Key Text:** "AXIOM H4 (Ergonomics Shift): Tools MAY be designed that humans cannot directly use."
 
-*   **Glossary Definition:** `context-management/docs/GLOSSARY.md`
+*   **Glossary Definition:** `wave/docs/GLOSSARY.md`
     *   **Section:** CONSUMER CLASSES (Axiom Group H)
     *   **Key Text:** "Stone Tool Test: 'Can a human use this tool directly, without AI mediation?' If NO → AI-native tool (valid design)."
 

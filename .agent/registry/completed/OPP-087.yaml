@@ -1,0 +1,136 @@
+# Opportunity: Wire Semantic Index into Semantic Finder
+# Created: 2026-01-31
+# Source: SESSION_ANALYSIS (Cerebras Rapid Intel integration)
+
+id: OPP-087
+title: "Wire semantic_index.json into semantic_finder.py for dynamic concept matching"
+source: SESSION_ANALYSIS
+discovered_at: "2026-01-31T07:15:00Z"
+discovered_by: claude-opus-4.5
+
+# =============================================================================
+# PROBLEM STATEMENT
+# =============================================================================
+description: |
+  semantic_finder.py currently uses HARDCODED patterns for semantic matching:
+  - ROLE_CLUSTERS: Static dictionary of role groupings
+  - LAYER_ORDER: Fixed list ["Interface", "Application", "Core", "Infrastructure", "Test"]
+  - _match_purpose(), _match_layer(): Pattern matching against fixed strings
+
+  Meanwhile, cerebras_rapid_intel.py generates DYNAMIC intelligence:
+  - semantic_index.json: 71+ concepts extracted from actual codebase
+  - Per-file purpose, concepts, quality scores
+  - Concept → file mappings
+
+  THE GAP: We generate rich semantic data but don't USE it for attention filtering.
+  The semantic_finder operates on theory, not reality.
+
+# =============================================================================
+# EVIDENCE
+# =============================================================================
+evidence:
+  - file: "wave/tools/ai/aci/semantic_finder.py"
+    lines: "57-66"
+    observation: "ROLE_CLUSTERS is hardcoded, not derived from actual codebase analysis"
+
+  - file: "wave/data/intel/semantic_index.json"
+    observation: "Contains 71 concepts extracted from 15 files, with file mappings"
+
+  - file: "wave/tools/ai/analyze.py"
+    lines: "693-789"
+    observation: "apply_semantic_attention() already wired, but uses semantic_match patterns"
+
+# =============================================================================
+# PROPOSED SOLUTION
+# =============================================================================
+suggested_action: |
+  1. Add loader function to semantic_finder.py:
+     - load_semantic_index() → reads intel/semantic_index.json
+     - Falls back to hardcoded patterns if index unavailable
+
+  2. Enhance _match_purpose() and _match_layer():
+     - Check query keywords against actual concepts from index
+     - Score based on concept frequency and file associations
+
+  3. Add concept-based file suggestion:
+     - Query "chunker" → find files with "chunker" in concepts
+     - Return those files in suggested_files
+
+  4. Cache the index in memory (reload on file change)
+
+# =============================================================================
+# ARCHITECTURE
+# =============================================================================
+architecture: |
+  ```
+  cerebras_rapid_intel.py
+         │ generates
+         ▼
+  intel/semantic_index.json
+         │
+         │ loaded by (NEW)
+         ▼
+  semantic_finder.py
+         │
+         │ load_semantic_index()
+         │ _match_concepts_from_index()
+         │ _suggest_files_by_concept()
+         │
+         ▼
+  semantic_match() → SemanticMatch
+         │
+         │ used by
+         ▼
+  analyze.py::apply_semantic_attention()
+  ```
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Add INTEL_INDEX_PATH constant and load_semantic_index() function"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 30
+
+  - id: 2
+    action: "Add _match_concepts_from_index() to score query against real concepts"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 40
+
+  - id: 3
+    action: "Enhance semantic_match() to use index when available"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 20
+
+  - id: 4
+    action: "Add suggested_files based on concept→file mappings"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 25
+
+  - id: 5
+    action: "Test integration with analyze.py"
+    test_command: "python3 analyze.py --aci --aci-debug 'how does chunking work'"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+urgency: HIGH
+impact: HIGH
+effort: LOW
+risk: LOW
+
+related_to:
+  - "OPP-059"  # Attention Mechanism wiring (completed today)
+  - "TASK-074" # analyze.py refactoring
+
+tags:
+  - semantic-finder
+  - cerebras
+  - attention-mechanism
+  - aci
+  - integration
+
+defer_until: null
+promoted_to: TASK-087
+promoted_at: "2026-01-31T07:20:00Z"

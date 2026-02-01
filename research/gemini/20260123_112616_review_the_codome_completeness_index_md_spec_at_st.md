@@ -1,4 +1,4 @@
-# Research: Review the CODOME_COMPLETENESS_INDEX.md spec at standard-model-of-code/docs/specs/CODOME_COMPLETENES...
+# Research: Review the CODOME_COMPLETENESS_INDEX.md spec at particle/docs/specs/CODOME_COMPLETENES...
 
 > **Date:** 2026-01-23 11:26:16
 > **Source:** gemini
@@ -10,7 +10,7 @@
 
 ## Query
 
-Review the CODOME_COMPLETENESS_INDEX.md spec at standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md. 
+Review the CODOME_COMPLETENESS_INDEX.md spec at particle/docs/specs/CODOME_COMPLETENESS_INDEX.md.
 
 TASKS:
 1. Validate the architecture - is CCI = Sensitivity × Specificity the right formula? Should we use F1 instead? What about weighted versions?
@@ -30,7 +30,7 @@ Output: Concrete Python architecture for this integration.
 
 ## Response
 
-Since the file `standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` is referenced but its content is not in the provided context, I will validate the formula based on your description and standard data science principles, then proceed to the architectural design of the Perplexity integration.
+Since the file `particle/docs/specs/CODOME_COMPLETENESS_INDEX.md` is referenced but its content is not in the provided context, I will validate the formula based on your description and standard data science principles, then proceed to the architectural design of the Perplexity integration.
 
 ---
 
@@ -62,7 +62,7 @@ This system acts as a "just-in-time" researcher. When the CCI logic detects a sp
 
 #### 1. System Design
 
-**Location:** `context-management/tools/ai/research/precision_fetcher.py`
+**Location:** `wave/tools/ai/research/precision_fetcher.py`
 **Config:** Extensions to `aci_config.yaml`
 
 ```mermaid
@@ -125,13 +125,13 @@ class ResearchResult(BaseModel):
 
 class ACIFetcherConfig:
     """Manages rate limits and model settings."""
-    def __init__(self, config_path: str = "context-management/config/aci_config.yaml"):
+    def __init__(self, config_path: str = "wave/config/aci_config.yaml"):
         self.api_key = os.getenv("PERPLEXITY_API_KEY")
         self.model = "sonar-pro"
         self.max_retries = 3
         self.cache_dir = Path(".agent/intelligence/external_cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Load constraints from YAML if exists
         if os.path.exists(config_path):
             with open(config_path) as f:
@@ -167,9 +167,9 @@ class PrecisionContextFetcher:
 
     def _construct_system_prompt(self) -> str:
         return """
-        You are a Senior Compiler Engineer and AST Expert. 
+        You are a Senior Compiler Engineer and AST Expert.
         Your goal is to provide concrete implementation details for detecting code patterns.
-        
+
         OUTPUT FORMAT:
         Return ONLY valid JSON matching this schema:
         {
@@ -185,14 +185,14 @@ class PrecisionContextFetcher:
     def _construct_user_prompt(self, gap: GapProfile) -> str:
         return f"""
         TASK: We failed to detect a '{gap.missing_atom}' in {gap.language}.
-        
+
         CONTEXT SNIPPET:
         ```
         {gap.context_snippet}
         ```
-        
+
         ERROR TYPE: {gap.error_type}
-        
+
         REQUEST:
         1. Identify the specific syntax pattern shown in the snippet.
         2. Provide the Tree-sitter S-expression query to capture this node.
@@ -202,7 +202,7 @@ class PrecisionContextFetcher:
     async def resolve_gap(self, gap: GapProfile) -> ResearchResult:
         """Main entry point to fetch context for a gap."""
         cache_key = self._get_cache_key(gap)
-        
+
         # 1. Cache Layer
         cached = await self._check_cache(cache_key)
         if cached:
@@ -226,16 +226,16 @@ class PrecisionContextFetcher:
                 }
             )
             response.raise_for_status()
-            
+
             # 4. Parsing
             content = response.json()["choices"][0]["message"]["content"]
             # Extract JSON from potential markdown blocks
             if "```json" in content:
                 content = content.split("```json")[1].split("```")[0]
-            
+
             guidance_data = json.loads(content)
             guidance = ActionableGuidance(**guidance_data)
-            
+
             result = ResearchResult(
                 gap_id=cache_key,
                 timestamp=time.time(),
@@ -246,7 +246,7 @@ class PrecisionContextFetcher:
             # 5. Write Cache
             cache_file = self.config.cache_dir / f"{cache_key}.json"
             cache_file.write_text(result.model_dump_json(indent=2))
-            
+
             return result
 
         except Exception as e:
@@ -259,7 +259,7 @@ class PrecisionContextFetcher:
 
 async def main():
     fetcher = PrecisionContextFetcher()
-    
+
     # Example: We missed a JavaScript IIFE
     gap = GapProfile(
         language="javascript",
@@ -267,7 +267,7 @@ async def main():
         context_snippet="(function() { console.log('I am hidden'); })();",
         error_type="MISSING_DETECTION"
     )
-    
+
     result = await fetcher.resolve_gap(gap)
     print(f"Strategy Found: {result.guidance.pattern_name}")
     print(f"Tree-Sitter Query: {result.guidance.tree_sitter_query}")
@@ -291,7 +291,7 @@ if __name__ == "__main__":
     When `analyze.py --verify` identifies a gap (using the Socratic Validator), instead of just logging the error, it can now optionally flag it for "Deep Research" if the confidence score is low.
 
 3.  **Knowledge Injection**:
-    The JSON output from `ActionableGuidance` is formatted to be directly copy-pasteable (or auto-merged) into `standard-model-of-code/src/patterns/learned/patterns.json`, closing the feedback loop automatically.
+    The JSON output from `ActionableGuidance` is formatted to be directly copy-pasteable (or auto-merged) into `particle/src/patterns/learned/patterns.json`, closing the feedback loop automatically.
 
 ---
 

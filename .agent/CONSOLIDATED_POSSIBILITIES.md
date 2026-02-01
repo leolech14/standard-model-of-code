@@ -195,7 +195,7 @@
 | Opportunities | `.agent/registry/inbox/OPP-*.yaml` |
 | Active Tasks | `.agent/registry/active/TASK-*.yaml` |
 | Sprints | `.agent/sprints/SPRINT-*.yaml` |
-| Open Concerns | `standard-model-of-code/docs/OPEN_CONCERNS.md` |
+| Open Concerns | `particle/docs/OPEN_CONCERNS.md` |
 | This File | `.agent/CONSOLIDATED_POSSIBILITIES.md` |
 
 ---

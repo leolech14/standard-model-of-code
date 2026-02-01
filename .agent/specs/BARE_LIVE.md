@@ -598,8 +598,8 @@ risk_level: "low"
 ## References
 
 - BARE Phase 1: `.agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md`
-- ACI: `context-management/tools/ai/aci/`
-- Analysis Sets: `context-management/config/analysis_sets.yaml`
+- ACI: `wave/tools/ai/aci/`
+- Analysis Sets: `wave/config/analysis_sets.yaml`
 - Grok Design Sessions: 2026-01-23 (Outside-In Refinery, Decision Deck Layer)
 
 ---

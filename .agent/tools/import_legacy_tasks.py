@@ -42,52 +42,52 @@ ACTIVE_DIR = REGISTRY_DIR / "active"
 # Legacy registry locations and their scoring systems
 LEGACY_REGISTRIES = {
     "upb": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/specs/UPB_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/specs/UPB_TASK_REGISTRY.md",
         "scoring": "3D",  # Confidence, Alignment, Usefulness
         "category": "VISUALIZATION",
     },
     "pipeline": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/specs/PIPELINE_REFACTOR_TASK_REGISTRY.md",
         "scoring": "2D",  # Factual, Alignment
         "category": "PIPELINE",
     },
     "tree_sitter": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/specs/TREE_SITTER_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/specs/TREE_SITTER_TASK_REGISTRY.md",
         "scoring": "2D",  # Factual, Alignment
         "category": "TREE_SITTER",
     },
     "token_system": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/reports/TOKEN_SYSTEM_TASK_REGISTRY.md",
         "scoring": "1D",  # Single score
         "category": "TOKEN_SYSTEM",
     },
     "sidebar": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/reports/SIDEBAR_REFACTOR_TASK_REGISTRY.md",
         "scoring": "1D",
         "category": "VISUALIZATION",
     },
     "docs_improvement": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "particle/docs/reports/DOCS_IMPROVEMENT_TASK_REGISTRY.md",
         "scoring": "1D",
         "category": "DOCUMENTATION",
     },
     "modularization": {
-        "path": REPO_ROOT / "standard-model-of-code/docs/reports/MODULARIZATION_TASKS.md",
+        "path": REPO_ROOT / "particle/docs/reports/MODULARIZATION_TASKS.md",
         "scoring": "1D",
         "category": "REFACTORING",
     },
     "docs_reorg": {
-        "path": REPO_ROOT / "context-management/docs/DOCS_REORG_TASK_REGISTRY.md",
+        "path": REPO_ROOT / "wave/docs/DOCS_REORG_TASK_REGISTRY.md",
         "scoring": "1D",
         "category": "DOCUMENTATION",
     },
     "mcp_factory": {
-        "path": REPO_ROOT / "context-management/tools/mcp/mcp_factory/TASK_STEP_LOG.md",
+        "path": REPO_ROOT / "wave/tools/mcp/mcp_factory/TASK_STEP_LOG.md",
         "scoring": "1D",
         "category": "MCP",
     },
     "smoc_roadmap": {
-        "path": REPO_ROOT / "standard-model-of-code/ROADMAP.md",
+        "path": REPO_ROOT / "particle/ROADMAP.md",
         "scoring": "PHASES",  # Phase-based, not task-based
         "category": "ROADMAP",
     },

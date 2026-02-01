@@ -1,0 +1,1407 @@
+{
+  "ref_id": "REF-072",
+  "parcel_id": "pcl_589129c7688b",
+  "chunk_count": 40,
+  "chunks": [
+    {
+      "content": "## Assignments\n\n- Assignment 6:\n- Architects vs. developers (software metrics)\n- Deadline: May 10\n- 3-4 students\n- Questions?\n\n<!-- image -->\n\n\u2192 Google Scholar - Mozilla Firefox\n\nBestand Begerkan Beel geschedes Baces Eta bel\n\nTechnische Universiteit\n\nWeh ma\u00e7es laza",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "21e0b97a90e12255",
+      "chunk_type": "h2",
+      "relevance_score": 0.7726973762181042,
+      "start_line": 11,
+      "end_line": 29,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Assignments",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8444622,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2e3433a9f9d0",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Assignments",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Sources\n\nschclar\n\nGoogle beta\n\nHTAHI\n\nTILILE\n\nIHO HEHE\n\n* Doekes reverse e http://scholar.google.ccm/schaler\\_v\"\n\n<!-- image -->\n\n<!-- image -->\n\n0 - 4. 000l\n\n4 Google Sc... L\n\n\u2022 Deletec Items - . i Sedane Stores. -\n\nSarin\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "afab0b5cdb059fa4",
+      "chunk_type": "h2",
+      "relevance_score": 0.7735074732495808,
+      "start_line": 29,
+      "end_line": 61,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Sources",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8444989,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f8acfdceb9df",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Sources",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Recap: Software metrics\n\n- So far\n- Metrics scales:\n- Size: LOCs, #files, functionality (function points, API)\n- Complexity: Halstead, McCabe, Henry-Kafura\n- OO:\n- -Chidamber-Kemerer (WMC, DIT, etc.)\n- -LCOM and variants\n- Today\n- Package metrics\n- -Aggregation of metrics values\n- Churn metrics\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "309d9c8976f66b0e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7759059909460924,
+      "start_line": 61,
+      "end_line": 79,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Recap: Software metrics",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844513,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7579ce1e1419",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Recap: Software metrics",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Package metrics\n\n- Size: number of classes\n- Dependencies \u00e0 la fan-in and fan-out\n- Marchesi's UML metrics\n- Martin's D n : abstractness-instability balance or 'the normalized distance from the main sequence'\n- PASTA\n- Aggregations of class metrics\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "d03b7e4e622bdb62",
+      "chunk_type": "h2",
+      "relevance_score": 0.7746565214950133,
+      "start_line": 79,
+      "end_line": 94,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Package metrics",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844526,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c3656c589b9e",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Package metrics",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Fan-in\n\nTDD\n\nNon-TDD|\n\n- 'Fan-in' similarly to the 'Fan-out'\n- Afferent coupling (Martin)\n- PK2 (Marchesi)\n\nJericho\n\n<!-- image -->\n\n<!-- image -->\n\n<!-- image -->\n\n- Dark: TDD, light: no-TDD\n- Test-driven development positively affects C a\n- The lower Ca - the better.\n- Exception: JUnit vs. Jerico\n- But Jericho is extremely small (2 packages)\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "c0a6ac9ae7e7ee1b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7776984880397712,
+      "start_line": 112,
+      "end_line": 140,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Fan-in",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8445382,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_754370d2ba83",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Fan-in",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## More fan-in and fan-out\n\n- 'Fan-in' similarly to the 'Fan-out'\n- Afferent coupling (Martin)\n- PK2 (Marchesi)\n\n| \u2022 SAP (Herzig)         |   Validation Correlation post-release defects |\n|------------------------|-----------------------------------------------|\n| Afferent               |                                         0.091 |\n| Efferent [Martin 2000] |                                         0.157 |\n| Class-in               |                                         0.084 |\n| Class-out              |                                         0.086 |\n| Fan-in                 |                                         0.287 |\n| / SET / W&I Fan-out    |                                         0.148 |\n\n| Marchesi             |   Man- months |   #Pack |   avg(PK 1 ) |\n|----------------------|---------------|---------|--------------|\n| Railway simulator    |            13 |       6 |          8.7 |\n| Warehouse management |             7 |       5 |          5   |\n| CASE tool            |            13 |       5 |          8.1 |\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "7d18ba898efaffad",
+      "chunk_type": "h2",
+      "relevance_score": 0.791050878466071,
+      "start_line": 140,
+      "end_line": 165,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "More fan-in and fan-out",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844552,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_fece63249d95",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "More fan-in and fan-out",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Sato, Goldman, Kon 2007\n\n<!-- image -->\n\n- Almost all systems show an increasing trend (Lehman's growing complexity)\n- Project 7 (workflow system) is almost stable but very high!\n- Outsourced development\n- No automated tests\n- Severe maintainability problems\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "2208cb834ffa6303",
+      "chunk_type": "h2",
+      "relevance_score": 0.7744002082887145,
+      "start_line": 169,
+      "end_line": 183,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Sato, Goldman, Kon 2007",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8445609,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_257e59e03af2",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Sato, Goldman, Kon 2007",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Package metrics: Stability\n\nStability is related to the amount of work required to make a change [Martin, 2000].\n\n- Stable packages\n- Do not depend upon classes outside\n- Many dependents\n- Should be extensible via inheritance ( abstract )\n- Instable packages\n- Depend upon many classes outside\n- No dependents\n- Should not be extensible via inheritance ( concrete )\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "709319cf8867c77e",
+      "chunk_type": "h2",
+      "relevance_score": 0.7783516992402202,
+      "start_line": 183,
+      "end_line": 200,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Package metrics: Stability",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8445692,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f11fa37a1690",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Package metrics: Stability",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## What does balance mean?\n\nA good real-life package must be instable enough in order to be easily modified\n\nIt must be generic enough to be adaptable to evolving  requirements, either without or with only minimal modifications\n\nHence: contradictory criteria\n\n<!-- image -->\n\nS\n\n30000X 10000x\n\n100 000 -\n\n10000-\n\n7900k\n\n6000\n\nSpect:1 Clas\n\nTechnische Universiteit\n\n5000\n\n4000K\n\n3000x\n\n(Tenceuku",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "6453d7628525eac0",
+      "chunk_type": "h2",
+      "relevance_score": 0.7778648866547672,
+      "start_line": 200,
+      "end_line": 234,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "What does balance mean?",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844578,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_b832e9da7353",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "What does balance mean?",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Dn - Distance from the main sequence\n\n1000-\n\nLuminosity\n\n(Sun-1)\n\nGrant\n\n<!-- image -->\n\nAbsoluN\n\nDn =\n\n| Abstractness +\n\nInstability - 1 |\n\n[R.Martin 1994]\n\n<!-- image -->\n\nDistance from the Main Sequenoe\n\n0.6\n\n0.5\n\n0.4\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "303317ea4ea5c374",
+      "chunk_type": "h2",
+      "relevance_score": 0.7718335504247864,
+      "start_line": 234,
+      "end_line": 268,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Dn - Distance from the main sequence",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844588,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5d0b88648f18",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Dn - Distance from the main sequence",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Normalized distance from the main sequence\n\nJAMWi fine\n\n<!-- image -->\n\n<!-- image -->\n\n<!-- image -->\n\nUS PWiki\n\n*Wiki\n\n- Dark: TDD, light: no-TDD\n- Test-driven development positively affects D n\n- The lower Dn - the better.\n- The same exception (Jericho vs. JUnit)\n\n<!-- image -->\n\n8\n\ndistribution",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "574260a8e0390b4f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7744002082887145,
+      "start_line": 268,
+      "end_line": 293,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Normalized distance from the main sequence",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844597,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f7c9e44fdfc7",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Normalized distance from the main sequence",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## PASTA [Hautus 2002]\n\n- PASTA - Package structure analysis tool\n- Dependencies between subpackages\n- Some dependencies are worse than others\n- What are the 'bad dependencies'?\n- Cyclic dependencies, layering violations\n\n<!-- image -->\n\n<!-- image -->\n\njava\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "fa4a8ae4c43188f7",
+      "chunk_type": "h2",
+      "relevance_score": 0.7735535930657287,
+      "start_line": 309,
+      "end_line": 325,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "PASTA [Hautus 2002]",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8446069,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_fd338c09d54b",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "PASTA [Hautus 2002]",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## PASTA [Hautus]\n\n- Idea: remove bad (cyclecausing) dependencies\n- Weight - number of references from one subpackage to another one.\n\nd\n\n- Dependencies to be removed are such that\n- -The result is acyclic\n- -The total weight of the dependencies removed is minimal\n- Minimal effort required to resolve all the cycles\n\napplet\n\n<!-- image -->\n\nUpwards dependencies should be removed\n\n<!-- image -->\n\nbeans\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "534681a2f857a101",
+      "chunk_type": "h2",
+      "relevance_score": 0.7789433130703951,
+      "start_line": 325,
+      "end_line": 349,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "PASTA [Hautus]",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844615,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9c8b1be1df07",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "PASTA [Hautus]",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## From dependencies to metrics\n\n0%\n\n1%\n\n5%\n\norg.apache.tools.ant\n\nJava\n\n- PASTA(P) = Total weight of the dependencies  to be removed / total weight of the dependencies\n- No empirical validation of the metrics\n- No studies of the metrics evolution\n\n<!-- image -->\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "bc0f0c2ad5c04504",
+      "chunk_type": "h2",
+      "relevance_score": 0.7733681260982079,
+      "start_line": 349,
+      "end_line": 369,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "From dependencies to metrics",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844623,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d4a2b57ee2d6",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "From dependencies to metrics",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Aggregation techniques\n\n- Metrics-independent\n- Applicable for any metrics to be aggregated\n- Are the results also metrics-independent?\n- Based on econometrics\n- Metrics-dependent\n- Produces more precise results\n- BUT: needs to be redone for any new metrics\n- Based on fitting probability distributions\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "60a55fa4aeb285b9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7761722829637833,
+      "start_line": 379,
+      "end_line": 394,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Aggregation techniques",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8446321,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2ec52848b8e6",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Aggregation techniques",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Examples of aggregation functions so far\n\n- Sum\n- WMC is a class-level metrics defined as the sum of metrics for its lower-level elements (methods)\n- McCabe's complexity of a file is the sum of McCabe's complexities of its functions\n- -Effort to test all functions of the file\n- Not all metrics are additive (DIT? LCOM???)\n- Average\n- Maintainability index\n- Central tendency is insufficient for assessment\n- Unreliable for skewed distribution\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "7352be615410af41",
+      "chunk_type": "h2",
+      "relevance_score": 0.780625868836439,
+      "start_line": 394,
+      "end_line": 410,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Examples of aggregation functions so far",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.84464,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1e41b13642f0",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Examples of aggregation functions so far",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Metrics independent: Coefficient of variation\n\n- Coefficient of variation: C = \u03c3 / \u03bc\n- Allows to compare distributions with different means\n- Sometimes used to assess stability of the metrics\n- -Metrics is stable for C &lt; 0.3\n- -Unreliable for small samples\n- -Evolution should be studied\u2026\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "3799de5fcd4922fe",
+      "chunk_type": "h2",
+      "relevance_score": 0.7757513442111053,
+      "start_line": 410,
+      "end_line": 423,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Metrics independent: Coefficient of variation",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844648,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_a0304301d952",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Metrics independent: Coefficient of variation",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Popular technique: Gini coefficient\n\n<!-- image -->\n\n- Gini coefficient measure of economic inequality\n- Ranges on [0; 1]\n- High values indicate high inequality\n\n<!-- image -->\n\n<!-- image -->\n\n% of income\n\n100\n\n80\n\n60.\n\n40\n\n20\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "18affdf43371343c",
+      "chunk_type": "h2",
+      "relevance_score": 0.7721962054130186,
+      "start_line": 439,
+      "end_line": 465,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Popular technique: Gini coefficient",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844658,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_468d61c9b56f",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Popular technique: Gini coefficient",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Gini coefficient: Formally\n\n- Lorenz curve:\n\nA\n\n- % of income shared by the lower % of the population\n\n20\n\n40\n\n60\n\n80\n\n100\n\n<!-- image -->\n\n<!-- image -->\n\n- Gini = A/(A+B)\n- Since A+B = 0.5 Gini = 2A\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "b3a4bc07307ba5f9",
+      "chunk_type": "h2",
+      "relevance_score": 0.7716216947901618,
+      "start_line": 465,
+      "end_line": 494,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Gini coefficient: Formally",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844666,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ee2ac7674460",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Gini coefficient: Formally",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Gini and software metrics [Vasa et al. 2009]\n\n<!-- image -->\n\n- For most of the metrics on the benchmark systems: 0.45 \u2264 Gini \u2264 0.75\n- Higher Gini/WMC: presence of generated code or code, structured in a way similar to the generated code (parsers)\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "fb1f293a9782f801",
+      "chunk_type": "h2",
+      "relevance_score": 0.7739167896695772,
+      "start_line": 494,
+      "end_line": 505,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Gini and software metrics [Vasa et al. 2009]",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844675,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6c642d533b61",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Gini and software metrics [Vasa et al. 2009]",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Gini and evolution: Spring\n\n<!-- image -->\n\n- Normally rather stable: programmers accumulate competence and tend to solve similar problems by similar means\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "0eea2da56849263c",
+      "chunk_type": "h2",
+      "relevance_score": 0.7699731537974681,
+      "start_line": 505,
+      "end_line": 517,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Gini and evolution: Spring",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844682,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_233d33bbc707",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Gini and evolution: Spring",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Exceptions are meaningful!\n\n| System          | Metrics          |   Increase |   Increase | Explanation                                                           |\n|-----------------|------------------|------------|------------|-----------------------------------------------------------------------|\n| JabRef          | WMC              |       0.75 |       0.91 | Machine generated parser introduced                                   |\n| Checkstyle      | Fan-in (classes) |       0.44 |       0.8  | Plug-in based architecture introduced.                                |\n| Jasper- Reports | #Public methods  |       0.58 |       0.69 | Introduction of a set of new base classes.                            |\n| WebWork         | Fan-out          |       0.51 |       0.62 | Alarge utility class and multiple cases of copy-and paste introduced. |\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "28b43cbfa6237f68",
+      "chunk_type": "h2",
+      "relevance_score": 0.788756916496659,
+      "start_line": 517,
+      "end_line": 532,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Exceptions are meaningful!",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844689,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_194ef6266c54",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Exceptions are meaningful!",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Aggregation techniques\n\n- Metrics-independent\n- Applicable for any metrics to be aggregated\n- Are the results also metrics-independent?\n- Based on econometrics\n- \uf0d8 Metrics-dependent\n- Produces more precise results\n- BUT: needs to be redone for any new metrics\n- Based on fitting probability distributions\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "33c8d469fa74b7be",
+      "chunk_type": "h2",
+      "relevance_score": 0.7752760756699331,
+      "start_line": 532,
+      "end_line": 545,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Aggregation techniques",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8446982,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_10219e5bd2f1",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Aggregation techniques",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Metrics-dependent aggregation: Statistical fitting\n\n1. Collect the metrics values for the lower-level elements\n2. Present a histogram\n3. Fit a (theoretical) probability distribution to describe the sample distribution\n- a) Select a family of theoretical distributions\n- b) Fit the parameters of the probability distribution\n- c) Assess the goodness of fit\n4. If a theoretical distribution can be fitted, use the fitted parameters as the aggregated value\n\n<!-- image -->\n\n675\n\n480\n\n340\n\n240\n\n170\n\nanN&amp;gaN\n\n5\n\nTITTT\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "4d3e81ce7ba4fa97",
+      "chunk_type": "h2",
+      "relevance_score": 0.7820918950682992,
+      "start_line": 545,
+      "end_line": 575,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Metrics-dependent aggregation: Statistical fitting",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844706,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_56a383c4ab56",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Metrics-dependent aggregation: Statistical fitting",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Step 1: Histograms\n\n200000\n\n1\n\n400000\n\n7\n\n600000\n\nT\n\n800000\n\n1e+05\n\n1.2e+06\n\n1.4+06\n\n-\n\n900000\n\n1e+05\n\n1.5e+06\n\nT\n\n2e+06\n\nT\n\n2.5e+06\n\n3e+06\n\n<!-- image -->\n\nRobles et al. 2006: LOC in Debian 2.0 (left) and 3.0 (right)\n\n<!-- image -->\n\n<!-- image -->\n\n3735\n\n2465\n\n1625\n\n1070\n\n705\n\n465\n\n305\n\n200\n\n- We have seen quite a number of them already!\n\n10\n\n00\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "606dc95da2bed2d2",
+      "chunk_type": "h2",
+      "relevance_score": 0.7772902405061738,
+      "start_line": 575,
+      "end_line": 647,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Step 1: Histograms",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844717,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d6a5dc2774f5",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Step 1: Histograms",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Histograms are not without problems\n\n- Data: 50 birth weights of  children with a severe idiopathic respiratory syndrome\n\n1\n\n2\n\n3\n\n4\n\n<!-- image -->\n\n2\n\n4\n\n3\n\n5\n\n<!-- image -->\n\n1\n\n2\n\n0\n\n3\n\n4\n\n5\n\n(d)\n\n21-2-2011 PAGE 30\n\n<!-- image -->\n\n- The same data leads to four different 'distributions'\n- What can affect the way histogram looks like?\n- Bin width\n- Position of the bin's edges\n\n<!-- image -->\n\n(a)\n\n(c)\n\nET / W&amp;I\n\n<!-- image -->\n\n(b)\n\n0.8\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "0f9c62c86e50fa3f",
+      "chunk_type": "h2",
+      "relevance_score": 0.780732444763689,
+      "start_line": 647,
+      "end_line": 712,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Histograms are not without problems",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844727,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_17141753e706",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Histograms are not without problems",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Kernel density estimators\n\n- Advantages\n- Statistically more sound (no dependency on the endpoints of the bins)\n- Produces smooth curves\n- Disadvantages\n- Statistically more complex\n- Parameter tuning might be a challenge\n\n<!-- image -->\n\n-4\n\n-2\n\n2\n\n4\n\n6\n\n8\n\n0\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "ad1c354b6f6a5955",
+      "chunk_type": "h2",
+      "relevance_score": 0.7737817746327769,
+      "start_line": 712,
+      "end_line": 739,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Kernel density estimators",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844735,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_59040d568ce2",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Kernel density estimators",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Kernel density estimates: Intuition\n\n- Data: -2.1, -1.3, -0.4, 1.9, 5.1, 6.2\n\n<!-- image -->\n\nHistogram: every value is a rectangle.\n\nShape is a 'sum' of the rectangles.\n\n51 62\n\nWhat if each value will be a 'bump' that can be added together to create a smooth curve?\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "420806356c029188",
+      "chunk_type": "h2",
+      "relevance_score": 0.7753965280020381,
+      "start_line": 739,
+      "end_line": 759,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Kernel density estimates: Intuition",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844743,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_6fe642a8a318",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Kernel density estimates: Intuition",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Where\n\n- n - number of observations\n- h - a smoothing parameter, the 'bandwidth'\n- K - a weighting function, the 'kernel'\n\nHistogram can be obtained using                    as K\n\n-1\n\n<!-- image -->\n\nOnce K is chosen one can determine the optimal h.\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "be74862e90064922",
+      "chunk_type": "h2",
+      "relevance_score": 0.7740060286106233,
+      "start_line": 763,
+      "end_line": 781,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Where",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8447502,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_aed07dd0e186",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Where",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Step 2: fitting a distribution\n\n<!-- image -->\n\nTamai, Nakatani. Negative binomial distribution\n\n- Family of distributions is chosen based on shape\n- If the parameters fitting is not good enough try a different one!\n\n<!-- image -->\n\n- \u2022\n\n<!-- formula-not-decoded -->\n\n- And use \u03bb",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "ce917c41a4ae8251",
+      "chunk_type": "h2",
+      "relevance_score": 0.7735074732495808,
+      "start_line": 795,
+      "end_line": 812,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Step 2: fitting a distribution",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844767,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9273f34ecf7b",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Step 2: fitting a distribution",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Sometimes well-known distributions do not really seem to match\n\n- Exponential distribution:\n\n<!-- formula-not-decoded -->\n\n- However, support is [0;1] rather than \u221e 1\n\n<!-- formula-not-decoded -->\n\nto find\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "77c61c0103799359",
+      "chunk_type": "h2",
+      "relevance_score": 0.7726973762181042,
+      "start_line": 812,
+      "end_line": 830,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Sometimes well-known distributions do not really seem to match",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8447769,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_85909aa764d4",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Sometimes well-known distributions do not really seem to match",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Step 3c. Goodness of fit: Pearson \u03c7 2 test\n\n- The test statistic where\n\n<!-- formula-not-decoded -->\n\n- O - observed frequency of the result i\n- E - expected frequency of the result i\n- Compare X 2 with the theoretical \u03c7 2 distribution for the given number of degrees of freedom: P( \u03c7 2 &gt; X 2 )\n- Degrees of freedom = number of observations number of fitted parameters\n- Comparison is done based on table values\n- If the P( \u03c7 2 &gt; X 2 ) &lt; threshold - the fit is good\n- Common thresholds are 0.1, 0.05 and 0.01\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "a32c8f9996bbbdd2",
+      "chunk_type": "h2",
+      "relevance_score": 0.7824688858376848,
+      "start_line": 830,
+      "end_line": 848,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Step 3c. Goodness of fit: Pearson \u03c7 2 test",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844788,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_871c82feb71e",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Step 3c. Goodness of fit: Pearson \u03c7 2 test",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Recapitulation: Statistical fitting\n\n1. Collect the metrics values for the lower-level elements\n2. Present a histogram\n3. Fit a (theoretical) probability distribution to describe the sample distribution\n- a) Select a family of theoretical distributions\n- b) Fit the parameters of the probability distribution\n- c) Assess the goodness of fit\n4. If a theoretical distribution can be fitted, use the fitted parameters as the aggregated value\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "58782c62ddf3bab3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7797974860020954,
+      "start_line": 848,
+      "end_line": 860,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Recapitulation: Statistical fitting",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844797,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ef5f902aa6e1",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Recapitulation: Statistical fitting",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## What about the evolution of the aggregated values? 1\n\n0.8\n\n- Geometry library: Jun, subsystem 'Geometry'\n\n0-00--0\n\n-P\n\n-0-k\n\n- Tamai, Nakatani: Negative binomial distribution\n\n<!-- formula-not-decoded -->\n\n- p, k - distribution parameters\n\n<!-- formula-not-decoded -->\n\n- - binomial coefficient extended to the reals \uf8f8 \uf8ed -1 k\n- Increase - functionality enhancement\n- Decrease - refactoring\n\n<!-- image -->\n\n<!-- image -->\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "e07faaa34cc76db3",
+      "chunk_type": "h2",
+      "relevance_score": 0.7800235885866986,
+      "start_line": 860,
+      "end_line": 892,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "What about the evolution of the aggregated values? 1",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8448079,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_eb08adccfeda",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "What about the evolution of the aggregated values? 1",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Reminder: package metrics\n\n- Size: number of classes\n- Dependencies \u00e0 la fan-in and fan-out\n- Marchesi's UML metrics\n- Martin's D n : abstractness-instability balance or 'the normalized distance from the main sequence'\n- PASTA\n- Aggregations of class metrics\n- Metrics independent: average, sum, Gini coefficient\n- Metrics dependent: Distribution fitting\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "bc53e7053b5c16ff",
+      "chunk_type": "h2",
+      "relevance_score": 0.7771512649542606,
+      "start_line": 892,
+      "end_line": 905,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Reminder: package metrics",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844816,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_0c850a84c64f",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Reminder: package metrics",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Measuring change: Churn metrics\n\nM4: Chum count / Files churned\n\nM5: Weeks of chum/ File count\n\nM6: Lines worked on / Weeks of chum\n\n- Why? Past evolution to predict future evolution\n\nUniversity of Technology\n\n- Code Churn [Lehman, Belady 1985]:\n- Amount of code change taking place within a software unit over time\n- Code Churn metrics [Nagappan, Bell 2005]:",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "811b9b4417a403dd",
+      "chunk_type": "h2",
+      "relevance_score": 0.776761257115995,
+      "start_line": 905,
+      "end_line": 921,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Measuring change: Churn metrics",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844824,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5cbafcd11ac5",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Measuring change: Churn metrics",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Case Study: Windows Server 2003\n\n- Analyze Code Churn between WS2003 and WS2003SP1 to predict defect density in WS2003-SP1\n- 40 million LOC, 2000 binaries\n- Use absolute and relative churn measures\n- Conclusion 1: Absolute measures are no good \u00b7 R 2 &lt; 0.05\n- Conclusion 2: Relative measures are good!\n- An increase in relative code churn measures is\n- \u2022\n- accompanied by an increase in system defect density R 2 \u2248 0.8\n\n<!-- image -->\n\ndefects/kloc\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "046a2c1b0f3a6e9c",
+      "chunk_type": "h2",
+      "relevance_score": 0.7803828368983635,
+      "start_line": 931,
+      "end_line": 948,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Case Study: Windows Server 2003",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8448331,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_091d9472fc9b",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Case Study: Windows Server 2003",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Case Study: Windows Server 2003\n\n- Construct a statistical model\n- Training set: 2/3 of the Windows  Set binaries\n- Check the quality of the prediction\n- Test set: remaining binaries\n\n739\n\n780\n\n- Three models\n- Right: all relative churn metrics are taken into account\n\n<!-- image -->\n\n<!-- image -->\n\nACTUAL\n\nEstimatec\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "0e7d680ac4dd327d",
+      "chunk_type": "h2",
+      "relevance_score": 0.7761722829637833,
+      "start_line": 948,
+      "end_line": 972,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Case Study: Windows Server 2003",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844841,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_dd1cf736a84e",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Case Study: Windows Server 2003",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Open issues\n\n- To predict bugs from history, but we need a history filled with bugs to do so\n- Ideally, we don't have such a history\n- We would like to learn from previous projects:\n- Can we make predictions without history?\n- How can we leverage knowledge between projects?\n- Are there universal properties?\n- Not just code properties but also properties of the entire software process\n\n<!-- image -->\n\nTechnische Universiteit",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "43ea963e0e76b623",
+      "chunk_type": "h2",
+      "relevance_score": 0.7790040536673876,
+      "start_line": 972,
+      "end_line": 986,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Open issues",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.8448482,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_ec1b66238898",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Open issues",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## Conclusions\n\n- Package metrics\n- Directly defined: Dn, Marchesi metrics, PASTA\n- Aggregation based\n- -Metrics-independent: average, sum, Gini coefficient\n- -Metrics-dependent: fitted distributions\n- Churn metrics\n\n<!-- image -->\n\n<!-- image -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-072_McCabe_1976_ComplexityMeasure.pdf",
+      "chunk_id": "7decf01458211585",
+      "chunk_type": "h2",
+      "relevance_score": 0.9217809085977899,
+      "start_line": 986,
+      "end_line": 998,
+      "metadata": {
+        "ref_id": "REF-072",
+        "header": "Conclusions",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769848478.844855,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_8c56811ebe6c",
+        "parent_id": "pcl_589129c7688b",
+        "ref_id": "REF-072",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769848478,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-072_McCabe_1976_ComplexityMeasure.pdf",
+              "batch_id": "batch_20260131_045514",
+              "header": "Conclusions",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

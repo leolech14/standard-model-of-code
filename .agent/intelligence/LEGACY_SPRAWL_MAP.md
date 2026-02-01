@@ -20,14 +20,14 @@
 
 | File | Location | Status | Notes |
 |------|----------|--------|-------|
-| ROADMAP.md | `standard-model-of-code/` | ACTIVE | SMOC Development Roadmap (Phase 0-9) |
-| RESEARCH_TO_IMPLEMENTATION_ROADMAP.md | `standard-model-of-code/docs/` | ACTIVE | Research→Implementation flow |
-| T2_EXPANSION_ROADMAP.md | `standard-model-of-code/docs/specs/` | ACTIVE | Ecosystem atoms expansion |
-| ROADMAP.md | `context-management/tools/mcp/mcp_factory/` | ACTIVE | MCP factory development |
-| ROADMAP_TO_PROOF.md | `standard-model-of-code/.archive/docs_archive/` | ARCHIVED | Historical |
-| ROADMAP.md | `standard-model-of-code/.archive/docs_archive/` | ARCHIVED | Historical |
-| ROADMAP_10_OF_10.md | `context-management/docs/archive/` | ARCHIVED | Historical |
-| ROADMAP.md | `archive/context-management-agent-2026-01-23/orientation/` | ARCHIVED | Backup |
+| ROADMAP.md | `particle/` | ACTIVE | SMOC Development Roadmap (Phase 0-9) |
+| RESEARCH_TO_IMPLEMENTATION_ROADMAP.md | `particle/docs/` | ACTIVE | Research→Implementation flow |
+| T2_EXPANSION_ROADMAP.md | `particle/docs/specs/` | ACTIVE | Ecosystem atoms expansion |
+| ROADMAP.md | `wave/tools/mcp/mcp_factory/` | ACTIVE | MCP factory development |
+| ROADMAP_TO_PROOF.md | `particle/.archive/docs_archive/` | ARCHIVED | Historical |
+| ROADMAP.md | `particle/.archive/docs_archive/` | ARCHIVED | Historical |
+| ROADMAP_10_OF_10.md | `wave/docs/archive/` | ARCHIVED | Historical |
+| ROADMAP.md | `archive/wave-agent-2026-01-23/orientation/` | ARCHIVED | Backup |
 | IMPLEMENTATION_ROADMAP.md | `archive/misc_docs/` | ARCHIVED | Historical |
 | DDDLINT_PIVOT_ROADMAP.md | `archive/misc_docs/` | ARCHIVED | Historical |
 | smart-buffer ROADMAP.md | `related/chrome-mcp/node_modules/` | EXTERNAL | Ignore |
@@ -45,19 +45,19 @@ Create unified roadmap at `.agent/sprints/UNIFIED_ROADMAP.md` that references:
 
 | File | Location | Status | Items | Migrated To |
 |------|----------|--------|-------|-------------|
-| **TREE_SITTER_TASK_REGISTRY.md** | `standard-model-of-code/docs/specs/` | KEPT | 46 tasks | Canonical source |
-| **PIPELINE_REFACTOR_TASK_REGISTRY.md** | `standard-model-of-code/docs/specs/` | MIGRATED | 35 tasks | OPP-006 |
-| **TOKEN_SYSTEM_TASK_REGISTRY.md** | `standard-model-of-code/docs/reports/` | MIGRATED | 10 tasks | OPP-005 |
-| UPB_TASK_REGISTRY.md | `standard-model-of-code/docs/specs/` | ARCHIVED | Phase 6 complete | - |
-| ARCHITECTURE_DEBT_REGISTRY.md | `standard-model-of-code/docs/reports/` | REFERENCE | Analysis only | - |
-| DOCS_IMPROVEMENT_TASK_REGISTRY.md | `standard-model-of-code/docs/reports/` | ARCHIVED | 1/10 done | - |
-| DOCS_REORG_TASK_REGISTRY.md | `context-management/docs/` | ARCHIVED | 7/10 done | - |
-| SIDEBAR_REFACTOR_TASK_REGISTRY.md | `standard-model-of-code/docs/reports/` | ARCHIVED | 1/13 done | - |
-| ROLE_REGISTRY_HARDENING_PLAN.md | `standard-model-of-code/docs/plans/` | ACTIVE | Roles work | - |
-| TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY.md | `standard-model-of-code/docs/specs/` | DUPLICATE | → GCS archive | - |
-| TASK_CONFIDENCE_REGISTRY.md | `context-management/tools/mcp/mcp_factory/` | SUPERSEDED | → .agent/registry | - |
-| REGISTRY_REPORT.md | `context-management/registry/` | ACTIVE | Stats/state | - |
-| REGISTRY_OF_REGISTRIES.md | `standard-model-of-code/docs/specs/` | ACTIVE | Meta-index | Updated 2026-01-21 |
+| **TREE_SITTER_TASK_REGISTRY.md** | `particle/docs/specs/` | KEPT | 46 tasks | Canonical source |
+| **PIPELINE_REFACTOR_TASK_REGISTRY.md** | `particle/docs/specs/` | MIGRATED | 35 tasks | OPP-006 |
+| **TOKEN_SYSTEM_TASK_REGISTRY.md** | `particle/docs/reports/` | MIGRATED | 10 tasks | OPP-005 |
+| UPB_TASK_REGISTRY.md | `particle/docs/specs/` | ARCHIVED | Phase 6 complete | - |
+| ARCHITECTURE_DEBT_REGISTRY.md | `particle/docs/reports/` | REFERENCE | Analysis only | - |
+| DOCS_IMPROVEMENT_TASK_REGISTRY.md | `particle/docs/reports/` | ARCHIVED | 1/10 done | - |
+| DOCS_REORG_TASK_REGISTRY.md | `wave/docs/` | ARCHIVED | 7/10 done | - |
+| SIDEBAR_REFACTOR_TASK_REGISTRY.md | `particle/docs/reports/` | ARCHIVED | 1/13 done | - |
+| ROLE_REGISTRY_HARDENING_PLAN.md | `particle/docs/plans/` | ACTIVE | Roles work | - |
+| TREE_SITTER_FULL_IMPLEMENTATION_REGISTRY.md | `particle/docs/specs/` | DUPLICATE | → GCS archive | - |
+| TASK_CONFIDENCE_REGISTRY.md | `wave/tools/mcp/mcp_factory/` | SUPERSEDED | → .agent/registry | - |
+| REGISTRY_REPORT.md | `wave/registry/` | ACTIVE | Stats/state | - |
+| REGISTRY_OF_REGISTRIES.md | `particle/docs/specs/` | ACTIVE | Meta-index | Updated 2026-01-21 |
 
 ### Recommendation
 - Update REGISTRY_OF_REGISTRIES.md with current date
@@ -116,8 +116,8 @@ When Context Refinery is built, it should consume:
 |--------|------|-----|
 | All roadmaps | `**/*ROADMAP*.md` | Strategic direction |
 | All registries | `**/*REGISTRY*.md` | Task/debt tracking |
-| Analysis sets | `context-management/config/analysis_sets.yaml` | Boundary definitions |
-| Semantic models | `context-management/config/semantic_models.yaml` | Node schema basis |
+| Analysis sets | `wave/config/analysis_sets.yaml` | Boundary definitions |
+| Semantic models | `wave/config/semantic_models.yaml` | Node schema basis |
 | Git history | `.git/` | Delta detection |
 
 ---

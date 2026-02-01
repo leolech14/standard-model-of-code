@@ -6,8 +6,8 @@
 
 ### Findings
 - **Root Pollution**: The repository root contains numerous non-canonical Markdown files (e.g., `BEST_PRACTICES.md`, `MISSION_CONTROL.md`, `PROJECT_MAP_2026.md`), violating the "No Root Pollution" rule.
-- **Debris**: `context-management/docs/theory/` contains legacy/duplicate theory files (e.g., `THEORY.md`), whereas the Canon is defined as `standard-model-of-code/docs/theory/`.
-- **Structure**: The core split between `standard-model-of-code` (Body) and `context-management` (Brain) is respected.
+- **Debris**: `wave/docs/theory/` contains legacy/duplicate theory files (e.g., `THEORY.md`), whereas the Canon is defined as `particle/docs/theory/`.
+- **Structure**: The core split between `particle` (Body) and `wave` (Brain) is respected.
 
 ## 2. Theory Integration Verification (Analyzer Results)
 **Overall Assessment**: ❌ **Does Not Fully Comply** ("Active Drift")
@@ -32,7 +32,7 @@ The analysis detected significant violations of the Theory Canon/Antimatter Laws
     - *Theme*: Alignment of strategic governance with the theoretical canon.
 
 2.  **Legacy Archive Event (Jan 27-28 - The 14k Spike)**
-    - *Files*: `standard-model-of-code/archive/legacy_experiments/experiments/gemini-ink-studio/`
+    - *Files*: `particle/archive/legacy_experiments/experiments/gemini-ink-studio/`
     - *Theme*: **Consolidation**. The massive spike (14,846 files) is due to archiving a legacy web project (`gemini-ink-studio`) containing a full build/dependency tree (`dist/`, `node_modules`-like structures). This corresponds to the user's "Consolidate Repository Mess" objective.
 
 3.  **Research & Documentation (Ongoing)**

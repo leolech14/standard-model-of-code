@@ -32,8 +32,8 @@ The concepts exist in two primary locations:
 
 | File | Section | Depth | Content |
 | :--- | :--- | :--- | :--- |
-| **`context-management/docs/CODESPACE_ALGEBRA.md`** | **§15 Consumer Classes** | **High** | Defines **Axiom H4 (Stone Tool Principle)**: "Tools MAY be designed that humans cannot directly use." Defines the "Stone Tool Test". |
-| **`context-management/docs/GLOSSARY.md`** | **Consumer Classes** | **Medium** | Defines `TOOLOME` vs `STONE_TOOLS`. Defines the "Interface Level" (Axiom H5). |
+| **`wave/docs/CODESPACE_ALGEBRA.md`** | **§15 Consumer Classes** | **High** | Defines **Axiom H4 (Stone Tool Principle)**: "Tools MAY be designed that humans cannot directly use." Defines the "Stone Tool Test". |
+| **`wave/docs/GLOSSARY.md`** | **Consumer Classes** | **Medium** | Defines `TOOLOME` vs `STONE_TOOLS`. Defines the "Interface Level" (Axiom H5). |
 
 ---
 
@@ -48,7 +48,7 @@ In `CODESPACE_ALGEBRA.md`, the universe is partitioned into `P = C ⊔ X` (Codom
 #### B. The "Phantom" Specifications
 The `GLOSSARY.md` references two documents that describe these concepts in detail, but they do not appear in the file list or the provided context:
 1.  `docs/specs/AI_CONSUMER_CLASS.md` (Referenced as "Full Axiom H specification")
-2.  `standard-model-of-code/context-management/docs/deep/THEORY_AMENDMENT_2026-01.md` (Referenced for "TOOLOME integration")
+2.  `particle/wave/docs/deep/THEORY_AMENDMENT_2026-01.md` (Referenced for "TOOLOME integration")
 *   **Status:** **PHANTOM**. These appear to be missing or un-indexed files.
 
 #### C. Operational Disconnect

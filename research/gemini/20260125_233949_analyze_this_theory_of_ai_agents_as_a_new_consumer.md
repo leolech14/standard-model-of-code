@@ -16,7 +16,7 @@ Analyze this theory of AI Agents as a new consumer class in software engineering
 
 ## Response
 
-Based on the comprehensive theoretical framework established in the provided codebase—specifically **`standard-model-of-code/docs/VISION_STATE_OF_INTENT.md`**, **`context-management/docs/ACI_DATASET_MANAGEMENT.md`**, and **`context-management/docs/agent_school/AGENT_ANTI_PATTERNS.md`**—I have analyzed the theory of "AI Agents as a New Consumer Class."
+Based on the comprehensive theoretical framework established in the provided codebase—specifically **`particle/docs/VISION_STATE_OF_INTENT.md`**, **`wave/docs/ACI_DATASET_MANAGEMENT.md`**, and **`wave/docs/agent_school/AGENT_ANTI_PATTERNS.md`**—I have analyzed the theory of "AI Agents as a New Consumer Class."
 
 Here is the validation and assessment of the theory.
 
@@ -84,7 +84,7 @@ If accepted, this theory mandates three specific actions (which are implemented 
 
 ### 1. The Separation of Hemispheres
 You must physically separate the **Codome** (Executable) from the **Contextome** (Meaning).
-*   *Implementation:* `standard-model-of-code/` (Particle/Body) vs `context-management/` (Wave/Brain).
+*   *Implementation:* `particle/` (Particle/Body) vs `wave/` (Wave/Brain).
 *   *Why:* Agents need the Contextome to manage the Codome.
 
 ### 2. The Holographic Requirement

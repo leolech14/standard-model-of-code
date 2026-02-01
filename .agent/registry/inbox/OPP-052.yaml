@@ -10,7 +10,7 @@ confidence:
   current: 70
   onwards: 70
 related_to:
-- standard-model-of-code/docs/reports/MODULARIZATION_TASKS.md
+- particle/docs/reports/MODULARIZATION_TASKS.md
 metadata:
   source_id: MODU-008
   source_registry: modularization

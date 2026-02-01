@@ -57,7 +57,7 @@ Instead of asking the agent to *remember* to decompose tasks or write matrices, 
 ### 2. Implementation Steps
 
 #### Step A: Modify `promote_opportunity.py` (The Entry Gate)
-*Loc: `context-management/tools/agent/promote_opportunity.py` (assumed path)*
+*Loc: `wave/tools/agent/promote_opportunity.py` (assumed path)*
 
 Add logic to enforce the 85% rule physically.
 
@@ -66,7 +66,7 @@ Add logic to enforce the 85% rule physically.
 def promote_task(task_id, confidence_score):
     # Load task data
     task = load_task(task_id)
-    
+
     # REQUIREMENT 1: Decompisition Enforcement
     if confidence_score >= 85:
         subtasks = task.get('subtasks', [])
@@ -76,12 +76,12 @@ def promote_task(task_id, confidence_score):
                 "The Standard Model requires explicit step decomposition (S01, S02...) "
                 "before promotion. Please define execution steps."
             )
-            
+
     # ... proceed with promotion
 ```
 
 #### Step B: Create `finish_session.py` (The Exit Protocol)
-*Loc: `context-management/tools/agent/finish_session.py`*
+*Loc: `wave/tools/agent/finish_session.py`*
 
 Don't ask the agent to write the "Path Forward" matrix. Give them a tool that generates it. This ensures standard compliance and reduces hallucination.
 
@@ -93,7 +93,7 @@ import json
 def main():
     print("🛑 SESSION EXIT PROTOCOL INITIATED")
     print("-----------------------------------")
-    
+
     # 1. Enforce Path Forward
     print("Generating Path Forward Matrix...")
     matrix_items = []
@@ -103,7 +103,7 @@ def main():
         priority = input("Priority (P0-P3): ")
         confidence = input("Confidence (0-100%): ")
         matrix_items.append({"p": priority, "a": action, "c": confidence})
-    
+
     if not matrix_items:
         print("❌ ERROR: You cannot stop without a Path Forward.")
         sys.exit(1)
@@ -121,9 +121,9 @@ def main():
     print("|----------|-------------|------------|")
     for i in matrix_items:
         print(f"| {i['p']} | {i['a']} | {i['c']}% |")
-    
+
     print(f"\n### Recommendations\n{recs}")
-    
+
     # 3. Clean Git Check
     # (Insert logic to check git status here and warn if dirty)
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 ```
 
 #### Step C: Update `aci_config.yaml` (The Context Trigger)
-*Loc: `context-management/config/aci_config.yaml`*
+*Loc: `wave/config/aci_config.yaml`*
 
 Add a trigger so that when an agent attempts to wrap up, ACI injects the instruction to use the tool.
 
@@ -150,18 +150,18 @@ agent_context:
 
   levels:
     # ... existing levels ...
-    
+
     # NEW: Enforce the exit protocol
     workflow_enforcer:
       sets: ["agent_kernel"]
       description: "Workflow compliance injection"
       static_injection: |
         🛑 STOP. Do not write a manual summary.
-        
+
         To complete this session, you MUST run:
-        `python context-management/tools/agent/finish_session.py`
-        
-        This tool will generate the required Path Forward Matrix and Recommendations 
+        `python wave/tools/agent/finish_session.py`
+
+        This tool will generate the required Path Forward Matrix and Recommendations
         to satisfy the Definition of Done.
 ```
 
@@ -186,7 +186,7 @@ Once implemented, the workflow becomes:
 *   **Tooling (Scripts)** is active. Agents prefer using tools to writing boilerplate.
 
 **Immediate Action:**
-1.  Create `context-management/tools/agent/finish_session.py`.
+1.  Create `wave/tools/agent/finish_session.py`.
 2.  Update `aci_config.yaml` to scream at the agent if they try to exit without running it.
 
 ---

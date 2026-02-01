@@ -152,8 +152,8 @@ created: 2026-01-25
 tags: [collider, purpose-field]
 context:
   related_files:
-    - standard-model-of-code/src/core/full_analysis.py
-    - standard-model-of-code/src/core/purpose_field.py
+    - particle/src/core/full_analysis.py
+    - particle/src/core/purpose_field.py
 acceptance_criteria:
   - coherence_score exported to unified_analysis.json
   - POM reads coherence_score

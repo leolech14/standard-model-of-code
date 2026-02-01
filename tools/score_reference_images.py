@@ -35,7 +35,7 @@ except ImportError:
     print("         Running in size-only mode.\n")
 
 PROJECT_ROOT = Path(__file__).parent.parent
-IMAGES_DIR = PROJECT_ROOT / "context-management/archive/references/images"
+IMAGES_DIR = PROJECT_ROOT / "wave/archive/references/images"
 
 
 def calculate_entropy(img):

@@ -4,7 +4,7 @@
 
 **Version**: 1.0.0
 **Date**: 2026-01-26
-**Research**: `standard-model-of-code/docs/research/perplexity/docs/20260126_013629_*.md`
+**Research**: `particle/docs/research/perplexity/docs/20260126_013629_*.md`
 
 ## Taxonomy Structure
 

@@ -1,0 +1,491 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:25:07.798694",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama3.1-8b",
+    "files_enriched": 30,
+    "elapsed_seconds": 15.32
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "Provides a unified command-line interface for standard model tools.",
+      "summary": "",
+      "semantic_tags": [
+        "command-line-interface",
+        "standard-model",
+        "code-analysis",
+        "cli-tool."
+      ],
+      "enriched_at": "2026-01-31T03:24:52.873113"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "Validates UI of Collider HTML output using headless browser tests.",
+      "summary": "",
+      "semantic_tags": [
+        "ui-validation",
+        "headless-browser",
+        "playwright",
+        "unit-tests"
+      ],
+      "enriched_at": "2026-01-31T03:24:53.307220"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Extracts structural code patterns from Semgrep rules to T2 ecosystem atoms.",
+      "summary": "",
+      "semantic_tags": [
+        "code-patterns",
+        "semgrep-rules",
+        "t2-ecosystem",
+        "code-analysis"
+      ],
+      "enriched_at": "2026-01-31T03:24:53.706167"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Generates a standalone WebGL visualization HTML file from JSON data.",
+      "summary": "",
+      "semantic_tags": [
+        "visualization",
+        "webgl",
+        "json-parser",
+        "data-visualization"
+      ],
+      "enriched_at": "2026-01-31T03:24:54.190738"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Extracts documentation nodes from source files with classification.",
+      "summary": "",
+      "semantic_tags": [
+        "documentation",
+        "parsing",
+        "data-extraction",
+        "file-processing"
+      ],
+      "enriched_at": "2026-01-31T03:24:54.801806"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Exports unified_analysis.json to Microsoft GraphRAG-compatible format.",
+      "summary": "",
+      "semantic_tags": [
+        "data-export",
+        "graph-tool",
+        "json-parser",
+        "parquet-output"
+      ],
+      "enriched_at": "2026-01-31T03:24:55.213878"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Validates UI control registry against template.html.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "ui-controls",
+        "yaml-parser",
+        "command-line-tool"
+      ],
+      "enriched_at": "2026-01-31T03:24:55.583203"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Cleans up .scm query files by removing decorative banners.",
+      "summary": "",
+      "semantic_tags": [
+        "file-processing",
+        "query-cleaning",
+        "python-script."
+      ],
+      "enriched_at": "2026-01-31T03:24:55.996026"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Traces pipeline execution sequence and data flow for validation.",
+      "summary": "",
+      "semantic_tags": [
+        "pipeline-tracing",
+        "data-flow",
+        "validation",
+        "execution-sequence"
+      ],
+      "enriched_at": "2026-01-31T03:24:56.413429"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Extracts frontend patterns from ESLint plugins to T2 ecosystem atoms.",
+      "summary": "",
+      "semantic_tags": [
+        "eslint-parser",
+        "frontend-patterns",
+        "t2-ecosystem",
+        "atom-conversion"
+      ],
+      "enriched_at": "2026-01-31T03:24:56.809649"
+    },
+    {
+      "id": "tools/verify_animation.py::verify_animation_config",
+      "file_path": "tools/verify_animation.py",
+      "atom": "LOG.FNC.M",
+      "layer": "infrastructure",
+      "role": "Store",
+      "purpose": "Verifies animation configuration loaded by AppearanceEngine.",
+      "summary": "",
+      "semantic_tags": [
+        "animation",
+        "verification",
+        "unit-tests",
+        "appearance-engine."
+      ],
+      "enriched_at": "2026-01-31T03:24:57.515440"
+    },
+    {
+      "id": "tools/research/run_corpus.py::get_git_sha",
+      "file_path": "tools/research/run_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Runs Collider analysis and produces coverage metrics for a corpus.",
+      "summary": "",
+      "semantic_tags": [
+        "corpus-analysis",
+        "collider",
+        "coverage-metrics",
+        "research"
+      ],
+      "enriched_at": "2026-01-31T03:24:58.043733"
+    },
+    {
+      "id": "tools/research/summarize_corpus.py::load_coverage_files",
+      "file_path": "tools/research/summarize_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Aggregates coverage metrics from a corpus run into summary statistics.",
+      "summary": "",
+      "semantic_tags": [
+        "corpus-analysis",
+        "metrics-aggregation",
+        "research-tooling"
+      ],
+      "enriched_at": "2026-01-31T03:24:58.429963"
+    },
+    {
+      "id": "tools/research/validate_audit_pack.py::to_project_relative",
+      "file_path": "tools/research/validate_audit_pack.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Transformer",
+      "purpose": "Validates research audit packs for valid provenance and complete artifacts.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "audit-packs",
+        "research",
+        "provenance",
+        "artifacts"
+      ],
+      "enriched_at": "2026-01-31T03:24:58.819535"
+    },
+    {
+      "id": "tools/research/atom_coverage.py::load_analysis",
+      "file_path": "tools/research/atom_coverage.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Computes coverage metrics from a Collider unified_analysis.json output.",
+      "summary": "",
+      "semantic_tags": [
+        "coverage-analysis",
+        "collider",
+        "data-science"
+      ],
+      "enriched_at": "2026-01-31T03:24:59.224015"
+    },
+    {
+      "id": "tools/research/evaluate_hypotheses.py::HypothesisResult",
+      "file_path": "tools/research/evaluate_hypotheses.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Evaluates hypotheses based on corpus results and formal falsification criteria.",
+      "summary": "",
+      "semantic_tags": [
+        "hypothesis-evaluation",
+        "falsification-criteria",
+        "corpus-results",
+        "decision-rules"
+      ],
+      "enriched_at": "2026-01-31T03:24:59.640719"
+    },
+    {
+      "id": "tools/research/regenerate_results.py::regenerate_results",
+      "file_path": "tools/research/regenerate_results.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Regenerates results.json from coverage.json files in specified directories.",
+      "summary": "",
+      "semantic_tags": [
+        "deterministic-results",
+        "json-regeneration",
+        "directory-scanning",
+        "unit-tests"
+      ],
+      "enriched_at": "2026-01-31T03:25:00.028109"
+    },
+    {
+      "id": "tools/research/atom_inventory.py::load_atoms_from_yaml",
+      "file_path": "tools/research/atom_inventory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Analyzes and categorizes atoms in the Standard Model of Code.",
+      "summary": "",
+      "semantic_tags": [
+        "code-analysis",
+        "atom-categorization",
+        "standard-model",
+        "data-science"
+      ],
+      "enriched_at": "2026-01-31T03:25:00.406147"
+    },
+    {
+      "id": "tools/research/laboratory.py::ExperimentRequest",
+      "file_path": "tools/research/laboratory.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Provides a laboratory facade for running measurement experiments.",
+      "summary": "",
+      "semantic_tags": [
+        "laboratory",
+        "facade",
+        "measurement-experiments",
+        "api-endpoint"
+      ],
+      "enriched_at": "2026-01-31T03:25:00.857653"
+    },
+    {
+      "id": "tools/batch_grade/analyze_results.py::RepoResult",
+      "file_path": "tools/batch_grade/analyze_results.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Analyzes batch grade output JSON and produces statistical analysis.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "statistical-analysis",
+        "data-visualization",
+        "api-endpoint"
+      ],
+      "enriched_at": "2026-01-31T03:25:01.349242"
+    },
+    {
+      "id": "tools/batch_grade/fetch_repos.py::fetch_top_repos",
+      "file_path": "tools/batch_grade/fetch_repos.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Fetch top GitHub repositories for batch grading purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "api-endpoint",
+        "github",
+        "batch-grading",
+        "data-fetching"
+      ],
+      "enriched_at": "2026-01-31T03:25:02.013692"
+    },
+    {
+      "id": "tools/batch_grade/runpod_agent.py::get_runpod",
+      "file_path": "tools/batch_grade/runpod_agent.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Automates batch grading using RunPod API and SSH connections.",
+      "summary": "",
+      "semantic_tags": [
+        "automation",
+        "api",
+        "batch-grading",
+        "ssh-connections"
+      ],
+      "enriched_at": "2026-01-31T03:25:03.763671"
+    },
+    {
+      "id": "tools/batch_grade/run_batch_cloud.py::shard_repos",
+      "file_path": "tools/batch_grade/run_batch_cloud.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Automates batch grading for GCP Cloud Run Jobs with cloud-optimized architecture.",
+      "summary": "",
+      "semantic_tags": [
+        "cloud-run",
+        "batch-grading",
+        "task-sharding",
+        "process-isolation",
+        "gcs-output."
+      ],
+      "enriched_at": "2026-01-31T03:25:04.275823"
+    },
+    {
+      "id": "tools/batch_grade/run_batch.py::grade_repo",
+      "file_path": "tools/batch_grade/run_batch.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Batch grades 999 repositories in parallel using Python.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-processing",
+        "parallel-execution",
+        "repository-grading",
+        "python-script."
+      ],
+      "enriched_at": "2026-01-31T03:25:04.711958"
+    },
+    {
+      "id": "tools/batch_grade/run_batch_local.py::GracefulKiller",
+      "file_path": "tools/batch_grade/run_batch_local.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Run batch grading for multiple repositories locally in parallel.",
+      "summary": "",
+      "semantic_tags": [
+        "batch-grading",
+        "local-execution",
+        "parallel-processing",
+        "multiprocessing."
+      ],
+      "enriched_at": "2026-01-31T03:25:05.140053"
+    },
+    {
+      "id": "tools/batch_grade/runpod_parallel.py::create_pod_fast",
+      "file_path": "tools/batch_grade/runpod_parallel.py",
+      "atom": "LOG.FNC.M",
+      "layer": "domain",
+      "role": "Factory",
+      "purpose": "Runs parallel processing of 999 repos across multiple pods.",
+      "summary": "",
+      "semantic_tags": [
+        "parallel-processing",
+        "pods",
+        "batch-grades",
+        "runpod-agent"
+      ],
+      "enriched_at": "2026-01-31T03:25:05.574834"
+    },
+    {
+      "id": "tools/cloud/run_single_repo.py::RepoAnalyzer",
+      "file_path": "tools/cloud/run_single_repo.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "Analyzes a single repository with error handling and retry logic.",
+      "summary": "",
+      "semantic_tags": [
+        "cloud-run",
+        "repository-analysis",
+        "error-handling",
+        "retry-logic",
+        "gcp-batch."
+      ],
+      "enriched_at": "2026-01-31T03:25:06.463605"
+    },
+    {
+      "id": "tools/cloud/orchestrate_corpus.py::RepoStatus",
+      "file_path": "tools/cloud/orchestrate_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Orchestrates corpus run with parallel job submission and progress monitoring.",
+      "summary": "",
+      "semantic_tags": [
+        "cloud-execution",
+        "parallel-processing",
+        "job-submission",
+        "progress-monitoring",
+        "auto-retry"
+      ],
+      "enriched_at": "2026-01-31T03:25:06.871460"
+    },
+    {
+      "id": "tests/test_graph_type_inference.py::TestInferenceRule",
+      "file_path": "tests/test_graph_type_inference.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Internal",
+      "purpose": "Tests the Graph-Based Type Inference Engine functionality.",
+      "summary": "",
+      "semantic_tags": [
+        "unit-tests",
+        "graph-type-inference",
+        "dataclass",
+        "api-endpoint"
+      ],
+      "enriched_at": "2026-01-31T03:25:07.293867"
+    },
+    {
+      "id": "tests/test_scope_analyzer.py::parse_python",
+      "file_path": "tests/test_scope_analyzer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Test",
+      "role": "Query",
+      "purpose": "Tests lexical scope analysis functionality for Python code.",
+      "summary": "",
+      "semantic_tags": [
+        "unit-tests",
+        "scope-analysis",
+        "python-code"
+      ],
+      "enriched_at": "2026-01-31T03:25:07.798674"
+    }
+  ]
+}

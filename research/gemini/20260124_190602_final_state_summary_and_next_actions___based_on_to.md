@@ -54,8 +54,8 @@ Here is the session handoff summary based on the completed work and project kern
 **Status:** **FUNCTIONALLY COMPLETE**
 
 - **Observer (.agent):** Can now effectively dispatch experiments.
-- **Wave (context-management):** `laboratory.py` successfully exposes research tools (Scientist) as callable functions, collapsing the potential into specific results.
-- **Particle (standard-model-of-code):** Remains the passive subject of analysis, now accessible via the new bridge.
+- **Wave (wave):** `laboratory.py` successfully exposes research tools (Scientist) as callable functions, collapsing the potential into specific results.
+- **Particle (particle):** Remains the passive subject of analysis, now accessible via the new bridge.
 
 ## 3. Top 3 Next Actions
 

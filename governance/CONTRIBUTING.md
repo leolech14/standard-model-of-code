@@ -7,7 +7,7 @@ Thank you for your interest in contributing to Collider!
 ```bash
 # Clone the repository
 git clone <repo-url>
-cd standard-model-of-code
+cd particle
 
 # Create virtual environment
 python -m venv .venv

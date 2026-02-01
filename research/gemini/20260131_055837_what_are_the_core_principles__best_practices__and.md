@@ -48,14 +48,14 @@ The project employs a "fractal duality pattern" known as **Particle/Wave Archite
     *   **Objects:** Implementations, actual data instances (`TASK-001.yaml`, source code).
 
 2.  **Particle/Wave Architecture Mapping:**
-    *   `standard-model-of-code/` (The "Body"): **PARTICLE** (measurement, collapse)
+    *   `particle/` (The "Body"): **PARTICLE** (measurement, collapse)
         *   Contains the `Collider` engine, which performs semantic code analysis (ground truth). This is where the code itself and its immediate analysis live.
-        *   Concepts: `standard-model-of-code/docs/specs/`
-        *   Objects: `standard-model-of-code/src/`
-    *   `context-management/` (The "Brain"): **WAVE** (potential, field)
+        *   Concepts: `particle/docs/specs/`
+        *   Objects: `particle/src/`
+    *   `wave/` (The "Brain"): **WAVE** (potential, field)
         *   Contains AI tools, context management, and the `Intelligence Layer` (e.g., `analyze.py`, HSL, Perplexity MCP). This is where the broader intelligence, context, and potential actions are managed.
-        *   Concepts: `context-management/docs/`
-        *   Objects: `context-management/tools/`
+        *   Concepts: `wave/docs/`
+        *   Objects: `wave/tools/`
     *   `.agent/` (The "Observer"): Decides what to measure and orchestrates work.
         *   Contains agent-specific schemas (`task.schema`, `run.schema`), task registry, and run history.
         *   Concepts: `.agent/schema/`

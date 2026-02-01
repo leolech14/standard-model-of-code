@@ -27,7 +27,7 @@ It represents a fundamental shift in tool design philosophy (Axiom Group H), ack
 
 ### The Core Concept (Axiom H4)
 
-The concept is formally defined in `context-management/docs/CODESPACE_ALGEBRA.md` under **Axiom H4 (Ergonomics Shift)**:
+The concept is formally defined in `wave/docs/CODESPACE_ALGEBRA.md` under **Axiom H4 (Ergonomics Shift)**:
 
 > **Stone Tool Principle:** Tools MAY be designed that humans cannot directly use.
 >

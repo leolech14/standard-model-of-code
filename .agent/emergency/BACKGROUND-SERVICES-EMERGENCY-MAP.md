@@ -67,8 +67,8 @@ Plist: ~/Library/LaunchAgents/com.elements.hsl-daemon.plist
 
 Trigger:
   WatchPaths:
-    - context-management/config/semantic_models.yaml
-    - standard-model-of-code/src/core/
+    - wave/config/semantic_models.yaml
+    - particle/src/core/
 
 Payload:
   activity_watcher.py
@@ -93,15 +93,15 @@ Plist: ~/Library/LaunchAgents/com.elements.socratic-audit.plist
 
 Trigger:
   WatchPaths:
-    - context-management/config/semantic_models.yaml
-    - standard-model-of-code/src/core/
+    - wave/config/semantic_models.yaml
+    - particle/src/core/
 
 Payload:
   activity_watcher.py
     --daemon socratic-audit
     --on-activity → analyze.py --verify pipeline
 
-Output: context-management/reports/socratic_audit_latest.md
+Output: wave/reports/socratic_audit_latest.md
 
 Throttle: 300 seconds (5 min)
 RunAtLoad: false
@@ -327,7 +327,7 @@ Service A does its thing
 
 | Service | stdout | stderr |
 |---------|--------|--------|
-| hsl-daemon | `context-management/intelligence/logs/hsl_daemon_stdout.log` | `...stderr.log` |
+| hsl-daemon | `wave/intelligence/logs/hsl_daemon_stdout.log` | `...stderr.log` |
 | socratic-audit | `PROJECT_sentinel/logs/socratic-audit.out.log` | `...err.log` |
 | activity_watcher | `/tmp/elements_activity_watcher.log` | (same) |
 
@@ -335,7 +335,7 @@ Service A does its thing
 
 | File | Purpose | Location |
 |------|---------|----------|
-| `hsl_daemon_state.json` | Audit counts, violations | `context-management/intelligence/` |
+| `hsl_daemon_state.json` | Audit counts, violations | `wave/intelligence/` |
 | `trigger_state.yaml` | Macro trigger state | `.agent/macros/` |
 | `circuit_breakers.yaml` | Service health | `.agent/state/` |
 

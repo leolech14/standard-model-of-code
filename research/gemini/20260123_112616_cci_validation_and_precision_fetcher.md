@@ -9,7 +9,7 @@
 
 ## Query
 
-Review the CODOME_COMPLETENESS_INDEX.md spec at standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md.
+Review the CODOME_COMPLETENESS_INDEX.md spec at particle/docs/specs/CODOME_COMPLETENESS_INDEX.md.
 
 TASKS:
 1. Validate the architecture - is CCI = Sensitivity × Specificity the right formula? Should we use F1 instead? What about weighted versions?
@@ -165,7 +165,7 @@ REQUIREMENTS:
 
 ### Configuration
 
-**Location:** `context-management/config/aci_config.yaml`
+**Location:** `wave/config/aci_config.yaml`
 
 ```yaml
 research:
@@ -220,9 +220,9 @@ print(f"Regex: {result.guidance.detection_regex}")
 
 | Component | Path | Status |
 |-----------|------|--------|
-| Precision Fetcher | `context-management/tools/ai/research/precision_fetcher.py` | ✅ Implemented |
-| Configuration | `context-management/config/aci_config.yaml` | ✅ Updated |
-| CCI Spec | `standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md` | ✅ Updated with F2 |
+| Precision Fetcher | `wave/tools/ai/research/precision_fetcher.py` | ✅ Implemented |
+| Configuration | `wave/config/aci_config.yaml` | ✅ Updated |
+| CCI Spec | `particle/docs/specs/CODOME_COMPLETENESS_INDEX.md` | ✅ Updated with F2 |
 | Integration | Survey → Precision Fetch | 🔜 TODO |
 
 ---
@@ -254,7 +254,7 @@ Architecture validated:
 
 1. **Test Precision Fetcher** with known IIFE gap:
    ```bash
-   python context-management/tools/ai/research/precision_fetcher.py --test
+   python wave/tools/ai/research/precision_fetcher.py --test
    ```
 
 2. **Integrate with Survey Module:**
@@ -276,7 +276,7 @@ Architecture validated:
 
 ## References
 
-- **CCI Spec:** `standard-model-of-code/docs/specs/CODOME_COMPLETENESS_INDEX.md`
-- **Precision Fetcher:** `context-management/tools/ai/research/precision_fetcher.py`
-- **Config:** `context-management/config/aci_config.yaml`
+- **CCI Spec:** `particle/docs/specs/CODOME_COMPLETENESS_INDEX.md`
+- **Precision Fetcher:** `wave/tools/ai/research/precision_fetcher.py`
+- **Config:** `wave/config/aci_config.yaml`
 - **Perplexity API:** https://docs.perplexity.ai/docs/sonar-pro

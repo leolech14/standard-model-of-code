@@ -30,20 +30,20 @@ Strategic analyses and architectural reviews:
 ## Archives
 
 Historical reports from:
-- `context-management/docs/reports/` (16 files, 24MB)
-- `standard-model-of-code/docs/reports/` (20 files)
-- `context-management/library/reports/` (3 files)
+- `wave/docs/reports/` (16 files, 24MB)
+- `particle/docs/reports/` (20 files)
+- `wave/library/reports/` (3 files)
 - `governance/staging/reports/` (8 files)
 
 ## Note for Developers
 
 **Python code paths not yet updated.** Tools still reference old locations:
-- `context-management/tools/refinery/` - Update to `../../reports/refinery/`
+- `wave/tools/refinery/` - Update to `../../reports/refinery/`
 - Other tooling may need path adjustments
 
 See TASK-105 for migration details.
 
 ---
 
-**Created:** 2026-01-31  
+**Created:** 2026-01-31
 **Task:** TASK-105 - Unify Reports Directories (6 to 1)

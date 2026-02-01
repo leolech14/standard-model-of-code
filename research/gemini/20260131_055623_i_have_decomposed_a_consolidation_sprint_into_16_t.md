@@ -15,7 +15,7 @@ I have decomposed a consolidation sprint into 16 tasks with 4D confidence scores
 TASK LIST WITH 4D CONFIDENCE (Factual/Alignment/Current/Onwards):
 
 PHASE 1 - PIPELINE INTEGRITY:
-- CON-001: Audit pipeline stage duplication (95/100/90/95=90) 
+- CON-001: Audit pipeline stage duplication (95/100/90/95=90)
 - CON-002: Refactor topology_reasoning stage (85/100/75/95=75)
 - CON-003: Refactor purpose_intelligence stage (85/100/75/95=75)
 - CON-004: Refactor purpose_field stage (85/100/75/95=75)
@@ -142,7 +142,7 @@ The problem: `full_analysis.py` *calls* `unified_analysis.analyze()`, but then p
 
 *   **CON-022: Create gemini_client.py (85/80/70/85=70) - DEFER**
     *   **File(s)**: `full_analysis.py` (`_generate_ai_insights`), `unified_analysis.py` (`llm_classifier.py`)
-    *   **Challenge**: `Current` score of **70 is too optimistic.** The current AI insights generation is done via a `subprocess.run` call to an *external script* (`context-management/tools/ai/analyze.py`). "Creating a `gemini_client.py`" implies replacing this hacky subprocess call with a proper, direct Python client integration. This is a significant rewrite of the entire AI integration approach, touching both `full_analysis.py`'s `_generate_ai_insights` and potentially `unified_analysis.py`'s `LLMClassifier`.
+    *   **Challenge**: `Current` score of **70 is too optimistic.** The current AI insights generation is done via a `subprocess.run` call to an *external script* (`wave/tools/ai/analyze.py`). "Creating a `gemini_client.py`" implies replacing this hacky subprocess call with a proper, direct Python client integration. This is a significant rewrite of the entire AI integration approach, touching both `full_analysis.py`'s `_generate_ai_insights` and potentially `unified_analysis.py`'s `LLMClassifier`.
     *   **Defer decision**: Keep as **DEFER**.
     *   **Recommendation**: Lower `Factual` to 75 and `Current` to **45-50**.
 

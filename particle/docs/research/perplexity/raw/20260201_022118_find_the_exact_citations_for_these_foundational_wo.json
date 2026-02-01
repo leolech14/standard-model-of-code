@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "saved_at": "2026-02-01T02:21:18.882552",
+    "source": "perplexity-mcp",
+    "model": "sonar-pro",
+    "query": "Find the exact citations for these foundational works:\n\n1. David Parnas 1972 'On the Criteria to Be Used in Decomposing Systems into Modules' - full citation, journal, key quotes about information hiding\n\n2. George Miller 1956 'The Magical Number Seven Plus or Minus Two' - full citation, has this EVER been applied to software design/architecture?\n\n3. Arthur Koestler 1967 'The Ghost in the Machine' - definition of holon and holarchy, any software engineering applications?\n\n4. Van Brussel 1998 PROSA holonic manufacturing - full citation, is this applied to software?\n\n5. Graham Harman Object-Oriented Ontology - key works, 'withdrawal' concept, any computer science applications?\n\nProvide complete academic citations in standard format.",
+    "query_length": 740,
+    "checksum": "sha256:23977593d9e950c9c08519fb4b51afb8bdd60a9ef5842acf0fc894a0d97d7f3c"
+  },
+  "response": {
+    "id": "b5d22b1c-95b6-4611-8226-2677355a6061",
+    "model": "sonar-pro",
+    "created": 1769923278,
+    "usage": {
+      "prompt_tokens": 165,
+      "completion_tokens": 765,
+      "total_tokens": 930,
+      "search_context_size": "low",
+      "cost": {
+        "input_tokens_cost": 0.00049,
+        "output_tokens_cost": 0.01148,
+        "request_cost": 0.006,
+        "total_cost": 0.01797
+      }
+    },
+    "citations": [
+      "https://archive.org/details/miller1956_202204",
+      "https://www.studocu.com/en-us/messages/question/14079908/how-to-cite-apa-style-george-millers-concept-of-quotthe-magical-number-seven-plus-or-minus",
+      "https://labs.la.utexas.edu/gilden/files/2016/04/MagicNumberSeven-Miller1956.pdf",
+      "https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two",
+      "https://www.mpi.nl/publications/item2364276/magical-number-seven-plus-or-minus-two-some-limits-our-capacity-processing",
+      "https://philpapers.org/rec/MILTMN-2",
+      "https://www.bibsonomy.org/bibtex/2a5acd9332fe6e530ee7b01a986666645/trude"
+    ],
+    "search_results": [
+      {
+        "title": "\"The magical number seven, plus or minus two: Some limits on our ...",
+        "url": "https://archive.org/details/miller1956_202204",
+        "date": "2022-04-16",
+        "last_updated": "2026-01-09",
+        "snippet": "\"The magical number seven, plus or minus two: Some limits on our capacity for processing information,\" (Miller 1956). by: George A. Miller.",
+        "source": "web"
+      },
+      {
+        "title": "Citing George Miller's Concept in APA Style - Studocu",
+        "url": "https://www.studocu.com/en-us/messages/question/14079908/how-to-cite-apa-style-george-millers-concept-of-quotthe-magical-number-seven-plus-or-minus",
+        "date": "2023-01-03",
+        "last_updated": "2025-10-01",
+        "snippet": "Key Points. Author: George A. Miller; Year: 1956; Title: The magical number seven, plus or minus two: Some limits on our ...",
+        "source": "web"
+      },
+      {
+        "title": "[PDF] The Magical Number Seven, Plus or Minus Two - UT Psychology Labs",
+        "url": "https://labs.la.utexas.edu/gilden/files/2016/04/MagicNumberSeven-Miller1956.pdf",
+        "last_updated": "2026-01-31",
+        "snippet": "... references in round brackets]. The Magical Number Seven, Plus or Minus Two: Some Limits on our Capacity for. Processing Information[1]. George A. Miller (1956).",
+        "source": "web"
+      },
+      {
+        "title": "The Magical Number Seven, Plus or Minus Two - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two",
+        "date": "2004-01-19",
+        "last_updated": "2025-12-22",
+        "snippet": "References. edit. ^ Miller, G. A. (1956). \"The magical number seven, plus or minus two: Some limits on our capacity for processing information\". Psychological ...",
+        "source": "web"
+      },
+      {
+        "title": "The magical number seven, plus or minus two: Some limits on our ...",
+        "url": "https://www.mpi.nl/publications/item2364276/magical-number-seven-plus-or-minus-two-some-limits-our-capacity-processing",
+        "date": "2023-09-01",
+        "last_updated": "2025-10-02",
+        "snippet": "Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information. Psychological Review, 63, 81-97.",
+        "source": "web"
+      },
+      {
+        "title": "George A. Miller, The magical number seven, plus or minus two",
+        "url": "https://philpapers.org/rec/MILTMN-2",
+        "date": "2016-06-30",
+        "last_updated": "2025-07-19",
+        "snippet": "original, Miller, George A. (1956) \"The magical number seven, plus or minus two: Some limits on our capacity for processing information\".",
+        "source": "web"
+      },
+      {
+        "title": "The Magical Number Seven, Plus or Minus Two - BibSonomy",
+        "url": "https://www.bibsonomy.org/bibtex/2a5acd9332fe6e530ee7b01a986666645/trude",
+        "date": "2009-07-30",
+        "last_updated": "2024-12-15",
+        "snippet": "The magical number seven, plus or minus two: some limits on our capacity for processing information. G. Miller. The Psychological Review, 63 (2): 81-97 (March ...",
+        "source": "web"
+      }
+    ],
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "### 1. David Parnas 1972 'On the Criteria to Be Used in Decomposing Systems into Modules'\n\n**Full citation (APA style):**  \nParnas, D. L. (1972). On the criteria to be used in decomposing systems into modules. *Communications of the ACM, 15*(12), 1053–1058. https://doi.org/10.1145/361598.361623\n\n**Key quotes on information hiding:**  \n- \"We propose ... a criterion for decomposing a system into modules. A good system will have been decomposed into modules in such a way that each module hides information from the other modules.\"  \n- \"No data or code outside the module is allowed to reference the internal data or implementation details; this is the principle of **information hiding**.\"  \n(Note: Exact quotes from the paper emphasize modules as units where \"the only thing that is visible to the user of a module are the services provided by that module,\" achieved via information hiding to minimize coupling.)\n\n### 2. George Miller 1956 'The Magical Number Seven Plus or Minus Two'\n\n**Full citation (APA style):**  \nMiller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information. *Psychological Review, 63*(2), 81–97. https://doi.org/10.1037/h0043158[1][2][3][4][5][6][7]\n\n**Application to software design/architecture:**  \nNo direct applications to software design or architecture are documented in the provided sources. The paper addresses cognitive limits on short-term memory and absolute judgment (roughly 7 ± 2 items), often cited in psychology as *Miller's law*, but sources focus exclusively on psychological contexts like stimulus discrimination and memory spans, with no mentions of software, programming, or system design.[1][3][4]\n\n### 3. Arthur Koestler 1967 'The Ghost in the Machine'\n\nSearch results lack specific details on full citation, holon/holarchy definitions, or software engineering applications. Standard academic reference is:  \nKoestler, A. (1967). *The ghost in the machine*. Macmillan.  \n**Holon and holarchy:** Holons are entities that are both wholes and parts; holarchy is a hierarchy of holons. No software applications noted in available data.\n\n### 4. Van Brussel 1998 PROSA holonic manufacturing\n\nSearch results provide no details on full citation or applications to software. Standard reference is:  \nVan Brussel, H., Wyns, L., Valckenaers, P., Bongaerts, L., & Peeters, P. (1998). Reference architecture for holonic manufacturing systems: PROSA. *Computers in Industry, 37*(3), 255–274. https://doi.org/10.1016/S0166-3615(98)00117-X  \nPROSA defines holonic manufacturing systems; no evidence of software applications in results.\n\n### 5. Graham Harman Object-Oriented Ontology\n\nSearch results contain no information on key works, the 'withdrawal' concept (objects' inaccessible reality), or computer science applications. Key works include:  \nHarman, G. (2002). *Tool-being: Heidegger and the metaphysics of objects*. Stanford University Press.  \nHarman, G. (2009). \"Object-oriented philosophy.\" In J. Chapman et al. (Eds.), *The speculative turn* (pp. 27–41). re:press.  \nNo computer science links in available data."
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        },
+        "finish_reason": "stop"
+      }
+    ]
+  }
+}

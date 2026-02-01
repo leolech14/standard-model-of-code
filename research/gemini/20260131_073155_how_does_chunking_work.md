@@ -16,7 +16,7 @@ how does chunking work
 
 ## Response
 
-Based on the provided `context-management/docs/WORKFLOW_FACTORY.md`, chunking is a critical component of the **Hybrid Workflow (RAG)** and **GraphRAG** strategies. Here is an analysis of how it works in this system:
+Based on the provided `wave/docs/WORKFLOW_FACTORY.md`, chunking is a critical component of the **Hybrid Workflow (RAG)** and **GraphRAG** strategies. Here is an analysis of how it works in this system:
 
 ### 1. Hybrid Workflow (RAG)
 In the Tier 2 (File Search) and Hybrid approaches, chunking is the mechanism used to retrieve relevant information from a large corpus without loading entire files.

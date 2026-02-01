@@ -73,7 +73,7 @@ for file in files:
 ```
 
 **Files Modified:**
-- `context-management/tools/ai/aci/refinery.py` (+100 lines)
+- `wave/tools/ai/aci/refinery.py` (+100 lines)
 - Create: `.agent/intelligence/chunks/cache.yaml`
 
 **Effort:** 2 hours
@@ -127,7 +127,7 @@ def validate_and_write(chunks: List[RefineryNode], output_path: Path):
 ```
 
 **Files Modified:**
-- `context-management/tools/ai/aci/refinery.py` (+40 lines)
+- `wave/tools/ai/aci/refinery.py` (+40 lines)
 
 **Effort:** 1 hour
 
@@ -171,7 +171,7 @@ if has_converged(current_meta, load_metadata()):
 
 **Files Modified:**
 - `.agent/tools/wire.py` (+30 lines)
-- `context-management/tools/ai/aci/refinery.py` (+20 lines for hash function)
+- `wave/tools/ai/aci/refinery.py` (+20 lines for hash function)
 
 **Effort:** 1 hour
 
@@ -244,7 +244,7 @@ screen -dmS wire bash -c 'cd ~/PROJECTS_all/PROJECT_elements && python3 .agent/t
 
 **Implementation:**
 ```python
-# Already created: context-management/tools/refinery/query_chunks.py
+# Already created: wave/tools/refinery/query_chunks.py
 
 # Add to pe:
 refinery)
@@ -252,10 +252,10 @@ refinery)
     case "${1:-help}" in
         search)
             shift
-            python3 "$REPO_ROOT/context-management/tools/refinery/query_chunks.py" "$@"
+            python3 "$REPO_ROOT/wave/tools/refinery/query_chunks.py" "$@"
             ;;
         stats)
-            python3 "$REPO_ROOT/context-management/tools/refinery/state_synthesizer.py"
+            python3 "$REPO_ROOT/wave/tools/refinery/state_synthesizer.py"
             ;;
         *)
             echo "./pe refinery search <query>"
@@ -300,7 +300,7 @@ L5: Emergent  → R5: Emergent
 ```
 
 **Files Modified:**
-- `context-management/docs/specs/CLOUD_REFINERY_SPEC.md`
+- `wave/docs/specs/CLOUD_REFINERY_SPEC.md`
 - Any code comments referencing layers
 
 **Effort:** 15 minutes
@@ -670,7 +670,7 @@ cd "$(dirname "$0")"
 **Implementation:**
 ```dockerfile
 # Modify cloud-entrypoint.sh:
-python3 context-management/tools/ai/analyze.py \
+python3 wave/tools/ai/analyze.py \
     --set agent_kernel \
     --model gemini-2.0-flash-exp \
     --max-files 50 \
@@ -719,7 +719,7 @@ python archive.py upload-analysis
 
 **Files Modified:**
 - `.agent/tools/wire.py` (+20 lines) OR
-- `context-management/tools/archive/archive.py` (+40 lines)
+- `wave/tools/archive/archive.py` (+40 lines)
 
 **Effort:** 1 hour
 

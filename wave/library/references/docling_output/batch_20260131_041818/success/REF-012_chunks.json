@@ -1,0 +1,1022 @@
+{
+  "ref_id": "REF-012",
+  "parcel_id": "pcl_1ccf4a19e74d",
+  "chunk_count": 29,
+  "chunks": [
+    {
+      "content": "## Abstract\n\nWe describe a refinement of ML's type system allowing the specification of recursively defined subtypes of user-defined datatypes. The resulting system of refinement types preserves desirable properties of ML such as decidability of type inference, while at the same time allowing more errors to be detected at compile-time. The type system combines abstract interpretation with ideas from the intersection type discipline, but remains closely tied to ML in that refinement types are given only to programs which are already well-typed in ML.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "cd4b935cf8d125c5",
+      "chunk_type": "h2",
+      "relevance_score": 0.9323287894936803,
+      "start_line": 5,
+      "end_line": 9,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "Abstract",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769844528.012127,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_5e773a9a0138",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "Abstract",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 1 Introduction\n\n## 1 Introduction\n\nStandard ML [MTH90] is a practical programming language with higher-order functions, polymorphic types, and a well-developed module system. It is a statically typed language, which allows the compiler to detect many kinds of errors at compile time, thus leading to more reliable programs. Type inference is decidable and every well-typed expression has a principal type, which means that the programmer is free to omit type declarations (almost) anywhere in a program.\n\nIn this paper we summarize the design of a system of subtypes for ML which preserves the desirable properties listed above, while at the same time providing for specification and inference of significantly more precise type information. We call the resulting types refinement types , as they can be thought of as refining user-defined data types of ML. In particular, we do not extend the language of programs for ML (only the language of types) and, furthermore, we provide refined type information only for programs which are already well-typed in ML. In this preliminary report we only deal with an extension of Mini-ML [CDDK86], but we believe that the ideas described here can be further ex-\n\nTo appear in ACM SIGPLAN 1991 Conference on Programming Language Design and Implementation.\n\nFrank Pfenning fp@cs.cmu.edu School of Computer Science Carnegie Mellon University Pittsburgh, Pennsylvania 15213-3890\n\ntended to the full Standard ML language.\n\nTo see the opportunity to improve ML's type system, consider the following function which returns the last cons cell in a list:\n\n```\ndatatype \u03b1 list = nil | cons of \u03b1 * \u03b1 list fun lastcons (last as cons(hd,nil)) = last | lastcons (cons(hd,tl)) = lastcons tl\n```\n\nWe know that this function will be undefined when called on an empty list, so we would like to obtain a type error at compile-time when lastcons is called with an argument of nil . Using refinement types this can be achieved, thus preventing runtime errors which could be caught at compile-time. Similarly, we would like to be able to write code such as",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "db8b61f7b6cfd074",
+      "chunk_type": "h2",
+      "relevance_score": 0.9495168204752926,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012222,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_d06aa529c5cd",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "We know that this function will be undefined when called on an empty list, so we would like to obtain a type error at compile-time when lastcons is called with an argument of nil . Using refinement types this can be achieved, thus preventing runtime errors which could be caught at compile-time. Similarly, we would like to be able to write code such as\n\n```\ncase lastcons y of cons(x,nil) => print x\n```\n\nwithout getting a compiler warning. However, the ML type system does not distinguish singleton lists from lists in general, so when compiling this case statement ML compilers will issue a warning because it does not handle all possible forms of lists. Here, refinement types allow us to eliminate unreachable cases.\n\nAttempting to take such refined type information into account at compile time can very quickly lead to undecidable problems. The key idea which allows us to circumvent undecidability is that subtype distinctions (such as singleton lists as a subtype of arbitrary lists) must be made explicitly by the programmer in the form of recursive type declarations. In the example above, we can declare the refinement type of singleton lists as\n\n```\ndatatype \u03b1 list = nil | cons of \u03b1 * \u03b1 list rectype \u03b1 singleton = cons ( \u03b1 , nil)\n```\n\nThis rectype declaration instructs the type checker to distinguish singleton lists from other lists. The datatype constructor names cons and nil in the right-hand side of the rectype declaration stand for subtypes which one can think of as subsets. At any type \u03b1 the type\n\nexpression nil can be interpreted as the set { nil } and cons(X,Y) stands for { l | l = cons ( x, y ) \u2227 x \u2208 X \u2227 y \u2208 Y } .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "a8486afb9b888185",
+      "chunk_type": "h2",
+      "relevance_score": 0.9464691269030518,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012259,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_597b3b9e4a98",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "expression nil can be interpreted as the set { nil } and cons(X,Y) stands for { l | l = cons ( x, y ) \u2227 x \u2208 X \u2227 y \u2208 Y } .\n\nWe can think of the refinement type inference algorithm as performing abstract interpretation over a programmer-specified finite lattice of refinements of each ML type. Finiteness is important, since it is necessary for the decidability of refinement type inference in our system. Since type inference can only know that a list has one element if its tail is nil , it also needs to create a type for the empty list; suppose the name of this type is ?nil . With this notation our abstract interpretation works over the following lattice:\n\n<!-- image -->\n\n\u22a5\n\nTo perform the abstract interpretation, the type system needs to know the behavior of datatype constructors on these abstract domains. This can be expressed through refinement types given to each constructor. For example, cons applied to anything of type \u03b1 and nil will return a singleton list:\n\n<!-- formula-not-decoded -->\n\nThe constructor cons also has other types, such as:\n\n<!-- formula-not-decoded -->\n\nIn our refinement type system, we express the principal type for cons by using the intersection operator ' \u2227 ' to combine all these types, resulting in:\n\n<!-- formula-not-decoded -->\n\nThis type for cons can be generated automatically from the rectype declaration for singleton above.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "2974408dda784e9b",
+      "chunk_type": "h2",
+      "relevance_score": 0.9441206233411219,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769844528.01227,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_978377ce2e6e",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "This type for cons can be generated automatically from the rectype declaration for singleton above.\n\nWe borrow the operator \u2227 from the intersection type discipline [RDR88], though we use it in a very restricted way here (we can only intersect types which are refinements of the same ML type). Type inference for intersection types, however, is in general undecidable. Thus, for them to be useful in a programming language, some explicit type annotations are required, as, for example, in Forsythe [Rey88]. Here we avoid explicit typing, while still retaining decidability, by allowing only the intersection of types which are subtypes of a common ML type. It is also this restriction which makes the combination of polymorphism and intersection types simple and direct (see [Pie89] for an investigation in a more general context).\n\nAs we will see later, we also require a form of union types so we can assign more accurate types to case statements. The inspiration for this and for the subtyping rules for function types (sketched in Section 4) are due to Pierce [Pie90].\n\nIn many examples, subtypes which could be specified explicitly as refinement types are implicit in current ML programs. For example, when we consider bitstrings to represent natural numbers, we have in mind a 'standard form' of representation without leading zeros, and we would like to guarantee that functions such as addition and multiplication return standard forms when given standard forms. As another example, consider the representation of terms in a \u03bb -calculus. Some natural manipulations of these terms will only work on terms in head normal form-a property which can easily be described via a refinement type.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "9dd8ac552dafab03",
+      "chunk_type": "h2",
+      "relevance_score": 0.9468674021798407,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769844528.012279,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_9b747a95a61e",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "In many examples, subtypes which could be specified explicitly as refinement types are implicit in current ML programs. For example, when we consider bitstrings to represent natural numbers, we have in mind a 'standard form' of representation without leading zeros, and we would like to guarantee that functions such as addition and multiplication return standard forms when given standard forms. As another example, consider the representation of terms in a \u03bb -calculus. Some natural manipulations of these terms will only work on terms in head normal form-a property which can easily be described via a refinement type.\n\nThus, using refinement types, the programmer is encouraged to make explicit the distinctions which currently must remain implicit or informal in code comments (such as standard form or head normal form in the examples above). Moreover, type errors can be described in a meaningful way if the type checker deals with the same quantities that the programmer understands. Thus, refinement types can increase the benefits of compile-time type checking and inference as already present in ML, without forcing the programmer to take advantage of them (any legal ML program continues to be legal if no refinements are specified). Finally, the fact that we tightly control the lattices making up the abstract domains makes type inference more practical and efficient.\n\nTwo examples of subtypes which cannot be specified as refinement types in our system are lists without repeated elements (to efficiently represent sets), and closed terms in a \u03bb -calculus. Intuitively, this is because these sets cannot be described by regular expressions. In fact, our rectype declarations (with the proper restrictions, see Section 3) have a close connection to regular expressions since our declarations specify so-called regular tree sets for which many well-understood algorithms exist [GS84]. Regular tree sets have also shown themselves to be useful in the context of typed logic programming [Mis84, YFS91].",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "7753cb1e7e2072cd",
+      "chunk_type": "h2",
+      "relevance_score": 0.9491217839865279,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 4
+      },
+      "created_at": 1769844528.012289,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_520a583502c8",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Two examples of subtypes which cannot be specified as refinement types in our system are lists without repeated elements (to efficiently represent sets), and closed terms in a \u03bb -calculus. Intuitively, this is because these sets cannot be described by regular expressions. In fact, our rectype declarations (with the proper restrictions, see Section 3) have a close connection to regular expressions since our declarations specify so-called regular tree sets for which many well-understood algorithms exist [GS84]. Regular tree sets have also shown themselves to be useful in the context of typed logic programming [Mis84, YFS91].\n\nOne interesting aspect of our proposal is that it merges two views which are traditionally considered\n\nas opposites: should recursive types be generative (as the ML datatype construct), or should they be nongenerative (as, for example, in Quest [Car89] in functional programming or in typed HiLog [YFS91] in logic programming). Our conclusion is that generative types should be the principal notion, but that non-generative recursively defined subtypes can make a type system significantly more powerful and useful.\n\nThe remainder of the paper is organized as follows. In Section 2 we introduce the syntax of our language, following the presentation of Mini-ML [CDDK86]. In Section 3 we show how recursive refinement type declarations can be used to generate finite lattices defining the domain of abstract interpretation for type inference. These lattices of values induce subtype relationships on the function types, as we describe in Section 4. Polymorphism in ML requires a similar polymorphism for refinement types which we discuss in Section 5. We then present the type inference algorithm in form of some inference rules in Section 6. Finally, in Section 7 we discuss some aspects of implementation and future work.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "bc58525c4997629d",
+      "chunk_type": "h2",
+      "relevance_score": 0.9480432918942543,
+      "start_line": 9,
+      "end_line": 81,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "1 Introduction",
+        "source_type": "academic_pdf",
+        "sub_index": 5
+      },
+      "created_at": 1769844528.012297,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_7a70bf2b043c",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "1 Introduction",
+              "sub_index": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2 The Language\n\nIn this section we define our extension to the language of types as present in ML and give some examples. The next three sections will then discuss the refinement type system and the problems of type checking and inference in more detail.\n\nWhile we hope to eventually be able to extend all of Standard ML by rectype declarations, we confine ourselves in this paper to the functional portion of Standard ML. Moreover, for the purpose of this presentation we ignore product types and multi-arity type constructors. They can be added to the language in a straightforward way and, moreover, are not crucial in this context since functions with multiple arguments can be curried. In order to keep the examples in this paper intuitive and close to ML, we generally follow ML syntax. In order to give a manageable description of type inference in Section 6 we restrict ourselves there to a much simpler expression language which can be thought of as the result of 'desugaring' the ML syntax used in the examples.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "fed9fc2f041a4eb5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7903089986991944,
+      "start_line": 81,
+      "end_line": 87,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "2 The Language",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769844528.012307,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_39571b5abff5",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "2 The Language",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2.1 Rectype Declarations\n\nThe grammar for rectype declarations is:\n\n```\nrectype ::= rectype rectypedecl rectypedecl ::= < mltyvar > reftyname = recursivety < and rectypedecl > recursivety ::= ( recursivety | recursivety ) | mlty \u2192 recursivety | constructor recursivetyseq | mltyvar | < mltyvar > reftyname\n```\n\nIn this grammar (and other ones appearing in this paper), optional items are enclosed in ' &lt;&gt; ', and the different productions for each nonterminal are separated by ' | '. Note that the first occurrence of ' | ' in this grammar is part of the object language. The suffix seq added to a syntactic class name means either a nonempty, parenthesized list of elements of that syntactic class, or empty.\n\nThe syntactic classes used by the above grammar that are not defined there are\n\n```\nconstructor Constructors, such as cons . mlty ML types, such as \u03b1 list or int . mltyname Datatype constructors, such as list or bool . mltyvar ML type variables, such as \u03b1 .\n```\n\nEach rectype declaration must be consistent with the ML datatype it refines. For example, with the usual definition of lists, we could not accept rectype \u03b1 bad = nil(nil) because nil does not take arguments.\n\nTo limit interactions of refinements types with polymorphism, we also require that when defining a recursive type, any uses of it within its own definition must have the same type variable argument that it has on the left hand side of the declaration.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "5c3082ada5b0a45f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7947689578115023,
+      "start_line": 87,
+      "end_line": 107,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "2.1 Rectype Declarations",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769844528.012318,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_25eaff3cf044",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "2.1 Rectype Declarations",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 2.2 Refinement Types\n\nGeneral refinement types can be built up from the usual ML types and from recursive types by the ML type constructor ' \u2192 ', and the new operations of intersection ' \u2227 ' and union ' \u2228 '. Intuitively, an expression has type \u03c3 \u2227 \u03c4 if it has both type \u03c3 and type \u03c4 . Similarly, an expression has type \u03c3 \u2228 \u03c4 if it has type \u03c3 or type \u03c4 , though we may not be able to predict at compile time which one (such union types arise, for example, from the different branches of an if expression). Refinement types will be inferred and printed by type inference, or can be used by the programmer to annotate expressions, and, in an extension beyond the scope of this paper, they can appear in signatures.\n\nThe grammar for refinement types is:\n\n```\nrefty ::= refty \u2227 refty | refty \u2228 refty | refty \u2192 refty | \u22a5 | < refty > mltyname | < refty > reftyname | reftyvar :: mltyvar\n```\n\nThe syntactic classes used in this grammar that are not defined there are\n\n```\nreftyvar Refinement type variables, written as r\u03b1 , r\u03b2 , etc. reftyname Refinements of datatypes, like singleton .\n```\n\nEvery refinement type variable is bounded by an ML type variable and thus ranges only over the refinements of an ML type. This is necessary to prevent undesirable interactions between polymorphism and subtypes (see Section 5 for further discussion). In contexts where the bound is obvious, we omit it.\n\nRefinement type names are either declared explicitly (via rectype ) or implicitly (as ?nil was in the example in the introduction). See Section 3 for a discussion.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "6ece3da2b79ed42f",
+      "chunk_type": "h2",
+      "relevance_score": 0.7957351436718567,
+      "start_line": 107,
+      "end_line": 127,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "2.2 Refinement Types",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769844528.012337,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2118182f3ddc",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "2.2 Refinement Types",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 2.3 An Example\n\n## 2.3 An Example\n\nAs a simple example consider the representation of natural numbers in binary, as in the ordinary ML datatype declaration\n\n```\ndatatype bitstr = e | z of bitstr | o of bitstr\n```\n\nHere the constructor e makes an empty bitstring, z appends a zero as the least significant digit, and o appends a one as the least significant digit.\n\nWhen we write functions to manipulate bitstrings, we would like to guarantee at compile time that a bitstring does not have a zero in the most significant place. We call this 'standard form' ( std ). The declaration of this refinement type requires that we also introduce the type of positive natural numbers in standard form ( stdpos ):\n\n```\nrectype std = e | stdpos and stdpos = o(e) | z(stdpos) | o(stdpos)\n```\n\nFor example, the bitstring z(e) represents zero, but is not in standard form. The bitstring z(o(e)) represents two, and is in standard form.\n\nUsing this rectype declaration, our type checking algorithm can check that\n\n```\nfun add e m = m | add n e = n | add (z n) (z m) = z(add n m) | add (o n) (z m) = o(add n m) | add (z n) (o m) = o(add n m) | add (o n) (o m) = z(add (add (o e) n) m)\n```\n\nmaps standard form bitstrings to standard form bitstrings. More generally, it can infer that add has this somewhat unwieldy type:\n\n| ?e     | \u2192 ?e       | \u2192 ?e           |\n|--------|------------|----------------|\n| ?e     | \u2192 stdpos   | \u2227 \u2192 stdpos \u2227   |\n| ?e     | \u2192 std      | \u2192 std          |\n| ?e     | \u2192 bitstr   | \u2227 \u2192 bitstr \u2227   |\n| stdpos | ?e         | \u2192 stdpos \u2227     |\n| stdpos | \u2192 \u2192 stdpos | \u2192 stdpos \u2227     |\n| stdpos | \u2192 std      | \u2192 stdpos \u2227     |\n| stdpos | \u2192 bitstr   | \u2192 bitstr \u2227     |\n| std    | \u2192 ?e       | std            |\n| std    | \u2192 stdpos   | \u2192 \u2227 \u2192 stdpos \u2227 |\n| std    | \u2192 std      | std            |\n| std    | \u2192 bitstr   | \u2192 \u2227 \u2192 bitstr \u2227 |\n| bitstr | ?e         | \u2192 bitstr \u2227     |\n| bitstr | \u2192 \u2192 stdpos | \u2192 bitstr \u2227     |\n| bitstr | \u2192 std      | \u2192 bitstr \u2227     |\n| bitstr | bitstr     | bitstr         |",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "70096dd7f74e74f9",
+      "chunk_type": "h2",
+      "relevance_score": 0.799043922194299,
+      "start_line": 127,
+      "end_line": 173,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "2.3 An Example",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012356,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_249311b3950e",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "2.3 An Example",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "| ?e     | \u2192 ?e       | \u2192 ?e           |\n|--------|------------|----------------|\n| ?e     | \u2192 stdpos   | \u2227 \u2192 stdpos \u2227   |\n| ?e     | \u2192 std      | \u2192 std          |\n| ?e     | \u2192 bitstr   | \u2227 \u2192 bitstr \u2227   |\n| stdpos | ?e         | \u2192 stdpos \u2227     |\n| stdpos | \u2192 \u2192 stdpos | \u2192 stdpos \u2227     |\n| stdpos | \u2192 std      | \u2192 stdpos \u2227     |\n| stdpos | \u2192 bitstr   | \u2192 bitstr \u2227     |\n| std    | \u2192 ?e       | std            |\n| std    | \u2192 stdpos   | \u2192 \u2227 \u2192 stdpos \u2227 |\n| std    | \u2192 std      | std            |\n| std    | \u2192 bitstr   | \u2192 \u2227 \u2192 bitstr \u2227 |\n| bitstr | ?e         | \u2192 bitstr \u2227     |\n| bitstr | \u2192 \u2192 stdpos | \u2192 bitstr \u2227     |\n| bitstr | \u2192 std      | \u2192 bitstr \u2227     |\n| bitstr | bitstr     | bitstr         |\n\nIn this type we use ?e to represent the type containing just the empty bitstring. This type has one conjunct for each nonempty refinement type we can assign to the arguments of add .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "7b8304e1e4c65353",
+      "chunk_type": "h2",
+      "relevance_score": 0.788334480164505,
+      "start_line": 127,
+      "end_line": 173,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "2.3 An Example",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.0123641,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2627ad3ce6b1",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "2.3 An Example",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 3 From Rectype Declarations to Datatype Lattices\n\n## 3 From Rectype Declarations to Datatype Lattices\n\nA datatype declaration in ML introduces datatype constructors and declares their type. For the purpose of this exposition, we also assume that it implicitly defines a new constant CASE\\_ datatype which can be used to simultaneously discriminate and destruct elements of the datatype (see example below). A recursive type declaration for a given datatype introduces at least one refinement type name, but many other refinement types can be formed by intersection, union, function type formation, etc.\n\nMany of these refinement types will be equivalent. For example, \u03c3 \u2227 \u03c3 is always equivalent to \u03c3 , and, in the example above, ?e \u2228 stdpos is the same as std . A type checking or inference algorithm needs to understand these equivalences, and we will introduce the necessary structure in two steps. In this section we show how a rectype declaration induces a lattice of subtypes of a given ML datatype with the operations of \u2227 and \u2228 , understood as meet and join. In the following section we show how this information can be lifted to refinement types including the function type constructor \u2192 .\n\nOur rectype declarations are essentially regular tree grammars and they almost define regular tree sets as discussed in Tree Automata by G\u00b4 ecseg and Steinby [GS84]. The only change is that we have functions in\n\nour trees, but since we require our rectype declarations to have an ML type on the left-hand side of any \u2192 , this extension turns out to be benign. We do not know of any useful examples which would be ruled out by this restriction. Algorithms for dealing with such declarations in Subtyping Recursive Types by Amadio and Cardelli [AC90] do not appear to apply directly to our situation.\n\nLet us return to the declaration of bitstrings in standard form discussed above.\n\n```\ndatatype bitstr = e | z of bitstr | o of bitstr rectype std = e | stdpos and stdpos = o(e) | z(stdpos) | o(stdpos)\n```",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "c90c182f8f0cedc7",
+      "chunk_type": "h2",
+      "relevance_score": 0.799063431308686,
+      "start_line": 173,
+      "end_line": 223,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "3 From Rectype Declarations to Datatype Lattices",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012418,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_554b43ab02d7",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "3 From Rectype Declarations to Datatype Lattices",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "```\ndatatype bitstr = e | z of bitstr | o of bitstr rectype std = e | stdpos and stdpos = o(e) | z(stdpos) | o(stdpos)\n```\n\nBecause we need to assign a refinement type to each constructor, we need to consider a lattice with more types than just std and stdpos . For instance, this rectype declaration requires the constructor o to map stdpos 's to stdpos 's, and e 's to stdpos 's. We can only express this as a refinement type if we create a refinement type containing just e , which we shall call ?e . After creating this new refinement type, we can give this type for o :\n\n```\no : ?e \u2192 stdpos \u2227 stdpos \u2192 stdpos\n```\n\nThus the refinement types of bitstr are bitstr , std , stdpos , and ?e . Using straightforward generalizations of the algorithms for manipulating regular tree grammars, we can infer that these four refinement types (plus \u22a5 ) are closed under intersection and union, and they form this lattice:\n\n<!-- image -->\n\n\u22a5\n\nIn general, closure under intersection and union may add many new elements to the lattice-a fact which, in an implementation, must be addressed through compact representation methods such as those described in 'Graph-Based Algorithms for Boolean Function Manipulation' by Bryant [Bry86].\n\nThe types for the constructors in this example are calculated as\n\n```\ne : ?e o : ?e \u2192 stdpos \u2227 stdpos \u2192 stdpos z : stdpos \u2192 stdpos\n```\n\nNote that, even though e also has type std , we do not need to write e : ?e \u2227 std , since ?e \u2227 std is equivalent to ?e .\n\nThe case statements for elements of the datatype bitstr will look like\n\n<!-- formula-not-decoded -->\n\nwhich we will treat as the following function call:\n\n```\nCASE bitstr E (fn () => E1) (fn (m) => E2) (fn (m) => E3)\n```\n\nThe algorithm which analyzes recursive type declarations assigns the type appearing in Figure 1 to CASE bitstr . For an explanation of the type quantifiers in this figure, see Section 5.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "74f718a648151c68",
+      "chunk_type": "h2",
+      "relevance_score": 0.7982800596988615,
+      "start_line": 173,
+      "end_line": 223,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "3 From Rectype Declarations to Datatype Lattices",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012435,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_fd41d7a4aba0",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "3 From Rectype Declarations to Datatype Lattices",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 4 From Datatype Lattices to Function Types\n\n## 4 From Datatype Lattices to Function Types\n\nThe datatype lattice is a representation of the subtype relationship and the behavior of intersection and union of refinements of an ML datatype. Next we need to consider function types. More specifically we will deal with how the subtype relationships, intersection, and union behave on the more general class of refinement types including ' \u2192 '.\n\nThe basic principle underlying most subtype systems allowing higher-order functions is that of 'contravariance': \u03c3 1 \u2192 \u03c4 1 \u2264 \u03c3 2 \u2192 \u03c4 2 if \u03c4 1 \u2264 \u03c4 2 and \u03c3 2 \u2264 \u03c3 1 . If we think of \u03c3 1 \u2192 \u03c4 1 as a set of functions and \u2264 as subset, we can see why: a function accepting \u03c3 1 as type-correct input can certainly be given any element from a subtype of \u03c3 1 , and since it then produces a value in \u03c4 1 this value will also be in \u03c4 2 . We say the type constructor ' \u2192 ' is contravariant in its first argument and covariant in its second argument.\n\nDefined datatype constructors may also be covariant or contravariant in their arguments, and our subtyping algorithm keeps track of this information in order to determine, for example, that stdpos list is a subtype of std list . In the rare case that the constructors for a datatype are neither all covariant nor all contravariant no useful subtyping information can be calculated by our algorithm. An example of this is the declaration\n\n```\ndatatype \u03b1 mixed = C1 of \u03b1 | C2 of \u03b1 \u2192 bool\n```\n\nFor defining subtype relations arising out of these basic observations and for the presentation of the type\n\n```\nCASE bitstr : \u2200 \u03b1. \u2200 r\u03b1 1 :: \u03b1. \u2200 r\u03b1 2 :: \u03b1. \u2200 r\u03b1 3 :: \u03b1. ?e \u2192 ( unit \u2192 r\u03b1 1 ) \u2192 ( bitstr \u2192 r\u03b1 2 ) \u2192 ( bitstr \u2192 r\u03b1 3 ) \u2192 r\u03b1 1 \u2227 stdpos \u2192 ( unit \u2192 r\u03b1 1 ) \u2192 ((? e \u2228 stdpos ) \u2192 r\u03b1 2 ) \u2192 ( stdpos \u2192 r\u03b1 3 ) \u2192 ( r\u03b1 2 \u2228 r\u03b1 3 ) \u2227 std \u2192 ( unit \u2192 r\u03b1 1 ) \u2192 ((? e \u2228 stdpos ) \u2192 r\u03b1 2 ) \u2192 ( stdpos \u2192 r\u03b1 3 ) \u2192 ( r\u03b1 1 \u2228 r\u03b1 2 \u2228 r\u03b1 3 ) \u2227 bitstr \u2192 ( unit \u2192 r\u03b1 1 ) \u2192 ( bitstr \u2192 r\u03b1 2 ) \u2192 ( bitstr \u2192 r\u03b1 3 ) \u2192 ( r\u03b1 1 \u2228 r\u03b1 2 \u2228 r\u03b1 3 )\n```\n\nFigure 1: Type for CASE bitstr .",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "100cde064fac3f1b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7992120385198389,
+      "start_line": 223,
+      "end_line": 283,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "4 From Datatype Lattices to Function Types",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012471,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_345583dd49d8",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "4 From Datatype Lattices to Function Types",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "Figure 1: Type for CASE bitstr .\n\ninference algorithm in the next section, it is convenient to convert types to a normal form. We can do this by rewriting the type according to the following rewrite rules for any refinement types \u03c1 , \u03c3 , and \u03c4 :\n\nwhere \u2227 stands for intersection of a set of types. We can use this to solve the subtype problem for inf refinements of functional types. Suppose we are trying to solve the problem \u03c3 \u2264 \u03c3 \u2032 , where\n\n<!-- formula-not-decoded -->\n\nThinking of function types as sets of functions provides some insights about why these are valid transformations. Also, for any refinements of data types \u03c1 , \u03c3 , and \u03c4 such that \u03c1 = \u03c3 \u2228 \u03c4 , we rewrite \u03c1 to \u03c3 \u2228 \u03c4 . After we apply these rewrites, the refinement types will fit the grammar\n\n<!-- formula-not-decoded -->\n\nwhere unf stands for union normal form and inf for intersection normal form .\n\nWe now define the subtype ordering \u03c3 \u2264 \u03c4 for unf refinement types \u03c3 and \u03c4 where \u03c3 and \u03c4 are refinements of the same ML type. We have two cases, either their common ML type is a datatype or it is a function type.\n\nIf the bounding ML type is a datatype, the subtype relationship is determined by the partial order of the lattice.\n\nIf the bounding ML type is a function type, the unf refinement types have the form of a union of inf refinement types \u03c3 i and \u03c3 \u2032 j , and we have the rule\n\n<!-- formula-not-decoded -->\n\nwhich leaves us with the problem of comparing inf refinements of functional types.\n\nGiven inf refinements for a function and its argument, we can compute a refinement type for the value of the function application: if the function has type \u03c3 = ( \u03c1 1 \u2192 \u03c4 1 ) \u2227 ( \u03c1 2 \u2192 \u03c4 2 ) \u2227 . . . \u2227 ( \u03c1 n \u2192 \u03c4 n ) and the argument has type \u03c1 , then the type of their application (written apptype( \u03c3, \u03c1 )) is\n\n<!-- image -->\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\nand\n\n<!-- formula-not-decoded -->\n\nIn this case we define \u03c3 \u2264 \u03c3 \u2032 to mean, for all \u03c1 in { \u03c1 1 , \u03c1 2 , . . . , \u03c1 n , \u03c1 \u2032 1 , \u03c1 \u2032 2 , . . . , \u03c1 \u2032 m } ,\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "fac8cddbfe77a444",
+      "chunk_type": "h2",
+      "relevance_score": 0.7992505284576017,
+      "start_line": 223,
+      "end_line": 283,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "4 From Datatype Lattices to Function Types",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012481,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c256972d3cc2",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "4 From Datatype Lattices to Function Types",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nThe correctness of this definition in general is implied by the theorem stated in Section 6: if an expression of type \u03c3 evaluates to a value v , then v will also have type \u03c3 . On the other hand, it is quite possible that more subtype relationships hold than can be established with the rules above, which means that the types inferred for higher-order functions may not be as accurate as possible. This is another case where decidability must be balanced with the desire for accuracy in type checking.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "a2e9c5b98c7ca250",
+      "chunk_type": "h2",
+      "relevance_score": 0.781752835632444,
+      "start_line": 223,
+      "end_line": 283,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "4 From Datatype Lattices to Function Types",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769844528.01249,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e287cf17c1c2",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "4 From Datatype Lattices to Function Types",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 5 Polymorphism\n\n## 5 Polymorphism\n\nThe interaction between polymorphism and subtypes is potentially problematic. The main mechanism considered so far in the literature is bounded quantification [CCHO89, CW85], where the domain of a type variable is restricted to range over subtypes of a given bound. In this paper we continue the separation of the ML types and refinement types and obtain a restricted form of bounded quantification. We define refinement type schemes by the following grammar:\n\n<!-- formula-not-decoded -->\n\nThe first case in this grammar refers to types in intersection normal form, which we have already discussed.\n\nThe second case is quantification over an ML type variable, which is very similar to quantification over ML\n\ntype variables as used in ML. This can be regarded as an infinite intersection; for instance, the identity function\n\n<!-- formula-not-decoded -->\n\nhas the ML type\n\n<!-- formula-not-decoded -->\n\nwhich we can loosely regard as the intersection of\n\n<!-- formula-not-decoded -->\n\nfor all ML types \u03b1 , although in practice we do not represent ML types this way.\n\nThe third case quantifies over a refinement type variable, and we also regard this as an intersection. However, once we instantiate the ML type variable with an ML type, there are only finitely many refinements of that ML type, so there are only finitely many types in the intersection. When we instantiate a refinement type, we perform this expansion. For example, the refinement type for the identity function id is\n\n```\n\u2200 \u03b1. \u2200 r\u03b1 :: \u03b1. r\u03b1 \u2192 r\u03b1\n```\n\nIf we instantiate \u03b1 to bitstr and instantiate the refinement type quantifier, we get the refinement type\n\n<!-- formula-not-decoded -->",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "4c90525716797d53",
+      "chunk_type": "h2",
+      "relevance_score": 0.7968443082279322,
+      "start_line": 283,
+      "end_line": 319,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "5 Polymorphism",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.0125172,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_f12125dfb626",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "5 Polymorphism",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "<!-- formula-not-decoded -->\n\nWith this notion of instantiation, the refinements of ML type variables are exactly the refinement type variables. This notion is already implicit in the earlier examples: \u03b1 singleton is a refinement of \u03b1 list , but neither bool singleton nor std list are refinements of \u03b1 list . A relaxation of this notion could quickly lead to undecidable type inference problems, as in the Milner-Mycroft calculus [KTU89, Myc84]. On the other hand, this restriction entails some loss of accuracy in determining refinement type information in some cases. Refinement type schemes are considered during type inference when analyzing a let expression and when instantiating the type of a polymorphic variable or constant.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "3e1c87a9b1bb9747",
+      "chunk_type": "h2",
+      "relevance_score": 0.7859708817974821,
+      "start_line": 283,
+      "end_line": 319,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "5 Polymorphism",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012526,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_3f04add2266e",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "5 Polymorphism",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 6 The Type Inference Algorithm\n\n## 6 The Type Inference Algorithm\n\nThis section will present a type inference algorithm for refinement types as a deductive system. Just as the deductive system for ML types leads to type inference by unification, our deductive system, too, can be given an operational interpretation which first performs an ML type inference pass and then a refinement type inference pass using abstract interpretation. Space unfortunately does not permit a more detailed discussion of the inference rules or their operational reading.\n\nWe infer refinement types for the program by inference system in Figure 2. The characters are used as follows in the inference rules:\n\nC is a refinement type in inf ,\n\nD is a refinement type in unf , e , e \u2032 are expressions, x, f are ML variables, L is an ML type,\n\n- \u0393 is an environment mapping variables to refinement type schemes, and\n- S is a refinement type scheme.\n\nThe grammar for the language fragment used in this section is\n\n```\nexp ::= variable | exp exp | \u03bb variable . exp | exp : refty | let variable = exp in exp | fix variable . exp\n```\n\nThe notation \u0393 glyph[turnstileleft] e : D :: L means that in the type environment \u0393, the expression e has refinement type D which is a refinement of the ML type L .\n\nIf we take this inference system and eliminate all of the refinement types, leaving just the expressions and the ML types, we get a conventional inference system for Mini-ML.\n\nThe rules in Figure 2 use the auxiliary judgment LOOP to compute successive approximations to the refinement type of recursive functions until a fixpoint is reached. This is guaranteed to terminate because there are only finitely many refinement types below a given ML type (which our algorithm computes first). The expression 'close(\u0393 , C :: L )' generalizes over the free type variables in C and L which are not free in \u0393 and returns the resulting refinement type scheme.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "18b5d6865e0867d5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7985193785271544,
+      "start_line": 319,
+      "end_line": 354,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "6 The Type Inference Algorithm",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012547,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1995a0492d5b",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "6 The Type Inference Algorithm",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The rules in Figure 2 use the auxiliary judgment LOOP to compute successive approximations to the refinement type of recursive functions until a fixpoint is reached. This is guaranteed to terminate because there are only finitely many refinement types below a given ML type (which our algorithm computes first). The expression 'close(\u0393 , C :: L )' generalizes over the free type variables in C and L which are not free in \u0393 and returns the resulting refinement type scheme.\n\nNow we shall state a theorem that the typing rules stated above are sound. This is sometimes paraphrased as well-typed programs cannot go wrong , that is, if an expression has refinement type \u03c3 , and evaluation of that expression terminates, then the value of the expression will also have the type \u03c3 . The operational semantics is very close to the one given for Mini-ML [CDDK86] and we omit it here.\n\nTheorem: For all valid type environments \u0393 and expressions e , if e evaluates to v and \u0393 glyph[turnstileleft] e : D :: L then \u0393 glyph[turnstileleft] v : D \u2032 :: L for some D \u2032 \u2264 D .\n\n<!-- formula-not-decoded -->\n\nFigure 2: Rules for type inference system\n\nWe omit the proof, which proceeds by induction on the structure of the definition of the 'evaluates to' relation.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "ebcf8c3c49ba26c1",
+      "chunk_type": "h2",
+      "relevance_score": 0.7928655412696944,
+      "start_line": 319,
+      "end_line": 354,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "6 The Type Inference Algorithm",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012556,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_c0f37da479d4",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "6 The Type Inference Algorithm",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# 7 Future Work\n\n## 7 Future Work\n\nWe currently have a naive prototype implementation of the type inference algorithm as shown above. This prototype takes the lattice for each datatype, the types for the constructors, and the types for the case statements as inputs. The main implementation problem appears to be to deal efficiently with refinements of types of higher-order functions, as the number of such refinement types can become large very quickly. For example, since there are five refinements of the ML type stdpos used in the examples earlier, there are 5 5 functions mapping refinement types of stdpos to refinement types of stdpos . A naive representation of the refinement types of stdpos \u2192 stdpos would list all of these functions. Compact representations of refinement types, for example through an appropriate generalization of Binary Decision Diagrams [Bry86, BCM + 90] to deal with function types, seem promising. Since finding a type error in a program with refinement types will require looking at representations of refinement types, we will have to find a reasonably concise way to print these types.\n\nThe more refinements we consider of a given datatype, the slower type checking will be. This problem is alleviated when more distinct datatype declarations are made even if the datatypes present would be sufficient to encode the information we need to represent. In ML, this technique is good programming style in any case, as it enhances program readability and allows more type errors to be detected at compile-time. We also need to consider embedded refinement type declarations (as in let rectype ... in ... end ) which naturally extends ML datatype declarations and also limits the visibility of refinements, thus cutting down on the size of the refinement type lattice.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "98d280a3414e62cf",
+      "chunk_type": "h2",
+      "relevance_score": 0.7976509349003665,
+      "start_line": 354,
+      "end_line": 368,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "7 Future Work",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012573,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_2d3c80861a58",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "7 Future Work",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "The more refinements we consider of a given datatype, the slower type checking will be. This problem is alleviated when more distinct datatype declarations are made even if the datatypes present would be sufficient to encode the information we need to represent. In ML, this technique is good programming style in any case, as it enhances program readability and allows more type errors to be detected at compile-time. We also need to consider embedded refinement type declarations (as in let rectype ... in ... end ) which naturally extends ML datatype declarations and also limits the visibility of refinements, thus cutting down on the size of the refinement type lattice.\n\nThe refinement types proposed here address only a subset of Standard ML [MTH90]. We need to carefully examine the interaction of refinement types with other features of the ML type system, such as imperative type variables and equality types, since we would like to extend our proposal to encompass all of Standard ML. Although Standard ML does not provide primitives for manipulating the current continuation, some dialects of ML do, so we would like to be able to deal with callcc also. Despite some potential problems which may lead to a loss of accuracy of refinement type information across modules, refinement types open the possibility of communicating some information about\n\nfunctions between modules without violating the privacy of the modules. This appears to be much more difficult, if not impossible, in approaches using general set constraints as, for example, in [HJ90], or abstract interpretation which is not tied to the type system.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "779b463ad23ea5b4",
+      "chunk_type": "h2",
+      "relevance_score": 0.7963496320165955,
+      "start_line": 354,
+      "end_line": 368,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "7 Future Work",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.0125802,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_711e8aaafc48",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "7 Future Work",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "functions between modules without violating the privacy of the modules. This appears to be much more difficult, if not impossible, in approaches using general set constraints as, for example, in [HJ90], or abstract interpretation which is not tied to the type system.\n\nWe also would like to explore the possibility of refining predefined types, such as int , which are not given as datatype declarations. There are no conceptual difficulties as long as the appropriate subtype structure forms a lattice. For example, we could distinguish the positive integers, the negative integers, and zero by giving appropriate types to constants appearing in the program and to the arithmetic operators. We would have to devise some notation for doing this other than rectype declarations because we do not have constructors for the integers.\n\nIn some cases the refinement type information can be used for program optimization during compilation. We would like to explore this possibility further, though our primary motivation remains static detection of program errors which currently elude the ML type checker.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "821c435fca6f7a5b",
+      "chunk_type": "h2",
+      "relevance_score": 0.7912536195691525,
+      "start_line": 354,
+      "end_line": 368,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "7 Future Work",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769844528.012589,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_e9d0113450dc",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "7 Future Work",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## 8 Acknowledgements\n\nThanks to Benjamin Pierce, Dave MacQueen, and John Reynolds for discussions about refinement types; Benjamin Pierce, Nevin Heintze, and the anonymous referees for proofreading this paper; and to John Reynolds for his TeX macros to draw diagrams.\n\nThis research was supported by the Defense Advanced Research Projects Agency (DOD) and monitored by the Space and Naval Warfare Systems Command under Contract N00039-85-C-0163, ARPA Order No. 5167.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "4d9ea560f376ebd5",
+      "chunk_type": "h2",
+      "relevance_score": 0.7800795064169833,
+      "start_line": 368,
+      "end_line": 374,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "8 Acknowledgements",
+        "source_type": "academic_pdf",
+        "sub_index": null
+      },
+      "created_at": 1769844528.012598,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1cfffab8fe8e",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "8 Acknowledgements",
+              "sub_index": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "# References\n\n## References",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "ca854adf6a85cb00",
+      "chunk_type": "h2",
+      "relevance_score": 0.49999999999999994,
+      "start_line": 374,
+      "end_line": 397,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 0
+      },
+      "created_at": 1769844528.012613,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_4bd2c875e831",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "References",
+              "sub_index": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "## References\n\n- [AC90] Roberto M. Amadio and Luca Cardelli. Subtyping recursive types. Research Report 62, Digital Systems Research Center, Palo Alto, California, August 1990.\n- [BCM + 90] J. R. Burch, E. M. Clarke, K. L. McMillan, D. L. Dill, and L. J. Hwang. Symbolic model checking: 10 20 states and beyond. In Proceedings of the Fifth Annual IEEE Symposium on Logic in Computer Science , pages 428-439, Philadelphia, PA, June 1990. IEEE Computer Society Press.\n- [Bry86] Randal E. Bryant. Graph-based algorithms for boolean function manipulation. IEEE Transactions on Computers , C-35(8):677691, August 1986.\n- [Car89] Luca Cardelli. Typeful programming. Research Report 45, Digital Equipment Corporation, Systems Research Center, Palo Alto, California, February 1989.\n- [CCHO89] Peter Canning, William Cook, Walter Hill, and Walter Olthoff. F-bounded polymorphism for object-oriented programming. In Functional Programming Languages and Computer Architecture . ACM, 1989.\n- [CDDK86] Dominique Cl\u00b4 ement, Jo\u00a8 elle Despeyroux, Thierry Despeyroux, and Gilles Kahn. A simple applicative language: Mini-ML. In Proceedings of the 1986 Conference on LISP and Functional Programming . ACM Press, 1986.\n- [CW85] Luca Cardelli and Peter Wegner. On understanding types, data abstraction, and polymorphism. ACM Computing Surveys , 17:471-522, 1985.\n- [GS84] Ferenc G\u00b4 ecseg and Magnus Steinby. Tree Automata . Akad\u00b4 emiai Kiad\u00b4 o, Budapest, 1984.\n- [HJ90] Nevin Heintze and Joxan Jaffar. A decision procedure for a class of set constraints. In Proceedings of the Fifth Annual IEEE Symposium on Logic in Computer Science, Philadelphia . IEEE, June 1990.\n- [KTU89] A. J. Kfoury, J. Tiuryn, and P. Urzyczyn. Type-checking in the presence of polymorphic recursion. To appear in TOPLAS, October 1989.\n- [Mis84] Prateek Mishra. Towards a theory of types in Prolog. In International Symposium on Logic Programming , pages 289-298. IEEE, 1984.\n- [MTH90] Robin Milner, Mads Tofte, and Robert Harper. The Definition of Standard ML . MIT Press, Cambridge, Massachusetts, 1990.\n- [Myc84] Alan Mycroft. Polymorphic Type Schemes and Recursive Definitions , pages 217-228. International Symposium on Programming. Springer-Verlag, New York, 1984. LNCS 167.\n- [Pie89] Benjamin Pierce. A decision procedure for the subtype relation on intersection types with bounded variables. Technical Report",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "d46a7328e1035ab3",
+      "chunk_type": "h2",
+      "relevance_score": 0.6012424503803031,
+      "start_line": 374,
+      "end_line": 397,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 1
+      },
+      "created_at": 1769844528.012622,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_1b68e3cd4fda",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "References",
+              "sub_index": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "- [AC90] Roberto M. Amadio and Luca Cardelli. Subtyping recursive types. Research Report 62, Digital Systems Research Center, Palo Alto, California, August 1990.\n- [BCM + 90] J. R. Burch, E. M. Clarke, K. L. McMillan, D. L. Dill, and L. J. Hwang. Symbolic model checking: 10 20 states and beyond. In Proceedings of the Fifth Annual IEEE Symposium on Logic in Computer Science , pages 428-439, Philadelphia, PA, June 1990. IEEE Computer Society Press.\n- [Bry86] Randal E. Bryant. Graph-based algorithms for boolean function manipulation. IEEE Transactions on Computers , C-35(8):677691, August 1986.\n- [Car89] Luca Cardelli. Typeful programming. Research Report 45, Digital Equipment Corporation, Systems Research Center, Palo Alto, California, February 1989.\n- [CCHO89] Peter Canning, William Cook, Walter Hill, and Walter Olthoff. F-bounded polymorphism for object-oriented programming. In Functional Programming Languages and Computer Architecture . ACM, 1989.\n- [CDDK86] Dominique Cl\u00b4 ement, Jo\u00a8 elle Despeyroux, Thierry Despeyroux, and Gilles Kahn. A simple applicative language: Mini-ML. In Proceedings of the 1986 Conference on LISP and Functional Programming . ACM Press, 1986.\n- [CW85] Luca Cardelli and Peter Wegner. On understanding types, data abstraction, and polymorphism. ACM Computing Surveys , 17:471-522, 1985.\n- [GS84] Ferenc G\u00b4 ecseg and Magnus Steinby. Tree Automata . Akad\u00b4 emiai Kiad\u00b4 o, Budapest, 1984.\n- [HJ90] Nevin Heintze and Joxan Jaffar. A decision procedure for a class of set constraints. In Proceedings of the Fifth Annual IEEE Symposium on Logic in Computer Science, Philadelphia . IEEE, June 1990.\n- [KTU89] A. J. Kfoury, J. Tiuryn, and P. Urzyczyn. Type-checking in the presence of polymorphic recursion. To appear in TOPLAS, October 1989.\n- [Mis84] Prateek Mishra. Towards a theory of types in Prolog. In International Symposium on Logic Programming , pages 289-298. IEEE, 1984.\n- [MTH90] Robin Milner, Mads Tofte, and Robert Harper. The Definition of Standard ML . MIT Press, Cambridge, Massachusetts, 1990.\n- [Myc84] Alan Mycroft. Polymorphic Type Schemes and Recursive Definitions , pages 217-228. International Symposium on Programming. Springer-Verlag, New York, 1984. LNCS 167.\n- [Pie89] Benjamin Pierce. A decision procedure for the subtype relation on intersection types with bounded variables. Technical Report\n\nCMU-CS-89-169, School of Computer Science, Carnegie Mellon University, Pittsburgh, Pennsylvania, September 1989.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "7d69367b591a2b5a",
+      "chunk_type": "h2",
+      "relevance_score": 0.601775632697958,
+      "start_line": 374,
+      "end_line": 397,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 2
+      },
+      "created_at": 1769844528.012629,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_0df17efcbcfe",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "References",
+              "sub_index": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "content": "CMU-CS-89-169, School of Computer Science, Carnegie Mellon University, Pittsburgh, Pennsylvania, September 1989.\n\n- [Pie90] Benjamin C. Pierce. Preliminary investigation of a calculus with intersection and union types. Unpublished manuscript, June 1990.\n- [RDR88] Simone Ronchi Della Rocca. Principal type scheme and unification for intersection type discipline. Theoretical Computer Science , 59:181-209, 1988.\n- [Rey88] John C. Reynolds. Preliminary design of the programming language Forsythe. Technical Report CMU-CS-88-159, Carnegie Mellon University, Pittsburgh, Pennsylvania, June 1988.\n- [YFS91] Eyal Yardeni, Thom Fruehwirth, and Ehud Shapiro. Polymorphically typed logic programs. In Frank Pfenning, editor, Types in Logic Programming . MIT Press, Cambridge, Massachusetts, 1991. To appear.",
+      "source_file": "/Users/lech/PROJECTS_all/PROJECT_elements/wave/archive/references/pdf/REF-012_Freeman_1991_RefinementTypes.pdf",
+      "chunk_id": "5a4a527d273639d9",
+      "chunk_type": "h2",
+      "relevance_score": 0.5870926996097583,
+      "start_line": 374,
+      "end_line": 397,
+      "metadata": {
+        "ref_id": "REF-012",
+        "header": "References",
+        "source_type": "academic_pdf",
+        "sub_index": 3
+      },
+      "created_at": 1769844528.012636,
+      "embedding": [],
+      "waybill": {
+        "parcel_id": "pcl_57875f016058",
+        "parent_id": "pcl_1ccf4a19e74d",
+        "ref_id": "REF-012",
+        "route": [
+          {
+            "event": "chunked_from_docling",
+            "timestamp": 1769844528,
+            "agent": "docling.chunker.py",
+            "context": {
+              "source_file": "REF-012_Freeman_1991_RefinementTypes.pdf",
+              "batch_id": "batch_20260131_041818",
+              "header": "References",
+              "sub_index": 3
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

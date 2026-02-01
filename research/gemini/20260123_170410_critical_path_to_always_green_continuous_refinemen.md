@@ -38,7 +38,7 @@ Critical path to always-green continuous refinement: OPP-061 (fix GEMINI_API_KEY
       "Authenticate Doppler: Authenticate Doppler using `doppler login`.",
       "Configure LaunchAgent to Inject Secrets: Modify the LaunchAgent plist to use Doppler to inject the GEMINI_API_KEY."
     ],
-    "modified_plist_example": "<key>ProgramArguments</key>\n<array>\n  <string>/usr/local/bin/doppler</string>\n  <string>run</string>\n  <string>--</string>\n  <string>/usr/bin/python</string>\n  <string>/path/to/context-management/tools/hsl_daemon.py</string>\n</array>"
+    "modified_plist_example": "<key>ProgramArguments</key>\n<array>\n  <string>/usr/local/bin/doppler</string>\n  <string>run</string>\n  <string>--</string>\n  <string>/usr/bin/python</string>\n  <string>/path/to/wave/tools/hsl_daemon.py</string>\n</array>"
   }
 }
 ```

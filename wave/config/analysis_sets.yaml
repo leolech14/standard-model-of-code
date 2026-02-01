@@ -1,0 +1,618 @@
+# Analysis Sets Configuration
+# Each set defines a coherent slice of the codebase for AI analysis
+#
+# Fields:
+#   description: Human-readable purpose
+#   patterns: Glob patterns to include
+#   exclude: Glob patterns to exclude (optional)
+#   max_tokens: Token budget (approximate). Sets exceeding this warn user.
+#   auto_interactive: If true, automatically use interactive mode
+#   includes: Other sets to compose (optional)
+#   critical_files: Files to position strategically in context (optional)
+#   positional_strategy: How to position critical files (optional)
+#       - "sandwich": Place at beginning AND end (for U-shaped attention)
+#       - "front-load": Place at beginning only (for primacy bias)
+#
+# Context Engineering Note:
+#   LLMs have attention patterns that favor beginning and end of context.
+#   Use critical_files + positional_strategy to ensure key files aren't
+#   "lost in the middle" of large context windows.
+#
+# WARNING: The 'archive/' directory contains legacy/historical files.
+#          Most sets should NOT include archive/** to avoid context pollution.
+#          Use the 'archive' or 'archeology' sets explicitly when needed.
+
+# ==========================================================================
+# MODULE ARCHITECTURE: THE DATA BOXES
+# These sets represent the "Ingredients" for AI agents.
+# Agents can toggle micro-sets or select larger composite boxes.
+# ==========================================================================
+
+analysis_sets:
+  # --- BOX 1: THE ARCHIVE (Historical/Reference) ---
+  # WARNING: archive/ directory does not exist - set is non-functional
+  # TODO: Create archive/ directory or remove this set
+  archive:
+    description: "[BROKEN] Historical snapshots - archive/ directory does not exist"
+    max_tokens: 1000000
+    patterns:
+      - "archive/**"  # STALE: directory does not exist
+
+  # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
+  # --- BOX 2: REPO - DOCUMENTATION (Stated Intent) ---
+  repo_docs:
+    description: "The 'Map' – Design specs, user guides, and theory docs"
+    max_tokens: 200000
+    patterns:
+      - "wave/docs/*.md"
+      - "particle/docs/*.md"
+
+  # --- BOX 2b: ROADMAP (Planning) ---
+  roadmap:
+    description: "Project roadmaps and future plans"
+    max_tokens: 50000
+    patterns:
+      - "particle/docs/RESEARCH_TO_IMPLEMENTATION_ROADMAP.md"
+      - "particle/docs/RESEARCH_DIRECTIONS.md"
+      - "particle/docs/THEORY_EXPANSION_2026.md"
+      - "particle/docs/plans/*.md"
+
+  # --- BOX 2c: DOCS CORE (Focused) ---
+  docs_core:
+    description: "Core documentation and specs (excluding archive/agent)"
+    max_tokens: 150000
+    patterns:
+      - "particle/docs/*.md"
+      - "particle/docs/specs/*.md"
+
+
+  # --- BOX 3: REPO - IMPLEMENTATION: THEORY (Core Logic) ---
+  repo_theory:
+    description: "The 'Source of Truth' – Core schemas, dimensions, and model definitions"
+    max_tokens: 100000
+    patterns:
+      - "particle/schema/**/*.yaml"
+      - "particle/src/core/dimensions.py"
+      - "particle/src/core/atom_registry.py"
+      - "wave/config/semantic_models.yaml"
+
+  # --- BOX 4: REPO - IMPLEMENTATION: TOOL (Engine Logic) ---
+  repo_tool:
+    description: "The 'Engine' – Collider logic, analysis pipeline, and AI tools"
+    max_tokens: 150000
+    patterns:
+      - "particle/src/core/full_analysis.py"
+      - "particle/src/core/classification/*.py"
+      - "wave/tools/ai/*.py"
+
+  # --- BOX 5: THE PAST (Archeology) ---
+  # WARNING: archive/ directory does not exist - set is non-functional
+  archeology:
+    description: "[BROKEN] The Geologic Record - archive/ directory does not exist"
+    max_tokens: 200000  # Reduced from 300k - 200k is effective limit
+    patterns:
+      # STALE: archive/ directory does not exist
+      - "archive/docs_smc_2026-01-19/**"
+      - "archive/docs_registry_2026-01-19/**"
+      - "archive/orphaned_src_2025/**"
+      - "archive/misc_docs/**"
+
+  # ==========================================================================
+  # MICRO-SETS (Specific Ingredients)
+  # ==========================================================================
+
+  constraints:
+    description: "Constraint Field system (profiles, engine, rules)"
+    max_tokens: 50000
+    patterns:
+      - "particle/src/core/constraint_engine.py"
+      - "particle/src/core/profile_loader.py"
+      - "particle/schema/constraints/*.yaml"
+      - "particle/schema/profiles/**/*.yaml"
+
+  viz_core:
+    description: "Visualization core (control bar, data manager, template)"
+    max_tokens: 100000
+    auto_interactive: true
+    critical_files:
+      - "particle/src/core/viz/assets/template.html"
+    positional_strategy: "front-load"
+    patterns:
+      - "particle/src/core/viz/assets/modules/*.js"
+      - "particle/src/core/viz/assets/template.html"
+      - "particle/src/core/viz/assets/styles.css"
+      - "particle/tools/visualize_graph_webgl.py"
+
+  theory:
+    description: "Theoretical framework and documentation"
+    max_tokens: 200000
+    auto_interactive: true
+    critical_files:
+      - "particle/docs/MODEL.md"
+      - "particle/docs/COLLIDER.md"
+      - "wave/docs/specs/AI_CONSUMER_CLASS.md"
+    positional_strategy: "sandwich"
+    patterns:
+      - "particle/docs/MODEL.md"
+      - "particle/docs/COLLIDER.md"
+      - "particle/docs/specs/*.md"
+      - "particle/docs/theory/*.md"
+      - "wave/docs/*.md"
+      - "wave/docs/specs/*.md"
+      - "wave/docs/deep/*.md"
+
+  schema:
+    description: "All schema definitions (atoms, roles, dimensions)"
+    max_tokens: 60000
+    patterns:
+      - "particle/schema/**/*.yaml"
+      - "particle/schema/**/*.json"
+      - "particle/src/patterns/*.yaml"
+
+  # ==========================================================================
+  # COMPOSED SETS - Combinations for specific tasks
+  # ==========================================================================
+
+  # ==========================================================================
+  # COMPOSED SETS - Combinations for specific tasks
+  # ==========================================================================
+
+  pipeline:
+    description: "Main analysis pipeline (driver, graph builder, extractors)"
+    max_tokens: 120000
+    auto_interactive: true
+    critical_files:
+      - "particle/src/core/full_analysis.py"
+    positional_strategy: "front-load"
+    patterns:
+      - "particle/src/core/full_analysis.py"
+      - "particle/src/core/graph_analyzer.py"
+      - "particle/src/core/edge_extractor.py"
+      - "particle/src/core/smart_extractor.py"
+      - "particle/src/core/unified_analysis.py"
+
+  classifiers:
+    description: "All classifier logic (identifying atoms and roles)"
+    max_tokens: 80000
+    patterns:
+      - "particle/src/core/classification/*.py"
+      - "particle/src/core/heuristic_classifier.py"
+      - "particle/src/core/universal_detector.py"
+      - "particle/src/core/dimension_classifier.py"
+
+  architecture_review:
+    description: "Full architecture review (pipeline + classifiers + constraints)"
+    max_tokens: 200000  # Reduced from 250k - 200k is effective limit
+    auto_interactive: true
+    critical_files:
+      - "particle/src/core/full_analysis.py"
+      - "particle/docs/COLLIDER.md"
+    positional_strategy: "sandwich"
+    includes:
+      - pipeline
+      - classifiers
+      - constraints
+
+
+  implementation_review:
+    description: "Implementation review (pipeline + schema + theory)"
+    max_tokens: 200000  # Reduced from 350k - 200k is effective limit
+    auto_interactive: true
+    includes:
+      - pipeline
+      - schema
+      - theory
+
+  # ==========================================================================
+  # FILTERED SETS - Smart context selection (Phase 1)
+  # ==========================================================================
+
+  brain_active:
+    description: "Active wave files only (excludes archive, experiments)"
+    max_tokens: 150000
+    auto_interactive: true
+    filters:
+      exclude_patterns:
+        - "**/archive/**"
+        - "**/experiments/**"
+        - "**/legacy/**"
+        - "**/deprecated/**"
+      max_age_days: 90
+      max_file_size_kb: 500
+    patterns:
+      - "wave/tools/**/*.py"
+      - "wave/docs/*.md"
+      - "wave/docs/specs/*.md"
+      - "wave/docs/operations/*.md"
+      - "wave/config/*.yaml"
+
+  # NOTE: ** patterns require explicit base directories for fnmatch
+  # The list_local_files function uses os.walk, not glob.glob
+  recent_30d:
+    description: "Files modified in last 30 days (active surface)"
+    max_tokens: 100000
+    filters:
+      max_age_days: 30
+      sort_by: "mtime"
+      limit: 100
+    patterns:
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "particle/src/**/*.py"
+      - "wave/tools/**/*.py"
+      - "particle/docs/**/*.md"
+      - "wave/docs/**/*.md"
+      - ".agent/**/*.yaml"
+      - "wave/config/**/*.yaml"
+
+  recent_7d:
+    description: "Files modified in last 7 days (hot zone)"
+    max_tokens: 50000
+    filters:
+      max_age_days: 7
+      sort_by: "mtime"
+      limit: 50
+    patterns:
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "particle/src/**/*.py"
+      - "wave/tools/**/*.py"
+      - "particle/docs/**/*.md"
+      - "wave/docs/**/*.md"
+      - ".agent/**/*.yaml"
+
+  docs_active:
+    description: "Active documentation only (<100KB, no archive)"
+    max_tokens: 80000
+    filters:
+      exclude_patterns:
+        - "**/archive/**"
+        - "**/legacy/**"
+      max_file_size_kb: 100
+    patterns:
+      # Explicit paths instead of ** (fnmatch limitation)
+      - "particle/docs/**/*.md"
+      - "wave/docs/**/*.md"
+      - "governance/**/*.md"
+      - ".agent/**/*.md"
+
+  # ==========================================================================
+  # LEGACY SETS - Kept for compatibility but with warnings
+  # WARNING: These sets can exceed quota - use filtered versions above
+  # ==========================================================================
+
+  brain:
+    description: "[DEPRECATED] Use brain_active instead - includes archive (8M+ tokens)"
+    max_tokens: 150000
+    auto_interactive: true
+    patterns:
+      - "wave/**/*.py"
+      - "wave/**/*.yaml"
+      - "wave/**/*.md"
+
+  body:
+    description: "[EXCEEDS LIMIT] Full src - use 'pipeline' or 'classifiers' instead"
+    max_tokens: 3500000  # Warns user this exceeds 1M
+    patterns:
+      - "particle/src/**/*.py"
+
+  viz:
+    description: "[EXCEEDS LIMIT] Full viz - use 'viz_core' instead"
+    max_tokens: 3200000
+    patterns:
+      - "particle/src/core/viz/**"
+
+  complete:
+    description: "[DANGEROUS] Entire repo (excluding archive) - will exceed any context window"
+    max_tokens: 10000000
+    patterns:
+      - "particle/**/*.py"
+      - "particle/**/*.js"
+      - "particle/**/*.yaml"
+      - "particle/**/*.md"
+      - "wave/**/*.py"
+      - "wave/**/*.yaml"
+      - "wave/**/*.md"
+    # NOTE: archive/** explicitly excluded - use 'archive' set if needed
+
+  # ==========================================================================
+  # TASK-SPECIFIC SETS
+  # ==========================================================================
+
+  role_registry:
+    description: "Role normalization system"
+    max_tokens: 30000
+    patterns:
+      - "particle/src/core/registry/role_registry.py"
+      - "particle/src/core/registry/__init__.py"
+      - "particle/schema/fixed/roles.json"
+
+  tests:
+    description: "Test files for validation"
+    max_tokens: 150000
+    auto_interactive: true
+    patterns:
+      - "particle/tests/*.py"
+
+  # ==========================================================================
+  # RESEARCH SETS - Phase 2 Atom Coverage Investigation
+  # ==========================================================================
+
+  research_core:
+    description: "Core research artifacts (investigation + protocol)"
+    max_tokens: 100000
+    patterns:
+      - "particle/docs/research/*.md"
+      - "particle/docs/reports/*.md"
+
+  research_tools:
+    description: "Research tooling (coverage, inventory, corpus runner)"
+    max_tokens: 80000
+    patterns:
+      - "particle/tools/research/*.py"
+      - "particle/tools/research/Makefile"
+      - "particle/artifacts/atom-research/*.yaml"
+
+  research_atoms:
+    description: "Atom definitions for coverage analysis (explicit, no noise)"
+    max_tokens: 150000
+    patterns:
+      # Core atom definitions (explicit files)
+      - "particle/src/patterns/ATOMS_TIER0_CORE.yaml"
+      - "particle/src/patterns/ATOMS_TIER1_STDLIB.yaml"
+      - "particle/src/patterns/ATOMS_TIER2_ECOSYSTEM.yaml"
+      - "particle/src/patterns/ATOMS_UNIVERSAL_INDEX.yaml"
+      - "particle/src/patterns/atoms.json"
+      # Mined T2 atoms (if needed for research)
+      - "particle/src/patterns/t2_mined/*.yaml"
+      # Exclude: canonical_types.json, universal_patterns.json (not atom definitions)
+
+  research_full:
+    description: "Complete research context (documents + tools + atoms)"
+    max_tokens: 200000  # Reduced from 350k - 200k is effective limit
+    auto_interactive: true
+    critical_files:
+      - "particle/docs/research/ATOM_COVERAGE_INVESTIGATION.md"
+    positional_strategy: "sandwich"
+    includes:
+      - research_core
+      - research_tools
+      - research_atoms
+
+  research_validation:
+    description: "Research validation context (classifiers + tests + claims)"
+    max_tokens: 200000
+    includes:
+      - research_core
+      - classifiers
+      - tests
+
+  # ==========================================================================
+  # AGENT SETS - .agent/ directory for ACI (Adaptive Context Intelligence)
+  # ==========================================================================
+
+  # ==========================================================================
+  # DECISION DECK SETS - AI Governance System
+  # ==========================================================================
+
+  deck:
+    description: "Decision Deck cards and state (certified moves for AI agents)"
+    max_tokens: 50000
+    critical_files:
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+    positional_strategy: "front-load"
+    patterns:
+      - "wave/tools/ai/deck/CARD-*.yaml"
+      - "wave/tools/ai/deck/deck_router.py"
+      - "wave/tools/ai/deck/play_card.py"
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+
+  deck_cards:
+    description: "All card definitions (no state, just definitions)"
+    max_tokens: 40000
+    patterns:
+      - "wave/tools/ai/deck/CARD-*.yaml"
+
+  deck_state:
+    description: "Current deck state (meters + play history)"
+    max_tokens: 5000
+    critical_files:
+      - ".agent/state/meters.yaml"
+    positional_strategy: "front-load"
+    patterns:
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+      - ".agent/state/session.yaml"
+
+  agent_session:
+    description: "Active Decision Deck session state (real-time context)"
+    max_tokens: 15000
+    critical_files:
+      - ".agent/state/session.yaml"
+      - ".agent/state/meters.yaml"
+    positional_strategy: "front-load"
+    patterns:
+      - ".agent/state/session.yaml"
+      - ".agent/state/meters.yaml"
+      - ".agent/state/play_log.yaml"
+    includes:
+      - deck_cards
+
+  agent_kernel:
+    description: "Agent boot protocol and manifest (~30k tokens)"
+    max_tokens: 30000
+    critical_files:
+      - ".agent/KERNEL.md"
+    positional_strategy: "front-load"
+    patterns:
+      - ".agent/KERNEL.md"
+      - ".agent/manifest.yaml"
+      - ".agent/SUBSYSTEM_INTEGRATION.md"
+      - ".agent/OPEN_CONCERNS.md"
+
+  agent_tasks:
+    description: "Active tasks, sprints, and registry (~50k tokens)"
+    max_tokens: 50000
+    critical_files:
+      - ".agent/registry/INDEX.md"
+    positional_strategy: "front-load"
+    patterns:
+      - ".agent/registry/INDEX.md"
+      - ".agent/registry/active/*.yaml"
+      - ".agent/registry/tasks/*.yaml"
+      - ".agent/sprints/*.yaml"
+      - ".agent/registry/LEARNING_SYSTEM_TASK_REGISTRY.md"
+
+  agent_intelligence:
+    description: "BARE truths, drift reports, metrics (~40k tokens)"
+    max_tokens: 40000
+    patterns:
+      - ".agent/intelligence/truths/*.yaml"
+      - ".agent/intelligence/drift/*.yaml"
+      - ".agent/intelligence/metrics/*.yaml"
+      - ".agent/intelligence/concepts/*.yaml"
+
+  agent_specs:
+    description: "BARE spec, workflows, schemas (~60k tokens)"
+    max_tokens: 60000
+    critical_files:
+      - ".agent/specs/BACKGROUND_AUTO_REFINEMENT_ENGINE.md"
+    positional_strategy: "sandwich"
+    patterns:
+      - ".agent/specs/*.md"
+      - ".agent/workflows/*.md"
+      - ".agent/schema/*.yaml"
+
+  agent_full:
+    description: "Complete .agent/ context for task/planning queries (~150k tokens)"
+    max_tokens: 150000
+    auto_interactive: true
+    critical_files:
+      - ".agent/state/session.yaml"
+      - ".agent/KERNEL.md"
+      - ".agent/registry/INDEX.md"
+    positional_strategy: "sandwich"
+    includes:
+      - agent_session
+      - agent_kernel
+      - agent_tasks
+      - agent_intelligence
+      - agent_specs
+
+  # ==========================================================================
+  # ACI (Adaptive Context Intelligence) - The Curriculum Compiler
+  # ==========================================================================
+
+  aci_core:
+    description: "ACI module source code - the curriculum compiler"
+    max_tokens: 30000
+    critical_files:
+      - "wave/tools/ai/aci/tier_orchestrator.py"
+      - "wave/tools/ai/aci/context_builder.py"
+    positional_strategy: "front-load"
+    patterns:
+      - "wave/tools/ai/aci/*.py"
+      - "wave/config/aci_config.yaml"
+
+  aci_siblings:
+    description: "ACI sibling subsystems (HSL, Perplexity, analyze.py)"
+    max_tokens: 50000
+    patterns:
+      - "wave/tools/ai/analyze.py"
+      - "wave/tools/ai/perplexity_research.py"
+      - "wave/tools/drift_guard.py"
+      - "wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md"
+
+  aci_audit:
+    description: "Full ACI audit context - code + config + siblings + docs"
+    max_tokens: 100000
+    auto_interactive: true
+    critical_files:
+      - "wave/tools/ai/aci/tier_orchestrator.py"
+      - "wave/tools/ai/aci/context_builder.py"
+      - "wave/config/aci_config.yaml"
+    positional_strategy: "sandwich"
+    includes:
+      - aci_core
+      - aci_siblings
+    patterns:
+      - "wave/docs/AI_USER_GUIDE.md"
+      - "wave/config/analysis_sets.yaml"
+      - "wave/config/prompts.yaml"
+
+  # --- FOUNDATIONS: Reference library ---
+  foundations:
+    description: "Intellectual foundations reference library - 82 academic works"
+    max_tokens: 500000
+    auto_interactive: true
+    critical_files:
+      - "wave/docs/theory/INTELLECTUAL_FOUNDATIONS.md"
+      - "wave/library/references/index/catalog.json"
+      - "wave/library/references/index/concept_index.json"
+    positional_strategy: "sandwich"
+    patterns:
+      - "wave/library/references/txt/*.txt"
+      - "wave/library/references/metadata/*.json"
+      - "wave/docs/theory/INTELLECTUAL_FOUNDATIONS.md"
+      - "wave/docs/theory/REFERENCE_LIBRARY.md"
+      - "wave/docs/theory/AUTHOR_CORPUS.md"
+
+# ==========================================================================
+# RECOMMENDATIONS - Maps question types to sets
+# ==========================================================================
+recommendations:
+  "how does * work":
+    - pipeline
+    - classifiers
+  "review * implementation":
+    - architecture_review
+  "explain * architecture":
+    - theory
+    - pipeline
+  "debug * issue":
+    - pipeline
+    - tests
+  "constraint * validation":
+    - constraints
+  "visualization * display":
+    - viz_core
+  "role * classification":
+    - classifiers
+    - role_registry
+  "validate * research":
+    - research_validation
+  "review * claims":
+    - research_core
+  "atom * coverage":
+    - research_full
+  "falsify * hypothesis":
+    - research_validation
+  "what * task":
+    - agent_tasks
+    - agent_kernel
+  "which * task":
+    - agent_tasks
+  "task * ready":
+    - agent_tasks
+  "boot * agent":
+    - agent_kernel
+  "agent * protocol":
+    - agent_kernel
+  "bare * engine":
+    - agent_specs
+  "truths * validation":
+    - agent_intelligence
+  "sprint * status":
+    - agent_tasks
+  "decision * deck":
+    - agent_session
+    - agent_kernel
+  "play * card":
+    - agent_session
+  "session * state":
+    - agent_session
+  "current * task":
+    - agent_session
+    - agent_tasks
+  "meters * status":
+    - agent_session

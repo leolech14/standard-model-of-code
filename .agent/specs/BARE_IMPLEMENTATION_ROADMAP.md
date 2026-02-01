@@ -105,11 +105,11 @@ version: 2026-01-26T10:00:00Z
 
 regions:
   body:
-    pattern: "standard-model-of-code/src/**"
+    pattern: "particle/src/**"
     file_count: 127
     coverage: 1.0
   brain:
-    pattern: "context-management/**"
+    pattern: "wave/**"
     file_count: 89
     coverage: 1.0
   agent:

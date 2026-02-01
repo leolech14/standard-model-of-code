@@ -26,18 +26,18 @@ All 10 documented subsystem paths verified against file system.
 
 | ID | Subsystem | Path | Exists | Type |
 |----|-----------|------|--------|------|
-| S1 | Collider | `standard-model-of-code/` | YES | Directory |
-| S2 | HSL | `context-management/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | YES | File |
-| S3 | analyze.py | `context-management/tools/ai/analyze.py` | YES | File |
-| S4 | Perplexity MCP | `context-management/tools/mcp/` | YES | Directory |
+| S1 | Collider | `particle/` | YES | Directory |
+| S2 | HSL | `wave/docs/HOLOGRAPHIC_SOCRATIC_LAYER.md` | YES | File |
+| S3 | analyze.py | `wave/tools/ai/analyze.py` | YES | File |
+| S4 | Perplexity MCP | `wave/tools/mcp/` | YES | Directory |
 | S5 | Task Registry | `.agent/registry/` | YES | Directory |
 | S6 | BARE | `.agent/tools/bare` | YES | Directory |
-| S7 | Archive | `context-management/tools/archive/` | YES | Directory |
+| S7 | Archive | `wave/tools/archive/` | YES | Directory |
 | S8 | Hygiene | `.pre-commit-config.yaml` | YES | File |
-| S9 | Laboratory | `standard-model-of-code/tools/research/laboratory.py` | YES | File |
-| S9b | Lab Bridge | `context-management/tools/ai/laboratory_bridge.py` | YES | File |
+| S9 | Laboratory | `particle/tools/research/laboratory.py` | YES | File |
+| S9b | Lab Bridge | `wave/tools/ai/laboratory_bridge.py` | YES | File |
 | S10 | AEP (Enrichment) | `.agent/tools/enrichment_orchestrator.py` | YES | File |
-| S11 | ACI Refinery | `context-management/tools/ai/aci/refinery.py` | YES | File |
+| S11 | ACI Refinery | `wave/tools/ai/aci/refinery.py` | YES | File |
 | S12 | Centripetal | `.agent/tools/centripetal_scan.py` | YES | File |
 | **S13** | **Macro Registry** | `.agent/macros/` | **YES** | **Directory** |
 
@@ -89,7 +89,7 @@ File system scan revealed 3 significant subsystems not in the SoS map:
 | Proposed ID | Name | Path | Purpose | Significance |
 |-------------|------|------|---------|--------------|
 | **S10** | Enrichment | `.agent/tools/enrichment_orchestrator.py` | Task enrichment & promotion | HIGH |
-| **S11** | ACI Refinery | `context-management/tools/refinery/` | Context atomization | HIGH |
+| **S11** | ACI Refinery | `wave/tools/refinery/` | Context atomization | HIGH |
 | **S12** | Centripetal | `.agent/tools/centripetal_scan.py` | Deep 12-round analysis | MEDIUM |
 
 ### Evidence for S10 (AEP)
@@ -104,7 +104,7 @@ Status: Tools operational, orchestration partial
 ### Evidence for S11 (ACI Refinery)
 
 ```
-Directory: context-management/tools/refinery/
+Directory: wave/tools/refinery/
 Modules: 5 (refinery.py, chunker.py, embedder.py, ...)
 Purpose: Context atomization for AI queries
 Status: Newly implemented (2026-01-24)
@@ -123,7 +123,7 @@ Status: Tool available, API-gated
 | Component | Current | Recommendation |
 |-----------|---------|----------------|
 | `drift_guard.py` | S2 (HSL) | Now part of S2 (renamed from hsl_daemon.py) |
-| `context-management/tools/ai/aci/` | Unlisted | Part of S3 (analyze.py) |
+| `wave/tools/ai/aci/` | Unlisted | Part of S3 (analyze.py) |
 
 ---
 
@@ -234,7 +234,7 @@ Penalty breakdown:
 | `.agent/intelligence/sos_map_compact.yaml` | Compact YAML for AI queries |
 | `.agent/intelligence/subsystem_map.html` | Interactive visualization |
 | `.agent/SUBSYSTEM_INTEGRATION.md` | Canonical reference (v1.2.0) |
-| `context-management/docs/BACKGROUND_AI_LAYER_MAP.md` | Background AI documentation |
+| `wave/docs/BACKGROUND_AI_LAYER_MAP.md` | Background AI documentation |
 
 ---
 

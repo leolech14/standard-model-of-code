@@ -1,0 +1,183 @@
+# TASK-087: Wire Semantic Index into Semantic Finder
+# Promoted from: OPP-087
+# Created: 2026-01-31T07:20:00Z
+
+id: TASK-087
+title: "Wire semantic_index.json into semantic_finder.py for dynamic concept matching"
+status: READY
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+# Validated by: analyze.py (Gemini 2.5 Flash, brain_active set)
+# Validation query: "Validate this architecture..."
+# Result: "Architecturally Sound & Critical"
+
+confidence:
+  factual: 95
+  # Evidence: semantic_finder.py uses hardcoded ROLE_CLUSTERS (lines 57-66)
+  # Evidence: semantic_index.json exists with 71 concepts from 15 files
+  # Evidence: apply_semantic_attention() already wired in analyze.py
+  # Concern: Index currently only has 15 files (needs full sweep)
+
+  alignment: 100
+  # Evidence: DEEP_TRUTH_AUDIT identified "Attention Mechanism Failure"
+  # Evidence: This directly addresses the audit finding
+  # Evidence: Aligns with ACI v1.0 evolution goals
+
+  current: 90
+  # Evidence: semantic_finder.py structure supports extension
+  # Evidence: analyze.py already uses semantic_match() output
+  # Risk: Must maintain fallback to hardcoded patterns
+
+  onwards: 95
+  # Evidence: Enables dynamic concept evolution
+  # Evidence: Prerequisite for fully autonomous context selection
+  # Evidence: Supports drift_guard integration
+
+  overall: 90  # min(95, 100, 90, 95)
+
+verdict: ACCEPT  # >= 75
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  semantic_finder.py uses HARDCODED patterns for semantic matching:
+  - ROLE_CLUSTERS: Static dictionary
+  - LAYER_ORDER: Fixed list
+  - Pattern matching against frozen strings
+
+  cerebras_rapid_intel.py generates DYNAMIC intelligence:
+  - semantic_index.json: Concepts extracted from actual codebase
+  - Per-file purpose, concepts, quality scores
+  - Concept → file mappings
+
+  ## Solution
+  Wire the index into semantic_finder so attention filtering uses REAL data.
+
+  ## Validation
+  analyze.py confirmed: "Architecturally Sound & Critical"
+  - Fills "Attention Mechanism Failure" gap from DEEP_TRUTH_AUDIT
+  - Elevates from Tier 0 (regex) to Tier 1/2 (semantic matching)
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - semantic_finder.py loads semantic_index.json on import
+  - Falls back to hardcoded patterns if index unavailable
+  - _match_concepts_from_index() scores queries against real concepts
+  - semantic_match() returns suggested_files from concept→file mappings
+  - Tests pass: analyze.py --aci query shows concept-based suggestions
+  - Latency: < 100ms for index lookup (cached in memory)
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    title: "Add index loader"
+    description: "Add INTEL_INDEX_PATH constant and load_semantic_index() with LRU cache"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 35
+
+  - id: 2
+    title: "Add concept matcher"
+    description: "Implement _match_concepts_from_index(query, index) with weighted scoring"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 45
+
+  - id: 3
+    title: "Enhance semantic_match()"
+    description: "Integrate index lookup into main function, merge with existing logic"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 30
+
+  - id: 4
+    title: "Add file suggestions"
+    description: "Return suggested_files based on concept→file mappings from index"
+    file: "wave/tools/ai/aci/semantic_finder.py"
+    lines_estimate: 25
+
+  - id: 5
+    title: "Test integration"
+    description: "Verify with analyze.py --aci --aci-debug queries"
+    test_commands:
+      - "python3 analyze.py --aci --aci-debug 'how does chunking work'"
+      - "python3 analyze.py --aci --aci-debug 'refinery subsystem health'"
+
+# =============================================================================
+# RISKS & MITIGATIONS (from analyze.py validation)
+# =============================================================================
+risks:
+  - risk: "Index Drift (staleness)"
+    severity: HIGH
+    mitigation: "Hook into drift_guard.py triggers (future OPP)"
+
+  - risk: "Latency Budget violation"
+    severity: MEDIUM
+    mitigation: "Use LRU cache, load once per session"
+
+  - risk: "Fallback Failure"
+    severity: HIGH
+    mitigation: "Keep ROLE_CLUSTERS as hard fallback in try/except"
+
+  - risk: "Concept Hallucination"
+    severity: MEDIUM
+    mitigation: "Validate against 33 Canonical Roles from GLOSSARY"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+created: "2026-01-31T07:20:00Z"
+updated: "2026-01-31T07:20:00Z"
+promoted_from: OPP-087
+validated_by: "analyze.py (Gemini 2.5 Flash)"
+
+blocks: []
+blocked_by: []
+
+tags:
+  - semantic-finder
+  - cerebras
+  - attention-mechanism
+  - aci
+  - integration
+  - critical-repair
+
+runs:
+  - run_id: "RUN-087-001"
+    started: "2026-01-31T07:30:00Z"
+    completed: "2026-01-31T07:32:00Z"
+    agent: claude-opus-4.5
+    status: SUCCESS
+    steps_completed:
+      - 1  # Add index loader
+      - 2  # Add concept matcher
+      - 3  # Enhance semantic_match()
+      - 4  # Add file suggestions
+      - 5  # Test integration
+    verification:
+      - test: "Index loads correctly"
+        result: "PASS - 15 files, 71 concepts loaded"
+      - test: "Concept matching works"
+        result: "PASS - 'chunking' → Chunking concept → 1 file"
+      - test: "File suggestions work"
+        result: "PASS - refinery query → 7 files matched"
+      - test: "analyze.py integration"
+        result: "PASS - [SEMANTIC ATTENTION] Flow: laminar, Boosted: 6, Filtered: 231"
+
+output:
+  - file: "wave/tools/ai/aci/semantic_finder.py"
+    changes:
+      - "Added INTEL_INDEX_PATH constant"
+      - "Added load_semantic_index() with LRU cache"
+      - "Added _match_concepts_from_index() for concept scoring"
+      - "Added _get_files_for_concepts() for file suggestions"
+      - "Enhanced semantic_match() with Tier 1/2 concept matching"
+      - "Added fallback indicator in reasoning [semantic_index] vs [hardcoded fallback]"
+    lines_added: ~130
+
+status: COMPLETE

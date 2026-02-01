@@ -35,7 +35,7 @@
         "file": "DOCLING_GRANITE_MIGRATION.md",
         "claimed_line": 86,
         "actual_line": null,
-        "issue": "The plan states 'Update reference_analyzer.py to use Docling output'. While this is a clear action item, the provided `context-management/tools/refinery/reference_analyzer.py` (lines 43, 192) still explicitly expects to read from the old `txt/` directory. The code is not yet updated to reflect the proposed state, representing an unimplemented critical integration step."
+        "issue": "The plan states 'Update reference_analyzer.py to use Docling output'. While this is a clear action item, the provided `wave/tools/refinery/reference_analyzer.py` (lines 43, 192) still explicitly expects to read from the old `txt/` directory. The code is not yet updated to reflect the proposed state, representing an unimplemented critical integration step."
       },
       {
         "file": "DOCLING_GRANITE_MIGRATION.md",
@@ -54,7 +54,7 @@
   },
   "missing_emission_points": [
     {
-      "file": "context-management/tools/docling_processor/processor.py",
+      "file": "wave/tools/docling_processor/processor.py",
       "line": 339,
       "code": "waybill_path = batch_dir / \"metadata\" / f\"{result.ref_id}_waybill.json\"\nself._atomic_write(waybill_path, json.dumps(result.waybill, indent=2))",
       "severity": "MEDIUM"
@@ -85,7 +85,7 @@
   "confidence_assessment": {
     "plan_accuracy": 0.7,
     "will_achieve_goal": 0.6,
-    "rationale": "The plan accurately describes the capabilities of the `docling_granite` tool (T054) and its direct outputs, and the implementation in `context-management/tools/docling_processor` largely delivers on these aspects. The `TOOLS_REGISTRY.yaml` definition for T054 is mostly correct. \n\nHowever, the overall confidence in achieving the stated goals is moderate (0.6) due to several critical gaps:\n1. The plan identifies crucial integration steps for `reference_analyzer.py` and `import_academic_foundations.py`, but these are currently unimplemented in the provided code, meaning the end-to-end workflow is not yet functional.\n2. The 'CHUNKED' fallback strategy is severely limited, only processing the first 20 pages of a document. This directly compromises the goal of processing 'all 82 papers' if large PDFs consistently trigger this fallback.\n3. Image output handling is ambiguous; the plan expects it, but the current `docling_processor` implementation doesn't explicitly manage or expose image files.\n4. A minor but confusing discrepancy exists in the documented invocation command versus the registered command.\n\nWhile the core `docling_processor` is robust, these integration, functional, and documentation gaps lower the confidence in the plan's immediate, full realization."
+    "rationale": "The plan accurately describes the capabilities of the `docling_granite` tool (T054) and its direct outputs, and the implementation in `wave/tools/docling_processor` largely delivers on these aspects. The `TOOLS_REGISTRY.yaml` definition for T054 is mostly correct. \n\nHowever, the overall confidence in achieving the stated goals is moderate (0.6) due to several critical gaps:\n1. The plan identifies crucial integration steps for `reference_analyzer.py` and `import_academic_foundations.py`, but these are currently unimplemented in the provided code, meaning the end-to-end workflow is not yet functional.\n2. The 'CHUNKED' fallback strategy is severely limited, only processing the first 20 pages of a document. This directly compromises the goal of processing 'all 82 papers' if large PDFs consistently trigger this fallback.\n3. Image output handling is ambiguous; the plan expects it, but the current `docling_processor` implementation doesn't explicitly manage or expose image files.\n4. A minor but confusing discrepancy exists in the documented invocation command versus the registered command.\n\nWhile the core `docling_processor` is robust, these integration, functional, and documentation gaps lower the confidence in the plan's immediate, full realization."
   }
 }
 

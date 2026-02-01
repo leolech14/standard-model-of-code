@@ -44,8 +44,8 @@ FILE_API:
   canonical_paths:
     collider_output: ".collider/"
     pom_output: ".pom/"
-    analysis_output: "context-management/analysis/"
-    research_output: "standard-model-of-code/docs/research/"
+    analysis_output: "wave/analysis/"
+    research_output: "particle/docs/research/"
 ```
 
 **Example: S1 (Collider) → S14 (POM)**
@@ -54,7 +54,7 @@ FILE_API:
 S1 writes: .collider/unified_analysis.json
 S14 reads: .collider/unified_analysis.json
 
-Schema: standard-model-of-code/schema/unified_analysis.schema.json
+Schema: particle/schema/unified_analysis.schema.json
 ```
 
 ### 2.2 CLI API
@@ -94,8 +94,8 @@ Direct Python imports allowed ONLY within same realm.
 ```yaml
 PYTHON_API:
   allowed:
-    - Particle ↔ Particle (standard-model-of-code internal)
-    - Wave ↔ Wave (context-management internal)
+    - Particle ↔ Particle (particle internal)
+    - Wave ↔ Wave (wave internal)
     - Observer ↔ Observer (.agent internal)
 
   forbidden:

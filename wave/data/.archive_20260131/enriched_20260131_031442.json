@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "created_at": "2026-01-31T03:14:42.336121",
+    "collider_source": "particle/.collider/unified_analysis.json",
+    "model": "llama3.1-8b",
+    "files_enriched": 15,
+    "elapsed_seconds": 12.91
+  },
+  "enriched_nodes": [
+    {
+      "id": "cli.py::main",
+      "file_path": "cli.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Controller",
+      "purpose": "Handles command-line interface (CLI) operations and interactions with the program.",
+      "summary": "",
+      "semantic_tags": [
+        "command-line-tool",
+        "code-analysis",
+        "cli-parser",
+        "argparse"
+      ],
+      "enriched_at": "2026-01-31T03:14:30.211153"
+    },
+    {
+      "id": "tools/validate_ui.py::validate_ui",
+      "file_path": "tools/validate_ui.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Asserter",
+      "purpose": "Validates user interface elements to ensure they conform to expected design standards.",
+      "summary": "",
+      "semantic_tags": [
+        "browser-testing",
+        "headless-browser",
+        "ui-validation",
+        "automation",
+        "playwright"
+      ],
+      "enriched_at": "2026-01-31T03:14:31.149787"
+    },
+    {
+      "id": "tools/mine_semgrep.py::T2Atom",
+      "file_path": "tools/mine_semgrep.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "This file appears to be a utility script for mining or extracting information from Semgrep data.",
+      "summary": "",
+      "semantic_tags": [
+        "semantic-code-analysis",
+        "semgrep-rules",
+        "t2-ecosystem",
+        "code-pattern-extraction",
+        "data-mining"
+      ],
+      "enriched_at": "2026-01-31T03:14:32.499339"
+    },
+    {
+      "id": "tools/visualize_graph_webgl.py::generate_webgl_html",
+      "file_path": "tools/visualize_graph_webgl.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Factory",
+      "purpose": "Visualizes a graph using WebGL for interactive and dynamic rendering.",
+      "summary": "",
+      "semantic_tags": [
+        "visualization",
+        "webgl",
+        "graph",
+        "data-visualization"
+      ],
+      "enriched_at": "2026-01-31T03:14:33.281514"
+    },
+    {
+      "id": "tools/extract_doc_nodes.py::DocNode",
+      "file_path": "tools/extract_doc_nodes.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "Extracts and analyzes Abstract Syntax Tree (AST) nodes from Python code files.",
+      "summary": "",
+      "semantic_tags": [
+        "documentation-extraction",
+        "natural-language-processing",
+        "data-classification"
+      ],
+      "enriched_at": "2026-01-31T03:14:34.134302"
+    },
+    {
+      "id": "tools/export_graphrag.py::load_analysis",
+      "file_path": "tools/export_graphrag.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "This file appears to be a utility for exporting graph data, likely for visualization or analysis purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "data-export",
+        "graph-data-format",
+        "unified-analysis",
+        "data-visualization",
+        "data-processing"
+      ],
+      "enriched_at": "2026-01-31T03:14:34.962125"
+    },
+    {
+      "id": "tools/validate_control_registry.py::load_registry",
+      "file_path": "tools/validate_control_registry.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "Validates the control registry to ensure it conforms to expected standards and configurations.",
+      "summary": "",
+      "semantic_tags": [
+        "validation",
+        "control-registry",
+        "ui-controls",
+        "authorization",
+        "configuration"
+      ],
+      "enriched_at": "2026-01-31T03:14:35.771166"
+    },
+    {
+      "id": "tools/clean_scm_headers.py::clean_scm_content",
+      "file_path": "tools/clean_scm_headers.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "This file appears to be used for cleaning SCM (Source Control Management) headers.",
+      "summary": "",
+      "semantic_tags": [
+        "file-formatting",
+        "code-cleanup",
+        "scm-queries",
+        "python-script",
+        "code-maintenance"
+      ],
+      "enriched_at": "2026-01-31T03:14:36.564953"
+    },
+    {
+      "id": "tools/pipeline_tracer.py::StageTrace",
+      "file_path": "tools/pipeline_tracer.py",
+      "atom": "ORG.AGG.M",
+      "layer": "domain",
+      "role": "Internal",
+      "purpose": "This file appears to be a pipeline tracer, likely for debugging or logging purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "pipeline-tracing",
+        "pipeline-execution",
+        "data-flow-validation",
+        "pipeline-debugging"
+      ],
+      "enriched_at": "2026-01-31T03:14:37.460052"
+    },
+    {
+      "id": "tools/mine_eslint.py::T2Atom",
+      "file_path": "tools/mine_eslint.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Internal",
+      "purpose": "This file appears to be a custom ESLint tool for mine-specific code analysis and validation.",
+      "summary": "",
+      "semantic_tags": [
+        "eslint-plugin-extraction",
+        "frontend-patterns",
+        "t2-ecosystem",
+        "code-analysis",
+        "yaml-merging"
+      ],
+      "enriched_at": "2026-01-31T03:14:38.299184"
+    },
+    {
+      "id": "tools/verify_animation.py::verify_animation_config",
+      "file_path": "tools/verify_animation.py",
+      "atom": "LOG.FNC.M",
+      "layer": "infrastructure",
+      "role": "Store",
+      "purpose": "Verifies animation-related code for correctness and consistency.",
+      "summary": "",
+      "semantic_tags": [
+        "animation-verification",
+        "appearance-engine",
+        "configuration",
+        "unit-tests"
+      ],
+      "enriched_at": "2026-01-31T03:14:39.102567"
+    },
+    {
+      "id": "tools/research/run_corpus.py::get_git_sha",
+      "file_path": "tools/research/run_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "This file appears to be a research tool for running a corpus of data.",
+      "summary": "",
+      "semantic_tags": [
+        "corpus-analysis",
+        "repository-management",
+        "research-tooling",
+        "software-coverage-metrics",
+        "reproducibility"
+      ],
+      "enriched_at": "2026-01-31T03:14:39.948935"
+    },
+    {
+      "id": "tools/research/summarize_corpus.py::load_coverage_files",
+      "file_path": "tools/research/summarize_corpus.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "This file appears to be a script for summarizing a corpus of data, likely for research purposes.",
+      "summary": "",
+      "semantic_tags": [
+        "corpus-analysis",
+        "data-summaries",
+        "statistics-computation",
+        "research-tooling",
+        "metrics-aggregation"
+      ],
+      "enriched_at": "2026-01-31T03:14:40.713411"
+    },
+    {
+      "id": "tools/research/validate_audit_pack.py::to_project_relative",
+      "file_path": "tools/research/validate_audit_pack.py",
+      "atom": "LOG.FNC.M",
+      "layer": "Unknown",
+      "role": "Transformer",
+      "purpose": "Validates audit packs for compliance with specified standards or regulations.",
+      "summary": "",
+      "semantic_tags": [
+        "audit-validation",
+        "artifact-integrity",
+        "research-audit-packs",
+        "file-validation",
+        "data-integrity-check"
+      ],
+      "enriched_at": "2026-01-31T03:14:41.571191"
+    },
+    {
+      "id": "tools/research/atom_coverage.py::load_analysis",
+      "file_path": "tools/research/atom_coverage.py",
+      "atom": "ORG.AGG.M",
+      "layer": "Unknown",
+      "role": "Query",
+      "purpose": "This file appears to be a research tool for analyzing Atom coverage.",
+      "summary": "",
+      "semantic_tags": [
+        "data-analysis",
+        "machine-learning",
+        "coverage-metrics"
+      ],
+      "enriched_at": "2026-01-31T03:14:42.336103"
+    }
+  ]
+}

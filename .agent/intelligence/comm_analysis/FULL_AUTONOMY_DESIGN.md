@@ -626,8 +626,8 @@ Response in <200ms
 watch:
   directories:
     - .agent/
-    - context-management/
-    - standard-model-of-code/src/
+    - wave/
+    - particle/src/
 
   ignore:
     - .git/

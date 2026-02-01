@@ -23,9 +23,9 @@ steps:
   outcome: FAILURE
   output: ''
   error: "Traceback (most recent call last):\n  File \"<string>\", line 2, in <module>\n\
-    \    from aci import (\n    ...<5 lines>...\n    )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/__init__.py\"\
+    \    from aci import (\n    ...<5 lines>...\n    )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/__init__.py\"\
     , line 101, in <module>\n    from .refinery import (\n    ...<7 lines>...\n  \
-    \  )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/context-management/tools/ai/aci/refinery.py\"\
+    \  )\n  File \"/Users/lech/PROJECTS_all/PROJECT_elements/wave/tools/ai/aci/refinery.py\"\
     , line 38, in <module>\n    from ai.aci.schema import RefineryNode  # Shared Schema\n\
     \    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named\
     \ 'ai'\n"

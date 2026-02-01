@@ -98,10 +98,10 @@ def find_orphans(manifest: dict) -> list:
 
     # Key directories to check
     check_dirs = [
-        ("standard-model-of-code/docs/specs", "*.md"),
-        ("standard-model-of-code/src/core", "*.py"),
-        ("context-management/tools/ai", "*.py"),
-        ("context-management/config", "*.yaml"),
+        ("particle/docs/specs", "*.md"),
+        ("particle/src/core", "*.py"),
+        ("wave/tools/ai", "*.py"),
+        ("wave/config", "*.yaml"),
     ]
 
     # Collect all tracked paths from manifest

@@ -544,7 +544,7 @@ rm .agent/intelligence/chunks/*.json
 
 **Status:** Code integrated but NOT TESTED by user yet
 
-**Test Build:** `/tmp/final-integrated/output_human-readable_standard-model-of-code_20260127_093531.html`
+**Test Build:** `/tmp/final-integrated/output_human-readable_particle_20260127_093531.html`
 
 ### Research Artifacts Created (6 docs)
 

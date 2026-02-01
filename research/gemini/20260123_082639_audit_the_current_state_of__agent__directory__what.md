@@ -22,7 +22,7 @@ Of course. As a senior software engineer, here is a detailed audit of the `.agen
 
 The `.agent/` directory serves as the "brain" for the Adaptive Context Intelligence (ACI) system, containing its boot protocols, task registries, and operational knowledge. The directory structure is well-defined through `analysis_sets.yaml` into logical components: `kernel`, `tasks`, `intelligence`, and `specs`.
 
-The most critical finding is strong evidence of a **redundant `.agent/` directory**. The `REPOSITORY_AUDIT_2026-01-19.md` document explicitly decided to centralize all agent configuration into `context-management/`. This implies that any `.agent/` directory found under `standard-model-of-code/` is now obsolete and should be removed.
+The most critical finding is strong evidence of a **redundant `.agent/` directory**. The `REPOSITORY_AUDIT_2026-01-19.md` document explicitly decided to centralize all agent configuration into `wave/`. This implies that any `.agent/` directory found under `particle/` is now obsolete and should be removed.
 
 Consolidation is still needed, primarily in removing this redundant directory and streamlining the agent onboarding documentation within `agent_school/`.
 
@@ -43,9 +43,9 @@ This modular structure is leveraged by the ACI system (configured in `aci_config
 
 ### Essential vs. Redundant Files
 
-#### Essential Files & Directories (Located in `context-management/.agent/`)
+#### Essential Files & Directories (Located in `wave/.agent/`)
 
-Based on the centralization decision, the single source of truth for agent context should be within `context-management/`. The following files are essential to the agent's operation:
+Based on the centralization decision, the single source of truth for agent context should be within `wave/`. The following files are essential to the agent's operation:
 
 | File/Directory | Purpose | Why It's Essential |
 | :--- | :--- | :--- |
@@ -67,24 +67,24 @@ The **`REPOSITORY_AUDIT_2026-01-19.md`** provides the most critical piece of evi
 > | Distributed | ✗ | Fragments "Intelligence" |
 > | **Centralized** | ✓ | Aligns with Brain concept. All meta-management in one place. |
 >
-> **Action**: Move `standard-model-of-code/.agent/` → `context-management/.agent/`
+> **Action**: Move `particle/.agent/` → `wave/.agent/`
 
 This makes it clear:
 
-*   **Any directory at `standard-model-of-code/.agent/` is redundant and should be considered deprecated.** Its existence directly contradicts a key architectural decision made to improve coherence. This is the primary target for cleanup.
-*   The `ORIENTATION_FILES.md` document mentions a mirror at `standard-model-of-code/.agent/orientation/`. The audit report recommends using symlinks for this to maintain a single source of truth. If this is a direct copy, it is redundant.
+*   **Any directory at `particle/.agent/` is redundant and should be considered deprecated.** Its existence directly contradicts a key architectural decision made to improve coherence. This is the primary target for cleanup.
+*   The `ORIENTATION_FILES.md` document mentions a mirror at `particle/.agent/orientation/`. The audit report recommends using symlinks for this to maintain a single source of truth. If this is a direct copy, it is redundant.
 
 ---
 
 ### Consolidation Still Needed: Actionable Recommendations
 
 1.  **Execute the Centralization Decision:**
-    *   **Action:** Verify the existence of a `.agent/` directory at `standard-model-of-code/.agent/`.
-    *   **Action:** If it exists, perform a final diff against `context-management/.agent/` to ensure no unique, valuable information is present.
-    *   **Action:** Once confirmed, **delete the entire `standard-model-of-code/.agent/` directory**. This is the single most important consolidation action required.
+    *   **Action:** Verify the existence of a `.agent/` directory at `particle/.agent/`.
+    *   **Action:** If it exists, perform a final diff against `wave/.agent/` to ensure no unique, valuable information is present.
+    *   **Action:** Once confirmed, **delete the entire `particle/.agent/` directory**. This is the single most important consolidation action required.
 
 2.  **Streamline Agent Onboarding Documentation:**
-    *   **Observation:** The `context-management/docs/agent_school/` directory contains multiple, slightly overlapping files for agent initiation (`AGENT_BOOT.md`, `AGENT_KERNEL.md`, `INDEX.md`, `REPO_FACTS.md`). `AGENT_KERNEL.md` appears to be a subset of `AGENT_BOOT.md`.
+    *   **Observation:** The `wave/docs/agent_school/` directory contains multiple, slightly overlapping files for agent initiation (`AGENT_BOOT.md`, `AGENT_KERNEL.md`, `INDEX.md`, `REPO_FACTS.md`). `AGENT_KERNEL.md` appears to be a subset of `AGENT_BOOT.md`.
     *   **Recommendation:** Consolidate these into a single, canonical `AGENT_ONBOARDING_MANUAL.md`. This manual should contain:
         *   The non-negotiable rules (from `AGENT_KERNEL.md`).
         *   The boot sequence and report format (from `AGENT_BOOT.md` and `INDEX.md`).
@@ -94,7 +94,7 @@ This makes it clear:
 
 3.  **Verify Orientation File Strategy:**
     *   **Observation:** `REPOSITORY_AUDIT_2026-01-19.md` recommends using symlinks for duplicated documentation like the `orientation` files.
-    *   **Action:** Check if `context-management/.agent/orientation/` (if it exists post-cleanup) is a symlink or a copy.
+    *   **Action:** Check if `wave/.agent/orientation/` (if it exists post-cleanup) is a symlink or a copy.
     *   **Recommendation:** If it's a copy, replace it with a symlink pointing to the canonical source documentation to prevent drift, as per the audit's decision.
 
 By executing these three steps, you will finalize the centralization of the agent's context, eliminate redundancy, and simplify its operational protocols.

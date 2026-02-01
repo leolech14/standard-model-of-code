@@ -74,7 +74,7 @@ FILES TO SCRUTINIZE (ALL NEW CODE):
 - src/core/constraint_plugin.py
 - src/core/pipeline/manager.py
 - src/core/registry/registry_of_registries.py
-- context-management/tools/mcp/hub_mcp_server.py
+- wave/tools/mcp/hub_mcp_server.py
 
 PROVIDE FORENSIC EVIDENCE:
 - File paths and line numbers for each blunder
@@ -114,7 +114,7 @@ Here is a forensic analysis of the provided codebase, focusing on potential mist
         # src/core/classification/__init__.py
         from .classifier_plugin import ClassifierPlugin
         from .universal_classifier import UniversalClassifier
-        
+
         __all__ = [
             "ClassifierPlugin",
             "UniversalClassifier",
@@ -131,7 +131,7 @@ Here is a forensic analysis of the provided codebase, focusing on potential mist
         from .base_stage import BaseStage
         from .manager import PipelineManager
         # ... other imports
-        
+
         __all__ = [
             "BaseStage",
             "PipelineManager",
@@ -174,7 +174,7 @@ Here is a forensic analysis of the provided codebase, focusing on potential mist
         ```python
         # src/core/pipeline/manager.py:L18
         from typing import List, Optional, Callable, TYPE_CHECKING
-        
+
         if TYPE_CHECKING:
             from ..data_management import CodebaseState
             from ..observability import PerformanceManager
@@ -283,7 +283,7 @@ Here is a forensic analysis of the provided codebase, focusing on potential mist
         except ImportError:
             get_type_registry = None
             TypeRegistry = None
-        
+
         # AtomRegistry is in parent core/ directory
         try:
             from ..atom_registry import AtomRegistry
@@ -339,7 +339,7 @@ Here is a forensic analysis of the provided codebase, focusing on potential mist
 #### 5. INTEGRATION FAILURES
 
 *   **`hub_mcp_server.py` is not provided in context.**
-    *   **Evidence:** The file `context-management/tools/mcp/hub_mcp_server.py` is mentioned in the audit scope but its content is not provided.
+    *   **Evidence:** The file `wave/tools/mcp/hub_mcp_server.py` is mentioned in the audit scope but its content is not provided.
     *   **Severity:** N/A (Cannot analyze)
     *   **Impact:** Without this file, it's impossible to verify if the Hub "ACTUALLY works in production" or if it correctly integrates with the MCP server. This is a critical blind spot.
     *   **Recommended Fix:** Provide the content of `hub_mcp_server.py` for full analysis.
@@ -470,7 +470,7 @@ The implementation prioritized rapid feature delivery, resulting in architectura
         # src/core/classification/__init__.py
         from .classifier_plugin import ClassifierPlugin
         from .universal_classifier import UniversalClassifier
-        
+
         __all__ = [
             "ClassifierPlugin",
             "UniversalClassifier",
@@ -487,7 +487,7 @@ The implementation prioritized rapid feature delivery, resulting in architectura
         from .base_stage import BaseStage
         from .manager import PipelineManager
         # ... other imports
-        
+
         __all__ = [
             "BaseStage",
             "PipelineManager",
@@ -562,7 +562,7 @@ The implementation prioritized rapid feature delivery, resulting in architectura
         except ImportError:
             get_type_registry = None
             TypeRegistry = None
-        
+
         # AtomRegistry is in parent core/ directory
         try:
             from ..atom_registry import AtomRegistry
@@ -608,11 +608,11 @@ The implementation prioritized rapid feature delivery, resulting in architectura
 
 #### 5. INTEGRATION FAILURES
 
-*   **`context-management/tools/mcp/hub_mcp_server.py` not provided in context.**
-    *   **Evidence:** The user's query explicitly lists `context-management/tools/mcp/hub_mcp_server.py` as a file to scrutinize, but its content is not included in the provided codebase.
+*   **`wave/tools/mcp/hub_mcp_server.py` not provided in context.**
+    *   **Evidence:** The user's query explicitly lists `wave/tools/mcp/hub_mcp_server.py` as a file to scrutinize, but its content is not included in the provided codebase.
     *   **Severity:** N/A (Cannot analyze)
     *   **Impact:** Without access to this file, it's impossible to verify how the Hub architecture integrates with the "MCP server" or if the "Hub ACTUALLY works in production." This creates a critical blind spot in the integration analysis.
-    *   **Recommended Fix:** Provide the content of `context-management/tools/mcp/hub_mcp_server.py` for a complete forensic analysis.
+    *   **Recommended Fix:** Provide the content of `wave/tools/mcp/hub_mcp_server.py` for a complete forensic analysis.
 
 *   **Limited visibility and lack of explicit schema for `EventBus` data payloads**
     *   **Evidence:**

@@ -11,22 +11,22 @@ steps:
   tool: Bash
   outcome: SUCCESS
   output: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_185302.yaml\n\
-    ?? .agent/macros/logs/MACRO-001/20260128_193752.yaml\n?? context-management/experiments/context-management/\n\
-    ?? \"context-management/experiments/refinery-dashboard/cloud-refinery-console\
-    \ (5).zip\"\n?? context-management/experiments/refinery-dashboard/reference_design/\n\
-    ?? context-management/experiments/refinery-platform/\n?? context-management/viz/\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
-    ?? standard-model-of-code/package-lock.json\n?? standard-model-of-code/package.json\n\
+    ?? .agent/macros/logs/MACRO-001/20260128_193752.yaml\n?? wave/experiments/wave/\n\
+    ?? \"wave/experiments/refinery-dashboard/cloud-refinery-console\
+    \ (5).zip\"\n?? wave/experiments/refinery-dashboard/reference_design/\n\
+    ?? wave/experiments/refinery-platform/\n?? wave/viz/\n\
+    ?? particle/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.md\n\
+    ?? particle/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
+    ?? particle/package-lock.json\n?? particle/package.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n"
   error: null
@@ -61,22 +61,22 @@ steps:
   error: null
 variables:
   session_artifacts: "=== NEW FILES ===\n?? .agent/macros/logs/MACRO-001/20260128_185302.yaml\n\
-    ?? .agent/macros/logs/MACRO-001/20260128_193752.yaml\n?? context-management/experiments/context-management/\n\
-    ?? \"context-management/experiments/refinery-dashboard/cloud-refinery-console\
-    \ (5).zip\"\n?? context-management/experiments/refinery-dashboard/reference_design/\n\
-    ?? context-management/experiments/refinery-platform/\n?? context-management/viz/\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
-    ?? standard-model-of-code/docs/research/gemini/docs/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.md\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
-    ?? standard-model-of-code/docs/research/gemini/raw/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
-    ?? standard-model-of-code/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
-    ?? standard-model-of-code/package-lock.json\n?? standard-model-of-code/package.json\n\
+    ?? .agent/macros/logs/MACRO-001/20260128_193752.yaml\n?? wave/experiments/wave/\n\
+    ?? \"wave/experiments/refinery-dashboard/cloud-refinery-console\
+    \ (5).zip\"\n?? wave/experiments/refinery-dashboard/reference_design/\n\
+    ?? wave/experiments/refinery-platform/\n?? wave/viz/\n\
+    ?? particle/docs/research/gemini/docs/20260128_160537_test__what_is_l1.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_160543_verify_the_following_claim_with_code_evidence___qu.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_161416_quick_validation_test__what_is_the_point_framework.md\n\
+    ?? particle/docs/research/gemini/docs/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.md\n\
+    ?? particle/docs/research/gemini/raw/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_160543_verify_the_following_claim_with_code_evidence___qu.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_161416_quick_validation_test__what_is_the_point_framework.json\n\
+    ?? particle/docs/research/gemini/raw/20260128_164259_we_just_experienced_a_666_333_line_artifact_commit.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160537_test__what_is_l1.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_160543_verify_the_following_claim_with_code_evi.json\n\
+    ?? particle/docs/research/gemini/sessions/20260128_161416_quick_validation_test__what_is_the_point.json\n\
+    ?? particle/package-lock.json\n?? particle/package.json\n\
     \n=== MODIFIED FILES ===\n M .agent/intelligence/autopilot_logs/autopilot_20260128.jsonl\n\
     \ M .agent/macros/trigger_state.yaml\n M .agent/state/circuit_breakers.yaml\n"
   dead_code_findings: Requires manual AI execution

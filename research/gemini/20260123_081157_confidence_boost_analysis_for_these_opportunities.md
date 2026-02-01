@@ -17,7 +17,7 @@ OPP-003: Consolidate research directories
 - Action: Merge all to docs/research/
 - Current confidence: 80%
 
-OPP-004: Document registry architecture  
+OPP-004: Document registry architecture
 - Registry system just consolidated
 - README.md already created
 - Current confidence: 87%
@@ -66,7 +66,7 @@ The core principles I'm using for this analysis are from `KERNEL.md`: the 4D con
 
 #### OPP-003: Consolidate research directories
 
-*   **Factual (95%):** High. The problem is well-understood and documented. `TASK-005.yaml` confirms the fragmented state and lists the target location (`standard-model-of-code/docs/research/`). The problem is real and the paths are known.
+*   **Factual (95%):** High. The problem is well-understood and documented. `TASK-005.yaml` confirms the fragmented state and lists the target location (`particle/docs/research/`). The problem is real and the paths are known.
 *   **Alignment (100%):** Critical. This directly supports the "Bulk to Lean" philosophy of the high-priority `CUTTING_PLAN.md` (`TASK-004`). It reduces fragmentation, which is a key concern listed in `.agent/OPEN_CONCERNS.md`.
 *   **Current (90%):** High. `TASK-005.yaml` provides critical evidence: *"DualFormatSaver already supports configurable paths."* This means the work is primarily file migration and configuration changes, not complex code refactoring.
 *   **Onwards (95%):** High. This is a direct prerequisite for the "Research Refinery Pipeline" described in `.agent/OPEN_CONCERNS.md`. A single, canonical location is required before an automated insight extractor can be built.

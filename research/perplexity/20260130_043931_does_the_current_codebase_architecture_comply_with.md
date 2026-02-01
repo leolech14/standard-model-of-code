@@ -8,13 +8,13 @@
 
 ## Query
 
-Does the current codebase architecture comply with the Theory Canon? specifically check 'standard-model-of-code/docs/theory/THEORY_COMPLETE_ALL.md'
+Does the current codebase architecture comply with the Theory Canon? specifically check 'particle/docs/theory/THEORY_COMPLETE_ALL.md'
 
 ---
 
 ## Response
 
-**No, the current codebase architecture cannot be confirmed to comply with the Theory Canon, as the specified document 'standard-model-of-code/docs/theory/THEORY_COMPLETE_ALL.md' is not available in the provided search results.**
+**No, the current codebase architecture cannot be confirmed to comply with the Theory Canon, as the specified document 'particle/docs/theory/THEORY_COMPLETE_ALL.md' is not available in the provided search results.**
 
 Search results discuss **canonical** concepts in unrelated contexts, such as:
 - **Canonical data models (CDMs)** for enterprise data integration, which standardize data entities and relationships across systems to reduce translations and improve maintenance.[1]
@@ -23,7 +23,7 @@ Search results discuss **canonical** concepts in unrelated contexts, such as:
 - **Canonicity** in Scrum theory, referring to authoritative sources like those by Ken Schwaber.[4]
 - General definition of **canonical** as "according to the canon" or authoritative standard.[5]
 
-None of these sources reference the 'standard-model-of-code' repository, Theory Canon, or the exact document path provided. Without access to that file or codebase details, compliance cannot be assessed. If you provide the document contents or additional context, I can analyze further.
+None of these sources reference the 'particle' repository, Theory Canon, or the exact document path provided. Without access to that file or codebase details, compliance cannot be assessed. If you provide the document contents or additional context, I can analyze further.
 
 ---
 
