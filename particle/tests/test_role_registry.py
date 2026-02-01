@@ -1,8 +1,8 @@
 """
-Unit tests for RoleRegistry - Single source of truth for the 33 Canonical Roles.
+Unit tests for RoleRegistry - Single source of truth for the 41 Canonical Roles.
 
 Tests verify:
-- All 33 canonical roles are loaded
+- All 41 canonical roles are loaded
 - Validation correctly identifies canonical vs non-canonical
 - Normalization maps non-canonical to canonical
 - Case-insensitive matching works
@@ -18,10 +18,10 @@ from src.core.registry import get_role_registry, RoleRegistry, ROLE_NORMALIZATIO
 class TestRoleRegistry:
     """Tests for RoleRegistry functionality."""
 
-    def test_loads_33_canonical_roles(self):
-        """Registry must load exactly 33 canonical roles."""
+    def test_loads_41_canonical_roles(self):
+        """Registry must load exactly 41 canonical roles."""
         registry = get_role_registry()
-        assert registry.count() == 33, f"Expected 33 canonical roles, got {registry.count()}"
+        assert registry.count() == 41, f"Expected 41 canonical roles, got {registry.count()}"
 
     def test_validate_canonical_roles(self):
         """All canonical roles must validate as True."""
@@ -49,7 +49,7 @@ class TestRoleRegistry:
             assert registry.validate(role) is False, f"'{role}' should NOT be canonical"
 
     def test_normalize_canonical_unchanged(self):
-        """All 33 canonical roles must remain unchanged after normalization."""
+        """All 41 canonical roles must remain unchanged after normalization."""
         registry = get_role_registry()
         for role in registry.list_names():
             assert registry.normalize(role) == role, f"Canonical '{role}' was changed"
@@ -138,7 +138,7 @@ class TestRoleRegistry:
         registry = get_role_registry()
         names = registry.list_names()
         assert names == sorted(names), "list_names() should return sorted list"
-        assert len(names) == 33
+        assert len(names) == 41
 
     def test_is_canonical_alias(self):
         """is_canonical() should be an alias for validate()."""
