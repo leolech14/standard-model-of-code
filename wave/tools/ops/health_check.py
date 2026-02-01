@@ -118,9 +118,65 @@ def check_config_valid(tool_path: Path) -> Dict[str, Any]:
         return {"status": "DOWN", "message": f"Tool not found: {tool_path}"}
 
 
+def check_hsl_daemon() -> Dict[str, Any]:
+    """Check HSL daemon status using log file freshness."""
+    hsl_log = PROJECT_ROOT / "wave" / "intelligence" / "logs" / "hsl_daemon.log"
+    hsl_script = PROJECT_ROOT / "wave" / "tools" / "hsl_daemon.py"
+
+    result = {
+        "name": "Headless Semantic Loader (Drift Guard)",
+        "script_exists": hsl_script.exists(),
+    }
+
+    # Check if process is running (either hsl_daemon or drift_guard)
+    process_check = check_process_running("drift_guard")
+    if process_check["status"] != "OK":
+        process_check = check_process_running("hsl_daemon")
+    result["process"] = process_check
+
+    # Check log freshness (within last 10 minutes = 600 seconds)
+    if hsl_log.exists():
+        try:
+            mtime = hsl_log.stat().st_mtime
+            now = datetime.now().timestamp()
+            age_seconds = now - mtime
+            age_minutes = int(age_seconds / 60)
+
+            # Read last line
+            content = hsl_log.read_text()
+            lines = content.strip().split('\n') if content.strip() else []
+            last_entry = lines[-1] if lines else None
+
+            if age_seconds < 600:  # Updated within 10 minutes
+                result["log"] = {
+                    "status": "FRESH",
+                    "age_minutes": age_minutes,
+                    "last_entry": last_entry[:100] if last_entry else None
+                }
+                # If log is fresh, daemon ran recently even if not currently running
+                result["status"] = "OK"
+            else:
+                result["log"] = {
+                    "status": "STALE",
+                    "age_minutes": age_minutes,
+                    "message": f"Last update {age_minutes} minutes ago"
+                }
+                result["status"] = "DEGRADED"
+        except Exception as e:
+            result["log"] = {"status": "ERROR", "message": str(e)}
+            result["status"] = "UNKNOWN"
+    else:
+        result["log"] = {"status": "MISSING", "message": f"Log not found: {hsl_log}"}
+        # If script exists but no log, it hasn't run yet
+        result["status"] = "DOWN" if hsl_script.exists() else "DOWN"
+        result["message"] = "HSL daemon has not run yet" if hsl_script.exists() else "HSL script missing"
+
+    return result
+
+
 def run_all_checks() -> Dict[str, Any]:
     """Run all health checks and return consolidated status."""
-    timestamp = datetime.utcnow().isoformat() + "Z"
+    timestamp = datetime.now().isoformat() + "Z"
 
     results = {
         "timestamp": timestamp,
@@ -128,17 +184,8 @@ def run_all_checks() -> Dict[str, Any]:
         "services": {}
     }
 
-    # HSL Daemon
-    hsl_stderr = PROJECT_ROOT / "wave/intelligence/logs/hsl_daemon_stderr.log"
-    hsl_process = check_process_running("activity_watcher")
-    hsl_logs = check_log_for_errors(hsl_stderr)
-
-    results["services"]["hsl_daemon"] = {
-        "name": "Headless Semantic Loader",
-        "process": hsl_process,
-        "logs": hsl_logs,
-        "status": hsl_process["status"]
-    }
+    # HSL Daemon (uses new freshness-based check)
+    results["services"]["hsl_daemon"] = check_hsl_daemon()
 
     # GCS Archive
     gcs_tool = PROJECT_ROOT / "wave/tools/archive/archive.py"
