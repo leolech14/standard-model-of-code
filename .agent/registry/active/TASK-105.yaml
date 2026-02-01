@@ -1,0 +1,248 @@
+# TASK-105: Unify Reports Directories
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-105
+title: "Unify reports directories (6 to 1)"
+status: COMPLETE
+priority: P1
+domain: cleanup
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 95
+  # Evidence: 6 report directories identified via exploration
+  # Evidence: context-management/docs/reports/ is largest (24MB)
+  # Evidence: Other directories contain overlapping content types
+
+  alignment: 95
+  # Evidence: Reports should be findable in one location
+  # Evidence: Enables consistent naming and structure
+  # Evidence: Simplifies report discovery
+
+  current: 85
+  # Evidence: Some reports may be referenced by relative paths
+  # Risk: CI/CD or tools may depend on specific paths
+  # Evidence: Can update references after consolidation
+
+  onwards: 90
+  # Evidence: Unified reports enable better indexing
+  # Evidence: Cleaner structure for reporting dashboards
+  # Evidence: Easier automation of report generation
+
+  overall: 85  # min(95, 95, 85, 90)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  6 report directories exist across the repository:
+  1. context-management/docs/reports/ (24MB) - PRIMARY
+  2. standard-model-of-code/docs/reports/ (596KB)
+  3. context-management/reports/ (244KB) - refinery reports
+  4. context-management/library/reports/ (28KB)
+  5. governance/staging/reports/ (64KB)
+  6. standard-model-of-code/docs/ui/score/reports/ (0B, empty)
+
+  ## Solution
+  Consolidate to reports/ at repository root:
+
+  reports/
+  ├── refinery/    # Refinery audit reports (docs_audit*.json/md)
+  ├── audits/      # Socratic, architecture audits
+  ├── archives/    # Historical reports
+  └── INDEX.md     # Navigation
+
+# =============================================================================
+# DIRECTORIES TO CONSOLIDATE
+# =============================================================================
+directories:
+  - path: "context-management/docs/reports/"
+    size: "24MB"
+    content_types:
+      - "Evolution reports"
+      - "Socratic audit reports"
+      - "Architecture analysis"
+    target: "reports/audits/"
+
+  - path: "standard-model-of-code/docs/reports/"
+    size: "596KB"
+    content_types:
+      - "Analysis reports"
+    target: "reports/audits/"
+
+  - path: "context-management/reports/"
+    size: "244KB"
+    content_types:
+      - "Refinery reports (docs_audit_*.json/md)"
+    target: "reports/refinery/"
+
+  - path: "context-management/library/reports/"
+    size: "28KB"
+    content_types:
+      - "Library-specific reports"
+    target: "reports/archives/"
+
+  - path: "governance/staging/reports/"
+    size: "64KB"
+    content_types:
+      - "Pending reports"
+    target: "reports/archives/"
+
+  - path: "standard-model-of-code/docs/ui/score/reports/"
+    size: "0B"
+    content_types: []
+    action: "DELETE (empty)"
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "All reports in reports/ at root"
+  - "Subdirectory structure created (refinery/, audits/, archives/)"
+  - "Old locations removed"
+  - "INDEX.md created with navigation"
+  - "No broken report references in code"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Create reports directory structure"
+    agent: Bash
+    command: |
+      mkdir -p reports/{refinery,audits,archives}
+
+  - id: 2
+    action: "Move refinery reports"
+    agent: Bash
+    command: |
+      mv context-management/reports/refinery/* reports/refinery/ 2>/dev/null || true
+      # Also move docs_audit files from other locations
+      find . -name "docs_audit*.json" -o -name "docs_audit*.md" | \
+        xargs -I {} mv {} reports/refinery/ 2>/dev/null || true
+
+  - id: 3
+    action: "Move audit reports"
+    agent: Bash
+    command: |
+      mv context-management/docs/reports/* reports/audits/ 2>/dev/null || true
+      mv standard-model-of-code/docs/reports/* reports/audits/ 2>/dev/null || true
+
+  - id: 4
+    action: "Move archive reports"
+    agent: Bash
+    command: |
+      mv context-management/library/reports/* reports/archives/ 2>/dev/null || true
+      mv governance/staging/reports/* reports/archives/ 2>/dev/null || true
+
+  - id: 5
+    action: "Remove empty directory"
+    agent: Bash
+    command: |
+      rm -rf standard-model-of-code/docs/ui/score/reports/
+
+  - id: 6
+    action: "Create INDEX.md"
+    agent: Write
+    file: "reports/INDEX.md"
+    content: |
+      # Reports Archive
+
+      Consolidated reports from all analysis and audit activities.
+
+      ## Directory Structure
+
+      ### [refinery/](./refinery/)
+      Refinery document audit reports.
+      - `docs_audit_*.json` - Raw audit data
+      - `docs_audit_*.md` - Human-readable summaries
+      - `docs_audit_latest.json/md` - Most recent audit
+
+      ### [audits/](./audits/)
+      Architecture and codebase audits.
+      - Socratic audit reports
+      - Evolution analysis
+      - Architecture reviews
+
+      ### [archives/](./archives/)
+      Historical and staging reports.
+      - Library reports
+      - Legacy analyses
+
+      ## Quick Access
+
+      ```bash
+      # Latest refinery audit
+      cat reports/refinery/docs_audit_latest.md
+
+      # Search all reports
+      grep -r "keyword" reports/
+
+      # List by date
+      ls -lt reports/**/*.md | head -20
+      ```
+
+      ---
+      Consolidated: 2026-01-31 (TASK-105)
+
+  - id: 7
+    action: "Remove old report directories"
+    agent: Bash
+    command: |
+      rm -rf context-management/docs/reports/
+      rm -rf standard-model-of-code/docs/reports/
+      rm -rf context-management/reports/
+      rm -rf context-management/library/reports/
+      rm -rf governance/staging/reports/
+
+  - id: 8
+    action: "Search for broken references"
+    agent: Grep
+    command: |
+      grep -r "context-management/docs/reports\|context-management/reports" \
+        --include="*.py" --include="*.yaml" || echo "No broken references"
+
+  - id: 9
+    action: "Commit consolidation"
+    agent: Bash
+    command: |
+      git add reports/
+      git add -u
+      git commit -m "chore(reports): Unify reports directories (6 to 1)
+
+      Consolidated to reports/ at root:
+      - reports/refinery/ (docs_audit reports)
+      - reports/audits/ (socratic, architecture)
+      - reports/archives/ (historical)
+
+      Removed 6 scattered locations.
+
+      Part of TASK-105, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-100]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - reports
+  - consolidation
+  - cleanup
+  - p1
+
+runs: []
+output: {}

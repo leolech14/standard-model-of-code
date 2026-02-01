@@ -1,0 +1,464 @@
+# =============================================================================
+# BATCH: Repository Consolidation Sprint
+# Created: 2026-01-31
+# Purpose: Systematic cleanup and organization of PROJECT_elements
+# =============================================================================
+
+batch_id: BATCH-CONSOLIDATION-2026-01-31
+title: "Repository Consolidation Sprint"
+description: |
+  Systematic consolidation of scattered files, directories, and documentation
+  across PROJECT_elements. Identified 7 major consolidation areas with
+  292 untracked files and 839 MB of duplicated content.
+
+# Priority ordering for execution
+execution_order:
+  - TASK-100  # Gitignore - unblocks everything
+  - TASK-101  # Untracked tools - prevents future sprawl
+  - TASK-102  # Large files - reduces repo bloat
+  - TASK-103  # Intelligence dedup - clears 46MB confusion
+  - TASK-104  # Research consolidation - 23MB cleanup
+  - TASK-105  # Reports unification - 6 locations to 1
+  - TASK-106  # Archive standardization - 3 patterns to 1
+  - TASK-107  # Final validation - confirms everything
+
+# =============================================================================
+# AGENT DEPLOYMENT GUIDE
+# =============================================================================
+agent_deployment:
+  overview: |
+    Each task can be executed by Claude Code agents using the Task tool.
+    Deploy agents in dependency order, waiting for blockers to complete.
+
+  confidence_protocol:
+    description: |
+      Before executing any task, validate confidence scores are accurate.
+
+      1. FACTUAL - Read all referenced files, verify paths exist
+      2. ALIGNMENT - Reference CLAUDE.md and governance/DECISIONS.md
+      3. CURRENT - Search for path references that would break
+      4. ONWARDS - Reference governance/ROADMAP.md
+
+    validation_tool: |
+      python3 context-management/tools/ai/analyze.py --set brain_active \
+        "Validate TASK-XXX confidence scores"
+
+  execution_strategy:
+    parallel_safe:
+      - TASK-101
+      - TASK-102
+      - TASK-103
+      - TASK-104
+      - TASK-105
+    sequential_required:
+      - TASK-100  # Must complete first
+      - TASK-106  # Depends on 103, 104, 105
+      - TASK-107  # Depends on all
+
+    agent_mapping:
+      TASK-100: Bash           # Simple file edit
+      TASK-101: development-lead  # Code triage
+      TASK-102: operations-lead   # GCS operations
+      TASK-103: directory-explorer  # Directory analysis
+      TASK-104: directory-explorer  # Directory consolidation
+      TASK-105: directory-explorer  # Directory consolidation
+      TASK-106: Bash           # File moves
+      TASK-107: quality-lead   # Validation
+
+# =============================================================================
+# TASKS
+# =============================================================================
+tasks:
+
+  # ---------------------------------------------------------------------------
+  # TASK-100: Gitignore Hardening
+  # ---------------------------------------------------------------------------
+  - id: TASK-100
+    title: "Add missing patterns to .gitignore"
+    status: READY
+    priority: P0
+    domain: infrastructure
+
+    confidence:
+      factual: 100
+      alignment: 100
+      current: 100
+      onwards: 100
+      overall: 100
+
+    verdict: ACCEPT
+
+    description: |
+      Add patterns to .gitignore for research raw/sessions, logs,
+      large generated files, ephemeral intelligence, and CSV inventories.
+
+    acceptance_criteria:
+      - ".gitignore includes all consolidation patterns"
+      - "git status no longer shows large files as untracked"
+      - "Research raw/sessions are ignored"
+      - "Log directories are ignored"
+
+    patterns_to_add:
+      - "# Consolidation patterns (2026-01-31)"
+      - "research/raw/"
+      - "research/sessions/"
+      - "**/logs/**"
+      - "*.pdf"
+      - "!docs/**/*.pdf"
+      - "*.zip"
+      - "tools/*.csv"
+      - ".agent/intelligence/autopilot_logs/"
+      - ".agent/intelligence/confidence_reports/"
+      - ".agent/macros/logs/"
+
+    blocks: [TASK-101, TASK-102, TASK-103, TASK-104, TASK-105, TASK-106]
+    blocked_by: []
+    created: "2026-01-31T15:00:00Z"
+    tags: [gitignore, infrastructure, consolidation, p0]
+
+  # ---------------------------------------------------------------------------
+  # TASK-101: Triage Untracked Python Tools
+  # ---------------------------------------------------------------------------
+  - id: TASK-101
+    title: "Triage and commit untracked Python tools"
+    status: READY
+    priority: P0
+    domain: tools
+
+    confidence:
+      factual: 85
+      alignment: 95
+      current: 80
+      onwards: 90
+      overall: 80
+
+    verdict: ACCEPT
+
+    description: |
+      18 Python files are untracked across tools/ and context-management/tools/.
+      Classify each as ACTIVE (commit), EXPERIMENT (move), or DEAD (delete).
+
+    files_to_triage:
+      tools:
+        - file_explorer.py          # 314 KB - likely ACTIVE
+        - file_scanner.py
+        - file_viewer.py
+        - fix_reader_links.py
+        - generate_file_inventory.py
+        - generate_reader_config.py
+        - image_browser.py
+        - score_reference_images.py
+        - sync_to_notion.py
+        - verify_counts.py
+        - verify_links.py
+        - verify_placeholders.py
+      context_management_tools:
+        - analyze_baseline.py
+        - apply_consolidation.py
+        - consolidation_dispatch.py
+        - dispatch.py
+        - sevocab.py
+        - ai/cerebras_zoo_compare.py
+        - ai/hf_space.py
+
+    acceptance_criteria:
+      - "All 18 files classified"
+      - "Active files committed"
+      - "Experiments in tools/experiments/"
+      - "Dead code archived"
+
+    blocks: []
+    blocked_by: [TASK-100]
+    created: "2026-01-31T15:00:00Z"
+    tags: [tools, python, triage, consolidation, p0]
+
+  # ---------------------------------------------------------------------------
+  # TASK-102: Move Large Files to GCS
+  # ---------------------------------------------------------------------------
+  - id: TASK-102
+    title: "Move large files to GCS archive bucket"
+    status: READY
+    priority: P0
+    domain: infrastructure
+
+    confidence:
+      factual: 100
+      alignment: 100
+      current: 95
+      onwards: 100
+      overall: 95
+
+    verdict: ACCEPT
+
+    description: |
+      Move large files to gs://elements-archive-2026/large-files/
+      Files: swebok-v4.pdf (6GB), SMC_THEORY_COMPLETE*.zip (367MB)
+
+    acceptance_criteria:
+      - "Files uploaded to GCS"
+      - "Files in .gitignore"
+      - "Local copies optional (user choice)"
+
+    gcs_destination: "gs://elements-archive-2026/large-files/"
+
+    blocks: []
+    blocked_by: [TASK-100]
+    created: "2026-01-31T15:00:00Z"
+    tags: [gcs, large-files, infrastructure, consolidation, p0]
+
+  # ---------------------------------------------------------------------------
+  # TASK-103: Deduplicate Intelligence Directories
+  # ---------------------------------------------------------------------------
+  - id: TASK-103
+    title: "Deduplicate intelligence directories (7 to 2)"
+    status: READY
+    priority: P1
+    domain: cleanup
+
+    confidence:
+      factual: 90
+      alignment: 100
+      current: 85
+      onwards: 95
+      overall: 85
+
+    verdict: ACCEPT
+
+    description: |
+      Consolidate 7 intelligence directories to 2:
+      - .agent/intelligence/ (canonical)
+      - context-management/intelligence/ (integration)
+
+    directories_to_remove:
+      - "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
+      - "context-management/docs/theory/context-management/intelligence/"
+      - "standard-model-of-code/docs/theory/context-management/intelligence/"
+      - "context-management/tools/ai/aci/context-management/intelligence/"
+      - "context-management/tools/refinery/context-management/intelligence/"
+
+    acceptance_criteria:
+      - "Only 2 intelligence directories remain"
+      - "No broken code references"
+      - "Unique content preserved"
+
+    blocks: []
+    blocked_by: [TASK-100]
+    created: "2026-01-31T15:00:00Z"
+    tags: [intelligence, dedup, cleanup, consolidation, p1]
+
+  # ---------------------------------------------------------------------------
+  # TASK-104: Consolidate Research Directories
+  # ---------------------------------------------------------------------------
+  - id: TASK-104
+    title: "Consolidate research directories (3 to 1)"
+    status: READY
+    priority: P1
+    domain: cleanup
+
+    confidence:
+      factual: 95
+      alignment: 95
+      current: 90
+      onwards: 85
+      overall: 85
+
+    verdict: ACCEPT
+
+    description: |
+      Move research to root: standard-model-of-code/docs/research/ -> research/
+      Preserve provider structure: gemini/, perplexity/, claude/
+
+    target_structure:
+      - "research/"
+      - "research/gemini/"
+      - "research/perplexity/"
+      - "research/claude/"
+      - "research/INDEX.md"
+
+    acceptance_criteria:
+      - "All research in research/ at root"
+      - "Provider subdirs preserved"
+      - "INDEX.md created"
+      - "Old locations removed"
+
+    blocks: []
+    blocked_by: [TASK-100]
+    created: "2026-01-31T15:00:00Z"
+    tags: [research, consolidation, cleanup, p1]
+
+  # ---------------------------------------------------------------------------
+  # TASK-105: Unify Reports Directories
+  # ---------------------------------------------------------------------------
+  - id: TASK-105
+    title: "Unify reports directories (6 to 1)"
+    status: READY
+    priority: P1
+    domain: cleanup
+
+    confidence:
+      factual: 95
+      alignment: 95
+      current: 85
+      onwards: 90
+      overall: 85
+
+    verdict: ACCEPT
+
+    description: |
+      Consolidate 6 report directories to reports/ at root.
+      Subdirectories: refinery/, audits/, archives/
+
+    directories_to_consolidate:
+      - "context-management/docs/reports/"
+      - "standard-model-of-code/docs/reports/"
+      - "context-management/reports/"
+      - "context-management/library/reports/"
+      - "governance/staging/reports/"
+      - "standard-model-of-code/docs/ui/score/reports/"
+
+    acceptance_criteria:
+      - "All reports in reports/ at root"
+      - "Subdirectory structure created"
+      - "Old locations removed"
+      - "INDEX.md created"
+
+    blocks: []
+    blocked_by: [TASK-100]
+    created: "2026-01-31T15:00:00Z"
+    tags: [reports, consolidation, cleanup, p1]
+
+  # ---------------------------------------------------------------------------
+  # TASK-106: Standardize Archive Naming
+  # ---------------------------------------------------------------------------
+  - id: TASK-106
+    title: "Standardize archive naming (3 patterns to 1)"
+    status: READY
+    priority: P2
+    domain: cleanup
+
+    confidence:
+      factual: 90
+      alignment: 90
+      current: 80
+      onwards: 85
+      overall: 80
+
+    verdict: ACCEPT
+
+    description: |
+      Standardize to single visible archive/ at root.
+      Subdirectories by source: smc/, cm/, tools/
+
+    patterns_to_consolidate:
+      - "archive/ (visible)"
+      - ".archive/ (hidden)"
+      - "docs/archive/ (nested)"
+
+    acceptance_criteria:
+      - "Single archive/ at project root"
+      - "Subdirectories by source"
+      - "All content preserved"
+      - "Old locations removed"
+
+    blocks: []
+    blocked_by: [TASK-103, TASK-104, TASK-105]
+    created: "2026-01-31T15:00:00Z"
+    tags: [archive, consolidation, cleanup, p2]
+
+  # ---------------------------------------------------------------------------
+  # TASK-107: Final Validation and Report
+  # ---------------------------------------------------------------------------
+  - id: TASK-107
+    title: "Final validation and consolidation report"
+    status: READY
+    priority: P2
+    domain: validation
+
+    confidence:
+      factual: 100
+      alignment: 100
+      current: 100
+      onwards: 100
+      overall: 100
+
+    verdict: ACCEPT
+
+    description: |
+      Validate all consolidation tasks completed successfully.
+      Generate final report and commit.
+
+    validation_checks:
+      - "git status clean"
+      - "Only expected directories remain"
+      - "All tests pass"
+      - "No broken imports"
+
+    report_includes:
+      - "Files moved/deleted count"
+      - "Bytes saved"
+      - "Directories consolidated"
+      - "Any remaining issues"
+
+    acceptance_criteria:
+      - "git status clean"
+      - "All tests pass"
+      - "Consolidation report generated"
+      - "Final commit created"
+
+    blocks: []
+    blocked_by: [TASK-100, TASK-101, TASK-102, TASK-103, TASK-104, TASK-105, TASK-106]
+    created: "2026-01-31T15:00:00Z"
+    tags: [validation, report, consolidation, final]
+
+# =============================================================================
+# EXECUTION COMMANDS
+# =============================================================================
+execution_commands:
+
+  validate_confidence: |
+    # Before any task, validate its confidence
+    python3 context-management/tools/ai/analyze.py --set brain_active \
+      "Validate TASK-XXX: [paste description].
+       Check file paths exist, no breaking references, aligns with ROADMAP"
+
+  execute_task_100: |
+    # Gitignore hardening (run first, manually or via agent)
+    cat >> .gitignore << 'EOF'
+
+    # Consolidation patterns (2026-01-31)
+    research/raw/
+    research/sessions/
+    **/logs/**
+    *.pdf
+    !docs/**/*.pdf
+    *.zip
+    tools/*.csv
+    .agent/intelligence/autopilot_logs/
+    .agent/intelligence/confidence_reports/
+    .agent/macros/logs/
+    EOF
+
+  parallel_deploy: |
+    # After TASK-100 completes, deploy 5 agents in parallel
+    # Use Claude Code Task tool with subagent_type for each:
+    # - TASK-101: development-lead
+    # - TASK-102: operations-lead
+    # - TASK-103: directory-explorer
+    # - TASK-104: directory-explorer
+    # - TASK-105: directory-explorer
+
+  final_commit: |
+    git add -A
+    git commit -m "chore(consolidation): Complete repository consolidation sprint
+
+    BATCH-CONSOLIDATION-2026-01-31 complete:
+    - TASK-100: Gitignore hardened
+    - TASK-101: Python tools triaged
+    - TASK-102: Large files to GCS
+    - TASK-103: Intelligence dirs (7->2)
+    - TASK-104: Research consolidated
+    - TASK-105: Reports unified
+    - TASK-106: Archives standardized
+    - TASK-107: Validation complete
+
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"

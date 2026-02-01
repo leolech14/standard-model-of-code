@@ -1,0 +1,215 @@
+# TASK-103: Deduplicate Intelligence Directories
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-103
+title: "Deduplicate intelligence directories (7 to 2)"
+status: COMPLETE
+priority: P1
+domain: cleanup
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 90
+  # Evidence: 7 intelligence directories found via exploration
+  # Evidence: .agent/intelligence/ is canonical (46MB, active logs)
+  # Evidence: Nested copies appear to be stale duplicates
+  # Concern: Need to verify no unique content in copies
+
+  alignment: 100
+  # Evidence: Single source of truth principle
+  # Evidence: Reduces confusion about which directory is authoritative
+  # Evidence: Simplifies maintenance
+
+  current: 85
+  # Evidence: Files can be safely moved/deleted after verification
+  # Risk: Code may reference old paths (need grep search)
+  # Risk: Some tooling may depend on specific paths
+
+  onwards: 95
+  # Evidence: Cleaner structure for future development
+  # Evidence: Easier onboarding for new contributors
+  # Evidence: Reduces storage duplication
+
+  overall: 85  # min(90, 100, 85, 95)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  7 intelligence directories exist, causing confusion:
+  1. .agent/intelligence/ (46MB) - CANONICAL, agent-generated
+  2. context-management/intelligence/ (4.2MB) - integration point
+  3. standard-model-of-code/.archive/docs_archive/context-management/intelligence/ - DUPLICATE
+  4. context-management/docs/theory/context-management/intelligence/ - DUPLICATE
+  5. standard-model-of-code/docs/theory/context-management/intelligence/ - DUPLICATE
+  6. context-management/tools/ai/aci/context-management/intelligence/ - DUPLICATE
+  7. context-management/tools/refinery/context-management/intelligence/ - DUPLICATE
+
+  ## Solution
+  Keep only 2 directories:
+  - .agent/intelligence/ (canonical source)
+  - context-management/intelligence/ (integration point for tools)
+
+  Delete the 5 nested duplicates after preserving any unique content.
+
+# =============================================================================
+# DIRECTORIES
+# =============================================================================
+directories:
+  keep:
+    - path: ".agent/intelligence/"
+      role: "canonical"
+      size: "46MB"
+      contents: "autopilot_logs, confidence_reports, deck state"
+
+    - path: "context-management/intelligence/"
+      role: "integration"
+      size: "4.2MB"
+      contents: "HLS daemon logs, intel caches"
+
+  delete:
+    - path: "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
+      size: "1.8MB"
+      likely_duplicate: true
+
+    - path: "context-management/docs/theory/context-management/intelligence/"
+      size: "388KB"
+      likely_duplicate: true
+
+    - path: "standard-model-of-code/docs/theory/context-management/intelligence/"
+      size: "804KB"
+      likely_duplicate: true
+
+    - path: "context-management/tools/ai/aci/context-management/intelligence/"
+      size: "408KB"
+      likely_duplicate: true
+
+    - path: "context-management/tools/refinery/context-management/intelligence/"
+      size: "696KB"
+      likely_duplicate: true
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "Only 2 intelligence directories remain"
+  - "find . -type d -name 'intelligence' | wc -l returns 2"
+  - "No code references deleted paths (grep verification)"
+  - "Unique content preserved in canonical location"
+  - "git status clean for intelligence paths"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Search for path references in code"
+    agent: Grep
+    command: |
+      grep -r "intelligence/" --include="*.py" --include="*.yaml" --include="*.md" \
+        | grep -v ".agent/intelligence" \
+        | grep -v "context-management/intelligence"
+
+  - id: 2
+    action: "Compare directory contents for unique files"
+    agent: Explore
+    prompt: |
+      For each of the 5 directories to delete:
+      1. List all files
+      2. Compare checksums with canonical directories
+      3. Identify any unique files not in canonical
+      4. Report findings
+
+  - id: 3
+    action: "Archive any unique content"
+    agent: Bash
+    command: |
+      # If unique files found, copy to canonical before deletion
+      mkdir -p .agent/intelligence/archived_from_consolidation/
+      # cp <unique-files> .agent/intelligence/archived_from_consolidation/
+
+  - id: 4
+    action: "Delete duplicate directories"
+    agent: Bash
+    command: |
+      rm -rf "standard-model-of-code/.archive/docs_archive/context-management/intelligence/"
+      rm -rf "context-management/docs/theory/context-management/intelligence/"
+      rm -rf "standard-model-of-code/docs/theory/context-management/intelligence/"
+      rm -rf "context-management/tools/ai/aci/context-management/intelligence/"
+      rm -rf "context-management/tools/refinery/context-management/intelligence/"
+
+  - id: 5
+    action: "Update any broken references"
+    agent: Edit
+    prompt: "Update any code paths pointing to deleted directories"
+
+  - id: 6
+    action: "Verify consolidation"
+    agent: Bash
+    command: |
+      echo "Intelligence directories remaining:"
+      find . -type d -name 'intelligence' 2>/dev/null | grep -v node_modules
+
+  - id: 7
+    action: "Commit changes"
+    agent: Bash
+    command: |
+      git add -A
+      git commit -m "chore(cleanup): Deduplicate intelligence directories (7 to 2)
+
+      Kept:
+      - .agent/intelligence/ (canonical, 46MB)
+      - context-management/intelligence/ (integration)
+
+      Deleted 5 duplicates:
+      - standard-model-of-code/.archive/.../intelligence/
+      - context-management/docs/theory/.../intelligence/
+      - standard-model-of-code/docs/theory/.../intelligence/
+      - context-management/tools/ai/aci/.../intelligence/
+      - context-management/tools/refinery/.../intelligence/
+
+      Part of TASK-103, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# RISKS & MITIGATIONS
+# =============================================================================
+risks:
+  - risk: "Code references deleted paths"
+    severity: MEDIUM
+    mitigation: "Grep search in step 1, update references in step 5"
+
+  - risk: "Unique content lost"
+    severity: HIGH
+    mitigation: "Content comparison in step 2, archive in step 3"
+
+  - risk: "Nested context-management dirs cause confusion"
+    severity: LOW
+    mitigation: "Delete all nested context-management/intelligence/ patterns"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-100]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - intelligence
+  - dedup
+  - cleanup
+  - consolidation
+  - p1
+
+runs: []
+output: {}

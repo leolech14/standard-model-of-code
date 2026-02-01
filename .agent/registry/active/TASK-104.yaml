@@ -1,0 +1,235 @@
+# TASK-104: Consolidate Research Directories
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-104
+title: "Consolidate research directories (3 to 1)"
+status: COMPLETE
+priority: P1
+domain: cleanup
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 95
+  # Evidence: 669 .md files in standard-model-of-code/docs/research/
+  # Evidence: Clear structure with gemini/, perplexity/, claude/ subdirs
+  # Evidence: context-management/docs/research/ has only 3 files
+
+  alignment: 95
+  # Evidence: Research should be centralized for discoverability
+  # Evidence: Enables cross-provider search and analysis
+  # Minor concern: Some prefer research co-located with code
+
+  current: 90
+  # Evidence: Files are standalone markdown, no complex dependencies
+  # Risk: May break documentation links (searchable)
+  # Evidence: Raw JSON and sessions will be gitignored anyway
+
+  onwards: 85
+  # Evidence: Centralized research enables better indexing
+  # Evidence: Single location for all AI-generated insights
+  # Concern: If research grows significantly, may need re-split
+
+  overall: 85  # min(95, 95, 90, 85)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  Research outputs scattered across:
+  1. standard-model-of-code/docs/research/ (669 files, 23MB) - PRIMARY
+  2. context-management/docs/research/ (3 files) - SPARSE
+  3. Various orphaned research/ directories
+
+  ## Solution
+  Consolidate to research/ at repository root with structure:
+
+  research/
+  ├── gemini/      # Gemini 2.5 Flash research
+  ├── perplexity/  # Perplexity web research
+  ├── claude/      # Claude analysis
+  └── INDEX.md     # Navigation and summary
+
+  Raw JSON and session files will remain gitignored.
+
+# =============================================================================
+# CURRENT STATE
+# =============================================================================
+current_state:
+  primary:
+    path: "standard-model-of-code/docs/research/"
+    files: 669
+    size: "23MB"
+    structure:
+      - "gemini/docs/"
+      - "gemini/raw/"
+      - "gemini/sessions/"
+      - "perplexity/docs/"
+      - "perplexity/raw/"
+      - "claude/"
+
+  secondary:
+    path: "context-management/docs/research/"
+    files: 3
+    size: "<1MB"
+
+# =============================================================================
+# TARGET STATE
+# =============================================================================
+target_state:
+  path: "research/"
+  structure:
+    - "research/gemini/"
+    - "research/perplexity/"
+    - "research/claude/"
+    - "research/INDEX.md"
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "All research files in research/ at root"
+  - "Provider subdirectories preserved (gemini, perplexity, claude)"
+  - "INDEX.md created with navigation guide"
+  - "Old research locations removed"
+  - "research/raw/ and research/sessions/ patterns in .gitignore"
+  - "No broken documentation links"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Create root research directory structure"
+    agent: Bash
+    command: |
+      mkdir -p research/{gemini,perplexity,claude}
+
+  - id: 2
+    action: "Move primary research content"
+    agent: Bash
+    command: |
+      # Move gemini docs (keep structure)
+      mv standard-model-of-code/docs/research/gemini/docs/* research/gemini/ 2>/dev/null || true
+
+      # Move perplexity docs
+      mv standard-model-of-code/docs/research/perplexity/docs/* research/perplexity/ 2>/dev/null || true
+
+      # Move claude if exists
+      mv standard-model-of-code/docs/research/claude/* research/claude/ 2>/dev/null || true
+
+  - id: 3
+    action: "Move secondary research content"
+    agent: Bash
+    command: |
+      mv context-management/docs/research/* research/ 2>/dev/null || true
+
+  - id: 4
+    action: "Create INDEX.md"
+    agent: Write
+    file: "research/INDEX.md"
+    content: |
+      # Research Archive
+
+      AI-generated research outputs organized by provider.
+
+      ## Providers
+
+      ### [Gemini](./gemini/)
+      Deep research and validation queries using Gemini 2.5 Flash.
+      Used for: Architecture validation, theory verification, codebase audits.
+
+      ### [Perplexity](./perplexity/)
+      Web research with citations using Perplexity API.
+      Used for: Best practices, documentation, external references.
+
+      ### [Claude](./claude/)
+      Analysis and synthesis using Claude.
+      Used for: Code analysis, implementation planning.
+
+      ## Structure
+
+      Each provider directory contains processed markdown files.
+      Raw JSON responses and session logs are gitignored (ephemeral data).
+
+      ## Usage
+
+      ```bash
+      # Search across all research
+      grep -r "keyword" research/
+
+      # List recent research
+      ls -lt research/**/*.md | head -20
+      ```
+
+      ---
+      Consolidated: 2026-01-31 (TASK-104)
+
+  - id: 5
+    action: "Remove old research directories"
+    agent: Bash
+    command: |
+      rm -rf standard-model-of-code/docs/research/
+      rm -rf context-management/docs/research/
+
+  - id: 6
+    action: "Verify consolidation"
+    agent: Bash
+    command: |
+      echo "Research files consolidated:"
+      find research/ -name "*.md" | wc -l
+      echo "Research directories:"
+      ls -la research/
+
+  - id: 7
+    action: "Search for broken links"
+    agent: Grep
+    command: |
+      grep -r "standard-model-of-code/docs/research" --include="*.md" || echo "No broken links found"
+
+  - id: 8
+    action: "Commit consolidation"
+    agent: Bash
+    command: |
+      git add research/
+      git add -u  # Stage deletions
+      git commit -m "chore(research): Consolidate research directories (3 to 1)
+
+      Moved all research to research/ at root:
+      - research/gemini/ (Gemini 2.5 Flash research)
+      - research/perplexity/ (Web research with citations)
+      - research/claude/ (Claude analysis)
+
+      Created INDEX.md for navigation.
+
+      Removed:
+      - standard-model-of-code/docs/research/
+      - context-management/docs/research/
+
+      Part of TASK-104, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-100]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - research
+  - consolidation
+  - cleanup
+  - p1
+
+runs: []
+output: {}

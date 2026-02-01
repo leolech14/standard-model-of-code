@@ -1,0 +1,231 @@
+# TASK-101: Triage Untracked Python Tools
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-101
+title: "Triage and commit untracked Python tools"
+status: COMPLETE
+priority: P0
+domain: tools
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 85
+  # Evidence: 18 untracked .py files identified via git status
+  # Evidence: file_explorer.py is 314KB (substantial, likely active)
+  # Concern: Need to verify each file's purpose and activity
+
+  alignment: 95
+  # Evidence: Uncommitted code = invisible code = technical debt
+  # Evidence: Supports reproducibility and collaboration
+  # Evidence: Enables proper versioning and history
+
+  current: 80
+  # Evidence: Files exist and appear runnable
+  # Risk: May have undocumented dependencies
+  # Risk: Some may be experiments that should stay untracked
+
+  onwards: 90
+  # Evidence: Once tracked, can be properly maintained
+  # Evidence: Enables CI/CD integration
+  # Evidence: Enables code review
+
+  overall: 80  # min(85, 95, 80, 90)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  18 Python files are untracked across tools/ and context-management/tools/.
+  These include:
+  - file_explorer.py (314KB) - substantial GUI tool
+  - Multiple verification scripts
+  - AI integration tools
+  - Consolidation utilities (created by previous agents)
+
+  ## Solution
+  Classify each file and take appropriate action:
+  - ACTIVE: Commit to git with proper documentation
+  - EXPERIMENT: Move to tools/experiments/
+  - DEAD: Archive or delete
+
+  ## Classification Criteria
+  - Has docstring/module documentation?
+  - Has imports that resolve?
+  - Referenced elsewhere in codebase?
+  - Recently modified (within 7 days)?
+  - Part of known workflow?
+
+# =============================================================================
+# FILES TO TRIAGE
+# =============================================================================
+files:
+  tools_directory:
+    - path: "tools/file_explorer.py"
+      size: "314 KB"
+      likely: ACTIVE
+      reason: "Large, sophisticated GUI tool"
+
+    - path: "tools/file_scanner.py"
+      likely: ACTIVE
+      reason: "Supports file_explorer"
+
+    - path: "tools/file_viewer.py"
+      likely: ACTIVE
+      reason: "Supports file_explorer"
+
+    - path: "tools/fix_reader_links.py"
+      likely: EXPERIMENT
+      reason: "One-off migration script"
+
+    - path: "tools/generate_file_inventory.py"
+      likely: ACTIVE
+      reason: "Generates tools/file_inventory.csv"
+
+    - path: "tools/generate_reader_config.py"
+      likely: EXPERIMENT
+      reason: "One-off config generator"
+
+    - path: "tools/image_browser.py"
+      likely: ACTIVE
+      reason: "GUI tool for image scoring"
+
+    - path: "tools/score_reference_images.py"
+      likely: ACTIVE
+      reason: "Generates image_scores.csv"
+
+    - path: "tools/sync_to_notion.py"
+      likely: EXPERIMENT
+      reason: "Integration script"
+
+    - path: "tools/verify_counts.py"
+      likely: EXPERIMENT
+      reason: "Verification utility"
+
+    - path: "tools/verify_links.py"
+      likely: EXPERIMENT
+      reason: "Verification utility"
+
+    - path: "tools/verify_placeholders.py"
+      likely: EXPERIMENT
+      reason: "Verification utility"
+
+  context_management_tools:
+    - path: "context-management/tools/analyze_baseline.py"
+      likely: EXPERIMENT
+
+    - path: "context-management/tools/apply_consolidation.py"
+      likely: ACTIVE
+      reason: "Created for consolidation sprint"
+
+    - path: "context-management/tools/consolidation_dispatch.py"
+      likely: ACTIVE
+      reason: "Created for consolidation sprint"
+
+    - path: "context-management/tools/dispatch.py"
+      likely: ACTIVE
+      reason: "General dispatcher"
+
+    - path: "context-management/tools/sevocab.py"
+      likely: ACTIVE
+      reason: "SWEBOK vocabulary tool"
+
+    - path: "context-management/tools/ai/cerebras_zoo_compare.py"
+      likely: ACTIVE
+      reason: "AI comparison tool"
+
+    - path: "context-management/tools/ai/hf_space.py"
+      likely: ACTIVE
+      reason: "HuggingFace integration"
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "All 18 files classified with reasoning"
+  - "ACTIVE files committed with git add"
+  - "EXPERIMENT files moved to tools/experiments/"
+  - "DEAD files archived to archive/tools/"
+  - "No untracked .py files remaining in tools/ or context-management/tools/"
+  - "Commit message documents classification decisions"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "List all untracked Python files"
+    agent: Bash
+    command: "git status --porcelain | grep '??' | grep '\\.py$' | sort"
+
+  - id: 2
+    action: "Check each file for docstring and imports"
+    agent: Explore
+    prompt: |
+      For each untracked .py file:
+      1. Does it have a module docstring?
+      2. Do its imports resolve?
+      3. Is it referenced by other files?
+      4. When was it last modified?
+      Produce classification table.
+
+  - id: 3
+    action: "Create experiments directory if needed"
+    agent: Bash
+    command: "mkdir -p tools/experiments"
+
+  - id: 4
+    action: "Move experiment files"
+    agent: Bash
+    command: "mv tools/fix_reader_links.py tools/experiments/ # etc"
+
+  - id: 5
+    action: "Stage active files"
+    agent: Bash
+    command: "git add tools/file_explorer.py tools/file_scanner.py # etc"
+
+  - id: 6
+    action: "Commit with classification summary"
+    agent: Bash
+    command: |
+      git commit -m "chore(tools): Triage and commit untracked Python tools
+
+      Classification of 18 untracked .py files:
+
+      ACTIVE (committed):
+      - tools/file_explorer.py (314KB GUI)
+      - tools/file_scanner.py
+      - [list others]
+
+      EXPERIMENT (moved to tools/experiments/):
+      - tools/fix_reader_links.py
+      - [list others]
+
+      Part of TASK-101, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-100]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - tools
+  - python
+  - triage
+  - consolidation
+  - p0
+
+runs: []
+output: {}

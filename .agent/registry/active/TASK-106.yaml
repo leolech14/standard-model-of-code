@@ -1,0 +1,226 @@
+# TASK-106: Standardize Archive Naming
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-106
+title: "Standardize archive naming (3 patterns to 1)"
+status: COMPLETE
+priority: P2
+domain: cleanup
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 90
+  # Evidence: 3 different archive patterns found
+  # Evidence: archive/ (visible), .archive/ (hidden), nested docs/archive/
+  # Concern: Some hidden archives may be intentionally hidden
+
+  alignment: 90
+  # Evidence: Consistent naming reduces cognitive load
+  # Evidence: Single archive location is standard practice
+  # Minor concern: Some projects prefer per-module archives
+
+  current: 80
+  # Evidence: Archives contain historical data, low dependency risk
+  # Risk: .archive/ hidden pattern may be intentional for tooling
+  # Evidence: Can preserve hidden status with symlinks if needed
+
+  onwards: 85
+  # Evidence: Single archive pattern is maintainable
+  # Evidence: Easier to exclude from searches/indexes
+  # Evidence: Clearer for cleanup automation
+
+  overall: 80  # min(90, 90, 80, 85)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  3 different archive naming patterns exist:
+  1. archive/ (visible, unqualified)
+  2. .archive/ (hidden with dot prefix)
+  3. docs/archive/ (nested within docs)
+
+  This causes:
+  - Inconsistent discoverability
+  - Confusion about which pattern to use for new archives
+  - Difficulty in cleanup automation
+
+  ## Solution
+  Standardize to single visible archive/ at repository root.
+  Subdirectories by source: smc/, cm/, tools/
+
+  archive/
+  ├── smc/        # standard-model-of-code archives
+  ├── cm/         # context-management archives
+  ├── tools/      # tools archives
+  └── INDEX.md
+
+# =============================================================================
+# DIRECTORIES TO CONSOLIDATE
+# =============================================================================
+directories:
+  - pattern: "archive/"
+    locations:
+      - "standard-model-of-code/archive/"
+      - "context-management/archive/"
+    target: "archive/"
+
+  - pattern: ".archive/"
+    locations:
+      - "standard-model-of-code/.archive/"
+    target: "archive/smc/"
+
+  - pattern: "docs/archive/"
+    locations:
+      - "context-management/docs/archive/"
+      - "context-management/docs/theory/archive/"
+    target: "archive/cm/"
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "Single archive/ directory at project root"
+  - "Subdirectories by source (smc/, cm/, tools/)"
+  - "All archived content preserved"
+  - "Old archive locations removed"
+  - "find . -type d -name 'archive' returns 1 result"
+  - "find . -type d -name '.archive' returns 0 results"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Create unified archive structure"
+    agent: Bash
+    command: |
+      mkdir -p archive/{smc,cm,tools}
+
+  - id: 2
+    action: "Move standard-model-of-code archives"
+    agent: Bash
+    command: |
+      # Move hidden .archive
+      mv standard-model-of-code/.archive/* archive/smc/ 2>/dev/null || true
+
+      # Move visible archive
+      mv standard-model-of-code/archive/* archive/smc/ 2>/dev/null || true
+
+  - id: 3
+    action: "Move context-management archives"
+    agent: Bash
+    command: |
+      mv context-management/archive/* archive/cm/ 2>/dev/null || true
+      mv context-management/docs/archive/* archive/cm/ 2>/dev/null || true
+      mv context-management/docs/theory/archive/* archive/cm/ 2>/dev/null || true
+
+  - id: 4
+    action: "Create INDEX.md"
+    agent: Write
+    file: "archive/INDEX.md"
+    content: |
+      # Archive
+
+      Historical and deprecated content preserved for reference.
+
+      ## Structure
+
+      ### [smc/](./smc/)
+      Archives from standard-model-of-code/
+      - Legacy experiments
+      - Deprecated schemas
+      - Historical documentation
+
+      ### [cm/](./cm/)
+      Archives from context-management/
+      - Old tooling
+      - Deprecated configs
+      - Historical reports
+
+      ### [tools/](./tools/)
+      Archived tools and utilities
+      - Deprecated scripts
+      - Legacy experiments
+
+      ## Policy
+
+      Archives are kept for:
+      - Reference when understanding historical decisions
+      - Recovery if needed
+      - Learning from past approaches
+
+      Archives are NOT:
+      - Actively maintained
+      - Included in searches by default
+      - Part of the current codebase
+
+      ---
+      Consolidated: 2026-01-31 (TASK-106)
+
+  - id: 5
+    action: "Remove old archive directories"
+    agent: Bash
+    command: |
+      rm -rf standard-model-of-code/.archive/
+      rm -rf standard-model-of-code/archive/
+      rm -rf context-management/archive/
+      rm -rf context-management/docs/archive/
+      rm -rf context-management/docs/theory/archive/
+
+  - id: 6
+    action: "Verify consolidation"
+    agent: Bash
+    command: |
+      echo "Archive directories:"
+      find . -type d \( -name 'archive' -o -name '.archive' \) 2>/dev/null | grep -v node_modules
+      echo ""
+      echo "Archive contents:"
+      ls -la archive/
+
+  - id: 7
+    action: "Commit consolidation"
+    agent: Bash
+    command: |
+      git add archive/
+      git add -u
+      git commit -m "chore(archive): Standardize archive naming (3 patterns to 1)
+
+      Consolidated all archives to archive/ at root:
+      - archive/smc/ (from standard-model-of-code)
+      - archive/cm/ (from context-management)
+      - archive/tools/ (for future use)
+
+      Removed patterns:
+      - .archive/ (hidden)
+      - archive/ (per-module)
+      - docs/archive/ (nested)
+
+      Part of TASK-106, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-103, TASK-104, TASK-105]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - archive
+  - consolidation
+  - cleanup
+  - p2
+
+runs: []
+output: {}

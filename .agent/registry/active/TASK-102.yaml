@@ -1,0 +1,172 @@
+# TASK-102: Move Large Files to GCS
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-102
+title: "Move large files to GCS archive bucket"
+status: COMPLETE
+priority: P0
+domain: infrastructure
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 100
+  # Evidence: swebok-v4.pdf exists at root (visible in git status)
+  # Evidence: SMC_THEORY_COMPLETE*.zip exists at root
+  # Evidence: GCS bucket configured in manifest.yaml: gs://elements-archive-2026/
+
+  alignment: 100
+  # Evidence: Large files bloat git history permanently
+  # Evidence: 6GB PDF should not be in git
+  # Evidence: GCS is designed for large file storage
+
+  current: 95
+  # Evidence: gsutil is available (gcloud SDK installed)
+  # Concern: Need to verify GCS auth is current
+  # Evidence: Bucket exists per CLAUDE.md
+
+  onwards: 100
+  # Evidence: Industry standard for large artifacts
+  # Evidence: Keeps repo cloneable/fast
+  # Evidence: Enables collaboration without bandwidth issues
+
+  overall: 95  # min(100, 100, 95, 100)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  Large files at repository root:
+  - swebok-v4.pdf (~6GB) - SWEBOK reference document
+  - SMC_THEORY_COMPLETE_2026-01-31.zip (367MB) - Theory archive
+
+  These files:
+  - Bloat git history permanently if committed
+  - Slow down clone/pull operations
+  - Exceed GitHub file size limits
+
+  ## Solution
+  Upload to GCS bucket and add to .gitignore.
+
+  ## GCS Configuration
+  Bucket: gs://elements-archive-2026/
+  Path: large-files/
+  Project: elements-archive-2026 (leonardolech3@gmail.com)
+
+# =============================================================================
+# FILES TO MOVE
+# =============================================================================
+files:
+  - name: "swebok-v4.pdf"
+    size_estimate: "6GB"
+    destination: "gs://elements-archive-2026/large-files/swebok-v4.pdf"
+
+  - name: "SMC_THEORY_COMPLETE_2026-01-31.zip"
+    size_estimate: "367MB"
+    destination: "gs://elements-archive-2026/large-files/SMC_THEORY_COMPLETE_2026-01-31.zip"
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - "Files uploaded to GCS successfully"
+  - "gsutil ls shows files in bucket"
+  - "Patterns added to .gitignore"
+  - "git status no longer shows these files"
+  - "Optional: Local copies removed or kept as reference"
+
+# =============================================================================
+# IMPLEMENTATION STEPS
+# =============================================================================
+steps:
+  - id: 1
+    action: "Verify GCS authentication"
+    agent: Bash
+    command: |
+      gcloud auth list
+      gsutil ls gs://elements-archive-2026/
+
+  - id: 2
+    action: "Upload swebok PDF"
+    agent: Bash
+    command: |
+      gsutil -m cp swebok-v4.pdf gs://elements-archive-2026/large-files/
+    timeout: 600000  # 10 minutes for large file
+
+  - id: 3
+    action: "Upload theory archive"
+    agent: Bash
+    command: |
+      gsutil -m cp SMC_THEORY_COMPLETE*.zip gs://elements-archive-2026/large-files/
+
+  - id: 4
+    action: "Verify uploads"
+    agent: Bash
+    command: |
+      gsutil ls -l gs://elements-archive-2026/large-files/
+
+  - id: 5
+    action: "Update .gitignore"
+    agent: Edit
+    file: ".gitignore"
+    append: |
+      # Large files (stored in gs://elements-archive-2026/large-files/)
+      swebok-v4.pdf
+      SMC_THEORY_COMPLETE*.zip
+
+  - id: 6
+    action: "Optional: Remove local copies"
+    agent: Bash
+    command: |
+      # User choice - uncomment to remove local copies
+      # rm swebok-v4.pdf SMC_THEORY_COMPLETE*.zip
+      echo "Local copies retained. Remove manually if desired."
+
+  - id: 7
+    action: "Commit .gitignore update"
+    agent: Bash
+    command: |
+      git add .gitignore
+      git commit -m "chore(gitignore): Add large file patterns, files moved to GCS
+
+      Files archived to gs://elements-archive-2026/large-files/:
+      - swebok-v4.pdf (6GB)
+      - SMC_THEORY_COMPLETE_2026-01-31.zip (367MB)
+
+      Part of TASK-102, BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# ROLLBACK PROCEDURE
+# =============================================================================
+rollback: |
+  If GCS upload fails or needs reverting:
+  1. gsutil cp gs://elements-archive-2026/large-files/<file> ./
+  2. Remove patterns from .gitignore
+  3. git add <file>
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: []
+blocked_by: [TASK-100]
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - gcs
+  - large-files
+  - infrastructure
+  - consolidation
+  - p0
+
+runs: []
+output: {}

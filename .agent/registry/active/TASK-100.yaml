@@ -1,0 +1,152 @@
+# TASK-100: Gitignore Hardening
+# Batch: BATCH-CONSOLIDATION-2026-01-31
+# Created: 2026-01-31T15:00:00Z
+
+id: TASK-100
+title: "Add missing patterns to .gitignore"
+status: COMPLETE
+priority: P0
+domain: infrastructure
+
+# =============================================================================
+# 4D CONFIDENCE ASSESSMENT
+# =============================================================================
+confidence:
+  factual: 100
+  # Evidence: Git status shows 292 untracked files
+  # Evidence: Large files at root (swebok-v4.pdf, *.zip)
+  # Evidence: .gitignore exists and is editable
+
+  alignment: 100
+  # Evidence: Follows .gitignore best practices
+  # Evidence: Prevents accidental large file commits
+  # Evidence: Enables reproducible builds
+
+  current: 100
+  # Evidence: .gitignore exists, append-only change
+  # Evidence: No tracked files affected
+  # Evidence: Immediate effect on git status
+
+  onwards: 100
+  # Evidence: Industry standard approach
+  # Evidence: Prerequisite for all other consolidation tasks
+  # Evidence: Reversible if needed
+
+  overall: 100  # min(100, 100, 100, 100)
+
+verdict: ACCEPT
+
+# =============================================================================
+# DESCRIPTION
+# =============================================================================
+description: |
+  ## Problem
+  Git status shows 292+ untracked files including:
+  - Research raw JSON and session files (ephemeral)
+  - Log files across multiple directories
+  - Large generated files (PDF, ZIP)
+  - CSV inventories that can be regenerated
+  - Agent intelligence ephemeral outputs
+
+  ## Solution
+  Add comprehensive .gitignore patterns to exclude ephemeral/generated content.
+
+  ## Impact
+  - Unblocks all subsequent consolidation tasks
+  - Reduces git status noise immediately
+  - Prevents accidental commits of large files
+
+# =============================================================================
+# ACCEPTANCE CRITERIA
+# =============================================================================
+acceptance_criteria:
+  - ".gitignore includes all consolidation patterns"
+  - "git status --porcelain count reduced by 50%+"
+  - "Large files (*.pdf, *.zip) no longer shown as untracked"
+  - "Research raw/sessions directories ignored"
+  - "Log directories ignored"
+  - "No tracked files accidentally untracked"
+
+# =============================================================================
+# IMPLEMENTATION
+# =============================================================================
+patterns_to_add: |
+  # =============================================================================
+  # Consolidation patterns (2026-01-31)
+  # =============================================================================
+
+  # Research ephemeral data (keep docs/, ignore raw/ and sessions/)
+  research/raw/
+  research/sessions/
+  **/research/raw/
+  **/research/sessions/
+
+  # Log files across all directories
+  **/logs/**
+  *.log
+
+  # Large generated files (PDFs kept in docs/ only)
+  *.pdf
+  !docs/**/*.pdf
+
+  # Archives and zips
+  *.zip
+  *.tar.gz
+
+  # Tool-generated inventories
+  tools/*.csv
+
+  # Agent ephemeral outputs
+  .agent/intelligence/autopilot_logs/
+  .agent/intelligence/confidence_reports/
+  .agent/macros/logs/
+
+steps:
+  - id: 1
+    action: "Read current .gitignore"
+    command: "cat .gitignore"
+
+  - id: 2
+    action: "Append consolidation patterns"
+    command: "Edit .gitignore with patterns_to_add"
+
+  - id: 3
+    action: "Verify patterns work"
+    command: "git status --porcelain | wc -l"
+
+  - id: 4
+    action: "Commit .gitignore update"
+    command: |
+      git add .gitignore
+      git commit -m "chore(gitignore): Add consolidation patterns
+
+      Patterns added for:
+      - Research raw/sessions (ephemeral)
+      - Log directories
+      - Large files (PDF, ZIP)
+      - Tool CSVs (regeneratable)
+      - Agent ephemeral outputs
+
+      Part of BATCH-CONSOLIDATION-2026-01-31
+
+      Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+blocks: [TASK-101, TASK-102, TASK-103, TASK-104, TASK-105, TASK-106]
+blocked_by: []
+
+created: "2026-01-31T15:00:00Z"
+updated: "2026-01-31T15:00:00Z"
+batch: BATCH-CONSOLIDATION-2026-01-31
+
+tags:
+  - gitignore
+  - infrastructure
+  - consolidation
+  - p0
+  - quick-win
+
+runs: []
+output: {}

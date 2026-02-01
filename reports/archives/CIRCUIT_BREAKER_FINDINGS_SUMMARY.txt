@@ -1,0 +1,149 @@
+CIRCUIT BREAKER MODULE - COMPLETENESS ANALYSIS SUMMARY
+======================================================
+Date: 2026-01-25
+File: src/core/viz/assets/modules/circuit-breaker.js
+
+METRICS
+=======
+Lines of Code:          1,903
+Test Definitions:       87 (90 counting internal functions)
+Categories:             9
+Test Types:             8 (slider, button, toggle, module, display, element, input, select)
+
+DISTRIBUTION BY TYPE
+====================
+Sliders:                20 tests (22% of total)
+Buttons:                34 tests (39% of total)
+Toggles:                7 tests (8% of total)
+Modules:                21 tests (24% of total)
+Display/UI:             4 tests (4%)
+Elements:               2 tests (2%)
+
+COVERAGE ASSESSMENT
+===================
+Schema Defines:         78 controls
+Circuit Breaker Tests:  87 tests
+Control Test Coverage:  56/78 controls = 72%
+Functional Validity:    50% (some tests have validation bugs)
+
+COVERAGE BY PRIORITY
+====================
+P0 (Essential):         12/18 = 67% PARTIAL
+P1 (Important):         24/32 = 75% GOOD
+P2 (Nice-to-have):      20/28 = 71% GOOD
+Framework Modules:      21/21 = 100% COMPLETE
+
+CRITICAL ISSUES (3)
+===================
+1. toggle-arrows test always passes (line 272)
+   - Validation logic error: always true
+   - Severity: HIGH
+
+2. physics-charge tests wrong state (line 302)
+   - Tests PHYSICS_STATE which is never updated
+   - Should call Graph API directly
+   - Severity: HIGH
+
+3. dimension-toggle wrong element ID (line 356)
+   - Tests #btn-dimension (doesn't exist)
+   - Should test #btn-2d (actual element)
+   - Severity: MEDIUM
+
+UNTESTED CONTROLS (P0/P1 Priority)
+==================================
+- node-color-mode dropdown (P0)
+- edge-mode dropdown (P0)
+- layout-preset buttons (P0) - 6 variants
+- node-size-mode buttons (P1)
+- color-preset buttons (P1) - 6 variants
+
+CODE QUALITY SCORES
+===================
+Documentation:          95/100 (excellent)
+Diagnostic tools:       95/100 (traceBinding is solid)
+Validation logic:       80/100 (some false positives)
+Effect verification:    40/100 (checks state, not visual output)
+Error handling:         95/100 (comprehensive)
+Overall:                80/100 GOOD with caveats
+
+ARCHITECTURAL ISSUES (1 Critical)
+=================================
+Circular state management:
+- Multiple handlers update same Graph properties
+- No coordination between APPEARANCE_STATE/PHYSICS_STATE/VIS_STATE
+- Controls fight each other
+- Not testable in current design
+Severity: CRITICAL (architectural, not just Circuit Breaker)
+
+VALIDATION COVERAGE
+===================
+State path mapping:     85% accurate
+Element binding:        80% accurate
+Module existence:       100% accurate
+Effect verification:    40% (missing visual validation)
+
+WHAT'S WORKING
+==============
+✓ All 20 slider tests (opacity, width, size, curvature)
+✓ All 21 module-loaded framework checks
+✓ All export format tests (PNG, JSON, SVG, embed)
+✓ All selection mode buttons
+✓ All visibility and stat panel tests
+✓ Diagnostic infrastructure (traceBinding, getStateValue)
+
+WHAT'S BROKEN
+=============
+✗ toggle-arrows validation (false positive)
+✗ physics-charge validation (wrong state path)
+✗ dimension-toggle element ID (phantom element)
+✗ Layout presets untested (6 controls)
+✗ Color presets untested (6 controls)
+✗ Node color/size mode untested (2 controls)
+
+NEXT ACTIONS (Priority Order)
+=============================
+IMMEDIATE (1-2 hours)
+1. Fix toggle-arrows validation (line 272)
+2. Fix physics-charge to use Graph API (line 302)
+3. Fix dimension-toggle element ID (line 356)
+
+SHORT TERM (this sprint)
+4. Add effect verification (spy on Graph methods)
+5. Add P0 control tests (color mode, edge mode, layouts)
+6. Add timing/timeout control per test
+
+MEDIUM TERM (next month)
+7. Implement parameterized tests for button groups
+8. Add visual regression testing (screenshots)
+9. Create control discovery from template.html
+
+ARCHITECTURAL (design review)
+10. Unify state management (consolidate 3 state objects)
+11. Implement single effect bus (all Graph updates coordinated)
+
+RISK ASSESSMENT
+===============
+Test Coverage:          MEDIUM RISK (50% of controls untested)
+Validation Accuracy:    MEDIUM RISK (3 broken tests, false positives)
+Architectural:          HIGH RISK (circular state, fights between handlers)
+Overall:                MEDIUM RISK (module works, but incomplete)
+
+COMPLETENESS RATING
+===================
+Implementation:         70% complete
+Functional Validity:    50% effective
+Specification Coverage: 72% of defined controls
+Framework Support:      100% (modules all detected)
+Overall:                65% INCOMPLETE WITH CAVEATS
+
+CONCLUSION
+==========
+The Circuit Breaker module is operationally mature but contains validation
+errors and missing coverage for ~30% of UI controls. The module is excellent
+for framework/module validation but weak for visual effect verification.
+
+Status: FUNCTIONAL BUT NOT PRODUCTION-READY
+Recommendation: Fix 3 critical bugs, expand P0 coverage, then promote to validated.
+
+Generated: 2026-01-25 by Claude Code CLI (Haiku 4.5)
+Full analysis: docs/reports/CIRCUIT_BREAKER_COMPLETENESS_ANALYSIS.md
