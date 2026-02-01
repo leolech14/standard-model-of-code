@@ -8,7 +8,17 @@ const REFINERY_DIR = path.join(PROJECT_ROOT, '.agent', 'intelligence', 'chunks')
 export async function getColliderGraph() {
     try {
         const data = fs.readFileSync(COLLIDER_OUTPUT, 'utf8');
-        return JSON.parse(data);
+        const parsed = JSON.parse(data);
+
+        // Filter edges that reference missing nodes (external dependencies)
+        if (parsed.nodes && parsed.edges) {
+            const nodeIds = new Set(parsed.nodes.map((n: any) => n.id));
+            parsed.edges = parsed.edges.filter((e: any) =>
+                nodeIds.has(e.source) && nodeIds.has(e.target)
+            );
+        }
+
+        return parsed;
     } catch (error) {
         console.error('Error loading Collider graph:', error);
         return null;
