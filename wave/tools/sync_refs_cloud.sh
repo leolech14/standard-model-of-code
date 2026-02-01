@@ -6,7 +6,7 @@ set -e
 
 PROJECT="elements-archive-2026"
 BUCKET="gs://${PROJECT}/references"
-LOCAL="/Users/lech/PROJECTS_all/PROJECT_elements/context-management/docs/theory/references"
+LOCAL="/Users/lech/PROJECTS_all/PROJECT_elements/wave/library/references"
 
 echo "=== SYNCING REFERENCE LIBRARY TO GCS ==="
 echo "Local:  $LOCAL"

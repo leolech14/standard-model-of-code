@@ -1,0 +1,94 @@
+# =============================================================================
+# SERVICE REGISTRY - Runtime Service & Integration Health Tracking
+# =============================================================================
+# Unlike TOOLS_REGISTRY (invocation patterns), this tracks LIVE service status.
+#
+# Schema: service_registry_v1
+# Updated: 2026-02-01
+# =============================================================================
+
+version: "1.0.0"
+schema: "service_registry_v1"
+
+# =============================================================================
+# DAEMONS / BACKGROUND SERVICES
+# =============================================================================
+daemons:
+  hsl_daemon:
+    name: "Headless Semantic Loader"
+    description: "Background service for semantic model loading and activity watching"
+    entry_point: "wave/tools/activity_watcher.py"
+    log_stdout: "wave/intelligence/logs/hsl_daemon_stdout.log"
+    log_stderr: "wave/intelligence/logs/hsl_daemon_stderr.log"
+    status: "UNKNOWN"  # Will be updated by health check
+    health_check: "process_running"
+
+# =============================================================================
+# CLOUD INTEGRATIONS
+# =============================================================================
+cloud:
+  gcs_archive:
+    name: "Google Cloud Storage Archive"
+    description: "Large file offloading to GCS bucket"
+    tool_path: "wave/tools/archive/archive.py"
+    bucket: "gs://elements-archive-2026"
+    required_auth: "gcloud auth application-default login"
+    status: "UNKNOWN"
+    health_check: "config_valid"
+
+  neo4j:
+    name: "Neo4j Graph Database"
+    description: "Graph persistence for Codome/Contextome"
+    tool_path: "wave/tools/graphrag/graph_analytics.py"
+    uri: "bolt://localhost:7687"
+    env_vars: ["NEO4J_URI", "NEO4J_USER", "NEO4J_PASSWORD"]
+    status: "UNKNOWN"
+    health_check: "socket_reachable"
+
+# =============================================================================
+# API PROVIDERS
+# =============================================================================
+api_providers:
+  gemini:
+    name: "Google Gemini"
+    description: "Primary AI analysis backend"
+    tool_path: "wave/tools/ai/analyze.py"
+    env_vars: ["GEMINI_API_KEY", "GOOGLE_API_KEY"]
+    status: "UNKNOWN"
+    health_check: "env_var_present"
+
+  cerebras:
+    name: "Cerebras Inference"
+    description: "Fast inference (3000 t/s) for enrichment"
+    tool_path: "wave/tools/ai/cerebras_*.py"
+    env_vars: ["CEREBRAS_API_KEY"]
+    status: "UNKNOWN"
+    health_check: "env_var_present"
+
+  perplexity:
+    name: "Perplexity AI"
+    description: "Research and web search"
+    tool_path: "wave/tools/ai/perplexity_research.py"
+    env_vars: ["PERPLEXITY_API_KEY"]
+    status: "UNKNOWN"
+    health_check: "env_var_present"
+
+  huggingface:
+    name: "HuggingFace"
+    description: "Model hosting and Spaces"
+    tool_path: "wave/tools/ai/hf_space.py"
+    env_vars: ["HF_TOKEN"]
+    status: "UNKNOWN"
+    health_check: "env_var_present"
+
+# =============================================================================
+# PIPELINES
+# =============================================================================
+pipelines:
+  refinery:
+    name: "Refinery Pipeline"
+    description: "Context processing and chunk generation"
+    tool_path: "wave/tools/refinery/pipeline.py"
+    output_dir: "wave/intelligence/"
+    status: "UNKNOWN"
+    health_check: "last_run_check"

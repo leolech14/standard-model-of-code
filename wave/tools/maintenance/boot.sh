@@ -1,7 +1,7 @@
 #!/bin/bash
 # Agent Boot Script
 # Generates INITIATION_REPORT for agent sessions
-# Usage: bash context-management/tools/maintenance/boot.sh [--json]
+# Usage: bash wave/tools/maintenance/boot.sh [--json]
 #
 # Flags:
 #   --json    Output only JSON (no decorative text)
@@ -122,12 +122,12 @@ detect_command() {
 }
 
 # PROJECT_elements specific overrides (check for collider)
-if [ -f "$REPO_ROOT/collider" ] || [ -f "$REPO_ROOT/standard-model-of-code/cli.py" ]; then
+if [ -f "$REPO_ROOT/collider" ] || [ -f "$REPO_ROOT/particle/cli.py" ]; then
     # This is PROJECT_elements - use known commands
-    TEST_CMD="cd standard-model-of-code && pytest tests/ -q"
-    LINT_CMD="cd standard-model-of-code && ruff check src/"
-    FORMAT_CMD="cd standard-model-of-code && black src/ --check"
-    BUILD_CMD="cd standard-model-of-code && pip install -e ."
+    TEST_CMD="cd particle && pytest tests/ -q"
+    LINT_CMD="cd particle && ruff check src/"
+    FORMAT_CMD="cd particle && black src/ --check"
+    BUILD_CMD="cd particle && pip install -e ."
     RUN_CMD="./collider full <path> --output <dir>"
 else
     # Generic detection
@@ -188,7 +188,7 @@ if [ "$JSON_ONLY" = false ]; then
     echo ""
 
     # Run boundary analyzer if available (PROJECT_elements only)
-    BOUNDARY_ANALYZER="$REPO_ROOT/context-management/tools/maintenance/boundary_analyzer.py"
+    BOUNDARY_ANALYZER="$REPO_ROOT/wave/tools/ai/boundary_analyzer.py"
     if [ -f "$BOUNDARY_ANALYZER" ]; then
         echo "Running boundary analyzer..."
         python3 "$BOUNDARY_ANALYZER" --save --threshold 60 2>/dev/null || {
@@ -198,7 +198,7 @@ if [ "$JSON_ONLY" = false ]; then
     fi
 
     # Run Gemini status if available
-    GEMINI_STATUS="$REPO_ROOT/context-management/tools/ai/gemini_status.py"
+    GEMINI_STATUS="$REPO_ROOT/wave/tools/ai/gemini_status.py"
     if [ -f "$GEMINI_STATUS" ]; then
         echo "Checking Gemini API status..."
         python3 "$GEMINI_STATUS" --quick 2>/dev/null && echo "  ✓ Gemini API OK" || echo "  ⚠️  Gemini API issues detected"
@@ -207,7 +207,7 @@ if [ "$JSON_ONLY" = false ]; then
 
     # Show Decision Deck - available certified moves
     echo "=== DECISION DECK (Certified Moves) ==="
-    DECK_ROUTER="$REPO_ROOT/context-management/tools/ai/deck/deck_router.py"
+    DECK_ROUTER="$REPO_ROOT/wave/tools/ai/deck/deck_router.py"
     if [ -f "$DECK_ROUTER" ]; then
         python3 "$DECK_ROUTER" deal 2>/dev/null | head -15 || echo "  (deck not loaded)"
     fi
