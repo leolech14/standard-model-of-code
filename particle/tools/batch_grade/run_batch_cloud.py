@@ -163,16 +163,19 @@ def grade_repo(repo: dict, work_dir: Path) -> dict:
             result["error"] = "Clone timed out after 60s"
             return result
 
-        # Grade with process group isolation for clean timeout kill
-        grade_cmd = [
+        # Full analysis (not grade!) - produces unified_analysis.json
+        output_dir = repo_dir / ".collider"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        full_cmd = [
             sys.executable,
             str(COLLIDER_ROOT / "cli.py"),
-            "grade",
+            "full",
             str(repo_dir),
-            "--json"
+            "--output",
+            str(output_dir)
         ]
-        grade_proc = subprocess.Popen(
-            grade_cmd,
+        full_proc = subprocess.Popen(
+            full_cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -181,53 +184,72 @@ def grade_repo(repo: dict, work_dir: Path) -> dict:
             start_new_session=True  # Process group isolation
         )
         try:
-            grade_stdout, grade_stderr = grade_proc.communicate(timeout=TIMEOUT_PER_REPO)
-            if grade_proc.returncode != 0:
-                result["status"] = "grade_failed"
-                result["error"] = grade_stderr[:200]
+            full_stdout, full_stderr = full_proc.communicate(timeout=TIMEOUT_PER_REPO)
+            if full_proc.returncode != 0:
+                result["status"] = "analysis_failed"
+                result["error"] = full_stderr[:200]
                 return result
         except subprocess.TimeoutExpired:
             # Kill entire process group (including any child processes)
-            os.killpg(os.getpgid(grade_proc.pid), signal.SIGKILL)
-            grade_proc.wait()
+            os.killpg(os.getpgid(full_proc.pid), signal.SIGKILL)
+            full_proc.wait()
             result["status"] = "timeout"
             result["error"] = f"Exceeded {TIMEOUT_PER_REPO}s timeout (killed process group)"
             return result
 
-        # Parse JSON from grade output
-        stdout = grade_stdout
-        json_start = stdout.find('{\n  "path"')
-        if json_start == -1:
-            json_start = stdout.find('{')
+        # Verify unified_analysis.json was created (CRITICAL - this is the DoD)
+        unified_file = output_dir / "unified_analysis.json"
+        if not unified_file.exists():
+            result["status"] = "output_missing"
+            result["error"] = "unified_analysis.json not created"
+            return result
 
-        if json_start >= 0:
-            brace_count = 0
-            json_end = json_start
-            for i, char in enumerate(stdout[json_start:], json_start):
-                if char == '{':
-                    brace_count += 1
-                elif char == '}':
-                    brace_count -= 1
-                    if brace_count == 0:
-                        json_end = i + 1
-                        break
+        # Load and validate the full analysis
+        with open(unified_file) as f:
+            analysis_data = json.load(f)
 
-            json_str = stdout[json_start:json_end]
-            grade_data = json.loads(json_str) if json_str else None
-        else:
-            grade_data = None
+        nodes = analysis_data.get("nodes", [])
+        edges = analysis_data.get("edges", [])
 
-        if grade_data:
-            result["status"] = "success"
-            result["grade"] = grade_data.get("grade")
-            result["health_index"] = grade_data.get("health_index")
-            result["component_scores"] = grade_data.get("component_scores")
-            result["nodes"] = grade_data.get("nodes")
-            result["edges"] = grade_data.get("edges")
-            result["betti"] = grade_data.get("betti")
-        else:
-            result["status"] = "parse_failed"
-            result["error"] = "Could not parse JSON output"
+        if len(nodes) == 0:
+            result["status"] = "empty_analysis"
+            result["error"] = "Analysis produced 0 nodes"
+            return result
+
+        result["status"] = "success"
+        result["nodes"] = len(nodes)
+        result["edges"] = len(edges)
+        result["output_size_bytes"] = unified_file.stat().st_size
+
+        # Upload the full analysis to GCS (only if explicitly enabled)
+        if os.environ.get("UPLOAD_FULL_SCANS_TO_GCS") == "1":
+            gcs_analysis_path = f"full_scans/{RUN_ID}/{name.replace('/', '_')}/unified_analysis.json"
+            upload_to_gcs(unified_file, gcs_analysis_path)
+
+        # Also run grade for summary metrics (quick)
+        grade_cmd = [sys.executable, str(COLLIDER_ROOT / "cli.py"), "grade", str(repo_dir), "--json"]
+        try:
+            grade_result = subprocess.run(grade_cmd, capture_output=True, text=True, timeout=30, cwd=str(COLLIDER_ROOT))
+            if grade_result.returncode == 0:
+                stdout = grade_result.stdout
+                json_start = stdout.find('{')
+                if json_start >= 0:
+                    brace_count = 0
+                    json_end = json_start
+                    for i, char in enumerate(stdout[json_start:], json_start):
+                        if char == '{': brace_count += 1
+                        elif char == '}':
+                            brace_count -= 1
+                            if brace_count == 0:
+                                json_end = i + 1
+                                break
+                    grade_data = json.loads(stdout[json_start:json_end])
+                    result["grade"] = grade_data.get("grade")
+                    result["health_index"] = grade_data.get("health_index")
+                    result["component_scores"] = grade_data.get("component_scores")
+                    result["betti"] = grade_data.get("betti")
+        except Exception:
+            pass  # Grade is supplemental, not critical
 
     except subprocess.TimeoutExpired:
         result["status"] = "timeout"

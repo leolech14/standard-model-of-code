@@ -84,40 +84,66 @@ def grade_repo(args: tuple) -> dict:
             result["error"] = clone_result.stderr[:200]
             return result
 
-        # Grade
-        grade_result = subprocess.run(
-            [sys.executable, str(COLLIDER_ROOT / "cli.py"), "grade", str(repo_dir), "--json"],
+        # Full analysis (not grade!) - produces unified_analysis.json
+        output_dir = repo_dir / ".collider"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        full_result = subprocess.run(
+            [sys.executable, str(COLLIDER_ROOT / "cli.py"), "full", str(repo_dir), "--output", str(output_dir)],
             capture_output=True, text=True, timeout=timeout, cwd=str(COLLIDER_ROOT)
         )
 
-        if grade_result.returncode != 0:
-            result["status"] = "grade_failed"
-            result["error"] = grade_result.stderr[:200]
+        if full_result.returncode != 0:
+            result["status"] = "analysis_failed"
+            result["error"] = full_result.stderr[:200]
             return result
 
-        # Parse JSON
-        stdout = grade_result.stdout
-        json_start = stdout.find('{')
-        if json_start >= 0:
-            brace_count = 0
-            json_end = json_start
-            for i, char in enumerate(stdout[json_start:], json_start):
-                if char == '{': brace_count += 1
-                elif char == '}':
-                    brace_count -= 1
-                    if brace_count == 0:
-                        json_end = i + 1
-                        break
-            grade_data = json.loads(stdout[json_start:json_end])
-            result["status"] = "success"
-            result["grade"] = grade_data.get("grade")
-            result["health_index"] = grade_data.get("health_index")
-            result["component_scores"] = grade_data.get("component_scores")
-            result["nodes"] = grade_data.get("nodes")
-            result["edges"] = grade_data.get("edges")
-        else:
-            result["status"] = "parse_failed"
-            result["error"] = "No JSON in output"
+        # Verify unified_analysis.json was created (CRITICAL - this is the DoD)
+        unified_file = output_dir / "unified_analysis.json"
+        if not unified_file.exists():
+            result["status"] = "output_missing"
+            result["error"] = "unified_analysis.json not created"
+            return result
+
+        # Load and validate the full analysis
+        with open(unified_file) as f:
+            analysis_data = json.load(f)
+
+        nodes = analysis_data.get("nodes", [])
+        edges = analysis_data.get("edges", [])
+
+        if len(nodes) == 0:
+            result["status"] = "empty_analysis"
+            result["error"] = "Analysis produced 0 nodes"
+            return result
+
+        result["status"] = "success"
+        result["nodes"] = len(nodes)
+        result["edges"] = len(edges)
+        result["output_file"] = str(unified_file)
+        result["output_size_bytes"] = unified_file.stat().st_size
+
+        # Also run grade for the summary metrics (quick, uses cached data)
+        grade_result = subprocess.run(
+            [sys.executable, str(COLLIDER_ROOT / "cli.py"), "grade", str(repo_dir), "--json"],
+            capture_output=True, text=True, timeout=30, cwd=str(COLLIDER_ROOT)
+        )
+        if grade_result.returncode == 0:
+            stdout = grade_result.stdout
+            json_start = stdout.find('{')
+            if json_start >= 0:
+                brace_count = 0
+                json_end = json_start
+                for i, char in enumerate(stdout[json_start:], json_start):
+                    if char == '{': brace_count += 1
+                    elif char == '}':
+                        brace_count -= 1
+                        if brace_count == 0:
+                            json_end = i + 1
+                            break
+                grade_data = json.loads(stdout[json_start:json_end])
+                result["grade"] = grade_data.get("grade")
+                result["health_index"] = grade_data.get("health_index")
+                result["component_scores"] = grade_data.get("component_scores")
 
     except subprocess.TimeoutExpired:
         result["status"] = "timeout"
