@@ -200,13 +200,48 @@ class ColliderImporter:
         print("=" * 60)
 
 
+def validate_file(file_path: Path) -> tuple[bool, str]:
+    """Validate unified_analysis.json before import."""
+    if not file_path.exists():
+        return False, f"File not found: {file_path}"
+
+    try:
+        with open(file_path) as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        return False, f"Invalid JSON: {e}"
+
+    nodes = data.get("nodes", [])
+    edges = data.get("edges", [])
+
+    if len(nodes) == 0:
+        return False, "No nodes found - file may be corrupted or wrong format"
+
+    # Check node structure
+    if nodes and "id" not in nodes[0]:
+        return False, "Nodes missing 'id' field - incompatible format"
+
+    return True, f"Valid: {len(nodes)} nodes, {len(edges)} edges"
+
+
 def main():
     """CLI interface."""
     if len(sys.argv) < 2:
         print("Usage: python collider_to_neo4j.py <unified_analysis.json>")
+        print("       python collider_to_neo4j.py --validate <file>")
+        print("\nCanonical path: .collider/unified_analysis.json")
         print("\nExample:")
-        print("  python collider_to_neo4j.py .collider-full/output_llm*.json")
+        print("  python collider_to_neo4j.py .collider/unified_analysis.json")
         return 1
+
+    # Handle --validate flag
+    if sys.argv[1] == "--validate":
+        if len(sys.argv) < 3:
+            print("Usage: python collider_to_neo4j.py --validate <file>")
+            return 1
+        valid, msg = validate_file(Path(sys.argv[2]))
+        print(f"Validation: {msg}")
+        return 0 if valid else 1
 
     input_file = Path(sys.argv[1])
     if not input_file.exists():
