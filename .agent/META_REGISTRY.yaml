@@ -75,4 +75,4 @@ meta:
   ror: "standard-model-of-code/docs/specs/REGISTRY_OF_REGISTRIES.md"  # Registry of Registries
   lol: ".agent/intelligence/LOL.yaml"                                # List of Lists (Authoritative)
   sos: "standard-model-of-code/docs/specs/FRONTEND_SUBSYSTEM_REGISTRY.md" # System of Systems
-  subsystems: "context-management/config/registries/SUBSYSTEMS.yaml"  # Subsystems Registry
+  subsystems: "SUBSYSTEMS.yaml"  # Subsystems Registry (ROOT - canonical)

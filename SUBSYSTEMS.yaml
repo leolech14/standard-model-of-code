@@ -1,7 +1,7 @@
 # SUBSYSTEMS REGISTRY - Single Source of Truth
 # Auto-generated tables MUST derive from this file
-# Version: 1.0.0
-# Updated: 2026-01-27
+# Version: 2.0.0
+# Updated: 2026-02-01 (Post-consolidation)
 
 subsystems:
   - name: PARTICLE
@@ -39,8 +39,8 @@ subsystems:
       - context-management/docs/PROJECTOME.md
       - context-management/docs/CONTEXTOME.md
     generated_outputs:
-      - docs/research/gemini/
-      - docs/research/perplexity/
+      - research/gemini/           # Consolidated 2026-02-01
+      - research/perplexity/       # Consolidated 2026-02-01
       - .agent/intelligence/chunks/
     status: active
     maturity: production
@@ -93,14 +93,65 @@ subsystems:
   - name: ARCHIVE
     description: "Historical snapshots + deprecated experiments"
     root_dirs:
-      code: standard-model-of-code/archive/
-      context: standard-model-of-code/docs/archive/
+      code: archive/                # Consolidated 2026-02-01 (gitignored)
+      context: archive/
     entrypoints: []
-    canonical_docs: []
+    canonical_docs:
+      - archive/INDEX.md
     generated_outputs: []
     status: archive
     maturity: deprecated
     validators: []
+
+  - name: RESEARCH
+    description: "AI-generated research outputs (Gemini, Perplexity, Claude)"
+    root_dirs:
+      code: null                    # No code, output only
+      context: research/
+    entrypoints: []
+    canonical_docs:
+      - research/INDEX.md
+    generated_outputs:
+      - research/gemini/
+      - research/perplexity/
+      - research/claude/
+    status: active
+    maturity: production
+    validators: []
+    note: "Consolidated 2026-02-01 from standard-model-of-code/docs/research/"
+
+  - name: REPORTS
+    description: "Unified analysis and audit reports"
+    root_dirs:
+      code: null                    # No code, output only
+      context: reports/
+    entrypoints: []
+    canonical_docs:
+      - reports/INDEX.md
+    generated_outputs:
+      - reports/refinery/
+      - reports/audits/
+      - reports/archives/
+    status: active
+    maturity: production
+    validators: []
+    note: "Consolidated 2026-02-01 from 6 scattered locations"
+
+  - name: TOOLS
+    description: "Standalone Python utilities and experiments"
+    root_dirs:
+      code: tools/
+      context: tools/
+    entrypoints:
+      - tools/file_explorer.py
+      - tools/image_browser.py
+    canonical_docs: []
+    generated_outputs:
+      - tools/*.csv                 # Gitignored inventories
+    status: active
+    maturity: beta
+    validators: []
+    note: "Committed 2026-02-01, previously untracked"
 
 # Subsystem relationships
 relationships:
