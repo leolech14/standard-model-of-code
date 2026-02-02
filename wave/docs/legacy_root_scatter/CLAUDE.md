@@ -58,7 +58,7 @@ P = C ⊔ X    (disjoint union - MECE partition)
 ## Essential Docs
 | Doc | Purpose |
 |-----|---------|
-| `wave/docs/operations/AGENT_KERNEL.md` | Core rules, micro-loop |
+| `wave/docs/agent_school/AGENT_KERNEL.md` | Core rules, micro-loop |
 | `wave/docs/agent_school/DOD.md` | Definition of Done |
 | `wave/docs/agent_school/CLI_GRAMMAR.md` | ./pe CLI reference for AI agents |
 | `wave/docs/agent_school/WORKFLOWS.md` | Git, commit, PR workflows |

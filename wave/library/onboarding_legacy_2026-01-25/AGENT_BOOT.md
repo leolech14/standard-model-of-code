@@ -1,5 +1,7 @@
 # AGENT_BOOT.md - Single Source for Agent Initiation
 
+> **LEGACY NOTICE:** Canonical onboarding now lives in `wave/docs/agent_school/ONBOARDING.md` and `wave/docs/agent_school/AGENT_KERNEL.md`. This file is retained for historical reference.
+
 > **One file. One script. One output. You're ready.**
 
 ---

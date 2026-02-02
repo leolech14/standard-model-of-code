@@ -5,7 +5,7 @@
 ## Step 1: Boot
 
 ```bash
-./concierge
+./.agent/concierge_cli
 ```
 
 You'll see:

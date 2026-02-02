@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-02-02T19:11:33.321064+00:00",
+  "core_docs": [
+    {
+      "path": "wave/docs/PROJECTOME.md",
+      "purpose": "Projectome = Codome \u2294 Contextome"
+    },
+    {
+      "path": "wave/docs/CODOME.md",
+      "purpose": "Executable universe definition"
+    },
+    {
+      "path": "wave/docs/CONTEXTOME.md",
+      "purpose": "Non-executable universe definition"
+    },
+    {
+      "path": "wave/docs/CONCORDANCES.md",
+      "purpose": "Purpose alignment across code + docs"
+    },
+    {
+      "path": "particle/docs/MODEL.md",
+      "purpose": "Standard Model of Code"
+    },
+    {
+      "path": "particle/docs/COLLIDER.md",
+      "purpose": "Collider usage + pipeline"
+    },
+    {
+      "path": "wave/docs/deep/AI_USER_GUIDE.md",
+      "purpose": "AI tool roles and modes"
+    }
+  ],
+  "entrypoints": [
+    {
+      "name": "pe",
+      "path": "./pe"
+    },
+    {
+      "name": "concierge",
+      "path": "./.agent/concierge_cli"
+    },
+    {
+      "name": "analyze",
+      "path": "wave/tools/ai/analyze.py"
+    },
+    {
+      "name": "perplexity_research",
+      "path": "wave/tools/ai/perplexity_research.py"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./pe status",
+      "purpose": "System health overview"
+    },
+    {
+      "command": "./pe boot",
+      "purpose": "Boot sequence (INITIATION_REPORT)"
+    },
+    {
+      "command": "./pe deck deal",
+      "purpose": "Certified moves"
+    },
+    {
+      "command": "./pe ask \"question\"",
+      "purpose": "AI query"
+    },
+    {
+      "command": "./pe verify",
+      "purpose": "HSL Socratic audit"
+    },
+    {
+      "command": "./pe test",
+      "purpose": "Run tests"
+    },
+    {
+      "command": "./pe collider full <path> --output <dir>",
+      "purpose": "Run Collider analysis"
+    }
+  ],
+  "invariants": [
+    "Do not leave the repo dirty; commit or explain.",
+    "Run tests before claiming done.",
+    "Search before creating new modules or docs.",
+    "Check Decision Deck before complex actions."
+  ],
+  "registries": [
+    {
+      "path": "SUBSYSTEMS.yaml",
+      "purpose": "Subsystem registry"
+    },
+    {
+      "path": "DOMAINS.yaml",
+      "purpose": "Code\u2194context symmetry registry"
+    },
+    {
+      "path": ".agent/registry/REGISTRY_OF_REGISTRIES.yaml",
+      "purpose": "Registry index"
+    },
+    {
+      "path": "REPO_STRUCTURE.json",
+      "purpose": "Declared repository structure"
+    }
+  ],
+  "query_templates": [
+    {
+      "tool": "pe ask",
+      "template": "./pe ask \"How is <subsystem> structured?\""
+    },
+    {
+      "tool": "analyze.py",
+      "template": "python3 wave/tools/ai/analyze.py \"Locate <concept>\" --set brain"
+    },
+    {
+      "tool": "analyze.py",
+      "template": "python3 wave/tools/ai/analyze.py --verify pipeline"
+    }
+  ],
+  "known_gaps": [
+    "OBSERVER realm definition conflicts between SUBSYSTEMS.yaml and REPO_STRUCTURE.json.",
+    "models/ appears in REPO_STRUCTURE.json but is missing at repo root.",
+    "Onboarding references were stale; canonical onboarding added in wave/docs/agent_school/."
+  ]
+}
