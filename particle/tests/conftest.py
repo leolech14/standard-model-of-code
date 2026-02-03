@@ -5,6 +5,18 @@ import pytest
 from pathlib import Path
 from unittest.mock import Mock, patch
 from typing import Optional
+from src.core.event_bus import reset_event_bus
+from src.core.registry.registry_of_registries import reset_meta_registry
+
+
+@pytest.fixture(autouse=True)
+def reset_global_singletons():
+    """Reset global singletons to keep tests isolated."""
+    reset_meta_registry()
+    reset_event_bus()
+    yield
+    reset_meta_registry()
+    reset_event_bus()
 
 
 @pytest.fixture

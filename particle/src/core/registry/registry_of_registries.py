@@ -153,3 +153,8 @@ class RegistryOfRegistries:
 def get_meta_registry() -> RegistryOfRegistries:
     """Get the meta-registry singleton."""
     return RegistryOfRegistries.get_instance()
+
+
+def reset_meta_registry() -> None:
+    """Reset the meta-registry singleton (primarily for tests)."""
+    RegistryOfRegistries._instance = None

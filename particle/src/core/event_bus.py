@@ -229,3 +229,9 @@ def get_event_bus() -> EventBus:
     if _global_bus is None:
         _global_bus = EventBus()
     return _global_bus
+
+
+def reset_event_bus() -> None:
+    """Reset the global EventBus singleton (primarily for tests)."""
+    global _global_bus
+    _global_bus = None
