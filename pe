@@ -14,7 +14,15 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$SCRIPT_DIR"
 VENV="$SCRIPT_DIR/.tools_venv"
-COLLIDER="$SCRIPT_DIR/standard-model-of-code"
+COLLIDER_LEGACY="$SCRIPT_DIR/standard-model-of-code"
+COLLIDER_PRIMARY="$SCRIPT_DIR/particle"
+if [ -d "$COLLIDER_PRIMARY" ]; then
+    COLLIDER="$COLLIDER_PRIMARY"
+elif [ -d "$COLLIDER_LEGACY" ]; then
+    COLLIDER="$COLLIDER_LEGACY"
+else
+    COLLIDER="$COLLIDER_PRIMARY"
+fi
 TOOLS="$SCRIPT_DIR/context-management/tools"
 AGENT="$SCRIPT_DIR/.agent"
 INTELLIGENCE_DIR="$AGENT/intelligence"
