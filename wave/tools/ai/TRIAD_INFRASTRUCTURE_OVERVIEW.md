@@ -38,8 +38,8 @@ flowchart LR
 
   subgraph VPS[Hostinger VPS]
     H_GW[OpenClaw Gateway :18789]
-    H_WS[/root/.openclaw/workspace]
-    H_LOGS[/root/.openclaw/logs]
+    H_WS["/root/.openclaw/workspace"]
+    H_LOGS["/root/.openclaw/logs"]
     H_OLLAMA[Ollama :11434]
     H_DOPPLER[Doppler secrets]
   end

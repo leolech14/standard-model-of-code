@@ -8,8 +8,8 @@ Document the operational flows that connect MacBook, Hostinger VPS, and GCloud. 
 ```mermaid
 flowchart LR
   M[MacBook]
-  C[/root/.openclaw/openclaw.json]
-  A[/root/.openclaw/agents/main/agent/auth-profiles.json]
+  C["/root/.openclaw/openclaw.json"]
+  A["/root/.openclaw/agents/main/agent/auth-profiles.json"]
   G[openclaw-gateway.service]
 
   M -->|edit + scp| C
@@ -80,7 +80,7 @@ flowchart LR
 ```mermaid
 flowchart LR
   GW[OpenClaw Gateway]
-  LOGS[/root/.openclaw/logs]
+  LOGS["/root/.openclaw/logs"]
   DASH[Dashboard :18789]
   M[MacBook]
 
