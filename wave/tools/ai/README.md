@@ -6,22 +6,27 @@
 
 ## 📖 DOCUMENTOS ATIVOS (LEIA ESTES)
 
-### 1. **START_HERE.md** 🚀
-   - **Para:** Primeiro dia
+### 1. **CLAUDE_OPENCLAW_HANDBOOK.md** 🤖 ← **PARA MIM (CLAUDE)**
+   - **Para:** Claude agents trabalhando com OpenClaw
+   - **O que é:** Tudo que Claude precisa saber
+   - **Quando usar:** Configurar, debugar, ou colaborar com Rainmaker
+
+### 2. **START_HERE.md** 🚀
+   - **Para:** Primeiro dia (humano)
    - **O que é:** Guia minimalista (só o essencial)
    - **Quando usar:** Você instalou e quer começar AGORA
 
-### 2. **COMO_USAR_OPENCLAW.md** 📚
-   - **Para:** Uso diário
+### 3. **COMO_USAR_OPENCLAW.md** 📚
+   - **Para:** Uso diário (humano)
    - **O que é:** Guia prático completo
    - **Quando usar:** Precisa fazer algo específico (cron, skills, troubleshoot)
 
-### 3. **ARQUITETURA_REAL.md** 🏗️
+### 4. **ARQUITETURA_REAL.md** 🏗️
    - **Para:** Entender o sistema
    - **O que é:** Documento autoritativo do que está rodando
    - **Quando usar:** Quer saber exatamente o que tem no VPS
 
-### 4. **CEREBRAS_TOOLS.md** ⚡
+### 5. **CEREBRAS_TOOLS.md** ⚡
    - **Para:** Usar Cerebras API
    - **O que é:** Ferramentas específicas do Cerebras
    - **Quando usar:** Desenvolvimento com Cerebras
@@ -54,13 +59,14 @@
 
 ```
 wave/tools/ai/
-├── README.md                      ← VOCÊ ESTÁ AQUI
+├── README.md                         ← VOCÊ ESTÁ AQUI
 │
 ├── 📖 DOCS ATIVOS (use estes)
-│   ├── START_HERE.md              → Primeiro dia
-│   ├── COMO_USAR_OPENCLAW.md      → Guia prático
-│   ├── ARQUITETURA_REAL.md        → O que está rodando
-│   └── CEREBRAS_TOOLS.md          → Ferramentas Cerebras
+│   ├── CLAUDE_OPENCLAW_HANDBOOK.md   → Para Claude agents 🤖
+│   ├── START_HERE.md                 → Primeiro dia (humano)
+│   ├── COMO_USAR_OPENCLAW.md         → Guia prático (humano)
+│   ├── ARQUITETURA_REAL.md           → O que está rodando
+│   └── CEREBRAS_TOOLS.md             → Ferramentas Cerebras
 │
 ├── 📦 _archive/ (referência histórica)
 │   ├── N8N_VS_OPENCLAW.md
