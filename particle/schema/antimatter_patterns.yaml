@@ -1,6 +1,6 @@
-# Antimatter Laws - Architectural Anti-Patterns
+# Antimatter Patterns - Architectural Anti-Patterns
 #
-# These laws define violations of foundational theories that indicate
+# These patterns define violations of foundational theories that indicate
 # poor software architecture. Violations are detected during Collider analysis.
 #
 # Source theories:
@@ -12,7 +12,7 @@
 # Version: 1.0.0
 
 # =============================================================================
-# Layer Violation Laws (Dijkstra + Clean Architecture)
+# Layer Violation Patterns (Dijkstra + Clean Architecture)
 # =============================================================================
 
 AM001:
@@ -66,7 +66,7 @@ AM002:
     The lower layer should define an interface that the higher layer implements.
 
 # =============================================================================
-# Holon Pathology Laws (Koestler)
+# Holon Pathology Patterns (Koestler)
 # =============================================================================
 
 AM003:
@@ -132,7 +132,7 @@ AM004:
     both data and the business rules that govern that data.
 
 # =============================================================================
-# DDD Boundary Laws (Evans)
+# DDD Boundary Patterns (Evans)
 # =============================================================================
 
 AM005:
@@ -162,7 +162,7 @@ AM005:
     Consider event-driven communication for loose coupling.
 
 # =============================================================================
-# Ring Theory Laws (Clean Architecture Extension)
+# Ring Theory Patterns (Clean Architecture Extension)
 # =============================================================================
 
 AM006:
@@ -211,7 +211,7 @@ AM007:
     or remove it if truly unused. Consider if it should be an entry point.
 
 # =============================================================================
-# Additional Laws (Future)
+# Additional Patterns (Future)
 # =============================================================================
 
 # AM008:

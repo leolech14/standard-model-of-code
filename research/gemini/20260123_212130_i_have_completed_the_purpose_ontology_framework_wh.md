@@ -121,7 +121,7 @@ Here's a phased implementation roadmap, considering your existing codebase and t
 
               # Check seen
               visited.add(curr)
-              
+
               # Access the .nodes() metadata store using string as intended
               node_data = G.nodes[curr]
 
@@ -130,7 +130,7 @@ Here's a phased implementation roadmap, considering your existing codebase and t
                 node_info[curr] = { **node_data, **context }
               else:
                 node_info[curr] = { **node_data, **node_info[curr], **context }
-              
+
               # Add adjacent nodes for further enrichment
               neighbors = G.successors(curr)
               for neighbor in neighbors:

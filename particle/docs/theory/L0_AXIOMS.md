@@ -3,7 +3,7 @@
 **📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md#FIXED)
 
 **Layer:** 0 (Bedrock)
-**Status:** VALIDATED
+**Status:** GROUNDED
 **Depends on:** Nothing (this is the foundation)
 **Version:** 2.0.0
 **Created:** 2026-01-27
@@ -12,9 +12,9 @@
 
 ## Purpose of This Layer
 
-This document contains the **formal axioms** that MUST hold for the Standard Model of Code to be coherent. These are not definitions (that's L1), not behavioral laws (that's L2), and not measurements (that's L3). These are **foundational truths** that everything else builds on.
+This document contains the **foundational assumptions** that the Standard Model of Code builds upon. These are not definitions (that's L1), not behavioral principles (that's L2), and not measurements (that's L3). These are **design choices** that everything else builds on.
 
-Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
+Each axiom group has been grounded in established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
 
 ---
 
@@ -54,11 +54,11 @@ WHERE:
 
 This is a **MECE partition** (Mutually Exclusive, Collectively Exhaustive). In category theory, it is a **coproduct** (disjoint union). In type theory, it is a **sum type**.
 
-### A1.1 Necessity of Partition (Lawvere's Theorem)
+### A1.1 Motivation for Partition (via Lawvere's Fixed-Point Theorem)
 
-**THEOREM:** The partition P = C ⊔ X is **MATHEMATICALLY NECESSARY**, not an arbitrary engineering choice.
+**DESIGN RATIONALE:** The partition P = C ⊔ X is **motivated by practical considerations** about self-reference, not merely an arbitrary engineering choice.
 
-**PROOF (via Lawvere's Fixed-Point Theorem, 1969):**
+**ARGUMENT (inspired by Lawvere's Fixed-Point Theorem, 1969):**
 
 ```
 Let A = C (Codome - the system of executable code)
@@ -77,7 +77,7 @@ Contrapositive:
   ∴ There is NO surjection C → B^C
   ∴ Code cannot fully specify its own semantics
   ∴ Semantics must come from EXTERNAL source (X = Contextome)
-  ∴ Partition P = C ⊔ X is necessary for semantic completeness ∎
+  ∴ Partition P = C ⊔ X is motivated for semantic completeness
 ```
 
 **Academic Source:** Lawvere, F. W. (1969). "Diagonal Arguments and Cartesian Closed Categories." Lecture Notes in Mathematics 92, Springer. Reprinted: Theory and Applications of Categories, No. 15, 2006.
@@ -149,7 +149,7 @@ L₋₃ ≤ L₋₂ ≤ L₋₁ ≤ L₀ ≤ ... ≤ L₁₂
 - **Transitive**: a ≤ b ∧ b ≤ c ⟹ a ≤ c
 - **Well-founded**: Has a minimal element (L₋₃), no infinite descending chains
 
-This makes (L, ≤) a **lattice** (specifically, a chain). The Standard Model's level hierarchy is order-theoretically rigorous.
+This makes (L, ≤) a **lattice** (specifically, a chain). The Standard Model's level hierarchy follows standard order theory conventions.
 
 ### C2. Containment Implies Level Ordering
 
@@ -394,14 +394,14 @@ GENERATIVE  ↔ Firstness (possibility, potentiality, becoming)
 
 **Source:** Peirce, C. S. -- Triadic sign theory. See: Atkin, A. (2010). "Peirce's Theory of Signs." Stanford Encyclopedia of Philosophy.
 
-### G3. Minimal Triad Theorem
+### G3. Minimal Triad Proposition
 
 ```
 Two observers are INSUFFICIENT for complete observability.
 The triad {STRUCTURAL, OPERATIONAL, GENERATIVE} is MINIMAL.
 ```
 
-**Proof sketch:** Missing any one creates a blind spot:
+**Argument:** Missing any one creates a blind spot:
 - Without STRUCTURAL: cannot know what exists (only what happens)
 - Without OPERATIONAL: cannot know what happens (only what is declared)
 - Without GENERATIVE: cannot know how system evolves (only current state)
@@ -463,7 +463,7 @@ If FALSE → AI-native tool (valid design choice)
 
 **Philosophical grounding:** Just as stone tools extended human physical reach, AI-native tools extend human cognitive reach. The tool need not fit the unaided human hand.
 
-### H5. Collaboration Level Theorem
+### H5. Collaboration Level Proposition
 
 ```
 Human-AI collaboration occurs at L₁ (CONTEXTOME).
@@ -759,7 +759,7 @@ The three components "know" each other not through direct coupling, but through 
 
 ## AXIOM GROUP K: Invocation Context (Φ-Space)
 
-**Status:** PROPOSED | 75% VALIDATED
+**Status:** PROPOSED | 75% GROUNDED
 
 ### K1. Φ-Space Definition
 
@@ -839,31 +839,31 @@ Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` is
 
 **Academic Source:** Tononi, G. et al. (2020). "Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms." Consciousness & Cognition.
 
-### Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED
+### Axiom Group E (Constructal): ⚠️ PARTIALLY GROUNDED
 
 Bejan's Constructal Law is **empirically validated** across multiple physical and biological systems but **debated as universal mathematical axiom**. In SMoC, treat as:
 - **Heuristic principle** for understanding code evolution
 - **Design guideline** (minimize flow resistance)
 - **NOT a formal theorem** requiring proof
 
-### Axiom Group A (MECE Partition): ✅ VALIDATED (Novel Application)
+### Axiom Group A (MECE Partition): ✅ GROUNDED (Novel Application)
 
-The Lawvere proof (A1.1) is **standard mathematics**. The application to software documentation necessity appears **NOVEL** (no prior literature found).
+The Lawvere argument (A1.1) applies **standard mathematics**. The application to software documentation motivation appears **NOVEL** (no prior literature found applying this to software systems).
 
-### Overall Validation Table
+### Axiom Grounding Summary
 
 | Axiom Group | Mathematical Field | Status | Academic Source |
 |-------------|-------------------|--------|-----------------|
-| A (Set Structure) | Set Theory | ✅ VALIDATED | Lawvere (1969), standard partitions |
+| A (Set Structure) | Set Theory | ✅ GROUNDED | Lawvere (1969), standard partitions |
 | B (Graph) | Graph Theory | ✅ STANDARD | Directed graphs, reachability |
 | C (Levels) | Order Theory | ✅ STANDARD | Total orders, lattices |
 | D (Purpose) | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (2022) - analogous |
 | E (Constructal) | Thermodynamics | ⚠️ HEURISTIC | Bejan (2008) - empirical |
 | F (Emergence) | Information Theory | ⚡ INSPIRED BY | Tononi IIT (2020) - analogous |
-| G (Observability) | Semiotics | ✅ VALIDATED | Peirce triadic structure |
-| H (Consumer Classes) | Software Engineering | ✅ VALIDATED | Gemini 3 Pro assessment (9/10) |
-| I (Recursive Intelligence) | Meta-theory | ✅ VALIDATED | Gödel/Tarski hierarchy |
-| J (Information Topology) | Topology | ✅ VALIDATED | Location-invariance principle |
+| G (Observability) | Semiotics | ✅ GROUNDED | Peirce triadic structure |
+| H (Consumer Classes) | Software Engineering | ⚡ PROPOSED | AI-assisted assessment (not empirical) |
+| I (Recursive Intelligence) | Meta-theory | ✅ GROUNDED | Gödel/Tarski hierarchy (standard) |
+| J (Information Topology) | Topology | ⚡ PROPOSED | Location-invariance principle (needs study) |
 | K (Invocation Context) | Runtime Semantics | ⚠️ PROPOSED | Formalization in progress (75%) |
 
 ---
@@ -873,7 +873,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ### Project Documents
 - `../../MODEL.md` -- Core model (builds on these axioms)
 - `L1_DEFINITIONS.md` -- What EXISTS (depends on these axioms)
-- `L2_LAWS.md` -- How things BEHAVE (depends on axioms + definitions)
+- `L2_PRINCIPLES.md` -- Behavioral principles (depends on axioms + definitions)
 - `../../../wave/docs/theory/FOUNDATIONS_INTEGRATION.md` -- Lawvere proof with all lemmas
 - `../../../wave/docs/CODESPACE_ALGEBRA.md` -- Full mathematical elaboration
 
@@ -900,7 +900,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ---
 
 *This is Layer 0. Everything else depends on this.*
-*All axioms are either validated against academic literature or explicitly marked as heuristic.*
+*All axioms are either grounded in academic literature or explicitly marked as heuristic.*
 
 ---
 

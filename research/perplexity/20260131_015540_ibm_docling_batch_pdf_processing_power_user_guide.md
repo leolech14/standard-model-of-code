@@ -126,34 +126,34 @@ class BatchProcessingOrchestrator:
         self.log_file = log_file
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.processing_log = []
-    
+
     def process_batch(self, input_paths: list[Path]):
         """Process a batch of PDF documents with detailed logging"""
         conv_results = self.converter.convert_all(
             input_paths,
             raises_on_error=False
         )
-        
+
         for conv_res in conv_results:
             filename = conv_res.input.file.name
-            
+
             if conv_res.status == ConversionStatus.SUCCESS:
                 self._handle_success(conv_res, filename)
             elif conv_res.status == ConversionStatus.PARTIAL_SUCCESS:
                 self._handle_partial_success(conv_res, filename)
             else:
                 self._handle_failure(conv_res, filename)
-        
+
         self._write_processing_log()
-    
+
     def _handle_success(self, conv_res, filename: str):
         """Handle successful conversion"""
         output_file = self.output_dir / f"{Path(filename).stem}.md"
         markdown_content = conv_res.document.export_to_markdown()
-        
+
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(markdown_content)
-        
+
         self.processing_log.append({
             "filename": filename,
             "status": "SUCCESS",
@@ -161,15 +161,15 @@ class BatchProcessingOrchestrator:
             "page_count": len(conv_res.document.pages),
         })
         logger.info(f"Successfully processed: {filename}")
-    
+
     def _handle_partial_success(self, conv_res, filename: str):
         """Handle partial success (e.g., timeout occurred)"""
         output_file = self.output_dir / f"{Path(filename).stem}_partial.md"
         markdown_content = conv_res.document.export_to_markdown()
-        
+
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(markdown_content)
-        
+
         error_details = [error.error_message for error in conv_res.errors]
         self.processing_log.append({
             "filename": filename,
@@ -179,7 +179,7 @@ class BatchProcessingOrchestrator:
             "page_count": len(conv_res.document.pages),
         })
         logger.warning(f"Partial success for {filename}: {error_details}")
-    
+
     def _handle_failure(self, conv_res, filename: str):
         """Handle complete failure"""
         error_details = [error.error_message for error in conv_res.errors]
@@ -189,7 +189,7 @@ class BatchProcessingOrchestrator:
             "errors": error_details,
         })
         logger.error(f"Failed to process {filename}: {error_details}")
-    
+
     def _write_processing_log(self):
         """Write detailed processing log"""
         with open(self.log_file, 'w', encoding='utf-8') as f:
@@ -212,7 +212,7 @@ def convert_single_document(pdf_path: str) -> dict:
         converter = DocumentConverter()
         pdf_path = Path(pdf_path)
         conv_result = converter.convert(pdf_path)
-        
+
         if conv_result.status.name == "SUCCESS":
             markdown = conv_result.document.export_to_markdown()
             return {
@@ -239,15 +239,15 @@ def process_batch_with_ray(pdf_paths: list[str], num_workers: int = 4):
     # Initialize Ray with specified number of workers
     if not ray.is_initialized():
         ray.init(num_cpus=num_workers)
-    
+
     # Submit all conversion tasks
     futures = [convert_single_document.remote(path) for path in pdf_paths]
-    
+
     # Collect results as they complete
     results = []
     for future in ray.get(futures):
         results.append(future)
-    
+
     return results
 
 # Usage example
@@ -286,7 +286,7 @@ routes:
                   useDoclingServe: true
                   batchParallelism: 4
                   batchFailOnFirstError: false
-      
+
       # Split results
       - split:
           simple: "${body.results}"
@@ -321,7 +321,7 @@ logger = logging.getLogger(__name__)
 
 class ResilientPdfProcessor:
     """Processor with fallback strategies for problematic PDFs"""
-    
+
     def __init__(self):
         self.standard_options = PdfPipelineOptions(
             do_ocr=True,
@@ -335,42 +335,42 @@ class ResilientPdfProcessor:
             do_ocr=False,
             do_table_structure=False,
         )
-    
+
     def convert_with_fallbacks(
-        self, 
+        self,
         pdf_path: Path,
         max_attempts: int = 3
     ) -> Optional[Dict[str, Any]]:
         """
         Attempt conversion with progressive fallback strategies
         """
-        
+
         # Strategy 1: Standard processing
         result = self._attempt_standard_conversion(pdf_path)
         if result:
             return {"strategy": "standard", "result": result}
-        
+
         # Strategy 2: Degraded mode (no OCR)
         logger.warning(f"Standard conversion failed for {pdf_path}, trying degraded mode")
         result = self._attempt_degraded_conversion(pdf_path)
         if result:
             return {"strategy": "degraded", "result": result}
-        
+
         # Strategy 3: Minimal mode (no OCR or tables)
         logger.warning(f"Degraded conversion failed for {pdf_path}, trying minimal mode")
         result = self._attempt_minimal_conversion(pdf_path)
         if result:
             return {"strategy": "minimal", "result": result}
-        
+
         # Strategy 4: Chunked processing for timeout issues
         logger.warning(f"Minimal conversion failed for {pdf_path}, trying chunked processing")
         result = self._attempt_chunked_conversion(pdf_path)
         if result:
             return {"strategy": "chunked", "result": result}
-        
+
         logger.error(f"All conversion strategies failed for {pdf_path}")
         return None
-    
+
     def _attempt_standard_conversion(self, pdf_path: Path):
         """Try standard conversion with all features"""
         try:
@@ -382,14 +382,14 @@ class ResilientPdfProcessor:
                 }
             )
             conv_result = converter.convert(pdf_path, max_num_pages=500)
-            
+
             if conv_result.status.name in ["SUCCESS", "PARTIAL_SUCCESS"]:
                 return conv_result.document
             return None
         except Exception as e:
             logger.debug(f"Standard conversion error: {e}")
             return None
-    
+
     def _attempt_degraded_conversion(self, pdf_path: Path):
         """Try without OCR for text-based PDFs"""
         try:
@@ -401,14 +401,14 @@ class ResilientPdfProcessor:
                 }
             )
             conv_result = converter.convert(pdf_path)
-            
+
             if conv_result.status.name in ["SUCCESS", "PARTIAL_SUCCESS"]:
                 return conv_result.document
             return None
         except Exception as e:
             logger.debug(f"Degraded conversion error: {e}")
             return None
-    
+
     def _attempt_minimal_conversion(self, pdf_path: Path):
         """Try minimal features"""
         try:
@@ -420,30 +420,30 @@ class ResilientPdfProcessor:
                 }
             )
             conv_result = converter.convert(pdf_path)
-            
+
             if conv_result.status.name in ["SUCCESS", "PARTIAL_SUCCESS"]:
                 return conv_result.document
             return None
         except Exception as e:
             logger.debug(f"Minimal conversion error: {e}")
             return None
-    
+
     def _attempt_chunked_conversion(self, pdf_path: Path):
         """Process PDF in page chunks for timeout-prone documents"""
         try:
             from PyPDF2 import PdfReader
-            
+
             # Get page count
             reader = PdfReader(str(pdf_path))
             num_pages = len(reader.pages)
-            
+
             # Process in chunks of 20 pages
             chunk_size = 20
             combined_doc = None
-            
+
             for start_page in range(0, num_pages, chunk_size):
                 end_page = min(start_page + chunk_size, num_pages)
-                
+
                 converter = DocumentConverter(
                     format_options={
                         InputFormat.PDF: PdfFormatOption(
@@ -451,19 +451,19 @@ class ResilientPdfProcessor:
                         )
                     }
                 )
-                
+
                 conv_result = converter.convert(
                     pdf_path,
                     page_range=(start_page, end_page)
                 )
-                
+
                 if conv_result.status.name in ["SUCCESS", "PARTIAL_SUCCESS"]:
                     if combined_doc is None:
                         combined_doc = conv_result.document
                     # In production, would merge documents
                 else:
                     logger.warning(f"Chunk {start_page}-{end_page} failed")
-            
+
             return combined_doc
         except Exception as e:
             logger.debug(f"Chunked conversion error: {e}")
@@ -486,7 +486,7 @@ T = TypeVar('T')
 
 class ExponentialBackoffRetry:
     """Retry mechanism with exponential backoff and jitter"""
-    
+
     def __init__(
         self,
         max_retries: int = 5,
@@ -498,17 +498,17 @@ class ExponentialBackoffRetry:
         self.base_delay = base_delay
         self.max_delay = max_delay
         self.retriable_exceptions = retriable_exceptions
-    
+
     def execute(self, func: Callable[..., T], *args, **kwargs) -> T:
         """Execute function with retry logic"""
         last_exception = None
-        
+
         for attempt in range(self.max_retries):
             try:
                 return func(*args, **kwargs)
             except self.retriable_exceptions as e:
                 last_exception = e
-                
+
                 if attempt < self.max_retries - 1:
                     wait_time = self._calculate_backoff(attempt)
                     logger.warning(
@@ -518,9 +518,9 @@ class ExponentialBackoffRetry:
                     time.sleep(wait_time)
                 else:
                     logger.error(f"All {self.max_retries} attempts failed")
-        
+
         raise last_exception
-    
+
     def _calculate_backoff(self, attempt: int) -> float:
         """Calculate backoff with exponential growth and jitter"""
         exponential_delay = self.base_delay * (2 ** attempt)
@@ -533,7 +533,7 @@ def convert_with_retry(pdf_path: Path, max_retries: int = 3):
     def conversion_func():
         converter = DocumentConverter()
         return converter.convert(pdf_path)
-    
+
     retry_handler = ExponentialBackoffRetry(max_retries=max_retries)
     return retry_handler.execute(conversion_func)
 ```
@@ -551,22 +551,22 @@ import json
 
 class OutputOrganizer:
     """Organize batch processing output with clear hierarchy"""
-    
+
     def __init__(self, base_output_dir: Path):
         self.base_dir = Path(base_output_dir)
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.batch_dir = self.base_dir / f"batch_{self.timestamp}"
-        
+
         # Create subdirectories
         self.successful_dir = self.batch_dir / "successful"
         self.partial_dir = self.batch_dir / "partial"
         self.failed_dir = self.batch_dir / "failed"
         self.metadata_dir = self.batch_dir / "metadata"
-        
-        for directory in [self.successful_dir, self.partial_dir, 
+
+        for directory in [self.successful_dir, self.partial_dir,
                          self.failed_dir, self.metadata_dir]:
             directory.mkdir(parents=True, exist_ok=True)
-    
+
     def save_successful_conversion(
         self,
         source_path: Path,
@@ -575,17 +575,17 @@ class OutputOrganizer:
     ):
         """Save successful conversion with multiple formats"""
         stem = source_path.stem
-        
+
         # Save markdown
         md_file = self.successful_dir / f"{stem}.md"
         with open(md_file, 'w', encoding='utf-8') as f:
             f.write(markdown_content)
-        
+
         # Save JSON
         json_file = self.successful_dir / f"{stem}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(json_content, f, indent=2)
-        
+
         # Save metadata
         metadata_file = self.metadata_dir / f"{stem}_metadata.json"
         metadata = {
@@ -596,7 +596,7 @@ class OutputOrganizer:
         }
         with open(metadata_file, 'w', encoding='utf-8') as f:
             json.dump(metadata, f, indent=2)
-    
+
     def save_partial_conversion(
         self,
         source_path: Path,
@@ -605,11 +605,11 @@ class OutputOrganizer:
     ):
         """Save partial conversion with error details"""
         stem = source_path.stem
-        
+
         md_file = self.partial_dir / f"{stem}_partial.md"
         with open(md_file, 'w', encoding='utf-8') as f:
             f.write(markdown_content)
-        
+
         metadata_file = self.metadata_dir / f"{stem}_metadata.json"
         metadata = {
             "source": str(source_path),
@@ -619,7 +619,7 @@ class OutputOrganizer:
         }
         with open(metadata_file, 'w', encoding='utf-8') as f:
             json.dump(metadata, f, indent=2)
-    
+
     def save_failure(
         self,
         source_path: Path,
@@ -629,14 +629,14 @@ class OutputOrganizer:
         """Log failed conversion"""
         stem = source_path.stem
         error_file = self.failed_dir / f"{stem}_error.txt"
-        
+
         with open(error_file, 'w', encoding='utf-8') as f:
             f.write(f"Source: {source_path}\n")
             f.write(f"Strategy: {strategy_attempted}\n")
             f.write(f"Errors:\n")
             for error in errors:
                 f.write(f"  - {error}\n")
-        
+
         metadata_file = self.metadata_dir / f"{stem}_metadata.json"
         metadata = {
             "source": str(source_path),
@@ -647,13 +647,13 @@ class OutputOrganizer:
         }
         with open(metadata_file, 'w', encoding='utf-8') as f:
             json.dump(metadata, f, indent=2)
-    
+
     def generate_batch_report(self) -> dict:
         """Generate summary report of batch processing"""
         successful = len(list(self.successful_dir.glob("*.md")))
         partial = len(list(self.partial_dir.glob("*.md")))
         failed = len(list(self.failed_dir.glob("*.txt")))
-        
+
         report = {
             "batch_id": self.timestamp,
             "summary": {
@@ -669,12 +669,12 @@ class OutputOrganizer:
                 "metadata": str(self.metadata_dir),
             },
         }
-        
+
         # Write report
         report_file = self.batch_dir / "batch_report.json"
         with open(report_file, 'w', encoding='utf-8') as f:
             json.dump(report, f, indent=2)
-        
+
         return report
 ```
 
@@ -694,42 +694,42 @@ from typing import Iterator
 
 def demonstrate_chunking_approaches():
     """Compare HierarchicalChunker and HybridChunker"""
-    
+
     # Convert document
     converter = DocumentConverter()
     result = converter.convert("sample_document.pdf")
     doc = result.document
-    
+
     # Approach 1: Hierarchical Chunking
     print("=== HIERARCHICAL CHUNKING ===")
     h_chunker = HierarchicalChunker()
     h_chunks = list(h_chunker.chunk(doc))
-    
+
     for i, chunk in enumerate(h_chunks[:3]):  # Show first 3
         print(f"\nChunk {i}:")
         print(f"  Text length: {len(chunk.text)}")
         print(f"  Heading: {chunk.meta.headings[0] if chunk.meta.headings else 'N/A'}")
         print(f"  Preview: {chunk.text[:100]}...")
-    
+
     # Approach 2: Hybrid Chunking with token constraints
     print("\n=== HYBRID CHUNKING (with token limit) ===")
-    
+
     # Install tokenizer: pip install 'docling-core[chunking]'
     from transformers import AutoTokenizer
-    
+
     tokenizer = AutoTokenizer.from_pretrained("Xenova/text-embedding-3-small")
     h_chunker = HybridChunker(
         tokenizer=tokenizer,
         max_tokens=512,  # Limit chunk size to 512 tokens
     )
-    
+
     h_chunks = list(h_chunker.chunk(doc))
-    
+
     for i, chunk in enumerate(h_chunks[:3]):
         # Get text for embedding
         text_for_embedding = h_chunker.contextualize(chunk)
         token_count = len(tokenizer.encode(text_for_embedding))
-        
+
         print(f"\nChunk {i}:")
         print(f"  Text length: {len(chunk.text)}")
         print(f"  Tokens: {token_count}")
@@ -750,44 +750,44 @@ from transformers import AutoTokenizer
 
 def create_rag_pipeline_with_docling(pdf_paths: list[Path]):
     """Create RAG pipeline using Docling with LlamaIndex"""
-    
+
     # Step 1: Read documents using DoclingReader
     reader = DoclingReader()
     documents = []
     for pdf_path in pdf_paths:
         docs = reader.load_data(str(pdf_path))
         documents.extend(docs)
-    
+
     # Step 2: Configure Docling chunker for LlamaIndex
     tokenizer = AutoTokenizer.from_pretrained(
         "Xenova/text-embedding-3-small"
     )
-    
+
     chunker = HybridChunker(
         tokenizer=tokenizer,
         max_tokens=512,
         merge_peers=True,  # Merge undersized chunks
     )
-    
+
     # Step 3: Parse documents into nodes with Docling chunker
     node_parser = DoclingNodeParser(chunker=chunker)
     nodes = node_parser.get_nodes_from_documents(documents)
-    
+
     # Step 4: Create vector index
     index = VectorStoreIndex(nodes)
-    
+
     # Step 5: Create query engine for RAG
     query_engine = index.as_query_engine()
-    
+
     return query_engine, nodes
 
 def query_rag_system(query_engine, question: str):
     """Query RAG system with source attribution"""
     response = query_engine.query(question)
-    
+
     print(f"Question: {question}")
     print(f"Answer: {response}")
-    
+
     # Print sources with provenance
     for source_node in response.source_nodes:
         print(f"\nSource: {source_node.metadata.get('filename', 'unknown')}")
@@ -806,52 +806,52 @@ from docling.document_converter import DocumentConverter
 
 class TokenAwareChunkingStrategy:
     """Configure chunking based on embedding model token limits"""
-    
+
     def __init__(self, embedding_model: str = "Xenova/text-embedding-3-small"):
         self.tokenizer = AutoTokenizer.from_pretrained(embedding_model)
         self.model_name = embedding_model
-        
+
         # Token limits for different embedding models
         self.token_limits = {
             "Xenova/text-embedding-3-small": 512,
             "Xenova/text-embedding-3-large": 2048,
             "sentence-transformers/all-MiniLM-L6-v2": 384,
         }
-    
+
     def get_optimal_chunk_size(self) -> int:
         """Get recommended token limit for configured model"""
         return self.token_limits.get(self.model_name, 512)
-    
+
     def configure_chunker(self) -> HybridChunker:
         """Configure HybridChunker for this embedding model"""
         chunk_size = self.get_optimal_chunk_size()
-        
+
         # Use 80% of max tokens to leave buffer for metadata
         safe_size = int(chunk_size * 0.8)
-        
+
         return HybridChunker(
             tokenizer=self.tokenizer,
             max_tokens=safe_size,
             merge_peers=True,
         )
-    
+
     def chunk_document(self, pdf_path: str) -> list:
         """Chunk document with token awareness"""
         converter = DocumentConverter()
         result = converter.convert(pdf_path)
         doc = result.document
-        
+
         chunker = self.configure_chunker()
         chunks = list(chunker.chunk(doc))
-        
+
         # Validate chunk sizes
         for i, chunk in enumerate(chunks):
             text_with_metadata = chunker.contextualize(chunk)
             token_count = len(self.tokenizer.encode(text_with_metadata))
-            
+
             if token_count > self.get_optimal_chunk_size():
                 print(f"Warning: Chunk {i} exceeds token limit: {token_count}")
-        
+
         return chunks
 
 # Usage
@@ -880,28 +880,28 @@ logger = logging.getLogger(__name__)
 
 class MemoryAwareConverter:
     """DocumentConverter with memory monitoring and adaptive batching"""
-    
+
     def __init__(self, memory_limit_percent: float = 70.0):
         self.memory_limit_percent = memory_limit_percent
         self.process = psutil.Process()
-    
+
     def get_available_memory_percent(self) -> float:
         """Get available system memory as percentage"""
         return 100 - psutil.virtual_memory().percent
-    
+
     def check_memory_available(self) -> bool:
         """Check if sufficient memory is available"""
         available = self.get_available_memory_percent()
         return available > (100 - self.memory_limit_percent)
-    
+
     def convert_large_pdf(self, pdf_path: str, max_pages: int = None):
         """Convert PDF with memory-aware chunking"""
-        
+
         # Determine if we need to use page_range
         if not self.check_memory_available():
             logger.warning("Low memory available, using chunked processing")
             return self._convert_chunked(pdf_path)
-        
+
         # Standard conversion
         pipeline_options = PdfPipelineOptions()
         converter = DocumentConverter(
@@ -911,29 +911,29 @@ class MemoryAwareConverter:
                 )
             }
         )
-        
+
         if max_pages:
             result = converter.convert(pdf_path, max_num_pages=max_pages)
         else:
             result = converter.convert(pdf_path)
-        
+
         return result
-    
+
     def _convert_chunked(self, pdf_path: str, chunk_size: int = 20):
         """Convert large PDF by processing pages in chunks"""
         from PyPDF2 import PdfReader
-        
+
         reader = PdfReader(pdf_path)
         num_pages = len(reader.pages)
-        
+
         logger.info(f"Processing {num_pages} pages in chunks of {chunk_size}")
-        
+
         all_pages = []
         for start_page in range(0, num_pages, chunk_size):
             end_page = min(start_page + chunk_size, num_pages)
-            
+
             logger.info(f"Processing pages {start_page}-{end_page}")
-            
+
             pipeline_options = PdfPipelineOptions()
             converter = DocumentConverter(
                 format_options={
@@ -942,14 +942,14 @@ class MemoryAwareConverter:
                     )
                 }
             )
-            
+
             result = converter.convert(
                 pdf_path,
                 page_range=(start_page, end_page)
             )
-            
+
             all_pages.extend(result.document.pages)
-        
+
         return all_pages
 
 # Monitor memory usage
@@ -960,12 +960,12 @@ def memory_monitor(operation_name: str):
     """Context manager for memory monitoring"""
     process = psutil.Process()
     start_memory = process.memory_info().rss / 1024 / 1024  # MB
-    
+
     yield
-    
+
     end_memory = process.memory_info().rss / 1024 / 1024
     delta = end_memory - start_memory
-    
+
     logger.info(f"{operation_name}: Memory delta = {delta:.2f} MB")
     logger.info(f"  Start: {start_memory:.2f} MB, End: {end_memory:.2f} MB")
 ```
@@ -984,32 +984,32 @@ def configure_docling_for_cpu_usage(
     use_optimal: bool = True
 ):
     """Configure Docling CPU usage"""
-    
+
     if use_optimal and num_threads is None:
         # Use a fraction of available cores
         num_cores = multiprocessing.cpu_count()
         # Conservative: use 50% of cores, minimum 2
         num_threads = max(2, num_cores // 2)
-    
+
     os.environ['OMP_NUM_THREADS'] = str(num_threads)
     os.environ['MKL_NUM_THREADS'] = str(num_threads)
     os.environ['NUMEXPR_NUM_THREADS'] = str(num_threads)
-    
+
     print(f"Configured Docling to use {num_threads} threads")
 
 def batch_process_with_cpu_awareness(pdf_paths: list, output_dir: str):
     """Process batch with CPU-aware threading"""
-    
+
     # Configure based on system
     configure_docling_for_cpu_usage(use_optimal=True)
-    
+
     converter = DocumentConverter()
-    
+
     for i, pdf_path in enumerate(pdf_paths):
         print(f"Processing {i+1}/{len(pdf_paths)}: {pdf_path}")
-        
+
         result = converter.convert(pdf_path)
-        
+
         if result.status.name == "SUCCESS":
             markdown = result.document.export_to_markdown()
             with open(f"{output_dir}/{Path(pdf_path).stem}.md", 'w') as f:
@@ -1033,17 +1033,17 @@ import torch
 
 def detect_gpu_and_configure():
     """Detect available GPU and configure optimal batch sizes"""
-    
+
     if not torch.cuda.is_available():
         print("No GPU available, using CPU")
         return None
-    
+
     # Get GPU properties
     gpu_name = torch.cuda.get_device_name(0)
     total_memory_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
-    
+
     print(f"Detected GPU: {gpu_name} ({total_memory_gb:.1f} GB)")
-    
+
     # Determine batch size based on VRAM
     if total_memory_gb >= 24:  # RTX 4090 or better
         ocr_batch_size = 64
@@ -1054,7 +1054,7 @@ def detect_gpu_and_configure():
     else:  # RTX 3060 or less
         ocr_batch_size = 16
         layout_batch_size = 16
-    
+
     return {
         "gpu_name": gpu_name,
         "total_memory_gb": total_memory_gb,
@@ -1064,27 +1064,27 @@ def detect_gpu_and_configure():
 
 def create_gpu_optimized_converter(use_gpu: bool = True):
     """Create converter with GPU optimization"""
-    
+
     if use_gpu and torch.cuda.is_available():
         gpu_config = detect_gpu_and_configure()
-        
+
         accelerator_options = AcceleratorOptions(
             device=AcceleratorDevice.CUDA
         )
-        
+
         pipeline_options = ThreadedPdfPipelineOptions(
             accelerator_options=accelerator_options,
             ocr_batch_size=gpu_config["ocr_batch_size"],
             layout_batch_size=gpu_config["layout_batch_size"],
             table_batch_size=4,  # Tables generally don't benefit as much
         )
-        
+
         print(f"Configured GPU batching:")
         print(f"  OCR batch: {gpu_config['ocr_batch_size']}")
         print(f"  Layout batch: {gpu_config['layout_batch_size']}")
     else:
         pipeline_options = ThreadedPdfPipelineOptions()
-    
+
     return DocumentConverter(
         format_options={
             InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
@@ -1093,25 +1093,25 @@ def create_gpu_optimized_converter(use_gpu: bool = True):
 
 def batch_process_with_gpu_acceleration(pdf_paths: list, num_pdfs: int = 80):
     """Process batch with GPU acceleration"""
-    
+
     converter = create_gpu_optimized_converter(use_gpu=True)
-    
+
     import time
     start_time = time.time()
-    
+
     conv_results = converter.convert_all(
         pdf_paths[:num_pdfs],
         raises_on_error=False
     )
-    
+
     success_count = 0
     for conv_res in conv_results:
         if conv_res.status.name == "SUCCESS":
             success_count += 1
-    
+
     elapsed = time.time() - start_time
     rate = success_count / elapsed
-    
+
     print(f"Processed {success_count} PDFs in {elapsed:.1f}s")
     print(f"Throughput: {rate:.2f} PDFs/second")
 ```
@@ -1132,7 +1132,7 @@ def configure_vlm_pipeline(
     concurrency: int = 16,
 ):
     """Configure VLM pipeline with local inference server"""
-    
+
     # Configure VLM options
     vlm_options = VlmPipelineOptions(
         enable_remote_services=True,
@@ -1148,26 +1148,26 @@ def configure_vlm_pipeline(
             "prompt": "Convert this page to docling.",
         }
     )
-    
+
     # Set performance options
     settings.perf.page_batch_size = concurrency
-    
+
     # Create converter with VLM pipeline
     converter = DocumentConverter(
         format_options={
             InputFormat.PDF: PdfFormatOption(pipeline_options=vlm_options)
         }
     )
-    
+
     return converter
 
 # Instructions for starting vLLM server
 def print_vlm_server_startup_instructions():
     """Print instructions for starting vLLM with optimal settings"""
-    
+
     instructions = """
     # Start vLLM server for Granite Docling (Linux only)
-    
+
     vllm serve ibm-granite/granite-docling-258M \\
       --host 127.0.0.1 \\
       --port 8000 \\
@@ -1175,15 +1175,15 @@ def print_vlm_server_startup_instructions():
       --max-num-batched-tokens 8192 \\
       --enable-chunked-prefill \\
       --gpu-memory-utilization 0.9
-    
+
     # For macOS or Windows, use Ollama
     ollama serve llama2  # or preferred model
     # Then configure Docling to use http://localhost:11434/v1/chat/completions
-    
+
     # Or use LM Studio
     # Configure Docling to use http://localhost:1234/v1/chat/completions
     """
-    
+
     print(instructions)
 ```
 
@@ -1202,36 +1202,36 @@ from datetime import datetime
 
 class MonitoredBatchProcessor:
     """Batch processor with real-time progress tracking"""
-    
+
     def __init__(self, output_dir: Path, log_file: Path):
         self.output_dir = output_dir
         self.log_file = log_file
         self.converter = DocumentConverter()
         self.progress_log = []
-    
+
     def process_with_progress(self, pdf_paths: list[Path]):
         """Process PDFs with progress bar"""
-        
+
         # Create progress bar
         with tqdm(total=len(pdf_paths), desc="Processing PDFs") as pbar:
             conv_results = self.converter.convert_all(
                 pdf_paths,
                 raises_on_error=False
             )
-            
+
             for i, conv_res in enumerate(conv_results):
                 filename = conv_res.input.file.name
-                
+
                 # Log progress
                 self._log_progress(conv_res)
-                
+
                 # Update progress bar with status
                 status = conv_res.status.name
                 pbar.update(1)
                 pbar.set_postfix({"status": status, "file": filename[:30]})
-        
+
         self._write_progress_log()
-    
+
     def _log_progress(self, conv_res):
         """Log individual conversion result"""
         log_entry = {
@@ -1242,7 +1242,7 @@ class MonitoredBatchProcessor:
             "errors": [e.error_message for e in conv_res.errors] if conv_res.errors else [],
         }
         self.progress_log.append(log_entry)
-    
+
     def _write_progress_log(self):
         """Write progress log to file"""
         with open(self.log_file, 'w', encoding='utf-8') as f:
@@ -1281,19 +1281,19 @@ class PerformanceMetrics:
     total_time_seconds: float
     start_memory_mb: float
     end_memory_mb: float
-    
+
     @property
     def throughput_docs_per_second(self) -> float:
         return self.successful_documents / self.total_time_seconds if self.total_time_seconds > 0 else 0
-    
+
     @property
     def throughput_pages_per_second(self) -> float:
         return self.total_pages / self.total_time_seconds if self.total_time_seconds > 0 else 0
-    
+
     @property
     def memory_delta_mb(self) -> float:
         return self.end_memory_mb - self.start_memory_mb
-    
+
     @property
     def success_rate_percent(self) -> float:
         total = self.total_documents
@@ -1301,18 +1301,18 @@ class PerformanceMetrics:
 
 class PerformanceMonitor:
     """Monitor and report on batch processing performance"""
-    
+
     def __init__(self):
         self.start_time = None
         self.start_memory = None
         self.results = []
-    
+
     def start(self):
         """Start monitoring"""
         self.start_time = time.time()
         process = psutil.Process()
         self.start_memory = process.memory_info().rss / 1024 / 1024
-    
+
     def record_conversion(self, success: bool, page_count: int = 0):
         """Record individual conversion result"""
         self.results.append({
@@ -1320,16 +1320,16 @@ class PerformanceMonitor:
             "pages": page_count,
             "timestamp": datetime.now().isoformat(),
         })
-    
+
     def finish(self) -> PerformanceMetrics:
         """Finish monitoring and calculate metrics"""
         end_time = time.time()
         process = psutil.Process()
         end_memory = process.memory_info().rss / 1024 / 1024
-        
+
         successful = sum(1 for r in self.results if r["success"])
         total_pages = sum(r["pages"] for r in self.results)
-        
+
         metrics = PerformanceMetrics(
             total_documents=len(self.results),
             successful_documents=successful,
@@ -1339,9 +1339,9 @@ class PerformanceMonitor:
             start_memory_mb=self.start_memory,
             end_memory_mb=end_memory,
         )
-        
+
         return metrics
-    
+
     @staticmethod
     def print_metrics(metrics: PerformanceMetrics):
         """Print formatted metrics"""

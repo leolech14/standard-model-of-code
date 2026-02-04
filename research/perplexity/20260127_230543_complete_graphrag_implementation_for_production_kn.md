@@ -269,11 +269,11 @@ Create the HTML container file `index.html`:
     <style>
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
         #cy { width: 100%; height: 100vh; background: #f0f0f0; }
-        #controls { position: absolute; top: 10px; left: 10px; background: white; 
-                   padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+        #controls { position: absolute; top: 10px; left: 10px; background: white;
+                   padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
                    z-index: 10; }
         .control-group { margin: 10px 0; }
-        button { padding: 8px 12px; margin: 5px; background: #007bff; color: white; 
+        button { padding: 8px 12px; margin: 5px; background: #007bff; color: white;
                 border: none; border-radius: 3px; cursor: pointer; }
         button:hover { background: #0056b3; }
         #stats { position: absolute; bottom: 10px; right: 10px; background: white;
@@ -374,15 +374,15 @@ async function loadGraphData() {
     try {
         const response = await fetch('/api/graph/export-viz');
         const data = await response.json();
-        
+
         cy.elements().remove();
         cy.add(data.elements);
-        
+
         // Update community filter dropdown
         const communities = new Set(data.elements
             .filter(el => el.data.community_id)
             .map(el => el.data.community_id));
-        
+
         const communityFilter = document.getElementById('communityFilter');
         communities.forEach(comm => {
             const option = document.createElement('option');
@@ -390,7 +390,7 @@ async function loadGraphData() {
             option.text = `Community ${comm}`;
             communityFilter.appendChild(option);
         });
-        
+
         updateStatistics();
         layoutGraph();
     } catch (error) {
@@ -426,14 +426,14 @@ function filterCommunity() {
 function searchNodes() {
     const searchTerm = document.getElementById('searchBox').value.toLowerCase();
     cy.elements('.highlighted').removeClass('highlighted');
-    
+
     if (searchTerm !== '') {
-        const matches = cy.elements().filter(el => 
+        const matches = cy.elements().filter(el =>
             String(el.data('id')).toLowerCase().includes(searchTerm) ||
             String(el.data('label')).toLowerCase().includes(searchTerm)
         );
         matches.addClass('highlighted');
-        
+
         if (matches.length > 0) {
             cy.fit(matches, 50);
         }
@@ -446,7 +446,7 @@ function exportGraph() {
         bg: 'white',
         scale: 2
     });
-    
+
     const link = document.createElement('a');
     link.href = png;
     link.download = `knowledge-graph-${new Date().toISOString().slice(0,10)}.png`;
@@ -457,13 +457,13 @@ function updateStatistics() {
     const nodes = cy.nodes();
     const edges = cy.edges();
     const communities = new Set(nodes.map(n => n.data('community_id')));
-    
+
     let totalDegree = 0;
     nodes.forEach(n => {
         totalDegree += n.degree();
     });
     const avgDegree = (totalDegree / nodes.length).toFixed(2);
-    
+
     document.getElementById('nodeCount').textContent = nodes.length;
     document.getElementById('edgeCount').textContent = edges.length;
     document.getElementById('communityCount').textContent = communities.size;
@@ -493,13 +493,13 @@ app = Flask(__name__)
 class GraphExporter:
     def __init__(self, uri, user, password):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
-    
+
     def export_visualization_data(self):
         with self.driver.session() as session:
             result = session.run("""
                 MATCH (n)
                 WHERE n.leiden_community_id IS NOT NULL
-                WITH n, ID(n) AS node_id, 
+                WITH n, ID(n) AS node_id,
                      (CASE WHEN n:Code THEN 15 WHEN n:Paper THEN 20 ELSE 10 END) AS size,
                      (CASE WHEN n.leiden_community_id % 10 = 0 THEN '#FF6B6B'
                            WHEN n.leiden_community_id % 10 = 1 THEN '#4ECDC4'
@@ -514,7 +514,7 @@ class GraphExporter:
                 RETURN node_id, n.id AS label, size, color, n.leiden_community_id AS community_id
                 LIMIT 5284
             """)
-            
+
             nodes = []
             node_ids = {}
             for record in result:
@@ -529,7 +529,7 @@ class GraphExporter:
                         'community_id': record['community_id']
                     }
                 })
-            
+
             # Fetch edges
             edge_result = session.run("""
                 MATCH (a)-[r]->(b)
@@ -537,7 +537,7 @@ class GraphExporter:
                 RETURN ID(a) AS source, ID(b) AS target
                 LIMIT 15000
             """)
-            
+
             edges = []
             for record in edge_result:
                 source = record['source']
@@ -550,9 +550,9 @@ class GraphExporter:
                             'target': str(target)
                         }
                     })
-            
+
             return {'elements': nodes + edges}
-    
+
     def close(self):
         self.driver.close()
 
@@ -586,7 +586,7 @@ services:
       NEO4J_URI: "neo4j://neo4j:7687"
       NEO4J_USER: "neo4j"
       NEO4J_PASSWORD: "${NEO4J_PASSWORD}"
-  
+
   flask-api:
     build:
       context: .
@@ -622,34 +622,34 @@ class CDCListener:
             group_id='graph-viz-updater',
             auto_offset_reset='earliest'
         )
-    
+
     def process_changes(self):
         for message in self.consumer:
             change_event = message.value
-            
+
             if change_event['event'] == 'node_created':
                 self._handle_node_created(change_event)
             elif change_event['event'] == 'node_updated':
                 self._handle_node_updated(change_event)
             elif change_event['event'] == 'relationship_created':
                 self._handle_relationship_created(change_event)
-            
+
             # Broadcast update to connected clients via WebSocket
             self._broadcast_update(change_event)
-    
+
     def _handle_node_created(self, event):
         logger.info(f"Node created: {event['node_id']}")
-    
+
     def _handle_node_updated(self, event):
         logger.info(f"Node updated: {event['node_id']}")
-    
+
     def _handle_relationship_created(self, event):
         logger.info(f"Relationship created: {event['source']} -> {event['target']}")
-    
+
     def _broadcast_update(self, event):
         # Implement WebSocket broadcasting to connected clients
         pass
-    
+
     def close(self):
         self.driver.close()
         self.consumer.close()
@@ -708,7 +708,7 @@ class EntityExtractor:
         self.model = "claude-3-5-sonnet-20241022"
         self.batch_size = 50
         self.token_limit_per_batch = 100000
-    
+
     def extract_entities_batch(self, chunks: List[Dict]) -> List[Dict]:
         """
         Extract entities from chunks using Claude API batch processing.
@@ -716,13 +716,13 @@ class EntityExtractor:
         Returns list of extracted entities with confidence scores.
         """
         extraction_results = []
-        
+
         # Split chunks into batches respecting token limits
         batches = self._create_batches(chunks)
-        
+
         for batch_index, batch in enumerate(batches):
             batch_requests = []
-            
+
             for chunk_index, chunk in enumerate(batch):
                 request = {
                     "custom_id": f"extraction-{chunk['id']}-{chunk_index}",
@@ -738,24 +738,24 @@ class EntityExtractor:
                     }
                 }
                 batch_requests.append(request)
-            
+
             # Submit batch
             print(f"Submitting batch {batch_index + 1}/{len(batches)} with {len(batch_requests)} items")
             batch_response = self.client.messages.batch.create(
                 requests=batch_requests
             )
-            
+
             # Poll for completion (batches process within 1 minute typically)
             completed = False
             poll_attempts = 0
             max_polls = 120  # 2 hours with 60-second intervals
-            
+
             while not completed and poll_attempts < max_polls:
                 status = self.client.messages.batch.retrieve(batch_response.id)
-                
+
                 if status.processing_status == "succeeded":
                     print(f"Batch {batch_response.id} completed")
-                    
+
                     # Process results
                     for result in status.results:
                         if result.result.type == "succeeded":
@@ -764,7 +764,7 @@ class EntityExtractor:
                                 result.custom_id
                             )
                             extraction_results.extend(entities)
-                    
+
                     completed = True
                 elif status.processing_status == "expired":
                     print(f"Batch {batch_response.id} expired")
@@ -774,43 +774,43 @@ class EntityExtractor:
                     print(f"Batch {batch_response.id} status: {status.processing_status} "
                           f"(attempt {poll_attempts}/{max_polls})")
                     time.sleep(60)  # Wait 60 seconds before polling again
-            
+
             if not completed:
                 print(f"Batch {batch_response.id} did not complete within timeout")
-        
+
         return extraction_results
-    
+
     def _create_batches(self, chunks: List[Dict]) -> List[List[Dict]]:
         """Split chunks into batches respecting token limits."""
         batches = []
         current_batch = []
         current_tokens = 0
-        
+
         for chunk in chunks:
             chunk_tokens = len(chunk['text'].split())  # Approximate token count
-            
+
             if current_tokens + chunk_tokens > self.token_limit_per_batch:
                 if current_batch:
                     batches.append(current_batch)
                     current_batch = []
                     current_tokens = 0
-            
+
             current_batch.append(chunk)
             current_tokens += chunk_tokens
-            
+
             if len(current_batch) >= self.batch_size:
                 batches.append(current_batch)
                 current_batch = []
                 current_tokens = 0
-        
+
         if current_batch:
             batches.append(current_batch)
-        
+
         return batches
-    
+
     def _create_extraction_prompt(self, chunk: Dict) -> str:
         """Create the extraction prompt for a chunk."""
-        return f"""Extract named entities from the following research text. 
+        return f"""Extract named entities from the following research text.
 Return a JSON object with array of entities. Each entity should have:
 - text: the entity text
 - type: one of [PERSON, ORGANIZATION, CONCEPT, LOCATION, METHOD]
@@ -820,21 +820,21 @@ Text:
 {chunk['text']}
 
 Return ONLY valid JSON, no other text."""
-    
+
     def _parse_extraction_response(self, response_text: str, custom_id: str) -> List[Dict]:
         """Parse the extraction response from Claude."""
         try:
             # Extract JSON from response (Claude may add explanation text)
             json_start = response_text.find('{')
             json_end = response_text.rfind('}') + 1
-            
+
             if json_start != -1 and json_end > json_start:
                 json_str = response_text[json_start:json_end]
                 data = json.loads(json_str)
-                
+
                 chunk_id = custom_id.split('-')[1]
                 entities = []
-                
+
                 if 'entities' in data:
                     for entity in data['entities']:
                         entity['chunk_id'] = chunk_id
@@ -842,11 +842,11 @@ Return ONLY valid JSON, no other text."""
                             f"{entity['text']}-{chunk_id}".encode()
                         ).hexdigest()[:16]
                         entities.append(entity)
-                
+
                 return entities
         except json.JSONDecodeError:
             print(f"Failed to parse JSON for {custom_id}")
-        
+
         return []
 
     def calculate_batch_cost(self, total_input_tokens: int, total_output_tokens: int) -> float:
@@ -911,7 +911,7 @@ logger = logging.getLogger(__name__)
 class Neo4jIngestor:
     def __init__(self, uri: str, user: str, password: str):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
-    
+
     def ingest_entities(self, entities: List[Dict]) -> Dict[str, int]:
         """Ingest extracted entities into Neo4j."""
         stats = {
@@ -919,22 +919,22 @@ class Neo4jIngestor:
             'created_relationships': 0,
             'errors': 0
         }
-        
+
         with self.driver.session() as session:
             for entity in entities:
                 try:
                     # Create or update entity node
                     result = session.run("""
                         MERGE (e:Entity {id: $entity_id})
-                        ON CREATE SET 
+                        ON CREATE SET
                             e.text = $text,
                             e.type = $type,
                             e.confidence = $confidence,
                             e.created_at = datetime()
                         ON MATCH SET
-                            e.confidence = CASE 
+                            e.confidence = CASE
                                 WHEN e.confidence < $confidence THEN $confidence
-                                ELSE e.confidence 
+                                ELSE e.confidence
                             END,
                             e.updated_at = datetime()
                         RETURN e
@@ -944,10 +944,10 @@ class Neo4jIngestor:
                         'type': entity['type'],
                         'confidence': entity['confidence']
                     })
-                    
+
                     if result.single():
                         stats['created_entities'] += 1
-                    
+
                     # Create relationship from chunk to entity
                     session.run("""
                         MATCH (c:Chunk {id: $chunk_id})
@@ -960,15 +960,15 @@ class Neo4jIngestor:
                         'entity_id': entity['id'],
                         'confidence': entity['confidence']
                     })
-                    
+
                     stats['created_relationships'] += 1
-                
+
                 except Exception as e:
                     logger.error(f"Error ingesting entity {entity['id']}: {str(e)}")
                     stats['errors'] += 1
-        
+
         return stats
-    
+
     def create_indexes(self):
         """Create indexes for optimal query performance."""
         with self.driver.session() as session:
@@ -976,46 +976,46 @@ class Neo4jIngestor:
             session.run("CREATE INDEX IF NOT EXISTS FOR (e:Entity) ON (e.id)")
             session.run("CREATE INDEX IF NOT EXISTS FOR (e:Entity) ON (e.type)")
             session.run("CREATE INDEX IF NOT EXISTS FOR (e:Entity) ON (e.confidence)")
-            
+
             # Chunk indexes
             session.run("CREATE INDEX IF NOT EXISTS FOR (c:Chunk) ON (c.id)")
             session.run("CREATE INDEX IF NOT EXISTS FOR (c:Chunk) ON (c.paper_id)")
-            
+
             # Paper indexes
             session.run("CREATE INDEX IF NOT EXISTS FOR (p:ResearchPaper) ON (p.id)")
             session.run("CREATE INDEX IF NOT EXISTS FOR (p:ResearchPaper) ON (p.publication_date)")
-            
+
             logger.info("Indexes created successfully")
-    
+
     def verify_ingestion(self) -> Dict[str, int]:
         """Verify ingested data."""
         with self.driver.session() as session:
             stats = {}
-            
+
             stats['total_entities'] = session.run(
                 "MATCH (e:Entity) RETURN count(e) as count"
             ).single()['count']
-            
+
             stats['total_papers'] = session.run(
                 "MATCH (p:ResearchPaper) RETURN count(p) as count"
             ).single()['count']
-            
+
             stats['total_chunks'] = session.run(
                 "MATCH (c:Chunk) RETURN count(c) as count"
             ).single()['count']
-            
+
             stats['mentions_relationships'] = session.run(
                 "MATCH (c:Chunk)-[r:MENTIONS]->(e:Entity) RETURN count(r) as count"
             ).single()['count']
-            
+
             stats['entity_types'] = session.run("""
                 MATCH (e:Entity)
                 RETURN e.type, count(*) as count
                 ORDER BY count DESC
             """).data()
-            
+
             return stats
-    
+
     def close(self):
         self.driver.close()
 ```
@@ -1043,23 +1043,23 @@ def main():
     neo4j_user = "neo4j"
     neo4j_password = "your_password"
     claude_api_key = "your_claude_api_key"
-    
+
     research_papers_dir = "/path/to/research/papers"
-    
+
     # Initialize services
     extractor = EntityExtractor(claude_api_key)
     ingestor = Neo4jIngestor(neo4j_uri, neo4j_user, neo4j_password)
-    
+
     try:
         # Create indexes first
         logger.info("Creating Neo4j indexes")
         ingestor.create_indexes()
-        
+
         # Load all research papers
         logger.info("Loading research papers")
         papers = []
         paper_files = list(Path(research_papers_dir).glob("*.txt"))
-        
+
         for paper_file in paper_files:
             with open(paper_file, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -1068,19 +1068,19 @@ def main():
                     'filename': paper_file.name,
                     'content': content
                 })
-        
+
         logger.info(f"Loaded {len(papers)} research papers")
-        
+
         # Chunk papers (1200 token chunks with 15% overlap)
         logger.info("Chunking papers")
         chunks = []
         chunk_id_counter = 0
-        
+
         for paper in papers:
             words = paper['content'].split()
             chunk_size = 240  # Approximately 1200 tokens (~5 chars per token)
             overlap = int(chunk_size * 0.15)
-            
+
             for i in range(0, len(words), chunk_size - overlap):
                 chunk_text = ' '.join(words[i:i + chunk_size])
                 if len(chunk_text.split()) > 50:  # Only keep chunks > 50 words
@@ -1090,39 +1090,39 @@ def main():
                         'text': chunk_text
                     })
                     chunk_id_counter += 1
-        
+
         logger.info(f"Created {len(chunks)} chunks from papers")
-        
+
         # Extract entities using batch API
         logger.info(f"Starting entity extraction for {len(chunks)} chunks")
         start_time = time.time()
-        
+
         extracted_entities = extractor.extract_entities_batch(chunks)
-        
+
         elapsed = time.time() - start_time
         logger.info(f"Entity extraction completed in {elapsed:.1f} seconds")
         logger.info(f"Extracted {len(extracted_entities)} entities")
-        
+
         # Calculate costs
         # Assuming 450 output tokens per extraction on average
         total_input_tokens = len(chunks) * 1200
         total_output_tokens = len(extracted_entities) * 450 / 10  # Rough estimate
         batch_cost = extractor.calculate_batch_cost(total_input_tokens, total_output_tokens)
-        
+
         logger.info(f"Batch processing cost: ${batch_cost:.2f}")
-        
+
         # Ingest entities into Neo4j
         logger.info("Ingesting entities into Neo4j")
         ingestion_stats = ingestor.ingest_entities(extracted_entities)
-        
+
         logger.info(f"Ingestion stats: {ingestion_stats}")
-        
+
         # Verify ingestion
         logger.info("Verifying ingestion")
         verification_stats = ingestor.verify_ingestion()
-        
+
         logger.info(f"Verification stats: {verification_stats}")
-        
+
     finally:
         ingestor.close()
 
@@ -1156,16 +1156,16 @@ from typing import List, Dict, Tuple
 import time
 
 class ValidationProtocol:
-    def __init__(self, neo4j_uri: str, neo4j_user: str, neo4j_password: str, 
+    def __init__(self, neo4j_uri: str, neo4j_user: str, neo4j_password: str,
                  claude_api_key: str):
         self.driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
         self.client = Anthropic(api_key=claude_api_key)
         self.test_queries = self._create_test_queries()
-    
+
     def _create_test_queries(self) -> List[Dict]:
         """Define 50 validation test queries across 4 categories."""
         queries = []
-        
+
         # Category 1: Entity Retrieval (15 queries)
         entity_queries = [
             {
@@ -1206,7 +1206,7 @@ class ValidationProtocol:
             # Additional 10 entity retrieval queries...
         ]
         queries.extend(entity_queries)
-        
+
         # Category 2: Complex Relationships (15 queries)
         relationship_queries = [
             {
@@ -1233,7 +1233,7 @@ class ValidationProtocol:
             # Additional 12 relationship queries...
         ]
         queries.extend(relationship_queries)
-        
+
         # Category 3: Community Structure (10 queries)
         community_queries = [
             {
@@ -1253,7 +1253,7 @@ class ValidationProtocol:
             # Additional 8 community queries...
         ]
         queries.extend(community_queries)
-        
+
         # Category 4: Aggregation and Analytics (10 queries)
         analytics_queries = [
             {
@@ -1273,9 +1273,9 @@ class ValidationProtocol:
             # Additional 8 analytics queries...
         ]
         queries.extend(analytics_queries)
-        
+
         return queries
-    
+
     def execute_validation(self) -> Dict:
         """Execute complete validation protocol."""
         results = {
@@ -1284,17 +1284,17 @@ class ValidationProtocol:
             'results_by_category': {},
             'overall_metrics': {}
         }
-        
+
         for category in ['entity_retrieval', 'relationships', 'community_analysis', 'analytics']:
             category_queries = [q for q in self.test_queries if q['category'] == category]
             category_results = self._validate_category(category_queries)
             results['results_by_category'][category] = category_results
-        
+
         # Calculate overall metrics
         results['overall_metrics'] = self._calculate_overall_metrics(results)
-        
+
         return results
-    
+
     def _validate_category(self, queries: List[Dict]) -> Dict:
         """Validate all queries in a category."""
         category_results = {
@@ -1305,23 +1305,23 @@ class ValidationProtocol:
             'avg_result_quality': 0,
             'query_results': []
         }
-        
+
         execution_times = []
         quality_scores = []
-        
+
         for query in queries:
             start_time = time.time()
-            
+
             # Execute query in Neo4j
             cypher_query, result = self._translate_and_execute(query)
-            
+
             execution_time = time.time() - start_time
             execution_times.append(execution_time)
-            
+
             # Validate results
             is_valid, quality_score = self._validate_result(query, result)
             quality_scores.append(quality_score)
-            
+
             query_result = {
                 'query_id': query['id'],
                 'query_text': query['query'],
@@ -1332,48 +1332,48 @@ class ValidationProtocol:
                 'quality_score': quality_score,
                 'execution_time_ms': execution_time * 1000
             }
-            
+
             category_results['query_results'].append(query_result)
-            
+
             if is_valid:
                 category_results['passed_queries'] += 1
             else:
                 category_results['failed_queries'] += 1
-        
+
         if execution_times:
             category_results['avg_execution_time'] = sum(execution_times) / len(execution_times)
-        
+
         if quality_scores:
             category_results['avg_result_quality'] = sum(quality_scores) / len(quality_scores)
-        
+
         return category_results
-    
+
     def _translate_and_execute(self, query: Dict) -> Tuple[str, List]:
         """Translate natural language query to Cypher and execute."""
         # Use Claude to translate query to Cypher
         prompt = f"""Translate this natural language query into a Neo4j Cypher query.
-        
+
 Query: {query['query']}
 
 Context: The graph contains ResearchPaper, Chunk, Entity, Author, Concept nodes
 and relationships MENTIONS, AUTHORED_BY, CITES, HAS_CHUNK, EXTRACTED_FROM.
 
 Return ONLY the Cypher query, no explanation."""
-        
+
         response = self.client.messages.create(
             model="claude-3-5-sonnet-20241022",
             max_tokens=500,
             messages=[{"role": "user", "content": prompt}]
         )
-        
+
         cypher_query = response.content[0].text.strip()
-        
+
         # Clean up Cypher query (remove markdown formatting if present)
         if cypher_query.startswith("```"):
             cypher_query = cypher_query.split("```")[1]
             if cypher_query.startswith("cypher"):
                 cypher_query = cypher_query[6:]
-        
+
         # Execute query
         with self.driver.session() as session:
             try:
@@ -1382,66 +1382,66 @@ Return ONLY the Cypher query, no explanation."""
             except Exception as e:
                 print(f"Query execution error: {str(e)}")
                 return cypher_query, []
-    
+
     def _validate_result(self, query: Dict, result: List) -> Tuple[bool, float]:
         """Validate query result quality."""
         # Check if minimum results met
         meets_minimum = len(result) >= query['min_results']
-        
+
         # Check if expected properties present
         properties_present = 0
         if result:
             for expected_prop in query['expected_properties']:
                 if expected_prop in result[0]:
                     properties_present += 1
-        
+
         properties_ratio = properties_present / len(query['expected_properties'])
-        
+
         # Calculate quality score (0-1)
         quality_score = properties_ratio * 0.7 + (1.0 if meets_minimum else 0.0) * 0.3
-        
+
         # Query is valid if quality score > 0.6 AND minimum results met
         is_valid = quality_score > 0.6 and meets_minimum
-        
+
         return is_valid, quality_score
-    
+
     def _calculate_overall_metrics(self, results: Dict) -> Dict:
         """Calculate overall validation metrics."""
         metrics = {}
-        
+
         total_passed = sum(
-            r['passed_queries'] 
+            r['passed_queries']
             for r in results['results_by_category'].values()
         )
         total_queries = sum(
-            r['total_queries'] 
+            r['total_queries']
             for r in results['results_by_category'].values()
         )
-        
+
         metrics['overall_accuracy'] = total_passed / total_queries if total_queries > 0 else 0
         metrics['total_passed'] = total_passed
         metrics['total_queries'] = total_queries
-        
+
         # Calculate by category accuracy
         for category, category_results in results['results_by_category'].items():
             if category_results['total_queries'] > 0:
-                accuracy = (category_results['passed_queries'] / 
+                accuracy = (category_results['passed_queries'] /
                            category_results['total_queries'])
                 metrics[f'{category}_accuracy'] = accuracy
-        
+
         # Average execution time across all queries
         all_times = []
         for category_results in results['results_by_category'].values():
             for query_result in category_results['query_results']:
                 all_times.append(query_result['execution_time_ms'])
-        
+
         if all_times:
             metrics['avg_query_time_ms'] = sum(all_times) / len(all_times)
             metrics['p95_query_time_ms'] = sorted(all_times)[int(len(all_times) * 0.95)]
             metrics['max_query_time_ms'] = max(all_times)
-        
+
         return metrics
-    
+
     def generate_report(self, results: Dict) -> str:
         """Generate validation report."""
         report = f"""
@@ -1461,18 +1461,18 @@ Max Query Time: {results['overall_metrics'].get('max_query_time_ms', 0):.0f}ms
 CATEGORY BREAKDOWN
 ------------------
 """
-        
+
         for category, category_results in results['results_by_category'].items():
-            accuracy = (category_results['passed_queries'] / 
+            accuracy = (category_results['passed_queries'] /
                        category_results['total_queries'])
             report += f"\n{category.upper()}\n"
             report += f"  Accuracy: {accuracy:.1%}\n"
             report += f"  Passed: {category_results['passed_queries']}/{category_results['total_queries']}\n"
             report += f"  Avg Execution Time: {category_results['avg_execution_time']:.3f}s\n"
             report += f"  Avg Quality Score: {category_results['avg_result_quality']:.2f}\n"
-        
+
         return report
-    
+
     def close(self):
         self.driver.close()
 ```
@@ -1484,7 +1484,7 @@ Create file `metrics_definition.py` with exact measurement criteria:
 ```python
 class MetricsDefinition:
     """Exact metrics for GraphRAG accuracy validation."""
-    
+
     # Metric 1: Query Accuracy
     QUERY_ACCURACY_THRESHOLD = 0.85  # 85% of queries must return correct results
     QUERY_ACCURACY_CALCULATION = """
@@ -1492,7 +1492,7 @@ class MetricsDefinition:
     Measurement: Compare AI-generated results against gold standard answers
     Success Criterion: ≥ 85% accuracy across all 50 test queries
     """
-    
+
     # Metric 2: Entity Extraction Precision
     ENTITY_PRECISION_THRESHOLD = 0.88  # 88% of extracted entities must be valid
     ENTITY_PRECISION_CALCULATION = """
@@ -1501,7 +1501,7 @@ class MetricsDefinition:
     Success Criterion: ≥ 88% precision in entity extraction
     Sample validation: Review 50 entities, accept if ≥ 44 are correct
     """
-    
+
     # Metric 3: Relationship Accuracy
     RELATIONSHIP_ACCURACY_THRESHOLD = 0.80  # 80% of relationships must be accurate
     RELATIONSHIP_ACCURACY_CALCULATION = """
@@ -1509,7 +1509,7 @@ class MetricsDefinition:
     Measurement: Validate 20 random relationship chains for semantic correctness
     Success Criterion: ≥ 80% of tested relationships are semantically correct
     """
-    
+
     # Metric 4: Community Detection Quality (Modularity)
     MODULARITY_THRESHOLD = 0.45  # Modularity must be ≥ 0.45
     MODULARITY_CALCULATION = """
@@ -1517,7 +1517,7 @@ class MetricsDefinition:
     Where: A_ij = adjacency matrix, k_i = node degree, γ = resolution parameter
     Success Criterion: Modularity score ≥ 0.45 indicates significant community structure
     """
-    
+
     # Metric 5: Graph Density
     GRAPH_DENSITY_RANGE = (0.002, 0.008)  # Expected density for 5.3K node graph
     GRAPH_DENSITY_CALCULATION = """
@@ -1525,7 +1525,7 @@ class MetricsDefinition:
     Expected range for knowledge graphs: 0.002 - 0.008
     Success Criterion: Density within expected range indicates balanced graph structure
     """
-    
+
     # Metric 6: Clustering Coefficient
     CLUSTERING_COEFFICIENT_THRESHOLD = 0.10  # ≥ 0.10
     CLUSTERING_COEFFICIENT_CALCULATION = """
@@ -1533,7 +1533,7 @@ class MetricsDefinition:
     Global clustering: Average of all local coefficients
     Success Criterion: ≥ 0.10 indicates meaningful clustering (nodes have shared neighbors)
     """
-    
+
     # Metric 7: Query Response Time
     QUERY_TIME_P95_THRESHOLD = 2000  # P95 response time ≤ 2000ms
     QUERY_TIME_P99_THRESHOLD = 5000  # P99 response time ≤ 5000ms
@@ -1544,7 +1544,7 @@ class MetricsDefinition:
       - P95 response time: ≤ 2000ms
       - P99 response time: ≤ 5000ms
     """
-    
+
     # Metric 8: Data Completeness
     DATA_COMPLETENESS_THRESHOLD = 0.95  # 95% of expected data present
     DATA_COMPLETENESS_CALCULATION = """
@@ -1552,7 +1552,7 @@ class MetricsDefinition:
     Measurement: Check for null/missing values in entity and relationship properties
     Success Criterion: ≥ 95% of expected properties populated with valid data
     """
-    
+
     # Metric 9: Entity Confidence Distribution
     ENTITY_CONFIDENCE_ACCEPTANCE = """
     Distribution requirement:
@@ -1562,7 +1562,7 @@ class MetricsDefinition:
     Measurement: Histogram of confidence scores for all extracted entities
     Success Criterion: Entity confidence distribution follows acceptance criteria
     """
-    
+
     # Metric 10: Graph Traversal Correctness
     TRAVERSAL_ACCURACY_THRESHOLD = 0.90  # 90% of paths correct
     TRAVERSAL_ACCURACY_CALCULATION = """
@@ -1584,7 +1584,7 @@ import time
 
 def run_complete_validation():
     """Execute complete validation protocol and generate report."""
-    
+
     # Initialize
     validator = ValidationProtocol(
         neo4j_uri="neo4j://localhost:7687",
@@ -1592,31 +1592,31 @@ def run_complete_validation():
         neo4j_password="your_password",
         claude_api_key="your_claude_api_key"
     )
-    
+
     print("Starting validation protocol...")
     print(f"Test queries: {len(validator.test_queries)}")
     print(f"Categories: entity_retrieval, relationships, community_analysis, analytics\n")
-    
+
     start_time = time.time()
-    
+
     # Execute validation
     results = validator.execute_validation()
-    
+
     elapsed = time.time() - start_time
-    
+
     # Generate report
     report = validator.generate_report(results)
     print(report)
-    
+
     # Write results to file
     with open('validation_results.json', 'w') as f:
         json.dump(results, f, indent=2)
-    
+
     # Evaluate against success criteria
     print("\n" + "="*50)
     print("SUCCESS CRITERIA EVALUATION")
     print("="*50)
-    
+
     # Check each criterion
     criteria_results = {
         'query_accuracy': {
@@ -1635,14 +1635,14 @@ def run_complete_validation():
             'passed': results['overall_metrics'].get('p95_query_time_ms', 0) <= 2000
         }
     }
-    
+
     for criterion, evaluation in criteria_results.items():
         status = "✓ PASSED" if evaluation['passed'] else "✗ FAILED"
         print(f"\n{criterion}: {status}")
         for key, value in evaluation.items():
             if key != 'passed':
                 print(f"  {key}: {value}")
-    
+
     # Overall validation result
     all_passed = all(e['passed'] for e in criteria_results.values())
     print("\n" + "="*50)
@@ -1651,11 +1651,11 @@ def run_complete_validation():
     else:
         print("✗ VALIDATION FAILED - Address issues before production deployment")
     print("="*50)
-    
+
     print(f"\nTotal validation time: {elapsed:.1f} seconds")
-    
+
     validator.close()
-    
+
     return results, all_passed
 
 if __name__ == '__main__':
@@ -2053,11 +2053,11 @@ class CachingLayer:
     def __init__(self, redis_host='localhost', redis_port=6379):
         self.cache = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
         self.ttl = 3600  # 1 hour
-    
+
     def get_cached_result(self, query_hash: str):
         """Retrieve cached query result."""
         return self.cache.get(f"query:{query_hash}")
-    
+
     def cache_result(self, query: str, result: dict):
         """Cache query result."""
         query_hash = hashlib.md5(query.encode()).hexdigest()
@@ -2067,7 +2067,7 @@ class CachingLayer:
             json.dumps(result)
         )
         return query_hash
-    
+
     def invalidate_cache(self, pattern: str = "*"):
         """Invalidate cache entries matching pattern."""
         keys = self.cache.keys(f"query:{pattern}")

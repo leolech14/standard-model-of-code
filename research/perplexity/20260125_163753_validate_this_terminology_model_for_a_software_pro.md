@@ -51,13 +51,13 @@ Novel terms suit internal tools or marketing but hinder external collaboration; 
 
 ### 4. Terminology Scores
 
-- **CLARITY: 65/100**  
+- **CLARITY: 65/100**
   Intuitive for biology-savvy users (total "omes" signal completeness), but -ome is alien to most engineers, risking misinterpretation of CODOME as non-executable configs.[1][2][3]
 
-- **PRECISION: 85/100**  
+- **PRECISION: 85/100**
   Highly specific: distinguishes executable code, non-executable content, and domain slices better than vague "project files"; file-type examples (.py vs. .md) add sharpness.[3]
 
-- **ADOPTION LIKELIHOOD: 40/100**  
+- **ADOPTION LIKELIHOOD: 40/100**
   Low due to no IEEE/ISO precedent and glossary saturation (600+ PM terms exist); niche appeal for AI/analysis tools, but devs prefer familiar terms like codebase.[1][4][6]
 
 ---

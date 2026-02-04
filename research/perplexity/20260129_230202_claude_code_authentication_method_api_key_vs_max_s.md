@@ -26,7 +26,7 @@ Claude Code authentication method API key vs Max subscription login how does bil
 
 API keys offer flexibility for API-driven setups, while Max/Teams logins provide managed billing and higher limits, with Claude for Teams or Enterprise as the top recommendation for shared access.[5]
 
-**Billing ties to your authentication method and plan, charged via Anthropic's Claude Console or linked providers (e.g., AWS for Bedrock).** 
+**Billing ties to your authentication method and plan, charged via Anthropic's Claude Console or linked providers (e.g., AWS for Bedrock).**
 - **Max Subscription/Teams/Enterprise**: Subscription-based (e.g., Claude Console with team billing); usage limits scale with tier, no per-token billing details specified for 2025-2026 but auto-managed via login.
 - **API Key**: Pay-per-use token billing through Anthropic's console; teams can consolidate under shared billing.
 - No specific 2025-2026 rate changes noted in sources, but credentials determine access limits—e.g., Teams unlocks higher quotas. Third-party auth (Bedrock/Vertex) bills via respective clouds.[3][5]

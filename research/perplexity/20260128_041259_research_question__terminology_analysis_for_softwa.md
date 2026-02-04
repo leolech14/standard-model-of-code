@@ -29,7 +29,7 @@ Q1.1: Why might "manifestation" be a poor choice for computer science terminolog
 
 Q1.2: Does "manifestation" have established technical meanings in CS that conflict with our usage?
   - Search: "code manifestation", "software manifestation", "manifest" vs "manifestation"
-  - Check: Build tools use "manifest" (different meaning?) 
+  - Check: Build tools use "manifest" (different meaning?)
   - Question: Would using "manifestation" create confusion with existing CS terminology?
 
 Q1.3: Is "manifestation" too vague or imprecise for formal architectural theory?

@@ -1,6 +1,6 @@
 # Topological Boundaries: The Theory of Nested Abstraction
 
-> **Status:** VALIDATED (Gemini 4.6/5.0 CDPS, 2026-02-01)
+> **Status:** GROUNDED (Gemini 4.6/5.0 CDPS, 2026-02-01)
 > **Parent:** [L1_DEFINITIONS.md](./L1_DEFINITIONS.md) §5.8 (Locus), §5.9 (Holon)
 > **Principle:** Turtles all the way down.
 > **Originality:** Novel synthesis (no direct prior art found for software application)

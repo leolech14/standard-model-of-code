@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-059
 # Confidence: 9000%
-# Generated: 2026-01-31T03:52:50.283751
+# Generated: 2026-02-03T22:32:12.713075
 
 id: CARD-OPP-059
 title: Sprawl Consolidation Infrastructure
@@ -12,11 +12,11 @@ description: "Infrastructure improvements for managing repository sprawl:\n\nCOM
   \ (2026-01-23):\n1. \u2705 Created SPRAWL_CONSOLIDATION_PLAN.md\n2. \u2705 Updated\
   \ archive config with 4 large directories for GCS offload\n3. \u2705 Added 14MB\
   \ timestamp CSV to .gitignore\n4. \u2705 Moved one-time reports to archive/reports/\n\
-  5. \u2705 Moved AGENTKNOWLEDGEDUMP.md to wave/docs/agent_school/\n\
-  6. \u2705 Fixed validate_manifest.py exit code logic\n7. \u2705 Filtered __init__.py\
-  \ from orphan detection\n\nRESULT:\n- Manifest health: 100% (FULLY COHERENT)\n-\
-  \ Root .md files: 11 \u2192 6 (essential only)\n- Validator exit code: 0\n\nREMAINING:\n\
-  - Run GCS offload for large directories\n- Audit remaining 528 .md files for duplicates/stale\
+  5. \u2705 Moved AGENTKNOWLEDGEDUMP.md to wave/docs/agent_school/\n6. \u2705 Fixed\
+  \ validate_manifest.py exit code logic\n7. \u2705 Filtered __init__.py from orphan\
+  \ detection\n\nRESULT:\n- Manifest health: 100% (FULLY COHERENT)\n- Root .md files:\
+  \ 11 \u2192 6 (essential only)\n- Validator exit code: 0\n\nREMAINING:\n- Run GCS\
+  \ offload for large directories\n- Audit remaining 528 .md files for duplicates/stale\
   \ content\n"
 preconditions:
 - check: registry.OPP-059.exists
@@ -37,5 +37,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-01-31T06:52:50.283698+00:00'
+generated_at: '2026-02-04T01:32:12.713021+00:00'
 confidence: 90

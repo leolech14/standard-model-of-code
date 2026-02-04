@@ -42,7 +42,7 @@ graph TD
     I --> Q{Knot Detection};
     I --> R{Data Flow};
     I --> S{File Index};
-    
+
     subgraph Analysis{
     F;I;J;K;L;M;N;O;P;Q;R;S
     }
@@ -50,7 +50,7 @@ graph TD
     STYLE Analysis fill:#f9f,stroke:#333,stroke-width:2px
 
     subgraph Viz{
-    
+
     T(Appearance Tokens);
     U(Controls Tokens);
     I --> T;
@@ -64,7 +64,7 @@ graph TD
     }
 
     STYLE Viz fill:#ccf,stroke:#333,stroke-width:2px
-    
+
 
     I --> Z(Output Generator);
     Z --> AA(Normalize Output);

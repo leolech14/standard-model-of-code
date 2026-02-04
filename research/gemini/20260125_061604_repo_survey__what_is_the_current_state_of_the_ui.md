@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 REPO SURVEY: What is the current state of the UI Overhaul?
 
 List:

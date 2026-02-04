@@ -88,7 +88,7 @@ async function transitionToMode(newMode) {
     };
     animate();
   });
-  graph.nodeVisibility(node => 
+  graph.nodeVisibility(node =>
     newMode === 'atoms' || node.isFile // Toggle atoms
   );
   graph.resumeAnimation();

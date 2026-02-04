@@ -222,20 +222,20 @@ def normalize_reference(ref_text: str) -> str:
     normalized = re.sub(r'[()[\]{};,.]$', '', normalized)  # Remove trailing punctuation
     return normalized.strip()
 
-def find_matching_symbols(reference: DocumentationReference, 
+def find_matching_symbols(reference: DocumentationReference,
                          symbols: List[CodeSymbol],
                          threshold: float = 0.75) -> List[Tuple[CodeSymbol, float]]:
     """Find code symbols matching a documentation reference."""
     normalized_ref = normalize_reference(reference.text)
-    
+
     matches = []
     for symbol in symbols:
         # Extract the simple name (last component of qualified name)
         simple_name = symbol.qualified_name.split('.')[-1]
-        
+
         # Compute match score
         scores = compute_match_score(normalized_ref, simple_name)
-        
+
         # Compute weighted composite score
         weights = {
             'exact': 0.5,      # Exact matches are most reliable
@@ -244,10 +244,10 @@ def find_matching_symbols(reference: DocumentationReference,
             'jaro_winkler': 0.1  # Jaro-Winkler as tiebreaker
         }
         composite = sum(scores[k] * weights[k] for k in weights.keys())
-        
+
         if composite >= threshold:
             matches.append((symbol, composite))
-    
+
     # Sort by score descending
     return sorted(matches, key=lambda x: x[1], reverse=True)
 
@@ -257,22 +257,22 @@ def resolve_ambiguous_matches(matches: List[Tuple[CodeSymbol, float]],
     """Resolve ambiguity when multiple symbols match."""
     if not matches:
         return None
-    
+
     if len(matches) == 1:
         return matches[0][0]
-    
+
     # Apply disambiguation heuristics
     # 1. Prefer public symbols if private ones also match
     public_matches = [m for m in matches if m[0].is_public]
     if public_matches and len(public_matches) < len(matches):
         matches = public_matches
-    
+
     # 2. Prefer symbols in the same module as the documentation
-    same_module_matches = [m for m in matches 
+    same_module_matches = [m for m in matches
                            if m[0].module_path in reference.file_path]
     if same_module_matches:
         matches = same_module_matches
-    
+
     # 3. Return highest scoring match
     return matches[0][0]
 ```

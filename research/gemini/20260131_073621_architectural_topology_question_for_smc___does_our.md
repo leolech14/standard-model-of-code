@@ -18,7 +18,7 @@ Does our theory have a concept for CONCENTRIC LAYERS with CENTRALITY?
 
 Example: A tool where:
 - CORE (center) = pure operations, no dependencies
-- MIDDLE = business logic using core  
+- MIDDLE = business logic using core
 - OUTER = interface using middle
 - Dependencies flow INWARD only
 
@@ -108,12 +108,12 @@ To implement this without breaking the `COLLIDER_ARCHITECTURE` schema, we derive
 def calculate_shell(node: UnifiedNode) -> int:
     # SHELL 0: Pure definitions (Tier 0 Atoms)
     if node.rpbl.purity >= 9 and node.rpbl.boundary == 0:
-        return 0 
-    
+        return 0
+
     # SHELL 4: Heavy Infrastructure (High Boundary)
     if node.rpbl.boundary >= 8:
         return 4
-        
+
     # ... interpolation logic for Shells 1-3 based on dependency edges
 ```
 

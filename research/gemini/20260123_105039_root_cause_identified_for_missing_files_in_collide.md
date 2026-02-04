@@ -18,7 +18,7 @@ The 4 missing JS files (main.js, theory.js, index.js) all use IIFE pattern:
 ```javascript
 (function() {
     'use strict';
-    
+
     function myFunction() { ... }  // INDENTED
     const THEORY = { ... };        // INDENTED
 })();

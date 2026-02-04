@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 VALIDATION REQUEST: OKLCH Integration Audit
 
 ## PREVIOUS FINDINGS TO VALIDATE

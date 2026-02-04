@@ -9,8 +9,8 @@
 
 ## 1. WHAT IS THE CODE ZOO?
 
-The **Code Zoo** is a complete taxonomy of all entity types that exist in software.
-Every piece of code, every file, every concept can be classified.
+The **Code Zoo** is a taxonomy of software entity types.
+The Code Zoo provides a framework for classifying a wide range of software entities.
 
 **Principle:** If it exists in software, it has a name and a place.
 
@@ -118,7 +118,7 @@ R3     ADAPTER      R0-R2                    Repositories, gateways, I/O boundar
 R4     FRAMEWORK    R0-R3 + externals        Entry points, CLI, web handlers
 ```
 
-**Key Law:** Dependencies flow INWARD (R4 → R0). Ring 0 never imports Ring 1+.
+**Key principle:** Dependencies flow INWARD (R4 → R0). Ring 0 should not import Ring 1+.
 
 ```
         ┌─────────────────────────────────────┐

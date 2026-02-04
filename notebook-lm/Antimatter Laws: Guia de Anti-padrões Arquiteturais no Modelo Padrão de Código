@@ -66,13 +66,13 @@ O oposto é a "Perda de Identidade". O Holon torna-se meramente um receptáculo 
 // COMPORTAMENTO PATOLÓGICO (Anemic - Submissão Patológica)
 class Pedido {
     public decimal Total; // Apenas um "saco de dados"
-    public List<Item> Itens; 
+    public List<Item> Itens;
 }
 
 // COMPORTAMENTO SAUDÁVEL (Rich Model - Business Invariants)
 class Pedido {
     private List<Item> _itens;
-    
+
     public void AdicionarItem(Item item) {
         // Encapsula Regras de Negócio e Invariantes
         ValidarDisponibilidade(item);

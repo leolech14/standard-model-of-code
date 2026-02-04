@@ -255,7 +255,7 @@ Using the 4D Hotness Scoring Methodology (see `ANALOGY_SCORING_METHODOLOGY.md`):
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Mean Hotness (8 mappings) | 85.3 | VALIDATED |
+| Mean Hotness (8 mappings) | 85.3 | GROUNDED |
 | Strong mappings (≥90) | 3/8 (37.5%) | |
 | All mappings ≥70 | Yes | |
 
@@ -263,7 +263,7 @@ Using the 4D Hotness Scoring Methodology (see `ANALOGY_SCORING_METHODOLOGY.md`):
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Mean Hotness (5 mappings) | 88.0 | VALIDATED |
+| Mean Hotness (5 mappings) | 88.0 | GROUNDED |
 | Strong mappings (≥90) | 3/5 (60%) | |
 | All mappings ≥70 | Yes | |
 

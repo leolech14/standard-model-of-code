@@ -135,7 +135,7 @@ class UnifiedNode:
     # Physical
     file_path: str
     line: int
-    
+
     # Theoretical
     locus: Locus  # The invariant identity
 ```

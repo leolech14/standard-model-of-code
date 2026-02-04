@@ -16,7 +16,7 @@ COMPREHENSIVE DATABASE INTEGRATION ANALYSIS FOR COLLIDER
 
 Context: Collider is an AST-based code analysis tool that currently has NO persistent database. All caching is in-memory. We want to add SQLite for:
 1. INCREMENTAL ANALYSIS - Skip unchanged files between runs
-2. HISTORICAL QUERIES - Query across multiple runs  
+2. HISTORICAL QUERIES - Query across multiple runs
 3. CROSS-PROJECT SEARCH - Search across repos
 4. GRAPH QUERIES - Traverse dependency graphs
 
@@ -114,12 +114,12 @@ CREATE TABLE nodes (
     role TEXT, -- Controller, Service, etc.
     layer TEXT, -- D2_LAYER (Presentation, Domain)
     complexity INTEGER,
-    
+
     -- Hybrid Data (Standard Model)
     dimensions JSON, -- {D1_WHAT: ..., D6_EFFECT: ...}
     rpbl JSON,       -- {responsibility: 0.5, ...}
     metadata JSON,   -- Decorators, params, docstrings
-    
+
     FOREIGN KEY(file_id) REFERENCES files(id) ON DELETE CASCADE
 );
 
@@ -130,7 +130,7 @@ CREATE TABLE edges (
     edge_type TEXT, -- calls, imports, inherits
     weight REAL,
     metadata JSON,
-    
+
     FOREIGN KEY(source_id) REFERENCES nodes(id) ON DELETE CASCADE,
     -- Note: target_id might point to external node not in DB, so no strict FK constraint
     PRIMARY KEY (source_id, target_id, edge_type)
@@ -156,28 +156,28 @@ You need a new module `src/core/cache_manager.py` to handle the diffing logic.
     ```python
     def get_analysis_targets(db_conn, current_files):
         """
-        Returns: 
+        Returns:
         - files_to_analyze: List[str] (New or Changed)
         - cached_nodes: List[UnifiedNode] (From DB for unchanged files)
         """
         to_analyze = []
         cached_nodes = []
-        
+
         for f_path, f_hash in current_files.items():
             stored_hash = db_conn.execute(
                 "SELECT content_hash FROM files WHERE path=?", (f_path,)
             ).fetchone()
-            
+
             if not stored_hash or stored_hash[0] != f_hash:
                 to_analyze.append(f_path)
             else:
                 # Load nodes associated with this file from DB
                 nodes = db_conn.load_nodes_for_file(f_path)
                 cached_nodes.extend(nodes)
-                
+
         # Handle Deletions: Remove nodes from DB where file no longer exists on disk
         db_conn.prune_deleted_files(current_files.keys())
-        
+
         return to_analyze, cached_nodes
     ```
 
@@ -208,8 +208,8 @@ To move from JSON output to DB-backed without breaking the existing report gener
         WITH RECURSIVE downstream AS (
           SELECT target_id FROM edges WHERE source_id = 'target_node'
           UNION
-          SELECT e.target_id 
-          FROM edges e 
+          SELECT e.target_id
+          FROM edges e
           JOIN downstream d ON e.source_id = d.target_id
         )
         SELECT * FROM nodes WHERE id IN downstream;

@@ -40,7 +40,7 @@ Collider engine and Standard Model theory.
 |------|---------|-----------|
 | `src/core/` | Collider Pipeline | `full_analysis.py`, `pipeline/stages/` |
 | `docs/theory/` | The Canon | `THEORY_AXIOMS.md`, `THEORY_COMPLETE_ALL.md` |
-| `schema/` | SM Schema | `antimatter_laws.yaml`, `particle.schema.json` |
+| `schema/` | SM Schema | `antimatter_patterns.yaml`, `particle.schema.json` |
 | `cli.py` | Entry point | Main CLI |
 
 ---

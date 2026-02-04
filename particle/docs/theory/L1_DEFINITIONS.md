@@ -11,7 +11,7 @@ format: html
 # L1: Definitions of the Standard Model of Code
 
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L0: Axioms](./L0_AXIOMS.md#FIXED) | **Next:** [L2: Laws →](./L2_LAWS.md#FIXED)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L0: Axioms](./L0_AXIOMS.md#FIXED) | **Next:** [L2: Principles →](./L2_PRINCIPLES.md#FIXED)
 
 **Layer:** 1 (Complete Enumeration)
 **Status:** ACTIVE | EVOLVING
@@ -31,7 +31,7 @@ Principle: One concept, one definition, one location.
 
 ## 0. The Three Realms (PROJECT_elements Trinity)
 
-**Status:** VALIDATED 2026-01-28 (harsh MECE testing)
+**Status:** GROUNDED 2026-01-28 (harsh MECE testing)
 
 > The architecture is organized around three mutually exclusive, collectively exhaustive realms.
 
@@ -625,7 +625,7 @@ WHERE:
 
 **Etymology:** From Latin *locus* ("place"). In genetics, a locus is the specific, fixed position of a gene on a chromosome (e.g., BRCA1 at 17q21.31). In mathematics, a locus is the set of all points satisfying certain conditions.
 
-**Source:** Validated 2026-01-31 (Gemini 98/100, Perplexity confirmed)
+**Source:** Reviewed 2026-01-31 (Gemini 98/100, Perplexity confirmed)
 
 **Formula:**
 
@@ -685,7 +685,7 @@ Concrete example:
 
 #### 5.8.1 The Genetic Parallel (Extended Cross-Domain Analysis)
 
-**Status:** Validated 2026-02-01 | Parallel Applicability: ~70%
+**Status:** Reviewed 2026-02-01 | Parallel Applicability: ~70%
 
 The genetic locus metaphor is the **strongest cross-domain parallel** for understanding SMC Locus. This section documents the full mapping, including where it holds, where it breaks down, and what insights emerge.
 
@@ -1184,7 +1184,7 @@ All definitions in this layer trace to authoritative machine-readable sources:
 | Atoms | `../../schema/fixed/atoms.json` |
 | Roles | `../../schema/fixed/roles.json` |
 | Dimensions | `../../schema/fixed/dimensions.json` |
-| Antimatter laws | `../../schema/antimatter_laws.yaml` |
+| Antimatter patterns | `../../schema/antimatter_patterns.yaml` |
 | Constants | `../../schema/constants.yaml` |
 | Node schema | `../../schema/particle.schema.json` |
 | Types (Python) | `../../schema/types.py` |
@@ -1360,5 +1360,5 @@ Human navigation uses BOTH (structure + meaning).
 
 **📍 Up:** [Theory Index](./THEORY_INDEX.md#FIXED)
 **⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md#FIXED) - Foundation these definitions build on
-**➡️ Next:** [L2: Laws](./L2_LAWS.md#FIXED) - How these definitions behave
+**➡️ Next:** [L2: Principles](./L2_PRINCIPLES.md#FIXED) - Dynamic behavioral patterns
 **🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md#FIXED) → [L0: Axioms](./L0_AXIOMS.md#FIXED)

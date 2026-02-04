@@ -10,7 +10,7 @@ def verify_counts():
     to detect 'Count Drift'.
     """
     print("🔍 VERIFYING COUNTS (Gate G2)...")
-    
+
     # Example check for collider stages
     pipeline_init = Path("particle/src/core/pipeline/stages/__init__.py")
     if pipeline_init.exists():
@@ -19,7 +19,7 @@ def verify_counts():
         # In a real run, we'd parse STAGE_ORDER
         # This is a placeholder for the actual logic defined in Roadmap 1.1
         print(f"   Collider Stages (Code): Approx {actual_stages}")
-        
+
     # We will expand this as we implement Roadmap Task 1.1
     print("✅ Initial check complete. (Implement specific count logic in Task 1.1)")
     return True

@@ -33,7 +33,7 @@ PHASE 1: TRUST FOUNDATION
 - #23 Consolidate Pollution vs Pathogen terminology (enforce in code, not just docs)
 - #30 Add normalization + bounds contract (per-1k-nodes scaling, metrics_contract.json)
 
-PHASE 2: DEFINE PRIMITIVES  
+PHASE 2: DEFINE PRIMITIVES
 - #19 Decompose Q_purity into: Q_effect_fidelity, Q_boundary_integrity, Q_layer_integrity
 - #20 Add weighted PurityAlignmentScore: A = Σ(w(v)*Q(v))/Σ(w(v)) where w = confidence × impact
 - #25 Document two-tier truth model: Axioms vs Q-metrics

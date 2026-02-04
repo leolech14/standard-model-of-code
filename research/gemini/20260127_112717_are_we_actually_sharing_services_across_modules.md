@@ -98,10 +98,10 @@ Here is the evidence.
     ```python
     # full_analysis.py:1192
     nodes = enrich_with_standard_model(nodes)
-    
+
     # full_analysis.py:1559 (Passing nodes/edges explicitly)
     purpose_field = detect_purpose_field(nodes, edges)
-    
+
     # full_analysis.py:1652
     exec_flow = detect_execution_flow(nodes, edges, purpose_field)
     ```

@@ -25,7 +25,7 @@ We have a complete Color Telemetry Engine module ready (color-telemetry.js, ~200
 function _toHex(oklch) {
     const { h, c, l } = oklch;
     // ... OKLCH to OKLab to linear RGB ...
-    
+
     // Lines 881-883: LINEAR RGB (before clamping)
     let r = +4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3;
     let g = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3;
@@ -36,7 +36,7 @@ function _toHex(oklch) {
         x = Math.max(0, Math.min(1, x));  // <-- CLIPPING HAPPENS HERE
         return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
     };
-    
+
     // ... returns hex string ...
 }
 ```
@@ -76,12 +76,12 @@ function _toHex(oklch) {
 function _applyTransform(oklch, source = 'unknown') {
     // ... apply transforms ...
     const result = _toHex({ h, c, l });
-    
+
     // Emit telemetry (only if enabled)
     if (window.COLOR_TELEM?.enabled) {
         window.COLOR_TELEM.emit(source, l, c, h, result.hex, result.clipped);
     }
-    
+
     return result.hex;  // Still returns string for backward compatibility
 }
 ```
@@ -101,11 +101,11 @@ function _toHex(oklch) {
 function _applyTransform(oklch, source = 'unknown') {
     // ... apply transforms ...
     const hex = _toHex({ h, c, l });
-    
+
     if (window.COLOR_TELEM?.enabled) {
         window.COLOR_TELEM.emit(source, _lastOklch.l, _lastOklch.c, _lastOklch.h, hex, _lastClipped);
     }
-    
+
     return hex;
 }
 ```
@@ -188,16 +188,16 @@ Ensure we return the minimal object to keep GC low.
 ```javascript
 function _toHex(oklch) {
     // ... existing OKLCH -> Linear RGB math ...
-    
+
     // Linear RGB (Lines 881-883)
-    let r = ...; 
-    let g = ...; 
+    let r = ...;
+    let g = ...;
     let bl = ...;
 
     // DETECT CLIPPING (Before gamma correction/clamping)
     // Note: Using 0.0001 tolerance deals with floating point drift
-    const isClipped = r < -0.0001 || r > 1.0001 || 
-                      g < -0.0001 || g > 1.0001 || 
+    const isClipped = r < -0.0001 || r > 1.0001 ||
+                      g < -0.0001 || g > 1.0001 ||
                       bl < -0.0001 || bl > 1.0001;
 
     // ... toSRGB and hex conversion ...
@@ -226,10 +226,10 @@ Use a hierarchical naming convention (Category:Detail) to allow filtering in the
 function _applyTransform(oklch, source = 'unknown') {
     const t = transform;
     // ... existing transform logic ...
-    
+
     // Call modified _toHex
     const result = _toHex({ h, c, l });
-    
+
     // Fast path check
     const telem = _getTelemetry();
     if (telem?.enabled) {
@@ -237,8 +237,8 @@ function _applyTransform(oklch, source = 'unknown') {
         // rather than the input values
         telem.emit(source, l, c, h, result.hex, result.clipped);
     }
-    
-    return result.hex; 
+
+    return result.hex;
 }
 ```
 

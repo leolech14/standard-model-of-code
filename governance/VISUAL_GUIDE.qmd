@@ -140,7 +140,7 @@ erDiagram
     FILE ||--o{ PARCEL : "refines into"
     PARCEL ||--|| WAYBILL : "tracked by"
     SUBSYSTEM ||--o{ FILE : "manages"
-    
+
     FILE {
         string path
         string hash

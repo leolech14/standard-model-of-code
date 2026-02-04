@@ -199,6 +199,13 @@ try:
 except ImportError:
     HAS_PERPLEXITY = False
 
+# Import Cerebras for Tier 0.5: Fast bulk operations (3000 tokens/sec)
+try:
+    from cerebras_rapid_intel import cerebras_query, cerebras_batch
+    HAS_CEREBRAS = True
+except ImportError:
+    HAS_CEREBRAS = False
+
 # --- Config & Setup ---
 SETS_CONFIG_PATH = PROJECT_ROOT / "wave/config/analysis_sets.yaml"
 PROMPTS_CONFIG_PATH = PROJECT_ROOT / "wave/config/prompts.yaml"
@@ -781,6 +788,15 @@ def apply_semantic_attention(
         threshold = 0.6  # Filter out files below this score
         filtered = [(f, s) for f, s in scored_files if s >= threshold]
         dropped = len(scored_files) - len(filtered)
+
+        # FALLBACK: If aggressive filtering would remove ALL files, keep top 50%
+        # This prevents "No files matched" when semantic patterns don't match
+        if len(filtered) == 0 and len(scored_files) > 0:
+            # Keep top half by score (they're already sorted)
+            keep_count = max(len(scored_files) // 2, 10)  # At least 10 files
+            filtered = scored_files[:keep_count]
+            dropped = len(scored_files) - len(filtered)
+
         result_files = [f for f, s in filtered]
     else:
         # Just return reordered list
@@ -852,7 +868,7 @@ def print_briefing(analysis_sets: dict) -> None:
     hsl = get_hsl_status()
     print(f"\n[1] HOLOGRAPHIC SOCRATIC LAYER (HSL)")
     print(f"    Status: {hsl['status']}")
-    print(f"    Laws:   {hsl['laws']} Antimatter Laws loaded")
+    print(f"    Laws:   {hsl['laws']} Antimatter Patterns loaded")
     print(f"    Config: {hsl['path']}")
     print(f"    Usage:  Use --verify <domain> to query the semantic mirror.")
 
@@ -2173,17 +2189,17 @@ def verify_domain(domain, store_name=None, output=None, index=False, candidate=N
 # -------------------------------------------------------------------------
 class SocraticValidator:
     """
-    Acts as the 'Critic Agent' to detect AI liabilities (Antimatter Laws).
+    Acts as the 'Critic Agent' to detect AI liabilities (Antimatter Patterns).
     """
     def __init__(self, semantic_config):
         self.laws = semantic_config.get('antimatter', [])
 
     def validate(self, client, model, code_context: str, concept_role: str) -> dict:
         """
-        Runs a Socratic critique on the code context against Antimatter Laws.
+        Runs a Socratic critique on the code context against Antimatter Patterns.
         """
         if not self.laws:
-            return {"status": "SKIPPED", "reason": "No Antimatter Laws defined"}
+            return {"status": "SKIPPED", "reason": "No Antimatter Patterns defined"}
 
         # Construct the critique prompt
         prompt = f'''
@@ -2691,6 +2707,102 @@ Examples:
                     sys.exit(0)
                 elif decision.tier == Tier.INSTANT:
                     print("Could not answer from truths. Falling back to RAG.", file=sys.stderr)
+                    decision = analyze_and_route(args.prompt, force_tier="rag")
+
+        # TIER 0.5: CEREBRAS - Fast bulk operations (3000 tokens/sec)
+        if decision.tier == Tier.CEREBRAS:
+            print("[CEREBRAS] Fast inference tier selected (3000 t/s).", file=sys.stderr)
+            cerebras_start = time.time()
+
+            if not HAS_CEREBRAS:
+                print("[CEREBRAS] Module not available. Falling back to RAG.", file=sys.stderr)
+                decision = analyze_and_route(args.prompt, force_tier="rag")
+            else:
+                try:
+                    # Build minimal context for Cerebras (fast, focused)
+                    # Cerebras excels with smaller, focused prompts
+                    context_lines = []
+                    sets_to_load = decision.primary_sets[:2]  # Max 2 sets for speed
+
+                    if sets_to_load:
+                        sets_config = load_sets_config()
+                        for set_name in sets_to_load:
+                            if set_name in sets_config:
+                                set_files = sets_config[set_name].get("files", [])
+                                for file_pattern in set_files[:5]:  # Max 5 files per set
+                                    # Resolve pattern to actual files
+                                    pattern_path = PROJECT_ROOT / file_pattern
+                                    if pattern_path.is_file():
+                                        try:
+                                            content = pattern_path.read_text()[:4000]  # Max 4K per file
+                                            context_lines.append(f"--- {file_pattern} ---\n{content}")
+                                        except Exception:
+                                            pass
+
+                    # Build focused prompt
+                    context_str = "\n\n".join(context_lines) if context_lines else ""
+
+                    system_prompt = """You are a fast, precise code analysis assistant.
+Answer concisely and directly. Focus on accuracy over explanation.
+If you're unsure, say so briefly."""
+
+                    if context_str:
+                        user_prompt = f"""Context (relevant code):
+{context_str[:16000]}
+
+Query: {args.prompt}
+
+Respond concisely."""
+                    else:
+                        user_prompt = f"""Query: {args.prompt}
+
+Respond concisely based on your knowledge."""
+
+                    # Execute Cerebras query
+                    result = cerebras_query(user_prompt, system=system_prompt, max_tokens=2000)
+                    duration_ms = int((time.time() - cerebras_start) * 1000)
+
+                    if result:
+                        # Display result
+                        if HAS_INDUSTRIAL_UI:
+                            ui = GeminiUI()
+                            ui.header("CEREBRAS FAST INTEL")
+                            ui.item("Speed", f"{duration_ms}ms")
+                            ui.item("Context", f"{len(sets_to_load)} sets, {len(context_lines)} files")
+                            ui.divider()
+                            print()
+                            print(result)
+                            print()
+                            ui.footer()
+                        else:
+                            print("\n" + "=" * 60)
+                            print("CEREBRAS FAST INTEL")
+                            print(f"Speed: {duration_ms}ms")
+                            print("=" * 60)
+                            print(result)
+
+                        # Log to feedback loop
+                        if HAS_ACI:
+                            from aci.intent_parser import analyze_query as aci_analyze
+                            profile = aci_analyze(args.prompt)
+                            log_aci_query(
+                                profile=profile,
+                                decision=decision,
+                                tokens_input=len(user_prompt) // 4,  # Estimate
+                                tokens_output=len(result) // 4,
+                                success=True,
+                                duration_ms=duration_ms
+                            )
+
+                        sys.exit(0)
+                    else:
+                        # Empty result - fallback to RAG
+                        print("[CEREBRAS] Empty response. Falling back to RAG.", file=sys.stderr)
+                        decision = analyze_and_route(args.prompt, force_tier="rag")
+
+                except Exception as e:
+                    print(f"[CEREBRAS] Error: {e}", file=sys.stderr)
+                    print("Falling back to RAG tier.", file=sys.stderr)
                     decision = analyze_and_route(args.prompt, force_tier="rag")
 
         # TIER 3: PERPLEXITY - External research

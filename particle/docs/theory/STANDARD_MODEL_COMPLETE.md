@@ -116,7 +116,7 @@ This document is **3,326 lines** organized as 4 layers. You can:
 
 This layer contains the **formal axioms** that MUST hold for the Standard Model to be coherent. These are **foundational truths** that everything else builds on.
 
-Each axiom group has been validated against established mathematical frameworks.
+Each axiom group has been grounded in established mathematical frameworks.
 
 ---
 
@@ -156,9 +156,9 @@ This is a **MECE partition** (Mutually Exclusive, Collectively Exhaustive).
 
 ### A1.1 Necessity of Partition (Lawvere's Theorem)
 
-**THEOREM:** P = C ⊔ X is **MATHEMATICALLY NECESSARY**, not arbitrary.
+**DESIGN RATIONALE:** P = C ⊔ X is **motivated by practical considerations** about self-reference.
 
-**PROOF (via Lawvere's Fixed-Point Theorem, 1969):**
+**ARGUMENT (inspired by Lawvere's Fixed-Point Theorem, 1969):**
 
 ```
 Let A = C (Codome)

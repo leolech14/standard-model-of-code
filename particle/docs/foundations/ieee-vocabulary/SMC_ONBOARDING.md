@@ -325,7 +325,7 @@ A comprehensive 75-task implementation plan exists to close these gaps:
 - [ ] Understand LOCUS coordinate system
 
 ### Week 3: Laws
-- [ ] Read L2_LAWS.md completely
+- [ ] Read L2_PRINCIPLES.md completely
 - [ ] Understand purpose emergence (pi1-pi4)
 - [ ] Understand drift and technical debt formulas
 
@@ -346,7 +346,7 @@ A comprehensive 75-task implementation plan exists to close these gaps:
 **Key files:**
 - `docs/theory/L0_AXIOMS.md` - Bedrock truths
 - `docs/theory/L1_DEFINITIONS.md` - All concepts defined
-- `docs/theory/L2_LAWS.md` - Behavioral equations
+- `docs/theory/L2_PRINCIPLES.md` - Behavioral equations
 - `docs/theory/STANDARD_MODEL_THEORY_COMPLETE.md` - Everything unified
 
 **Lookup tools:**

@@ -128,7 +128,7 @@ The file system meta-data (Creation Time vs Modification Time) is the single mos
 
 ### Strategy A: Linter Laws (AI Guardrails)
 *   **Concept**: Treat coding standards as inviolable laws.
-*   **Implementation**: `antimatter_laws.yaml` fed to the Agent.
+*   **Implementation**: `antimatter_patterns.yaml` fed to the Agent.
 *   **Rule**: "Controllers must not directly import Repositories."
 *   **Effect**: Turns "Architectural Drift" into a hard syntax error.
 
@@ -165,8 +165,8 @@ We map these failure modes to the Standard Model to systematize detection.
 | **Security Risk** | D6 (Effect), D4 (Boundary) | R6 (Transformation) |
 | **Architectural Drift** | D2 (Layer), D3 (Role) | R4 (Composition) |
 
-### Antimatter Laws Extension
-We extend `antimatter_laws.yaml` with:
+### Antimatter Patterns Extension
+We extend `antimatter_patterns.yaml` with:
 *   **AM004 Duplicate Logic**: >80% similarity.
 *   **AM005 Orphan Code**: No incoming calls.
 *   **AM006 Hallucinated Dependency**: Import unknown.

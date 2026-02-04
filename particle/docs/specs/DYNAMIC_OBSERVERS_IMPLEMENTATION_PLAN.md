@@ -12,7 +12,7 @@
 |----------|---------|
 | `docs/theory/L0_AXIOMS.md` | Axiom E2 (Four Flows) and G1 (Three Observers) definitions |
 | `docs/theory/L1_DEFINITIONS.md` | LOCUS, Realms, Flow substance definitions |
-| `docs/theory/L2_LAWS.md` | Flow resistance equations, drift formulas |
+| `docs/theory/L2_PRINCIPLES.md` | Flow resistance equations, drift formulas |
 | `.agent/deck/DYNAMIC_OBSERVERS_REGISTRY.yaml` | 75-task implementation registry |
 | `docs/research/prompts/SONAR_PRO_IMPLEMENTATION_GAPS.md` | Deep research prompt for Perplexity |
 | `docs/foundations/ieee-vocabulary/SMC_ONBOARDING.md` | Complete theory overview |

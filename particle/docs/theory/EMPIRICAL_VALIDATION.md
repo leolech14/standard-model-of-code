@@ -8,7 +8,7 @@
 
 ## Abstract
 
-This document presents the empirical evidence supporting the Standard Model of Code (SMC), documenting existing validation work and proposing future studies. We demonstrate that SMC has been validated through implementation in Collider (a working code analysis tool), application to real-world codebases, and alignment with established academic frameworks. We propose three additional studies to strengthen empirical grounding: inter-rater reliability, quality correlation, and practitioner utility.
+This document presents the empirical evidence supporting the Standard Model of Code (SMC), documenting existing grounding work and proposing future studies. We show that SMC has been grounded through implementation in Collider (a working code analysis tool), application to real-world codebases, and alignment with established academic frameworks. We propose three additional studies to strengthen empirical grounding: inter-rater reliability, quality correlation, and practitioner utility.
 
 ---
 
@@ -29,7 +29,7 @@ SMC is not merely a theoretical framework. It has been implemented in **Collider
 | Compute dimensions | Partial | 5/8 dimensions computed |
 | Generate output | Implemented | JSON, HTML, visualization |
 
-**Validation claim:** The fact that Collider successfully analyzes real codebases demonstrates that SMC's concepts are operationalizable.
+**Argument:** The fact that Collider successfully analyzes real codebases shows the practical utility of SMC's concepts.
 
 **Repository:** `particle/` (Collider implementation)
 
@@ -54,9 +54,9 @@ Collider has been applied to analyze:
 
 ### 1.3 Academic Source Alignment
 
-**Evidence type:** Validation against established theory
+**Evidence type:** Alignment with established theory
 
-SMC axioms have been validated against academic sources:
+SMC axioms have been grounded in academic sources:
 
 | Axiom | Academic Source | Validation |
 |-------|-----------------|------------|
@@ -81,7 +81,7 @@ SMC atom taxonomy was audited against SWEBOK v4 and ISO 24765:
 | Enhancements to SWEBOK | 23 refined definitions |
 | Conflicts | 11 (resolved with documentation) |
 
-**Conclusion:** SMC is compatible with SWEBOK while providing finer granularity.
+**Observation:** SMC is compatible with SWEBOK while providing finer granularity.
 
 ---
 
@@ -163,7 +163,7 @@ SMC atom taxonomy was audited against SWEBOK v4 and ISO 24765:
 | H3 | Utility atoms have lower complexity | d < 0.2 |
 | H4 | Pure functions have higher coverage | r < 0.1 |
 
-**Expected outcome:** At least 2/4 hypotheses confirmed with medium effect size.
+**Expected outcome:** At least 2/4 hypotheses show practically significant relationships.
 
 ### 2.3 Study C: Practitioner Utility
 
@@ -200,9 +200,9 @@ SMC atom taxonomy was audited against SWEBOK v4 and ISO 24765:
 
 ---
 
-## 3. Validation Status Summary
+## 3. Grounding Status Summary
 
-| Validation Type | Status | Confidence |
+| Grounding Type | Status | Confidence |
 |-----------------|--------|------------|
 | Implementation (Collider) | Complete | High |
 | Self-application | Complete | High |
@@ -260,18 +260,18 @@ All validation materials will be made available:
 
 ## 6. Conclusion
 
-The Standard Model of Code has existing empirical support through:
+The Standard Model of Code has existing practical applications and evidence through:
 1. A working implementation (Collider)
 2. Application to real codebases
 3. Alignment with established academic frameworks
 4. SWEBOK compatibility audit
 
-To achieve publication-ready empirical validation, we propose three additional studies:
+To further demonstrate the practical usefulness of SMC, we propose three additional studies:
 1. Inter-rater reliability (κ target: >0.6)
 2. Quality correlation (effect size target: medium)
 3. Practitioner utility (mean target: >3.5/5)
 
-These studies would transform SMC from "implementation-validated" to "empirically-validated" theory.
+These studies would provide additional evidence for SMC's practical utility across diverse contexts.
 
 ---
 

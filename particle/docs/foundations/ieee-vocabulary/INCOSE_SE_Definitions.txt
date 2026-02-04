@@ -799,4 +799,3 @@ projects.
            San Diego, CA 92111-2222 USA
 
 Copyright © 2019 International Council on Systems Engineering
-

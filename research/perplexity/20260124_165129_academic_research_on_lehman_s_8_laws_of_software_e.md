@@ -43,7 +43,7 @@ Empirical studies have partially falsified certain laws:
 No wholesale falsification exists; laws are seen as heuristics, validated for large tailored systems but needing adaptation for modern contexts like microservices[1][2][3].
 
 ### 5. Relationship to Thermodynamic Entropy
-**No direct established models in the results equate Lehman's Laws to thermodynamic entropy, though qualitative analogies exist in software complexity discussions.** 
+**No direct established models in the results equate Lehman's Laws to thermodynamic entropy, though qualitative analogies exist in software complexity discussions.**
 - **L2 (Increasing Complexity)** is often likened to entropy increase, where unmaintained code accumulates "disorder" (e.g., accidental complexity, technical debt) unless explicit effort (like refactoring) reduces it—mirroring thermodynamic tendencies toward disorder[1].
 - Research gaps noted: Modern tools lack "smarter models tuned to internal design" for complexity/entropy metrics[1]. Lehman’s feedback loops (L8) imply environmental pressures drive evolution, akin to entropy production in open systems, but this remains metaphorical, not rigorously modeled thermodynamically.
 - No empirical validations or falsifications tie laws to thermodynamic equations (e.g., Shannon or Boltzmann entropy applied to codebases). Further work in FEAST project (early 2000s) confirmed laws for large systems but did not explore entropy formally[2].

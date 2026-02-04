@@ -216,19 +216,19 @@ A scoring-based approach can make these decisions repeatable:
 where weights \(w_1, w_2, w_3\) are configurable. Define:
 
 - **DependencyScore**: Normalized count of files that import/depend on this file. Files with higher inbound dependencies are more "foundational" and good candidates for promotion[43][9].
-  
+
   \[ \text{DependencyScore} = \frac{\text{inbound_dependency_count}}{\text{max_dependency_count_in_cluster}} \]
 
 - **RecencyScore**: Based on git history. Recent modifications indicate active maintenance[27][30].
-  
+
   \[ \text{RecencyScore} = \frac{\text{days_since_last_commit}}{\text{max_days_since_commit_in_cluster}} \]
-  
+
   (Inverted, so recently modified files score higher.)
 
 - **QualityScore**: Composite metric from code analysis tools[21][27][30].
-  
+
   \[ \text{QualityScore} = w_q1 \cdot \text{CodeHealth} + w_q2 \cdot \text{TestCoverage} + w_q3 \cdot \text{(1 - \text{Complexity})} \]
-  
+
   where CodeHealth comes from tools like CodeScene[21][30] and Complexity is normalized.
 
 **Decision Rule**: For each cluster:

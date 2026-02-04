@@ -1,4 +1,4 @@
-# Research: ENRICHMENT ROUND: Review the RefineryNode schema at .agent/schema/refinery_node.schema.yaml. 
+# Research: ENRICHMENT ROUND: Review the RefineryNode schema at .agent/schema/refinery_node.schema.yaml.
 
 As a ...
 
@@ -12,7 +12,7 @@ As a ...
 
 ## Query
 
-ENRICHMENT ROUND: Review the RefineryNode schema at .agent/schema/refinery_node.schema.yaml. 
+ENRICHMENT ROUND: Review the RefineryNode schema at .agent/schema/refinery_node.schema.yaml.
 
 As a senior architect, identify:
 1. GAPS - What important fields or concepts are missing?
@@ -49,7 +49,7 @@ properties:
   role: { type: string }
   atom: { type: string, description: "Final validated Atom classification." }
   rpbl: { type: object, description: "Final validated RPBL coordinates." }
-  
+
   # --- Stage 7: Topology & Centrality Metrics ---
   in_degree: { type: integer }
   out_degree: { type: integer }

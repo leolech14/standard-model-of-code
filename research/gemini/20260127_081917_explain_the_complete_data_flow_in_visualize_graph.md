@@ -101,16 +101,16 @@ Locate the section **`# BUILD GRAPH DATA`** (around line 220). You should modify
 
 ```python
     # ... existing node processing loop around line 335 ...
-    
+
     # === INJECTION START: Unified Graph Construction ===
     # Convert file boundaries into actual graph nodes
     file_nodes = []
     file_edges = []
-    
+
     for idx, boundary in enumerate(file_boundaries):
         file_path = boundary.get('file')
         file_id = f"file:{file_path}"
-        
+
         # Create File Node
         file_nodes.append({
             "id": file_id,
@@ -121,7 +121,7 @@ Locate the section **`# BUILD GRAPH DATA`** (around line 220). You should modify
             "group": "FILE_SYSTEM",
             # ... other metrics ...
         })
-        
+
         # Create Edges (File -> Atoms)
         for atom_idx in boundary.get('atom_indices', []):
             # You need to map atom_idx back to the node ID used in graph_data['nodes']
@@ -129,8 +129,8 @@ Locate the section **`# BUILD GRAPH DATA`** (around line 220). You should modify
             if atom_idx < len(nodes):
                 atom_node = nodes[atom_idx]
                 # Use the same ID normalization logic as the main loop
-                atom_id_raw = normalize_node_id(atom_node, atom_idx) 
-                
+                atom_id_raw = normalize_node_id(atom_node, atom_idx)
+
                 file_edges.append({
                     "source": file_id,
                     "target": atom_id_raw,

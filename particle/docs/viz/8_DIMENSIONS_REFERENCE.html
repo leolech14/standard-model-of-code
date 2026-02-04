@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Dimensions - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --d1: #e74c3c;
+            --d2: #3498db;
+            --d3: #2ecc71;
+            --d4: #9b59b6;
+            --d5: #f39c12;
+            --d6: #1abc9c;
+            --d7: #e67e22;
+            --d8: #95a5a6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 40px 20px; padding-top: 80px; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 60px; padding: 40px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+        h1 { font-size: 32px; font-weight: 300; color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 30px; }
+        .intro { max-width: 900px; margin: 0 auto; text-align: left; font-size: 14px; line-height: 1.8; }
+        .intro p { margin-bottom: 15px; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .stat { text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 600; color: var(--text-bright); }
+        .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        .dimensions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        @media (max-width: 900px) { .dimensions-grid { grid-template-columns: 1fr; } }
+
+        .dim-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; transition: border-color 0.2s; }
+        .dim-card:hover { border-color: #444; }
+        .dim-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .dim-number { font-size: 32px; font-weight: 700; font-family: 'SF Mono', monospace; width: 50px; }
+        .dim-title-group { flex: 1; }
+        .dim-name { font-size: 18px; font-weight: 600; color: var(--text-bright); text-transform: uppercase; }
+        .dim-question { font-size: 13px; color: var(--text-dim); font-style: italic; }
+        .dim-purpose { font-size: 14px; color: var(--text-main); margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .dim-domain { margin-bottom: 15px; }
+        .dim-domain-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .domain-values { display: flex; flex-wrap: wrap; gap: 6px; }
+        .domain-value { font-family: 'SF Mono', monospace; font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border); }
+        .dim-details { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .detail-section { }
+        .detail-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .detail-content { font-size: 12px; color: var(--text-main); }
+        .takeaway { background: rgba(255,255,255,0.02); padding: 10px; border-radius: 4px; border-left: 3px solid; font-size: 12px; }
+        .confusion { color: var(--text-dim); font-size: 11px; }
+
+        .formula-box { background: var(--panel); padding: 30px; border-radius: 8px; margin: 50px 0; text-align: center; }
+        .formula { font-family: 'SF Mono', monospace; font-size: 18px; color: var(--text-bright); margin-bottom: 15px; }
+        .formula-desc { font-size: 13px; color: var(--text-dim); }
+
+        footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link active">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>The 8 Semantic Dimensions</h1>
+            <p class="subtitle">Standard Model of Code - Orthogonal Classification Axes</p>
+            <div class="intro">
+                <p>
+                    Every code entity can be described along <strong>8 orthogonal dimensions</strong>.
+                    Each dimension answers a different question about the entity, and together they
+                    form its complete semantic fingerprint.
+                </p>
+                <p>
+                    The dimensions are <em>orthogonal</em> - knowing the value of one dimension tells
+                    you nothing about the others. A function can be any Role, at any Layer, with any
+                    Effect. This independence allows rich classification without explosion of categories.
+                </p>
+                <p>
+                    The first dimension (WHAT) uses 200 atom types. The third dimension (Role) uses
+                    41 canonical roles. Other dimensions have smaller, fixed domains.
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-value">8</div><div class="stat-label">Dimensions</div></div>
+                <div class="stat"><div class="stat-value">200</div><div class="stat-label">Atoms (D1)</div></div>
+                <div class="stat"><div class="stat-value">41</div><div class="stat-label">Roles (D3)</div></div>
+                <div class="stat"><div class="stat-value">Orthogonal</div><div class="stat-label">Independence</div></div>
+            </div>
+        </header>
+
+        <div class="formula-box">
+            <div class="formula">Entity = ⟨WHAT, Layer, Role, Boundary, State, Effect, Lifecycle, Trust⟩</div>
+            <div class="formula-desc">Every entity is a unique point in 8-dimensional semantic space</div>
+        </div>
+
+        <div class="dimensions-grid">
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d1)">D1</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">WHAT</div>
+                        <div class="dim-question">What is this made of?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The structural atom type - what syntactic/semantic category this entity belongs to.
+                    This is the primary classification axis.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (200 atoms)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Function</span>
+                        <span class="domain-value">Class</span>
+                        <span class="domain-value">Interface</span>
+                        <span class="domain-value">Module</span>
+                        <span class="domain-value">SourceFile</span>
+                        <span class="domain-value">+195 more</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d1)">WHAT is determined by syntax and structure. A class is a class regardless of what it does.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">WHAT vs Role: WHAT is the noun (Function); Role is the verb (Validator). Same WHAT can have different Roles.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d2)">D2</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Layer</div>
+                        <div class="dim-question">Where does this live?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The architectural stratum - which horizontal slice of the architecture this entity inhabits.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (5 values)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Interface</span>
+                        <span class="domain-value">Application</span>
+                        <span class="domain-value">Core</span>
+                        <span class="domain-value">Infrastructure</span>
+                        <span class="domain-value">Test</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d2)">Layers are horizontal slices. Each layer has specific responsibilities and allowed dependencies.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Layer vs Ring: Layers are horizontal (UI/App/Core); Rings are concentric (dependency depth).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d3)">D3</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Role</div>
+                        <div class="dim-question">What is its purpose?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The functional purpose - what job this entity performs in the system. The "why" of code.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (41 roles)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Query</span>
+                        <span class="domain-value">Command</span>
+                        <span class="domain-value">Factory</span>
+                        <span class="domain-value">Repository</span>
+                        <span class="domain-value">Service</span>
+                        <span class="domain-value">Handler</span>
+                        <span class="domain-value">+35 more</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d3)">Role is about PURPOSE. A function named "validateEmail" has Role=Validator regardless of its implementation.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Multiple roles: One function can serve multiple roles, but classify by PRIMARY purpose.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d4)">D4</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Boundary</div>
+                        <div class="dim-question">Does it cross boundaries?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The I/O profile - whether this entity interacts with the outside world and in which direction.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (4 values)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Internal</span>
+                        <span class="domain-value">Input</span>
+                        <span class="domain-value">Output</span>
+                        <span class="domain-value">I/O</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d4)">Boundary code requires extra care - validation, error handling, and security. Internal code can trust its inputs.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">I/O vs Input+Output: I/O means both directions in one operation (e.g., database query).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d5)">D5</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">State</div>
+                        <div class="dim-question">Does it maintain state?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The memory profile - whether this entity holds state between invocations or is stateless.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (2 values)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Stateful</span>
+                        <span class="domain-value">Stateless</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d5)">Stateless code is easier to test, scale, and reason about. State should be explicit and minimized.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Stateful vs uses-state: A function that reads from a database is Stateless; it doesn't OWN the state.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d6)">D6</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Effect</div>
+                        <div class="dim-question">Does it have side effects?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The purity profile - whether and how this entity modifies state or performs I/O.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (4 values)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Pure</span>
+                        <span class="domain-value">Read</span>
+                        <span class="domain-value">Write</span>
+                        <span class="domain-value">ReadModify</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d6)">Pure functions are deterministic and testable. Push side effects to the edges of your system.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Read vs Pure: Pure has NO external dependencies; Read accesses external state but doesn't modify it.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d7)">D7</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Lifecycle</div>
+                        <div class="dim-question">What lifecycle phase?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The temporal profile - when in an object's lifecycle this code runs.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (3 values)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">Create</span>
+                        <span class="domain-value">Use</span>
+                        <span class="domain-value">Destroy</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d7)">Most code is "Use". Create/Destroy code (constructors, cleanup) needs special attention for resource management.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Create vs Factory: Create is a lifecycle phase; Factory is a Role. Factories produce Create-phase code.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dim-card">
+                <div class="dim-header">
+                    <span class="dim-number" style="color: var(--d8)">D8</span>
+                    <div class="dim-title-group">
+                        <div class="dim-name">Trust</div>
+                        <div class="dim-question">Classification confidence?</div>
+                    </div>
+                </div>
+                <div class="dim-purpose">
+                    The confidence score - how certain the classifier is about all other dimension values.
+                </div>
+                <div class="dim-domain">
+                    <div class="dim-domain-title">Domain (continuous)</div>
+                    <div class="domain-values">
+                        <span class="domain-value">0%</span>
+                        <span class="domain-value">25%</span>
+                        <span class="domain-value">50%</span>
+                        <span class="domain-value">75%</span>
+                        <span class="domain-value">100%</span>
+                    </div>
+                </div>
+                <div class="dim-details">
+                    <div class="detail-section">
+                        <div class="detail-title">Key Takeaway</div>
+                        <div class="takeaway" style="border-color: var(--d8)">Trust is meta-information. Low trust means the entity might be misclassified and needs human review.</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">Common Confusion</div>
+                        <div class="confusion">Trust vs code quality: High trust means confident classification, not that the code is good.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - The 8 Semantic Dimensions</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                D1: WHAT (200 atoms) | D2: Layer (5) | D3: Role (41) | D4: Boundary (4) | D5: State (2) | D6: Effect (4) | D7: Lifecycle (3) | D8: Trust (0-100%)
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

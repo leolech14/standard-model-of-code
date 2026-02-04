@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "saved_at": "2026-02-03T01:32:20.471919",
+    "source": "gemini",
+    "model": "gemini-3-pro-preview",
+    "query": "You are triaging uncommitted changes. For each file provided, output a JSON array of objects with:\n{path, decision: keep|revert|needs-review, summary, rationale, risk: low|medium|high}.\nUse the file path as provided. Respond with ONLY JSON (no markdown).",
+    "query_length": 254,
+    "checksum": "sha256:c799ae35897902229dc25653423570bd645b7b6219012d2989b18194b5294285"
+  },
+  "response": {
+    "content": "[\n  {\n    \"path\": \"governance/ARCHITECTURE_AUDIT_2026.md\",\n    \"decision\": \"keep\",\n    \"summary\": \"Strategic audit documenting the 'Consolidation Loop' and 'Four Hemisphere Model' architecture.\",\n    \"rationale\": \"This document validates the 'phase shift from Data Chaos to Information Order' [L49] and defines the 'Consolidation Loop' strategy [L10] used to justify the structural changes. It outlines critical risks regarding 'Symmetry Drift' [L15] that guide future governance.\",\n    \"risk\": \"low\"\n  },\n  {\n    \"path\": \"governance/REPO_STRUCTURE.md\",\n    \"decision\": \"keep\",\n    \"summary\": \"Canonical definition of the repository directory tree following the Feb 2026 consolidation.\",\n    \"rationale\": \"Enforces the 'Single Locus' maintenance rule [L141] and maps the new consolidated directory structure for 'Research', 'Reports', and 'Tools' [L76, L89, L102]. It aligns perfectly with the 'Consolidation Loop' described in the Architecture Audit.\",\n    \"risk\": \"medium\"\n  }\n]",
+    "mode": "forensic"
+  }
+}

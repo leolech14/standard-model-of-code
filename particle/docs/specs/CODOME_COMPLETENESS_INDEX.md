@@ -68,7 +68,7 @@ F2_SCORE = 5 * (Precision * Recall) / (4 * Precision + Recall)
 
 ### Codome Completeness Index
 
-**RECOMMENDATION (Validated by AI Review):** Use F2 Score for completeness-focused analysis.
+**RECOMMENDATION (AI-assisted assessment):** Use F2 Score for completeness-focused analysis.
 
 | Formula | Use Case | Rationale |
 |---------|----------|-----------|

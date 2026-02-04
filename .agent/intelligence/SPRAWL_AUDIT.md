@@ -180,4 +180,3 @@ git status --short | grep "^??" | tee .agent/intelligence/UNTRACKED_FILES.txt
 **DO ACTION A NOW?** (Accept deletions, clean slate)
 
 Ou quer ver lista completa de untracked primeiro?
-

@@ -24,7 +24,7 @@ SYSTEM PROPERTIES:
 
 YOUR TASK: Formulate the OPTIMAL Perplexity Sonar Pro query to research:
 - Prior art in semantic chunking for code
-- Compact semantic tagging schemas  
+- Compact semantic tagging schemas
 - Incremental indexing strategies
 - Relevant academic/industry approaches (2024-2026)
 

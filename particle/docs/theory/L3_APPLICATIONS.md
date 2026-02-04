@@ -1,10 +1,10 @@
 # L3: Applications of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Laws](./L2_LAWS.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Principles](./L2_PRINCIPLES.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
 
 **Layer:** 3 (Measurement & Implementation)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md), [L2_LAWS.md](./L2_LAWS.md)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md), [L2_PRINCIPLES.md](./L2_PRINCIPLES.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -767,7 +767,7 @@ Every Standard Model measurement has three components:
 ### Project Documents
 - `L0_AXIOMS.md` -- Foundational axioms
 - `L1_DEFINITIONS.md` -- Entity definitions
-- `L2_LAWS.md` -- Behavioral laws (purpose equations, emergence, flow, drift)
+- `L2_PRINCIPLES.md` -- Behavioral principles (purpose equations, emergence, flow, drift)
 - `../PURPOSE_INTELLIGENCE.md` -- Detailed Q-score elaboration (preserved)
 - `../specs/HEALTH_MODEL_CONSOLIDATED.md` -- Health formula elaboration
 - `../specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` -- Topology implementation
@@ -797,7 +797,7 @@ Every Standard Model measurement has three components:
 ## Navigation
 
 **📍 Up:** [Theory Index](./THEORY_INDEX.md)
-**⬅️ Previous:** [L2: Laws](./L2_LAWS.md)
+**⬅️ Previous:** [L2: Principles](./L2_PRINCIPLES.md)
 **🔄 LOOP CLOSURE:** [↺ L0: Axioms](./L0_AXIOMS.md) - Applications validate axioms
 
 **Theory closure achieved:** L3 implementations provide empirical validation of L0 axioms, completing the epistemological loop.
@@ -805,6 +805,6 @@ Every Standard Model measurement has three components:
 **Full pathway:**
 1. [L0: Axioms](./L0_AXIOMS.md) - Foundational truths
 2. [L1: Definitions](./L1_DEFINITIONS.md) - Entities that exist
-3. [L2: Laws](./L2_LAWS.md) - How they behave
+3. [L2: Principles](./L2_PRINCIPLES.md) - How they behave (dynamic patterns)
 4. [L3: Applications](./L3_APPLICATIONS.md) - How we measure (you are here)
 5. **Loop:** Measurements validate axioms → [L0](./L0_AXIOMS.md)

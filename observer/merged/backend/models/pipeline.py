@@ -1,6 +1,6 @@
 """Pipeline and monitoring models."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List, Optional, Dict, Any
 
 from .enums import (
@@ -9,11 +9,26 @@ from .enums import (
     RunStatus,
     StageStatus,
     AlertSeverity,
-    ObserverType
+    ObserverType,
+    TruthStatus
 )
 
 
-class PipelineStageConfig(BaseModel):
+def to_camel(string: str) -> str:
+    """Convert snake_case to camelCase."""
+    words = string.split('_')
+    return words[0] + ''.join(word.capitalize() for word in words[1:])
+
+
+class BaseSchema(BaseModel):
+    """Base schema with camelCase aliasing."""
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+        populate_by_name=True
+    )
+
+
+class PipelineStageConfig(BaseSchema):
     """Pipeline stage configuration."""
     name: CanonicalStage
     description: str
@@ -25,7 +40,7 @@ class PipelineStageConfig(BaseModel):
     last_updated: float
 
 
-class Run(BaseModel):
+class Run(BaseSchema):
     """Pipeline run."""
     id: str
     project_id: str
@@ -36,7 +51,7 @@ class Run(BaseModel):
     triggered_by: str
 
 
-class Alert(BaseModel):
+class Alert(BaseSchema):
     """System alert."""
     id: str
     severity: AlertSeverity
@@ -46,7 +61,7 @@ class Alert(BaseModel):
     source: str
 
 
-class ObserverStatus(BaseModel):
+class ObserverStatus(BaseSchema):
     """SMC Observer status."""
     type: ObserverType
     active: bool
@@ -54,7 +69,7 @@ class ObserverStatus(BaseModel):
     metrics: Dict[str, float]
 
 
-class HistoryEntry(BaseModel):
+class HistoryEntry(BaseSchema):
     """Undo/redo history entry."""
     id: str
     action: str
@@ -62,9 +77,26 @@ class HistoryEntry(BaseModel):
     data: Dict[str, Any]
 
 
-class HistoryState(BaseModel):
+class HistoryState(BaseSchema):
     """History state for undo/redo."""
     can_undo: bool
     can_redo: bool
     undo_stack: List[HistoryEntry]
     redo_stack: List[HistoryEntry]
+
+
+class Artifact(BaseSchema):
+    """Enriched file artifact."""
+    id: str
+    name: str
+    project_id: str
+    pipeline_id: PipelineId
+    stage: CanonicalStage
+    type: str
+    size: str
+    updated_at: float
+    tags: List[str]
+    status: str
+    is_vaulted: bool = False
+    atom_class: str
+    truth_status: TruthStatus

@@ -714,7 +714,7 @@ terms:
       5. Longevity promotes it from "trend" to "law" in popular usage
       6. People forget it was ever a prediction
     warning: |
-      When hunting Natural Laws of Code, watch for Moore-Law Drift.
+      When proposing Behavioral Patterns of Code, watch for Moore-Law Drift.
       Ask: "Would this hold if the industry stopped believing in it?"
       If NO, it's coordination, not constraint.
     historical_note: |
@@ -741,8 +741,8 @@ terms:
       L2, L4, L5 were partially falsified by Linux's accelerating growth
       (Godfrey & Tu, 2000).
     key_distinction: |
-      Empirical Laws are discovered through observation and can be wrong.
-      Natural Laws are proven through mathematics and cannot be violated.
+      Empirical patterns are observed and can be falsified.
+      Mathematical constraints are proven and cannot be violated within the model.
     related_terms: [natural_law_of_code, roadmap_law, lehmans_laws]
 
   law_surface:
@@ -892,8 +892,8 @@ terms:
       date: "2026-01-24"
       by: "Leonardo Lech"
     definition: |
-      The complete methodology for validating candidate Natural Laws of Code.
-      Reusable for any claim.
+      The complete methodology for evaluating candidate behavioral patterns.
+      Reusable for any claim about code behavior.
     steps: |
       1. DEFINE O (Observable): "What do we measure?"
       2. DEFINE C (Cost): "What pain metric proves 'real'?"
@@ -1557,7 +1557,7 @@ terms:
       The set of architectural invariants that define what constitutes
       "antimatter" (forbidden patterns). Violations are detected and
       reported. Currently 5 laws: AM001-AM005.
-    schema_file: "schema/antimatter_laws.yaml"
+    schema_file: "schema/antimatter_patterns.yaml"
     related_terms: [antimatter]
 
   fermion:

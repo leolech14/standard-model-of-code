@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 UI GAP FILL: Token sovereignty audit.
 Find:
 - CSS :root variables and any theme token files

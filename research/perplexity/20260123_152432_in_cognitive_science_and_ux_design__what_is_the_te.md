@@ -8,14 +8,14 @@
 
 ## Query
 
-In cognitive science and UX design, what is the term for the principle that the FIRST interaction a user (or agent) has with a system shapes their mental model and subsequent behavior? 
+In cognitive science and UX design, what is the term for the principle that the FIRST interaction a user (or agent) has with a system shapes their mental model and subsequent behavior?
 
 Specifically, I'm designing an AI agent onboarding system where:
 1. The agent's FIRST action is always to select from a constrained set of options (a 'deck of cards')
 2. This initial constraint is meant to 'prime' the agent to think in terms of bounded choices
 3. The pattern repeats at every decision point
 
-What academic research supports this approach? 
+What academic research supports this approach?
 - Does 'primacy effect' apply here?
 - Is there research on how initial constraints shape subsequent reasoning?
 - What UX patterns use forced initial choices to set user expectations?

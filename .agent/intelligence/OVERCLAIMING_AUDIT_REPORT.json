@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-02-02T15:31:25.346314",
+  "model": "llama-3.3-70b",
+  "total_files": 1,
+  "total_must_fix": 5,
+  "results": [
+    {
+      "file": "particle/docs/theory/L0_AXIOMS.md",
+      "issues": [
+        {
+          "line": 13,
+          "text": "These are not definitions (that's L1), not behavioral laws (that's L2), and not measurements (that's L3). These are foundational truths that everything else builds on.",
+          "category": "MUST_FIX",
+          "reason": "The term 'foundational truths' implies a level of universality and necessity that is not supported by the practical tool/reference model framing of the Standard Model of Code.",
+          "suggestion": "These are foundational assumptions that everything else builds on."
+        },
+        {
+          "line": 24,
+          "text": "Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement refers to external validation, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 42,
+          "text": "This is a MECE partition (Mutually Exclusive, Collectively Exhaustive). In category theory, it is a coproduct (disjoint union). In type theory, it is a sum type.",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement refers to external mathematical concepts, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 63,
+          "text": "PROPOSITION: The partition P = C \u2294 X is motivated by fundamental limits on self-reference, not merely an arbitrary engineering choice.",
+          "category": "MUST_FIX",
+          "reason": "The term 'PROPOSITION' and 'fundamental limits' imply a level of universality and necessity that is not supported by the practical tool/reference model framing of the Standard Model of Code.",
+          "suggestion": "ARGUMENT: The partition P = C \u2294 X is motivated by practical considerations on self-reference, not merely an arbitrary engineering choice."
+        },
+        {
+          "line": 74,
+          "text": "Lawvere's Theorem states: IF there exists a surjection \u03c6: A \u2192 B^A THEN every function f: B \u2192 B has a fixed point",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement refers to an external mathematical theorem, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 91,
+          "text": "Validation: Gemini 3 Pro (2026-01-25) confirmed: 'The proof is VALID. The application to software documentation necessity appears NOVEL.'",
+          "category": "OK_EMPIRICAL",
+          "reason": "This statement refers to empirical validation, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 104,
+          "text": "This is the same diagonal argument underlying G\u00f6del's incompleteness and Tarski's undefinability. The CODOME cannot be its own metalanguage. The CONTEXTOME is the explicit meta-layer.",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement refers to external mathematical concepts, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 123,
+          "text": "Status: VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "The term 'VALIDATED' should be replaced with 'GROUNDED' or 'AI-REVIEWED' to reflect the practical tool/reference model framing of the Standard Model of Code.",
+          "suggestion": "Status: GROUNDED"
+        },
+        {
+          "line": 135,
+          "text": "The Standard Model's level hierarchy is order-theoretically rigorous.",
+          "category": "MUST_FIX",
+          "reason": "The term 'order-theoretically rigorous' implies a level of universality and necessity that is not supported by the practical tool/reference model framing of the Standard Model of Code.",
+          "suggestion": "The Standard Model's level hierarchy is a practical framework for organizing code structure."
+        },
+        {
+          "line": 155,
+          "text": "This is exactly what concordance score measures.",
+          "category": "REVIEW",
+          "reason": "This statement may require additional context or clarification to ensure it aligns with the practical tool/reference model framing of the Standard Model of Code.",
+          "suggestion": "This is one way to measure concordance score."
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 6,
+        "review": 1,
+        "ok_empirical": 1
+      }
+    }
+  ]
+}

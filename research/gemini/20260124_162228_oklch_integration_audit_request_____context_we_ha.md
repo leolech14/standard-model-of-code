@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 OKLCH INTEGRATION AUDIT REQUEST
 
 ## CONTEXT

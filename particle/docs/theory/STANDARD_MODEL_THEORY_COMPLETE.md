@@ -34,9 +34,9 @@ The complete theory is organized as a **four-layer holarchy**, where each layer 
 
 | Layer | Document | Question Answered | Lines | Status |
 |-------|----------|-------------------|-------|--------|
-| **L0** | `L0_AXIOMS.md` | What MUST be true? | ~900 | VALIDATED |
+| **L0** | `L0_AXIOMS.md` | What design choices are assumed? | ~900 | GROUNDED |
 | **L1** | `L1_DEFINITIONS.md` | What EXISTS in this theory? | ~700 | ACTIVE |
-| **L2** | `L2_LAWS.md` | How do things BEHAVE? | ~800 | ACTIVE |
+| **L2** | `L2_PRINCIPLES.md` | Behavioral Principles | ~830 | ACTIVE |
 | **L3** | `L3_APPLICATIONS.md` | How do we MEASURE it? | ~600 | EVOLVING |
 
 ### Layer Dependencies
@@ -44,7 +44,7 @@ The complete theory is organized as a **four-layer holarchy**, where each layer 
 ```
 L3 (Applications)     <- Depends on: L2, L1, L0
    ↑
-L2 (Laws)             <- Depends on: L1, L0
+L2 (Principles)       <- Depends on: L1, L0
    ↑
 L1 (Definitions)      <- Depends on: L0
    ↑
@@ -74,7 +74,7 @@ L0 (Axioms)           <- Depends on: Nothing (bedrock)
 - **E1**: Code evolves to facilitate flow (Constructal)
 - **F1**: Properties emerge at level transitions
 
-**Status:** Most validated theory in the stack. Lawvere proof in A1.1 is peer-reviewed mathematics.
+**Status:** Most grounded theory in the stack. Lawvere application in A1.1 builds on peer-reviewed mathematics.
 
 ---
 
@@ -103,19 +103,19 @@ L0 (Axioms)           <- Depends on: Nothing (bedrock)
 
 ## Layer 2: LAWS (Dynamic Behavior)
 
-**File:** `L2_LAWS.md`
+**File:** `L2_PRINCIPLES.md`
 
 **What's inside:**
 1. **Purpose Laws**: pi1-pi4 equations (THE canonical definition of purpose emergence)
 2. **Emergence Laws**: Systems of Systems, epsilon > 1, fractal composition
 3. **Flow Laws**: Constructal principle, flow substances, resistance = debt
 4. **Concordance Laws**: Drift as distance, symmetry formula, purpose preservation
-5. **Antimatter Laws**: Violations (reference `../../schema/antimatter_laws.yaml`)
+5. **Antimatter Laws**: Violations (reference `../../schema/antimatter_patterns.yaml`)
 6. **Communication Theory**: Shannon M-I-P-O cycle, semiosis, Free Energy Principle
 7. **Evolution Laws**: Drift integral, interface surface, evolvability
 8. **Theorem Candidates**: Unproven but empirically supported
 
-**Status:** Contains both validated laws (Constructal, Emergence) and developing theory (Communication, FEP mapping).
+**Status:** Contains both grounded principles (Constructal, Emergence) and developing theory (Communication, FEP mapping).
 
 ---
 
@@ -148,7 +148,7 @@ L0 (Axioms)           <- Depends on: Nothing (bedrock)
 - `atoms.json` -- 3,525 atoms across 4 phases
 - `dimensions.json` -- 8 dimensions with domains
 - `roles.json` -- 33 canonical roles
-- `antimatter_laws.yaml` -- Violation rules
+- `antimatter_patterns.yaml` -- Violation rules
 
 ### Attribution & Provenance
 **File:** `KNOWLEDGE_TREE.md`
@@ -199,7 +199,7 @@ L0 (Axioms)           <- Depends on: Nothing (bedrock)
 | **The complete theory** | THEORY_INDEX.md (this file), then L0→L1→L2→L3 in order | - |
 | **Just the core structure** | L0_AXIOMS.md + L1_DEFINITIONS.md | Skip L2-L3 for now |
 | **How to implement it** | L3_APPLICATIONS.md | Reference L2 for formulas |
-| **Purpose emergence** | L2_LAWS.md sec 1 | Then L3 sec 1 (Q-scores) |
+| **Purpose emergence** | L2_PRINCIPLES.md sec 1 | Then L3 sec 1 (Q-scores) |
 | **Health metrics** | L3_APPLICATIONS.md sec 2 | Reference L2 sec 3-4 |
 | **Mathematical foundations** | L0_AXIOMS.md sec 2, 10 | CODESPACE_ALGEBRA.md for elaboration |
 | **Semiotic connections** | L0_AXIOMS.md sec 10.2 | ONTOLOGICAL_FOUNDATIONS.md archive |
@@ -217,7 +217,7 @@ L0 (Axioms)           <- Depends on: Nothing (bedrock)
 | Q-score formula | L3 sec 1.1 |
 | Health formula | L3 sec 2.1 |
 | Concordance score | L2 sec 4.1 |
-| Antimatter violations | L2 sec 5 + `schema/antimatter_laws.yaml` |
+| Antimatter violations | L2 sec 5 + `schema/antimatter_patterns.yaml` |
 | Pipeline stages | L3 sec 4.1 |
 | Proofs | L3 sec 5 |
 | History timeline | L3 sec 7.2 |
@@ -355,7 +355,7 @@ After reading the Stack, you should be able to answer:
 
 This document contains the **formal axioms** that MUST hold for the Standard Model of Code to be coherent. These are not definitions (that's L1), not behavioral laws (that's L2), and not measurements (that's L3). These are **foundational truths** that everything else builds on.
 
-Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
+Each axiom group has been grounded in established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
 
 ---
 
@@ -1084,29 +1084,29 @@ Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` is
 
 **Academic Source:** Tononi, G. et al. (2020). "Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms." Consciousness & Cognition.
 
-### Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED
+### Axiom Group E (Constructal): ⚠️ HEURISTIC
 
-Bejan's Constructal Law is **empirically validated** across multiple physical and biological systems but **debated as universal mathematical axiom**. In SMoC, treat as:
+Bejan's Constructal Law is **empirically observed** across multiple physical and biological systems but **debated as universal mathematical axiom**. In SMoC, treat as:
 - **Heuristic principle** for understanding code evolution
 - **Design guideline** (minimize flow resistance)
 - **NOT a formal theorem** requiring proof
 
-### Axiom Group A (MECE Partition): ✅ VALIDATED (Novel Application)
+### Axiom Group A (MECE Partition): ✅ GROUNDED (Novel Application)
 
-The Lawvere proof (A1.1) is **standard mathematics**. The application to software documentation necessity appears **NOVEL** (no prior literature found).
+The Lawvere argument (A1.1) applies **standard mathematics**. The application to software documentation motivation appears **NOVEL** (no prior literature found applying this to software systems).
 
-### Overall Validation Table
+### Axiom Grounding Summary
 
 | Axiom Group | Mathematical Field | Status | Academic Source |
 |-------------|-------------------|--------|-----------------|
-| A (Set Structure) | Set Theory | ✅ VALIDATED | Lawvere (1969), standard partitions |
+| A (Set Structure) | Set Theory | ✅ GROUNDED | Lawvere (1969), standard partitions |
 | B (Graph) | Graph Theory | ✅ STANDARD | Directed graphs, reachability |
 | C (Levels) | Order Theory | ✅ STANDARD | Total orders, lattices |
 | D (Purpose) | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (2022) - analogous |
 | E (Constructal) | Thermodynamics | ⚠️ HEURISTIC | Bejan (2008) - empirical |
 | F (Emergence) | Information Theory | ⚡ INSPIRED BY | Tononi IIT (2020) - analogous |
-| G (Observability) | Semiotics | ✅ VALIDATED | Peirce triadic structure |
-| H (Consumer Classes) | Software Engineering | ✅ VALIDATED | Gemini 3 Pro assessment (9/10) |
+| G (Observability) | Semiotics | ✅ GROUNDED | Peirce triadic structure |
+| H (Consumer Classes) | Software Engineering | ⚡ PROPOSED | AI-assisted assessment |
 
 ---
 
@@ -1115,7 +1115,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ### Project Documents
 - `../../MODEL.md` -- Core model (builds on these axioms)
 - `L1_DEFINITIONS.md` -- What EXISTS (depends on these axioms)
-- `L2_LAWS.md` -- How things BEHAVE (depends on axioms + definitions)
+- `L2_PRINCIPLES.md` -- How things BEHAVE (depends on axioms + definitions)
 - `../../../wave/docs/theory/FOUNDATIONS_INTEGRATION.md` -- Lawvere proof with all lemmas
 - `../../../wave/docs/CODESPACE_ALGEBRA.md` -- Full mathematical elaboration
 
@@ -1142,7 +1142,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ---
 
 *This is Layer 0. Everything else depends on this.*
-*All axioms are either validated against academic literature or explicitly marked as heuristic.*
+*All axioms are either grounded in academic literature or explicitly marked as heuristic.*
 
 
 ---
@@ -1808,7 +1808,7 @@ All definitions in this layer trace to authoritative machine-readable sources:
 | Atoms | `../../schema/fixed/atoms.json` |
 | Roles | `../../schema/fixed/roles.json` |
 | Dimensions | `../../schema/fixed/dimensions.json` |
-| Antimatter laws | `../../schema/antimatter_laws.yaml` |
+| Antimatter laws | `../../schema/antimatter_patterns.yaml` |
 | Constants | `../../schema/constants.yaml` |
 | Node schema | `../../schema/particle.schema.json` |
 | Types (Python) | `../../schema/types.py` |
@@ -2214,7 +2214,7 @@ Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C
 
 **Definition:** Antimatter laws are violations of good architectural practice.
 
-**Canonical data:** `../../schema/antimatter_laws.yaml`
+**Canonical data:** `../../schema/antimatter_patterns.yaml`
 
 ### The Five Laws
 
@@ -3305,7 +3305,7 @@ Every Standard Model measurement has three components:
 ### Project Documents
 - `L0_AXIOMS.md` -- Foundational axioms
 - `L1_DEFINITIONS.md` -- Entity definitions
-- `L2_LAWS.md` -- Behavioral laws (purpose equations, emergence, flow, drift)
+- `L2_PRINCIPLES.md` -- Behavioral laws (purpose equations, emergence, flow, drift)
 - `../PURPOSE_INTELLIGENCE.md` -- Detailed Q-score elaboration (preserved)
 - `../specs/HEALTH_MODEL_CONSOLIDATED.md` -- Health formula elaboration
 - `../specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` -- Topology implementation

@@ -88,10 +88,10 @@ Do not use `project_topology`. Use `project_archetype`.
 class ProjectIdentity:
     """The high-level identity of the codebase."""
     root_path: str
-    
+
     # TERMINOLOGY FIX: Use Archetype, not Topology
     archetype: str  # 'monolith', 'monorepo', 'microservices'
-    
+
     languages: List[str]
     frameworks: List[str]
 ```
@@ -120,7 +120,7 @@ class UnifiedAnalysisOutput:
         "detected_patterns": [], # ["DDD", "MVC"]
         "layer_violations": []
     })
-    
+
     # 3. GRAPH CONNECTIVITY SHAPE (Computed in Stage 10)
     topology: Dict[str, Any] = field(default_factory=lambda: {
         "shape": "mesh",     # or star, islands

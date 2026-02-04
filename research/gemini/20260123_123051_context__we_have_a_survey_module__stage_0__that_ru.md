@@ -88,16 +88,16 @@ class SystemIdentity:
 class CodomeManifest:
     """Defines the ontological boundaries of the system to be analyzed."""
     identity: SystemIdentity   # Q1: Identity
-    
+
     # Q2: Boundaries (The "Inclusion/Exclusion" logic)
     boundary_constraints: List[str]  # Formerly recommended_excludes
-    
+
     # Q3: Nature (Code vs Config vs Data ratios)
     composition: Dict[str, float] # e.g., {'source': 0.8, 'config': 0.1, 'data': 0.1}
-    
+
     # Q4: Pollution (Binaries, huge logs, minified files inside source dirs)
     pollution_alerts: List[str]
-    
+
     # Q5: Adaptation (Config for the next stages)
     pipeline_config: Dict[str, Any] # Recommended parser settings
 ```

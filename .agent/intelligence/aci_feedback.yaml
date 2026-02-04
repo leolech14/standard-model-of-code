@@ -1045,16 +1045,40 @@ entries:
   fallback_used: false
   duration_ms: 44343
   error: null
+- timestamp: '2026-02-03T21:57:44.693161+00:00'
+  query: "Design production-ready 3-tier development architecture for Mac (Cursor\
+    \ IDE) \u2194 VPS Hostinger (OpenClaw 24/7) \u2194 GCS (archive). Include complete\
+    \ implementation: lsyncd config, systemd services, rsync fl"
+  intent: architecture
+  complexity: complex
+  scope: hybrid
+  tier: flash_deep
+  sets_used:
+  - pipeline
+  - data_access
+  - services
+  - theory
+  - architecture_review
+  - agent_full
+  - visualization
+  - classifiers
+  tokens_input: 15746
+  tokens_output: 2784
+  success: true
+  retry_count: 0
+  fallback_used: false
+  duration_ms: 21593
+  error: null
 stats:
-  total_queries: 48
+  total_queries: 49
   by_tier:
     perplexity: 17
     long_context: 17
     rag: 4
-    flash_deep: 10
+    flash_deep: 11
   by_intent:
     research: 6
-    architecture: 24
+    architecture: 25
     unknown: 1
     validate: 4
     explain: 4
@@ -1063,4 +1087,4 @@ stats:
     locate: 1
     implement: 6
   success_rate: 1.0
-  avg_tokens: 188517
+  avg_tokens: 184991

@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>41 Canonical Roles - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --accent: #666;
+            --accent-bright: #888;
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --query: #4a9eff;
+            --command: #ff6b6b;
+            --factory: #ffd93d;
+            --storage: #6bcb77;
+            --orchestration: #9b59b6;
+            --validation: #e74c3c;
+            --transform: #1abc9c;
+            --event: #f39c12;
+            --utility: #95a5a6;
+            --internal: #7f8c8d;
+            --management: #3498db;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            padding: 40px 20px;
+            padding-top: 80px;
+        }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--text-bright);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+        }
+
+        .intro {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .intro p { margin-bottom: 15px; }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Category Sections */
+        .category {
+            margin-bottom: 50px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-count {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-left: auto;
+        }
+
+        .category-question {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        /* Role Cards */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .role-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .role-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .role-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-bright);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .role-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .role-purpose {
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .role-section {
+            margin-bottom: 12px;
+        }
+
+        .role-section-title {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .role-section-content {
+            font-size: 12px;
+            color: var(--text-main);
+        }
+
+        .examples {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .example {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px;
+            color: var(--accent-bright);
+            background: rgba(255,255,255,0.03);
+            padding: 4px 8px;
+            border-radius: 3px;
+        }
+
+        .takeaway {
+            background: rgba(255,255,255,0.02);
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 2px solid var(--accent);
+        }
+
+        .confusion {
+            color: var(--text-dim);
+            font-size: 11px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link active">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>The 41 Canonical Roles</h1>
+            <p class="subtitle">Standard Model of Code - WHY Dimension</p>
+
+            <div class="intro">
+                <p>
+                    <strong>Roles</strong> answer the fundamental question: <em>"What is this code FOR?"</em>
+                    While atoms describe what code IS (structurally), roles describe its PURPOSE in the system.
+                </p>
+                <p>
+                    The 41 canonical roles emerged from analyzing thousands of real codebases across languages
+                    and frameworks. The original 33 roles were extended with 8 SWEBOK-aligned roles to cover
+                    software engineering concerns like verification, security, traceability, and project management.
+                </p>
+                <p>
+                    Roles are organized into 11 categories based on their primary function: retrieval, mutation,
+                    construction, persistence, coordination, validation, transformation, events, utilities,
+                    internal mechanics, and governance.
+                </p>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">41</div>
+                    <div class="stat-label">Roles</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">11</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">+8</div>
+                    <div class="stat-label">SWEBOK Added</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">187</div>
+                    <div class="stat-label">Atom Types</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- QUERY ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--query)"></div>
+                <span class="category-title">Query Roles</span>
+                <span class="category-question">"What retrieves data?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">
+                        Query
+                        <span class="role-badge" style="background: var(--query); color: #000">CQRS</span>
+                    </div>
+                    <div class="role-purpose">Data retrieval request - represents intent to read without modification</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">GetUserByIdQuery</span>
+                            <span class="example">SearchProductsQuery</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Queries are pure read operations that never mutate state. In CQRS, they're separated from Commands.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Query vs Finder: Query is the request object; Finder is the function that executes it.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Finder</div>
+                    <div class="role-purpose">Search for data based on criteria - the execution logic for queries</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserFinder.findByEmail()</span>
+                            <span class="example">OrderFinder.findPending()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Finders encapsulate complex search logic. They return collections or optional results, never single guaranteed items.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Finder vs Repository: Finders only search; Repositories also handle persistence.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Loader</div>
+                    <div class="role-purpose">Load data from storage or external source - bulk or batch retrieval</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">ConfigLoader.load()</span>
+                            <span class="example">DataLoader.batchLoad(ids)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Loaders handle I/O and often implement caching, batching, or lazy loading strategies.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Loader vs Parser: Loaders fetch raw data; Parsers transform it into structured objects.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Getter</div>
+                    <div class="role-purpose">Access a single property or attribute - simple value retrieval</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">user.getName()</span>
+                            <span class="example">config.getTimeout()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Getters should be pure and fast. If computation is involved, consider caching or renaming to compute*.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Getter vs Finder: Getters access known properties; Finders search for unknown items.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMAND ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--command)"></div>
+                <span class="category-title">Command Roles</span>
+                <span class="category-question">"What changes state?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">
+                        Command
+                        <span class="role-badge" style="background: var(--command); color: #000">CQRS</span>
+                    </div>
+                    <div class="role-purpose">Intent to modify state - represents a request for change</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">CreateUserCommand</span>
+                            <span class="example">UpdateOrderStatusCommand</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Commands express INTENT, not implementation. They're processed by Handlers and may trigger Events.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Command vs Mutator: Command is the request; Mutator is the function that performs it.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Creator</div>
+                    <div class="role-purpose">Create new entities or records - instantiation with business logic</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserCreator.create(data)</span>
+                            <span class="example">OrderCreator.fromCart(cart)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Creators often validate input, assign IDs, set defaults, and persist. They're more than simple Factory calls.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Creator vs Factory: Factories just instantiate; Creators handle the full creation workflow.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Mutator</div>
+                    <div class="role-purpose">Modify existing entity or state - in-place updates</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">user.updateEmail(newEmail)</span>
+                            <span class="example">order.addItem(item)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Mutators change internal state. They should validate invariants and may emit domain events.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Mutator vs Setter: Mutators enforce business rules; Setters are raw property assignments.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Destroyer</div>
+                    <div class="role-purpose">Delete or remove entities - cleanup and removal logic</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserDestroyer.delete(userId)</span>
+                            <span class="example">cache.invalidate(key)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Destroyers handle cascading deletes, soft-delete logic, and cleanup of related resources.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Destroyer vs Lifecycle: Destroyers explicitly delete; Lifecycle hooks handle automatic cleanup.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FACTORY ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--factory)"></div>
+                <span class="category-title">Factory Roles</span>
+                <span class="category-question">"What builds objects?"</span>
+                <span class="category-count">2 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Factory</div>
+                    <div class="role-purpose">Create and configure new instances - encapsulated instantiation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">ConnectionFactory.create(config)</span>
+                            <span class="example">LoggerFactory.getLogger(name)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Factories hide construction complexity and enable dependency injection. They return ready-to-use objects.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Factory vs Builder: Factories create in one step; Builders construct incrementally.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Builder</div>
+                    <div class="role-purpose">Construct complex objects step by step - fluent API pattern</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">QueryBuilder.where().orderBy().limit()</span>
+                            <span class="example">HttpRequest.builder().url().headers().build()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Builders enable readable construction of objects with many optional parameters. Always end with build().</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Builder vs Mapper: Builders create new objects; Mappers transform existing ones.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORAGE ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--storage)"></div>
+                <span class="category-title">Storage Roles</span>
+                <span class="category-question">"What persists data?"</span>
+                <span class="category-count">3 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">
+                        Repository
+                        <span class="role-badge" style="background: var(--storage); color: #000">DDD</span>
+                    </div>
+                    <div class="role-purpose">Abstract data persistence operations - collection-like interface for aggregates</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserRepository.save(user)</span>
+                            <span class="example">OrderRepository.findById(id)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Repositories act as in-memory collections that happen to persist. They hide database details from domain logic.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Repository vs DAO: Repositories work with domain objects; DAOs work with database rows.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Store</div>
+                    <div class="role-purpose">Manage application state - centralized state container</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">Redux store.getState()</span>
+                            <span class="example">Vuex store.commit(mutation)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Stores are the single source of truth for UI state. Changes flow through actions/mutations only.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Store vs Cache: Stores manage app state; Caches optimize data access.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Cache</div>
+                    <div class="role-purpose">Temporarily store data for performance - avoid repeated computation or I/O</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">Redis.get(key)</span>
+                            <span class="example">memoizedFunction(args)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Caches are always optional - the system must work without them. They have TTL and invalidation strategies.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Cache vs Store: Caches are ephemeral and can be cleared; Stores hold authoritative state.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORCHESTRATION ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--orchestration)"></div>
+                <span class="category-title">Orchestration Roles</span>
+                <span class="category-question">"What coordinates work?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Service</div>
+                    <div class="role-purpose">Coordinate business operations - stateless business logic</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">PaymentService.processPayment()</span>
+                            <span class="example">NotificationService.send()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Services are stateless and coordinate between entities. They contain logic that doesn't belong to any single entity.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Service vs Manager: Services execute business logic; Managers handle resource lifecycle.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Controller</div>
+                    <div class="role-purpose">Handle external requests - entry point for outside world</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserController.handleCreate(req)</span>
+                            <span class="example">@GetMapping("/users")</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Controllers are thin - they translate HTTP to domain calls. Business logic belongs in Services.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Controller vs Handler: Controllers handle HTTP; Handlers can process any event type.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Manager</div>
+                    <div class="role-purpose">Manage resources or components - lifecycle and pooling</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">ConnectionManager.getConnection()</span>
+                            <span class="example">ThreadPoolManager.submit(task)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Managers own resources - they allocate, track, and release. They're often singletons.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Manager vs Orchestrator: Managers handle resources; Orchestrators coordinate multi-step workflows.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Orchestrator</div>
+                    <div class="role-purpose">Coordinate complex workflows - multi-step process coordination</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">CheckoutOrchestrator.execute()</span>
+                            <span class="example">SagaOrchestrator.runSaga()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Orchestrators know the workflow sequence. They call multiple services and handle compensation on failure.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Orchestrator vs Service: Orchestrators manage flow; Services contain actual business logic.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATION ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--validation)"></div>
+                <span class="category-title">Validation Roles</span>
+                <span class="category-question">"What checks correctness?"</span>
+                <span class="category-count">5 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Validator</div>
+                    <div class="role-purpose">Verify data meets constraints - input validation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">EmailValidator.isValid(email)</span>
+                            <span class="example">@Valid CreateUserDto</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Validators check input at system boundaries. They return boolean or throw with detailed error messages.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Validator vs Guard: Validators check data format; Guards check authorization/permissions.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        Verifier
+                        <span class="role-badge" style="background: var(--validation); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Confirm build correctness - "are we building it right?"</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">SignatureVerifier.verify(token)</span>
+                            <span class="example">BuildVerifier.checkArtifacts()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Verifiers ensure the output matches specification. They're part of quality assurance, not input validation.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Verifier vs Validator: Verifiers check outputs/results; Validators check inputs/data.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Guard</div>
+                    <div class="role-purpose">Protect access or enforce conditions - authorization checks</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">AuthGuard.canActivate(context)</span>
+                            <span class="example">RoleGuard.checkPermission(user)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Guards are gatekeepers. They run before handlers and can short-circuit execution with 401/403.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Guard vs Middleware: Guards check conditions; Middleware transforms request/response.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Asserter</div>
+                    <div class="role-purpose">Assert truth of conditions - invariant enforcement</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">assert(balance >= 0)</span>
+                            <span class="example">expect(result).toBe(expected)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Asserters crash loudly on failure. They're for programmer errors, not user input errors.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Asserter vs Validator: Asserters throw on failure; Validators return validation results.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        SecurityValidator
+                        <span class="role-badge" style="background: var(--validation); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Security-specific validation - threat prevention</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">XSSValidator.sanitize(input)</span>
+                            <span class="example">SQLInjectionValidator.check(query)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">SecurityValidators specifically prevent security vulnerabilities - XSS, SQLi, CSRF, etc.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">SecurityValidator vs Guard: SecurityValidators sanitize data; Guards check identity/permissions.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSFORM ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--transform)"></div>
+                <span class="category-title">Transform Roles</span>
+                <span class="category-question">"What converts data?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Transformer</div>
+                    <div class="role-purpose">Convert data format - general-purpose transformation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">ImageTransformer.resize()</span>
+                            <span class="example">DataTransformer.normalize()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Transformers take input A and produce output B. They're pure functions when possible.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Transformer vs Mapper: Transformers change data; Mappers change types/structure.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Mapper</div>
+                    <div class="role-purpose">Map between types - structural conversion</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">UserMapper.toDTO(entity)</span>
+                            <span class="example">OrderMapper.fromRequest(req)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Mappers convert between layer boundaries - Entity to DTO, Request to Command, etc.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Mapper vs Serializer: Mappers convert between objects; Serializers convert to/from bytes.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Serializer</div>
+                    <div class="role-purpose">Convert objects to output format - object to bytes/string</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">JSON.stringify(obj)</span>
+                            <span class="example">ProtobufSerializer.encode()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Serializers produce wire format for storage or transmission. Paired with Parsers for round-trip.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Serializer vs Formatter: Serializers produce machine-readable; Formatters produce human-readable.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Parser</div>
+                    <div class="role-purpose">Convert input format to structured data - bytes/string to object</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">JSON.parse(str)</span>
+                            <span class="example">XMLParser.parse(document)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Parsers handle syntax and produce AST/objects. They should fail fast on invalid input.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Parser vs Loader: Parsers transform format; Loaders fetch from sources.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENT ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--event)"></div>
+                <span class="category-title">Event Roles</span>
+                <span class="category-question">"What reacts to events?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Handler</div>
+                    <div class="role-purpose">Process events or requests - active event processing</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">OrderCreatedHandler.handle(event)</span>
+                            <span class="example">WebSocketHandler.onMessage()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Handlers DO something in response to events. They contain the reaction logic.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Handler vs Listener: Handlers process; Listeners just observe and delegate.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Listener</div>
+                    <div class="role-purpose">Passive event observation - subscribe and delegate</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">document.addEventListener('click')</span>
+                            <span class="example">@EventListener(UserCreated.class)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Listeners are the subscription mechanism. They receive events and route to appropriate handlers.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Listener vs Subscriber: Listeners are synchronous; Subscribers often imply async/message queues.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Subscriber</div>
+                    <div class="role-purpose">Subscribe to event streams - async message consumption</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">observable.subscribe(observer)</span>
+                            <span class="example">kafka.subscribe(topic, handler)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Subscribers consume from streams/queues. They handle backpressure and acknowledgment.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Subscriber vs Handler: Subscribers manage the subscription; Handlers process individual messages.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Emitter</div>
+                    <div class="role-purpose">Publish events - event production</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">eventEmitter.emit('userCreated', data)</span>
+                            <span class="example">domainEvents.publish(event)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Emitters decouple producers from consumers. They don't know who's listening.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Emitter vs Publisher: Often synonymous; Publisher sometimes implies external message brokers.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UTILITY ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--utility)"></div>
+                <span class="category-title">Utility Roles</span>
+                <span class="category-question">"What helps?"</span>
+                <span class="category-count">5 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Utility</div>
+                    <div class="role-purpose">General stateless helper - pure utility functions</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">StringUtils.capitalize(str)</span>
+                            <span class="example">ArrayUtils.chunk(arr, size)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Utilities are pure, stateless, and reusable. They belong in shared modules.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Utility vs Helper: Utilities are generic; Helpers are context-specific.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Formatter</div>
+                    <div class="role-purpose">Format output for display - human-readable presentation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">DateFormatter.format(date, 'YYYY-MM-DD')</span>
+                            <span class="example">CurrencyFormatter.format(amount)</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Formatters are locale-aware and produce human-readable strings, not machine-readable data.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Formatter vs Serializer: Formatters are for humans; Serializers are for machines.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Helper</div>
+                    <div class="role-purpose">Specific assistive logic - context-aware assistance</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">AuthHelper.getCurrentUser()</span>
+                            <span class="example">TestHelper.createMockUser()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Helpers know about their context. They simplify repetitive patterns within a specific domain.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Helper vs Service: Helpers are simple and focused; Services coordinate business logic.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        StatisticalAnalyzer
+                        <span class="role-badge" style="background: var(--utility); color: #000">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Data analysis - metrics and statistical computation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">MetricsAnalyzer.calculateP95(data)</span>
+                            <span class="example">QualityAnalyzer.computeDefectDensity()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">StatisticalAnalyzers compute metrics for quality assurance - coverage, complexity, defect rates.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">StatisticalAnalyzer vs Measurer: Analyzers compute derived metrics; Measurers collect raw data.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        Tracer
+                        <span class="role-badge" style="background: var(--utility); color: #000">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">History and provenance tracking - traceability</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">RequestTracer.trace(spanId)</span>
+                            <span class="example">RequirementTracer.linkToCode()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Tracers maintain the audit trail - who changed what, when, and why. Essential for compliance.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Tracer vs Logger: Tracers track relationships/provenance; Loggers record events.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERNAL ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--internal)"></div>
+                <span class="category-title">Internal Roles</span>
+                <span class="category-question">"What manages internals?"</span>
+                <span class="category-count">2 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">Internal</div>
+                    <div class="role-purpose">Private implementation detail - encapsulated logic</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">_privateHelper()</span>
+                            <span class="example">__internalState</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Internal code is not part of public API. It can change without notice.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Internal vs Helper: Internal is truly private; Helpers may be shared within a module.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">Lifecycle</div>
+                    <div class="role-purpose">Manage object/process lifecycle - init, cleanup, hooks</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">componentDidMount() / ngOnInit()</span>
+                            <span class="example">@PreDestroy cleanup()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Lifecycle hooks run at specific phases - creation, update, destruction. They're framework-managed.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Lifecycle vs Destroyer: Lifecycle is automatic; Destroyer is explicit deletion.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MANAGEMENT ROLES -->
+        <section class="category">
+            <div class="category-header">
+                <div class="category-dot" style="background: var(--management)"></div>
+                <span class="category-title">Management Roles</span>
+                <span class="category-question">"What governs?"</span>
+                <span class="category-count">4 roles</span>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-name">
+                        ProjectManager
+                        <span class="role-badge" style="background: var(--management); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Resource and schedule coordination - project governance</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">TaskScheduler.schedule(task)</span>
+                            <span class="example">ResourceAllocator.assign()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">ProjectManager code handles scheduling, resource allocation, and coordination - the meta-level of work.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">ProjectManager vs Orchestrator: ProjectManager handles resources; Orchestrator handles workflows.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        RiskManager
+                        <span class="role-badge" style="background: var(--management); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Risk identification and mitigation - failure prevention</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">CircuitBreaker.execute(fn)</span>
+                            <span class="example">RateLimiter.checkLimit()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">RiskManagers prevent cascading failures - circuit breakers, rate limiters, bulkheads, retries.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">RiskManager vs Guard: RiskManagers prevent system failures; Guards prevent unauthorized access.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        Certifier
+                        <span class="role-badge" style="background: var(--management); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Professional/product certification - quality attestation</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">CertificateAuthority.issue()</span>
+                            <span class="example">ComplianceChecker.attest()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Certifiers formally attest that something meets standards - SSL certs, compliance reports, signatures.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Certifier vs Verifier: Certifiers issue formal attestation; Verifiers just check correctness.</div>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <div class="role-name">
+                        Measurer
+                        <span class="role-badge" style="background: var(--management); color: #fff">SWEBOK</span>
+                    </div>
+                    <div class="role-purpose">Metrics collection - raw measurement</div>
+                    <div class="role-section">
+                        <div class="role-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">PerformanceMonitor.measure(fn)</span>
+                            <span class="example">CoverageCollector.collect()</span>
+                        </div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Key Takeaway</div>
+                        <div class="takeaway">Measurers collect raw data points - timing, counts, sizes. They feed into analyzers and dashboards.</div>
+                    </div>
+                    <div class="role-section">
+                        <div class="role-section-title">Common Confusion</div>
+                        <div class="confusion">Measurer vs StatisticalAnalyzer: Measurers collect raw data; Analyzers compute derived metrics.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - 41 Canonical Roles (SWEBOK-Enhanced)</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                Original 33 roles + 8 SWEBOK additions: Verifier, SecurityValidator, StatisticalAnalyzer, Tracer, ProjectManager, RiskManager, Certifier, Measurer
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -285,7 +285,7 @@ class ConstraintEngine:
         edge: Dict[str, Any],
     ) -> List[Violation]:
         """
-        Implement fundamental Antimatter Laws for architectural integrity.
+        Implement fundamental Antimatter Patterns for architectural integrity.
 
         AM001: Layer Skip Violation
         AM002: Reverse Layer Dependency
@@ -319,7 +319,7 @@ class ConstraintEngine:
                     rule_id='AM002',
                     tier=ViolationTier.A,
                     node_id=source_id,
-                    reason=f"Antimatter Law AM002 (ReverseLayerDependency): {source_layer} attempting to call higher layer {target_layer}",
+                    reason=f"Antimatter Pattern AM002 (ReverseLayerDependency): {source_layer} attempting to call higher layer {target_layer}",
                     confidence=1.0,
                     edge_source=source_id,
                     edge_target=target_id,
@@ -334,7 +334,7 @@ class ConstraintEngine:
                     rule_id='AM001',
                     tier=ViolationTier.A,
                     node_id=source_id,
-                    reason=f"Antimatter Law AM001 (LayerSkipViolation): {source_layer} calling {target_layer} while skipping {', '.join(skipped_layers)}",
+                    reason=f"Antimatter Pattern AM001 (LayerSkipViolation): {source_layer} calling {target_layer} while skipping {', '.join(skipped_layers)}",
                     confidence=1.0,
                     edge_source=source_id,
                     edge_target=target_id,
@@ -360,7 +360,7 @@ class ConstraintEngine:
         """
         violations = []
 
-        # 1. Check fundamental Antimatter Laws (AM001, AM002)
+        # 1. Check fundamental Antimatter Patterns (AM001, AM002)
         violations.extend(self._check_antimatter_laws(source_node, target_node, edge))
 
         # 2. Check profile-specific forbidden dependencies (Tier B)

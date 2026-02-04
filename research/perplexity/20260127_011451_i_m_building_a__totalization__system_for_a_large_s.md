@@ -400,7 +400,7 @@ Despite the solid conceptual foundation, several significant risks could undermi
 
 **The Risk**: Registries require discipline. If your artifact registry becomes inconsistent with actual artifacts, or if your schema registry diverges from actual document structures, the system becomes worse than useless.
 
-**Mitigation**: 
+**Mitigation**:
 - Implement **automated validation** that periodically scans your actual files and compares them against registry entries
 - Design your CI/CD pipeline to reject commits that violate registry consistency rules
 - Create **administrative dashboards** showing registry health metrics (orphaned artifacts, stale entries, inconsistencies)

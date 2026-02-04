@@ -142,14 +142,14 @@ class MinimalHub:
     def get(self, name):
         if name not in self.modules:
             raise ValueError(f"Module {name} not registered")
-        
+
         config = self.modules[name]
-        
+
         if config['singleton']:
             if name not in self.singletons:
                 self.singletons[name] = self._resolve(config)
             return self.singletons[name]
-        
+
         return self._resolve(config)
 
     def _resolve(self, config):
@@ -313,7 +313,7 @@ class CartModule {
   constructor(productService, eventBus) {
     this.productService = productService;
     this.eventBus = eventBus;
-    
+
     // Listen for product updates
     eventBus.on('product:updated', (product) => {
       this.updateCartItem(product);
@@ -367,7 +367,7 @@ class CircuitBreaker {
     } catch (error) {
       this.failureCount++;
       this.lastFailureTime = Date.now();
-      
+
       if (this.failureCount >= this.threshold) {
         this.state = 'open';
       }
@@ -404,9 +404,9 @@ const legacy = new LegacyModule();
 // later, opt into hub coordination
 const hub = new MinimalHub();
 hub.register('legacyAdapter', () => legacy, { singleton: true });
-hub.register('newService', NewService, { 
+hub.register('newService', NewService, {
   dependencies: ['legacyAdapter'],
-  singleton: true 
+  singleton: true
 });
 
 // New code can request dependencies from the hub

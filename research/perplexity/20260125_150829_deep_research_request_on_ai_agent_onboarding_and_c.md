@@ -110,7 +110,7 @@ The practical finding is significant: models trained to follow instruction hiera
 Applied to agent onboarding, this research suggests that constraints and guidelines should not be presented as a flat, undifferentiated list but as an explicit hierarchy. Critical constraints (system-wide architectural principles, security requirements) should occupy higher priority positions, with contextual guidelines and preferences in lower positions. The agent's behavior should be explicitly structured to prioritize higher-level constraints when conflicts arise. This might manifest as:
 
 **Priority 0 (Critical):** Security requirements, system architecture constraints, data handling policies
-**Priority 1 (High):** API conventions, code style standards, testing requirements  
+**Priority 1 (High):** API conventions, code style standards, testing requirements
 **Priority 2 (Medium):** Performance guidelines, optimization preferences, documentation standards
 **Priority 3 (Low):** Suggestions for improvement, alternative approaches, enhancement opportunities
 
@@ -139,7 +139,7 @@ Research explicitly applying cognitive load theory to language model prompting r
 
 The practical implication for agent onboarding concerns how tasks and documentation are presented. If an onboarding system requires an agent to simultaneously:
 - Learn new codebase architecture
-- Understand API conventions  
+- Understand API conventions
 - Apply security policies
 - Follow performance guidelines
 - Understand build processes

@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "saved_at": "2026-02-03T01:19:29.763811",
+    "source": "gemini",
+    "model": "gemini-3-pro-preview",
+    "query": "You are triaging uncommitted changes. For each file provided, output a JSON array of objects with:\n{path, decision: keep|revert|needs-review, summary, rationale, risk: low|medium|high}.\nUse the file path as provided. Respond with ONLY JSON (no markdown).",
+    "query_length": 254,
+    "checksum": "sha256:2551d10bc838b69daf339d996de218575e0a890e3f208148f25c8686901e379f"
+  },
+  "response": {
+    "content": "```json\n[\n  {\n    \"path\": \"REPO_STRUCTURE.json\",\n    \"decision\": \"keep\",\n    \"summary\": \"Defines the 'Standard Model of Code' architecture (Particle, Wave, Observer) and directory mapping.\",\n    \"rationale\": \"This file acts as the central architectural reference, mapping directories to the SMC layers as seen in `[REPO_STRUCTURE.json:250-254]`. It documents the purpose of 13,000+ files (`[REPO_STRUCTURE.json:245]`) and governance structures like `QUALITY_GATES.md` (`[REPO_STRUCTURE.json:213]`).\",\n    \"risk\": \"low\"\n  },\n  {\n    \"path\": \".file_explorer_trash/verify_counts.py\",\n    \"decision\": \"needs-review\",\n    \"summary\": \"Quality Gate G2 script for verifying code component counts.\",\n    \"rationale\": \"The script implements verification logic (`Verify Counts (Gate G2)` `[.file_explorer_trash/verify_counts.py:L12]`) that aligns with the governance mentioned in `[REPO_STRUCTURE.json:213]`. However, it is located in a `.file_explorer_trash` directory. It should be moved to `scripts/` or `tests/` rather than committed in a trash folder.\",\n    \"risk\": \"medium\"\n  },\n  {\n    \"path\": \".file_explorer_trash/verify_links.py\",\n    \"decision\": \"needs-review\",\n    \"summary\": \"Quality Gate G3 script for validating internal markdown links.\",\n    \"rationale\": \"Functional utility checking for broken links (`Verify Links (Gate G3)` `[.file_explorer_trash/verify_links.py:L11]`). While the logic is sound and safe (read-only), the file path implies it was discarded. It should be rescued to a proper utility directory before committing.\",\n    \"risk\": \"medium\"\n  },\n  {\n    \"path\": \".file_explorer_trash/verify_placeholders.py\",\n    \"decision\": \"needs-review\",\n    \"summary\": \"Quality Gate G4 script for detecting unresolved TODO placeholders.\",\n    \"rationale\": \"Implements checks for `{placeholder}` patterns (`[.file_explorer_trash/verify_placeholders.py:L15]`) identified as `Gate G4`. Valuable QA tool currently mislocated in the trash directory.\",\n    \"risk\": \"medium\"\n  }\n]\n```",
+    "mode": "forensic"
+  }
+}

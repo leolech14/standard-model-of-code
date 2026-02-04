@@ -34,20 +34,20 @@
 - What is Purpose?
 
 **Built from:** [← L0 Axioms](./L0_AXIOMS.md)
-**Leads to:** [L2 Laws →](./L2_LAWS.md)
+**Leads to:** [L2 Principles →](./L2_PRINCIPLES.md)
 
 ---
 
-### Layer 2: Laws (Built on L1)
-**File:** [L2_LAWS.md](./L2_LAWS.md)
+### Layer 2: Principles (Built on L1)
+**File:** [L2_PRINCIPLES.md](./L2_PRINCIPLES.md)
 
-**Purpose:** Invariant relationships that must hold
+**Purpose:** Behavioral patterns and relationships
 
 **Contents:**
-- Law of Role Consistency
-- Law of Purpose Emergence
-- Law of Structural Determinism
-- Law of Orphan Semantics (NEW)
+- Principle of Role Consistency
+- Principle of Purpose Emergence
+- Principle of Structural Determinism
+- Principle of Orphan Semantics (NEW)
 
 **Built from:** [← L1 Definitions](./L1_DEFINITIONS.md)
 **Leads to:** [L3 Applications →](./L3_APPLICATIONS.md)
@@ -59,7 +59,7 @@
 ### Layer 3: Applications (Built on L2)
 **File:** [L3_APPLICATIONS.md](./L3_APPLICATIONS.md)
 
-**Purpose:** Practical implementations of laws
+**Purpose:** Practical implementations of principles
 
 **Contents:**
 - How to classify atoms
@@ -67,7 +67,7 @@
 - How to measure coherence
 - How to validate architecture
 
-**Built from:** [← L2 Laws](./L2_LAWS.md)
+**Built from:** [← L2 Principles](./L2_PRINCIPLES.md)
 **Loops to:** [↺ L0 Axioms](./L0_AXIOMS.md) (theory closure)
 
 ---
@@ -93,11 +93,11 @@
 **Contents:**
 - All axioms
 - All definitions
-- All laws
+- All principles
 - All applications
 - Proofs and validations
 
-**Comprehensive version of:** [L0](./L0_AXIOMS.md) + [L1](./L1_DEFINITIONS.md) + [L2](./L2_LAWS.md) + [L3](./L3_APPLICATIONS.md)
+**Comprehensive version of:** [L0](./L0_AXIOMS.md) + [L1](./L1_DEFINITIONS.md) + [L2](./L2_PRINCIPLES.md) + [L3](./L3_APPLICATIONS.md)
 
 ---
 
@@ -181,7 +181,7 @@ START: THEORY_INDEX.md (you are here)
   ↓
   L1_DEFINITIONS.md (terms)
   ↓
-  L2_LAWS.md (relationships)
+  L2_PRINCIPLES.md (relationships)
   ↓
   L3_APPLICATIONS.md (practice)
   ↓
@@ -222,7 +222,7 @@ START: THEORY_INDEX.md (you are here)
 **To Code:**
 - L0 Axioms implemented in: `src/core/atom_loader.py`
 - L1 Definitions encoded in: `src/patterns/*.yaml`
-- L2 Laws enforced in: `src/core/purpose_field.py`
+- L2 Principles enforced in: `src/core/purpose_field.py`
 - L3 Applications executed in: Collider Pipeline (28 stages)
 
 **To Practice:**

@@ -204,14 +204,14 @@ The module should include comprehensive TypeScript type definitions documenting 
 ```typescript
 /**
  * Transforms structured data according to specified rules.
- * 
+ *
  * @param data - The input data to transform. Must be a valid JSON object.
  * @param rules - Transformation rules following JSON Schema format.
  * @param options - Optional configuration for transformation behavior.
  * @returns Transformed data matching the output schema specified in rules.
  * @throws ValidationError if input data does not conform to schema
  * @throws TransformError if transformation fails (see error.details for specific issue)
- * 
+ *
  * @example
  * const result = await transformData(
  *   { name: "John", age: 30 },

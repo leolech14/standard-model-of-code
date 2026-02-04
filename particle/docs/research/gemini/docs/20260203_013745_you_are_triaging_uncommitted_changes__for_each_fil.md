@@ -1,0 +1,43 @@
+# Research: You are triaging uncommitted changes. For each file provided, output a JSON array of objects with:
+{...
+
+> **Date:** 2026-02-03 01:37:45
+> **Source:** gemini
+> **Model:** gemini-3-pro-preview
+> **Checksum:** `sha256:74f38c76aa848058f4f88b15ce9a26a388403f49cb7b1c8c1360e38040049ded`
+> **Raw JSON:** `raw/20260203_013745_you_are_triaging_uncommitted_changes__for_each_fil.json`
+
+---
+
+## Query
+
+You are triaging uncommitted changes. For each file provided, output a JSON array of objects with:
+{path, decision: keep|revert|needs-review, summary, rationale, risk: low|medium|high}.
+Use the file path as provided. Respond with ONLY JSON (no markdown).
+
+---
+
+## Response
+
+[
+  {
+    "path": "governance/ARCHITECTURE_AUDIT_2026.md",
+    "decision": "keep",
+    "summary": "Architectural audit report detailing the 'Consolidation Loop' strategy, risks of 'Symmetry Drift', and the 2026 roadmap.",
+    "rationale": "This document serves as a high-level strategic record, marked as 'HIGH-INTENSITY VALIDATION' [governance/ARCHITECTURE_AUDIT_2026.md:L5]. It outlines specific mitigation strategies like 'Socratic Verification' [governance/ARCHITECTURE_AUDIT_2026.md:L33] and defines the roadmap for 'Active Intelligence Generation' [governance/ARCHITECTURE_AUDIT_2026.md:L39-L44], which is essential for project governance.",
+    "risk": "low"
+  },
+  {
+    "path": "governance/REPO_STRUCTURE.md",
+    "decision": "keep",
+    "summary": "Canonical definition of the repository directory tree and subsystem organization following the 2026-02-01 consolidation.",
+    "rationale": "This file is critical for enforcing architectural standards, stating it is the 'definitive directory tree' [governance/REPO_STRUCTURE.md:L3]. It defines the roles of subsystems like 'PARTICLE' and 'WAVE' [governance/REPO_STRUCTURE.md:L150-L151] and establishes mandatory maintenance rules such as 'No Root Pollution' [governance/REPO_STRUCTURE.md:L139].",
+    "risk": "low"
+  }
+]
+
+---
+
+## Citations
+
+_No citations provided_

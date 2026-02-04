@@ -1,6 +1,6 @@
 # Spec-Driven Development: The AI-Era Paradigm
 
-**Status:** VALIDATED (Gemini 98/100 CDPS, 2026-02-01)
+**Status:** GROUNDED (Gemini 98/100 CDPS, 2026-02-01)
 **Layer:** L3 (Applications)
 **Depends on:** L1_DEFINITIONS.md (Codome/Contextome), CROSS_DOMAIN_METHODOLOGY.md
 **Version:** 1.0.0

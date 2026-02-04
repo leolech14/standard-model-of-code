@@ -17,7 +17,7 @@ The user discovered a TRINITY pattern in our architecture:
 
 TRINITY 1 (Repo Facilities):
 - TOOL (deterministic scripts we run)
-- SERVICE (background daemons)  
+- SERVICE (background daemons)
 - LIBRARY (reusable modules)
 
 TRINITY 2 (Data Domains):

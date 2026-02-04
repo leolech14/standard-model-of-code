@@ -1,4 +1,4 @@
-# L2: Laws of the Standard Model of Code
+# L2: Behavioral Principles of the Standard Model of Code
 
 **📍 Navigation:** [Theory Index](./THEORY_INDEX.md#FIXED) | [← L1: Definitions](./L1_DEFINITIONS.md#FIXED) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md#FIXED)
 
@@ -12,13 +12,13 @@
 
 ## Purpose of This Layer
 
-This document contains **every law describing how Standard Model concepts BEHAVE**. While L0 defines what MUST be true (axioms) and L1 defines what EXISTS (entities), L2 defines how things **CHANGE, EMERGE, FLOW, and RELATE** over time and across structure.
+This document proposes **key principles describing how Standard Model concepts BEHAVE**. While L0 defines what MUST be true (axioms) and L1 defines what EXISTS (entities), L2 defines how things **CHANGE, EMERGE, FLOW, and RELATE** over time and across structure.
 
 These are **dynamic equations**, not static definitions.
 
 ---
 
-## 1. Purpose Laws (The Canonical pi Functions)
+## 1. Purpose Principles (The Canonical pi Functions)
 
 ### 1.1 The Purpose Hierarchy
 
@@ -175,11 +175,11 @@ Weights by:
 
 ---
 
-## 2. Emergence Laws
+## 2. Emergence Principles
 
 ### 2.1 Systems of Systems (Recursive Composition)
 
-**Law:** Every system is composed of subsystems, which are themselves systems.
+**Principle:** Systems are composed of subsystems, which are themselves systems.
 
 ```
 IS_SYSTEM(L_n) ⟹ ∃ decomposition into systems at L_{n-1}
@@ -195,7 +195,7 @@ Method (L3) is a system of Blocks (L2)
 
 ### 2.2 Emergence Criterion
 
-**Law:** Emergence occurs when macro-level description predicts behavior as well as micro-level.
+**Principle:** Emergence occurs when macro-level description predicts behavior as well as micro-level.
 
 **Quantitative version** (from L0 Axiom F2):
 
@@ -220,7 +220,7 @@ emergent properties exist.
 
 ### 2.3 Fractal Emergence
 
-**Law:** Emergence happens at EVERY level transition, not just at special levels.
+**Pattern:** Emergence can occur at level transitions, not just at special levels.
 
 ```
 ∀L ∈ {L-2, L-1, L0, L1, ..., L11}: Emergence(L -> L+1) may occur
@@ -235,11 +235,11 @@ emergent properties exist.
 
 ---
 
-## 3. Flow Laws (Constructal)
+## 3. Flow Principles (Constructal)
 
 ### 3.1 Constructal Principle (from L0 Axiom E1)
 
-**Law:** Code structure evolves to minimize flow resistance.
+**Principle:** Code structure tends to evolve toward configurations that minimize flow resistance.
 
 ```
 d𝕮/dt = ∇H(flow_ease)
@@ -283,11 +283,11 @@ Technical debt = R_total accumulated over time
 
 ---
 
-## 4. Concordance Laws (Alignment Geometry)
+## 4. Concordance Principles (Alignment Geometry)
 
 ### 4.1 Drift as Distance in Purpose-Embedding Space
 
-**Law:** Documentation drift is measurable as distance between purpose vectors.
+**Principle:** Documentation drift can be measured as distance between purpose vectors.
 
 **Setup** (from L0 §10.1):
 
@@ -319,7 +319,7 @@ Drift(concordance_k) = (1 / |C_π|) · Σ_{c ∈ C_π} drift(c)
 
 ### 4.2 Symmetry Formula
 
-**Law:** Concordance symmetry combines code coverage and doc realizability.
+**Pattern:** Concordance symmetry combines code coverage and doc realizability.
 
 ```
 Coverage = |Dom(F)| / |C|              (Fraction of code with docs)
@@ -338,7 +338,7 @@ Symmetry = 2 · (Coverage · Realizability) / (Coverage + Realizability)
 
 ### 4.3 Purpose Preservation (Approximate Naturality)
 
-**Law:** Ideal concordance requires the documentation functor to preserve purpose.
+**Principle:** Ideal concordance requires the documentation functor to preserve purpose.
 
 **Diagram** (from L0 §10.1):
 
@@ -368,15 +368,15 @@ Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C
 
 ---
 
-## 5. Antimatter Laws (Architectural Violations)
+## 5. Antimatter Patterns (Architectural Anti-Patterns)
 
-**Definition:** Antimatter laws are violations of good architectural practice.
+**Definition:** Antimatter patterns are violations of good architectural practice.
 
-**Canonical data:** `../../schema/antimatter_laws.yaml`
+**Canonical data:** `../../schema/antimatter_patterns.yaml`
 
-### The Seven Laws
+### Seven Key Anti-Patterns
 
-| Law ID | Name | Violation | Theory Source |
+| Pattern ID | Name | Violation | Theory Source |
 |--------|------|-----------|---------------|
 | **AM001** | Layer Skip Violation | Layer L calls layer L-2 (skipping L-1) | Dijkstra + Clean Architecture |
 | **AM002** | Reverse Layer Dependency | Lower layer depends on higher layer | Clean Architecture |
@@ -408,7 +408,7 @@ AM007: in_degree(n) = 0 ∧ ¬is_entry_point(n) ∧ ¬is_test(n)    (see L1 §5.
 
 ### 6.1 The M-I-P-O Cycle (Shannon's Model)
 
-**Law:** Software development is a communication process with four stages.
+**Principle:** Software development can be modeled as a communication process with four stages.
 
 ```
 M (Message)      -> Code intent (what developer wants)
@@ -442,7 +442,7 @@ Measures: How much intent successfully transfers to behavior
 
 ### 6.2 Semiosis as Continuous Interpretation
 
-**Law:** Code meaning is continuously produced through interpretation (Peirce's unlimited semiosis).
+**Pattern:** Code meaning is continuously produced through interpretation (Peirce's unlimited semiosis).
 
 ```
 Sign -> Interpretant_1 -> Interpretant_2 -> ... (unbounded)
@@ -457,7 +457,7 @@ In SMoC:
 
 ### 6.3 Free Energy Principle (Development as Gradient Descent)
 
-**Law** (from L0 Axiom D7):
+**Principle** (inspired by L0 Axiom D7):
 
 ```
 d𝒫/dt = -∇Incoherence(𝕮)
@@ -485,11 +485,11 @@ Development = gradient descent on free energy.
 
 ---
 
-## 7. Evolution Laws
+## 7. Evolution Principles
 
 ### 7.1 Technical Debt as Drift Integral
 
-**Law:** Technical debt accumulates as the integral of purpose drift over time.
+**Principle:** Technical debt accumulates as the integral of purpose drift over time.
 
 **Formula** (from L0 Axiom D6):
 
@@ -513,7 +513,7 @@ WHERE:
 
 ### 7.2 Interface Surface (Membrane Model)
 
-**Law:** System evolvability is inversely proportional to interface surface area.
+**Pattern:** System evolvability tends to be inversely proportional to interface surface area.
 
 ```
 Evolvability = k / |Boundary|
@@ -537,7 +537,7 @@ WHERE:
 
 ### 7.3 Crystallization Events (Commits as Phase Transitions)
 
-**Law:** Code purpose is discontinuous -- it changes in discrete jumps at commits.
+**Principle:** Code purpose exhibits discontinuous changes -- it changes in discrete jumps at commits.
 
 ```
 𝒫_code(t < t_commit) = constant_1       (frozen period 1)
@@ -607,9 +607,9 @@ Drift grows unboundedly without crystallization events.
 
 ## 9. Constructal Flow (from L0 Axiom E)
 
-### The Constructal Law
+### The Constructal Principle
 
-**Law (Bejan 2008):**
+**Principle (Bejan 2008):**
 
 > "For a finite-size system to persist in time (to live), it must evolve in such a way that it provides easier access to the imposed currents that flow through it."
 
@@ -659,7 +659,7 @@ Evolution direction:
 
 **Current status:** Bejan claims universality; physics community debates.
 
-**SMoC stance:** Treat as design principle, not axiom (hence in L2 Laws, not L0 Axioms).
+**SMoC stance:** Treat as design principle, not axiom (hence in L2 Principles, not L0 Axioms).
 
 ### Q4. How do we formalize "Dark Matter edges"?
 
@@ -679,11 +679,11 @@ Evolution direction:
 
 ---
 
-## 11. Compositional Laws (Alignment and Capability)
+## 11. Compositional Principles (Alignment and Capability)
 
 **[Validation: 95% - Extensively validated through empirical SE research, formal models in category theory, documented anti-patterns (Big Ball of Mud, Architecture Sinkhole), MIT modular hierarchy research]**
 
-### 7.1 Law of Compositional Alignment
+### 11.1 Principle of Compositional Alignment
 
 **Statement:** System capability is proportional to compositional alignment across architectural levels.
 
@@ -734,11 +734,11 @@ WHERE:
 
 ---
 
-## 12. Dependency Laws (Entanglement and Propagation)
+## 12. Dependency Principles (Entanglement and Propagation)
 
 **[Validation: 78% - Explicit precedent (Pescio 2010), formal coupling metrics exist, empirical change propagation measured, Hilbert space formalization gap remains]**
 
-### 8.1 Law of Code Entanglement
+### 12.1 Principle of Code Entanglement
 
 **Statement:** Code dependencies exhibit properties analogous to quantum entanglement, with non-local effects across arbitrary distance in codebase structure.
 
@@ -816,7 +816,7 @@ Range: [0.67, 1.0] (low to high coupling)
 
 ---
 
-*This is Layer 2. Every behavioral law lives here.*
+*This is Layer 2. Every behavioral principle lives here.*
 *For foundational axioms, see L0. For entity definitions, see L1. For measurement, see L3.*
 
 ---

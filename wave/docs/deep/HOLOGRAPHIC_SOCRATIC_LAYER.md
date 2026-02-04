@@ -7,7 +7,7 @@
 
 ## What Is It?
 
-The Holographic-Socratic Layer is a **self-maintaining semantic validation system** that ensures codebase integrity against defined invariants (Antimatter Laws). Unlike static linters, it:
+The Holographic-Socratic Layer is a **self-maintaining semantic validation system** that ensures codebase integrity against defined invariants (Antimatter Patterns). Unlike static linters, it:
 
 1. **Reconstructs context** from any partial query
 2. **Questions continuously** via scheduled and file-triggered audits
@@ -54,7 +54,7 @@ python wave/tools/ai/analyze.py --verify pipeline --candidate path/to/file.py
 cat wave/reports/socratic_audit_latest.md
 ```
 
-## Antimatter Laws (Violations Detected)
+## Antimatter Patterns (Violations Detected)
 
 | ID | Name | Description |
 |----|------|-------------|
@@ -84,6 +84,6 @@ sentinel reload com.elements.socratic-audit
 | File | Purpose |
 |------|---------|
 | `analyze.py` | Main tool with `--verify` mode |
-| `semantic_models.yaml` | Antimatter Laws + Domain definitions |
+| `semantic_models.yaml` | Antimatter Patterns + Domain definitions |
 | `socratic_audit_latest.md` | Living output report |
 | `com.elements.socratic-audit.plist` | LaunchAgent config |

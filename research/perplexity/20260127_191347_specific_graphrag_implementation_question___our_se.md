@@ -100,7 +100,7 @@ driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"
 
 def embed_and_store_chunks(driver, batch_size=100):
     """
-    Retrieve chunks from Neo4j, generate embeddings, 
+    Retrieve chunks from Neo4j, generate embeddings,
     and store back in the database
     """
     with driver.session() as session:
@@ -109,7 +109,7 @@ def embed_and_store_chunks(driver, batch_size=100):
             "MATCH (c:Chunk) RETURN count(c) as total"
         )
         total = count_result.single()["total"]
-        
+
         # Process in batches to avoid memory overload
         for offset in range(0, total, batch_size):
             result = session.run(
@@ -122,15 +122,15 @@ def embed_and_store_chunks(driver, batch_size=100):
                 offset=offset,
                 batch_size=batch_size
             )
-            
+
             chunks = result.data()
             if not chunks:
                 break
-            
+
             # Generate embeddings for this batch
             texts = [c['text'] for c in chunks]
             embeddings = model.encode(texts, convert_to_tensor=False)
-            
+
             # Store embeddings back in Neo4j
             for chunk, embedding in zip(chunks, embeddings):
                 session.run(
@@ -141,7 +141,7 @@ def embed_and_store_chunks(driver, batch_size=100):
                     chunk_id=chunk['id'],
                     embedding=embedding.tolist()
                 )
-            
+
             print(f"Processed {offset + len(chunks)} of {total} chunks")
 
 # Execute embedding pipeline
@@ -182,7 +182,7 @@ OPTIONAL MATCH (e)-[:RELATED_TO]-(related:Entity)
 WHERE node.source IN $allowed_sources
 
 // Return rich context for LLM
-RETURN 
+RETURN
   node.text AS text,
   score AS similarity_score,
   collect(DISTINCT e.name) AS mentioned_entities,
@@ -244,7 +244,7 @@ def extract_graph_and_detect_communities(driver, resolution=1.0, seed=42):
             """
         )
         nodes = {node['id']: i for i, node in enumerate(nodes_result)}
-        
+
         # Extract relationships
         rels_result = session.run(
             """
@@ -258,16 +258,16 @@ def extract_graph_and_detect_communities(driver, resolution=1.0, seed=42):
             tgt_idx = nodes.get(rel['target'])
             if src_idx is not None and tgt_idx is not None:
                 relationships.append((src_idx, tgt_idx))
-    
+
     # Create igraph from extracted data
     g = ig.Graph()
     g.add_vertices(len(nodes))
     g.add_edges(relationships)
-    
+
     # Add node attributes
     node_id_map = {v: k for k, v in nodes.items()}
     g.vs["neo4j_id"] = [node_id_map[i] for i in range(len(nodes))]
-    
+
     # Run Leiden algorithm with specified parameters
     # Use ModularityVertexPartition for quality function
     partition = la.find_partition(
@@ -277,13 +277,13 @@ def extract_graph_and_detect_communities(driver, resolution=1.0, seed=42):
         n_iterations=2,  # Default: 2 iterations
         resolution_parameter=resolution  # Tune for community granularity
     )
-    
+
     # Extract community assignments
     community_assignments = {
-        node_id_map[idx]: partition.membership[idx] 
+        node_id_map[idx]: partition.membership[idx]
         for idx in range(len(nodes))
     }
-    
+
     # Store results back in Neo4j
     with driver.session() as session:
         # Create hierarchical community structure
@@ -298,7 +298,7 @@ def extract_graph_and_detect_communities(driver, resolution=1.0, seed=42):
                 community_id=community_id,
                 iteration=1
             )
-        
+
         # Create Community nodes and relationships
         session.run(
             """
@@ -314,13 +314,13 @@ def extract_graph_and_detect_communities(driver, resolution=1.0, seed=42):
             """,
             community_id="community"
         )
-    
+
     return len(partition), partition.modularity
 
 # Run community detection
 driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
 num_communities, modularity = extract_graph_and_detect_communities(
-    driver, 
+    driver,
     resolution=1.0,
     seed=42
 )
@@ -344,7 +344,7 @@ def create_hierarchical_communities(driver, max_levels=3):
     """
     current_level = 0
     max_level_reached = False
-    
+
     with driver.session() as session:
         while current_level < max_levels and not max_level_reached:
             if current_level == 0:
@@ -361,15 +361,15 @@ def create_hierarchical_communities(driver, max_levels=3):
                       (:Community {level: $level})
                 RETURN e.id AS id, e.name AS name
                 """
-            
+
             # Extract nodes for this level
             nodes_result = session.run(query, level=current_level)
             nodes = {node['id']: i for i, node in enumerate(nodes_result)}
-            
+
             if len(nodes) < 3:  # Stop if communities too small
                 max_level_reached = True
                 break
-            
+
             # Extract relationships within this community set
             edges_result = session.run(
                 """
@@ -379,23 +379,23 @@ def create_hierarchical_communities(driver, max_levels=3):
                 """,
                 node_ids=list(nodes.keys())
             )
-            
+
             relationships = []
             for edge in edges_result:
                 src = nodes.get(edge['source'])
                 tgt = nodes.get(edge['target'])
                 if src is not None and tgt is not None:
                     relationships.append((src, tgt))
-            
+
             if not relationships:  # Stop if no edges at this level
                 max_level_reached = True
                 break
-            
+
             # Run Leiden on this subgraph
             g = ig.Graph()
             g.add_vertices(len(nodes))
             g.add_edges(relationships)
-            
+
             partition = la.find_partition(
                 g,
                 la.ModularityVertexPartition,
@@ -403,9 +403,9 @@ def create_hierarchical_communities(driver, max_levels=3):
                 n_iterations=2,
                 resolution_parameter=1.0
             )
-            
+
             # Store communities at this level
-            for entity_id, comm_id in zip(nodes.keys(), 
+            for entity_id, comm_id in zip(nodes.keys(),
                                           partition.membership):
                 community_node_id = f"community_L{current_level}_C{comm_id}"
                 session.run(
@@ -420,7 +420,7 @@ def create_hierarchical_communities(driver, max_levels=3):
                     level=current_level,
                     modularity=partition.modularity
                 )
-            
+
             # Link hierarchical relationships
             if current_level > 0:
                 session.run(
@@ -431,9 +431,9 @@ def create_hierarchical_communities(driver, max_levels=3):
                     MERGE (child)-[:SUB_COMMUNITY_OF]->(parent)
                     """
                 )
-            
+
             current_level += 1
-    
+
     return current_level
 
 # Create hierarchical structure
@@ -452,7 +452,7 @@ Subgraph extraction forms the critical bridge between graph structure and langua
 Your requirement for query-driven subgraph extraction with 2-4 hops and neighbor limiting (100 neighbors per node) reflects real production constraints. Unrestricted graph traversal on knowledge graphs readily explodes to millions of nodes, making such pragmatic limits essential[9][27]. The recommended algorithm combines several techniques:
 
 ```python
-def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4, 
+def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
                            max_neighbors_per_hop=100, max_total_nodes=500):
     """
     Extract a focused subgraph starting from query-relevant entities,
@@ -465,10 +465,10 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
             CALL db.index.vector.queryNodes('chunk_embedding', $k, $query_embedding)
             YIELD node, score
             WHERE score > 0.3
-            
+
             // Traverse to mentioned entities
             OPTIONAL MATCH (node)<-[:MENTIONED_IN]-(e:Entity)
-            RETURN DISTINCT e.id AS entity_id, e.name AS entity_name, 
+            RETURN DISTINCT e.id AS entity_id, e.name AS entity_name,
                    score AS initial_score
             LIMIT $k_initial
             """,
@@ -476,20 +476,20 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
             k=k_initial,
             k_initial=k_initial
         )
-        
+
         seed_entities = {row['entity_id']: row for row in seed_result}
-        
+
         # Step 2: Multi-hop expansion with controlled neighbor growth
         visited_nodes = set(seed_entities.keys())
         current_frontier = list(seed_entities.keys())
         current_hop = 0
         subgraph_nodes = seed_entities.copy()
-        
+
         while current_hop < max_hops and current_frontier and \
               len(subgraph_nodes) < max_total_nodes:
-            
+
             next_frontier = []
-            
+
             # For each node at current frontier, find connected neighbors
             for node_id in current_frontier:
                 # Query for related entities, ordered by relationship strength
@@ -498,11 +498,11 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
                     MATCH (e:Entity {id: $entity_id})
                     -[r:RELATED_TO|:MENTIONS|:AUTHORED_BY]-(neighbor:Entity)
                     WHERE NOT neighbor.id IN $visited
-                    RETURN DISTINCT 
+                    RETURN DISTINCT
                         neighbor.id AS neighbor_id,
                         neighbor.name AS neighbor_name,
                         type(r) AS relationship_type,
-                        CASE 
+                        CASE
                             WHEN type(r) = 'RELATED_TO' THEN 2
                             WHEN type(r) = 'MENTIONS' THEN 1.5
                             WHEN type(r) = 'AUTHORED_BY' THEN 1.0
@@ -515,7 +515,7 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
                     visited=list(visited_nodes),
                     limit=max_neighbors_per_hop
                 ).data()
-                
+
                 # Add neighbors to next frontier (if space available)
                 for neighbor in neighbors:
                     if len(subgraph_nodes) < max_total_nodes:
@@ -523,29 +523,29 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
                         visited_nodes.add(neighbor_id)
                         subgraph_nodes[neighbor_id] = neighbor
                         next_frontier.append(neighbor_id)
-            
+
             current_frontier = next_frontier
             current_hop += 1
             print(f"Hop {current_hop}: Added {len(next_frontier)} nodes, "
                   f"total: {len(subgraph_nodes)}")
-        
+
         # Step 3: Enrich subgraph with relationships and context
         subgraph_result = session.run(
             """
             MATCH (e:Entity)
             WHERE e.id IN $entity_ids
-            
+
             // Get entity properties
             WITH e, collect(e) AS all_entities
-            
+
             // Get relationships between extracted entities
             OPTIONAL MATCH (e)-[r:RELATED_TO|:MENTIONS|:AUTHORED_BY]
                             ->(related:Entity)
             WHERE related.id IN $entity_ids
-            
+
             // Get supporting text chunks
             OPTIONAL MATCH (e)<-[:MENTIONED_IN]-(chunk:Chunk)
-            
+
             RETURN DISTINCT
                 e.id AS entity_id,
                 e.name AS entity_name,
@@ -562,7 +562,7 @@ def extract_query_subgraph(driver, query_embedding, k_initial=5, max_hops=4,
             """,
             entity_ids=list(subgraph_nodes.keys())
         )
-        
+
         return subgraph_result.data()
 
 # Example: Extract subgraph for a specific query
@@ -574,7 +574,7 @@ query_embedding = model.encode(query, convert_to_tensor=False).tolist()
 
 driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
 subgraph = extract_query_subgraph(
-    driver, 
+    driver,
     query_embedding,
     k_initial=5,
     max_hops=3,
@@ -597,7 +597,7 @@ def convert_subgraph_to_context(subgraph_data):
     """
     lines = []
     lines.append("=== KNOWLEDGE GRAPH CONTEXT ===\n")
-    
+
     # Entity listing
     lines.append("ENTITIES:")
     entity_map = {}
@@ -605,7 +605,7 @@ def convert_subgraph_to_context(subgraph_data):
         entity_id = entity['entity_id']
         entity_map[entity_id] = idx + 1
         lines.append(f"{idx + 1}. {entity['entity_name']}")
-    
+
     lines.append("\nRELATIONSHIPS:")
     # Relationship listing
     rel_count = 1
@@ -619,7 +619,7 @@ def convert_subgraph_to_context(subgraph_data):
                     f"Entity {entity_map[target_id]}"
                 )
                 rel_count += 1
-    
+
     lines.append("\nSUPPORTING EVIDENCE:")
     # Supporting chunks
     for entity in subgraph_data:
@@ -628,7 +628,7 @@ def convert_subgraph_to_context(subgraph_data):
                 f"\nFrom '{chunk['source']}':\n"
                 f"  {chunk['text'][:200]}..."
             )
-    
+
     return "\n".join(lines)
 
 # Generate LLM context
@@ -650,12 +650,12 @@ def generate_community_summaries(driver, llm_model=None):
     """
     import json
     from datetime import datetime
-    
+
     # Default: use a summarization function from transformers
     if llm_model is None:
         from transformers import pipeline
         llm_model = pipeline("summarization", model="facebook/bart-large-cnn")
-    
+
     with driver.session() as session:
         # Get all communities with their member entities
         communities = session.run(
@@ -665,7 +665,7 @@ def generate_community_summaries(driver, llm_model=None):
             WITH c, collect(c.id) AS top_level_communities
             OPTIONAL MATCH (c)<-[:MEMBER_OF]-(e:Entity)
             OPTIONAL MATCH (e)<-[:MENTIONED_IN]-(chunk:Chunk)
-            RETURN 
+            RETURN
                 c.id AS community_id,
                 c.level AS level,
                 collect(DISTINCT e.name) AS member_entities,
@@ -673,24 +673,24 @@ def generate_community_summaries(driver, llm_model=None):
             LIMIT 50  // Process first 50 communities
             """
         )
-        
+
         for community in communities:
             community_id = community['community_id']
             member_entities = community['member_entities']
             supporting_text = community['supporting_text']
-            
+
             # Create summary prompt
             context_text = f"""
             This community contains these entities: {', '.join(member_entities[:20])}
-            
+
             Supporting information:
             {' '.join(supporting_text[:5])}
             """
-            
+
             # Generate summary using LLM
             summary = llm_model(context_text, max_length=150, min_length=50)[0]
             summary_text = summary['summary_text']
-            
+
             # Store summary in Neo4j
             session.run(
                 """
@@ -702,7 +702,7 @@ def generate_community_summaries(driver, llm_model=None):
                 summary=summary_text,
                 timestamp=datetime.now().isoformat()
             )
-            
+
             print(f"Generated summary for {community_id}")
 
 # Generate summaries (requires LLM setup)
@@ -724,7 +724,7 @@ WHERE c.summary IS NOT NULL
 WITH question, c, c.summary AS context
 CALL apoc.openai.query(
   {
-    message: "Given this context about a dataset community: " + context + 
+    message: "Given this context about a dataset community: " + context +
             "\n\nHow does this relate to: " + question,
     systemPrompt: "You are a research analyst summarizing dataset insights."
   }
@@ -757,10 +757,10 @@ def local_search(driver, query, llm_model=None):
     expand with contextual relationships, return focused answer
     """
     from sentence_transformers import SentenceTransformer
-    
+
     model = SentenceTransformer('all-MiniLM-L6-v2')
     query_embedding = model.encode(query, convert_to_tensor=False).tolist()
-    
+
     with driver.session() as session:
         # Step 1: Find initial entities matching query
         seed_entities = session.run(
@@ -773,28 +773,28 @@ def local_search(driver, query, llm_model=None):
             """,
             query_embedding=query_embedding
         )
-        
+
         # Step 2: Extract focused subgraph
         entity_ids = [row['id'] for row in seed_entities]
         subgraph = extract_query_subgraph(
-            driver, 
+            driver,
             query_embedding,
             k_initial=5,
             max_hops=2,
             max_neighbors_per_hop=50,
             max_total_nodes=200
         )
-        
+
         # Step 3: Convert to context
         context = convert_subgraph_to_context(subgraph)
-        
+
         # Step 4: Generate answer with LLM
         if llm_model is None:
             # Use a simple retrieval augmentation pattern
             answer = f"Based on the connected entities: {context}"
         else:
             answer = llm_model(f"Question: {query}\n\nContext: {context}")
-        
+
         return {
             "question": query,
             "subgraph_size": len(subgraph),
@@ -818,22 +818,22 @@ The routing strategy determines when each tier handles queries[40][59]. INSTANT 
 ```python
 class ACIRouter:
     """
-    Route queries to appropriate ACI tier based on 
+    Route queries to appropriate ACI tier based on
     query characteristics and intent classification
     """
     def __init__(self, driver):
         self.driver = driver
         self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
-    
+
     def classify_query_intent(self, query):
         """
         Classify query intent to determine routing tier
         Returns: (tier, confidence, reasoning)
         """
         query_lower = query.lower()
-        
+
         # Define keywords for each tier
-        instant_keywords = ['what is', 'who is', 'when was', 'where is', 
+        instant_keywords = ['what is', 'who is', 'when was', 'where is',
                           'simple', 'basic', 'definition']
         graphrag_keywords = ['how does', 'relationship', 'connect', 'relate',
                            'through', 'chain', 'path', 'network', 'multi-hop',
@@ -842,7 +842,7 @@ class ACIRouter:
                                'complete', 'extensively', 'thoroughly']
         perplexity_keywords = ['certain', 'confident', 'reliability', 'confidence',
                              'uncertainty', 'likely', 'probably']
-        
+
         scores = {
             'INSTANT': sum(1 for kw in instant_keywords if kw in query_lower),
             'GRAPHRAG': sum(1 for kw in graphrag_keywords if kw in query_lower),
@@ -850,31 +850,31 @@ class ACIRouter:
             'PERPLEXITY': sum(1 for kw in perplexity_keywords if kw in query_lower),
             'RAG': 0  # Default tier
         }
-        
+
         max_tier = max(scores, key=scores.get)
         max_score = scores[max_tier]
         total_keywords = sum(scores.values())
-        
+
         if max_score == 0:
             # No strong intent signals, default to RAG
             return 'RAG', 0.5, 'No strong intent indicators'
-        
+
         confidence = max_score / (total_keywords + 1)
         reasoning = f"{max_score} keywords matched for {max_tier}"
-        
+
         return max_tier, confidence, reasoning
-    
+
     def should_use_graphrag(self, query, classification_result):
         """
         Determine if GraphRAG tier is appropriate
         """
         tier, confidence, reasoning = classification_result
-        
-        # Use GraphRAG if explicitly classified or if query 
+
+        # Use GraphRAG if explicitly classified or if query
         # shows relational complexity
         if tier == 'GRAPHRAG' and confidence > 0.3:
             return True, 'Explicit relational query detected'
-        
+
         # Check for entity density (multiple entities mentioned)
         with self.driver.session() as session:
             result = session.run(
@@ -886,19 +886,19 @@ class ACIRouter:
                 query=query
             )
             entity_count = result.single()['entity_count']
-        
+
         if entity_count >= 2:
             return True, f'Query mentions {entity_count} entities'
-        
+
         return False, 'No relational indicators'
-    
+
     def route_query(self, query):
         """
         Route query to appropriate ACI tier
         """
         classification = self.classify_query_intent(query)
         use_graphrag, reason = self.should_use_graphrag(query, classification)
-        
+
         if use_graphrag:
             return {
                 'tier': 'GRAPHRAG',
@@ -937,14 +937,14 @@ def execute_with_fallback(driver, query, llm_model=None):
     3. Fall back to RAG (vector search)
     4. Provide error message
     """
-    
+
     results = {
         'query': query,
         'primary_result': None,
         'fallback_tier_used': None,
         'status': 'failed'
     }
-    
+
     # Tier 1: GraphRAG local search
     try:
         result = local_search(driver, query, llm_model)
@@ -955,13 +955,13 @@ def execute_with_fallback(driver, query, llm_model=None):
             return results
     except Exception as e:
         print(f"GraphRAG search failed: {e}")
-    
+
     # Tier 2: Pure graph traversal (no LLM summarization)
     try:
         from sentence_transformers import SentenceTransformer
         model = SentenceTransformer('all-MiniLM-L6-v2')
         query_embedding = model.encode(query, convert_to_tensor=False).tolist()
-        
+
         subgraph = extract_query_subgraph(driver, query_embedding)
         if len(subgraph) > 0:
             context = convert_subgraph_to_context(subgraph)
@@ -975,7 +975,7 @@ def execute_with_fallback(driver, query, llm_model=None):
             return results
     except Exception as e:
         print(f"Graph traversal failed: {e}")
-    
+
     # Tier 3: Fall back to vector-only RAG
     try:
         with driver.session() as session:
@@ -988,7 +988,7 @@ def execute_with_fallback(driver, query, llm_model=None):
                 """,
                 query_embedding=model.encode(query, convert_to_tensor=False).tolist()
             )
-            
+
             texts = [row['text'] for row in result]
             if texts:
                 results['primary_result'] = {
@@ -1000,7 +1000,7 @@ def execute_with_fallback(driver, query, llm_model=None):
                 return results
     except Exception as e:
         print(f"Vector search failed: {e}")
-    
+
     # All tiers failed
     results['primary_result'] = {
         'answer': 'Unable to find relevant information',
@@ -1029,7 +1029,7 @@ def detect_document_deltas(driver, document_source_path):
     import os
     import hashlib
     from datetime import datetime
-    
+
     current_files = {}
     for filename in os.listdir(document_source_path):
         if filename.endswith(('.txt', '.pdf', '.md')):
@@ -1040,11 +1040,11 @@ def detect_document_deltas(driver, document_source_path):
                 'hash': file_hash,
                 'modified_time': os.path.getmtime(filepath)
             }
-    
+
     with driver.session() as session:
         # Check for new, modified, or deleted documents
         deltas = {'new': [], 'modified': [], 'deleted': []}
-        
+
         # Find new and modified documents
         for filename, current_info in current_files.items():
             result = session.run(
@@ -1054,24 +1054,24 @@ def detect_document_deltas(driver, document_source_path):
                 """,
                 source=filename
             )
-            
+
             db_record = result.single()
-            
+
             if db_record is None:
                 deltas['new'].append(filename)
             elif db_record['hash'] != current_info['hash']:
                 deltas['modified'].append(filename)
-        
+
         # Find deleted documents
         stored_docs = session.run(
             "MATCH (d:Document) RETURN d.source AS source"
         )
         stored_filenames = {row['source'] for row in stored_docs}
-        
+
         for filename in stored_filenames:
             if filename not in current_files:
                 deltas['deleted'].append(filename)
-        
+
         return deltas
 
 def process_document_deltas(driver, deltas, embedder):
@@ -1082,7 +1082,7 @@ def process_document_deltas(driver, deltas, embedder):
     3. Remove deleted documents and related entities
     4. Recompute affected communities
     """
-    
+
     with driver.session() as session:
         # Handle deleted documents
         for deleted_doc in deltas['deleted']:
@@ -1094,7 +1094,7 @@ def process_document_deltas(driver, deltas, embedder):
                 source=deleted_doc
             )
             print(f"Deleted document: {deleted_doc}")
-        
+
         # Handle modified documents (treat as delete + re-add)
         for modified_doc in deltas['modified']:
             session.run(
@@ -1105,19 +1105,19 @@ def process_document_deltas(driver, deltas, embedder):
                 source=modified_doc
             )
             deltas['new'].append(modified_doc)
-        
+
         # Handle new documents
         for new_doc in deltas['new']:
             # Extract text, chunk, embed, and store
             # (Implementation depends on document format)
             chunks = extract_document_chunks(new_doc)
-            
+
             for idx, chunk_text in enumerate(chunks):
                 embedding = embedder.encode(
-                    chunk_text, 
+                    chunk_text,
                     convert_to_tensor=False
                 ).tolist()
-                
+
                 session.run(
                     """
                     MERGE (d:Document {source: $source})
@@ -1136,9 +1136,9 @@ def process_document_deltas(driver, deltas, embedder):
                     embedding=embedding,
                     chunk_index=idx
                 )
-            
+
             print(f"Ingested new document: {new_doc} with {len(chunks)} chunks")
-        
+
         # Recompute affected communities
         if deltas['new'] or deltas['modified'] or deltas['deleted']:
             print("Recomputing affected communities...")
@@ -1153,17 +1153,17 @@ def incremental_update_loop(driver, source_path, check_interval_seconds=300):
     """
     import time
     from sentence_transformers import SentenceTransformer
-    
+
     embedder = SentenceTransformer('all-MiniLM-L6-v2')
-    
+
     while True:
         try:
             deltas = detect_document_deltas(driver, source_path)
-            
+
             if any(deltas.values()):
                 print(f"Found deltas: {deltas}")
                 process_document_deltas(driver, deltas, embedder)
-            
+
             time.sleep(check_interval_seconds)
         except Exception as e:
             print(f"Error in incremental update loop: {e}")
@@ -1192,7 +1192,7 @@ class GraphRAGMonitor:
             'cache_misses': 0,
             'errors': []
         }
-    
+
     def record_query_latency(self, query_id, latency_ms, tier):
         """Record query execution time"""
         self.metrics['query_latencies'].append({
@@ -1201,7 +1201,7 @@ class GraphRAGMonitor:
             'tier': tier,
             'timestamp': datetime.now()
         })
-    
+
     def record_subgraph_size(self, query_id, node_count, edge_count):
         """Record subgraph extraction metrics"""
         self.metrics['subgraph_sizes'].append({
@@ -1210,22 +1210,22 @@ class GraphRAGMonitor:
             'edges': edge_count,
             'timestamp': datetime.now()
         })
-    
+
     def get_performance_summary(self, hours=1):
         """Generate performance summary for operational dashboards"""
         from datetime import timedelta
         cutoff_time = datetime.now() - timedelta(hours=hours)
-        
+
         recent_latencies = [
             m for m in self.metrics['query_latencies']
             if m['timestamp'] > cutoff_time
         ]
-        
+
         if not recent_latencies:
             return {'status': 'no_queries', 'hours': hours}
-        
+
         latencies = [m['latency_ms'] for m in recent_latencies]
-        
+
         return {
             'hours': hours,
             'queries': len(recent_latencies),
@@ -1234,7 +1234,7 @@ class GraphRAGMonitor:
             'p99_latency_ms': sorted(latencies)[int(len(latencies) * 0.99)],
             'by_tier': self._summarize_by_tier(recent_latencies)
         }
-    
+
     def _summarize_by_tier(self, latencies):
         """Break down metrics by ACI tier"""
         by_tier = {}
@@ -1243,7 +1243,7 @@ class GraphRAGMonitor:
             if tier not in by_tier:
                 by_tier[tier] = []
             by_tier[tier].append(metric['latency_ms'])
-        
+
         return {
             tier: {
                 'avg_ms': sum(ms) / len(ms),

@@ -1,0 +1,2440 @@
+{
+  "timestamp": "2026-02-02T15:32:32.469063",
+  "model": "llama-3.3-70b",
+  "total_files": 29,
+  "total_must_fix": 164,
+  "results": [
+    {
+      "file": "particle/docs/theory/ACADEMIC_GAPS.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "NotebookLM called SMC \"almost academic\" because it has:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 23,
+          "text": "But it's missing **6 critical elements** required for top-tier publication:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but the tone may be too formal.",
+          "suggestion": "Consider rephrasing to make the tone more approachable."
+        },
+        {
+          "line": 67,
+          "text": "The theory documents jump straight into axioms without answering:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 121,
+          "text": "This is **informal**. Academic work requires **mathematical notation**.",
+          "category": "OK_EXTERNAL",
+          "reason": "The text is referencing external academic requirements.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 143,
+          "text": "Transform each axiom from prose to formal notation:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 193,
+          "text": "From ICSE review guidelines: Papers must \"systematically show where prior formalizations fall short\"",
+          "category": "OK_EXTERNAL",
+          "reason": "The text is referencing external academic requirements.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 217,
+          "text": "Add a **Related Work** section:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 273,
+          "text": "From ACM SIGSOFT Empirical Standards:",
+          "category": "OK_EXTERNAL",
+          "reason": "The text is referencing external academic requirements.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 305,
+          "text": "Conduct at least **one** of these studies:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 355,
+          "text": "From review guidelines: \"The claims are misleading: the work is over-sold and the authors aren't clear about the limitations\"",
+          "category": "OK_EXTERNAL",
+          "reason": "The text is referencing external academic requirements.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 377,
+          "text": "Add explicit **Scope** section:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        },
+        {
+          "line": 423,
+          "text": "Science requires falsifiability. If SMC can't be wrong, it's not science.",
+          "category": "MUST_FIX",
+          "reason": "The text implies that SMC is a scientific discovery, rather than a practical tool.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC, rather than its scientific status."
+        },
+        {
+          "line": 443,
+          "text": "State **explicit predictions** that can be tested:",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it may be worth rephrasing to better fit the practical tool/reference model tone.",
+          "suggestion": "Rephrase to focus on the practical utility of SMC."
+        }
+      ],
+      "summary": {
+        "must_fix": 1,
+        "ok_external": 5,
+        "review": 9
+      }
+    },
+    {
+      "file": "particle/docs/theory/ACADEMIC_POSITIONING.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "Claiming scientific discovery",
+          "category": "MUST_FIX",
+          "reason": "Language implies discovery rather than proposal",
+          "suggestion": "Claiming a practical tool or reference model"
+        },
+        {
+          "line": 13,
+          "text": "Proving universal truths about software",
+          "category": "MUST_FIX",
+          "reason": "Language implies proof of universal truths",
+          "suggestion": "Proposing a reference model for practical use"
+        },
+        {
+          "line": 27,
+          "text": "We prove...",
+          "category": "MUST_FIX",
+          "reason": "Language implies proof rather than evidence",
+          "suggestion": "We show evidence that..."
+        },
+        {
+          "line": 43,
+          "text": "The periodic table doesn't explain chemistry. It organizes elements so chemists can communicate.",
+          "category": "OK_EXTERNAL",
+          "reason": "External analogy, not a claim about SMC",
+          "suggestion": ""
+        },
+        {
+          "line": 53,
+          "text": "SMC doesn't explain why code works. It organizes code structure so AI agents can reason.",
+          "category": "OK_EXTERNAL",
+          "reason": "Analogy to external concept, not a claim about SMC",
+          "suggestion": ""
+        },
+        {
+          "line": 67,
+          "text": "Prior work has shown that structured code representations improve program understanding",
+          "category": "OK_EXTERNAL",
+          "reason": "Citing external work, not a claim about SMC",
+          "suggestion": ""
+        },
+        {
+          "line": 81,
+          "text": "We propose a fixed reference taxonomy...",
+          "category": "OK_EXTERNAL",
+          "reason": "Proposal, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 105,
+          "text": "We define 200 atom types, 41 roles, 8 dimensions",
+          "category": "OK_EXTERNAL",
+          "reason": "Definition, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 113,
+          "text": "These ARE the true categories",
+          "category": "MUST_FIX",
+          "reason": "Language implies absolute truth",
+          "suggestion": "These are the proposed categories"
+        },
+        {
+          "line": 125,
+          "text": "On N codebases, this representation enabled X",
+          "category": "OK_EMPIRICAL",
+          "reason": "Empirical evidence, not a claim of proof",
+          "suggestion": ""
+        },
+        {
+          "line": 129,
+          "text": "This proves the model is correct",
+          "category": "MUST_FIX",
+          "reason": "Language implies proof rather than evidence",
+          "suggestion": "This shows evidence that the model is useful"
+        },
+        {
+          "line": 143,
+          "text": "Law",
+          "category": "MUST_FIX",
+          "reason": "Language implies a universal law",
+          "suggestion": "principle or pattern"
+        },
+        {
+          "line": 145,
+          "text": "Proof",
+          "category": "MUST_FIX",
+          "reason": "Language implies proof rather than evidence",
+          "suggestion": "evidence or demonstration"
+        },
+        {
+          "line": 147,
+          "text": "Discovery",
+          "category": "MUST_FIX",
+          "reason": "Language implies discovery rather than proposal",
+          "suggestion": "proposal or contribution"
+        },
+        {
+          "line": 149,
+          "text": "Truth",
+          "category": "MUST_FIX",
+          "reason": "Language implies absolute truth",
+          "suggestion": "utility or usefulness"
+        },
+        {
+          "line": 163,
+          "text": "We seek utility, not universal truth.",
+          "category": "OK_EXTERNAL",
+          "reason": "Statement of goals, not a claim about SMC",
+          "suggestion": ""
+        },
+        {
+          "line": 173,
+          "text": "The model is useful",
+          "category": "OK_EXTERNAL",
+          "reason": "Statement of utility, not a claim of proof",
+          "suggestion": ""
+        },
+        {
+          "line": 205,
+          "text": "We propose a reference model",
+          "category": "OK_EXTERNAL",
+          "reason": "Proposal, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 211,
+          "text": "A fixed, versioned, human-readable, machine-actionable taxonomy of code structure\u2014designed for AI agents to reason about architecture.",
+          "category": "OK_EXTERNAL",
+          "reason": "Description of the model, not a claim of proof",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 11,
+        "ok_external": 13,
+        "ok_empirical": 1,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/ACADEMIC_PUBLICATION_INDEX.md",
+      "issues": [
+        {
+          "line": 141,
+          "text": "universal classification vocabulary",
+          "category": "MUST_FIX",
+          "reason": "Claim of universality",
+          "suggestion": "compatible classification vocabulary"
+        },
+        {
+          "line": 153,
+          "text": "What makes it academic",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming of academic rigor",
+          "suggestion": "Rephrase for clarity"
+        },
+        {
+          "line": 168,
+          "text": "Probability of acceptance",
+          "category": "MUST_FIX",
+          "reason": "Overly specific prediction of acceptance",
+          "suggestion": "Remove or rephrase for uncertainty"
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 0,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/ANALOGY_SCORING_METHODOLOGY.md",
+      "issues": [
+        {
+          "line": 141,
+          "text": "Verdict: ANALOGY VALIDATED - All mappings score \u226570",
+          "category": "MUST_FIX",
+          "reason": "Using 'VALIDATED' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "Verdict: ANALOGY GROUNDED - All mappings score \u226570"
+        },
+        {
+          "line": 233,
+          "text": "Verdict: ANALOGY VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Using 'VALIDATED' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "Verdict: ANALOGY GROUNDED"
+        },
+        {
+          "line": 14,
+          "text": "we must NOT accept intuitive matches",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming language, consider rephrasing for clarity",
+          "suggestion": "intuitive matches should not be accepted without rigorous evaluation"
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 11,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/AXIOMS_FORMAL.md",
+      "error": "JSON parse error: Invalid \\escape: line 13 column 31 (char 567)",
+      "raw": "\n{\n  \"file\": \"Standard Model of Code.md\",\n  \"issues\": [\n    {\n      \"line\": 0,\n      \"text\": \"The formal axioms generate testable predictions\",\n      \"category\": \"REVIEW\",\n      \"reason\": \"The phrase 'generate testable predictions' could be seen as implying scientific discovery, but in this context, it seems to be more about the practical utility of the axioms.\",\n      \"suggestion\": \"Consider rephrasing to 'The formal axioms provide a basis for testing and validation' to emphasize practical util"
+    },
+    {
+      "file": "particle/docs/theory/CODE_ZOO.md",
+      "issues": [
+        {
+          "line": 1,
+          "text": "CODE ZOO - Canonical Taxonomy of Software Entities",
+          "category": "REVIEW",
+          "reason": "Title does not contain overclaiming language, but the word 'Canonical' might imply a level of universality that needs review.",
+          "suggestion": "Consider rephrasing to 'A Taxonomy of Software Entities' to avoid potential overclaiming."
+        },
+        {
+          "line": 43,
+          "text": "The Code Zoo is a complete taxonomy of all entity types that exist in software.",
+          "category": "MUST_FIX",
+          "reason": "The word 'complete' implies a level of universality and exhaustiveness that may not be supportable.",
+          "suggestion": "Rephrase to 'The Code Zoo is a taxonomy of software entity types' to focus on the practical utility rather than making a claim of completeness."
+        },
+        {
+          "line": 63,
+          "text": "Every piece of code, every file, every concept can be classified.",
+          "category": "MUST_FIX",
+          "reason": "This statement implies a universal applicability that may not be achievable or supportable.",
+          "suggestion": "Rephrase to 'The Code Zoo provides a framework for classifying a wide range of software entities' to reflect its practical utility and limitations."
+        },
+        {
+          "line": 131,
+          "text": "Key Law: Dependencies flow INWARD (R4 \u2192 R0). Ring 0 never imports Ring 1+.",
+          "category": "MUST_FIX",
+          "reason": "The term 'Key Law' implies a level of universality and necessity that may not be appropriate for a reference model.",
+          "suggestion": "Rephrase to 'A key principle of the Code Zoo is that dependencies flow inward' to focus on the model's design rather than implying a universal law."
+        },
+        {
+          "line": 341,
+          "text": "This taxonomy was validated against IEEE SWEBOK V4 (2024) using Cerebras AI (3000 t/s).",
+          "category": "OK_EMPIRICAL",
+          "reason": "The use of 'validated' in this context refers to empirical testing and comparison, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 417,
+          "text": "SWEBOK Alignment: 40 matches, 24 gaps addressed, 23 enhancements, 11 conflicts resolved",
+          "category": "OK_EXTERNAL",
+          "reason": "This refers to alignment with an external standard, which is a practical consideration rather than a claim of discovery or universality.",
+          "suggestion": "No change needed."
+        }
+      ],
+      "summary": {
+        "must_fix": 4,
+        "ok_external": 2,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/COMPLETE_THEORY_READING_GUIDE.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "**Status:** Validated and integrated",
+          "category": "MUST_FIX",
+          "reason": "Using 'Validated' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "**Status:** Grounded and integrated"
+        },
+        {
+          "line": 14,
+          "text": "- Foundational truths",
+          "category": "MUST_FIX",
+          "reason": "Using 'Foundational truths' which implies universal law or fundamental truth",
+          "suggestion": "- Foundational concepts"
+        },
+        {
+          "line": 15,
+          "text": "- Cannot be proven, must be accepted",
+          "category": "MUST_FIX",
+          "reason": "Using 'must be accepted' which implies necessity",
+          "suggestion": "- Cannot be proven, are assumed"
+        },
+        {
+          "line": 67,
+          "text": "Lawvere proof (why partition is necessary)",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external theorem",
+          "suggestion": ""
+        },
+        {
+          "line": 121,
+          "text": "Bejan's principle applied to code",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external theorem",
+          "suggestion": ""
+        },
+        {
+          "line": 206,
+          "text": "**Validation Reports (separate):**",
+          "category": "OK_EMPIRICAL",
+          "reason": "Describing empirical testing",
+          "suggestion": ""
+        },
+        {
+          "line": 210,
+          "text": "epr_entanglement_report.md (78% validated)",
+          "category": "OK_EMPIRICAL",
+          "reason": "Describing empirical testing",
+          "suggestion": ""
+        },
+        {
+          "line": 283,
+          "text": "**Status:**",
+          "category": "MUST_FIX",
+          "reason": "Using 'Validated' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "**Status:** Grounded"
+        },
+        {
+          "line": 283,
+          "text": "- \u2705 Validated (empirical + formal)",
+          "category": "MUST_FIX",
+          "reason": "Using 'Validated' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "- \u2705 Grounded (empirical + formal)"
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 2,
+        "ok_empirical": 3,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/CROSS_DOMAIN_METHODOLOGY.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "Gemini-validated",
+          "category": "MUST_FIX",
+          "reason": "Using 'validated' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "Gemini-reviewed"
+        },
+        {
+          "line": 13,
+          "text": "a rigorous, reproducible metric for evaluating mappings between domains",
+          "category": "REVIEW",
+          "reason": "Language may imply a level of scientific discovery or universality",
+          "suggestion": "a practical, reproducible metric for evaluating mappings between domains"
+        },
+        {
+          "line": 63,
+          "text": "the ultimate test of a parallel",
+          "category": "REVIEW",
+          "reason": "Language may imply a level of scientific discovery or universality",
+          "suggestion": "a key test of a parallel"
+        },
+        {
+          "line": 104,
+          "text": "Mathematical equivalence",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to mathematical concept, not overclaiming",
+          "suggestion": ""
+        },
+        {
+          "line": 142,
+          "text": "We recalculate the genetic metaphor strengths",
+          "category": "MUST_FIX",
+          "reason": "Using 'we' to imply discovery or ownership",
+          "suggestion": "Recalculating the genetic metaphor strengths"
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 1,
+        "review": 2
+      }
+    },
+    {
+      "file": "particle/docs/theory/DETERMINISTIC_CODE_SYNTHESIS.md",
+      "issues": [
+        {
+          "line": 0,
+          "text": "This document catalogs methods for **deterministic transformation** of specifications into executable code.",
+          "category": "REVIEW",
+          "reason": "The term 'deterministic transformation' might imply a level of certainty or universality that could be misinterpreted.",
+          "suggestion": "Consider rephrasing to emphasize the practical utility of the methods."
+        },
+        {
+          "line": 0,
+          "text": "**Core Question:** *Can we mechanically derive correct code from specifications?*",
+          "category": "REVIEW",
+          "reason": "The question implies a level of universality or absolute correctness that may not be accurate.",
+          "suggestion": "Consider rephrasing to focus on the practical benefits of the approach."
+        },
+        {
+          "line": 0,
+          "text": "**Answer:** Yes, with varying degrees of automation and expressiveness.",
+          "category": "REVIEW",
+          "reason": "The answer implies a level of certainty or universality that may not be accurate.",
+          "suggestion": "Consider rephrasing to emphasize the practical utility and limitations of the approach."
+        },
+        {
+          "line": 0,
+          "text": "**Validated:** Gemini 3 Pro (CDPS: 96/100)",
+          "category": "MUST_FIX",
+          "reason": "The term 'validated' should be replaced with 'grounded' or 'AI-reviewed' to avoid overclaiming.",
+          "suggestion": "Replace 'Validated' with 'Grounded' or 'AI-Reviewed'."
+        },
+        {
+          "line": 0,
+          "text": "unlike probabilistic AI code generation, these methods provide **mathematical guarantees** that the implementation satisfies the specification.",
+          "category": "REVIEW",
+          "reason": "The term 'mathematical guarantees' might imply a level of certainty or universality that could be misinterpreted.",
+          "suggestion": "Consider rephrasing to emphasize the practical benefits and limitations of the approach."
+        }
+      ],
+      "summary": {
+        "must_fix": 1,
+        "ok_external": 0,
+        "review": 4
+      }
+    },
+    {
+      "file": "particle/docs/theory/DIFF_2026-02-01_SESSION.md",
+      "issues": [
+        {
+          "line": 123,
+          "text": "We discovered that software has objective mathematical structure.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed as 'we propose' or 'our framework suggests'",
+          "suggestion": "We propose that software has objective mathematical structure."
+        },
+        {
+          "line": 145,
+          "text": "The L2 layer uses phrases like 'inspired by Friston' and 'analogous to Tononi's IIT'. If these are analogies, not derivations, then metrics derived from them measure fit-to-metaphor, not objective reality.",
+          "category": "REVIEW",
+          "reason": "Language is cautious, but may still imply overclaiming",
+          "suggestion": "Consider rephrasing for clarity"
+        },
+        {
+          "line": 187,
+          "text": "This is a feature (cross-domain validation), not a bug.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external concept, not overclaiming",
+          "suggestion": ""
+        },
+        {
+          "line": 210,
+          "text": "The structure is universal",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed as 'our framework suggests' or 'we propose'",
+          "suggestion": "Our framework suggests that the structure is universal."
+        },
+        {
+          "line": 251,
+          "text": "We are CARTOGRAPHERS, not EXPLORERS. The territory is real. The map is our invention.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external concept, not overclaiming",
+          "suggestion": ""
+        },
+        {
+          "line": 301,
+          "text": "The CONSTRAINTS are discovered. The FRAMEWORK is invented within those constraints.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed as 'we propose' or 'our framework suggests'",
+          "suggestion": "Our framework proposes that the constraints are discovered and the framework is invented within those constraints."
+        },
+        {
+          "line": 345,
+          "text": "SMC is a *structured heuristic framework* with an axiomatic foundation.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external concept, not overclaiming",
+          "suggestion": ""
+        },
+        {
+          "line": 402,
+          "text": "We believe the *structure* is real.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed as 'our framework suggests' or 'we propose'",
+          "suggestion": "Our framework proposes that the structure is real."
+        },
+        {
+          "line": 421,
+          "text": "The map is not the territory, but some maps are better than others.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external concept, not overclaiming",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 4,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/EMPIRICAL_VALIDATION.md",
+      "issues": [
+        {
+          "line": 13,
+          "text": "We demonstrate that SMC has been validated",
+          "category": "MUST_FIX",
+          "reason": "Using 'validated' as a status label instead of 'grounded' or 'AI-reviewed'",
+          "suggestion": "We demonstrate that SMC has been grounded"
+        },
+        {
+          "line": 27,
+          "text": "The fact that Collider successfully analyzes real codebases demonstrates that SMC's concepts are operationalizable.",
+          "category": "MUST_FIX",
+          "reason": "Implies a scientific discovery rather than practical utility",
+          "suggestion": "The fact that Collider successfully analyzes real codebases shows the practical utility of SMC's concepts."
+        },
+        {
+          "line": 43,
+          "text": "Validation claim:",
+          "category": "MUST_FIX",
+          "reason": "Using 'validation claim' instead of 'argument' or 'evidence'",
+          "suggestion": "Argument:"
+        },
+        {
+          "line": 74,
+          "text": "SMC axioms have been validated against academic sources:",
+          "category": "MUST_FIX",
+          "reason": "Using 'validated' instead of 'grounded' or 'aligned'",
+          "suggestion": "SMC axioms have been grounded in academic sources:"
+        },
+        {
+          "line": 81,
+          "text": "Proof verified by Gemini 3 Pro",
+          "category": "OK_EXTERNAL",
+          "reason": "Refers to external formal verification",
+          "suggestion": ""
+        },
+        {
+          "line": 106,
+          "text": "External validation: Gemini 3 Pro (2026-01-25) rated the Lawvere proof as 'VALID'",
+          "category": "OK_EXTERNAL",
+          "reason": "Refers to external validation",
+          "suggestion": ""
+        },
+        {
+          "line": 123,
+          "text": "SMC is compatible with SWEBOK while providing finer granularity.",
+          "category": "REVIEW",
+          "reason": "May imply a universal truth or necessity",
+          "suggestion": "SMC is compatible with SWEBOK, providing a useful framework for code analysis."
+        },
+        {
+          "line": 154,
+          "text": "Do SMC classifications correlate with software quality metrics?",
+          "category": "REVIEW",
+          "reason": "May imply a scientific discovery rather than practical utility",
+          "suggestion": "How do SMC classifications relate to software quality metrics in practice?"
+        },
+        {
+          "line": 193,
+          "text": "At least 2/4 hypotheses confirmed with medium effect size.",
+          "category": "MUST_FIX",
+          "reason": "Implies a scientific discovery rather than practical utility",
+          "suggestion": "At least 2/4 hypotheses show a practically significant relationship."
+        },
+        {
+          "line": 216,
+          "text": "Do practitioners find SMC classification useful for their work?",
+          "category": "REVIEW",
+          "reason": "May imply a universal truth or necessity",
+          "suggestion": "How do practitioners perceive the usefulness of SMC classification in their work?"
+        },
+        {
+          "line": 241,
+          "text": "Mean utility score > 3.5/5, >60% would use for code review.",
+          "category": "MUST_FIX",
+          "reason": "Implies a scientific discovery rather than practical utility",
+          "suggestion": "Mean utility score > 3.5/5, >60% would use for code review, indicating practical usefulness."
+        },
+        {
+          "line": 263,
+          "text": "Validation Status Summary",
+          "category": "MUST_FIX",
+          "reason": "Using 'validation' instead of 'grounding' or 'evidence'",
+          "suggestion": "Grounding Status Summary"
+        },
+        {
+          "line": 283,
+          "text": "Validation Type",
+          "category": "MUST_FIX",
+          "reason": "Using 'validation' instead of 'grounding' or 'evidence'",
+          "suggestion": "Grounding Type"
+        },
+        {
+          "line": 306,
+          "text": "The Standard Model of Code has existing empirical support through:",
+          "category": "MUST_FIX",
+          "reason": "Implies a scientific discovery rather than practical utility",
+          "suggestion": "The Standard Model of Code has existing practical applications and evidence through:"
+        },
+        {
+          "line": 313,
+          "text": "To achieve publication-ready empirical validation, we propose three additional studies:",
+          "category": "MUST_FIX",
+          "reason": "Implies a scientific discovery rather than practical utility",
+          "suggestion": "To further demonstrate the practical usefulness of SMC, we propose three additional studies:"
+        }
+      ],
+      "summary": {
+        "must_fix": 13,
+        "ok_external": 2,
+        "review": 4
+      }
+    },
+    {
+      "file": "particle/docs/theory/EPISTEMOLOGICAL_STATUS.md",
+      "issues": [
+        {
+          "line": 13,
+          "text": "We found universal patterns that exist independently of human observation",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "We identify useful patterns that help us understand software structure"
+        },
+        {
+          "line": 23,
+          "text": "SMC discovers these patterns",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "SMC identifies useful patterns for describing software structure"
+        },
+        {
+          "line": 43,
+          "text": "Why do mathematical concepts from topology, graph theory, and information theory describe software structure so precisely?",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming language, needs review to ensure it's framed as a practical tool",
+          "suggestion": ""
+        },
+        {
+          "line": 53,
+          "text": "SMC leans toward (2): Code is already mathematical",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "SMC finds it useful to describe code in mathematical terms"
+        },
+        {
+          "line": 83,
+          "text": "The CONSTRAINTS are discovered",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "The CONSTRAINTS are identified as useful limitations"
+        },
+        {
+          "line": 101,
+          "text": "The FRAMEWORK is invented within those constraints",
+          "category": "OK_EXTERNAL",
+          "reason": "Correctly framed as a practical tool",
+          "suggestion": ""
+        },
+        {
+          "line": 123,
+          "text": "SMC's *structural claims* are falsifiable",
+          "category": "OK_EXTERNAL",
+          "reason": "Correctly framed as a practical tool",
+          "suggestion": ""
+        },
+        {
+          "line": 143,
+          "text": "The constraints (graph theory, computability, cognition) are real",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "The constraints (graph theory, computability, cognition) are useful limitations"
+        },
+        {
+          "line": 153,
+          "text": "The framework (atoms, dimensions, thresholds) is our creation",
+          "category": "OK_EXTERNAL",
+          "reason": "Correctly framed as a practical tool",
+          "suggestion": ""
+        },
+        {
+          "line": 163,
+          "text": "Its validity comes not from being 'true' in a Platonic sense, but from being USEFUL within the discovered constraints",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "Its validity comes from being useful within the identified constraints"
+        },
+        {
+          "line": 173,
+          "text": "We are CARTOGRAPHERS, not EXPLORERS",
+          "category": "OK_EXTERNAL",
+          "reason": "Correctly framed as a practical tool",
+          "suggestion": ""
+        },
+        {
+          "line": 193,
+          "text": "The territory is real",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool' language",
+          "suggestion": "The territory is the software structure we are trying to understand"
+        },
+        {
+          "line": 213,
+          "text": "But not any map works - only those that respect the territory",
+          "category": "OK_EXTERNAL",
+          "reason": "Correctly framed as a practical tool",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 8,
+        "ok_external": 5,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/L0_AXIOMS.md",
+      "issues": [
+        {
+          "line": 11,
+          "text": "Status: VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Should be 'GROUNDED' or 'AI-REVIEWED' instead of 'VALIDATED'",
+          "suggestion": "Status: GROUNDED"
+        },
+        {
+          "line": 145,
+          "text": "PROPOSITION:",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROPOSITION'",
+          "suggestion": "ARGUMENT:"
+        },
+        {
+          "line": 173,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 246,
+          "text": "This is a universal law",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal law",
+          "suggestion": "This is a principle of the Standard Model of Code"
+        },
+        {
+          "line": 341,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 423,
+          "text": "we discovered",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we discovered'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 538,
+          "text": "VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Should be 'GROUNDED' or 'AI-REVIEWED' instead of 'VALIDATED'",
+          "suggestion": "Status: GROUNDED"
+        },
+        {
+          "line": 553,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 571,
+          "text": "universal law",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal law",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 645,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 701,
+          "text": "we found",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we found'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 723,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 743,
+          "text": "universal truth",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal truth",
+          "suggestion": "key insight of the Standard Model of Code"
+        },
+        {
+          "line": 814,
+          "text": "must be necessary",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be necessary' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 831,
+          "text": "we proved",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we proved'",
+          "suggestion": "the Standard Model of Code argues"
+        },
+        {
+          "line": 854,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 875,
+          "text": "universal principle",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal principle",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 943,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 973,
+          "text": "we discovered",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we discovered'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1004,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1023,
+          "text": "universal law",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal law",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 1091,
+          "text": "must be necessary",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be necessary' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1112,
+          "text": "we found",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we found'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1134,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1155,
+          "text": "universal truth",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal truth",
+          "suggestion": "key insight of the Standard Model of Code"
+        },
+        {
+          "line": 1223,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1245,
+          "text": "we proved",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we proved'",
+          "suggestion": "the Standard Model of Code argues"
+        },
+        {
+          "line": 1267,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1288,
+          "text": "universal principle",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal principle",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 1356,
+          "text": "must be necessary",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be necessary' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1378,
+          "text": "we discovered",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we discovered'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1400,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1419,
+          "text": "universal law",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal law",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 1487,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1509,
+          "text": "we found",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we found'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1531,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1550,
+          "text": "universal truth",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal truth",
+          "suggestion": "key insight of the Standard Model of Code"
+        },
+        {
+          "line": 1618,
+          "text": "must be necessary",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be necessary' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1640,
+          "text": "we proved",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we proved'",
+          "suggestion": "the Standard Model of Code argues"
+        },
+        {
+          "line": 1662,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1681,
+          "text": "universal principle",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal principle",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 1749,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1771,
+          "text": "we discovered",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we discovered'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1793,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1812,
+          "text": "universal law",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal law",
+          "suggestion": "principle of the Standard Model of Code"
+        },
+        {
+          "line": 1880,
+          "text": "must be necessary",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be necessary' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 1902,
+          "text": "we found",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we found'",
+          "suggestion": "the Standard Model of Code proposes"
+        },
+        {
+          "line": 1924,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 1943,
+          "text": "universal truth",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal truth",
+          "suggestion": "key insight of the Standard Model of Code"
+        },
+        {
+          "line": 2011,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'must be true' for our framework",
+          "suggestion": "is a key property"
+        },
+        {
+          "line": 2033,
+          "text": "we proved",
+          "category": "MUST_FIX",
+          "reason": "Should not use 'we proved'",
+          "suggestion": "the Standard Model of Code argues"
+        },
+        {
+          "line": 2055,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF'",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 2072,
+          "text": "universal principle",
+          "category": "MUST_FIX",
+          "reason": "Should not claim universal principle",
+          "suggestion": "principle of the Standard Model of Code"
+        }
+      ],
+      "summary": {
+        "must_fix": 43,
+        "ok_external": 0,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/L1_DEFINITIONS.md",
+      "issues": [
+        {
+          "line": 13,
+          "text": "Every entity, category, dimension, and structure is enumerated here exactly once.",
+          "category": "REVIEW",
+          "reason": "The phrase 'exactly once' could be seen as overly absolute and might be better rephrased for clarity and practicality.",
+          "suggestion": "Every entity, category, dimension, and structure is defined here, aiming for a comprehensive and singular reference point."
+        },
+        {
+          "line": 71,
+          "text": "The architecture is organized around three mutually exclusive, collectively exhaustive realms.",
+          "category": "REVIEW",
+          "reason": "The term 'mutually exclusive' and 'collectively exhaustive' are technical and might benefit from a brief explanation or reference for clarity.",
+          "suggestion": "The architecture is organized around three realms that are designed to be mutually exclusive (no overlap) and collectively exhaustive (covering all cases), ensuring a comprehensive framework."
+        },
+        {
+          "line": 83,
+          "text": "**Status:** VALIDATED 2026-01-28 (harsh MECE testing)",
+          "category": "MUST_FIX",
+          "reason": "The term 'VALIDATED' should be replaced with 'GROUNDED' or 'AI-REVIEWED' to align with the project's language guidelines.",
+          "suggestion": "**Status:** GROUNDED 2026-01-28 (harsh MECE testing)"
+        },
+        {
+          "line": 141,
+          "text": "These are not metaphors. Every code artifact simultaneously exists in all three planes:",
+          "category": "REVIEW",
+          "reason": "The statement might be seen as absolute; consider rephrasing for clarity and to reflect the model's applicability.",
+          "suggestion": "In the Standard Model of Code, every code artifact can be considered to exist across these three planes, reflecting different aspects of its nature and use."
+        },
+        {
+          "line": 193,
+          "text": "This is Koestler's Janus-faced holon: every entity has dual nature depending on perspective.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external concept (Koestler's holon) is appropriately attributed and does not overclaim the project's originality.",
+          "suggestion": null
+        },
+        {
+          "line": 246,
+          "text": "**Source:** MODEL.md \u00a72.1, attributed to standard software engineering taxonomy.",
+          "category": "OK_EXTERNAL",
+          "reason": "Proper attribution to external sources is maintained.",
+          "suggestion": null
+        },
+        {
+          "line": 283,
+          "text": "**Definition:** An Atom is a structural type -- the fundamental unit of code classification.",
+          "category": "REVIEW",
+          "reason": "The definition might benefit from clarification or expansion to ensure it aligns with the project's goals and avoids overclaiming universality.",
+          "suggestion": "**Definition:** In the context of the Standard Model of Code, an Atom represents a fundamental structural type used for code classification purposes."
+        },
+        {
+          "line": 305,
+          "text": "The 33 roles organized by category:",
+          "category": "REVIEW",
+          "reason": "The presentation of roles could be clarified or expanded to reflect their derivation and applicability within the model.",
+          "suggestion": "The Standard Model of Code recognizes 33 roles, categorized for clarity and practical application within the framework."
+        },
+        {
+          "line": 351,
+          "text": "**Definition:** Every node is classified along 8 orthogonal dimensions.",
+          "category": "REVIEW",
+          "reason": "The term 'orthogonal' might require clarification for non-technical readers, and the definition could benefit from expansion to reflect the model's applicability and limitations.",
+          "suggestion": "**Definition:** Within the Standard Model of Code, each node is classified according to 8 dimensions that are designed to be independent (orthogonal), providing a comprehensive view of its characteristics."
+        },
+        {
+          "line": 392,
+          "text": "**Status:** Proposed for Stage 2.8 (Ring Classification) in Collider pipeline.",
+          "category": "REVIEW",
+          "reason": "The status indication could be clarified to reflect the development stage and potential for future adjustments.",
+          "suggestion": "**Status:** Currently proposed for implementation in Stage 2.8 of the Collider pipeline, subject to further development and refinement."
+        },
+        {
+          "line": 420,
+          "text": "**Source:** Validated 2026-01-31 (Gemini 98/100, Perplexity confirmed)",
+          "category": "MUST_FIX",
+          "reason": "The term 'Validated' should be replaced to align with the project's guidelines on language use.",
+          "suggestion": "**Source:** Reviewed and confirmed 2026-01-31 (Gemini 98/100, Perplexity confirmed)"
+        },
+        {
+          "line": 443,
+          "text": "The genetic locus metaphor is the strongest cross-domain parallel for understanding SMC Locus.",
+          "category": "OK_EXTERNAL",
+          "reason": "The reference to an external metaphor (genetic locus) is appropriately used and attributed.",
+          "suggestion": null
+        },
+        {
+          "line": 472,
+          "text": "**Status:** Validated 2026-02-01 | Parallel Applicability: ~70%",
+          "category": "MUST_FIX",
+          "reason": "The term 'Validated' should be adjusted according to the project's language guidelines.",
+          "suggestion": "**Status:** Reviewed and assessed 2026-02-01 | Parallel Applicability: ~70%"
+        }
+      ],
+      "summary": {
+        "must_fix": 3,
+        "ok_external": 4,
+        "review": 8
+      }
+    },
+    {
+      "file": "particle/docs/theory/L2_PRINCIPLES.md",
+      "issues": [
+        {
+          "line": 1,
+          "text": "This document proposes **key principles describing how Standard Model concepts BEHAVE**.",
+          "category": "REVIEW",
+          "reason": "The language used is more descriptive and less claim-oriented, but it's essential to ensure it aligns with the practical tool/reference model tone.",
+          "suggestion": "Consider rephrasing to 'This document outlines principles for understanding the behavior of Standard Model concepts.'"
+        },
+        {
+          "line": 123,
+          "text": "These are **dynamic equations**, not static definitions.",
+          "category": "REVIEW",
+          "reason": "The term 'dynamic equations' might imply a level of scientific discovery or universality. Ensure the context is clear that these are practical tools for understanding code behavior.",
+          "suggestion": "Consider adding a clarification that these equations are part of a reference model for code analysis."
+        },
+        {
+          "line": 210,
+          "text": "**Key principle:** Purpose at level N **emerges** from purpose distribution at level N-1.",
+          "category": "MUST_FIX",
+          "reason": "The term 'emerges' could imply a universal or scientific principle. It's crucial to frame it as part of the proposed reference model.",
+          "suggestion": "Rephrase to '**Key principle in our model:** Purpose at level N is derived from purpose distribution at level N-1.'"
+        },
+        {
+          "line": 317,
+          "text": "**Principle:** Systems are composed of subsystems, which are themselves systems.",
+          "category": "OK_EXTERNAL",
+          "reason": "This is a reference to an external principle (Simon, H. 1962), which is appropriately cited.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 423,
+          "text": "**Principle (Bejan 2008):** 'For a finite-size system to persist in time (to live), it must evolve in such a way that it provides easier access to the imposed currents that flow through it.'",
+          "category": "OK_EXTERNAL",
+          "reason": "This is a direct quote from an external source (Bejan, A. & Lorente, S. 2008), properly referenced.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 567,
+          "text": "Technical debt accumulates as the integral of purpose drift over time.",
+          "category": "MUST_FIX",
+          "reason": "The term 'accumulates' might imply a universal principle. It's essential to clarify that this is a concept within the proposed reference model.",
+          "suggestion": "Rephrase to 'In our model, technical debt is considered to grow in relation to the integral of purpose drift over time.'"
+        },
+        {
+          "line": 645,
+          "text": "**Conjecture:**",
+          "category": "REVIEW",
+          "reason": "The use of 'conjecture' is appropriate for unproven but empirically supported ideas. Ensure the context clearly indicates these are part of the theoretical framework and not presented as facts.",
+          "suggestion": "Consider adding a note that these conjectures are part of the ongoing development of the Standard Model of Code and are subject to further research and validation."
+        },
+        {
+          "line": 721,
+          "text": "**Principle of Compositional Alignment**",
+          "category": "MUST_FIX",
+          "reason": "The term 'principle' could imply universality. It's crucial to frame it as a guideline within the proposed reference model.",
+          "suggestion": "Rephrase to '**Guideline for Compositional Alignment in our Model:**'"
+        },
+        {
+          "line": 810,
+          "text": "Code dependencies exhibit properties analogous to quantum entanglement, with non-local effects across arbitrary distance in codebase structure.",
+          "category": "MUST_FIX",
+          "reason": "The comparison to quantum entanglement might imply a scientific discovery. Ensure the context is clear that this is an analogy used within the reference model.",
+          "suggestion": "Rephrase to 'In our model, code dependencies can exhibit behaviors that resemble entanglement, with effects seen across the codebase structure.'"
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 3,
+        "review": 3
+      }
+    },
+    {
+      "file": "particle/docs/theory/L3_APPLICATIONS.md",
+      "issues": [
+        {
+          "line": 0,
+          "text": "This document describes **how to MEASURE and IMPLEMENT** the Standard Model.",
+          "category": "REVIEW",
+          "reason": "The language used is more instructional than claim-oriented, but it's essential to ensure it doesn't imply discovery.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the Standard Model."
+        },
+        {
+          "line": 146,
+          "text": "The holon is more than the sum of its parts (L0 Axiom D5, L2 \u00a72.2).",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external axiom, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 231,
+          "text": "This is the **engineering layer** -- where theory becomes tooling.",
+          "category": "REVIEW",
+          "reason": "The term 'engineering layer' might imply a level of scientific discovery or a universal law, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the layer."
+        },
+        {
+          "line": 314,
+          "text": "The formula: ... **Why not simple averaging?**",
+          "category": "REVIEW",
+          "reason": "The question 'Why not simple averaging?' could be seen as implying a discovery or a universal principle.",
+          "suggestion": "Consider rephrasing to focus on the practical reasons for choosing a specific formula."
+        },
+        {
+          "line": 423,
+          "text": "The Health Formula ... **Output:** Score 0-10, mapped to grade A-F.",
+          "category": "REVIEW",
+          "reason": "The term 'Health Formula' might imply a level of scientific discovery or a universal law, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the formula."
+        },
+        {
+          "line": 531,
+          "text": "The purpose of this section is to **detect invisible edges**.",
+          "category": "REVIEW",
+          "reason": "The term 'detect invisible edges' might imply a level of scientific discovery, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the detection method."
+        },
+        {
+          "line": 645,
+          "text": "The Lean 4 Verification Status ... **Goal:** Formally verify core axioms in Lean 4 proof assistant.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external verification method, which is acceptable.",
+          "suggestion": "No change needed."
+        },
+        {
+          "line": 753,
+          "text": "The Semantic Space Calculation ... **Formula for k-dimensional purpose vectors:**",
+          "category": "REVIEW",
+          "reason": "The term 'Semantic Space Calculation' might imply a level of scientific discovery or a universal law, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the calculation method."
+        },
+        {
+          "line": 814,
+          "text": "The 4,337-line THEORY.md consolidation was fragmentation, not unification",
+          "category": "REVIEW",
+          "reason": "The statement implies a discovery or a universal principle, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical reasons for the consolidation."
+        },
+        {
+          "line": 868,
+          "text": "The Measurement Triad ... **Every Standard Model measurement has three components:**",
+          "category": "REVIEW",
+          "reason": "The term 'Measurement Triad' might imply a level of scientific discovery or a universal law, which should be avoided.",
+          "suggestion": "Consider rephrasing to focus on the practical application and utility of the measurement components."
+        }
+      ],
+      "summary": {
+        "must_fix": 0,
+        "ok_external": 3,
+        "review": 9
+      }
+    },
+    {
+      "file": "particle/docs/theory/PHILOSOPHICAL_FOUNDATIONS.md",
+      "issues": [
+        {
+          "line": 123,
+          "text": "If physics equations in force-directed layouts predict where technical debt accumulates, we've hit Wigner territory \u2192 DISCOVERY.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be 'practical application' instead of 'discovery'",
+          "suggestion": "If physics equations in force-directed layouts predict where technical debt accumulates, we've found a useful application of Wigner's concept."
+        },
+        {
+          "line": 145,
+          "text": "We are **Realists** about structure: - Dependency graphs exist objectively",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be 'we propose' instead of 'we are realists'",
+          "suggestion": "We propose a realist view of structure: dependency graphs can be objectively measured."
+        },
+        {
+          "line": 156,
+          "text": "To prove Atoms are **Discovered Natural Kinds** (not invented categories):",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be 'to test' instead of 'to prove'",
+          "suggestion": "To test if Atoms represent natural kinds (not invented categories):"
+        },
+        {
+          "line": 173,
+          "text": "If this holds \u2192 **DISCOVERY**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be 'practical application' instead of 'discovery'",
+          "suggestion": "If this holds, we have found a useful heuristic."
+        },
+        {
+          "line": 191,
+          "text": "We validate through: - **Falsification:** Can predictions be proven wrong?",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external concept of falsification, which is acceptable.",
+          "suggestion": ""
+        },
+        {
+          "line": 216,
+          "text": "Lehman's Laws of Software Evolution",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external academic work, which is acceptable.",
+          "suggestion": ""
+        },
+        {
+          "line": 245,
+          "text": "VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be 'empirically tested' instead of 'validated'",
+          "suggestion": "EMPIRICALLY TESTED"
+        },
+        {
+          "line": 263,
+          "text": "If high-coupling systems consistently show zero defects",
+          "category": "REVIEW",
+          "reason": "Language is neutral, but context should be reviewed to ensure it aligns with the project's goals.",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 6,
+        "ok_external": 3,
+        "review": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/PREDICTIONS.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "A scientific theory must make predictions that can be proven wrong.",
+          "category": "REVIEW",
+          "reason": "Language implies scientific discovery, not practical utility",
+          "suggestion": "Rephrase to focus on practical predictions for AI context compression"
+        },
+        {
+          "line": 13,
+          "text": "These predictions transform SMC from a descriptive framework into a testable scientific theory.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, implies scientific discovery",
+          "suggestion": "These predictions make SMC a more robust reference model for AI context compression"
+        },
+        {
+          "line": 67,
+          "text": "Derivability proven by construction",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, 'proven' implies absolute truth",
+          "suggestion": "Derivability demonstrated by construction"
+        },
+        {
+          "line": 121,
+          "text": "Theoretical proof from Axiom G3",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, 'theoretical proof' implies absolute truth",
+          "suggestion": "Theoretical argument from Axiom G3"
+        },
+        {
+          "line": 154,
+          "text": "If predictions are falsified:",
+          "category": "REVIEW",
+          "reason": "Language implies scientific discovery, not practical utility",
+          "suggestion": "Rephrase to focus on practical implications of falsification"
+        },
+        {
+          "line": 163,
+          "text": "This is how science progresses.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, implies scientific discovery",
+          "suggestion": "This is how our understanding of AI context compression evolves"
+        },
+        {
+          "line": 173,
+          "text": "The Standard Model of Code makes 16 explicit, falsifiable predictions.",
+          "category": "REVIEW",
+          "reason": "Language implies scientific discovery, not practical utility",
+          "suggestion": "Rephrase to focus on practical predictions for AI context compression"
+        },
+        {
+          "line": 181,
+          "text": "These predictions distinguish SMC from untestable frameworks and position it as a scientific theory subject to empirical evaluation.",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, implies scientific discovery",
+          "suggestion": "These predictions make SMC a more robust reference model for AI context compression, subject to practical evaluation"
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 0,
+        "review": 3
+      }
+    },
+    {
+      "file": "particle/docs/theory/PROBLEM_STATEMENT.md",
+      "issues": [
+        {
+          "line": 123,
+          "text": "we demonstrate that these problems are not merely inconvenient but constitute a fundamental barrier to progress",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to focus on practical utility",
+          "suggestion": "these problems pose significant challenges to progress in automated software engineering, AI-assisted development, and empirical software research"
+        },
+        {
+          "line": 156,
+          "text": "This is not pedantry---it is a **fundamental barrier to cumulative scientific progress**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to focus on practical utility",
+          "suggestion": "this limitation hinders the accumulation of knowledge and progress in software engineering"
+        },
+        {
+          "line": 246,
+          "text": "No existing standard provides: 1. A **formal axiomatic foundation** for code structure",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external standards, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 301,
+          "text": "The Standard Model of Code addresses these problems through a formal axiomatic framework",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to focus on practical utility",
+          "suggestion": "The Standard Model of Code provides a practical framework for addressing these challenges"
+        },
+        {
+          "line": 394,
+          "text": "This seems trivial, but: - In Java: Yes (methods must be in classes) - In Python: No (module-level functions exist)",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external programming languages, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 432,
+          "text": "Without a formal framework, we cannot even **state** the invariant precisely, let alone prove it",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to focus on practical utility",
+          "suggestion": "without a formal framework, it is challenging to define and analyze the invariant"
+        },
+        {
+          "line": 503,
+          "text": "The software engineering community can reason formally about: - **Program correctness** (Hoare logic, separation logic, refinement types)",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external formal methods, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 543,
+          "text": "Category theory has been applied to software through: - Type systems (Wadler's propositions-as-types)",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external category theory applications, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 623,
+          "text": "The Standard Model of Code makes the following **falsifiable predictions**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to focus on practical utility",
+          "suggestion": "The Standard Model of Code provides the following testable hypotheses"
+        }
+      ],
+      "summary": {
+        "must_fix": 5,
+        "ok_external": 5,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/PROJECTOME_THEORY.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "Theoretical foundation for PROJECT_elements architecture",
+          "category": "REVIEW",
+          "reason": "Theoretical foundation might imply a scientific discovery, consider rephrasing to practical utility",
+          "suggestion": "Reference model for PROJECT_elements architecture"
+        },
+        {
+          "line": 13,
+          "text": "This is a **MECE partition** (Mutually Exclusive, Collectively Exhaustive):",
+          "category": "REVIEW",
+          "reason": "MECE partition might imply a universal principle, consider adding context",
+          "suggestion": "This partition is useful for our reference model"
+        },
+        {
+          "line": 67,
+          "text": "**Key insight:** Neither alone describes the project.",
+          "category": "REVIEW",
+          "reason": "Key insight might imply a discovery, consider rephrasing to practical observation",
+          "suggestion": "**Practical observation:** Neither alone provides a complete view of the project"
+        },
+        {
+          "line": 123,
+          "text": "**Semiosis** is Peirce's term for the process of sign interpretation.",
+          "category": "OK_EXTERNAL",
+          "reason": "External reference to Peirce's work",
+          "suggestion": ""
+        },
+        {
+          "line": 143,
+          "text": "The Refinery doesn't just store knowledge - it **performs semiosis**:",
+          "category": "REVIEW",
+          "reason": "Performs semiosis might imply a scientific or philosophical claim, consider rephrasing to practical function",
+          "suggestion": "The Refinery processes knowledge to produce meaning"
+        },
+        {
+          "line": 173,
+          "text": "**Unlimited Semiosis**",
+          "category": "REVIEW",
+          "reason": "Unlimited semiosis might imply a universal principle, consider adding context",
+          "suggestion": "Continuous interpretation in our reference model"
+        },
+        {
+          "line": 193,
+          "text": "Karl Friston's framework provides the operational model for the Cloud Refinery:",
+          "category": "OK_EXTERNAL",
+          "reason": "External reference to Friston's work",
+          "suggestion": ""
+        },
+        {
+          "line": 213,
+          "text": "**The Perception-Action Loop**",
+          "category": "REVIEW",
+          "reason": "Perception-action loop might imply a scientific or philosophical claim, consider rephrasing to practical process",
+          "suggestion": "The Cloud Refinery's processing loop"
+        },
+        {
+          "line": 251,
+          "text": "**Subconscious Analogy**",
+          "category": "REVIEW",
+          "reason": "Subconscious analogy might imply a scientific or philosophical claim, consider rephrasing to practical comparison",
+          "suggestion": "Similarity to subconscious processing"
+        },
+        {
+          "line": 273,
+          "text": "**SEQUAL Framework Integration**",
+          "category": "OK_EXTERNAL",
+          "reason": "External reference to SEQUAL framework",
+          "suggestion": ""
+        },
+        {
+          "line": 305,
+          "text": "**S-Type vs E-Type Classification**",
+          "category": "OK_EXTERNAL",
+          "reason": "External reference to Lehman's laws",
+          "suggestion": ""
+        },
+        {
+          "line": 335,
+          "text": "**Architecture Position**",
+          "category": "REVIEW",
+          "reason": "Architecture position might imply a scientific or philosophical claim, consider rephrasing to practical design",
+          "suggestion": "The Cloud Refinery's architecture"
+        },
+        {
+          "line": 357,
+          "text": "**Information Flow**",
+          "category": "REVIEW",
+          "reason": "Information flow might imply a scientific or philosophical claim, consider rephrasing to practical process",
+          "suggestion": "The Cloud Refinery's processing flow"
+        },
+        {
+          "line": 373,
+          "text": "**Governance and Visualization**",
+          "category": "REVIEW",
+          "reason": "Governance and visualization might imply a scientific or philosophical claim, consider rephrasing to practical components",
+          "suggestion": "Additional components for the Cloud Refinery"
+        },
+        {
+          "line": 395,
+          "text": "**Validated Analogies**",
+          "category": "MUST_FIX",
+          "reason": "Validated implies a scientific or philosophical claim, consider rephrasing to empirical testing",
+          "suggestion": "**Empirically tested analogies**"
+        },
+        {
+          "line": 413,
+          "text": "Using the 4D Hotness Scoring Methodology",
+          "category": "REVIEW",
+          "reason": "Hotness scoring methodology might imply a scientific or philosophical claim, consider rephrasing to practical evaluation",
+          "suggestion": "Evaluating analogies with a scoring methodology"
+        },
+        {
+          "line": 423,
+          "text": "**Formula:** `H = 0.4\u00d7Semantic + 0.3\u00d7Structural + 0.2\u00d7Functional + 0.1\u00d7Temporal`",
+          "category": "REVIEW",
+          "reason": "Formula might imply a scientific or philosophical claim, consider rephrasing to practical calculation",
+          "suggestion": "Calculating analogy scores with a weighted formula"
+        }
+      ],
+      "summary": {
+        "must_fix": 1,
+        "ok_external": 5,
+        "review": 15
+      }
+    },
+    {
+      "file": "particle/docs/theory/RELATED_WORK.md",
+      "issues": [
+        {
+          "line": 123,
+          "text": "We demonstrate that while each existing framework addresses important aspects of software engineering knowledge, none provides the combination of axiomatic foundations, universal classification coordinates, and hierarchical structure that SMC offers.",
+          "category": "REVIEW",
+          "reason": "The text implies a comparison, but does not contain overt overclaiming language.",
+          "suggestion": "None"
+        },
+        {
+          "line": 156,
+          "text": "We analyze eight major frameworks across three dimensions: formalization level, scope, and limitations.",
+          "category": "REVIEW",
+          "reason": "The text implies analysis, but does not contain overt overclaiming language.",
+          "suggestion": "None"
+        },
+        {
+          "line": 210,
+          "text": "SMC addresses these gaps through: 1. Formal axioms that provide mathematical foundations absent from SWEBOK, SEMAT, and SEVOCAB",
+          "category": "MUST_FIX",
+          "reason": "The phrase 'provide mathematical foundations absent' could imply discovery.",
+          "suggestion": "SMC includes formal axioms that complement the foundations of SWEBOK, SEMAT, and SEVOCAB"
+        },
+        {
+          "line": 304,
+          "text": "SMC is designed to complement, not replace, existing frameworks",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement is a valid claim of practical utility.",
+          "suggestion": "None"
+        },
+        {
+          "line": 351,
+          "text": "This positioning demonstrates that SMC fills a genuine gap in the software engineering knowledge landscape",
+          "category": "MUST_FIX",
+          "reason": "The phrase 'fills a genuine gap' could imply a universal truth.",
+          "suggestion": "This positioning shows how SMC can be a useful tool in the software engineering knowledge landscape"
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 1,
+        "review": 2
+      }
+    },
+    {
+      "file": "particle/docs/theory/SCOPE_LIMITATIONS.md",
+      "issues": [
+        {
+          "line": 10,
+          "text": "We specify what SMC covers, what it explicitly excludes, the assumptions it makes, and known limitations.",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it's essential to ensure the tone is consistent with the practical tool/reference model language.",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 441,
+          "text": "We are CARTOGRAPHERS, not EXPLORERS. The territory is real. The map is our invention. But not any map works\u2014only those that respect the territory.",
+          "category": "REVIEW",
+          "reason": "The text uses a metaphor to describe the role of SMC, which may be seen as overclaiming. Ensure the tone is consistent with the practical tool/reference model language.",
+          "suggestion": "Consider rephrasing to maintain a neutral tone"
+        },
+        {
+          "line": 456,
+          "text": "This document addresses Gap 5 (Scope and Limitations) from the SMC Academic Gap Analysis.",
+          "category": "OK_EXTERNAL",
+          "reason": "The text references an external analysis, which is acceptable.",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 93,
+          "text": "SMC is language-agnostic in theory.",
+          "category": "REVIEW",
+          "reason": "The text does not contain overclaiming language, but it's essential to ensure the tone is consistent with the practical tool/reference model language.",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 219,
+          "text": "SMC classifies structure; Hoare logic proves correctness",
+          "category": "OK_EXTERNAL",
+          "reason": "The text references an external concept (Hoare logic), which is acceptable.",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 294,
+          "text": "Discrete entities exist",
+          "category": "REVIEW",
+          "reason": "The text presents an assumption, which should be clearly labeled as such.",
+          "suggestion": "Consider adding a label or clarification to indicate this is an assumption"
+        },
+        {
+          "line": 323,
+          "text": "Atoms are MECE",
+          "category": "REVIEW",
+          "reason": "The text presents an assumption, which should be clearly labeled as such.",
+          "suggestion": "Consider adding a label or clarification to indicate this is an assumption"
+        },
+        {
+          "line": 391,
+          "text": "SMC is a *structured heuristic framework* with an axiomatic foundation.",
+          "category": "MUST_FIX",
+          "reason": "The text uses the term 'axiomatic foundation', which may imply a level of universality or discovery.",
+          "suggestion": "Consider rephrasing to 'a practical framework with a set of assumptions and definitions'"
+        },
+        {
+          "line": 405,
+          "text": "It does not claim to be a physical science with universal constants.",
+          "category": "MUST_FIX",
+          "reason": "The text explicitly states what SMC is not, but it's essential to ensure the tone is consistent with the practical tool/reference model language.",
+          "suggestion": "Consider rephrasing to focus on what SMC is and what it provides, rather than what it is not"
+        },
+        {
+          "line": 421,
+          "text": "Code has mathematical structure",
+          "category": "OK_EXTERNAL",
+          "reason": "The text references an external concept, which is acceptable.",
+          "suggestion": "No change needed"
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 4,
+        "review": 4
+      }
+    },
+    {
+      "file": "particle/docs/theory/SPEC_DRIVEN_DEVELOPMENT.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "**Status:** VALIDATED (Gemini 98/100 CDPS, 2026-02-01)",
+          "category": "MUST_FIX",
+          "reason": "Using 'VALIDATED' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "**Status:** GROUNDED (Gemini 98/100 CDPS, 2026-02-01)"
+        },
+        {
+          "line": 14,
+          "text": "**mathematically optimal workflow**",
+          "category": "MUST_FIX",
+          "reason": "Claiming a 'mathematically optimal workflow' without external citation or formal proof",
+          "suggestion": "**practically effective workflow**"
+        },
+        {
+          "line": 123,
+          "text": "Rice's Theorem (1953) proves that **any non-trivial semantic property of programs is undecidable**",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external theorem",
+          "suggestion": null
+        },
+        {
+          "line": 193,
+          "text": "**Kolmogorov Complexity:** The complexity of an object is the length of its shortest description",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external concept",
+          "suggestion": null
+        },
+        {
+          "line": 251,
+          "text": "**The AI changed the equation**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming the impact of AI",
+          "suggestion": "**The AI has significantly impacted the economics of software development**"
+        },
+        {
+          "line": 293,
+          "text": "**IEEE Study (2024):** 'Incorporating explicit design constraints during prompting significantly boosts initial generation accuracy'",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external study",
+          "suggestion": null
+        },
+        {
+          "line": 305,
+          "text": "**UC Berkeley (2025):** Formal compositional reasoning enables breaking tasks into spec-annotated fragments",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external study",
+          "suggestion": null
+        },
+        {
+          "line": 341,
+          "text": "**SDD positions the Specification as the PRIMARY artifact in the Contextome**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming the role of SDD",
+          "suggestion": "**SDD treats the Specification as a key artifact in the Contextome**"
+        },
+        {
+          "line": 419,
+          "text": "**This is not a metaphor \u2014 it is the literal Tarski semantic hierarchy applied to software**",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming the application of Tarski's hierarchy",
+          "suggestion": "**This is an analogy based on Tarski's semantic hierarchy**"
+        },
+        {
+          "line": 443,
+          "text": "**INVARIANT: Spec \u2248 Report (Purpose Alignment Score \u2265 0.95)**",
+          "category": "MUST_FIX",
+          "reason": "Using 'must' to describe a condition",
+          "suggestion": "**TARGET: Spec \u2248 Report (Purpose Alignment Score \u2265 0.95)**"
+        }
+      ],
+      "summary": {
+        "must_fix": 7,
+        "ok_external": 4,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/STANDARD_MODEL_COMPLETE.md",
+      "issues": [
+        {
+          "line": 13,
+          "text": "This document contains the COMPLETE Standard Model of Code theory",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'practical tool/reference model'",
+          "suggestion": "This document contains the Standard Model of Code theory, a practical framework for understanding software structure"
+        },
+        {
+          "line": 45,
+          "text": "The Standard Model provides: **Atoms**: 3,525 classified types",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'proposes' instead of 'provides'",
+          "suggestion": "The Standard Model proposes a classification system with **Atoms**: 3,525 types"
+        },
+        {
+          "line": 63,
+          "text": "LAYER 0: AXIOMS (What MUST Be True)",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'foundational concepts' instead of 'what must be true'",
+          "suggestion": "LAYER 0: AXIOMS (Foundational Concepts)"
+        },
+        {
+          "line": 74,
+          "text": "These are **formal axioms** that MUST hold for the Standard Model to be coherent",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'key concepts' instead of 'formal axioms'",
+          "suggestion": "These are key concepts that underlie the Standard Model"
+        },
+        {
+          "line": 91,
+          "text": "Each axiom group has been validated against established mathematical frameworks",
+          "category": "OK_EMPIRICAL",
+          "reason": "Validated is used in the context of empirical testing",
+          "suggestion": ""
+        },
+        {
+          "line": 123,
+          "text": "THEOREM: P = C \u2294 X is **MATHEMATICALLY NECESSARY**, not arbitrary",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'mathematical argument' instead of 'mathematically necessary'",
+          "suggestion": "THEOREM: P = C \u2294 X can be argued mathematically"
+        },
+        {
+          "line": 135,
+          "text": "Validation: Gemini 3 Pro confirmed \"VALID. Application to software appears NOVEL\"",
+          "category": "OK_EMPIRICAL",
+          "reason": "Validated is used in the context of empirical testing",
+          "suggestion": ""
+        },
+        {
+          "line": 154,
+          "text": "Code structure IS a directed graph",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'can be represented as' instead of 'is'",
+          "suggestion": "Code structure can be represented as a directed graph"
+        },
+        {
+          "line": 221,
+          "text": "Purpose IS RELATIONAL, NOT INTRINSIC",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language, should be reframed to 'purpose can be understood relationally' instead of 'is'",
+          "suggestion": "Purpose can be understood relationally, not just intrinsically"
+        },
+        {
+          "line": 246,
+          "text": "Validated: Friston's Free Energy Principle",
+          "category": "OK_EXTERNAL",
+          "reason": "Validated is used in the context of referencing an external work",
+          "suggestion": ""
+        },
+        {
+          "line": 264,
+          "text": "Source: Bejan (2008)",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external work",
+          "suggestion": ""
+        },
+        {
+          "line": 294,
+          "text": "Validated: Tononi's Integrated Information Theory",
+          "category": "OK_EXTERNAL",
+          "reason": "Validated is used in the context of referencing an external work",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 8,
+        "ok_external": 4,
+        "ok_empirical": 2,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/STANDARD_MODEL_THEORY_COMPLETE.md",
+      "issues": [
+        {
+          "line": 123,
+          "text": "The Standard Model provides: **Atoms**: 3,525 classified types (80 core structural + 3,445 ecosystem-specific)",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming of discovery",
+          "suggestion": "Rephrase to focus on the reference model"
+        },
+        {
+          "line": 156,
+          "text": "The complete theory is organized as a **four-layer holarchy**, where each layer is a WHOLE when looking down and a PART when looking up:",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming of a universal principle",
+          "suggestion": "Rephrase to focus on the practical organization of the theory"
+        },
+        {
+          "line": 210,
+          "text": "**L0** | `L0_AXIOMS.md` | What MUST be true? | ~900 | VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Use of 'VALIDATED' as a status label",
+          "suggestion": "Replace with 'GROUNDED' or 'AI-REVIEWED'"
+        },
+        {
+          "line": 251,
+          "text": "Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external mathematical frameworks",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 294,
+          "text": "THEOREM: The partition P = C \u2294 X is **MATHEMATICALLY NECESSARY**, not an arbitrary engineering choice.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external mathematical theorem",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 341,
+          "text": "This is the **funnel shape**: purpose sharpens as you ascend levels.",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming of a universal principle",
+          "suggestion": "Rephrase to focus on the practical observation"
+        },
+        {
+          "line": 432,
+          "text": "EMERGENCE occurs when the macro-level predicts as well as the micro-level:",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external concept of emergence",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 503,
+          "text": "This is the same diagonal argument underlying G\u00f6del's incompleteness and Tarski's undefinability.",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external mathematical concepts",
+          "suggestion": "No change needed"
+        },
+        {
+          "line": 531,
+          "text": "The rise of AI shifts programming from 'writing code' to 'specifying intent.' CONTEXTOME becomes the primary human workspace.",
+          "category": "REVIEW",
+          "reason": "Potential overclaiming of a universal principle",
+          "suggestion": "Rephrase to focus on the practical implication"
+        }
+      ],
+      "summary": {
+        "must_fix": 1,
+        "ok_external": 5,
+        "review": 4
+      }
+    },
+    {
+      "file": "particle/docs/theory/THEORY_AXIOMS.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "**Status:** AI-REVIEWED (Gemini 3 Pro, 2026-01-25)",
+          "category": "OK_EXTERNAL",
+          "reason": "Status label is not a claim of discovery, but rather a description of the review process.",
+          "suggestion": ""
+        },
+        {
+          "line": 11,
+          "text": "for full proof",
+          "category": "MUST_FIX",
+          "reason": "The term 'proof' should be replaced with 'argument' or 'rationale' to avoid overclaiming.",
+          "suggestion": "for full argument"
+        },
+        {
+          "line": 43,
+          "text": "**Claim:** Every artifact belongs to exactly one of C or X.",
+          "category": "MUST_FIX",
+          "reason": "The term 'claim' should be replaced with a more neutral term, such as 'assertion' or 'statement', to avoid implying a discovery.",
+          "suggestion": "**Assertion:** Every artifact belongs to exactly one of C or X."
+        },
+        {
+          "line": 63,
+          "text": "**Validated:** Gemini 3 Pro (2026-01-25) - \"The proof is VALID\"",
+          "category": "MUST_FIX",
+          "reason": "The term 'validated' should be replaced with 'reviewed' or 'verified', and 'proof' should be replaced with 'argument' to avoid overclaiming.",
+          "suggestion": "**Reviewed:** Gemini 3 Pro (2026-01-25) - \"The argument is SOUND\""
+        },
+        {
+          "line": 71,
+          "text": "**Novelty:** Application to software documentation necessity appears NOVEL",
+          "category": "MUST_FIX",
+          "reason": "The term 'novelty' should be replaced with a more neutral term, such as 'contribution' or 'innovation', to avoid implying a discovery.",
+          "suggestion": "**Contribution:** Application to software documentation necessity appears innovative"
+        },
+        {
+          "line": 233,
+          "text": "PURPOSE IS RELATIONAL, NOT INTRINSIC.",
+          "category": "MUST_FIX",
+          "reason": "The statement appears to be a claim of a universal truth, which should be rephrased to focus on the practical utility of the concept.",
+          "suggestion": "Purpose is considered relational in this framework, rather than intrinsic."
+        },
+        {
+          "line": 251,
+          "text": "\u2234 Code cannot fully specify its own meaning",
+          "category": "OK_EXTERNAL",
+          "reason": "This statement is a consequence of the argument, which is inspired by Lawvere's Fixed-Point Theorem, an external academic work.",
+          "suggestion": ""
+        },
+        {
+          "line": 263,
+          "text": "**Validated:** Gemini 3 Pro (2026-01-25) - \"Genuine paradigm shift\" (9/10)",
+          "category": "MUST_FIX",
+          "reason": "The term 'validated' should be replaced with 'reviewed' or 'evaluated', to avoid implying a discovery.",
+          "suggestion": "**Reviewed:** Gemini 3 Pro (2026-01-25) - \"Genuine paradigm shift\" (9/10)"
+        },
+        {
+          "line": 305,
+          "text": "\u26a1 INSPIRED BY",
+          "category": "OK_EXTERNAL",
+          "reason": "This label indicates that the concept is inspired by external academic work, which is acceptable.",
+          "suggestion": ""
+        },
+        {
+          "line": 323,
+          "text": "\u26a0\ufe0f HEURISTIC",
+          "category": "OK_EXTERNAL",
+          "reason": "This label indicates that the concept is considered a heuristic, which is a neutral term.",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 7,
+        "ok_external": 5,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/THEORY_COMPLETE_ALL.md",
+      "issues": [
+        {
+          "line": 5,
+          "text": "VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Should be 'GROUNDED' or 'AI-REVIEWED' instead of 'VALIDATED' as a status label",
+          "suggestion": "GROUNDED"
+        },
+        {
+          "line": 14,
+          "text": "we found",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'we found' and instead focus on the practical tool/reference model aspect",
+          "suggestion": "This document presents"
+        },
+        {
+          "line": 27,
+          "text": "universal law",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'universal law' and instead focus on the reference model aspect",
+          "suggestion": "fundamental principle of the Standard Model of Code"
+        },
+        {
+          "line": 42,
+          "text": "must be true",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'must be true' and instead focus on the practical implications",
+          "suggestion": "is a key aspect of the Standard Model of Code"
+        },
+        {
+          "line": 51,
+          "text": "PROOF",
+          "category": "MUST_FIX",
+          "reason": "Should be 'ARGUMENT' instead of 'PROOF' when referring to the Standard Model of Code's arguments",
+          "suggestion": "ARGUMENT"
+        },
+        {
+          "line": 67,
+          "text": "VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Should be 'GROUNDED' or 'AI-REVIEWED' instead of 'VALIDATED' as a status label",
+          "suggestion": "GROUNDED"
+        },
+        {
+          "line": 83,
+          "text": "we discovered",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'we discovered' and instead focus on the practical tool/reference model aspect",
+          "suggestion": "The Standard Model of Code presents"
+        },
+        {
+          "line": 101,
+          "text": "fundamental truth",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'fundamental truth' and instead focus on the reference model aspect",
+          "suggestion": "key principle of the Standard Model of Code"
+        },
+        {
+          "line": 123,
+          "text": "Laws of Code",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'Laws of Code' and instead focus on the reference model aspect",
+          "suggestion": "principles of the Standard Model of Code"
+        },
+        {
+          "line": 145,
+          "text": "is necessary",
+          "category": "MUST_FIX",
+          "reason": "Should avoid using 'is necessary' and instead focus on the practical implications",
+          "suggestion": "is an important aspect of the Standard Model of Code"
+        }
+      ],
+      "summary": {
+        "must_fix": 10,
+        "ok_external": 0,
+        "review": 0
+      }
+    },
+    {
+      "file": "particle/docs/theory/THEORY_INDEX.md",
+      "issues": [
+        {
+          "line": 63,
+          "text": "Invariant relationships that must hold",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language: 'must hold' implies a universal law",
+          "suggestion": "Invariant relationships that are consistent with our framework"
+        },
+        {
+          "line": 93,
+          "text": "Proofs and validations",
+          "category": "REVIEW",
+          "reason": "Ensure 'proofs' refers to Lean 4 formal verification or empirical testing",
+          "suggestion": ""
+        },
+        {
+          "line": 145,
+          "text": "Why SMC matters",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external motivation, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 155,
+          "text": "Evidence + studies",
+          "category": "OK_EMPIRICAL",
+          "reason": "Empirical validation, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 63,
+          "text": "Laws (Built on L1)",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language: 'Laws' implies universal laws",
+          "suggestion": "Principles (Built on L1)"
+        },
+        {
+          "line": 181,
+          "text": "Gap analysis that motivated this work",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to external analysis, not a claim of discovery",
+          "suggestion": ""
+        },
+        {
+          "line": 207,
+          "text": "Closure property: L3 applications validate L0 axioms",
+          "category": "MUST_FIX",
+          "reason": "Overclaiming language: 'validate' implies a stronger claim than intended",
+          "suggestion": "Closure property: L3 applications are consistent with L0 axioms"
+        }
+      ],
+      "summary": {
+        "must_fix": 3,
+        "ok_external": 3,
+        "review": 1,
+        "ok_empirical": 1
+      }
+    },
+    {
+      "file": "particle/docs/theory/TOPOLOGICAL_BOUNDARIES.md",
+      "issues": [
+        {
+          "line": 2,
+          "text": "**Status:** VALIDATED",
+          "category": "MUST_FIX",
+          "reason": "Using 'VALIDATED' as a status label instead of 'GROUNDED' or 'AI-REVIEWED'",
+          "suggestion": "**Status:** GROUNDED"
+        },
+        {
+          "line": 145,
+          "text": "provides topological proof for Transcendence Axiom",
+          "category": "MUST_FIX",
+          "reason": "Using 'proof' when referring to the argument",
+          "suggestion": "provides topological argument for Transcendence Axiom"
+        },
+        {
+          "line": 151,
+          "text": "NOVEL CONTRIBUTIONS (no direct prior art found):",
+          "category": "REVIEW",
+          "reason": "Claim of novelty may require further review",
+          "suggestion": ""
+        },
+        {
+          "line": 42,
+          "text": "Axiom of Opacity:",
+          "category": "OK_EXTERNAL",
+          "reason": "Reference to an external concept (axiom) is okay",
+          "suggestion": ""
+        },
+        {
+          "line": 93,
+          "text": "Gemini-validated",
+          "category": "OK_EMPIRICAL",
+          "reason": "Using 'validated' to describe empirical testing is okay",
+          "suggestion": ""
+        },
+        {
+          "line": 168,
+          "text": "Validated via analyze.py (Gemini) and Perplexity 2026-02-01.",
+          "category": "OK_EMPIRICAL",
+          "reason": "Using 'validated' to describe empirical testing is okay",
+          "suggestion": ""
+        }
+      ],
+      "summary": {
+        "must_fix": 2,
+        "ok_external": 1,
+        "review": 1,
+        "ok_empirical": 2
+      }
+    }
+  ]
+}

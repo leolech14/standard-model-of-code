@@ -373,7 +373,7 @@ Layer 0: CPU allocation
 |---|-----|---------------|--------|----------------|
 | 1 | **World 2 (Mental)** | Popper | ✓ DONE | D9_INTENT dimension added to particle schema |
 | 2 | **Entropy/Complexity** | Shannon | ✓ DONE | `metrics.complexity` with cyclomatic, cognitive, entropy |
-| 3 | **Layer violation detection** | Clean Arch + Dijkstra | ✓ DONE | AM001, AM002 in antimatter_laws.yaml |
+| 3 | **Layer violation detection** | Clean Arch + Dijkstra | ✓ DONE | AM001, AM002 in antimatter_patterns.yaml |
 | 4 | **Bounded Context** | DDD | ✓ DONE | `ddd.bounded_context` + AM005 violation |
 
 ## Medium Gaps
@@ -401,7 +401,7 @@ Layer 0: CPU allocation
 | `schema/particle.schema.json` | D9_INTENT, D10_LANGUAGE, metrics, ddd, violations |
 | `schema/types.ts` | TypeScript types for all new components |
 | `schema/types.py` | Python dataclasses for all new components |
-| `schema/antimatter_laws.yaml` | 5 core violation rules (AM001-AM005) |
+| `schema/antimatter_patterns.yaml` | 5 core violation rules (AM001-AM005) |
 | `docs/SYNTHESIS_GAP_IMPLEMENTATION.md` | Full implementation roadmap |
 
 ---

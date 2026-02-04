@@ -177,7 +177,7 @@ Based on all evidence, provide:
 
 6. **Framework Selection**: When to use:
    - Set theory
-   - Type theory  
+   - Type theory
    - Category theory
    - Process calculi
    - Temporal logic
@@ -831,7 +831,7 @@ RIGHT: Let ⊗ : Process × Process → Process be defined by:
 ```
 WRONG: For each process, there exists a state and action possible
 
-RIGHT: ∀P ∈ Processes : ∃s ∈ States, a ∈ Actions : 
+RIGHT: ∀P ∈ Processes : ∃s ∈ States, a ∈ Actions :
   reachable(P, s) ∧ possible(P, s, a)
 ```
 
@@ -887,7 +887,7 @@ RIGHT: Component C1 sends value v on channel ch to C2:
 
 **What**: Exhaustively verify formal specification against finite models
 
-**How**: 
+**How**:
 1. Translate specification into model (finite state automaton)
 2. Translate properties into temporal logic
 3. Use automated model checker to verify all states

@@ -145,16 +145,16 @@ Modify `src/core/classification/universal_classifier.py` to accept dependencies.
 ```python
 # src/core/classification/universal_classifier.py
 
-def __init__(self, 
-             pattern_repo=None, 
-             role_registry=None, 
-             atom_registry=None, 
+def __init__(self,
+             pattern_repo=None,
+             role_registry=None,
+             atom_registry=None,
              dimension_classifier=None):
-    
+
     # Priority: Injected -> Global -> None
     self.pattern_repo = pattern_repo or get_pattern_registry()
     self.role_registry = role_registry or get_role_registry()
-    
+
     # Handle AtomRegistry
     if atom_registry:
         self.atom_registry = atom_registry
@@ -170,7 +170,7 @@ def __init__(self,
         self.ts_role_classifier = TreeSitterDimensionClassifier()
     else:
         self.ts_role_classifier = None
-        
+
     # ... rest of init ...
 ```
 
@@ -185,13 +185,13 @@ Modify `src/core/classification/classifier_plugin.py` to fetch dependencies from
 
     def initialize(self, hub) -> None:
         super().initialize(hub)
-        
+
         # Resolve dependencies from Hub
         # Assuming these plugins are registered as 'patterns', 'roles', etc.
-        pattern_repo = hub.get('patterns') 
+        pattern_repo = hub.get('patterns')
         role_registry = hub.get('roles')
         # Atom and Dimension plugins might need specific keys depending on registration
-        
+
         self._classifier = UniversalClassifier(
             pattern_repo=pattern_repo,
             role_registry=role_registry

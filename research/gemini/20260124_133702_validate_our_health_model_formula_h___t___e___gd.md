@@ -10,7 +10,7 @@
 
 ## Query
 
-Validate our Health Model formula H = T + E + Gd + A against the full Standard Model of Code theory. 
+Validate our Health Model formula H = T + E + Gd + A against the full Standard Model of Code theory.
 
 Current issues found in pre-flight:
 1. Elevation (E) scores 0 for good codebases because avg_elevation > 10

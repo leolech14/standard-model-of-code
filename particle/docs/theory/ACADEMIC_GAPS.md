@@ -246,7 +246,7 @@ Add explicit **Scope** section:
 No testable predictions. Good theory makes claims that can be **proven wrong**.
 
 ### What Academic Papers Require
-Science requires falsifiability. If SMC can't be wrong, it's not science.
+Testable frameworks require falsifiability. If SMC's claims can't be evaluated empirically, it remains purely descriptive.
 
 ### Concrete Fix
 State **explicit predictions** that can be tested:

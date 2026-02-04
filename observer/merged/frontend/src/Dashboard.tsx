@@ -10,7 +10,7 @@ import {
     ChevronDown, Play, Settings2, Copy, SearchCode, PieChart,
     Trash2, Unlock, TrendingUp, AlertOctagon
 } from 'lucide-react';
-import { repository } from './services/mockData';
+import { repository } from './services/api';
 import { OverlayItem, ViewType, AppState, PipelineId, Artifact, AppSettings, PipelineStageConfig, ContextMenuRequest } from './types';
 import { UiLink, UiRow, Badge, SectionHeader, EmptyState, ToastContainer, ToastMessage, CommandPalette, ContextMenu, KeyboardShortcuts, ContextMenuItem } from './components/Common';
 import { PipelineInspector } from './components/PipelineInspector';
@@ -27,9 +27,9 @@ import { PipelineMetrics } from './components/PipelineMetrics';
 const getOverlayTitle = (item: OverlayItem): string => {
     switch (item.kind) {
         case 'pipeline':
-             if (item.data.stage) return item.data.stage.name;
-             if (item.data.pipelineId) return item.data.pipelineId.replace(' Pipeline', '');
-             return 'Pipeline';
+            if (item.data.stage) return item.data.stage.name;
+            if (item.data.pipelineId) return item.data.pipelineId.replace(' Pipeline', '');
+            return 'Pipeline';
         case 'artifact': return item.data.name.length > 20 ? item.data.name.substring(0, 18) + '...' : item.data.name;
         case 'run': return item.data.id;
         case 'alert': return 'Alert';
@@ -58,7 +58,7 @@ const NAV_ITEMS = [
     { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
-export default function Dashboard() {
+export default function App() {
     const [view, setView] = useState<ViewType>('overview');
     const [viewStack, setViewStack] = useState<ViewType[]>([]);
 
@@ -88,7 +88,7 @@ export default function Dashboard() {
     const [searchQuery, setSearchQuery] = useState('');
 
     // --- TOAST MANAGER ---
-    const addToast = (title: string, description?: string, type: 'info'|'error'|'success'|'warning' = 'info') => {
+    const addToast = (title: string, description?: string, type: 'info' | 'error' | 'success' | 'warning' = 'info') => {
         const id = Math.random().toString(36).substring(7);
         setToasts(prev => [...prev, { id, title, description, type }]);
         setTimeout(() => {
@@ -281,13 +281,13 @@ export default function Dashboard() {
     };
 
     const closeAllDrawers = () => {
-         setOverlayStack(prev => {
-             const firstDrawer = prev.find(i => i.type === 'drawer');
-             const rootFocus = firstDrawer?.returnFocus;
-             const kept = prev.filter(i => i.type !== 'drawer');
-             rootFocus?.focus?.();
-             return kept;
-         });
+        setOverlayStack(prev => {
+            const firstDrawer = prev.find(i => i.type === 'drawer');
+            const rootFocus = firstDrawer?.returnFocus;
+            const kept = prev.filter(i => i.type !== 'drawer');
+            rootFocus?.focus?.();
+            return kept;
+        });
     };
 
     // --- SELECTION HANDLER ---
@@ -357,9 +357,9 @@ export default function Dashboard() {
         } else if (kind === 'stack') {
             const stack = data as ArtifactStack;
             return [
-                 { label: 'Inspect Stack', icon: Layers, action: () => setInspectingStack(stack) },
-                 { label: 'Export JSON', icon: Download, action: () => downloadJson(`stack_${stack.sample.atomClass}`, stack.artifacts) },
-                 { label: 'Copy All IDs', icon: Copy, action: () => { const text = stack.artifacts.map(a => a.id).join('\n'); navigator.clipboard.writeText(text); addToast('Copied', `${stack.count} IDs copied`, 'success'); } }
+                { label: 'Inspect Stack', icon: Layers, action: () => setInspectingStack(stack) },
+                { label: 'Export JSON', icon: Download, action: () => downloadJson(`stack_${stack.sample.atomClass}`, stack.artifacts) },
+                { label: 'Copy All IDs', icon: Copy, action: () => { const text = stack.artifacts.map(a => a.id).join('\n'); navigator.clipboard.writeText(text); addToast('Copied', `${stack.count} IDs copied`, 'success'); } }
             ]
         }
         return [];
@@ -577,7 +577,7 @@ export default function Dashboard() {
                                     </button>
                                 ))}
                             </div>
-                             <div className="flex items-center space-x-2 md:space-x-3 pl-4 border-l border-neutral-900 ml-2 md:ml-4 py-2 shrink-0">
+                            <div className="flex items-center space-x-2 md:space-x-3 pl-4 border-l border-neutral-900 ml-2 md:ml-4 py-2 shrink-0">
                                 <span className="hidden sm:inline text-[10px] md:text-xs text-neutral-500">Show Completed</span>
                                 <button
                                     onClick={() => setShowCompletedRuns(!showCompletedRuns)}
@@ -604,7 +604,7 @@ export default function Dashboard() {
                                 <div className="mt-8 space-y-1">
                                     {activeRuns.map((run: any) => (
                                         <UiRow key={run.id} onClick={() => pushOverlay({ type: 'drawer', kind: 'run', data: run, breadcrumb: 'Runs' })}>
-                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full text-xs md:text-sm truncate">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full text-xs md:text-sm truncate">
                                                 <div className="flex items-center space-x-3 mb-1 sm:mb-0 truncate">
                                                     <Badge status={run.status} />
                                                     <span className="font-mono text-neutral-400 text-[10px] md:text-xs w-16 shrink-0">{run.id}</span>
@@ -615,7 +615,7 @@ export default function Dashboard() {
                                                     <span>{run.duration}</span>
                                                     <span className="hidden sm:inline">{run.triggeredBy}</span>
                                                 </div>
-                                             </div>
+                                            </div>
                                         </UiRow>
                                     ))}
                                     {activeRuns.length === 0 && <EmptyState message="No runs found" submessage={!showCompletedRuns ? "Try enabling 'Show Completed' to see past executions." : undefined} />}
@@ -695,15 +695,15 @@ export default function Dashboard() {
 
             case 'explorer':
                 return (
-                 <FileSystemExplorer
-                    artifacts={getFilteredArtifacts()}
-                    title="Refinery Explorer"
-                    onSelectArtifact={(art) => pushOverlay({ type: 'drawer', kind: 'artifact', data: art, breadcrumb: 'Explorer' })}
-                    onContextMenu={handleContextMenu}
-                    selectedIds={selectedArtifactIds}
-                    onToggleSelection={toggleSelection}
-                 />
-            );
+                    <FileSystemExplorer
+                        artifacts={getFilteredArtifacts()}
+                        title="Refinery Explorer"
+                        onSelectArtifact={(art) => pushOverlay({ type: 'drawer', kind: 'artifact', data: art, breadcrumb: 'Explorer' })}
+                        onContextMenu={handleContextMenu}
+                        selectedIds={selectedArtifactIds}
+                        onToggleSelection={toggleSelection}
+                    />
+                );
 
             case 'alerts': return (
                 <div className="p-4 md:p-8 h-full overflow-y-auto animate-in fade-in duration-300">
@@ -712,13 +712,13 @@ export default function Dashboard() {
                         <div className="mt-4 space-y-1">
                             {getFilteredAlerts().map((alert: any) => (
                                 <UiRow key={alert.id} onClick={() => pushOverlay({ type: 'drawer', kind: 'alert', data: alert, breadcrumb: 'Alerts' })}>
-                                        <div className="flex items-center justify-between w-full text-xs md:text-sm truncate">
+                                    <div className="flex items-center justify-between w-full text-xs md:text-sm truncate">
                                         <div className="flex items-center space-x-3 truncate">
                                             <AlertTriangle className={`w-4 h-4 flex-shrink-0 ${alert.severity === 'critical' ? 'text-rose-500' : 'text-amber-500'}`} />
                                             <span className="text-neutral-300 truncate">{alert.message}</span>
                                         </div>
-                                        <span className="text-[10px] text-neutral-600 shrink-0 ml-4 font-mono">{new Date(alert.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
-                                        </div>
+                                        <span className="text-[10px] text-neutral-600 shrink-0 ml-4 font-mono">{new Date(alert.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    </div>
                                 </UiRow>
                             ))}
                         </div>
@@ -737,12 +737,12 @@ export default function Dashboard() {
                     const successRate = Math.round((success / total) * 100);
                     let totalSec = 0;
                     runs.forEach(r => {
-                         const m = r.duration.match(/(\d+)m/);
-                         const s = r.duration.match(/(\d+)s/);
-                         totalSec += (m ? parseInt(m[1])*60 : 0) + (s ? parseInt(s[1]) : 0);
+                        const m = r.duration.match(/(\d+)m/);
+                        const s = r.duration.match(/(\d+)s/);
+                        totalSec += (m ? parseInt(m[1]) * 60 : 0) + (s ? parseInt(s[1]) : 0);
                     });
                     const avgSec = Math.round(totalSec / total);
-                    const avgDuration = avgSec > 60 ? `${Math.floor(avgSec/60)}m ${avgSec%60}s` : `${avgSec}s`;
+                    const avgDuration = avgSec > 60 ? `${Math.floor(avgSec / 60)}m ${avgSec % 60}s` : `${avgSec}s`;
                     return { successRate, avgDuration };
                 }
 
@@ -766,8 +766,8 @@ export default function Dashboard() {
                                 </button>
                             </div>
 
-                             {/* INFRA CARDS */}
-                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                            {/* INFRA CARDS */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                                 <div onClick={() => pushOverlay({ type: 'drawer', kind: 'infra-buffer', data: null, breadcrumb: 'Overview' })} className="p-4 md:p-5 border border-neutral-800 bg-neutral-900/20 rounded-lg flex flex-col justify-between group cursor-pointer hover:border-neutral-600 hover:bg-neutral-900/40 transition-all">
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="text-[10px] text-neutral-500 uppercase font-semibold tracking-wider">Global Buffer</div>
@@ -794,10 +794,10 @@ export default function Dashboard() {
                                     </div>
                                     <div className="text-xl md:text-2xl font-light text-neutral-200 font-mono tracking-tight">Active</div>
                                 </div>
-                             </div>
+                            </div>
 
-                             <SectionHeader title="Repository Intelligence" />
-                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+                            <SectionHeader title="Repository Intelligence" />
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
                                 <div onClick={() => pushOverlay({ type: 'drawer', kind: 'project-list', data: data, breadcrumb: 'Overview' })} className="p-4 border border-neutral-800 bg-neutral-900/10 rounded group hover:border-neutral-600 transition-colors cursor-pointer">
                                     <div className="text-[10px] text-neutral-500 uppercase mb-2">Projects</div>
                                     <div className="text-xl md:text-2xl font-light text-neutral-200">{data.projects.length}</div>
@@ -837,7 +837,7 @@ export default function Dashboard() {
                                     </div>
                                 </div>
 
-                                 <div onClick={() => { setPipelineTab(PipelineId.Factory); handleNavigate('pipelines'); }} className="p-5 md:p-6 border border-neutral-800 rounded-lg bg-neutral-900/20 hover:border-neutral-700 hover:bg-neutral-900/40 cursor-pointer transition-all group overflow-hidden">
+                                <div onClick={() => { setPipelineTab(PipelineId.Factory); handleNavigate('pipelines'); }} className="p-5 md:p-6 border border-neutral-800 rounded-lg bg-neutral-900/20 hover:border-neutral-700 hover:bg-neutral-900/40 cursor-pointer transition-all group overflow-hidden">
                                     <div className="flex justify-between items-start mb-6">
                                         <div>
                                             <h3 className="text-sm md:text-base font-medium text-neutral-200 group-hover:text-white transition-colors flex items-center gap-2 truncate">Canonical Factory <Zap className="w-3 h-3 text-neutral-600" /></h3>
@@ -888,9 +888,9 @@ export default function Dashboard() {
             {/* Desktop Sidebar */}
             <div className={`hidden lg:flex flex-col border-r border-neutral-900 bg-neutral-950 transition-all duration-300 ease-in-out ${leftSidebarCollapsed ? 'w-16' : 'w-64'}`}>
                 <div className="flex-1 flex flex-col min-h-0">
-                     <div className={`h-14 flex items-center border-b border-neutral-900 ${leftSidebarCollapsed ? 'justify-center px-0' : 'justify-between px-3'}`}>
+                    <div className={`h-14 flex items-center border-b border-neutral-900 ${leftSidebarCollapsed ? 'justify-center px-0' : 'justify-between px-3'}`}>
                         {leftSidebarCollapsed ? (
-                             <button onClick={() => setLeftSidebarCollapsed(false)} className="p-2 rounded-md text-neutral-500 hover:text-neutral-200 hover:bg-neutral-900 transition-colors"><PanelLeftOpen className="w-5 h-5" /></button>
+                            <button onClick={() => setLeftSidebarCollapsed(false)} className="p-2 rounded-md text-neutral-500 hover:text-neutral-200 hover:bg-neutral-900 transition-colors"><PanelLeftOpen className="w-5 h-5" /></button>
                         ) : (
                             <>
                                 <div className="flex items-center pl-2 truncate">
@@ -914,14 +914,14 @@ export default function Dashboard() {
 
             {/* Mobile Menu */}
             {mobileMenuOpen && (
-                 <div className="lg:hidden absolute inset-0 z-[100] bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
+                <div className="lg:hidden absolute inset-0 z-[100] bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
                     <div className="w-64 h-full bg-neutral-950 border-r border-neutral-900 flex flex-col shadow-2xl animate-in slide-in-from-left duration-300" onClick={e => e.stopPropagation()}>
                         <div className="h-14 flex items-center justify-between px-6 border-b border-neutral-900">
-                             <span className="text-sm font-semibold tracking-tight text-neutral-200">Cloud Refinery</span>
-                             <button onClick={() => setMobileMenuOpen(false)} className="text-neutral-400"><X className="w-6 h-6" /></button>
+                            <span className="text-sm font-semibold tracking-tight text-neutral-200">Cloud Refinery</span>
+                            <button onClick={() => setMobileMenuOpen(false)} className="text-neutral-400"><X className="w-6 h-6" /></button>
                         </div>
                         <nav className="p-4 space-y-2 flex-1">
-                             {NAV_ITEMS.map(item => (
+                            {NAV_ITEMS.map(item => (
                                 <div key={item.id} onClick={() => handleNavigate(item.id as ViewType)} className={`flex items-center px-4 py-3 rounded cursor-pointer text-base transition-all ${view === item.id ? 'text-neutral-100 bg-neutral-900' : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-900/50'}`}>
                                     <item.icon className="w-5 h-5 mr-3 opacity-70" /> {item.label}
                                 </div>
@@ -932,7 +932,7 @@ export default function Dashboard() {
             )}
 
             <div className="flex-1 flex flex-col min-w-0">
-                 <div className="h-14 flex items-center justify-between px-4 md:px-6 border-b border-neutral-900 bg-neutral-950/95 backdrop-blur z-40">
+                <div className="h-14 flex items-center justify-between px-4 md:px-6 border-b border-neutral-900 bg-neutral-950/95 backdrop-blur z-40">
                     <div className="flex items-center w-full md:w-1/2">
                         <button className="lg:hidden mr-4 text-neutral-400 hover:text-white" onClick={() => setMobileMenuOpen(true)}><Menu className="w-5 h-5" /></button>
                         <button onClick={handleBack} disabled={!canGoBack} className={`mr-2 md:mr-4 p-1 -ml-2 rounded-full transition-all duration-200 block ${canGoBack ? 'text-neutral-500 hover:bg-neutral-800 hover:text-neutral-200 opacity-100 cursor-pointer' : 'text-neutral-800 opacity-0 cursor-default'}`}><ArrowLeft className="w-4 h-4" /></button>
@@ -995,8 +995,8 @@ export default function Dashboard() {
                                             <button onClick={closeAllDrawers} className="hover:text-neutral-300 transition-colors whitespace-nowrap flex-shrink-0 flex items-center truncate max-w-[80px]">{drawerStack[0]?.breadcrumb || 'Home'}</button>
                                             {drawerStack.slice(-2).map((item, idx) => (
                                                 <React.Fragment key={item.id}>
-                                                     <span className="mx-2 text-neutral-800 flex-shrink-0">/</span>
-                                                     <button onClick={() => handleBreadcrumbClick(item.id)} className={`whitespace-nowrap flex-shrink-0 transition-colors max-w-[100px] truncate ${idx === 1 ? 'text-neutral-300 font-semibold cursor-default' : 'hover:text-neutral-300'}`} disabled={idx === 1} title={getOverlayTitle(item)}>{getOverlayTitle(item)}</button>
+                                                    <span className="mx-2 text-neutral-800 flex-shrink-0">/</span>
+                                                    <button onClick={() => handleBreadcrumbClick(item.id)} className={`whitespace-nowrap flex-shrink-0 transition-colors max-w-[100px] truncate ${idx === 1 ? 'text-neutral-300 font-semibold cursor-default' : 'hover:text-neutral-300'}`} disabled={idx === 1} title={getOverlayTitle(item)}>{getOverlayTitle(item)}</button>
                                                 </React.Fragment>
                                             ))}
                                         </div>

@@ -423,4 +423,3 @@ INTEGRAÇÃO: Research evolves like code (D0→D5 similar to commits)
 **O dump tinha 5. Nós desenvolvemos 35+ novas e integramos tudo.**
 
 **Esta é uma TEORIA UNIFICADA DE SISTEMAS EVOLUTIVOS aplicada a software.**
-

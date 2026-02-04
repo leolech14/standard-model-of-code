@@ -95,7 +95,7 @@ If Infrastructure is Frozen Automation, then the **Build/Deploy Pipeline** is th
 ```
       LIQUID                  PHASE TRANSITION                  SOLID
    (Automation)             (Build / Deploy)              (Infrastructure)
-  
+
    Shell Scripts    ──────►    Docker Build     ──────►    Container Image
    Python Logic     ──────►    Terraform Apply  ──────►    Cloud Resource
    Policy Logic     ──────►    K8s Manifest     ──────►    Cluster State

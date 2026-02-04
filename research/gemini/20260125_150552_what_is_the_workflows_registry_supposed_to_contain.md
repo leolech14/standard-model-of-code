@@ -59,9 +59,9 @@ Instead of hard-coding steps, `universal_detector.py` should look like this (con
 def analyze_repository(self, repo_path, workflow_name="standard"):
     # Retrieve the pipeline definition from the registry
     pipeline = self.workflows_registry.get(workflow_name)
-    
+
     context = {"repo_path": repo_path}
-    
+
     # Execute stages dynamically
     for stage in pipeline.stages:
         print(f"Executing {stage.name}...")

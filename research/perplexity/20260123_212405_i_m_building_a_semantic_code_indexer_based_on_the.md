@@ -187,7 +187,7 @@ The quality of semantic classification using local LLMs depends critically on pr
 A structured prompt for semantic classification might follow this pattern:
 
 ```
-Analyze the following function and classify its architectural role based on 
+Analyze the following function and classify its architectural role based on
 its relationships and context.
 
 Function: {function_name}
@@ -247,7 +247,7 @@ class SemanticCodeIndexer:
         self.call_graph = call_graph
         self.dependency_graph = dependency_graph
         self.node_purposes = {}
-    
+
     def analyze_system_level(self):
         """Compute system-level architectural roles"""
         # Compute metrics for all modules
@@ -259,7 +259,7 @@ class SemanticCodeIndexer:
             module_betweenness = nx.betweenness_centrality(
                 self.dependency_graph, normalized=True
             )[module]
-            
+
             # Determine module role based on metrics
             if module_out_degree > 0.5 and module_in_degree < 0.3:
                 role = "orchestrator"
@@ -269,7 +269,7 @@ class SemanticCodeIndexer:
                 role = "critical_junction"
             else:
                 role = "domain_logic"
-            
+
             self.node_purposes[module] = {
                 'level': 'module',
                 'role': role,
@@ -279,16 +279,16 @@ class SemanticCodeIndexer:
                     'betweenness': module_betweenness
                 }
             }
-    
+
     def analyze_function_level(self, function_name):
         """Analyze function with full hierarchical context"""
         module = self.get_function_module(function_name)
         module_role = self.node_purposes[module]['role']
-        
+
         # Compute function-level metrics
         in_degree = self.call_graph.in_degree(function_name)
         out_degree = self.call_graph.out_degree(function_name)
-        
+
         # Construct semantic context
         context = {
             'function': function_name,
@@ -301,11 +301,11 @@ class SemanticCodeIndexer:
                 'out_degree': out_degree,
             }
         }
-        
+
         # Classify with context
         classification = self.classify_function_role(context)
         return classification
-    
+
     def classify_function_role(self, context):
         """Use LLM to classify function role with rich context"""
         prompt = self.construct_classification_prompt(context)

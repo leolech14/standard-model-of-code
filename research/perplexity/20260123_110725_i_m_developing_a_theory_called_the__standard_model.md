@@ -31,7 +31,7 @@ L12: Universe
 
 Each level CONTAINS the levels below it and IS CONTAINED BY levels above it.
 
-My question: Is it theoretically correct to say that these 16 levels represent increasing 'levels of abstraction'? 
+My question: Is it theoretically correct to say that these 16 levels represent increasing 'levels of abstraction'?
 
 Specifically:
 1. Does the computer science definition of 'abstraction' support the claim that higher containment = higher abstraction?

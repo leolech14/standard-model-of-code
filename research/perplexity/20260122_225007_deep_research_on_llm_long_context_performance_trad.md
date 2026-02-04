@@ -17,7 +17,7 @@ Deep research on LLM long-context performance trade-offs (NOT RAG vs long-contex
 3. Latency and cost scaling - how do they increase with context size?
 4. Quality degradation patterns - does accuracy drop linearly or exponentially with context size?
 5. When does MORE context provide MORE value despite performance loss? What's the break-even analysis?
-6. Best practices for context window utilization - should you use 80% of available context? 50%? 
+6. Best practices for context window utilization - should you use 80% of available context? 50%?
 7. How do different models (Gemini 2.5 Pro, Claude 3.5, GPT-4) compare on long-context performance retention?
 
 I need specific numbers, curves, and research citations if available.

@@ -1,106 +1,192 @@
 {
-  "schema_version": "2.0.0",
-  "description": "The 33 canonical roles (WHY dimension) from Standard Model V2 theory",
-  "count": 33,
+  "schema_version": "3.0.0",
+  "description": "The 41 canonical roles (WHY dimension) - SWEBOK-enhanced from original 33",
+  "count": 41,
+  "categories": {
+    "Query": { "question": "What retrieves data?", "count": 4 },
+    "Command": { "question": "What changes state?", "count": 4 },
+    "Factory": { "question": "What builds objects?", "count": 2 },
+    "Storage": { "question": "What persists data?", "count": 3 },
+    "Orchestration": { "question": "What coordinates work?", "count": 4 },
+    "Validation": { "question": "What checks correctness?", "count": 5 },
+    "Transform": { "question": "What converts data?", "count": 4 },
+    "Event": { "question": "What reacts to events?", "count": 4 },
+    "Utility": { "question": "What helps?", "count": 5 },
+    "Internal": { "question": "What manages internals?", "count": 2 },
+    "Management": { "question": "What governs?", "count": 4 }
+  },
   "roles": {
     "Query": {
-      "purpose": "Retrieve data without modification"
+      "category": "Query",
+      "purpose": "Data retrieval request - represents intent to read without modification"
     },
     "Finder": {
-      "purpose": "Search for data based on criteria"
+      "category": "Query",
+      "purpose": "Search for data based on criteria - the execution logic for queries"
     },
     "Loader": {
-      "purpose": "Load data from storage/source"
+      "category": "Query",
+      "purpose": "Load data from storage or external source - bulk or batch retrieval"
     },
     "Getter": {
-      "purpose": "Access property/attribute"
+      "category": "Query",
+      "purpose": "Access a single property or attribute - simple value retrieval"
     },
     "Command": {
-      "purpose": "Execute an action that changes state"
+      "category": "Command",
+      "purpose": "Intent to modify state - represents a request for change"
     },
     "Creator": {
-      "purpose": "Create new entity/record"
+      "category": "Command",
+      "purpose": "Create new entities or records - instantiation with business logic"
     },
     "Mutator": {
-      "purpose": "Modify existing entity/state"
+      "category": "Command",
+      "purpose": "Modify existing entity or state - in-place updates"
     },
     "Destroyer": {
-      "purpose": "Delete/remove entity"
+      "category": "Command",
+      "purpose": "Delete or remove entities - cleanup and removal logic"
     },
     "Factory": {
-      "purpose": "Create and configure new instances"
+      "category": "Factory",
+      "purpose": "Create and configure new instances - encapsulated instantiation"
     },
     "Builder": {
-      "purpose": "Construct complex objects step by step"
+      "category": "Factory",
+      "purpose": "Construct complex objects step by step - fluent API pattern"
     },
     "Repository": {
-      "purpose": "Abstract data persistence operations"
+      "category": "Storage",
+      "purpose": "Abstract data persistence operations - collection-like interface for aggregates"
     },
     "Store": {
-      "purpose": "Manage application state"
+      "category": "Storage",
+      "purpose": "Manage application state - centralized state container"
     },
     "Cache": {
-      "purpose": "Temporarily store data for performance"
+      "category": "Storage",
+      "purpose": "Temporarily store data for performance - avoid repeated computation or I/O"
     },
     "Service": {
-      "purpose": "Coordinate business operations"
+      "category": "Orchestration",
+      "purpose": "Coordinate business operations - stateless business logic"
     },
     "Controller": {
-      "purpose": "Handle external requests"
+      "category": "Orchestration",
+      "purpose": "Handle external requests - entry point for outside world"
     },
     "Manager": {
-      "purpose": "Manage resources or components"
+      "category": "Orchestration",
+      "purpose": "Manage resources or components - lifecycle and pooling"
     },
     "Orchestrator": {
-      "purpose": "Coordinate complex workflows"
+      "category": "Orchestration",
+      "purpose": "Coordinate complex workflows - multi-step process coordination"
     },
     "Validator": {
-      "purpose": "Verify data meets constraints"
+      "category": "Validation",
+      "purpose": "Verify data meets constraints - input validation"
+    },
+    "Verifier": {
+      "category": "Validation",
+      "purpose": "Confirm build correctness - 'are we building it right?' (SWEBOK)",
+      "swebok": true
     },
     "Guard": {
-      "purpose": "Protect access or enforce conditions"
+      "category": "Validation",
+      "purpose": "Protect access or enforce conditions - authorization checks"
     },
     "Asserter": {
-      "purpose": "Assert truth of conditions"
+      "category": "Validation",
+      "purpose": "Assert truth of conditions - invariant enforcement"
+    },
+    "SecurityValidator": {
+      "category": "Validation",
+      "purpose": "Security-specific validation - threat prevention (SWEBOK)",
+      "swebok": true
     },
     "Transformer": {
-      "purpose": "Convert data format"
+      "category": "Transform",
+      "purpose": "Convert data format - general-purpose transformation"
     },
     "Mapper": {
-      "purpose": "Map between types"
+      "category": "Transform",
+      "purpose": "Map between types - structural conversion"
     },
     "Serializer": {
-      "purpose": "Serialize properties to output format"
+      "category": "Transform",
+      "purpose": "Convert objects to output format - object to bytes/string"
     },
     "Parser": {
-      "purpose": "Parse input format to data"
+      "category": "Transform",
+      "purpose": "Convert input format to structured data - bytes/string to object"
     },
     "Handler": {
-      "purpose": "React to events"
+      "category": "Event",
+      "purpose": "Process events or requests - active event processing"
     },
     "Listener": {
-      "purpose": "Passive event observation"
+      "category": "Event",
+      "purpose": "Passive event observation - subscribe and delegate"
     },
     "Subscriber": {
-      "purpose": "Subscribe to event stream"
+      "category": "Event",
+      "purpose": "Subscribe to event streams - async message consumption"
     },
     "Emitter": {
-      "purpose": "Emit/publish events"
+      "category": "Event",
+      "purpose": "Publish events - event production"
     },
     "Utility": {
-      "purpose": "General constant/stateless helper"
+      "category": "Utility",
+      "purpose": "General stateless helper - pure utility functions"
     },
     "Formatter": {
-      "purpose": "Format output for display"
+      "category": "Utility",
+      "purpose": "Format output for display - human-readable presentation"
     },
     "Helper": {
-      "purpose": "Specific assistive logic"
+      "category": "Utility",
+      "purpose": "Specific assistive logic - context-aware assistance"
+    },
+    "StatisticalAnalyzer": {
+      "category": "Utility",
+      "purpose": "Data analysis - metrics and statistical computation (SWEBOK KA-QUA)",
+      "swebok": true
+    },
+    "Tracer": {
+      "category": "Utility",
+      "purpose": "History and provenance tracking - traceability (SWEBOK)",
+      "swebok": true
     },
     "Internal": {
-      "purpose": "Private implementation detail"
+      "category": "Internal",
+      "purpose": "Private implementation detail - encapsulated logic"
     },
     "Lifecycle": {
-      "purpose": "Manage object/process lifecycle"
+      "category": "Internal",
+      "purpose": "Manage object/process lifecycle - init, cleanup, hooks"
+    },
+    "ProjectManager": {
+      "category": "Management",
+      "purpose": "Resource and schedule coordination - project governance (SWEBOK KA-MGT)",
+      "swebok": true
+    },
+    "RiskManager": {
+      "category": "Management",
+      "purpose": "Risk identification and mitigation - failure prevention (SWEBOK KA-MGT)",
+      "swebok": true
+    },
+    "Certifier": {
+      "category": "Management",
+      "purpose": "Professional/product certification - quality attestation (SWEBOK KA-PRO)",
+      "swebok": true
+    },
+    "Measurer": {
+      "category": "Management",
+      "purpose": "Metrics collection - raw measurement (SWEBOK KA-QUA)",
+      "swebok": true
     }
   }
 }

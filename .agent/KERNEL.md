@@ -29,7 +29,7 @@ is the single source of truth, not your restored context.
 |------|-------|
 | **Project** | PROJECT_elements |
 | **Core Product** | Standard Model of Code + Collider |
-| **Mission** | Find the basic constituents of computer programs |
+| **Mission** | Define a reference model that makes code structure machine-actionable for AI agents |
 | **Owner** | Leonardo Lech (leonardo.lech@gmail.com) |
 
 ---

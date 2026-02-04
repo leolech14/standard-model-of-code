@@ -1,6 +1,6 @@
 # MODEL.md - The Standard Model of Code
 
-> Everything about the theory. What it is, why it works, how it's proven.
+> Reference model for machine-actionable code architecture. What it is, how we built it, evidence of utility.
 
 ---
 
@@ -306,54 +306,58 @@ Muddy code:   Q(π₄) = 0.40   → scattered, misaligned, incomplete
 
 ---
 
-## 5. PROOFS
+## 5. FORMAL DEFINITIONS & CONSISTENCY CHECKS
 
-### Key Theorems
+### Key Definitions
 
-| ID | Name | Claim |
-|----|------|-------|
-| 3.1 | WHAT Completeness | Atom taxonomy covers all syntactic structures |
-| 3.2 | WHY Completeness | Role taxonomy achieves 100% coverage |
-| 3.3 | RPBL Boundedness | RPBL space is finite (6,561 states) |
-| 3.4 | Total Space | Semantic space < 50M states |
-| 3.5 | Minimality | WHAT/WHY/HOW are minimal dimensions |
-| 3.6 | Orthogonality | Dimensions are statistically independent |
-| 3.7 | Pipeline DAG | 18-stage pipeline is valid topological order |
-| 3.8 | Schema Minimality | Canonical schema is minimal |
+| ID | Name | Definition |
+|----|------|------------|
+| 3.1 | WHAT Completeness | We define atom taxonomy to cover all syntactic structures |
+| 3.2 | WHY Completeness | We define role taxonomy to achieve 100% coverage |
+| 3.3 | RPBL Boundedness | RPBL space is finite by construction (6,561 states) |
+| 3.4 | Total Space | Our semantic space spans < 50M states |
+| 3.5 | Minimality | WHAT/WHY/HOW are chosen as minimal dimensions |
+| 3.6 | Orthogonality | Dimensions are designed to be independent |
+| 3.7 | Pipeline DAG | 18-stage pipeline forms valid topological order |
+| 3.8 | Schema Minimality | Canonical schema is designed to be minimal |
 
-### Lean 4 Verification
+### Lean 4 Consistency Checks
 
-| Theorem | File | Status |
-|---------|------|--------|
-| 3.3 RPBL Boundedness | `Boundedness.lean` | Verified |
-| 3.4 Total Space | `Boundedness.lean` | Verified |
-| 3.5 Minimality | `Minimality.lean` | Verified |
-| 3.7 Pipeline DAG | `Pipeline.lean` | Verified |
-| 3.8 Schema Minimality | `Schema.lean` | Verified |
+| Definition | File | Status |
+|------------|------|--------|
+| 3.3 RPBL Boundedness | `Boundedness.lean` | Consistent |
+| 3.4 Total Space | `Boundedness.lean` | Consistent |
+| 3.5 Minimality | `Minimality.lean` | Consistent |
+| 3.7 Pipeline DAG | `Pipeline.lean` | Consistent |
+| 3.8 Schema Minimality | `Schema.lean` | Consistent |
 
 **Run:** `cd proofs/lean && lake build`
 
 ### Semantic Space Calculation
 
+*Our defined semantic space spans:*
+
 ```
 |Σ| = |Atom| × |Role| × |RPBL|
     = 94 × 29 × 6,561
     = 17,884,806 possible states
+
+(Alternative frameworks could define different spaces)
 ```
 
 ---
 
 ## 6. HISTORY
 
-### The Discovery (Dec 2025)
+### Tool Development (Dec 2025)
 
-**Hypothesis:** Code is ambiguous → need AI to classify
+**Goal:** Develop deterministic classification that reduces AI context requirements
 
-**Experiment:** 91 repositories, 270,000+ nodes
+**Approach:** Tested on 91 repositories, 270,000+ nodes
 
 **Result:** 100% coverage with 0 unknowns — WITHOUT AI
 
-**Discovery:** Information is encoded in:
+**Observation:** Information is encoded in:
 1. **Topology** - `/services/UserService.py` reveals role
 2. **Frameworks** - `@Controller` decorator reveals role
 3. **Genealogy** - `extends Repository` reveals role
@@ -367,7 +371,7 @@ Muddy code:   Q(π₄) = 0.40   → scattered, misaligned, incomplete
 | LLMClassifier | PatternMatcher |
 
 **Core Insight:**
-> The deterministic layer IS the intelligence. The LLM layer is optional enrichment.
+> Deterministic rules suffice for structural classification. LLM enrichment is optional.
 
 ### Timeline
 
@@ -380,20 +384,22 @@ Muddy code:   Q(π₄) = 0.40   → scattered, misaligned, incomplete
 
 ---
 
-## 7. THEORETICAL LINEAGE
+## 7. INTELLECTUAL FOUNDATIONS
+
+*Note: These are inspirations and analogies, not derivations. We chose these frameworks as design guides.*
 
 ```
-Koestler (Holons)     → 16 LEVELS + Systems of Systems
-Popper (Three Worlds) → 3 PLANES
-Ranganathan (Facets)  → 8 DIMENSIONS
-Clean Architecture    → LAYER dimension
-DDD (Evans)           → 33 ROLES
-Shannon               → M-I-P-O CYCLE
+Koestler (Holons)     ≈ 16 LEVELS + Systems of Systems (structural analogy)
+Popper (Three Worlds) ≈ 3 PLANES (inspired by, not derived from)
+Ranganathan (Facets)  ≈ 8 DIMENSIONS (classification approach)
+Clean Architecture    ≈ LAYER dimension (adapted concept)
+DDD (Evans)           ≈ 33 ROLES (inspired taxonomy)
+Shannon               ≈ M-I-P-O CYCLE (communication model)
 ```
 
-### Holon Theory (Koestler 1967)
+### Holon Analogy (Koestler 1967)
 
-The 16-level scale is a **holarchy** - a hierarchy of holons. Each level is:
+The 16-level scale uses the **holarchy** metaphor - a hierarchy of holons. Each level is:
 - A **WHOLE** when looking down (it contains parts)
 - A **PART** when looking up (it is contained)
 
@@ -411,9 +417,9 @@ See `THEORY_EXPANSION_2026.md` Section 5 for full treatment.
 
 ---
 
-## 8. THE 10 UNIVERSAL SUBSYSTEMS
+## 8. THE 10 RECURRING SUBSYSTEM ARCHETYPES
 
-Every codebase clusters into ~10 meta-components:
+We observe that codebases typically organize into ~10 recurring meta-component patterns:
 
 1. **Ingress** - Routers, controllers, middleware
 2. **Egress** - External clients, webhooks

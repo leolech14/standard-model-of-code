@@ -1,0 +1,16 @@
+{
+  "session_start": "2026-02-03 01:22:08",
+  "session_end": "2026-02-03 01:22:35",
+  "model": "gemini-3-pro-preview",
+  "total_tokens_in": 0,
+  "total_tokens_out": 0,
+  "turn_count": 1,
+  "turns": [
+    {
+      "timestamp": 1770092528.680747,
+      "timestamp_str": "2026-02-03 01:22:08",
+      "role": "user",
+      "content": "You are triaging uncommitted changes. For each file provided, output a JSON array of objects with:\n{path, decision: keep|revert|needs-review, summary, rationale, risk: low|medium|high}.\nUse the file path as provided. Respond with ONLY JSON (no markdown)."
+    }
+  ]
+}

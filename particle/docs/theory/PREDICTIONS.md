@@ -8,7 +8,7 @@
 
 ## Abstract
 
-A scientific theory must make predictions that can be proven wrong. This document enumerates the falsifiable predictions of the Standard Model of Code (SMC), specifying for each prediction: the claim, the test, and the falsification criterion. These predictions transform SMC from a descriptive framework into a testable scientific theory.
+A scientific theory must make predictions that can be proven wrong. This document enumerates the falsifiable predictions of the Standard Model of Code (SMC), specifying for each prediction: the claim, the test, and the falsification criterion. These predictions transform SMC from a descriptive framework into a testable reference model.
 
 ---
 
@@ -397,7 +397,7 @@ Current verification status:
 - 10 predictions pending empirical test
 - 1 prediction with theoretical proof (P16)
 
-These predictions distinguish SMC from untestable frameworks and position it as a scientific theory subject to empirical evaluation.
+These predictions distinguish SMC from untestable frameworks and position it as a testable reference model subject to empirical evaluation.
 
 ---
 

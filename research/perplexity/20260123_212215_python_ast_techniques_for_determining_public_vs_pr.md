@@ -78,11 +78,11 @@ import ast
 def analyze_module_visibility(source_code):
     """Parse source code and identify public/private definitions."""
     tree = ast.parse(source_code)
-    
+
     # Check if __all__ is explicitly defined
     all_defined = None
     public_via_all = set()
-    
+
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
             # Check for __all__ assignment
@@ -94,14 +94,14 @@ def analyze_module_visibility(source_code):
                             if isinstance(elt, ast.Constant):
                                 all_defined.append(elt.value)
                         public_via_all = set(all_defined)
-    
+
     # Identify all top-level definitions
     definitions = {
         'functions': [],
         'classes': [],
         'variables': []
     }
-    
+
     for node in tree.body:
         if isinstance(node, ast.FunctionDef):
             name = node.name
@@ -120,7 +120,7 @@ def analyze_module_visibility(source_code):
                 'lineno': node.lineno,
                 'methods': extract_class_methods(node, public_via_all, all_defined)
             })
-    
+
     return definitions, all_defined
 
 def determine_visibility(name, public_via_all, all_defined):
@@ -128,7 +128,7 @@ def determine_visibility(name, public_via_all, all_defined):
     # If __all__ is explicitly defined, only names in it are public
     if all_defined is not None:
         return name in public_via_all
-    
+
     # Otherwise, follow naming convention (no leading underscore means public)
     return not name.startswith('_')
 
@@ -158,7 +158,7 @@ import ast
 
 class VisibilityAnalyzer(ast.NodeVisitor):
     """Visitor that analyzes and collects visibility information."""
-    
+
     def __init__(self):
         self.public_names = set()
         self.all_defined = False
@@ -166,19 +166,19 @@ class VisibilityAnalyzer(ast.NodeVisitor):
         self.functions = []
         self.classes = []
         self.current_class = None
-    
+
     def visit_Module(self, node):
         """Visit the module node."""
         # Extract module docstring
-        if (node.body and 
+        if (node.body and
             isinstance(node.body[0], ast.Expr) and
             isinstance(node.body[0].value, ast.Constant) and
             isinstance(node.body[0].value.value, str)):
             self.module_docstring = node.body[0].value.value
-        
+
         # Continue visiting child nodes
         self.generic_visit(node)
-    
+
     def visit_Assign(self, node):
         """Check for __all__ definition."""
         for target in node.targets:
@@ -189,11 +189,11 @@ class VisibilityAnalyzer(ast.NodeVisitor):
                         if isinstance(elt, ast.Constant):
                             self.public_names.add(elt.value)
         self.generic_visit(node)
-    
+
     def visit_FunctionDef(self, node):
         """Visit function definitions."""
         visibility = self._determine_visibility(node.name)
-        
+
         func_info = {
             'name': node.name,
             'lineno': node.lineno,
@@ -203,15 +203,15 @@ class VisibilityAnalyzer(ast.NodeVisitor):
             'parent_class': self.current_class
         }
         self.functions.append(func_info)
-        
+
         # Don't traverse nested functions
         if self.current_class is None:
             self.generic_visit(node)
-    
+
     def visit_ClassDef(self, node):
         """Visit class definitions."""
         visibility = self._determine_visibility(node.name)
-        
+
         class_info = {
             'name': node.name,
             'lineno': node.lineno,
@@ -220,11 +220,11 @@ class VisibilityAnalyzer(ast.NodeVisitor):
             'docstring': ast.get_docstring(node),
             'methods': []
         }
-        
+
         # Visit class methods
         old_class = self.current_class
         self.current_class = node.name
-        
+
         for item in node.body:
             if isinstance(item, ast.FunctionDef):
                 method_visibility = self._determine_visibility(item.name)
@@ -233,10 +233,10 @@ class VisibilityAnalyzer(ast.NodeVisitor):
                     'visibility': method_visibility,
                     'public': method_visibility == 'public'
                 })
-        
+
         self.current_class = old_class
         self.classes.append(class_info)
-    
+
     def _determine_visibility(self, name):
         """Determine visibility based on naming convention."""
         if name.startswith('__') and name.endswith('__'):
@@ -261,11 +261,11 @@ import ast
 def detect_name_mangling(class_node):
     """Identify attributes that will be subject to name mangling."""
     mangled_attributes = []
-    
+
     for node in ast.walk(class_node):
         if isinstance(node, ast.Attribute):
             # Check if this is a self.__ reference
-            if (isinstance(node.value, ast.Name) and 
+            if (isinstance(node.value, ast.Name) and
                 node.value.id == 'self' and
                 node.attr.startswith('__') and
                 not node.attr.endswith('__')):
@@ -274,7 +274,7 @@ def detect_name_mangling(class_node):
                     'mangled_name': f'_{class_node.name}{node.attr}',
                     'lineno': node.lineno
                 })
-    
+
     return mangled_attributes
 ```
 
@@ -442,7 +442,7 @@ class SymbolInfo:
 
 class ModuleVisibilityAnalyzer(ast.NodeVisitor):
     """Comprehensive analyzer for Python module visibility."""
-    
+
     def __init__(self, source_code: str, module_path: str = None):
         self.source_code = source_code
         self.module_path = module_path
@@ -452,15 +452,15 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
         self.has_all_declaration = False
         self.imported_names: Set[str] = set()
         self.current_class: str = None
-    
+
     def analyze(self) -> Dict:
         """Perform complete visibility analysis."""
         # First pass: collect __all__ and imports
         self._collect_metadata()
-        
+
         # Second pass: visit all definitions
         self.visit(self.tree)
-        
+
         return {
             'symbols': self.symbols,
             'all_exports': self.all_exports,
@@ -469,7 +469,7 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
             'private_api': self._get_private_api(),
             'protected_api': self._get_protected_api()
         }
-    
+
     def _collect_metadata(self):
         """Collect __all__ exports and import information."""
         for node in ast.walk(self.tree):
@@ -483,7 +483,7 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
                             for elt in node.value.elts:
                                 if isinstance(elt, ast.Constant):
                                     self.all_exports.add(elt.value)
-            
+
             # Collect imported names
             if isinstance(node, ast.Import):
                 for alias in node.names:
@@ -493,41 +493,41 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
                 for alias in node.names:
                     name = alias.asname if alias.asname else alias.name
                     self.imported_names.add(name)
-    
+
     def _determine_visibility(self, name: str, is_imported: bool = False) -> str:
         """Determine visibility classification for a name."""
         # Dunder (magic) methods
         if name.startswith('__') and name.endswith('__'):
             return 'dunder'
-        
+
         # Double-underscore private (subject to name mangling)
         if name.startswith('__'):
             return 'private'
-        
+
         # Single-underscore protected
         if name.startswith('_'):
             return 'protected'
-        
+
         # If __all__ is defined, check if explicitly exported
         if self.has_all_declaration and self.all_exports is not None:
             return 'public' if name in self.all_exports else 'private'
-        
+
         # If imported, not part of this module's public API
         if is_imported:
             return 'private'
-        
+
         # Default: public
         return 'public'
-    
+
     def visit_Module(self, node: ast.Module):
         """Visit module and extract module-level items."""
         self.generic_visit(node)
-    
+
     def visit_FunctionDef(self, node: ast.FunctionDef):
         """Visit function definitions."""
         is_imported = node.name in self.imported_names
         visibility = self._determine_visibility(node.name, is_imported)
-        
+
         symbol = SymbolInfo(
             name=node.name,
             kind='function' if self.current_class is None else 'method',
@@ -537,23 +537,23 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
             parent=self.current_class,
             is_imported=is_imported
         )
-        
+
         # Handle name mangling for double-underscore names
         if node.name.startswith('__') and not node.name.endswith('__'):
             if self.current_class:
                 symbol.mangled_name = f'_{self.current_class}{node.name}'
-        
+
         self.symbols.append(symbol)
-        
+
         # Don't visit nested functions for now
         if self.current_class is None:
             return
-    
+
     def visit_ClassDef(self, node: ast.ClassDef):
         """Visit class definitions."""
         is_imported = node.name in self.imported_names
         visibility = self._determine_visibility(node.name, is_imported)
-        
+
         class_symbol = SymbolInfo(
             name=node.name,
             kind='class',
@@ -562,11 +562,11 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
             docstring=ast.get_docstring(node),
             is_imported=is_imported
         )
-        
+
         # Visit methods
         old_class = self.current_class
         self.current_class = node.name
-        
+
         for item in node.body:
             if isinstance(item, ast.FunctionDef):
                 method_visibility = self._determine_visibility(item.name, False)
@@ -578,16 +578,16 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
                     docstring=ast.get_docstring(item),
                     parent=node.name
                 )
-                
+
                 # Handle name mangling
                 if item.name.startswith('__') and not item.name.endswith('__'):
                     method_symbol.mangled_name = f'_{node.name}{item.name}'
-                
+
                 class_symbol.members.append(method_symbol)
-        
+
         self.current_class = old_class
         self.symbols.append(class_symbol)
-    
+
     def visit_Assign(self, node: ast.Assign):
         """Visit assignments to track variables."""
         for target in node.targets:
@@ -596,10 +596,10 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
                 # Skip __all__ assignment (already processed)
                 if name == '__all__':
                     continue
-                
+
                 is_imported = name in self.imported_names
                 visibility = self._determine_visibility(name, is_imported)
-                
+
                 if self.current_class is None:
                     # Module-level variable
                     symbol = SymbolInfo(
@@ -610,20 +610,20 @@ class ModuleVisibilityAnalyzer(ast.NodeVisitor):
                         is_imported=is_imported
                     )
                     self.symbols.append(symbol)
-    
+
     def _get_public_api(self) -> List[str]:
         """Get list of public symbols."""
-        return [s.name for s in self.symbols 
+        return [s.name for s in self.symbols
                 if s.visibility == 'public' and s.parent is None]
-    
+
     def _get_private_api(self) -> List[str]:
         """Get list of private symbols."""
-        return [s.name for s in self.symbols 
+        return [s.name for s in self.symbols
                 if s.visibility in ('private', 'dunder') and s.parent is None]
-    
+
     def _get_protected_api(self) -> List[str]:
         """Get list of protected symbols."""
-        return [s.name for s in self.symbols 
+        return [s.name for s in self.symbols
                 if s.visibility == 'protected' and s.parent is None]
 
 # Example usage
@@ -646,11 +646,11 @@ def _private_helper(x: int) -> int:
 
 class PublicClass:
     """A public class."""
-    
+
     def public_method(self):
         """Public method."""
         self.__private_method()
-    
+
     def __private_method(self):
         """Private method using name mangling."""
         pass
@@ -662,17 +662,17 @@ class _PrivateClass:
 CONSTANT = 42
 _PRIVATE_CONSTANT = 100
 '''
-    
+
     analyzer = ModuleVisibilityAnalyzer(sample_code)
     results = analyzer.analyze()
-    
+
     print("=== Visibility Analysis Results ===")
     print(f"Has __all__ declaration: {results['has_all_declaration']}")
     print(f"Exported via __all__: {results['all_exports']}")
     print(f"\nPublic API: {results['public_api']}")
     print(f"Protected API: {results['protected_api']}")
     print(f"Private API: {results['private_api']}")
-    
+
     print("\n=== All Symbols ===")
     for symbol in results['symbols']:
         parent_info = f" (in {symbol.parent})" if symbol.parent else ""

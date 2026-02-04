@@ -101,6 +101,7 @@ def get_tier_token_limit(tier: "Tier") -> int:
 class Tier(Enum):
     """Execution tiers for query handling."""
     INSTANT = "instant"           # Tier 0: Cached truths, no AI call
+    CEREBRAS = "cerebras"         # Tier 0.5: Fast bulk ops (3000 t/s)
     RAG = "rag"                   # Tier 1: File Search with citations
     LONG_CONTEXT = "long_context" # Tier 2: Gemini 3 Pro (1M context)
     PERPLEXITY = "perplexity"     # Tier 3: External web research
@@ -197,11 +198,28 @@ ROUTING_MATRIX = {
         (Tier.HYBRID, "Architecture comparison - internal + external"),
 }
 
+# Keywords that trigger CEREBRAS tier (fast bulk ops, 3000 t/s)
+CEREBRAS_TRIGGERS = {
+    # Speed keywords
+    "quick", "fast", "rapid", "brief", "quickly",
+    # Bulk/batch keywords
+    "batch", "bulk", "mass", "all files",
+    "validate all", "check all", "tag all", "classify all",
+    # Simple task keywords
+    "classify", "categorize", "label", "tag",
+    "yes or no", "true or false", "simple",
+    # Triage keywords
+    "triage", "filter", "pre-check", "narrow down",
+    "which files", "list files", "enumerate",
+    # Validation keywords (simple checks)
+    "is this correct", "does this", "check if",
+}
+
 # Keywords that trigger FLASH_DEEP tier (2M context)
 FLASH_DEEP_TRIGGERS = {
     # Comprehensive analysis keywords
     "comprehensive", "holistic", "exhaustive", "complete analysis",
-    "everything", "all files", "entire codebase", "full codebase",
+    "everything", "entire codebase", "full codebase",
     "whole project", "entire project", "all modules", "all code",
     # Deep analysis keywords
     "deep analysis", "deep dive", "thorough analysis", "full analysis",
@@ -212,6 +230,34 @@ FLASH_DEEP_TRIGGERS = {
     # Comparison keywords (needing multiple codebases)
     "compare repos", "compare projects", "cross-repo", "multi-repo",
 }
+
+
+def _is_cerebras_query(query: str, profile: "QueryProfile") -> tuple[bool, str]:
+    """
+    Detect if query should use CEREBRAS tier (fast bulk ops).
+
+    Cerebras is ideal for:
+    - Fast, simple queries (< 2s latency)
+    - Bulk operations (tagging, validation)
+    - Triage before expensive Gemini calls
+
+    Returns:
+        (should_use_cerebras, reason)
+    """
+    query_lower = query.lower()
+
+    # Check for trigger keywords
+    for trigger in CEREBRAS_TRIGGERS:
+        if trigger in query_lower:
+            return True, f"Cerebras trigger '{trigger}' - fast inference"
+
+    # Simple + Internal = good candidate for Cerebras
+    if (profile.complexity == QueryComplexity.SIMPLE and
+        profile.scope == QueryScope.INTERNAL and
+        profile.intent in (QueryIntent.VALIDATE, QueryIntent.COUNT, QueryIntent.LOCATE)):
+        return True, "Simple internal query - Cerebras optimal"
+
+    return False, ""
 
 
 def _is_flash_deep_query(query: str) -> tuple[bool, str]:
@@ -240,10 +286,11 @@ def _is_flash_deep_query(query: str) -> tuple[bool, str]:
 def _get_fallback_tier(tier: Tier) -> Optional[Tier]:
     """Get fallback tier if primary fails."""
     fallbacks = {
-        Tier.INSTANT: Tier.RAG,
+        Tier.INSTANT: Tier.CEREBRAS,    # Try fast Cerebras before RAG
+        Tier.CEREBRAS: Tier.RAG,        # Cerebras fails → RAG
         Tier.RAG: Tier.LONG_CONTEXT,
         Tier.LONG_CONTEXT: Tier.FLASH_DEEP,  # Escalate to larger context
-        Tier.FLASH_DEEP: None,  # No fallback - maximum capacity
+        Tier.FLASH_DEEP: None,          # No fallback - maximum capacity
         Tier.PERPLEXITY: Tier.LONG_CONTEXT,  # Fall back to internal
         Tier.HYBRID: Tier.LONG_CONTEXT,
     }
@@ -341,10 +388,15 @@ def route_query(query: str, force_tier: Optional[Tier] = None, use_semantic: boo
             traversal_direction=sem_match.targets[0].direction if sem_match and sem_match.targets else EdgeDirection.BOTH,
         )
 
-    # Check for FLASH_DEEP triggers FIRST (before routing matrix)
-    # This allows comprehensive queries to bypass the matrix
-    is_flash_deep, flash_reason = _is_flash_deep_query(query)
-    if is_flash_deep and profile.scope == QueryScope.INTERNAL:
+    # Check for CEREBRAS triggers FIRST (fast path for simple queries)
+    # Cerebras: 3000 t/s, ideal for bulk/fast operations
+    is_cerebras, cerebras_reason = _is_cerebras_query(query, profile)
+    if is_cerebras and profile.scope == QueryScope.INTERNAL:
+        tier = Tier.CEREBRAS
+        reasoning = f"CEREBRAS: {cerebras_reason}"
+    # Check for FLASH_DEEP triggers (comprehensive queries need 2M context)
+    elif _is_flash_deep_query(query)[0] and profile.scope == QueryScope.INTERNAL:
+        is_flash_deep, flash_reason = _is_flash_deep_query(query)
         tier = Tier.FLASH_DEEP
         reasoning = f"FLASH_DEEP: {flash_reason}"
     else:
@@ -490,6 +542,9 @@ def tier_from_string(tier_str: str) -> Optional[Tier]:
     """Convert string to Tier enum."""
     tier_map = {
         "instant": Tier.INSTANT,
+        "cerebras": Tier.CEREBRAS,
+        "fast": Tier.CEREBRAS,  # Shorthand
+        "bulk": Tier.CEREBRAS,  # Shorthand
         "rag": Tier.RAG,
         "long_context": Tier.LONG_CONTEXT,
         "long-context": Tier.LONG_CONTEXT,

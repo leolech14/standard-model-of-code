@@ -423,7 +423,7 @@ The caching approach dramatically reduces costs for scenarios like document chat
 Gemini 3 Pro introduces refined control over the model's reasoning process through the `thinking_level` parameter, replacing the `thinking_budget` from earlier versions[26][31]. This parameter allows applications to balance response quality, reasoning complexity, latency, and cost[26][31]. Available thinking levels are:
 
 - **MINIMAL** (Flash only): Constrains the model to use minimal tokens for thinking, best for low-complexity tasks
-- **LOW**: Suitable for simpler tasks where extensive reasoning isn't needed, ideal for high-throughput scenarios  
+- **LOW**: Suitable for simpler tasks where extensive reasoning isn't needed, ideal for high-throughput scenarios
 - **MEDIUM** (Flash only): Balanced thinking for typical tasks
 - **HIGH**: Default for Gemini 3 Pro, maximizes reasoning depth for complex problems[26][31]
 
@@ -619,7 +619,7 @@ For applications with heavy cache hit rates (typical for document analysis), imp
 For production applications with consistent, predictable throughput requirements, Provisioned Throughput offers deterministic costs through fixed monthly subscriptions[24][21]. This consumption model reserves capacity via Generative AI Scale Units (GSUs), with pricing based on commitment duration:
 
 - 1 week commit: $1,200 per GSU per week
-- 1 month commit: $2,700 per GSU per month  
+- 1 month commit: $2,700 per GSU per month
 - 3 month commit: $2,400 per GSU per month
 - 1 year commit: $2,000 per GSU per month[21][24]
 
@@ -682,25 +682,25 @@ def generate_content():
     # Load request JSON
     data = request.get_json()
     user_prompt = data.get("prompt")
-    
+
     # Extract user location from load balancer header
     user_location = request.headers.get("X-Client-Geo-Location", "unknown")
-    
+
     # Build context-aware prompt
     prompt = f"User location: {user_location}. {user_prompt}"
-    
+
     from google import genai
     client = genai.Client(
         vertexai=True,
         project=PROJECT_ID,
         location="us-central1"  # Vertex AI models in any region
     )
-    
+
     response = client.models.generate_content(
         model="gemini-3-pro-preview",
         contents=prompt
     )
-    
+
     return {"response": response.text}
 
 if __name__ == "__main__":
@@ -738,15 +738,15 @@ client = genai.Client(
 
 def generate_with_monitoring(prompt, model="gemini-3-pro-preview"):
     start_time = time.time()
-    
+
     try:
         response = client.models.generate_content(
             model=model,
             contents=prompt
         )
-        
+
         elapsed = time.time() - start_time
-        
+
         # Log metrics
         logger.info(
             "genai_request_completed",
@@ -757,9 +757,9 @@ def generate_with_monitoring(prompt, model="gemini-3-pro-preview"):
                 "model": model
             }
         )
-        
+
         return response.text
-        
+
     except Exception as e:
         logger.error(
             "genai_request_failed",
@@ -820,20 +820,20 @@ class RateLimiter:
     def __init__(self, requests_per_minute=60):
         self.rpm_limit = requests_per_minute
         self.request_times = deque()
-    
+
     def is_allowed(self):
         now = datetime.now()
         minute_ago = now - timedelta(minutes=1)
-        
+
         # Remove requests older than 1 minute
         while self.request_times and self.request_times[0] < minute_ago:
             self.request_times.popleft()
-        
+
         if len(self.request_times) < self.rpm_limit:
             self.request_times.append(now)
             return True
         return False
-    
+
     def wait_if_needed(self):
         while not self.is_allowed():
             sleep_time = (self.request_times[0] + timedelta(minutes=1) - datetime.now()).total_seconds()

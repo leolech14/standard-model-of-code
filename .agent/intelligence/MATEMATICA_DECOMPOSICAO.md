@@ -695,4 +695,3 @@ Sujeito a:
 ---
 
 _A matemática não substitui julgamento - ela o fundamenta._
-

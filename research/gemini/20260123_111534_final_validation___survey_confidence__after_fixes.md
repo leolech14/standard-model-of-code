@@ -27,7 +27,7 @@ RESULTS:
 
 COMPARISON:
 - With survey: 802 nodes
-- Without survey: 4,342 nodes  
+- Without survey: 4,342 nodes
 - Reduction: 81% (vendor libs excluded)
 
 QUESTION: What is the confidence score now?

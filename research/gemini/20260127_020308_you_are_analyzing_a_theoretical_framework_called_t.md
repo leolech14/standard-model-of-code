@@ -1,4 +1,4 @@
-# Research: You are analyzing a theoretical framework called the 'Standard Model of Code'. 
+# Research: You are analyzing a theoretical framework called the 'Standard Model of Code'.
 
 TASK: Identify the ...
 
@@ -12,7 +12,7 @@ TASK: Identify the ...
 
 ## Query
 
-You are analyzing a theoretical framework called the 'Standard Model of Code'. 
+You are analyzing a theoretical framework called the 'Standard Model of Code'.
 
 TASK: Identify the intellectual foundations and conceptual references.
 

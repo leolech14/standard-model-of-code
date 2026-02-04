@@ -16,7 +16,7 @@ from pathlib import Path
 # Add backend to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
-from routes import files, operations, history, search, auth
+from routes import files, operations, history, search, auth, pipeline
 from websocket.manager import WebSocketManager
 from middleware.auth import AuthMiddleware
 
@@ -44,7 +44,7 @@ app = FastAPI(
 # CORS for local development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "http://localhost:3001"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -54,8 +54,10 @@ app.add_middleware(
 # app.add_middleware(AuthMiddleware)
 
 # Include routers
+# Include routers
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(files.router, prefix="/api", tags=["files"])
+app.include_router(pipeline.router, prefix="/api", tags=["pipeline"])
 app.include_router(operations.router, prefix="/api", tags=["operations"])
 app.include_router(history.router, prefix="/api", tags=["history"])
 app.include_router(search.router, prefix="/api", tags=["search"])

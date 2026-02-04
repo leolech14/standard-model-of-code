@@ -134,8 +134,8 @@ document_store.write_documents(documents)
 
 pipeline = Pipeline()
 pipeline.add_node(
-    component=document_store, 
-    name="DocumentStore", 
+    component=document_store,
+    name="DocumentStore",
     inputs=["Query"]
 )
 ```

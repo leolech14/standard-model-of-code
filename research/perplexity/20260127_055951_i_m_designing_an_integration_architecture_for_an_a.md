@@ -247,16 +247,16 @@ For your specific constraints (20 local services, <1 second aggregation latency,
 
 ### Implementation Roadmap
 
-**Phase 1: Core Concierge with Direct Calls** (1-2 weeks)  
+**Phase 1: Core Concierge with Direct Calls** (1-2 weeks)
 Implement service interfaces as Python protocols. Build concierge aggregator calling services directly. Add timeouts (500ms), basic error handling. Test latency profile.
 
-**Phase 2: Resilience Patterns** (2-3 weeks)  
+**Phase 2: Resilience Patterns** (2-3 weeks)
 Add retry logic with exponential backoff. Implement circuit breakers. Add bulkhead isolation per service. Monitor failure rates. This is where production robustness emerges without infrastructure complexity.
 
-**Phase 3: Event Sourcing for State** (2-4 weeks)  
+**Phase 3: Event Sourcing for State** (2-4 weeks)
 Migrate complex state (knowledge, analysis results) to event sourcing. Implement event log (in-process to start; move to persistent store later if needed). Add versioning. Implement idempotency checks.
 
-**Phase 4: Semantic Caching** (1-2 weeks)  
+**Phase 4: Semantic Caching** (1-2 weeks)
 Add caching layer for LLM calls and analysis results. Implement semantic similarity matching. Test recursion prevention. Measure latency improvements.
 
 This phased approach gets you to production quickly (Phase 1 within 1-2 weeks) with increasingly sophisticated resilience (Phase 2 within a month) and sophisticated state management (Phase 3 within 6-8 weeks), while avoiding infrastructure complexity until and unless it becomes justified.

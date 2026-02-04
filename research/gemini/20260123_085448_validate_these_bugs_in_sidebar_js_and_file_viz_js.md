@@ -59,7 +59,7 @@ When switching back to 'atoms', `sidebar.js` executes:
     if (typeof FILE_VIZ !== 'undefined') {
         FILE_VIZ.graphMode = 'atoms';
         FILE_VIZ.setEnabled(false); // <--- THE BUG
-    } 
+    }
     // ...
 }
 ```

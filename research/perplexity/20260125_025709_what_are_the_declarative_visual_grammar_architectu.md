@@ -19,21 +19,21 @@ What are the declarative visual grammar architectures for binding abstract data 
 **Declarative visual grammar architectures for binding abstract data properties to visual channels in interactive node-link diagrams draw from Wilkinson's Grammar of Graphics, Vega-Lite's layered specifications, and InfoVis-inspired extensions like NetVis and Bluefish.** These architectures use JSON-like declarative languages to map data variables (e.g., node attributes, link metrics) to **visual channels** such as position, size, color, and shape without procedural code.[1][2]
 
 ### Theoretical Basis from Grammar of Graphics (Wilkinson)
-Wilkinson's framework treats visualizations as algebraic combinations of data transformations, scales, and geometric marks (e.g., points for nodes, paths for links).[1]  
-- Data properties (e.g., node degree, temporal attributes) bind to **visual variables** via scales: quantitative metrics scale to size or opacity, categorical to color hue.[1][2]  
+Wilkinson's framework treats visualizations as algebraic combinations of data transformations, scales, and geometric marks (e.g., points for nodes, paths for links).[1]
+- Data properties (e.g., node degree, temporal attributes) bind to **visual variables** via scales: quantitative metrics scale to size or opacity, categorical to color hue.[1][2]
 - For node-link diagrams, this extends to glyphs (node shapes) and edge encodings (e.g., thickness for weight), formalized as primitives in network grammars.[1]
 
 ### Vega-Lite Architectural Patterns
-Vega-Lite uses a concise JSON grammar with **marks**, **encodings**, and **transforms** for binding data to visuals, enabling interactive node-link diagrams via signals and reactive updates.[1][4]  
-- **Encodings** map fields (e.g., "node_category" → color scale) to channels like X/Y position (layouts), size, or stroke; layers stack node/link marks.[1]  
+Vega-Lite uses a concise JSON grammar with **marks**, **encodings**, and **transforms** for binding data to visuals, enabling interactive node-link diagrams via signals and reactive updates.[1][4]
+- **Encodings** map fields (e.g., "node_category" → color scale) to channels like X/Y position (layouts), size, or stroke; layers stack node/link marks.[1]
 - Interactivity rebinds signals (e.g., filters → visibility transforms) without code changes, supporting exploration in diagrams.[4]
 
 ### InfoVis Conference Papers on Visual Encoding
-InfoVis papers extend these to graph-specific grammars for multivariate node-link diagrams:  
-- **NetVis (arxiv 2023)**: A DSL with primitives for network transforms (e.g., metrics, layouts), glyphs, and encodings (e.g., node size by degree, link color by type); data tables define node/link semantics, bound declaratively to channels like seriations or faceting.[1]  
-  - Supports hybrid techniques (e.g., NodeTrix) via parallel structures for data, layouts, and visuals.[1]  
-- **Bluefish**: Uses compound scenegraphs with **relations** (declarative constraints) to bind data-driven positions and adjacencies in node-link diagrams, relaxing tree hierarchies for shared elements.[3]  
-- **Visual Language Mappings**: Limits to ~5 variables (nodes, labels, links, qualitative/quantitative attrs) mapped to channels: position (layout), size/color (attributes), with layers over topology as "base map".[2]  
+InfoVis papers extend these to graph-specific grammars for multivariate node-link diagrams:
+- **NetVis (arxiv 2023)**: A DSL with primitives for network transforms (e.g., metrics, layouts), glyphs, and encodings (e.g., node size by degree, link color by type); data tables define node/link semantics, bound declaratively to channels like seriations or faceting.[1]
+  - Supports hybrid techniques (e.g., NodeTrix) via parallel structures for data, layouts, and visuals.[1]
+- **Bluefish**: Uses compound scenegraphs with **relations** (declarative constraints) to bind data-driven positions and adjacencies in node-link diagrams, relaxing tree hierarchies for shared elements.[3]
+- **Visual Language Mappings**: Limits to ~5 variables (nodes, labels, links, qualitative/quantitative attrs) mapped to channels: position (layout), size/color (attributes), with layers over topology as "base map".[2]
 
 | Architecture | Key Binding Mechanism | Node-Link Example | Source |
 |--------------|-----------------------|-------------------|--------|

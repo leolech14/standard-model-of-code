@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Dependency Rings - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --r0: #2ecc71;
+            --r1: #3498db;
+            --r2: #9b59b6;
+            --r3: #e67e22;
+            --r4: #e74c3c;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 40px 20px; padding-top: 80px; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 60px; padding: 40px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+        h1 { font-size: 32px; font-weight: 300; color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 30px; }
+        .intro { max-width: 900px; margin: 0 auto; text-align: left; font-size: 14px; line-height: 1.8; }
+        .intro p { margin-bottom: 15px; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .stat { text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 600; color: var(--text-bright); }
+        .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        .rings-visual { background: var(--panel); padding: 40px; border-radius: 8px; margin-bottom: 50px; text-align: center; }
+        .rings-diagram { font-family: 'SF Mono', monospace; font-size: 11px; color: var(--text-dim); white-space: pre; display: inline-block; text-align: left; }
+
+        .rings-grid { display: grid; gap: 30px; }
+        .ring-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 30px; display: grid; grid-template-columns: 100px 1fr; gap: 30px; }
+        .ring-card:hover { border-color: #444; }
+        .ring-id-section { text-align: center; }
+        .ring-id { font-size: 48px; font-weight: 700; font-family: 'SF Mono', monospace; }
+        .ring-name { font-size: 14px; font-weight: 600; color: var(--text-bright); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        .ring-deps { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
+        .ring-content { }
+        .ring-purpose { font-size: 15px; color: var(--text-main); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .ring-details { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .detail-section { }
+        .detail-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .detail-content { font-size: 12px; color: var(--text-main); }
+        .examples { display: flex; flex-direction: column; gap: 4px; }
+        .example { font-family: 'SF Mono', monospace; font-size: 11px; color: #888; background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 3px; }
+        .takeaway { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 4px; border-left: 3px solid; }
+        .confusion { color: var(--text-dim); font-size: 11px; }
+
+        .law-box { background: var(--panel); padding: 30px; border-radius: 8px; margin: 50px 0; text-align: center; border: 2px solid var(--r0); }
+        .law-title { font-size: 18px; font-weight: 600; color: var(--text-bright); margin-bottom: 15px; }
+        .law-content { font-size: 16px; color: var(--text-main); }
+
+        footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link active">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>The 5 Dependency Rings</h1>
+            <p class="subtitle">Standard Model of Code - Dependency Depth (Ω)</p>
+            <div class="intro">
+                <p>
+                    <strong>Rings</strong> answer the question: <em>"How deep in the dependency graph is this code?"</em>
+                    They measure the concentric layers of a clean architecture, from the innermost
+                    pure core (R0) to the outermost framework integration (R4).
+                </p>
+                <p>
+                    The fundamental law is: <strong>dependencies flow inward</strong>. Outer rings can
+                    depend on inner rings, but inner rings must never import from outer rings. This
+                    ensures the core business logic remains independent of frameworks and I/O.
+                </p>
+                <p>
+                    This model aligns with Clean Architecture, Hexagonal Architecture, and Onion Architecture -
+                    all expressing the same principle through different metaphors.
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-value">5</div><div class="stat-label">Rings</div></div>
+                <div class="stat"><div class="stat-value">R0</div><div class="stat-label">Pure Core</div></div>
+                <div class="stat"><div class="stat-value">R4</div><div class="stat-label">Framework Edge</div></div>
+                <div class="stat"><div class="stat-value">→</div><div class="stat-label">Deps Flow Inward</div></div>
+            </div>
+        </header>
+
+        <div class="rings-visual">
+            <div class="rings-diagram">
+        ┌─────────────────────────────────────────────────────────────┐
+        │  R4: FRAMEWORK                                              │
+        │  Entry points, CLI, web handlers, external integrations     │
+        │  ┌─────────────────────────────────────────────────────┐    │
+        │  │  R3: ADAPTER                                        │    │
+        │  │  Repositories, gateways, I/O boundaries             │    │
+        │  │  ┌─────────────────────────────────────────────┐    │    │
+        │  │  │  R2: APPLICATION                            │    │    │
+        │  │  │  Use cases, services, orchestration         │    │    │
+        │  │  │  ┌─────────────────────────────────────┐    │    │    │
+        │  │  │  │  R1: DOMAIN                         │    │    │    │
+        │  │  │  │  Entities, value objects, rules     │    │    │    │
+        │  │  │  │  ┌─────────────────────────────┐    │    │    │    │
+        │  │  │  │  │  R0: CORE                   │    │    │    │    │
+        │  │  │  │  │  Pure utils, constants      │    │    │    │    │
+        │  │  │  │  │  No internal dependencies   │    │    │    │    │
+        │  │  │  │  └─────────────────────────────┘    │    │    │    │
+        │  │  │  └─────────────────────────────────────┘    │    │    │
+        │  │  └─────────────────────────────────────────────┘    │    │
+        │  └─────────────────────────────────────────────────────┘    │
+        └─────────────────────────────────────────────────────────────┘
+
+        Dependency direction: ────────────────────────────────────────►
+                              (outer rings depend on inner rings)
+            </div>
+        </div>
+
+        <div class="law-box" style="border-color: var(--r0)">
+            <div class="law-title">THE DEPENDENCY RULE</div>
+            <div class="law-content">
+                Dependencies can only point <strong>inward</strong>. Ring N may import from Ring N-1, N-2, etc.<br>
+                Ring 0 <strong>never</strong> imports from Ring 1 or higher. The core is independent of everything.
+            </div>
+        </div>
+
+        <div class="rings-grid">
+            <div class="ring-card">
+                <div class="ring-id-section">
+                    <div class="ring-id" style="color: var(--r0)">R0</div>
+                    <div class="ring-name">Core</div>
+                    <div class="ring-deps">No internal deps</div>
+                </div>
+                <div class="ring-content">
+                    <div class="ring-purpose">
+                        The pure center - utilities, constants, and base types with zero internal dependencies.
+                        This code is so fundamental it can be copied to any project.
+                    </div>
+                    <div class="ring-details">
+                        <div class="detail-section">
+                            <div class="detail-title">Typical Contents</div>
+                            <div class="examples">
+                                <span class="example">StringUtils, MathHelpers</span>
+                                <span class="example">Constants, Enums</span>
+                                <span class="example">Base Error types</span>
+                                <span class="example">Pure validation functions</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Key Takeaway</div>
+                            <div class="takeaway" style="border-color: var(--r0)">
+                                R0 code should be pure, stateless, and universally reusable. If it imports anything from your project, it's not R0.
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Example Paths</div>
+                            <div class="examples">
+                                <span class="example">src/core/utils/</span>
+                                <span class="example">src/shared/constants/</span>
+                                <span class="example">lib/primitives/</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Common Confusion</div>
+                            <div class="confusion">R0 vs R1: R0 has no business meaning; R1 contains domain concepts. "User" is R1; "capitalize()" is R0.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ring-card">
+                <div class="ring-id-section">
+                    <div class="ring-id" style="color: var(--r1)">R1</div>
+                    <div class="ring-name">Domain</div>
+                    <div class="ring-deps">Imports R0 only</div>
+                </div>
+                <div class="ring-content">
+                    <div class="ring-purpose">
+                        The business heart - domain entities, value objects, and business rules.
+                        This is what your application is actually ABOUT.
+                    </div>
+                    <div class="ring-details">
+                        <div class="detail-section">
+                            <div class="detail-title">Typical Contents</div>
+                            <div class="examples">
+                                <span class="example">User, Order, Product entities</span>
+                                <span class="example">Email, Money value objects</span>
+                                <span class="example">Domain events</span>
+                                <span class="example">Business rule validators</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Key Takeaway</div>
+                            <div class="takeaway" style="border-color: var(--r1)">
+                                R1 defines WHAT your system does, not HOW. It knows nothing about databases, HTTP, or frameworks.
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Example Paths</div>
+                            <div class="examples">
+                                <span class="example">src/domain/entities/</span>
+                                <span class="example">src/domain/valueobjects/</span>
+                                <span class="example">src/core/models/</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Common Confusion</div>
+                            <div class="confusion">R1 vs R2: R1 is nouns (User, Order); R2 is verbs (CreateUser, ProcessOrder).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ring-card">
+                <div class="ring-id-section">
+                    <div class="ring-id" style="color: var(--r2)">R2</div>
+                    <div class="ring-name">Application</div>
+                    <div class="ring-deps">Imports R0-R1</div>
+                </div>
+                <div class="ring-content">
+                    <div class="ring-purpose">
+                        The orchestration layer - use cases, application services, and workflows.
+                        This coordinates domain objects to achieve user goals.
+                    </div>
+                    <div class="ring-details">
+                        <div class="detail-section">
+                            <div class="detail-title">Typical Contents</div>
+                            <div class="examples">
+                                <span class="example">CreateUserUseCase</span>
+                                <span class="example">OrderProcessingService</span>
+                                <span class="example">WorkflowOrchestrator</span>
+                                <span class="example">Command/Query handlers</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Key Takeaway</div>
+                            <div class="takeaway" style="border-color: var(--r2)">
+                                R2 defines the USE CASES - what users can do. It orchestrates R1 entities but uses R3 interfaces (not implementations).
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Example Paths</div>
+                            <div class="examples">
+                                <span class="example">src/application/usecases/</span>
+                                <span class="example">src/application/services/</span>
+                                <span class="example">src/usecases/</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Common Confusion</div>
+                            <div class="confusion">R2 vs R3: R2 defines interfaces (IUserRepository); R3 implements them (PostgresUserRepository).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ring-card">
+                <div class="ring-id-section">
+                    <div class="ring-id" style="color: var(--r3)">R3</div>
+                    <div class="ring-name">Adapter</div>
+                    <div class="ring-deps">Imports R0-R2</div>
+                </div>
+                <div class="ring-content">
+                    <div class="ring-purpose">
+                        The I/O boundary - repositories, gateways, and external system adapters.
+                        This is where the application meets the outside world.
+                    </div>
+                    <div class="ring-details">
+                        <div class="detail-section">
+                            <div class="detail-title">Typical Contents</div>
+                            <div class="examples">
+                                <span class="example">PostgresUserRepository</span>
+                                <span class="example">StripePaymentGateway</span>
+                                <span class="example">S3FileStorage</span>
+                                <span class="example">EmailSender, SMSClient</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Key Takeaway</div>
+                            <div class="takeaway" style="border-color: var(--r3)">
+                                R3 implements R2's interfaces with real I/O. Swap Postgres for MongoDB by changing R3, not R1 or R2.
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Example Paths</div>
+                            <div class="examples">
+                                <span class="example">src/infrastructure/persistence/</span>
+                                <span class="example">src/adapters/</span>
+                                <span class="example">src/gateways/</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Common Confusion</div>
+                            <div class="confusion">R3 vs R4: R3 adapts external services; R4 handles external requests (HTTP, CLI).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ring-card">
+                <div class="ring-id-section">
+                    <div class="ring-id" style="color: var(--r4)">R4</div>
+                    <div class="ring-name">Framework</div>
+                    <div class="ring-deps">Imports R0-R3 + externals</div>
+                </div>
+                <div class="ring-content">
+                    <div class="ring-purpose">
+                        The entry point layer - web handlers, CLI commands, and framework integrations.
+                        This is where external requests enter your system.
+                    </div>
+                    <div class="ring-details">
+                        <div class="detail-section">
+                            <div class="detail-title">Typical Contents</div>
+                            <div class="examples">
+                                <span class="example">UserController, OrderRoutes</span>
+                                <span class="example">CLI commands (create-user)</span>
+                                <span class="example">GraphQL resolvers</span>
+                                <span class="example">main.py, index.ts</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Key Takeaway</div>
+                            <div class="takeaway" style="border-color: var(--r4)">
+                                R4 is the thinnest layer - just routing and DI wiring. Business logic belongs in R1-R2, not in controllers.
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Example Paths</div>
+                            <div class="examples">
+                                <span class="example">src/api/controllers/</span>
+                                <span class="example">src/cli/commands/</span>
+                                <span class="example">src/web/routes/</span>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">Common Confusion</div>
+                            <div class="confusion">Fat controllers: If your controller has business logic, move it to R2. Controllers should only translate HTTP → UseCase → HTTP.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - The 5 Dependency Rings (Ω)</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                R0: Core | R1: Domain | R2: Application | R3: Adapter | R4: Framework<br>
+                Based on Clean Architecture, Hexagonal Architecture, and Onion Architecture
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

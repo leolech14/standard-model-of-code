@@ -310,7 +310,7 @@ IoT and edge computing research increasingly recognizes deployment context's imp
 
 ### WebAssembly and Portable Software
 
-WebAssembly (WASM) introduces another emerging context where invocation multiplicity becomes practically significant. WASM enables code to execute in browsers, servers, edge devices, IoT devices, and trusted execution environments. A single WASM module can theoretically be deployed in any of these contexts, with the same bytecode executing in different invocation environments[32]. 
+WebAssembly (WASM) introduces another emerging context where invocation multiplicity becomes practically significant. WASM enables code to execute in browsers, servers, edge devices, IoT devices, and trusted execution environments. A single WASM module can theoretically be deployed in any of these contexts, with the same bytecode executing in different invocation environments[32].
 
 WASM-powered smart contracts and interchain communication demonstrate this multiplicity[32]. A WASM module can execute within a blockchain smart contract context (with specific lifecycle and execution semantics), as an edge function via WASMEdge[32], or within a browser sandbox. Yet WASM documentation and emerging WASM architecture research do not formalize invocation context as a classification dimension; they treat different deployment contexts as independent use cases rather than as variations of a single manifestation principle.
 

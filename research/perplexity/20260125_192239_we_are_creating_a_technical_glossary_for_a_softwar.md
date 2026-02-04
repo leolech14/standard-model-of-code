@@ -10,11 +10,11 @@
 
 ## Query
 
-We are creating a technical glossary for a software project called PROJECT_elements. The glossary needs to serve AI agents navigating the codebase. 
+We are creating a technical glossary for a software project called PROJECT_elements. The glossary needs to serve AI agents navigating the codebase.
 
 Our current terminology includes:
 - PROJECTOME (all project files)
-- CODOME (all executable code) 
+- CODOME (all executable code)
 - CONTEXTOME (all non-executable content)
 - Set algebra: P = C ⊔ X (disjoint union/partition)
 - DOMAINS (vertical slices, can overlap - a Cover)

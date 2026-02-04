@@ -60,17 +60,17 @@ class RuntimeFlowIngestor(BaseStage):
     def execute(self, state: CodebaseState) -> CodebaseState:
         # Load telemetry data (e.g., from a .json or .prof file)
         telemetry = self.loader.load(self.telemetry_path)
-        
+
         for trace_span in telemetry.spans:
             # 1. Map Runtime Identity to Static Identity
             source_id = self.matcher.resolve(trace_span.file, trace_span.line)
-            
+
             if source_id in state.nodes:
                 # 2. Enrich the Node (The Operational Observer)
                 node = state.nodes[source_id]
                 node.metrics.runtime_hits += 1
                 node.metrics.total_latency += trace_span.duration
-                
+
                 # 3. Detect "Hotspots" (High Energy Flow)
                 if node.metrics.runtime_hits > THRESHOLD:
                     node.add_tag("HOTSPOT")
@@ -105,17 +105,17 @@ This module treats the version control history as a substance flow.
 class TemporalObserver(BaseStage):
     def execute(self, state: CodebaseState) -> CodebaseState:
         repo = git.Repo(state.root_path)
-        
+
         # Analyze last N commits
         for commit in repo.iter_commits(max_count=100):
             for file_path, stats in commit.stats.files.items():
                 # Map file changes to specific nodes (requires parsing diffs)
                 nodes_in_file = self.index.get_nodes_in_file(file_path)
-                
+
                 for node in nodes_in_file:
                     # E2: Change Flow
                     node.metrics.churn += stats['lines']
-                    
+
                     # E2: Human Flow
                     node.metadata.setdefault('authors', set()).add(commit.author.email)
 

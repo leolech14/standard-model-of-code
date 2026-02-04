@@ -189,26 +189,26 @@ class AuthenticatorPlugin:
     def __init__(self):
         self.hub = None
         self.config = None
-    
+
     def initialize(self, hub):
         """Lifecycle: Initialize with hub reference"""
         self.hub = hub
         self.config = hub.get_config("user-authenticator")
-    
+
     def register(self):
         """Lifecycle: Register capabilities and event handlers"""
         self.hub.register_interface("authenticator", self)
         self.hub.on("user:login-attempt", self.handle_login_attempt)
         self.hub.on("user:token-validation", self.validate_token)
-    
+
     def start(self):
         """Lifecycle: Ready for normal operation"""
         logger.info("Authenticator plugin started")
-    
+
     def stop(self):
         """Lifecycle: Graceful shutdown"""
         logger.info("Authenticator plugin stopping")
-    
+
     # Interface implementation
     def validate_token(self, token):
         """Implements authenticator interface"""
@@ -227,30 +227,30 @@ class AuthenticatorPlugin {
     this.hub = null;
     this.config = null;
   }
-  
+
   initialize(hub) {
     // Lifecycle: Initialize with hub reference
     this.hub = hub;
     this.config = hub.getConfig("user-authenticator");
   }
-  
+
   register() {
     // Lifecycle: Register capabilities and event handlers
     this.hub.registerInterface("authenticator", this);
     this.hub.on("user:login-attempt", (payload) => this.handleLoginAttempt(payload));
     this.hub.on("user:token-validation", (token) => this.validateToken(token));
   }
-  
+
   start() {
     // Lifecycle: Ready for normal operation
     console.log("Authenticator plugin started");
   }
-  
+
   stop() {
     // Lifecycle: Graceful shutdown
     console.log("Authenticator plugin stopping");
   }
-  
+
   // Interface implementation
   validateToken(token) {
     try {
@@ -355,7 +355,7 @@ A Python plugin might prefer to use Python's standard exception hierarchy. An ad
 class PluginAdapter:
     def __init__(self, plugin):
         self.plugin = plugin
-    
+
     def call_interface(self, method_name, *args, **kwargs):
         try:
             result = getattr(self.plugin, method_name)(*args, **kwargs)
@@ -373,16 +373,16 @@ class PluginAdapter {
   constructor(plugin) {
     this.plugin = plugin;
   }
-  
+
   async callInterface(methodName, ...args) {
     try {
       const result = await this.plugin[methodName](...args);
       return { success: true, result };
     } catch (error) {
-      return { 
-        success: false, 
+      return {
+        success: false,
         error_type: error.name === 'ValidationError' ? 'validation' : 'internal',
-        message: error.message 
+        message: error.message
       };
     }
   }
@@ -409,14 +409,14 @@ services:
     depends_on:
       - python-executor
       - javascript-executor
-  
+
   python-executor:
     image: plugin-executor-python:latest
     environment:
       - PLUGIN_DIR=/plugins/python
     volumes:
       - ./plugins/python:/plugins/python:ro
-  
+
   javascript-executor:
     image: plugin-executor-javascript:latest
     environment:
@@ -440,7 +440,7 @@ steps:
     method: "extract_from_source"
     params:
       source: "database"
-  
+
   - id: "transform"
     plugin: "data-transformer"
     interface: "transformer"
@@ -448,7 +448,7 @@ steps:
     params:
       input: "{{ steps.extract.result }}"
       rules: "{{ config.transform_rules }}"
-  
+
   - id: "load"
     plugin: "data-loader"
     interface: "loader"
@@ -662,17 +662,17 @@ logger = logging.getLogger(__name__)
 
 class DataValidatorPlugin:
     """Validates data against JSON schemas and business rules"""
-    
+
     def __init__(self):
         self.hub = None
         self.schemas = {}
         self.logger = logger
-    
+
     def initialize(self, hub):
         """Lifecycle: Initialize with hub reference"""
         self.hub = hub
         self.logger.info(f"Initializing DataValidatorPlugin")
-    
+
     def register(self):
         """Lifecycle: Register interfaces and capabilities"""
         self.hub.register_interface("validator", self)
@@ -680,29 +680,29 @@ class DataValidatorPlugin:
         self.hub.on("schema:register", self.register_schema)
         self.hub.on("data:validate", self.handle_validation_request)
         self.logger.info("DataValidatorPlugin registered")
-    
+
     def start(self):
         """Lifecycle: Ready for operation"""
         self.logger.info(f"DataValidatorPlugin started with {len(self.schemas)} schemas")
-    
+
     def stop(self):
         """Lifecycle: Graceful shutdown"""
         self.logger.info("DataValidatorPlugin stopping")
-    
+
     # Interface: validator
     def validate(self, data: Dict[str, Any], schema: Dict[str, Any]) -> Dict[str, Any]:
         """Validates data against a JSON schema"""
         try:
             validator = jsonschema.Draft7Validator(schema)
             errors = []
-            
+
             for error in validator.iter_errors(data):
                 errors.append({
                     "path": list(error.path),
                     "message": error.message,
                     "validator": error.validator
                 })
-            
+
             return {
                 "valid": len(errors) == 0,
                 "errors": errors,
@@ -715,23 +715,23 @@ class DataValidatorPlugin:
                 "errors": [{"message": str(e), "validator": "schema"}],
                 "error_count": 1
             }
-    
+
     # Interface: schema-provider
     def register_schema(self, schema_name: str, schema: Dict[str, Any]) -> None:
         """Registers a named schema for future use"""
         self.schemas[schema_name] = schema
         self.logger.info(f"Schema '{schema_name}' registered")
-    
+
     def get_schema(self, schema_name: str) -> Dict[str, Any]:
         """Retrieves a previously registered schema"""
         return self.schemas.get(schema_name)
-    
+
     # Event handlers
     def handle_validation_request(self, payload: Dict[str, Any]) -> None:
         """Handles validation requests from other plugins"""
         schema = payload.get("schema")
         data = payload.get("data")
-        
+
         result = self.validate(data, schema)
         self.hub.emit(f"validation:result", result)
 ```
@@ -748,13 +748,13 @@ class DataValidatorPlugin {
     this.schemas = {};
     this.logger = console;
   }
-  
+
   initialize(hub) {
     // Lifecycle: Initialize with hub reference
     this.hub = hub;
     this.logger.log("Initializing DataValidatorPlugin");
   }
-  
+
   register() {
     // Lifecycle: Register interfaces and capabilities
     this.hub.registerInterface("validator", this);
@@ -763,29 +763,29 @@ class DataValidatorPlugin {
     this.hub.on("data:validate", (payload) => this.handleValidationRequest(payload));
     this.logger.log("DataValidatorPlugin registered");
   }
-  
+
   start() {
     // Lifecycle: Ready for operation
     this.logger.log(`DataValidatorPlugin started with ${Object.keys(this.schemas).length} schemas`);
   }
-  
+
   stop() {
     // Lifecycle: Graceful shutdown
     this.logger.log("DataValidatorPlugin stopping");
   }
-  
+
   // Interface: validator
   validate(data, schema) {
     try {
       const validate = ajv.compile(schema);
       const valid = validate(data);
-      
+
       const errors = valid ? [] : validate.errors.map(error => ({
         path: error.instancePath,
         message: error.message,
         validator: error.keyword
       }));
-      
+
       return {
         valid: valid,
         errors: errors,
@@ -800,17 +800,17 @@ class DataValidatorPlugin {
       };
     }
   }
-  
+
   // Interface: schema-provider
   registerSchema(schemaName, schema) {
     this.schemas[schemaName] = schema;
     this.logger.log(`Schema '${schemaName}' registered`);
   }
-  
+
   getSchema(schemaName) {
     return this.schemas[schemaName] || null;
   }
-  
+
   // Event handlers
   handleValidationRequest(payload) {
     const { schema, data } = payload;

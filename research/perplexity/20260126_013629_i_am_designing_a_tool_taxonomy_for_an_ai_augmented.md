@@ -18,7 +18,7 @@ Proposed classification axes:
 
 **1. Intelligence Source:**
 - Deterministic (pure code logic, reproducible)
-- Hybrid (deterministic core + optional AI enrichment)  
+- Hybrid (deterministic core + optional AI enrichment)
 - LLM-Required (AI required for core function)
 
 **2. Execution Pattern:**

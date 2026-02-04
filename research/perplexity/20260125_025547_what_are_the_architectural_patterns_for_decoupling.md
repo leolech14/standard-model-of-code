@@ -26,7 +26,7 @@ No direct matches in search results for explicit **central broker** (e.g., messa
 Industry examples like Reagraph (React/WebGL graphs) imply similar reactive data flows, but specifics are absent.[5]
 
 ### State Management in High-Performance Visualization
-**Separate local/world matrices and TRS (Translate-Rotate-Scale) sources manage state to avoid recomputation errors in dynamic scenes.** 
+**Separate local/world matrices and TRS (Translate-Rotate-Scale) sources manage state to avoid recomputation errors in dynamic scenes.**
 - WebGL scene graphs use per-node **localMatrix** (relative transforms) and **worldMatrix** (propagated via parent updates), decoupling data changes (e.g., node positions from ingestion) from rendering (matrix multiplies to worldViewProjection uniforms). Updates traverse the hierarchy once per frame: `updateWorldMatrix()` propagates without full rebuilds.[1]
 - KeyLines abstracts rendering engine (WebGL fallback to Canvas) behind a unified API, managing state in the controller for high performance on large networks (GPU offload for 100k+ nodes).[2]
 - PGL employs ThreeJS wrappers for state: simulate layouts on CPU graph data, then draw batched geometry (e.g., `DrawTHREEBoxBasedVertices`), minimizing state sync overhead.[3]

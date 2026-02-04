@@ -586,7 +586,7 @@ module.exports = {
     'tokens/colors/dark-mode.yaml',
     'tokens/components/**/*.yaml'
   ],
-  
+
   platforms: {
     css: {
       transformGroup: 'css',
@@ -628,14 +628,14 @@ During the build process, Style Dictionary parses the YAML token definitions, ap
   --color-neutral-50: rgb(255, 255, 254);
   --color-neutral-50-p3: color(display-p3 0.998 0.998 0.996);
   --color-neutral-50-oklch: oklch(99% 0.001 0);
-  
+
   --color-blue-500: rgb(0, 119, 204);
   --color-blue-500-p3: color(display-p3 0.15 0.50 0.85);
   --color-blue-500-oklch: oklch(49% 0.053 250);
-  
+
   --color-background-primary: var(--color-neutral-50);
   --color-text-primary: var(--color-neutral-900);
-  
+
   --component-button-primary-background: var(--color-action-primary);
   --component-button-primary-background-hover: oklch(from var(--color-action-primary) calc(l - 0.15) c h);
 }

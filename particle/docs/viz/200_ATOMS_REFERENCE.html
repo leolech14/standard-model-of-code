@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>200 Atoms - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --data: #3498db;
+            --logic: #e74c3c;
+            --organization: #2ecc71;
+            --execution: #9b59b6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 40px 20px; padding-top: 80px; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1600px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; padding: 40px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+        h1 { font-size: 32px; font-weight: 300; color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 20px; }
+        .intro { max-width: 900px; margin: 0 auto; text-align: left; font-size: 14px; line-height: 1.8; }
+        .intro p { margin-bottom: 15px; }
+        .stats { display: flex; justify-content: center; gap: 30px; margin-top: 25px; padding-top: 25px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 600; color: var(--text-bright); }
+        .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; }
+        .nav-tab { padding: 12px 24px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+        .nav-tab:hover { border-color: #444; }
+        .nav-tab.active { border-color: #666; background: rgba(255,255,255,0.05); }
+
+        .phase-section { margin-bottom: 50px; display: none; }
+        .phase-section.active { display: block; }
+        .phase-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding: 20px; background: var(--panel); border-radius: 8px; border-left: 4px solid; }
+        .phase-icon { font-size: 32px; }
+        .phase-title { font-size: 24px; font-weight: 600; color: var(--text-bright); }
+        .phase-tagline { font-size: 13px; color: var(--text-dim); font-style: italic; }
+        .phase-stats { margin-left: auto; display: flex; gap: 20px; }
+        .phase-stat { text-align: center; }
+        .phase-stat-val { font-size: 20px; font-weight: 700; color: var(--text-bright); }
+        .phase-stat-lbl { font-size: 10px; color: var(--text-dim); }
+
+        .family-section { margin-bottom: 30px; }
+        .family-header { font-size: 16px; font-weight: 600; color: var(--text-bright); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .family-code { font-family: 'SF Mono', monospace; font-size: 12px; color: var(--text-dim); background: rgba(255,255,255,0.03); padding: 2px 8px; border-radius: 4px; }
+
+        .atoms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+        .atom-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 15px; transition: border-color 0.2s; }
+        .atom-card:hover { border-color: #444; }
+        .atom-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .atom-num { font-size: 11px; color: var(--text-dim); font-family: 'SF Mono', monospace; min-width: 25px; }
+        .atom-name { font-size: 14px; font-weight: 600; color: var(--text-bright); }
+        .atom-new { font-size: 9px; background: #e74c3c; color: #fff; padding: 1px 5px; border-radius: 3px; text-transform: uppercase; }
+        .atom-desc { font-size: 12px; color: var(--text-dim); }
+
+        .search-box { margin-bottom: 30px; text-align: center; }
+        .search-input { width: 100%; max-width: 500px; padding: 12px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 14px; }
+        .search-input:focus { outline: none; border-color: #444; }
+        .search-input::placeholder { color: var(--text-dim); }
+
+        footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link active">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>The 200 Atoms</h1>
+            <p class="subtitle">Standard Model of Code - Complete Structural Taxonomy</p>
+            <div class="intro">
+                <p>
+                    <strong>Atoms</strong> are the fundamental structural types of software. Every piece
+                    of code can be classified as one of 200 canonical atom types, organized into
+                    4 phases (DATA, LOGIC, ORGANIZATION, EXECUTION) and 22 families.
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-value" style="color: var(--data)">28</div><div class="stat-label">DATA</div></div>
+                <div class="stat"><div class="stat-value" style="color: var(--logic)">58</div><div class="stat-label">LOGIC</div></div>
+                <div class="stat"><div class="stat-value" style="color: var(--organization)">52</div><div class="stat-label">ORGANIZATION</div></div>
+                <div class="stat"><div class="stat-value" style="color: var(--execution)">62</div><div class="stat-label">EXECUTION</div></div>
+                <div class="stat"><div class="stat-value">200</div><div class="stat-label">TOTAL</div></div>
+            </div>
+        </header>
+
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search atoms... (e.g., Function, Class, Iterator)" id="search">
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-phase="data" style="border-left: 3px solid var(--data);">DATA (28)</div>
+            <div class="nav-tab" data-phase="logic" style="border-left: 3px solid var(--logic);">LOGIC (58)</div>
+            <div class="nav-tab" data-phase="organization" style="border-left: 3px solid var(--organization);">ORGANIZATION (52)</div>
+            <div class="nav-tab" data-phase="execution" style="border-left: 3px solid var(--execution);">EXECUTION (62)</div>
+        </div>
+
+        <!-- DATA PHASE -->
+        <div class="phase-section active" id="phase-data">
+            <div class="phase-header" style="border-left-color: var(--data);">
+                <span class="phase-icon">📦</span>
+                <div>
+                    <div class="phase-title">Phase 1: DATA</div>
+                    <div class="phase-tagline">"The Matter of Software — What is stored"</div>
+                </div>
+                <div class="phase-stats">
+                    <div class="phase-stat"><div class="phase-stat-val">5</div><div class="phase-stat-lbl">Families</div></div>
+                    <div class="phase-stat"><div class="phase-stat-val">28</div><div class="phase-stat-lbl">Atoms</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Bits <span class="family-code">DAT.BIT</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">1</span><span class="atom-name">BitFlag</span></div><div class="atom-desc">Single boolean flag</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">2</span><span class="atom-name">BitMask</span></div><div class="atom-desc">Binary mask for bitwise operations</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">3</span><span class="atom-name">ParityBit</span></div><div class="atom-desc">Error detection bit</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">4</span><span class="atom-name">SignBit</span></div><div class="atom-desc">Numeric sign indicator</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Bytes <span class="family-code">DAT.BYT</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">5</span><span class="atom-name">ByteArray</span></div><div class="atom-desc">Raw byte sequence</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">6</span><span class="atom-name">MagicBytes</span></div><div class="atom-desc">File format identifier (e.g., PNG header)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">7</span><span class="atom-name">PaddingBytes</span></div><div class="atom-desc">Alignment padding</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">8</span><span class="atom-name">Buffer</span></div><div class="atom-desc">In-memory byte buffer</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Primitives <span class="family-code">DAT.PRM</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">9</span><span class="atom-name">Boolean</span></div><div class="atom-desc">True/false value</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">10</span><span class="atom-name">Integer</span></div><div class="atom-desc">Whole number</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">11</span><span class="atom-name">Float</span></div><div class="atom-desc">Decimal number</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">12</span><span class="atom-name">String</span></div><div class="atom-desc">Text value</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">13</span><span class="atom-name">Null</span></div><div class="atom-desc">Absence of value</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">14</span><span class="atom-name">Undefined</span></div><div class="atom-desc">Uninitialized value</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">15</span><span class="atom-name">Symbol</span></div><div class="atom-desc">Unique identifier</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">16</span><span class="atom-name">BigInt</span></div><div class="atom-desc">Arbitrary precision integer</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">17</span><span class="atom-name">Char</span></div><div class="atom-desc">Single character</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">18</span><span class="atom-name">Regex</span></div><div class="atom-desc">Regular expression literal</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Variables <span class="family-code">DAT.VAR</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">19</span><span class="atom-name">LocalVar</span></div><div class="atom-desc">Local variable</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">20</span><span class="atom-name">GlobalVar</span></div><div class="atom-desc">Global variable</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">21</span><span class="atom-name">Parameter</span></div><div class="atom-desc">Function parameter</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">22</span><span class="atom-name">Constant</span></div><div class="atom-desc">Immutable value</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">23</span><span class="atom-name">InstanceField</span></div><div class="atom-desc">Object instance field</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">24</span><span class="atom-name">StaticField</span></div><div class="atom-desc">Class-level field</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Collections <span class="family-code">DAT.COL</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">25</span><span class="atom-name">ArrayLiteral</span></div><div class="atom-desc">Array/list literal [1, 2, 3]</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">26</span><span class="atom-name">ObjectLiteral</span></div><div class="atom-desc">Object/dict literal {a: 1}</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">27</span><span class="atom-name">TupleLiteral</span></div><div class="atom-desc">Tuple literal (a, b)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">28</span><span class="atom-name">SetLiteral</span></div><div class="atom-desc">Set literal {1, 2, 3}</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOGIC PHASE -->
+        <div class="phase-section" id="phase-logic">
+            <div class="phase-header" style="border-left-color: var(--logic);">
+                <span class="phase-icon">⚡</span>
+                <div>
+                    <div class="phase-title">Phase 2: LOGIC</div>
+                    <div class="phase-tagline">"The Forces of Software — What computes"</div>
+                </div>
+                <div class="phase-stats">
+                    <div class="phase-stat"><div class="phase-stat-val">6</div><div class="phase-stat-lbl">Families</div></div>
+                    <div class="phase-stat"><div class="phase-stat-val">58</div><div class="phase-stat-lbl">Atoms</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Functions <span class="family-code">LOG.FNC</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">29</span><span class="atom-name">Function</span></div><div class="atom-desc">Function definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">30</span><span class="atom-name">Method</span></div><div class="atom-desc">Class method</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">31</span><span class="atom-name">Lambda</span></div><div class="atom-desc">Anonymous function / arrow function</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">32</span><span class="atom-name">Constructor</span></div><div class="atom-desc">Object constructor</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">33</span><span class="atom-name">Destructor</span></div><div class="atom-desc">Object destructor / finalizer</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">34</span><span class="atom-name">Getter</span></div><div class="atom-desc">Property getter</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">35</span><span class="atom-name">Setter</span></div><div class="atom-desc">Property setter</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">36</span><span class="atom-name">AsyncFunction</span></div><div class="atom-desc">Async function</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">37</span><span class="atom-name">Generator</span></div><div class="atom-desc">Generator function (yield)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">38</span><span class="atom-name">Decorator</span></div><div class="atom-desc">Function/class decorator</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Expressions <span class="family-code">LOG.EXP</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">39</span><span class="atom-name">BinaryExpr</span></div><div class="atom-desc">Binary operation (a + b)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">40</span><span class="atom-name">UnaryExpr</span></div><div class="atom-desc">Unary operation (!x, -n)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">41</span><span class="atom-name">TernaryExpr</span></div><div class="atom-desc">Conditional (a ? b : c)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">42</span><span class="atom-name">CallExpr</span></div><div class="atom-desc">Function call</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">43</span><span class="atom-name">NewExpr</span></div><div class="atom-desc">Object instantiation (new X())</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">44</span><span class="atom-name">MemberExpr</span></div><div class="atom-desc">Property access (obj.prop)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">45</span><span class="atom-name">IndexExpr</span></div><div class="atom-desc">Index access (arr[i])</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">46</span><span class="atom-name">SliceExpr</span></div><div class="atom-desc">Slice operation (arr[1:3])</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">47</span><span class="atom-name">IdentifierExpr</span></div><div class="atom-desc">Variable reference</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">48</span><span class="atom-name">TemplateExpr</span></div><div class="atom-desc">Template string (`${x}`)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">49</span><span class="atom-name">SpreadExpr</span></div><div class="atom-desc">Spread operator (...arr)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">50</span><span class="atom-name">AwaitExpr</span></div><div class="atom-desc">Await expression</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">51</span><span class="atom-name">YieldExpr</span></div><div class="atom-desc">Yield expression</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">52</span><span class="atom-name">TypeCast</span></div><div class="atom-desc">Type conversion</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">53</span><span class="atom-name">ParenExpr</span></div><div class="atom-desc">Parenthesized expression</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">54</span><span class="atom-name">Comprehension</span><span class="atom-new">new</span></div><div class="atom-desc">List/set/dict comprehension</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">55</span><span class="atom-name">WalrusExpr</span><span class="atom-new">new</span></div><div class="atom-desc">Named expression (:=)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">56</span><span class="atom-name">RangeExpr</span><span class="atom-new">new</span></div><div class="atom-desc">Range (1..10)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">57</span><span class="atom-name">MacroCall</span><span class="atom-new">new</span></div><div class="atom-desc">Macro invocation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">58</span><span class="atom-name">ThisExpr</span></div><div class="atom-desc">Self/this reference</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Statements <span class="family-code">LOG.STM</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">59</span><span class="atom-name">Assignment</span></div><div class="atom-desc">Variable assignment</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">60</span><span class="atom-name">ReturnStmt</span></div><div class="atom-desc">Return statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">61</span><span class="atom-name">BreakStmt</span></div><div class="atom-desc">Break statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">62</span><span class="atom-name">ContinueStmt</span></div><div class="atom-desc">Continue statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">63</span><span class="atom-name">ThrowStmt</span></div><div class="atom-desc">Throw/raise exception</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">64</span><span class="atom-name">Declaration</span></div><div class="atom-desc">Variable declaration</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">65</span><span class="atom-name">ExpressionStmt</span></div><div class="atom-desc">Expression as statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">66</span><span class="atom-name">EmptyStmt</span><span class="atom-new">new</span></div><div class="atom-desc">No-op statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">67</span><span class="atom-name">LabeledBlock</span><span class="atom-new">new</span></div><div class="atom-desc">Labeled block</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">68</span><span class="atom-name">DebuggerStmt</span><span class="atom-new">new</span></div><div class="atom-desc">Debugger breakpoint</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">69</span><span class="atom-name">AssertStmt</span></div><div class="atom-desc">Assertion statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">70</span><span class="atom-name">DeleteStmt</span></div><div class="atom-desc">Delete operation</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Control Flow <span class="family-code">LOG.CTL</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">71</span><span class="atom-name">IfBranch</span></div><div class="atom-desc">If condition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">72</span><span class="atom-name">ForLoop</span></div><div class="atom-desc">For loop</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">73</span><span class="atom-name">WhileLoop</span></div><div class="atom-desc">While loop</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">74</span><span class="atom-name">DoWhileLoop</span></div><div class="atom-desc">Do-while loop</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">75</span><span class="atom-name">ForOfLoop</span></div><div class="atom-desc">For-of/for-in loop</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">76</span><span class="atom-name">SwitchCase</span></div><div class="atom-desc">Switch statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">77</span><span class="atom-name">TryBlock</span></div><div class="atom-desc">Try block</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">78</span><span class="atom-name">CatchClause</span></div><div class="atom-desc">Catch clause</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">79</span><span class="atom-name">FinallyClause</span></div><div class="atom-desc">Finally clause</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">80</span><span class="atom-name">Block</span></div><div class="atom-desc">Code block { }</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Pattern Matching <span class="family-code">LOG.PAT</span> <span class="atom-new">new family</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">81</span><span class="atom-name">MatchPattern</span><span class="atom-new">new</span></div><div class="atom-desc">Match arm pattern</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">82</span><span class="atom-name">WildcardPattern</span><span class="atom-new">new</span></div><div class="atom-desc">_ catch-all</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">83</span><span class="atom-name">OrPattern</span><span class="atom-new">new</span></div><div class="atom-desc">x | y alternatives</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">84</span><span class="atom-name">RestPattern</span><span class="atom-new">new</span></div><div class="atom-desc">...rest pattern</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">85</span><span class="atom-name">DestructPattern</span></div><div class="atom-desc">Destructuring pattern</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">86</span><span class="atom-name">GuardPattern</span></div><div class="atom-desc">Pattern with guard clause</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORGANIZATION PHASE -->
+        <div class="phase-section" id="phase-organization">
+            <div class="phase-header" style="border-left-color: var(--organization);">
+                <span class="phase-icon">🏗️</span>
+                <div>
+                    <div class="phase-title">Phase 3: ORGANIZATION</div>
+                    <div class="phase-tagline">"The Structure of Software — How it's grouped"</div>
+                </div>
+                <div class="phase-stats">
+                    <div class="phase-stat"><div class="phase-stat-val">5</div><div class="phase-stat-lbl">Families</div></div>
+                    <div class="phase-stat"><div class="phase-stat-val">52</div><div class="phase-stat-lbl">Atoms</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Aggregates <span class="family-code">ORG.AGG</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">87</span><span class="atom-name">Class</span></div><div class="atom-desc">Class definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">88</span><span class="atom-name">Struct</span></div><div class="atom-desc">Struct definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">89</span><span class="atom-name">Enum</span></div><div class="atom-desc">Enumeration</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">90</span><span class="atom-name">Union</span></div><div class="atom-desc">Union type (C/C++)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">91</span><span class="atom-name">Record</span></div><div class="atom-desc">Record type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">92</span><span class="atom-name">Trait</span></div><div class="atom-desc">Trait definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">93</span><span class="atom-name">ImplBlock</span><span class="atom-new">new</span></div><div class="atom-desc">Impl block (Rust)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">94</span><span class="atom-name">TypeAlias</span><span class="atom-new">new</span></div><div class="atom-desc">Type alias</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">95</span><span class="atom-name">Extension</span></div><div class="atom-desc">Type extension</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">96</span><span class="atom-name">Mixin</span></div><div class="atom-desc">Mixin class</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">97</span><span class="atom-name">Protocol</span></div><div class="atom-desc">Protocol definition (Swift)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">98</span><span class="atom-name">Namespace</span></div><div class="atom-desc">Namespace block</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Modules <span class="family-code">ORG.MOD</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">99</span><span class="atom-name">Module</span></div><div class="atom-desc">Module definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">100</span><span class="atom-name">Package</span></div><div class="atom-desc">Package/library</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">101</span><span class="atom-name">ImportStmt</span></div><div class="atom-desc">Import statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">102</span><span class="atom-name">ExportStmt</span></div><div class="atom-desc">Export statement</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">103</span><span class="atom-name">UseDecl</span></div><div class="atom-desc">Use declaration (Rust)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">104</span><span class="atom-name">RequireStmt</span></div><div class="atom-desc">Require statement (CommonJS)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">105</span><span class="atom-name">IncludeDir</span></div><div class="atom-desc">Include directive (C/C++)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">106</span><span class="atom-name">ExternCrate</span></div><div class="atom-desc">External crate (Rust)</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Files <span class="family-code">ORG.FIL</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">107</span><span class="atom-name">SourceFile</span></div><div class="atom-desc">Source file</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">108</span><span class="atom-name">Header</span></div><div class="atom-desc">Header file (C/C++)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">109</span><span class="atom-name">ConfigFile</span></div><div class="atom-desc">Configuration file</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">110</span><span class="atom-name">TestFile</span></div><div class="atom-desc">Test file</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">111</span><span class="atom-name">SchemaFile</span></div><div class="atom-desc">Schema file</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">112</span><span class="atom-name">ScriptFile</span></div><div class="atom-desc">Script file</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Services/Interfaces <span class="family-code">ORG.SVC</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">113</span><span class="atom-name">Interface</span></div><div class="atom-desc">Interface definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">114</span><span class="atom-name">AbstractClass</span></div><div class="atom-desc">Abstract class</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">115</span><span class="atom-name">Contract</span></div><div class="atom-desc">Contract/specification</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">116</span><span class="atom-name">Endpoint</span></div><div class="atom-desc">API endpoint</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">117</span><span class="atom-name">EventDef</span></div><div class="atom-desc">Event definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">118</span><span class="atom-name">SignalDef</span></div><div class="atom-desc">Signal definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">119</span><span class="atom-name">SlotDef</span></div><div class="atom-desc">Slot definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">120</span><span class="atom-name">Callback</span></div><div class="atom-desc">Callback definition</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Type System <span class="family-code">ORG.TYP</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">121</span><span class="atom-name">TypeRef</span></div><div class="atom-desc">Type reference</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">122</span><span class="atom-name">GenericParam</span><span class="atom-new">new</span></div><div class="atom-desc">Generic type parameter</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">123</span><span class="atom-name">UnionType</span><span class="atom-new">new</span></div><div class="atom-desc">Union type (X | Y)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">124</span><span class="atom-name">IntersectionType</span><span class="atom-new">new</span></div><div class="atom-desc">Intersection type (X & Y)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">125</span><span class="atom-name">ArrayType</span></div><div class="atom-desc">Array type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">126</span><span class="atom-name">TupleType</span></div><div class="atom-desc">Tuple type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">127</span><span class="atom-name">FunctionType</span></div><div class="atom-desc">Function type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">128</span><span class="atom-name">OptionalType</span></div><div class="atom-desc">Optional type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">129</span><span class="atom-name">NullableType</span></div><div class="atom-desc">Nullable type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">130-138</span><span class="atom-name">+ 9 more</span></div><div class="atom-desc">MappedType, ConditionalType, LiteralType, etc.</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXECUTION PHASE -->
+        <div class="phase-section" id="phase-execution">
+            <div class="phase-header" style="border-left-color: var(--execution);">
+                <span class="phase-icon">🚀</span>
+                <div>
+                    <div class="phase-title">Phase 4: EXECUTION</div>
+                    <div class="phase-tagline">"The Dynamics of Software — What runs"</div>
+                </div>
+                <div class="phase-stats">
+                    <div class="phase-stat"><div class="phase-stat-val">6</div><div class="phase-stat-lbl">Families</div></div>
+                    <div class="phase-stat"><div class="phase-stat-val">62</div><div class="phase-stat-lbl">Atoms</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Concurrency <span class="family-code">EXE.WRK</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">139</span><span class="atom-name">Thread</span></div><div class="atom-desc">Thread</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">140</span><span class="atom-name">Process</span></div><div class="atom-desc">Process</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">141</span><span class="atom-name">Goroutine</span></div><div class="atom-desc">Go goroutine</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">142</span><span class="atom-name">Task</span></div><div class="atom-desc">Async task</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">143</span><span class="atom-name">Future</span></div><div class="atom-desc">Future/Promise</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">144</span><span class="atom-name">Channel</span></div><div class="atom-desc">Channel communication</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">145</span><span class="atom-name">ChannelSend</span></div><div class="atom-desc">Channel send operation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">146</span><span class="atom-name">ChannelSelect</span></div><div class="atom-desc">Channel select</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">147</span><span class="atom-name">Mutex</span></div><div class="atom-desc">Mutex lock</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">148</span><span class="atom-name">Semaphore</span></div><div class="atom-desc">Semaphore</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">149</span><span class="atom-name">AsyncBlock</span></div><div class="atom-desc">Async block</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">150</span><span class="atom-name">SyncBlock</span></div><div class="atom-desc">Synchronized block</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Error Handling <span class="family-code">EXE.HDL</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">151</span><span class="atom-name">Exception</span></div><div class="atom-desc">Exception type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">152</span><span class="atom-name">Error</span></div><div class="atom-desc">Error type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">153</span><span class="atom-name">Result</span></div><div class="atom-desc">Result type (Ok/Err)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">154</span><span class="atom-name">Option</span></div><div class="atom-desc">Option/Maybe type</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">155</span><span class="atom-name">Panic</span></div><div class="atom-desc">Panic/abort</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">156</span><span class="atom-name">Defer</span><span class="atom-new">new</span></div><div class="atom-desc">Defer statement (Go)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">157</span><span class="atom-name">Finally</span></div><div class="atom-desc">Finally cleanup</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">158</span><span class="atom-name">Recover</span></div><div class="atom-desc">Panic recovery</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">159</span><span class="atom-name">Assertion</span></div><div class="atom-desc">Runtime assertion</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">160</span><span class="atom-name">TryExpr</span></div><div class="atom-desc">Try expression (?)</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Memory Management <span class="family-code">EXE.MEM</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">161</span><span class="atom-name">Allocation</span></div><div class="atom-desc">Memory allocation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">162</span><span class="atom-name">Deallocation</span></div><div class="atom-desc">Memory deallocation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">163</span><span class="atom-name">Reference</span></div><div class="atom-desc">Reference (&x)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">164</span><span class="atom-name">Dereference</span></div><div class="atom-desc">Dereference (*x)</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">165</span><span class="atom-name">Borrow</span></div><div class="atom-desc">Rust borrow</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">166</span><span class="atom-name">Move</span></div><div class="atom-desc">Move semantics</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">167</span><span class="atom-name">Clone</span></div><div class="atom-desc">Deep copy</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">168</span><span class="atom-name">Drop</span></div><div class="atom-desc">Destructor/drop</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">I/O Operations <span class="family-code">EXE.IO</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">169</span><span class="atom-name">FileRead</span></div><div class="atom-desc">File read</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">170</span><span class="atom-name">FileWrite</span></div><div class="atom-desc">File write</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">171</span><span class="atom-name">NetworkRead</span></div><div class="atom-desc">Network read</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">172</span><span class="atom-name">NetworkWrite</span></div><div class="atom-desc">Network write</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">173</span><span class="atom-name">StdinRead</span></div><div class="atom-desc">Standard input</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">174</span><span class="atom-name">StdoutWrite</span></div><div class="atom-desc">Standard output</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">175</span><span class="atom-name">StderrWrite</span></div><div class="atom-desc">Standard error</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">176</span><span class="atom-name">DatabaseQuery</span></div><div class="atom-desc">Database query</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">177</span><span class="atom-name">HttpRequest</span></div><div class="atom-desc">HTTP request</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">178</span><span class="atom-name">HttpResponse</span></div><div class="atom-desc">HTTP response</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Metaprogramming <span class="family-code">EXE.MET</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">179</span><span class="atom-name">MacroDef</span></div><div class="atom-desc">Macro definition</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">180</span><span class="atom-name">MacroRule</span><span class="atom-new">new</span></div><div class="atom-desc">Macro rule</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">181</span><span class="atom-name">Annotation</span><span class="atom-new">new</span></div><div class="atom-desc">Annotation/attribute</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">182</span><span class="atom-name">Reflection</span></div><div class="atom-desc">Runtime reflection</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">183</span><span class="atom-name">CodeGen</span></div><div class="atom-desc">Code generation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">184</span><span class="atom-name">Preprocessor</span></div><div class="atom-desc">Preprocessor directive</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">185</span><span class="atom-name">ConditionalCompile</span></div><div class="atom-desc">Conditional compilation</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">186-190</span><span class="atom-name">+ 5 more</span></div><div class="atom-desc">Pragma, InlineASM, FFI, Intrinsic, BuiltinCall</div></div>
+                </div>
+            </div>
+
+            <div class="family-section">
+                <div class="family-header">Initialization <span class="family-code">EXE.INI</span></div>
+                <div class="atoms-grid">
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">191</span><span class="atom-name">StaticInit</span></div><div class="atom-desc">Static initializer</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">192</span><span class="atom-name">LazyInit</span></div><div class="atom-desc">Lazy initialization</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">193</span><span class="atom-name">DefaultInit</span></div><div class="atom-desc">Default initialization</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">194</span><span class="atom-name">CopyInit</span></div><div class="atom-desc">Copy initialization</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">195</span><span class="atom-name">MoveInit</span></div><div class="atom-desc">Move initialization</div></div>
+                    <div class="atom-card"><div class="atom-header"><span class="atom-num">196-200</span><span class="atom-name">+ 5 more</span></div><div class="atom-desc">AggregateInit, DesignatedInit, BraceInit, ZeroInit, UninitValue</div></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - The 200 Atoms</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                DATA (28) | LOGIC (58) | ORGANIZATION (52) | EXECUTION (62) = 200 Total Atoms
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.phase-section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('phase-' + tab.dataset.phase).classList.add('active');
+            });
+        });
+
+        // Search
+        document.getElementById('search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.atom-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+            if (query) {
+                document.querySelectorAll('.phase-section').forEach(s => s.classList.add('active'));
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.add('active'));
+            }
+        });
+    </script>
+</body>
+</html>

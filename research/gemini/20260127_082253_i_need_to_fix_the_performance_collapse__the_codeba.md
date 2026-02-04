@@ -17,7 +17,7 @@ I need to fix the performance collapse. The codebase has:
 3. controls().enabled = false blocking right-click rotation during marquee select
 
 What's the MINIMAL fix that preserves existing architecture? Should I:
-A) Remove REFRESH calls from animation loops? 
+A) Remove REFRESH calls from animation loops?
 B) Consolidate all RAF loops into one master loop?
 C) Use Graph.pauseAnimation() pattern instead?
 D) Something else?
@@ -50,7 +50,7 @@ Locate the `animateFrame` (and similar loop functions) and comment out `REFRESH.
     // REMOVE THIS: Triggers full geometry rebuild 60fps
     // if (typeof REFRESH !== 'undefined') {
     //     REFRESH.throttled();
-    // } 
+    // }
     // --- FIX END ---
 
     const totalDuration = baseDuration + staggerSpread;
@@ -84,22 +84,22 @@ Modify `onPointerDown`.
             _panActive = true;
             _panStart = { x: e.clientX, y: e.clientY };
             canvas.style.cursor = 'grabbing';
-            
+
             // --- FIX START ---
-            // DON'T disable controls globally. 
+            // DON'T disable controls globally.
             // This kills Right-Click Rotation and Scroll Zoom.
-            /* 
+            /*
             if (Graph.controls()) {
-                Graph.controls().enabled = false; 
-            } 
+                Graph.controls().enabled = false;
+            }
             */
-            
+
             // INSTEAD: Stop immediate propagation.
             // This prevents OrbitControls (which listens on the same element)
             // from receiving this specific Left-Click event.
             e.stopImmediatePropagation();
             // --- FIX END ---
-            
+
             e.preventDefault();
             return;
         }
@@ -109,12 +109,12 @@ Modify `onPointerDown`.
         _marqueeActive = true;
         _marqueeAdditive = !!e.shiftKey;
         _marqueeStart = { x: e.clientX, y: e.clientY };
-        
+
         // ... existing box update logic ...
 
         // --- FIX START ---
         // Prevent OrbitControls from interpreting this as a "Rotate" drag start
-        e.stopImmediatePropagation(); 
+        e.stopImmediatePropagation();
         // --- FIX END ---
 
         e.preventDefault();

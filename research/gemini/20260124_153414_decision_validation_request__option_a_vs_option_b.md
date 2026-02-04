@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 DECISION VALIDATION REQUEST: Option A vs Option B
 
 ## CONTEXT
@@ -159,7 +159,7 @@ import { getEngineConfig } from './upb-defaults.js';
 
         // 2. NEW: Bridge to Property Query
         const engineConfig = getEngineConfig(this);
-        
+
         if (window.PropertyQuery) {
             window.PropertyQuery.updateConfig(engineConfig); // Pass config
             window.bumpRender(); // Trigger frame
@@ -190,7 +190,7 @@ To verify the circuit is complete without checking every UI element:
 Open DevTools and run:
 ```javascript
 // Simulate UI change
-VIS_STATE.colorPreset = 'tier'; 
+VIS_STATE.colorPreset = 'tier';
 VIS_STATE._refreshGraph();
 
 // Verify Engine State

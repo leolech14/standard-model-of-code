@@ -26,7 +26,7 @@ PROPOSED SCHEMA:
      * .js near .ts near .jsx (JS family)
      * .md near .txt near .rst (docs family)
      * .json near .yaml near .toml (config family)
-   
+
    - LIGHTNESS (L) → TBD (options: age, depth, coverage)
    - CHROMA (C) → TBD (options: activity, importance, health)
 
@@ -35,7 +35,7 @@ PROPOSED SCHEMA:
    - Data files: size = f(file_size_kb)
    - Binary files: different scale (they're huge)
    - Config files: fixed small size
-   
+
    Normalizer pattern: log scale + type-specific min/max clamping
 
 4. THE NORMALIZER CONCEPT:
@@ -147,8 +147,8 @@ Do not map bytes to size. Map **Complexity** to size.
 // D3-color or similar library recommended
 function getNodeColor(node) {
   // 1. HUE: File Type Family
-  const hue = getSemanticHue(node.extension); 
-  
+  const hue = getSemanticHue(node.extension);
+
   // 2. LIGHTNESS: Recency (Newer = Lighter)
   // Clamp L between 0.45 (visible) and 0.90 (bright)
   const daysOld = (Date.now() - node.last_modified) / (1000 * 60 * 60 * 24);
@@ -156,7 +156,7 @@ function getNodeColor(node) {
 
   // 3. CHROMA: Importance/Activity (Important = Vivid)
   // Clamp C between 0.02 (grey) and 0.25 (vivid neon)
-  const importance = node.page_rank || 0.1; 
+  const importance = node.page_rank || 0.1;
   const chroma = clamp(importance * 0.3, 0.05, 0.25);
 
   return `oklch(${lightness} ${chroma} ${hue})`;

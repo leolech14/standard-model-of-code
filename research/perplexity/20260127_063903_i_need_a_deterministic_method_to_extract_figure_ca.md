@@ -87,10 +87,10 @@ def extract_images_with_coords(doc: pymupdf.Document, page_num: int) -> List[Ima
     """Extract all images from a page with their bounding boxes."""
     page = doc[page_num]
     images = []
-    
+
     # Use get_image_info() for more complete image detection including inline images
     image_info_list = page.get_image_info()
-    
+
     for img_info in image_info_list:
         bbox = img_info['bbox']
         # For images with xref, extract additional metadata
@@ -98,11 +98,11 @@ def extract_images_with_coords(doc: pymupdf.Document, page_num: int) -> List[Ima
             xref = img_info['xref']
         else:
             xref = -1  # Inline image without xref
-        
+
         # Get image dimensions from the rendered size
         img_width = bbox[2] - bbox[0]
         img_height = bbox[3] - bbox[1]
-        
+
         images.append(ImageBlock(
             xref=xref,
             bbox=bbox,
@@ -110,17 +110,17 @@ def extract_images_with_coords(doc: pymupdf.Document, page_num: int) -> List[Ima
             width=img_width,
             height=img_height
         ))
-    
+
     return images
 
 def extract_text_blocks_with_coords(doc: pymupdf.Document, page_num: int) -> List[TextBlock]:
     """Extract all text blocks from a page with their positions."""
     page = doc[page_num]
     text_blocks = []
-    
+
     # Use dict format to get hierarchical text information
     dict_output = page.get_text("dict")
-    
+
     for block_num, block in enumerate(dict_output['blocks']):
         if block['type'] == 0:  # Text block, not image
             # Reconstruct text from spans
@@ -129,9 +129,9 @@ def extract_text_blocks_with_coords(doc: pymupdf.Document, page_num: int) -> Lis
                 for span in line['spans']:
                     full_text += span['text']
                 full_text += "\n"
-            
+
             full_text = full_text.strip()
-            
+
             if full_text:  # Only add non-empty blocks
                 text_blocks.append(TextBlock(
                     bbox=block['bbox'],
@@ -139,19 +139,19 @@ def extract_text_blocks_with_coords(doc: pymupdf.Document, page_num: int) -> Lis
                     block_num=block_num,
                     page_num=page_num
                 ))
-    
+
     return text_blocks
 
 def calculate_spatial_distance(img_bbox: Tuple, text_bbox: Tuple) -> float:
     """Calculate the vertical distance between an image and text block.
-    
+
     Returns the gap between the closest edges:
     - Negative if text is above image
     - Positive if text is below image
     """
     img_x0, img_y0, img_x1, img_y1 = img_bbox
     txt_x0, txt_y0, txt_x1, txt_y1 = text_bbox
-    
+
     # Calculate vertical distance
     if img_y1 < txt_y0:  # Image is above text
         return txt_y0 - img_y1
@@ -160,26 +160,26 @@ def calculate_spatial_distance(img_bbox: Tuple, text_bbox: Tuple) -> float:
     else:  # Overlap or immediate adjacency
         return 0
 
-def find_caption_candidates(image: ImageBlock, 
+def find_caption_candidates(image: ImageBlock,
                            text_blocks: List[TextBlock],
                            max_distance_points: float = 113) -> List[TextBlock]:
     """Find text blocks that are potential captions for an image.
-    
+
     Captions typically appear immediately after (below) the figure.
     Distance threshold of ~113 points (~1.5 inches) covers most layouts.
     """
     candidates = []
-    
+
     for text_block in text_blocks:
         distance = calculate_spatial_distance(image.bbox, text_block.bbox)
-        
+
         # Caption should be below image with reasonable proximity
         if 0 <= distance <= max_distance_points:
             candidates.append(text_block)
-    
+
     # Sort by distance to find the closest caption candidate
     candidates.sort(key=lambda t: calculate_spatial_distance(image.bbox, t.bbox))
-    
+
     return candidates
 ```
 
@@ -195,23 +195,23 @@ from typing import Optional, Tuple
 
 class CaptionDetector:
     """Detects caption text blocks based on PDF conventions."""
-    
+
     # Comprehensive regex pattern for caption headers
     # Handles: Fig., Figure, FIG., Fig, Figures, etc. with optional spacing and punctuation
     CAPTION_HEADER_PATTERN = re.compile(
         r'^(?:Fig(?:ure)?s?\.?|FIG\.?)\s*[0-9]+',
         re.IGNORECASE | re.MULTILINE
     )
-    
+
     # Pattern for finding caption number
     CAPTION_NUMBER_PATTERN = re.compile(r'^(?:Fig(?:ure)?s?\.?|FIG\.?)\s*([0-9.]+)', re.IGNORECASE)
-    
+
     @staticmethod
     def is_caption_header(text: str) -> bool:
         """Check if text block starts with a caption prefix."""
         first_line = text.split('\n')[0] if '\n' in text else text
         return bool(CaptionDetector.CAPTION_HEADER_PATTERN.match(first_line.strip()))
-    
+
     @staticmethod
     def extract_caption_number(text: str) -> Optional[str]:
         """Extract the figure number from caption text."""
@@ -219,7 +219,7 @@ class CaptionDetector:
         if match:
             return match.group(1)
         return None
-    
+
     @staticmethod
     def filter_caption_candidates(candidates: List[TextBlock]) -> List[TextBlock]:
         """Filter candidates to only those starting with caption prefixes."""
@@ -234,18 +234,18 @@ def identify_figure_caption(image: ImageBlock,
                            max_distance_points: float = 113) -> Optional[Tuple[str, str]]:
     """
     Identify the caption for a figure based on spatial proximity and caption patterns.
-    
+
     Returns: (caption_text, caption_number) or None if no caption found
     """
     candidates = find_caption_candidates(image, text_blocks, max_distance_points)
     caption_candidates = CaptionDetector.filter_caption_candidates(candidates)
-    
+
     if caption_candidates:
         # Return the closest caption candidate
         caption_block = caption_candidates[0]
         caption_number = CaptionDetector.extract_caption_number(caption_block.text)
         return (caption_block.text, caption_number if caption_number else "")
-    
+
     return None
 ```
 
@@ -264,29 +264,29 @@ def extract_complete_caption(image: ImageBlock,
                             max_distance_points: float = 113) -> Optional[str]:
     """
     Extract the complete caption for a figure, handling multi-line captions.
-    
+
     This method uses the dict format to analyze line-by-line structure and
     reconstructs complete captions that may span multiple lines.
     """
     page = doc[page_num]
     dict_output = page.get_text("dict")
-    
+
     # First pass: find all text blocks and identify candidate caption start
     all_lines_with_coords = []
-    
+
     for block in dict_output['blocks']:
         if block['type'] == 0:  # Text block
             block_bbox = block['bbox']
             # Check if this block is near the image
             distance = calculate_spatial_distance(image.bbox, block_bbox)
-            
+
             if 0 <= distance <= max_distance_points:
                 # This block is a potential caption location
                 for line_idx, line in enumerate(block['lines']):
                     line_text = ""
                     for span in line['spans']:
                         line_text += span['text']
-                    
+
                     line_bbox = line['bbox']
                     all_lines_with_coords.append({
                         'text': line_text.strip(),
@@ -296,50 +296,50 @@ def extract_complete_caption(image: ImageBlock,
                         'distance': distance,
                         'font_size': line['spans'][0]['size'] if line['spans'] else 11
                     })
-    
+
     if not all_lines_with_coords:
         return None
-    
+
     # Find the line that starts with a caption prefix
     caption_start_idx = None
     for idx, line_info in enumerate(all_lines_with_coords):
         if CaptionDetector.is_caption_header(line_info['text']):
             caption_start_idx = idx
             break
-    
+
     if caption_start_idx is None:
         return None
-    
+
     # Extract the caption header and number for reference
     start_line = all_lines_with_coords[caption_start_idx]
     caption_number = CaptionDetector.extract_caption_number(start_line['text'])
-    
+
     # Expand to include all related lines
     caption_lines = [start_line['text']]
     reference_font_size = start_line['font_size']
     reference_y = start_line['bbox'][1]
-    
+
     # Look forward for continuation lines
     for idx in range(caption_start_idx + 1, len(all_lines_with_coords)):
         line_info = all_lines_with_coords[idx]
-        
+
         # Stop if we hit another caption or a significant layout break
         if CaptionDetector.is_caption_header(line_info['text']):
             break
-        
+
         # Stop if font size changes significantly (indicates new paragraph/section)
         if abs(line_info['font_size'] - reference_font_size) > 1.0:
             break
-        
+
         # Stop if vertical gap is too large (indicates section break)
         y_gap = abs(line_info['bbox'][1] - reference_y)
         if y_gap > 20:  # More than ~0.28 inches gap
             break
-        
+
         # This line appears to be part of the caption
         caption_lines.append(line_info['text'])
         reference_y = line_info['bbox'][1]
-    
+
     complete_caption = " ".join(caption_lines)
     return complete_caption
 ```
@@ -358,22 +358,22 @@ def group_related_images(images: List[ImageBlock],
                          vertical_gap_threshold: float = 56) -> List[List[ImageBlock]]:
     """
     Group images that appear to be subfigures of the same figure.
-    
+
     Images separated by less than the threshold distances are considered
     part of the same figure group.
     """
     if not images:
         return []
-    
+
     # Sort images by position (top-to-bottom, left-to-right)
     sorted_images = sorted(images, key=lambda img: (img.bbox[1], img.bbox[0]), reverse=True)
-    
+
     groups = []
     current_group = [sorted_images[0]]
-    
+
     for img in sorted_images[1:]:
         prev_img = current_group[-1]
-        
+
         # Check horizontal and vertical distances
         horizontal_dist = min(
             abs(img.bbox[0] - prev_img.bbox[2]),  # Gap if img is to the right
@@ -383,24 +383,24 @@ def group_related_images(images: List[ImageBlock],
             abs(img.bbox[1] - prev_img.bbox[3]),  # Gap if img is below
             abs(prev_img.bbox[1] - img.bbox[3])   # Gap if img is above
         )
-        
+
         # Determine if images are closely related
         closely_related = (
-            (horizontal_dist < horizontal_gap_threshold and 
+            (horizontal_dist < horizontal_gap_threshold and
              abs(img.bbox[1] - prev_img.bbox[1]) < 56) or  # Same row
             (vertical_dist < vertical_gap_threshold and
              abs(img.bbox[0] - prev_img.bbox[0]) < 56)     # Same column
         )
-        
+
         if closely_related:
             current_group.append(img)
         else:
             groups.append(current_group)
             current_group = [img]
-    
+
     if current_group:
         groups.append(current_group)
-    
+
     return groups
 
 def match_captions_to_image_group(image_group: List[ImageBlock],
@@ -408,27 +408,27 @@ def match_captions_to_image_group(image_group: List[ImageBlock],
                                  max_distance_points: float = 170) -> List[Tuple[ImageBlock, str]]:
     """
     Match captions to a group of related images.
-    
+
     For image groups (subfigures), the caption typically appears after
     all images in the group.
     """
     if not image_group:
         return []
-    
+
     # Find the bottommost image in the group
     bottom_image = min(image_group, key=lambda img: img.bbox[1])
-    
+
     # Find caption candidates below the entire group
     candidates = find_caption_candidates(bottom_image, text_blocks, max_distance_points)
     caption_candidates = CaptionDetector.filter_caption_candidates(candidates)
-    
+
     if not caption_candidates:
         # No caption found for this group
         return [(img, "") for img in image_group]
-    
+
     # For multiple images in a group, assign the same caption to all
     caption_text = caption_candidates[0].text
-    
+
     matches = [(img, caption_text) for img in image_group]
     return matches
 ```
@@ -457,7 +457,7 @@ def extract_figures_and_captions_robust(pdf_path: str,
                                        confidence_threshold: float = 0.7) -> Dict:
     """
     Robustly extract figures and captions from PDFs with diverse formats.
-    
+
     Handles multiple caption formats, encoding issues, and layout variations.
     Outputs metadata in JSON format with confidence scores.
     """
@@ -467,30 +467,30 @@ def extract_figures_and_captions_robust(pdf_path: str,
         'total_pages': doc.page_count,
         'figures': []
     }
-    
+
     for page_num in range(doc.page_count):
         try:
             page = doc[page_num]
-            
+
             # Extract images and text with error handling
             try:
                 images = extract_images_with_coords(doc, page_num)
             except Exception as e:
                 print(f"Warning: Failed to extract images from page {page_num}: {e}")
                 images = []
-            
+
             try:
                 text_blocks = extract_text_blocks_with_coords(doc, page_num)
             except Exception as e:
                 print(f"Warning: Failed to extract text blocks from page {page_num}: {e}")
                 text_blocks = []
-            
+
             if not images:
                 continue
-            
+
             # Group related images
             image_groups = group_related_images(images)
-            
+
             # Process each image group
             for group_idx, image_group in enumerate(image_groups):
                 # Extract caption
@@ -498,16 +498,16 @@ def extract_figures_and_captions_robust(pdf_path: str,
                     caption_matches = match_captions_to_image_group(
                         image_group, text_blocks, max_distance_points=170
                     )
-                    
+
                     for img, caption_text in caption_matches:
                         # Calculate confidence score
                         confidence = calculate_caption_confidence(
                             caption_text,
                             img.bbox,
-                            calculate_spatial_distance(img.bbox, 
+                            calculate_spatial_distance(img.bbox,
                                 [float('inf')] * 4 if not caption_text else (0,0,0,0))
                         )
-                        
+
                         if confidence >= confidence_threshold or caption_text:
                             figure_entry = {
                                 'page': page_num + 1,
@@ -523,15 +523,15 @@ def extract_figures_and_captions_robust(pdf_path: str,
                                 'group_index': group_idx
                             }
                             results['figures'].append(figure_entry)
-        
+
         except Exception as e:
             print(f"Warning: Error processing page {page_num}: {e}")
             continue
-    
+
     # Save to JSON
     with open(output_json_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2, default=str)
-    
+
     doc.close()
     return results
 
@@ -540,21 +540,21 @@ def calculate_caption_confidence(caption_text: str,
                                spatial_distance: float) -> float:
     """
     Calculate confidence score for caption-image matching.
-    
+
     Based on:
     1. Caption header detection (highest weight)
     2. Spatial proximity
     3. Caption length appropriateness
     """
     confidence = 0.0
-    
+
     if not caption_text:
         return 0.0
-    
+
     # Caption header detection: +0.6 confidence
     if CaptionDetector.is_caption_header(caption_text):
         confidence += 0.6
-    
+
     # Spatial proximity scoring: +0.3 confidence
     # Optimal distance is 0-56 points (0-0.78 inches)
     if spatial_distance <= 56:
@@ -563,14 +563,14 @@ def calculate_caption_confidence(caption_text: str,
         confidence += 0.2
     elif spatial_distance <= 170:
         confidence += 0.1
-    
+
     # Caption length heuristic: +0.1 confidence
     # Reasonable captions are typically 10-500 characters
     if 10 <= len(caption_text) <= 500:
         confidence += 0.1
     elif 5 <= len(caption_text) < 10 or 500 < len(caption_text) <= 1000:
         confidence += 0.05
-    
+
     return min(confidence, 1.0)
 ```
 
@@ -589,34 +589,34 @@ def evaluate_caption_extraction(ground_truth_json: str,
                                predicted_json: str) -> Dict[str, float]:
     """
     Evaluate caption extraction accuracy against ground truth.
-    
+
     Computes precision, recall, and F1 score.
     """
     import json
-    
+
     with open(ground_truth_json, 'r') as f:
         ground_truth = json.load(f)
-    
+
     with open(predicted_json, 'r') as f:
         predictions = json.load(f)
-    
+
     # Build ground truth set: (page, fig_number) -> caption
     gt_captions = {}
     for fig in ground_truth.get('figures', []):
         key = (fig['page'], fig.get('caption_number'))
         gt_captions[key] = fig['caption'].strip().lower()
-    
+
     # Build predictions set: (page, fig_number) -> caption
     pred_captions = {}
     for fig in predictions.get('figures', []):
         key = (fig['page'], fig.get('caption_number'))
         pred_captions[key] = fig['caption'].strip().lower()
-    
+
     # Calculate metrics
     true_positives = 0
     false_positives = 0
     false_negatives = 0
-    
+
     # Check predictions against ground truth
     for key, pred_caption in pred_captions.items():
         if key in gt_captions:
@@ -629,15 +629,15 @@ def evaluate_caption_extraction(ground_truth_json: str,
                 false_positives += 1
         else:
             false_positives += 1
-    
+
     # False negatives: ground truth captions not found
     false_negatives = len(gt_captions) - true_positives
-    
+
     # Calculate metrics
     precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0
     recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
-    
+
     return {
         'precision': precision,
         'recall': recall,
@@ -652,21 +652,21 @@ def evaluate_caption_extraction(ground_truth_json: str,
 def calculate_caption_similarity(caption1: str, caption2: str) -> float:
     """
     Calculate similarity between two caption strings.
-    
+
     Uses overlap-based metric that's robust to minor differences
     in punctuation and whitespace.
     """
     # Normalize: lowercase, remove extra whitespace
     c1_words = set(caption1.lower().split())
     c2_words = set(caption2.lower().split())
-    
+
     if not c1_words or not c2_words:
         return 0.0
-    
+
     # Jaccard similarity
     intersection = len(c1_words & c2_words)
     union = len(c1_words | c2_words)
-    
+
     return intersection / union if union > 0 else 0.0
 ```
 
@@ -679,7 +679,7 @@ The caption pattern matching described earlier handles standard "Fig." and "Figu
 ```python
 class AdvancedCaptionDetector(CaptionDetector):
     """Extended caption detector handling diverse international and domain-specific formats."""
-    
+
     # Comprehensive patterns for English variations
     ENGLISH_PATTERNS = [
         r'^(?:Fig(?:ure)?s?\.?|FIG\.?)\s*[0-9]+',  # Standard Fig/Figure
@@ -691,28 +691,28 @@ class AdvancedCaptionDetector(CaptionDetector):
         r'^(?:Diagram|Schematic)\s*[0-9]+',  # Technical diagrams
         r'^(?:Map|Plot)\s*[0-9]+',  # Geographic/data plots
     ]
-    
+
     # Patterns for other languages
     GERMAN_PATTERNS = [
         r'^(?:Abb(?:ildung)?\.?)\s*[0-9]+',  # Abbildung (German)
     ]
-    
+
     FRENCH_PATTERNS = [
         r'^(?:Fig(?:ure)?\.?)\s*[0-9]+',  # Figure (French)
     ]
-    
+
     SPANISH_PATTERNS = [
         r'^(?:Fig(?:ura)?\.?)\s*[0-9]+',  # Figura (Spanish)
     ]
-    
+
     CHINESE_PATTERNS = [
         r'^(?:图|圖)\s*[0-9]+',  # 图 / 圖 (Chinese figure)
     ]
-    
+
     JAPANESE_PATTERNS = [
         r'^(?:図|図表)\s*[0-9]+',  # 図 (Japanese figure)
     ]
-    
+
     # Compile all patterns
     ALL_CAPTION_PATTERNS = (
         [re.compile(p, re.IGNORECASE | re.MULTILINE) for p in ENGLISH_PATTERNS] +
@@ -722,49 +722,49 @@ class AdvancedCaptionDetector(CaptionDetector):
         [re.compile(p) for p in CHINESE_PATTERNS] +
         [re.compile(p) for p in JAPANESE_PATTERNS]
     )
-    
+
     @staticmethod
     def is_caption_header_expanded(text: str) -> bool:
         """Check if text starts with any recognized caption pattern."""
         first_line = text.split('\n')[0].strip() if '\n' in text else text.strip()
-        
+
         for pattern in AdvancedCaptionDetector.ALL_CAPTION_PATTERNS:
             if pattern.match(first_line):
                 return True
-        
+
         return False
-    
+
     @staticmethod
     def is_caption_by_context(text: str,
                              surrounded_by_images: bool = False,
                              follows_image: bool = False) -> float:
         """
         Estimate probability text is a caption using contextual signals.
-        
+
         Returns confidence score 0-1 based on:
         1. Pattern matching (strongest signal)
         2. Text length (typical captions are 20-500 characters)
         3. Positional context (surrounded by images)
         """
         score = 0.0
-        
+
         # Pattern matching: highest weight
         if AdvancedCaptionDetector.is_caption_header_expanded(text):
             score += 0.7
-        
+
         # Length heuristic
         text_len = len(text)
         if 20 <= text_len <= 500:
             score += 0.15
         elif 10 <= text_len < 20 or 500 < text_len <= 1000:
             score += 0.08
-        
+
         # Contextual signals
         if surrounded_by_images:
             score += 0.1
         if follows_image and text_len > 10:
             score += 0.05
-        
+
         return min(score, 1.0)
 ```
 
@@ -779,11 +779,11 @@ PDFPlumber, built on top of pdfminer.six, provides layout-aware text extraction 
 ```python
 def compare_text_extraction_approaches(pdf_path: str, page_num: int):
     """Compare text extraction from PyMuPDF vs PDFPlumber."""
-    
+
     # PyMuPDF approach
     doc_mupdf = pymupdf.open(pdf_path)
     page_mupdf = doc_mupdf[page_num]
-    
+
     text_dict = page_mupdf.get_text("dict")
     captions_mupdf = []
     for block in text_dict['blocks']:
@@ -798,17 +798,17 @@ def compare_text_extraction_approaches(pdf_path: str, page_num: int):
                     'bbox': block['bbox'],
                     'method': 'pymupdf_dict'
                 })
-    
+
     # PDFPlumber approach
     import pdfplumber
-    
+
     with pdfplumber.open(pdf_path) as pdf:
         page_plumber = pdf.pages[page_num]
-        
+
         # Search for captions using regex
-        caption_matches = page_plumber.search(r'^(?:Fig|Figure|FIG)[.:]?\s*[0-9]+', 
+        caption_matches = page_plumber.search(r'^(?:Fig|Figure|FIG)[.:]?\s*[0-9]+',
                                              regex=True)
-        
+
         captions_plumber = []
         for match in caption_matches:
             captions_plumber.append({
@@ -816,9 +816,9 @@ def compare_text_extraction_approaches(pdf_path: str, page_num: int):
                 'bbox': (match['x0'], match['top'], match['x1'], match['bottom']),
                 'method': 'pdfplumber_search'
             })
-    
+
     doc_mupdf.close()
-    
+
     return {
         'pymupdf_results': captions_mupdf,
         'pdfplumber_results': captions_plumber
@@ -839,32 +839,32 @@ def production_caption_extraction_pipeline(pdf_directory: str,
                                           language: str = 'english') -> Dict[str, any]:
     """
     Production-grade pipeline for extracting figures and captions.
-    
+
     Processes all PDFs in a directory, producing JSON metadata files
     with figure-caption associations.
     """
     import os
     from pathlib import Path
-    
+
     # Ensure output directory exists
     Path(output_directory).mkdir(parents=True, exist_ok=True)
-    
+
     results_summary = {
         'processed_files': 0,
         'total_figures': 0,
         'errors': [],
         'per_file_stats': []
     }
-    
+
     # Process each PDF
-    pdf_files = [f for f in os.listdir(pdf_directory) 
+    pdf_files = [f for f in os.listdir(pdf_directory)
                  if f.lower().endswith('.pdf')]
-    
+
     for pdf_filename in pdf_files:
         pdf_path = os.path.join(pdf_directory, pdf_filename)
-        output_path = os.path.join(output_directory, 
+        output_path = os.path.join(output_directory,
                                   pdf_filename.replace('.pdf', '_metadata.json'))
-        
+
         try:
             # Extract figures and captions
             extraction_result = extract_figures_and_captions_robust(
@@ -872,7 +872,7 @@ def production_caption_extraction_pipeline(pdf_directory: str,
                 output_path,
                 confidence_threshold=0.6
             )
-            
+
             # Track results
             results_summary['processed_files'] += 1
             num_figures = len(extraction_result['figures'])
@@ -882,9 +882,9 @@ def production_caption_extraction_pipeline(pdf_directory: str,
                 'figures_found': num_figures,
                 'success': True
             })
-            
+
             print(f"✓ {pdf_filename}: {num_figures} figures extracted")
-        
+
         except Exception as e:
             results_summary['errors'].append({
                 'file': pdf_filename,
@@ -896,14 +896,14 @@ def production_caption_extraction_pipeline(pdf_directory: str,
                 'success': False,
                 'error': str(e)
             })
-            
+
             print(f"✗ {pdf_filename}: {str(e)}")
-    
+
     # Save summary
     summary_path = os.path.join(output_directory, 'extraction_summary.json')
     with open(summary_path, 'w') as f:
         json.dump(results_summary, f, indent=2)
-    
+
     return results_summary
 ```
 

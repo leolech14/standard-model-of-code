@@ -122,7 +122,7 @@ Cloud Refinery = Subconscious Mind (Active Inference Engine)
 - **Weak/Rejected (<70):** 0/8 (0%)
 - **Mean Hotness:** 85.3
 
-**Verdict:** ANALOGY VALIDATED - All mappings score ≥70
+**Verdict:** ANALOGY GROUNDED - All mappings score ≥70
 
 ### Noted Limitations
 
@@ -171,7 +171,7 @@ Peirce's Triadic Sign = Projectome Structure
 - **Weak/Rejected (<70):** 0/5 (0%)
 - **Mean Hotness:** 88.0
 
-**Verdict:** ANALOGY VALIDATED
+**Verdict:** ANALOGY GROUNDED
 
 ---
 

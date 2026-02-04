@@ -93,26 +93,26 @@ Depth-First Search explores the graph by following one path as far as possible b
 def dfs_upstream_dependencies(graph, start_node, visited=None):
     """
     Perform DFS to find all upstream dependencies of a node.
-    
+
     Args:
         graph: Dictionary mapping nodes to their upstream dependencies
         start_node: Starting node for traversal
         visited: Set of already visited nodes
-        
+
     Returns:
         Set of all upstream nodes reachable from start_node
     """
     if visited is None:
         visited = set()
-    
+
     if start_node not in visited:
         visited.add(start_node)
-        
+
         # For upstream dependencies, follow incoming edges
         if start_node in graph:
             for dependency in graph[start_node]:
                 dfs_upstream_dependencies(graph, dependency, visited)
-    
+
     return visited
 ```
 
@@ -124,21 +124,21 @@ from collections import deque
 def bfs_downstream_dependents(graph, start_node):
     """
     Perform BFS to find all downstream dependents of a node.
-    
+
     Args:
         graph: Dictionary mapping nodes to their downstream dependents
         start_node: Starting node for traversal
-        
+
     Returns:
         Dictionary mapping distance (hops) to set of nodes at that distance
     """
     visited = {start_node}
     queue = deque([(start_node, 0)])  # (node, distance)
     distances = {start_node: 0}
-    
+
     while queue:
         node, dist = queue.popleft()
-        
+
         # For downstream dependents, follow outgoing edges
         if node in graph:
             for dependent in graph[node]:
@@ -146,7 +146,7 @@ def bfs_downstream_dependents(graph, start_node):
                     visited.add(dependent)
                     distances[dependent] = dist + 1
                     queue.append((dependent, dist + 1))
-    
+
     return distances
 ```
 
@@ -171,21 +171,21 @@ import numpy as np
 def hierarchical_entity_consolidation(nodes, embeddings, aspect_weights=None):
     """
     Perform hierarchical consolidation of entities based on embeddings.
-    
+
     Args:
         nodes: List of node identifiers
         embeddings: Array of shape (n_nodes, embedding_dim) containing node embeddings
         aspect_weights: Optional weights for different semantic aspects
-        
+
     Returns:
         Dictionary mapping consolidation levels to cluster assignments
     """
     if aspect_weights is None:
         aspect_weights = {'structural': 0.33, 'semantic': 0.33, 'topological': 0.34}
-    
+
     # Perform hierarchical clustering with multiple linkage methods
     consolidation_levels = {}
-    
+
     for n_clusters in range(len(nodes), 1, -1):
         clustering = AgglomerativeClustering(
             n_clusters=n_clusters,
@@ -194,7 +194,7 @@ def hierarchical_entity_consolidation(nodes, embeddings, aspect_weights=None):
         )
         labels = clustering.fit_predict(embeddings)
         consolidation_levels[n_clusters] = labels
-    
+
     return consolidation_levels
 ```
 
@@ -217,92 +217,92 @@ class HybridGraphRAGRetriever:
     """
     Hybrid retriever combining graph traversal, vector similarity, and keyword search.
     """
-    
+
     def __init__(self, graph, embeddings, text_index):
         self.graph = graph
         self.embeddings = embeddings
         self.text_index = text_index
-    
+
     def retrieve_parallel(self, query, top_k=10):
         """
         Execute three retrieval strategies in parallel and merge results.
         """
         import concurrent.futures
-        
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             graph_future = executor.submit(self._graph_retrieval, query)
             vector_future = executor.submit(self._vector_retrieval, query)
             text_future = executor.submit(self._text_retrieval, query)
-            
+
             graph_results = graph_future.result()
             vector_results = vector_future.result()
             text_results = text_future.result()
-        
+
         return self._merge_and_rank(graph_results, vector_results, text_results, top_k)
-    
+
     def _graph_retrieval(self, query):
         """Retrieve by traversing knowledge graph structure."""
         # Extract entities from query and traverse relationships
         entities = self._extract_entities(query)
         results = {}
-        
+
         for entity in entities:
             if entity in self.graph:
                 # BFS to find related entities
                 for neighbor, distance in self._bfs_neighbors(entity).items():
                     if neighbor not in results:
                         results[neighbor] = {'graph_score': 1.0 / (1 + distance)}
-        
+
         return results
-    
+
     def _vector_retrieval(self, query):
         """Retrieve by semantic embedding similarity."""
         from sklearn.metrics.pairwise import cosine_similarity
-        
+
         # Embed query and find similar node embeddings
         query_embedding = self._embed(query)
         scores = cosine_similarity([query_embedding], self.embeddings)[0]
-        
+
         results = {}
         for idx, score in enumerate(scores):
             if score > 0.5:  # Similarity threshold
                 results[self._get_node_id(idx)] = {'vector_score': float(score)}
-        
+
         return results
-    
+
     def _text_retrieval(self, query):
         """Retrieve by keyword and text matching."""
         # Use inverted index for keyword matching
         keywords = query.lower().split()
         results = {}
-        
+
         for keyword in keywords:
             matching_nodes = self.text_index.find_matches(keyword)
             for node_id, match_strength in matching_nodes.items():
                 if node_id not in results:
                     results[node_id] = {'text_score': 0.0}
                 results[node_id]['text_score'] += match_strength
-        
+
         return results
-    
+
     def _merge_and_rank(self, graph_results, vector_results, text_results, top_k):
         """Merge results from all strategies and rank by combined score."""
         all_nodes = set()
         all_nodes.update(graph_results.keys())
         all_nodes.update(vector_results.keys())
         all_nodes.update(text_results.keys())
-        
+
         combined_scores = {}
         for node in all_nodes:
             graph_score = graph_results.get(node, {}).get('graph_score', 0)
             vector_score = vector_results.get(node, {}).get('vector_score', 0)
             text_score = text_results.get(node, {}).get('text_score', 0)
-            
+
             # Normalize scores and compute weighted combination
-            combined_scores[node] = (0.4 * graph_score + 
-                                    0.4 * vector_score + 
+            combined_scores[node] = (0.4 * graph_score +
+                                    0.4 * vector_score +
                                     0.2 * text_score)
-        
+
         # Return top-k nodes sorted by combined score
         ranked = sorted(combined_scores.items(), key=lambda x: x[1], reverse=True)
         return [node for node, score in ranked[:top_k]]
@@ -329,20 +329,20 @@ class AdaptiveContextIntelligenceSystem:
     """
     Complete system for semantic query matching against code domain knowledge graph.
     """
-    
+
     def __init__(self, graph_yaml_path, embedding_model='all-MiniLM-L6-v2'):
         from sentence_transformers import SentenceTransformer
-        
+
         # Load graph schema from YAML
         self.graph_schema = self._load_yaml_schema(graph_yaml_path)
         self.embedding_model = SentenceTransformer(embedding_model)
-        
+
         # Initialize components
         self.graph_db = self._initialize_graph_db()
         self.embeddings = self._generate_embeddings()
         self.intent_classifier = self._setup_intent_classification()
         self.consolidation_hierarchies = self._build_hierarchies()
-    
+
     def process_query(self, user_query):
         """
         End-to-end query processing pipeline.
@@ -351,7 +351,7 @@ class AdaptiveContextIntelligenceSystem:
         normalized_query = self._normalize_query(user_query)
         intent = self.intent_classifier.classify(normalized_query)
         entities = self._extract_entities(normalized_query)
-        
+
         # Step 2: Select appropriate retrieval strategy based on intent
         if intent == 'ENTITY_LOOKUP':
             results = self._entity_lookup(entities)
@@ -363,79 +363,79 @@ class AdaptiveContextIntelligenceSystem:
             results = self._path_discovery(entities)
         else:
             results = self._hybrid_search(normalized_query)
-        
+
         # Step 3: Enhance results with context
         enriched_results = self._enrich_with_context(results)
-        
+
         # Step 4: Consolidate and present
         consolidated = self._consolidate_results(enriched_results)
         return self._format_response(consolidated)
-    
+
     def _semantic_search(self, query):
         """
         Retrieve nodes semantically similar to query using embeddings.
         """
         # Embed the query
         query_embedding = self.embedding_model.encode([query])[0]
-        
+
         # Compute similarity to all node embeddings
         from sklearn.metrics.pairwise import cosine_similarity
         similarities = cosine_similarity(
-            [query_embedding], 
+            [query_embedding],
             self.embeddings
         )[0]
-        
+
         # Get nodes with similarity > threshold
         threshold = 0.6
         similar_nodes = []
         for node_id, node_embedding in self.embeddings.items():
             similarity = cosine_similarity(
-                [query_embedding], 
+                [query_embedding],
                 [node_embedding]
             )[0][0]
             if similarity > threshold:
                 similar_nodes.append((node_id, similarity))
-        
+
         # Sort by similarity score (descending)
         similar_nodes.sort(key=lambda x: x[1], reverse=True)
         return similar_nodes[:10]  # Return top 10
-    
+
     def _path_discovery(self, entities):
         """
         Find paths connecting specified entities through the graph.
         """
         if len(entities) < 2:
             return []
-        
+
         paths = []
         for i in range(len(entities) - 1):
             source = entities[i]
             target = entities[i + 1]
-            
+
             # Use bidirectional BFS to find shortest path
             path = self._bidirectional_bfs(source, target)
             if path:
                 paths.append(path)
-        
+
         return paths
-    
+
     def _bidirectional_bfs(self, source, target):
         """
         Bidirectional BFS for finding shortest path.
         """
         from collections import deque
-        
+
         if source == target:
             return [source]
-        
+
         # Forward search from source
         forward_queue = deque([(source, [source])])
         forward_visited = {source}
-        
+
         # Backward search from target
         backward_queue = deque([(target, [target])])
         backward_visited = {target}
-        
+
         while forward_queue and backward_queue:
             # Forward step
             if forward_queue:
@@ -445,11 +445,11 @@ class AdaptiveContextIntelligenceSystem:
                         # Found connection
                         backward_path = self._reconstruct_path(neighbor, backward_visited)
                         return path + backward_path[::-1]
-                    
+
                     if neighbor not in forward_visited:
                         forward_visited.add(neighbor)
                         forward_queue.append((neighbor, path + [neighbor]))
-            
+
             # Backward step
             if backward_queue:
                 node, path = backward_queue.popleft()
@@ -458,26 +458,26 @@ class AdaptiveContextIntelligenceSystem:
                         # Found connection
                         forward_path = self._reconstruct_path(neighbor, forward_visited)
                         return forward_path + path[::-1]
-                    
+
                     if neighbor not in backward_visited:
                         backward_visited.add(neighbor)
                         backward_queue.append((neighbor, path + [neighbor]))
-        
+
         return None  # No path found
-    
+
     def _enrich_with_context(self, results):
         """
         Add contextual information to retrieved entities.
         """
         enriched = []
-        
+
         for node_id, score in results:
             node_data = self.graph_db.get_node(node_id)
-            
+
             # Add immediate neighbors for context
             upstream = self._bfs_neighbors(node_id, direction='in', depth=1)
             downstream = self._bfs_neighbors(node_id, direction='out', depth=1)
-            
+
             enriched.append({
                 'node_id': node_id,
                 'data': node_data,
@@ -485,9 +485,9 @@ class AdaptiveContextIntelligenceSystem:
                 'upstream': list(upstream.keys()),
                 'downstream': list(downstream.keys())
             })
-        
+
         return enriched
-    
+
     def _consolidate_results(self, enriched_results, level=None):
         """
         Apply hierarchical consolidation to results.
@@ -495,14 +495,14 @@ class AdaptiveContextIntelligenceSystem:
         if level is None:
             # Auto-select consolidation level based on result count
             level = 'moderate'  # or 'detailed', 'abstract'
-        
+
         consolidated = []
         for item in enriched_results:
             consolidated_item = {
                 'node_id': item['node_id'],
                 'score': item['score']
             }
-            
+
             # Include appropriate level of detail
             if level == 'abstract':
                 # Only include high-level semantic information
@@ -519,59 +519,59 @@ class AdaptiveContextIntelligenceSystem:
             else:  # 'detailed'
                 # Include full details
                 consolidated_item.update(item)
-            
+
             consolidated.append(consolidated_item)
-        
+
         return consolidated
-    
+
     def _normalize_query(self, query):
         """
         Normalize query for consistent processing.
         """
         import re
-        
+
         # Lowercase
         normalized = query.lower()
-        
+
         # Remove punctuation except hyphens and underscores
         normalized = re.sub(r'[^\w\s\-_]', '', normalized)
-        
+
         # Normalize whitespace
         normalized = ' '.join(normalized.split())
-        
+
         return normalized
-    
+
     def _load_yaml_schema(self, yaml_path):
         """Load knowledge graph schema from YAML file."""
         import yaml
-        
+
         with open(yaml_path, 'r') as f:
             return yaml.safe_load(f)
-    
+
     def _initialize_graph_db(self):
         """Initialize graph database connection."""
         # Implementation depends on chosen database
         # This is a placeholder
         pass
-    
+
     def _generate_embeddings(self):
         """Generate embeddings for all graph nodes."""
         embeddings = {}
-        
+
         for node_id in self.graph_db.get_all_nodes():
             node_data = self.graph_db.get_node(node_id)
             # Combine node name and PURPOSE field for embedding
             text = f"{node_data['name']} {node_data.get('purpose', '')}"
             embedding = self.embedding_model.encode(text)
             embeddings[node_id] = embedding
-        
+
         return embeddings
-    
+
     def _setup_intent_classification(self):
         """Set up intent classification model."""
         # Implementation using transformers or rule-based approach
         pass
-    
+
     def _build_hierarchies(self):
         """Build hierarchical consolidation structures."""
         # Implementation of hierarchical clustering and semantic units
@@ -590,11 +590,11 @@ class HNSWGraphEmbeddingIndex:
     """
     HNSW index for fast approximate nearest neighbor search on graph embeddings.
     """
-    
+
     def __init__(self, embedding_dim, max_elements=100000):
         self.embedding_dim = embedding_dim
         self.max_elements = max_elements
-        
+
         # Create HNSW index
         self.index = hnswlib.Index(space='cosine', dim=embedding_dim)
         self.index.init_index(
@@ -602,10 +602,10 @@ class HNSWGraphEmbeddingIndex:
             ef_construction=200,  # Higher = more accurate but slower
             M=16  # Number of bi-directional links
         )
-        
+
         self.node_id_map = {}  # Map from internal IDs to node IDs
         self.current_id = 0
-    
+
     def add_node_embedding(self, node_id, embedding):
         """Add a node embedding to the index."""
         self.index.add_items(
@@ -614,16 +614,16 @@ class HNSWGraphEmbeddingIndex:
         )
         self.node_id_map[self.current_id] = node_id
         self.current_id += 1
-    
+
     def search_similar(self, query_embedding, k=10, ef_search=100):
         """Find k most similar embeddings to query."""
         self.index.ef = ef_search  # Set search effort
-        
+
         labels, distances = self.index.knn_query(
             np.array([query_embedding], dtype=np.float32),
             k=k
         )
-        
+
         # Convert internal IDs back to node IDs and distances to similarities
         results = []
         for internal_id, distance in zip(labels[0], distances[0]):
@@ -631,7 +631,7 @@ class HNSWGraphEmbeddingIndex:
             # Convert cosine distance to similarity (1 - distance)
             similarity = 1 - distance
             results.append((node_id, similarity))
-        
+
         return results
 ```
 

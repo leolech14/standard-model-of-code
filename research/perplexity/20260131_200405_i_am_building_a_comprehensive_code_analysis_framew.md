@@ -194,23 +194,23 @@ from collections import defaultdict
 def compute_temporal_coupling(repo_path, time_window_days=30):
     # Maps each file to the set of commits that modified it
     file_commits = defaultdict(set)
-    
+
     # Maps each date window to modified files
     date_commits = defaultdict(set)
-    
+
     repo = Repository(repo_path)
     for commit in repo.traverse_commits():
         commit_date = commit.committer_date.date()
         files_in_commit = set(m.new_path for m in commit.modifications if m.new_path)
-        
+
         date_commits[commit_date].update(files_in_commit)
         for f in files_in_commit:
             file_commits[f].add(commit_date)
-    
+
     # Compute coupling: files that appear in same time windows
     coupling_matrix = defaultdict(float)
     file_list = list(file_commits.keys())
-    
+
     for i, file_a in enumerate(file_list):
         for file_b in file_list[i+1:]:
             # Count commits containing both files
@@ -218,10 +218,10 @@ def compute_temporal_coupling(repo_path, time_window_days=30):
             # Normalize by minimum (Jaccard-like)
             commits_either = len(file_commits[file_a] | file_commits[file_b])
             coupling = commits_both / max(commits_either, 1)
-            
+
             if coupling > 0.1:  # Threshold
                 coupling_matrix[(file_a, file_b)] = coupling
-    
+
     return coupling_matrix
 ```
 
@@ -241,17 +241,17 @@ The Python implementation involves calculating metrics for each file over rollin
 def compute_churn_metrics(repo_path, window_days=30):
     from pydriller import Repository
     from datetime import datetime, timedelta
-    
+
     churn_by_file = defaultdict(lambda: {"adds": 0, "deletes": 0, "windows": 0})
-    
+
     repo = Repository(repo_path)
     current_date = None
     window_files = set()
-    
+
     for commit in sorted(repo.traverse_commits(), key=lambda c: c.committer_date):
         if current_date is None:
             current_date = commit.committer_date.date()
-        
+
         # Check if we've entered a new window
         if (commit.committer_date.date() - current_date).days > window_days:
             # Record window data
@@ -259,7 +259,7 @@ def compute_churn_metrics(repo_path, window_days=30):
                 churn_by_file[f]["windows"] += 1
             window_files = set()
             current_date = commit.committer_date.date()
-        
+
         # Process modifications
         for mod in commit.modifications:
             if mod.new_path:
@@ -268,7 +268,7 @@ def compute_churn_metrics(repo_path, window_days=30):
                     churn_by_file[mod.new_path]["adds"] += mod.added_lines
                 if mod.deleted_lines:
                     churn_by_file[mod.new_path]["deletes"] += mod.deleted_lines
-    
+
     # Compute derived metrics
     churn_metrics = {}
     for file, data in churn_by_file.items():
@@ -279,7 +279,7 @@ def compute_churn_metrics(repo_path, window_days=30):
             "avg_per_window": avg_churn_per_window,
             "volatility": "high" if avg_churn_per_window > 50 else "medium" if avg_churn_per_window > 20 else "low"
         }
-    
+
     return churn_metrics
 ```
 
@@ -297,20 +297,20 @@ The implementation combines static and temporal signals:
 def predict_change_impact(changed_file, static_graph, coupling_matrix, threshold=0.3):
     """Predict which files will likely need changes if changed_file is modified."""
     impacted = []
-    
+
     # Find coupled files
     for (f1, f2), coupling_strength in coupling_matrix.items():
         if f1 == changed_file and coupling_strength > threshold:
             impacted.append((f2, coupling_strength, "temporal_coupling"))
         elif f2 == changed_file and coupling_strength > threshold:
             impacted.append((f1, coupling_strength, "temporal_coupling"))
-    
+
     # Find static dependencies
     if changed_file in static_graph.nodes:
         node_id = static_graph.get_node_id(changed_file)
         for dependent in static_graph.outgoing_edges(node_id):
             impacted.append((dependent.path, 0.5, "static_dependency"))
-    
+
     # Deduplicate and sort by impact
     impacted_unique = {}
     for file, strength, type_ in impacted:
@@ -320,7 +320,7 @@ def predict_change_impact(changed_file, static_graph, coupling_matrix, threshold
             # Keep higher impact
             if strength > impacted_unique[file][0]:
                 impacted_unique[file] = (strength, type_)
-    
+
     return sorted(impacted_unique.items(), key=lambda x: x[1][0], reverse=True)
 ```
 
@@ -348,43 +348,43 @@ PyDriller and Git metadata enable computing truck factor through authorship anal
 def compute_truck_factor(repo_path, critical_files_only=False):
     """Compute truck factor: minimum developers to lose before critical knowledge is lost."""
     from pydriller import Repository
-    
+
     file_authors = defaultdict(set)
     total_commits_per_author = defaultdict(int)
-    
+
     repo = Repository(repo_path)
     for commit in repo.traverse_commits():
         for mod in commit.modifications:
             if mod.new_path:
                 file_authors[mod.new_path].add(commit.author.name)
                 total_commits_per_author[commit.author.name] += 1
-    
+
     # Filter to critical files if needed
     target_files = file_authors.items()
     if critical_files_only:
         # Critical = high churn or high dependency
-        target_files = [(f, authors) for f, authors in target_files 
+        target_files = [(f, authors) for f, authors in target_files
                        if len(authors) <= 2 or len(file_authors[f]) == 1]
-    
+
     # Compute: how many developers to lose to unmaintain all files?
     # Greedy algorithm: repeatedly pick developer who owns most uncovered files
     covered_files = set()
     essential_devs = []
-    
+
     while len(covered_files) < len(target_files):
         # Find developer covering most uncovered files
         uncovered = [f for f in target_files if f not in covered_files]
         best_dev = max(
             total_commits_per_author.keys(),
-            key=lambda dev: len([f for f in uncovered 
+            key=lambda dev: len([f for f in uncovered
                                if dev in file_authors[f[0]]])
         )
         essential_devs.append(best_dev)
-        
+
         # Mark files covered
-        covered_files.update(f for f in uncovered 
+        covered_files.update(f for f in uncovered
                             if best_dev in file_authors[f[0]])
-    
+
     return {
         "truck_factor": len(essential_devs),
         "essential_developers": essential_devs,
@@ -409,36 +409,36 @@ def analyze_socio_technical_congruence(repo_path, org_structure):
     """Analyze whether code structure aligns with org structure (Conway's Law)."""
     from pydriller import Repository
     from collections import defaultdict
-    
+
     # Map files to teams
     file_ownership = defaultdict(lambda: defaultdict(int))  # file -> team -> ownership_weight
-    
+
     repo = Repository(repo_path)
     for commit in repo.traverse_commits():
         team = org_structure.get_team_for_author(commit.author.name)
-        
+
         for mod in commit.modifications:
             if mod.new_path:
                 file_ownership[mod.new_path][team] += 1
-    
+
     # Determine primary team for each file
     file_team_mapping = {}
     for file, team_weights in file_ownership.items():
         if team_weights:
             primary_team = max(team_weights, key=team_weights.get)
             file_team_mapping[file] = primary_team
-    
+
     # Analyze architectural boundaries
     # Compare files owned by different teams that have static dependencies
     cross_team_deps = []
-    
+
     # (This would integrate with static_graph to find dependencies)
     # For each edge in static_graph:
     #   If source and target owned by different teams, count as cross-team dependency
-    
+
     # Compute congruence metric: lower = better
     congruence_score = len(cross_team_deps) / total_edges
-    
+
     return {
         "congruence_score": congruence_score,
         "cross_team_dependencies": cross_team_deps,
@@ -459,21 +459,21 @@ The SMC can integrate pull request data (when available) to refine these estimat
 ```python
 def analyze_code_review_patterns(pr_data):
     """Analyze whether code review enables knowledge transfer."""
-    
+
     review_flows = defaultdict(lambda: defaultdict(int))  # author -> reviewer -> count
-    
+
     for pr in pr_data:
         original_author = pr.original_author
         for review in pr.reviews:
             reviewer = review.reviewer
             if reviewer != original_author:
                 review_flows[original_author][reviewer] += 1
-    
+
     # Metrics:
     # 1. Reviewer diversity: how many different reviewers review each author's code?
     # 2. Asymmetry: are reviews uni-directional or mutual?
     # 3. Hierarchical patterns: do juniors primarily review seniors' code?
-    
+
     metrics = {}
     for author, reviewers in review_flows.items():
         metrics[author] = {
@@ -481,7 +481,7 @@ def analyze_code_review_patterns(pr_data):
             "review_concentration": max(reviewers.values()) / sum(reviewers.values()),
             "expertise_transfer_potential": "high" if len(reviewers) > 3 else "medium" if len(reviewers) > 1 else "low"
         }
-    
+
     return metrics
 ```
 
@@ -518,27 +518,27 @@ The SMC framework can automate this by implementing a correlation engine:
 ```python
 def correlate_incident_to_change(incident, deployments, changes):
     """Find which code change likely caused an incident."""
-    
+
     # Find deployments within incident time window
-    relevant_deployments = [d for d in deployments 
-                           if d.timestamp < incident.timestamp 
+    relevant_deployments = [d for d in deployments
+                           if d.timestamp < incident.timestamp
                            and d.timestamp > incident.timestamp - timedelta(hours=1)]
-    
+
     if not relevant_deployments:
         return None, "no_recent_deployment"
-    
+
     # Most likely culprit is most recent deployment
     culprit_deployment = max(relevant_deployments, key=lambda d: d.timestamp)
-    
+
     # Find changes in that deployment
     culprit_changes = [c for c in changes if c.commit_sha in culprit_deployment.commits]
-    
+
     # Score changes by:
     # 1. Complexity (high complexity = higher risk)
     # 2. Blast radius (how many files changed)
     # 3. Author experience (junior devs = higher risk)
     # 4. Review coverage (minimal review = higher risk)
-    
+
     scored_changes = []
     for change in culprit_changes:
         risk_score = (
@@ -548,7 +548,7 @@ def correlate_incident_to_change(incident, deployments, changes):
             (1 - change.review_coverage) * 0.2
         )
         scored_changes.append((change, risk_score))
-    
+
     return sorted(scored_changes, key=lambda x: x[1], reverse=True)
 ```
 
@@ -564,10 +564,10 @@ The implementation involves: (1) for each code module, compute static metrics (c
 def correlate_metrics_to_failures(code_metrics, failure_history):
     """Build predictive model of defects from code metrics."""
     from sklearn.ensemble import RandomForestClassifier
-    
+
     X = []  # Features: complexity, coupling, coverage, churn, etc.
     y = []  # Target: did this code fail in production?
-    
+
     for module, metrics in code_metrics.items():
         X.append([
             metrics['cyclomatic_complexity'],
@@ -576,18 +576,18 @@ def correlate_metrics_to_failures(code_metrics, failure_history):
             metrics['code_churn'],
             metrics['comment_ratio']
         ])
-        
+
         failures = sum(1 for f in failure_history if f['module'] == module)
         y.append(1 if failures > 0 else 0)
-    
+
     # Train model
     model = RandomForestClassifier(n_estimators=100)
     model.fit(X, y)
-    
+
     # Feature importance reveals which metrics best predict failures
     importances = model.feature_importances_
     feature_names = ['complexity', 'coupling', 'coverage', 'churn', 'comments']
-    
+
     return {
         'model': model,
         'feature_importance': dict(zip(feature_names, importances)),

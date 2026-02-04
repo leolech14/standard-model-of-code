@@ -230,33 +230,33 @@ from itertools import combinations
 def build_clique_complex(G):
     """Build simplicial complex from cliques in dependency graph"""
     simplices = set()
-    
+
     # Find all maximal cliques
     cliques = list(nx.find_cliques(G))
-    
+
     # Each clique and all its subsets form simplices
     for clique in cliques:
         for r in range(1, len(clique) + 1):
             for subset in combinations(clique, r):
                 # Represent as frozenset for hashable storage
                 simplices.add(frozenset(subset))
-    
+
     return simplices
 
 def build_vietoris_rips_complex(G, epsilon):
     """Build Vietoris-Rips complex at distance threshold epsilon"""
     # First, compute all-pairs shortest path distances
     distances = dict(nx.all_pairs_shortest_path_length(G))
-    
+
     # Build proximity graph at threshold epsilon
     proximity_graph = nx.Graph()
     proximity_graph.add_nodes_from(G.nodes())
-    
+
     for u in G.nodes():
         for v in G.nodes():
             if u < v and distances[u].get(v, float('inf')) <= epsilon:
                 proximity_graph.add_edge(u, v)
-    
+
     # Build Vietoris-Rips complex from cliques in proximity graph
     return build_clique_complex(proximity_graph)
 ```
@@ -271,25 +271,25 @@ from ripser import ripser
 
 def compute_persistence_diagrams(code_dependency_graph):
     """Compute persistent homology of code dependency structure"""
-    
+
     # Convert graph to Vietoris-Rips point cloud representation
     # Each code element is a 'point' characterized by its metric properties
-    
+
     points = extract_code_metrics(code_dependency_graph)
-    
+
     # Compute Vietoris-Rips persistent homology across scales
     result = ripser(points, maxdim=2)
-    
+
     # Extract persistence diagrams
     diagrams = result['dgms']  # List of diagrams for each dimension
-    
+
     # Visualize persistence diagrams
     for dim, dgm in enumerate(diagrams):
         if len(dgm) > 0:
             # Points far from diagonal are significant features
             # Points near diagonal are noise
             plt.scatter(dgm[:, 0], dgm[:, 1], label=f'H_{dim}')
-    
+
     return diagrams
 
 def extract_code_metrics(G):
@@ -298,10 +298,10 @@ def extract_code_metrics(G):
     for node in G.nodes():
         in_degree = G.in_degree(node)
         out_degree = G.out_degree(node)
-        
+
         # Get semantic properties (complexity, coverage, etc.)
         # This would integrate with actual codebase analysis
-        
+
         metric_vector = [
             in_degree,
             out_degree,
@@ -309,7 +309,7 @@ def extract_code_metrics(G):
             # Additional metrics...
         ]
         metrics.append(metric_vector)
-    
+
     return np.array(metrics)
 ```
 
@@ -325,37 +325,37 @@ import json
 def mapper_algorithm(code_metrics, lens_function, intervals=10, overlap=0.3):
     """
     Implement Mapper algorithm for code structure visualization
-    
+
     Args:
         code_metrics: N x D array of code element metrics
         lens_function: Function computing projection of metrics (N,) -> 1D
         intervals: Number of intervals in lens space
         overlap: Overlap fraction between consecutive intervals
     """
-    
+
     # Step 1: Compute lens projection
     lens_values = lens_function(code_metrics)
-    
+
     # Step 2: Partition lens space
     min_lens, max_lens = lens_values.min(), lens_values.max()
     interval_width = (max_lens - min_lens) / intervals
-    
+
     partitions = {}
     for i in range(intervals):
         lower = min_lens + i * interval_width * (1 - overlap)
         upper = lower + interval_width * (1 + overlap)
-        
+
         # Get indices of elements in this partition
         indices = np.where((lens_values >= lower) & (lens_values <= upper))[0]
         if len(indices) > 0:
             partitions[i] = indices
-    
+
     # Step 3: Cluster within each partition
     from sklearn.cluster import DBSCAN
-    
+
     clusters_per_partition = {}
     element_to_cluster = {}
-    
+
     for partition_id, indices in partitions.items():
         if len(indices) <= 2:
             # Trivial clustering for small partitions
@@ -368,28 +368,28 @@ def mapper_algorithm(code_metrics, lens_function, intervals=10, overlap=0.3):
             # DBSCAN clustering
             partition_metrics = code_metrics[indices]
             clustering = DBSCAN(eps=0.5).fit(partition_metrics)
-            
+
             clusters = {}
             for cluster_id in np.unique(clustering.labels_):
                 mask = clustering.labels_ == cluster_id
                 cluster_indices = indices[mask]
                 clusters[cluster_id] = list(cluster_indices)
-                
+
                 for idx in cluster_indices:
                     element_to_cluster[idx] = (partition_id, cluster_id)
-            
+
             clusters_per_partition[partition_id] = clusters
-    
+
     # Step 4: Build graph
     mapper_graph = nx.Graph()
     cluster_id_global = 0
     cluster_mapping = {}  # Maps (partition, local_id) to global_id
-    
+
     for partition_id in sorted(clusters_per_partition.keys()):
         for local_id, indices in clusters_per_partition[partition_id].items():
             global_id = cluster_id_global
             cluster_mapping[(partition_id, local_id)] = global_id
-            
+
             # Add node with attributes
             mapper_graph.add_node(
                 global_id,
@@ -398,21 +398,21 @@ def mapper_algorithm(code_metrics, lens_function, intervals=10, overlap=0.3):
                 avg_metrics=code_metrics[indices].mean(axis=0)
             )
             cluster_id_global += 1
-    
+
     # Add edges between clusters with overlapping elements
     for elem_idx, (part_id, local_id) in element_to_cluster.items():
         # Check if element appears in adjacent partitions
         cluster_global_id = cluster_mapping[(part_id, local_id)]
-        
+
         if part_id + 1 in clusters_per_partition:
             for adjacent_local_id in clusters_per_partition[part_id + 1].keys():
                 adjacent_global_id = cluster_mapping[(part_id + 1, adjacent_local_id)]
-                
+
                 # Check for overlap
                 adjacent_elements = clusters_per_partition[part_id + 1][adjacent_local_id]
                 # If element appears in adjacent partition, create edge
                 # (simplified - in full implementation check actual overlaps)
-    
+
     return mapper_graph
 
 # Define lens functions highlighting different code dimensions
@@ -468,11 +468,11 @@ const myGraph = ForceGraph3D()
 function exploreTopology(startNode) {
     // Use persistent homology to identify related components
     // Highlight features that persist with startNode
-    const persistentNeighbors = 
+    const persistentNeighbors =
         computePersistentNeighbors(startNode);
-    
+
     // Animate camera to focus on this cluster
-    myGraph.zoomToFit(300, 50, node => 
+    myGraph.zoomToFit(300, 50, node =>
         persistentNeighbors.includes(node.id)
     );
 }
@@ -481,12 +481,12 @@ function exploreTopology(startNode) {
 function navigateTowardGoal(goalMetrics) {
     // Compute topological path through code structure
     // Guide user toward code regions matching goal metrics
-    
+
     const path = computeTopologicalPath(
-        currentNode, 
+        currentNode,
         goalMetrics
     );
-    
+
     animatePath(path);
 }
 ```
@@ -502,50 +502,50 @@ from pathlib import Path
 
 class CodeAnalyzer:
     """Extract dependency graph and metrics from source code"""
-    
+
     def __init__(self, root_path):
         self.root_path = Path(root_path)
         self.dependency_graph = nx.DiGraph()
         self.code_metrics = {}
-    
+
     def analyze(self):
         """Analyze codebase and build dependency graph"""
-        
+
         # First pass: collect all definitions
         for py_file in self.root_path.rglob('*.py'):
             self._extract_definitions(py_file)
-        
+
         # Second pass: extract dependencies
         for py_file in self.root_path.rglob('*.py'):
             self._extract_dependencies(py_file)
-        
+
         return self.dependency_graph, self.code_metrics
-    
+
     def _extract_definitions(self, filepath):
         """Extract function and class definitions"""
         with open(filepath) as f:
             tree = ast.parse(f.read())
-        
+
         for node in ast.walk(tree):
             if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
                 node_id = f"{filepath.stem}.{node.name}"
                 self.dependency_graph.add_node(node_id)
-                
+
                 # Compute metrics
                 self.code_metrics[node_id] = {
-                    'type': 'function' if isinstance(node, 
-                                                    ast.FunctionDef) 
+                    'type': 'function' if isinstance(node,
+                                                    ast.FunctionDef)
                            else 'class',
                     'line_count': node.end_lineno - node.lineno,
                     'complexity': self._compute_complexity(node),
                     'docstring': ast.get_docstring(node) is not None
                 }
-    
+
     def _extract_dependencies(self, filepath):
         """Extract function calls and imports"""
         with open(filepath) as f:
             tree = ast.parse(f.read())
-        
+
         for node in ast.walk(tree):
             if isinstance(node, ast.Call):
                 # Identify function being called
@@ -559,12 +559,12 @@ class CodeAnalyzer:
                                 self.dependency_graph.add_edge(
                                     source, target
                                 )
-    
+
     def _compute_complexity(self, node):
         """Compute cyclomatic complexity"""
         complexity = 1
         for child in ast.walk(node):
-            if isinstance(child, (ast.If, ast.For, ast.While, 
+            if isinstance(child, (ast.If, ast.For, ast.While,
                                 ast.ExceptHandler)):
                 complexity += 1
         return complexity

@@ -1,6 +1,6 @@
 # Standard Model of Code: Formal Axioms
 
-> **Status:** VALIDATED (Gemini 3 Pro, 2026-01-25)
+> **Status:** AI-REVIEWED (Gemini 3 Pro, 2026-01-25)
 > **Created:** 2026-01-25
 > **Purpose:** Extract core axioms for formal validation
 > **See Also:** `../../../wave/docs/theory/FOUNDATIONS_INTEGRATION.md` for full proof
@@ -36,9 +36,9 @@ WHERE:
 
 ### A1.1 Necessity of Partition (Lawvere)
 ```
-THEOREM: P = C ⊔ X is MATHEMATICALLY NECESSARY, not arbitrary.
+DESIGN RATIONALE: P = C ⊔ X is motivated by practical considerations about self-reference.
 
-PROOF (by Lawvere's Fixed-Point Theorem, 1969):
+ARGUMENT (inspired by Lawvere's Fixed-Point Theorem, 1969):
   Let A = C (Codome - syntax)
   Let B = {true, false} (meanings)
   Let B^A = all interpretations of code
@@ -53,7 +53,7 @@ PROOF (by Lawvere's Fixed-Point Theorem, 1969):
   ∴ P = C ⊔ X is necessary for completeness ∎
 ```
 
-**Validated:** Gemini 3 Pro (2026-01-25) - "The proof is VALID"
+**Reviewed:** Gemini 3 Pro (2026-01-25) - "The argument is sound"
 **Novelty:** Application to software documentation necessity appears NOVEL
 
 ### A2. Cardinality Preservation
@@ -306,7 +306,7 @@ Key correspondences:
 
 ---
 
-### Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED
+### Axiom Group E (Constructal): ⚠️ HEURISTIC
 
 Bejan's Constructal Law is empirically validated but debated as mathematical axiom. Treat as heuristic principle, not formal theorem.
 
@@ -402,8 +402,8 @@ Programming = CONTEXTOME curation at L₁
 | D1-D7 | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (analogous) |
 | E1-E2 | Thermodynamics | ⚠️ HEURISTIC | Bejan Constructal |
 | F1-F2 | Information Theory | ⚡ INSPIRED BY | Tononi IIT (analogous) |
-| G1-G3 | Semiotics | ✅ VALIDATED | Peirce Triadic |
-| H1-H5 | Software Engineering | ✅ VALIDATED | Gemini 3 Pro (9/10) |
+| G1-G3 | Semiotics | ✅ GROUNDED | Peirce Triadic |
+| H1-H5 | Software Engineering | ⚡ PROPOSED | AI-assisted assessment |
 
 ---
 

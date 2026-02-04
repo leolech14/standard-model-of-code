@@ -288,7 +288,7 @@ Format:
 
 | Registry | Count | Location | Description |
 |----------|-------|----------|-------------|
-| **Antimatter Laws** | **5** | `schema/antimatter_laws.yaml` | AM001-AM005: LayerSkip, ReverseLayer, GodClass, AnemicModel, BoundedContextViolation |
+| **Antimatter Laws** | **5** | `schema/antimatter_patterns.yaml` | AM001-AM005: LayerSkip, ReverseLayer, GodClass, AnemicModel, BoundedContextViolation |
 | **Constraint Tiers** | **3** | `schema/constraints/taxonomy.yaml` | A (Axioms), B (Invariants), C (Heuristics) |
 | **Architecture Profiles** | **4** | `schema/profiles/architecture/` | classic_layered, clean_onion, fp_strict, oop_conventional |
 

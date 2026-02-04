@@ -21,7 +21,7 @@ We are power users of Perplexity's Sonar-Pro API and want to optimize our resear
 OBJECTIVE:
 Create the definitive guide for crafting optimal Perplexity queries, including:
 - Query structuring techniques
-- Token optimization strategies  
+- Token optimization strategies
 - Source quality maximization
 - Common pitfalls and how to avoid them
 - Advanced patterns that yield superior results
@@ -229,7 +229,7 @@ REQUIREMENTS:
 DESIRED OUTPUT:
 ────────────────────────────────────────────────────────
 1. Query Structure & Optimization (Q1.x)
-2. Source Quality & Authority (Q2.x)  
+2. Source Quality & Authority (Q2.x)
 3. Specificity vs. Breadth (Q3.x)
 4. Synthesis & Output Formatting (Q4.x)
 5. Advanced Techniques (Q5.x)

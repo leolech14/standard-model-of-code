@@ -1,6 +1,6 @@
 {
   "name": "PROJECT_elements",
-  "purpose": "Standard Model of Code - Theoretical framework treating code like physics",
+  "purpose": "Standard Model of Code - Reference model for AI-assisted code understanding using structured representation",
   "structure": {
     "particle": {
       "purpose": "PARTICLE layer - Code analysis engine (Collider)",

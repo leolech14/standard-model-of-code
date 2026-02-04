@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Model of Code - Reference Cards</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 60px 20px; padding-top: 80px; min-height: 100vh; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        h1 { font-size: 42px; font-weight: 200; color: var(--text-bright); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px; }
+        .subtitle { font-size: 16px; color: var(--text-dim); margin-bottom: 30px; }
+        .tagline { font-size: 14px; color: var(--text-main); max-width: 600px; margin: 0 auto; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+
+        .ref-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 30px; transition: all 0.3s ease; text-decoration: none; color: inherit; display: block; position: relative; overflow: hidden; }
+        .ref-card:hover { border-color: #444; transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .ref-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent, #666), transparent); }
+
+        .card-icon { font-size: 36px; margin-bottom: 15px; }
+        .card-title { font-size: 20px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; }
+        .card-count { font-size: 13px; color: var(--text-dim); margin-bottom: 15px; font-family: 'SF Mono', monospace; }
+        .card-desc { font-size: 14px; color: var(--text-main); line-height: 1.7; }
+        .card-arrow { position: absolute; bottom: 25px; right: 25px; font-size: 20px; color: var(--text-dim); transition: transform 0.2s; }
+        .ref-card:hover .card-arrow { transform: translateX(5px); color: var(--text-main); }
+
+        .section-title { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin: 50px 0 25px 0; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+        footer { margin-top: 80px; text-align: center; padding-top: 40px; border-top: 1px solid var(--border); }
+        .footer-logo { font-size: 14px; font-weight: 600; color: var(--text-bright); letter-spacing: 2px; margin-bottom: 10px; }
+        .footer-text { font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link active">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>Standard Model</h1>
+            <p class="subtitle">of Code</p>
+            <p class="tagline">
+                A complete taxonomy for understanding software structure.
+                Eight reference cards covering atoms, roles, dimensions, levels, rings, phases, and the LOCUS coordinate system.
+            </p>
+        </header>
+
+        <div class="section-title">Core Concepts</div>
+        <div class="cards-grid">
+            <a href="200_ATOMS_REFERENCE.html" class="ref-card" style="--accent: #e74c3c;">
+                <div class="card-icon">⚛️</div>
+                <div class="card-title">The 200 Atoms</div>
+                <div class="card-count">200 structural types in 4 phases</div>
+                <div class="card-desc">
+                    The fundamental building blocks of software. Every piece of code is one of 200 canonical atom types,
+                    organized into DATA, LOGIC, ORGANIZATION, and EXECUTION phases.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <a href="41_ROLES_REFERENCE.html" class="ref-card" style="--accent: #2ecc71;">
+                <div class="card-icon">🎭</div>
+                <div class="card-title">The 41 Roles</div>
+                <div class="card-count">41 canonical purposes</div>
+                <div class="card-desc">
+                    What is this code FOR? Roles define the functional purpose of entities - Query, Command, Factory,
+                    Repository, Service, Handler, and 35 more.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <a href="8_DIMENSIONS_REFERENCE.html" class="ref-card" style="--accent: #3498db;">
+                <div class="card-icon">📐</div>
+                <div class="card-title">The 8 Dimensions</div>
+                <div class="card-count">8 orthogonal classification axes</div>
+                <div class="card-desc">
+                    Every entity is described along 8 independent dimensions: WHAT, Layer, Role, Boundary,
+                    State, Effect, Lifecycle, and Trust.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <a href="LOCUS_REFERENCE.html" class="ref-card" style="--accent: #9b59b6;">
+                <div class="card-icon">📍</div>
+                <div class="card-title">LOCUS Coordinate</div>
+                <div class="card-count">⟨λ, Ω, τ, α, R⟩</div>
+                <div class="card-desc">
+                    The complete theory-space coordinate for any code entity. LOCUS combines Level, Ring, Tier,
+                    Role, and RPBL character into a unique fingerprint.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="section-title">Hierarchical Structures</div>
+        <div class="cards-grid">
+            <a href="16_LEVELS_REFERENCE.html" class="ref-card" style="--accent: #f39c12;">
+                <div class="card-icon">📊</div>
+                <div class="card-title">The 16 Levels</div>
+                <div class="card-count">L-3 (Bit) to L12 (Universe)</div>
+                <div class="card-desc">
+                    The hierarchical scale from individual bits to the entire software industry.
+                    Four zones: Syntactic, Semantic, Systemic, and Cosmological.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <a href="5_RINGS_REFERENCE.html" class="ref-card" style="--accent: #1abc9c;">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">The 5 Rings</div>
+                <div class="card-count">R0 Core → R4 Framework</div>
+                <div class="card-desc">
+                    Dependency depth in concentric architecture. From the pure core with no deps
+                    to the framework edge with external integrations.
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <a href="4_PHASES_REFERENCE.html" class="ref-card" style="--accent: #e67e22;">
+                <div class="card-icon">🌊</div>
+                <div class="card-title">The 4 Phases</div>
+                <div class="card-count">DATA → LOGIC → ORG → EXEC</div>
+                <div class="card-desc">
+                    The four kingdoms of software: what is stored (DATA), what computes (LOGIC),
+                    how it's grouped (ORGANIZATION), and what runs (EXECUTION).
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+
+        <footer>
+            <div class="footer-logo">STANDARD MODEL OF CODE</div>
+            <div class="footer-text">Version 4.0 — SWEBOK-Enhanced — PROJECT_elements</div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -21,7 +21,7 @@ ARCHITECTURE:
    - Task: identify semantic boundaries in code chunks
    - Token-level attention to find where meaning shifts
 
-2. SMART DELAY MECHANISM  
+2. SMART DELAY MECHANISM
    - Don't process on every file save
    - Wait 1-2 hours after last change (avoid reprocessing during active editing)
    - User can force refresh when needed
@@ -31,10 +31,10 @@ ARCHITECTURE:
    - Key insight: PURPOSE IS RELATIONAL, NOT INTRINSIC
    - A chunk's meaning 'lies beyond' - defined by its role in larger structure
    - Token purpose ← depends on → Word
-   - Word purpose ← depends on → Sentence  
+   - Word purpose ← depends on → Sentence
    - Sentence purpose ← depends on → Paragraph
    - Paragraph purpose ← depends on → Story (system)
-   
+
 4. DUPLICATE PURPOSE DETECTION
    - Track purposes at each level
    - Identify chunks with SAME PURPOSE but different implementation

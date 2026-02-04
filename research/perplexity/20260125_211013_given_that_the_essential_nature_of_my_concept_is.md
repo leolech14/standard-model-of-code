@@ -20,7 +20,7 @@ What single English word best captures 'paired correspondence with measurable al
 
 Candidates to evaluate:
 1. Correspondence
-2. Coherence 
+2. Coherence
 3. Pairing
 4. Binding
 5. Alignment

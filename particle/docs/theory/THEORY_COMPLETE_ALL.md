@@ -8,7 +8,7 @@ format: html
 **Version:** 2.0.0
 **Last Updated:** 2026-01-28
 **Total:** 3,376 lines
-**Status:** VALIDATED - All additions include epistemic validation scores
+**Status:** GROUNDED - All additions include epistemic scoring
 
 ---
 
@@ -57,7 +57,7 @@ All additions include epistemic parentheses showing validation confidence.
 **📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | **Next:** [L1: Definitions →](./L1_DEFINITIONS.md)
 
 **Layer:** 0 (Bedrock)
-**Status:** VALIDATED
+**Status:** GROUNDED
 **Depends on:** Nothing (this is the foundation)
 **Version:** 2.0.0
 **Created:** 2026-01-27
@@ -66,9 +66,9 @@ All additions include epistemic parentheses showing validation confidence.
 
 ## Purpose of This Layer
 
-This document contains the **formal axioms** that MUST hold for the Standard Model of Code to be coherent. These are not definitions (that's L1), not behavioral laws (that's L2), and not measurements (that's L3). These are **foundational truths** that everything else builds on.
+This document contains the **design choices** that the Standard Model of Code builds upon. These are not definitions (that's L1), not behavioral principles (that's L2), and not measurements (that's L3). These are **assumed starting points** that everything else builds on.
 
-Each axiom group has been validated against established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
+Each axiom group has been grounded in established mathematical frameworks (set theory, graph theory, category theory, dynamical systems, information theory, semiotics).
 
 ---
 
@@ -110,9 +110,9 @@ This is a **MECE partition** (Mutually Exclusive, Collectively Exhaustive). In c
 
 ### A1.1 Necessity of Partition (Lawvere's Theorem)
 
-**THEOREM:** The partition P = C ⊔ X is **MATHEMATICALLY NECESSARY**, not an arbitrary engineering choice.
+**DESIGN RATIONALE:** The partition P = C ⊔ X is **motivated by practical considerations** about self-reference, not merely an arbitrary engineering choice.
 
-**PROOF (via Lawvere's Fixed-Point Theorem, 1969):**
+**ARGUMENT (inspired by Lawvere's Fixed-Point Theorem, 1969):**
 
 ```
 Let A = C (Codome - the system of executable code)
@@ -848,14 +848,14 @@ Our emergence metric `ε = I(System; Output) / Σᵢ I(Componentᵢ; Output)` is
 
 **Academic Source:** Tononi, G. et al. (2020). "Integrated Information Theory 4.0: Formulating the Properties of Phenomenal Existence in Physical Terms." Consciousness & Cognition.
 
-### Axiom Group E (Constructal): ⚠️ PARTIALLY VALIDATED
+### Axiom Group E (Constructal): ⚠️ PARTIALLY GROUNDED
 
 Bejan's Constructal Law is **empirically validated** across multiple physical and biological systems but **debated as universal mathematical axiom**. In SMoC, treat as:
 - **Heuristic principle** for understanding code evolution
 - **Design guideline** (minimize flow resistance)
 - **NOT a formal theorem** requiring proof
 
-### Axiom Group A (MECE Partition): ✅ VALIDATED (Novel Application)
+### Axiom Group A (MECE Partition): ✅ GROUNDED (Novel Application)
 
 The Lawvere proof (A1.1) is **standard mathematics**. The application to software documentation necessity appears **NOVEL** (no prior literature found).
 
@@ -863,14 +863,14 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 
 | Axiom Group | Mathematical Field | Status | Academic Source |
 |-------------|-------------------|--------|-----------------|
-| A (Set Structure) | Set Theory | ✅ VALIDATED | Lawvere (1969), standard partitions |
+| A (Set Structure) | Set Theory | ✅ GROUNDED | Lawvere (1969), standard partitions |
 | B (Graph) | Graph Theory | ✅ STANDARD | Directed graphs, reachability |
 | C (Levels) | Order Theory | ✅ STANDARD | Total orders, lattices |
 | D (Purpose) | Dynamical Systems | ⚡ INSPIRED BY | Friston FEP (2022) - analogous |
 | E (Constructal) | Thermodynamics | ⚠️ HEURISTIC | Bejan (2008) - empirical |
 | F (Emergence) | Information Theory | ⚡ INSPIRED BY | Tononi IIT (2020) - analogous |
-| G (Observability) | Semiotics | ✅ VALIDATED | Peirce triadic structure |
-| H (Consumer Classes) | Software Engineering | ✅ VALIDATED | Gemini 3 Pro assessment (9/10) |
+| G (Observability) | Semiotics | ✅ GROUNDED | Peirce triadic structure |
+| H (Consumer Classes) | Software Engineering | ✅ GROUNDED | Gemini 3 Pro assessment (9/10) |
 
 ---
 
@@ -879,7 +879,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ### Project Documents
 - `../../MODEL.md` -- Core model (builds on these axioms)
 - `L1_DEFINITIONS.md` -- What EXISTS (depends on these axioms)
-- `L2_LAWS.md` -- How things BEHAVE (depends on axioms + definitions)
+- `L2_PRINCIPLES.md` -- How things BEHAVE (depends on axioms + definitions)
 - `../../../wave/docs/theory/FOUNDATIONS_INTEGRATION.md` -- Lawvere proof with all lemmas
 - `../../../wave/docs/CODESPACE_ALGEBRA.md` -- Full mathematical elaboration
 
@@ -906,7 +906,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 ---
 
 *This is Layer 0. Everything else depends on this.*
-*All axioms are either validated against academic literature or explicitly marked as heuristic.*
+*All axioms are either grounded in academic literature or explicitly marked as heuristic.*
 
 ---
 
@@ -921,7 +921,7 @@ The Lawvere proof (A1.1) is **standard mathematics**. The application to softwar
 - [STANDARD_MODEL_COMPLETE.md](./STANDARD_MODEL_COMPLETE.md) - All layers integrated
 # L1: Definitions of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L0: Axioms](./L0_AXIOMS.md) | **Next:** [L2: Laws →](./L2_LAWS.md)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L0: Axioms](./L0_AXIOMS.md) | **Next:** [L2: Principles →](./L2_PRINCIPLES.md)
 
 **Layer:** 1 (Complete Enumeration)
 **Status:** ACTIVE | EVOLVING
@@ -941,7 +941,7 @@ Principle: **One concept, one definition, one location.**
 
 ## 0. The Three Realms (PROJECT_elements Trinity)
 
-**Status:** VALIDATED 2026-01-28 (harsh MECE testing)
+**Status:** GROUNDED 2026-01-28 (harsh MECE testing)
 
 > The architecture is organized around three mutually exclusive, collectively exhaustive realms.
 
@@ -1612,7 +1612,7 @@ All definitions in this layer trace to authoritative machine-readable sources:
 | Atoms | `../../schema/fixed/atoms.json` |
 | Roles | `../../schema/fixed/roles.json` |
 | Dimensions | `../../schema/fixed/dimensions.json` |
-| Antimatter laws | `../../schema/antimatter_laws.yaml` |
+| Antimatter laws | `../../schema/antimatter_patterns.yaml` |
 | Constants | `../../schema/constants.yaml` |
 | Node schema | `../../schema/particle.schema.json` |
 | Types (Python) | `../../schema/types.py` |
@@ -1788,9 +1788,9 @@ Human navigation uses BOTH (structure + meaning).
 
 **📍 Up:** [Theory Index](./THEORY_INDEX.md)
 **⬅️ Previous:** [L0: Axioms](./L0_AXIOMS.md) - Foundation these definitions build on
-**➡️ Next:** [L2: Laws](./L2_LAWS.md) - How these definitions behave
+**➡️ Next:** [L2: Principles](./L2_PRINCIPLES.md) - How these definitions behave
 **🔄 Loop:** [L3: Applications](./L3_APPLICATIONS.md) → [L0: Axioms](./L0_AXIOMS.md)
-# L2: Laws of the Standard Model of Code
+# L2: Principles of the Standard Model of Code
 
 **📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L1: Definitions](./L1_DEFINITIONS.md) | **Next:** [L3: Applications →](./L3_APPLICATIONS.md)
 
@@ -2164,7 +2164,7 @@ Formally: d(Ψ_C(c), Ψ_X(F(c))) ≤ ε for all c ∈ C
 
 **Definition:** Antimatter laws are violations of good architectural practice.
 
-**Canonical data:** `../../schema/antimatter_laws.yaml`
+**Canonical data:** `../../schema/antimatter_patterns.yaml`
 
 ### The Five Laws
 
@@ -2620,11 +2620,11 @@ Range: [0.67, 1.0] (low to high coupling)
 - [ORPHAN_SEMANTICS.md](../../wave/docs/theory/ORPHAN_SEMANTICS.md) - Detailed L2 law on connectivity
 # L3: Applications of the Standard Model of Code
 
-**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Laws](./L2_LAWS.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
+**📍 Navigation:** [Theory Index](./THEORY_INDEX.md) | [← L2: Principles](./L2_PRINCIPLES.md) | **Loop:** [↺ L0: Axioms](./L0_AXIOMS.md)
 
 **Layer:** 3 (Measurement & Implementation)
 **Status:** ACTIVE | EVOLVING
-**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md), [L2_LAWS.md](./L2_LAWS.md)
+**Depends on:** [L0_AXIOMS.md](./L0_AXIOMS.md), [L1_DEFINITIONS.md](./L1_DEFINITIONS.md), [L2_PRINCIPLES.md](./L2_PRINCIPLES.md)
 **Version:** 2.0.0
 **Created:** 2026-01-27
 
@@ -3387,7 +3387,7 @@ Every Standard Model measurement has three components:
 ### Project Documents
 - `L0_AXIOMS.md` -- Foundational axioms
 - `L1_DEFINITIONS.md` -- Entity definitions
-- `L2_LAWS.md` -- Behavioral laws (purpose equations, emergence, flow, drift)
+- `L2_PRINCIPLES.md` -- Behavioral principles (purpose equations, emergence, flow, drift)
 - `../PURPOSE_INTELLIGENCE.md` -- Detailed Q-score elaboration (preserved)
 - `../specs/HEALTH_MODEL_CONSOLIDATED.md` -- Health formula elaboration
 - `../specs/LANDSCAPE_IMPLEMENTATION_GUIDE.md` -- Topology implementation
@@ -3417,7 +3417,7 @@ Every Standard Model measurement has three components:
 ## Navigation
 
 **📍 Up:** [Theory Index](./THEORY_INDEX.md)
-**⬅️ Previous:** [L2: Laws](./L2_LAWS.md)
+**⬅️ Previous:** [L2: Principles](./L2_PRINCIPLES.md)
 **🔄 LOOP CLOSURE:** [↺ L0: Axioms](./L0_AXIOMS.md) - Applications validate axioms
 
 **Theory closure achieved:** L3 implementations provide empirical validation of L0 axioms, completing the epistemological loop.
@@ -3425,6 +3425,6 @@ Every Standard Model measurement has three components:
 **Full pathway:**
 1. [L0: Axioms](./L0_AXIOMS.md) - Foundational truths
 2. [L1: Definitions](./L1_DEFINITIONS.md) - Entities that exist
-3. [L2: Laws](./L2_LAWS.md) - How they behave
+3. [L2: Principles](./L2_PRINCIPLES.md) - Dynamic behavioral patterns
 4. [L3: Applications](./L3_APPLICATIONS.md) - How we measure (you are here)
 5. **Loop:** Measurements validate axioms → [L0](./L0_AXIOMS.md)

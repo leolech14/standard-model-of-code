@@ -5,7 +5,7 @@
 **Date:** 2026-02-01
 **Version:** 1.0.0
 **Author:** Leonardo Lech + Claude (Opus 4.5)
-**Validated:** Gemini 3 Pro (CDPS: 96/100)
+**Reviewed:** Gemini 3 Pro (CDPS: 96/100)
 
 ---
 

@@ -1,7 +1,7 @@
 # Standard Model of Code - Complete Theory (100%)
 
 **Total:** 3,376 lines across L0-L3
-**Status:** Validated and integrated
+**Status:** Grounded and integrated
 **Last Updated:** 2026-01-28
 
 ---
@@ -14,8 +14,8 @@
 
 ```
 1. L0_AXIOMS.md (867 lines, ~60 min)
-   - Foundational truths
-   - Cannot be proven, must be accepted
+   - Design choices
+   - Cannot be proven, are assumed as starting points
    - Primitives: P, N, E, L, executable()
    - 10 axiom groups (A-J) + NEW Axiom K (Invocation Context)
 
@@ -24,7 +24,7 @@
    - Builds on L0 primitives
    - 9 major sections + NEW §9 (Architectural Properties)
 
-3. L2_LAWS.md (828 lines, ~90 min)
+3. L2_PRINCIPLES.md (828 lines, ~90 min)
    - How things behave (dynamics)
    - Equations, emergence, flow
    - 8 major sections + NEW §7-8 (Compositional, Entanglement)
@@ -279,7 +279,7 @@ L2 §8: Dependency Laws (+120 lines)
 **Validation Reports (separate):**
 ```
 docs/research/theories/
-├── epr_entanglement_report.md (78% validated)
+├── epr_entanglement_report.md (78% grounded)
 ├── api_scale_emergence_report.md (78%)
 ├── compositional_alignment_report.md (95%)
 └── dual_navigation_space_report.md (75%)
@@ -299,8 +299,8 @@ Day 1 (2-3 hours):
 
 Day 2 (2-3 hours):
 4. L1_DEFINITIONS.md §5-9 (45 min) - Rest of definitions
-5. L2_LAWS.md §1-4 (60 min) - First half of laws
-6. L2_LAWS.md §5-8 (60 min) - Second half + new laws
+5. L2_PRINCIPLES.md §1-4 (60 min) - First half of laws
+6. L2_PRINCIPLES.md §5-8 (60 min) - Second half + new laws
 
 Day 3 (Optional - Applications):
 7. L3_APPLICATIONS.md (60 min) - Measurement methods
@@ -323,7 +323,7 @@ THEORY CORE:
 ├── THEORY_INDEX.md             (Navigation hub)
 ├── L0_AXIOMS.md                (867 lines - Axioms)
 ├── L1_DEFINITIONS.md           (871 lines - Definitions)
-├── L2_LAWS.md                  (828 lines - Laws)
+├── L2_PRINCIPLES.md                  (828 lines - Laws)
 ├── L3_APPLICATIONS.md          (810 lines - Applications)
 └── STANDARD_MODEL_COMPLETE.md  (435 lines - Summary)
 
@@ -354,13 +354,13 @@ EXTENDED THEORY:
 - 4 application sections
 
 **Validation:**
-- 4 new theories added (75-95% validated)
+- 4 new theories added (75-95% grounded)
 - 300+ academic citations
 - 6 Perplexity research reports
 
 **Status:**
 - ✅ Complete (all layers present)
-- ✅ Validated (empirical + formal)
+- ✅ Grounded (empirical + formal)
 - ✅ Integrated (cross-referenced)
 - ✅ Documented (reading paths clear)
 
@@ -377,7 +377,7 @@ cd /Users/lech/PROJECTS_all/PROJECT_elements/particle/docs/theory
 # Read in sequence
 open L0_AXIOMS.md          # 1. Foundation
 open L1_DEFINITIONS.md     # 2. Entities
-open L2_LAWS.md            # 3. Behavior
+open L2_PRINCIPLES.md            # 3. Behavior
 open L3_APPLICATIONS.md    # 4. Measurement
 ```
 

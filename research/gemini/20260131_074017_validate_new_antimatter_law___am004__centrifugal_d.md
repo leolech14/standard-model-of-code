@@ -140,23 +140,23 @@ def calculate_shell(node: UnifiedNode) -> int:
     # 1. Nucleus: Pure Types and Data Definitions
     if node.atom.startswith("DAT") and node.rpbl.purity >= 9:
         return 0 # S0: Nucleus
-        
+
     # 2. Core: Pure Logic (Algorithms)
     if node.atom.startswith("LOG") and node.rpbl.boundary <= 2:
         return 1 # S1: Core
-        
+
     # 3. Application: Orchestration of Logic
     if node.atom.startswith("ORG") or node.role == "Service":
         return 2 # S2: Application
-        
+
     # 4. Adapters: Controllers, Interfaces
     if node.atom.startswith("INT") or node.role in ["Controller", "Gateway"]:
         return 3 # S3: Adapter
-        
+
     # 5. Valence: Execution, Scripts, Framework Bindings
     if node.atom.startswith("EXE") or node.atom.startswith("EXT"):
         return 4 # S4: Valence
-        
+
     return 4 # Default to volatile outer shell if unknown
 ```
 
@@ -168,7 +168,7 @@ def check_am004_centrifugal_force(graph):
     for edge in graph.edges:
         source_shell = edge.source.shell
         target_shell = edge.target.shell
-        
+
         # Allow same shell or inward flow
         if source_shell < target_shell:
             # EXCEPTION CHECK: Is target an Interface defined in inner shell?

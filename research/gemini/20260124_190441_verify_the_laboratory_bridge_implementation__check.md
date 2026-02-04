@@ -98,51 +98,51 @@ LAB_SCRIPT = Path(__file__).parent / "laboratory.py"
 def run_experiment_sync(request: ExperimentRequest) -> ExperimentResult:
     """Synchronous bridge for Agents to call the Laboratory."""
     cmd = [sys.executable, str(LAB_SCRIPT), "run"]
-    
+
     if request.repo_path:
         cmd.extend(["--repo", str(request.repo_path)])
     if request.unified_analysis_path:
         cmd.extend(["--unified-analysis", str(request.unified_analysis_path)])
     if request.hypothesis:
         cmd.extend(["--hypothesis", request.hypothesis])
-    
+
     # Pass templates via Env or Args (Args preferred for explicit control)
     if request.collider_cmd_template:
         cmd.extend(["--collider-cmd-template", request.collider_cmd_template])
-        
+
     try:
         # Capture stdout to get the artifact path
         proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
-        
+
         # The last line of stdout is the artifact path
         artifact_path = proc.stdout.strip().splitlines()[-1] if proc.stdout else ""
-        
+
         if proc.returncode != 0 or not artifact_path.endswith(".json"):
             return ExperimentResult(
                 run_id=request.run_id,
-                created_at_utc="", 
-                ok=False, 
-                confirmed=None, 
-                summary={}, 
-                artifacts={}, 
-                logs={"stderr": proc.stderr}, 
+                created_at_utc="",
+                ok=False,
+                confirmed=None,
+                summary={},
+                artifacts={},
+                logs={"stderr": proc.stderr},
                 errors=["Laboratory CLI failed", proc.stderr]
             )
-            
+
         # Read the result file
         with open(artifact_path) as f:
             data = json.load(f)
             return ExperimentResult(**data)
-            
+
     except Exception as e:
         return ExperimentResult(
             run_id=request.run_id,
             created_at_utc="",
-            ok=False, 
-            confirmed=None, 
-            summary={}, 
-            artifacts={}, 
-            logs={}, 
+            ok=False,
+            confirmed=None,
+            summary={},
+            artifacts={},
+            logs={},
             errors=[str(e)]
         )
 ```

@@ -258,7 +258,7 @@ For git-based modules, use git subtrees or submodules to embed the entire module
 async function installModule(projectPath, moduleName, moduleUrl) {
   // 1. Detect project type
   const projectType = detectProjectType(projectPath);
-  
+
   // 2. Add dependency declaration
   if (projectType === 'deno') {
     addDenoImport(projectPath, moduleName, moduleUrl);
@@ -269,10 +269,10 @@ async function installModule(projectPath, moduleName, moduleUrl) {
     addPythonRequirement(projectPath, moduleName);
     execSync('pip install -r requirements.txt');
   }
-  
+
   // 3. Verify installation
   await verifyModuleImportable(projectPath, moduleName);
-  
+
   // 4. Record in lock file
   recordInstallationMetadata(projectPath, moduleName, moduleUrl);
 }

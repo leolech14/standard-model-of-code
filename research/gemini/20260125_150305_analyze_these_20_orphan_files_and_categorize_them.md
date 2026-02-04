@@ -93,7 +93,7 @@ manifest:
       - path: "UI_CONTROLS_SCHEMA.md"
         type: "interface_contract"
         description: "Schema definition for UI control surfaces"
-    
+
     theory:
       - path: "SCALE_INOUT_TOPOLOGY.md"
         type: "architecture_definition"
@@ -108,7 +108,7 @@ manifest:
         role: "analytics_engine"
       - path: "intent_extractor.py"
         role: "semantic_processor"
-    
+
     presentation:
       - path: "industrial_ui.py"
         role: "ui_entry_point"

@@ -260,7 +260,7 @@ Your Decision Deck Layer architecture represents a confluence of three establish
 
 The novelty in your approach isn't any single component—each element exists in established systems—but rather the explicit integration of all three into a coherent governance framework for LLM agents. This integration creates several emergent benefits beyond what each component provides individually:
 
-**Explainability** emerges from the explicit precondition-postcondition specifications. When humans ask "why wasn't this move available?" the system can point to specific unsatisfied preconditions and explain exactly what state conditions prevented execution[15][27]. 
+**Explainability** emerges from the explicit precondition-postcondition specifications. When humans ask "why wasn't this move available?" the system can point to specific unsatisfied preconditions and explain exactly what state conditions prevented execution[15][27].
 
 **Auditability** emerges from the behavioral tree structure combined with decision logging. Every decision point in the game master's evaluation of available moves is a potential audit point, creating a complete record of governance reasoning[6][44].
 

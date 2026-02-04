@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-067
 # Confidence: 70%
-# Generated: 2026-01-31T03:52:50.289397
+# Generated: 2026-02-03T22:32:12.718574
 
 id: CARD-OPP-067
 title: Implement consolidated Health Model (H = T + E + Gd + A)
@@ -33,5 +33,5 @@ tags:
 - needs-enrichment
 - health_model
 auto_generated: true
-generated_at: '2026-01-31T06:52:50.289344+00:00'
+generated_at: '2026-02-04T01:32:12.718517+00:00'
 confidence: 0.7

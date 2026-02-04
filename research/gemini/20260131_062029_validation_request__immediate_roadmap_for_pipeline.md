@@ -24,7 +24,7 @@ CONFIRMED WORKING (27 stages exist):
 
 SPECIFIC GAPS FOUND:
 
-1. ManifestWriterStage: EXISTS as file (manifest_writer.py) but NOT in 
+1. ManifestWriterStage: EXISTS as file (manifest_writer.py) but NOT in
    create_full_pipeline()'s all_stages dict. It's in STAGE_ORDER but not instantiated.
 
 2. ExecutionFlowStage: Core module exists (execution_flow.py) but NO stage wrapper.

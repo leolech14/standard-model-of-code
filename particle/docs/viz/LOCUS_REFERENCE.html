@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOCUS - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --lambda: #e74c3c;
+            --omega: #3498db;
+            --tau: #2ecc71;
+            --alpha: #9b59b6;
+            --rpbl: #f39c12;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 40px 20px; padding-top: 80px; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 60px; padding: 40px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+        h1 { font-size: 32px; font-weight: 300; color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 30px; }
+        .intro { max-width: 900px; margin: 0 auto; text-align: left; font-size: 14px; line-height: 1.8; }
+        .intro p { margin-bottom: 15px; }
+
+        .formula-box { background: linear-gradient(135deg, rgba(30,30,30,0.9), rgba(20,20,20,0.95)); padding: 50px; border-radius: 12px; margin: 40px 0; text-align: center; border: 2px solid var(--border); }
+        .formula { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 28px; color: var(--text-bright); margin-bottom: 20px; letter-spacing: 2px; }
+        .formula-desc { font-size: 14px; color: var(--text-dim); }
+        .formula span { padding: 2px 8px; border-radius: 4px; }
+
+        .components-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .component-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 25px; border-left: 4px solid; }
+        .component-card:hover { border-color: #444; }
+        .component-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .component-symbol { font-size: 36px; font-weight: 700; font-family: 'Times New Roman', serif; font-style: italic; }
+        .component-title { }
+        .component-name { font-size: 18px; font-weight: 600; color: var(--text-bright); }
+        .component-range { font-size: 12px; color: var(--text-dim); font-family: 'SF Mono', monospace; }
+        .component-question { font-size: 14px; color: var(--text-main); font-style: italic; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .component-desc { font-size: 13px; color: var(--text-main); margin-bottom: 15px; }
+        .component-values { display: flex; flex-wrap: wrap; gap: 6px; }
+        .value-chip { font-family: 'SF Mono', monospace; font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; }
+
+        .example-section { background: var(--panel); padding: 40px; border-radius: 12px; margin-bottom: 50px; }
+        .example-title { font-size: 18px; font-weight: 600; color: var(--text-bright); margin-bottom: 25px; text-align: center; }
+        .examples-grid { display: grid; gap: 20px; }
+        .example-item { background: var(--card); padding: 20px 25px; border-radius: 8px; border: 1px solid var(--border); }
+        .example-entity { font-size: 16px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; font-family: 'SF Mono', monospace; }
+        .example-locus { font-family: 'SF Mono', monospace; font-size: 14px; color: #888; margin-bottom: 12px; }
+        .example-explanation { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .exp-item { text-align: center; padding: 8px; background: rgba(255,255,255,0.02); border-radius: 4px; }
+        .exp-symbol { font-size: 14px; font-weight: 600; font-style: italic; }
+        .exp-value { font-size: 12px; color: var(--text-bright); font-family: 'SF Mono', monospace; }
+        .exp-meaning { font-size: 10px; color: var(--text-dim); }
+
+        .properties-box { background: var(--panel); padding: 30px; border-radius: 8px; margin-bottom: 50px; }
+        .properties-title { font-size: 18px; font-weight: 600; color: var(--text-bright); margin-bottom: 20px; }
+        .properties-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .property { padding: 15px; background: var(--card); border-radius: 6px; border: 1px solid var(--border); }
+        .property-name { font-size: 14px; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; }
+        .property-desc { font-size: 12px; color: var(--text-main); }
+
+        footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link active">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>LOCUS</h1>
+            <p class="subtitle">The Multi-Dimensional Coordinate System</p>
+            <div class="intro">
+                <p>
+                    <strong>LOCUS</strong> (Latin: "place") is the complete coordinate that locates
+                    any code entity in the theory space of the Standard Model. It answers the question:
+                    <em>"Where exactly does this piece of code exist in the taxonomy?"</em>
+                </p>
+                <p>
+                    Every atom has exactly one LOCUS - a 5-tuple that captures its hierarchical level,
+                    dependency depth, abstraction tier, functional role, and character metric.
+                    LOCUS is the theory-space equivalent of a GPS coordinate.
+                </p>
+                <p>
+                    LOCUS differs from file path: a file path is mutable (you can move a file),
+                    but LOCUS is determined by the entity's intrinsic properties. If the LOCUS
+                    changes, the entity has fundamentally changed.
+                </p>
+            </div>
+        </header>
+
+        <div class="formula-box">
+            <div class="formula">
+                LOCUS(atom) = ⟨<span style="color: var(--lambda)">λ</span>, <span style="color: var(--omega)">Ω</span>, <span style="color: var(--tau)">τ</span>, <span style="color: var(--alpha)">α</span>, <span style="color: var(--rpbl)">R</span>⟩
+            </div>
+            <div class="formula-desc">
+                Level × Ring × Tier × Role × RPBL Character = Complete Theory Coordinate
+            </div>
+        </div>
+
+        <div class="components-grid">
+            <div class="component-card" style="border-left-color: var(--lambda);">
+                <div class="component-header">
+                    <span class="component-symbol" style="color: var(--lambda);">λ</span>
+                    <div class="component-title">
+                        <div class="component-name">Level (Lambda)</div>
+                        <div class="component-range">L-3 to L12</div>
+                    </div>
+                </div>
+                <div class="component-question">"How big is this entity?"</div>
+                <div class="component-desc">
+                    Hierarchical scale position. Measures the granularity from bits (L-3) to entire
+                    industries (L12). The operational zone for Collider is L3-L7.
+                </div>
+                <div class="component-values">
+                    <span class="value-chip">L-3 Bit</span>
+                    <span class="value-chip">L0 Token</span>
+                    <span class="value-chip">L3 Node</span>
+                    <span class="value-chip">L5 File</span>
+                    <span class="value-chip">L7 System</span>
+                </div>
+            </div>
+
+            <div class="component-card" style="border-left-color: var(--omega);">
+                <div class="component-header">
+                    <span class="component-symbol" style="color: var(--omega);">Ω</span>
+                    <div class="component-title">
+                        <div class="component-name">Ring (Omega)</div>
+                        <div class="component-range">0 to 4</div>
+                    </div>
+                </div>
+                <div class="component-question">"How deep in dependencies?"</div>
+                <div class="component-desc">
+                    Dependency depth in concentric architecture. R0 is the pure core with no
+                    internal deps; R4 is the framework edge with external integrations.
+                </div>
+                <div class="component-values">
+                    <span class="value-chip">R0 Core</span>
+                    <span class="value-chip">R1 Domain</span>
+                    <span class="value-chip">R2 Application</span>
+                    <span class="value-chip">R3 Adapter</span>
+                    <span class="value-chip">R4 Framework</span>
+                </div>
+            </div>
+
+            <div class="component-card" style="border-left-color: var(--tau);">
+                <div class="component-header">
+                    <span class="component-symbol" style="color: var(--tau);">τ</span>
+                    <div class="component-title">
+                        <div class="component-name">Tier (Tau)</div>
+                        <div class="component-range">T0, T1, T2</div>
+                    </div>
+                </div>
+                <div class="component-question">"How abstract is this?"</div>
+                <div class="component-desc">
+                    Abstraction tier. T0 is raw AST/syntax, T1 is standard library patterns,
+                    T2 is ecosystem/framework-level abstractions.
+                </div>
+                <div class="component-values">
+                    <span class="value-chip">T0 AST-level</span>
+                    <span class="value-chip">T1 Pattern-level</span>
+                    <span class="value-chip">T2 Ecosystem-level</span>
+                </div>
+            </div>
+
+            <div class="component-card" style="border-left-color: var(--alpha);">
+                <div class="component-header">
+                    <span class="component-symbol" style="color: var(--alpha);">α</span>
+                    <div class="component-title">
+                        <div class="component-name">Role (Alpha)</div>
+                        <div class="component-range">41 canonical roles</div>
+                    </div>
+                </div>
+                <div class="component-question">"What is its purpose?"</div>
+                <div class="component-desc">
+                    Functional purpose - what job the entity performs. One of 41 canonical
+                    roles like Query, Command, Factory, Repository, Handler, etc.
+                </div>
+                <div class="component-values">
+                    <span class="value-chip">Query</span>
+                    <span class="value-chip">Command</span>
+                    <span class="value-chip">Factory</span>
+                    <span class="value-chip">Repository</span>
+                    <span class="value-chip">Service</span>
+                    <span class="value-chip">+36 more</span>
+                </div>
+            </div>
+
+            <div class="component-card" style="border-left-color: var(--rpbl); grid-column: 1 / -1;">
+                <div class="component-header">
+                    <span class="component-symbol" style="color: var(--rpbl);">R</span>
+                    <div class="component-title">
+                        <div class="component-name">RPBL Character</div>
+                        <div class="component-range">[1-9]<sup>4</sup> = 6561 combinations</div>
+                    </div>
+                </div>
+                <div class="component-question">"What is its character?"</div>
+                <div class="component-desc">
+                    A 4-tuple character metric that captures the entity's DNA across four axes.
+                    Each axis ranges from 1 (simple/pure) to 9 (complex/impure).
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px;">
+                    <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text-bright); margin-bottom: 5px;">R - Responsibility</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">1 = single concern<br>9 = god class</div>
+                    </div>
+                    <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text-bright); margin-bottom: 5px;">P - Purity</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">1 = pure function<br>9 = impure I/O</div>
+                    </div>
+                    <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text-bright); margin-bottom: 5px;">B - Boundary</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">1 = internal<br>9 = external API</div>
+                    </div>
+                    <div style="padding: 15px; background: rgba(255,255,255,0.02); border-radius: 6px;">
+                        <div style="font-weight: 600; color: var(--text-bright); margin-bottom: 5px;">L - Lifecycle</div>
+                        <div style="font-size: 12px; color: var(--text-dim);">1 = transient<br>9 = persistent session</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <div class="example-title">LOCUS Examples</div>
+            <div class="examples-grid">
+                <div class="example-item">
+                    <div class="example-entity">getUserById(id: string): User</div>
+                    <div class="example-locus">LOCUS = ⟨L3, R1, T1, Query, (1,2,2,1)⟩</div>
+                    <div class="example-explanation">
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--lambda);">λ</div>
+                            <div class="exp-value">L3</div>
+                            <div class="exp-meaning">Node level (function)</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--omega);">Ω</div>
+                            <div class="exp-value">R1</div>
+                            <div class="exp-meaning">Domain ring</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--tau);">τ</div>
+                            <div class="exp-value">T1</div>
+                            <div class="exp-meaning">Pattern level</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--alpha);">α</div>
+                            <div class="exp-value">Query</div>
+                            <div class="exp-meaning">Read without mutation</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--rpbl);">R</div>
+                            <div class="exp-value">(1,2,2,1)</div>
+                            <div class="exp-meaning">Simple, mostly pure</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-item">
+                    <div class="example-entity">class UserController { ... }</div>
+                    <div class="example-locus">LOCUS = ⟨L4, R4, T2, Controller, (3,5,9,3)⟩</div>
+                    <div class="example-explanation">
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--lambda);">λ</div>
+                            <div class="exp-value">L4</div>
+                            <div class="exp-meaning">Container level</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--omega);">Ω</div>
+                            <div class="exp-value">R4</div>
+                            <div class="exp-meaning">Framework ring</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--tau);">τ</div>
+                            <div class="exp-value">T2</div>
+                            <div class="exp-meaning">Framework level</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--alpha);">α</div>
+                            <div class="exp-value">Controller</div>
+                            <div class="exp-meaning">HTTP handler</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--rpbl);">R</div>
+                            <div class="exp-value">(3,5,9,3)</div>
+                            <div class="exp-meaning">External, impure</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-item">
+                    <div class="example-entity">const MAX_RETRIES = 3</div>
+                    <div class="example-locus">LOCUS = ⟨L1, R0, T0, Utility, (1,1,1,1)⟩</div>
+                    <div class="example-explanation">
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--lambda);">λ</div>
+                            <div class="exp-value">L1</div>
+                            <div class="exp-meaning">Statement level</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--omega);">Ω</div>
+                            <div class="exp-value">R0</div>
+                            <div class="exp-meaning">Core ring</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--tau);">τ</div>
+                            <div class="exp-value">T0</div>
+                            <div class="exp-meaning">AST level</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--alpha);">α</div>
+                            <div class="exp-value">Utility</div>
+                            <div class="exp-meaning">Constant value</div>
+                        </div>
+                        <div class="exp-item">
+                            <div class="exp-symbol" style="color: var(--rpbl);">R</div>
+                            <div class="exp-value">(1,1,1,1)</div>
+                            <div class="exp-meaning">Simplest possible</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="properties-box">
+            <div class="properties-title">Key Properties of LOCUS</div>
+            <div class="properties-grid">
+                <div class="property">
+                    <div class="property-name">Uniqueness</div>
+                    <div class="property-desc">Every atom has exactly one LOCUS. No two different atoms can share the same complete coordinate.</div>
+                </div>
+                <div class="property">
+                    <div class="property-name">Immutability</div>
+                    <div class="property-desc">LOCUS is determined by intrinsic properties, not file location. Moving a file doesn't change its LOCUS.</div>
+                </div>
+                <div class="property">
+                    <div class="property-name">Identity</div>
+                    <div class="property-desc">If LOCUS changes, the entity is fundamentally different. This solves the Ship of Theseus problem for code.</div>
+                </div>
+                <div class="property">
+                    <div class="property-name">Composability</div>
+                    <div class="property-desc">LOCUS components are orthogonal - knowing one doesn't determine others. This allows rich classification.</div>
+                </div>
+                <div class="property">
+                    <div class="property-name">Searchability</div>
+                    <div class="property-desc">LOCUS enables precise queries: "find all L3 R1 Query entities" returns exactly matching functions.</div>
+                </div>
+                <div class="property">
+                    <div class="property-name">Comparability</div>
+                    <div class="property-desc">LOCUS distance can be computed - entities with similar LOCUS are likely similar in nature.</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - LOCUS Coordinate System</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                LOCUS(atom) = ⟨λ Level, Ω Ring, τ Tier, α Role, R RPBL⟩ — The complete theory-space coordinate
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

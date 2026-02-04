@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 SKEPTICAL VALIDATION OF NODE COUNT GROUND TRUTH:
 
 We claim Collider has 1,179 core nodes, 1,961 wit...

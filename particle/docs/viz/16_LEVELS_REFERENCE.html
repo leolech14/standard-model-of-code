@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16 Levels - Standard Model of Code</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --panel: rgba(15, 15, 15, 0.95);
+            --card: rgba(20, 20, 20, 0.9);
+            --border: #222;
+            --text-main: #ccc;
+            --text-dim: #666;
+            --text-bright: #fff;
+            --cosmological: #9b59b6;
+            --systemic: #3498db;
+            --semantic: #2ecc71;
+            --syntactic: #e74c3c;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; padding: 40px 20px; padding-top: 80px; }
+        .nav-bar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; gap: 8px; z-index: 1000; flex-wrap: wrap; justify-content: center; }
+        .nav-link { color: var(--text-dim); text-decoration: none; font-size: 12px; padding: 6px 14px; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; white-space: nowrap; }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active { color: var(--text-bright); background: rgba(255,255,255,0.08); border-color: var(--border); }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 60px; padding: 40px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+        h1 { font-size: 32px; font-weight: 300; color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: var(--text-dim); margin-bottom: 30px; }
+        .intro { max-width: 900px; margin: 0 auto; text-align: left; font-size: 14px; line-height: 1.8; }
+        .intro p { margin-bottom: 15px; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .stat { text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 600; color: var(--text-bright); }
+        .stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .zone { margin-bottom: 50px; }
+        .zone-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .zone-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .zone-title { font-size: 18px; font-weight: 500; color: var(--text-bright); text-transform: uppercase; letter-spacing: 1px; }
+        .zone-range { font-size: 12px; color: var(--text-dim); margin-left: auto; }
+        .levels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .level-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 20px; transition: border-color 0.2s, transform 0.2s; }
+        .level-card:hover { border-color: #444; transform: translateY(-2px); }
+        .level-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .level-id { font-size: 24px; font-weight: 700; font-family: 'SF Mono', monospace; }
+        .level-name { font-size: 16px; font-weight: 600; color: var(--text-bright); }
+        .level-purpose { font-size: 13px; color: var(--text-main); margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+        .level-section { margin-bottom: 12px; }
+        .level-section-title { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .level-section-content { font-size: 12px; color: var(--text-main); }
+        .examples { display: flex; flex-direction: column; gap: 4px; }
+        .example { font-family: 'SF Mono', monospace; font-size: 11px; color: #888; background: rgba(255,255,255,0.03); padding: 4px 8px; border-radius: 3px; }
+        .takeaway { background: rgba(255,255,255,0.02); padding: 10px; border-radius: 4px; border-left: 2px solid #666; }
+        .confusion { color: var(--text-dim); font-size: 11px; }
+        .scale-visual { background: var(--panel); padding: 30px; border-radius: 8px; margin-bottom: 50px; font-family: 'SF Mono', monospace; font-size: 12px; overflow-x: auto; }
+        .scale-visual pre { color: var(--text-dim); }
+        footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="INDEX.html" class="nav-link">Index</a>
+        <a href="200_ATOMS_REFERENCE.html" class="nav-link">200 Atoms</a>
+        <a href="41_ROLES_REFERENCE.html" class="nav-link">41 Roles</a>
+        <a href="8_DIMENSIONS_REFERENCE.html" class="nav-link">8 Dimensions</a>
+        <a href="16_LEVELS_REFERENCE.html" class="nav-link active">16 Levels</a>
+        <a href="5_RINGS_REFERENCE.html" class="nav-link">5 Rings</a>
+        <a href="4_PHASES_REFERENCE.html" class="nav-link">4 Phases</a>
+        <a href="LOCUS_REFERENCE.html" class="nav-link">LOCUS</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>The 16-Level Scale</h1>
+            <p class="subtitle">Standard Model of Code - Hierarchical Position (λ)</p>
+            <div class="intro">
+                <p>
+                    <strong>Levels</strong> answer the question: <em>"How big is this entity?"</em>
+                    The scale ranges from L-3 (individual bits) to L12 (the entire software industry),
+                    spanning 16 orders of magnitude.
+                </p>
+                <p>
+                    Each level represents a natural boundary in software organization. Code at different
+                    levels has different concerns, lifespans, and change frequencies. The <strong>Operational Zone</strong>
+                    (L3-L7) is where Collider focuses its classification - from functions to systems.
+                </p>
+                <p>
+                    The scale is divided into 4 zones: Syntactic (machine-level), Semantic (meaning-level),
+                    Systemic (architecture-level), and Cosmological (ecosystem-level).
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-value">16</div><div class="stat-label">Levels</div></div>
+                <div class="stat"><div class="stat-value">4</div><div class="stat-label">Zones</div></div>
+                <div class="stat"><div class="stat-value">L3-L7</div><div class="stat-label">Operational Zone</div></div>
+                <div class="stat"><div class="stat-value">10<sup>15</sup></div><div class="stat-label">Scale Range</div></div>
+            </div>
+        </header>
+
+        <div class="scale-visual">
+            <pre>
+ZONE          LEVEL   NAME          QUESTION                    COLLIDER
+─────────────────────────────────────────────────────────────────────────────
+COSMOLOGICAL  L12     UNIVERSE      What industry?              (beyond scope)
+              L11     DOMAIN        What sector?                (beyond scope)
+              L10     ORGANIZATION  What company?               (beyond scope)
+              L9      PLATFORM      What infrastructure?        (beyond scope)
+              L8      ECOSYSTEM     What package registry?      (context only)
+─────────────────────────────────────────────────────────────────────────────
+SYSTEMIC      L7      SYSTEM        What application?           ✓ CLASSIFIES
+              L6      PACKAGE       What module?                ✓ CLASSIFIES
+              L5      FILE          What file?                  ✓ CLASSIFIES
+              L4      CONTAINER     What class/struct?          ✓ CLASSIFIES
+─────────────────────────────────────────────────────────────────────────────
+SEMANTIC      L3      NODE          What function?              ✓ CLASSIFIES
+              L2      BLOCK         What control structure?     (parsed)
+              L1      STATEMENT     What line of code?          (parsed)
+─────────────────────────────────────────────────────────────────────────────
+SYNTACTIC     L0      TOKEN         What symbol?                (lexer)
+              L-1     CHARACTER     What character?             (encoding)
+              L-2     BYTE          What byte?                  (binary)
+              L-3     BIT           What bit?                   (hardware)
+            </pre>
+        </div>
+
+        <!-- COSMOLOGICAL ZONE -->
+        <section class="zone">
+            <div class="zone-header">
+                <div class="zone-dot" style="background: var(--cosmological)"></div>
+                <span class="zone-title">Cosmological Zone</span>
+                <span class="zone-range">L8 - L12</span>
+            </div>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--cosmological)">L12</span>
+                        <span class="level-name">UNIVERSE</span>
+                    </div>
+                    <div class="level-purpose">The entire software industry - all code ever written</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">The global software ecosystem</span>
+                            <span class="example">All open source + proprietary code</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L12 is theoretical - it represents the totality of software. Useful for thinking about universal patterns.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Universe vs Domain: Universe is ALL software; Domain is a specific industry vertical.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--cosmological)">L11</span>
+                        <span class="level-name">DOMAIN</span>
+                    </div>
+                    <div class="level-purpose">Industry vertical or problem domain - healthcare, finance, gaming</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">Healthcare software industry</span>
+                            <span class="example">FinTech ecosystem</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">Domains have shared vocabularies, regulations, and patterns. DDD "bounded contexts" live here.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Domain (L11) vs domain logic: L11 is industry-wide; domain logic is your app's business rules.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--cosmological)">L10</span>
+                        <span class="level-name">ORGANIZATION</span>
+                    </div>
+                    <div class="level-purpose">Company, foundation, or team - the human structure that owns code</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">Google, Microsoft, Apache Foundation</span>
+                            <span class="example">Your company's entire codebase</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">Organizations determine conventions, tooling, and governance. Conway's Law operates here.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Organization vs Platform: Organizations are human structures; Platforms are technical infrastructure.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--cosmological)">L9</span>
+                        <span class="level-name">PLATFORM</span>
+                    </div>
+                    <div class="level-purpose">Infrastructure platform - AWS, Kubernetes, Browser, OS</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">AWS Lambda, Google Cloud Run</span>
+                            <span class="example">Kubernetes, Docker Swarm</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">Platforms provide primitives and constraints. Your code's capabilities are bounded by L9.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Platform vs Ecosystem: Platforms run code; Ecosystems distribute code.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--cosmological)">L8</span>
+                        <span class="level-name">ECOSYSTEM</span>
+                    </div>
+                    <div class="level-purpose">Package registry and language community - npm, PyPI, crates.io</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">npm (2M+ packages)</span>
+                            <span class="example">PyPI, Maven Central, crates.io</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">Ecosystems determine what libraries exist. Your dependencies are drawn from L8.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Ecosystem vs System: Ecosystem is the shared registry; System is your deployed app.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYSTEMIC ZONE -->
+        <section class="zone">
+            <div class="zone-header">
+                <div class="zone-dot" style="background: var(--systemic)"></div>
+                <span class="zone-title">Systemic Zone</span>
+                <span class="zone-range">L4 - L7 (Operational)</span>
+            </div>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--systemic)">L7</span>
+                        <span class="level-name">SYSTEM</span>
+                    </div>
+                    <div class="level-purpose">Deployable application unit - microservice, monolith, CLI tool</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">user-service, payment-gateway</span>
+                            <span class="example">collider CLI, VS Code</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L7 is the deployment boundary. It has its own lifecycle, versioning, and API surface.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">System vs Package: Systems are deployed; Packages are imported.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--systemic)">L6</span>
+                        <span class="level-name">PACKAGE</span>
+                    </div>
+                    <div class="level-purpose">Distributable module - npm package, Python module, Rust crate</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">lodash, requests, serde</span>
+                            <span class="example">src/utils/, lib/core/</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L6 is the sharing boundary. Packages have public APIs and private internals.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Package vs Directory: Not all directories are packages; packages have exports.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--systemic)">L5</span>
+                        <span class="level-name">FILE</span>
+                    </div>
+                    <div class="level-purpose">Source file - the fundamental unit of code organization</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">user_service.py, OrderController.ts</span>
+                            <span class="example">main.go, lib.rs</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L5 is the git/editor boundary. Files are what you open, diff, and commit.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">File vs Module: In Python/Rust they're the same; in JS/TS they differ.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--systemic)">L4</span>
+                        <span class="level-name">CONTAINER</span>
+                    </div>
+                    <div class="level-purpose">Type container - class, struct, interface, enum</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">class UserService { }</span>
+                            <span class="example">struct Config { }, enum Status { }</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L4 is the encapsulation boundary. Containers group related functions and data.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Container vs Node: Containers hold multiple nodes; a Node is a single function.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEMANTIC ZONE -->
+        <section class="zone">
+            <div class="zone-header">
+                <div class="zone-dot" style="background: var(--semantic)"></div>
+                <span class="zone-title">Semantic Zone</span>
+                <span class="zone-range">L1 - L3</span>
+            </div>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--semantic)">L3</span>
+                        <span class="level-name">NODE</span>
+                    </div>
+                    <div class="level-purpose">Callable unit - function, method, property, hook</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">function getUserById(id) { }</span>
+                            <span class="example">def process_payment(self): ...</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L3 is the unit of behavior. Functions are tested, documented, and called.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Node vs Block: Nodes have names and signatures; Blocks are anonymous control structures.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--semantic)">L2</span>
+                        <span class="level-name">BLOCK</span>
+                    </div>
+                    <div class="level-purpose">Control structure - if/else, loops, try/catch</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">if (condition) { ... }</span>
+                            <span class="example">for item in collection: ...</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L2 is the control flow boundary. Blocks create scope and branch execution.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Block vs Statement: Blocks contain statements; Statements are single lines.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--semantic)">L1</span>
+                        <span class="level-name">STATEMENT</span>
+                    </div>
+                    <div class="level-purpose">Single executable line - assignment, return, import</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">const x = computeValue();</span>
+                            <span class="example">return result;</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L1 is the execution unit. Statements are what debuggers step through.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Statement vs Expression: Statements do things; Expressions return values.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYNTACTIC ZONE -->
+        <section class="zone">
+            <div class="zone-header">
+                <div class="zone-dot" style="background: var(--syntactic)"></div>
+                <span class="zone-title">Syntactic Zone</span>
+                <span class="zone-range">L-3 - L0</span>
+            </div>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--syntactic)">L0</span>
+                        <span class="level-name">TOKEN</span>
+                    </div>
+                    <div class="level-purpose">Lexical unit - identifier, keyword, operator, literal</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">function, const, =>, 42, "hello"</span>
+                            <span class="example">userId, async, await</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L0 is the lexer output. Tokens are the atoms of syntax.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Token vs Character: Tokens have meaning; Characters are just bytes.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--syntactic)">L-1</span>
+                        <span class="level-name">CHARACTER</span>
+                    </div>
+                    <div class="level-purpose">Single character - the visible representation</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">'a', 'b', '{', '}'</span>
+                            <span class="example">Unicode: '字', '🚀'</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L-1 is the display unit. Characters are what you see in editors.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Character vs Byte: In UTF-8, one character can be multiple bytes.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--syntactic)">L-2</span>
+                        <span class="level-name">BYTE</span>
+                    </div>
+                    <div class="level-purpose">8-bit value - the storage unit</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">0x61 ('a'), 0x7B ('{')</span>
+                            <span class="example">UTF-8 encoding sequences</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L-2 is the I/O unit. Files are byte streams.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Byte vs Bit: A byte is 8 bits. Network bandwidth is in bits; storage is in bytes.</div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-header">
+                        <span class="level-id" style="color: var(--syntactic)">L-3</span>
+                        <span class="level-name">BIT</span>
+                    </div>
+                    <div class="level-purpose">Binary digit - the fundamental unit of information</div>
+                    <div class="level-section">
+                        <div class="level-section-title">Examples</div>
+                        <div class="examples">
+                            <span class="example">0, 1</span>
+                            <span class="example">BitFlag, BitMask</span>
+                        </div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Key Takeaway</div>
+                        <div class="takeaway">L-3 is the hardware boundary. Everything ultimately reduces to bits.</div>
+                    </div>
+                    <div class="level-section">
+                        <div class="level-section-title">Common Confusion</div>
+                        <div class="confusion">Bit vs Boolean: Booleans have semantics (true/false); bits are just 0/1.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Standard Model of Code v4.0 - The 16-Level Scale (λ)</p>
+            <p style="margin-top: 10px; font-size: 11px;">
+                Operational Zone: L3-L7 | Full Range: L-3 to L12 | 4 Zones: Syntactic, Semantic, Systemic, Cosmological
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

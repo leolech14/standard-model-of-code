@@ -245,7 +245,7 @@ Abbreviations:
 | `schema/particle.schema.json` | Add D9, D10, metrics, ddd, violations |
 | `schema/types.ts` | Add new TypeScript types |
 | `schema/types.py` | Add new Python dataclasses |
-| `schema/antimatter_laws.yaml` | New file with all law definitions |
+| `schema/antimatter_patterns.yaml` | New file with all law definitions |
 | `docs/FOUNDATIONAL_THEORIES.md` | Mark gaps as "Implemented" |
 | `core/collider.py` | Add detection logic for new properties |
 

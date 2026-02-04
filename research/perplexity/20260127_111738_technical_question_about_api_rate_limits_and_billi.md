@@ -139,7 +139,7 @@ Example with context caching for multi-pass extraction:
 
 Without caching: \((5.3 \times 0.10) + (5.3 \times 0.10) + (5.3 \times 0.10) = \$1.59M\) input tokens
 
-With 1-hour cache TTL: 
+With 1-hour cache TTL:
 \(
 (5.3 \times 0.10) + (5.3 \times 0.03 + 5.3 \times 1.00 \times 1) + (5.3 \times 0.03 + 5.3 \times 1.00 \times 1) = \$0.53 + \$5.83 + \$5.83 = \$12.19
 \)
@@ -207,20 +207,20 @@ async def retry_with_exponential_backoff(
     max_delay=60
 ):
     """Retry with exponential backoff and jitter for rate limit errors."""
-    
+
     for attempt in range(max_attempts):
         try:
             return await async_callable()
         except RateLimitError as e:
             if attempt == max_attempts - 1:
                 raise
-            
+
             # Calculate wait time with exponential backoff
             wait_time = min(
                 base_delay * (multiplier ** attempt) + random.uniform(0, 1),
                 max_delay
             )
-            
+
             print(f"Rate limit hit. Retrying in {wait_time:.2f} seconds...")
             await asyncio.sleep(wait_time)
         except Exception as e:
@@ -243,7 +243,7 @@ from datetime import datetime, timedelta
 
 class RateLimitedQueue:
     """Distributed queue with token bucket rate limiting."""
-    
+
     def __init__(self, tokens_per_minute, requests_per_minute):
         self.tokens_per_minute = tokens_per_minute
         self.requests_per_minute = requests_per_minute
@@ -252,12 +252,12 @@ class RateLimitedQueue:
         self.last_refill = datetime.now()
         self.queue = deque()
         self.lock = asyncio.Lock()
-    
+
     async def add_request(self, request):
         """Add request to queue."""
         async with self.lock:
             self.queue.append(request)
-    
+
     async def get_next_request(self):
         """Get next request when capacity available."""
         while True:
@@ -265,31 +265,31 @@ class RateLimitedQueue:
                 # Refill buckets based on elapsed time
                 now = datetime.now()
                 elapsed_seconds = (now - self.last_refill).total_seconds()
-                
+
                 token_refill = (elapsed_seconds / 60) * self.tokens_per_minute
                 self.token_bucket = min(
                     self.token_bucket + token_refill,
                     self.tokens_per_minute
                 )
-                
+
                 request_refill = (elapsed_seconds / 60) * self.requests_per_minute
                 self.request_bucket = min(
                     self.request_bucket + request_refill,
                     self.requests_per_minute
                 )
-                
+
                 self.last_refill = now
-                
+
                 # Check if request can be dispatched
-                if (self.queue and 
-                    self.token_bucket >= 1 and 
+                if (self.queue and
+                    self.token_bucket >= 1 and
                     self.request_bucket >= 1):
-                    
+
                     request = self.queue.popleft()
                     self.token_bucket -= 1
                     self.request_bucket -= 1
                     return request
-            
+
             # Wait before checking again
             await asyncio.sleep(0.1)
 ```
@@ -367,62 +367,62 @@ from typing import List, Dict
 
 class MultiKeyLoadBalancer:
     """Distribute requests across multiple API keys with weighted load balancing."""
-    
+
     def __init__(self, api_keys: List[str], weights: List[float] = None):
         """
         Initialize load balancer.
-        
+
         Args:
             api_keys: List of API keys from different projects
             weights: Optional weights for each key (sum should = 1.0)
         """
         self.api_keys = api_keys
-        
+
         if weights is None:
             # Equal weights by default
             weights = [1.0 / len(api_keys)] * len(api_keys)
-        
+
         # Normalize weights
         total = sum(weights)
         self.weights = [w / total for w in weights]
-        
+
         # Track usage per key for monitoring
         self.usage_stats = {key: {"requests": 0, "tokens": 0} for key in api_keys}
-    
+
     def get_next_key(self) -> str:
         """Get next API key using weighted random selection."""
         return random.choices(self.api_keys, weights=self.weights, k=1)[0]
-    
+
     def record_usage(self, api_key: str, tokens: int):
         """Record token usage for monitoring and adjustment."""
         self.usage_stats[api_key]["requests"] += 1
         self.usage_stats[api_key]["tokens"] += tokens
-    
+
     def should_rebalance(self) -> bool:
         """Check if weights should be rebalanced based on usage patterns."""
         token_totals = [s["tokens"] for s in self.usage_stats.values()]
-        
+
         if sum(token_totals) == 0:
             return False
-        
+
         # Calculate expected vs actual distribution
         for i, tokens in enumerate(token_totals):
             actual_ratio = tokens / sum(token_totals)
             expected_ratio = self.weights[i]
-            
+
             # If variance > 20%, rebalancing recommended
             if abs(actual_ratio - expected_ratio) > 0.2:
                 return True
-        
+
         return False
-    
+
     def adjust_weights(self, variance_threshold: float = 0.15):
         """Adjust weights based on actual usage patterns."""
         token_totals = [s["tokens"] for s in self.usage_stats.values()]
-        
+
         if sum(token_totals) == 0:
             return
-        
+
         # New weights proportional to actual usage
         self.weights = [t / sum(token_totals) for t in token_totals]
 ```

@@ -6,7 +6,7 @@
 
 ---
 
-## The Core Theorem
+## The Core Model
 
 ```
 For any source file F:
@@ -19,7 +19,7 @@ Where:
   Σ(NOISE)     = Sum of tokens classified as non-particles
 
 If Σ(SIGNAL) + Σ(NOISE) = |F|, then classification is EXHAUSTIVE.
-If exhaustive, then completeness is PROVABLE.
+If exhaustive, then completeness is VERIFIABLE.
 ```
 
 ---
@@ -76,7 +76,7 @@ For each file F:
 
   If Coverage(F) = 1.0:
     → EXHAUSTIVELY CLASSIFIED
-    → Completeness is PROVEN for this file
+    → Completeness is VERIFIED for this file
 
   If Coverage(F) < 1.0:
     → GAP EXISTS
@@ -328,7 +328,7 @@ Proof:
     But UNKNOWN = 0.
     Therefore, we did not miss any particle.
 
-  QED: Completeness is PROVEN for file F.
+  QED: Completeness is VERIFIED for file F.
 ```
 
 ---
@@ -370,7 +370,7 @@ SNR is a health metric:
 │  │ UNKNOWN   ░░░░░░░░░░░░░░░░░░░░░░░░░░░   0%    (0KB) │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
-│  Coverage: 100.0%  ← COMPLETENESS PROVEN                    │
+│  Coverage: 100.0%  ← COMPLETENESS VERIFIED                    │
 │                                                             │
 │  SIGNAL breakdown:                                          │
 │    Functions:  612 (76%)                                    │
@@ -385,7 +385,7 @@ SNR is a health metric:
 │    Calls:      134KB (16%)                                  │
 │    Other:       76KB (9%)                                   │
 │                                                             │
-│  ATTESTATION: L4 (PROVEN) ✓                                 │
+│  ATTESTATION: L4 (VERIFIED) ✓                                 │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```

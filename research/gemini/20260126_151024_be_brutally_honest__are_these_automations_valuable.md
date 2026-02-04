@@ -15,7 +15,7 @@
 Be brutally honest: Are these automations valuable or just noise?
 
 1. TDJ (file indexer) - indexes 5456 files on every commit
-2. HSL-DAEMON - watches files, stores hashes, found 4 'violations' 
+2. HSL-DAEMON - watches files, stores hashes, found 4 'violations'
 3. SOCRATIC-AUDIT - validates code concepts, 54-line reports
 4. MACRO-001 - runs on feat() commits, partial execution
 

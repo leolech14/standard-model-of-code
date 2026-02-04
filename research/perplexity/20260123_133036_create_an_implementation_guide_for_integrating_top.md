@@ -22,7 +22,7 @@ Code abstraction is fundamentally asymmetric:
 
 ### 2. BETTI NUMBERS FOR CODE (Validated)
 - b₀ (connected components): Detects islands/silos - ESSENTIAL
-- b₁ (independent cycles): Detects circular dependencies - ESSENTIAL  
+- b₁ (independent cycles): Detects circular dependencies - ESSENTIAL
 - b₂ (voids/cavities): NOT NEEDED for software graphs (they're 1D structures, no filled simplices)
 - Euler characteristic χ = b₀ - b₁: Useful summary metric
 
@@ -105,10 +105,10 @@ The pseudocode for this hybrid approach is:
 def compute_betti_numbers(graph):
     """
     Compute Betti numbers b0 and b1 for a directed dependency graph.
-    
+
     Args:
         graph: adjacency list representation {node: [neighbors]}
-    
+
     Returns:
         dict with keys:
             'b0': number of connected components
@@ -119,35 +119,35 @@ def compute_betti_numbers(graph):
     """
     n = len(graph)
     m = sum(len(neighbors) for neighbors in graph.values())
-    
+
     # Step 1: Compute b0 using Union-Find on underlying undirected graph
     parent = {node: node for node in graph}
-    
+
     def find(x):
         if parent[x] != x:
             parent[x] = find(parent[x])  # path compression
         return parent[x]
-    
+
     def union(x, y):
         px, py = find(x), find(y)
         if px != py:
             parent[px] = py
-    
+
     # Union nodes connected by any directed edge
     for node in graph:
         for neighbor in graph[node]:
             union(node, neighbor)
-    
+
     # Count components
     components = len(set(find(node) for node in graph))
     b0 = components
-    
+
     # Step 2: Compute b1 arithmetically
     b1 = m - n + b0
-    
+
     # Step 3: Compute SCCs using Tarjan's algorithm
     sccs = tarjan_scc(graph)
-    
+
     return {
         'b0': b0,
         'b1': b1,
@@ -161,7 +161,7 @@ def tarjan_scc(graph):
     """
     Identify strongly connected components using Tarjan's algorithm.
     Runs in O(n + m) time.
-    
+
     Returns list of lists, each sublist is one SCC.
     """
     index = [0]
@@ -170,21 +170,21 @@ def tarjan_scc(graph):
     lowlinks = {}
     on_stack = set()
     sccs = []
-    
+
     def strongconnect(v):
         indices[v] = index[0]
         lowlinks[v] = index[0]
         index[0] += 1
         stack.append(v)
         on_stack.add(v)
-        
+
         for w in graph.get(v, []):
             if w not in indices:
                 strongconnect(w)
                 lowlinks[v] = min(lowlinks[v], lowlinks[w])
             elif w in on_stack:
                 lowlinks[v] = min(lowlinks[v], indices[w])
-        
+
         if lowlinks[v] == indices[v]:
             scc = []
             while True:
@@ -194,11 +194,11 @@ def tarjan_scc(graph):
                 if w == v:
                     break
             sccs.append(scc)
-    
+
     for v in graph:
         if v not in indices:
             strongconnect(v)
-    
+
     return sccs
 ```
 
@@ -228,14 +228,14 @@ class DependencyGraph:
     Efficient representation of code dependency graph supporting
     topological analysis algorithms.
     """
-    
+
     def __init__(self):
         self.adjacency = {}  # node -> set of neighbors (for fast lookup)
         self.reverse_adj = {}  # reverse adjacency for reverse DFS
         self.nodes = set()
         self.node_metadata = {}  # Store elevation/properties per node
         self.edge_metadata = {}  # Store (src, tgt) -> properties
-    
+
     def add_node(self, node, **metadata):
         """Add node with optional metadata (complexity, coupling, etc)"""
         if node not in self.nodes:
@@ -243,32 +243,32 @@ class DependencyGraph:
             self.adjacency[node] = set()
             self.reverse_adj[node] = set()
         self.node_metadata[node] = metadata
-    
+
     def add_edge(self, src, tgt, **metadata):
         """Add directed edge from src to tgt"""
         if src not in self.nodes:
             self.add_node(src)
         if tgt not in self.nodes:
             self.add_node(tgt)
-        
+
         self.adjacency[src].add(tgt)
         self.reverse_adj[tgt].add(src)
         self.edge_metadata[(src, tgt)] = metadata
-    
+
     def as_adjacency_list(self):
         """Return as adjacency list for algorithms"""
-        return {node: list(neighbors) 
+        return {node: list(neighbors)
                 for node, neighbors in self.adjacency.items()}
-    
+
     def get_edges(self):
         """Return all edges with metadata"""
         return [(src, tgt, self.edge_metadata.get((src, tgt), {}))
                 for src in self.adjacency
                 for tgt in self.adjacency[src]]
-    
+
     def __len__(self):
         return len(self.nodes)
-    
+
     def edge_count(self):
         return sum(len(neighbors) for neighbors in self.adjacency.values())
 ```
@@ -282,25 +282,25 @@ def to_networkx(dep_graph):
     """Convert DependencyGraph to NetworkX DiGraph"""
     import networkx as nx
     g = nx.DiGraph()
-    
+
     for node, metadata in dep_graph.node_metadata.items():
         g.add_node(node, **metadata)
-    
+
     for src, tgt, metadata in dep_graph.get_edges():
         g.add_edge(src, tgt, **metadata)
-    
+
     return g
 
 def from_networkx(nx_graph):
     """Convert NetworkX DiGraph to DependencyGraph"""
     dep_graph = DependencyGraph()
-    
+
     for node, attr in nx_graph.nodes(data=True):
         dep_graph.add_node(node, **attr)
-    
+
     for src, tgt, attr in nx_graph.edges(data=True):
         dep_graph.add_edge(src, tgt, **attr)
-    
+
     return dep_graph
 ```
 
@@ -328,11 +328,11 @@ import math
 def elevation_from_cyclomatic_complexity(cc, cc_baseline=5):
     """
     Convert cyclomatic complexity to elevation component.
-    
+
     Args:
         cc: cyclomatic complexity (integer >= 1)
         cc_baseline: baseline complexity at elevation 0 (default 5)
-    
+
     Returns:
         elevation contribution in range [0, inf)
     """
@@ -354,28 +354,28 @@ High fan-in (many modules depend on this one) suggests a popular, central module
 For elevation, fan-out is more directly relevant because it indicates the module's complexity from a dependency perspective:
 
 ```python
-def elevation_from_coupling(fan_in, fan_out, 
+def elevation_from_coupling(fan_in, fan_out,
                             fo_threshold=8, fi_threshold=5):
     """
     Elevation component from dependency coupling metrics.
-    
+
     Research suggests CBO (Coupling Between Objects) thresholds:
     - fan-out > 8: increased maintenance difficulty
     - fan-in > 5: potential bottleneck
-    
+
     Args:
         fan_in: number of incoming dependencies
         fan_out: number of outgoing dependencies
         fo_threshold: fan-out above which elevation increases (default 8)
         fi_threshold: fan-in above which elevation increases (default 5)
-    
+
     Returns:
         elevation contribution
     """
     # Quadratic growth beyond threshold
     fo_contribution = max(0, (fan_out - fo_threshold) ** 2) / (2 * fo_threshold)
     fi_contribution = max(0, (fan_in - fi_threshold) ** 2) / (2 * fi_threshold)
-    
+
     return fo_contribution + 0.3 * fi_contribution  # fan-out weighted higher
 ```
 
@@ -391,11 +391,11 @@ For elevation, use logarithmic LOC:
 def elevation_from_size(loc, loc_baseline=100):
     """
     Elevation component from lines of code.
-    
+
     Args:
         loc: lines of code in module
         loc_baseline: baseline LOC at elevation 0 (default 100)
-    
+
     Returns:
         elevation contribution
     """
@@ -415,11 +415,11 @@ While MI is valuable, it obscures detail. For the elevation function, use MI as 
 def elevation_from_maintainability_index(mi, mi_baseline=80):
     """
     Elevation component from Maintainability Index (0-100 scale).
-    
+
     Args:
         mi: Maintainability Index (0-100, higher is better)
         mi_baseline: MI at elevation 0 (default 80)
-    
+
     Returns:
         elevation contribution (negative values indicate good maintainability)
     """
@@ -438,7 +438,7 @@ class ElevationModel:
     Computes node elevation from multiple code metrics.
     Weights can be adjusted based on organizational priorities.
     """
-    
+
     def __init__(self, weights=None):
         """
         Args:
@@ -451,11 +451,11 @@ class ElevationModel:
             'size': 0.2,
             'maintainability': 0.2
         }
-    
+
     def compute_elevation(self, node_metrics):
         """
         Compute elevation for a single node.
-        
+
         Args:
             node_metrics: dict with keys:
                 'cyclomatic_complexity' (int)
@@ -463,7 +463,7 @@ class ElevationModel:
                 'fan_out' (int)
                 'loc' (int)
                 'maintainability_index' (float, 0-100)
-        
+
         Returns:
             float: elevation value
         """
@@ -472,12 +472,12 @@ class ElevationModel:
         fo = node_metrics.get('fan_out', 0)
         loc = node_metrics.get('loc', 50)
         mi = node_metrics.get('maintainability_index', 80)
-        
+
         cc_elev = elevation_from_cyclomatic_complexity(cc)
         coup_elev = elevation_from_coupling(fi, fo)
         size_elev = elevation_from_size(loc)
         mi_elev = elevation_from_maintainability_index(mi)
-        
+
         # Weighted sum
         total = (
             self.weights['cyclomatic'] * cc_elev +
@@ -485,14 +485,14 @@ class ElevationModel:
             self.weights['size'] * size_elev +
             self.weights['maintainability'] * mi_elev
         )
-        
+
         # Normalize to [0, 10] scale for readability
         return max(0, total + 5)  # shift so baseline is ~5
-    
+
     def compute_elevations(self, dep_graph):
         """
         Compute elevations for all nodes in dependency graph.
-        
+
         Returns:
             dict: node -> elevation
         """
@@ -521,11 +521,11 @@ The basic gradient is the difference in elevation between the target and source:
 def compute_gradient(source_elevation, target_elevation):
     """
     Compute gradient along dependency edge.
-    
+
     Args:
         source_elevation: elevation of module with the dependency
         target_elevation: elevation of module being depended on
-    
+
     Returns:
         float: gradient value
     """
@@ -538,17 +538,17 @@ Positive gradients (depending on higher-elevation code) are problematic. Use abs
 def gradient_severity(source_elev, target_elev, penalty_positive=1.5):
     """
     Compute severity of a dependency based on gradient.
-    
+
     Args:
         source_elev: source module elevation
         target_elev: target module elevation
         penalty_positive: multiplicative penalty for upward dependencies (default 1.5)
-    
+
     Returns:
         float: severity from 0 (ideal) to 10+ (problematic)
     """
     gradient = target_elev - source_elev
-    
+
     if gradient > 0:
         # Depending on more complex code is bad
         return gradient * penalty_positive
@@ -564,18 +564,18 @@ In addition to elevation difference, gradient severity should account for struct
 For code analysis, use static properties only (runtime frequency is unavailable without instrumentation):
 
 ```python
-def compute_gradient_with_context(source, target, dep_graph, 
+def compute_gradient_with_context(source, target, dep_graph,
                                   elevation_map, config=None):
     """
     Compute gradient with architectural context.
-    
+
     Args:
         source: source node ID
         target: target node ID
         dep_graph: DependencyGraph instance
         elevation_map: dict of node -> elevation
         config: GradientConfig with weights and thresholds
-    
+
     Returns:
         dict with keys:
             'basic_gradient': target_elev - source_elev
@@ -585,11 +585,11 @@ def compute_gradient_with_context(source, target, dep_graph,
     """
     if config is None:
         config = GradientConfig()
-    
+
     source_elev = elevation_map.get(source, 5)
     target_elev = elevation_map.get(target, 5)
     basic_grad = target_elev - source_elev
-    
+
     # Determine direction
     epsilon = 0.5
     if basic_grad > epsilon:
@@ -598,14 +598,14 @@ def compute_gradient_with_context(source, target, dep_graph,
         direction = 'downward'
     else:
         direction = 'level'
-    
+
     # Compute severity
     severity = gradient_severity(source_elev, target_elev,
                                 penalty_positive=config.upward_penalty)
-    
+
     # Check if problematic
     is_problematic = severity > config.severity_threshold
-    
+
     return {
         'basic_gradient': basic_grad,
         'severity': severity,
@@ -617,7 +617,7 @@ def compute_gradient_with_context(source, target, dep_graph,
 
 class GradientConfig:
     """Configuration for gradient computation"""
-    
+
     def __init__(self):
         self.upward_penalty = 1.5  # penalty multiplier for upward deps
         self.severity_threshold = 3.0  # severity above which is "problematic"
@@ -635,16 +635,16 @@ def compute_gradient_with_cycle_awareness(source, target, dep_graph,
                                           elevation_map, sccs):
     """
     Compute gradient accounting for cycles.
-    
+
     Args:
         sccs: list of strongly connected components (from Tarjan)
-    
+
     Returns:
         gradient dict with 'in_cycle' flag
     """
     gradient = compute_gradient_with_context(source, target, dep_graph,
                                              elevation_map)
-    
+
     # Check if both nodes are in same SCC
     source_scc = None
     target_scc = None
@@ -653,18 +653,18 @@ def compute_gradient_with_cycle_awareness(source, target, dep_graph,
             source_scc = i
         if target in scc:
             target_scc = i
-    
-    in_cycle = (source_scc is not None and 
-                source_scc == target_scc and 
+
+    in_cycle = (source_scc is not None and
+                source_scc == target_scc and
                 len(sccs[source_scc]) > 1)
-    
+
     if in_cycle:
         gradient['in_cycle'] = True
         gradient['is_problematic'] = True
         gradient['severity'] = max(gradient['severity'], 5.0)  # elevate severity
     else:
         gradient['in_cycle'] = False
-    
+
     return gradient
 ```
 
@@ -680,18 +680,18 @@ class TopologicalAnalysisPipeline:
     Main pipeline for topological code analysis.
     Processes dependency graph through analysis stages.
     """
-    
+
     def __init__(self):
         self.graph = DependencyGraph()
         self.betti_numbers = None
         self.elevations = None
         self.gradients = None
         self.landscape_profile = None
-    
+
     def load_dependencies(self, dep_data):
         """
         Load dependency data into graph.
-        
+
         Args:
             dep_data: list of dicts with keys:
                 'source': module ID
@@ -702,47 +702,47 @@ class TopologicalAnalysisPipeline:
         for dep in dep_data:
             src = dep['source']
             tgt = dep['target']
-            
+
             # Add nodes with metrics
             if src not in self.graph.nodes:
                 self.graph.add_node(src, **dep.get('source_metrics', {}))
             if tgt not in self.graph.nodes:
                 self.graph.add_node(tgt, **dep.get('target_metrics', {}))
-            
+
             # Add edge
             self.graph.add_edge(src, tgt)
-    
+
     def analyze_topology(self):
         """Stage 1: Compute topological invariants"""
         result = compute_betti_numbers(self.graph.as_adjacency_list())
         self.betti_numbers = result
         return result
-    
+
     def compute_elevations(self):
         """Stage 2: Compute node elevations from metrics"""
         model = ElevationModel()
         self.elevations = model.compute_elevations(self.graph)
         return self.elevations
-    
+
     def compute_gradients(self):
         """Stage 3: Compute gradients along edges"""
         sccs = self.betti_numbers['sccs']
         gradients = []
-        
+
         for src in self.graph.nodes:
             for tgt in self.graph.adjacency[src]:
                 grad = compute_gradient_with_cycle_awareness(
                     src, tgt, self.graph, self.elevations, sccs
                 )
                 gradients.append(grad)
-        
+
         self.gradients = gradients
         return gradients
-    
+
     def generate_landscape_profile(self):
         """
         Stage 4: Synthesize all analysis into LandscapeProfile
-        
+
         Returns:
             LandscapeProfile object
         """
@@ -753,14 +753,14 @@ class TopologicalAnalysisPipeline:
             graph=self.graph
         )
         return self.landscape_profile
-    
+
     def run(self, dep_data):
         """
         Execute full pipeline.
-        
+
         Args:
             dep_data: raw dependency data
-        
+
         Returns:
             LandscapeProfile
         """
@@ -781,43 +781,43 @@ class LandscapeProfile:
     Complete topological analysis result for a codebase.
     Serves as input for visualization and health metrics.
     """
-    
+
     def __init__(self, betti_numbers, elevations, gradients, graph):
         self.betti_numbers = betti_numbers
         self.elevations = elevations
         self.gradients = gradients
         self.graph = graph
         self.timestamp = datetime.now()
-    
+
     @property
     def b0(self):
         """Connected components"""
         return self.betti_numbers['b0']
-    
+
     @property
     def b1(self):
         """Independent cycles"""
         return self.betti_numbers['b1']
-    
+
     @property
     def sccs(self):
         """Strongly connected components"""
         return self.betti_numbers['sccs']
-    
+
     def get_problematic_edges(self, severity_threshold=3.0):
         """Filter gradients by severity"""
-        return [g for g in self.gradients 
+        return [g for g in self.gradients
                 if g['severity'] >= severity_threshold]
-    
+
     def get_high_elevation_nodes(self, threshold=6.0):
         """Find nodes with high complexity"""
         return [(node, elev) for node, elev in self.elevations.items()
                 if elev >= threshold]
-    
+
     def get_cycles_in_components(self):
         """Identify problematic SCCs with multiple nodes"""
         return [scc for scc in self.sccs if len(scc) > 1]
-    
+
     def to_dict(self):
         """Serialize to dict for JSON output"""
         return {
@@ -853,20 +853,20 @@ class LandscapeDimensionAssigner:
     """
     Assigns 3D coordinates to nodes for visualization.
     """
-    
+
     def __init__(self, elevations, sccs=None):
         self.elevations = elevations
         self.sccs = sccs or []
         self.positions = {}  # node -> (x, y, z)
-    
+
     def assign_coordinates(self, graph, layout_type='spring'):
         """
         Compute 3D coordinates for all nodes.
-        
+
         Args:
             graph: DependencyGraph instance
             layout_type: 'spring', 'circular', or 'hierarchical'
-        
+
         Returns:
             dict: node -> (x, y, z) position
         """
@@ -878,22 +878,22 @@ class LandscapeDimensionAssigner:
             return self._hierarchical_layout_3d(graph)
         else:
             raise ValueError(f"Unknown layout type: {layout_type}")
-    
+
     def _spring_layout_3d(self, graph):
         """
         Force-directed layout in 3D space.
-        
+
         Uses spring forces: attractive forces on edges, repulsive forces on nodes.
         Y-coordinate is fixed to elevation; X-Z computed by physics simulation.
         """
         import networkx as nx
-        
+
         # Convert to NetworkX for layout computation
         nx_graph = to_networkx(graph)
-        
+
         # Use NetworkX spring layout (returns x-z positions)
         pos_2d = nx.spring_layout(nx_graph, k=2, iterations=50, seed=42)
-        
+
         # Assign elevations as Y-coordinates
         self.positions = {
             node: (
@@ -903,16 +903,16 @@ class LandscapeDimensionAssigner:
             )
             for node in graph.nodes
         }
-        
+
         return self.positions
-    
+
     def _circular_layout_3d(self, graph):
         """
         Arrange nodes in circles at their elevation levels.
         Useful for hierarchical visualization.
         """
         import math
-        
+
         # Group nodes by elevation (binned into levels)
         levels = {}
         for node, elev in self.elevations.items():
@@ -920,22 +920,22 @@ class LandscapeDimensionAssigner:
             if level not in levels:
                 levels[level] = []
             levels[level].append(node)
-        
+
         self.positions = {}
-        
+
         # Place nodes in circles at each level
         for level, nodes in sorted(levels.items()):
             radius = max(50, len(nodes) * 10)  # radius based on cluster size
             y = level * 2 * 10  # vertical spacing
-            
+
             for i, node in enumerate(nodes):
                 angle = 2 * math.pi * i / len(nodes)
                 x = radius * math.cos(angle)
                 z = radius * math.sin(angle)
                 self.positions[node] = (x, y, z)
-        
+
         return self.positions
-    
+
     def _hierarchical_layout_3d(self, graph):
         """
         Arrange in layers for DAG-like visualization.
@@ -955,25 +955,25 @@ class VisualizationAttributeAssigner:
     """
     Assigns colors, sizes, and styles based on topological analysis.
     """
-    
+
     def __init__(self, landscape_profile, config=None):
         self.profile = landscape_profile
         self.config = config or VisualizationConfig()
         self.node_attributes = {}  # node -> {size, color, label}
         self.edge_attributes = {}  # (src, tgt) -> {color, width, style}
-    
+
     def assign_node_attributes(self):
         """Compute visual properties for all nodes"""
-        
+
         for node in self.profile.graph.nodes:
             elev = self.profile.elevations.get(node, 5)
             fi = len(self.profile.graph.reverse_adj.get(node, []))
             fo = len(self.profile.graph.adjacency.get(node, []))
-            
+
             # Node size: fan-in (popularity)
             # Small (1.0) for no dependents, up to 3.0 for many
             size = 1.0 + min(2.0, fi / 10.0)
-            
+
             # Node color: based on elevation and criticality
             if self._in_cycle(node):
                 color = 'red'  # involved in cycle
@@ -983,10 +983,10 @@ class VisualizationAttributeAssigner:
                 color = 'yellow'  # high elevation
             else:
                 color = 'green'  # acceptable elevation
-            
+
             # Opacity: lower for less critical nodes
             opacity = 0.7 + min(0.3, fi / 20.0)
-            
+
             self.node_attributes[node] = {
                 'size': size,
                 'color': color,
@@ -996,19 +996,19 @@ class VisualizationAttributeAssigner:
                 'fan_in': fi,
                 'fan_out': fo
             }
-        
+
         return self.node_attributes
-    
+
     def assign_edge_attributes(self):
         """Compute visual properties for all edges"""
-        
+
         for grad in self.profile.gradients:
             src = grad['source']
             tgt = grad['target']
             severity = grad['severity']
             direction = grad['direction']
             in_cycle = grad['in_cycle']
-            
+
             # Color: based on gradient direction and severity
             if in_cycle:
                 color = 'red'  # circular dependency
@@ -1022,13 +1022,13 @@ class VisualizationAttributeAssigner:
             else:
                 # Level dependency
                 color = (0.5, 0.5, 0.8)  # blue
-            
+
             # Width: based on severity
             width = 1.0 + min(3.0, severity / 2.0)
-            
+
             # Style: dashed for problematic
             style = 'dashed' if grad['is_problematic'] else 'solid'
-            
+
             self.edge_attributes[(src, tgt)] = {
                 'color': color,
                 'width': width,
@@ -1037,9 +1037,9 @@ class VisualizationAttributeAssigner:
                 'direction': direction,
                 'in_cycle': in_cycle
             }
-        
+
         return self.edge_attributes
-    
+
     def _in_cycle(self, node):
         """Check if node is part of a cycle"""
         for scc in self.profile.sccs:
@@ -1049,7 +1049,7 @@ class VisualizationAttributeAssigner:
 
 class VisualizationConfig:
     """Configuration for visual appearance"""
-    
+
     def __init__(self):
         self.camera_distance = 300
         self.node_size_scale = 5.0
@@ -1067,21 +1067,21 @@ class WebGLExporter:
     """
     Export landscape visualization to WebGL/Three.js JSON format.
     """
-    
+
     def export(self, landscape_profile, positions, node_attrs, edge_attrs):
         """
         Generate Three.js scene JSON.
-        
+
         Args:
             landscape_profile: LandscapeProfile instance
             positions: node -> (x, y, z) dict
             node_attrs: node -> visual attributes dict
             edge_attrs: (src, tgt) -> visual attributes dict
-        
+
         Returns:
             dict ready for JSON serialization and Three.js loading
         """
-        
+
         nodes = []
         for node in landscape_profile.graph.nodes:
             pos = positions[node]
@@ -1097,7 +1097,7 @@ class WebGLExporter:
                 'label': attrs['label'],
                 'elevation': attrs['elevation']
             })
-        
+
         edges = []
         for src, tgt in landscape_profile.graph.get_edges():
             attrs = edge_attrs.get((src, tgt), {})
@@ -1109,7 +1109,7 @@ class WebGLExporter:
                 'style': attrs.get('style', 'solid'),
                 'severity': attrs.get('severity', 0)
             })
-        
+
         return {
             'nodes': nodes,
             'edges': edges,
@@ -1121,7 +1121,7 @@ class WebGLExporter:
                 'timestamp': landscape_profile.timestamp.isoformat()
             }
         }
-    
+
     @staticmethod
     def _color_to_hex(color):
         """Convert (r, g, b) tuple to hex string"""
@@ -1144,49 +1144,49 @@ class LandscapeHealthIndicator:
     """
     Computes individual health indicators from topological analysis.
     """
-    
+
     def __init__(self, landscape_profile):
         self.profile = landscape_profile
-    
+
     def component_isolation_health(self):
         """
         Health based on component isolation (b0).
-        
+
         Higher b0 means more isolated modules, which can indicate either:
         - Good: clear modular separation
         - Bad: fragmentation and lack of integration
-        
+
         Returns:
             float 0-10 (10 = healthy)
         """
         b0 = self.profile.b0
         n = len(self.profile.graph.nodes)
-        
+
         if n == 0:
             return 5.0
-        
+
         # Ideal is around sqrt(n) components
         ideal_components = max(2, int(n ** 0.5))
-        
+
         if b0 <= ideal_components:
             # Within range of ideal
             return 10.0 - (abs(b0 - ideal_components) / ideal_components) * 2
         else:
             # Too fragmented
             return max(2.0, 10.0 - (b0 - ideal_components) / ideal_components)
-    
+
     def cycle_freedom_health(self):
         """
         Health based on cycle freedom (b1).
-        
+
         Ideally b1 = 0 (no cycles), but most large codebases have some.
         Health degrades as b1 increases.
-        
+
         Returns:
             float 0-10 (10 = no cycles)
         """
         b1 = self.profile.b1
-        
+
         if b1 == 0:
             return 10.0
         elif b1 <= 5:
@@ -1195,42 +1195,42 @@ class LandscapeHealthIndicator:
             return max(2.0, 10.0 - (b1 * 0.8))
         else:
             return max(0.5, 10.0 - (b1 * 0.3))
-    
+
     def elevation_health(self):
         """
         Health based on overall complexity (average elevation).
-        
+
         Returns:
             float 0-10 (10 = low complexity)
         """
         elevations = list(self.profile.elevations.values())
         if not elevations:
             return 5.0
-        
+
         avg_elevation = sum(elevations) / len(elevations)
         max_elevation = max(elevations)
-        
+
         # Healthy if average is low and max isn't too high
         avg_health = max(0, 10.0 - avg_elevation)
         max_health = max(0, 10.0 - (max_elevation - avg_elevation) * 0.5)
-        
+
         return (avg_health + max_health) / 2
-    
+
     def gradient_health(self):
         """
         Health based on dependency gradients.
-        
+
         Returns:
             float 0-10 (10 = all gradients favorable)
         """
         if not self.profile.gradients:
             return 5.0
-        
+
         problematic = len(self.profile.get_problematic_edges())
         total = len(self.profile.gradients)
-        
+
         problematic_ratio = problematic / total if total > 0 else 0
-        
+
         if problematic_ratio == 0:
             return 10.0
         elif problematic_ratio < 0.1:
@@ -1241,23 +1241,23 @@ class LandscapeHealthIndicator:
             return 5.0
         else:
             return max(1.0, 5.0 - (problematic_ratio - 0.5) * 10)
-    
+
     def coupling_health(self):
         """
         Health based on overall coupling (fan-out distribution).
-        
+
         Returns:
             float 0-10 (10 = low coupling)
         """
         fan_outs = [len(self.profile.graph.adjacency.get(node, []))
                     for node in self.profile.graph.nodes]
-        
+
         if not fan_outs:
             return 5.0
-        
+
         avg_fanout = sum(fan_outs) / len(fan_outs)
         max_fanout = max(fan_outs)
-        
+
         # Healthy if average fanout is low (< 3)
         if avg_fanout < 3:
             return 10.0
@@ -1278,7 +1278,7 @@ class LandscapeHealthIndex:
     """
     Synthesizes individual health indicators into single index.
     """
-    
+
     def __init__(self, landscape_profile, weights=None):
         self.profile = landscape_profile
         self.indicator = LandscapeHealthIndicator(landscape_profile)
@@ -1289,11 +1289,11 @@ class LandscapeHealthIndex:
             'coupling': 0.15,      # High coupling is problematic
             'isolation': 0.10      # Some isolation is good, too much is bad
         }
-    
+
     def compute_index(self):
         """
         Compute Landscape Health Index on scale 0-10.
-        
+
         Returns:
             dict with overall index and component scores
         """
@@ -1304,21 +1304,21 @@ class LandscapeHealthIndex:
             'coupling': self.indicator.coupling_health(),
             'isolation': self.indicator.component_isolation_health()
         }
-        
+
         # Weighted average
         overall = sum(scores[key] * self.weights[key]
                      for key in scores.keys()) / sum(self.weights.values())
-        
+
         # Interpret as health grade
         grade = self._score_to_grade(overall)
-        
+
         return {
             'index': round(overall, 2),
             'grade': grade,
             'component_scores': scores,
             'interpretation': self._interpret_index(overall)
         }
-    
+
     @staticmethod
     def _score_to_grade(score):
         """Convert numerical score to letter grade"""
@@ -1332,7 +1332,7 @@ class LandscapeHealthIndex:
             return 'D'
         else:
             return 'F'
-    
+
     @staticmethod
     def _interpret_index(score):
         """Provide human-readable interpretation"""
@@ -1375,71 +1375,71 @@ class IncrementalTopologyMaintainer:
     """
     Maintains topological properties as graph changes incrementally.
     """
-    
+
     def __init__(self, initial_graph=None):
         self.graph = initial_graph or DependencyGraph()
         self.dsu = None
         self.betti_cache = None
         self.edge_list = []  # Track all edges for recalculation when needed
         self.dirty = False   # Flag if incremental updates are safe
-    
+
     def add_edge(self, source, target):
         """
         Add edge incrementally, updating Betti numbers.
-        
+
         Returns:
             dict with updated topological properties
         """
         self.graph.add_edge(source, target)
         self.edge_list.append((source, target))
-        
+
         if self.betti_cache is None or self.dirty:
             # Initial computation or recovery from complex changes
             return self._recompute_betti_numbers()
-        
+
         # Incremental update
         n_before = len(self.graph.nodes) - 2  # New nodes not yet in n_before
-        
+
         # Rebuild DSU with all edges up to the new one
         self._rebuild_dsu()
-        
+
         # Recompute b0 and b1
         b0 = len(set(self.dsu.find(node) for node in self.graph.nodes))
         m = len(self.edge_list)
         n = len(self.graph.nodes)
         b1 = m - n + b0
-        
+
         self.betti_cache = {'b0': b0, 'b1': b1}
         return self.betti_cache
-    
+
     def add_edges_batch(self, edge_list):
         """
         Add multiple edges at once (more efficient).
-        
+
         Returns:
             dict with updated topological properties
         """
         for src, tgt in edge_list:
             self.graph.add_edge(src, tgt)
             self.edge_list.append((src, tgt))
-        
+
         # Recompute after batch
         return self._recompute_betti_numbers()
-    
+
     def _rebuild_dsu(self):
         """Rebuild union-find structure from current edges"""
         self.dsu = DisjointSetUnion(self.graph.nodes)
         for src, tgt in self.edge_list:
             # Use undirected version for connectivity
             self.dsu.union(src, tgt)
-    
+
     def _recompute_betti_numbers(self):
         """Full recomputation when incremental is unsafe"""
         result = compute_betti_numbers(self.graph.as_adjacency_list())
         self.betti_cache = result
         self.dirty = False
         return result
-    
+
     def get_betti_numbers(self):
         """Get current b0 and b1 (computes if dirty)"""
         if self.betti_cache is None or self.dirty:
@@ -1448,23 +1448,23 @@ class IncrementalTopologyMaintainer:
 
 class DisjointSetUnion:
     """Simple DSU implementation for incremental updates"""
-    
+
     def __init__(self, elements):
         self.parent = {elem: elem for elem in elements}
         self.rank = {elem: 0 for elem in elements}
-    
+
     def find(self, x):
         """Find root with path compression"""
         if self.parent[x] != x:
             self.parent[x] = self.find(self.parent[x])
         return self.parent[x]
-    
+
     def union(self, x, y):
         """Union by rank"""
         px, py = self.find(x), self.find(y)
         if px == py:
             return False  # Already in same set
-        
+
         # Union by rank
         if self.rank[px] < self.rank[py]:
             px, py = py, px
@@ -1479,35 +1479,35 @@ class DisjointSetUnion:
 Elevation values can be recomputed incrementally for affected nodes:
 
 ```python
-def incrementally_update_elevations(elevation_model, changed_nodes, 
+def incrementally_update_elevations(elevation_model, changed_nodes,
                                     elevation_map, node_metadata):
     """
     Update elevations only for nodes whose metrics changed.
-    
+
     Args:
         elevation_model: ElevationModel instance
         changed_nodes: set of node IDs with changed metrics
         elevation_map: current elevation dict (modified in place)
         node_metadata: current node metadata dict
-    
+
     Returns:
         set of nodes whose elevations changed (for cascade updates)
     """
     updated = set()
-    
+
     for node in changed_nodes:
         if node not in node_metadata:
             continue
-        
+
         old_elevation = elevation_map.get(node, 5.0)
         new_elevation = elevation_model.compute_elevation(
             node_metadata[node]
         )
-        
+
         if abs(new_elevation - old_elevation) > 0.1:  # Threshold
             elevation_map[node] = new_elevation
             updated.add(node)
-    
+
     return updated
 ```
 
@@ -1520,18 +1520,18 @@ def incrementally_update_gradients(updated_elevations, dep_graph,
                                    elevation_map, old_gradients):
     """
     Update gradients affected by elevation changes.
-    
+
     Args:
         updated_elevations: set of nodes with changed elevations
         dep_graph: DependencyGraph instance
         elevation_map: current elevation dict
         old_gradients: dict of (src, tgt) -> gradient
-    
+
     Returns:
         dict of (src, tgt) -> updated gradient
     """
     new_gradients = dict(old_gradients)  # Copy existing
-    
+
     # For each affected node, update its incoming and outgoing edges
     for node in updated_elevations:
         # Incoming edges (other nodes depend on this one)
@@ -1541,7 +1541,7 @@ def incrementally_update_gradients(updated_elevations, dep_graph,
                 predecessor, node, dep_graph, elevation_map
             )
             new_gradients[key] = new_grad
-        
+
         # Outgoing edges (this node depends on others)
         for successor in dep_graph.adjacency.get(node, []):
             key = (node, successor)
@@ -1549,7 +1549,7 @@ def incrementally_update_gradients(updated_elevations, dep_graph,
                 node, successor, dep_graph, elevation_map
             )
             new_gradients[key] = new_grad
-    
+
     return new_gradients
 ```
 
@@ -1562,79 +1562,79 @@ class IncrementalAnalysisPipeline:
     """
     Performs incremental topological analysis updates.
     """
-    
+
     def __init__(self, landscape_profile):
         self.landscape = landscape_profile
         self.elevation_model = ElevationModel()
         self.sccs = landscape_profile.sccs
-    
+
     def apply_code_changes(self, changes):
         """
         Apply code changes and incrementally update analysis.
-        
+
         Args:
             changes: dict with keys:
                 'added_edges': list of (src, tgt)
                 'removed_edges': list of (src, tgt)
                 'updated_metrics': dict of node -> new metrics
-        
+
         Returns:
             UpdateResult with changed elements
         """
         result = UpdateResult()
-        
+
         # 1. Update graph structure
         for src, tgt in changes.get('added_edges', []):
             self.landscape.graph.add_edge(src, tgt)
-        
+
         for src, tgt in changes.get('removed_edges', []):
             # Note: DependencyGraph doesn't support removal easily
             # In practice, rebuild the graph
             pass
-        
+
         # 2. Update topology (Betti numbers)
         if changes.get('added_edges') or changes.get('removed_edges'):
             old_b0, old_b1 = self.landscape.b0, self.landscape.b1
             new_topo = compute_betti_numbers(self.landscape.graph.as_adjacency_list())
             self.landscape.betti_numbers = new_topo
-            
+
             if new_topo['b0'] != old_b0 or new_topo['b1'] != old_b1:
                 result.topology_changed = True
                 result.b0_delta = new_topo['b0'] - old_b0
                 result.b1_delta = new_topo['b1'] - old_b1
-        
+
         # 3. Update elevations incrementally
         updated_nodes = set(changes.get('updated_metrics', {}).keys())
-        
+
         # Update node metadata
         for node, metrics in changes.get('updated_metrics', {}).items():
             if node in self.landscape.graph.node_metadata:
                 self.landscape.graph.node_metadata[node].update(metrics)
-        
+
         # Recompute elevations for changed nodes
         updated_elevations = incrementally_update_elevations(
             self.elevation_model, updated_nodes,
             self.landscape.elevations, self.landscape.graph.node_metadata
         )
         result.nodes_with_elevation_change = updated_elevations
-        
+
         # 4. Update gradients for affected edges
         new_gradients = incrementally_update_gradients(
             updated_elevations, self.landscape.graph,
-            self.landscape.elevations, 
+            self.landscape.elevations,
             {(g['source'], g['target']): g for g in self.landscape.gradients}
         )
         self.landscape.gradients = list(new_gradients.values())
         result.edges_updated = len(updated_elevations) * 2  # rough estimate
-        
+
         # 5. Update health metrics
         result.health_index = LandscapeHealthIndex(self.landscape).compute_index()
-        
+
         return result
 
 class UpdateResult:
     """Result of incremental analysis update"""
-    
+
     def __init__(self):
         self.topology_changed = False
         self.b0_delta = 0  # Change in number of components
@@ -1669,7 +1669,7 @@ collider/
     health.py          # Health indicators and index
     incremental.py     # Incremental update logic
     visualization.py   # 3D coordinate assignment, attributes
-  
+
   integration/
     __init__.py
     extractor.py       # Extract dependencies from source

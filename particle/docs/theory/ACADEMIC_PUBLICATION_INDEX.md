@@ -149,7 +149,7 @@ This index organizes all materials created to address the 6 academic gaps identi
 |----------|---------|
 | [L0_AXIOMS.md](./L0_AXIOMS.md) | Original axiom document (prose form) |
 | [L1_DEFINITIONS.md](./L1_DEFINITIONS.md) | Entity definitions |
-| [L2_LAWS.md](./L2_LAWS.md) | Behavioral laws |
+| [L2_PRINCIPLES.md](./L2_PRINCIPLES.md) | Behavioral principles |
 | [L3_APPLICATIONS.md](./L3_APPLICATIONS.md) | Applications and metrics |
 | [ACADEMIC_GAPS.md](./ACADEMIC_GAPS.md) | Gap analysis that motivated this work |
 | [THEORY_INDEX.md](./THEORY_INDEX.md) | Complete theory index |
@@ -191,7 +191,7 @@ This index organizes all materials created to address the 6 academic gaps identi
 A formal axiomatic framework for classifying code structure with 167 atoms, 8 dimensions, and 16 levels.
 
 ### Why does it matter?
-Current tools use incompatible taxonomies. SMC provides universal classification vocabulary.
+Current tools use incompatible taxonomies. SMC provides a compatible classification vocabulary.
 
 ### What makes it academic?
 - Formal axioms (11 groups, 15+ axioms)
@@ -206,7 +206,7 @@ IEEE Transactions on Software Engineering (TSE)
 - Journal format allows space for comprehensive theory
 - Can present at ICSE as "journal-first"
 
-### Probability of acceptance?
+### Factors affecting reception?
 With all gaps addressed: **60-70%** at TSE
 
 ---

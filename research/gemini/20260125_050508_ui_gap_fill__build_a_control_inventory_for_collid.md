@@ -1,4 +1,4 @@
-# Research: 
+# Research:
 UI GAP FILL: Build a control inventory for Collider UI.
 Output JSON schema:
 - selector/id

@@ -36,7 +36,7 @@ graph TB
     end
 
     REF --> REG[Master Registry]
-    
+
     %% Advanced Styling
     classDef highPrio fill:#10a37f,stroke:#fff,stroke-width:2px,color:#fff;
     classDef storage fill:#333,stroke:#10a37f,stroke-width:1px;
@@ -57,7 +57,7 @@ sequenceDiagram
 
     U->>A: "Analyze Project"
     A->>C: trigger_pipeline()
-    
+
     par Async Processing
         C->>G: sync_mirror()
         C->>G: upload_parcels()
@@ -100,7 +100,7 @@ erDiagram
     PROJECT ||--o{ SUBSYSTEM : "contains"
     SUBSYSTEM ||--o{ FILE : "manages"
     FILE ||--o{ PARCEL : "refines into"
-    
+
     PARCEL {
         string id PK
         string waybill_id FK
@@ -266,7 +266,7 @@ journey
 ## ⚡ Power User Best Practices
 
 ### 1. The "Single Screen" Rule
-If your diagram requires vertical scrolling, it has too much **Noise**. 
+If your diagram requires vertical scrolling, it has too much **Noise**.
 - **Solution:** Break one large flowchart into multiple sub-flowcharts linked via identifiers.
 
 ### 2. Standardized Color Palette (ChatGPT Aesthetic)

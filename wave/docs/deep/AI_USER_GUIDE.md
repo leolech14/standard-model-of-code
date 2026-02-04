@@ -41,11 +41,11 @@ python wave/tools/ai/analyze.py "Does the archive tool violate the 'Atom' isolat
 
 ### 5. The Holographic-Socratic Layer (Continuous Validation)
 **Tool**: `wave/tools/ai/analyze.py --verify`
-**Best For**: Automated semantic auditing, Antimatter Law enforcement, codebase health monitoring.
+**Best For**: Automated semantic auditing, Antimatter Pattern enforcement, codebase health monitoring.
 **Mechanism**: File-change triggers + scheduled runs + SocraticValidator class.
 **Usage**:
 ```bash
-# Audit a domain against Antimatter Laws
+# Audit a domain against Antimatter Patterns
 python wave/tools/ai/analyze.py --verify pipeline
 
 # Audit specific candidate file
@@ -82,7 +82,7 @@ python wave/tools/ai/analyze.py --search "How are textures loaded?" --store-name
 
 **Tier 3: Socratic Verification (The Critic)**
 ```bash
-# Audit a domain against Antimatter Laws
+# Audit a domain against Antimatter Patterns
 python wave/tools/ai/analyze.py --verify pipeline
 
 # Check a specific candidate file

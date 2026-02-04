@@ -114,7 +114,7 @@ from mistletoe import Document
 def extract_code_blocks(markdown_text, language=None):
     """Extract code blocks from markdown, optionally filtered by language."""
     code_blocks = []
-    
+
     doc = Document(markdown_text)
     for token in doc.children:
         if hasattr(token, '__class__') and token.__class__.__name__ == 'CodeBlock':
@@ -124,7 +124,7 @@ def extract_code_blocks(markdown_text, language=None):
                     'language': token.language or 'plaintext',
                     'content': token.children.content if token.children else ''
                 })
-    
+
     return code_blocks
 ```
 
@@ -206,28 +206,28 @@ from collections import defaultdict
 
 class APIReferenceExtractor:
     """Extracts API references from markdown using complete AST traversal."""
-    
+
     def __init__(self):
         self.references = defaultdict(list)
         self.current_section = None
-    
+
     def extract_from_file(self, filepath):
         """Extract all API references from a markdown file."""
         with open(filepath, 'r') as f:
             doc = Document(f)
-        
+
         self._traverse_tree(doc)
         return self.references
-    
+
     def _traverse_tree(self, node, depth=0):
         """Recursively traverse the AST and extract references."""
         node_type = node.__class__.__name__
-        
+
         # Track current section from headings
         if node_type == 'Heading':
             heading_text = self._extract_text(node)
             self.current_section = heading_text
-        
+
         # Extract inline code references
         elif node_type == 'InlineCode':
             code_content = node.content
@@ -235,23 +235,23 @@ class APIReferenceExtractor:
                 'content': code_content,
                 'section': self.current_section
             })
-        
+
         # Extract code blocks with language
         elif node_type == 'CodeBlock':
             language = getattr(node, 'language', 'plaintext')
             code_content = node.children.content if node.children else ''
-            
+
             # Extract function/class calls from Python blocks
             if language == 'python':
                 calls = self._extract_python_calls(code_content)
                 self.references['python_calls'].extend(calls)
-            
+
             self.references['code_blocks'].append({
                 'language': language,
                 'content': code_content,
                 'section': self.current_section
             })
-        
+
         # Extract links which might reference API docs
         elif node_type == 'Link':
             link_text = self._extract_text(node)
@@ -262,17 +262,17 @@ class APIReferenceExtractor:
                     'target': link_target,
                     'section': self.current_section
                 })
-        
+
         # Traverse child nodes
         if hasattr(node, 'children'):
             for child in node.children:
                 self._traverse_tree(child, depth + 1)
-    
+
     def _extract_text(self, node):
         """Extract plain text from a node and its children."""
         if hasattr(node, 'content') and isinstance(node.content, str):
             return node.content
-        
+
         text_parts = []
         if hasattr(node, 'children'):
             for child in node.children:
@@ -280,9 +280,9 @@ class APIReferenceExtractor:
                     text_parts.append(child.content)
                 else:
                     text_parts.append(self._extract_text(child))
-        
+
         return ''.join(text_parts)
-    
+
     def _extract_python_calls(self, code_content):
         """Extract function/method calls from Python code."""
         import ast
@@ -297,7 +297,7 @@ class APIReferenceExtractor:
             return calls
         except SyntaxError:
             return []
-    
+
     def _get_call_name(self, call_node):
         """Extract function/method name from a Call node."""
         if isinstance(call_node.func, ast.Name):
@@ -324,56 +324,56 @@ from pathlib import Path
 
 class APIDocumentationExtractor:
     """Extracts API documentation organized by headers."""
-    
+
     def __init__(self, markdown_dir):
         self.markdown_dir = Path(markdown_dir)
         self.api_docs = {}
-    
+
     def extract_all(self):
         """Extract API documentation from all markdown files."""
         for md_file in self.markdown_dir.rglob('*.md'):
             self.extract_from_file(md_file)
         return self.api_docs
-    
+
     def extract_from_file(self, filepath):
         """Extract API documentation structure from a markdown file."""
         with open(filepath, 'r') as f:
             content = f.read()
-        
+
         # Split on h2 headers to identify API sections
         sections = re.split(r'^## ', content, flags=re.MULTILINE)
-        
+
         for section in sections[1:]:  # Skip content before first h2
             lines = section.split('\n')
             section_name = lines.strip()
-            
+
             # Extract function signature if it matches naming patterns
             api_info = self._parse_section(section_name, '\n'.join(lines[1:]))
-            
+
             if api_info:
                 self.api_docs[section_name] = api_info
-    
+
     def _parse_section(self, header, content):
         """Parse a section to extract API information."""
         # Match patterns like "function_name()", "ClassName.method()", etc.
         func_pattern = r'^(\w+(?:\.\w+)*)\s*\([^)]*\)\s*(?:-\s*(.+))?$'
         match = re.match(func_pattern, header)
-        
+
         if not match:
             return None
-        
+
         func_name = match.group(1)
         brief = match.group(2) or ''
-        
+
         # Extract parameters section
         params = self._extract_parameters(content)
-        
+
         # Extract returns section
         returns = self._extract_returns(content)
-        
+
         # Extract examples
         examples = self._extract_examples(content)
-        
+
         return {
             'name': func_name,
             'brief': brief,
@@ -381,7 +381,7 @@ class APIDocumentationExtractor:
             'returns': returns,
             'examples': examples
         }
-    
+
     def _extract_parameters(self, content):
         """Extract parameter information from section content."""
         # Match sections starting with "Parameters:" or "Args:"
@@ -390,19 +390,19 @@ class APIDocumentationExtractor:
             content,
             re.IGNORECASE
         )
-        
+
         if not param_section:
             return []
-        
+
         params = []
         for line in param_section.group(1).strip().split('\n'):
             if line.strip().startswith(('- ', '* ')):
                 # Parse parameter descriptions
                 param_line = line.strip()[2:]
                 params.append(param_line)
-        
+
         return params
-    
+
     def _extract_returns(self, content):
         """Extract return value information."""
         returns_section = re.search(
@@ -410,20 +410,20 @@ class APIDocumentationExtractor:
             content,
             re.DOTALL | re.IGNORECASE
         )
-        
+
         return returns_section.group(1).strip() if returns_section else None
-    
+
     def _extract_examples(self, content):
         """Extract code examples from section."""
         examples = []
-        
+
         # Match code blocks following "Example:" headers
         code_blocks = re.findall(
             r'(?:Example|Usage):\s*\n```(?:[\w]+)?\s*\n(.+?)\n```',
             content,
             re.DOTALL | re.IGNORECASE
         )
-        
+
         examples.extend(code_blocks)
         return examples
 ```
@@ -438,11 +438,11 @@ from griffe.docstrings.google import parse as parse_google_docstring
 
 class PythonAPIExtractor:
     """Extract API references from Python source using Griffe."""
-    
+
     def __init__(self, module_name):
         self.loader = GriffeLoader()
         self.module = self.loader.load(module_name)
-    
+
     def extract_all_apis(self):
         """Extract all public APIs from the module."""
         apis = {
@@ -451,11 +451,11 @@ class PythonAPIExtractor:
             'variables': self._extract_variables()
         }
         return apis
-    
+
     def _extract_classes(self):
         """Extract class definitions and their members."""
         classes = []
-        
+
         for member in self.module.members.values():
             if member.is_class:
                 class_info = {
@@ -464,7 +464,7 @@ class PythonAPIExtractor:
                     'methods': [],
                     'attributes': []
                 }
-                
+
                 # Extract methods and attributes
                 for sub_member in member.members.values():
                     if sub_member.is_function and not sub_member.name.startswith('_'):
@@ -479,15 +479,15 @@ class PythonAPIExtractor:
                             'annotation': str(sub_member.annotation) if sub_member.annotation else '',
                             'docstring': sub_member.docstring.value if sub_member.docstring else ''
                         })
-                
+
                 classes.append(class_info)
-        
+
         return classes
-    
+
     def _extract_functions(self):
         """Extract function definitions."""
         functions = []
-        
+
         for member in self.module.members.values():
             if member.is_function and not member.name.startswith('_'):
                 func_info = {
@@ -497,21 +497,21 @@ class PythonAPIExtractor:
                     'parameters': [],
                     'returns': None
                 }
-                
+
                 # Parse docstring for structured information
                 if member.docstring:
                     parsed = parse_google_docstring(member.docstring.value)
                     if parsed:
                         func_info['parsed_docstring'] = parsed
-                
+
                 functions.append(func_info)
-        
+
         return functions
-    
+
     def _extract_variables(self):
         """Extract module-level variables."""
         variables = []
-        
+
         for member in self.module.members.values():
             if not member.is_function and not member.is_class and not member.name.startswith('_'):
                 var_info = {
@@ -520,7 +520,7 @@ class PythonAPIExtractor:
                     'docstring': member.docstring.value if member.docstring else ''
                 }
                 variables.append(var_info)
-        
+
         return variables
 ```
 

@@ -1080,4 +1080,3 @@ S* = configuração ótima (estado relaxado)
 Lei Construtal + Sinergética + VSM + SoS + Segunda Ordem = **UMA teoria unificada de sistemas evolutivos**.
 
 E software é instância perfeita desta teoria.
-

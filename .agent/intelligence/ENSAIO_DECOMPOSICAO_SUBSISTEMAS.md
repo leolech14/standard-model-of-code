@@ -706,4 +706,3 @@ Não porque escolhemos 6, mas porque 6 emergiu da análise sistemática das resp
 ---
 
 _Fim do ensaio._
-

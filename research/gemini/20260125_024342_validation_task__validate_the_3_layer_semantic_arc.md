@@ -16,7 +16,7 @@ VALIDATION TASK: Validate the 3-layer semantic architecture against our theoreti
 
 ARCHITECTURE UNDER REVIEW:
 - UPB (Binding Layer): WHAT connects to WHAT
-- DTE (Exchange Layer): HOW values transform  
+- DTE (Exchange Layer): HOW values transform
 - PROPERTY-QUERY (Resolution Layer): Which provider wins
 
 VALIDATE AGAINST:

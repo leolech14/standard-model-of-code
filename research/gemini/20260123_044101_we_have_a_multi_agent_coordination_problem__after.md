@@ -14,7 +14,7 @@ We have a multi-agent coordination problem. After context compaction (session re
 
 Existing infrastructure:
 - .agent/tools/claim_task.sh (atomic mv-based locking)
-- .agent/tools/release_task.sh 
+- .agent/tools/release_task.sh
 - .agent/tools/check_stale.sh (>30 min detection)
 - .agent/registry/claimed/ directory
 - KERNEL.md boot protocol
@@ -72,7 +72,7 @@ echo "Verifying task state..."
 # Assume the task ID is passed to the agent, e.g., via an env var
 if [ -n "$CURRENT_TASK_ID" ]; then
     CLAIM_FILE_PATH=".agent/registry/claimed/$CURRENT_TASK_ID"
-    
+
     echo "Agent believes it is working on task: $CURRENT_TASK_ID"
 
     if [ -f "$CLAIM_FILE_PATH" ]; then
@@ -192,7 +192,7 @@ for claim_file in "$CLAIM_DIR"/*; do
     if [ -f "$claim_file" ]; then
         CONTENT=$(cat "$claim_file")
         TIMESTAMP=$(echo "$CONTENT" | cut -d':' -f2)
-        
+
         if [ -z "$TIMESTAMP" ]; then
             # Handle old format files without timestamps
             MOD_TIME=$(stat -f %m "$claim_file")
@@ -205,7 +205,7 @@ for claim_file in "$CLAIM_DIR"/*; do
             TASK_ID=$(basename "$claim_file")
             OWNER_ID=$(echo "$CONTENT" | cut -d':' -f1)
             echo "STALE: Task $TASK_ID claimed by $OWNER_ID is stale (age: $AGE seconds). Releasing."
-            
+
             # Move back to scoped for another agent to pick up
             mv "$claim_file" ".agent/registry/scoped/$TASK_ID"
         fi
