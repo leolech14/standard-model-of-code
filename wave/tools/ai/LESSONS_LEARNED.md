@@ -1,8 +1,21 @@
 # Lessons Learned: Why We Failed at Open-Source (and How We Fixed It)
 
 **Author:** Leonardo Lech + Claude Code
-**Date:** 2026-02-03
+**Date:** 2026-02-04
 **Status:** Critical lessons - read before starting ANY new project
+
+---
+
+## **KEY INSIGHT (2026-02-04): WE MISSED THE INFRASTRUCTURE**
+
+We failed not because we couldn't build, but because we didn't recognize that
+OpenClaw already *was* the infrastructure. We treated it as "just another tool"
+instead of the foundation layer it was meant to be. That led us to build a
+parallel stack (gateway, sessions, routing, memory, scheduling) that OpenClaw
+already provided.
+
+**Translation:** we tried to *be* the platform, when the platform already
+existed.
 
 ---
 
@@ -910,5 +923,5 @@ Not: Writing the most code
 
 ---
 
-**Last updated:** 2026-02-03
+**Last updated:** 2026-02-04
 **Preserve forever:** This lesson cost us 120+ hours to learn
