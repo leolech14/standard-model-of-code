@@ -1,11 +1,11 @@
 {
-  "last_audit_time": 1770181445.62725,
+  "last_audit_time": 1770228019.767332,
   "last_file_hashes": {
     "wave/config/semantic_models.yaml": "c66168c3c8ea0a75",
     "particle/src/core": "07bdfd4ff27d0f79",
     "particle/docs": "b1019e594072574d"
   },
-  "audit_count": 400,
-  "violation_count": 16,
-  "updated": "2026-02-04T02:04:05.628373"
+  "audit_count": 408,
+  "violation_count": 18,
+  "updated": "2026-02-04T15:00:19.767917"
 }
