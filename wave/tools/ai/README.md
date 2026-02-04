@@ -6,6 +6,12 @@
 
 ## 📖 DOCUMENTOS ATIVOS (LEIA ESTES)
 
+### 0. **LESSONS_LEARNED.md** 🎓 ← **LEIA PRIMEIRO!**
+   - **Para:** Você (Leo) antes de QUALQUER projeto novo
+   - **O que é:** Por que falhamos (central-mcp) e como consertar
+   - **Quando usar:** Antes de construir algo do zero
+   - **Impacto:** Economiza 80-100 horas por projeto
+
 ### 1. **CLAUDE_OPENCLAW_HANDBOOK.md** 🤖 ← **PARA MIM (CLAUDE)**
    - **Para:** Claude agents trabalhando com OpenClaw
    - **O que é:** Tudo que Claude precisa saber
@@ -62,6 +68,7 @@ wave/tools/ai/
 ├── README.md                         ← VOCÊ ESTÁ AQUI
 │
 ├── 📖 DOCS ATIVOS (use estes)
+│   ├── LESSONS_LEARNED.md            → 🎓 META-LIÇÃO (read first!)
 │   ├── CLAUDE_OPENCLAW_HANDBOOK.md   → Para Claude agents 🤖
 │   ├── START_HERE.md                 → Primeiro dia (humano)
 │   ├── COMO_USAR_OPENCLAW.md         → Guia prático (humano)
