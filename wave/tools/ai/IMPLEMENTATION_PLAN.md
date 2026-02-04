@@ -58,6 +58,171 @@ Transform current working-but-not-optimized OpenClaw into:
 
 ## 🚀 IMPLEMENTATION PHASES
 
+### **PHASE 0: TAILSCALE + CUSTOM DOMAIN (FOUNDATION)**
+
+**Priority:** 🟣 FOUNDATION
+**Time:** 30 minutes
+**Benefit:** Clean URL, biometric auth, multi-device access
+
+#### **0.1 Install Tailscale on All Devices**
+
+**VPS (Hostinger):**
+```bash
+ssh hostinger "curl -fsSL https://tailscale.com/install.sh | sh"
+ssh hostinger "tailscale up"
+# Follow auth link, approve device
+```
+
+**MacBook:**
+```bash
+# If not installed:
+brew install tailscale
+# Or download from: https://tailscale.com/download/mac
+
+# Start Tailscale
+sudo tailscale up
+
+# Verify
+tailscale status
+```
+
+**iPhone:**
+```
+1. App Store → Search "Tailscale"
+2. Install Tailscale app
+3. Open app → Sign in
+4. Approve device
+5. Enable: Settings → Tailscale → FaceID
+```
+
+**Why:** Creates secure mesh network, no SSH tunnels needed
+
+---
+
+#### **0.2 Enable Tailscale Serve for OpenClaw**
+
+```bash
+# On VPS, serve OpenClaw gateway
+ssh hostinger "tailscale serve https / http://127.0.0.1:18789"
+
+# Get Tailscale hostname
+ssh hostinger "tailscale status | grep $(hostname)"
+# Example: hostinger-vps.your-tailnet.ts.net
+
+# Verify accessible
+curl https://hostinger-vps.your-tailnet.ts.net
+```
+
+**Result:** Clean HTTPS URL, no port numbers!
+
+---
+
+#### **0.3 Configure Custom Domain (dashboard.centralmcp.ai)**
+
+**Option A: Tailscale Funnel (Public, Authenticated)**
+```bash
+# Enable funnel (public access via Tailscale auth)
+ssh hostinger "tailscale funnel 443 on"
+ssh hostinger "tailscale serve https / http://127.0.0.1:18789"
+
+# Request custom domain via Tailscale admin
+# Domain: dashboard.centralmcp.ai
+# Points to: your-tailnet funnel URL
+```
+
+**Option B: Cloudflare + Tailscale (Custom DNS)**
+```bash
+# 1. In Cloudflare DNS:
+# dashboard.centralmcp.ai → CNAME → hostinger-vps.your-tailnet.ts.net
+
+# 2. Configure Tailscale cert
+ssh hostinger "tailscale cert dashboard.centralmcp.ai"
+
+# 3. Serve with custom domain
+ssh hostinger "tailscale serve https://dashboard.centralmcp.ai http://127.0.0.1:18789"
+```
+
+**Result:**
+- URL: `https://dashboard.centralmcp.ai`
+- NO token in URL (clean!)
+- Auth: Tailscale SSO (biometric on mobile)
+
+---
+
+#### **0.4 Configure Biometric Auth**
+
+**On iPhone Tailscale App:**
+```
+Settings → Tailscale
+├─ Enable: Use Face ID
+├─ Enable: Require authentication
+└─ Set: Lock after 5 minutes idle
+```
+
+**On MacBook:**
+```
+Tailscale menubar → Preferences
+├─ Enable: Require Touch ID to access network
+└─ Set: Lock after 15 minutes idle
+```
+
+**Result:**
+- Open dashboard.centralmcp.ai
+- FaceID/TouchID prompt
+- Authenticated access
+- No token needed!
+
+---
+
+#### **0.5 Update OpenClaw Config for Tailscale**
+
+```bash
+ssh hostinger "cd /root/.openclaw && jq '.gateway.tailscale = {
+  \"mode\": \"serve\",
+  \"funnel\": true,
+  \"hostname\": \"dashboard.centralmcp.ai\"
+} | .gateway.auth.mode = \"tailscale\"' openclaw.json > openclaw.json.tmp && mv openclaw.json.tmp openclaw.json"
+
+# Restart
+ssh hostinger "systemctl --user restart openclaw-gateway"
+```
+
+**Why:** OpenClaw knows to expect Tailscale auth, not token.
+
+---
+
+#### **0.6 Test Access from All Devices**
+
+**MacBook:**
+```bash
+open https://dashboard.centralmcp.ai
+# TouchID prompt → Dashboard opens
+```
+
+**iPhone:**
+```
+Safari → dashboard.centralmcp.ai
+# FaceID prompt → Dashboard opens (mobile-optimized)
+```
+
+**GCloud (optional):**
+```bash
+# On Cloud Shell or Compute instance:
+curl -fsSL https://tailscale.com/install.sh | sh
+tailscale up
+# Approve device
+curl https://dashboard.centralmcp.ai
+```
+
+**Success Criteria:**
+- ✅ Clean URL (no token, no port)
+- ✅ Biometric auth working
+- ✅ Accessible from iPhone, Mac, (GCloud)
+- ✅ HTTPS secure
+- ✅ No SSH tunnel needed
+
+---
+
 ### **PHASE 1: SECURITY HARDENING (CRITICAL - Do First!)**
 
 **Priority:** 🔴 CRITICAL
