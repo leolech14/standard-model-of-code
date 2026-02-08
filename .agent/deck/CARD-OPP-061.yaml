@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-061
 # Confidence: 9500%
-# Generated: 2026-02-03T22:32:12.711879
+# Generated: 2026-02-07T18:21:02.163605
 
 id: CARD-OPP-061
 title: Fix HSL Daemon Locally
@@ -28,5 +28,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-02-04T01:32:12.711574+00:00'
+generated_at: '2026-02-07T21:21:02.163280+00:00'
 confidence: 95

@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-060
 # Confidence: 8000%
-# Generated: 2026-02-03T22:32:12.714753
+# Generated: 2026-02-07T18:21:02.167720
 
 id: CARD-OPP-060
 title: Autonomous Enrichment Pipeline (AEP) MVP
@@ -55,5 +55,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-02-04T01:32:12.714705+00:00'
+generated_at: '2026-02-07T21:21:02.167653+00:00'
 confidence: 80

@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-076
 # Confidence: 70%
-# Generated: 2026-02-03T22:32:12.717553
+# Generated: 2026-02-07T18:21:02.171504
 
 id: CARD-OPP-076
 title: Implement collider mcafee CLI command
@@ -32,5 +32,5 @@ tags:
 - needs-enrichment
 - cli
 auto_generated: true
-generated_at: '2026-02-04T01:32:12.717496+00:00'
+generated_at: '2026-02-07T21:21:02.171441+00:00'
 confidence: 0.7

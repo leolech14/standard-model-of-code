@@ -1,0 +1,30 @@
+{
+  "general": {
+    "name": "Rainmaker",
+    "timezone": "America/Sao_Paulo",
+    "admin": {
+        "enabled": true
+    }
+  },
+  "modules": {
+      "tui": { "enabled": false },
+      "web": { "enabled": true, "port": 18789 }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/qwen2.5:14b",
+        "fallbacks": ["anthropic/claude-3-5-sonnet-20241022"]
+      }
+    }
+  },
+  "channels": {
+    "whatsapp": {
+      "enabled": true,
+      "allowFrom": ["+555499628402"]
+    }
+  },
+  "filesystem": {
+      "basePath": "/home/node/.openclaw/workspace"
+  }
+}
