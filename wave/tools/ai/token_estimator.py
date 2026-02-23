@@ -332,3 +332,53 @@ def get_file_token_breakdown(files: List[Path], top_n: int = 10) -> List[Dict[st
     file_stats.sort(key=lambda x: x['tokens'], reverse=True)
 
     return file_stats[:top_n]
+
+
+def compress_context(content: str, level: str = "medium") -> str:
+    """
+    Semantic Compression Algorithm (Ported from Central-MCP).
+    Reduces token payload by removing redundancy and applying standard abbreviations.
+
+    Levels:
+    - 'light': Basic whitespace and comment stripping
+    - 'medium': + standard semantic abbreviations
+    - 'aggressive': + pattern collapsing (destructive)
+    """
+    import re
+
+    compressed = content
+
+    # Light: remove consecutive blank lines and trailing spaces
+    compressed = re.sub(r'\n{3,}', '\n\n', compressed)
+    compressed = re.sub(r' +\n', '\n', compressed)
+
+    if level in ["medium", "aggressive"]:
+        # Semantic abbreviations (saves tokens without losing meaning)
+        abbreviations = {
+            "function": "fn",
+            "boolean": "bool",
+            "integer": "int",
+            "string": "str",
+            "configuration": "config",
+            "initialization": "init",
+            "implementation": "impl",
+            "development": "dev",
+            "production": "prod",
+            "environment": "env",
+            "repository": "repo",
+            "directory": "dir",
+            "information": "info",
+            "temperature": "temp",
+            "maximum": "max",
+            "minimum": "min",
+        }
+        for full_word, abbr in abbreviations.items():
+            compressed = re.sub(rf'\b{full_word}\b', abbr, compressed)
+
+    if level == "aggressive":
+        # Remove all inline comments (Python and JS/TS)
+        compressed = re.sub(r'(?s)/\*.*?\*/', '', compressed) # multi-line
+        compressed = re.sub(r'(?m)^\s*//.*$', '', compressed) # single-line JS
+        compressed = re.sub(r'(?m)^\s*#.*$', '', compressed)  # single-line Python
+
+    return compressed

@@ -152,7 +152,8 @@ try:
         estimate_tokens_smart,
         check_budget,
         format_budget_report,
-        get_file_token_breakdown
+        get_file_token_breakdown,
+        compress_context
     )
     HAS_TOKEN_ESTIMATOR = True
 except ImportError:
@@ -2442,6 +2443,9 @@ Examples:
     parser.add_argument("--describe-schema", metavar="NAME", help="Show detailed schema description")
     parser.add_argument("--research-capabilities", action="store_true", help="Show all research engine capabilities")
     parser.add_argument("--override", action="append", metavar="KEY=VALUE", help="Override schema parameter (e.g., runs[0].token_budget=200000)")
+    parser.add_argument("--compress", choices=["light", "medium", "aggressive"],
+                        help="Apply semantic context bubble compression to save tokens")
+
     # Stone Tool Output Contract (AI-first ergonomics)
     parser.add_argument("--output-format", choices=["md", "json", "bundle"], default="md",
                         help="Output format: md (human), json (structured), bundle (full artifacts)")
@@ -3107,6 +3111,10 @@ Please provide a thorough, comprehensive answer using the full context available
                 positional_strategy='front-load'
             )
 
+            if args.compress:
+                hybrid_context = compress_context(hybrid_context, level=args.compress)
+
+
             # Phase 1: External research (CLEAN QUERY ONLY - membrane)
             external_evidence = ""
             if HAS_PERPLEXITY:
@@ -3558,6 +3566,12 @@ Please provide a thorough, comprehensive answer using the full context available
         critical_files=set_critical_files,
         positional_strategy=set_positional_strategy
     )
+
+    if args.compress:
+        print(f"Applying '{args.compress}' semantic compression...", file=sys.stderr)
+        context = compress_context(context, level=args.compress)
+        total_chars = len(context)
+
     estimated_tokens = total_chars // 4  # Rough estimate
     print(f"Context size: ~{estimated_tokens:,} tokens ({total_chars:,} chars)", file=sys.stderr)
     if use_line_numbers:
