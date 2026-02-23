@@ -378,19 +378,23 @@ def _collect_file_node_ids(particles: List[Dict]) -> Dict[str, str]:
 def _find_target_particle(
     call_name: str,
     caller_file: str,
-    particle_by_name: Dict[str, List[Dict]]
+    particle_by_name: Dict[str, List[Dict]],
+    caller_imports: Optional[List[Any]] = None
 ) -> Optional[Dict]:
     """
-    Find target particle for a call, preferring same-file matches.
+    Find target particle for a call, preferring same-file matches or imported files.
 
     This handles duplicate function names across files (e.g., 'init', 'clamp01').
     When a function calls another function with the same name as one in its own file,
     the same-file version should be preferred (respects module scope).
 
+    If cross-file, this cross-references the candidates' paths against the caller's imports.
+
     Args:
         call_name: The name being called
         caller_file: The file path of the caller
         particle_by_name: Dict mapping names to LIST of particles with that name
+        caller_imports: Optional list of raw imports for the caller file
 
     Returns:
         The best matching particle, or None if not found
@@ -404,7 +408,26 @@ def _find_target_particle(
         if candidate.get('file_path') == caller_file:
             return candidate
 
-    # Fallback to first match (cross-file reference)
+    # Attempt to resolve via imports
+    if caller_imports:
+        imported_modules = set()
+        for imp in caller_imports:
+            # Handle both string and dict formats (e.g., {"module": "os", "names": ["path"]})
+            if isinstance(imp, dict):
+                mod = imp.get("module")
+                if mod:
+                    imported_modules.add(str(mod).split('.')[-1])
+            elif isinstance(imp, str):
+                imported_modules.add(imp.split('.')[-1])
+
+        for candidate in candidates:
+            # Check if the candidate's file path stems matches anything we imported
+            # This is heuristic but better than blind candidate [0]
+            cand_stem = Path(candidate.get('file_path', '')).stem
+            if cand_stem in imported_modules:
+                return candidate
+
+    # Fallback to first match (cross-file reference, low confidence)
     return candidates[0]
 
 
@@ -416,7 +439,7 @@ class EdgeExtractionStrategy(ABC):
     """Abstract base class for language-specific edge extraction from source bodies."""
 
     @abstractmethod
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         """
         Extract 'calls' and 'uses' edges from a single particle's body_source.
 
@@ -424,6 +447,7 @@ class EdgeExtractionStrategy(ABC):
             particle: The calling particle (function/method/class)
             particle_by_name: Dict mapping names to LIST of particles with that name
                              (supports duplicate names across files)
+            file_imports: List of raw imports in the file containing this particle
         """
         pass
 
@@ -431,7 +455,7 @@ class EdgeExtractionStrategy(ABC):
 class PythonEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Python (regex-based heuristics)."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
@@ -454,7 +478,7 @@ class PythonEdgeStrategy(EdgeExtractionStrategy):
                        'hasattr', 'getattr', 'setattr', 'open', 'super', 'type', 'id'):
                 continue
 
-            target = _find_target_particle(call, caller_file, particle_by_name)
+            target = _find_target_particle(call, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -475,7 +499,7 @@ class PythonEdgeStrategy(EdgeExtractionStrategy):
                 continue
             if accessed in ('Path', 'Dict', 'List', 'Optional', 'Union', 'Any', 'Type', 'Set', 'Tuple'):
                 continue  # Skip typing imports
-            target = _find_target_particle(accessed, caller_file, particle_by_name)
+            target = _find_target_particle(accessed, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -494,7 +518,7 @@ class PythonEdgeStrategy(EdgeExtractionStrategy):
 class JavascriptEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for JavaScript/TypeScript."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
@@ -512,7 +536,7 @@ class JavascriptEdgeStrategy(EdgeExtractionStrategy):
                        'reduce', 'length', 'toString', 'parseInt', 'parseFloat', 'require'):
                 continue
 
-            target = _find_target_particle(call, caller_file, particle_by_name)
+            target = _find_target_particle(call, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -528,7 +552,7 @@ class JavascriptEdgeStrategy(EdgeExtractionStrategy):
         # New instantiation
         news = re.findall(r'new\s+(\w+)\s*\(', body)
         for cls in news:
-            target = _find_target_particle(cls, caller_file, particle_by_name)
+            target = _find_target_particle(cls, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -553,7 +577,7 @@ class TypeScriptEdgeStrategy(JavascriptEdgeStrategy):
 class GoEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Go."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
@@ -569,7 +593,7 @@ class GoEdgeStrategy(EdgeExtractionStrategy):
             if call in ('println', 'fmt', 'len', 'append', 'make', 'new', 'panic', 'copy'):
                 continue
 
-            target = _find_target_particle(call, caller_file, particle_by_name)
+            target = _find_target_particle(call, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -587,7 +611,7 @@ class GoEdgeStrategy(EdgeExtractionStrategy):
 class RustEdgeStrategy(EdgeExtractionStrategy):
     """Extraction logic for Rust."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body:
@@ -603,7 +627,7 @@ class RustEdgeStrategy(EdgeExtractionStrategy):
             if call in ('println', 'vec', 'Some', 'None', 'Ok', 'Err', 'unwrap', 'clone', 'to_string'):
                 continue
 
-            target = _find_target_particle(call, caller_file, particle_by_name)
+            target = _find_target_particle(call, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -621,7 +645,7 @@ class RustEdgeStrategy(EdgeExtractionStrategy):
 class DefaultEdgeStrategy(EdgeExtractionStrategy):
     """Fallback strategy for unknown languages (no body analysis)."""
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         return []
 
 
@@ -699,7 +723,7 @@ class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
         except Exception:
             return set()
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         edges = []
         body = particle.get('body_source', '')
         if not body or not self.parser:
@@ -736,7 +760,7 @@ class TreeSitterEdgeStrategy(EdgeExtractionStrategy):
             if call in local_defs:
                 continue
 
-            target = _find_target_particle(call, caller_file, particle_by_name)
+            target = _find_target_particle(call, caller_file, particle_by_name, file_imports)
             if target:
                 target_id = _get_particle_id(target)
                 edges.append({
@@ -863,7 +887,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
         _, method = self.extract_member_call(node, source_bytes)
         return method
 
-    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]]) -> List[Dict]:
+    def extract_edges(self, particle: Dict, particle_by_name: Dict[str, List[Dict]], file_imports: Optional[List[Any]] = None) -> List[Dict]:
         """
         Extract edges with full module resolution for JS.
 
@@ -906,7 +930,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
                         # Strategy 1: If it's 'this.method()', use same-file preference directly
                         # (this refers to methods in the same class/object)
                         if obj_name == 'this':
-                            target = _find_target_particle(method_name, caller_file, particle_by_name)
+                            target = _find_target_particle(method_name, caller_file, particle_by_name, file_imports)
 
                         # Strategy 2: If it's a member call (obj.method), use resolver
                         elif obj_name:
@@ -916,7 +940,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
 
                         # Strategy 3: Fall back to same-file preference for direct calls
                         if not target:
-                            target = _find_target_particle(method_name, caller_file, particle_by_name)
+                            target = _find_target_particle(method_name, caller_file, particle_by_name, file_imports)
 
                         if target:
                             target_id = _get_particle_id(target)
@@ -936,7 +960,7 @@ class JavaScriptTreeSitterStrategy(TreeSitterEdgeStrategy):
                     cb_key = (None, cb_name)  # Callbacks are direct references (no object)
                     if cb_key not in processed:
                         processed.add(cb_key)
-                        target = _find_target_particle(cb_name, caller_file, particle_by_name)
+                        target = _find_target_particle(cb_name, caller_file, particle_by_name, file_imports)
                         if target:
                             target_id = _get_particle_id(target)
                             edges.append({
@@ -1142,11 +1166,19 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
         # Inheritance
         base_classes = p.get('base_classes', [])
         caller_file = p.get('file_path', '')
+
+        # Get raw imports for the caller file for better cross-file resolution
+        caller_imports = None
+        for r in results:
+            if r.get('file_path') == caller_file:
+                caller_imports = r.get('raw_imports', [])
+                break
+
         for base in base_classes:
             if base and base not in ('object', 'ABC', 'Protocol'):
                 source_id = _get_particle_id(p)
                 # Look up base class in known particles (prefer same-file)
-                target_particle = _find_target_particle(base, caller_file, particle_by_name)
+                target_particle = _find_target_particle(base, caller_file, particle_by_name, caller_imports)
                 if target_particle:
                     target_id = _get_particle_id(target_particle)
                 else:
@@ -1168,8 +1200,15 @@ def extract_call_edges(particles: List[Dict], results: List[Dict], target_path: 
         file_path = p.get('file_path', '')
         strategy = get_strategy_for_file(file_path)
 
+        # Get raw imports for the caller file for better cross-file resolution
+        caller_imports = None
+        for r in results:
+            if r.get('file_path') == file_path:
+                caller_imports = r.get('raw_imports', [])
+                break
+
         # Use strategy to extract body-level edges
-        body_edges = strategy.extract_edges(p, particle_by_name)
+        body_edges = strategy.extract_edges(p, particle_by_name, caller_imports)
         edges.extend(body_edges)
 
     node_ids = {

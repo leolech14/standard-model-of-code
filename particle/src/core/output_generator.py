@@ -107,6 +107,54 @@ def write_html_report(
     return output_path
 
 
+def _aggressively_strip_keys(obj: Any, keys_to_remove: set) -> Any:
+    """Recursively strip specified keys from any dict or list, regardless of depth."""
+    if isinstance(obj, dict):
+        return {k: _aggressively_strip_keys(v, keys_to_remove)
+                for k, v in obj.items() if k not in keys_to_remove}
+    elif isinstance(obj, list):
+        return [_aggressively_strip_keys(item, keys_to_remove) for item in obj]
+    return obj
+
+def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    import copy
+
+    # Base payload structure contains: version, manifest, counts, files, file_boundaries, data (nodes/edges)
+
+    # LOD 1: Verbose (Raw stripped payload)
+    lod1 = payload
+
+    # LOD 2: Standard (Remove raw string bodies, keep signatures/docstrings)
+    lod2 = copy.deepcopy(payload)
+    lod2 = _aggressively_strip_keys(lod2, {"code", "body_source", "body_preview"})
+
+    # LOD 3: Compact (Remove methods entirely, keep only files/classes/edges)
+    lod3 = copy.deepcopy(payload)
+    if "nodes" in lod3 and isinstance(lod3["nodes"], list):
+        kompact_nodes = []
+        for node in lod3["nodes"]:
+            # Drop fine-grained particles for maximum architecture compression
+            if getattr(node, "get", lambda k: None)("role") not in ["function", "method", "variable", "property", "parameter"]:
+                kompact_nodes.append(node)
+        lod3["nodes"] = kompact_nodes
+
+    # Strip all large string fields and heavy analytical objects across the entire LOD3 structure
+    lod3 = _aggressively_strip_keys(lod3, {
+        # Raw text
+        "code", "body_source", "body_preview", "docstring",
+        "file_content", "source_code",
+
+        # Heavy node metrics
+        "dimensions", "waybill", "purpose_intelligence", "purpose_coherence",
+        "control_flow", "data_flow", "rpbl", "intent_profile",
+
+        # Heavy root arrays
+        "markov", "execution_flow", "file_boundaries", "files", "igt",
+        "semantic_analysis", "codome_boundaries"
+    })
+
+    return {"lod1": lod1, "lod2": lod2, "lod3": lod3}
+
 def generate_outputs(
     data: Dict[str, Any],
     output_dir: Union[str, Path],
@@ -123,16 +171,67 @@ def generate_outputs(
         resolved_target = target_name or _resolve_target_name(data)
         json_filename, html_filename = _default_filenames(resolved_target, timestamp=timestamp)
 
-    json_path = write_llm_output(data, output_dir, filename=json_filename, normalize=False)
+    # Base payload processing
+    payload = data.copy() if isinstance(data, dict) else data
+    if isinstance(payload, dict):
+        payload.pop("brain_download", None)
+        if "manifest" in payload and isinstance(payload["manifest"], dict):
+            if "waybill" in payload["manifest"] and isinstance(payload["manifest"]["waybill"], dict):
+                payload["manifest"]["waybill"].pop("context_vector", None)
+                payload["manifest"]["waybill"].pop("route", None)
+        if "data" in payload and isinstance(payload["data"], dict) and "nodes" in payload["data"]:
+            for node in payload["data"]["nodes"]:
+                if "waybill" in node:
+                    node["waybill"].pop("context_vector", None)
+                    node["waybill"].pop("route", None)
 
-    # Create stable filenames for automation (always available, always current)
+    # Create Multi-LOD outputs
+    lods = create_lod_payloads(payload)
     output_dir = Path(output_dir)
+
+    ans = {}
+    tokens_info = {}
+    try:
+        import tiktoken
+        enc = tiktoken.get_encoding("cl100k_base")
+    except ImportError:
+        enc = None
+
+    for level, data_lod in lods.items():
+        if level == "lod1":
+            fname = f"ast_lod1_verbose.json"
+        elif level == "lod2":
+            fname = f"ast_lod2_standard.json"
+        out_path = output_dir / fname
+        json_str = json.dumps(data_lod, indent=2, default=str, sort_keys=True)
+        with open(out_path, "w") as f:
+            f.write(json_str)
+        ans[level] = out_path
+
+        if enc:
+            tokens_info[level] = len(enc.encode(json_str))
+
+            if level == "lod3":
+                breakdown = {}
+                for k, v in data_lod.items():
+                    try:
+                        cat_str = json.dumps(v, default=str)
+                        breakdown[k] = len(enc.encode(cat_str))
+                    except Exception:
+                        pass
+                tokens_info["lod3_breakdown"] = breakdown
+
+    if tokens_info:
+        ans["tokens"] = tokens_info
+
+    # Maintain legacy aliases for UI
+    legacy_path = output_dir / json_filename
     stable_json = output_dir / "unified_analysis.json"
+    shutil.copy2(ans["lod1"], legacy_path)
+    shutil.copy2(ans["lod1"], stable_json)
 
-    # Copy to stable filenames (not symlink - works across filesystems)
-    shutil.copy2(json_path, stable_json)
-
-    ans = {"llm": json_path, "stable_json": stable_json}
+    ans["llm"] = ans["lod1"]
+    ans["stable_json"] = stable_json
 
     if not skip_html:
         html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)

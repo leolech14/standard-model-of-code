@@ -2701,6 +2701,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             viz_file = outputs.get("html")
             timer.set_output(json=1, html=1 if viz_file else 0)
             print(f"   → Data: {unified_json}")
+            if "tokens" in outputs:
+                for k, v in outputs["tokens"].items():
+                    if isinstance(v, dict):
+                        print(f"      - {k}:")
+                        for sub_k, sub_v in sorted(v.items(), key=lambda x: str(x[0])):
+                            print(f"         * {sub_k}: {sub_v:,} tokens")
+                    else:
+                        print(f"      - {k}: {v:,} tokens")
             if viz_file:
                 print(f"   → Visual: {viz_file}")
             else:
@@ -2708,6 +2716,16 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         except Exception as e:
             timer.set_status("FAIL", str(e))
             print(f"   ⚠️ Output generation failed: {e}")
+
+    # Stage 14: Semantic Vector Indexing (GraphRAG)
+    try:
+        from src.core.rag.embedder import GraphRAGEmbedder
+        # We explicitly bind vectors to the root .collider dir, not the dynamic runs dir
+        persistent_db = target / ".collider" / "collider.db"
+        embedder = GraphRAGEmbedder(db_path=persistent_db)
+        embedder.embed_graph()
+    except Exception as e:
+        print(f"\n   [red]⚠️ Stage 14 Vectorization Failed:[/red] {e}")
 
     # Final timing summary
     total_time = time.time() - start_time
@@ -2717,6 +2735,14 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print(f"   Time: {total_time:.1f}s")
     if unified_json:
         print(f"   Data:   {unified_json}")
+        if "outputs" in locals() and "tokens" in outputs:
+            for k, v in outputs["tokens"].items():
+                if isinstance(v, dict):
+                    print(f"           - {k}:")
+                    for sub_k, sub_v in sorted(v.items(), key=lambda x: str(x[0])):
+                        print(f"               * {sub_k}: {sub_v:,} tokens")
+                else:
+                    print(f"           - {k}: {v:,} tokens")
     if viz_file:
         print(f"   Visual: {viz_file}")
 

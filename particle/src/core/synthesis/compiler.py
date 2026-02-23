@@ -138,6 +138,26 @@ class ColliderCompiler:
             except subprocess.CalledProcessError as e:
                 raise RuntimeError(f"JS/TS adapter failed: {e.stderr.decode('utf-8')}")
 
+        # Go Dispatcher
+        if request.target_file.endswith('.go'):
+            import subprocess
+            import os
+            adapter_dir = os.path.join(os.path.dirname(__file__), 'go_adapter')
+            data["source_code"] = source_code # Inject into JSON
+
+            try:
+                result = subprocess.run(
+                    ['go', 'run', 'main.go'],
+                    cwd=adapter_dir,
+                    input=json.dumps(data).encode('utf-8'),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=True
+                )
+                return result.stdout.decode('utf-8')
+            except subprocess.CalledProcessError as e:
+                raise RuntimeError(f"Go adapter failed: {e.stderr.decode('utf-8')}")
+
         # Python Dispatcher (LibCST)
         # 1. Parse into LibCST tree
         tree = cst.parse_module(source_code)
