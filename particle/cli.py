@@ -23,6 +23,28 @@ def main():
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
 
     # ==========================================
+    # MUTATE Command
+    # ==========================================
+    mutate_parser = subparsers.add_parser(
+        "mutate",
+        help="Apply JSON mutations to a source file rewriting the AST.",
+        description="Applies a series of JSON-defined mutations to a source file, rewriting its Abstract Syntax Tree (AST)."
+    )
+    mutate_parser.add_argument(
+        "path",
+        help="Path to the source file to mutate"
+    )
+    mutate_parser.add_argument(
+        "mutations",
+        help="JSON string or path to a JSON file containing the mutations array"
+    )
+    mutate_parser.add_argument(
+        "--inplace",
+        action="store_true",
+        help="Overwrite the original file instead of printing to stdout"
+    )
+
+    # ==========================================
     # ANALYZE Command
     # ==========================================
     analyze_parser = subparsers.add_parser(
@@ -58,6 +80,12 @@ def main():
         help="Do not open HTML output after analysis",
     )
     analyze_parser.set_defaults(open_latest=None)
+
+    analyze_parser.add_argument(
+        "--html",
+        action="store_true",
+        help="Generate human-readable HTML report (Collider reports are AI-only telemetry by default)"
+    )
     analyze_parser.add_argument(
         "--language",
         default=None,
@@ -189,6 +217,12 @@ def main():
         help="Do not open HTML output after analysis",
     )
     full_parser.set_defaults(open_latest=None)
+
+    full_parser.add_argument(
+        "--html",
+        action="store_true",
+        help="Generate human-readable HTML report (Collider reports are AI-only telemetry by default)"
+    )
     full_parser.add_argument(
         "--roadmap",
         default=None,
@@ -937,6 +971,8 @@ def main():
                 if getattr(args, 'analytics', False):
                     options["analytics"] = True
 
+            options["skip_html"] = not getattr(args, 'html', False)
+
             run_full_analysis(args.path, args.output, options=options)
 
             # UI Validation (optional)
@@ -995,6 +1031,8 @@ def main():
                 options["no_learn"] = True
             if args.workers:
                 options["workers"] = args.workers
+
+            options["skip_html"] = not getattr(args, 'html', False)
 
             if args.no_learn or args.workers:
                 print("⚠️  Note: --no-learn/--workers are accepted but not used by the full pipeline yet.")
@@ -1311,6 +1349,52 @@ def main():
             sys.exit(1)
 
         db.disconnect()
+        sys.exit(0)
+
+    elif args.command == "mutate":
+        from src.core.synthesis.compiler import ColliderCompiler
+        import json as json_module
+        from pathlib import Path
+
+        target_path = Path(args.path)
+        if not target_path.exists():
+            print(f"Error: Target file not found: {args.path}")
+            sys.exit(1)
+
+        # Load mutations from file or string
+        mutations_str = args.mutations
+        if mutations_str.endswith(".json") and Path(mutations_str).exists():
+            with open(mutations_str, "r") as f:
+                mutations_data = json_module.load(f)
+        else:
+            try:
+                mutations_data = json_module.loads(mutations_str)
+            except json_module.JSONDecodeError as e:
+                print(f"Error: Invalid JSON mutations provided: {e}")
+                sys.exit(1)
+
+        # Construct the full request expected by the compiler
+        request_data = {
+            "target_file": str(target_path),
+            "mutations": mutations_data if isinstance(mutations_data, list) else mutations_data.get("mutations", [])
+        }
+
+        with open(target_path, "r") as f:
+            source_code = f.read()
+
+        try:
+            modified_code = ColliderCompiler.apply_mutations(source_code, request_data)
+        except Exception as e:
+            print(f"Error: Synthesis failed. {e}")
+            sys.exit(1)
+
+        if getattr(args, "inplace", False):
+            with open(target_path, "w") as f:
+                f.write(modified_code)
+            print(f"Successfully mutated and overwrote {target_path}")
+        else:
+            print(modified_code)
+
         sys.exit(0)
 
     else:

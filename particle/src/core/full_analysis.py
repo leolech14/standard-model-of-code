@@ -2475,10 +2475,12 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if timing_enabled or verbose_timing:
         full_output['pipeline_performance'] = perf_manager.to_dict()
 
-    # Generate Brain Download content (for embedding in HTML)
-    from brain_download import generate_brain_download
-    brain_content = generate_brain_download(full_output)
-    full_output['brain_download'] = brain_content  # Embed in JSON for HTML access
+    skip_html = options.get("skip_html", True)
+    if not skip_html:
+        # Generate Brain Download content (for embedding in HTML)
+        from brain_download import generate_brain_download
+        brain_content = generate_brain_download(full_output)
+        full_output['brain_download'] = brain_content  # Embed in JSON for HTML access
 
     # Stage 11b: AI Insights (optional - requires Vertex AI)
     if options.get('ai_insights'):
@@ -2663,18 +2665,27 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             if timing_enabled or verbose_timing:
                 full_output['pipeline_performance'] = perf_manager.to_dict()
 
+            from src.core.output_generator import generate_outputs
+            skip_html = options.get("skip_html", True)
+
             # Attach Waybills to individual nodes (Phase 28)
             print(f"   → Attaching waybills to {len(nodes)} particles...")
             for node in nodes:
                 node_id = node.get('id', node.get('name', 'unknown'))
-                node['waybill'] = {
+
+                # Baseline waybill
+                waybill = {
                     "parcel_id": f"pcl_{hashlib.sha256(f'{node_id}-{batch_id}'.encode()).hexdigest()[:12]}",
                     "parent_id": f"pcl_{hashlib.sha256(merkle_root.encode()).hexdigest()[:12]}",
                     "batch_id": batch_id,
                     "merkle_root": merkle_root,
                     "refinery_signature": refinery_signature,
-                    "context_vector": [0.0] * 32,
-                    "route": [
+                }
+
+                # Padding bloat for non AI modes
+                if not skip_html:
+                    waybill["context_vector"] = [0.0] * 32
+                    waybill["route"] = [
                         {
                             "event": "refined",
                             "timestamp": time.time(),
@@ -2682,15 +2693,18 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                             "context": {"batch": batch_id}
                         }
                     ]
-                }
 
-            from src.core.output_generator import generate_outputs
-            outputs = generate_outputs(full_output, out_path, target_name=target.name)
+                node['waybill'] = waybill
+
+            outputs = generate_outputs(full_output, out_path, target_name=target.name, skip_html=skip_html)
             unified_json = outputs["llm"]
-            viz_file = outputs["html"]
-            timer.set_output(json=1, html=1)
+            viz_file = outputs.get("html")
+            timer.set_output(json=1, html=1 if viz_file else 0)
             print(f"   → Data: {unified_json}")
-            print(f"   → Visual: {viz_file}")
+            if viz_file:
+                print(f"   → Visual: {viz_file}")
+            else:
+                print(f"   → Visual: SKIPPED (AI-First Mode)")
         except Exception as e:
             timer.set_status("FAIL", str(e))
             print(f"   ⚠️ Output generation failed: {e}")

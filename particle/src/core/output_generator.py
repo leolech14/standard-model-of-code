@@ -65,9 +65,27 @@ def write_llm_output(
     if normalize and isinstance(data, dict):
         data = normalize_output(data)
 
+    # Strip UI-centric artifacts from the LLM payload
+    payload = data.copy() if isinstance(data, dict) else data
+    if isinstance(payload, dict):
+        payload.pop("brain_download", None)
+
+        # Strip from global payload waybill
+        if "manifest" in payload and isinstance(payload["manifest"], dict):
+            if "waybill" in payload["manifest"] and isinstance(payload["manifest"]["waybill"], dict):
+                payload["manifest"]["waybill"].pop("context_vector", None)
+                payload["manifest"]["waybill"].pop("route", None)
+
+        # Strip from individual nodes
+        if "data" in payload and isinstance(payload["data"], dict) and "nodes" in payload["data"]:
+            for node in payload["data"]["nodes"]:
+                if "waybill" in node:
+                    node["waybill"].pop("context_vector", None)
+                    node["waybill"].pop("route", None)
+
     output_path = output_dir / filename
     with open(output_path, "w") as f:
-        json.dump(data, f, indent=2, default=str, sort_keys=True)
+        json.dump(payload, f, indent=2, default=str, sort_keys=True)
     return output_path
 
 
@@ -96,6 +114,7 @@ def generate_outputs(
     html_filename: Optional[str] = None,
     target_name: Optional[str] = None,
     timestamp: Optional[str] = None,
+    skip_html: bool = True,
 ) -> Dict[str, Path]:
     if isinstance(data, dict):
         data = normalize_output(data)
@@ -105,15 +124,21 @@ def generate_outputs(
         json_filename, html_filename = _default_filenames(resolved_target, timestamp=timestamp)
 
     json_path = write_llm_output(data, output_dir, filename=json_filename, normalize=False)
-    html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
 
     # Create stable filenames for automation (always available, always current)
     output_dir = Path(output_dir)
     stable_json = output_dir / "unified_analysis.json"
-    stable_html = output_dir / "collider_report.html"
 
     # Copy to stable filenames (not symlink - works across filesystems)
     shutil.copy2(json_path, stable_json)
-    shutil.copy2(html_path, stable_html)
 
-    return {"llm": json_path, "html": html_path, "stable_json": stable_json, "stable_html": stable_html}
+    ans = {"llm": json_path, "stable_json": stable_json}
+
+    if not skip_html:
+        html_path = write_html_report(data, output_dir, filename=html_filename, normalize=False)
+        stable_html = output_dir / "collider_report.html"
+        shutil.copy2(html_path, stable_html)
+        ans["html"] = html_path
+        ans["stable_html"] = stable_html
+
+    return ans
