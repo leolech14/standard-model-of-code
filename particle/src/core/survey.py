@@ -96,6 +96,7 @@ DEFAULT_FILE_PATTERNS = [
     "package-lock.json",
     "yarn.lock",
     "pnpm-lock.yaml",
+    "*.sync-conflict-*",  # Syncthing conflict duplicates
 ]
 
 # Heuristics for minification detection
