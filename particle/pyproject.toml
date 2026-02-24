@@ -4,20 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "collider"
-version = "2.3.0"
+version = "4.0.0"
 description = "Standard Model of Code Analysis & Visualization"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [
-    {name = "Standard Model Team"}
+    {name = "Leonardo Lech", email = "leonardo.lech@gmail.com"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Quality Assurance",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -35,12 +33,14 @@ dependencies = [
     "matplotlib>=3.7.0",
     "jinja2>=3.1.0",
     "libcst>=1.0.0",
+]
+
+[project.optional-dependencies]
+graphrag = [
     "lancedb>=0.6.13",
     "litellm>=1.80.0",
     "sentence-transformers>=3.2.1",
 ]
-
-[project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
@@ -49,12 +49,20 @@ dev = [
     "mypy>=1.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/lech-lbl/PROJECT_elements"
+Repository = "https://github.com/lech-lbl/PROJECT_elements"
+
 [project.scripts]
 collider = "cli:main"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "cli*"]
+
 [tool.black]
 line-length = 120
-target-version = ['py38', 'py311']
+target-version = ['py310', 'py311', 'py312']
 
 [tool.isort]
 profile = "black"

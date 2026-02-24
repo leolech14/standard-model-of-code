@@ -155,13 +155,24 @@ def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:
 
     # Compute knot score: 0 = no knots, 10 = severely tangled
     total_nodes = len(set(n.get('id', '') for n in nodes)) or 1
+
+    # Identify the size of the largest isolated cycle
+    max_scc_size = max([len(scc) for scc in sccs]) if sccs else 0
     cyclic_pct = (cyclic_nodes / total_nodes) * 100
-    bidir_pct = (len(bidirectional) / total_nodes) * 100
-    knot_score = min(10,
-        cyclic_pct +
-        cycle_groups * 0.5 +
-        bidir_pct * 0.5
-    )
+
+    # Score 1: Base percentage of cyclic nodes (50% of codebase = max 5 points)
+    pct_score = min(5.0, (cyclic_pct / 50.0) * 5.0)
+
+    # Score 2: Penalize massive single monolithic loops (20+ nodes = max 3 points)
+    scc_score = min(3.0, (max_scc_size / 20.0) * 3.0)
+
+    # Score 3: Raw group complexity (multiple cycles = max 1 point)
+    groups_score = min(1.0, cycle_groups * 0.25)
+
+    # Score 4: Tight bidirectional coupling (4 pairs = max 1 point)
+    bidir_score = min(1.0, len(bidirectional) * 0.25)
+
+    knot_score = min(10.0, pct_score + scc_score + groups_score + bidir_score)
 
     return {
         'cycles_detected': cycle_groups,

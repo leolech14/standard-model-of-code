@@ -394,12 +394,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         # Pass survey exclusions to unified analysis (Phase 10 integration)
         if exclude_paths:
             analysis_options['exclude_paths'] = exclude_paths
-        print("   DEBUG: Calling unified_analysis.analyze...")
         result = analyze(str(target), output_dir=str(resolved_output_dir), write_output=False, **analysis_options)
-        print("   DEBUG: analyze() call returned.")
         nodes = result.nodes if hasattr(result, 'nodes') else result.get('nodes', [])
         edges = result.edges if hasattr(result, 'edges') else result.get('edges', [])
-        print(f"   DEBUG: Extracted {len(nodes)} nodes and {len(edges)} edges from base result.")
         unified_stats = getattr(result, 'stats', {}) if hasattr(result, 'stats') else result.get('stats', {})
         unified_classification = getattr(result, 'classification', {}) if hasattr(result, 'classification') else result.get('classification', {})
         unified_auto_discovery = getattr(result, 'auto_discovery', {}) if hasattr(result, 'auto_discovery') else result.get('auto_discovery', {})
@@ -413,10 +410,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
     # Stage 2: Standard Model enrichment
     print("\n🧬 Stage 2: Standard Model Enrichment...")
-    print("   DEBUG: Calling enrich_with_standard_model...")
     with StageTimer(perf_manager, "Stage 2: Standard Model Enrichment") as timer:
         nodes = enrich_with_standard_model(nodes)
-        print("   DEBUG: enrich_with_standard_model() returned.")
         rpbl_count = sum(1 for n in nodes if n.get('rpbl'))
 
         # Flatten RPBL scores for UPB binding (P4-05/07/08)
@@ -487,20 +482,19 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Dimension classification skipped: {e}")
 
+    # Shared tree-sitter cache for Stages 2.8 – 2.11 (avoids 4x re-parsing the same source)
+    from src.core.tree_sitter_cache import TreeSitterCache as _TreeSitterCache
+    _ts_cache = _TreeSitterCache(max_size=500)
+
     # Stage 2.8: Scope Analysis (definitions, references, unused, shadowing)
     print("\n🔬 Stage 2.8: Scope Analysis...")
     with StageTimer(perf_manager, "Stage 2.8: Scope Analysis") as timer:
         try:
             from scope_analyzer import analyze_scopes, find_unused_definitions, find_shadowed_definitions
-            import tree_sitter
-            import tree_sitter_python
-            import tree_sitter_javascript
 
-            # Initialize parsers
-            py_parser = tree_sitter.Parser()
-            py_parser.language = tree_sitter.Language(tree_sitter_python.language())
-            js_parser = tree_sitter.Parser()
-            js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+            # Parsers obtained from shared cache (lazy-initialised once on first use)
+            py_parser = _ts_cache.get_parser("python")
+            js_parser = _ts_cache.get_parser("javascript")
 
             scope_stats = {'files_analyzed': 0, 'unused': 0, 'shadowed': 0}
 
@@ -526,7 +520,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     continue
 
                 try:
-                    tree = parser.parse(bytes(body, 'utf8'))
+                    tree = _ts_cache.parse(body, lang)
                     graph = analyze_scopes(tree, bytes(body, 'utf8'), lang, file_path)
                     unused = find_unused_definitions(graph)
                     shadowed = find_shadowed_definitions(graph)
@@ -560,16 +554,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 2.9: Control Flow Metrics") as timer:
         try:
             from control_flow_analyzer import analyze_control_flow, get_complexity_rating, get_nesting_rating
-            import tree_sitter
-            import tree_sitter_python
-            import tree_sitter_javascript
 
-            # Reuse parsers if available, otherwise create
-            if 'py_parser' not in dir():
-                py_parser = tree_sitter.Parser()
-                py_parser.language = tree_sitter.Language(tree_sitter_python.language())
-                js_parser = tree_sitter.Parser()
-                js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+            # Parsers from shared cache (already initialised by Stage 2.8 if it ran)
+            py_parser = _ts_cache.get_parser("python")
+            js_parser = _ts_cache.get_parser("javascript")
 
             cf_stats = {'nodes_analyzed': 0, 'avg_cc': 0, 'max_cc': 0, 'avg_depth': 0, 'max_depth': 0}
             cc_sum, depth_sum = 0, 0
@@ -589,7 +577,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     continue
 
                 try:
-                    tree = parser.parse(bytes(body, 'utf8'))
+                    tree = _ts_cache.parse(body, lang)
                     metrics = analyze_control_flow(tree, bytes(body, 'utf8'), lang)
 
                     cc = metrics['cyclomatic_complexity']
@@ -640,19 +628,13 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 2.10: Pattern Detection") as timer:
         try:
             from pattern_matcher import PatternMatcher
-            import tree_sitter
-            import tree_sitter_python
-            import tree_sitter_javascript
 
             # Initialize pattern matcher
             pattern_matcher = PatternMatcher()
 
-            # Reuse parsers
-            if 'py_parser' not in dir():
-                py_parser = tree_sitter.Parser()
-                py_parser.language = tree_sitter.Language(tree_sitter_python.language())
-                js_parser = tree_sitter.Parser()
-                js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+            # Parsers from shared cache
+            py_parser = _ts_cache.get_parser("python")
+            js_parser = _ts_cache.get_parser("javascript")
 
             pattern_stats = {'nodes_enriched': 0, 'atoms_detected': 0, 'by_type': {}}
 
@@ -671,7 +653,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     continue
 
                 try:
-                    tree = parser.parse(bytes(body, 'utf8'))
+                    tree = _ts_cache.parse(body, lang)
                     atoms = pattern_matcher.detect_atoms(tree, bytes(body, 'utf8'), lang)
 
                     if atoms:
@@ -717,16 +699,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     with StageTimer(perf_manager, "Stage 2.11: Data Flow Analysis") as timer:
         try:
             from data_flow_analyzer import analyze_data_flow, get_data_flow_summary
-            import tree_sitter
-            import tree_sitter_python
-            import tree_sitter_javascript
 
-            # Reuse parsers if available
-            if 'py_parser' not in dir():
-                py_parser = tree_sitter.Parser()
-                py_parser.language = tree_sitter.Language(tree_sitter_python.language())
-                js_parser = tree_sitter.Parser()
-                js_parser.language = tree_sitter.Language(tree_sitter_javascript.language())
+            # Parsers from shared cache
+            py_parser = _ts_cache.get_parser("python")
+            js_parser = _ts_cache.get_parser("javascript")
 
             flow_stats = {
                 'nodes_analyzed': 0,
@@ -751,7 +727,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     continue
 
                 try:
-                    tree = parser.parse(bytes(body, 'utf8'))
+                    tree = _ts_cache.parse(body, lang)
                     flow_graph = analyze_data_flow(tree, bytes(body, 'utf8'), lang, file_path)
                     summary = get_data_flow_summary(flow_graph)
 
@@ -916,6 +892,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     print(f"   → Knot score: {knots['knot_score']}/10")
 
     # Stage 6.5: Graph Analytics (Nerd Layer)
+    # _G_full carries ALL edge types for Stage 6.7 (entry points, context propagation,
+    # closeness centrality).  Building it here avoids a second build_nx_graph() call.
+    _G_full = None  # Will be set inside try block; used by Stage 6.7
     print("\n🧮 Stage 6.5: Graph Analytics...")
     with StageTimer(perf_manager, "Stage 6.5: Graph Analytics") as timer:
         # Degree computation (always runs - needed for Control Bar mappings)
@@ -934,14 +913,24 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     if src and tgt:
                         G.add_edge(src, tgt)
 
+            # Also build full graph (all edge types) for Stage 6.7 re-use.
+            # This is built once here so Stage 6.7 does not have to rebuild it.
+            _G_full = build_nx_graph(nodes, edges)
+
             # Compute in_degree and out_degree for each node
             in_degree_map = dict(G.in_degree())
             out_degree_map = dict(G.out_degree())
             degree_enriched = 0
 
-            # Compute centrality metrics (research-backed: Zimmermann/Nagappan)
+            # Compute centrality metrics on behavioral graph (research-backed: Zimmermann/Nagappan)
             betweenness = nx.betweenness_centrality(G) if len(G) > 0 else {}
             pagerank = nx.pagerank(G) if len(G) > 0 and G.is_directed() else {}
+
+            # Compute closeness centrality on the full graph (all edges) – same graph
+            # that Stage 6.7 uses for entry-point propagation and semantic analysis.
+            # Doing this here eliminates the duplicate compute_centrality_metrics(G)
+            # call that Stage 6.7 previously made on a freshly-built full graph.
+            _closeness = nx.closeness_centrality(_G_full) if len(_G_full) > 0 else {}
 
             # Threshold for hub classification (top 5% or min 10 connections)
             all_degrees = [in_degree_map.get(n.get('id', ''), 0) + out_degree_map.get(n.get('id', ''), 0) for n in nodes]
@@ -954,9 +943,11 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 node['in_degree'] = in_deg
                 node['out_degree'] = out_deg
 
-                # Add centrality metrics
+                # Add centrality metrics (betweenness/pagerank on behavioral graph,
+                # closeness on full graph to match Stage 6.7 semantics)
                 node['betweenness_centrality'] = round(betweenness.get(node_id, 0), 6)
                 node['pagerank'] = round(pagerank.get(node_id, 0), 6)
+                node['closeness_centrality'] = round(_closeness.get(node_id, 0.0), 6)
 
                 # Compute topology_role (relational property)
                 if in_deg == 0 and out_deg == 0:
@@ -1140,8 +1131,13 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     }
     with StageTimer(perf_manager, "Stage 6.7: Semantic Purpose") as timer:
         try:
-            # Build NetworkX graph from nodes/edges
-            G = build_nx_graph(nodes, edges)
+            # Re-use the full graph built in Stage 6.5 (all edge types: calls, imports,
+            # contains, inherits …).  Avoids a second build_nx_graph() call.
+            # Falls back to building a new graph when Stage 6.5 failed (NetworkX absent).
+            if _G_full is not None:
+                G = _G_full
+            else:
+                G = build_nx_graph(nodes, edges)
 
             # Find entry points (main, CLI, routes, handlers)
             entry_points = find_entry_points(G)
@@ -1154,8 +1150,19 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 'max_depth': max((ctx.get('depth_from_entry', 0) for ctx in node_context.values()), default=0)
             }
 
-            # Compute closeness centrality (Stage 6.5 already has betweenness/pagerank)
-            centrality = compute_centrality_metrics(G)
+            # Closeness centrality was already computed on the full graph in Stage 6.5
+            # and stored on each node as 'closeness_centrality'.  Build the summary
+            # dict expected by identify_critical_nodes without recomputing anything.
+            centrality = {
+                node_id: {
+                    'betweenness': 0.0,  # already stored on node; not needed here
+                    'closeness': node.get('closeness_centrality', 0.0),
+                    'pagerank': 0.0,      # already stored on node; not needed here
+                }
+                for node in nodes
+                for node_id in [node.get('id')]
+                if node_id
+            }
 
             # Build centrality summary (top 10 by closeness + distribution stats)
             closeness_values = [m.get('closeness', 0.0) for m in centrality.values()]
@@ -1175,8 +1182,21 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     }
                 }
 
-            # Identify critical nodes (bridges, influential, coordinators)
-            critical_nodes = identify_critical_nodes(G, centrality, top_n=10)
+            # Identify critical nodes (bridges, influential, coordinators).
+            # Uses per-node betweenness/pagerank stored in Stage 6.5 for 'bridges' /
+            # 'influential'; closeness (full-graph) for 'coordinators'.
+            # Build a richer per-node metric dict for identify_critical_nodes.
+            centrality_full = {
+                node_id: {
+                    'betweenness': node.get('betweenness_centrality', 0.0),
+                    'closeness': node.get('closeness_centrality', 0.0),
+                    'pagerank': node.get('pagerank', 0.0),
+                }
+                for node in nodes
+                for node_id in [node.get('id')]
+                if node_id
+            }
+            critical_nodes = identify_critical_nodes(G, centrality_full, top_n=10)
             semantic_analysis['critical_nodes'] = critical_nodes
 
             # Enrich nodes with semantic roles, context, and critical flags
@@ -1188,9 +1208,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 if not node_id:
                     continue
 
-                # Add closeness centrality
-                if node_id in centrality:
-                    node['closeness_centrality'] = centrality[node_id].get('closeness', 0.0)
+                # closeness_centrality already set on the node by Stage 6.5; no-op here.
 
                 # Classify semantic role from degree metrics
                 in_deg = node.get('in_degree', 0)

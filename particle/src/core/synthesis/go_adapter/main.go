@@ -1,73 +1,118 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
+	"go/parser"
+	"go/token"
+	"io/ioutil"
 	"os"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 )
 
-type Mutation struct {
+type MutationOperation struct {
 	Action     string `json:"action"`
 	TargetNode string `json:"target_node"`
-	NewBody    string `json:"new_body"`
+	NewBody    string `json:"new_body,omitempty"`
 }
 
-type Request struct {
-	TargetFile string     `json:"target_file"`
-	SourceCode string     `json:"source_code"` // Inject from python
-	Mutations  []Mutation `json:"mutations"`
+type MutationRequest struct {
+	TargetFile string              `json:"target_file"`
+	SourceCode string              `json:"source_code"` // Injected by compiler.py
+	Mutations  []MutationOperation `json:"mutations"`
 }
 
 func main() {
-	inputData, err := io.ReadAll(os.Stdin)
+	// Read JSON from stdin
+	inputData, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading stdin: %v\n", err)
 		os.Exit(1)
 	}
 
-	var req Request
+	var req MutationRequest
 	if err := json.Unmarshal(inputData, &req); err != nil {
-		fmt.Fprintf(os.Stderr, "Error parsing JSON: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error parsing JSON request: %v\n", err)
 		os.Exit(1)
 	}
 
-	f, err := decorator.Parse(req.SourceCode)
+	if req.SourceCode == "" {
+		fmt.Fprintf(os.Stderr, "Error: source_code is empty\n")
+		os.Exit(1)
+	}
+
+	// Parse the source code using dst
+	fset := token.NewFileSet()
+	f, err := decorator.ParseFile(fset, req.TargetFile, req.SourceCode, parser.ParseComments)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error parsing source code: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error parsing Go source code: %v\n", err)
 		os.Exit(1)
 	}
 
-	for _, decl := range f.Decls {
-		if funcDecl, ok := decl.(*dst.FuncDecl); ok {
-			funcName := funcDecl.Name.Name
-			for _, mut := range req.Mutations {
-				if mut.TargetNode == funcName {
-					// Handling action
-					if mut.Action == "replace_function_body" && mut.NewBody != "" {
-						wrappedCode := "package dummy\n" + mut.NewBody
-						newF, err := decorator.Parse(wrappedCode)
-						if err == nil && len(newF.Decls) > 0 {
-							if newFunc, ok := newF.Decls[0].(*dst.FuncDecl); ok {
-								// We preserve the original signature, but drop-in the new body
-								funcDecl.Body = newFunc.Body
-							}
-						} else {
-							fmt.Fprintf(os.Stderr, "Error parsing new_body snippet for %s: %v\n", funcName, err)
+	// Apply mutations manually instead of ast.Inspect to handle deletions easily
+	for _, mut := range req.Mutations {
+		applyMutation(f, mut, fset)
+	}
+
+	// Write back the modified AST to stdout
+	var buf bytes.Buffer
+	if err := decorator.Fprint(&buf, f); err != nil {
+		fmt.Fprintf(os.Stderr, "Error writing modified Go code: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Print(buf.String())
+}
+
+func applyMutation(f *dst.File, mut MutationOperation, fset *token.FileSet) {
+	// First pass for modification (replace_function_body)
+	if mut.Action == "replace_function_body" && mut.NewBody != "" {
+		for _, decl := range f.Decls {
+			if funcDecl, ok := decl.(*dst.FuncDecl); ok {
+				if funcDecl.Name.Name == mut.TargetNode {
+					// We wrap the new body in a dummy package and parse it easily
+					dummyCode := fmt.Sprintf("package dummy\n%s", mut.NewBody)
+					dummyF, err := decorator.ParseFile(token.NewFileSet(), "", dummyCode, parser.ParseComments)
+					if err == nil && len(dummyF.Decls) > 0 {
+						if dummyFunc, ok := dummyF.Decls[0].(*dst.FuncDecl); ok {
+							funcDecl.Body = dummyFunc.Body
 						}
+					} else {
+						fmt.Fprintf(os.Stderr, "Failed to parse new body for %s: %v\n", mut.TargetNode, err)
 					}
-					// Add delete_node logic later if needed
+					break // Found and replaced
 				}
 			}
 		}
 	}
 
-	// Render directly to stdout, which python intercepts
-	if err := decorator.Print(f); err != nil {
-		fmt.Fprintf(os.Stderr, "Error printing output: %v\n", err)
-		os.Exit(1)
+	// Handle deletions by filtering Decls
+	if mut.Action == "delete_node" {
+		var newDecls []dst.Decl
+		for _, decl := range f.Decls {
+			if funcDecl, ok := decl.(*dst.FuncDecl); ok {
+				if funcDecl.Name.Name == mut.TargetNode {
+					continue // Skip this node to delete it
+				}
+			} else if genDecl, ok := decl.(*dst.GenDecl); ok && genDecl.Tok == token.TYPE {
+				// Handle struct/interface deletion if the TargetNode matches the type name
+				keepGenDecl := true
+				if len(genDecl.Specs) == 1 {
+					if typeSpec, ok := genDecl.Specs[0].(*dst.TypeSpec); ok {
+						if typeSpec.Name.Name == mut.TargetNode {
+							keepGenDecl = false
+						}
+					}
+				}
+				if !keepGenDecl {
+					continue
+				}
+			}
+			newDecls = append(newDecls, decl)
+		}
+		f.Decls = newDecls
 	}
 }
