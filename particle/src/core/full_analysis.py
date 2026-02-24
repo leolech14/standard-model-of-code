@@ -284,7 +284,7 @@ def detect_js_imports(nodes: List[Dict], edges: List[Dict]) -> int:
                                 'description': f"JS import {name}"
                             })
                             new_edges += 1
-        except Exception:
+        except Exception:  # noqa: skip unparseable file
             continue
 
     return new_edges
@@ -522,7 +522,7 @@ def _open_file(path: Path) -> bool:
             os.startfile(str(path))  # type: ignore[attr-defined]
         else:
             subprocess.run(["xdg-open", str(path)], check=False)
-    except Exception:
+    except Exception:  # noqa: utility function, caller doesn't need error detail
         return False
     return True
 
@@ -994,7 +994,7 @@ def _generate_ai_insights(full_output: Dict, output_dir: Path, options: Dict) ->
         # Clean up temp file
         try:
             Path(temp_input).unlink()
-        except Exception:
+        except Exception:  # noqa: best-effort cleanup
             pass
 
 
@@ -1391,6 +1391,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             scope_stats = {'files_analyzed': 0, 'unused': 0, 'shadowed': 0}
 
             # Analyze scope per file
+            _stage_warns = 0
             files_analyzed = set()
             for node in nodes:
                 file_path = node.get('file_path', '')
@@ -1428,8 +1429,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                         'shadowed_count': len(shadowed)
                     }
                 except Exception:
-                    pass  # Skip files that fail to parse
+                    _stage_warns += 1
 
+            if _stage_warns:
+                print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             timer.set_output(**scope_stats)
             print(f"   → {scope_stats['files_analyzed']} files analyzed")
             print(f"   → {scope_stats['unused']} unused definitions detected")
@@ -1457,6 +1460,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             cf_stats = {'nodes_analyzed': 0, 'avg_cc': 0, 'max_cc': 0, 'avg_depth': 0, 'max_depth': 0}
             cc_sum, depth_sum = 0, 0
 
+            _stage_warns = 0
             for node in nodes:
                 body = node.get('body_source', '')
                 if not body or len(body) < 10:
@@ -1501,8 +1505,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     cf_stats['max_cc'] = max(cf_stats['max_cc'], cc)
                     cf_stats['max_depth'] = max(cf_stats['max_depth'], depth)
                 except Exception:
-                    pass
+                    _stage_warns += 1
 
+            if _stage_warns:
+                print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             if cf_stats['nodes_analyzed'] > 0:
                 cf_stats['avg_cc'] = round(cc_sum / cf_stats['nodes_analyzed'], 2)
                 cf_stats['avg_depth'] = round(depth_sum / cf_stats['nodes_analyzed'], 2)
@@ -1536,6 +1542,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
 
             pattern_stats = {'nodes_enriched': 0, 'atoms_detected': 0, 'by_type': {}}
 
+            _stage_warns = 0
             for node in nodes:
                 body = node.get('body_source', '')
                 if not body or len(body) < 10:
@@ -1577,8 +1584,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                         for a in atoms:
                             pattern_stats['by_type'][a.type] = pattern_stats['by_type'].get(a.type, 0) + 1
                 except Exception:
-                    pass
+                    _stage_warns += 1
 
+            if _stage_warns:
+                print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             timer.set_output(**{k: v for k, v in pattern_stats.items() if k != 'by_type'})
             print(f"   → {pattern_stats['nodes_enriched']} nodes enriched with atom patterns")
             print(f"   → {pattern_stats['atoms_detected']} total atoms detected")
@@ -1613,6 +1622,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                 'purity_distribution': {'pure': 0, 'mostly_pure': 0, 'mixed': 0, 'mostly_impure': 0, 'impure': 0}
             }
 
+            _stage_warns = 0
             for node in nodes:
                 body = node.get('body_source', '')
                 if not body or len(body) < 10:
@@ -1651,8 +1661,10 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     flow_stats['total_side_effects'] += summary['side_effects']
                     flow_stats['purity_distribution'][summary['purity_rating']] += 1
                 except Exception:
-                    pass
+                    _stage_warns += 1
 
+            if _stage_warns:
+                print(f"   ⚠️  {_stage_warns} items skipped due to parse errors")
             timer.set_output(
                 nodes_analyzed=flow_stats['nodes_analyzed'],
                 mutations=flow_stats['total_mutations'],
@@ -2350,9 +2362,9 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
         }),
         'markov': markov,
         'knots': knots,
-        'graph_analytics': graph_analytics if 'graph_analytics' in dir() else {},
-        'statistical_metrics': statistical_metrics if 'statistical_metrics' in dir() else {},
-        'semantic_analysis': semantic_analysis if 'semantic_analysis' in dir() else {},
+        'graph_analytics': graph_analytics,
+        'statistical_metrics': statistical_metrics,
+        'semantic_analysis': semantic_analysis,
         'data_flow': data_flow,
         'performance': perf_summary,
         'constraint_field': constraint_report if constraint_report else {},
@@ -2764,7 +2776,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
     if db_manager:
         try:
             db_manager.disconnect()
-        except Exception:
+        except Exception:  # noqa: best-effort cleanup
             pass
 
     print("=" * 60)

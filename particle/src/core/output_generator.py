@@ -53,6 +53,28 @@ def _default_filenames(target_name: str, timestamp: Optional[str] = None) -> Tup
     )
 
 
+def _strip_heavy_waybill_fields(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Strip context_vector and route from waybill at all levels."""
+    payload.pop("brain_download", None)
+
+    if "manifest" in payload and isinstance(payload["manifest"], dict):
+        wb = payload["manifest"].get("waybill")
+        if isinstance(wb, dict):
+            wb.pop("context_vector", None)
+            wb.pop("route", None)
+
+    # Strip from nodes (may be top-level or nested under data)
+    nodes = payload.get("nodes", [])
+    if not nodes and isinstance(payload.get("data"), dict):
+        nodes = payload["data"].get("nodes", [])
+    for node in nodes:
+        if isinstance(node, dict) and "waybill" in node:
+            node["waybill"].pop("context_vector", None)
+            node["waybill"].pop("route", None)
+
+    return payload
+
+
 def write_llm_output(
     data: Dict[str, Any],
     output_dir: Union[str, Path],
@@ -65,23 +87,9 @@ def write_llm_output(
     if normalize and isinstance(data, dict):
         data = normalize_output(data)
 
-    # Strip UI-centric artifacts from the LLM payload
     payload = data.copy() if isinstance(data, dict) else data
     if isinstance(payload, dict):
-        payload.pop("brain_download", None)
-
-        # Strip from global payload waybill
-        if "manifest" in payload and isinstance(payload["manifest"], dict):
-            if "waybill" in payload["manifest"] and isinstance(payload["manifest"]["waybill"], dict):
-                payload["manifest"]["waybill"].pop("context_vector", None)
-                payload["manifest"]["waybill"].pop("route", None)
-
-        # Strip from individual nodes
-        if "data" in payload and isinstance(payload["data"], dict) and "nodes" in payload["data"]:
-            for node in payload["data"]["nodes"]:
-                if "waybill" in node:
-                    node["waybill"].pop("context_vector", None)
-                    node["waybill"].pop("route", None)
+        payload = _strip_heavy_waybill_fields(payload)
 
     output_path = output_dir / filename
     with open(output_path, "w") as f:
@@ -116,10 +124,11 @@ def _aggressively_strip_keys(obj: Any, keys_to_remove: set) -> Any:
         return [_aggressively_strip_keys(item, keys_to_remove) for item in obj]
     return obj
 
+_FINE_GRAINED_ROLES = {"function", "method", "variable", "property", "parameter"}
+
+
 def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     import copy
-
-    # Base payload structure contains: version, manifest, counts, files, file_boundaries, data (nodes/edges)
 
     # LOD 1: Verbose (Raw stripped payload)
     lod1 = payload
@@ -128,29 +137,25 @@ def create_lod_payloads(payload: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     lod2 = copy.deepcopy(payload)
     lod2 = _aggressively_strip_keys(lod2, {"code", "body_source", "body_preview"})
 
-    # LOD 3: Compact (Remove methods entirely, keep only files/classes/edges)
+    # LOD 3: Compact (Remove fine-grained particles, keep files/classes/edges)
     lod3 = copy.deepcopy(payload)
     if "nodes" in lod3 and isinstance(lod3["nodes"], list):
-        kompact_nodes = []
-        for node in lod3["nodes"]:
-            # Drop fine-grained particles for maximum architecture compression
-            if getattr(node, "get", lambda k: None)("role") not in ["function", "method", "variable", "property", "parameter"]:
-                kompact_nodes.append(node)
-        lod3["nodes"] = kompact_nodes
+        lod3["nodes"] = [
+            node for node in lod3["nodes"]
+            if isinstance(node, dict) and node.get("role") not in _FINE_GRAINED_ROLES
+        ]
 
-    # Strip all large string fields and heavy analytical objects across the entire LOD3 structure
+    # Strip all large string fields and heavy analytical objects
     lod3 = _aggressively_strip_keys(lod3, {
         # Raw text
         "code", "body_source", "body_preview", "docstring",
         "file_content", "source_code",
-
         # Heavy node metrics
         "dimensions", "waybill", "purpose_intelligence", "purpose_coherence",
         "control_flow", "data_flow", "rpbl", "intent_profile",
-
         # Heavy root arrays
         "markov", "execution_flow", "file_boundaries", "files", "igt",
-        "semantic_analysis", "codome_boundaries"
+        "semantic_analysis", "codome_boundaries",
     })
 
     return {"lod1": lod1, "lod2": lod2, "lod3": lod3}
@@ -171,19 +176,10 @@ def generate_outputs(
         resolved_target = target_name or _resolve_target_name(data)
         json_filename, html_filename = _default_filenames(resolved_target, timestamp=timestamp)
 
-    # Base payload processing
+    # Strip heavy fields before LOD creation
     payload = data.copy() if isinstance(data, dict) else data
     if isinstance(payload, dict):
-        payload.pop("brain_download", None)
-        if "manifest" in payload and isinstance(payload["manifest"], dict):
-            if "waybill" in payload["manifest"] and isinstance(payload["manifest"]["waybill"], dict):
-                payload["manifest"]["waybill"].pop("context_vector", None)
-                payload["manifest"]["waybill"].pop("route", None)
-        if "data" in payload and isinstance(payload["data"], dict) and "nodes" in payload["data"]:
-            for node in payload["data"]["nodes"]:
-                if "waybill" in node:
-                    node["waybill"].pop("context_vector", None)
-                    node["waybill"].pop("route", None)
+        payload = _strip_heavy_waybill_fields(payload)
 
     # Create Multi-LOD outputs
     lods = create_lod_payloads(payload)
@@ -197,11 +193,14 @@ def generate_outputs(
     except ImportError:
         enc = None
 
+    _LOD_FILENAMES = {
+        "lod1": "ast_lod1_verbose.json",
+        "lod2": "ast_lod2_standard.json",
+        "lod3": "ast_lod3_compact.json",
+    }
+
     for level, data_lod in lods.items():
-        if level == "lod1":
-            fname = f"ast_lod1_verbose.json"
-        elif level == "lod2":
-            fname = f"ast_lod2_standard.json"
+        fname = _LOD_FILENAMES[level]
         out_path = output_dir / fname
         json_str = json.dumps(data_lod, indent=2, default=str, sort_keys=True)
         with open(out_path, "w") as f:

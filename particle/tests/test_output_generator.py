@@ -36,7 +36,7 @@ class TestStableOutputFilenames:
             "meta": {"target": "test_project"}
         }
 
-        outputs = generate_outputs(data, tmp_path, target_name="test")
+        outputs = generate_outputs(data, tmp_path, target_name="test", skip_html=False)
 
         assert outputs["html"].exists()
         assert outputs["stable_html"].exists()
