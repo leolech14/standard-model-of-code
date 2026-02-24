@@ -812,11 +812,15 @@ def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:
     """
     import sys
 
-    # Build adjacency
+    # Build adjacency -- exclude structural edges (contains, member_of)
+    # which create false cycles between classes and their methods
+    STRUCTURAL_EDGE_TYPES = {'contains', 'member_of', 'defines', 'parent'}
     graph = defaultdict(set)
     adj_list = defaultdict(list)
 
     for edge in edges:
+        if edge.get('edge_type', '') in STRUCTURAL_EDGE_TYPES:
+            continue
         source = edge.get('source', '')
         target = edge.get('target', '')
         if source and target:

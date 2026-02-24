@@ -600,9 +600,14 @@ class TopologyClassifier:
         Returns:
             List of SCCs (each SCC with >1 node indicates a cycle)
         """
+        # Exclude structural edges that create false cycles between
+        # classes and their methods (contains, member_of, etc.)
+        structural = {'contains', 'member_of', 'defines', 'parent'}
         node_ids = [n['id'] for n in nodes]
         adj = defaultdict(list)
         for edge in edges:
+            if edge.get('edge_type', '') in structural:
+                continue
             s, t = edge.get('source'), edge.get('target')
             if s and t:
                 adj[s].append(t)
