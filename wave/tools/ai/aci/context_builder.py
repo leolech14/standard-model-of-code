@@ -12,9 +12,10 @@ Builds optimized context for AI queries:
 Part of S3 (ACI subsystem).
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from pathlib import Path
+import json
 import yaml
 
 # =============================================================================
@@ -68,6 +69,7 @@ class OptimizedContext:
     critical_files: List[str]    # Files to position strategically
     estimated_tokens: int        # Estimated total token count
     budget_warning: bool         # True if exceeding recommended budget
+    collider_health: Optional[Dict] = None  # Collider insights if loaded
 
 
 def load_repo_truths(project_root: Path) -> Optional[Dict]:
@@ -81,6 +83,72 @@ def load_repo_truths(project_root: Path) -> Optional[Dict]:
             return yaml.safe_load(f)
     except Exception:
         return None
+
+
+def _find_insights_json(project_root: Path) -> Optional[Path]:
+    """Find collider_insights.json in .collider/ or /tmp/ fallback."""
+    primary = project_root / ".collider" / "collider_insights.json"
+    if primary.exists():
+        return primary
+
+    tmp = Path("/tmp")
+    if tmp.exists():
+        candidates = sorted(
+            tmp.glob("**/collider_insights.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if candidates:
+            return candidates[0]
+    return None
+
+
+def load_collider_insights(project_root: Path) -> Optional[Dict]:
+    """Load Collider architectural insights.
+
+    Returns a summary dict with grade, health_score, findings_count,
+    top_finding, topology_shape, and a staleness warning if > 7 days old.
+    Searches .collider/ first, then /tmp/ for recent outputs.
+    """
+    found = _find_insights_json(project_root)
+    if found is None:
+        return None
+
+    try:
+        with open(found, 'r') as f:
+            data = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
+
+    # Build compact summary for context injection
+    import time
+    age_days = (time.time() - found.stat().st_mtime) / 86400
+
+    # Extract topology shape from findings
+    topo = "unknown"
+    top_finding = None
+    for finding in data.get("findings", []):
+        if finding.get("category") == "topology":
+            topo = finding.get("evidence", {}).get("shape", topo)
+        if top_finding is None and finding.get("severity") in ("critical", "high"):
+            top_finding = finding.get("title")
+
+    if top_finding is None and data.get("findings"):
+        top_finding = data["findings"][0].get("title", "None")
+
+    result = {
+        "grade": data.get("grade", "?"),
+        "health_score": data.get("health_score", 0),
+        "findings_count": data.get("findings_count", 0),
+        "top_finding": top_finding or "None",
+        "topology_shape": topo,
+        "executive_summary": data.get("executive_summary", ""),
+    }
+
+    if age_days > 7:
+        result["_stale"] = f"Insights are {age_days:.0f} days old. Re-run Collider."
+
+    return result
 
 
 def answer_from_truths(query: str, truths: Dict) -> Optional[str]:
@@ -127,6 +195,24 @@ def answer_from_truths(query: str, truths: Dict) -> Optional[str]:
         stages = pipeline.get("stages")
         if stages:
             return f"The analysis pipeline has {stages} stages."
+
+    # Collider health queries (from collider_health section in truths)
+    ch = truths.get("collider_health", {})
+    if ch:
+        if any(w in query_lower for w in ["grade", "health score", "what's the grade"]):
+            return (
+                f"Collider Grade: {ch.get('grade', '?')} "
+                f"(health score: {ch.get('health_score', '?')}/10, "
+                f"{ch.get('findings_count', '?')} findings). "
+                f"Topology: {ch.get('topology_shape', 'unknown')}."
+            )
+        if any(w in query_lower for w in ["how many findings", "any critical", "issues"]):
+            return (
+                f"The Collider found {ch.get('findings_count', '?')} findings. "
+                f"Top finding: {ch.get('top_finding', 'None')}."
+            )
+        if any(w in query_lower for w in ["topology", "architecture shape"]):
+            return f"The codebase topology is {ch.get('topology_shape', 'unknown')}."
 
     return None
 
@@ -235,7 +321,8 @@ def optimize_context(
     project_root: Path,
     use_truths: bool = True,
     inject_agent: bool = False,
-    inject_level: str = "standard"
+    inject_level: str = "standard",
+    intent: Optional[str] = None
 ) -> OptimizedContext:
     """
     Optimize context for a query.
@@ -247,6 +334,7 @@ def optimize_context(
         use_truths: Whether to load repo_truths.yaml
         inject_agent: Whether to inject agent context
         inject_level: Level of agent context injection
+        intent: Query intent (e.g. "architecture", "debug", "validate")
 
     Returns:
         OptimizedContext with optimized sets and metadata
@@ -257,6 +345,18 @@ def optimize_context(
 
     # Load truths if requested
     truths = load_repo_truths(project_root) if use_truths else None
+
+    # Load collider insights
+    collider_health = load_collider_insights(project_root)
+
+    # Auto-inject collider_insights set for architecture/debug/validate intents
+    if collider_health and intent in ("architecture", "debug", "validate"):
+        if "collider_insights" not in sets:
+            sets.insert(0, "collider_insights")
+
+    # Merge collider health into truths for instant answers
+    if collider_health and truths is not None:
+        truths["collider_health"] = collider_health
 
     # Get critical files and positioning
     critical_files = get_critical_files_for_sets(sets, sets_config)
@@ -273,7 +373,8 @@ def optimize_context(
         positioning=positioning,
         critical_files=critical_files,
         estimated_tokens=estimated_tokens,
-        budget_warning=budget_warning
+        budget_warning=budget_warning,
+        collider_health=collider_health
     )
 
 

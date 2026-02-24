@@ -330,6 +330,13 @@ def _determine_sets(profile: QueryProfile, tier: Tier) -> List[str]:
         elif profile.intent == QueryIntent.ARCHITECTURE:
             if "architecture_review" not in sets:
                 sets.append("architecture_review")
+            # Always include collider insights for architecture queries
+            if "collider_insights" not in sets:
+                sets.insert(0, "collider_insights")
+        elif profile.intent in (QueryIntent.DEBUG, QueryIntent.VALIDATE):
+            # Include collider insights for debug/validate (lightweight, 5k tokens)
+            if "collider_insights" not in sets:
+                sets.insert(0, "collider_insights")
     elif tier == Tier.FLASH_DEEP:
         # FLASH_DEEP: Load EVERYTHING - 2M context capacity
         # Include all major sets for comprehensive analysis

@@ -540,6 +540,17 @@ analysis_sets:
       - "wave/config/analysis_sets.yaml"
       - "wave/config/prompts.yaml"
 
+  # --- COLLIDER INSIGHTS: Architectural health from Collider analysis ---
+  collider_insights:
+    description: "Collider architectural insights (grade, health, findings, navigation)"
+    max_tokens: 5000
+    critical_files:
+      - ".collider/collider_insights.json"
+    positional_strategy: "front-load"
+    patterns:
+      - ".collider/collider_insights.json"
+      - ".collider/collider_insights.md"
+
   # --- FOUNDATIONS: Reference library ---
   foundations:
     description: "Intellectual foundations reference library - 82 academic works"
@@ -616,3 +627,17 @@ recommendations:
     - agent_tasks
   "meters * status":
     - agent_session
+  "refactor *":
+    - collider_insights
+    - pipeline
+  "architecture * health":
+    - collider_insights
+    - theory
+  "health * score":
+    - collider_insights
+  "what should I fix":
+    - collider_insights
+  "grade *":
+    - collider_insights
+  "code * quality":
+    - collider_insights

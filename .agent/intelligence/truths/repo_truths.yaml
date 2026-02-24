@@ -95,6 +95,18 @@ audit:
     - "LOL.yaml created as authoritative inventory"
 
 # =============================================================================
+# COLLIDER HEALTH (from insights compiler, stage 11.95)
+# =============================================================================
+# Updated after each Collider run. Also auto-loaded by ACI context_builder.
+collider_health:
+  grade: "A"
+  health_score: 8.8
+  findings_count: 6
+  top_finding: "7 God Classes with 20+ methods"
+  topology_shape: "CYCLIC_NETWORK"
+  last_run: "2026-02-24"
+
+# =============================================================================
 # NOTES
 # =============================================================================
 _note: "Run './collider full . --output .collider' for richer data"

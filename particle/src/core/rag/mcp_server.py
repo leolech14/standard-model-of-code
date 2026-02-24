@@ -1,7 +1,8 @@
 """
 Collider MCP Tool Server
 ========================
-Exposes GraphRAG search and neighborhood as native MCP tools for AI agents.
+Exposes GraphRAG search, neighborhood, and architectural insights
+as native MCP tools for AI agents.
 
 Usage:
     # Start the server (stdio transport for IDE/agent integration)
@@ -196,6 +197,102 @@ def collider_mutate(target_file: str, mutations_json: str) -> str:
         return json.dumps({"success": True, "message": f"Successfully mutated {target_file}"})
     except Exception as e:
         return json.dumps({"error": str(e)})
+
+
+# ─────────────────────────────────────────────
+# INSIGHTS (Architectural Health)
+# ─────────────────────────────────────────────
+
+def _find_insights_json(db_dir: str = "") -> Path | None:
+    """Find the collider_insights.json file."""
+    if db_dir:
+        candidate = Path(db_dir) / "collider_insights.json"
+        if candidate.exists():
+            return candidate
+
+    # Default: .collider in cwd
+    candidate = Path.cwd() / ".collider" / "collider_insights.json"
+    if candidate.exists():
+        return candidate
+
+    # Fallback: /tmp outputs
+    tmp = Path("/tmp")
+    if tmp.exists():
+        candidates = sorted(
+            tmp.glob("**/collider_insights.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if candidates:
+            return candidates[0]
+
+    return None
+
+
+@mcp.tool()
+def get_collider_insights(db_dir: str = "") -> str:
+    """
+    Get Collider architectural insights: grade, health score, findings, and navigation.
+
+    Returns the full insights analysis including:
+    - Overall grade (A-F) and health score (0-10)
+    - Health components (topology, constraints, purpose, test coverage, etc.)
+    - Findings with severity, interpretation, and recommendations
+    - Navigation guidance (entry points, critical path, top risks)
+
+    Args:
+        db_dir: Path to the .collider directory. Leave empty to auto-detect.
+
+    Returns:
+        JSON with grade, health_score, findings, navigation, and executive_summary.
+        If no insights exist, returns an error with instructions to run the Collider.
+    """
+    path = _find_insights_json(db_dir)
+    if path is None:
+        return json.dumps({
+            "error": "No collider_insights.json found.",
+            "action": "Run `./pe collider full .` or `collider full <path> --output .collider` first.",
+            "hint": "The insights compiler runs as stage 11.95 of the full analysis pipeline."
+        })
+
+    try:
+        with open(path, "r") as f:
+            insights = json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        return json.dumps({"error": f"Failed to read insights: {e}"})
+
+    # Add staleness warning
+    import time
+    age_days = (time.time() - path.stat().st_mtime) / 86400
+    if age_days > 7:
+        insights["_warning"] = f"Insights are {age_days:.0f} days old. Re-run Collider for fresh data."
+
+    insights["_source"] = str(path)
+    return json.dumps(insights, indent=2)
+
+
+@mcp.resource("collider://insights")
+def collider_insights_resource() -> str:
+    """Collider architectural insights in markdown format."""
+    # Try markdown version first
+    md_path = Path.cwd() / ".collider" / "collider_insights.md"
+    if md_path.exists():
+        return md_path.read_text()
+
+    # Fall back to JSON summary
+    path = _find_insights_json()
+    if path is None:
+        return "No Collider insights available. Run `./pe collider full .` first."
+
+    try:
+        with open(path, "r") as f:
+            insights = json.load(f)
+        grade = insights.get("grade", "?")
+        score = insights.get("health_score", 0)
+        summary = insights.get("executive_summary", "No summary available.")
+        return f"# Collider Insights\n\n**Grade: {grade}** | Health Score: {score}/10\n\n{summary}"
+    except Exception:
+        return "Error reading Collider insights."
 
 
 if __name__ == "__main__":
