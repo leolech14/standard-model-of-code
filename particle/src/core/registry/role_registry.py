@@ -129,7 +129,7 @@ class RoleRegistry:
         "Processor": "Service",
 
         # Entry points
-        "EntryPoint": "Controller",
+        "EntryPoint": "Orchestrator",
         "Constructor": "Lifecycle",
 
         # Fallback

@@ -190,7 +190,7 @@ def infer_from_structure(node: Dict) -> Tuple[str, float, str]:
             return ('Command', 75.0, 'context_first_param')
 
         # Takes request/response → Controller/Handler
-        if any(p in param_names for p in ['request', 'req', 'response', 'resp', 'w', 'r']):
+        if any(p in param_names for p in ['request', 'req', 'response', 'resp']):
             return ('Controller', 78.0, 'http_params')
 
         # Takes reader/writer → IO utility

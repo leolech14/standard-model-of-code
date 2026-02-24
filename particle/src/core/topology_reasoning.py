@@ -12,30 +12,40 @@ class BettiNumbers:
 
     Attributes:
         b0: Number of connected components (islands)
-        b1: Number of independent cycles (circular dependencies)
-        euler_characteristic: χ = b0 - b1 (topological signature)
+        b1: Number of independent topological loops in the undirected graph
+            (Euler formula: b1 = |E_undirected| - |V| + b0).
+            NOTE: b1 does NOT count directed dependency cycles.
+            It measures how much denser the graph is than a spanning forest.
+            Any real codebase with non-trivial imports will have b1 >> 0.
+        euler_characteristic: chi = b0 - b1 (topological signature)
     """
     b0: int  # Connected components
-    b1: int  # Independent cycles
+    b1: int  # Topological loops (undirected), NOT directed cycles
 
     @property
     def euler_characteristic(self) -> int:
-        """χ = b0 - b1. Healthy code typically has χ ≈ 1."""
+        """chi = b0 - b1. Lower values indicate denser graphs."""
         return self.b0 - self.b1
 
     @property
     def health_signal(self) -> str:
-        """Interpret Betti numbers for code health."""
-        if self.b0 > 1 and self.b1 > 0:
-            return "FRAGMENTED_CYCLIC"  # Islands + cycles = worst
+        """Interpret Betti numbers for structural density.
+
+        NOTE: This reflects graph density, not circular dependency severity.
+        Use SCC-based directed cycle detection for actual dependency cycles.
+        """
+        if self.b0 > 1 and self.b1 > 100:
+            return "FRAGMENTED_DENSE"  # Disconnected but dense subgraphs
         elif self.b0 > 1:
-            return "FRAGMENTED"  # Disconnected but no cycles
-        elif self.b1 > 5:
-            return "HIGHLY_CYCLIC"  # Many circular dependencies
+            return "FRAGMENTED"  # Disconnected
+        elif self.b1 > 1000:
+            return "VERY_DENSE"  # Highly interconnected (normal for large codebases)
+        elif self.b1 > 100:
+            return "DENSE"  # Moderately interconnected
         elif self.b1 > 0:
-            return "CYCLIC"  # Some circular dependencies
+            return "CONNECTED"  # Slightly more than a tree
         else:
-            return "ACYCLIC"  # Ideal: connected, no cycles
+            return "TREE"  # Exactly a spanning forest
 
 
 @dataclass
@@ -405,7 +415,23 @@ class TopologyClassifier:
         # 1. Betti Number Analysis (Topological Invariants)
         betti = self.compute_betti_numbers(nodes, edges)
         num_components = betti.b0
-        num_cycles = betti.b1
+
+        # Directed cycle detection via SCCs (Tarjan's algorithm).
+        # b1 only measures undirected topological density, NOT directed dependency cycles.
+        import sys
+        old_limit = sys.getrecursionlimit()
+        try:
+            sys.setrecursionlimit(max(old_limit, len(nodes) + 500))
+            sccs = self._find_strongly_connected_components(nodes, edges)
+            non_trivial_sccs = [scc for scc in sccs if len(scc) > 1]
+            num_cycle_groups = len(non_trivial_sccs)
+            num_cyclic_nodes = sum(len(scc) for scc in non_trivial_sccs)
+        except RecursionError:
+            # Fallback: cannot determine cycles, assume none
+            num_cycle_groups = 0
+            num_cyclic_nodes = 0
+        finally:
+            sys.setrecursionlimit(old_limit)
 
         # Component size analysis
         components = self._find_components(nodes, edges)
@@ -431,11 +457,12 @@ class TopologyClassifier:
         # Simple proxy: Ratio of feedback edges (cycles) to feedforward edges
 
         # 4. Classification Logic
+        # Uses directed cycle groups (SCCs > 1), NOT b1 (undirected topological holes).
         shape = "UNKNOWN"
         description = "Undefined structure"
 
-        # Check STRICT_LAYERS first (ideal state: connected, no cycles)
-        if num_cycles == 0 and num_components == 1:
+        # Check STRICT_LAYERS first (ideal state: connected, no directed cycles)
+        if num_cycle_groups == 0 and num_components == 1:
             shape = "STRICT_LAYERS"
             description = "Acyclic layered architecture. Clean dependency flow."
 
@@ -443,9 +470,12 @@ class TopologyClassifier:
             shape = "DISCONNECTED_ISLANDS"
             description = f"Fragmented into {num_components} separate clusters."
 
-        elif num_cycles > 10 and avg_degree > 5:
+        elif num_cycle_groups > 10 and avg_degree > 5:
             shape = "BIG_BALL_OF_MUD"
-            description = f"High coupling with {num_cycles} cycles. Tangled dependencies."
+            description = (
+                f"High coupling with {num_cycle_groups} dependency cycle groups "
+                f"involving {num_cyclic_nodes} nodes. Tangled dependencies."
+            )
 
         elif centralization > 0.4 and len(nodes) > 10:
             # Only flag STAR_HUB for larger graphs to avoid false positives
@@ -458,9 +488,12 @@ class TopologyClassifier:
             shape = "DENSE_MESH"
             description = "Highly interconnected mesh."
 
-        elif num_cycles > 0:
+        elif num_cycle_groups > 0:
             shape = "CYCLIC_NETWORK"
-            description = f"Connected with {num_cycles} dependency cycles."
+            description = (
+                f"Connected with {num_cycle_groups} dependency cycle groups "
+                f"involving {num_cyclic_nodes} nodes."
+            )
 
         else:
             shape = "BALANCED_NETWORK"
@@ -477,7 +510,9 @@ class TopologyClassifier:
             },
             "visual_metrics": {
                 "components": num_components,
-                "cycles": num_cycles,
+                "directed_cycles": num_cycle_groups,
+                "cyclic_nodes": num_cyclic_nodes,
+                "b1_topological": betti.b1,
                 "largest_cluster_percent": round(percent_in_largest, 1),
                 "centralization_score": round(centralization, 2),
                 "density_score": round(avg_degree, 2)

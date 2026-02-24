@@ -64,7 +64,7 @@ class TestRoleRegistry:
             'EventHandler': 'Handler',
             'Configuration': 'Store',
             'Specification': 'Validator',
-            'EntryPoint': 'Controller',
+            'EntryPoint': 'Orchestrator',
             'Constructor': 'Lifecycle',
             'DomainService': 'Service',
             'CommandHandler': 'Handler',

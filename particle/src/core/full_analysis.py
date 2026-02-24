@@ -806,71 +806,105 @@ def compute_markov_matrix(nodes: List[Dict], edges: List[Dict]) -> Dict:
 def detect_knots(nodes: List[Dict], edges: List[Dict]) -> Dict:
     """
     Detect dependency knots (cycles) and tangles in the graph.
-    - Cycles: A → B → C → A
-    - Tangles: High bidirectional coupling between modules
+    Uses Tarjan's SCC algorithm (O(V+E)) to find all directed cycles.
+    - Cycles: Strongly connected components with >1 node
+    - Tangles: Bidirectional edges (A imports B and B imports A)
     """
+    import sys
+
     # Build adjacency
     graph = defaultdict(set)
-    reverse = defaultdict(set)
+    adj_list = defaultdict(list)
 
     for edge in edges:
         source = edge.get('source', '')
         target = edge.get('target', '')
         if source and target:
             graph[source].add(target)
-            reverse[target].add(source)
+            adj_list[source].append(target)
 
-    # Find strongly connected components (simplified Tarjan-like)
-    visited = set()
-    on_stack = set()
-    cycles = []
+    # Tarjan's SCC algorithm -- finds ALL directed cycles
+    node_ids = list(graph.keys())
+    index_counter = [0]
+    stack = []
+    lowlinks = {}
+    index = {}
+    on_stack = {}
+    sccs = []
 
-    def find_cycle(node: str, path: List[str]) -> bool:
-        if node in on_stack:
-            cycle_start = path.index(node)
-            cycle = path[cycle_start:]
-            if len(cycle) > 1:
-                cycles.append(cycle)
-            return True
-        if node in visited:
-            return False
+    old_limit = sys.getrecursionlimit()
+    sys.setrecursionlimit(max(old_limit, len(node_ids) + 500))
 
-        visited.add(node)
-        on_stack.add(node)
-        path.append(node)
+    def strongconnect(v):
+        index[v] = index_counter[0]
+        lowlinks[v] = index_counter[0]
+        index_counter[0] += 1
+        stack.append(v)
+        on_stack[v] = True
 
-        for neighbor in list(graph.get(node, set()))[:10]:  # Limit for perf
-            find_cycle(neighbor, path)
+        for w in adj_list[v]:
+            if w not in index:
+                strongconnect(w)
+                lowlinks[v] = min(lowlinks[v], lowlinks[w])
+            elif on_stack.get(w, False):
+                lowlinks[v] = min(lowlinks[v], index[w])
 
-        path.pop()
-        on_stack.remove(node)
-        return False
+        if lowlinks[v] == index[v]:
+            scc = []
+            while True:
+                w = stack.pop()
+                on_stack[w] = False
+                scc.append(w)
+                if w == v:
+                    break
+            if len(scc) > 1:
+                sccs.append(scc)
 
-    # Check for cycles from each unvisited node (limited)
-    for node in list(graph.keys())[:200]:
-        if node not in visited:
-            find_cycle(node, [])
+    try:
+        for v in node_ids:
+            if v not in index:
+                strongconnect(v)
+    except RecursionError:
+        pass  # Partial results still useful
+    finally:
+        sys.setrecursionlimit(old_limit)
+
+    # Extract cycle info
+    cycle_groups = len(sccs)
+    cyclic_nodes = sum(len(scc) for scc in sccs)
 
     # Find bidirectional edges (tangles)
+    seen_pairs = set()
     bidirectional = []
     for source, targets in graph.items():
         for target in targets:
             if source in graph.get(target, set()):
                 pair = tuple(sorted([source, target]))
-                if pair not in [tuple(sorted([b['a'], b['b']])) for b in bidirectional]:
+                if pair not in seen_pairs:
+                    seen_pairs.add(pair)
                     bidirectional.append({
                         'a': source.split(':')[-1] if ':' in source else source,
                         'b': target.split(':')[-1] if ':' in target else target
                     })
 
     # Compute knot score: 0 = no knots, 10 = severely tangled
-    knot_score = min(10, len(cycles) * 2 + len(bidirectional) * 0.5)
+    # Normalized by codebase size so a few cycles in a large codebase
+    # don't saturate the score.
+    total_nodes = len(set(n.get('id', '') for n in nodes)) or 1
+    cyclic_pct = (cyclic_nodes / total_nodes) * 100   # % of nodes in cycles
+    bidir_pct = (len(bidirectional) / total_nodes) * 100  # % bidirectional
+    knot_score = min(10,
+        cyclic_pct +            # 5% cyclic = 5 pts
+        cycle_groups * 0.5 +    # each cycle group = 0.5 pts
+        bidir_pct * 0.5         # 10% bidirectional = 5 pts (minor signal)
+    )
 
     return {
-        'cycles_detected': len(cycles),
+        'cycles_detected': cycle_groups,
+        'cyclic_nodes': cyclic_nodes,
         'bidirectional_edges': len(bidirectional),
         'knot_score': round(knot_score, 1),
-        'sample_cycles': [c[:5] for c in cycles[:5]],  # First 5, truncated
+        'sample_cycles': [scc[:5] for scc in sccs[:5]],
         'sample_tangles': bidirectional[:10]
     }
 
@@ -2665,6 +2699,25 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Database persistence failed: {e}")
+
+    # Stage 11.95: Insights Compilation
+    print("\n🔬 Stage 11.95: Insights Compilation...")
+    with StageTimer(perf_manager, "Stage 11.95: Insights Compilation") as timer:
+        try:
+            from src.core.insights_compiler import compile_insights, compile_insights_report
+            compiled_dict = compile_insights(full_output)
+            full_output['compiled_insights'] = compiled_dict
+            # Generate markdown for file output
+            report_obj = compile_insights_report(full_output)
+            full_output['_insights_markdown'] = report_obj.to_markdown()
+            grade = compiled_dict.get('grade', '?')
+            finding_count = compiled_dict.get('findings_count', 0)
+            timer.set_output(grade=grade, findings=finding_count)
+            print(f"   → Grade: {grade} ({compiled_dict.get('health_score', 0)}/10)")
+            print(f"   → {finding_count} findings compiled")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Insights compilation failed: {e}")
 
     # Stage 12: Write consolidated outputs
     print("\n📦 Stage 12: Generating Consolidated Outputs...")

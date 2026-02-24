@@ -21,30 +21,35 @@ class TestBettiNumbers:
         betti = BettiNumbers(b0=3, b1=5)
         assert betti.euler_characteristic == -2
 
-    def test_health_signal_acyclic(self):
-        """Single component, no cycles = ideal."""
+    def test_health_signal_tree(self):
+        """Single component, no extra edges = tree."""
         betti = BettiNumbers(b0=1, b1=0)
-        assert betti.health_signal == "ACYCLIC"
+        assert betti.health_signal == "TREE"
 
-    def test_health_signal_cyclic(self):
-        """Some cycles present."""
+    def test_health_signal_connected(self):
+        """Slightly denser than a tree."""
         betti = BettiNumbers(b0=1, b1=3)
-        assert betti.health_signal == "CYCLIC"
+        assert betti.health_signal == "CONNECTED"
 
-    def test_health_signal_highly_cyclic(self):
-        """Many cycles (>5)."""
-        betti = BettiNumbers(b0=1, b1=10)
-        assert betti.health_signal == "HIGHLY_CYCLIC"
+    def test_health_signal_dense(self):
+        """Moderately dense (b1 > 100)."""
+        betti = BettiNumbers(b0=1, b1=500)
+        assert betti.health_signal == "DENSE"
+
+    def test_health_signal_very_dense(self):
+        """Highly dense (b1 > 1000)."""
+        betti = BettiNumbers(b0=1, b1=5000)
+        assert betti.health_signal == "VERY_DENSE"
 
     def test_health_signal_fragmented(self):
-        """Multiple components, no cycles."""
+        """Multiple components, low density."""
         betti = BettiNumbers(b0=5, b1=0)
         assert betti.health_signal == "FRAGMENTED"
 
-    def test_health_signal_fragmented_cyclic(self):
-        """Worst: fragmented with cycles."""
-        betti = BettiNumbers(b0=3, b1=2)
-        assert betti.health_signal == "FRAGMENTED_CYCLIC"
+    def test_health_signal_fragmented_dense(self):
+        """Fragmented with dense subgraphs."""
+        betti = BettiNumbers(b0=3, b1=200)
+        assert betti.health_signal == "FRAGMENTED_DENSE"
 
 
 class TestTopologyClassifier:
@@ -122,7 +127,7 @@ class TestTopologyClassifier:
         assert "betti_numbers" in result
         assert result["betti_numbers"]["b0"] == 1
         assert result["betti_numbers"]["b1"] == 0
-        assert result["betti_numbers"]["health_signal"] == "ACYCLIC"
+        assert result["betti_numbers"]["health_signal"] == "TREE"
 
     def test_classify_strict_layers(self):
         """Acyclic graph with one component = STRICT_LAYERS."""

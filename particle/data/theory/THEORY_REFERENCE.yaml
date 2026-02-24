@@ -1,0 +1,124 @@
+# Standard Model of Code - Theory Reference
+# Machine-readable glossary for the Insights Compiler.
+# Every term used in compiled insights maps back to this file.
+
+dimensions:
+  D1_kind:
+    name: "Kind"
+    description: "Syntactic species: class, function, module, variable, etc."
+  D2_role:
+    name: "Role"
+    description: "Behavioral archetype: Entity, Service, Controller, Query, Command, etc."
+  D3_layer:
+    name: "Layer"
+    description: "Architectural stratum: presentation, application, domain, infrastructure."
+  D4_ring:
+    name: "Ring"
+    description: "Concentric stability zone: core, inner, outer, shell."
+  D5_level:
+    name: "Level"
+    description: "Scale from L0 (Bit) to L15 (Universe)."
+  D6_time:
+    name: "Time"
+    description: "Temporal behavior: static, lifecycle, reactive, scheduled."
+  D7_intent:
+    name: "Intent"
+    description: "Purpose classification via Q-score (0.0-1.0)."
+  D8_constraint:
+    name: "Constraint"
+    description: "Validity rules: antimatter, policy violations, signals."
+
+rpbl:
+  R:
+    name: "Responsibility"
+    scale: "0-10"
+    low: "Focused, single-purpose"
+    high: "Broad, many concerns"
+    thresholds: { good: "<4", warning: "4-6", critical: ">6" }
+  P:
+    name: "Purity"
+    scale: "0-10"
+    low: "Impure, many side effects"
+    high: "Pure, deterministic"
+    thresholds: { good: ">6", warning: "4-6", critical: "<4" }
+  B:
+    name: "Boundary"
+    scale: "0-10"
+    low: "Internal computation"
+    high: "I/O heavy, external dependencies"
+    thresholds: { good: "<4", warning: "4-6", critical: ">6" }
+  L:
+    name: "Lifecycle"
+    scale: "0-10"
+    low: "Stateless, ephemeral"
+    high: "Stateful, long-lived"
+    thresholds: { good: "<4", warning: "4-6", critical: ">6" }
+
+q_score:
+  description: "Purpose clarity index (0.0-1.0). Higher = clearer intent."
+  thresholds:
+    excellent: ">0.85"
+    good: "0.60-0.85"
+    unclear: "0.40-0.60"
+    opaque: "<0.40"
+
+topology_shapes:
+  STRICT_LAYERS: "Clean directional flow, low cycles. Ideal architecture."
+  STAR_HUB: "One massive central node (god object risk)."
+  MESH: "High connectivity, balanced. Collaborative but potentially coupled."
+  BIG_BALL_OF_MUD: "High density, high tangles, no hierarchy. Needs refactoring."
+  DISCONNECTED_ISLANDS: "Many separate clusters. May indicate modular or fractured design."
+  EMPTY: "No nodes found."
+
+constraint_tiers:
+  A_antimatter:
+    name: "Antimatter (Tier A)"
+    description: "Nodes that violate fundamental laws -- dead code, unreachable logic, broken contracts."
+    severity: "critical"
+    metric: "rho_antimatter"
+  B_policy:
+    name: "Policy Violations (Tier B)"
+    description: "Structural policy breaches -- layer violations, dependency direction errors."
+    severity: "high"
+    metric: "rho_policy"
+  C_signals:
+    name: "Signals (Tier C)"
+    description: "Warnings and advisories -- naming conventions, complexity thresholds."
+    severity: "medium"
+
+health_grades:
+  A: { range: "8.5-10.0", label: "Excellent", description: "Well-architected, clean, purposeful." }
+  B: { range: "7.0-8.4", label: "Good", description: "Solid with minor issues." }
+  C: { range: "5.5-6.9", label: "Adequate", description: "Functional but needs attention." }
+  D: { range: "4.0-5.4", label: "Concerning", description: "Significant structural problems." }
+  F: { range: "0.0-3.9", label: "Critical", description: "Major architectural issues requiring immediate action." }
+
+health_components:
+  topology:
+    weight: 0.20
+    description: "Graph shape and cycle health"
+  constraints:
+    weight: 0.20
+    description: "Constraint field violations (antimatter + policy)"
+  purpose:
+    weight: 0.15
+    description: "Codebase intelligence / Q-score distribution"
+  test_coverage:
+    weight: 0.15
+    description: "Test-to-logic ratio signals"
+  dead_code:
+    weight: 0.10
+    description: "Unreachable code accumulation"
+  entanglement:
+    weight: 0.10
+    description: "Dependency knot score"
+  rpbl_balance:
+    weight: 0.10
+    description: "RPBL axis balance"
+
+severity_levels:
+  - critical  # Fix immediately -- blocking or dangerous
+  - high      # Fix soon -- degrades quality significantly
+  - medium    # Plan for next sprint -- noticeable but manageable
+  - low       # Nice to have -- improvement opportunity
+  - info      # Informational -- positive observation

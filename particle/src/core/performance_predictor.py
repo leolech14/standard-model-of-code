@@ -71,20 +71,24 @@ ROLE_TO_TIME_TYPE = {
 
 # Pattern detection for overrides
 IO_NETWORK_PATTERNS = [
-    r"http", r"request", r"socket", r"api", r"client",
-    r"fetch", r"post", r"get_url", r"send", r"receive"
+    r"\bhttp\b", r"\brequest\b", r"\bsocket\b", r"\bapi_call\b",
+    r"\bfetch\b", r"\bget_url\b", r"\bsend_request\b", r"\breceive\b"
 ]
 IO_LOCAL_PATTERNS = [
-    r"file", r"open", r"read", r"write", r"path",
-    r"disk", r"cache", r"storage", r"save", r"load"
+    r"\bfile\b", r"\bopen\b", r"\bread_file\b", r"\bwrite_file\b",
+    r"\bdisk\b", r"\bcache\b", r"\bstorage\b", r"\bsave\b", r"\bload\b"
 ]
 BLOCKING_PATTERNS = [
-    r"sleep", r"wait", r"lock", r"acquire", r"join",
-    r"semaphore", r"mutex", r"synchron"
+    r"\bsleep\b", r"\bwait\b", r"\block\b", r"\bacquire\b", r"\bjoin\b",
+    r"\bsemaphore\b", r"\bmutex\b", r"\bsynchron"
 ]
-DATABASE_PATTERNS = [
-    r"database", r"sql", r"query", r"cursor", r"session",
-    r"commit", r"rollback", r"transaction"
+# Remote databases -> IO_NETWORK
+REMOTE_DB_PATTERNS = [
+    r"postgres", r"mysql", r"redis", r"mongo", r"dynamodb"
+]
+# Local databases -> IO_LOCAL
+LOCAL_DB_PATTERNS = [
+    r"sqlite", r"\bcursor\b", r"\btransaction\b", r"\brollback\b"
 ]
 
 # Cost multipliers by time type
@@ -251,12 +255,17 @@ class PerformancePredictor:
         """Classify time type for each node"""
         for node in self.nodes.values():
             # First try role-based classification
-            if node.role in ROLE_TO_TIME_TYPE:
+            role_explicit = node.role in ROLE_TO_TIME_TYPE
+            if role_explicit:
                 node.time_type = ROLE_TO_TIME_TYPE[node.role]
             else:
                 node.time_type = TimeType.COMPUTE  # Default
 
-            # Override based on name patterns
+            # Only apply name-pattern overrides when role gave the default
+            # (don't let patterns override well-known roles)
+            if role_explicit and node.time_type != TimeType.COMPUTE:
+                continue
+
             name_lower = node.name.lower()
 
             # Check for network I/O patterns
@@ -265,16 +274,23 @@ class PerformancePredictor:
                     node.time_type = TimeType.IO_NETWORK
                     break
 
-            # Check for database patterns (network I/O)
-            for pattern in DATABASE_PATTERNS:
+            # Check for remote database patterns (network I/O)
+            for pattern in REMOTE_DB_PATTERNS:
                 if re.search(pattern, name_lower):
                     node.time_type = TimeType.IO_NETWORK
+                    break
+
+            # Check for local database patterns (local I/O)
+            for pattern in LOCAL_DB_PATTERNS:
+                if re.search(pattern, name_lower):
+                    if node.time_type != TimeType.IO_NETWORK:
+                        node.time_type = TimeType.IO_LOCAL
                     break
 
             # Check for local I/O patterns
             for pattern in IO_LOCAL_PATTERNS:
                 if re.search(pattern, name_lower):
-                    if node.time_type != TimeType.IO_NETWORK:  # Don't override network
+                    if node.time_type != TimeType.IO_NETWORK:
                         node.time_type = TimeType.IO_LOCAL
                     break
 

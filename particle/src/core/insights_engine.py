@@ -294,7 +294,8 @@ class InsightsEngine:
 
     def _check_missing_tests(self, role_counts: Counter, total_nodes: int):
         """Detect test coverage gaps"""
-        tests = role_counts.get('Test', 0)
+        # Test nodes are classified as 'Asserter' (not 'Test')
+        tests = role_counts.get('Asserter', 0) + role_counts.get('Test', 0)
         logic = (role_counts.get('Service', 0) +
                  role_counts.get('Command', 0) +
                  role_counts.get('ApplicationService', 0) +
@@ -360,8 +361,11 @@ class InsightsEngine:
                 class_name = name.rsplit('.', 1)[0]
                 class_methods[class_name] += 1
 
-        # Find classes with many methods
-        god_classes = [cls for cls, count in class_methods.items() if count > 20]
+        # Find classes with many methods, excluding test classes
+        god_classes = [
+            cls for cls, count in class_methods.items()
+            if count > 20 and not cls.lower().startswith('test')
+        ]
 
         if god_classes:
             self.insights.append(Insight(
