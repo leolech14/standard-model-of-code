@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-065
-# Confidence: 8500%
-# Generated: 2026-02-23T00:22:45.400059
+# Confidence: 85%
+# Generated: 2026-02-24T03:24:35.058855
 
 id: CARD-OPP-065
 title: Always-Green Continuous Refinement Pipeline
@@ -28,5 +28,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-02-23T03:22:45.400004+00:00'
-confidence: 85
+generated_at: '2026-02-24T06:24:35.057617+00:00'
+confidence: 0.85

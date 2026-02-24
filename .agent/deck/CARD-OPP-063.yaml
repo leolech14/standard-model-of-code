@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-063
-# Confidence: 7000%
-# Generated: 2026-02-23T00:22:45.401876
+# Confidence: 70%
+# Generated: 2026-02-24T03:24:35.065006
 
 id: CARD-OPP-063
 title: Verify GCS Mirror Post-Triage
@@ -28,5 +28,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-02-23T03:22:45.401824+00:00'
-confidence: 70
+generated_at: '2026-02-24T06:24:35.063730+00:00'
+confidence: 0.7

@@ -1,0 +1,47 @@
+# Generated from Collider finding: God Class Detected
+# Severity: high
+# Source: collider_insights.json (2026-02-24)
+
+id: CARD-COL-001
+title: Decompose God Classes (5 classes with 20+ methods)
+type: task
+source: collider:finding:god-class
+phase_gate:
+- IMPLEMENTING
+description: >
+  Collider detected 5 God Classes: InsightsCompiler, SQLiteBackend,
+  PostgresBackend, DuckDBBackend, DatabaseBackend. Each has 20+ methods.
+  Decompose into smaller, focused classes using single-responsibility principle.
+  Start with InsightsCompiler (highest method count) and the database backends
+  (share common interface patterns -- extract shared base).
+preconditions:
+- check: collider.grade.exists
+  description: Collider analysis has been run
+cost:
+  tokens_estimate: 20K-50K
+  risk_level: high
+outcomes:
+  success:
+    description: God classes decomposed, method count per class < 15
+    meters:
+      progress: 1
+      debt: -2
+  failure:
+    description: Decomposition blocked by tight coupling
+    meters:
+      discovery: 1
+tags:
+- refactoring
+- collider-finding
+- high-severity
+auto_generated: false
+confidence: 0.95
+evidence:
+  source: collider_insights.json
+  severity: high
+  affected_components:
+  - InsightsCompiler
+  - SQLiteBackend
+  - PostgresBackend
+  - DuckDBBackend
+  - DatabaseBackend

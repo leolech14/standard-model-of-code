@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-064
-# Confidence: 8500%
-# Generated: 2026-02-23T00:22:45.400638
+# Confidence: 85%
+# Generated: 2026-02-24T03:24:35.060738
 
 id: CARD-OPP-064
 title: Hierarchical Tree Layout for File View
@@ -28,5 +28,5 @@ outcomes:
 tags:
 - visualization
 auto_generated: true
-generated_at: '2026-02-23T03:22:45.400543+00:00'
-confidence: 85
+generated_at: '2026-02-24T06:24:35.059564+00:00'
+confidence: 0.85

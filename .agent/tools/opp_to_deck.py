@@ -72,11 +72,16 @@ def load_opportunity(path: Path) -> Optional[Dict]:
 
 
 def get_overall_confidence(opp: Dict) -> float:
-    """Extract overall confidence from opportunity."""
+    """Extract overall confidence from opportunity, normalized to 0-1."""
     conf = opp.get('confidence', {})
     if isinstance(conf, dict):
-        return conf.get('overall', 0.5)
-    return 0.5
+        raw = conf.get('overall', 0.5)
+    else:
+        raw = 0.5
+    # Normalize: OPP files use 0-100 scale, cards use 0-1
+    if isinstance(raw, (int, float)) and raw > 1:
+        return raw / 100.0
+    return raw
 
 
 def category_to_phase(category: str) -> List[str]:
@@ -161,14 +166,32 @@ def opp_to_card(opp: Dict, source: str = 'inbox') -> Dict:
     return card
 
 
+def _is_promotable(opp: Dict) -> bool:
+    """Check if an opportunity is eligible for deck promotion.
+
+    Filters out:
+    - Unenriched imports (confidence.needs_review = true)
+    - Already promoted/completed/archived OPPs
+    """
+    status = opp.get('status', '').upper()
+    if status in ('PROMOTED', 'COMPLETE', 'COMPLETED', 'ARCHIVED'):
+        return False
+
+    conf = opp.get('confidence', {})
+    if isinstance(conf, dict) and conf.get('needs_review', False):
+        return False
+
+    return True
+
+
 def load_all_opportunities(include_active: bool = False) -> List[Tuple[Dict, str]]:
     """Load all opportunities and optionally active tasks."""
     opps = []
 
-    # Load inbox
+    # Load inbox (skip non-promotable)
     for yaml_file in INBOX_DIR.glob("OPP-*.yaml"):
         opp = load_opportunity(yaml_file)
-        if opp:
+        if opp and _is_promotable(opp):
             opps.append((opp, 'inbox'))
 
     # Load active tasks if requested
@@ -181,15 +204,41 @@ def load_all_opportunities(include_active: bool = False) -> List[Tuple[Dict, str
     return opps
 
 
-def clean_old_auto_cards():
-    """Remove old auto-generated cards."""
+def _card_content_matches(card_file: Path, new_card: Dict) -> bool:
+    """Check if existing card has the same meaningful content.
+
+    Compares all fields except generated_at (timestamp) to avoid
+    regenerating cards whose content hasn't changed.
+    """
+    if not card_file.exists():
+        return False
+
+    existing = load_opportunity(card_file)
+    if not existing:
+        return False
+
+    # Compare meaningful fields (ignore timestamps)
+    for key in ('id', 'title', 'type', 'source', 'description',
+                'preconditions', 'cost', 'outcomes', 'tags', 'confidence'):
+        if existing.get(key) != new_card.get(key):
+            return False
+
+    return True
+
+
+def clean_stale_auto_cards(keep_ids: set):
+    """Remove auto-generated cards not in the keep set."""
     removed = 0
     for card_file in DECK_DIR.glob("CARD-OPP-*.yaml"):
-        card_file.unlink()
-        removed += 1
+        card_id = card_file.stem  # e.g. CARD-OPP-059
+        if card_id not in keep_ids:
+            card_file.unlink()
+            removed += 1
     for card_file in DECK_DIR.glob("CARD-REG-*.yaml"):
-        card_file.unlink()
-        removed += 1
+        card_id = card_file.stem
+        if card_id not in keep_ids:
+            card_file.unlink()
+            removed += 1
     return removed
 
 
@@ -231,20 +280,31 @@ def main():
         print("\nNo opportunities meet threshold. Lower --threshold or run enrichment.")
         return
 
-    # Clean old auto-generated cards
-    if not args.dry_run:
-        removed = clean_old_auto_cards()
-        if removed:
-            print(f"\nRemoved {removed} old auto-generated cards")
+    # Build set of card IDs we want to keep
+    keep_ids = set()
+    for opp, source, conf in top:
+        card = opp_to_card(opp, source)
+        keep_ids.add(card['id'])
 
-    # Generate cards
+    # Remove cards that are no longer in the top set
+    if not args.dry_run:
+        removed = clean_stale_auto_cards(keep_ids)
+        if removed:
+            print(f"\nRemoved {removed} stale auto-generated cards")
+
+    # Generate cards (skip if content unchanged)
     print("\nGenerating cards:")
+    written = 0
+    skipped = 0
     for opp, source, conf in top:
         card = opp_to_card(opp, source)
         card_file = DECK_DIR / f"{card['id']}.yaml"
 
         if args.dry_run:
             print(f"  [DRY] {card['id']}: {card['title'][:40]}... ({conf*100:.0f}%)")
+            written += 1
+        elif _card_content_matches(card_file, card):
+            skipped += 1
         else:
             with open(card_file, 'w') as f:
                 f.write(f"# Auto-generated from {source}:{opp.get('id')}\n")
@@ -252,8 +312,10 @@ def main():
                 f.write(f"# Generated: {datetime.now().isoformat()}\n\n")
                 yaml.dump(card, f, default_flow_style=False, sort_keys=False)
             print(f"  OK: {card['id']}: {card['title'][:40]}... ({conf*100:.0f}%)")
+            written += 1
 
-    print(f"\n{'Would generate' if args.dry_run else 'Generated'}: {len(top)} cards")
+    action = 'Would generate' if args.dry_run else 'Generated'
+    print(f"\n{action}: {written} cards, skipped {skipped} unchanged")
     print("=" * 60)
 
 

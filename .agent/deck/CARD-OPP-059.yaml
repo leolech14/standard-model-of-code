@@ -1,6 +1,6 @@
 # Auto-generated from inbox:OPP-059
-# Confidence: 9000%
-# Generated: 2026-02-23T00:22:45.399317
+# Confidence: 90%
+# Generated: 2026-02-24T03:24:35.056336
 
 id: CARD-OPP-059
 title: Sprawl Consolidation Infrastructure
@@ -37,5 +37,5 @@ outcomes:
 tags:
 - infrastructure
 auto_generated: true
-generated_at: '2026-02-23T03:22:45.399251+00:00'
-confidence: 90
+generated_at: '2026-02-24T06:24:35.054651+00:00'
+confidence: 0.9

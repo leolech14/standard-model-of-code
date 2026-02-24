@@ -1,0 +1,42 @@
+# Generated from Collider finding: Dependency entanglement
+# Severity: medium
+# Source: collider_insights.json (2026-02-24)
+
+id: CARD-COL-002
+title: Break 3 dependency cycles (knot score 3.2)
+type: task
+source: collider:finding:entanglement
+phase_gate:
+- IMPLEMENTING
+description: >
+  Collider detected 3 dependency cycles with a knot score of 3.2.
+  Break cycles by introducing interfaces or dependency inversion.
+  Check knots.cycles in the unified analysis for specific loops.
+  Target: reduce knot score below 1.0.
+preconditions:
+- check: collider.grade.exists
+  description: Collider analysis has been run
+cost:
+  tokens_estimate: 10K-30K
+  risk_level: medium
+outcomes:
+  success:
+    description: All dependency cycles broken, knot score < 1.0
+    meters:
+      progress: 1
+      debt: -1
+  failure:
+    description: Cycles are structural (cross-layer), need architecture change
+    meters:
+      discovery: 1
+tags:
+- entanglement
+- collider-finding
+- medium-severity
+auto_generated: false
+confidence: 0.90
+evidence:
+  source: collider_insights.json
+  severity: medium
+  knot_score: 3.2
+  cycles_detected: 3
