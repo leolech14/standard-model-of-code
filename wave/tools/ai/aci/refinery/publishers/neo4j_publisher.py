@@ -3,7 +3,14 @@ import logging
 import time
 from typing import List, Dict, Any
 from neo4j import GraphDatabase
-from ai.aci.schema import RefineryNode
+
+try:
+    from ai.aci.schema import RefineryNode
+except ImportError:
+    try:
+        from aci.schema import RefineryNode
+    except ImportError:
+        from ...schema import RefineryNode
 
 # Configure logging
 logger = logging.getLogger(__name__)

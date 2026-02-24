@@ -1,5 +1,6 @@
 import pytest
-import json
+pytest.importorskip("libcst")
+
 from src.core.synthesis.compiler import ColliderCompiler, MutationOperation, MutationRequest
 
 JS_SOURCE = """\

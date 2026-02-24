@@ -35,22 +35,41 @@ from dataclasses import dataclass, asdict, field
 from pathlib import Path
 from pathlib import Path
 from typing import List, Tuple, Dict, Any, Optional
-from ai.aci.schema import RefineryNode  # Shared Schema
+
+try:
+    from ai.aci.schema import RefineryNode  # Shared Schema (legacy absolute path)
+except ImportError:
+    try:
+        from aci.schema import RefineryNode  # Runtime path used by wave/tests
+    except ImportError:
+        from .schema import RefineryNode  # Package-relative fallback
 
 try:
     from ai.aci.refinery.publishers.neo4j_publisher import Neo4jPublisher
 except ImportError:
-    Neo4jPublisher = None
+    try:
+        from aci.refinery.publishers.neo4j_publisher import Neo4jPublisher
+    except ImportError:
+        try:
+            from .refinery.publishers.neo4j_publisher import Neo4jPublisher
+        except ImportError:
+            Neo4jPublisher = None
 
 
 # Import ACI Semantic Logic
 try:
     from ai.aci.semantic_finder import compute_semantic_distance, SemanticMatch, SemanticTarget
 except ImportError:
-    # Fallback for circular imports or path issues during standalone runs
-    compute_semantic_distance = None
-    SemanticMatch = Any
-    SemanticTarget = Any
+    try:
+        from aci.semantic_finder import compute_semantic_distance, SemanticMatch, SemanticTarget
+    except ImportError:
+        try:
+            from .semantic_finder import compute_semantic_distance, SemanticMatch, SemanticTarget
+        except ImportError:
+            # Fallback for circular imports or path issues during standalone runs
+            compute_semantic_distance = None
+            SemanticMatch = Any
+            SemanticTarget = Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
