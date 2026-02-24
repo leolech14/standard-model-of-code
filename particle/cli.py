@@ -1400,7 +1400,6 @@ def main():
     elif args.command == "mutate":
         from src.core.synthesis.compiler import ColliderCompiler
         import json as json_module
-        from pathlib import Path
 
         target_path = Path(args.path)
         if not target_path.exists():
@@ -1444,7 +1443,6 @@ def main():
         sys.exit(0)
 
     elif args.command == "search":
-        from pathlib import Path
         from src.core.rag.retriever import GraphRAGRetriever
         from rich.console import Console
         from rich.syntax import Syntax
@@ -1486,7 +1484,6 @@ def main():
         sys.exit(0)
 
     elif args.command == "neighborhood":
-        from pathlib import Path
         from src.core.rag.retriever import GraphRAGRetriever
         from rich.console import Console
         c = Console()

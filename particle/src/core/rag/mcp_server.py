@@ -106,6 +106,73 @@ def collider_neighborhood(node_id: str, depth: int = 1, db_dir: str = "") -> str
 
 
 @mcp.tool()
+def collider_inspect_node(node_id: str, db_dir: str = "") -> str:
+    """
+    The "Getter" for the Node-Level AI Playground.
+
+    Extracts the exact code snippet for a specific AST node. Use this to inspect
+    a single function or class before executing a surgical mutation via collider_mutate.
+
+    Args:
+        node_id: The node identifier (returned from collider_search or collider_insights)
+        db_dir: Path to the .collider directory. Leave empty to auto-detect.
+
+    Returns:
+        JSON payload containing the exact source code snippet, line ranges, and a mutation template.
+    """
+    import sqlite3
+
+    retriever = _get_retriever(db_dir if db_dir else None)
+    db_path = retriever.sql_db_path
+
+    if not db_path.exists():
+        return json.dumps({"error": "No collider.db found. Run `collider full <path>` first."})
+
+    run_id = retriever._get_latest_run_id()
+    conn = sqlite3.connect(db_path)
+
+    query = "SELECT name, kind, file_path, start_line, end_line FROM nodes WHERE id = ?"
+    params = [node_id]
+    if run_id:
+        query += " AND run_id = ?"
+        params.append(run_id)
+    query += " LIMIT 1"
+
+    row = conn.execute(query, params).fetchone()
+    conn.close()
+
+    if not row:
+        return json.dumps({"error": f"Node '{node_id}' not found in the graph database."})
+
+    name, kind, file_path, start_line, end_line = row
+
+    if not start_line or not end_line:
+         return json.dumps({"error": f"Node '{node_id}' does not have line-level boundaries recorded."})
+
+    # Read the exact snippet from disk
+    snippet = retriever._read_source_snippet(file_path, start_line, end_line)
+
+    payload = {
+        "node_id": node_id,
+        "name": name,
+        "kind": kind,
+        "file_path": file_path,
+        "line_range": [start_line, end_line],
+        "source_code_snippet": snippet,
+        "playground_instructions": {
+            "target_file": file_path,
+            "mutation_template": {
+                "action": "replace_function_body" if kind in ('function', 'method') else "replace_class_body",
+                "target_node": name,
+                "new_body": "Write the complete new Python definition here. Do NOT use markdown code blocks."
+            }
+        }
+    }
+
+    return json.dumps(payload, indent=2)
+
+
+@mcp.tool()
 def collider_overview(db_dir: str = "") -> str:
     """
     Get a high-level overview of the indexed codebase.
@@ -229,12 +296,129 @@ def _find_insights_json(db_dir: str = "") -> Path | None:
     return None
 
 
+def _format_insights_markdown(data: dict) -> str:
+    """Formats raw Collider insights JSON into an actionable Markdown digest."""
+    grade = data.get("grade", "?")
+    score = data.get("health_score", 0.0)
+
+    findings = data.get("findings", [])
+    q_score_str = "Unknown"
+    for f in findings:
+        if f.get("category") == "purpose" and "codebase_intelligence" in f.get("evidence", {}):
+            q = f["evidence"]["codebase_intelligence"]
+            interp = f["evidence"].get("interpretation", "")
+            q_score_str = f"{q} {f'({interp})' if interp else ''}"
+            break
+
+    meta = data.get("meta", {})
+    nodes = meta.get("nodes_analyzed", "Unknown")
+    edges = meta.get("edges_analyzed", "Unknown")
+
+    lines = [
+        "# Collider Intelligence Digest",
+        "",
+        "This document provides a highly structured, immediate visualization of the repository's semantic and topological state.",
+        "",
+        "## 1. System State & Numbers",
+        "",
+        f"**Overall Grade:** {grade}",
+        f"**Codebase Health:** {score} / 10",
+        f"**Codebase Intelligence (Q-Score):** {q_score_str}",
+        "",
+        "| Metric | Count |",
+        "| :--- | :--- |",
+        f"| **Total Nodes** | {nodes} |",
+        f"| **Total Edges** | {edges} |",
+        ""
+    ]
+
+    components = data.get("health_components", {})
+    if components:
+        lines.append("### Health Components Breakdown")
+        for k, v in sorted(components.items()):
+            name = k.replace("_", " ").title()
+            lines.append(f"- {name}: {v} / 10")
+        lines.append("")
+
+    lines.append("---")
+    lines.append("")
+    lines.append("## 2. Actionable Insights & The \"Why\"")
+    lines.append("")
+
+    counts = data.get("findings_by_severity", {})
+    total_findings = sum(counts.values()) if counts else len(findings)
+    counts_str = ", ".join(f"{v} {k.title()}" for k, v in counts.items() if v > 0)
+    lines.append(f"The Collider identified **{total_findings} total findings** ({counts_str}). Below are the specific actions to be taken, prioritized by severity.")
+    lines.append("")
+
+    severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+    sorted_findings = sorted(findings, key=lambda x: severity_order.get(x.get("severity", "info").lower(), 5))
+
+    severity_map = {
+        "critical": "> [!CAUTION]",
+        "high": "> [!WARNING]",
+        "medium": "> [!IMPORTANT]",
+        "low": "> [!TIP]",
+        "info": "> [!NOTE]"
+    }
+
+    for f in sorted_findings:
+        sev = f.get("severity", "info").upper()
+        title = f.get("title", "Unknown Finding")
+        alert = severity_map.get(sev.lower(), "> [!NOTE]")
+        lines.append(f"### {alert} [{sev}] {title}")
+
+        desc = f.get("description", "")
+        if desc:
+            lines.append(f"*   **What it is:** {desc}")
+
+        evidence = f.get("evidence", {})
+        if evidence:
+            ev_str = ", ".join(f"{k}=" + (str(v) if not isinstance(v, list) else str(len(v)) + " items") for k, v in evidence.items())
+            if "affected_components" in evidence and isinstance(evidence["affected_components"], list):
+                comps = evidence["affected_components"]
+                if len(comps) > 5:
+                    ev_str = f"Affected components include {', '.join(comps[:5])} and {len(comps)-5} more."
+                else:
+                    ev_str = f"Affected components include {', '.join(comps)}."
+            lines.append(f"*   **Evidence:** {ev_str}")
+
+        action = f.get("recommendation", "")
+        if action:
+            lines.append(f"*   **Action to Take:** {action}")
+
+        why = f.get("interpretation", "")
+        if why and why != desc:
+            lines.append(f"*   **Why:** {why}")
+
+        lines.append("")
+
+    nav = data.get("navigation", {})
+    starts = nav.get("start_here", [])
+    if starts:
+        lines.append("---")
+        lines.append("")
+        lines.append("## 3. Navigation Guidance")
+        lines.append("")
+        lines.append("Highest-priority topological entry points:")
+        lines.append("")
+        for i, start in enumerate(starts[:5], 1):
+            lines.append(f"{i}. `{start}`")
+        lines.append("")
+
+    if "_warning" in data:
+        lines.append("---")
+        lines.append(f"> [!WARNING]\n> {data['_warning']}")
+
+    return "\n".join(lines)
+
+
 @mcp.tool()
 def get_collider_insights(db_dir: str = "") -> str:
     """
     Get Collider architectural insights: grade, health score, findings, and navigation.
 
-    Returns the full insights analysis including:
+    Returns the full insights analysis formatted as an actionable Markdown digest, including:
     - Overall grade (A-F) and health score (0-10)
     - Health components (topology, constraints, purpose, test coverage, etc.)
     - Findings with severity, interpretation, and recommendations
@@ -244,8 +428,8 @@ def get_collider_insights(db_dir: str = "") -> str:
         db_dir: Path to the .collider directory. Leave empty to auto-detect.
 
     Returns:
-        JSON with grade, health_score, findings, navigation, and executive_summary.
-        If no insights exist, returns an error with instructions to run the Collider.
+        Structured Markdown string containing grade, health_score, actionable findings, and navigation.
+        If no insights exist, returns an error string with instructions to run the Collider.
     """
     path = _find_insights_json(db_dir)
     if path is None:
@@ -268,7 +452,7 @@ def get_collider_insights(db_dir: str = "") -> str:
         insights["_warning"] = f"Insights are {age_days:.0f} days old. Re-run Collider for fresh data."
 
     insights["_source"] = str(path)
-    return json.dumps(insights, indent=2)
+    return _format_insights_markdown(insights)
 
 
 @mcp.resource("collider://insights")
