@@ -67,24 +67,6 @@ class FeatureRegistry:
             cli="--keep-history/--no-history",
         ),
 
-        # Optional backends (default OFF, stubs only)
-        Feature(
-            id="postgres",
-            description="PostgreSQL backend for team/production use (stub)",
-            default=False,
-            cli="--db-backend postgres",
-            status="experimental",  # Stub only - not implemented
-            requires=["database"],
-        ),
-        Feature(
-            id="duckdb",
-            description="DuckDB backend for analytics queries (stub)",
-            default=False,
-            cli="--analytics",
-            status="experimental",  # Stub only - not implemented
-            requires=["database"],
-        ),
-
         # Search features (default OFF)
         Feature(
             id="search",

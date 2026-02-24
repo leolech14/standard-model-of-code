@@ -1,7 +1,7 @@
 id: MACRO-001
 name: Skeptical Audit
 version: 1.0.0
-status: TESTED
+status: DISABLED
 created: '2026-01-25T21:30:00Z'
 author: claude-opus-4-5 + leonardo.lech
 description: 'Performs systematic self-criticism on a session''s work to identify:
@@ -663,6 +663,24 @@ executions:
   trigger: manual
   outcome: PARTIAL
   duration_ms: 159
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-02-23T23:24:29.940730+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 149
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-02-24T03:39:57.454823+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 316
+  dry_run: false
+  reason: Not all success criteria met
+- timestamp: '2026-02-24T06:05:21.658868+00:00'
+  trigger: manual
+  outcome: PARTIAL
+  duration_ms: 211
   dry_run: false
   reason: Not all success criteria met
 automation_path:

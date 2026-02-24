@@ -16,18 +16,15 @@ class DatabaseConfig:
 
     # Core settings
     enabled: bool = True
-    backend: str = "sqlite"  # sqlite, postgres, duckdb
+    backend: str = "sqlite"
 
     # Paths (env var overrides)
     sqlite_path: str = ".collider/collider.db"  # COLLIDER_SQLITE_PATH
-    postgres_url: Optional[str] = None           # COLLIDER_POSTGRES_URL
-    duckdb_path: str = ".collider/analytics.db"  # COLLIDER_DUCKDB_PATH
     tantivy_path: str = ".collider/search"       # COLLIDER_TANTIVY_PATH
 
     # Feature toggles
     incremental_enabled: bool = True   # --incremental/--no-incremental
     search_enabled: bool = False       # --search
-    analytics_enabled: bool = False    # --analytics
     history_enabled: bool = True       # --keep-history
 
     # Performance tuning
@@ -41,10 +38,6 @@ class DatabaseConfig:
         """Apply environment variable overrides."""
         if os.environ.get("COLLIDER_SQLITE_PATH"):
             self.sqlite_path = os.environ["COLLIDER_SQLITE_PATH"]
-        if os.environ.get("COLLIDER_POSTGRES_URL"):
-            self.postgres_url = os.environ["COLLIDER_POSTGRES_URL"]
-        if os.environ.get("COLLIDER_DUCKDB_PATH"):
-            self.duckdb_path = os.environ["COLLIDER_DUCKDB_PATH"]
         if os.environ.get("COLLIDER_TANTIVY_PATH"):
             self.tantivy_path = os.environ["COLLIDER_TANTIVY_PATH"]
         if os.environ.get("COLLIDER_DB_DISABLED", "").lower() in ("1", "true", "yes"):
@@ -84,8 +77,6 @@ class DatabaseConfig:
             config.incremental_enabled = False
         if options.get("search"):
             config.search_enabled = True
-        if options.get("analytics"):
-            config.analytics_enabled = True
         if options.get("no_history"):
             config.history_enabled = False
 
@@ -109,10 +100,6 @@ class DatabaseConfig:
         """Get resolved SQLite database path."""
         return self.resolve_path(self.sqlite_path)
 
-    def get_duckdb_path(self) -> Path:
-        """Get resolved DuckDB database path."""
-        return self.resolve_path(self.duckdb_path)
-
     def get_tantivy_path(self) -> Path:
         """Get resolved Tantivy index path."""
         return self.resolve_path(self.tantivy_path)
@@ -134,12 +121,9 @@ class DatabaseConfig:
             "enabled": self.enabled,
             "backend": self.backend,
             "sqlite_path": self.sqlite_path,
-            "postgres_url": self.postgres_url,
-            "duckdb_path": self.duckdb_path,
             "tantivy_path": self.tantivy_path,
             "incremental_enabled": self.incremental_enabled,
             "search_enabled": self.search_enabled,
-            "analytics_enabled": self.analytics_enabled,
             "history_enabled": self.history_enabled,
             "batch_size": self.batch_size,
             "hash_algorithm": self.hash_algorithm,

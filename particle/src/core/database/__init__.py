@@ -19,9 +19,7 @@ Features (see --list-features):
     - database: Core persistence (default ON)
     - incremental: Skip unchanged files (default ON)
     - sqlite: SQLite backend (default ON)
-    - postgres: PostgreSQL backend (default OFF)
     - search: Tantivy full-text search (default OFF)
-    - analytics: DuckDB analytics export (default OFF)
 """
 
 from .config import DatabaseConfig
@@ -52,14 +50,8 @@ def create_database_manager(config: DatabaseConfig, project_path=None):
     if config.backend == "sqlite":
         from .backends.sqlite import SQLiteBackend
         return SQLiteBackend(config)
-    elif config.backend == "postgres":
-        from .backends.postgres import PostgresBackend
-        return PostgresBackend(config)
-    elif config.backend == "duckdb":
-        from .backends.duckdb import DuckDBBackend
-        return DuckDBBackend(config)
     else:
-        raise ValueError(f"Unknown database backend: {config.backend}")
+        raise ValueError(f"Unknown database backend: {config.backend}. Only 'sqlite' is supported.")
 
 
 def list_features():
