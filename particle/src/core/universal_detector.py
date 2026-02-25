@@ -10,10 +10,17 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Dict, List, Any
 
-from tree_sitter_engine import TreeSitterUniversalEngine
-from stats_generator import StatsGenerator
-from report_generator import ReportGenerator
-from god_class_detector_lite import GodClassDetectorLite
+try:
+    from core.tree_sitter_engine import TreeSitterUniversalEngine
+    from core.stats_generator import StatsGenerator
+    from core.report_generator import ReportGenerator
+    from core.god_class_detector_lite import GodClassDetectorLite
+except ImportError:
+    # Fallback for direct script/module execution
+    from tree_sitter_engine import TreeSitterUniversalEngine
+    from stats_generator import StatsGenerator
+    from report_generator import ReportGenerator
+    from god_class_detector_lite import GodClassDetectorLite
 
 class UniversalPatternDetector:
     """Main orchestrator for universal pattern detection"""
