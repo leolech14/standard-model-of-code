@@ -176,6 +176,12 @@ pip install .
 collider analyze /path/to/your/code
 ```
 
+### Validate Runtime Health
+```bash
+collider health
+collider audit /path/to/repo --output /tmp/collider_audit
+```
+
 **Output:**
 - `proof_output.json` — Complete analysis data
 - `collider_report.html` — Interactive visualization (open in browser)

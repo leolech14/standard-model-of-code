@@ -462,43 +462,65 @@ class TreeSitterUniversalEngine:
         """Extract particles using Tree-sitter for JS/TS/JSX/TSX."""
         try:
             import tree_sitter
-            import tree_sitter_python
         except ImportError:
-            raise ValueError("Core tree-sitter components (tree-sitter, tree-sitter-python) are required.")
+            raise ValueError("Core tree-sitter component (tree_sitter) is required.")
 
-        # Optional imports - may not be installed
+        # Optional language grammars (load independently)
         try:
             import tree_sitter_javascript
-            import tree_sitter_typescript
-            import tree_sitter_rust
-            import tree_sitter_go
-            has_optional = True
         except ImportError:
-            has_optional = False
-
-        # Map extensions to (language_object, parser_name)
-        ts_supported_languages = {
-            ".py": (tree_sitter_python.language(), "python"),
-        }
-
-        # Add Go if available
+            tree_sitter_javascript = None
+        try:
+            import tree_sitter_typescript
+        except ImportError:
+            tree_sitter_typescript = None
+        try:
+            import tree_sitter_rust
+        except ImportError:
+            tree_sitter_rust = None
         try:
             import tree_sitter_go
-            ts_supported_languages[".go"] = (tree_sitter_go.language(), "go")
+        except ImportError:
+            tree_sitter_go = None
+
+        # Map extensions to (language_object, parser_name)
+        ts_supported_languages = {}
+
+        # Python support is optional in this path (JS/TS fixtures should not require it)
+        try:
+            import tree_sitter_python
+            ts_supported_languages[".py"] = (tree_sitter_python.language(), "python")
         except ImportError:
             pass
 
-        # Add JS/TS/Rust if available
-        if has_optional:
+        # Add Go if available
+        if tree_sitter_go is not None:
             try:
-                ts_supported_languages.update({
-                    ".js": (tree_sitter_javascript.language(), "javascript"),
-                    ".jsx": (tree_sitter_javascript.language(), "javascript"),
-                    ".ts": (tree_sitter_typescript.language_typescript(), "typescript"),
-                    ".tsx": (tree_sitter_typescript.language_tsx(), "tsx"),
-                    ".rs": (tree_sitter_rust.language(), "rust"),
-                })
-            except (ImportError, AttributeError):
+                ts_supported_languages[".go"] = (tree_sitter_go.language(), "go")
+            except AttributeError:
+                pass
+
+        # Add JS if available
+        if tree_sitter_javascript is not None:
+            try:
+                ts_supported_languages[".js"] = (tree_sitter_javascript.language(), "javascript")
+                ts_supported_languages[".jsx"] = (tree_sitter_javascript.language(), "javascript")
+            except AttributeError:
+                pass
+
+        # Add TS/TSX if available
+        if tree_sitter_typescript is not None:
+            try:
+                ts_supported_languages[".ts"] = (tree_sitter_typescript.language_typescript(), "typescript")
+                ts_supported_languages[".tsx"] = (tree_sitter_typescript.language_tsx(), "tsx")
+            except AttributeError:
+                pass
+
+        # Add Rust if available
+        if tree_sitter_rust is not None:
+            try:
+                ts_supported_languages[".rs"] = (tree_sitter_rust.language(), "rust")
+            except AttributeError:
                 pass
 
         ext = Path(file_path).suffix

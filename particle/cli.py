@@ -854,8 +854,92 @@ def main():
             sys.exit(1)
 
     elif args.command == "health":
-        from src.core.newman_runner import run_health_check
-        sys.exit(run_health_check(exit_on_fail=True))
+        from src.core.newman_suite import NewmanSuite
+
+        suite = NewmanSuite()
+        results = suite.run_all()
+
+        if not results:
+            print("Error: Newman suite returned no probe results.")
+            sys.exit(1)
+
+        ok_count = sum(1 for r in results if r.status == "OK")
+        warn_count = sum(1 for r in results if r.status == "WARN")
+        fail_count = sum(1 for r in results if r.status == "FAIL")
+        skip_count = sum(1 for r in results if r.status == "SKIP")
+
+        status_label = {
+            "OK": "PASS",
+            "WARN": "WARN",
+            "FAIL": "FAIL",
+            "SKIP": "SKIP",
+        }
+
+        print("Collider Health Check (Newman Suite)")
+        print()
+        for result in results:
+            label = status_label.get(result.status, result.status)
+            print(f"   [{label}] {result.component} ({result.latency_ms:.1f}ms) - {result.details}")
+            if result.error:
+                print(f"      error: {result.error}")
+
+        print()
+        print(f"Summary: {ok_count} OK | {warn_count} WARN | {fail_count} FAIL | {skip_count} SKIP")
+        sys.exit(1 if fail_count > 0 else 0)
+
+    elif args.command == "audit":
+        from src.core.newman_suite import NewmanSuite
+        from src.core.full_analysis import run_full_analysis
+
+        target_path = Path(args.path).resolve()
+        if not target_path.exists():
+            print(f"Error: Path not found: {target_path}")
+            sys.exit(1)
+
+        output_dir = Path(args.output).resolve()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        analysis_output = output_dir / "analysis"
+
+        print("Collider Audit")
+        print(f"   Target: {target_path}")
+        print(f"   Output: {output_dir}")
+        print()
+
+        # Step 1: Newman probe suite
+        suite = NewmanSuite()
+        probe_results = suite.run_all()
+        probe_fail_count = sum(1 for r in probe_results if r.status == "FAIL")
+        probe_warn_count = sum(1 for r in probe_results if r.status == "WARN")
+
+        print("Step 1/2: Newman probes")
+        for result in probe_results:
+            print(f"   - {result.component}: {result.status} ({result.latency_ms:.1f}ms)")
+        print(f"   Probe summary: {len(probe_results) - probe_warn_count - probe_fail_count} OK | {probe_warn_count} WARN | {probe_fail_count} FAIL")
+        print()
+
+        # Step 2: Minimal full analysis run
+        analysis_ok = True
+        analysis_error = ""
+        try:
+            analysis_output.mkdir(parents=True, exist_ok=True)
+            run_full_analysis(
+                str(target_path),
+                str(analysis_output),
+                options={
+                    "open_latest": False,
+                    "skip_html": True,
+                },
+            )
+            print(f"Step 2/2: Analysis PASS ({analysis_output})")
+        except Exception as e:
+            analysis_ok = False
+            analysis_error = str(e)
+            print(f"Step 2/2: Analysis FAIL ({analysis_error})")
+
+        print()
+        passed = (probe_fail_count == 0) and analysis_ok
+        print(f"Audit result: {'PASS' if passed else 'FAIL'}")
+        sys.exit(0 if passed else 1)
 
     elif args.command == "grade":
         from src.core.full_analysis import run_full_analysis

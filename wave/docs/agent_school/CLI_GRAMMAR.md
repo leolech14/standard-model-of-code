@@ -11,6 +11,15 @@
 
 **Location:** Repository root (`/Users/lech/PROJECTS_all/PROJECT_elements/pe`)
 
+## Runtime Path Resolution
+
+`./pe` resolves runtime paths in this order:
+
+1. Collider root: `particle/` then `standard-model-of-code/` (legacy fallback)
+2. Tool root: `wave/tools/` then `context-management/tools/` (legacy fallback)
+
+This keeps older references functional while enforcing `wave/tools` as the active source of truth.
+
 ## Two Abstraction Layers
 
 ### Layer 1: Explicit Commands (Deterministic)

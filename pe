@@ -23,7 +23,15 @@ elif [ -d "$COLLIDER_LEGACY" ]; then
 else
     COLLIDER="$COLLIDER_PRIMARY"
 fi
-TOOLS="$SCRIPT_DIR/context-management/tools"
+TOOLS_PRIMARY="$SCRIPT_DIR/wave/tools"
+TOOLS_LEGACY="$SCRIPT_DIR/context-management/tools"
+if [ -d "$TOOLS_PRIMARY" ]; then
+    TOOLS="$TOOLS_PRIMARY"
+elif [ -d "$TOOLS_LEGACY" ]; then
+    TOOLS="$TOOLS_LEGACY"
+else
+    TOOLS="$TOOLS_PRIMARY"
+fi
 AGENT="$SCRIPT_DIR/.agent"
 INTELLIGENCE_DIR="$AGENT/intelligence"
 
@@ -214,8 +222,8 @@ INTENT ROUTING (just type naturally):
   ./pe "show the graph"              → 3D visualization
 
 LOCATIONS:
-  Collider:    standard-model-of-code/
-  AI Tools:    context-management/tools/ai/
+  Collider:    particle/ (fallback: standard-model-of-code/)
+  AI Tools:    wave/tools/ai/ (fallback: context-management/tools/ai/)
   Automation:  .agent/tools/
 EOF
 }
@@ -450,10 +458,10 @@ case "${1:-help}" in
         case "${1:-help}" in
             search)
                 shift
-                python3 "$REPO_ROOT/context-management/tools/refinery/query_chunks.py" "$@"
+                python3 "$TOOLS/refinery/query_chunks.py" "$@"
                 ;;
             stats)
-                python3 "$REPO_ROOT/context-management/tools/refinery/state_synthesizer.py"
+                python3 "$TOOLS/refinery/state_synthesizer.py"
                 ;;
             chunks)
                 # Show chunk metadata
@@ -464,16 +472,16 @@ case "${1:-help}" in
                 fi
                 ;;
             report)
-                python3 "$REPO_ROOT/context-management/tools/refinery/refinery_report.py"
+                python3 "$TOOLS/refinery/refinery_report.py"
                 ;;
             library)
-                python3 "$REPO_ROOT/context-management/tools/refinery/refinery_report.py" --library
+                python3 "$TOOLS/refinery/refinery_report.py" --library
                 ;;
             changes)
-                python3 "$REPO_ROOT/context-management/tools/refinery/refinery_report.py" --changes
+                python3 "$TOOLS/refinery/refinery_report.py" --changes
                 ;;
             subsystems)
-                python3 "$REPO_ROOT/context-management/tools/refinery/subsystem_registry.py" --list
+                python3 "$TOOLS/refinery/subsystem_registry.py" --list
                 ;;
             *)
                 echo "Usage: ./pe refinery <command>"

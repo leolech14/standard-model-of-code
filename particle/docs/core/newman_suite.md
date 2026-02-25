@@ -4,12 +4,24 @@
 > **Role**: Core Component
 
 ## Purpose
-*(Auto-generated summary based on code structure)*
+Deterministic probe suite for Collider runtime integrity checks.
+
+`NewmanSuite` validates:
+
+- Universal detector initialization
+- God-class regex behavior
+- IR graph serialization integrity
+- Local LLM connectivity (Ollama)
+
+This module is the active backend for:
+
+- `collider health`
+- `collider audit` (step 1/2)
 
 ## Architecture
 ### Classes
-- **`ProbeResult`**: No docstring
-- **`NewmanSuite`**: No docstring
+- **`ProbeResult`**: Probe result envelope (`component`, `status`, `latency_ms`, `details`, `error`)
+- **`NewmanSuite`**: Probe orchestrator exposing `run_all()`
 
 ## Waybill
 - **ID**: `PARCEL-NEWMAN_SUITE.PY`
