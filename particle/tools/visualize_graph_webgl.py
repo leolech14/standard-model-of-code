@@ -513,126 +513,174 @@ def generate_webgl_html(json_source: Any, output_path: str):
     print(f"Original: {len(json_bytes)/1024/1024:.2f} MB")
     print(f"Compressed: {len(compressed)/1024/1024:.2f} MB")
 
-    # ASSET LOADING
-    viz_assets = Path(__file__).parent.parent / "src/core/viz/assets"
+    # ═══════════════════════════════════════════════════════════════════════
+    # ASSET LOADING: Dual-path (Vite bundle or legacy concatenation)
+    # ═══════════════════════════════════════════════════════════════════════
 
-    # MODULE ORDER: Load modules before app.js in dependency order
-    # Foundation modules first (no dependencies), then dependent modules
-    MODULE_ORDER = [
-        "performance.js",                   # Performance subsystem (existing)
-        "modules/utils.js",                 # Pure utility functions (zero deps)
-        "modules/aquarela.js",              # Dynamic Ink Background (foundation)
-        "modules/event-bus.js",             # Pub/sub for decoupled communication (zero deps)
-        "modules/registry.js",              # Command/element registry (zero deps)
-        "modules/perf-monitor.js",          # FPS/frame monitoring (zero deps)
-        "modules/core.js",                  # Constants & utilities
-        "modules/theory.js",                # SMC theory constants (zero deps)
-        "modules/node-accessors.js",        # Node property functions
-        "modules/node-helpers.js",          # Node classification & colors (Phase 1)
-        "modules/color-helpers.js",         # Color utilities (Phase 1)
-        "modules/color-telemetry.js",       # OKLCH observability (must load before color-engine)
-        "modules/color-engine.js",          # OKLCH color system
-        "modules/refresh-throttle.js",      # Throttled graph updates
-        "modules/legend-manager.js",        # Legend system (depends: COLOR, NODE)
-        "modules/data-manager.js",          # Data access layer (depends: NODE, COLOR, LEGEND)
-        "modules/vis-state.js",             # Unified visualization state (depends: COLOR)
-        "modules/ui-manager.js",            # UI orchestration (depends: vis-state, data-manager)
-        "modules/physics.js",               # Force simulation controls (Phase 1)
-        "modules/datamap.js",               # Data mapping & filtering (Phase 1)
-        "modules/groups.js",                # Node grouping (Phase 1)
-        "modules/hover.js",                 # Hover interactions (Phase 1)
-        "modules/flow.js",                  # Flow visualization mode (Phase 2)
-        "modules/ui-builders.js",           # DOM element builders (Phase 2)
-        "modules/layout-helpers.js",        # Layout stability functions (Phase 2)
-        "modules/spatial.js",               # Spatial algorithms (Phase 2)
-        "modules/layout.js",                # UI Layout Engine (foundational)
-        # stars.js REMOVED - nodes ARE the stars (archived to archive/removed_features/)
-        "modules/hud.js",                   # HUD stats & fade (Phase 3)
-        "modules/dimension.js",             # 2D/3D toggle animation (Phase 3)
-        "modules/report.js",                # Report, AI insights, metrics (Phase 3)
-        "modules/visibility.js",            # UI visibility controls (Phase 3)
-        "modules/animation.js",             # Layout & animation controller
-        "modules/selection.js",             # Selection system (depends: CORE, NODE)
-        "modules/panels.js",                # Panel management
-        "modules/sidebar.js",               # Sidebar controls
-        "modules/filter-state.js",          # Centralized filter state (depends: Graph, EVENT_BUS)
-        "modules/panel-system.js",          # Gridstack panel management (depends: EVENT_BUS)
-        "modules/panel-handlers.js",        # Panel control bindings (depends: FILTER_STATE, PANEL_SYSTEM)
-        "modules/edge-system.js",           # Edge coloring & modes
-        "modules/file-color-model.js",       # Pure color generation (zero deps)
-        "modules/layout-forces.js",          # D3 force manipulation (takes graph as arg)
-        "modules/hull-visualizer.js",        # SDF-based organic membranes
-        "modules/file-viz.js",              # File visualization controller (thin orchestrator)
-        "modules/tooltips.js",              # Tooltip & toast notifications
-        "modules/theme.js",                 # Theme management (needs toast)
-        # UPB Module (Universal Property Binder) - BEFORE control-bar.js
-        "modules/upb/scales.js",            # Scale functions (no deps)
-        "modules/upb/endpoints.js",         # Source/target schemas (no deps)
-        "modules/upb/blenders.js",          # Blend modes (no deps)
-        "modules/upb/bindings.js",          # Binding graph (needs scales, endpoints)
-        "modules/upb/index.js",             # Public API (needs all above)
-        # Property Query System - unified property resolution
-        "modules/vis-schema.js",            # Visual property schema (no deps)
-        "modules/upb-defaults.js",          # Default UPB bindings (no deps)
-        "modules/property-query.js",        # Core resolution engine (needs schema)
-        "modules/property-query-init.js",   # Initialize & wire PQ (needs all above)
-        "modules/control-bar.js",           # Visual mapping command bar (uses UPB)
-        "modules/main.js",                  # Entry point + wiring
-        "modules/circuit-breaker.js",       # UI control self-test (run with CIRCUIT.runAll())
-        "modules/color-contract-test.js",   # COLOR engine contract tests (run with COLOR_TEST.runAll())
-    ]
+    viz_dir = Path(__file__).parent.parent / "src/core/viz"
+    viz_assets = viz_dir / "assets"
+    vite_dist = viz_dir / "build" / "dist"
+    vite_template = viz_dir / "templates" / "standalone.html"
 
-    print(f"Loading assets from {viz_assets}...")
-    try:
-        with open(viz_assets / "template.html", "r", encoding='utf-8') as f:
-            template = f.read()
-        with open(viz_assets / "styles.css", "r", encoding='utf-8') as f:
-            styles = f.read()
+    # Determine build path: Vite bundle (modern) or legacy concatenation
+    use_vite = (
+        (vite_dist / "collider-viz.js").exists()
+        and vite_template.exists()
+        and os.getenv("COLLIDER_USE_VITE", "1") == "1"
+    )
 
-        # Load modules in order and concatenate
-        js_parts = []
-        for module_path in MODULE_ORDER:
-            module_file = viz_assets / module_path
-            if module_file.exists():
-                with open(module_file, "r", encoding='utf-8') as f:
-                    js_parts.append(f"// ═══ MODULE: {module_path} ═══\n{f.read()}")
-                print(f"  Loaded module: {module_path}")
-            else:
-                print(f"  Skipped module (not found): {module_path}")
-
-        # Load app.js (the main application, will shrink as we migrate)
-        with open(viz_assets / "app.js", "r", encoding='utf-8') as f:
-            js_parts.append(f"// ═══ MAIN APPLICATION ═══\n{f.read()}")
-
-        app_js = "\n\n".join(js_parts)
-        print(f"  Total JS modules loaded: {len(js_parts)}")
-
-    except FileNotFoundError as e:
-        print(f"CRITICAL ERROR: Could not find asset file: {e}")
-        print("Please ensure src/core/viz/assets contains template.html, styles.css, and app.js")
-        return
-
-    # INJECT CSS VARIABLES FROM TOKENS (with multi-theme support)
-    # resolver is already available from the top-level import
+    # INJECT CSS VARIABLES FROM TOKENS (shared by both paths)
     css_variables = resolver.generate_all_themes_css(include=["theme", "layout"])
-    if css_variables:
-        styles = f"/* === DESIGN TOKENS (auto-generated) === */\n{css_variables}\n\n/* === COMPONENT STYLES === */\n{styles}"
 
-    # Get theme config for JS injection
-    theme_config = resolver.get_js_theme_config()
+    if use_vite:
+        # ═══════════════════════════════════════════════════════════════════
+        # VITE PATH: Read pre-built bundle + standalone template
+        # ═══════════════════════════════════════════════════════════════════
+        print("Using Vite bundle path...")
 
-    # INJECTION
-    print("Generating HTML...")
+        bundle_js = (vite_dist / "collider-viz.js").read_text(encoding='utf-8')
+        print(f"  Loaded bundle: collider-viz.js ({len(bundle_js)//1024} KB)")
 
-    # Inject the PAYLOAD into app_js
-    app_js_injected = app_js.replace('"{PAYLOAD}"', f'"{b64_payload}"')
+        bundle_css_path = vite_dist / "collider-viz.css"
+        bundle_css = bundle_css_path.read_text(encoding='utf-8') if bundle_css_path.exists() else ""
+        if bundle_css:
+            print(f"  Loaded bundle: collider-viz.css ({len(bundle_css)//1024} KB)")
 
-    # Replace placeholders in template
-    html_content = template
-    html_content = html_content.replace("{{STYLES}}", styles)
-    html_content = html_content.replace("{{APP_JS}}", app_js_injected)
-    html_content = html_content.replace("{{VERSION}}", str(version))
-    # Note: {{PAYLOAD}} in template is already replaced via app_js_unescaped
+        with open(viz_assets / "styles.css", "r", encoding='utf-8') as f:
+            component_styles = f.read()
+
+        styles = component_styles
+        if css_variables:
+            styles = f"/* === DESIGN TOKENS (auto-generated) === */\n{css_variables}\n\n/* === COMPONENT STYLES === */\n{styles}"
+        if bundle_css:
+            styles = f"{styles}\n\n/* === BUNDLED CSS === */\n{bundle_css}"
+
+        template = vite_template.read_text(encoding='utf-8')
+
+        print("Generating HTML (Vite path)...")
+        html_content = template
+        html_content = html_content.replace("__STYLES_PLACEHOLDER__", styles)
+        html_content = html_content.replace("__BUNDLE_JS_PLACEHOLDER__", bundle_js)
+        html_content = html_content.replace("__PAYLOAD_PLACEHOLDER__", b64_payload)
+        html_content = html_content.replace("__VERSION_PLACEHOLDER__", str(version))
+
+    else:
+        # ═══════════════════════════════════════════════════════════════════
+        # LEGACY PATH: Manual concatenation (original behavior)
+        # ═══════════════════════════════════════════════════════════════════
+        if not (vite_dist / "collider-viz.js").exists():
+            print("Using legacy concatenation path (Vite bundle not found)...")
+        else:
+            print("Using legacy concatenation path (COLLIDER_USE_VITE=0)...")
+
+        MODULE_ORDER = [
+            "performance.js",                   # Performance subsystem (existing)
+            "modules/utils.js",                 # Pure utility functions (zero deps)
+            "modules/aquarela.js",              # Dynamic Ink Background (foundation)
+            "modules/event-bus.js",             # Pub/sub for decoupled communication (zero deps)
+            "modules/registry.js",              # Command/element registry (zero deps)
+            "modules/perf-monitor.js",          # FPS/frame monitoring (zero deps)
+            "modules/core.js",                  # Constants & utilities
+            "modules/theory.js",                # SMC theory constants (zero deps)
+            "modules/node-accessors.js",        # Node property functions
+            "modules/node-helpers.js",          # Node classification & colors (Phase 1)
+            "modules/color-helpers.js",         # Color utilities (Phase 1)
+            "modules/color-telemetry.js",       # OKLCH observability (must load before color-engine)
+            "modules/color-engine.js",          # OKLCH color system
+            "modules/refresh-throttle.js",      # Throttled graph updates
+            "modules/legend-manager.js",        # Legend system (depends: COLOR, NODE)
+            "modules/data-manager.js",          # Data access layer (depends: NODE, COLOR, LEGEND)
+            "modules/vis-state.js",             # Unified visualization state (depends: COLOR)
+            "modules/ui-manager.js",            # UI orchestration (depends: vis-state, data-manager)
+            "modules/physics.js",               # Force simulation controls (Phase 1)
+            "modules/datamap.js",               # Data mapping & filtering (Phase 1)
+            "modules/groups.js",                # Node grouping (Phase 1)
+            "modules/hover.js",                 # Hover interactions (Phase 1)
+            "modules/flow.js",                  # Flow visualization mode (Phase 2)
+            "modules/ui-builders.js",           # DOM element builders (Phase 2)
+            "modules/layout-helpers.js",        # Layout stability functions (Phase 2)
+            "modules/spatial.js",               # Spatial algorithms (Phase 2)
+            "modules/layout.js",                # UI Layout Engine (foundational)
+            # stars.js REMOVED - nodes ARE the stars (archived to archive/removed_features/)
+            "modules/hud.js",                   # HUD stats & fade (Phase 3)
+            "modules/dimension.js",             # 2D/3D toggle animation (Phase 3)
+            "modules/report.js",                # Report, AI insights, metrics (Phase 3)
+            "modules/visibility.js",            # UI visibility controls (Phase 3)
+            "modules/animation.js",             # Layout & animation controller
+            "modules/selection.js",             # Selection system (depends: CORE, NODE)
+            "modules/panels.js",                # Panel management
+            "modules/sidebar.js",               # Sidebar controls
+            "modules/filter-state.js",          # Centralized filter state (depends: Graph, EVENT_BUS)
+            "modules/panel-system.js",          # Gridstack panel management (depends: EVENT_BUS)
+            "modules/panel-handlers.js",        # Panel control bindings (depends: FILTER_STATE, PANEL_SYSTEM)
+            "modules/edge-system.js",           # Edge coloring & modes
+            "modules/file-color-model.js",       # Pure color generation (zero deps)
+            "modules/layout-forces.js",          # D3 force manipulation (takes graph as arg)
+            "modules/hull-visualizer.js",        # SDF-based organic membranes
+            "modules/file-viz.js",              # File visualization controller (thin orchestrator)
+            "modules/tooltips.js",              # Tooltip & toast notifications
+            "modules/theme.js",                 # Theme management (needs toast)
+            # UPB Module (Universal Property Binder) - BEFORE control-bar.js
+            "modules/upb/scales.js",            # Scale functions (no deps)
+            "modules/upb/endpoints.js",         # Source/target schemas (no deps)
+            "modules/upb/blenders.js",          # Blend modes (no deps)
+            "modules/upb/bindings.js",          # Binding graph (needs scales, endpoints)
+            "modules/upb/index.js",             # Public API (needs all above)
+            # Property Query System - unified property resolution
+            "modules/vis-schema.js",            # Visual property schema (no deps)
+            "modules/upb-defaults.js",          # Default UPB bindings (no deps)
+            "modules/property-query.js",        # Core resolution engine (needs schema)
+            "modules/property-query-init.js",   # Initialize & wire PQ (needs all above)
+            "modules/control-bar.js",           # Visual mapping command bar (uses UPB)
+            "modules/main.js",                  # Entry point + wiring
+            "modules/circuit-breaker.js",       # UI control self-test (run with CIRCUIT.runAll())
+            "modules/color-contract-test.js",   # COLOR engine contract tests (run with COLOR_TEST.runAll())
+        ]
+
+        print(f"Loading assets from {viz_assets}...")
+        try:
+            with open(viz_assets / "template.html", "r", encoding='utf-8') as f:
+                template = f.read()
+            with open(viz_assets / "styles.css", "r", encoding='utf-8') as f:
+                styles = f.read()
+
+            # Load modules in order and concatenate
+            js_parts = []
+            for module_path in MODULE_ORDER:
+                module_file = viz_assets / module_path
+                if module_file.exists():
+                    with open(module_file, "r", encoding='utf-8') as f:
+                        js_parts.append(f"// ═══ MODULE: {module_path} ═══\n{f.read()}")
+                    print(f"  Loaded module: {module_path}")
+                else:
+                    print(f"  Skipped module (not found): {module_path}")
+
+            # Load app.js (the main application, will shrink as we migrate)
+            with open(viz_assets / "app.js", "r", encoding='utf-8') as f:
+                js_parts.append(f"// ═══ MAIN APPLICATION ═══\n{f.read()}")
+
+            app_js = "\n\n".join(js_parts)
+            print(f"  Total JS modules loaded: {len(js_parts)}")
+
+        except FileNotFoundError as e:
+            print(f"CRITICAL ERROR: Could not find asset file: {e}")
+            print("Please ensure src/core/viz/assets contains template.html, styles.css, and app.js")
+            return
+
+        if css_variables:
+            styles = f"/* === DESIGN TOKENS (auto-generated) === */\n{css_variables}\n\n/* === COMPONENT STYLES === */\n{styles}"
+
+        # INJECTION (legacy path)
+        print("Generating HTML (legacy path)...")
+
+        # Inject the PAYLOAD into app_js
+        app_js_injected = app_js.replace('"{PAYLOAD}"', f'"{b64_payload}"')
+
+        # Replace placeholders in template
+        html_content = template
+        html_content = html_content.replace("{{STYLES}}", styles)
+        html_content = html_content.replace("{{APP_JS}}", app_js_injected)
+        html_content = html_content.replace("{{VERSION}}", str(version))
 
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_content)

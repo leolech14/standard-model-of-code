@@ -80,6 +80,7 @@ backup_*.zip
 # =============================================================================
 dist/
 build/
+!particle/src/core/viz/build/
 *.whl
 
 # =============================================================================
@@ -135,7 +136,7 @@ standard-model-of-code/collider
 # USER UPLOADS (PDFs, images, etc.)
 # =============================================================================
 assets/
-!standard-model-of-code/src/core/viz/assets/
+!particle/src/core/viz/assets/
 
 # =============================================================================
 # AGENT SESSION STATE (ephemeral, not committed)

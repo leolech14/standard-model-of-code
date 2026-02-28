@@ -378,6 +378,9 @@ panels:
       - id: btn-screenshot
         type: control
         status: IMPLEMENTED
+      - id: panel-open-settings
+        type: control
+        status: IMPLEMENTED
   node-config:
     description: 'Node visual properties'
     controls:
