@@ -51,7 +51,8 @@
     "normal": { "$value": "150ms" },
     "slow": { "$value": "200ms" },
     "slower": { "$value": "300ms" },
-    "lazy": { "$value": "600ms" }
+    "lazy": { "$value": "600ms" },
+    "toast": { "$value": "3000ms", "$description": "Toast notification display duration" }
   },
 
   "easing": {

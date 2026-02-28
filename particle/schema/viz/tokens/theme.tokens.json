@@ -764,11 +764,11 @@
         "$description": "Scrollbar track background"
       },
       "scrollbar-thumb": {
-        "$value": "oklch(100% 0 0 / 0.15)",
+        "$value": "oklch(100% 0 0 / 0.25)",
         "$description": "Scrollbar thumb color"
       },
       "scrollbar-thumb-hover": {
-        "$value": "oklch(100% 0 0 / 0.25)",
+        "$value": "oklch(100% 0 0 / 0.4)",
         "$description": "Scrollbar thumb hover color"
       }
     },
@@ -1230,23 +1230,23 @@
         "$description": "Micro labels"
       },
       "xs": {
-        "$value": "9px",
+        "$value": "10px",
         "$description": "Small labels"
       },
       "sm": {
-        "$value": "10px",
+        "$value": "11px",
         "$description": "Secondary text"
       },
       "base": {
-        "$value": "11px",
+        "$value": "12px",
         "$description": "Body text"
       },
       "md": {
-        "$value": "13px",
+        "$value": "14px",
         "$description": "Emphasized text"
       },
       "lg": {
-        "$value": "14px",
+        "$value": "15px",
         "$description": "Headings"
       },
       "xl": {
