@@ -41,6 +41,7 @@ from src.core.file_index_builder import (
 )
 from src.core.topology_analysis import compute_markov_matrix, detect_knots, compute_data_flow
 from src.core.pipeline_snapshot import build_pipeline_snapshot
+from src.core.compartment_inferrer import infer_compartments
 
 
 # Re-export extracted functions for backwards compatibility
@@ -1328,20 +1329,58 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             timer.set_status("WARN", str(e))
             print(f"   ⚠️ Codome boundary generation skipped: {e}")
 
-    # Stage 6.9: Boundary Validation (optional — requires --boundaries flag)
+    # Stage 6.85: Compartment Inference (always runs — zero-config)
+    print("\n🧩 Stage 6.85: Compartment Inference...")
+    inferred_boundaries = {}
+    with StageTimer(perf_manager, "Stage 6.85: Compartment Inference") as timer:
+        try:
+            inferred_boundaries = infer_compartments(
+                nodes, edges,
+                G_full=_G_full,
+                survey_result=survey_result,
+            )
+            n_comps = len(inferred_boundaries.get("compartments", {}))
+            meta = inferred_boundaries.get("inference_metadata", {})
+            timer.set_output(compartments=n_comps, nodes_assigned=meta.get("total_nodes_assigned", 0))
+            print(f"   → {n_comps} compartments inferred")
+            for cname, cdef in sorted(inferred_boundaries.get("compartments", {}).items()):
+                deps = ", ".join(cdef.get("allowed_deps", [])) or "(leaf)"
+                print(f"      {cname}: {len(cdef.get('globs', []))} globs, deps=[{deps}]")
+        except Exception as e:
+            timer.set_status("WARN", str(e))
+            print(f"   ⚠️ Compartment inference skipped: {e}")
+
+    # Stage 6.9: Boundary Validation
+    # Uses declared boundaries (--boundaries flag) if provided,
+    # otherwise falls back to auto-inferred compartments from Stage 6.85
     boundary_validation = {}
     boundary_assignments = {}
     boundaries_path = options.get("boundaries")
+    boundaries = None
+
     if boundaries_path:
-        print("\n🏗️  Stage 6.9: Boundary Validation...")
+        # Explicit boundaries take precedence
+        try:
+            from boundary_validator import load_boundaries as _load_declared_boundaries
+            boundaries = _load_declared_boundaries(boundaries_path)
+        except (FileNotFoundError, ValueError) as be:
+            print(f"   ⚠️ Boundary file error: {be}")
+        except Exception as e:
+            print(f"   ⚠️ Cannot load boundary file: {e}")
+    elif inferred_boundaries.get("compartments"):
+        # Fall back to auto-inferred
+        boundaries = inferred_boundaries
+
+    if boundaries and boundaries.get("compartments"):
+        source_label = "Declared" if boundaries_path else "Inferred"
+        print(f"\n🏗️  Stage 6.9: Boundary Validation ({source_label})...")
         with StageTimer(perf_manager, "Stage 6.9: Boundary Validation") as timer:
             try:
                 from boundary_validator import (
-                    load_boundaries, assign_compartments,
+                    assign_compartments,
                     validate_boundaries, format_boundary_summary,
                     compute_boundary_compliance_score,
                 )
-                boundaries = load_boundaries(boundaries_path)
                 assignment_result = assign_compartments(nodes, boundaries)
                 boundary_assignments = assignment_result["assignments"]
                 validation_result = validate_boundaries(
@@ -1352,6 +1391,7 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     "assignment": assignment_result,
                     "validation": validation_result,
                     "compliance_score": compliance_score,
+                    "boundary_source": "declared" if boundaries_path else "inferred",
                 }
                 timer.set_output(
                     mapped=assignment_result["mapped_count"],
@@ -1364,9 +1404,6 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
                     print(f"   → {len(assignment_result['unmapped_nodes'])} unmapped nodes")
                 print(f"   → {validation_result['violation_count']} boundary violations")
                 print(f"   → Compliance: {validation_result['compliance_rate']:.1%}")
-            except (FileNotFoundError, ValueError) as be:
-                timer.set_status("WARN", str(be))
-                print(f"   ⚠️ Boundary validation error: {be}")
             except Exception as e:
                 timer.set_status("WARN", str(e))
                 print(f"   ⚠️ Boundary validation skipped: {e}")
@@ -1598,7 +1635,8 @@ def run_full_analysis(target_path: str, output_dir: str = None, options: Dict[st
             'total_boundaries': codome_result.get('total_boundaries', 0),
             'total_inferred_edges': codome_result.get('total_inferred_edges', 0)
         },
-        # Consumer Agent Features (optional — only populated when flags are used)
+        # Consumer Agent Features
+        'compartment_inference': inferred_boundaries if inferred_boundaries else None,
         'boundary_validation': boundary_validation if boundary_validation else None,
         'group_cohesion': group_cohesion_result if group_cohesion_result else None,
         'layer_hint_stats': layer_hint_stats if layer_hint_stats else None,
